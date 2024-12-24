@@ -47,7 +47,6 @@ export const routerPlugin = (
     },
     setup: api => {
       let routes: RouteObject[] = [];
-      window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
       return {
         beforeRender(context) {
           // for garfish plugin to get basename,
@@ -98,9 +97,7 @@ export const routerPlugin = (
                * _internalRouterBaseName: garfish plugin params, priority
                * basename: modern config file config
                */
-              const baseUrl = (
-                window._SERVER_DATA?.router.baseUrl || select(location.pathname)
-              ).replace(/^\/*/, '/');
+              const baseUrl = select(location.pathname).replace(/^\/*/, '/');
               const _basename =
                 baseUrl === '/'
                   ? urlJoin(

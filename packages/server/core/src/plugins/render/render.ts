@@ -80,6 +80,7 @@ function matchRoute(
 
   const result = matched[0][0];
 
+  // here we can parse the dynamic server routes params
   return result || [];
 }
 
@@ -237,14 +238,6 @@ async function renderHandler(
   mode: 'ssr' | 'csr',
   onError: (e: unknown) => Promise<void>,
 ) {
-  // inject server.baseUrl message
-  const serverData = {
-    router: {
-      baseUrl: options.routeInfo.urlPath,
-      params: options.params,
-    },
-  };
-
   let response: Response | null = null;
 
   const { serverManifest } = options;
@@ -301,12 +294,10 @@ async function renderHandler(
     response = csrRender(options.html);
   }
 
-  const newRes = transformResponse(response, injectServerData(serverData));
-
   const { routeInfo } = options;
-  applyExtendHeaders(newRes, routeInfo);
+  applyExtendHeaders(response, routeInfo);
 
-  return newRes;
+  return response;
 
   function applyExtendHeaders(r: Response, route: ServerRoute) {
     Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
@@ -356,16 +347,4 @@ function csrRender(html: string): Response {
       [X_MODERNJS_RENDER]: 'client',
     }),
   });
-}
-
-function injectServerData(serverData: Record<string, any>) {
-  const { head } = REPLACE_REG.before;
-  const searchValue = new RegExp(head);
-
-  const replcaeCb = (beforeHead: string) =>
-    `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
-      serverData,
-    )}</script>`;
-
-  return (template: string) => template.replace(searchValue, replcaeCb);
 }
