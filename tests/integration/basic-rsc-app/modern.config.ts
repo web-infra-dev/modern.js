@@ -57,12 +57,11 @@ export default applyBaseConfig({
   //   enableCustomEntry: false,
   // },
   tools: {
-    babel(config, { modifyPresetReactOptions }) {
-      modifyPresetReactOptions({
-        runtime: 'automatic',
-      });
-    },
-
+    // babel(config, { modifyPresetReactOptions }) {
+    //   modifyPresetReactOptions({
+    //     runtime: 'automatic',
+    //   });
+    // },
     // webpack(config, { isServer }) {
     //   if (!isServer) {
     //     config.optimization = {
@@ -73,16 +72,13 @@ export default applyBaseConfig({
     //     };
     //   }
     // },
-
     // bundlerChain(chain, { isServer }) {
     //   if (isServer) {
     //     chain.name('server');
-
     //     chain.experiments({
     //       ...chain.experiments,
     //       layers: true,
     //     });
-
     //     // const jsRule = chain.module.rule('js');
     //     // const babelUse = jsRule.use('babel');
     //     // const babelLoaderPath = require.resolve('babel-loader', {
@@ -93,7 +89,6 @@ export default applyBaseConfig({
     //     //   ],
     //     // });
     //     // const babelOptions = babelUse.get('options');
-
     //     // chain.module.rules.delete('js');
     //     // chain.module
     //     //   .rule('js')
@@ -131,13 +126,11 @@ export default applyBaseConfig({
     //     //   .end()
     //     //   .oneOf('general-js')
     //     //   .end();
-
     //     // chain.module
     //     //   .rule('server-module')
     //     //   .resource([/render\/.*\/server\/rsc/, /AppProxy/])
     //     //   .layer(webpackRscLayerName)
     //     //   .end();
-
     //     // chain.module
     //     //   .rule('client-module')
     //     //   .resource([
@@ -164,16 +157,13 @@ export default applyBaseConfig({
     //     //   .layer('default')
     //     //   // .exclude.add(/core\/server\/storage/)
     //     //   .end();
-
     //     // chain
     //     //   .plugin('rsc-server-plugin')
     //     //   .use(WebpackRscServerPlugin, [{ styles }]);
-
     //     // chain.module
     //     //   .rule(webpackRscLayerName)
     //     //   .issuerLayer(webpackRscLayerName)
     //     //   .resolve.conditionNames.merge([webpackRscLayerName, '...']);
-
     //     // CSS_RULE_NAMES.forEach(ruleName => {
     //     //   const rule = chain.module.rules.get(ruleName);
     //     //   if (rule) {
@@ -184,7 +174,6 @@ export default applyBaseConfig({
     //     //       .loader(rscCssLoaderPath);
     //     //   }
     //     // });
-
     //     // chain.module.rule('css').uses.delete('ignore-css');
     //   } else {
     //     // chain.name('client');

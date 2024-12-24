@@ -3,7 +3,7 @@ import type {
   SSRManifest,
   SSRModuleMap,
 } from '@modern-js/types/server';
-import { type ReactNode, use } from 'react';
+import type { ReactNode } from 'react';
 import type { ReactDOMServerReadableStream } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server.edge';
 import { ServerElementsProvider } from '../../client';

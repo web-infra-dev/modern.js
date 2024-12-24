@@ -11,7 +11,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
   setup(api) {
     api.modifyBundlerChain({
       handler: async (chain, { isServer, CHAIN_ID }) => {
-        const babelHandler = () => {
+        const jsHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
           const entryPath2Name = new Map<string, string>();
 
@@ -23,14 +23,25 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
             });
           }
 
-          if (originalJsRule) {
-            const babelLoaderOptions = chain.module
-              .rule(CHAIN_ID.RULE.JS)
-              .use(CHAIN_ID.USE.BABEL)
-              .get('options');
-            originalJsRule.uses.delete(CHAIN_ID.USE.BABEL);
+          const useBabel = originalJsRule.uses.has(CHAIN_ID.USE.BABEL);
 
-            const babelLoaderPath = require.resolve('babel-loader');
+          if (originalJsRule) {
+            const jsLoaderOptions = useBabel
+              ? originalJsRule.use(CHAIN_ID.USE.BABEL).get('options')
+              : originalJsRule.use(CHAIN_ID.USE.SWC).get('options');
+
+            const jsLoaderPath = useBabel
+              ? originalJsRule.use(CHAIN_ID.USE.BABEL).get('loader')
+              : originalJsRule.use(CHAIN_ID.USE.SWC).get('loader');
+
+            if (useBabel) {
+              originalJsRule.uses.delete(CHAIN_ID.USE.BABEL);
+            } else {
+              originalJsRule.uses.delete(CHAIN_ID.USE.SWC);
+            }
+
+            const JSRule = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
+
             chain.module
               .rule(CHAIN_ID.RULE.JS)
               .oneOf('rsc-server')
@@ -41,9 +52,9 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
                 entryPath2Name,
               })
               .end()
-              .use(CHAIN_ID.USE.BABEL)
-              .loader(babelLoaderPath)
-              .options(babelLoaderOptions)
+              .use(JSRule)
+              .loader(jsLoaderPath)
+              .options(jsLoaderOptions)
               .end()
               .end()
               .oneOf('rsc-ssr')
@@ -53,9 +64,9 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
                 entryPath2Name,
               })
               .end()
-              .use(CHAIN_ID.USE.BABEL)
-              .loader(babelLoaderPath)
-              .options(babelLoaderOptions)
+              .use(JSRule)
+              .loader(jsLoaderPath)
+              .options(jsLoaderOptions)
               .end();
           }
         };
@@ -118,7 +129,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
           chain.name('server');
           layerHandler();
           flightCssHandler();
-          babelHandler();
+          jsHandler();
           addServerRscPlugin();
         } else {
           chain.name('client');

@@ -7,6 +7,7 @@ settings:
 overrides:
   react: 19.0.0
   react-dom: 19.0.0
+  '@rspack-canary/core': 1.1.7-canary-3c93b212-20241224082247
 
 pnpmfileChecksum: xgsanqyu6btouvnpjms5qrs35q
 

@@ -30,8 +30,6 @@ export async function parseConfig(
     options,
   );
 
-  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
-
   rsbuildPlugins.push(
     pluginBabel(
       {
@@ -44,6 +42,7 @@ export async function parseConfig(
   );
   rsbuildPlugins.push(pluginReact());
 
+  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
     rsbuildPlugins.push(rscRsbuildPlugin());
   }
