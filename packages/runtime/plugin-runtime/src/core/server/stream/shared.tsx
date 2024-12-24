@@ -99,8 +99,6 @@ export function createRenderStreaming(
         Object.assign(runtimeContext, { ssr: true }),
       );
 
-      // const rootElement = serverRoot;
-
       rootElement = <RSCServerRoot>{rootElement}</RSCServerRoot>;
 
       const stream = await createReadableStreamFromElement(

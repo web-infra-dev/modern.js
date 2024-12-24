@@ -30,7 +30,7 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@swc/helpers": "0.5.13",
-    "react-server-dom-webpack": "19.0.0-rc-e1ef8c95-20241115",
+    "react-server-dom-webpack": "19.0.0",
     "rsc-html-stream": "0.0.3"
   },
   "devDependencies": {
@@ -39,12 +39,12 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "jest": "^29",
-    "react": "19.0.0-rc-e1ef8c95-20241115 ",
-    "react-dom": "19.0.0-rc-e1ef8c95-20241115 "
+    "react": "19.0.0 ",
+    "react-dom": "19.0.0 "
   },
   "peerDependencies": {
-    "react": "19.0.0-rc-e1ef8c95-20241115 ",
-    "react-dom": "19.0.0-rc-e1ef8c95-20241115 "
+    "react": "19.0.0 ",
+    "react-dom": "19.0.0 "
   },
   "exports": {
     "./ssr": {

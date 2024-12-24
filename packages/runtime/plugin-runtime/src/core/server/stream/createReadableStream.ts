@@ -1,4 +1,4 @@
-import { renderSSRStreamWithRSCRoot } from '@modern-js/render/ssr';
+import { renderSSRStream } from '@modern-js/render/ssr';
 import checkIsBot from 'isbot';
 import { renderToReadableStream } from 'react-dom/server.browser';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
@@ -34,28 +34,18 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     });
 
     try {
-      let readableOriginal;
-      if (rscRoot) {
-        readableOriginal = await renderSSRStreamWithRSCRoot(rootElement, {
-          request,
-          clientManifest: options.rscClientManifest,
-          ssrManifest: options.rscSSRManifest,
-          nonce: config.nonce,
-          rscRoot,
-          // @ts-ignore
-          onError(error) {
-            console.error(error);
-            options.onError?.(error);
-          },
-        });
-      } else {
-        readableOriginal = await renderToReadableStream(rootElement, {
-          nonce: config.nonce,
-          onError(error) {
-            options.onError?.(error);
-          },
-        });
-      }
+      const readableOriginal = await renderSSRStream(rootElement, {
+        request,
+        clientManifest: options.rscClientManifest,
+        ssrManifest: options.rscSSRManifest,
+        nonce: config.nonce,
+        rscRoot,
+        // @ts-ignore
+        onError(error) {
+          console.error(error);
+          options.onError?.(error);
+        },
+      });
 
       // If rendering the shell is successful, that Promise will resolve.
       options.onShellReady?.();

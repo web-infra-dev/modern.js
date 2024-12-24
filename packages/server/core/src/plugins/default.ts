@@ -20,11 +20,11 @@ export function createDefaultPlugins(
   options: CreateDefaultPluginsOptions = {},
 ) {
   const plugins: ServerPlugin[] = [
+    logPlugin(),
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),
     injectloggerPluigin(options.logger),
     injectServerTiming(),
-    logPlugin(),
     processedByPlugin(),
   ];
 

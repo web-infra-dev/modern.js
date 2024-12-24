@@ -52,6 +52,7 @@ export const handleAction = async (
       const text = await req.text();
       args = await decodeReply(text);
     }
+
     const result = action.apply(null, args);
     const stream = renderToReadableStream(result, clientManifest);
 

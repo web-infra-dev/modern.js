@@ -33,7 +33,6 @@ export const createWebRequest = (
   res.on('close', () => controller.abort('res closed'));
 
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
-  // x-mf-micro
   if (
     body ||
     (!(method === 'GET' || method === 'HEAD') &&

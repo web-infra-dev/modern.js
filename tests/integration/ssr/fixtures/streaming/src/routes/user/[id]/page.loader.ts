@@ -10,7 +10,7 @@ export default ({ params }: LoaderFunctionArgs) => {
         name: `user${userId}`,
         age: 18,
       });
-    }, 200);
+    }, 2000);
   });
 
   return defer({ data: user });

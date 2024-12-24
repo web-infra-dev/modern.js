@@ -1,10 +1,4 @@
-import {
-  type ReactNode,
-  createContext,
-  use,
-  useContext,
-  useState,
-} from 'react';
+import { type ReactNode, createContext, use, useState } from 'react';
 import {
   createFromFetch,
   createFromReadableStream,
@@ -65,6 +59,6 @@ export const ServerElementsProvider = ({
 };
 
 export const RSCServerSlot = () => {
-  const elements = useContext(ElementsContext);
+  const elements = use(ElementsContext);
   return elements;
 };
