@@ -14,6 +14,7 @@ const genRenderCode = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -22,6 +23,7 @@ const genRenderCode = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) => {
   if (customEntry) {
     return `import '${formatImportPath(
@@ -30,6 +32,15 @@ const genRenderCode = ({
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
+
+${
+  enableRsc
+    ? `import { RscClientRoot, createFromReadableStream, rscStream } from '@modern-js/runtime/rsc/client';`
+    : ''
+}
+
+${enableRsc ? `const data = createFromReadableStream(rscStream);` : ''}
+
 ${
   customBootstrap
     ? `import customBootstrap from '${formatImportPath(
@@ -38,6 +49,8 @@ ${
     : ''
 }
 
+
+
 const ModernRoot = createRoot();
 
 ${
@@ -45,7 +58,11 @@ ${
     ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
         mountId || 'root'
       }'));`
-    : `render(<ModernRoot />, '${mountId || 'root'}');`
+    : enableRsc
+      ? `render(<ModernRoot>
+                  <RscClientRoot data={data} />
+                </ModernRoot>, '${mountId || 'root'}');`
+      : `render(<ModernRoot />, '${mountId || 'root'}');`
 }`;
 };
 
@@ -58,6 +75,7 @@ export const index = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -67,6 +85,7 @@ export const index = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
 ${genRenderCode({
@@ -77,6 +96,7 @@ ${genRenderCode({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 })}
 `;
 
@@ -216,13 +236,11 @@ export const runtimeGlobalContextForRSCClient = ({
 export const AppProxyForRSC = ({
   srcDirectory,
   internalSrcAlias,
-  metaName,
   entry,
   customEntry,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
-  metaName: string;
   entry: string;
   customEntry?: boolean;
 }) => {

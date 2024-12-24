@@ -90,6 +90,7 @@ export const generateCode = async (
           customEntry,
           customBootstrap,
           mountId,
+          enableRsc: config.server.rsc,
         });
         const indexFile = path.resolve(
           internalDirectory,
@@ -137,6 +138,7 @@ export const generateCode = async (
             mode: ssrMode,
             customServerEntry,
             srcDirectory,
+            enableRsc: config.server.rsc,
           });
           const indexServerFile = path.resolve(
             internalDirectory,

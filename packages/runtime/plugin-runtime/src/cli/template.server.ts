@@ -21,6 +21,39 @@ const handleRequest = async (request, ServerRoot, options) => {
 export const requestHandler = createRequestHandler(handleRequest);
 `;
 
+const SERVER_ENTRY_RSC = `
+import {
+  #render,
+  createRequestHandler,
+} from '@#metaName/runtime/ssr/server';
+import { RSCServerSlot } from '@modern-js/runtime/rsc/client';
+export { handleAction } from '@modern-js/runtime/rsc/server';
+
+const handleRequest = async (request, ServerRoot, options) => {
+
+  const body = await #render(request,
+    <ServerRoot>
+      <RSCServerSlot />
+    </ServerRoot>,
+    {
+      ...options,
+      rscRoot: <options.RSCRoot />,
+    },
+  );
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      #headers
+    },
+  })
+};
+
+export const requestHandler = createRequestHandler(handleRequest, {
+  enableRsc: true,
+});
+`;
+
 type ServerIndexOptinos = GenHandlerCodeOptions & {
   entryName: string;
 };
@@ -39,6 +72,7 @@ type GenHandlerCodeOptions = {
   srcDirectory: string;
   internalSrcAlias: string;
   entry: string;
+  enableRsc?: boolean;
 } & TransformServerEntryOptions;
 
 function genHandlerCode({
@@ -47,6 +81,7 @@ function genHandlerCode({
   customServerEntry,
   srcDirectory,
   internalSrcAlias,
+  enableRsc,
 }: GenHandlerCodeOptions) {
   if (customServerEntry) {
     const realEntryPath = formatImportPath(
@@ -56,7 +91,8 @@ function genHandlerCode({
     export * from '${realEntryPath}';
     export { default as requestHandler } from '${realEntryPath}'`;
   } else {
-    const serverEntry = transformServerEntry(SERVER_ENTRY, {
+    const entrySource = enableRsc ? SERVER_ENTRY_RSC : SERVER_ENTRY;
+    const serverEntry = transformServerEntry(entrySource, {
       metaName: metaName || 'modern-js',
       mode,
     });

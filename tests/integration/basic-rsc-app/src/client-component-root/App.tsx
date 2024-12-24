@@ -10,7 +10,7 @@ const App = () => {
     <>
       <div className="container">
         <main>
-          <div className="use-agent">{typeof context.request?.userAgent}</div>
+          <div className="user-agent">{typeof context.request?.userAgent}</div>
           <div className="logo">
             <img
               src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png"

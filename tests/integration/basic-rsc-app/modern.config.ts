@@ -53,9 +53,9 @@ export default applyBaseConfig({
   output: {
     minify: false,
   },
-  source: {
-    enableCustomEntry: true,
-  },
+  // source: {
+  //   enableCustomEntry: false,
+  // },
   tools: {
     babel(config, { modifyPresetReactOptions }) {
       modifyPresetReactOptions({

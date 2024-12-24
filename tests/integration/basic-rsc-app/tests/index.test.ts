@@ -137,7 +137,7 @@ async function renderPageWithContext({ baseUrl, appPort, page }: TestOptions) {
     waitUntil: ['networkidle0'],
   });
 
-  const useAgent = await page.$('.use-agent');
+  const useAgent = await page.$('.user-agent');
   const targetText = await page.evaluate(el => el?.textContent, useAgent);
   expect(targetText?.trim()).toEqual('string');
 }

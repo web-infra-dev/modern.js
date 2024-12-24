@@ -90,19 +90,20 @@ const scanDir = async (
           entryName,
           isMainEntry: false,
           entry: enableCustomEntry ? customEntryFile || entryFile : entryFile,
-          customServerEntry,
+          customServerEntry: enableCustomEntry ? customServerEntry : false,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
           customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
         };
       }
+
       if (enableCustomEntry && customEntryFile) {
         return {
           entryName,
           isMainEntry: false,
           entry: customEntryFile,
-          customServerEntry,
+          customServerEntry: enableCustomEntry ? customServerEntry : false,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: false,
           customEntry: Boolean(customEntryFile),
