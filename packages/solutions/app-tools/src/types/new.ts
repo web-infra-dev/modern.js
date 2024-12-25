@@ -145,7 +145,7 @@ export interface AppToolsExtendHooks
   addRuntimeExports: AsyncHook<AddRuntimeExportsFn>;
 }
 
-export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
+export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
   metaName: string;
   internalDirectory: string;
   sharedDirectory: string;
@@ -180,7 +180,7 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
    * @deprecated compat old plugin, default is app tools
    */
   toolsType?: string;
-};
+}
 
 export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
   AppTools<B>

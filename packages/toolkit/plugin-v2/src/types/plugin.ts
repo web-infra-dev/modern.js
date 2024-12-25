@@ -29,7 +29,7 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
    * This function is called once when the plugin is initialized.
    * @param api provides the context info, utility functions and lifecycle hooks.
    */
-  setup: (api: PluginAPI) => MaybePromise<void>;
+  setup?: (api: PluginAPI) => MaybePromise<void>;
   /**
    * Declare the names of pre-plugins, which will be executed before the current plugin.
    */
