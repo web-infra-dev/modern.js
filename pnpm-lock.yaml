@@ -677,8 +677,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1(@rsbuild/core@1.1.12)
       '@rsbuild/plugin-type-check':
-        specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.1.12)(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)
+        specifier: 1.2.0
+        version: 1.2.0(@rsbuild/core@1.1.12)(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)
       '@rsbuild/plugin-typed-css-modules':
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.1.12)
@@ -11649,8 +11649,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-type-check@1.1.0':
-    resolution: {integrity: sha512-9W/TxibRe7L6i4JnsIDRJfkvypPZQqCLO/jrAp+Liv4SCo9BVmbk/Rmpj+hfo2gjyewobk0AVi4/YQ5wOP7GSQ==}
+  '@rsbuild/plugin-type-check@1.2.0':
+    resolution: {integrity: sha512-bx+WmtK7K5Jc07IQn2cBDqcP/Kt98u16NiW3EyxqJGhQ1OgFvK6ewc70+AJnBvtjE+MMB70NAXEl8MNOtSxz6g==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -20965,12 +20965,15 @@ packages:
   trough@2.1.0:
     resolution: {integrity: sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==}
 
-  ts-checker-rspack-plugin@1.0.1:
-    resolution: {integrity: sha512-u+RgBXBr6RHCJ+nJtA3A6MG3oDt20faU8DryX+H3HPhhU+cCnrGY304vmwOsQLJmoMWDk7/xkkbz2j9pC0aX1Q==}
+  ts-checker-rspack-plugin@1.1.0:
+    resolution: {integrity: sha512-nhUzSuSjfgVAJjc+vJa9q8uE7MxAbustG9InRp4ylMfIbkqyJjh7gSuEcL//l76ZSwoKcCod+5lv2mNO0Ugh8g==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@rspack/core': ^1.0.0
       typescript: '>=3.8.0'
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
 
   ts-dedent@2.2.0:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
@@ -26847,12 +26850,12 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.1.12
 
-  '@rsbuild/plugin-type-check@1.1.0(@rsbuild/core@1.1.12)(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)':
+  '@rsbuild/plugin-type-check@1.2.0(@rsbuild/core@1.1.12)(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
-      reduce-configs: 1.0.0
-      ts-checker-rspack-plugin: 1.0.1(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)
+      reduce-configs: 1.1.0
+      ts-checker-rspack-plugin: 1.1.0(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3)
     optionalDependencies:
       '@rsbuild/core': 1.1.12
     transitivePeerDependencies:
@@ -27140,6 +27143,7 @@ snapshots:
       caniuse-lite: 1.0.30001689
     optionalDependencies:
       '@swc/helpers': 0.5.13
+    optional: true
 
   '@rspack/core@1.1.8(@swc/helpers@0.5.15)':
     dependencies:
@@ -39144,16 +39148,17 @@ snapshots:
 
   trough@2.1.0: {}
 
-  ts-checker-rspack-plugin@1.0.1(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3):
+  ts-checker-rspack-plugin@1.1.0(@rspack/core@1.1.8(@swc/helpers@0.5.13))(typescript@5.3.3):
     dependencies:
       '@babel/code-frame': 7.26.2
-      '@rspack/core': 1.1.8(@swc/helpers@0.5.13)
       '@rspack/lite-tapable': 1.0.1
       chokidar: 3.6.0
       memfs: 4.14.0
       minimatch: 9.0.5
       picocolors: 1.1.1
       typescript: 5.3.3
+    optionalDependencies:
+      '@rspack/core': 1.1.8(@swc/helpers@0.5.13)
 
   ts-dedent@2.2.0: {}
 
