@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.63.4
+
+### Patch Changes
+
+- 95b026d: fix: cache should not be overrides when request has tail slash
+  fix: 当请求有尾斜杠时，缓存不应该被重写
+  - @modern-js/plugin@2.63.4
+  - @modern-js/runtime-utils@2.63.4
+  - @modern-js/utils@2.63.4
+
 ## 2.63.3
 
 ### Patch Changes

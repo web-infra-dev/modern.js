@@ -1,5 +1,32 @@
 # @modern-js/app-tools
 
+## 2.63.4
+
+### Patch Changes
+
+- 0013362: feat: adjust cli plugin type
+
+  feat: 调整 CLI 插件类型定义
+
+- 0ac2af4: fix: run with metaName
+  fix: run 函数增加 metaName 参数
+- Updated dependencies [95b026d]
+- Updated dependencies [0013362]
+  - @modern-js/server-core@2.63.4
+  - @modern-js/plugin-v2@2.63.4
+  - @modern-js/plugin-data-loader@2.63.4
+  - @modern-js/prod-server@2.63.4
+  - @modern-js/server@2.63.4
+  - @modern-js/server-utils@2.63.4
+  - @modern-js/core@2.63.4
+  - @modern-js/plugin-i18n@2.63.4
+  - @modern-js/rsbuild-plugin-esbuild@2.63.4
+  - @modern-js/uni-builder@2.63.4
+  - @modern-js/node-bundle-require@2.63.4
+  - @modern-js/plugin@2.63.4
+  - @modern-js/types@2.63.4
+  - @modern-js/utils@2.63.4
+
 ## 2.63.3
 
 ### Patch Changes
