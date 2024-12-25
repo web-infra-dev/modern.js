@@ -74,7 +74,11 @@ export async function parseConfig(
 
   const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
-    rsbuildPlugins.push(rscRsbuildPlugin());
+    rsbuildPlugins.push(
+      rscRsbuildPlugin({
+        isRspack: true,
+      }),
+    );
   }
 
   return {

@@ -93,8 +93,7 @@
     },
     "overrides": {
       "react": "19.0.0",
-      "react-dom": "19.0.0",
-      "@rspack-canary/core": "1.1.7-canary-3c93b212-20241224082247"
+      "react-dom": "19.0.0"
     },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",
