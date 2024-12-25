@@ -1,5 +1,12 @@
 # @modern-js/generator-utils
 
+## 3.7.10
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.63.4
+- @modern-js/generator-common@3.7.10
+
 ## 3.7.9
 
 ### Patch Changes
