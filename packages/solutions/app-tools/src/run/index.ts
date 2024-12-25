@@ -59,6 +59,17 @@ export async function run({
     customConfigFile = cliParams['config-file'];
   }
 
+  // set NODE_ENV value because configFile may use
+  if (!process.env.NODE_ENV) {
+    if (['build', 'serve', 'deploy', 'analyze'].includes(command)) {
+      process.env.NODE_ENV = 'production';
+    } else if (command === 'test') {
+      process.env.NODE_ENV = 'test';
+    } else {
+      process.env.NODE_ENV = 'development';
+    }
+  }
+
   const appDirectory = await initAppDir(cwd);
   const finalConfigFile = customConfigFile || getConfigFile(configFile);
   const autoLoadPlugins = await isAutoLoadPlugins(
