@@ -1,19 +1,34 @@
 import { applyOptionsChain, isProd } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import type { Options } from 'cssnano';
 import type { ToolsAutoprefixerConfig } from '../../types';
 import { getCssSupport } from '../getCssSupport';
 
-// enable autoprefixer and  support compat legacy browsers
-export const pluginPostcss = ({
-  autoprefixer,
-}: {
+export interface CssNanoOptimizeOptions {
+  mergeLonghand?: boolean;
+  /**
+   * normalizeUrl will transform relative url from `./assets/img.svg` to `assets/img.svg`.
+   * It may break the behavior of webpack resolver while using style-loader.
+   * So disable it while `output.injectStyles = true` or `output.disableCssExtract = true`.
+   */
+  normalizeUrl?: boolean;
+}
+
+export interface PluginPostcssOptions {
   autoprefixer?: ToolsAutoprefixerConfig;
-}): RsbuildPlugin => ({
+  cssnanoOptimize?: CssNanoOptimizeOptions;
+}
+
+// enable autoprefixer and  support compat legacy browsers
+export const pluginPostcss = (
+  options: PluginPostcssOptions = {},
+): RsbuildPlugin => ({
   name: 'uni-builder:postcss-plugins',
 
   pre: ['uni-builder:environment-defaults-plugin'],
 
   setup(api) {
+    const { autoprefixer, cssnanoOptimize = {} } = options;
     api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
         return config;
@@ -25,6 +40,19 @@ export const pluginPostcss = ({
 
       const enableCssMinify = !enableExtractCSS && isProd;
 
+      const cssnanoOptions: Options = {
+        preset: [
+          'default',
+          {
+            // merge longhand will break safe-area-inset-top, so disable it
+            // https://github.com/cssnano/cssnano/issues/803
+            // https://github.com/cssnano/cssnano/issues/967
+            mergeLonghand: false,
+            ...cssnanoOptimize,
+          },
+        ],
+      };
+
       const plugins = [
         require('postcss-flexbugs-fixes'),
         !cssSupport.customProperties && require('postcss-custom-properties'),
@@ -33,19 +61,7 @@ export const pluginPostcss = ({
         !cssSupport.fontVariant && require('postcss-font-variant'),
         !cssSupport.mediaMinmax && require('postcss-media-minmax'),
         require('postcss-nesting'),
-        enableCssMinify
-          ? require('cssnano')({
-              preset: [
-                'default',
-                {
-                  // merge longhand will break safe-area-inset-top, so disable it
-                  // https://github.com/cssnano/cssnano/issues/803
-                  // https://github.com/cssnano/cssnano/issues/967
-                  mergeLonghand: false,
-                },
-              ],
-            })
-          : false,
+        enableCssMinify ? require('cssnano')(cssnanoOptions) : false,
         // The last insert autoprefixer
         require('autoprefixer')(
           applyOptionsChain(

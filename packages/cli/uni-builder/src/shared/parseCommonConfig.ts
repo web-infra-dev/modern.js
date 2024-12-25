@@ -68,12 +68,12 @@ const isUseCssSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
 
 export async function parseCommonConfig(
   uniBuilderConfig: UniBuilderConfig,
-  options: CreateBuilderCommonOptions,
+  options?: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { frameworkConfigPath } = options;
+  const frameworkConfigPath = options?.frameworkConfigPath;
 
   const {
     plugins: [...plugins] = [],
