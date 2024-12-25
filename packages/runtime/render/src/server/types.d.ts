@@ -13,6 +13,24 @@ declare module 'react-dom/server.edge' {
   } from 'react-dom/server';
 }
 
+declare module 'react-server-dom-webpack' {
+  export type ReactServerValue =
+    // References are passed by their value
+    | ServerReference
+    // The rest are passed as is. Sub-types can be passed in but lose their
+    // subtype, so the receiver can only accept once of these.
+    | string
+    | boolean
+    | number
+    | symbol
+    | null
+    | void
+    | Iterable<ReactServerValue>
+    | ReactServerValue[]
+    | ReactServerObject
+    | Promise<ReactServerValue>;
+}
+
 declare module 'react-server-dom-webpack/server.edge' {
   export * from '@modern-js/types/server/rsc';
 }

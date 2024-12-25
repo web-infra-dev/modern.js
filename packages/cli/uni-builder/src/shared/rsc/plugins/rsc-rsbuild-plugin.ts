@@ -108,11 +108,10 @@ export const rscRsbuildPlugin = ({
         };
 
         const addServerRscPlugin = () => {
-          const serverPlugin = isRspack
+          const ServerPlugin = isRspack
             ? RspackRscServerPlugin
             : RscServerPlugin;
-          console.log('serverPlugin111111111', serverPlugin);
-          chain.plugin('rsc-server-plugin').use(serverPlugin);
+          chain.plugin('rsc-server-plugin').use(ServerPlugin);
         };
 
         const addRscClientLoader = () => {

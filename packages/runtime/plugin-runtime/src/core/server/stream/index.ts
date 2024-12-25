@@ -1,6 +1,11 @@
-import { createReadableStreamFromElement } from './createReadableStream';
 import { createRenderStreaming } from './shared';
 
-export const renderStreaming = createRenderStreaming(
-  createReadableStreamFromElement,
-);
+const getCreateReadableStream = async () => {
+  const module =
+    process.env.MODERN_SSR_ENV === 'edge'
+      ? await import('./createReadableStream.worker')
+      : await import('./createReadableStream');
+  return module.createReadableStreamFromElement;
+};
+
+export const renderStreaming = createRenderStreaming(getCreateReadableStream());

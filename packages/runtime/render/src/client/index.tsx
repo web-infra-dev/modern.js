@@ -1,34 +1,16 @@
 import { type ReactNode, createContext, use, useState } from 'react';
 import {
-  createFromFetch,
   createFromReadableStream,
   createServerReference,
-  encodeReply,
 } from 'react-server-dom-webpack/client.browser';
 export { rscStream } from 'rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
+export { callServer } from './callServer';
 
 declare global {
   interface Window {
     __MODERN_JS_ENTRY_NAME?: string;
   }
-}
-
-const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
-
-export async function callServer(id: string, args: any[]): Promise<any> {
-  const response = fetch(`/${window.__MODERN_JS_ENTRY_NAME}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'text/x-component',
-      'rsc-action': id,
-    },
-    body: await encodeReply(args),
-  });
-  const res = createFromFetch(response, {
-    callServer,
-  });
-  return res;
 }
 
 interface RootProps {
@@ -46,6 +28,7 @@ type Elements = Promise<ReactNode[]>;
 const ElementsContext = createContext<Elements | null>(null);
 
 // For users to pass an element, not a Component.
+const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
 export const ServerElementsProvider = ({
   elements,
   children,

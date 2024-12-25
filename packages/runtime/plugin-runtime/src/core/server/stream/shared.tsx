@@ -70,9 +70,10 @@ export function getReadableStreamFromString(content: string): ReadableStream {
 }
 
 export function createRenderStreaming(
-  createReadableStreamFromElement: CreateReadableStreamFromElement,
+  createReadableStreamPromise: Promise<CreateReadableStreamFromElement>,
 ): RenderStreaming {
   return async (request, serverRoot, options) => {
+    const createReadableStreamFromElement = await createReadableStreamPromise;
     const headersData = parseHeaders(request);
 
     return run(headersData, async () => {

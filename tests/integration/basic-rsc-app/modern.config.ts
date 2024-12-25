@@ -50,6 +50,11 @@ export default applyBaseConfig({
     },
     rsc: true,
   },
+  // deploy: {
+  //   worker: {
+  //     ssr: true,
+  //   },
+  // },
   output: {
     minify: false,
   },
