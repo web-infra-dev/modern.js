@@ -14,6 +14,8 @@ declare global {
   }
 }
 
+const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
+
 export async function callServer(id: string, args: any[]): Promise<any> {
   const response = fetch(`/${window.__MODERN_JS_ENTRY_NAME}`, {
     method: 'POST',
@@ -52,9 +54,12 @@ export const ServerElementsProvider = ({
   children: ReactNode;
 }) => {
   return (
-    <ElementsContext.Provider value={elements}>
-      {children}
-    </ElementsContext.Provider>
+    <>
+      <ElementsContext.Provider value={elements}>
+        {children}
+      </ElementsContext.Provider>
+      {JSX_SHELL_STREAM_END_MARK}
+    </>
   );
 };
 

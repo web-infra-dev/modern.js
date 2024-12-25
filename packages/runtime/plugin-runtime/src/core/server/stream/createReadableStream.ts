@@ -80,7 +80,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               chunkVec.push(chunk);
 
               let concatedChunk = chunkVec.join('');
-              if (concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)) {
+              if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
                 concatedChunk = concatedChunk.replace(
                   ESCAPED_SHELL_STREAM_END_MARK,
                   '',

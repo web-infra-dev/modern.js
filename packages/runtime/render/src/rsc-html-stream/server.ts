@@ -9,10 +9,8 @@ export function injectRSCPayload(
   rscStream: ReadableStream,
   {
     injectClosingTags = true,
-    closeFlag = '',
   }: {
     injectClosingTags?: boolean;
-    closeFlag?: string;
   },
 ): TransformStream {
   const decoder = new TextDecoder();
@@ -68,9 +66,6 @@ export function injectRSCPayload(
       if (timeout) {
         clearTimeout(timeout);
         flushBufferedChunks(controller);
-      }
-      if (closeFlag) {
-        controller.enqueue(encoder.encode(closeFlag));
       }
       if (injectClosingTags) {
         controller.enqueue(encoder.encode('</body></html>'));

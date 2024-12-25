@@ -61,7 +61,6 @@ export const renderSSRStream = async (
         htmlStream.pipeThrough(
           injectRSCPayload(stream2, {
             injectClosingTags: false,
-            closeFlag: '&lt;!--&lt;?- SHELL_STREAM_END ?&gt;--&gt;',
           }),
         ),
         htmlStream,

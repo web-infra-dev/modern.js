@@ -3,7 +3,7 @@
   "name": "basic-rsc-app",
   "version": "2.9.0",
   "scripts": {
-    "dev": "BUNDLER=rspack NODE_OPTIONS='--conditions=react-server' modern dev",
+    "dev": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server' modern dev",
     "build": "BUNDLER=webpack modern build",
     "serve": "BUNDLER=webpack modern serve",
     "new": "modern new"
