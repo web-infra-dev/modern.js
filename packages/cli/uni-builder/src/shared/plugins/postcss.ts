@@ -64,7 +64,6 @@ export const pluginPostcss = ({
             postcss: opts => {
               if (typeof opts.postcssOptions === 'object') {
                 opts.postcssOptions.plugins!.push(...plugins);
-                return;
               } else if (typeof opts.postcssOptions === 'function') {
                 const originFn = opts.postcssOptions;
                 opts.postcssOptions = loaderContext => {
@@ -72,7 +71,6 @@ export const pluginPostcss = ({
                   options.plugins!.push(...plugins);
                   return options;
                 };
-                return;
               }
             },
           },
