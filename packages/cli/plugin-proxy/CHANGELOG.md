@@ -1,5 +1,11 @@
 # @modern-js/plugin-proxy
 
+## 2.63.4
+
+### Patch Changes
+
+- @modern-js/utils@2.63.4
+
 ## 2.63.3
 
 ### Patch Changes

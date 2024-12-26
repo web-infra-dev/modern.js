@@ -1,5 +1,23 @@
 # @modern-js/runtime
 
+## 2.63.4
+
+### Patch Changes
+
+- 0526b6a: feat: migrate runtime cli plugin to new cli plugin
+
+  feat: runtime CLI 插件迁移到新的 CLI 插件
+
+- 8df497d: chore: remove server data parse when use convention routes
+  chore: 移除约定式路由时解析 server data 的逻辑
+- Updated dependencies [0013362]
+  - @modern-js/plugin-v2@2.63.4
+  - @modern-js/plugin-data-loader@2.63.4
+  - @modern-js/plugin@2.63.4
+  - @modern-js/runtime-utils@2.63.4
+  - @modern-js/types@2.63.4
+  - @modern-js/utils@2.63.4
+
 ## 2.63.3
 
 ### Patch Changes
