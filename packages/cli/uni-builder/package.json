@@ -73,6 +73,7 @@
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
+    "postcss-load-config": "6.0.1",
     "react-refresh": "^0.14.0",
     "rspack-manifest-plugin": "5.0.2",
     "terser-webpack-plugin": "5.3.11",
