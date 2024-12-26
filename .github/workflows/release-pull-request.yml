@@ -48,7 +48,7 @@ jobs:
       - name: Get Release Note
         id: get-release-note
         run: |
-          output=$(pnpm run gen-release-note | tail -n +5)
+          output=$(pnpm run gen-release-note | tail -n +7)
           echo "release_note<<EOF" >> $GITHUB_OUTPUT
           echo "$output" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
