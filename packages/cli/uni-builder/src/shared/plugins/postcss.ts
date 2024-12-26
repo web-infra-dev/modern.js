@@ -61,10 +61,19 @@ export const pluginPostcss = ({
       return mergeEnvironmentConfig(
         {
           tools: {
-            postcss: {
-              postcssOptions: {
-                plugins,
-              },
+            postcss: opts => {
+              if (typeof opts.postcssOptions === 'object') {
+                opts.postcssOptions.plugins!.push(...plugins);
+                return;
+              } else if (typeof opts.postcssOptions === 'function') {
+                const originFn = opts.postcssOptions;
+                opts.postcssOptions = loaderContext => {
+                  const options = originFn(loaderContext);
+                  options.plugins!.push(...plugins);
+                  return options;
+                };
+                return;
+              }
             },
           },
         },
