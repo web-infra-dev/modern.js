@@ -32,9 +32,7 @@ export async function parseConfig(
   );
 
   rsbuildPlugins.push(
-    pluginPostcss({
-      autoprefixer: uniBuilderConfig.tools?.autoprefixer,
-    }),
+    pluginPostcss({ autoprefixer: uniBuilderConfig.tools?.autoprefixer }),
   );
 
   const hasEnvironmentBabelConfig = Object.values(

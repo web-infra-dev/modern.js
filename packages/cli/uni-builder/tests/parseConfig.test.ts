@@ -1,5 +1,7 @@
+import type { OutputConfig } from '@rsbuild/core';
 import { afterAll, describe, expect, test } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
+import type { UniBuilderConfig } from '../src/types';
 
 describe('parseCommonConfig', () => {
   const env = process.env.NODE_ENV;
@@ -39,14 +41,11 @@ describe('parseCommonConfig', () => {
   test('output.cssModuleLocalIdentName', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            output: {
-              cssModuleLocalIdentName: '[local]-[hash:base64:6]',
-            },
+        await parseCommonConfig({
+          output: {
+            cssModuleLocalIdentName: '[local]-[hash:base64:6]',
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -54,14 +53,11 @@ describe('parseCommonConfig', () => {
   test('output.disableCssModuleExtension', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            output: {
-              disableCssModuleExtension: true,
-            },
+        await parseCommonConfig({
+          output: {
+            disableCssModuleExtension: true,
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -69,40 +65,34 @@ describe('parseCommonConfig', () => {
   test('html.metaByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              metaByEntries: {
-                foo: {
-                  viewport: 'bar',
-                },
+        await parseCommonConfig({
+          html: {
+            metaByEntries: {
+              foo: {
+                viewport: 'bar',
               },
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              meta: {
-                charset: {
-                  charset: 'UTF-8',
-                },
+        await parseCommonConfig({
+          html: {
+            meta: {
+              charset: {
+                charset: 'UTF-8',
               },
-              metaByEntries: {
-                foo: {
-                  viewport: 'bar',
-                },
+            },
+            metaByEntries: {
+              foo: {
+                viewport: 'bar',
               },
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -110,32 +100,26 @@ describe('parseCommonConfig', () => {
   test('html.titleByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              titleByEntries: {
-                foo: 'Foo',
-              },
+        await parseCommonConfig({
+          html: {
+            titleByEntries: {
+              foo: 'Foo',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              title: 'Default',
-              titleByEntries: {
-                foo: 'Foo',
-              },
+        await parseCommonConfig({
+          html: {
+            title: 'Default',
+            titleByEntries: {
+              foo: 'Foo',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -143,32 +127,26 @@ describe('parseCommonConfig', () => {
   test('html.faviconByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              faviconByEntries: {
-                foo: 'https://www.foo.com/foo.ico',
-              },
+        await parseCommonConfig({
+          html: {
+            faviconByEntries: {
+              foo: 'https://www.foo.com/foo.ico',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              favicon: 'https://www.foo.com/default.ico',
-              faviconByEntries: {
-                foo: 'https://www.foo.com/foo.ico',
-              },
+        await parseCommonConfig({
+          html: {
+            favicon: 'https://www.foo.com/default.ico',
+            faviconByEntries: {
+              foo: 'https://www.foo.com/foo.ico',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -176,32 +154,26 @@ describe('parseCommonConfig', () => {
   test('html.faviconByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              injectByEntries: {
-                foo: 'head',
-              },
+        await parseCommonConfig({
+          html: {
+            injectByEntries: {
+              foo: 'head',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              inject: 'body',
-              injectByEntries: {
-                foo: 'head',
-              },
+        await parseCommonConfig({
+          html: {
+            inject: 'body',
+            injectByEntries: {
+              foo: 'head',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -209,32 +181,26 @@ describe('parseCommonConfig', () => {
   test('html.templateByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              templateByEntries: {
-                foo: './static/foo.html',
-              },
+        await parseCommonConfig({
+          html: {
+            templateByEntries: {
+              foo: './static/foo.html',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              template: './static/index.html',
-              templateByEntries: {
-                foo: './static/foo.html',
-              },
+        await parseCommonConfig({
+          html: {
+            template: './static/index.html',
+            templateByEntries: {
+              foo: './static/foo.html',
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -242,38 +208,32 @@ describe('parseCommonConfig', () => {
   test('html.templateParametersByEntries', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              templateParametersByEntries: {
-                foo: {
-                  name: 'jack',
-                },
+        await parseCommonConfig({
+          html: {
+            templateParametersByEntries: {
+              foo: {
+                name: 'jack',
               },
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            html: {
-              templateParameters: {
-                name: 'jack',
-              },
-              templateParametersByEntries: {
-                foo: {
-                  name: 'rose',
-                },
+        await parseCommonConfig({
+          html: {
+            templateParameters: {
+              name: 'jack',
+            },
+            templateParametersByEntries: {
+              foo: {
+                name: 'rose',
               },
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -287,14 +247,11 @@ describe('parseCommonConfig', () => {
 
     expect(
       (
-        await parseCommonConfig(
-          {
-            output: {
-              assetsRetry: {},
-            },
+        await parseCommonConfig({
+          output: {
+            assetsRetry: {},
           },
-          {},
-        )
+        })
       ).rsbuildPlugins.some(item => item.name === 'rsbuild:assets-retry'),
     ).toBeTruthy();
   });
@@ -303,56 +260,50 @@ describe('parseCommonConfig', () => {
     process.env.NODE_ENV = 'development';
     expect(
       (
-        await parseCommonConfig(
-          {
-            dev: {
-              https: {
-                key: 'xxxx',
-                cert: 'xxx',
-              },
-              port: 8081,
-              host: 'xxx.xxx',
+        await parseCommonConfig({
+          dev: {
+            https: {
+              key: 'xxxx',
+              cert: 'xxx',
             },
-            tools: {
-              devServer: {
-                client: {
-                  path: '/aaaa',
-                },
-                compress: false,
-                hot: false,
-                headers: {
-                  'X-Custom-Foo': 'bar',
-                },
-                historyApiFallback: true,
+            port: 8081,
+            host: 'xxx.xxx',
+          },
+          tools: {
+            devServer: {
+              client: {
+                path: '/aaaa',
               },
+              compress: false,
+              hot: false,
+              headers: {
+                'X-Custom-Foo': 'bar',
+              },
+              historyApiFallback: true,
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
     process.env.NODE_ENV = 'production';
     expect(
       (
-        await parseCommonConfig(
-          {
-            dev: {
-              https: {
-                key: 'xxxx',
-                cert: 'xxx',
-              },
-              port: 8081,
-              host: 'xxx.xxx',
+        await parseCommonConfig({
+          dev: {
+            https: {
+              key: 'xxxx',
+              cert: 'xxx',
             },
-            tools: {
-              devServer: {
-                historyApiFallback: true,
-              },
+            port: 8081,
+            host: 'xxx.xxx',
+          },
+          tools: {
+            devServer: {
+              historyApiFallback: true,
             },
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -360,14 +311,11 @@ describe('parseCommonConfig', () => {
   test('output.enableInlineScripts', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            output: {
-              enableInlineScripts: true,
-            },
+        await parseCommonConfig({
+          output: {
+            enableInlineScripts: true,
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
@@ -375,15 +323,40 @@ describe('parseCommonConfig', () => {
   test('output.enableInlineStyles', async () => {
     expect(
       (
-        await parseCommonConfig(
-          {
-            output: {
-              enableInlineStyles: true,
-            },
+        await parseCommonConfig({
+          output: {
+            enableInlineStyles: true,
           },
-          {},
-        )
+        })
       ).rsbuildConfig,
     ).toMatchSnapshot();
+  });
+
+  const injectStylesCases: [UniBuilderConfig['output'], OutputConfig][] = [
+    [{}, { injectStyles: false }],
+    [{ injectStyles: true }, { injectStyles: true }],
+    [{ injectStyles: false }, { injectStyles: false }],
+    [{ disableCssExtract: true }, { injectStyles: true }],
+    [{ disableCssExtract: false }, { injectStyles: false }],
+    [{ disableCssExtract: true, injectStyles: true }, { injectStyles: true }],
+    [{ disableCssExtract: false, injectStyles: true }, { injectStyles: true }],
+    [{ disableCssExtract: true, injectStyles: false }, { injectStyles: false }],
+    [
+      { disableCssExtract: false, injectStyles: false },
+      { injectStyles: false },
+    ],
+    [
+      { disableCssExtract: false, injectStyles: false },
+      { injectStyles: false },
+    ],
+  ];
+  test('output.injectStyles', () => {
+    for (const [config, output] of injectStylesCases) {
+      test(`${JSON.stringify(config)} => ${JSON.stringify(output)}`, async () => {
+        expect(
+          (await parseCommonConfig({ output: config })).rsbuildConfig.output,
+        ).toEqual(output);
+      });
+    }
   });
 });
