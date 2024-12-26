@@ -53,10 +53,7 @@ export async function parseConfig(
   if (Boolean(rsbuildConfig.tools!.lightningcssLoader) === false) {
     const { pluginPostcss } = await import('../shared/plugins/postcss');
     rsbuildPlugins.push(
-      pluginPostcss({
-        autoprefixer: uniBuilderConfig.tools?.autoprefixer,
-        injectStyles: rsbuildConfig.output?.injectStyles,
-      }),
+      pluginPostcss({ autoprefixer: uniBuilderConfig.tools?.autoprefixer }),
     );
   }
 

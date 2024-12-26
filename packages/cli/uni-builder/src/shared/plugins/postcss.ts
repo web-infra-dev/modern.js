@@ -6,7 +6,6 @@ import { getCssSupport } from '../getCssSupport';
 
 export interface PluginPostcssOptions {
   autoprefixer?: ToolsAutoprefixerConfig;
-  injectStyles?: boolean;
 }
 
 // enable autoprefixer and  support compat legacy browsers
@@ -18,7 +17,7 @@ export const pluginPostcss = (
   pre: ['uni-builder:environment-defaults-plugin'],
 
   setup(api) {
-    const { autoprefixer, injectStyles = false } = options;
+    const { autoprefixer } = options;
     api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
         return config;
@@ -43,7 +42,7 @@ export const pluginPostcss = (
              * It may break the behavior of webpack resolver while using style-loader.
              * So disable it while `output.injectStyles = true` or `output.disableCssExtract = true`.
              */
-            normalizeUrl: !injectStyles,
+            normalizeUrl: false,
           },
         ],
       };
