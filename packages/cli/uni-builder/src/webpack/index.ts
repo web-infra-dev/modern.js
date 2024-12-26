@@ -1,4 +1,3 @@
-import assert from 'assert';
 import {
   type RsbuildConfig,
   type RsbuildInstance,
@@ -32,12 +31,10 @@ export async function parseConfig(
     options,
   );
 
-  const injectStyles = rsbuildConfig.output?.injectStyles;
-  assert(injectStyles !== undefined, 'injectStyles is required');
   rsbuildPlugins.push(
     pluginPostcss({
       autoprefixer: uniBuilderConfig.tools?.autoprefixer,
-      cssnanoOptimize: { normalizeUrl: !injectStyles },
+      injectStyles: rsbuildConfig.output?.injectStyles,
     }),
   );
 

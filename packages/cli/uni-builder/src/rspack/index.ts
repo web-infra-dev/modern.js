@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { createRsbuild } from '@rsbuild/core';
 import type {
   RsbuildConfig,
@@ -53,12 +52,10 @@ export async function parseConfig(
 
   if (Boolean(rsbuildConfig.tools!.lightningcssLoader) === false) {
     const { pluginPostcss } = await import('../shared/plugins/postcss');
-    const injectStyles = rsbuildConfig.output?.injectStyles;
-    assert(injectStyles !== undefined, 'injectStyles is required');
     rsbuildPlugins.push(
       pluginPostcss({
         autoprefixer: uniBuilderConfig.tools?.autoprefixer,
-        cssnanoOptimize: { normalizeUrl: !injectStyles },
+        injectStyles: rsbuildConfig.output?.injectStyles,
       }),
     );
   }

@@ -4,19 +4,9 @@ import type { Options } from 'cssnano';
 import type { ToolsAutoprefixerConfig } from '../../types';
 import { getCssSupport } from '../getCssSupport';
 
-export interface CssNanoOptimizeOptions {
-  mergeLonghand?: boolean;
-  /**
-   * normalizeUrl will transform relative url from `./assets/img.svg` to `assets/img.svg`.
-   * It may break the behavior of webpack resolver while using style-loader.
-   * So disable it while `output.injectStyles = true` or `output.disableCssExtract = true`.
-   */
-  normalizeUrl?: boolean;
-}
-
 export interface PluginPostcssOptions {
   autoprefixer?: ToolsAutoprefixerConfig;
-  cssnanoOptimize?: CssNanoOptimizeOptions;
+  injectStyles?: boolean;
 }
 
 // enable autoprefixer and  support compat legacy browsers
@@ -28,7 +18,7 @@ export const pluginPostcss = (
   pre: ['uni-builder:environment-defaults-plugin'],
 
   setup(api) {
-    const { autoprefixer, cssnanoOptimize = {} } = options;
+    const { autoprefixer, injectStyles = false } = options;
     api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
         return config;
@@ -48,7 +38,12 @@ export const pluginPostcss = (
             // https://github.com/cssnano/cssnano/issues/803
             // https://github.com/cssnano/cssnano/issues/967
             mergeLonghand: false,
-            ...cssnanoOptimize,
+            /**
+             * normalizeUrl will transform relative url from `./assets/img.svg` to `assets/img.svg`.
+             * It may break the behavior of webpack resolver while using style-loader.
+             * So disable it while `output.injectStyles = true` or `output.disableCssExtract = true`.
+             */
+            normalizeUrl: !injectStyles,
           },
         ],
       };
