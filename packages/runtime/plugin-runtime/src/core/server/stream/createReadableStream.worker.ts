@@ -1,6 +1,5 @@
 import { renderSSRStream } from '@modern-js/render/ssr';
 import checkIsBot from 'isbot';
-import { renderToReadableStream } from 'react-dom/server.browser';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import {

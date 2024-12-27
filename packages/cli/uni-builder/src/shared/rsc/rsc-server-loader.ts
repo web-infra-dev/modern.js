@@ -62,7 +62,8 @@ function createClientReferenceProxy(exportName) {
       .join('\n');
 
     if (clientReferences.length > 0) {
-      const entryPath = findRootIssuer(this._module!).resource as string;
+      const entryPath = (findRootIssuer(this._module!) as any)
+        .resource as string;
       const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'client',
@@ -83,7 +84,8 @@ function createClientReferenceProxy(exportName) {
       .filter(Boolean) as string[];
 
     if (serverReferenceExportNames.length > 0) {
-      const entryPath = findRootIssuer(this._module!).resource as string;
+      const entryPath = (findRootIssuer(this._module!) as any)
+        .resource as string;
       const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'server',

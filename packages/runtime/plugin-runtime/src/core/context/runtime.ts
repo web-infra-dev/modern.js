@@ -7,7 +7,7 @@ import type {
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext } from 'react';
 import type { RouteManifest } from '../../router/runtime/types';
-import type { createLoaderManager } from '../loader/loaderManager';
+import { createLoaderManager } from '../loader/loaderManager';
 import type { PluginRunner, runtime } from '../plugin';
 import type { SSRServerContext, TSSRContext } from '../types';
 
@@ -49,4 +49,15 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   [key: string]: any;
 }
 
-export { getInitialContext } from './shared';
+export const getInitialContext = (
+  runner: PluginRunner,
+  isBrowser = true,
+  routeManifest?: RouteManifest,
+): RuntimeContext => ({
+  loaderManager: createLoaderManager({}),
+  runner,
+  isBrowser,
+  routeManifest:
+    routeManifest ||
+    (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
+});

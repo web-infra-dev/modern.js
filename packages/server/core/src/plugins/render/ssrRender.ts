@@ -132,11 +132,11 @@ export async function ssrRender(
     response = await getCacheResult(request, {
       cacheControl,
       container: cacheConfig?.container,
-      requestHandler,
+      requestHandler: requestHandler!,
       requestHandlerOptions,
     });
   } else {
-    response = await requestHandler(request, requestHandlerOptions);
+    response = await requestHandler!(request, requestHandlerOptions);
   }
 
   response.headers.set(X_MODERNJS_RENDER, 'server');
