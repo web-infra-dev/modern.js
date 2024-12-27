@@ -4534,6 +4534,28 @@ importers:
         specifier: npm:webpack-5-chain@8.0.2
         version: webpack-5-chain@8.0.2
 
+  scripts/release-version:
+    dependencies:
+      '@changesets/assemble-release-plan':
+        specifier: ^5.2.1
+        version: 5.2.4
+      '@changesets/config':
+        specifier: ^2.1.1
+        version: 2.3.1
+      '@changesets/read':
+        specifier: ^0.5.9
+        version: 0.5.9
+      '@manypkg/get-packages':
+        specifier: ^1.1.3
+        version: 1.1.3
+    devDependencies:
+      '@types/node':
+        specifier: ^18.0.1
+        version: 18.19.64
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
+
   scripts/update-codesmith:
     dependencies:
       '@manypkg/get-packages':
@@ -28239,7 +28261,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.19.64
 
   '@types/cross-spawn@6.0.6':
     dependencies:
@@ -28322,7 +28344,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 14.18.35
+      '@types/node': 18.19.64
 
   '@types/fs-extra@9.0.13':
     dependencies:
@@ -28431,7 +28453,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.19.64
 
   '@types/keygrip@1.0.2': {}
 
@@ -31119,7 +31141,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 14.18.35
+      '@types/node': 18.19.64
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
