@@ -139,7 +139,7 @@ export const isReact18 = (cwd: string = process.cwd()) => {
     return false;
   }
 
-  return semver.satisfies(semver.minVersion(deps.react)!, '>=18.0.0');
+  return semver.gte(semver.minVersion(deps.react)!, '18.0.0');
 };
 
 /**

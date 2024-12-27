@@ -76,25 +76,31 @@ export const generateCode = async (
           plugins: [],
         });
       if (isAutoMount) {
+        const ssrMode = getSSRMode(entryName, config);
+        let indexCode = '';
         // index.jsx
-        const indexCode = template.index({
-          srcDirectory,
-          internalSrcAlias,
-          metaName,
-          entry,
-          entryName,
-          customEntry,
-          customBootstrap,
-          mountId,
-        });
+        if (!ssrMode && config.server.rsc) {
+          indexCode = template.entryForCSRWithRSC();
+        } else {
+          indexCode = template.index({
+            srcDirectory,
+            internalSrcAlias,
+            metaName,
+            entry,
+            entryName,
+            customEntry,
+            customBootstrap,
+            mountId,
+            enableRsc: config.server.rsc,
+          });
+        }
+
         const indexFile = path.resolve(
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
 
-        fs.outputFileSync(indexFile, indexCode, 'utf8');
-
-        const ssrMode = getSSRMode(entryName, config);
+        await fs.outputFile(indexFile, indexCode, 'utf8');
 
         if (enableAsyncEntry) {
           const bootstrapFile = path.resolve(
@@ -102,7 +108,7 @@ export const generateCode = async (
             `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
           );
           // bootstrap.jsx
-          fs.outputFileSync(
+          await fs.outputFile(
             bootstrapFile,
             `import(/* webpackChunkName: "async-${entryName}" */ './${INDEX_FILE_NAME}');`,
             'utf8',
@@ -115,7 +121,7 @@ export const generateCode = async (
 
           if (ssrMode) {
             // bootstrap.server.jsx
-            fs.outputFileSync(
+            await fs.outputFile(
               bootstrapServerFile,
               `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
               'utf8',
@@ -133,13 +139,22 @@ export const generateCode = async (
             mode: ssrMode,
             customServerEntry,
             srcDirectory,
+            enableRsc: config.server.rsc,
           });
           const indexServerFile = path.resolve(
             internalDirectory,
             `./${entryName}/${SERVER_ENTRY_POINT_FILE_NAME}`,
           );
 
-          fs.outputFileSync(indexServerFile, indexServerCode, 'utf8');
+          await fs.outputFile(indexServerFile, indexServerCode, 'utf8');
+        } else if (config.server.rsc) {
+          const indexServerFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${SERVER_ENTRY_POINT_FILE_NAME}`,
+          );
+
+          const indexServerCode = serverTemplate.entryForCSRWithRSC();
+          await fs.outputFile(indexServerFile, indexServerCode, 'utf8');
         }
 
         // register.js
@@ -148,7 +163,7 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_REGISTER_FILE_NAME}`,
         );
-        fs.outputFileSync(registerFile, registerCode, 'utf8');
+        await fs.outputFile(registerFile, registerCode, 'utf8');
 
         // runtime-register.js
         const registerRuntimeCode = template.runtimeRegister({
@@ -163,21 +178,48 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}`,
         );
-        fs.outputFileSync(registerRuntimeFile, registerRuntimeCode, 'utf8');
+        await fs.outputFile(registerRuntimeFile, registerRuntimeCode, 'utf8');
 
         // runtime-global-context.js
-        const contextCode = template.runtimeGlobalContext({
-          srcDirectory,
-          internalSrcAlias,
-          metaName,
-          entry,
-          customEntry,
-        });
+        let contextCode = '';
+        if (!config.server.rsc) {
+          contextCode = template.runtimeGlobalContext({
+            srcDirectory,
+            internalSrcAlias,
+            metaName,
+            entry,
+            customEntry,
+          });
+        } else {
+          const AppProxyPath = path.join(
+            internalDirectory,
+            entryName,
+            './AppProxy.jsx',
+          );
+          const appProxyCode = template.AppProxyForRSC({
+            srcDirectory,
+            internalSrcAlias,
+            entry,
+            customEntry,
+          });
+          await fs.outputFile(AppProxyPath, appProxyCode);
+          contextCode = template.runtimeGlobalContextForRSCClient({
+            metaName,
+          });
+          const contextServerCode = template.runtimeGlobalContextForRSCServer({
+            metaName,
+          });
+          const contextFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.server.js`,
+          );
+          await fs.outputFile(contextFile, contextServerCode, 'utf8');
+        }
         const contextFile = path.resolve(
           internalDirectory,
-          `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
+          `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
         );
-        fs.outputFileSync(contextFile, contextCode, 'utf8');
+        await fs.outputFile(contextFile, contextCode, 'utf8');
       }
     }),
   );

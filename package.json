@@ -87,14 +87,16 @@
     "vitest": "0.34.6"
   },
   "pnpm": {
-    "overrides": {
-      "@types/react": "^18.3.11",
-      "@types/react-dom": "^18.3.1"
-    },
     "peerDependencyRules": {
       "allowedVersions": {
         "@mdx-js/react@^1.6.22>react": "18"
       }
+    },
+    "overrides": {
+      "react": "19.0.0",
+      "react-dom": "19.0.0",
+      "@rspack/core": "npm:@rspack-canary/core@1.1.7-canary-42e8947c-20241224095942",
+      "@swc/plugin-styled-components": "6.0.2"
     },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",

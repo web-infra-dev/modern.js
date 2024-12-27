@@ -1,5 +1,6 @@
+import { renderSSRStream } from '@modern-js/render/ssr';
 import checkIsBot from 'isbot';
-import { renderToReadableStream } from 'react-dom/server';
+import { renderToReadableStream } from 'react-dom/server.browser';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import {
@@ -14,9 +15,14 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
     let shellChunkStatus = ShellChunkStatus.START;
     const chunkVec: string[] = [];
-
-    const { htmlTemplate, runtimeContext, config, ssrConfig, entryName } =
-      options;
+    const {
+      htmlTemplate,
+      runtimeContext,
+      config,
+      ssrConfig,
+      entryName,
+      rscRoot,
+    } = options;
 
     const { shellBefore, shellAfter } = await getTemplates(htmlTemplate, {
       renderLevel: RenderLevel.SERVER_RENDER,
@@ -28,9 +34,15 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     });
 
     try {
-      const readableOriginal = await renderToReadableStream(rootElement, {
+      const readableOriginal = await renderSSRStream(rootElement, {
+        request,
+        clientManifest: options.rscClientManifest,
+        ssrManifest: options.rscSSRManifest,
         nonce: config.nonce,
+        rscRoot,
+        // @ts-ignore
         onError(error) {
+          console.error(error);
           options.onError?.(error);
         },
       });
@@ -68,7 +80,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               chunkVec.push(chunk);
 
               let concatedChunk = chunkVec.join('');
-              if (concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)) {
+              if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
                 concatedChunk = concatedChunk.replace(
                   ESCAPED_SHELL_STREAM_END_MARK,
                   '',
@@ -92,6 +104,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       });
       return stream;
     } catch (e) {
+      console.error(e);
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
       const fallbackHtml = `${shellBefore}${shellAfter}`;
       const stream = getReadableStreamFromString(fallbackHtml);

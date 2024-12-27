@@ -35,6 +35,7 @@ export function createBuilderProviderConfig<B extends Bundler>(
       ...resolveConfig.dev,
       port: appContext.port,
     },
+    server: resolveConfig.server,
     html: htmlConfig,
     output: {
       ...resolveConfig.output,

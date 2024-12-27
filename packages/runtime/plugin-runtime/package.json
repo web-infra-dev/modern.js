@@ -115,6 +115,16 @@
       "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/cli/ssr/loadable-bundler-plugin.ts",
       "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
+    },
+    "./rsc/server": {
+      "types": "./dist/types/rsc/server.d.ts",
+      "jsnext:source": "./src/rsc/server.ts",
+      "default": "./dist/esm/rsc/server.js"
+    },
+    "./rsc/client": {
+      "types": "./dist/types/rsc/client.d.ts",
+      "jsnext:source": "./src/rsc/client.ts",
+      "default": "./dist/esm/rsc/client.js"
     }
   },
   "typesVersions": {
@@ -172,6 +182,12 @@
       ],
       "loadable-bundler-plugin": [
         "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
+      ],
+      "rsc/server": [
+        "./dist/types/rsc/server.d.ts"
+      ],
+      "rsc/client": [
+        "./dist/types/rsc/client.d.ts"
       ]
     }
   },
@@ -213,7 +229,8 @@
     "react-helmet": "^6.1.0",
     "react-is": "^18",
     "react-side-effect": "^2.1.1",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "@modern-js/render": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=17",

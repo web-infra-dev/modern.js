@@ -234,7 +234,7 @@ export function generatorRegisterCode(
   fs.outputFileSync(
     path.resolve(
       internalDirectory,
-      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
+      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
     ),
     code,
     'utf8',
