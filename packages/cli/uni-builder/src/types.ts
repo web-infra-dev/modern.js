@@ -447,6 +447,9 @@ export type UniBuilderConfig = {
     polyfill?: Polyfill | 'ua';
     distPath?: DistPath;
   };
+  server?: {
+    rsc?: boolean;
+  };
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
   tools?: Omit<ToolsConfig, 'htmlPlugin'>;

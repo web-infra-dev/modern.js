@@ -25,6 +25,8 @@ import {
   transformResponse,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
+import { renderRscHandler } from './renderRscHandler';
+import { serverActionHandler } from './serverActionHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -116,6 +118,9 @@ export async function createRender({
       nodeReq,
       templates,
       serverManifest,
+      rscClientManifest,
+      rscSSRManifest,
+      rscServerManifest,
       locals,
       matchPathname,
       loaderContext,
@@ -198,6 +203,9 @@ export async function createRender({
       logger,
       metrics,
       locals,
+      rscClientManifest,
+      rscSSRManifest,
+      rscServerManifest,
       serverManifest,
       loaderContext: loaderContext || new Map(),
       onError,
@@ -211,6 +219,12 @@ export async function createRender({
         response =
           (await dataHandler(req, renderOptions)) ||
           (await renderHandler(req, renderOptions, 'ssr', onBoundError));
+        break;
+      case 'rsc-tree':
+        response = await renderRscHandler(req, renderOptions);
+        break;
+      case 'rsc-action':
+        response = await serverActionHandler(req, renderOptions);
         break;
       case 'ssr':
       case 'csr':
@@ -313,8 +327,15 @@ async function getRenderMode(
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
   onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
-): Promise<'ssr' | 'csr' | 'data'> {
+): Promise<'ssr' | 'csr' | 'data' | 'rsc-action' | 'rsc-tree'> {
   const query = parseQuery(req);
+  if (req.headers.get('x-rsc-action')) {
+    return 'rsc-action';
+  }
+
+  if (req.headers.get('x-rsc-tree')) {
+    return 'rsc-tree';
+  }
 
   if (isSSR) {
     if (query.__loader) {

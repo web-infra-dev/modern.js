@@ -8,6 +8,7 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginPostcss } from '../shared/plugins/postcss';
+import { rscRsbuildPlugin } from '../shared/rsc/plugins/rsc-rsbuild-plugin';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -100,6 +101,15 @@ export async function parseConfig(
   }
 
   rsbuildPlugins.push(pluginReact());
+
+  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
+  if (enableRsc) {
+    rsbuildPlugins.push(
+      rscRsbuildPlugin({
+        isRspack: false,
+      }),
+    );
+  }
 
   if (uniBuilderConfig.tools?.tsLoader) {
     const { pluginTsLoader } = await import('./plugins/tsLoader');

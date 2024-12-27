@@ -14,6 +14,7 @@ const genRenderCode = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -22,6 +23,7 @@ const genRenderCode = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) => {
   if (customEntry) {
     return `import '${formatImportPath(
@@ -30,6 +32,15 @@ const genRenderCode = ({
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
+
+${
+  enableRsc
+    ? `import { RscClientRoot, createFromReadableStream, rscStream } from '@modern-js/runtime/rsc/client';`
+    : ''
+}
+
+${enableRsc ? `const data = createFromReadableStream(rscStream);` : ''}
+
 ${
   customBootstrap
     ? `import customBootstrap from '${formatImportPath(
@@ -38,6 +49,8 @@ ${
     : ''
 }
 
+
+
 const ModernRoot = createRoot();
 
 ${
@@ -45,8 +58,42 @@ ${
     ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
         mountId || 'root'
       }'));`
-    : `render(<ModernRoot />, '${mountId || 'root'}');`
+    : enableRsc
+      ? `render(<ModernRoot>
+                  <RscClientRoot data={data} />
+                </ModernRoot>, '${mountId || 'root'}');`
+      : `render(<ModernRoot />, '${mountId || 'root'}');`
 }`;
+};
+
+export const entryForCSRWithRSC = () => {
+  return `
+  import '@modern-js/runtime/registry/main';
+  import { render } from '@modern-js/runtime/browser';
+  import { createRoot } from '@modern-js/runtime/react';
+
+  import {
+    RscClientRoot,
+    createFromFetch
+  } from '@modern-js/runtime/rsc/client';
+
+  const content = createFromFetch(
+    fetch('/', {
+      headers: {
+        'x-rsc-tree': 'true',
+      },
+    }),
+  );
+
+  const ModernRoot = createRoot();
+
+  render(
+    <ModernRoot>
+      <RscClientRoot data={content} />
+    </ModernRoot>,
+    'root',
+  );
+  `;
 };
 
 export const index = ({
@@ -58,6 +105,7 @@ export const index = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -67,6 +115,7 @@ export const index = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
 ${genRenderCode({
@@ -77,6 +126,7 @@ ${genRenderCode({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 })}
 `;
 
@@ -174,4 +224,72 @@ import App from '${
 setGlobalContext({
   App,
 });`;
+};
+
+export const runtimeGlobalContextForRSCServer = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
+  import AppProxy from './AppProxy';
+
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
+
+
+  setGlobalContext({
+    App: DefaultRoot,
+    RSCRoot: AppProxy,
+  });`;
+};
+
+export const runtimeGlobalContextForRSCClient = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
+
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
+
+  setGlobalContext({
+    App: DefaultRoot
+  });`;
+};
+
+export const AppProxyForRSC = ({
+  srcDirectory,
+  internalSrcAlias,
+  entry,
+  customEntry,
+}: {
+  srcDirectory: string;
+  internalSrcAlias: string;
+  entry: string;
+  customEntry?: boolean;
+}) => {
+  return `
+  import App from '${
+    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
+    formatImportPath(
+      customEntry
+        ? entry
+            .replace('entry.tsx', 'App')
+            .replace(srcDirectory, internalSrcAlias)
+        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
+    )
+  }';
+
+   import React from 'react';
+
+    export default function Root() {
+      return React.createElement(App, null);
+    }
+  `;
 };

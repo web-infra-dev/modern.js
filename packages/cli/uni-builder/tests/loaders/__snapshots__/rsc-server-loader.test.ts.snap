@@ -1,0 +1,94 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rscServerLoader > should handle inline actions correctly 1`] = `
+"
+import { registerServerReference } from \\"react-server-dom-webpack/server\\";/ @ts-ignore
+import { z } from 'zod';
+
+export async function foo() {
+  'use server';
+
+  return \`foo\`;
+}
+registerServerReference(foo, module.id, \\"foo\\");
+
+export async function bar() {
+  return qux();
+}
+
+const b = () => {
+  'use server';
+
+  return \`baz\`;
+};
+registerServerReference(b, module.id, \\"baz\\");
+
+export { b as baz };
+
+async function qux() {
+  'use server';
+
+  return \`qux\`;
+}
+registerServerReference(qux, module.id, \\"qux\\");
+
+export default function () {
+  'use server';
+
+  return \`default\`;
+}
+registerServerReference(, module.id, \\"default\\");
+"
+`;
+
+exports[`rscServerLoader > should handle server module correctly 1`] = `
+"'use server';
+import { registerServerReference } from \\"react-server-dom-webpack/server\\";
+export async function foo() {
+  return 'foo';
+}
+registerServerReference(foo, module.id, \\"foo\\");
+
+export const bar = async () => 'bar';
+registerServerReference(bar, module.id, \\"bar\\");
+
+const baz = async () => 'baz';
+registerServerReference(baz, module.id, \\"b\\");
+
+export { baz as b };
+
+export const qux = 'qux';
+
+async function qoo() {
+  return 'qoo';
+}
+registerServerReference(qoo, module.id, \\"default\\");
+
+export default qoo;
+"
+`;
+
+exports[`rscServerLoader > support use client directive 1`] = `
+"
+'use client';
+
+import { registerClientReference } from \\"react-server-dom-webpack/server\\";
+function createClientReferenceProxy(exportName) {
+  return () => {
+    throw new Error(\`Attempted to call \${exportName}() from the server but \${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\`);
+  };
+}
+export const ClassA = registerClientReference(createClientReferenceProxy(\\"ClassA\\"), \\"tests/loaders/fixtures/client-component.jsx#ClassA\\", \\"ClassA\\");
+export const ComponentA = registerClientReference(createClientReferenceProxy(\\"ComponentA\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentA\\", \\"ComponentA\\");
+export const MemoizedComponentA = registerClientReference(createClientReferenceProxy(\\"MemoizedComponentA\\"), \\"tests/loaders/fixtures/client-component.jsx#MemoizedComponentA\\", \\"MemoizedComponentA\\");
+export const ComponentB = registerClientReference(createClientReferenceProxy(\\"ComponentB\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentB\\", \\"ComponentB\\");
+export const foo = registerClientReference(createClientReferenceProxy(\\"foo\\"), \\"tests/loaders/fixtures/client-component.jsx#foo\\", \\"foo\\");
+export const ComponentC = registerClientReference(createClientReferenceProxy(\\"ComponentC\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentC\\", \\"ComponentC\\");
+export const ComponentD = registerClientReference(createClientReferenceProxy(\\"ComponentD\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentD\\", \\"ComponentD\\");
+export const bar = registerClientReference(createClientReferenceProxy(\\"bar\\"), \\"tests/loaders/fixtures/client-component.jsx#bar\\", \\"bar\\");
+export const ComponentE = registerClientReference(createClientReferenceProxy(\\"ComponentE\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentE\\", \\"ComponentE\\");
+export const ComponentF = registerClientReference(createClientReferenceProxy(\\"ComponentF\\"), \\"tests/loaders/fixtures/client-component.jsx#ComponentF\\", \\"ComponentF\\");
+export default registerClientReference(() => {
+  throw new Error(\\"Attempted to call the default export of <ROOT>/tests/loaders/fixtures/client-component.jsx from the server but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\\");
+}, \\"tests/loaders/fixtures/client-component.jsx#default\\", \\"\\");"
+`;
