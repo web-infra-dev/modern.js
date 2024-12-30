@@ -412,7 +412,7 @@ importers:
         version: 0.5.13
       whistle:
         specifier: ^2.7.18
-        version: 2.9.90
+        version: 2.9.92
     devDependencies:
       '@modern-js/core':
         specifier: workspace:*
@@ -15282,6 +15282,10 @@ packages:
     resolution: {integrity: sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==}
     engines: {node: '>= 0.10.0'}
 
+  express@4.21.2:
+    resolution: {integrity: sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==}
+    engines: {node: '>= 0.10.0'}
+
   ext@1.7.0:
     resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
 
@@ -15815,8 +15819,8 @@ packages:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
 
-  hagent@0.9.2:
-    resolution: {integrity: sha512-uPVXwYoYlWANE5mWVoX3EMXOW5lDwxrhRbpYyi+uJTKtLnI4TN6V7fkgcnbyHfAtoKsYJKkdeuw0hHv7IkjnmQ==}
+  hagent@0.9.3:
+    resolution: {integrity: sha512-ffkD1lS3Hl5l/6L6dy93BugNUMCS+0pD730uOj+1T5iHKh7wOwDp95P2xf4PLjezssg8JQzHzBydeWjs1BuyOw==}
     engines: {node: '>= 0.12.0'}
 
   handlebars@4.7.8:
@@ -18090,6 +18094,9 @@ packages:
 
   path-to-regexp@0.1.10:
     resolution: {integrity: sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==}
+
+  path-to-regexp@0.1.12:
+    resolution: {integrity: sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==}
 
   path-to-regexp@1.9.0:
     resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
@@ -21612,8 +21619,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  whistle@2.9.90:
-    resolution: {integrity: sha512-gY3IJcoaWtoYhtGl4zY2giGQqizr1t1XftcVBj/ytvEeBoU8DX84gfHBKPOTScBwcx6JxlARKcUsrY5uQYQM2A==}
+  whistle@2.9.92:
+    resolution: {integrity: sha512-RvEJVEKOsh76sDJzXXO5tIU1bHvTP0MDLG5hpAyOWdwyDtTWq7ytKl5TpbzbOn3XTSPHmNRGIJbQ7bD9Sjhaaw==}
     engines: {node: '>= 8'}
     hasBin: true
 
@@ -22039,7 +22046,7 @@ snapshots:
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
       convert-source-map: 1.8.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -27339,7 +27346,7 @@ snapshots:
       ejs: 3.1.10
       esbuild: 0.18.20
       esbuild-plugin-alias: 0.2.1
-      express: 4.21.1
+      express: 4.21.2
       find-cache-dir: 3.3.2
       fs-extra: 11.2.0
       process: 0.11.10
@@ -27380,7 +27387,7 @@ snapshots:
       detect-indent: 6.1.0
       envinfo: 7.14.0
       execa: 5.1.1
-      express: 4.21.1
+      express: 4.21.2
       find-up: 5.0.0
       fs-extra: 11.2.0
       get-npm-tarball-url: 2.1.0
@@ -27510,7 +27517,7 @@ snapshots:
       cli-table3: 0.6.5
       compression: 1.7.4
       detect-port: 1.6.1
-      express: 4.21.1
+      express: 4.21.2
       fs-extra: 11.2.0
       globby: 11.1.0
       lodash: 4.17.21
@@ -31459,6 +31466,42 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  express@4.21.2:
+    dependencies:
+      accepts: 1.3.8
+      array-flatten: 1.1.1
+      body-parser: 1.20.3
+      content-disposition: 0.5.4
+      content-type: 1.0.5
+      cookie: 0.7.1
+      cookie-signature: 1.0.6
+      debug: 2.6.9
+      depd: 2.0.0
+      encodeurl: 2.0.0
+      escape-html: 1.0.3
+      etag: 1.8.1
+      finalhandler: 1.3.1
+      fresh: 0.5.2
+      http-errors: 2.0.0
+      merge-descriptors: 1.0.3
+      methods: 1.1.2
+      on-finished: 2.4.1
+      parseurl: 1.3.3
+      path-to-regexp: 0.1.12
+      proxy-addr: 2.0.7
+      qs: 6.13.0
+      range-parser: 1.2.1
+      safe-buffer: 5.2.1
+      send: 0.19.0
+      serve-static: 1.16.2
+      setprototypeof: 1.2.0
+      statuses: 2.0.1
+      type-is: 1.6.18
+      utils-merge: 1.0.1
+      vary: 1.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   ext@1.7.0:
     dependencies:
       type: 2.7.3
@@ -31490,7 +31533,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.4
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -31691,7 +31734,7 @@ snapshots:
     dependencies:
       chalk: 4.1.2
       commander: 5.1.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32121,7 +32164,7 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  hagent@0.9.2:
+  hagent@0.9.3:
     dependencies:
       safe-buffer: 5.2.1
 
@@ -32458,7 +32501,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32492,7 +32535,7 @@ snapshots:
   https-proxy-agent@4.0.0:
     dependencies:
       agent-base: 5.1.1
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32922,7 +32965,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -35057,7 +35100,7 @@ snapshots:
   micromark@3.1.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -35764,6 +35807,8 @@ snapshots:
 
   path-to-regexp@0.1.10: {}
 
+  path-to-regexp@0.1.12: {}
+
   path-to-regexp@1.9.0:
     dependencies:
       isarray: 0.0.1
@@ -36407,7 +36452,7 @@ snapshots:
   puppeteer-core@2.1.1(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
@@ -40220,7 +40265,7 @@ snapshots:
   weinre2@1.3.6:
     dependencies:
       errorhandler: 1.5.1
-      express: 4.21.1
+      express: 4.21.2
       serve-favicon: 2.5.0
       underscore: 1.13.7
     transitivePeerDependencies:
@@ -40276,16 +40321,16 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  whistle@2.9.90:
+  whistle@2.9.92:
     dependencies:
       adm-zip: 0.5.10
       async-limiter: 2.0.0
       body-parser: 1.20.3
       colors: 1.1.2
-      express: 4.21.1
+      express: 4.21.2
       extend: 3.0.2
       fs-extra2: 1.0.1
-      hagent: 0.9.2
+      hagent: 0.9.3
       hparser: 0.5.0
       iconv-lite: 0.4.24
       json5: 2.2.3
