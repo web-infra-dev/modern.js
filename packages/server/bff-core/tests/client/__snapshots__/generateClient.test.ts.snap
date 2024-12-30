@@ -3,8 +3,8 @@
 exports[`client generateClient should support operator 1`] = `
 "import { createRequest } from '@modern-js/create-request';
 
-export default createRequest('/normal/origin', 'GET', 3000, 'functionName' );
-      export var DELETE = createRequest('/normal/origin', 'DELETE', 3000, 'functionName' );
+export var DELETE = createRequest('/normal/origin', 'DELETE', 3000, 'functionName' );
+      export default createRequest('/normal/origin', 'GET', 3000, 'functionName' );
       export var putRepo = createRequest('/put-repo', 'PUT', 3000, 'functionName' );
       "
 `;

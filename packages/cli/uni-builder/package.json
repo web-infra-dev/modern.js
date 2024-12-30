@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/uni-builder",
-  "version": "2.63.3",
+  "version": "2.63.4",
   "description": "Unified builder for Modern.js",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.15",
-    "@rsbuild/core": "1.1.12",
+    "@rsbuild/core": "1.1.13",
     "@rsbuild/plugin-assets-retry": "1.0.7",
     "@rsbuild/plugin-babel": "1.0.3",
     "@rsbuild/plugin-check-syntax": "1.2.0",

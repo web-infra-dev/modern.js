@@ -100,7 +100,7 @@ describe('test api router', () => {
     const handlerInfos = await apiRouter.getSingleModuleHandlers(apiFile);
     const methods = handlerInfos?.map(handlerInfo => handlerInfo.httpMethod);
     expect(methods?.length).toBe(3);
-    expect(methods).toEqual(['GET', 'DELETE', 'PUT']);
+    expect(methods).toEqual(['DELETE', 'GET', 'PUT']);
   });
 
   test('getAllAPIFiles', () => {
