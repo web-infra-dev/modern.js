@@ -2,9 +2,9 @@ name: Release Nightly
 
 on:
   workflow_dispatch:
-  schedule:
-    # 01:00 AM Beijing Time.
-    - cron: "0 17 * * *"
+  # schedule:
+  #   # 01:00 AM Beijing Time.
+  #   - cron: "0 17 * * *"
 
 permissions:
   id-token: write
