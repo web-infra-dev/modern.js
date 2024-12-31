@@ -57,6 +57,8 @@ export interface IAppContext {
   serverRoutes: ServerRoute[];
   /** Whether to use api only mode */
   apiOnly: boolean;
+  /** prefix for independent bff projects */
+  indepBffPrefix?: string;
   /** The Builder instance */
   builder?: UniBuilderInstance | UniBuilderWebpackInstance;
   /** Tools type of the current project */
