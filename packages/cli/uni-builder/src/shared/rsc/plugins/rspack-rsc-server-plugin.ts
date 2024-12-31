@@ -2,9 +2,12 @@ import type Webpack from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,
+  findRootIssuer,
   getRscBuildInfo,
   isCssModule,
+  setRscBuildInfo,
   sharedData,
+  webpackRscLayerName,
 } from '../common';
 import type { ClientReferencesMap } from '../common';
 
@@ -17,24 +20,25 @@ export interface ModuleExportsInfo {
   readonly exportName: string;
 }
 
-export const webpackRscLayerName = `react-server`;
+const resourcePath2Entry = new Map<
+  string,
+  {
+    entryName: string;
+    entryPath: string;
+  }
+>();
 export class RscServerPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
   private serverReferencesMap: ServerReferencesMap = new Map();
   private serverManifest: ServerManifest = {};
   private serverManifestFilename: string;
   private styles: Set<string>;
-
-  referencesBefore: any[] = [];
-
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
 
     this.serverManifestFilename =
       options?.serverManifestFilename || `react-server-manifest.json`;
   }
-
-  private dependencies = [] as any[];
 
   apply(compiler: Webpack.Compiler): void {
     const {
@@ -48,14 +52,39 @@ export class RscServerPlugin {
       // RuntimeGlobals,
     } = compiler.webpack;
 
+    // class ServerReferenceDependency extends NullDependency {
+    //   override get type(): string {
+    //     return `server-reference`;
+    //   }
+    // }
+
+    // ServerReferenceDependency.Template = class ServerReferenceDependencyTemplate extends (
+    //   NullDependency.Template
+    // ) {
+    //   override apply(
+    //     _dependency: ServerReferenceDependency,
+    //     _source: Webpack.sources.ReplaceSource,
+    //     { runtimeRequirements }: { runtimeRequirements: Set<string> },
+    //   ) {
+    //     runtimeRequirements.add(RuntimeGlobals.moduleId);
+    //   }
+    // };
+
+    // function hasServerReferenceDependency(module: Webpack.Module): boolean {
+    //   return module.dependencies.some(
+    //     dependency => dependency instanceof ServerReferenceDependency,
+    //   );
+    // }
+
     const includeModule = async (
       compilation: Webpack.Compilation,
       resource: string,
+      resourceEntryName?: string,
       layer?: string,
     ) => {
-      const [entry, ...otherEntries] = compilation.entries.entries();
+      const entries = Array.from(compilation.entries.entries());
 
-      if (!entry) {
+      if (entries.length === 0) {
         compilation.errors.push(
           new WebpackError(`Could not find an entry in the compilation.`),
         );
@@ -63,120 +92,159 @@ export class RscServerPlugin {
         return;
       }
 
-      if (otherEntries.length > 0) {
-        compilation.warnings.push(
-          new WebpackError(
-            `Found multiple entries in the compilation, adding module include for ${resource} only to the first entry.`,
-          ),
-        );
-      }
+      console.log('entries11111111', entries, resourceEntryName);
 
-      const [entryName] = entry;
+      const includePromises = entries
+        .filter(([entryName]) => entryName === resourceEntryName)
+        .map(([entryName]) => {
+          console.log('111111111111', entryName);
+          const dependency = EntryPlugin.createDependency(resource, {
+            name: resource,
+          });
 
-      const dependency = EntryPlugin.createDependency(resource, {
-        name: resource,
-      });
+          return new Promise<void>((resolve, reject) => {
+            compilation.addInclude(
+              compiler.context,
+              dependency,
+              { name: entryName, layer },
+              (error, module) => {
+                if (error) {
+                  compilation.errors.push(error);
+                  return reject(error);
+                }
 
-      return new Promise<void>((resolve, reject) => {
-        compilation.addInclude(
-          compiler.context,
-          dependency,
-          { name: entryName, layer },
-          (error, module) => {
-            if (error) {
-              compilation.errors.push(error);
+                if (!module) {
+                  const noModuleError = new WebpackError(`Module not added`);
+                  noModuleError.file = resource;
+                  compilation.errors.push(noModuleError);
 
-              return reject(error);
-            }
+                  return reject(noModuleError);
+                }
 
-            this.dependencies.push(dependency);
+                setRscBuildInfo(module, {
+                  __entryName: entryName,
+                });
 
-            // if (!module) {
-            //   const noModuleError = new WebpackError(`Module not added`);
-            //   noModuleError.file = resource;
-            //   compilation.errors.push(noModuleError);
+                compilation.moduleGraph
+                  .getExportsInfo(module)
+                  .setUsedInUnknownWay(entryName);
 
-            //   return reject(noModuleError);
-            // }
+                resolve();
+              },
+            );
+          });
+        });
 
-            // const runtime = getEntryRuntime(compilation, entryName, {
-            //   name: entryName,
-            // });
-
-            // compilation.moduleGraph
-            //   .getExportsInfo(module)
-            //   .setUsedInUnknownWay(runtime);
-
-            resolve();
-          },
-        );
-      });
+      await Promise.all(includePromises);
     };
 
     let needsAdditionalPass = false;
 
-    const processModules = (modules: Webpack.Compilation['modules']) => {
-      let hasChangeReference = false;
-
-      for (const module of modules) {
-        if ('resource' in module && isCssModule(module)) {
-          this.styles.add(module.resource as string);
-        }
-
-        const buildInfo = getRscBuildInfo(module);
-        if (!buildInfo || !buildInfo.resourcePath) {
-          continue;
-        }
-
-        sharedData.set(buildInfo?.resourcePath, buildInfo);
-        const currentReference =
-          buildInfo?.type === 'client'
-            ? this.clientReferencesMap.get(buildInfo.resourcePath)
-            : this.serverReferencesMap.get(buildInfo.resourcePath);
-
-        if (buildInfo?.type === 'client' && !currentReference) {
-          hasChangeReference = true;
-          this.clientReferencesMap.set(
-            buildInfo.resourcePath,
-            buildInfo.clientReferences,
-          );
-        } else if (buildInfo?.type === 'server' && !currentReference) {
-          hasChangeReference = true;
-          this.serverReferencesMap.set(
-            buildInfo.resourcePath,
-            buildInfo.exportNames,
-          );
-        }
-      }
-
-      return hasChangeReference;
-    };
-
     compiler.hooks.finishMake.tapPromise(
       RscServerPlugin.name,
       async compilation => {
+        const processModules = (modules: Webpack.Compilation['modules']) => {
+          let hasChangeReference = false;
+
+          for (const module of modules) {
+            if ('resource' in module && isCssModule(module)) {
+              this.styles.add(module.resource as string);
+            }
+
+            const buildInfo = getRscBuildInfo(module);
+            if (!buildInfo || !buildInfo.resourcePath) {
+              continue;
+            }
+
+            if (module.layer && buildInfo.type === 'server') {
+              sharedData.set(buildInfo?.resourcePath, buildInfo);
+            }
+
+            if (!module.layer && buildInfo.type === 'client') {
+              sharedData.set(buildInfo?.resourcePath, buildInfo);
+            }
+
+            const currentReference =
+              buildInfo?.type === 'client'
+                ? this.clientReferencesMap.get(buildInfo.resourcePath)
+                : this.serverReferencesMap.get(buildInfo.resourcePath);
+
+            if (buildInfo?.type === 'client' && !currentReference) {
+              hasChangeReference = true;
+              this.clientReferencesMap.set(
+                buildInfo.resourcePath,
+                buildInfo.clientReferences,
+              );
+            } else if (buildInfo?.type === 'server' && !currentReference) {
+              hasChangeReference = true;
+
+              this.serverReferencesMap.set(
+                buildInfo.resourcePath,
+                buildInfo.exportNames,
+              );
+            }
+
+            let entryName = buildInfo.__entryName;
+            let entryPath = buildInfo.__entryPath;
+            // server component -> client -component(react-server layer) -> client component(default layer) -> server action(default layer) -> server action(react-server layer)
+            if (!entryName) {
+              const entryModule = findRootIssuer(module);
+              const entryModuleBuildInfo = getRscBuildInfo(entryModule);
+              entryName = entryModuleBuildInfo.__entryName;
+              entryPath = entryModuleBuildInfo.__entryPath;
+            }
+
+            console.log(
+              'resourcePath2Entryssssssssssss',
+              buildInfo.resourcePath,
+            );
+
+            resourcePath2Entry.set(buildInfo.resourcePath, {
+              entryName,
+              entryPath,
+            });
+          }
+
+          return hasChangeReference;
+        };
+
         this.serverManifest = {};
         let hasChangeReference = processModules(compilation.modules);
 
         const clientReferences = [...this.clientReferencesMap.keys()];
         const serverReferences = [...this.serverReferencesMap.keys()];
-        this.referencesBefore = [...clientReferences, ...serverReferences];
+        const referencesBefore = [...clientReferences, ...serverReferences];
 
         await Promise.all([
           ...clientReferences.map(async resource => {
             try {
-              await includeModule(compilation, resource);
+              console.log(
+                'resource11111111111',
+                resource,
+                resourcePath2Entry.get(resource)?.entryName,
+                resourcePath2Entry,
+              );
+              await includeModule(
+                compilation,
+                resource,
+                resourcePath2Entry.get(resource)?.entryName || '',
+              );
             } catch (error) {
-              console.error('error', error);
+              console.error(error);
               hasChangeReference = true;
               this.clientReferencesMap.delete(resource);
             }
           }),
           ...serverReferences.map(async resource => {
             try {
-              await includeModule(compilation, resource, webpackRscLayerName);
+              await includeModule(
+                compilation,
+                resource,
+                resourcePath2Entry.get(resource)?.entryName || '',
+                webpackRscLayerName,
+              );
             } catch (error) {
-              console.error('error', error);
+              console.error(error);
               hasChangeReference = true;
               this.serverReferencesMap.delete(resource);
             }
@@ -185,57 +253,30 @@ export class RscServerPlugin {
 
         hasChangeReference =
           processModules(compilation.modules) || hasChangeReference;
+
+        const referencesAfter = [
+          ...this.clientReferencesMap.keys(),
+          ...this.serverReferencesMap.keys(),
+        ];
+
+        if (
+          referencesBefore.length !== referencesAfter.length ||
+          (!referencesAfter.every(reference =>
+            referencesBefore.includes(reference),
+          ) &&
+            hasChangeReference)
+        ) {
+          needsAdditionalPass = true;
+        }
       },
     );
 
     compiler.hooks.done.tap(RscServerPlugin.name, () => {
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
+      sharedData.set('resourcePath2Entry', resourcePath2Entry);
+      sharedData.set('styles', this.styles);
     });
-
-    compiler.hooks.thisCompilation.tap(
-      RscServerPlugin.name,
-      (compilation, { normalModuleFactory }) => {
-        compilation.hooks.finishModules.tap(RscServerPlugin.name, () => {
-          for (const dependency of this.dependencies) {
-            const module =
-              compilation.moduleGraph.getResolvedModule(dependency);
-            if (module) {
-              compilation.moduleGraph
-                .getExportsInfo(module)
-                .setUsedInUnknownWay('main');
-            }
-          }
-
-          const hasChangeReference = processModules(compilation.modules);
-          const referencesAfter = [
-            ...this.clientReferencesMap.keys(),
-            ...this.serverReferencesMap.keys(),
-          ];
-
-          if (
-            this.referencesBefore.length !== referencesAfter.length ||
-            (!referencesAfter.every(reference =>
-              this.referencesBefore.includes(reference),
-            ) &&
-              hasChangeReference)
-          ) {
-            needsAdditionalPass = true;
-          }
-        });
-
-        compilation.hooks.needAdditionalPass.tap(RscServerPlugin.name, () => {
-          return !(needsAdditionalPass = !needsAdditionalPass);
-        });
-
-        compilation.hooks.processAssets.tap(RscServerPlugin.name, () => {
-          compilation.emitAsset(
-            this.serverManifestFilename,
-            new RawSource(JSON.stringify(this.serverManifest, null, 2), false),
-          );
-        });
-      },
-    );
 
     compiler.hooks.afterCompile.tap(RscServerPlugin.name, compilation => {
       for (const module of compilation.modules) {
@@ -291,5 +332,22 @@ export class RscServerPlugin {
         }
       }
     });
+
+    compiler.hooks.thisCompilation.tap(
+      RscServerPlugin.name,
+      (compilation, { normalModuleFactory }) => {
+        compilation.hooks.needAdditionalPass.tap(
+          RscServerPlugin.name,
+          () => !(needsAdditionalPass = !needsAdditionalPass),
+        );
+
+        compilation.hooks.processAssets.tap(RscServerPlugin.name, () => {
+          compilation.emitAsset(
+            this.serverManifestFilename,
+            new RawSource(JSON.stringify(this.serverManifest, null, 2), false),
+          );
+        });
+      },
+    );
   }
 }

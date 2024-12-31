@@ -122,13 +122,9 @@ export class RscServerPlugin {
                   __entryName: entryName,
                 });
 
-                const runtime = getEntryRuntime(compilation, entryName, {
-                  name: entryName,
-                });
-
                 compilation.moduleGraph
                   .getExportsInfo(module)
-                  .setUsedInUnknownWay(runtime);
+                  .setUsedInUnknownWay(entryName);
 
                 resolve();
               },

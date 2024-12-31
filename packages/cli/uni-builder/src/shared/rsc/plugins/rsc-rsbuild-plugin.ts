@@ -2,6 +2,7 @@ import type { RsbuildPlugin } from '@rsbuild/core';
 import { webpackRscLayerName } from '../common';
 import { RscClientPlugin } from './rsc-client-plugin';
 import { RscServerPlugin } from './rsc-server-plugin';
+import { RspackRscClientPlugin } from './rspack-rsc-client-plugin';
 import { RscServerPlugin as RspackRscServerPlugin } from './rspack-rsc-server-plugin';
 
 const CSS_RULE_NAMES = ['less', 'css', 'scss', 'sass'];
@@ -124,7 +125,10 @@ export const rscRsbuildPlugin = ({
         };
 
         const addRscClientPlugin = () => {
-          chain.plugin('rsc-client-plugin').use(RscClientPlugin);
+          const ClientPlugin = isRspack
+            ? RspackRscClientPlugin
+            : RscClientPlugin;
+          chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 
         const configureRuntimeChunk = () => {

@@ -49,7 +49,7 @@ function createClientReferenceProxy(exportName) {
     const exportNames = await getExportNames(ast);
     const exportsCode = exportNames
       .map(exportName => {
-        const id = `${path.relative(process.cwd(), resourcePath)}#${exportName || ''}`;
+        const id = `${path.relative(this.rootContext, resourcePath)}#${exportName || ''}`;
         clientReferences.push({ id, exportName });
         if (exportName === 'default') {
           return `export default registerClientReference(() => {
