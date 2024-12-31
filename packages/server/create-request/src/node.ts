@@ -1,3 +1,4 @@
+import type { IncomingHttpHeaders } from 'http';
 import { useHeaders } from '@modern-js/runtime-utils/node';
 import nodeFetch from 'node-fetch';
 import { type Key, compile, pathToRegexp } from 'path-to-regexp';
@@ -7,15 +8,16 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
-  RequestUploader,
   Sender,
+  UploadCreator,
 } from './types';
 import { getUploadPayload } from './utiles';
 
 type Fetch = typeof nodeFetch;
 
-let realRequest: Fetch;
-let realAllowedHeaders: string[] = [];
+const realRequest: Map<string, Fetch> = new Map();
+
+const realAllowedHeaders: Map<string, string[]> = new Map();
 const originFetch = (...params: Parameters<typeof nodeFetch>) => {
   const [, init] = params;
 
@@ -27,30 +29,39 @@ const originFetch = (...params: Parameters<typeof nodeFetch>) => {
 };
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {
-  const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as Fetch) || originFetch;
+  const {
+    request,
+    interceptor,
+    allowedHeaders,
+    requestId = 'default',
+  } = options;
+  let configuredRequest = (request as Fetch) || originFetch;
   if (interceptor && !request) {
-    realRequest = interceptor(nodeFetch);
+    configuredRequest = interceptor(nodeFetch);
   }
   if (Array.isArray(allowedHeaders)) {
-    realAllowedHeaders = allowedHeaders;
+    realAllowedHeaders.set(requestId, allowedHeaders);
   }
+  realRequest.set(requestId, configuredRequest);
 };
 
-export const createRequest: RequestCreator<typeof nodeFetch> = (
-  path: string,
-  method: string,
-  port: number,
-  httpMethodDecider = 'functionName',
-  // 后续可能要修改，暂时先保留
-  fetch = nodeFetch,
-) => {
+export const createRequest: RequestCreator<typeof nodeFetch> = ({
+  path,
+  method,
+  port,
+  httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
+  fetch = originFetch,
+  requestId = 'default',
+}) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
 
   const sender: Sender = (...args) => {
-    const webRequestHeaders = useHeaders();
+    let webRequestHeaders = [] as unknown as IncomingHttpHeaders;
+    if (requestId === 'default') {
+      webRequestHeaders = useHeaders();
+    }
     let body;
     let headers: Record<string, any>;
     let url: string;
@@ -84,7 +95,9 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
         ? `${plainPath}?${stringify(payload.query)}`
         : plainPath;
       headers = payload.headers || {};
-      for (const key of realAllowedHeaders) {
+
+      const targetAllowedHeaders = realAllowedHeaders.get(requestId) || [];
+      for (const key of targetAllowedHeaders) {
         if (typeof webRequestHeaders[key] !== 'undefined') {
           headers[key] = webRequestHeaders[key];
         }
@@ -116,7 +129,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
       url = `http://127.0.0.1:${port}${finalPath}`;
     }
 
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
 
     if (method.toLowerCase() === 'get') {
       body = undefined;
@@ -130,9 +143,12 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   return sender;
 };
 
-export const createUploader: RequestUploader = (path: string) => {
+export const createUploader: UploadCreator = ({
+  path,
+  requestId = 'default',
+}) => {
   const sender: Sender = (...args) => {
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
     const { body, headers } = getUploadPayload(args);
     return fetcher(path, { method: 'POST', body, headers });
   };

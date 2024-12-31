@@ -23,6 +23,10 @@ expect.addSnapshotSerializer({
 
 describe('bff loader', () => {
   it('should works well', async () => {
+    const pathString = path
+      .resolve(__dirname, './fixtures/requestCreator/client.ts')
+      .replace(/\\/g, '/');
+
     const stats = await compiler(filepath, {
       apiDir,
       lambdaDir: apiDir,
@@ -30,7 +34,7 @@ describe('bff loader', () => {
       prefix: '/api',
       port: 80,
       target: 'client',
-      requestCreator: path.resolve(__dirname, './fixtures/requestCreator'),
+      requestCreator: pathString,
       appDir: '',
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;

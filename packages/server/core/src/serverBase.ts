@@ -31,6 +31,7 @@ export type ServerBaseOptions = {
     sharedDirectory?: string;
     apiDirectory?: string;
     lambdaDirectory?: string;
+    indepBffPrefix?: string;
   };
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
 };
@@ -96,11 +97,12 @@ export class ServerBase<E extends Env = any> {
       internalDirectory: context?.internalDirectory || '',
       lambdaDirectory: context?.lambdaDirectory,
       sharedDirectory: context?.sharedDirectory || '',
+      indepBffPrefix: context?.indepBffPrefix || '',
       distDirectory: pwd,
       plugins: [],
       metaName: metaName || 'modern-js',
       serverBase: this,
-    };
+    } as any;
 
     return createContext<ISAppContext>(appContext);
   }

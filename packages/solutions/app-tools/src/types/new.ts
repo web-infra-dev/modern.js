@@ -150,6 +150,7 @@ export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
   internalSrcAlias: string;
   apiDirectory: string;
   lambdaDirectory: string;
+  indepBffPrefix: string;
   serverConfigFile: string;
   runtimeConfigFile: string;
   serverPlugins: ServerPlugin[];

@@ -44,6 +44,16 @@
       "types": "./dist/types/node.d.ts",
       "jsnext:source": "./src/node.ts",
       "default": "./dist/cjs/node.js"
+    },
+    "./browser": {
+      "types": "./dist/types/browser.d.ts",
+      "jsnext:source": "./src/browser.ts",
+      "default": "./dist/esm/browser.js"
+    },
+    "./default": {
+      "types": "./dist/types/node.d.ts",
+      "jsnext:source": "./src/node.ts",
+      "default": "./dist/cjs/node.js"
     }
   },
   "typesVersions": {

@@ -10,6 +10,7 @@ import {
 } from '@modern-js/core';
 import Chain from '@modern-js/utils/webpack-chain';
 import plugin from '../src/cli';
+import { readDirectoryFiles } from '../src/utils/clientGenerator';
 import './helper';
 
 const CHAIN_ID = {
@@ -85,5 +86,17 @@ describe('bff cli plugin', () => {
         '@api': path.resolve('./fixtures/function/api'),
       },
     });
+  });
+  it('generator client', async () => {
+    console.log(
+      'path.resol',
+      path.resolve(__dirname, './fixtures/function/api'),
+    );
+    const result = await readDirectoryFiles(
+      path.resolve(__dirname, './fixtures/function'),
+      path.resolve(__dirname, './fixtures/function/api'),
+    );
+
+    expect(result).toMatchSnapshot();
   });
 });

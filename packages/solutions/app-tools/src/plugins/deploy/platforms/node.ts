@@ -49,6 +49,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       };
 
       const pluginImportCode = genPluginImportsCode(plugins || []);
+
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
