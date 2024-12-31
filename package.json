@@ -95,7 +95,7 @@
     "overrides": {
       "react": "19.0.0",
       "react-dom": "19.0.0",
-      "@rspack/core": "npm:@rspack-canary/core@1.1.7-canary-42e8947c-20241224095942",
+      "@rspack/core": "npm:@rspack-canary/core@1.1.9-canary-0dd9e36d-20241230124140",
       "@swc/plugin-styled-components": "6.0.2"
     },
     "allowedDeprecatedVersions": {
