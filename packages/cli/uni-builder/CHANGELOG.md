@@ -1,5 +1,14 @@
 # @modern-js/uni-builder
 
+## 2.63.5
+
+### Patch Changes
+
+- a36d683: fix(cssnano): cssnano `normalizeUrl` optimization breaks resolving of CSS files
+  fix(cssnano): cssnano `normalizeUrl` 优化导致 CSS 文件无法正确 resolving
+  - @modern-js/babel-preset@2.63.5
+  - @modern-js/utils@2.63.5
+
 ## 2.63.4
 
 ### Patch Changes
