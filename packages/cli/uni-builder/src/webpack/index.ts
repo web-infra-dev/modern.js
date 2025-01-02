@@ -167,15 +167,6 @@ export async function createWebpackBuilder(
   });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
-  const {
-    __internalHelper: { setHTMLPlugin },
-  } = await import('@rsbuild/core');
-
-  const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
-
-  // Some third-party plug-ins depend on html-webpack-plugin, like sri
-  // @ts-expect-error compilation type mismatch
-  setHTMLPlugin(HtmlWebpackPlugin);
 
   rsbuildConfig.provider = webpackProvider;
 
