@@ -136,9 +136,10 @@ export default () => {
 ```bash
 .
 └── routes
+    ├── [id]
+    │   └── page.tsx
     ├── blog
-    │   └── [id]
-    │       └── page.tsx
+    │   └── page.tsx
     └── page.tsx
 ```
 
@@ -169,7 +170,7 @@ export default Blog;
     └── page.tsx
 ```
 
-`routes/user/[id$]/page.tsx` 文件会转为 `/user/:id?` 路由。`/user` 下的所有路由都会匹配到该路由，并且 `id` 参数可选存在。通常在区分**创建**与**编辑**时，可以使用该路由。
+`routes/blog/[id$]/page.tsx` 文件会转为 `/blog/:id?` 路由。`/blog` 下的所有路由都会匹配到该路由，并且 `id` 参数可选存在。通常在区分**创建**与**编辑**时，可以使用该路由。
 
 ```tsx
 import { useParams } from '@modern-js/runtime/router';
