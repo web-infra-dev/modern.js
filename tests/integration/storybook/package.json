@@ -1,6 +1,6 @@
 {
   "name": "integration-tests-storybook",
-  "version": "0.0.1",
+  "version": "2.63.5",
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

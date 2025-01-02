@@ -1,6 +1,6 @@
 {
   "name": "transform-lodash",
-  "version": "1.0.0",
+  "version": "2.63.5",
   "dependencies": {
     "lodash": "^4.17.21"
   },

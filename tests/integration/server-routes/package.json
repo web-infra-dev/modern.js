@@ -1,6 +1,6 @@
 {
   "name": "server-routes",
-  "version": "2.9.0",
+  "version": "2.63.5",
   "private": true,
   "scripts": {
     "new": "modern new",
