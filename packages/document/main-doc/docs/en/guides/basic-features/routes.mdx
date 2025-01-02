@@ -135,9 +135,10 @@ Files and directories named with `[]` are turned into dynamic routes. For instan
 ```bash
 .
 └── routes
+    ├── [id]
+    │   └── page.tsx
     ├── blog
-    │   └── [id]
-    │       └── page.tsx
+    │   └── page.tsx
     └── page.tsx
 ```
 
@@ -168,7 +169,7 @@ Files and directories named with `[$]` are turned into optional dynamic routes. 
     └── page.tsx
 ```
 
-The `routes/user/[id$]/page.tsx` file will be converted to the `/user/:id?` route. All routes under `/user` will match this route, and the `id` parameter is optional. This route can be used to distinguish between **create** and **edit** actions.
+The `routes/blog/[id$]/page.tsx` file will be converted to the `/blog/:id?` route. All routes under `/blog` will match this route, and the `id` parameter is optional. This route can be used to distinguish between **create** and **edit** actions.
 
 ```tsx
 import { useParams } from '@modern-js/runtime/router';
