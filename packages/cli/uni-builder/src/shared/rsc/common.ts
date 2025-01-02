@@ -32,6 +32,7 @@ import type {
   Compilation,
   LoaderDefinitionFunction,
   ModuleGraph,
+  NormalModule,
   Module as WebpackModule,
 } from 'webpack';
 
@@ -332,11 +333,16 @@ export function getServerActions(ast: Module): ServerAction[] {
   return collector.getServerActions();
 }
 
-export function findRootIssuer(module: WebpackModule): WebpackModule {
-  let currentModule = module;
-  while (currentModule?.issuer) {
-    currentModule = currentModule.issuer;
+export function findRootIssuer(
+  modulegraph: ModuleGraph,
+  module: NormalModule,
+): NormalModule {
+  const currentModule = module;
+  const issuer = modulegraph.getIssuer(currentModule);
+
+  if (!issuer) {
+    return currentModule;
   }
 
-  return currentModule;
+  return findRootIssuer(modulegraph, issuer as NormalModule);
 }

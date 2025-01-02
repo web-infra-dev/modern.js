@@ -4,7 +4,6 @@ import type { LoaderContext, Module } from 'webpack';
 import {
   type ClientReference,
   type SourceMap,
-  findRootIssuer,
   getExportNames,
   isClientModule,
   parseSource,
@@ -62,15 +61,10 @@ function createClientReferenceProxy(exportName) {
       .join('\n');
 
     if (clientReferences.length > 0) {
-      const entryPath = (findRootIssuer(this._module!) as any)
-        .resource as string;
-      const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'client',
         resourcePath,
         clientReferences,
-        __entryName: entryName,
-        __entryPath: entryPath,
       });
     }
 
@@ -84,15 +78,10 @@ function createClientReferenceProxy(exportName) {
       .filter(Boolean) as string[];
 
     if (serverReferenceExportNames.length > 0) {
-      const entryPath = (findRootIssuer(this._module!) as any)
-        .resource as string;
-      const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'server',
         resourcePath,
         exportNames: serverReferenceExportNames,
-        __entryName: entryName,
-        __entryPath: entryPath,
       });
     }
 
