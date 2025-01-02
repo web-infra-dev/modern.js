@@ -1,5 +1,11 @@
 import type Webpack from 'webpack';
 import {
+  type Compilation,
+  Module,
+  type ModuleGraph,
+  NormalModule,
+} from 'webpack';
+import {
   type ServerManifest,
   type ServerReferencesMap,
   findRootIssuer,
@@ -13,6 +19,7 @@ import type { ClientReferencesMap } from '../common';
 
 export interface RscServerPluginOptions {
   readonly serverManifestFilename?: string;
+  readonly entryPath2Name: Map<string, string>;
 }
 
 export interface ModuleExportsInfo {
@@ -20,24 +27,72 @@ export interface ModuleExportsInfo {
   readonly exportName: string;
 }
 
-const resourcePath2Entry = new Map<
+const resourcePath2Entries = new Map<
   string,
   {
     entryName: string;
     entryPath: string;
-  }
+  }[]
 >();
+
 export class RscServerPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
   private serverReferencesMap: ServerReferencesMap = new Map();
   private serverManifest: ServerManifest = {};
   private serverManifestFilename: string;
+  private entryPath2Name = new Map<string, string>();
   private styles: Set<string>;
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
 
     this.serverManifestFilename =
       options?.serverManifestFilename || `react-server-manifest.json`;
+
+    this.entryPath2Name = options?.entryPath2Name || new Map();
+  }
+
+  private findModuleEntries(
+    module: NormalModule,
+    compilation: Compilation,
+    resourcePath2Entries: Map<
+      string,
+      Array<{ entryName: string; entryPath: string }>
+    >,
+    visited = new Set<string>(),
+  ): Array<{ entryName: string; entryPath: string }> {
+    if (!module?.resource || visited.has(module.resource)) {
+      return [];
+    }
+    visited.add(module.resource);
+
+    const currentEntries = resourcePath2Entries.get(module.resource);
+    if (currentEntries && currentEntries?.length > 0) {
+      return currentEntries;
+    }
+
+    const issuer = findRootIssuer(compilation.moduleGraph, module);
+    if (!issuer) {
+      return [];
+    }
+
+    const issuerEntries = this.findModuleEntries(
+      issuer,
+      compilation,
+      resourcePath2Entries,
+      visited,
+    );
+    if (issuerEntries.length > 0) {
+      return issuerEntries;
+    }
+
+    if (issuer.resource) {
+      const entryName = this.entryPath2Name.get(issuer.resource);
+      if (entryName) {
+        return [{ entryName, entryPath: issuer.resource }];
+      }
+    }
+
+    return [];
   }
 
   apply(compiler: Webpack.Compiler): void {
@@ -79,7 +134,7 @@ export class RscServerPlugin {
     const includeModule = async (
       compilation: Webpack.Compilation,
       resource: string,
-      resourceEntryName?: string,
+      resourceEntryNames?: string[],
       layer?: string,
     ) => {
       const entries = Array.from(compilation.entries.entries());
@@ -93,7 +148,7 @@ export class RscServerPlugin {
       }
 
       const includePromises = entries
-        .filter(([entryName]) => entryName === resourceEntryName)
+        .filter(([entryName]) => resourceEntryNames?.includes(entryName))
         .map(([entryName]) => {
           const dependency = EntryPlugin.createDependency(resource, {
             name: resource,
@@ -181,39 +236,38 @@ export class RscServerPlugin {
               );
             }
 
-            let entryName = buildInfo.__entryName;
-            let entryPath = buildInfo.__entryPath;
-            // server component -> client -component(react-server layer) -> client component(default layer) -> server action(default layer) -> server action(react-server layer)
-            if (!entryName) {
-              const entryModule = findRootIssuer(module);
-              const entryModuleBuildInfo = getRscBuildInfo(entryModule);
-              entryName = entryModuleBuildInfo.__entryName;
-              entryPath = entryModuleBuildInfo.__entryPath;
+            if (module instanceof NormalModule) {
+              // server component -> client -component(react-server layer) -> client component(default layer) -> server action(default layer) -> server action(react-server layer)
+              const entries = this.findModuleEntries(
+                module,
+                compilation,
+                resourcePath2Entries,
+              );
+              if (entries.length > 0) {
+                resourcePath2Entries.set(module.resource, entries);
+              }
             }
-
-            resourcePath2Entry.set(buildInfo.resourcePath, {
-              entryName,
-              entryPath,
-            });
           }
 
           return hasChangeReference;
         };
 
         this.serverManifest = {};
-        let hasChangeReference = processModules(compilation.modules);
 
         const clientReferences = [...this.clientReferencesMap.keys()];
         const serverReferences = [...this.serverReferencesMap.keys()];
         const referencesBefore = [...clientReferences, ...serverReferences];
 
+        let hasChangeReference = false;
         await Promise.all([
           ...clientReferences.map(async resource => {
             try {
               await includeModule(
                 compilation,
                 resource,
-                resourcePath2Entry.get(resource)?.entryName || '',
+                resourcePath2Entries
+                  .get(resource)
+                  ?.map(entry => entry.entryName) || [],
               );
             } catch (error) {
               console.error(error);
@@ -226,7 +280,9 @@ export class RscServerPlugin {
               await includeModule(
                 compilation,
                 resource,
-                resourcePath2Entry.get(resource)?.entryName || '',
+                resourcePath2Entries
+                  .get(resource)
+                  ?.map(entry => entry.entryName) || [],
                 webpackRscLayerName,
               );
             } catch (error) {
@@ -237,8 +293,7 @@ export class RscServerPlugin {
           }),
         ]);
 
-        hasChangeReference =
-          processModules(compilation.modules) || hasChangeReference;
+        hasChangeReference = processModules(compilation.modules);
 
         const referencesAfter = [
           ...this.clientReferencesMap.keys(),
@@ -260,7 +315,6 @@ export class RscServerPlugin {
     compiler.hooks.done.tap(RscServerPlugin.name, () => {
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
-      sharedData.set('resourcePath2Entry', resourcePath2Entry);
       sharedData.set('styles', this.styles);
     });
 

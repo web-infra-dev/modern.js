@@ -55,7 +55,6 @@ export class RspackRscClientPlugin {
     const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
       const entryModules: Webpack.Module[] = [];
 
-      console.log('eeeeeeeeeeeee', compilation.entries);
       for (const [, entryValue] of compilation.entries.entries()) {
         // const entryDependency = entryValue.dependencies.find(
         //   dependency => dependency.constructor.name === `EntryDependency`,
@@ -73,14 +72,10 @@ export class RspackRscClientPlugin {
         const resolvedModule =
           compilation.moduleGraph.getModule(entryDependency);
 
-        console.log('resolvedModule1111111', resolvedModule);
-
         if (resolvedModule) {
           entryModules.push(resolvedModule);
         }
       }
-
-      console.log('2222222222', entryModules.length);
 
       if (entryModules.length === 0) {
         compilation.errors.push(
@@ -89,7 +84,6 @@ export class RspackRscClientPlugin {
         return [];
       }
 
-      console.log('3333333333');
       return entryModules;
     };
 
@@ -105,7 +99,6 @@ export class RspackRscClientPlugin {
         });
         promises.push(
           new Promise((resolve, reject) => {
-            console.log('before addInclude');
             compilation.addInclude(
               compiler.context,
               dependency,
@@ -119,7 +112,6 @@ export class RspackRscClientPlugin {
                 }
               },
             );
-            console.log('after addInclude');
           }),
         );
       });
@@ -131,7 +123,6 @@ export class RspackRscClientPlugin {
           });
           promises.push(
             new Promise((resolve, reject) => {
-              console.log('before addInclude');
               compilation.addInclude(
                 compiler.context,
                 dependency,
@@ -145,7 +136,6 @@ export class RspackRscClientPlugin {
                   }
                 },
               );
-              console.log('after addInclude');
             }),
           );
         }
@@ -178,9 +168,7 @@ export class RspackRscClientPlugin {
         //   }
         // }
 
-        console.log('aaaaaaaaaaaa');
         const entryModules = getEntryModule(compilation);
-        console.log('bbbbbbbbbbbb', entryModules);
         for (const entryModule of entryModules) {
           // Remove stale client references.
           // entryModule.blocks = entryModule.blocks.filter(block =>
@@ -192,7 +180,6 @@ export class RspackRscClientPlugin {
           //     );
           //   }),
           // );
-
           if (entryModule) {
             addClientReferencesChunks(compilation, entryModule, callback);
           }
@@ -295,15 +282,6 @@ export class RspackRscClientPlugin {
               ? this.clientReferencesMap.get(resourcePath)
               : undefined;
 
-            if (resourcePath?.includes('Counter')) {
-              console.log(
-                'clientReferences2222222222',
-                this.clientReferencesMap,
-                resourcePath,
-                clientReferences,
-              );
-            }
-
             if (clientReferences) {
               const moduleId = chunkGraph.getModuleId(module);
 
@@ -321,18 +299,12 @@ export class RspackRscClientPlugin {
                   chunksSet.add(chunk);
                 }
 
-                console.log(
-                  'ccccccccccc',
-                  chunkGraph.getModuleChunksIterable(module),
-                );
-
                 for (const connection of moduleGraph.getOutgoingConnections(
                   module,
                 )) {
                   for (const chunk of chunkGraph.getModuleChunksIterable(
                     connection.module,
                   )) {
-                    console.log('aaaaaaaaaaaa');
                     chunksSet.add(chunk);
                   }
                 }

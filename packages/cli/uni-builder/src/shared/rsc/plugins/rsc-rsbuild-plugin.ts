@@ -17,17 +17,17 @@ export const rscRsbuildPlugin = ({
   setup(api) {
     api.modifyBundlerChain({
       handler: async (chain, { isServer, CHAIN_ID }) => {
+        const entryPath2Name = new Map<string, string>();
+
+        for (const [name, entry] of Object.entries(
+          chain.entryPoints.entries(),
+        )) {
+          entry.values().forEach(value => {
+            entryPath2Name.set(value as unknown as string, name);
+          });
+        }
         const jsHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
-          const entryPath2Name = new Map<string, string>();
-
-          for (const [name, entry] of Object.entries(
-            chain.entryPoints.entries(),
-          )) {
-            entry.values().forEach(value => {
-              entryPath2Name.set(value as unknown as string, name);
-            });
-          }
 
           const useBabel = originalJsRule.uses.has(CHAIN_ID.USE.BABEL);
 
@@ -112,7 +112,11 @@ export const rscRsbuildPlugin = ({
           const ServerPlugin = isRspack
             ? RspackRscServerPlugin
             : RscServerPlugin;
-          chain.plugin('rsc-server-plugin').use(ServerPlugin);
+          chain.plugin('rsc-server-plugin').use(ServerPlugin, [
+            {
+              entryPath2Name,
+            },
+          ]);
         };
 
         const addRscClientLoader = () => {
