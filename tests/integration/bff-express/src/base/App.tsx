@@ -36,7 +36,7 @@ const App = () => {
         'x-header': '3333',
       },
     });
-  });
+  }, []);
   return <div className="hello">{message}</div>;
 };
 

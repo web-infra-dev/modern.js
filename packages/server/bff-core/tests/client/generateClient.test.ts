@@ -59,4 +59,27 @@ describe('client', () => {
     expect(result.isOk).toBeTruthy();
     expect(result.value).toMatchSnapshot();
   });
+
+  test('generateClient should support cross croject invocation', async () => {
+    const prefix = '/';
+    const port = 3000;
+    const resourcePath = path.resolve(
+      __dirname,
+      '../fixtures/function/normal/origin/index.ts',
+    );
+    const source = await fs.readFile(resourcePath, 'utf-8');
+
+    const result = await generateClient({
+      prefix,
+      port,
+      resourcePath,
+      source,
+      apiDir: PWD,
+      lambdaDir: path.join(PWD, './lambda'),
+      requireResolve: ((input: any) => input) as any,
+      target: 'bundle',
+    });
+    expect(result.isOk).toBeTruthy();
+    expect(result.value).toMatchSnapshot();
+  });
 });
