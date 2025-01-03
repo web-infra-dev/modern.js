@@ -1,5 +1,6 @@
+import path from 'path';
 import type Webpack from 'webpack';
-import type { Module } from 'webpack';
+import type { Module, NormalModule } from 'webpack';
 import {
   type ClientManifest,
   type ClientReferencesMap,
@@ -8,11 +9,14 @@ import {
   getRscBuildInfo,
   sharedData,
 } from '../common';
-
 export interface RscClientPluginOptions {
   readonly clientManifestFilename?: string;
   readonly ssrManifestFilename?: string;
 }
+
+const hasExtension = (filePath: string) => {
+  return path.extname(filePath) !== '';
+};
 
 export class RspackRscClientPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
@@ -97,23 +101,33 @@ export class RspackRscClientPlugin {
         const dependency = EntryPlugin.createDependency(resourcePath, {
           name: resourcePath,
         });
-        promises.push(
-          new Promise((resolve, reject) => {
-            compilation.addInclude(
-              compiler.context,
-              dependency,
-              { name: `client${index}` },
-              (error, module) => {
-                if (error) {
-                  reject(error);
-                } else {
-                  this.dependencies.push(dependency);
-                  resolve(undefined);
-                }
-              },
-            );
-          }),
-        );
+        const entries = compilation.entries.entries();
+
+        for (const [entryName, entry] of entries) {
+          if (hasExtension(entryName)) {
+            continue;
+          }
+
+          promises.push(
+            new Promise((resolve, reject) => {
+              compilation.addInclude(
+                compiler.context,
+                dependency,
+                {
+                  name: entryName,
+                },
+                (error, module) => {
+                  if (error) {
+                    reject(error);
+                  } else {
+                    this.dependencies.push(dependency);
+                    resolve(undefined);
+                  }
+                },
+              );
+            }),
+          );
+        }
       });
 
       if (this.styles && this.styles.size > 0) {
@@ -149,37 +163,9 @@ export class RspackRscClientPlugin {
     compiler.hooks.finishMake.tapAsync(
       RspackRscClientPlugin.name,
       (compilation, callback) => {
-        // if (compiler.watchMode) {
-        //   const entryModules = getEntryModule(compilation);
-
-        //   for (const entryModule of entryModules) {
-        //     // Remove stale client references.
-        //     entryModule.blocks = entryModule.blocks.filter(block =>
-        //       block.dependencies.some(dependency => {
-        //         const buildInfo = getRscBuildInfo(dependency.module);
-        //         return (
-        //           buildInfo.type !== 'client' ||
-        //           this.clientReferencesMap.has(dependency.request)
-        //         );
-        //       }),
-        //     );
-
-        //     addClientReferencesChunks(compilation, entryModule, callback);
-        //   }
-        // }
-
         const entryModules = getEntryModule(compilation);
+
         for (const entryModule of entryModules) {
-          // Remove stale client references.
-          // entryModule.blocks = entryModule.blocks.filter(block =>
-          //   block.dependencies.some(dependency => {
-          //     const buildInfo = getRscBuildInfo(dependency.module);
-          //     return (
-          //       buildInfo.type !== 'client' ||
-          //       this.clientReferencesMap.has(dependency.request)
-          //     );
-          //   }),
-          // );
           if (entryModule) {
             addClientReferencesChunks(compilation, entryModule, callback);
           }
@@ -190,16 +176,6 @@ export class RspackRscClientPlugin {
     compiler.hooks.compilation.tap(
       RspackRscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
-        // compilation.dependencyFactories.set(
-        //   ClientReferenceDependency,
-        //   normalModuleFactory,
-        // );
-
-        // compilation.dependencyTemplates.set(
-        //   ClientReferenceDependency,
-        //   new NullDependency.Template(),
-        // );
-
         class EntryNameRuntimeModule extends RuntimeModule {
           private entryName: string;
           constructor(entryName: string) {
@@ -237,35 +213,10 @@ export class RspackRscClientPlugin {
           'clientReferencesMap',
         ) as ClientReferencesMap;
 
-        // const onNormalModuleFactoryParser = (
-        //   parser: Webpack.javascript.JavascriptParser,
-        // ) => {
-        //   parser.hooks.program.tap(RspackRscClientPlugin.name, () => {
-        //     const entryModules = getEntryModule(compilation);
-
-        //     for (const entryModule of entryModules) {
-        //       if (entryModule === parser.state.module) {
-        //         addClientReferencesChunks(compilation, entryModule, () => {});
-        //       }
-        //     }
-        //   });
-        // };
-
-        // normalModuleFactory.hooks.parser
-        //   .for(`javascript/auto`)
-        //   .tap(`HarmonyModulesPlugin`, onNormalModuleFactoryParser);
-
-        // normalModuleFactory.hooks.parser
-        //   .for(`javascript/dynamic`)
-        //   .tap(`HarmonyModulesPlugin`, onNormalModuleFactoryParser);
-
-        // normalModuleFactory.hooks.parser
-        //   .for(`javascript/esm`)
-        //   .tap(`HarmonyModulesPlugin`, onNormalModuleFactoryParser);
-
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           RspackRscClientPlugin.name,
           (_chunk, runtimeRequirements) => {
+            runtimeRequirements.add(RuntimeGlobals.ensureChunkHandlers);
             runtimeRequirements.add(RuntimeGlobals.ensureChunk);
             runtimeRequirements.add(RuntimeGlobals.compatGetDefaultExport);
           },
@@ -313,7 +264,7 @@ export class RspackRscClientPlugin {
                 const styles: string[] = [];
 
                 for (const chunk of chunksSet) {
-                  if (chunk.id && !chunk.isOnlyInitial()) {
+                  if (chunk.id) {
                     for (const file of chunk.files) {
                       if (file.endsWith('.js')) {
                         chunks.push(chunk.id, file);

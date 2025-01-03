@@ -62,6 +62,14 @@ export default applyBaseConfig({
   //   enableCustomEntry: false,
   // },
   tools: {
+    rspack(config, { isServer }) {
+      if (!config.output) {
+        config.output = {};
+      }
+      if (!isServer) {
+        config.output.chunkFilename = 'static/js/async/[name].[contenthash].js';
+      }
+    },
     // babel(config, { modifyPresetReactOptions }) {
     //   modifyPresetReactOptions({
     //     runtime: 'automatic',
