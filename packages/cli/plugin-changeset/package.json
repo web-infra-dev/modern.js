@@ -55,7 +55,7 @@
   "dependencies": {
     "@changesets/cli": "^2.26.2",
     "@changesets/git": "^2.0.0",
-    "@changesets/read": "^0.5.9",
+    "@changesets/read": "^0.6.0",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.13",
