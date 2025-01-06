@@ -150,7 +150,7 @@ export default (): ServerPlugin => ({
            * In prod mode, we just return unstableMiddlewares directly.
            * In dev mode, we will return a new array with length of maxLen in the first time,
            * The new Array will execute the storage.unstableMiddlewares[index] by index, when the middleware is not exist, we will execute next().
-           * It's the logic for hot reload, when unstableMiddlewares is changed, we will execute the new middleware.
+           * It's the logic for hot reload, when unstableMiddlewares is changed, it will execute the new middleware.
            */
           if (isProd()) {
             return unstableMiddlewares;
