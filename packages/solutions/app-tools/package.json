@@ -111,7 +111,7 @@
     "flatted": "^3.2.9",
     "mlly": "^1.6.1",
     "pkg-types": "^1.1.0",
-    "ndepe": "0.1.4",
+    "ndepe": "0.1.5",
     "std-env": "^3.7.0"
   },
   "devDependencies": {
