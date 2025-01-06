@@ -162,14 +162,6 @@ export const isClientModule = async (ast: Module) => {
   return checkDirective(ast, 'use client');
 };
 
-export const parseSourceWithOxc = async (source: string, filename: string) => {
-  return await parse(source, {
-    syntax: 'typescript',
-    tsx: true,
-    dynamicImport: true,
-  });
-};
-
 export function findRootIssuer(
   modulegraph: ModuleGraph,
   module: NormalModule,

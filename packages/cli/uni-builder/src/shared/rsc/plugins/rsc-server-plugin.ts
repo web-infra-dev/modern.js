@@ -100,9 +100,6 @@ export class RscServerPlugin {
       EntryPlugin,
       WebpackError,
       dependencies: { NullDependency },
-      util: {
-        runtime: { getEntryRuntime },
-      },
       sources: { RawSource },
       RuntimeGlobals,
     } = compiler.webpack;
