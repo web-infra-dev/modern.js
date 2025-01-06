@@ -1,6 +1,6 @@
-// @ts-ignore
 import { z } from 'zod';
 
+console.log('zod', z);
 export async function foo() {
   'use server';
 

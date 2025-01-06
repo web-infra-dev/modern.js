@@ -8,8 +8,10 @@ import { RscServerPlugin as RspackRscServerPlugin } from './rspack-rsc-server-pl
 const CSS_RULE_NAMES = ['less', 'css', 'scss', 'sass'];
 
 export const rscRsbuildPlugin = ({
+  appDir,
   isRspack = true,
 }: {
+  appDir: string;
   isRspack?: boolean;
 }): RsbuildPlugin => ({
   name: 'uni-builder:rsc-rsbuild-plugin',
@@ -56,6 +58,7 @@ export const rscRsbuildPlugin = ({
               .loader(require.resolve('../rsc-server-loader'))
               .options({
                 entryPath2Name,
+                appDir,
               })
               .end()
               .use(JSRule)

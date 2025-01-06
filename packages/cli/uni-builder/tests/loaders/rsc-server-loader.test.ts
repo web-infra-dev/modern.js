@@ -15,7 +15,9 @@ async function callLoader(
 
   return new Promise((resolve, reject) => {
     const context: Partial<LoaderContext<RscServerLoaderOptions>> = {
-      getOptions: () => ({}),
+      getOptions: () => ({
+        appDir: __dirname,
+      }),
       resourcePath,
       cacheable: vi.fn(),
       _module: {
@@ -38,7 +40,6 @@ async function callLoader(
     rscServerLoader.call(
       context as LoaderContext<RscServerLoaderOptions>,
       input.toString(`utf-8`),
-      '',
     );
   });
 }
@@ -86,47 +87,47 @@ describe('rscServerLoader', () => {
 
     expect(clientReferences).toEqual([
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ClassA',
+        id: 'fixtures/client-component.jsx#ClassA',
         exportName: 'ClassA',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentA',
+        id: 'fixtures/client-component.jsx#ComponentA',
         exportName: 'ComponentA',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#MemoizedComponentA',
+        id: 'fixtures/client-component.jsx#MemoizedComponentA',
         exportName: 'MemoizedComponentA',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentB',
+        id: 'fixtures/client-component.jsx#ComponentB',
         exportName: 'ComponentB',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#foo',
+        id: 'fixtures/client-component.jsx#foo',
         exportName: 'foo',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentC',
+        id: 'fixtures/client-component.jsx#ComponentC',
         exportName: 'ComponentC',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentD',
+        id: 'fixtures/client-component.jsx#ComponentD',
         exportName: 'ComponentD',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#bar',
+        id: 'fixtures/client-component.jsx#bar',
         exportName: 'bar',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentE',
+        id: 'fixtures/client-component.jsx#ComponentE',
         exportName: 'ComponentE',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#ComponentF',
+        id: 'fixtures/client-component.jsx#ComponentF',
         exportName: 'ComponentF',
       },
       {
-        id: 'tests/loaders/fixtures/client-component.jsx#default',
+        id: 'fixtures/client-component.jsx#default',
         exportName: 'default',
       },
     ]);

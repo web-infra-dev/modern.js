@@ -38,7 +38,7 @@ export const createWebRequest = (
     body ||
     (!(method === 'GET' || method === 'HEAD') &&
       req.url?.includes('__loader')) ||
-      req.headers['x-mf-micro'] ||
+    req.headers['x-mf-micro'] ||
     req.headers['x-rsc-action']
   ) {
     init.body = body ?? createReadableStreamFromReadable(req);

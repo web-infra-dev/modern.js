@@ -106,6 +106,7 @@ export async function parseConfig(
   if (enableRsc) {
     rsbuildPlugins.push(
       rscRsbuildPlugin({
+        appDir: options.cwd,
         isRspack: false,
       }),
     );
