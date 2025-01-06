@@ -79,6 +79,10 @@ export const isWebOnly = async () => {
   return Boolean(options['web-only']);
 };
 
+export const isVersionBeyond17 = (version: string): boolean => {
+  return semver.gte(semver.minVersion(version)!, '17.0.0');
+};
+
 /**
  * @deprecated Use {@link isSupportAutomaticJsx} to check if the project supports automatic JSX instead.
  */
@@ -99,7 +103,7 @@ export const isBeyondReact17 = (cwd: string) => {
     return false;
   }
 
-  return semver.satisfies(semver.minVersion(deps.react)!, '>=17.0.0');
+  return isVersionBeyond17(deps.react);
 };
 
 export const isSupportAutomaticJsx = (cwd: string) => {
