@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "basic-rsc-app",
+  "name": "rsc-ssr-app",
   "version": "2.9.0",
   "scripts": {
     "dev": "BUNDLER=rspack modern dev",
