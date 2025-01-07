@@ -48,4 +48,5 @@ export type PluginManager = {
   getPlugins: () => Plugin[];
   addPlugins: (plugins: Array<Plugin | Falsy>) => void;
   clear: () => void;
+  isPluginExists: (name: string) => boolean;
 };
