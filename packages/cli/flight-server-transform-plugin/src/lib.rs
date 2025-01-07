@@ -84,13 +84,9 @@ where
         let path = PathBuf::from(&filename);
         let app_dir_path = PathBuf::from(&app_dir);
 
-        let relative_path = path
-            .strip_prefix(&app_dir_path)
-            .unwrap_or(&path)
-            .to_path_buf()
-            .to_slash()
-            .unwrap_or_else(|| std::borrow::Cow::Owned(path.to_string_lossy().into_owned()))
-            .into_owned();
+        let relative_path = path.strip_prefix(&app_dir_path)
+            .map(|p| p.to_path_buf().to_slash_lossy().into_owned())
+            .unwrap_or_else(|_| filename);
 
         Self {
             directive: None,
