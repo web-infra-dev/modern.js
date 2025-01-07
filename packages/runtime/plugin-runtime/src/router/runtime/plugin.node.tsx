@@ -15,7 +15,7 @@ import type React from 'react';
 import { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
-import type { Plugin, RuntimeContext } from '../../core';
+import type { Plugin } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
@@ -50,10 +50,7 @@ export const routerPlugin = (
       let finalRouteConfig: any = {};
 
       return {
-        async beforeRender(
-          context: RuntimeContext,
-          interrupt: (info: any) => any,
-        ) {
+        async beforeRender(context, interrupt) {
           const pluginConfig: Record<string, any> =
             api.useRuntimeConfigContext();
           const {
