@@ -8,6 +8,8 @@ export const afterMatch: AfterMatchHook = (ctx, next) => {
     router.rewrite('entry');
   } else if (pathname === '/redirect') {
     router.redirect('https://modernjs.dev/', 302);
+  } else {
+    router.rewrite('pc');
   }
 
   next();
