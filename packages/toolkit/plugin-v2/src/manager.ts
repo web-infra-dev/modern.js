@@ -171,5 +171,6 @@ export function createPluginManager(): PluginManager {
     getPlugins,
     addPlugins,
     clear,
+    isPluginExists: (name: string) => plugins.has(name),
   };
 }
