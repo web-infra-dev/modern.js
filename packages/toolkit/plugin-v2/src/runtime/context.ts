@@ -22,7 +22,7 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
   runtimeContext,
   config,
 }: {
-  runtimeContext: RuntimeContext<Extends>;
+  runtimeContext: RuntimeContext<Extends> & Extends['extendContext'];
   config: Extends['config'];
 }): InternalContext<Extends> {
   const { plugins } = runtimeContext;
@@ -36,7 +36,10 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
   return {
     ...runtimeContext,
     hooks: {
-      ...initHooks<Extends['config'], RuntimeContext<Extends>>(),
+      ...initHooks<
+        Extends['config'],
+        RuntimeContext<Extends> & Extends['extendContext']
+      >(),
       ...extendsHooks,
     },
     extendsHooks,

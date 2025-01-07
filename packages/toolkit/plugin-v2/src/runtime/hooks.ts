@@ -1,4 +1,8 @@
-import { createAsyncHook } from '../hooks';
+import {
+  createAsyncHook,
+  createAsyncInterruptHook,
+  createCollectAsyncHook,
+} from '../hooks';
 import type {
   ModifyRuntimeConfigFn,
   OnBeforeRenderFn,
@@ -8,11 +12,12 @@ import type {
 
 export function initHooks<RuntimeConfig, RuntimeContext>() {
   return {
-    onBeforeRender: createAsyncHook<OnBeforeRenderFn<RuntimeContext>>(),
+    onBeforeRender:
+      createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(),
     wrapRoot: createAsyncHook<WrapRootFn>(),
     pickContext: createAsyncHook<PickContextFn<RuntimeContext>>(),
     modifyRuntimeConfig:
-      createAsyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>(),
+      createCollectAsyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>(),
   };
 }
 

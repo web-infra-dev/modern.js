@@ -1,6 +1,42 @@
 import type { AsyncHook, CollectAsyncHook } from './types/hooks';
 import type { UnwrapPromise } from './types/utils';
 
+export function createAsyncInterruptHook<
+  Callback extends (...args: any[]) => any,
+>(): AsyncHook<Callback> {
+  const callbacks: Callback[] = [];
+
+  const tap = (cb: Callback) => {
+    callbacks.push(cb);
+  };
+
+  const call = async (...params: Parameters<Callback>) => {
+    let interrupted = false;
+    let interruptResult: any;
+
+    const interrupt = (info: any) => {
+      interrupted = true;
+      interruptResult = info;
+    };
+
+    for (const callback of callbacks) {
+      if (interrupted) break;
+      const result = await callback(...params, interrupt);
+
+      if (result !== undefined) {
+        params[0] = result;
+      }
+    }
+
+    return interrupted ? interruptResult : params[0] || [];
+  };
+
+  return {
+    tap,
+    call,
+  };
+}
+
 export function createAsyncHook<
   Callback extends (...args: any[]) => any,
 >(): AsyncHook<Callback> {
