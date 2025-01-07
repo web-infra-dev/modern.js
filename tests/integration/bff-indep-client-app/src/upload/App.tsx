@@ -1,5 +1,5 @@
+import { upload } from 'bff-api-app/api/upload';
 import { configure } from 'bff-api-app/runtime';
-import { upload } from 'bff-api-app/upload';
 import React, { useEffect } from 'react';
 
 configure({

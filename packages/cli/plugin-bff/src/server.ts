@@ -35,20 +35,9 @@ export default (): ServerPlugin => ({
     return {
       async prepare() {
         const appContext = api.useAppContext();
-        const {
-          appDirectory,
-          distDirectory,
-          render,
-          indepBffPrefix,
-          apiDirectory,
-        } = appContext;
+        const { appDirectory, distDirectory, render } = appContext;
         const root = isProd() ? distDirectory : appDirectory;
-
-        let apiPath = path.resolve(root || process.cwd(), API_DIR);
-
-        if (indepBffPrefix && apiDirectory) {
-          apiPath = apiDirectory;
-        }
+        const apiPath = path.resolve(root || process.cwd(), API_DIR);
         apiAppPath = path.resolve(apiPath, API_APP_NAME);
 
         const apiMod = await requireExistModule(apiAppPath);
@@ -64,8 +53,7 @@ export default (): ServerPlugin => ({
 
         /** bind api server */
         const config = api.useConfigContext();
-        const prefix =
-          (indepBffPrefix as string) || config?.bff?.prefix || '/api';
+        const prefix = config?.bff?.prefix || '/api';
         const enableHandleWeb = config?.bff?.enableHandleWeb;
         const httpMethodDecider = config?.bff?.httpMethodDecider;
 
@@ -143,7 +131,6 @@ export default (): ServerPlugin => ({
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
         const { apiDirectory, lambdaDirectory } = appContext;
-
         apiRouter = new ApiRouter({
           appDir: pwd,
           apiDir: (apiDirectory as string) || apiDir,

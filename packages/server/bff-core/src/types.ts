@@ -1,4 +1,3 @@
-// import type { Merge } from 'type-fest';
 type Merge<T, U> = T & Omit<U, keyof T>;
 
 export enum OperatorType {

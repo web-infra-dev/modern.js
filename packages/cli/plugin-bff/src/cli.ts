@@ -67,6 +67,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         api.useAppContext();
 
       const modernConfig = api.useResolvedConfigContext();
+      const relativeDistPath = modernConfig?.output?.distPath?.root || 'dist';
       const { bff } = modernConfig || {};
       const prefix = bff?.prefix || DEFAULT_API_PREFIX;
       const httpMethodDecider = bff?.httpMethodDecider;
@@ -83,7 +84,18 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const lambdaDir = apiRouter.getLambdaDir();
       const existLambda = apiRouter.isExistLambda();
 
-      const options = {
+      const runtime = (bff as any)?.runtime || RUNTIME_CREATE_REQUEST;
+      const relativeApiPath = path.relative(appDirectory, apiDirectory);
+      const relativeLambdaPath = path.relative(appDirectory, lambdaDir);
+
+      await pluginGenerator({
+        prefix,
+        appDirectory,
+        relativeDistPath,
+        relativeApiPath,
+        relativeLambdaPath,
+      });
+      await clientGenerator({
         prefix,
         appDir: appDirectory,
         apiDir: apiDirectory,
@@ -92,18 +104,22 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         port,
         requestCreator: (bff as any)?.requestCreator,
         httpMethodDecider,
-      };
-
-      const runtime = (bff as any)?.runtime || RUNTIME_CREATE_REQUEST;
-      await clientGenerator(options);
-      await pluginGenerator(prefix);
-      await runtimeGenerator(runtime);
+        relativeDistPath,
+        relativeApiPath,
+      });
+      await runtimeGenerator({
+        runtime,
+        appDirectory,
+        relativeDistPath,
+      });
     };
 
-    const handleCrossProjectInvocation = async () => {
+    const handleCrossProjectInvocation = async (isBuild = false) => {
       const { bff } = api.useResolvedConfigContext();
       if (bff?.enableCrossProjectInvocation) {
-        await compileApi();
+        if (!isBuild) {
+          await compileApi();
+        }
         await generator();
       }
     };
@@ -113,17 +129,11 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         return {
           tools: {
             bundlerChain: (chain, { CHAIN_ID, isServer }) => {
-              const {
-                port,
-                appDirectory,
-                apiDirectory,
-                lambdaDirectory,
-                indepBffPrefix,
-              } = api.useAppContext();
+              const { port, appDirectory, apiDirectory, lambdaDirectory } =
+                api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
-              const prefix =
-                indepBffPrefix || bff?.prefix || DEFAULT_API_PREFIX;
+              const prefix = bff?.prefix || DEFAULT_API_PREFIX;
               const httpMethodDecider = bff?.httpMethodDecider;
 
               const apiRouter = new ApiRouter({
@@ -178,10 +188,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       modifyServerRoutes({ routes }) {
         const modernConfig = api.useResolvedConfigContext();
 
-        const { indepBffPrefix } = api.useAppContext();
-
         const { bff } = modernConfig || {};
-        const prefix = indepBffPrefix || bff?.prefix || '/api';
+        const prefix = bff?.prefix || '/api';
 
         const prefixList: string[] = [];
 
@@ -226,27 +234,18 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       },
 
       async afterBuild() {
-        const { bff } = api.useResolvedConfigContext();
         await compileApi();
-
-        if (bff?.enableCrossProjectInvocation) {
-          await generator();
-        }
+        await handleCrossProjectInvocation(true);
       },
       async watchFiles() {
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
-        const { generateWatchFiles } = require('@modern-js/app-tools');
-        const files = await generateWatchFiles(
-          appContext,
-          config.source.configDir,
-        );
 
         if (config?.bff?.enableCrossProjectInvocation) {
-          files.push(appContext.apiDirectory);
+          return [appContext.apiDirectory];
+        } else {
+          return [];
         }
-
-        return files;
       },
 
       async fileChange(e: {
@@ -255,10 +254,12 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         isPrivate: boolean;
       }) {
         const { filename, eventType, isPrivate } = e;
+        const { appDirectory, apiDirectory } = api.useAppContext();
+        const relativeApiPath = path.relative(appDirectory, apiDirectory);
         if (
           !isPrivate &&
           (eventType === 'change' || eventType === 'unlink') &&
-          filename.startsWith('api/')
+          filename.startsWith(`${relativeApiPath}/`)
         ) {
           await handleCrossProjectInvocation();
         }

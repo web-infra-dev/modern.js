@@ -1,7 +1,7 @@
-import context from 'bff-api-app/context/index';
-import hello, { postHello } from 'bff-api-app/index';
+import context from 'bff-api-app/api/context/index';
+import hello, { postHello } from 'bff-api-app/api/index';
+import getUser from 'bff-api-app/api/user/[id]';
 import { configure } from 'bff-api-app/runtime';
-import getUser from 'bff-api-app/user/[id]';
 import { useEffect, useState } from 'react';
 
 configure({

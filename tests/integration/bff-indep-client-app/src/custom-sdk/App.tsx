@@ -1,5 +1,5 @@
 import { useLoader } from '@modern-js/runtime';
-import hello from 'bff-api-app/index';
+import hello from 'bff-api-app/api/index';
 import { configure } from 'bff-api-app/runtime';
 
 configure({

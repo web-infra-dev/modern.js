@@ -12,6 +12,8 @@ export type APILoaderOptions = {
   port?: number;
   requestCreator?: string;
   httpMethodDecider?: HttpMethodDecider;
+  relativeDistPath: string;
+  relativeApiPath: string;
 };
 
 interface FileDetails {
@@ -26,6 +28,7 @@ interface FileDetails {
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
+  relativeDistPath: string,
 ): Promise<FileDetails[]> {
   const filesList: FileDetails[] = [];
 
@@ -45,7 +48,7 @@ export async function readDirectoryFiles(
         const parsedPath = path.parse(relativePath);
 
         const targetDir = path.join(
-          './dist/client',
+          `./${relativeDistPath}/client`,
           parsedPath.dir,
           `${parsedPath.name}.js`,
         );
@@ -56,7 +59,7 @@ export async function readDirectoryFiles(
           currentPath,
         );
         const typesFilePath = path.join(
-          './dist',
+          `./${relativeDistPath}`,
           relativePathFromAppDirectory,
           `${name}.d.ts`,
         );
@@ -91,16 +94,20 @@ async function setPackage(
     targetDir: string;
     relativeTargetDistDir: string;
   }[],
+  appDirectory: string,
+  relativeDistPath: string,
+  relativeApiPath: string,
 ) {
   try {
-    const packagePath = path.join(process.cwd(), 'package.json');
-    const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    const packagePath = path.resolve(appDirectory, './package.json');
+    const packageContent = await fs.readFile(packagePath, 'utf8');
+    const packageJson = JSON.parse(packageContent);
 
     packageJson.exports = packageJson.exports || {};
     packageJson.typesVersions = packageJson.typesVersions || { '*': {} };
 
     files.forEach(file => {
-      const exportKey = `./${file.exportKey}`;
+      const exportKey = `./api/${file.exportKey}`;
       const jsFilePath = `./${file.targetDir}`;
       const typePath = file.relativeTargetDistDir;
 
@@ -109,21 +116,30 @@ async function setPackage(
         types: typePath,
       };
 
-      packageJson.typesVersions['*'][file.exportKey] = [typePath];
+      packageJson.typesVersions['*'][`api/${file.exportKey}`] = [typePath];
     });
 
-    packageJson.exports['./server-plugin'] = `./dist/server-plugin/index.js`;
+    packageJson.exports['./plugin'] = {
+      require: `./${relativeDistPath}/plugin/index.js`,
+      types: `./${relativeDistPath}/plugin/index.d.ts`,
+    };
 
     packageJson.exports['./runtime'] = {
-      import: './dist/runtime/index.js',
-      types: './dist/runtime/index.d.ts',
+      import: `./${relativeDistPath}/runtime/index.js`,
+      types: `./${relativeDistPath}/runtime/index.d.ts`,
     };
-    packageJson.typesVersions['*'].runtime = ['./dist/runtime/index.d.ts'];
+    packageJson.typesVersions['*'].runtime = [
+      `./${relativeDistPath}/runtime/index.d.ts`,
+    ];
+    packageJson.typesVersions['*'].plugin = [
+      `./${relativeDistPath}/plugin/index.d.ts`,
+    ];
 
     packageJson.files = [
-      'dist/client/**/*',
-      'dist/api/**/*',
-      'dist/runtime/**/*',
+      `./${relativeDistPath}/client/**/*`,
+      `./${relativeDistPath}/${relativeApiPath}/**/*`,
+      `./${relativeDistPath}/runtime/**/*`,
+      `./${relativeDistPath}/plugin/**/*`,
     ];
 
     await fs.promises.writeFile(
@@ -139,6 +155,7 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
   const sourceList = await readDirectoryFiles(
     draftOptions.appDir,
     draftOptions.lambdaDir,
+    draftOptions.relativeDistPath,
   );
 
   const getClitentCode = async (resourcePath: string, source: string) => {
@@ -170,8 +187,6 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
       return;
     }
 
-    options.requireResolve = require.resolve;
-
     const result = await generateClient(options);
 
     return result;
@@ -189,7 +204,12 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     logger.error(`Client bundle generate failed: ${error}`);
   }
 
-  setPackage(sourceList);
+  setPackage(
+    sourceList,
+    draftOptions.appDir,
+    draftOptions.relativeDistPath,
+    draftOptions.relativeApiPath,
+  );
 }
 
 export default clientGenerator;

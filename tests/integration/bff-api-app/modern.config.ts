@@ -11,4 +11,9 @@ export default applyBaseConfig({
   server: {
     port: 3399,
   },
+  output: {
+    distPath: {
+      root: 'dist-1',
+    },
+  },
 });

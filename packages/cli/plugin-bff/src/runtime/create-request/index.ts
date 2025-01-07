@@ -1,4 +1,3 @@
-// export * from '@modern-js/create-request';
 import {
   configure,
   createRequest,

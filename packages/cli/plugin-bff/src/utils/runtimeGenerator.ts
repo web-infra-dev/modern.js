@@ -1,12 +1,17 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 
-async function runtimeGenerator(runtime: string) {
-  const cwd = process.cwd();
-  const pluginPath = path.resolve(cwd, './dist', 'runtime');
-  if (!fs.existsSync(pluginPath)) {
-    fs.mkdirSync(pluginPath);
-  }
+async function runtimeGenerator({
+  runtime,
+  appDirectory,
+  relativeDistPath,
+}: { runtime: string; appDirectory: string; relativeDistPath: string }) {
+  const pluginDir = path.resolve(
+    appDirectory,
+    `./${relativeDistPath}`,
+    'runtime',
+  );
+
   const source = `import { configure as _configure } from '${runtime}'
     const configure = (options) => {
       return _configure({
@@ -16,6 +21,9 @@ async function runtimeGenerator(runtime: string) {
     }
     export { configure }
   `;
+  const pluginPath = path.join(pluginDir, 'index.js');
+  await fs.ensureFile(pluginPath);
+  await fs.writeFile(pluginPath, source);
 
   const tsSource = `type IOptions<F = typeof fetch> = {
     request?: F;
@@ -24,10 +32,9 @@ async function runtimeGenerator(runtime: string) {
     requestId?: string;
   };
   export declare const configure: (options: IOptions) => void;`;
-
-  fs.writeFileSync(path.join(pluginPath, 'index.js'), source);
-
-  fs.writeFileSync(path.join(pluginPath, 'index.d.ts'), tsSource);
+  const pluginTypePath = path.join(pluginDir, 'index.d.ts');
+  await fs.ensureFile(pluginTypePath);
+  await fs.writeFile(pluginTypePath, tsSource);
 }
 
 export default runtimeGenerator;

@@ -7,13 +7,11 @@ import {
   Query,
   useContext,
 } from '@modern-js/runtime/server';
-import { COMMON_PREFIX } from '@shared/index';
 import { z } from 'zod';
 
 export default async () => {
   return {
     message: 'Hello get bff-api-app',
-    prefix: COMMON_PREFIX,
   };
 };
 

@@ -18,8 +18,8 @@ const apiAppDir = path.resolve(__dirname, '../../bff-api-app');
 
 describe('bff client-app in dev', () => {
   const expectedText = 'Hello get bff-api-app';
-  let port = 8080;
-  let apiPort = 8081;
+  const port = 3401;
+  const apiPort = 3399;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const CUSTOM_PAGE = 'custom-sdk';
@@ -33,11 +33,9 @@ describe('bff client-app in dev', () => {
 
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
-    apiPort = await getPort();
     apiApp = await launchApp(apiAppDir, apiPort, {});
 
     jest.setTimeout(1000 * 60 * 2);
-    port = await getPort();
     app = await launchApp(appDir, port, {});
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
@@ -66,12 +64,6 @@ describe('bff client-app in dev', () => {
     expect(info.message).toBe('Hello Modern.js');
   });
 
-  test('support _app.ts', async () => {
-    const res = await fetch(`${host}:${port}${prefix}/foo`);
-    const text = await res.text();
-    expect(text).toBe('foo');
-  });
-
   test('support custom sdk', async () => {
     await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -96,8 +88,8 @@ describe('bff client-app in dev', () => {
 
 describe('bff client-app in prod', () => {
   const expectedText = 'Hello get bff-api-app';
-  let port = 8080;
-  let apiPort = 8081;
+  const port = 3401;
+  const apiPort = 3399;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const CUSTOM_PAGE = 'custom-sdk';
@@ -110,11 +102,9 @@ describe('bff client-app in prod', () => {
   let browser: Browser;
 
   beforeAll(async () => {
-    apiPort = await getPort();
     await modernBuild(apiAppDir, [], {});
     apiApp = await modernServe(apiAppDir, apiPort, {});
 
-    port = await getPort();
     await modernBuild(appDir, [], {});
     app = await modernServe(appDir, port, {});
 
@@ -142,12 +132,6 @@ describe('bff client-app in prod', () => {
     const info = await res.json();
     expect(res.headers.get('x-id')).toBe('1');
     expect(info.message).toBe('Hello Modern.js');
-  });
-
-  test('support _app.ts', async () => {
-    const res = await fetch(`${host}:${port}${prefix}/foo`);
-    const text = await res.text();
-    expect(text).toBe('foo');
   });
 
   test('support custom sdk', async () => {

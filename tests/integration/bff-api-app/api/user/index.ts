@@ -23,6 +23,6 @@ export default async () => {
 export const post = async () => {
   console.log('User post bff-api-app');
   return {
-    message: 'User post bff-api-app12',
+    message: 'User post bff-api-app',
   };
 };

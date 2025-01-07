@@ -1,3 +1,4 @@
+import path from 'path';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
@@ -177,11 +178,9 @@ export const appTools = (
     api.onFileChanged(async e => {
       const { filename, eventType, isPrivate } = e;
 
-      const config = api.getNormalizedConfig();
-
-      const isApiProject =
-        !!config?.bff?.enableCrossProjectInvocation &&
-        filename.startsWith('api/');
+      const { appDirectory, apiDirectory } = api.getAppContext();
+      const relativeApiPath = path.relative(appDirectory, apiDirectory);
+      const isApiProject = filename.startsWith(`${relativeApiPath}/`);
 
       if (
         !isPrivate &&

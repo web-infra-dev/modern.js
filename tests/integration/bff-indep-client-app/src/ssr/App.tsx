@@ -1,7 +1,7 @@
 import { useLoader } from '@modern-js/runtime';
-import hello from 'bff-api-app/index';
+import hello from 'bff-api-app/api/index';
+import user from 'bff-api-app/api/user/index';
 import { configure } from 'bff-api-app/runtime';
-import user from 'bff-api-app/user/index';
 import { useEffect, useState } from 'react';
 
 configure({
@@ -10,8 +10,6 @@ configure({
       let path = url;
       if (!url.toString().includes('http')) {
         path = `http://127.0.0.1:3399${url}`;
-      } else {
-        path = path.toString().replace('8080', '3399');
       }
       const res = await request(path, params);
       return res.json();

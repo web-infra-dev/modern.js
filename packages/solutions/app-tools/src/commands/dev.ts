@@ -102,7 +102,6 @@ export const dev = async (
       internalDirectory: appContext.internalDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
-      indepBffPrefix: appContext.indepBffPrefix,
       sharedDirectory: appContext.sharedDirectory,
     },
     serverConfigPath,

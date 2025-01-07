@@ -88,13 +88,10 @@ describe('bff cli plugin', () => {
     });
   });
   it('generator client', async () => {
-    console.log(
-      'path.resol',
-      path.resolve(__dirname, './fixtures/function/api'),
-    );
     const result = await readDirectoryFiles(
       path.resolve(__dirname, './fixtures/function'),
       path.resolve(__dirname, './fixtures/function/api'),
+      'dist',
     );
 
     expect(result).toMatchSnapshot();

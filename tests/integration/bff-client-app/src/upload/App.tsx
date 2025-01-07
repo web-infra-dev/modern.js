@@ -1,4 +1,4 @@
-import { upload } from 'bff-api-app/upload';
+import { upload } from 'bff-api-app/api/upload';
 import React, { useEffect } from 'react';
 
 const getMockImage = () => {

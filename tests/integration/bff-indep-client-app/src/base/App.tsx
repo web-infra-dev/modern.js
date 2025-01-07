@@ -1,12 +1,11 @@
 import innerHello from '@api/index';
-import context from 'bff-api-app/context/index';
-import hello, { postHello, post } from 'bff-api-app/index';
-
 import { configure as innerConfigure } from '@modern-js/runtime/bff';
 import type { AxiosRequestHeaders as Headers, Method } from 'axios';
 import axios from 'axios';
+import context from 'bff-api-app/api/context/index';
+import hello, { postHello, post } from 'bff-api-app/api/index';
+import getUser from 'bff-api-app/api/user/[id]';
 import { configure } from 'bff-api-app/runtime';
-import getUser from 'bff-api-app/user/[id]';
 import { useEffect, useState } from 'react';
 
 configure({

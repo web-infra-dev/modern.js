@@ -1,6 +1,6 @@
 import { bffPlugin } from '@modern-js/plugin-bff';
 import { expressPlugin } from '@modern-js/plugin-express';
-import { serverPlugin } from 'bff-api-app/server-plugin';
+import { crossProjectApiPlugin } from 'bff-api-app/plugin';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
@@ -9,6 +9,7 @@ export default applyBaseConfig({
   },
   server: {
     ssr: true,
+    port: 3401,
   },
-  plugins: [bffPlugin(), expressPlugin(), serverPlugin()],
+  plugins: [bffPlugin(), expressPlugin(), crossProjectApiPlugin()],
 });

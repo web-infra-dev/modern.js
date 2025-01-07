@@ -1,45 +1,83 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
-import { API_APP_PACKAGE_NAME, API_APP_PREFIX } from './serverPlugin';
+import {
+  API_DIR,
+  DIST_DIR,
+  LAMBDA_DIR,
+  PACKAGE_NAME,
+  PREFIX,
+} from './crossProjectApiPlugin';
 
-async function readPackageJson() {
-  const packagePath = path.join(process.cwd(), 'package.json');
-  const packageData = await fs.readFile(packagePath, 'utf8');
-  return JSON.parse(packageData);
-}
-
-function replaceContent(source: string, packageName: string, prefix: string) {
+function replaceContent(
+  source: string,
+  packageName: string,
+  prefix: string,
+  relativeDistPath: string,
+  relativeApiPath: string,
+  relativeLambdaPath: string,
+) {
   const updatedSource = source
-    .replace(new RegExp(API_APP_PACKAGE_NAME, 'g'), packageName)
-    .replace(new RegExp(API_APP_PREFIX, 'g'), prefix);
+    .replace(new RegExp(PACKAGE_NAME, 'g'), packageName)
+    .replace(new RegExp(PREFIX, 'g'), prefix)
+    .replace(new RegExp(DIST_DIR, 'g'), relativeDistPath)
+    .replace(new RegExp(API_DIR, 'g'), relativeApiPath)
+    .replace(new RegExp(LAMBDA_DIR, 'g'), relativeLambdaPath);
   return updatedSource;
 }
 
-async function pluginGenerator(prefix: string) {
+async function pluginGenerator({
+  prefix,
+  appDirectory,
+  relativeDistPath,
+  relativeApiPath,
+  relativeLambdaPath,
+}: {
+  prefix: string;
+  appDirectory: string;
+  relativeDistPath: string;
+  relativeApiPath: string;
+  relativeLambdaPath: string;
+}) {
   try {
-    const packageJson = await readPackageJson();
-    const cwd = process.cwd();
-    const pluginPath = path.resolve(cwd, './dist', 'server-plugin');
+    const packageContent = await fs.readFile(
+      path.resolve(appDirectory, './package.json'),
+      'utf8',
+    );
+    const packageJson = JSON.parse(packageContent);
 
-    if (!fs.existsSync(pluginPath)) {
-      fs.mkdirSync(pluginPath);
-    }
+    const pluginDir = path.resolve(
+      appDirectory,
+      `./${relativeDistPath}`,
+      'plugin',
+    );
+    const pluginPath = path.join(pluginDir, 'index.js');
 
     const pluginTemplate = await fs.readFile(
-      path.resolve(__dirname, 'serverPlugin.js'),
+      path.resolve(__dirname, 'crossProjectApiPlugin.js'),
       'utf8',
     );
     const updatedPlugin = replaceContent(
       pluginTemplate,
       packageJson.name,
       prefix,
+      relativeDistPath,
+      relativeApiPath,
+      relativeLambdaPath,
     );
 
-    fs.writeFileSync(path.join(pluginPath, 'index.js'), updatedPlugin);
+    await fs.ensureFile(pluginPath);
+    await fs.writeFile(pluginPath, updatedPlugin);
 
-    logger.info('Server plugin generate succeed');
+    const typeContent = `import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+      export declare const crossProjectApiPlugin: () => CliPlugin<AppTools>`;
+
+    const pluginTypePath = path.join(pluginDir, 'index.d.ts');
+    await fs.ensureFile(pluginTypePath);
+    await fs.writeFile(pluginTypePath, typeContent);
+
+    logger.info('Api plugin generate succeed');
   } catch (error) {
-    logger.error('Server plugin generate failed:', error);
+    logger.error('Api plugin generate failed:', error);
   }
 }
 
