@@ -1,6 +1,8 @@
 import type { InternalRuntimeContext, Plugin } from '@modern-js/plugin-v2';
 import { runtime } from '@modern-js/plugin-v2/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
+import { compatPlugin } from '../compat';
+import { handleSetupResult } from '../compat/hooks';
 import { setGlobalInternalRuntimeContext } from '../context';
 import type { Plugin as OldRuntimePlugin } from './base';
 import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
@@ -14,9 +16,10 @@ export function registerPlugin(
   customRuntime?: typeof runtime,
 ) {
   const { plugins = [] } = runtimeConfig || {};
-  const { runtimeContext } = (customRuntime || runtime).init({
-    plugins: [...internalPlugins, ...plugins] as Plugin[],
+  const { runtimeContext } = (customRuntime || runtime).run({
+    plugins: [compatPlugin(), ...internalPlugins, ...plugins] as Plugin[],
     config: runtimeConfig || {},
+    handleSetupResult,
   });
   setGlobalInternalRuntimeContext(
     runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>,

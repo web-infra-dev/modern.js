@@ -17,9 +17,15 @@ export type CollectAsyncHook<Callback extends (...params: any[]) => any> = {
   ) => Promise<UnwrapPromise<ReturnType<Callback>>[]>;
 };
 
+export type CollectSyncHook<Callback extends (...params: any[]) => any> = {
+  tap: (cb: Callback) => void;
+  call: (...params: Parameters<Callback>) => ReturnType<Callback>[];
+};
+
 export type PluginHook<Callback extends (...args: any[]) => any> =
   | SyncHook<Callback>
   | AsyncHook<Callback>
+  | CollectSyncHook<Callback>
   | CollectAsyncHook<Callback>;
 
 export type PluginHookTap<T extends (...args: any[]) => any> = (
