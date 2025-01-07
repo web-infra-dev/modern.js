@@ -1,6 +1,8 @@
 export { createPluginManager } from './manager';
 export {
+  createSyncHook,
   createAsyncHook,
+  createCollectSyncHook,
   createCollectAsyncHook,
   createAsyncInterruptHook,
 } from './hooks';

@@ -1,4 +1,9 @@
-import type { AsyncHook, CollectAsyncHook, SyncHook } from './types/hooks';
+import type {
+  AsyncHook,
+  CollectAsyncHook,
+  CollectSyncHook,
+  SyncHook,
+} from './types/hooks';
 import type { UnwrapPromise } from './types/utils';
 
 export function createAsyncInterruptHook<
@@ -104,6 +109,34 @@ export function createCollectAsyncHook<
     const results: UnwrapPromise<ReturnType<Callback>>[] = [];
     for (const callback of callbacks) {
       const result = await callback(params);
+
+      if (result !== undefined) {
+        results.push(result);
+      }
+    }
+
+    return results;
+  };
+
+  return {
+    tap,
+    call,
+  };
+}
+
+export function createCollectSyncHook<
+  Callback extends (...params: any[]) => any,
+>(): CollectSyncHook<Callback> {
+  const callbacks: Callback[] = [];
+
+  const tap = (cb: Callback) => {
+    callbacks.push(cb);
+  };
+
+  const call = (...params: Parameters<Callback>) => {
+    const results: ReturnType<Callback>[] = [];
+    for (const callback of callbacks) {
+      const result = callback(params);
 
       if (result !== undefined) {
         results.push(result);

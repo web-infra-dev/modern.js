@@ -1,3 +1,4 @@
+import { merge } from '@modern-js/utils/lodash';
 import { createPluginManager } from '../../manager';
 import { initPluginAPI } from '../../runtime/api';
 import {
@@ -47,8 +48,13 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
     return { runtimeContext: context };
   }
 
-  async function run(options: RuntimeRunOptions) {
-    await init(options);
+  function run(options: RuntimeRunOptions) {
+    const { runtimeContext } = init(options);
+    const configs = runtimeContext.hooks.modifyRuntimeConfig.call(
+      runtimeContext.config,
+    );
+    runtimeContext.config = merge({}, ...configs);
+    return { runtimeContext };
   }
 
   return {

@@ -13,4 +13,5 @@ export type InternalRuntimeContext<Extends extends RuntimePluginExtends> =
     extendsHooks: Extends['extendHooks'];
     config: Extends['config'];
     pluginAPI?: RuntimePluginAPI<Extends>;
+    _internalContext?: InternalRuntimeContext<Extends>;
   };

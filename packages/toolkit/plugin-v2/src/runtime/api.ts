@@ -26,6 +26,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     if (context) {
       const { hooks, extendsHooks, config, pluginAPI, ...runtimeContext } =
         context;
+      runtimeContext._internalContext = context;
       return runtimeContext as RuntimeContext & Extends['extendContext'];
     }
     throw new Error('Cannot access context');
