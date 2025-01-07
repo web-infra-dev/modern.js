@@ -1,4 +1,5 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
+use path_slash::PathBufExt;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use swc_core::{
@@ -80,8 +81,17 @@ where
     C: Comments,
 {
     fn new(filename: String, comments: Option<C>, app_dir: String, runtime_path: String) -> Self {
-        let path = Path::new(&filename);
-        let relative_path = path.strip_prefix(&app_dir).unwrap_or(path).to_string_lossy().into_owned();
+        let path = PathBuf::from(&filename);
+        let app_dir_path = PathBuf::from(&app_dir);
+
+        let relative_path = path
+            .strip_prefix(&app_dir_path)
+            .unwrap_or(&path)
+            .to_path_buf()
+            .to_slash()
+            .unwrap_or_else(|| std::borrow::Cow::Owned(path.to_string_lossy().into_owned()))
+            .into_owned();
+
         Self {
             directive: None,
             references: vec![],
