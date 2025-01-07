@@ -35,11 +35,17 @@ import { render } from '@${metaName}/runtime/browser';
 
 ${
   enableRsc
-    ? `import { RscClientRoot, createFromReadableStream, rscStream } from '@modern-js/runtime/rsc/client';`
+    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@modern-js/runtime/rsc/client';`
     : ''
 }
 
-${enableRsc ? `const data = createFromReadableStream(rscStream);` : ''}
+${
+  enableRsc
+    ? `const data = createFromReadableStream(rscStream, {
+    callServer: callServer,
+  });`
+    : ''
+}
 
 ${
   customBootstrap

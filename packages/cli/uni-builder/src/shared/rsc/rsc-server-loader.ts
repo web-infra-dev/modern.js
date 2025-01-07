@@ -73,8 +73,8 @@ export default async function rscServerLoader(
       });
     }
   } else if (metadata) {
-    const { directive, exportNames } = metadata;
-    if (directive && directive === 'server' && exportNames.length > 0) {
+    const { exportNames } = metadata;
+    if (exportNames.length > 0) {
       setRscBuildInfo(this._module!, {
         type: 'server',
         resourcePath: this.resourcePath,
