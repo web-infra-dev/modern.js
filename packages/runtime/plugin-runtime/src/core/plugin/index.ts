@@ -1,31 +1,26 @@
+import type { InternalRuntimeContext, Plugin } from '@modern-js/plugin-v2';
+import { runtime } from '@modern-js/plugin-v2/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
-import { type Plugin, RuntimeConfigContext, runtime } from './base';
-import { getGlobalRunner, setGlobalRunner } from './runner';
+import { setGlobalInternalRuntimeContext } from '../context';
+import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
 
-export * from './base';
-
-export interface RuntimeConfig {
-  plugins?: Plugin[];
-}
-
-function setupConfigContext() {
-  const runner = getGlobalRunner();
-  const configs = runner.modifyRuntimeConfig();
-  RuntimeConfigContext.set(merge({}, ...configs));
-}
+// old type
+export type { Plugin } from './base';
 
 export function registerPlugin(
-  internalPlugins: Plugin[],
+  internalPlugins: RuntimePlugin[],
   runtimeConfig?: RuntimeConfig,
   customRuntime?: typeof runtime,
 ) {
   const { plugins = [] } = runtimeConfig || {};
-  (customRuntime || runtime).usePlugin(...internalPlugins, ...plugins);
-  const runner = (customRuntime || runtime).init();
-  // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
-  setGlobalRunner(runner);
-  setupConfigContext();
-  return runner;
+  const { runtimeContext } = (customRuntime || runtime).init({
+    plugins: [...internalPlugins, ...plugins] as Plugin[],
+    config: runtimeConfig || {},
+  });
+  setGlobalInternalRuntimeContext(
+    runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>,
+  );
+  return runtimeContext;
 }
 
 export function mergeConfig(

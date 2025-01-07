@@ -20,5 +20,5 @@ export interface RuntimePluginExtends<
  */
 export type RuntimePlugin<Extends extends RuntimePluginExtends> = Plugin<
   RuntimePluginAPI<Extends> & Extends['extendApi'],
-  RuntimeContext<Extends> & Extends['extendContext']
+  RuntimeContext & Extends['extendContext']
 >;

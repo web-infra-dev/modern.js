@@ -1,18 +1,13 @@
 import type { Hooks } from '../../runtime/hooks';
 import type { RuntimePluginAPI } from './api';
-import type { RuntimePlugin, RuntimePluginExtends } from './plugin';
+import type { RuntimePluginExtends } from './plugin';
 
-export interface RuntimeContext<Extends extends RuntimePluginExtends> {
-  plugins: RuntimePlugin<Extends>[];
-}
+export type RuntimeContext = {};
 
-export type InternalContext<Extends extends RuntimePluginExtends> =
-  RuntimeContext<Extends> & {
+export type InternalRuntimeContext<Extends extends RuntimePluginExtends> =
+  RuntimeContext & {
     /** All hooks. */
-    hooks: Hooks<
-      Extends['config'],
-      RuntimeContext<Extends> & Extends['extendContext']
-    > &
+    hooks: Hooks<Extends['config'], RuntimeContext & Extends['extendContext']> &
       Extends['extendHooks'];
     /** All plugin registry hooks */
     extendsHooks: Extends['extendHooks'];

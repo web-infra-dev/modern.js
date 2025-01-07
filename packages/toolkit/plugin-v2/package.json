@@ -30,11 +30,6 @@
       },
       "default": "./dist/esm/index.js"
     },
-    "./types": {
-      "types": "./dist/types/types/index.d.ts",
-      "jsnext:source": "./src/types/index.ts",
-      "default": "./dist/cjs/types/index.js"
-    },
     "./run": {
       "types": "./dist/types/cli/run/run.d.ts",
       "jsnext:source": "./src/cli/run/run.ts",
@@ -44,6 +39,11 @@
       "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
+      "default": "./dist/cjs/runtime/index.js"
     }
   },
   "typesVersions": {
@@ -56,6 +56,9 @@
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
       ]
     }
   },

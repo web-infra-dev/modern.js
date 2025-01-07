@@ -2,6 +2,7 @@ import {
   createAsyncHook,
   createAsyncInterruptHook,
   createCollectAsyncHook,
+  createSyncHook,
 } from '../hooks';
 import type {
   ModifyRuntimeConfigFn,
@@ -14,7 +15,7 @@ export function initHooks<RuntimeConfig, RuntimeContext>() {
   return {
     onBeforeRender:
       createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(),
-    wrapRoot: createAsyncHook<WrapRootFn>(),
+    wrapRoot: createSyncHook<WrapRootFn>(),
     pickContext: createAsyncHook<PickContextFn<RuntimeContext>>(),
     modifyRuntimeConfig:
       createCollectAsyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>(),

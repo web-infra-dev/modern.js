@@ -10,15 +10,11 @@ import type {
 import type { RuntimePluginExtends } from './plugin';
 
 export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<{
-  getRuntimeContext: () => Readonly<
-    RuntimeContext<Extends> & Extends['extendContext']
-  >;
-  updateRuntimeContext: (
-    updateContext: DeepPartial<RuntimeContext<Extends>>,
-  ) => void;
+  getRuntimeContext: () => Readonly<RuntimeContext & Extends['extendContext']>;
+  updateRuntimeContext: (updateContext: DeepPartial<RuntimeContext>) => void;
   getRuntimeConfig: () => Readonly<Extends['config']>;
   onBeforeRender: PluginHookTap<OnBeforeRenderFn<Extends['extendContext']>>;
   wrapRoot: PluginHookTap<WrapRootFn>;
-  pickContext: PluginHookTap<PickContextFn<RuntimeContext<Extends>>>;
+  pickContext: PluginHookTap<PickContextFn<RuntimeContext>>;
   modifyRuntimeConfig: PluginHookTap<ModifyRuntimeConfigFn<Extends['config']>>;
 }>;

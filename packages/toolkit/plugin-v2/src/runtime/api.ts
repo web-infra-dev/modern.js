@@ -2,32 +2,37 @@ import { merge } from '@modern-js/utils/lodash';
 import type { PluginHookTap } from '../types';
 import type { PluginManager } from '../types/plugin';
 import type { RuntimePluginAPI } from '../types/runtime/api';
-import type { InternalContext, RuntimeContext } from '../types/runtime/context';
-import type { RuntimePluginExtends } from '../types/runtime/plugin';
+import type {
+  InternalRuntimeContext,
+  RuntimeContext,
+} from '../types/runtime/context';
+import type {
+  RuntimePlugin,
+  RuntimePluginExtends,
+} from '../types/runtime/plugin';
 import type { DeepPartial } from '../types/utils';
 
 export function initPluginAPI<Extends extends RuntimePluginExtends>({
   context,
+  plugins,
 }: {
-  context: InternalContext<Extends>;
+  context: InternalRuntimeContext<Extends>;
   pluginManager: PluginManager;
+  plugins: RuntimePlugin<Extends>[];
 }): RuntimePluginAPI<Extends> {
-  const { hooks, plugins } = context;
+  const { hooks } = context;
 
   function getRuntimeContext() {
     if (context) {
       const { hooks, extendsHooks, config, pluginAPI, ...runtimeContext } =
         context;
-      return runtimeContext as RuntimeContext<Extends> &
-        Extends['extendContext'];
+      return runtimeContext as RuntimeContext & Extends['extendContext'];
     }
     throw new Error('Cannot access context');
   }
 
   function updateRuntimeContext(
-    updateContext: DeepPartial<
-      RuntimeContext<Extends> & Extends['extendContext']
-    >,
+    updateContext: DeepPartial<RuntimeContext & Extends['extendContext']>,
   ) {
     context = merge(context, updateContext);
   }

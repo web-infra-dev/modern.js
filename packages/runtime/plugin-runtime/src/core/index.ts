@@ -1,5 +1,3 @@
-export { runtime } from './plugin';
-
 export type { Plugin } from './plugin';
 
 export { defineConfig, getConfig, defineRuntimeConfig } from './config';

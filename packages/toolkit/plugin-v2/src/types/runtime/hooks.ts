@@ -2,8 +2,8 @@ import type React from 'react';
 
 export type OnBeforeRenderFn<RuntimeContext> = (
   context: RuntimeContext,
-  interrupt: (info: any) => void,
-) => Promise<void> | void;
+  interrupt: (info: any) => any,
+) => Promise<any> | any;
 
 export type WrapRootFn = (
   root: React.ComponentType<any>,
