@@ -1,5 +1,9 @@
 export { createPluginManager } from './manager';
-export { createAsyncHook, createCollectAsyncHook } from './hooks';
+export {
+  createAsyncHook,
+  createCollectAsyncHook,
+  createAsyncInterruptHook,
+} from './hooks';
 
 export type {
   Plugin,

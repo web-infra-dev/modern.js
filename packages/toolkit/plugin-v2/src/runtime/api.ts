@@ -25,7 +25,9 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   }
 
   function updateRuntimeContext(
-    updateContext: DeepPartial<RuntimeContext<Extends>>,
+    updateContext: DeepPartial<
+      RuntimeContext<Extends> & Extends['extendContext']
+    >,
   ) {
     context = merge(context, updateContext);
   }
