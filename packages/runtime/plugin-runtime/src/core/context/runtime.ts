@@ -1,21 +1,15 @@
 import type { Store } from '@modern-js-reduck/store';
-import type {
-  Router,
-  RouterState,
-  StaticHandlerContext,
-} from '@modern-js/runtime-utils/remix-router';
+import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext } from 'react';
 import type { RouteManifest } from '../../router/runtime/types';
 import { createLoaderManager } from '../loader/loaderManager';
-import type { PluginRunner, runtime } from '../plugin';
 import type { SSRServerContext, TSSRContext } from '../types';
 
 interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
   loaderManager: ReturnType<typeof createLoaderManager>;
   isBrowser: boolean;
-  runner: ReturnType<typeof runtime.init>;
   // ssr type
   ssrContext?: SSRServerContext;
   // state type
@@ -50,12 +44,10 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
 }
 
 export const getInitialContext = (
-  runner: PluginRunner,
   isBrowser = true,
   routeManifest?: RouteManifest,
 ): RuntimeContext => ({
   loaderManager: createLoaderManager({}),
-  runner,
   isBrowser,
   routeManifest:
     routeManifest ||

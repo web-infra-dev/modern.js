@@ -19,6 +19,13 @@ export type {
   CLIPluginExtends,
 } from './types/cli';
 export type {
+  RuntimePluginAPI,
+  RuntimeContext,
+  InternalRuntimeContext,
+  RuntimePlugin,
+  RuntimePluginExtends,
+} from './types/runtime';
+export type {
   AsyncHook,
   CollectAsyncHook,
   PluginHook,

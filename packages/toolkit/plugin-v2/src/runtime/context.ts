@@ -1,5 +1,8 @@
 import type { PluginHook } from '../types/hooks';
-import type { InternalContext, RuntimeContext } from '../types/runtime/context';
+import type {
+  InternalRuntimeContext,
+  RuntimeContext,
+} from '../types/runtime/context';
 import type {
   RuntimePlugin,
   RuntimePluginExtends,
@@ -10,22 +13,19 @@ export interface RuntimeConfig<Extends extends RuntimePluginExtends> {
   plugins?: RuntimePlugin<Extends>[];
 }
 
-export function initRuntimeContext<
-  Extends extends RuntimePluginExtends,
->(params: { plugins: RuntimePlugin<Extends>[] }): RuntimeContext<Extends> {
-  return {
-    plugins: params.plugins,
-  };
+export function initRuntimeContext(): RuntimeContext {
+  return {};
 }
 
 export function createRuntimeContext<Extends extends RuntimePluginExtends>({
   runtimeContext,
   config,
+  plugins,
 }: {
-  runtimeContext: RuntimeContext<Extends> & Extends['extendContext'];
+  runtimeContext: RuntimeContext & Extends['extendContext'];
   config: Extends['config'];
-}): InternalContext<Extends> {
-  const { plugins } = runtimeContext;
+  plugins: RuntimePlugin<Extends>[];
+}): InternalRuntimeContext<Extends> {
   const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
   plugins.forEach(plugin => {
     const { registryHooks = {} } = plugin;
@@ -38,7 +38,7 @@ export function createRuntimeContext<Extends extends RuntimePluginExtends>({
     hooks: {
       ...initHooks<
         Extends['config'],
-        RuntimeContext<Extends> & Extends['extendContext']
+        RuntimeContext & Extends['extendContext']
       >(),
       ...extendsHooks,
     },

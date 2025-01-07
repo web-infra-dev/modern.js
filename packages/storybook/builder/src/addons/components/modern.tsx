@@ -7,7 +7,7 @@ import type { IConfig } from '../type';
 
 export const WrapProviders = (storyFn: any, config: IConfig) => {
   const App = createApp({
-    plugins: resolvePlugins(config.modernConfigRuntime),
+    plugins: resolvePlugins(config.modernConfigRuntime) as any,
   })(storyFn);
 
   return <App />;

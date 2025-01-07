@@ -1,8 +1,8 @@
-import { isFunction, logger } from '@modern-js/utils';
-import { debug } from './cli/run/utils/debug';
+import { isFunction } from '@modern-js/utils/lodash';
 import type { Plugin, PluginManager } from './types/plugin';
 import type { Falsy } from './types/utils';
-// Validates if the plugin is a valid CLIPlugin instance
+
+// Validates if the plugin is a valid plugin instance
 function validatePlugin(plugin: unknown) {
   const type = typeof plugin;
 
@@ -75,7 +75,7 @@ export function createPluginManager(): PluginManager {
     validatePlugin(newPlugin);
     const { name, usePlugins = [], pre = [], post = [] } = newPlugin;
     if (plugins.has(name)) {
-      logger.warn(`Plugin ${name} already exists.`);
+      console.warn(`Plugin ${name} already exists.`);
       return;
     }
     plugins.set(name, newPlugin);
@@ -152,11 +152,6 @@ export function createPluginManager(): PluginManager {
     });
 
     result = result.filter(result => result);
-
-    debug(
-      'CLI Plugins:',
-      result.map(p => p.name),
-    );
 
     return result;
   };
