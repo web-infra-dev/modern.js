@@ -9,6 +9,8 @@ export default applyBaseConfig({
   },
   server: {
     routes: {
+      pc: '/',
+      mobile: '/',
       home: '/rewrite',
       entry: '/redirect',
     },
