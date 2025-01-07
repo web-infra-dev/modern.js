@@ -24,11 +24,11 @@ async function qux() {
     return \`qux\`;
 }
 registerServerReference(qux, module.id, \\"qux\\");
-export default function() {
+export default function $$ACTION_0() {
     'use server';
     return \`default\`;
 }
-registerServerReference(default, module.id, \\"default\\");
+registerServerReference($$ACTION_0, module.id, \\"default\\");
 "
 `;
 
