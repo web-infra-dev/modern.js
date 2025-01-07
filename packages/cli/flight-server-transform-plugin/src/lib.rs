@@ -58,6 +58,7 @@ where
     comments: Option<C>,
     export_mappings: Vec<ExportInfo>,
     runtime_path: String,
+    action_count: u8,
 }
 
 #[derive(Debug)]
@@ -65,6 +66,13 @@ struct ServerReferenceInfo {
     position: usize,
     ident: Ident,
     local_name: String,
+}
+
+#[derive(Debug)]
+struct VarDeclInsertInfo {
+    position: usize,
+    ident: Ident,
+    expr: Box<Expr>,
 }
 
 impl<C> TransformVisitor<C>
@@ -81,6 +89,7 @@ where
             comments,
             export_mappings: vec![],
             runtime_path,
+            action_count: 0,
         }
     }
 
@@ -494,8 +503,10 @@ where
             let mut actions_to_insert: Vec<ServerReferenceInfo> = vec![];
             let has_server_directive = self.directive == Some(Directive::Server);
 
+            let mut var_decls_to_insert: Vec<VarDeclInsertInfo> = vec![];
+
             while i < module.body.len() {
-                match &module.body[i] {
+                match &mut module.body[i] {
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                         match decl {
                             Decl::Fn(fn_decl) => {
@@ -553,14 +564,25 @@ where
                             }
                         }
                     }
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. })) => {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { ref mut decl, .. })) => {
                         match decl {
-                            DefaultDecl::Fn(fn_expr) => {
+                            DefaultDecl::Fn(ref mut fn_expr) => {
                                 if has_server_directive || self.has_server_directive_in_function(&fn_expr.function) {
                                     self.add_reference("default".to_string(), ReferenceType::Server);
+
+                                    let ident = if let Some(ref mut ident) = fn_expr.ident {
+                                        ident.clone()
+                                    } else {
+                                        let new_ident = format!("$$ACTION_{}", self.action_count);
+                                        self.action_count += 1;
+                                        let new_ident_ident = Ident::new(new_ident.into(), DUMMY_SP, Default::default());
+                                        fn_expr.ident = Some(new_ident_ident.clone());
+                                        new_ident_ident
+                                    };
+
                                     actions_to_insert.push(ServerReferenceInfo {
                                         position: i + 1,
-                                        ident: Ident::new("default".into(), DUMMY_SP, Default::default()),
+                                        ident,
                                         local_name: "default".to_string(),
                                     });
                                 }
@@ -573,9 +595,23 @@ where
                             Expr::Arrow(arrow) => {
                                 if has_server_directive || self.has_server_directive_in_arrow(arrow) {
                                     self.add_reference("default".to_string(), ReferenceType::Server);
+
+                                    let new_ident = format!("$$ACTION_{}", self.action_count);
+                                    self.action_count += 1;
+                                    let ident = Ident::new(new_ident.into(), DUMMY_SP, Default::default());
+
+                                    let var_decl_info = VarDeclInsertInfo {
+                                        position: i,
+                                        ident: ident.clone(),
+                                        expr: expr.clone(),
+                                    };
+                                    var_decls_to_insert.push(var_decl_info);
+
+                                    *expr = Box::new(Expr::Ident(ident.clone()));
+
                                     actions_to_insert.push(ServerReferenceInfo {
-                                        position: i + 1,
-                                        ident: Ident::new("default".into(), DUMMY_SP, Default::default()),
+                                        position: i,
+                                        ident,
                                         local_name: "default".to_string(),
                                     });
                                 }
@@ -661,6 +697,26 @@ where
                     let server_ref = self.create_server_reference(&info.ident, &info.local_name);
                     module.body.insert(info.position + offset + 1, ModuleItem::Stmt(server_ref));
                 }
+            }
+
+            for (offset, info) in var_decls_to_insert.into_iter().enumerate() {
+                let var_decl = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(BindingIdent {
+                            id: info.ident,
+                            type_ann: None,
+                        }),
+                        init: Some(info.expr),
+                        definite: false,
+                    }],
+                    ctxt: Default::default(),
+                }))));
+
+                module.body.insert(info.position + offset + 1, var_decl);
             }
         }
 

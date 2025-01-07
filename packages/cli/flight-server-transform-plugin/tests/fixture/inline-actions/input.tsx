@@ -23,6 +23,11 @@ async function qux() {
   return `qux`;
 }
 
+export default async function increment() {
+  'use server';
+  return `increment`;
+}
+
 export async function Component() {
   async function handleServerAction(formData) {
     'use server';

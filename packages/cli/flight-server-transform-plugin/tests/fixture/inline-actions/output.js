@@ -1,5 +1,5 @@
 /* @modern-js-rsc-metadata
-{"directive":null,"exportNames":[{"exportName":"foo"},{"exportName":"baz"},{"exportName":"qux"}]}*/
+{"directive":null,"exportNames":[{"exportName":"foo"},{"exportName":"baz"},{"exportName":"qux"},{"exportName":"default"}]}*/
 import { registerServerReference } from "@modern-js/runtime/rsc/server";
 import { z } from 'zod';
 
@@ -26,6 +26,13 @@ async function qux() {
 }
 
 registerServerReference(qux, module.id, "qux");
+
+export default async function increment() {
+  'use server';
+  return `increment`;
+}
+
+registerServerReference(increment, module.id, "default");
 
 export async function Component() {
   async function handleServerAction(formData) {
