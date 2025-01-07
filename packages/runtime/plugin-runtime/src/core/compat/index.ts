@@ -1,8 +1,11 @@
-import { createSyncHook } from '@modern-js/plugin-v2';
+import { createAsyncInterruptHook, createSyncHook } from '@modern-js/plugin-v2';
+import type { RuntimeContext } from '../context';
 import type { RuntimePlugin } from '../plugin/types';
 import { getHookRunners } from './hooks';
 
 type ModifyRoutesFn = (routes: any) => any;
+
+type BeforeCreateRoutesFn = (context: RuntimeContext) => any;
 
 export const compatPlugin = (): RuntimePlugin => ({
   name: '@modern-js/runtime-plugin-compat',
@@ -19,5 +22,6 @@ export const compatPlugin = (): RuntimePlugin => ({
   },
   registryHooks: {
     modifyRoutes: createSyncHook<ModifyRoutesFn>(),
+    beforeCreateRoutes: createAsyncInterruptHook<BeforeCreateRoutesFn>(),
   },
 });
