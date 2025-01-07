@@ -25,7 +25,6 @@ import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { RuntimePlugin } from './hooks';
 import type { Bundler } from './utils';
 
-export type BeforeConfigFn = () => Promise<void> | void;
 export type AfterPrepareFn = () => Promise<void> | void;
 export type InternalRuntimePluginsFn = TransformFunction<{
   entrypoint: Entrypoint;
@@ -64,7 +63,6 @@ export type RegisterBuildPlatformFn = () =>
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
 export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
-  onBeforeConfig: PluginHookTap<BeforeConfigFn>;
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
 
@@ -116,7 +114,6 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
 
 export interface AppToolsExtendHooks
   extends Record<string, PluginHook<(...args: any[]) => any>> {
-  onBeforeConfig: AsyncHook<BeforeConfigFn>;
   onAfterPrepare: AsyncHook<AfterPrepareFn>;
   deploy: AsyncHook<DeplpoyFn>;
   _internalRuntimePlugins: AsyncHook<InternalRuntimePluginsFn>;
