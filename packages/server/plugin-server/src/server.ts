@@ -1,5 +1,9 @@
 import type { ServerPlugin } from '@modern-js/server-core';
-import type { MiddlewareContext, NextFunction } from '@modern-js/types';
+import type {
+  MiddlewareContext,
+  NextFunction,
+  UnstableMiddleware,
+} from '@modern-js/types';
 import { isProd, logger } from '@modern-js/utils';
 import {
   type Hook,
@@ -19,7 +23,7 @@ enum HOOKS {
 class Storage {
   public middlewares: Middleware[] = [];
 
-  public unstableMiddlewares: any[] = [];
+  public unstableMiddlewares: UnstableMiddleware[] = [];
 
   public hooks: Record<string, Hook> = {};
 
@@ -142,7 +146,32 @@ export default (): ServerPlugin => ({
         const { unstableMiddlewares } = storage;
 
         if (unstableMiddlewares.length > 0) {
-          return unstableMiddlewares;
+          /**
+           * In prod mode, we just return unstableMiddlewares directly.
+           * In dev mode, we will return a new array with length of maxLen in the first time,
+           * The new Array will execute the storage.unstableMiddlewares[index] by index, when the middleware is not exist, we will execute next().
+           * It's the logic for hot reload, when unstableMiddlewares is changed, it will execute the new middleware.
+           */
+          if (isProd()) {
+            return unstableMiddlewares;
+          } else {
+            const gap = 10;
+            const baseLen =
+              unstableMiddlewares.length < gap
+                ? gap
+                : unstableMiddlewares.length;
+            const maxLen = baseLen + gap;
+            return new Array(maxLen).fill(0).map((_, index) => {
+              return (ctx, next) => {
+                const unstableMiddleware = storage.unstableMiddlewares[index];
+                if (unstableMiddleware) {
+                  return unstableMiddleware(ctx, next);
+                } else {
+                  return next();
+                }
+              };
+            });
+          }
         }
 
         factory = getFactory(storage);
