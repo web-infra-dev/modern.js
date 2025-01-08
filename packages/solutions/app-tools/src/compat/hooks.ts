@@ -28,9 +28,6 @@ export function getHookRunners(
     /**
      * app tools hooks
      */
-    beforeConfig: async () => {
-      return hooks.onBeforeConfig.call();
-    },
     afterPrepare: async () => {
       return hooks.onAfterPrepare.call();
     },
@@ -202,7 +199,7 @@ export function handleSetupResult(
     const fn = setupResult[key];
     if (typeof fn === 'function') {
       const newAPI = transformHookRunner(key);
-      if (api[newAPI]) {
+      if (newAPI && api[newAPI]) {
         api[newAPI](async (...params: any) => {
           const { isMultiple, params: transformParams } = transformHookParams(
             key,

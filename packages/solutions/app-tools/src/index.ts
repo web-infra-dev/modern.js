@@ -31,7 +31,6 @@ import type { AppTools, AppToolsOptions, CliPluginFuture } from './types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
-  BeforeConfigFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,
   CheckEntryPointFn,
@@ -88,7 +87,6 @@ export const appTools = (
     '@modern-js/plugin-polyfill',
   ],
   registryHooks: {
-    onBeforeConfig: createAsyncHook<BeforeConfigFn>(),
     onAfterPrepare: createAsyncHook<AfterPrepareFn>(),
     deploy: createAsyncHook<DeplpoyFn>(),
     _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),

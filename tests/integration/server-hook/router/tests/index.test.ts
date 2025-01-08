@@ -35,7 +35,7 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  test.skip('should router rewrite correctly ', async () => {
+  test('should router rewrite correctly ', async () => {
     await page.goto(`http://localhost:${port}/rewrite`);
     const text = await page.$eval('#root', el => el?.textContent);
     expect(text).toMatch('Entry Page');
@@ -47,5 +47,17 @@ describe('test status code page', () => {
     });
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');
+  });
+
+  test('should router redirect correctly ', async () => {
+    await page.goto(`http://localhost:${port}/mobile`);
+    const text = await page.$eval('#root', el => el?.textContent);
+    expect(text).toMatch('PC Page');
+  });
+
+  test('should router redirect correctly ', async () => {
+    await page.goto(`http://localhost:${port}/pc`);
+    const text = await page.$eval('#root', el => el?.textContent);
+    expect(text).toMatch('PC Page');
   });
 });

@@ -63,6 +63,8 @@ type ServerVariables = {
   templates?: Record<string, string>;
 
   matchPathname?: string;
+
+  matchEntryName?: string;
   /**
    * Communicating with custom server hook & modern ssrContext.
    *
