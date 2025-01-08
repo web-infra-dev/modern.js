@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ssr-script-loading",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "scripts": {
     "dev": "modern dev"
   },

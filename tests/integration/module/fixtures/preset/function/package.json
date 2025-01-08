@@ -1,6 +1,6 @@
 {
   "name": "build-preset-function-test",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "dependencies": {
     "@swc/helpers": "0.5.13"
   },

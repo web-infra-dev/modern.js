@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.63.6
+
+### Patch Changes
+
+- a7a4573: fix: use entryName to ensure match the target route correctly after router.rewrite
+  fix: 通过 entryName 确保 router.rewrite 后能匹配到正确的路由
+  - @modern-js/plugin@2.63.6
+  - @modern-js/runtime-utils@2.63.6
+  - @modern-js/utils@2.63.6
+
 ## 2.63.5
 
 ### Patch Changes
