@@ -14,7 +14,8 @@ export async function increment(num: number) {
 
 export async function incrementByForm(prevResult: number, formData: FormData) {
   const count = formData.get('count');
-  const newCount = prevResult + Number(count);
+  const currentNum = getCountState();
+  const newCount = currentNum + Number(count);
   setCountState(newCount);
   return newCount;
 }

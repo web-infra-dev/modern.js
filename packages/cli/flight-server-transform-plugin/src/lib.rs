@@ -81,12 +81,16 @@ where
     C: Comments,
 {
     fn new(filename: String, comments: Option<C>, app_dir: String, runtime_path: String) -> Self {
-        let path = PathBuf::from(&filename);
-        let app_dir_path = PathBuf::from(&app_dir);
+        let app_dir = app_dir.replace('\\', "/");
+        let filename = filename.replace('\\', "/");
 
-        let relative_path = path.strip_prefix(&app_dir_path)
-            .map(|p| p.to_path_buf().to_slash_lossy().into_owned())
-            .unwrap_or_else(|_| filename);
+        let app_dir = app_dir.trim_end_matches('/');
+
+        let relative_path = if filename.starts_with(&app_dir) {
+            filename[app_dir.len()..].trim_start_matches('/')
+        } else {
+            &filename
+        }.to_string();
 
         Self {
             directive: None,

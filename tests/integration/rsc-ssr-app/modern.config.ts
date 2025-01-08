@@ -12,6 +12,9 @@ export default applyBaseConfig({
     },
     rsc: true,
   },
+  output: {
+    minify: false,
+  },
   // source: {
   //   alias: {
   //     react: path.dirname(require.resolve('react')),
