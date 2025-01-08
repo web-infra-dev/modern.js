@@ -4,15 +4,19 @@ import { merge } from '@modern-js/runtime-utils/merge';
 import { compatPlugin } from '../compat';
 import { handleSetupResult } from '../compat/hooks';
 import { setGlobalInternalRuntimeContext } from '../context';
-import type { Plugin as OldRuntimePlugin } from './base';
-import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
+import type { Plugin as RuntimePlugin } from './base';
+import type {
+  RuntimeConfig,
+  RuntimeExtends,
+  RuntimePluginFuture,
+} from './types';
 
 // old type
 export type { Plugin } from './base';
-export { runtime, type RuntimePlugin };
+export { runtime, type RuntimePluginFuture };
 
 export function registerPlugin(
-  internalPlugins: (OldRuntimePlugin | RuntimePlugin)[],
+  internalPlugins: (RuntimePlugin | RuntimePluginFuture)[],
   runtimeConfig?: RuntimeConfig,
   customRuntime?: typeof runtime,
 ) {

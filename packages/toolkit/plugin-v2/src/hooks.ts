@@ -27,7 +27,6 @@ export function createAsyncInterruptHook<
     };
 
     for (const callback of callbacks) {
-      console.log('===for callback', interrupted);
       if (interrupted) break;
       const result = await callback(...params, interrupt);
 

@@ -12,7 +12,7 @@ export type RuntimeExtends = Required<
   RuntimePluginExtends<RuntimeConfig, RuntimeContext, {}, {}>
 >;
 
-export type RuntimePlugin = BaseRuntimePlugin<RuntimeExtends>;
+export type RuntimePluginFuture = BaseRuntimePlugin<RuntimeExtends>;
 export interface RuntimeConfig {
-  plugins?: (Plugin | RuntimePlugin)[];
+  plugins?: (Plugin | RuntimePluginFuture)[];
 }
