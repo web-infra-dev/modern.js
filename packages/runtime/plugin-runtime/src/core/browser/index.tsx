@@ -87,7 +87,7 @@ export async function render(
     const api = internalRuntimeContext?.pluginAPI;
     api?.updateRuntimeContext(context);
     const hooks = internalRuntimeContext?.hooks;
-    await hooks.onBeforeRender.call(context, info => info);
+    await hooks.onBeforeRender.call(context);
     const init = getGlobalAppInit();
     return init?.(context);
   };

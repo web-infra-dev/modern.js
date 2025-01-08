@@ -1,30 +1,33 @@
 import type {
   AsyncHook,
+  AsyncInterruptHook,
   CollectAsyncHook,
   CollectSyncHook,
   SyncHook,
 } from './types/hooks';
-import type { UnwrapPromise } from './types/utils';
+import type { Tail, UnwrapPromise } from './types/utils';
 
 export function createAsyncInterruptHook<
   Callback extends (...args: any[]) => any,
->(): AsyncHook<Callback> {
+>(): AsyncInterruptHook<Callback> {
   const callbacks: Callback[] = [];
 
   const tap = (cb: Callback) => {
     callbacks.push(cb);
   };
 
-  const call = async (...params: Parameters<Callback>) => {
+  const call = async (...params: Tail<Parameters<Callback>>) => {
     let interrupted = false;
     let interruptResult: any;
 
     const interrupt = (info: any) => {
+      console.log('===interrupt');
       interrupted = true;
       interruptResult = info;
     };
 
     for (const callback of callbacks) {
+      console.log('===for callback', interrupted);
       if (interrupted) break;
       const result = await callback(...params, interrupt);
 
@@ -60,7 +63,7 @@ export function createSyncHook<
       }
     }
 
-    return params[0] || [];
+    return params[0];
   };
 
   return {

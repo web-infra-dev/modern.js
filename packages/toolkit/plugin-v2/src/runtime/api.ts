@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
+import { merge } from '@modern-js/runtime-utils/merge';
 import type { PluginHookTap } from '../types';
 import type { PluginManager } from '../types/plugin';
 import type { RuntimePluginAPI } from '../types/runtime/api';

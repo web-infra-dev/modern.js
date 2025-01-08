@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { createPluginManager } from '../../manager';
 import { initPluginAPI } from '../../runtime/api';
 import {
@@ -50,9 +50,11 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
 
   function run(options: RuntimeRunOptions) {
     const { runtimeContext } = init(options);
-    const configs = runtimeContext.hooks.modifyRuntimeConfig.call(
-      runtimeContext.config,
-    );
+    const configs = runtimeContext.hooks.modifyRuntimeConfig
+      .call(runtimeContext.config)
+      .filter((config): config is NonNullable<typeof config> =>
+        Boolean(config),
+      );
     runtimeContext.config = merge({}, ...configs);
     return { runtimeContext };
   }

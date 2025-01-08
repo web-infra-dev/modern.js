@@ -1,4 +1,4 @@
-import type { UnwrapPromise } from './utils';
+import type { Tail, UnwrapPromise } from './utils';
 
 export type SyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
@@ -8,6 +8,11 @@ export type SyncHook<Callback extends (...args: any[]) => any> = {
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
   call: (...args: Parameters<Callback>) => Promise<ReturnType<Callback>>;
+};
+
+export type AsyncInterruptHook<Callback extends (...args: any[]) => any> = {
+  tap: (cb: Callback) => void;
+  call: (...args: Tail<Parameters<Callback>>) => Promise<ReturnType<Callback>>;
 };
 
 export type CollectAsyncHook<Callback extends (...params: any[]) => any> = {
@@ -26,7 +31,8 @@ export type PluginHook<Callback extends (...args: any[]) => any> =
   | SyncHook<Callback>
   | AsyncHook<Callback>
   | CollectSyncHook<Callback>
-  | CollectAsyncHook<Callback>;
+  | CollectAsyncHook<Callback>
+  | AsyncInterruptHook<Callback>;
 
 export type PluginHookTap<T extends (...args: any[]) => any> = (
   options: T,
