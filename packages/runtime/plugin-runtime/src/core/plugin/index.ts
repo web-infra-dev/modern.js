@@ -13,15 +13,15 @@ import type {
 
 // old type
 export type { Plugin } from './base';
-export { runtime, type RuntimePluginFuture };
+// new type
+export type { RuntimePluginFuture };
 
 export function registerPlugin(
   internalPlugins: (RuntimePlugin | RuntimePluginFuture)[],
   runtimeConfig?: RuntimeConfig,
-  customRuntime?: typeof runtime,
 ) {
   const { plugins = [] } = runtimeConfig || {};
-  const { runtimeContext } = (customRuntime || runtime).run({
+  const { runtimeContext } = runtime.run({
     plugins: [compatPlugin(), ...internalPlugins, ...plugins] as Plugin[],
     config: runtimeConfig || {},
     handleSetupResult,

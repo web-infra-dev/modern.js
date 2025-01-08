@@ -11,7 +11,7 @@ import {
   type TRuntimeContext,
 } from './context/runtime';
 import { createLoaderManager } from './loader/loaderManager';
-import { type Plugin, registerPlugin, runtime } from './plugin';
+import { type Plugin, registerPlugin } from './plugin';
 import type { RuntimeExtends } from './plugin/types';
 import { wrapRuntimeContextProvider } from './react/wrapper';
 import type { TSSRContext } from './types';
@@ -46,7 +46,7 @@ export const createApp = ({
   plugins,
   props: globalProps,
 }: CreateAppOptions) => {
-  const context = registerPlugin(plugins, { plugins: [] }, runtime);
+  const context = registerPlugin(plugins, { plugins: [] });
   const hooks = context.hooks;
 
   return (App?: React.ComponentType<any>) => {
