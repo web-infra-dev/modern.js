@@ -7,3 +7,7 @@ export type DeepPartial<T> = {
 };
 
 export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+export type Tail<T extends any[]> = T extends [...infer Rest, any]
+  ? Rest
+  : never;

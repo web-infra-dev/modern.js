@@ -163,7 +163,7 @@ export const createRequestHandler: CreateRequestHandler =
 
       const runBeforeRender = async (context: RuntimeContext) => {
         // when router is redirect, beforeRender will return a response
-        const result = await hooks.onBeforeRender.call(context, info => info);
+        const result = await hooks.onBeforeRender.call(context);
         if (typeof Response !== 'undefined' && result instanceof Response) {
           return result;
         }

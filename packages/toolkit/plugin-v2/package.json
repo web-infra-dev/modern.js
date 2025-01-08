@@ -72,6 +72,7 @@
   "dependencies": {
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {

@@ -112,7 +112,7 @@ export const bootstrap: BootStrap = async (
   api?.updateRuntimeContext(context);
 
   const runBeforeRender = async (context: RuntimeContext) => {
-    await hooks.onBeforeRender.call(context, info => info);
+    await hooks.onBeforeRender.call(context);
     const init = getGlobalAppInit();
     return init?.(context);
   };

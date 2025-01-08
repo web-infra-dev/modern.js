@@ -1,7 +1,8 @@
-import { isFunction } from '@modern-js/utils/lodash';
 import type { Plugin, PluginManager } from './types/plugin';
-import type { Falsy } from './types/utils';
+import type { Falsy, MaybePromise } from './types/utils';
 
+const isFunction = (obj: ((api: {}) => MaybePromise<void>) | undefined) =>
+  typeof obj === 'function';
 // Validates if the plugin is a valid plugin instance
 function validatePlugin(plugin: unknown) {
   const type = typeof plugin;
