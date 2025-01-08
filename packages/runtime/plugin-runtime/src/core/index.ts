@@ -1,4 +1,4 @@
-export type { Plugin } from './plugin';
+export type { Plugin, RuntimePluginFuture } from './plugin';
 export { defineConfig, getConfig, defineRuntimeConfig } from './config';
 
 // compatible

@@ -1,6 +1,8 @@
-import { createWaterfall } from '@modern-js/plugin';
+import { createSyncHook } from '@modern-js/plugin-v2';
 import type { RouteProps } from 'react-router-dom';
 
-const modifyRoutesHook = createWaterfall<RouteProps[]>();
+// only for inhouse use
+const modifyRoutesHook =
+  createSyncHook<(routes: RouteProps[]) => RouteProps[]>();
 
 export { modifyRoutesHook };
