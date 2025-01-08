@@ -54,11 +54,5 @@ export function getHookRunners(
     modifyRuntimeConfig: (config: RuntimeConfig) => {
       return hooks.modifyRuntimeConfig.call(config);
     },
-    modifyRoutes: (routes: any) => {
-      return hooks.modifyRoutes.call(routes);
-    },
-    beforeCreateRoutes: (context: RuntimeContext) => {
-      return hooks.beforeCreateRoutes.call(context);
-    },
   };
 }

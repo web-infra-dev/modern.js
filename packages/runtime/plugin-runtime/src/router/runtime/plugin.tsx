@@ -16,8 +16,8 @@ import { useContext, useMemo } from 'react';
 import { type RuntimePluginFuture, RuntimeReactContext } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import {
-  beforeCreateRoutes as beforeCreateRoutesHook,
   modifyRoutes as modifyRoutesHook,
+  onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
 import type { RouterConfig, Routes } from './types';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
@@ -42,12 +42,17 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-): RuntimePluginFuture => {
+): RuntimePluginFuture<{
+  extendHooks: {
+    modifyRoutes: typeof modifyRoutesHook;
+    onBeforeCreateRoutes: typeof onBeforeCreateRoutesHook;
+  };
+}> => {
   return {
     name: '@modern-js/plugin-router',
     registryHooks: {
       modifyRoutes: modifyRoutesHook,
-      beforeCreateRoutes: beforeCreateRoutesHook,
+      onBeforeCreateRoutes: onBeforeCreateRoutesHook,
     },
     setup: api => {
       let routes: RouteObject[] = [];
@@ -147,9 +152,9 @@ export const routerPlugin = (
                     }),
                   );
 
-              const runner = (api as any).useHookRunners();
+              const hooks = api.getHooks();
               // inhouse private, try deprecated, different from the export function
-              routes = runner.modifyRoutes(routes);
+              routes = hooks.modifyRoutes.call(routes);
 
               const router = supportHtml5History
                 ? createBrowserRouter(routes, {
