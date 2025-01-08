@@ -1,5 +1,5 @@
 import { merge } from '@modern-js/runtime-utils/merge';
-import type { PluginHookTap } from '../types';
+import type { PluginHook, PluginHookTap } from '../types';
 import type { PluginManager } from '../types/plugin';
 import type { RuntimePluginAPI } from '../types/runtime/api';
 import type {
@@ -20,7 +20,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   pluginManager: PluginManager;
   plugins: RuntimePlugin<Extends>[];
 }): RuntimePluginAPI<Extends> {
-  const { hooks } = context;
+  const { hooks, extendsHooks } = context;
 
   function getRuntimeContext() {
     if (context) {
@@ -58,6 +58,14 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
       });
     }
   });
+
+  if (extendsHooks) {
+    Object.keys(extendsHooks!).forEach(hookName => {
+      extendsPluginApi[hookName] = (
+        extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
+      )[hookName].tap;
+    });
+  }
 
   return {
     getRuntimeContext,

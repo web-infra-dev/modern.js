@@ -39,7 +39,7 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-type AppendEntryCodeFn = (params: {
+export type AppendEntryCodeFn = (params: {
   entrypoint: Entrypoint;
   code: string;
 }) => string | Promise<string>;

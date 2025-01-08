@@ -1,5 +1,4 @@
 import type { RuntimePlugin } from '@modern-js/plugin-v2';
-import { runtime } from '@modern-js/plugin-v2/runtime';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
@@ -12,7 +11,7 @@ import {
   type TRuntimeContext,
 } from './context/runtime';
 import { createLoaderManager } from './loader/loaderManager';
-import { type Plugin, registerPlugin } from './plugin';
+import { type Plugin, registerPlugin, runtime } from './plugin';
 import type { RuntimeExtends } from './plugin/types';
 import { wrapRuntimeContextProvider } from './react/wrapper';
 import type { TSSRContext } from './types';

@@ -2,7 +2,6 @@ import { RuntimeReactContext, isBrowser } from '@meta/runtime';
 import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
 import type { Plugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import {
   type BrowserHistoryBuildOptions,
   type HashHistoryBuildOptions,

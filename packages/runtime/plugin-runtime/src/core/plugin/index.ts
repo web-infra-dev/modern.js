@@ -9,6 +9,7 @@ import type { RuntimeConfig, RuntimeExtends, RuntimePlugin } from './types';
 
 // old type
 export type { Plugin } from './base';
+export { runtime, type RuntimePlugin };
 
 export function registerPlugin(
   internalPlugins: (OldRuntimePlugin | RuntimePlugin)[],
