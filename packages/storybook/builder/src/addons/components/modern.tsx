@@ -45,7 +45,7 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
           router({
             ...{ serverBase: ['/'] },
             ...(runtime.router as RouterConfig),
-          }),
+          }) as RuntimePluginFuture,
         );
       }
     }

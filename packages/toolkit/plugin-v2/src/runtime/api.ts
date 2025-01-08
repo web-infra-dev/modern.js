@@ -37,6 +37,14 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   ) {
     context = merge(context, updateContext);
   }
+
+  function getHooks() {
+    return {
+      ...hooks,
+      ...extendsHooks,
+    };
+  }
+
   function getRuntimeConfig() {
     if (context.config) {
       return context.config;
@@ -70,6 +78,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   return {
     getRuntimeContext,
     updateRuntimeContext,
+    getHooks,
     getRuntimeConfig,
     modifyRuntimeConfig: hooks.modifyRuntimeConfig.tap,
     onBeforeRender: hooks.onBeforeRender.tap,

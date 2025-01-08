@@ -15,12 +15,12 @@ import type React from 'react';
 import { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
-import type { Plugin } from '../../core';
+import type { RuntimePluginFuture } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
-  beforeCreateRoutes as beforeCreateRoutesHook,
   modifyRoutes as modifyRoutesHook,
+  onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
@@ -39,162 +39,165 @@ function createRemixReuqest(request: Request) {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-): Plugin => {
+): RuntimePluginFuture<{
+  extendHooks: {
+    modifyRoutes: typeof modifyRoutesHook;
+    onBeforeCreateRoutes: typeof onBeforeCreateRoutesHook;
+  };
+}> => {
   return {
     name: '@modern-js/plugin-router',
-    registerHook: {
+    registryHooks: {
       modifyRoutes: modifyRoutesHook,
-      beforeCreateRoutes: beforeCreateRoutesHook,
+      onBeforeCreateRoutes: onBeforeCreateRoutesHook,
     },
     setup: api => {
       let finalRouteConfig: any = {};
 
-      return {
-        async beforeRender(context, interrupt) {
-          const pluginConfig: Record<string, any> =
-            api.useRuntimeConfigContext();
-          const {
-            basename = '',
-            routesConfig,
-            createRoutes,
-          } = merge(pluginConfig.router || {}, userConfig);
-          finalRouteConfig = {
-            routes: getGlobalRoutes(),
-            globalApp: getGlobalLayoutApp(),
-            ...routesConfig,
-          };
-          // can not get routes config, skip wrapping React Router.
-          // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig.routes && !createRoutes) {
-            return;
-          }
+      api.onBeforeRender(async (context, interrupt) => {
+        const pluginConfig: Record<string, any> = api.getRuntimeConfig();
+        const {
+          basename = '',
+          routesConfig,
+          createRoutes,
+        } = merge(pluginConfig.router || {}, userConfig);
+        finalRouteConfig = {
+          routes: getGlobalRoutes(),
+          globalApp: getGlobalLayoutApp(),
+          ...routesConfig,
+        };
+        // can not get routes config, skip wrapping React Router.
+        // e.g. App.tsx as the entrypoint
+        if (!finalRouteConfig.routes && !createRoutes) {
+          return;
+        }
 
-          const {
-            request,
-            mode: ssrMode,
-            nonce,
-            loaderFailureMode = 'errorBoundary',
-          } = context.ssrContext!;
-          const { baseUrl } = request;
-          const _basename =
-            baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
-          const { reporter } = context.ssrContext!;
-          const requestContext = createRequestContext(
-            context.ssrContext?.loaderContext,
-          );
-          requestContext.set(reporterCtx, reporter);
-          const runner = (api as any).useHookRunners();
+        const {
+          request,
+          mode: ssrMode,
+          nonce,
+          loaderFailureMode = 'errorBoundary',
+        } = context.ssrContext!;
+        const { baseUrl } = request;
+        const _basename =
+          baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+        const { reporter } = context.ssrContext!;
+        const requestContext = createRequestContext(
+          context.ssrContext?.loaderContext,
+        );
+        requestContext.set(reporterCtx, reporter);
+        const runner = (api as any).useHookRunners();
 
-          await runner.beforeCreateRoutes(context);
+        await runner.beforeCreateRoutes(context);
 
-          let routes = createRoutes
-            ? createRoutes()
-            : createRoutesFromElements(
-                renderRoutes({
-                  routesConfig: finalRouteConfig,
-                  ssrMode,
-                  props: {
-                    nonce,
-                  },
-                  reporter,
-                }),
-              );
+        let routes = createRoutes
+          ? createRoutes()
+          : createRoutesFromElements(
+              renderRoutes({
+                routesConfig: finalRouteConfig,
+                ssrMode,
+                props: {
+                  nonce,
+                },
+                reporter,
+              }),
+            );
 
-          routes = runner.modifyRoutes(routes);
+        routes = runner.modifyRoutes(routes);
 
-          const { query } = createStaticHandler(routes, {
-            basename: _basename,
-          });
+        const { query } = createStaticHandler(routes, {
+          basename: _basename,
+        });
 
-          // We can't pass post request to query,due to post request would triger react-router submit action.
-          // But user maybe do not define action for page.
-          const remixRequest = createRemixReuqest(
-            context.ssrContext!.request.raw,
-          );
+        // We can't pass post request to query,due to post request would triger react-router submit action.
+        // But user maybe do not define action for page.
+        const remixRequest = createRemixReuqest(
+          context.ssrContext!.request.raw,
+        );
 
-          const end = time();
-          const routerContext = await query(remixRequest, {
-            requestContext,
-          });
-          const cost = end();
-          context.ssrContext?.onTiming?.(LOADER_REPORTER_NAME, cost);
+        const end = time();
+        const routerContext = await query(remixRequest, {
+          requestContext,
+        });
+        const cost = end();
+        context.ssrContext?.onTiming?.(LOADER_REPORTER_NAME, cost);
 
-          if (routerContext instanceof Response) {
-            // React Router would return a Response when redirects occur in loader.
-            // Throw the Response to bail out and let the server handle it with an HTTP redirect
-            return interrupt(routerContext);
-          }
+        if (routerContext instanceof Response) {
+          // React Router would return a Response when redirects occur in loader.
+          // Throw the Response to bail out and let the server handle it with an HTTP redirect
+          return interrupt(routerContext);
+        }
 
-          // Now `throw new Response` or `throw new Error` is same, both will be caught by errorBoundary by default
-          // If loaderFailureMode is 'clientRender', we will downgrade to csr, and the loader will be request in client again
-          const errors = Object.values(
-            (routerContext.errors || {}) as Record<string, Error>,
-          );
-          if (
-            // TODO: if loaderFailureMode is not 'errroBoundary', error log will not be printed.
-            errors.length > 0 &&
-            loaderFailureMode === 'clientRender'
-          ) {
-            routerContext.statusCode = 200;
-            throw errors[0];
-          }
+        // Now `throw new Response` or `throw new Error` is same, both will be caught by errorBoundary by default
+        // If loaderFailureMode is 'clientRender', we will downgrade to csr, and the loader will be request in client again
+        const errors = Object.values(
+          (routerContext.errors || {}) as Record<string, Error>,
+        );
+        if (
+          // TODO: if loaderFailureMode is not 'errroBoundary', error log will not be printed.
+          errors.length > 0 &&
+          loaderFailureMode === 'clientRender'
+        ) {
+          routerContext.statusCode = 200;
+          throw errors[0];
+        }
 
-          const router = createStaticRouter(routes, routerContext);
-          // routerContext is used in in css colletor、handle status code、inject loader data in html
-          context.routerContext = routerContext;
+        const router = createStaticRouter(routes, routerContext);
+        // routerContext is used in in css colletor、handle status code、inject loader data in html
+        context.routerContext = routerContext;
 
-          // private api, pass to React Component in `wrapRoot`
-          // in the browser, we not need to pass router, cause we create Router in `wrapRoot`
-          // but in node, we need to pass router, cause we need run async function, it can only run in `beforeRender`
-          // when we deprected React 17, we can use Suspense to handle this async function
-          // so the `remixRouter` has no type declare in RuntimeContext
-          context.remixRouter = router;
+        // private api, pass to React Component in `wrapRoot`
+        // in the browser, we not need to pass router, cause we create Router in `wrapRoot`
+        // but in node, we need to pass router, cause we need run async function, it can only run in `beforeRender`
+        // when we deprected React 17, we can use Suspense to handle this async function
+        // so the `remixRouter` has no type declare in RuntimeContext
+        context.remixRouter = router;
 
-          // private api, pass to React Component in `wrapRoot`
-          context.routes = routes;
-        },
-        wrapRoot: App => {
-          // can not get routes config, skip wrapping React Router.
-          // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig) {
-            return App;
-          }
+        // private api, pass to React Component in `wrapRoot`
+        context.routes = routes;
+      });
 
-          const getRouteApp = () => {
-            return (() => {
-              const context = useContext(RuntimeReactContext);
-              const { remixRouter, routerContext, ssrContext } = context;
+      api.wrapRoot(App => {
+        // can not get routes config, skip wrapping React Router.
+        // e.g. App.tsx as the entrypoint
+        if (!finalRouteConfig) {
+          return App;
+        }
 
-              const { nonce, mode, useJsonScript } = ssrContext!;
+        const getRouteApp = () => {
+          return (() => {
+            const context = useContext(RuntimeReactContext);
+            const { remixRouter, routerContext, ssrContext } = context;
 
-              const routerWrapper = (
-                <>
-                  <StaticRouterProvider
-                    router={remixRouter!}
+            const { nonce, mode, useJsonScript } = ssrContext!;
+
+            const routerWrapper = (
+              <>
+                <StaticRouterProvider
+                  router={remixRouter!}
+                  context={routerContext!}
+                  hydrate={false}
+                />
+
+                {mode === 'stream' && (
+                  // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                  // So we can inject it only when streaming ssr
+                  <DeferredDataScripts
+                    nonce={nonce}
                     context={routerContext!}
-                    hydrate={false}
+                    useJsonScript={useJsonScript}
                   />
+                )}
+                {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
+              </>
+            );
 
-                  {mode === 'stream' && (
-                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
-                    // So we can inject it only when streaming ssr
-                    <DeferredDataScripts
-                      nonce={nonce}
-                      context={routerContext!}
-                      useJsonScript={useJsonScript}
-                    />
-                  )}
-                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
-                </>
-              );
+            return App ? <App>{routerWrapper}</App> : routerWrapper;
+          }) as React.FC<any>;
+        };
 
-              return App ? <App>{routerWrapper}</App> : routerWrapper;
-            }) as React.FC<any>;
-          };
-
-          return getRouteApp();
-        },
-      };
+        return getRouteApp();
+      });
     },
   };
 };
