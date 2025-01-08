@@ -63,7 +63,11 @@ let routes: SingleRouteConfig[] = [];
 
 export const routerPlugin = (
   userConfig: RouterConfig = {},
-): RuntimePluginFuture => {
+): RuntimePluginFuture<{
+  extendHooks: {
+    modifyRoutes: typeof modifyRoutesHook;
+  };
+}> => {
   return {
     name: '@modern-js/plugin-router',
     registryHooks: {
@@ -124,8 +128,8 @@ export const routerPlugin = (
                 (supportHtml5History
                   ? createBrowserHistory(historyOptions)
                   : createHashHistory(historyOptions));
-              const runner = (api as any).useHookRunners();
-              routes = runner.modifyRoutes(originRoutes);
+              const hooks = api.getHooks();
+              routes = hooks.modifyRoutes.call(originRoutes);
               finalRouteConfig && (finalRouteConfig.routes = routes);
               /**
                * when exist createRoutes function, App.tsx must be exist, and support Component props
@@ -160,8 +164,8 @@ export const routerPlugin = (
                       (historyOptions.basename as string),
                   )
                 : baseUrl;
-            const runner = (api as any).useHookRunners();
-            const routes = runner.modifyRoutes(originRoutes);
+            const hooks = api.getHooks();
+            const routes = hooks.modifyRoutes.call(originRoutes);
             finalRouteConfig && (finalRouteConfig.routes = routes);
             return (
               <StaticRouter
