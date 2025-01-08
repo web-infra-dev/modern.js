@@ -43,7 +43,7 @@
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/cjs/runtime/index.js"
+      "default": "./dist/esm/runtime/index.js"
     }
   },
   "typesVersions": {

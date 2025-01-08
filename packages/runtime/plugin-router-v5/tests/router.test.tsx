@@ -1,5 +1,5 @@
 import { createApp } from '@modern-js/runtime';
-import { createRuntime } from '@modern-js/runtime/plugin';
+import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { useHistory } from '../src';
@@ -9,17 +9,16 @@ import createRouterPlugin, {
 } from '../src/runtime';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
+const testPlugin: RuntimePlugin = {
+  name: 'test',
+  setup: api => {
+    api.wrapRoot(App1 => App1);
+  },
+};
 describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
-    const runtime = createRuntime();
     const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App1 => App1,
-        })),
-        createRouterPlugin({}),
-      ],
+      plugins: [testPlugin, createRouterPlugin({})],
     })(App);
 
     interface Props {
@@ -35,13 +34,9 @@ describe('@modern-js/plugin-router-v5', () => {
   });
 
   it('pages', () => {
-    const runtime = createRuntime();
     const AppWrapper = createApp({
-      runtime,
       plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App1 => App1,
-        })),
+        testPlugin,
         createRouterPlugin({
           routesConfig: {
             routes: [{ path: '/', component: App as any }],
@@ -88,13 +83,9 @@ describe('@modern-js/plugin-router-v5', () => {
       return <div>home</div>;
     }
 
-    const runtime = createRuntime();
     const AppWrapper = createApp({
-      runtime,
       plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App1 => App1,
-        })),
+        testPlugin,
         createRouterPlugin({
           routesConfig: {
             routes: [
@@ -135,18 +126,19 @@ describe('@modern-js/plugin-router-v5', () => {
       return routes;
     });
 
-    const runtime = createRuntime();
     const AppWrapper = createApp({
-      runtime,
       plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App1 => App1,
-          modifyRoutes(routes: RouteProps[]) {
-            return modifyFn?.(routes);
+        {
+          name: 'test',
+          setup: (api: any) => {
+            api.wrapRoot((App1: any) => App1);
+            api.modifyRoutes((routes: RouteProps[]) => {
+              return modifyFn?.(routes);
+            });
           },
-        })),
+        } as RuntimePlugin,
         createRouterPlugin({
-          routesConfig: { routes: [{ path: '/', component: App as any }] },
+          routesConfig: { routes: [{ path: '/' }] },
         }),
       ],
     })(App);
