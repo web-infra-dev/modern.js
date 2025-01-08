@@ -248,8 +248,10 @@ export const useRuntimeContext = () => {
     response: context.ssrContext?.response,
   };
 
+  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const hooks = internalRuntimeContext.hooks;
   const memoizedContext = useMemo(
-    () => context.runner.pickContext(pickedContext),
+    () => hooks.pickContext.call(pickedContext as RuntimeContext),
     [context],
   );
 
