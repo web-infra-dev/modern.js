@@ -1,5 +1,9 @@
 import { createApp } from '@modern-js/runtime';
-import type { Plugin, RouterConfig } from '@modern-js/runtime';
+import type {
+  Plugin,
+  RouterConfig,
+  RuntimePluginFuture,
+} from '@modern-js/runtime';
 import state from '@modern-js/runtime/model';
 import router from '@modern-js/runtime/router';
 import React from 'react';
@@ -20,7 +24,7 @@ const allowedRuntimeAPI = {
 const allowedRuntimeAPIValues = Object.values(allowedRuntimeAPI);
 
 export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
-  const plugins: Plugin[] = [];
+  const plugins: (Plugin | RuntimePluginFuture)[] = [];
 
   if (!runtime) {
     return plugins;
