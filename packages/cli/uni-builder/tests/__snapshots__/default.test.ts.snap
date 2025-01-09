@@ -314,7 +314,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -886,7 +886,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     HotModuleReplacementPlugin {
       "name": "HotModuleReplacementPlugin",
     },
@@ -1003,13 +1005,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
@@ -1304,7 +1306,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1765,7 +1767,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     DefinePlugin {
       "_args": [
         {
@@ -1817,13 +1821,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
@@ -2160,7 +2164,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2767,7 +2771,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].[contenthash:8].css",
@@ -2869,13 +2875,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
@@ -3141,7 +3147,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -3584,7 +3590,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     DefinePlugin {
       "_args": [
         {
@@ -3636,13 +3644,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
@@ -4084,7 +4092,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -4729,7 +4737,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     HotModuleReplacementPlugin {
       "options": {},
     },
@@ -4874,13 +4884,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
@@ -5347,7 +5357,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
       },
       {
         "oneOf": [
@@ -6063,7 +6073,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "hints": false,
   },
   "plugins": [
-    RsbuildCorePlugin {},
+    {
+      "name": "RsbuildCorePlugin",
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -6234,13 +6246,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
     "extensionAlias": {
       ".js": [
+        ".js",
         ".ts",
         ".tsx",
-        ".js",
       ],
       ".jsx": [
-        ".tsx",
         ".jsx",
+        ".tsx",
       ],
     },
     "extensions": [
