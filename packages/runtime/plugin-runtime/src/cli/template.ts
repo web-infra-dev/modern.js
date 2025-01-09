@@ -75,9 +75,11 @@ ${
 export const entryForCSRWithRSC = ({
   metaName,
   entryName,
+  urlPath = '/',
 }: {
   metaName: string;
   entryName: string;
+  urlPath?: string;
 }) => {
   return `
   import '@${metaName}/runtime/registry/${entryName}';
@@ -90,7 +92,7 @@ export const entryForCSRWithRSC = ({
   } from '@${metaName}/runtime/rsc/client';
 
   const content = createFromFetch(
-    fetch('/', {
+    fetch('${urlPath}', {
       headers: {
         'x-rsc-tree': 'true',
       },

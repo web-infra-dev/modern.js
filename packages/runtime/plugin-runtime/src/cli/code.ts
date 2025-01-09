@@ -59,6 +59,7 @@ export const generateCode = async (
     internalSrcAlias,
     metaName,
     srcDirectory,
+    serverRoutes,
   } = appContext;
   await Promise.all(
     entrypoints.map(async entrypoint => {
@@ -80,7 +81,12 @@ export const generateCode = async (
         let indexCode = '';
         // index.jsx
         if (!ssrMode && config.server.rsc) {
-          indexCode = template.entryForCSRWithRSC({ metaName, entryName });
+          indexCode = template.entryForCSRWithRSC({
+            metaName,
+            entryName,
+            urlPath: serverRoutes.find(route => route.entryName === entryName)
+              ?.urlPath,
+          });
         } else {
           indexCode = template.index({
             srcDirectory,
