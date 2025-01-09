@@ -1,3 +1,4 @@
+import path from 'path';
 import { transform } from '@swc/core';
 import type { LoaderContext } from 'webpack';
 import { setRscBuildInfo } from './common';
@@ -46,6 +47,7 @@ export default async function rscServerLoader(
     jsc: {
       target: 'es2020',
       experimental: {
+        cacheRoot: path.resolve(appDir, 'node_modules/.swc'),
         plugins: [
           [
             require.resolve('@modern-js/flight-server-transform-plugin'),
