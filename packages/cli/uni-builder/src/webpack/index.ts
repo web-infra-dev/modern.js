@@ -104,10 +104,13 @@ export async function parseConfig(
 
   const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
+    const { rscClientRuntimePath, rscServerRuntimePath } = options;
     rsbuildPlugins.push(
       rscRsbuildPlugin({
         appDir: options.cwd,
         isRspack: false,
+        rscClientRuntimePath,
+        rscServerRuntimePath,
       }),
     );
   }

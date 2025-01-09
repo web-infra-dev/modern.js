@@ -10,9 +10,13 @@ const CSS_RULE_NAMES = ['less', 'css', 'scss', 'sass'];
 export const rscRsbuildPlugin = ({
   appDir,
   isRspack = true,
+  rscClientRuntimePath,
+  rscServerRuntimePath,
 }: {
   appDir: string;
   isRspack?: boolean;
+  rscClientRuntimePath?: string;
+  rscServerRuntimePath?: string;
 }): RsbuildPlugin => ({
   name: 'uni-builder:rsc-rsbuild-plugin',
 
@@ -59,6 +63,7 @@ export const rscRsbuildPlugin = ({
               .options({
                 entryPath2Name,
                 appDir,
+                runtimePath: rscServerRuntimePath,
               })
               .end()
               .use(JSRule)
@@ -128,6 +133,10 @@ export const rscRsbuildPlugin = ({
             .use('rsc-client-loader')
             .loader(require.resolve('../rsc-client-loader'))
             .before('babel')
+            .options({
+              callServerImport: rscClientRuntimePath,
+              registerImport: rscClientRuntimePath,
+            })
             .end();
         };
 

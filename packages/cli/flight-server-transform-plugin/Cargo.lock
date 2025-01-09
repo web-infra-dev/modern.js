@@ -1430,6 +1430,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
+ "swc_ecma_quote_macros",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_visit",
@@ -1513,6 +1514,23 @@ dependencies = [
  "swc_ecma_ast",
  "tracing",
  "typed-arena",
+]
+
+[[package]]
+name = "swc_ecma_quote_macros"
+version = "6.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d098f0eca09f8c1a5a5b95c3db8416168e00b920fb9e02165177b9e12b38f395"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+ "swc_macros_common",
+ "syn",
 ]
 
 [[package]]

@@ -4,7 +4,7 @@ import { setRscBuildInfo } from './common';
 
 export type RscServerLoaderOptions = {
   appDir: string;
-  runtimeExport?: string;
+  runtimePath?: string;
 };
 
 interface ExportName {
@@ -38,7 +38,7 @@ export default async function rscServerLoader(
 ) {
   this.cacheable(true);
   const callback = this.async();
-  const { appDir, runtimeExport = '@modern-js/runtime/rsc/server' } =
+  const { appDir, runtimePath = '@modern-js/runtime/rsc/server' } =
     this.getOptions();
 
   const result = await transform(source, {
@@ -51,7 +51,7 @@ export default async function rscServerLoader(
             require.resolve('@modern-js/flight-server-transform-plugin'),
             {
               appDir: appDir,
-              runtimePath: runtimeExport,
+              runtimePath: runtimePath,
             },
           ],
         ],

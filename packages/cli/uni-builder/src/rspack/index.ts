@@ -123,10 +123,13 @@ export async function parseConfig(
 
   const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
+    const { rscClientRuntimePath, rscServerRuntimePath } = options;
     rsbuildPlugins.push(
       rscRsbuildPlugin({
         appDir: options.cwd,
         isRspack: true,
+        rscClientRuntimePath,
+        rscServerRuntimePath,
       }),
     );
   }
@@ -146,7 +149,13 @@ export type UniBuilderInstance = Omit<
 export async function createRspackBuilder(
   options: CreateUniBuilderOptions,
 ): Promise<UniBuilderInstance> {
-  const { cwd = process.cwd(), config, ...rest } = options;
+  const {
+    cwd = process.cwd(),
+    config,
+    rscClientRuntimePath,
+    rscServerRuntimePath,
+    ...rest
+  } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
     ...rest,

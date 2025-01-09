@@ -1,12 +1,11 @@
 import path from 'path';
 import type Webpack from 'webpack';
-import type { Module, NormalModule } from 'webpack';
+import type { Module } from 'webpack';
 import {
   type ClientManifest,
   type ClientReferencesMap,
   type ImportManifestEntry,
   type SSRManifest,
-  getRscBuildInfo,
   sharedData,
 } from '../common';
 export interface RscClientPluginOptions {

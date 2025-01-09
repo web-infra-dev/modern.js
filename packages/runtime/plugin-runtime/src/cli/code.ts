@@ -80,7 +80,7 @@ export const generateCode = async (
         let indexCode = '';
         // index.jsx
         if (!ssrMode && config.server.rsc) {
-          indexCode = template.entryForCSRWithRSC();
+          indexCode = template.entryForCSRWithRSC({ metaName });
         } else {
           indexCode = template.index({
             srcDirectory,
@@ -153,7 +153,9 @@ export const generateCode = async (
             `./${entryName}/${SERVER_ENTRY_POINT_FILE_NAME}`,
           );
 
-          const indexServerCode = serverTemplate.entryForCSRWithRSC();
+          const indexServerCode = serverTemplate.entryForCSRWithRSC({
+            metaName,
+          });
           await fs.outputFile(indexServerFile, indexServerCode, 'utf8');
         }
 

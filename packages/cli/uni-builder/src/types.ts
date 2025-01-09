@@ -68,11 +68,15 @@ export type CreateBuilderCommonOptions = {
   frameworkConfigPath?: string;
   /** The root path of current project. */
   cwd: string;
+  rscClientRuntimePath?: string;
+  rscServerRuntimePath?: string;
 };
 
 export type BundlerType = 'rspack' | 'webpack';
 
 export type CreateUniBuilderOptions = {
+  rscClientRuntimePath?: string;
+  rscServerRuntimePath?: string;
   bundlerType: BundlerType;
   config: UniBuilderConfig;
 } & Partial<CreateBuilderCommonOptions>;

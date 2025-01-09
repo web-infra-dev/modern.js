@@ -35,7 +35,7 @@ import { render } from '@${metaName}/runtime/browser';
 
 ${
   enableRsc
-    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@modern-js/runtime/rsc/client';`
+    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@${metaName}/runtime/rsc/client';`
     : ''
 }
 
@@ -72,16 +72,20 @@ ${
 }`;
 };
 
-export const entryForCSRWithRSC = () => {
+export const entryForCSRWithRSC = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
   return `
-  import '@modern-js/runtime/registry/main';
-  import { render } from '@modern-js/runtime/browser';
-  import { createRoot } from '@modern-js/runtime/react';
+  import '@${metaName}/runtime/registry/main';
+  import { render } from '@${metaName}/runtime/browser';
+  import { createRoot } from '@${metaName}/runtime/react';
 
   import {
     RscClientRoot,
     createFromFetch
-  } from '@modern-js/runtime/rsc/client';
+  } from '@${metaName}/runtime/rsc/client';
 
   const content = createFromFetch(
     fetch('/', {

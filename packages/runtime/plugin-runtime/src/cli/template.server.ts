@@ -26,8 +26,8 @@ import {
   #render,
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
-import { RSCServerSlot } from '@modern-js/runtime/rsc/client';
-export { handleAction } from '@modern-js/runtime/rsc/server';
+import { RSCServerSlot } from '@#metaName/runtime/rsc/client';
+export { handleAction } from '@#metaName/runtime/rsc/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
 
@@ -67,11 +67,15 @@ export const serverIndex = (options: ServerIndexOptinos) => {
   `;
 };
 
-export const entryForCSRWithRSC = () => {
+export const entryForCSRWithRSC = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
   return `
   import App from './AppProxy';
-  import { renderRsc } from '@modern-js/runtime/rsc/server'
-  export { handleAction } from '@modern-js/runtime/rsc/server';
+  import { renderRsc } from '@${metaName}/runtime/rsc/server'
+  export { handleAction } from '@${metaName}/runtime/rsc/server';
 
 
   export const renderRscHandler = ({
