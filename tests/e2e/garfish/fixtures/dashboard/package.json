@@ -1,7 +1,7 @@
 {
   "name": "@e2e/garfish-dashboard",
   "private": true,
-  "version": "2.63.5",
+  "version": "2.63.6",
   "scripts": {
     "dev": "DEBUG=modern-js:plugin-garfish modern dev",
     "build": "DEBUG=modern-js:plugin-garfish modern build",

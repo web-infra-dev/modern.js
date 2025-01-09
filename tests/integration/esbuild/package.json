@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "esbuild-integration",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "dependencies": {
     "@types/jest": "^29",
     "@types/node": "^14"

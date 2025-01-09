@@ -1,6 +1,6 @@
 {
   "name": "transform-import",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "dependencies": {
     "@arco-design/web-react": "^2.46.0"
   },

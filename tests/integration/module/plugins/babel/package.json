@@ -1,6 +1,6 @@
 {
   "name": "plugin-babel",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "devDependencies": {
     "@babel/preset-env": "^7.26.0"
   },

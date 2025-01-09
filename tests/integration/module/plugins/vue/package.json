@@ -1,6 +1,6 @@
 {
   "name": "plugin-vue",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "dependencies": {
     "vue": "^3.3.4"
   },
