@@ -234,6 +234,9 @@ export const useRuntimeContext = () => {
         request: baseSSRContext.request || ({} as TSSRContext['request']),
         response: baseSSRContext.response || ({} as TSSRContext['response']),
         logger: baseSSRContext.logger || ({} as TSSRContext['logger']),
+        getInitData: () => {
+          return Object.freeze(context.initialData);
+        },
       }
     : ({} as TSSRContext);
 

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "swc-test-decorator-legacy",
-  "version": "2.63.5",
+  "version": "2.63.6",
   "dependencies": {},
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

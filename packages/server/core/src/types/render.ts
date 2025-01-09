@@ -23,6 +23,9 @@ export interface RenderOptions {
   /** For compat rewrite MPA, while not modify request  */
   matchPathname?: string;
 
+  /** For compat rewrite MPA, while not modify request  */
+  matchEntryName?: string;
+
   monitors?: Monitors;
 
   serverManifest: ServerManifest;

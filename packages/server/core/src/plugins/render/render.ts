@@ -72,16 +72,25 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
   return router;
 }
 
+type MatchedRoute = [ServerRoute, Params];
 function matchRoute(
   router: Router<ServerRoute>,
   pathname: string,
-): [ServerRoute, Params] {
+  entryName?: string,
+): MatchedRoute {
   const matched = router.match('*', pathname);
-
-  const result = matched[0][0];
-
-  // here we can parse the dynamic server routes params
-  return result || [];
+  // For route rewrite in server.ts
+  // If entryName is existed and the pathname matched multiple routes, we use entryName to find the target route
+  if (entryName && matched[0].length > 1) {
+    const matches: Array<MatchedRoute> = matched[0];
+    const result = matches.find(
+      ([route]) => route.entryName === entryName,
+    ) as MatchedRoute;
+    return result || [];
+  } else {
+    const result = matched[0][0];
+    return result || [];
+  }
 }
 
 function getHeadersWithoutCookie(headers: Record<string, any>) {
@@ -117,12 +126,17 @@ export async function createRender({
       templates,
       serverManifest,
       locals,
+      matchEntryName,
       matchPathname,
       loaderContext,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
-    const [routeInfo, params] = matchRoute(router, forMatchpathname);
+    const [routeInfo, params] = matchRoute(
+      router,
+      forMatchpathname,
+      matchEntryName,
+    );
     const framework = metaName || 'modern-js';
     const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
     let fallbackReason = null;

@@ -1,5 +1,15 @@
 # @modern-js/plugin-server
 
+## 2.63.6
+
+### Patch Changes
+
+- fccc80d: fix: support unstable middleware hot reload
+  fix: 支持 unstable middleware 热更新
+  - @modern-js/server-utils@2.63.6
+  - @modern-js/runtime-utils@2.63.6
+  - @modern-js/utils@2.63.6
+
 ## 2.63.5
 
 ### Patch Changes

@@ -98,6 +98,7 @@ export default defineConfig<'rspack'>({
     },
   },
   tools: {
+    styledComponents: false,
     postcss: (config, { addPlugins }) => {
       addPlugins(require('postcss-custom-media'));
     },
