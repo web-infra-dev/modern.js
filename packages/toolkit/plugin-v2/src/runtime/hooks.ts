@@ -1,5 +1,4 @@
 import {
-  createAsyncHook,
   createAsyncInterruptHook,
   createCollectSyncHook,
   createSyncHook,
@@ -16,7 +15,7 @@ export function initHooks<RuntimeConfig, RuntimeContext>() {
     onBeforeRender:
       createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(),
     wrapRoot: createSyncHook<WrapRootFn>(),
-    pickContext: createAsyncHook<PickContextFn<RuntimeContext>>(),
+    pickContext: createSyncHook<PickContextFn<RuntimeContext>>(),
     modifyRuntimeConfig:
       createCollectSyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>(),
   };
