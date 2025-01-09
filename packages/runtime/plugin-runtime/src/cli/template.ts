@@ -74,11 +74,13 @@ ${
 
 export const entryForCSRWithRSC = ({
   metaName,
+  entryName,
 }: {
   metaName: string;
+  entryName: string;
 }) => {
   return `
-  import '@${metaName}/runtime/registry/main';
+  import '@${metaName}/runtime/registry/${entryName}';
   import { render } from '@${metaName}/runtime/browser';
   import { createRoot } from '@${metaName}/runtime/react';
 

@@ -80,7 +80,7 @@ export const generateCode = async (
         let indexCode = '';
         // index.jsx
         if (!ssrMode && config.server.rsc) {
-          indexCode = template.entryForCSRWithRSC({ metaName });
+          indexCode = template.entryForCSRWithRSC({ metaName, entryName });
         } else {
           indexCode = template.index({
             srcDirectory,
