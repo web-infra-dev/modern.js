@@ -120,6 +120,7 @@ function createRenderHandler(
     const locals = c.get('locals');
     const metrics = c.get('metrics');
     const matchPathname = c.get('matchPathname');
+    const matchEntryName = c.get('matchEntryName');
     const loaderContext = getLoaderCtx(c as Context);
 
     const request = c.req.raw;
@@ -136,6 +137,7 @@ function createRenderHandler(
       loaderContext,
       locals,
       matchPathname,
+      matchEntryName,
     });
 
     const { body, status, headers } = res;

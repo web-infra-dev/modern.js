@@ -6,7 +6,10 @@ import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
 export function transformHookRunner(hookRunnerName: string) {
   switch (hookRunnerName) {
     case 'beforeConfig':
-      return 'onBeforeConfig';
+      console.error(
+        'The `beforeConfig` hook has been deprecated. Please define your code directly in the setup function instead.',
+      );
+      return undefined;
     case 'prepare':
       return 'onPrepare';
     case 'afterPrepare':

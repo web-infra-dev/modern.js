@@ -12,28 +12,6 @@ Modern.js 工程体系中包含三类插件：CLI、Runtime、Server，每一类
 
 以下是通用的 CLI Hooks，可以在 Modern.js Framework 以及 Modern.js Module 中使用。
 
-### `beforeConfig`
-
-- 功能：运行收集配置前的任务
-- 执行阶段：收集配置前
-- Hook 模型：`AsyncWorkflow`
-- 类型：`AsyncWorkflow<void, void>`
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      beforeConfig: () => {
-        // do something
-      },
-    };
-  },
-});
-```
-
 ### `config`
 
 - 功能：收集配置

@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { type Server, request } from 'http';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
@@ -10,7 +11,10 @@ import type {
   ServerPlugin,
 } from '@modern-js/types';
 import portfinder from 'portfinder';
+import { chunkArray } from '../libs/util';
 import { CLOSE_SIGN } from './consts';
+
+const MAX_CONCURRENT_REQUESTS = 10;
 
 process.on('message', async (chunk: string) => {
   if (chunk === CLOSE_SIGN) {
@@ -61,25 +65,24 @@ process.on('message', async (chunk: string) => {
       staticGenerate: true,
     };
 
+    assert(process.send, 'process.send is not available');
+    const sendProcessMessage = process.send.bind(process);
     nodeServer = await createProdServer(serverOptions);
 
     nodeServer.listen(port, async () => {
-      if (!nodeServer) {
-        return;
+      if (!nodeServer) return;
+
+      const chunkedRoutes = chunkArray(renderRoutes, MAX_CONCURRENT_REQUESTS);
+
+      for (const routes of chunkedRoutes) {
+        const promises = routes.map(async route =>
+          getHtml(`http://localhost:${port}${route.urlPath}`, port),
+        );
+        for (const result of await Promise.all(promises)) {
+          sendProcessMessage(result);
+          sendProcessMessage(null);
+        }
       }
-
-      const htmlAry = await Promise.all(
-        renderRoutes.map(route => {
-          const url = `http://localhost:${port}${route.urlPath}`;
-
-          return getHtml(url, port);
-        }),
-      );
-
-      htmlAry.forEach(html => {
-        process.send!(html);
-        process.send!(null);
-      });
       nodeServer.close();
     });
   } catch (e) {

@@ -50,7 +50,11 @@ export type AppContext<Extends extends CLIPluginExtends> = {
 export type InternalContext<Extends extends CLIPluginExtends> =
   AppContext<Extends> & {
     /** All hooks. */
-    hooks: Hooks<Extends['config'], Extends['normalizedConfig']> &
+    hooks: Hooks<
+      Extends['config'],
+      Extends['normalizedConfig'],
+      Extends['extendBuildUtils']
+    > &
       Extends['extendHooks'];
     /** All plugin registry hooks */
     extendsHooks: Extends['extendHooks'];

@@ -1,5 +1,13 @@
 # @modern-js/devtools-client
 
+## 2.63.6
+
+### Patch Changes
+
+- 473b7b8: chore(devtools): disable devtools's styledComponents build because it's not used
+
+## 2.63.5
+
 ## 2.63.4
 
 ## 2.63.3

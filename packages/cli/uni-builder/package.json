@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/uni-builder",
-  "version": "2.63.4",
+  "version": "2.63.6",
   "description": "Unified builder for Modern.js",
   "repository": {
     "type": "git",
@@ -75,7 +75,7 @@
     "postcss-page-break": "3.0.4",
     "postcss-load-config": "6.0.1",
     "react-refresh": "^0.14.0",
-    "rspack-manifest-plugin": "5.0.2",
+    "rspack-manifest-plugin": "5.0.3",
     "terser-webpack-plugin": "5.3.11",
     "ts-deepmerge": "7.0.2",
     "ts-loader": "9.4.4",

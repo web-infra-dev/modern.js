@@ -130,7 +130,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     await context.hooks.onPrepare.call();
 
     // compat old modernjs hook
-    await (context.hooks as any)?.onAfterPrepare.call();
+    await (context.hooks as any)?.onAfterPrepare?.call();
 
     return { appContext: context };
   }

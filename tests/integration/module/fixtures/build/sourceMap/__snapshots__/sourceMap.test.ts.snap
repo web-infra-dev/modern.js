@@ -2,6 +2,7 @@
 
 exports[`sourcemap usage sourcemap is external 1`] = `
 {
+  "ignoreList": [],
   "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG",
   "names": [],
   "sources": [
@@ -22,6 +23,7 @@ export const debug = str => addPrefix('DEBUG:', str);
 
 exports[`sourcemap usage sourcemap is true 1`] = `
 {
+  "ignoreList": [],
   "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG",
   "names": [],
   "sources": [
@@ -42,6 +44,7 @@ export const debug = str => addPrefix('DEBUG:', str);
 
 exports[`sourcemap usage sourcemap with swc 1`] = `
 {
+  "ignoreList": [],
   "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;;;;;;;ACAO,IAAMA,YAAY,CAACC,QAAQC,QAAQ,GAAGD,UAAUC;;;ADEhD,IAAMC,QAAQD,SAAOF,UAAU,UAAUE",
   "names": [
     "addPrefix",
