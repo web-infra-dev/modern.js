@@ -8,6 +8,7 @@ import type { DeepPartial } from '../types/utils';
 
 export function initPluginAPI<Extends extends CLIPluginExtends>({
   context,
+  pluginManager,
 }: {
   context: InternalContext<Extends>;
   pluginManager: PluginManager;
@@ -74,6 +75,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
   }
 
   return {
+    isPluginExists: pluginManager.isPluginExists,
     getAppContext,
     getConfig,
     getNormalizedConfig,
