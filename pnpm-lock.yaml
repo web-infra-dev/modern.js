@@ -2615,7 +2615,7 @@ importers:
         version: 5.16.4
       '@testing-library/react':
         specifier: ^13.4.0
-        version: 13.4.0(@types/react@19.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 13.4.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/testing-library__jest-dom':
         specifier: ^5.14.3
         version: 5.14.5
@@ -2665,6 +2665,12 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.5(@types/react@18.3.18)
       '@types/supertest':
         specifier: ^2.0.11
         version: 2.0.16
@@ -28064,6 +28070,16 @@ snapshots:
       dom-accessibility-api: 0.5.14
       lodash: 4.17.21
       redent: 3.0.0
+
+  '@testing-library/react@13.4.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@babel/runtime': 7.26.0
+      '@testing-library/dom': 8.14.0
+      '@types/react-dom': 18.3.5(@types/react@18.3.18)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
 
   '@testing-library/react@13.4.0(@types/react@19.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
