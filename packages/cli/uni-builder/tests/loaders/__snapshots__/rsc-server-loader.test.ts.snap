@@ -59,8 +59,9 @@ exports[`rscServerLoader > support use client directive 1`] = `
 {\\"directive\\":\\"client\\",\\"exportNames\\":[{\\"exportName\\":\\"ClassA\\",\\"id\\":\\"fixtures/client-component.jsx#ClassA\\"},{\\"exportName\\":\\"ComponentA\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentA\\"},{\\"exportName\\":\\"MemoizedComponentA\\",\\"id\\":\\"fixtures/client-component.jsx#MemoizedComponentA\\"},{\\"exportName\\":\\"ComponentB\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentB\\"},{\\"exportName\\":\\"foo\\",\\"id\\":\\"fixtures/client-component.jsx#foo\\"},{\\"exportName\\":\\"ComponentC\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentC\\"},{\\"exportName\\":\\"ComponentD\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentD\\"},{\\"exportName\\":\\"bar\\",\\"id\\":\\"fixtures/client-component.jsx#bar\\"},{\\"exportName\\":\\"ComponentE\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentE\\"},{\\"exportName\\":\\"ComponentF\\",\\"id\\":\\"fixtures/client-component.jsx#ComponentF\\"},{\\"exportName\\":\\"default\\",\\"id\\":\\"fixtures/client-component.jsx#default\\"}]}*/ \\"use client\\";
 import { registerClientReference } from \\"@modern-js/runtime/rsc/server\\";
 function createClientReferenceProxy(exportName) {
+    const filename = \\"fixtures/client-component.jsx\\";
     return ()=>{
-        throw new Error(\`Attempted to call \${exportName}() from the server of fixtures/client-component.jsx but \${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\`);
+        throw new Error(\`Attempted to call \${exportName}() from the server of \${filename} but \${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\`);
     };
 }
 export const ClassA = registerClientReference(createClientReferenceProxy(\\"ClassA\\"), \\"fixtures/client-component.jsx#ClassA\\", \\"ClassA\\");

@@ -1,9 +1,9 @@
 import 'server-only';
 import { Suspense } from 'react';
 import styles from './App.module.less';
-import Suspended from './Suspended';
 import { Counter } from './components/Counter';
 import { getCountState } from './components/ServerState';
+import Suspended from './components/Suspended';
 
 const App = () => {
   const countStateFromServer = getCountState();

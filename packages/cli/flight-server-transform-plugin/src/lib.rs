@@ -1,15 +1,13 @@
 use std::path::PathBuf;
-use path_slash::PathBufExt;
 use serde::{Serialize, Deserialize};
 use serde_json::json;
 use swc_core::{
-    common::{comments::{Comment, CommentKind, Comments}, DUMMY_SP},
-    ecma::{
+    common::{comments::{Comment, CommentKind, Comments}, DUMMY_SP}, ecma::{
         ast::{ArrowExpr, BindingIdent, BlockStmt, BlockStmtOrExpr, CallExpr, Callee, ClassDecl, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, ExportSpecifier, Expr, ExprOrSpread, ExprStmt, FnDecl, Function, Ident, IdentName, ImportDecl, ImportNamedSpecifier, ImportPhase, ImportSpecifier, Lit, MemberExpr, MemberProp, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, NewExpr, Param, Pat, Program, ReturnStmt, Stmt, Str, ThrowStmt, Tpl, TplElement, VarDecl, VarDeclKind, VarDeclarator},
         parser::{Syntax, TsSyntax},
         transforms::testing::{test, test_fixture},
         visit::{visit_mut_pass, VisitMut, VisitMutWith}
-    }, plugin::metadata::TransformPluginMetadataContextKind, testing::fixture
+    }, plugin::metadata::TransformPluginMetadataContextKind, quote, testing::fixture
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
@@ -112,7 +110,7 @@ where
                 imported: None,
                 is_type_only: false,
             })],
-            src: Box::new(Str::from(self.runtime_path.clone())),
+            src: Box::new(Str::from(self.runtime_path.as_str())),
             type_only: false,
             with: None,
             phase: ImportPhase::Evaluation,
@@ -120,81 +118,16 @@ where
     }
 
     fn create_proxy_function(&self) -> ModuleItem {
-        let error_msg = format!(
-            "Attempted to call {{}}() from the server of {} but {{}} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.",
-            self.filename
-        );
-
-        let parts: Vec<&str> = error_msg.split("{}").collect();
-
-        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-            ident: Ident::new("createClientReferenceProxy".into(), DUMMY_SP, Default::default()),
-            function: Box::new(Function {
-                params: vec![Param {
-                    span: DUMMY_SP,
-                    decorators: vec![],
-                    pat: Pat::Ident(BindingIdent {
-                        id: Ident::new("exportName".into(), DUMMY_SP, Default::default()),
-                        type_ann: None,
-                    }),
-                }],
-                ctxt: Default::default(),
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Arrow(ArrowExpr {
-                            span: DUMMY_SP,
-                            params: vec![],
-                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Throw(ThrowStmt {
-                                    span: DUMMY_SP,
-                                    arg: Box::new(Expr::New(NewExpr {
-                                        span: DUMMY_SP,
-                                        callee: Box::new(Expr::Ident(Ident::new("Error".into(), DUMMY_SP, Default::default()))),
-                                        args: Some(vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(Expr::Tpl(Tpl {
-                                                span: DUMMY_SP,
-                                                exprs: vec![
-                                                    Box::new(Expr::Ident(Ident::new("exportName".into(), DUMMY_SP, Default::default()))),
-                                                    Box::new(Expr::Ident(Ident::new("exportName".into(), DUMMY_SP, Default::default()))),
-                                                ],
-                                                quasis: parts.iter().enumerate().map(|(i, &text)| {
-                                                    TplElement {
-                                                        span: DUMMY_SP,
-                                                        tail: i == parts.len() - 1,
-                                                        cooked: Some(text.into()),
-                                                        raw: text.into(),
-                                                    }
-                                                }).collect(),
-                                            })),
-                                        }]),
-                                        ctxt: Default::default(),
-                                        type_args: None,
-                                    })),
-                                })],
-                                ctxt: Default::default(),
-                            })),
-                            ctxt: Default::default(),
-                            is_async: false,
-                            is_generator: false,
-                            return_type: None,
-                            type_params: None,
-                        }))),
-                    })],
-                    ctxt: Default::default(),
-                }),
-                span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
-                decorators: vec![],
-            }),
-            declare: false,
-        })))
+        quote!(
+            "function createClientReferenceProxy($export_name) {
+                const filename = $file_path;
+                return () => {
+                    throw new Error(`Attempted to call ${$export_name}() from the server of ${filename} but ${$export_name} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.`);
+                }
+            }" as ModuleItem,
+            file_path: Expr = Str::from(self.filename.as_str()).into(),
+            export_name = Ident::new("exportName".into(), DUMMY_SP, Default::default())
+        )
     }
 
     fn create_client_reference(&self, export_name: &str) -> Expr {
@@ -238,7 +171,7 @@ where
                 imported: None,
                 is_type_only: false,
             })],
-            src: Box::new(Str::from(self.runtime_path.clone())),
+            src: Box::new(Str::from(self.runtime_path.as_str())),
             type_only: false,
             with: None,
             phase: ImportPhase::Evaluation,
@@ -761,7 +694,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     let config = serde_json::from_str::<TransformConfig>(
         &metadata.get_transform_plugin_config().unwrap_or_default()
     ).unwrap_or_default();
-    let comments = metadata.comments.clone();
+    let comments = metadata.comments;
 
     program.apply(&mut visit_mut_pass(TransformVisitor::new(filename, comments, config.app_dir, config.runtime_path)))
 }

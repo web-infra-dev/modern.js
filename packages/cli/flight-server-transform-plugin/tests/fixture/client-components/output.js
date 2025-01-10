@@ -3,8 +3,9 @@
 "use client";
 import { registerClientReference } from "@modern-js/runtime/rsc/server";
 function createClientReferenceProxy(exportName) {
+    const filename = "tests/fixture/client-components/input.tsx";
     return ()=>{
-        throw new Error(`Attempted to call ${exportName}() from the server of tests/fixture/client-components/input.tsx but ${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.`);
+        throw new Error(`Attempted to call ${exportName}() from the server of ${filename} but ${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.`);
     };
 }
 export const ClassA = registerClientReference(createClientReferenceProxy("ClassA"), "tests/fixture/client-components/input.tsx#ClassA", "ClassA");
