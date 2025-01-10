@@ -315,7 +315,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
         },
         {
           "oneOf": [
@@ -887,7 +887,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
-      RsbuildCorePlugin {},
+      {
+        "name": "RsbuildCorePlugin",
+      },
       HotModuleReplacementPlugin {
         "name": "HotModuleReplacementPlugin",
       },
@@ -984,13 +986,13 @@ exports[`uni-builder environment compat > should generator environment config co
       },
       "extensionAlias": {
         ".js": [
+          ".js",
           ".ts",
           ".tsx",
-          ".js",
         ],
         ".jsx": [
-          ".tsx",
           ".jsx",
+          ".tsx",
         ],
       },
       "extensions": [
@@ -1257,7 +1259,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
         },
         {
           "oneOf": [
@@ -1683,7 +1685,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
-      RsbuildCorePlugin {},
+      {
+        "name": "RsbuildCorePlugin",
+      },
       DefinePlugin {
         "_args": [
           {
@@ -1735,13 +1739,13 @@ exports[`uni-builder environment compat > should generator environment config co
       },
       "extensionAlias": {
         ".js": [
+          ".js",
           ".ts",
           ".tsx",
-          ".js",
         ],
         ".jsx": [
-          ".tsx",
           ".jsx",
+          ".tsx",
         ],
       },
       "extensions": [
@@ -2001,7 +2005,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset",
             },
           ],
-          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+          "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\|cur\\)\\$/i,
         },
         {
           "oneOf": [
@@ -2409,7 +2413,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
-      RsbuildCorePlugin {},
+      {
+        "name": "RsbuildCorePlugin",
+      },
       DefinePlugin {
         "_args": [
           {
@@ -2441,13 +2447,13 @@ exports[`uni-builder environment compat > should generator environment config co
       },
       "extensionAlias": {
         ".js": [
+          ".js",
           ".ts",
           ".tsx",
-          ".js",
         ],
         ".jsx": [
-          ".tsx",
           ".jsx",
+          ".tsx",
         ],
       },
       "extensions": [
