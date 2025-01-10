@@ -69,8 +69,8 @@
     "html-minifier-terser": "^7.2.0",
     "html-webpack-plugin": "5.6.3",
     "lodash": "^4.17.21",
-    "magic-string": "0.30.12",
-    "@swc/core": "^1.10.2",
+    "magic-string": "0.30.17",
+    "@swc/core": "1.10.4",
     "picocolors": "^1.0.1",
     "postcss": "^8.4.35",
     "postcss-custom-properties": "13.3.12",
@@ -90,7 +90,7 @@
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "~1.0.3",
+    "@rsbuild/plugin-webpack-swc": "1.0.9",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
