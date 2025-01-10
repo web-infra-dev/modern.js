@@ -75,14 +75,13 @@ process.on('message', async (chunk: string) => {
       const chunkedRoutes = chunkArray(renderRoutes, MAX_CONCURRENT_REQUESTS);
 
       for (const routes of chunkedRoutes) {
-        await Promise.all(
-          routes.map(async route => {
-            const url = `http://localhost:${port}${route.urlPath}`;
-            const html = await getHtml(url, port);
-            sendProcessMessage(html);
-            sendProcessMessage(null);
-          }),
+        const promises = routes.map(async route =>
+          getHtml(`http://localhost:${port}${route.urlPath}`, port),
         );
+        for (const result of await Promise.all(promises)) {
+          sendProcessMessage(result);
+          sendProcessMessage(null);
+        }
       }
       nodeServer.close();
     });
