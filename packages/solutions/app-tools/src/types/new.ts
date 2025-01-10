@@ -186,6 +186,7 @@ export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
 
 export type AppToolsHooks<B extends Bundler = 'webpack'> = Hooks<
   AppToolsUserConfig<B>,
-  AppToolsNormalizedConfig
+  AppToolsNormalizedConfig,
+  {}
 > &
   AppToolsExtendHooks;

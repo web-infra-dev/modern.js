@@ -9,12 +9,14 @@ export interface CLIPluginExtends<
   ExtendContext extends Record<string, any> = {},
   ExtendAPI extends Record<string, any> = {},
   ExtendHook extends Record<string, PluginHook<(...args: any[]) => any>> = {},
+  ExtendBuildUtils extends Record<string, any> = {},
 > {
   config?: Config;
   normalizedConfig?: NormalizedConfig;
   extendContext?: ExtendContext;
   extendApi?: ExtendAPI;
   extendHooks?: ExtendHook;
+  extendBuildUtils?: ExtendBuildUtils;
 }
 
 /**

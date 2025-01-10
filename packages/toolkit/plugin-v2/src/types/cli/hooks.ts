@@ -1,5 +1,16 @@
+import type { WebpackConfig } from '@modern-js/uni-builder';
 import type { Command } from '@modern-js/utils/commander';
+import type {
+  ModifyBundlerChainUtils,
+  ModifyRspackConfigUtils,
+  ModifyWebpackChainUtils,
+  ModifyWebpackConfigUtils,
+  RsbuildConfig,
+  Rspack,
+  RspackChain,
+} from '@rsbuild/core';
 import type { TransformFunction } from '../plugin';
+import type { MaybePromise } from '../utils';
 import type { Entrypoint } from './context';
 
 declare module '@modern-js/utils/commander' {
@@ -63,3 +74,33 @@ export type OnAfterDeployFn = (
 ) => Promise<void> | void;
 
 export type OnBeforeExitFn = () => void;
+
+export type ModifyBundlerChainFn<ExtendsUtils> = (
+  chain: RspackChain,
+  utils: ModifyBundlerChainUtils & ExtendsUtils,
+) => MaybePromise<void>;
+
+// todo replace to use rsbuild type after update rsbuild lib version
+export type ModifyRsbuildConfigUtils = {
+  /** Merge multiple Rsbuild config objects into one. */
+  mergeRsbuildConfig: (...configs: RsbuildConfig[]) => RsbuildConfig;
+};
+export type ModifyRsbuildConfigFn<ExtendsUtils> = (
+  config: RsbuildConfig,
+  utils: ModifyRsbuildConfigUtils & ExtendsUtils,
+) => MaybePromise<RsbuildConfig | void>;
+
+export type ModifyRspackConfigFn<ExtendsUtils> = (
+  config: Rspack.Configuration,
+  utils: ModifyRspackConfigUtils & ExtendsUtils,
+) => MaybePromise<Rspack.Configuration | void>;
+
+export type ModifyWebpackChainFn<ExtendsUtils> = (
+  chain: RspackChain,
+  utils: ModifyWebpackChainUtils & ExtendsUtils,
+) => Promise<void> | void;
+
+export type ModifyWebpackConfigFn<ExtendsUtils> = (
+  config: WebpackConfig,
+  utils: ModifyWebpackConfigUtils & ExtendsUtils,
+) => Promise<WebpackConfig | void> | WebpackConfig | void;
