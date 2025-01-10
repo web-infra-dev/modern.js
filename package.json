@@ -92,10 +92,7 @@
         "@mdx-js/react@^1.6.22>react": "18"
       }
     },
-    "overrides": {
-      "react": "19.0.0",
-      "react-dom": "19.0.0"
-    },
+
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",
       "@babel/plugin-proposal-private-property-in-object": "7.21.0",
