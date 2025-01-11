@@ -112,6 +112,7 @@ export const createRequest = (routeId: string, method = 'get') => {
       return await parseDeferredReadableStream(res.body!);
     }
 
+    // some response error not from modern.js
     if (isOtherErrorResponse(res)) {
       return await handleNetworkErrorResponse(res);
     }
