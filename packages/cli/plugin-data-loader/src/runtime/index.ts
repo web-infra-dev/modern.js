@@ -130,7 +130,7 @@ export const handleRequest = async ({
           });
     }
     const cost = end();
-
+    response.headers.set('X-Modernjs-Response', 'yes');
     onTiming?.(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
     if (isResponse(error)) {

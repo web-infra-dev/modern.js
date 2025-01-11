@@ -127,16 +127,15 @@ export const routerPlugin = (
 
           // requestHandler.ts also has same logic, but handle common status code
           // maybe we can put the logic in requestHandler.ts in the future
+          const errors = Object.values(
+            (routerContext.errors || {}) as Record<string, Error>,
+          );
           if (
-            routerContext.statusCode >= 500 &&
-            routerContext.statusCode < 600 &&
             // TODO: if loaderFailureMode is not 'errroBoundary', error log will not be printed.
+            errors.length > 0 &&
             loaderFailureMode === 'clientRender'
           ) {
             routerContext.statusCode = 200;
-            const errors = Object.values(
-              routerContext.errors as Record<string, Error>,
-            );
             throw errors[0];
           }
 

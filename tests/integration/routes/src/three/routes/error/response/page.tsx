@@ -1,10 +1,6 @@
-import { Outlet, useLoaderData } from '@modern-js/runtime/router';
+import { useLoaderData } from '@modern-js/runtime/router';
 
 export default function Page() {
   const data = useLoaderData();
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  return <div className="response-content">Response Page</div>;
 }

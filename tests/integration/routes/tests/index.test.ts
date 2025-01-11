@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import { fs, ROUTE_MANIFEST_FILE, wait } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import puppeteer, { type Browser } from 'puppeteer';
 
@@ -11,6 +11,7 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
+  sleep,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
@@ -361,25 +362,65 @@ const supportLoader = async (page: Page, errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportThrowResponse = async (
+const supportThrowError = async (
   page: Page,
   errors: string[],
   appPort: number,
 ) => {
   const response = await page.goto(
-    `http://localhost:${appPort}/three/error/response`,
+    `http://localhost:${appPort}/three/error/response?type=throw_error`,
     {
       waitUntil: ['domcontentloaded'],
     },
   );
-  expect(response?.status()).toBe(255);
+  expect(response?.status()).toBe(200);
+  await page.waitForSelector('.error-content');
+  const errorStatusElm = await page.$('.error-content');
+  const text = await page.evaluate(el => el?.textContent, errorStatusElm);
+  expect(text?.includes('500')).toBeFalsy();
+  expect(text?.includes("can't found the user")).toBeTruthy();
+};
+
+const supportThrowResponse = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+  code: number,
+) => {
+  const response = await page.goto(
+    `http://localhost:${appPort}/three/error/response?type=throw_response&code=${code}`,
+    {
+      waitUntil: ['domcontentloaded'],
+    },
+  );
+  expect(response?.status()).toBe(200);
+  await page.waitForSelector('.response-status');
   const errorStatusElm = await page.$('.response-status');
   const text = await page.evaluate(el => el?.textContent, errorStatusElm);
-  expect(text?.includes('255')).toBeTruthy();
+  expect(text?.includes(`${code}`)).toBeTruthy();
   const errorContentElm = await page.$('.response-content');
   const text1 = await page.evaluate(el => el?.textContent, errorContentElm);
   expect(text1?.includes("can't found the user")).toBeTruthy();
   expect(errors.length).toBe(0);
+};
+
+const supportReturnResponse = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+  code: number,
+) => {
+  const response = await page.goto(
+    `http://localhost:${appPort}/three/error/response?type=return_response&code=${code}`,
+    {
+      waitUntil: ['domcontentloaded'],
+    },
+  );
+  expect(response?.status()).toBe(code);
+  await page.waitForSelector('.response-content');
+  const el = await page.$('.response-content');
+  const text = await page.evaluate(el => el?.textContent, el);
+  expect(text?.includes('Response Page')).toBeTruthy();
 };
 
 const supportLoaderForSSRAndCSR = async (
@@ -770,8 +811,16 @@ describe('dev', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
-    test('support throw response', async () =>
-      supportThrowResponse(page, errors, appPort));
+    test('support throw error', async () =>
+      supportThrowError(page, errors, appPort));
+    test('support throw response', async () => {
+      await supportThrowResponse(page, errors, appPort, 500);
+      await supportThrowResponse(page, errors, appPort, 200);
+    });
+    test('support return response', async () => {
+      await supportReturnResponse(page, errors, appPort, 500);
+      await supportReturnResponse(page, errors, appPort, 200);
+    });
   });
 
   describe('global configuration', () => {
@@ -912,8 +961,16 @@ describe('build', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
-    test('support throw response', async () =>
-      supportThrowResponse(page, errors, appPort));
+    test('support throw error', async () =>
+      supportThrowError(page, errors, appPort));
+    test('support throw response', async () => {
+      await supportThrowResponse(page, errors, appPort, 500);
+      await supportThrowResponse(page, errors, appPort, 200);
+    });
+    test('support return response', async () => {
+      await supportReturnResponse(page, errors, appPort, 500);
+      await supportReturnResponse(page, errors, appPort, 200);
+    });
   });
 
   describe('global configuration', () => {
@@ -1056,8 +1113,16 @@ describe('dev with rspack', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
-    test('support throw response', async () =>
-      supportThrowResponse(page, errors, appPort));
+    test('support throw error', async () =>
+      supportThrowError(page, errors, appPort));
+    test('support throw response', async () => {
+      await supportThrowResponse(page, errors, appPort, 500);
+      await supportThrowResponse(page, errors, appPort, 200);
+    });
+    test('support return response', async () => {
+      await supportReturnResponse(page, errors, appPort, 500);
+      await supportReturnResponse(page, errors, appPort, 200);
+    });
   });
 
   describe('global configuration', () => {
@@ -1202,8 +1267,16 @@ describe('build with rspack', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
-    test('support throw response', async () =>
-      supportThrowResponse(page, errors, appPort));
+    test('support throw error', async () =>
+      supportThrowError(page, errors, appPort));
+    test('support throw response', async () => {
+      await supportThrowResponse(page, errors, appPort, 500);
+      await supportThrowResponse(page, errors, appPort, 200);
+    });
+    test('support return response', async () => {
+      await supportReturnResponse(page, errors, appPort, 500);
+      await supportReturnResponse(page, errors, appPort, 200);
+    });
   });
 
   describe('global configuration', () => {
