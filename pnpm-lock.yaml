@@ -1043,8 +1043,8 @@ importers:
   packages/devtools/plugin:
     dependencies:
       '@hono/node-server':
-        specifier: 1.12.0
-        version: 1.12.0
+        specifier: 1.13.7
+        version: 1.13.7(hono@4.5.8)
       '@modern-js/devtools-client':
         specifier: workspace:*
         version: link:../client
@@ -9672,9 +9672,11 @@ packages:
   '@hapi/topo@5.1.0':
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
 
-  '@hono/node-server@1.12.0':
-    resolution: {integrity: sha512-e6oHjNiErRxsZRZBmc2KucuvY3btlO/XPncIpP2X75bRdTilF9GLjm3NHvKKunpJbbJJj31/FoPTksTf8djAVw==}
+  '@hono/node-server@1.13.7':
+    resolution: {integrity: sha512-kTfUMsoloVKtRA2fLiGSd9qBddmru9KadNyhJCwgKBxTiNkaAJEwkVN9KV/rS4HtmmNRtUh6P+YpmjRMl0d9vQ==}
     engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -23638,7 +23640,9 @@ snapshots:
     dependencies:
       '@hapi/hoek': 9.3.0
 
-  '@hono/node-server@1.12.0': {}
+  '@hono/node-server@1.13.7(hono@4.5.8)':
+    dependencies:
+      hono: 4.5.8
 
   '@isaacs/cliui@8.0.2':
     dependencies:
