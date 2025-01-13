@@ -86,9 +86,9 @@ export const routerPlugin = (
           context.ssrContext?.loaderContext,
         );
         requestContext.set(reporterCtx, reporter);
-        const runner = (api as any).useHookRunners();
+        const hooks = api.getHooks();
 
-        await runner.beforeCreateRoutes(context);
+        await hooks.onBeforeCreateRoutes.call(context);
 
         let routes = createRoutes
           ? createRoutes()
@@ -103,7 +103,7 @@ export const routerPlugin = (
               }),
             );
 
-        routes = runner.modifyRoutes(routes);
+        routes = hooks.modifyRoutes.call(routes);
 
         const { query } = createStaticHandler(routes, {
           basename: _basename,
