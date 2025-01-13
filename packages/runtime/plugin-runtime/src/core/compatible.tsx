@@ -238,7 +238,11 @@ export const useRuntimeContext = () => {
           return Object.freeze(context.initialData);
         },
       }
-    : ({} as TSSRContext);
+    : ({
+        getInitData: () => {
+          return Object.freeze(context.initialData);
+        },
+      } as TSSRContext);
 
   // TODO: Here we should not provide all the RuntimeReactContext to the user
   const pickedContext: TRuntimeContext = {

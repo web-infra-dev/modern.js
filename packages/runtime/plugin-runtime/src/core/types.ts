@@ -79,6 +79,7 @@ interface TSSRBaseContext {
     userAgent: string;
     cookie: string;
   };
+  getInitData: () => Readonly<Record<string, unknown> | undefined>;
   [propName: string]: any;
 }
 
