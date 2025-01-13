@@ -6,7 +6,6 @@ import type {
   CacheOptionProvider,
   Container,
 } from '@modern-js/types';
-import { removeTailSlash } from '@modern-js/utils';
 import { X_RENDER_CACHE } from '../../constants';
 import type {
   RequestHandler,
@@ -19,6 +18,7 @@ interface CacheStruct {
   cursor: number;
 }
 
+const removeTailSlash = (s: string): string => s.replace(/\/+$/, '');
 const ZERO_RENDER_LEVEL = /"renderLevel":0/;
 const NO_SSR_CACHE = /<meta\s+[^>]*name=["']no-ssr-cache["'][^>]*>/i;
 
