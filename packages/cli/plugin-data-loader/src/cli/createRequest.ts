@@ -38,28 +38,45 @@ const handleRedirectResponse = (res: Response) => {
   return res;
 };
 
-const handleDeferredResponse = async (res: Response) => {
-  if (
-    res.headers.get('Content-Type')?.match(CONTENT_TYPE_DEFERRED) &&
-    res.body
-  ) {
-    return await parseDeferredReadableStream(res.body);
-  }
-  return res;
+const isDeferredResponse = (res: Response) => {
+  return (
+    res.headers.get('Content-Type')?.match(CONTENT_TYPE_DEFERRED) && res.body
+  );
+};
+
+const isRedirectResponse = (res: Response) => {
+  return res.headers.get('X-Modernjs-Redirect') != null;
 };
 
 const isErrorResponse = (res: Response) => {
   return res.headers.get('X-Modernjs-Error') != null;
 };
 
+function isOtherErrorResponse(res: Response) {
+  return (
+    res.status >= 400 &&
+    res.headers.get('X-Modernjs-Error') == null &&
+    res.headers.get('X-Modernjs-Catch') == null &&
+    res.headers.get('X-Modernjs-Response') == null
+  );
+}
+
+const isCatchResponse = (res: Response) => {
+  return res.headers.get('X-Modernjs-Catch') != null;
+};
+
 const handleErrorResponse = async (res: Response) => {
-  if (isErrorResponse(res)) {
-    const data = await res.json();
-    const error = new Error(data.message);
-    error.stack = data.stack;
-    throw error;
-  }
-  return res;
+  const data = await res.json();
+  const error = new Error(data.message);
+  error.stack = data.stack;
+  throw error;
+};
+
+const handleNetworkErrorResponse = async (res: Response) => {
+  const text = await res.text();
+  const error = new Error(text);
+  error.stack = undefined;
+  throw error;
 };
 
 export const createRequest = (routeId: string, method = 'get') => {
@@ -75,11 +92,30 @@ export const createRequest = (routeId: string, method = 'get') => {
     res = await fetch(url, {
       method,
       signal: request.signal,
+    }).catch(error => {
+      throw error;
     });
 
-    res = handleRedirectResponse(res);
-    res = await handleErrorResponse(res);
-    res = await handleDeferredResponse(res);
+    if (isRedirectResponse(res)) {
+      return handleRedirectResponse(res);
+    }
+
+    if (isErrorResponse(res)) {
+      return await handleErrorResponse(res);
+    }
+
+    if (isCatchResponse(res)) {
+      throw res;
+    }
+
+    if (isDeferredResponse(res)) {
+      return await parseDeferredReadableStream(res.body!);
+    }
+
+    // some response error not from modern.js
+    if (isOtherErrorResponse(res)) {
+      return await handleNetworkErrorResponse(res);
+    }
 
     return res;
   };

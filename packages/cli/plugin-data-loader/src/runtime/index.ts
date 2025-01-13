@@ -130,7 +130,8 @@ export const handleRequest = async ({
           });
     }
     const cost = end();
-
+    // add response header for client know if the response is from modern server
+    response.headers.set('X-Modernjs-Response', 'yes');
     onTiming?.(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
     if (isResponse(error)) {

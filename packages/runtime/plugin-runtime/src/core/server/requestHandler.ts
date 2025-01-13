@@ -217,7 +217,7 @@ export const createRequestHandler: CreateRequestHandler =
 
       const initialData = await runBeforeRender(context);
 
-      // Support data loader to return status code
+      // Support data loader to return `new Response` and set status code
       if (
         context.routerContext?.statusCode &&
         context.routerContext?.statusCode !== 200
