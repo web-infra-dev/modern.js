@@ -51,8 +51,7 @@ export const routerPlugin = (
         beforeRender(context) {
           // In some scenarios, the initial pathname and the current pathname do not match.
           // We add a configuration to support the page to reload.
-          if (window._SSR_DATA && userConfig.reloadOnURLMismatch) {
-            console.log('hello world');
+          if (window._SSR_DATA && userConfig.unstable_reloadOnURLMismatch) {
             const { ssrContext } = context;
             const currentPathname = normalizePathname(window.location.pathname);
             const initialPathname =

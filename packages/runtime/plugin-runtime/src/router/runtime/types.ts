@@ -28,7 +28,6 @@ export type RouterConfig = {
     globalApp?: React.ComponentType<any>;
     routes?: (NestedRoute | PageRoute)[];
   };
-  reloadOnURLMismatch?: boolean;
   /**
    * You should not use it
    */
@@ -40,6 +39,11 @@ export type RouterConfig = {
   future?: Partial<{
     v7_startTransition: boolean;
   }>;
+  /**
+   * An unstable feature, which will reload the page when the current browser URL and the SSR Context URL do not match.
+   */
+  unstable_reloadOnURLMismatch?: boolean;
+};
 };
 
 export type Routes = RouterConfig['routesConfig']['routes'];
