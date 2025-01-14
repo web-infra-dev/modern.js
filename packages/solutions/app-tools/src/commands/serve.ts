@@ -27,6 +27,8 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
     serverConfigFile,
   } = appContext;
 
+  const { isCrossProjectServer } = (userConfig?.bff as any) || {};
+
   logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
     appContext.appDirectory,
@@ -72,16 +74,20 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
         appContext.appDirectory,
         appContext.distDirectory,
       ),
-      apiDirectory: getTargetDir(
-        appContext.apiDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
-      lambdaDirectory: getTargetDir(
-        appContext.lambdaDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
+      apiDirectory: isCrossProjectServer
+        ? appContext.apiDirectory
+        : getTargetDir(
+            appContext.apiDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+      lambdaDirectory: isCrossProjectServer
+        ? appContext.lambdaDirectory
+        : getTargetDir(
+            appContext.lambdaDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
     },
     runMode,
   });
