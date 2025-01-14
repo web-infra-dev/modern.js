@@ -79,14 +79,27 @@ export const generateClient = async ({
       const requestOptions = {
         path: routeName,
         method: upperHttpMethod,
-        port: process.env.PORT || port,
         httpMethodDecider: httpMethodDecider || 'functionName',
         domain,
         ...(fetcher ? { fetch: 'fetch' } : {}),
         requestId,
       };
+      const portValue =
+        target === 'server'
+          ? `process.env.PORT || ${String(port)}`
+          : String(port);
 
-      handlersCode += `export ${exportStatement} createRequest(${JSON.stringify(requestOptions)});
+      const otherOptsStr = JSON.stringify(requestOptions, null, 2)
+        .replace(/^{/, '')
+        .replace(/}$/, '')
+        .trim();
+
+      const finalOptsStr = `{${otherOptsStr}, "port": ${portValue} }`.replace(
+        /\n\s*/g,
+        '',
+      );
+
+      handlersCode += `export ${exportStatement} createRequest(${finalOptsStr});
       `;
     }
   }
