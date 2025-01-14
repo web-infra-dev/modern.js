@@ -44,7 +44,6 @@ export type RouterConfig = {
    */
   unstable_reloadOnURLMismatch?: boolean;
 };
-};
 
 export type Routes = RouterConfig['routesConfig']['routes'];
 
