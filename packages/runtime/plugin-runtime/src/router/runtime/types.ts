@@ -28,6 +28,7 @@ export type RouterConfig = {
     globalApp?: React.ComponentType<any>;
     routes?: (NestedRoute | PageRoute)[];
   };
+  reloadOnURLMismatch?: boolean;
   /**
    * You should not use it
    */
