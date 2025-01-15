@@ -5225,17 +5225,17 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  tests/integration/bff-api-app:
+  tests/integration/bff-corss-project/bff-api-app:
     dependencies:
       '@modern-js/plugin-bff':
         specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
+        version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
         specifier: workspace:*
-        version: link:../../../packages/server/plugin-express
+        version: link:../../../../packages/server/plugin-express
       '@modern-js/runtime':
         specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
+        version: link:../../../../packages/runtime/plugin-runtime
       express:
         specifier: ^4.17.2
         version: 4.21.2
@@ -5257,7 +5257,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
+        version: link:../../../../packages/solutions/app-tools
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.21
@@ -5277,14 +5277,17 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/bff-client-app:
+  tests/integration/bff-corss-project/bff-client-app:
     dependencies:
+      '@modern-js/plugin-bff':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
         specifier: workspace:*
-        version: link:../../../packages/server/plugin-express
+        version: link:../../../../packages/server/plugin-express
       '@modern-js/runtime':
         specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
+        version: link:../../../../packages/runtime/plugin-runtime
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -5309,7 +5312,65 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
+        version: link:../../../../packages/solutions/app-tools
+      '@types/express':
+        specifier: ^4.17.13
+        version: 4.17.21
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.5(@types/react@18.3.18)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  tests/integration/bff-corss-project/bff-indep-client-app:
+    dependencies:
+      '@modern-js/plugin-bff':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-bff
+      '@modern-js/plugin-express':
+        specifier: workspace:*
+        version: link:../../../../packages/server/plugin-express
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      axios:
+        specifier: ^1.7.4
+        version: 1.7.9(debug@4.3.7)
+      bff-api-app:
+        specifier: workspace:*
+        version: link:../bff-api-app
+      express:
+        specifier: ^4.17.2
+        version: 4.21.2
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@14.18.35)(typescript@5.6.3)
+      tsconfig-paths:
+        specifier: 3.14.1
+        version: 3.14.1
+      zod:
+        specifier: ^3.22.3
+        version: 3.22.3
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.21
@@ -5380,61 +5441,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.3.3
-
-  tests/integration/bff-indep-client-app:
-    dependencies:
-      '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-express
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      axios:
-        specifier: ^1.7.4
-        version: 1.7.9(debug@4.3.7)
-      bff-api-app:
-        specifier: workspace:*
-        version: link:../bff-api-app
-      express:
-        specifier: ^4.17.2
-        version: 4.21.2
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.10.7(@swc/helpers@0.5.15))(@types/node@14.18.35)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18.3.11
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.5(@types/react@18.3.18)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
 
   tests/integration/bff-koa:
     dependencies:

@@ -76,17 +76,22 @@ export const generateClient = async ({
       };
       handlersCode += `export ${exportStatement} createUploader(${JSON.stringify(requestOptions)});`;
     } else {
-      const requestOptions = {
-        path: routeName,
-        method: upperHttpMethod,
-        port: process.env.PORT || port,
-        httpMethodDecider: httpMethodDecider || 'functionName',
-        domain,
-        ...(fetcher ? { fetch: 'fetch' } : {}),
-        requestId,
-      };
+      const portValue =
+        target === 'server'
+          ? `process.env.PORT || ${String(port)}`
+          : String(port);
 
-      handlersCode += `export ${exportStatement} createRequest(${JSON.stringify(requestOptions)});
+      const optionsStr = `{
+        path: '${routeName}',
+        method: '${upperHttpMethod}',
+        port: ${portValue},
+        httpMethodDecider: '${httpMethodDecider || 'functionName'}'
+        ${domain ? `, domain: '${domain}'` : ''}
+        ${fetcher ? ", fetch: 'fetch'" : ''}
+        ${requestId ? `, requestId: '${requestId}'` : ''}
+      }`.replace(/\n\s*/g, '');
+
+      handlersCode += `export ${exportStatement} createRequest(${optionsStr});
       `;
     }
   }
