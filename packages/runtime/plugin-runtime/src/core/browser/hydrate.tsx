@@ -26,23 +26,6 @@ export function hydrateRoot(
     _hydration: true,
   };
 
-  const { ssrContext } = hydrateContext;
-
-  const currentPathname = normalizePathname(window.location.pathname);
-  const initialPathname =
-    ssrContext?.request?.pathname &&
-    normalizePathname(ssrContext.request.pathname);
-
-  if (
-    initialPathname &&
-    initialPathname !== currentPathname &&
-    context.router
-  ) {
-    const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
-    console.error(errorMsg);
-    window.location.reload();
-  }
-
   const callback = () => {
     // won't cause component re-render because context's reference identity doesn't change
     delete hydrateContext._hydration;

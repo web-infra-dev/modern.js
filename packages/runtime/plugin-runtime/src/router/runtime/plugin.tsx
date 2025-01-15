@@ -1,5 +1,4 @@
 import { merge } from '@modern-js/runtime-utils/merge';
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import {
   type RouteObject,
@@ -11,6 +10,7 @@ import {
   useLocation,
   useMatches,
 } from '@modern-js/runtime-utils/router';
+import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type React from 'react';
 import { useContext, useMemo } from 'react';
 import { type Plugin, RuntimeReactContext } from '../../core';
@@ -49,6 +49,22 @@ export const routerPlugin = (
       let routes: RouteObject[] = [];
       return {
         beforeRender(context) {
+          // In some scenarios, the initial pathname and the current pathname do not match.
+          // We add a configuration to support the page to reload.
+          if (window._SSR_DATA && userConfig.unstable_reloadOnURLMismatch) {
+            const { ssrContext } = context;
+            const currentPathname = normalizePathname(window.location.pathname);
+            const initialPathname =
+              ssrContext?.request?.pathname &&
+              normalizePathname(ssrContext.request.pathname);
+
+            if (initialPathname && initialPathname !== currentPathname) {
+              const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
+              console.error(errorMsg);
+              window.location.reload();
+            }
+          }
+
           // for garfish plugin to get basename,
           // why not let garfish plugin just import @modern-js/runtime/router
           // so the `router` has no type declare in RuntimeContext
