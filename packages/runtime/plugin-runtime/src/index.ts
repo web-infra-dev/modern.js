@@ -1,7 +1,7 @@
 import type { RouterConfig } from './router';
 import type { StateConfig } from './state';
 
-export type { Plugin } from './core';
+export type { Plugin, RuntimePluginFuture } from './core';
 export type { AppConfig, RuntimeConfig } from './common';
 export { isBrowser } from './common';
 

@@ -1,4 +1,4 @@
-import { logger } from '@modern-js/utils';
+import { createDebugger, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
 import type { CLIPlugin, CLIPluginExtends } from '../../types/cli/plugin';
@@ -14,6 +14,8 @@ import { initCommandsMap, setProgramVersion } from './utils/commander';
 import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
+
+const debug = createDebugger('plugin-v2');
 
 export const createCli = <Extends extends CLIPluginExtends>() => {
   let initOptions: CLIRunOptions<Extends>;
@@ -61,6 +63,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     pluginManager.addPlugins(allPlugins);
 
     const plugins = (await pluginManager.getPlugins()) as CLIPlugin<Extends>[];
+
+    debug(
+      'CLI Plugins:',
+      plugins.map(p => p.name),
+    );
 
     const context = await createContext<Extends>({
       appContext: initAppContext<Extends>({

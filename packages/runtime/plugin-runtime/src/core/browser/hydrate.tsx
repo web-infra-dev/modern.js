@@ -3,7 +3,7 @@ import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type React from 'react';
 import type { Root } from 'react-dom/client';
 import { RenderLevel } from '../constants';
-import type { RuntimeContext } from '../context';
+import type { RuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
