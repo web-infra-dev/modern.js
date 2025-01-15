@@ -45,3 +45,7 @@ jobs:
           --ignore-dep 'hono'
           --ignore-dep 'type-fest'
           --ignore-dep 'typescript'
+          --ignore-dep 'react'
+          --ignore-dep '@types/react'
+          --ignore-dep 'react-dom'
+          --ignore-dep '@types/react-dom'

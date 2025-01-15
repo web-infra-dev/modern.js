@@ -212,6 +212,7 @@ function applyFilterEntriesBySSRConfig({
   const { ssr, ssrByEntries } = serverConfig || {};
   entryNames.forEach(name => {
     if (
+      !serverConfig?.rsc &&
       !ssgEntries.includes(name) &&
       !name.includes('server-loaders') &&
       ((ssr && ssrByEntries?.[name] === false) ||

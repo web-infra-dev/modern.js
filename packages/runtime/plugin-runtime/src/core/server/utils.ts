@@ -1,8 +1,12 @@
-import type { ServerUserConfig } from '@modern-js/app-tools';
+import type {
+  RequestHandlerOptions,
+  ServerUserConfig,
+} from '@modern-js/app-tools';
 import {
   type StaticHandlerContext,
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
+import type { PluginRunner } from '../plugin';
 import type { SSRConfig } from './shared';
 
 export function attributesToString(attributes: Record<string, any>) {
@@ -79,3 +83,8 @@ export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
 
   return ssrConfig?.mode === 'stream' ? 'stream' : 'string';
 }
+
+export type ResponseProxy = {
+  headers: Record<string, string>;
+  code: number;
+};

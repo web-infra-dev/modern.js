@@ -1,0 +1,87 @@
+{
+  "name": "@modern-js/render",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/runtime/render"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.60.4",
+  "files": [
+    "dist",
+    "hook.d.ts"
+  ],
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/types": "workspace:*",
+    "@swc/helpers": "0.5.13",
+    "react-server-dom-webpack": "19.0.0",
+    "rsc-html-stream": "0.0.3"
+  },
+  "devDependencies": {
+    "@modern-js/server-core": "workspace:*",
+    "@types/jest": "^29",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "jest": "^29",
+    "react": "19.0.0 ",
+    "react-dom": "19.0.0 ",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "19.0.0 ",
+    "react-dom": "19.0.0 "
+  },
+  "exports": {
+    "./ssr": {
+      "types": "./dist/types/server/ssr/index.d.ts",
+      "jsnext:source": "./src/server/ssr/index.ts",
+      "default": "./dist/esm/server/ssr/index.js"
+    },
+    "./rsc": {
+      "types": "./dist/types/server/rsc/index.d.ts",
+      "jsnext:source": "./src/server/rsc/index.ts",
+      "default": "./dist/esm/server/rsc/index.js"
+    },
+    "./client": {
+      "types": "./dist/types/client/index.d.ts",
+      "jsnext:source": "./src/client/index.tsx",
+      "default": "./dist/esm/client/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "ssr": [
+        "./dist/types/server/ssr/index.d.ts"
+      ],
+      "rsc": [
+        "./dist/types/server/rsc/index.d.ts"
+      ],
+      "client": [
+        "./dist/types/client/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/browser.d.ts"
+  }
+}

@@ -117,6 +117,9 @@ function createRenderHandler(
     const monitors = c.get('monitors');
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
+    const rscServerManifest = c.get('rscServerManifest');
+    const rscClientManifest = c.get('rscClientManifest');
+    const rscSSRManifest = c.get('rscSSRManifest');
     const locals = c.get('locals');
     const metrics = c.get('metrics');
     const matchPathname = c.get('matchPathname');
@@ -134,6 +137,9 @@ function createRenderHandler(
       templates,
       metrics,
       serverManifest,
+      rscServerManifest,
+      rscClientManifest,
+      rscSSRManifest,
       loaderContext,
       locals,
       matchPathname,

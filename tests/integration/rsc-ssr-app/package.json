@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "name": "rsc-ssr-app",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "BUNDLER=rspack modern dev",
+    "dev:webpack": "BUNDLER=webpack  modern dev",
+    "build": "BUNDLER=rspack modern build",
+    "build:webpack": "BUNDLER=webpack modern build",
+    "serve": "modern serve",
+    "new": "modern new"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "dependencies": {
+    "@modern-js/render": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "react": "^19",
+    "react-dom": "^19",
+    "server-only": "^0.0.1",
+    "client-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "isomorphic-fetch": "^3.0.0",
+    "typescript": "^5"
+  }
+}

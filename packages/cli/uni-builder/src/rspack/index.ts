@@ -7,6 +7,7 @@ import type {
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { rscRsbuildPlugin } from '../shared/rsc/plugins/rsc-rsbuild-plugin';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -120,6 +121,19 @@ export async function parseConfig(
     rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
+  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
+  if (enableRsc) {
+    const { rscClientRuntimePath, rscServerRuntimePath } = options;
+    rsbuildPlugins.push(
+      rscRsbuildPlugin({
+        appDir: options.cwd,
+        isRspack: true,
+        rscClientRuntimePath,
+        rscServerRuntimePath,
+      }),
+    );
+  }
+
   return {
     rsbuildConfig,
     rsbuildPlugins,
@@ -135,7 +149,13 @@ export type UniBuilderInstance = Omit<
 export async function createRspackBuilder(
   options: CreateUniBuilderOptions,
 ): Promise<UniBuilderInstance> {
-  const { cwd = process.cwd(), config, ...rest } = options;
+  const {
+    cwd = process.cwd(),
+    config,
+    rscClientRuntimePath,
+    rscServerRuntimePath,
+    ...rest
+  } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
     ...rest,
