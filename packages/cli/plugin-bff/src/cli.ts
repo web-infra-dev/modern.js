@@ -84,7 +84,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const lambdaDir = apiRouter.getLambdaDir();
       const existLambda = apiRouter.isExistLambda();
 
-      const runtime = (bff as any)?.runtime || RUNTIME_CREATE_REQUEST;
+      const runtime =
+        (bff as any)?.runtimeCreateRequest || RUNTIME_CREATE_REQUEST;
       const relativeApiPath = path.relative(appDirectory, apiDirectory);
       const relativeLambdaPath = path.relative(appDirectory, lambdaDir);
 

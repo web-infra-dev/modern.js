@@ -3,25 +3,25 @@
 exports[`client generateClient should support cross croject invocation 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
 
-export var DELETE = createRequest({"path": "/normal/origin","method": "DELETE","httpMethodDecider": "functionName","requestId": "tests", "port": 3000 });
-      export default createRequest({"path": "/normal/origin","method": "GET","httpMethodDecider": "functionName","requestId": "tests", "port": 3000 });
-      export var putRepo = createRequest({"path": "/put-repo","method": "PUT","httpMethodDecider": "functionName","requestId": "tests", "port": 3000 });
+export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
+      export default createRequest({path: '/normal/origin',method: 'GET',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
+      export var putRepo = createRequest({path: '/put-repo',method: 'PUT',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
       "
 `;
 
 exports[`client generateClient should support operator 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
 
-export var DELETE = createRequest({"path": "/normal/origin","method": "DELETE","httpMethodDecider": "functionName", "port": 3000 });
-      export default createRequest({"path": "/normal/origin","method": "GET","httpMethodDecider": "functionName", "port": 3000 });
-      export var putRepo = createRequest({"path": "/put-repo","method": "PUT","httpMethodDecider": "functionName", "port": 3000 });
+export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName'});
+      export default createRequest({path: '/normal/origin',method: 'GET',port: 3000,httpMethodDecider: 'functionName'});
+      export var putRepo = createRequest({path: '/put-repo',method: 'PUT',port: 3000,httpMethodDecider: 'functionName'});
       "
 `;
 
 exports[`client generateClient should works correctly 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
 
-export var get = createRequest({"path": "/api/:id/origin/foo","method": "GET","httpMethodDecider": "functionName", "port": 3000 });
-      export var post = createRequest({"path": "/api/:id/origin/foo","method": "POST","httpMethodDecider": "functionName", "port": 3000 });
+export var get = createRequest({path: '/api/:id/origin/foo',method: 'GET',port: 3000,httpMethodDecider: 'functionName'});
+      export var post = createRequest({path: '/api/:id/origin/foo',method: 'POST',port: 3000,httpMethodDecider: 'functionName'});
       "
 `;

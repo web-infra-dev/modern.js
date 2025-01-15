@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "bff-indep-client-app",
+  "name": "bff-client-app",
   "version": "2.9.0",
   "scripts": {
     "dev": "modern dev",
@@ -15,6 +15,7 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
+    "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-express": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "express": "^4.17.2",
@@ -23,7 +24,6 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "3.14.1",
     "bff-api-app": "workspace:*",
-    "axios": "^1.7.4",
     "zod": "^3.22.3"
   },
   "devDependencies": {
