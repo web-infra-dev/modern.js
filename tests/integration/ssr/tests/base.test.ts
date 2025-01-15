@@ -154,4 +154,13 @@ describe('Traditional SSR', () => {
     const content1 = await page.content();
     expect(content1).not.toMatch(result);
   });
+
+  test('loader response headers', async () => {
+    const response = await axios.get(
+      `http://localhost:${appPort}/loader-response?error=true&no-cache=1`,
+    );
+
+    const { headers } = response;
+    expect(Boolean(headers['x-error'])).toBeTruthy();
+  });
 });

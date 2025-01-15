@@ -225,6 +225,19 @@ export const createRequestHandler: CreateRequestHandler =
         context.ssrContext?.response.status(context.routerContext?.statusCode);
       }
 
+      // write headers to response
+      if (context.routerContext?.loaderHeaders) {
+        Object.values(context.routerContext?.loaderHeaders).forEach(
+          (headers: Headers) => {
+            headers.forEach((value, key) => {
+              if (key.startsWith('x-')) {
+                context.ssrContext?.response.setHeader(key, value);
+              }
+            });
+          },
+        );
+      }
+
       context.initialData = initialData;
 
       const redirectResponse = getRedirectResponse(initialData);
