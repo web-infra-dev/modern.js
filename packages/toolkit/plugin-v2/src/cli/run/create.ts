@@ -16,15 +16,16 @@ import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
 export const createCli = <Extends extends CLIPluginExtends>() => {
-  let initOptions: CLIRunOptions;
+  let initOptions: CLIRunOptions<Extends>;
   const pluginManager = createPluginManager();
 
-  async function init(options: CLIRunOptions) {
+  async function init(options: CLIRunOptions<Extends>) {
     pluginManager.clear();
     initOptions = options;
     const {
       metaName = 'MODERN',
       configFile,
+      config,
       command,
       version,
       packageJsonConfig,
@@ -44,6 +45,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
       appDirectory,
       configFile,
       packageJsonConfig,
+      config,
     );
 
     const allPlugins = [
@@ -134,7 +136,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
     return { appContext: context };
   }
-  async function run(options: CLIRunOptions) {
+  async function run(options: CLIRunOptions<Extends>) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
 

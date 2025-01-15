@@ -5,6 +5,7 @@ import type { AppContext, InternalContext } from '../types/cli/context';
 import type { CLIPluginExtends } from '../types/cli/plugin';
 import type { PluginManager } from '../types/plugin';
 import type { DeepPartial } from '../types/utils';
+import { debug } from './run/utils/debug';
 
 export function initPluginAPI<Extends extends CLIPluginExtends>({
   context,
@@ -74,7 +75,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     context = merge(context, updateContext);
   }
 
-  return {
+  const pluginAPI = {
     isPluginExists: pluginManager.isPluginExists,
     getAppContext,
     getConfig,
@@ -101,6 +102,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     onFileChanged: hooks.onFileChanged.tap,
     onBeforeRestart: hooks.onBeforeRestart.tap,
     onBeforeCreateCompiler: hooks.onBeforeCreateCompiler.tap,
+    onDevCompileDone: hooks.onDevCompileDone.tap,
     onAfterCreateCompiler: hooks.onAfterCreateCompiler.tap,
     onBeforeBuild: hooks.onBeforeBuild.tap,
     onAfterBuild: hooks.onAfterBuild.tap,
@@ -111,4 +113,15 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     onBeforeExit: hooks.onBeforeExit.tap,
     ...extendsPluginApi,
   };
+
+  return new Proxy(pluginAPI, {
+    get(target: Record<string, any>, prop: string) {
+      if (prop in target) {
+        return target[prop];
+      }
+      return () => {
+        debug(`api.${prop.toString()} not exist`);
+      };
+    },
+  }) as CLIPluginAPI<Extends>;
 }

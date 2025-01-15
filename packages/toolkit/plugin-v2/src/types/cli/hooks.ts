@@ -61,9 +61,7 @@ export type OnBeforeRestartFn = () => Promise<void> | void;
 
 export type OnBeforeDevFn = () => Promise<void> | void;
 
-export type OnAfterDevFn = (params: {
-  isFirstCompile: boolean;
-}) => Promise<void> | void;
+export type OnAfterDevFn = (params: { port: number }) => Promise<void> | void;
 
 export type OnBeforeDeployFn = (
   options: Record<string, any>,

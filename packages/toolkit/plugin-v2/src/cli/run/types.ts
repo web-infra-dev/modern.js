@@ -1,5 +1,6 @@
+import type { CLIPluginExtends } from '../../types/cli';
 import type { Plugin } from '../../types/plugin';
-export interface CLIOptions {
+export interface CLIOptions<Extends extends CLIPluginExtends = { config: {} }> {
   cwd?: string;
   version?: string;
   metaName?: string;
@@ -7,6 +8,10 @@ export interface CLIOptions {
    * The initial log message when CLI started
    */
   initialLog?: string;
+  /**
+   * other config, overrides config file content
+   */
+  config?: Extends['config'];
   configFile: string;
   /**
    * @deprecated
@@ -28,6 +33,8 @@ export type LoadedConfig<T> = {
   jsConfig?: T;
 };
 
-export interface CLIRunOptions extends CLIOptions {
+export interface CLIRunOptions<
+  Extends extends CLIPluginExtends = { config: {} },
+> extends CLIOptions<Extends> {
   command: string;
 }

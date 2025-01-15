@@ -1,8 +1,7 @@
-import { createDebugger, isFunction, logger } from '@modern-js/utils';
+import { isFunction, logger } from '@modern-js/utils';
+import { debug } from './cli/run/utils/debug';
 import type { Plugin, PluginManager } from './types/plugin';
 import type { Falsy } from './types/utils';
-
-const debug = createDebugger('plugin-v2');
 // Validates if the plugin is a valid CLIPlugin instance
 function validatePlugin(plugin: unknown) {
   const type = typeof plugin;

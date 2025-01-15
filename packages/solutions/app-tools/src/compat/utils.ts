@@ -37,7 +37,7 @@ export function transformHookRunner(hookRunnerName: string) {
     case 'beforeDev':
       return 'onBeforeDev';
     case 'afterDev':
-      return 'onAfterDev';
+      return 'onDevCompileDone';
     case 'beforeDeploy':
       return 'onBeforeDeploy';
     case 'afterDeploy':
