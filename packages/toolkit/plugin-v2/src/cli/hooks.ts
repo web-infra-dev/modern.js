@@ -3,6 +3,7 @@ import type {
   OnAfterCreateCompilerFn,
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
 } from '@rsbuild/core';
 import { createAsyncHook, createCollectAsyncHook } from '../hooks';
 import type {
@@ -27,6 +28,33 @@ import type {
   OnPrepareFn,
 } from '../types/cli/hooks';
 import type { DeepPartial } from '../types/utils';
+
+export type {
+  OnAfterBuildFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeBuildFn,
+  OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
+  AddCommandFn,
+  AddWatchFilesFn,
+  ConfigFn,
+  ModifyBundlerChainFn,
+  ModifyConfigFn,
+  ModifyHtmlPartialsFn,
+  ModifyResolvedConfigFn,
+  ModifyRsbuildConfigFn,
+  ModifyRspackConfigFn,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
+  OnAfterDeployFn,
+  OnBeforeDeployFn,
+  OnBeforeDevFn,
+  OnAfterDevFn,
+  OnBeforeExitFn,
+  OnBeforeRestartFn,
+  OnFileChangedFn,
+  OnPrepareFn,
+};
 
 export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
   return {
@@ -65,6 +93,7 @@ export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
     onBeforeRestart: createAsyncHook<OnBeforeRestartFn>(),
     onBeforeCreateCompiler: createAsyncHook<OnBeforeCreateCompilerFn>(),
     onAfterCreateCompiler: createAsyncHook<OnAfterCreateCompilerFn>(),
+    onDevCompileDone: createAsyncHook<OnDevCompileDoneFn>(),
     onBeforeBuild: createAsyncHook<OnBeforeBuildFn>(),
     onAfterBuild: createAsyncHook<OnAfterBuildFn>(),
     onBeforeDev: createAsyncHook<OnBeforeDevFn>(),

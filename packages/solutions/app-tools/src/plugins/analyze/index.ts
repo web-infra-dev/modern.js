@@ -201,13 +201,19 @@ export default ({
           },
         );
 
-        builder.onDevCompileDone(async ({ isFirstCompile }) => {
-          hooks.onAfterDev.call({ isFirstCompile });
+        builder.onDevCompileDone(
+          async ({ isFirstCompile, stats, environments }) => {
+            await hooks.onDevCompileDone.call({
+              isFirstCompile,
+              stats,
+              environments,
+            });
 
-          if (isFirstCompile) {
-            printInstructions(hooks, appContext, normalizedConfig);
-          }
-        });
+            if (isFirstCompile) {
+              printInstructions(hooks, appContext, normalizedConfig);
+            }
+          },
+        );
 
         builder.onBeforeCreateCompiler(
           async ({ bundlerConfigs, environments }) => {
@@ -225,6 +231,10 @@ export default ({
             environments,
             compiler,
           });
+        });
+
+        builder.onAfterStartDevServer(async ({ port }) => {
+          await hooks.onAfterDevHook.call({ port });
         });
 
         builder.addPlugins(resolvedConfig.builderPlugins);

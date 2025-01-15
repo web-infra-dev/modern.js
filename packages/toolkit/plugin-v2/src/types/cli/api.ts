@@ -3,6 +3,7 @@ import type {
   OnAfterCreateCompilerFn,
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
 } from '@rsbuild/core';
 import type { Hooks } from '../../cli/hooks';
 import type { PluginHookTap } from '../hooks';
@@ -88,6 +89,7 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<{
   onBeforeRestart: PluginHookTap<OnBeforeRestartFn>;
   onBeforeCreateCompiler: PluginHookTap<OnBeforeCreateCompilerFn>;
   onAfterCreateCompiler: PluginHookTap<OnAfterCreateCompilerFn>;
+  onDevCompileDone: PluginHookTap<OnDevCompileDoneFn>;
   onBeforeBuild: PluginHookTap<OnBeforeBuildFn>;
   onAfterBuild: PluginHookTap<OnAfterBuildFn>;
   onBeforeDev: PluginHookTap<OnBeforeDevFn>;
