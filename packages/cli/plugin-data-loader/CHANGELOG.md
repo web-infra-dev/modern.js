@@ -1,5 +1,14 @@
 # @modern-js/plugin-data-loader
 
+## 2.63.7
+
+### Patch Changes
+
+- 09a91c2: feat: unify the response logic of the Loader in SSR
+  feat: 统一 SSR 中 Loader 的响应逻辑
+  - @modern-js/runtime-utils@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

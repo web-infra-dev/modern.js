@@ -1,5 +1,13 @@
 # @modern-js/bff-runtime
 
+## 2.63.7
+
+### Patch Changes
+
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
 ## 2.63.6
 
 ## 2.63.5

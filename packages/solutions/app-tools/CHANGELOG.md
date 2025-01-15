@@ -1,5 +1,48 @@
 # @modern-js/app-tools
 
+## 2.63.7
+
+### Patch Changes
+
+- fa20ea7: feat: adjust after dev hook type and run time
+
+  feat: 调整 onAfterDev 钩子函数的类型和执行时机
+
+- fa20ea7: feat: add onDevCompileDone hook
+
+  feat: 添加 onDevCompileDone 钩子函数
+
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
+- 28ec156: feat: cli plugin support extend build utils
+
+  feat: cli 插件支持扩展构建工具函数
+
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fdcb0ee]
+- Updated dependencies [775bc3b]
+- Updated dependencies [28ec156]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [09a91c2]
+  - @modern-js/plugin-v2@2.63.7
+  - @modern-js/server@2.63.7
+  - @modern-js/core@2.63.7
+  - @modern-js/plugin-data-loader@2.63.7
+  - @modern-js/plugin-i18n@2.63.7
+  - @modern-js/rsbuild-plugin-esbuild@2.63.7
+  - @modern-js/uni-builder@2.63.7
+  - @modern-js/server-core@2.63.7
+  - @modern-js/prod-server@2.63.7
+  - @modern-js/server-utils@2.63.7
+  - @modern-js/node-bundle-require@2.63.7
+  - @modern-js/plugin@2.63.7
+  - @modern-js/types@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/uni-builder
 
+## 2.63.7
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.63.7
+- @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

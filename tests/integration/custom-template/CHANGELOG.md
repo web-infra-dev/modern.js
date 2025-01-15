@@ -1,5 +1,14 @@
 # integration-custom-template
 
+## 2.63.7
+
+### Patch Changes
+
+- Updated dependencies [f5af01d]
+- Updated dependencies [41849f6]
+- Updated dependencies [09a91c2]
+  - @modern-js/runtime@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

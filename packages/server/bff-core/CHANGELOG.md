@@ -1,5 +1,17 @@
 # @modern-js/bff-core
 
+## 2.63.7
+
+### Patch Changes
+
+- 39f955f: fix(bff): client bundle supplement env variables & fix bff test
+  fix(bff): client 产物补充环境变量 & 集成测试问题修复
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes
