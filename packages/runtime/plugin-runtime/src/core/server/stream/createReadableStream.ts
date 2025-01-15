@@ -1,4 +1,4 @@
-import { Transform } from 'stream';
+import { PassThrough, Transform } from 'stream';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import { ServerStyleSheet } from 'styled-components';
@@ -30,12 +30,10 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const chunkVec: string[] = [];
 
-    const root = forceStream2String
-      ? sheet.collectStyles(rootElement)
-      : rootElement;
+    const root = sheet.collectStyles(rootElement);
 
     return new Promise(resolve => {
-      const { pipe } = renderToPipeableStream(root, {
+      const { pipe: reactStreamingPipe } = renderToPipeableStream(root, {
         nonce: config.nonce,
         [onReady]() {
           const styledComponentsStyleTags = forceStream2String
@@ -87,11 +85,21 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               },
             });
 
+            // Transform the Node.js readable stream to a Web ReadableStream
+            // For modern.js depend on hono.js, and we use Web standard
             const stream = createReadableStreamFromReadable(body);
-
             resolve(stream);
 
-            pipe(body);
+            // Transform the react pipe to a readable stream
+            // Actually it's for type check, we even can execute `sheet.interleaveWithNodeStream({ pipe })`
+            // Source code https://github.com/styled-components/styled-components/blob/main/packages/styled-components/src/models/ServerStyleSheet.tsx#L80
+            const passThrough = new PassThrough();
+            const styledStream = sheet.interleaveWithNodeStream(passThrough);
+            reactStreamingPipe(passThrough);
+
+            // pipe the styled stream to the body stream
+            // now only use styled stream, if there is multiple stream, we can abstract it to a function
+            styledStream.pipe(body);
           });
         },
 
