@@ -234,7 +234,7 @@ export default ({
         });
 
         builder.onAfterStartDevServer(async ({ port }) => {
-          await hooks.onAfterDevHook.call({ port });
+          await hooks.onAfterDev.call({ port });
         });
 
         builder.addPlugins(resolvedConfig.builderPlugins);
