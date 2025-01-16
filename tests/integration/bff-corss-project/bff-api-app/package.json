@@ -89,9 +89,9 @@
     }
   },
   "files": [
-    "./dist-1/client/**/*",
-    "./dist-1/api/**/*",
-    "./dist-1/runtime/**/*",
-    "./dist-1/plugin/**/*"
+    "dist-1/client/**/*",
+    "dist-1/api/**/*",
+    "dist-1/runtime/**/*",
+    "dist-1/plugin/**/*"
   ]
 }

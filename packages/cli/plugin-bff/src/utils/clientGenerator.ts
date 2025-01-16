@@ -136,10 +136,10 @@ async function setPackage(
     ];
 
     packageJson.files = [
-      `./${relativeDistPath}/client/**/*`,
-      `./${relativeDistPath}/${relativeApiPath}/**/*`,
-      `./${relativeDistPath}/runtime/**/*`,
-      `./${relativeDistPath}/plugin/**/*`,
+      `${relativeDistPath}/client/**/*`,
+      `${relativeDistPath}/${relativeApiPath}/**/*`,
+      `${relativeDistPath}/runtime/**/*`,
+      `${relativeDistPath}/plugin/**/*`,
     ];
 
     await fs.promises.writeFile(
