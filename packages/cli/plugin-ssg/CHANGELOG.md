@@ -1,5 +1,14 @@
 # @modern-js/plugin-ssg
 
+## 2.63.7
+
+### Patch Changes
+
+- 86d2edc: fix(ssg): unable to render huge list of routes
+  fix(ssg): 无法渲染大量路由列表
+  - @modern-js/prod-server@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

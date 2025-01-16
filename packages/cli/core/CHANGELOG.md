@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 2.63.7
+
+### Patch Changes
+
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
+  - @modern-js/node-bundle-require@2.63.7
+  - @modern-js/plugin@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

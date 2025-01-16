@@ -1,5 +1,15 @@
 # entries-app-builder
 
+## 2.63.7
+
+### Patch Changes
+
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fdcb0ee]
+- Updated dependencies [28ec156]
+  - @modern-js/app-tools@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

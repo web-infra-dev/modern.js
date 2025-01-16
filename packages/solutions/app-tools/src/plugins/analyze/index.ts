@@ -203,7 +203,7 @@ export default ({
 
         builder.onDevCompileDone(
           async ({ isFirstCompile, stats, environments }) => {
-            await hooks.onDevCompileDone.call({
+            hooks.onDevCompileDone.call({
               isFirstCompile,
               stats,
               environments,
