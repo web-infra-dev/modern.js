@@ -116,6 +116,10 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
 
   return new Proxy(pluginAPI, {
     get(target: Record<string, any>, prop: string) {
+      // hack then function
+      if (prop === 'then') {
+        return undefined; // 返回 undefined，避免被当作 Promise
+      }
       if (prop in target) {
         return target[prop];
       }
