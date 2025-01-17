@@ -5,10 +5,10 @@ import type {
 } from '@modern-js/app-tools';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
-import type { Entrypoint } from '@modern-js/types';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import { logger } from '../util';
 import { generateCode } from './code';
+import type { AppendEntryCodeFn } from './hooks';
 import { getRuntimeConfig, setRuntimeConfig } from './utils';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
@@ -38,11 +38,6 @@ export function getDefaultMicroFrontedConfig(
     ...microFrontend,
   };
 }
-
-export type AppendEntryCodeFn = (params: {
-  entrypoint: Entrypoint;
-  code: string;
-}) => string | Promise<string>;
 
 export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-garfish',

@@ -8,7 +8,7 @@ import type {
 import type { CollectAsyncHook } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
-import type { AppendEntryCodeFn } from '.';
+import type { AppendEntryCodeFn } from './hooks';
 import * as template from './template';
 import { generateAsyncEntryCode } from './utils';
 

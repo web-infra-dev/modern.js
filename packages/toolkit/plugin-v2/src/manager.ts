@@ -1,3 +1,6 @@
+/**
+ * NOTE: This file will be used in both Node.js and runtime environments. Please avoid importing Node.js-specific APIs.
+ */
 import type { Plugin, PluginManager } from './types/plugin';
 import type { Falsy, MaybePromise } from './types/utils';
 

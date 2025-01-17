@@ -21,7 +21,6 @@ export function createAsyncInterruptHook<
     let interruptResult: any;
 
     const interrupt = (info: any) => {
-      console.log('===interrupt');
       interrupted = true;
       interruptResult = info;
     };

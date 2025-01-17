@@ -60,8 +60,6 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
   }
 
   return {
-    init,
     run,
-    getPrevInitOptions: () => initOptions,
   };
 };

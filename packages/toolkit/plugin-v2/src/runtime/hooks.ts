@@ -4,13 +4,17 @@ import {
   createSyncHook,
 } from '../hooks';
 import type {
+  Hooks,
   ModifyRuntimeConfigFn,
   OnBeforeRenderFn,
   PickContextFn,
   WrapRootFn,
 } from '../types/runtime/hooks';
 
-export function initHooks<RuntimeConfig, RuntimeContext>() {
+export function initHooks<RuntimeConfig, RuntimeContext>(): Hooks<
+  RuntimeConfig,
+  RuntimeContext
+> {
   return {
     onBeforeRender:
       createAsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>(),
@@ -20,7 +24,3 @@ export function initHooks<RuntimeConfig, RuntimeContext>() {
       createCollectSyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>(),
   };
 }
-
-export type Hooks<RuntimeConfig, RuntimeContext> = ReturnType<
-  typeof initHooks<RuntimeConfig, RuntimeContext>
->;

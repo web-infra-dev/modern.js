@@ -1,7 +1,7 @@
-import type { Hooks } from '../../runtime';
 import type { PluginHookTap } from '../hooks';
 import type { DeepPartial } from '../utils';
 import type { RuntimeContext } from './context';
+import type { Hooks } from './hooks';
 import type {
   ModifyRuntimeConfigFn,
   OnBeforeRenderFn,
@@ -11,7 +11,6 @@ import type {
 import type { RuntimePluginExtends } from './plugin';
 
 export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<{
-  getRuntimeContext: () => Readonly<RuntimeContext & Extends['extendContext']>;
   updateRuntimeContext: (updateContext: DeepPartial<RuntimeContext>) => void;
   getHooks: () => Readonly<
     Hooks<Extends['config'], RuntimeContext & Extends['extendContext']> &

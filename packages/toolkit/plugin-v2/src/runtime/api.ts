@@ -76,7 +76,6 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   }
 
   return {
-    getRuntimeContext,
     updateRuntimeContext,
     getHooks,
     getRuntimeConfig,

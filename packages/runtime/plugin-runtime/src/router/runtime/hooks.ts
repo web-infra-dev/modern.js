@@ -5,8 +5,6 @@ import type { RuntimeContext } from '../../core';
 // only for inhouse use
 const modifyRoutes = createSyncHook<(routes: RouteObject[]) => RouteObject[]>();
 const onBeforeCreateRoutes =
-  createAsyncInterruptHook<
-    (context: RuntimeContext, interrupt: (info: any) => any) => void
-  >();
+  createSyncHook<(context: RuntimeContext) => void>();
 
 export { modifyRoutes, onBeforeCreateRoutes };

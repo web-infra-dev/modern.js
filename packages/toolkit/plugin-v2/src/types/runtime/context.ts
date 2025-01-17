@@ -1,5 +1,5 @@
-import type { Hooks } from '../../runtime/hooks';
 import type { RuntimePluginAPI } from './api';
+import type { Hooks } from './hooks';
 import type { RuntimePluginExtends } from './plugin';
 
 export type RuntimeContext = {};
