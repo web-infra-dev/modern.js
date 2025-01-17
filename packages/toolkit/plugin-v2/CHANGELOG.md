@@ -1,5 +1,12 @@
 # @modern-js/plugin-v2
 
+## 2.63.8
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.63.8
+- @modern-js/utils@2.63.8
+
 ## 2.63.7
 
 ### Patch Changes

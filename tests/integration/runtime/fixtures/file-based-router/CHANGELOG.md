@@ -1,5 +1,13 @@
 # file-based-router
 
+## 2.63.8
+
+### Patch Changes
+
+- @modern-js/plugin-router-v5@2.63.8
+- @modern-js/runtime@2.63.8
+- @modern-js/app-tools@2.63.8
+
 ## 2.63.7
 
 ### Patch Changes
