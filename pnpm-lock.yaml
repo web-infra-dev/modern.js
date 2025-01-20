@@ -4222,11 +4222,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.63.6
-        version: '@modern-js/core@2.63.6'
+        specifier: npm:@modern-js/core@2.63.7
+        version: '@modern-js/core@2.63.7'
       '@modern-js/module-tools-npm':
-        specifier: npm:@modern-js/module-tools@2.63.6
-        version: '@modern-js/module-tools@2.63.6(typescript@5.3.3)'
+        specifier: npm:@modern-js/module-tools@2.63.7
+        version: '@modern-js/module-tools@2.63.7(typescript@5.3.3)'
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -10194,8 +10194,8 @@ packages:
   '@modern-js/codesmith@2.6.5':
     resolution: {integrity: sha512-AxQuFAl63KDA8Izv0W12/IrMsPLrbc9/jU0dEzCHJKx8bpeqJiCtxdAUx7idb39zzP6xux+2qi1ETMF5WUaUQQ==}
 
-  '@modern-js/core@2.63.6':
-    resolution: {integrity: sha512-FPTcldbr0CkvoKzsjZv501dsTRFk5a4EyNM1AzPbiwAp4Sb2DDwQ7CIEq+aQUn80kJB0ByUK4GPNs7wFfIc5QA==}
+  '@modern-js/core@2.63.7':
+    resolution: {integrity: sha512-84DYrQTmVn/QtL/jzIfq832+rF7VRvj/jTvA6Lr95a0i67R8ileBUTVGRZE6Ic9k2wz+AKsSsf6524m673Es4Q==}
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1':
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
@@ -10203,8 +10203,8 @@ packages:
     peerDependencies:
       react: '>=17'
 
-  '@modern-js/module-tools@2.63.6':
-    resolution: {integrity: sha512-IIJjDd69abZddwt6L8jozy1wcPbxLYZ/yEowm8S92s51uWkBj3whwZlimZbo5Cs2xBjMHhQ+ZpzYDyIudYLIMg==}
+  '@modern-js/module-tools@2.63.7':
+    resolution: {integrity: sha512-qy2XWTbm7Gyhu9cP2jecX/y7BdliZgoGYfLzFkHsaq741RmwWaUKfotNhPeOZPzYIaU3slDzF4UDIjj/1CHIbg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -10213,20 +10213,20 @@ packages:
       typescript:
         optional: true
 
-  '@modern-js/node-bundle-require@2.63.6':
-    resolution: {integrity: sha512-2TxlZKXLKONCtirwww9ufQtShgPADlUroc9dDVn5MCcA0Xdt4I458ko5yF5AjoIWCCmfqD5FMXxLbNalRYPo+A==}
+  '@modern-js/node-bundle-require@2.63.7':
+    resolution: {integrity: sha512-12K9zPuxbfxhqaq3wX9rhb17kxqJ0K8vufUubRGvfXaUxa5Fbcddg2UWovJH44THHVxCd4R5XnvK9FlEM2HhOQ==}
 
-  '@modern-js/plugin-changeset@2.63.6':
-    resolution: {integrity: sha512-iapBwRV5eH4v0lftBZYQAVR/YpHwoB/tUazxs+l473h2hCBOlTl9l3xZWXTCTZ6PyRLl3iyWgnUEKtlyhfAXQw==}
+  '@modern-js/plugin-changeset@2.63.7':
+    resolution: {integrity: sha512-MB16Y38B5iTDTQKdlgZeCUxZ9cxZ9qjAq7+VjMQdWufjUoqanCUXwbaONY1BKlbZp31uM4PCzHzuE1HntM8efg==}
 
   '@modern-js/plugin-i18n@2.60.3':
     resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
 
-  '@modern-js/plugin-i18n@2.63.6':
-    resolution: {integrity: sha512-ziSqjEASj2B6Ty4zh1GYmqgKvOxA/ycWQabYiVLWfboCEbM/+R43NBn4Xj6uA/1wn2X1rgHJlc5R57Hp/ThgmA==}
+  '@modern-js/plugin-i18n@2.63.7':
+    resolution: {integrity: sha512-juPz4w+ILHNPuSWnvI/KJ7PLFeQPBRqkISFO+DDBb06sL07aIJWhhFpB48VAjNWngPIHg3ijR1sTuflJwZ0eSg==}
 
-  '@modern-js/plugin@2.63.6':
-    resolution: {integrity: sha512-BtZONNwQ1rnbYHqqSzknPHN//TM7ULLjJk71RRPJv2YYbQLRprm5U1jkUlpc7sIOkgdzpK6BVghzKjx0rSEPwA==}
+  '@modern-js/plugin@2.63.7':
+    resolution: {integrity: sha512-ooKj8wOsvsAj9Xnwe4YgT1U2hcIbjk0FuRsl9skj704BT1rnPF6iseIDfaZC9t/XzL+CQE+qyMzYfXigUEpLVg==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -10289,8 +10289,8 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.63.6':
-    resolution: {integrity: sha512-442JXTf27r3TFEDarEqaT0sq5ThLGNJlGiccWY6TXu9fDUXUoOznPB7fStxHTeLzbWVeD6JmXOjVNRPoLp4Bzw==}
+  '@modern-js/types@2.63.7':
+    resolution: {integrity: sha512-rTiE0req+dT0PCrNZr4FtqvDWdXD2P/AxdflOzv7Cp3hoUgE55pXu+uePN61w/aedK3101Sdt3C07n9yfS1gPA==}
 
   '@modern-js/utils@2.58.1':
     resolution: {integrity: sha512-JemTkJ4UqqFbJ72NqBXzMFG0dqw70HTGDoX7VAXdYPrEmn8LRvSqHlSCIeX5KF1U+KNa0a7OEdsb9Q56UESjdQ==}
@@ -10298,8 +10298,8 @@ packages:
   '@modern-js/utils@2.60.3':
     resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
 
-  '@modern-js/utils@2.63.6':
-    resolution: {integrity: sha512-wyYdCrkMlUkHGBE931ZnutwEsuNCPpmgCSHkUUQU1+iSapAPHQVp0whbrg50hFxVP4gCTnHElOUSpd600GBsOg==}
+  '@modern-js/utils@2.63.7':
+    resolution: {integrity: sha512-w7Vrr3SbgN3hV7sNm9eUleKA+A/HcxxIXDrEdo+g1em9yKZXnY+fFsluVLHY9F0bUMcti5h8rDAvlxX4C6J0mg==}
 
   '@module-federation/runtime-tools@0.5.1':
     resolution: {integrity: sha512-nfBedkoZ3/SWyO0hnmaxuz0R0iGPSikHZOAZ0N/dVSQaIzlffUo35B5nlC2wgWIc0JdMZfkwkjZRrnuuDIJbzg==}
@@ -24711,11 +24711,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.63.6':
+  '@modern-js/core@2.63.7':
     dependencies:
-      '@modern-js/node-bundle-require': 2.63.6
-      '@modern-js/plugin': 2.63.6
-      '@modern-js/utils': 2.63.6
+      '@modern-js/node-bundle-require': 2.63.7
+      '@modern-js/plugin': 2.63.7
+      '@modern-js/utils': 2.63.7
       '@swc/helpers': 0.5.13
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.3.1)':
@@ -24723,27 +24723,27 @@ snapshots:
       '@modern-js/utils': 2.58.1
       react: 18.3.1
 
-  '@modern-js/module-tools@2.63.6(typescript@5.3.3)':
+  '@modern-js/module-tools@2.63.7(typescript@5.3.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.16.0
       '@babel/core': 7.26.0
       '@babel/types': 7.26.5
-      '@modern-js/core': 2.63.6
-      '@modern-js/plugin': 2.63.6
-      '@modern-js/plugin-changeset': 2.63.6
-      '@modern-js/plugin-i18n': 2.63.6
+      '@modern-js/core': 2.63.7
+      '@modern-js/plugin': 2.63.7
+      '@modern-js/plugin-changeset': 2.63.7
+      '@modern-js/plugin-i18n': 2.63.7
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.13)
-      '@modern-js/types': 2.63.6
-      '@modern-js/utils': 2.63.6
-      '@rollup/pluginutils': 4.1.1
+      '@modern-js/types': 2.63.7
+      '@modern-js/utils': 2.63.7
+      '@rollup/pluginutils': 4.2.1
       '@swc/helpers': 0.5.13
       convert-source-map: 1.8.0
       enhanced-resolve: 5.17.1
       esbuild: 0.19.2
       magic-string: 0.30.17
-      postcss: 8.4.49
-      postcss-modules: 4.3.1(postcss@8.4.49)
+      postcss: 8.5.1
+      postcss-modules: 4.3.1(postcss@8.5.1)
       safe-identifier: 0.4.2
       source-map: 0.7.4
       style-inject: 0.3.0
@@ -24757,19 +24757,19 @@ snapshots:
       - debug
       - supports-color
 
-  '@modern-js/node-bundle-require@2.63.6':
+  '@modern-js/node-bundle-require@2.63.7':
     dependencies:
-      '@modern-js/utils': 2.63.6
+      '@modern-js/utils': 2.63.7
       '@swc/helpers': 0.5.13
       esbuild: 0.17.19
 
-  '@modern-js/plugin-changeset@2.63.6':
+  '@modern-js/plugin-changeset@2.63.7':
     dependencies:
       '@changesets/cli': 2.27.11
       '@changesets/git': 2.0.0
       '@changesets/read': 0.6.2
-      '@modern-js/plugin-i18n': 2.63.6
-      '@modern-js/utils': 2.63.6
+      '@modern-js/plugin-i18n': 2.63.7
+      '@modern-js/utils': 2.63.7
       '@swc/helpers': 0.5.13
       axios: 1.7.9(debug@4.3.7)
       resolve-from: 5.0.0
@@ -24781,14 +24781,14 @@ snapshots:
       '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin-i18n@2.63.6':
+  '@modern-js/plugin-i18n@2.63.7':
     dependencies:
-      '@modern-js/utils': 2.63.6
+      '@modern-js/utils': 2.63.7
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin@2.63.6':
+  '@modern-js/plugin@2.63.7':
     dependencies:
-      '@modern-js/utils': 2.63.6
+      '@modern-js/utils': 2.63.7
       '@swc/helpers': 0.5.13
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -24887,7 +24887,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.15
 
-  '@modern-js/types@2.63.6': {}
+  '@modern-js/types@2.63.7': {}
 
   '@modern-js/utils@2.58.1':
     dependencies:
@@ -24903,7 +24903,7 @@ snapshots:
       lodash: 4.17.21
       rslog: 1.2.3
 
-  '@modern-js/utils@2.63.6':
+  '@modern-js/utils@2.63.7':
     dependencies:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001689
@@ -32116,6 +32116,10 @@ snapshots:
     dependencies:
       postcss: 8.4.49
 
+  icss-utils@5.1.0(postcss@8.5.1):
+    dependencies:
+      postcss: 8.5.1
+
   identity-obj-proxy@3.0.0:
     dependencies:
       harmony-reflect: 1.6.2
@@ -35480,7 +35484,7 @@ snapshots:
   postcss-js@3.0.3:
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.4.49
+      postcss: 8.5.1
 
   postcss-js@4.0.1(postcss@8.4.49):
     dependencies:
@@ -35565,10 +35569,21 @@ snapshots:
     dependencies:
       postcss: 8.4.49
 
+  postcss-modules-extract-imports@3.0.0(postcss@8.5.1):
+    dependencies:
+      postcss: 8.5.1
+
   postcss-modules-local-by-default@4.0.0(postcss@8.4.49):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.49)
       postcss: 8.4.49
+      postcss-selector-parser: 6.1.2
+      postcss-value-parser: 4.2.0
+
+  postcss-modules-local-by-default@4.0.0(postcss@8.5.1):
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.5.1)
+      postcss: 8.5.1
       postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
 
@@ -35577,10 +35592,20 @@ snapshots:
       postcss: 8.4.49
       postcss-selector-parser: 6.1.2
 
+  postcss-modules-scope@3.0.0(postcss@8.5.1):
+    dependencies:
+      postcss: 8.5.1
+      postcss-selector-parser: 6.1.2
+
   postcss-modules-values@4.0.0(postcss@8.4.49):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.49)
       postcss: 8.4.49
+
+  postcss-modules-values@4.0.0(postcss@8.5.1):
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.5.1)
+      postcss: 8.5.1
 
   postcss-modules@4.3.1(postcss@8.4.49):
     dependencies:
@@ -35592,6 +35617,18 @@ snapshots:
       postcss-modules-local-by-default: 4.0.0(postcss@8.4.49)
       postcss-modules-scope: 3.0.0(postcss@8.4.49)
       postcss-modules-values: 4.0.0(postcss@8.4.49)
+      string-hash: 1.1.3
+
+  postcss-modules@4.3.1(postcss@8.5.1):
+    dependencies:
+      generic-names: 4.0.0
+      icss-replace-symbols: 1.1.0
+      lodash.camelcase: 4.3.0
+      postcss: 8.5.1
+      postcss-modules-extract-imports: 3.0.0(postcss@8.5.1)
+      postcss-modules-local-by-default: 4.0.0(postcss@8.5.1)
+      postcss-modules-scope: 3.0.0(postcss@8.5.1)
+      postcss-modules-values: 4.0.0(postcss@8.5.1)
       string-hash: 1.1.3
 
   postcss-nested@5.0.6(postcss@8.4.49):
@@ -35958,7 +35995,7 @@ snapshots:
     dependencies:
       commander: 8.3.0
       glob: 7.2.3
-      postcss: 8.4.49
+      postcss: 8.5.1
       postcss-selector-parser: 6.1.2
 
   qrcode.react@3.1.0(react@18.3.1):
@@ -39376,7 +39413,7 @@ snapshots:
   vite@4.5.2(@types/node@18.19.64)(less@4.2.1)(sass@1.83.1)(terser@5.36.0):
     dependencies:
       esbuild: 0.17.19
-      postcss: 8.4.49
+      postcss: 8.5.1
       rollup: 3.29.5
     optionalDependencies:
       '@types/node': 18.19.64
