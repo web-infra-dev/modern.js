@@ -1,62 +1,26 @@
-import {
-  type PluginOptions,
-  type Setup,
-  createAsyncInterruptWorkflow,
-  createContext,
-  createManager,
-  createSyncParallelWorkflow,
-  createWaterfall,
+import type {
+  AsyncInterruptWorkflow,
+  PluginOptions,
+  Setup,
+  SyncParallelWorkflow,
+  Waterfall,
 } from '@modern-js/plugin';
 
 import type { RuntimeContext, TRuntimeContext } from '../context/runtime';
-import type { RuntimeConfig } from './index';
-
-export const RuntimeConfigContext = createContext<RuntimeConfig>({});
-
-export const useRuntimeConfigContext = () => RuntimeConfigContext.use().value;
-
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface AppProps {}
-
-const wrapRoot = createWaterfall<React.ComponentType<any>>();
-
-const beforeRender = createAsyncInterruptWorkflow<RuntimeContext, void>();
-
-/**
- * To add runtime info to runtime context
- */
-const pickContext = createWaterfall<TRuntimeContext>();
-
-const modifyRuntimeConfig = createSyncParallelWorkflow<
-  void,
-  Record<string, any>
->();
-
-const runtimeHooks = {
-  beforeRender,
-  wrapRoot,
-  pickContext,
-  modifyRuntimeConfig,
-};
-
-const runtimePluginAPI = {
-  useRuntimeConfigContext,
-};
+import type { RuntimeConfig } from './types';
 
 /** All hooks of runtime plugin. */
-export type RuntimeHooks = typeof runtimeHooks;
+export type RuntimeHooks = {
+  beforeRender: AsyncInterruptWorkflow<RuntimeContext, void>;
+  wrapRoot: Waterfall<React.ComponentType<any>>;
+  pickContext: Waterfall<TRuntimeContext>;
+  modifyRuntimeConfig: SyncParallelWorkflow<void, Record<string, any>>;
+};
 
-export type RuntimePluginAPI = typeof runtimePluginAPI;
+export type RuntimePluginAPI = { useRuntimeConfigContext: () => RuntimeConfig };
 
 /** Plugin options of a runtime plugin. */
 export type Plugin = PluginOptions<
   RuntimeHooks,
   Setup<RuntimeHooks, RuntimePluginAPI>
 >;
-
-export const createRuntime = () =>
-  createManager(runtimeHooks, runtimePluginAPI);
-
-export const runtime = createRuntime();
-
-export type PluginRunner = ReturnType<typeof runtime.init>;

@@ -9,10 +9,13 @@ import {
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
-import { type RuntimeContext, getGlobalAppInit } from '../context';
+import {
+  type RuntimeContext,
+  getGlobalAppInit,
+  getGlobalInternalRuntimeContext,
+} from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
-import { getGlobalRunner } from '../plugin/runner';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
@@ -148,19 +151,19 @@ export const createRequestHandler: CreateRequestHandler =
     const requestHandler: RequestHandler = async (request, options) => {
       const Root = createRoot();
 
-      const runner = getGlobalRunner();
+      const internalRuntimeContext = getGlobalInternalRuntimeContext();
+      const hooks = internalRuntimeContext.hooks;
 
       const { routeManifest } = options.resource;
 
       const context: RuntimeContext = getInitialContext(
-        runner,
         false,
         routeManifest as any,
       );
 
       const runBeforeRender = async (context: RuntimeContext) => {
         // when router is redirect, beforeRender will return a response
-        const result = await runner.beforeRender(context);
+        const result = await hooks.onBeforeRender.call(context);
         if (typeof Response !== 'undefined' && result instanceof Response) {
           return result;
         }
