@@ -60,6 +60,7 @@
       ],
       "groupName": "remix monorepo",
       "groupSlug": "remix",
+      "enabled": false,
     },
     {
       "matchPackageNames": [
