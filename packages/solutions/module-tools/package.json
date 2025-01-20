@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@ast-grep/napi": "0.16.0",
+    "@ast-grep/napi": "0.33.1",
     "@babel/core": "^7.26.0",
     "@babel/types": "^7.26.0",
     "@modern-js/core": "workspace:*",
