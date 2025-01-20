@@ -1,28 +1,28 @@
+import type { RuntimePlugin } from '@modern-js/plugin-v2';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { createRoot, hydrateRoot } from 'react-dom/client';
 import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
-import { getGlobalAppInit } from './context';
+import { getGlobalAppInit, getGlobalInternalRuntimeContext } from './context';
 import {
   type RuntimeContext,
   RuntimeReactContext,
   type TRuntimeContext,
 } from './context/runtime';
 import { createLoaderManager } from './loader/loaderManager';
-import { type Plugin, registerPlugin, type runtime } from './plugin';
-import { getGlobalRunner } from './plugin/runner';
+import { type Plugin, registerPlugin } from './plugin';
+import type { RuntimeExtends } from './plugin/types';
 import { wrapRuntimeContextProvider } from './react/wrapper';
 import type { TSSRContext } from './types';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
-  plugins: Plugin[];
+  plugins: (Plugin | RuntimePlugin<RuntimeExtends>)[];
   /**
    * In the test cases, we need to execute multiple createApp instances simultaneously, and they must not share the runtime.
    */
-  runtime?: typeof runtime;
   props?: any;
 };
 
@@ -35,11 +35,8 @@ function isClientArgs(
   );
 }
 
-type PluginRunner = ReturnType<typeof runtime.init>;
-
-const getInitialContext = (runner: PluginRunner) => ({
+const getInitialContext = () => ({
   loaderManager: createLoaderManager({}),
-  runner,
   isBrowser: true,
   routeManifest:
     typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
@@ -47,10 +44,10 @@ const getInitialContext = (runner: PluginRunner) => ({
 
 export const createApp = ({
   plugins,
-  runtime,
   props: globalProps,
 }: CreateAppOptions) => {
-  const runner = registerPlugin(plugins, { plugins: [] }, runtime);
+  const context = registerPlugin(plugins, { plugins: [] });
+  const hooks = context.hooks;
 
   return (App?: React.ComponentType<any>) => {
     const WrapperComponent: React.ComponentType<any> = props => {
@@ -70,7 +67,7 @@ export const createApp = ({
       );
     };
 
-    const WrapperApp = runner.wrapRoot(WrapperComponent);
+    const WrapperApp = hooks.wrapRoot.call(WrapperComponent);
     const WrapComponent = (props: any) => {
       const mergedProps = { ...props, ...globalProps };
       return <WrapperApp {...mergedProps} />;
@@ -106,12 +103,15 @@ export const bootstrap: BootStrap = async (
   ReactDOM,
 ) => {
   const App = BootApp;
-  const runner = getGlobalRunner();
+  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const api = internalRuntimeContext.pluginAPI;
+  const hooks = internalRuntimeContext.hooks;
 
-  const context: RuntimeContext = getInitialContext(runner);
+  const context: RuntimeContext = getInitialContext();
+  api!.updateRuntimeContext(context);
 
   const runBeforeRender = async (context: RuntimeContext) => {
-    await runner.beforeRender(context);
+    await hooks.onBeforeRender.call(context);
     const init = getGlobalAppInit();
     return init?.(context);
   };
@@ -248,8 +248,10 @@ export const useRuntimeContext = () => {
     response: context.ssrContext?.response,
   };
 
+  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const hooks = internalRuntimeContext.hooks;
   const memoizedContext = useMemo(
-    () => context.runner.pickContext(pickedContext),
+    () => hooks.pickContext.call(pickedContext as RuntimeContext),
     [context],
   );
 

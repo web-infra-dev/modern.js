@@ -5,8 +5,10 @@ import type {
   AppToolsFeatureHooks,
   NormalizedConfig,
 } from '@modern-js/app-tools';
+import type { CollectAsyncHook } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
+import type { AppendEntryCodeFn } from './hooks';
 import * as template from './template';
 import { generateAsyncEntryCode } from './utils';
 
@@ -27,7 +29,12 @@ export const generateCode = async (
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, entry, customEntry, customBootstrap } =
         entrypoint;
-      const appendCode = await hooks.appendEntryCode.call({ entrypoint });
+      const appendCode = await (
+        hooks.appendEntryCode as CollectAsyncHook<AppendEntryCodeFn>
+      ).call({
+        entrypoint,
+        code: '',
+      });
 
       if (isAutoMount) {
         // index.jsx
