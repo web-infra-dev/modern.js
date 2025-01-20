@@ -412,7 +412,7 @@ importers:
         version: 0.5.13
       whistle:
         specifier: ^2.7.18
-        version: 2.9.92
+        version: 2.9.93
     devDependencies:
       '@modern-js/core':
         specifier: workspace:*
@@ -21455,8 +21455,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  whistle@2.9.92:
-    resolution: {integrity: sha512-RvEJVEKOsh76sDJzXXO5tIU1bHvTP0MDLG5hpAyOWdwyDtTWq7ytKl5TpbzbOn3XTSPHmNRGIJbQ7bD9Sjhaaw==}
+  whistle@2.9.93:
+    resolution: {integrity: sha512-N/RTomnsMgDGuthDvYJQKXlY0IWJxhWt7/NmYnTLeZTPmq03BV60NXYWa6bo6O2xvs7VhKgrhZY9NUCRDfnjDQ==}
     engines: {node: '>= 8'}
     hasBin: true
 
@@ -21893,7 +21893,7 @@ snapshots:
       '@babel/traverse': 7.26.5
       '@babel/types': 7.26.5
       convert-source-map: 1.8.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -30266,7 +30266,7 @@ snapshots:
   detect-port@1.6.1:
     dependencies:
       address: 1.2.2
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -31086,7 +31086,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.4
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -31295,7 +31295,7 @@ snapshots:
     dependencies:
       chalk: 4.1.2
       commander: 5.1.0
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32037,7 +32037,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32071,7 +32071,7 @@ snapshots:
   https-proxy-agent@4.0.0:
     dependencies:
       agent-base: 5.1.1
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -32443,7 +32443,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -34570,7 +34570,7 @@ snapshots:
   micromark@3.1.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -35907,7 +35907,7 @@ snapshots:
   puppeteer-core@2.1.1(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.4.0
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
@@ -39656,7 +39656,7 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  whistle@2.9.92:
+  whistle@2.9.93:
     dependencies:
       adm-zip: 0.5.10
       async-limiter: 2.0.0
