@@ -34,6 +34,7 @@ export interface ServerUserConfig {
   publicRoutes?: Record<string, string>;
   ssr?: SSR;
   ssrByEntries?: SSRByEntries;
+  rsc?: boolean;
   baseUrl?: string | string[];
   port?: number;
   watchOptions?: WatchOptions;

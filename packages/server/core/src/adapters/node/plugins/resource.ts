@@ -143,6 +143,59 @@ export function injectServerManifest(
   };
 }
 
+export async function getRscServerManifest(pwd: string) {
+  const rscServerManifest = await compatibleRequire(
+    path.join(pwd, 'bundles', 'react-server-manifest.json'),
+  ).catch(_ => undefined);
+  return rscServerManifest;
+}
+
+export async function getClientManifest(pwd: string) {
+  const rscClientManifest = await compatibleRequire(
+    path.join(pwd, 'react-client-manifest.json'),
+  ).catch(_ => undefined);
+  return rscClientManifest;
+}
+
+export async function getRscSSRManifest(pwd: string) {
+  const rscSSRManifest = await compatibleRequire(
+    path.join(pwd, 'react-ssr-manifest.json'),
+  ).catch(_ => undefined);
+  return rscSSRManifest;
+}
+
+export const injectRscManifestPlugin = (): ServerPlugin => ({
+  name: '@modern-js/plugin-inject-rsc-manifest',
+  setup(api) {
+    return {
+      async prepare() {
+        const { middlewares, distDirectory: pwd } = api.useAppContext();
+        middlewares.push({
+          name: 'inject-rsc-manifest',
+          handler: async (c, next) => {
+            if (!c.get('rscServerManifest')) {
+              const rscServerManifest = await getRscServerManifest(pwd);
+              c.set('rscServerManifest', rscServerManifest);
+            }
+
+            if (!c.get('rscClientManifest')) {
+              const rscClientManifest = await getClientManifest(pwd);
+              c.set('rscClientManifest', rscClientManifest);
+            }
+
+            if (!c.get('rscSSRManifest')) {
+              const rscSSRManifest = await getRscSSRManifest(pwd);
+              c.set('rscSSRManifest', rscSSRManifest);
+            }
+
+            await next();
+          },
+        });
+      },
+    };
+  },
+});
+
 export const injectResourcePlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-inject-resource',
 

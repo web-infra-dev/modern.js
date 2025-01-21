@@ -79,4 +79,7 @@
       "source.organizeImports.biome": "explicit"
     },
   },
+  "rust-analyzer.linkedProjects": [
+    "./packages/cli/flight-server-transform-plugin/Cargo.toml"
+  ]
 }

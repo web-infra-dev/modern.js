@@ -13,6 +13,7 @@ import {
   type RuntimeContext,
   getGlobalAppInit,
   getGlobalInternalRuntimeContext,
+  getGlobalRSCRoot,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -38,6 +39,9 @@ export type HandleRequest = (
 
 export type CreateRequestHandler = (
   handleRequest: HandleRequest,
+  options?: {
+    enableRsc: boolean;
+  },
 ) => Promise<RequestHandler>;
 
 type ResponseProxy = {
@@ -146,121 +150,124 @@ function createSSRContext(
   };
 }
 
-export const createRequestHandler: CreateRequestHandler =
-  async handleRequest => {
-    const requestHandler: RequestHandler = async (request, options) => {
-      const Root = createRoot();
+export const createRequestHandler: CreateRequestHandler = async (
+  handleRequest,
+  createRequestOptions,
+) => {
+  const requestHandler: RequestHandler = async (request, options) => {
+    const Root = createRoot();
 
-      const internalRuntimeContext = getGlobalInternalRuntimeContext();
-      const hooks = internalRuntimeContext.hooks;
+    const internalRuntimeContext = getGlobalInternalRuntimeContext();
+    const hooks = internalRuntimeContext.hooks;
 
-      const { routeManifest } = options.resource;
+    const { routeManifest } = options.resource;
 
-      const context: RuntimeContext = getInitialContext(
-        false,
-        routeManifest as any,
-      );
+    const context: RuntimeContext = getInitialContext(
+      false,
+      routeManifest as any,
+    );
 
-      const runBeforeRender = async (context: RuntimeContext) => {
-        // when router is redirect, beforeRender will return a response
-        const result = await hooks.onBeforeRender.call(context);
-        if (typeof Response !== 'undefined' && result instanceof Response) {
-          return result;
-        }
-        const init = getGlobalAppInit();
-        return init?.(context);
-      };
-
-      const responseProxy: ResponseProxy = {
-        headers: {},
-        code: -1,
-      };
-
-      const ssrContext = createSSRContext(request, {
-        ...options,
-        responseProxy,
-      });
-
-      Object.assign(context, {
-        ssrContext,
-        isBrowser: false,
-        loaderManager: createLoaderManager(
-          {},
-          {
-            skipNonStatic: options.staticGenerate,
-            // if not static generate, only non-static loader can exec on prod env
-            skipStatic:
-              process.env.NODE_ENV === 'production' && !options.staticGenerate,
-          },
-        ),
-      });
-
-      // Handle redirects from React Router with an HTTP redirect
-      const getRedirectResponse = (result: any) => {
-        if (
-          typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
-          result instanceof Response &&
-          result.status >= 300 &&
-          result.status <= 399
-        ) {
-          const { status } = result;
-          const redirectUrl = result.headers.get('Location') || '/';
-          const { ssrContext } = context;
-          if (ssrContext) {
-            return new Response(null, {
-              status,
-              headers: {
-                Location: redirectUrl,
-              },
-            });
-          }
-        }
-        return undefined;
-      };
-
-      const initialData = await runBeforeRender(context);
-
-      // Support data loader to return `new Response` and set status code
-      if (
-        context.routerContext?.statusCode &&
-        context.routerContext?.statusCode !== 200
-      ) {
-        context.ssrContext?.response.status(context.routerContext?.statusCode);
+    const runBeforeRender = async (context: RuntimeContext) => {
+      // when router is redirect, beforeRender will return a response
+      const result = await hooks.onBeforeRender.call(context);
+      if (typeof Response !== 'undefined' && result instanceof Response) {
+        return result;
       }
-
-      context.initialData = initialData;
-
-      const redirectResponse = getRedirectResponse(initialData);
-
-      if (redirectResponse) {
-        return redirectResponse;
-      }
-
-      const { htmlTemplate } = options.resource;
-
-      options.resource.htmlTemplate = htmlTemplate.replace(
-        '</head>',
-        `${CHUNK_CSS_PLACEHOLDER}</head>`,
-      );
-
-      const response = await handleRequest(request, Root, {
-        ...options,
-        runtimeContext: context,
-      });
-
-      Object.entries(responseProxy.headers).forEach(([key, value]) => {
-        response.headers.set(key, value);
-      });
-
-      if (responseProxy.code !== -1) {
-        return new Response(response.body, {
-          status: responseProxy.code,
-          headers: response.headers,
-        });
-      }
-
-      return response;
+      const init = getGlobalAppInit();
+      return init?.(context);
     };
 
-    return requestHandler;
+    const responseProxy: ResponseProxy = {
+      headers: {},
+      code: -1,
+    };
+
+    const ssrContext = createSSRContext(request, {
+      ...options,
+      responseProxy,
+    });
+
+    Object.assign(context, {
+      ssrContext,
+      isBrowser: false,
+      loaderManager: createLoaderManager(
+        {},
+        {
+          skipNonStatic: options.staticGenerate,
+          // if not static generate, only non-static loader can exec on prod env
+          skipStatic:
+            process.env.NODE_ENV === 'production' && !options.staticGenerate,
+        },
+      ),
+    });
+
+    // Handle redirects from React Router with an HTTP redirect
+    const getRedirectResponse = (result: any) => {
+      if (
+        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
+        result instanceof Response &&
+        result.status >= 300 &&
+        result.status <= 399
+      ) {
+        const { status } = result;
+        const redirectUrl = result.headers.get('Location') || '/';
+        const { ssrContext } = context;
+        if (ssrContext) {
+          return new Response(null, {
+            status,
+            headers: {
+              Location: redirectUrl,
+            },
+          });
+        }
+      }
+      return undefined;
+    };
+
+    const initialData = await runBeforeRender(context);
+
+    // Support data loader to return `new Response` and set status code
+    if (
+      context.routerContext?.statusCode &&
+      context.routerContext?.statusCode !== 200
+    ) {
+      context.ssrContext?.response.status(context.routerContext?.statusCode);
+    }
+
+    context.initialData = initialData;
+
+    const redirectResponse = getRedirectResponse(initialData);
+
+    if (redirectResponse) {
+      return redirectResponse;
+    }
+
+    const { htmlTemplate } = options.resource;
+
+    options.resource.htmlTemplate = htmlTemplate.replace(
+      '</head>',
+      `${CHUNK_CSS_PLACEHOLDER}</head>`,
+    );
+
+    const response = await handleRequest(request, Root, {
+      ...options,
+      runtimeContext: context,
+      RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
+    });
+
+    Object.entries(responseProxy.headers).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
+
+    if (responseProxy.code !== -1) {
+      return new Response(response.body, {
+        status: responseProxy.code,
+        headers: response.headers,
+      });
+    }
+
+    return response;
   };
+
+  return requestHandler;
+};

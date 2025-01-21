@@ -8,6 +8,11 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type {
+  ClientManifest as RscClientManifest,
+  SSRManifest as RscSSRManifest,
+  ServerManifest as RscServerManifest,
+} from '@modern-js/types/server';
+import type {
   RequestHandler as BundleRequestHandler,
   OnError,
   OnTiming,
@@ -35,7 +40,14 @@ type ServerLoaderBundle = {
 };
 
 type ServerRenderBundle = {
-  requestHandler: Promise<BundleRequestHandler>;
+  requestHandler?: Promise<BundleRequestHandler>;
+  handleAction?: (
+    req: Request,
+    options: { clientManifest: RscClientManifest },
+  ) => Promise<Response>;
+  renderRscHandler?: (options: {
+    clientManifest: RscClientManifest;
+  }) => Promise<Response>;
 };
 
 export type ServerManifest = {
@@ -59,6 +71,12 @@ type ServerVariables = {
   monitors: Monitors;
 
   serverManifest?: ServerManifest;
+
+  rscServerManifest?: RscServerManifest;
+
+  rscClientManifest?: RscClientManifest;
+
+  rscSSRManifest?: RscSSRManifest;
 
   templates?: Record<string, string>;
 
