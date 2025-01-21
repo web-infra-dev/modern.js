@@ -32,6 +32,10 @@ interface GlobalContext {
   layoutApp?: React.ComponentType;
 
   internalRuntimeContext?: InternalRuntimeContext<RuntimeExtends>;
+  /**
+   * RSCRoot
+   */
+  RSCRoot?: React.ComponentType;
 }
 
 const globalContext: GlobalContext = {};
@@ -49,6 +53,11 @@ export function setGlobalContext(
       ? context.appConfig()
       : context.appConfig;
   globalContext.layoutApp = context.layoutApp;
+  globalContext.RSCRoot = context.RSCRoot;
+}
+
+export function getGlobalRSCRoot() {
+  return globalContext.RSCRoot;
 }
 
 export function setGlobalInternalRuntimeContext(

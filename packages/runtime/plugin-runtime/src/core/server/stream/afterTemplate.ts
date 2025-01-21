@@ -39,6 +39,7 @@ export function buildShellAfterTemplate(
   async function injectJs(template: string, entryName: string, nonce?: string) {
     const { routeManifest } = runtimeContext;
     const { routeAssets } = routeManifest;
+    if (!routeAssets) return template;
     const asyncEntry = routeAssets[`async-${entryName}`];
     if (asyncEntry) {
       const { assets } = asyncEntry;
