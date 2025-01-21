@@ -70,7 +70,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@modern-js/node-bundle-require": "workspace:*",
+    "jiti": "1.21.7",
     "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@swc/helpers": "0.5.13"
