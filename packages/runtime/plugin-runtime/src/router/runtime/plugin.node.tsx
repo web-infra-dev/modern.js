@@ -19,6 +19,7 @@ import type { RuntimePluginFuture } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
+  type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
@@ -40,10 +41,7 @@ function createRemixReuqest(request: Request) {
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
 ): RuntimePluginFuture<{
-  extendHooks: {
-    modifyRoutes: typeof modifyRoutesHook;
-    onBeforeCreateRoutes: typeof onBeforeCreateRoutesHook;
-  };
+  extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
