@@ -64,11 +64,11 @@ export type OnBeforeDevFn = () => Promise<void> | void;
 export type OnAfterDevFn = (params: { port: number }) => Promise<void> | void;
 
 export type OnBeforeDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
 export type OnAfterDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
 export type OnBeforeExitFn = () => void;
