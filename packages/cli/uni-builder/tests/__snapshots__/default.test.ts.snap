@@ -149,7 +149,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.39",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -228,7 +228,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.39",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -631,7 +631,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.39",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -723,7 +723,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.39",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1999,7 +1999,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.39",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2078,7 +2078,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.39",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2481,7 +2481,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.39",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2573,7 +2573,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.39",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",

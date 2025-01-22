@@ -150,7 +150,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.39",
+                  "coreJs": "3.40",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -229,7 +229,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.39",
+                  "coreJs": "3.40",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -632,7 +632,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.39",
+                      "coreJs": "3.40",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -724,7 +724,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.39",
+                      "coreJs": "3.40",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
