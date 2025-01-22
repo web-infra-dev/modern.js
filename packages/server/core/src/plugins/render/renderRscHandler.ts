@@ -12,9 +12,9 @@ export const renderRscHandler = async (
     return new Response('Cannot find server bundle for RSC', { status: 500 });
   }
 
-  const { renderRscHandler } = serverBundle;
+  const { rscRequestHandler } = serverBundle;
 
-  if (!renderRscHandler) {
+  if (!rscRequestHandler) {
     return new Response('Cannot find request handler for RSC', { status: 500 });
   }
 
@@ -22,7 +22,7 @@ export const renderRscHandler = async (
     return new Response('Cannot find rsc client manifest', { status: 500 });
   }
 
-  return renderRscHandler({
+  return rscRequestHandler({
     clientManifest: rscClientManifest,
   });
 };

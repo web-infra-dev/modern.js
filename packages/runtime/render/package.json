@@ -44,8 +44,8 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "react": "19.0.0 ",
-    "react-dom": "19.0.0 "
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   },
   "exports": {
     "./ssr": {

@@ -81,16 +81,16 @@ export const rsbuildRscPlugin = ({
           });
 
           chain.module
-            .rule(webpackRscLayerName)
-            .issuerLayer(webpackRscLayerName)
-            .resolve.conditionNames.add(webpackRscLayerName)
-            .add('...');
-
-          chain.module
             .rule('server-module')
             .resource([/render\/.*\/server\/rsc/, /AppProxy/])
             .layer(webpackRscLayerName)
             .end();
+
+          chain.module
+            .rule(webpackRscLayerName)
+            .issuerLayer(webpackRscLayerName)
+            .resolve.conditionNames.add(webpackRscLayerName)
+            .add('...');
         };
 
         const flightCssHandler = () => {

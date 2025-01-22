@@ -2,13 +2,13 @@ import { formatImportPath } from '@modern-js/utils';
 
 const SERVER_ENTRY = `
 import {
-  #render,
+  renderStreaming,
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
 
-  const body = await #render(request, <ServerRoot />, options);
+  const body = await renderStreaming(request, <ServerRoot />, options);
 
   return new Response(body, {
     headers: {
@@ -23,7 +23,7 @@ export const requestHandler = createRequestHandler(handleRequest);
 
 const SERVER_ENTRY_RSC = `
 import {
-  #render,
+  renderStreaming,
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 import { RSCServerSlot } from '@#metaName/runtime/rsc/client';
@@ -31,7 +31,7 @@ export { handleAction } from '@#metaName/runtime/rsc/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
 
-  const body = await #render(request,
+  const body = await renderStreaming(request,
     <ServerRoot>
       <RSCServerSlot />
     </ServerRoot>,
@@ -78,7 +78,7 @@ export const entryForCSRWithRSC = ({
   export { handleAction } from '@${metaName}/runtime/rsc/server';
 
 
-  export const renderRscHandler = ({
+  export const rscRequestHandler = ({
     clientManifest
   }) => {
     const stream = renderRsc({
