@@ -46,6 +46,7 @@ export const renderSSRStream = async (
         import('../../rsc-html-stream/server'),
       ]);
 
+    // Allow render rsc stream from rscRoot, or from element
     const rscStream = await renderRsc({
       element: rscRoot || children,
       clientManifest,

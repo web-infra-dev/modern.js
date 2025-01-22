@@ -130,11 +130,13 @@ export async function getServerManifest(
 export function injectServerManifest(
   pwd: string,
   routes?: ServerRoute[],
+  manifestPromise?: Promise<ServerManifest>,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
       const logger = c.get('logger');
-      const serverManifest = await getServerManifest(pwd, routes, logger);
+      const serverManifest = await (manifestPromise ||
+        getServerManifest(pwd, routes, logger));
 
       c.set('serverManifest', serverManifest);
     }
@@ -204,19 +206,21 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       async prepare() {
         const { middlewares, routes, distDirectory: pwd } = api.useAppContext();
 
+        // In Production, should warmup server bundles on prepare.
         let htmlTemplatePromise:
           | ReturnType<typeof getHtmlTemplates>
           | undefined;
-        // In Production, should warmup server bundles on prepare.
+        let manifestPromise: Promise<ServerManifest> | undefined;
+
         if (isProd()) {
-          getServerManifest(pwd, routes || [], console);
+          manifestPromise = getServerManifest(pwd, routes || [], console);
           htmlTemplatePromise = getHtmlTemplates(pwd, routes || []);
         }
 
         middlewares.push({
           name: 'inject-server-manifest',
 
-          handler: injectServerManifest(pwd, routes),
+          handler: injectServerManifest(pwd, routes, manifestPromise),
         });
 
         middlewares.push({
