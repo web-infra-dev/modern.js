@@ -1,7 +1,12 @@
 import { merge } from '@modern-js/runtime-utils/merge';
-import type { PluginHook, PluginHookTap } from '../types';
+import type { PluginHook } from '../types';
 import type { PluginManager } from '../types/plugin';
-import type { RuntimePluginAPI } from '../types/runtime/api';
+import type {
+  AllKeysForRuntimePluginExtendsAPI,
+  AllValueForRuntimePluginExtendsAPI,
+  RuntimePluginAPI,
+  RuntimePluginExtendsAPI,
+} from '../types/runtime/api';
 import type {
   InternalRuntimeContext,
   RuntimeContext,
@@ -52,26 +57,27 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     throw new Error('Cannot access config');
   }
 
-  const extendsPluginApi: Record<
-    string,
-    PluginHookTap<(...args: any[]) => any>
-  > = {};
+  const extendsPluginApi: Partial<RuntimePluginExtendsAPI<Extends>> = {};
 
   plugins.forEach(plugin => {
     const { _registryApi } = plugin;
     if (_registryApi) {
-      const apis = _registryApi(getRuntimeContext, updateRuntimeContext);
+      const apis = _registryApi(getRuntimeContext, updateRuntimeContext); // Explicitly define the type
       Object.keys(apis).forEach(apiName => {
-        extendsPluginApi[apiName] = apis[apiName];
+        extendsPluginApi[apiName as keyof RuntimePluginExtendsAPI<Extends>] =
+          apis[
+            apiName
+          ] as RuntimePluginExtendsAPI<Extends>[keyof RuntimePluginExtendsAPI<Extends>];
       });
     }
   });
 
   if (extendsHooks) {
     Object.keys(extendsHooks!).forEach(hookName => {
-      extendsPluginApi[hookName] = (
-        extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
-      )[hookName].tap;
+      extendsPluginApi[hookName as AllKeysForRuntimePluginExtendsAPI<Extends>] =
+        (extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>)[
+          hookName
+        ].tap as AllValueForRuntimePluginExtendsAPI<Extends>;
     });
   }
 
@@ -84,5 +90,5 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     wrapRoot: hooks.wrapRoot.tap,
     pickContext: hooks.pickContext.tap,
     ...extendsPluginApi,
-  };
+  } as RuntimePluginAPI<Extends>;
 }

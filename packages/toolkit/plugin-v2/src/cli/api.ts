@@ -1,6 +1,11 @@
 import { merge } from '@modern-js/utils/lodash';
-import type { PluginHook, PluginHookTap } from '../types';
-import type { CLIPluginAPI } from '../types/cli/api';
+import type { PluginHook } from '../types';
+import type {
+  AllKeysForCLIPluginExtendsAPI,
+  AllValueForCLIPluginExtendsAPI,
+  CLIPluginAPI,
+  CLIPluginExtendsAPI,
+} from '../types/cli/api';
 import type { AppContext, InternalContext } from '../types/cli/context';
 import type { CLIPluginExtends } from '../types/cli/plugin';
 import type { PluginManager } from '../types/plugin';
@@ -48,26 +53,24 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     return context.hooks;
   }
 
-  const extendsPluginApi: Record<
-    string,
-    PluginHookTap<(...args: any[]) => any>
-  > = {};
+  const extendsPluginApi: Partial<CLIPluginExtendsAPI<Extends>> = {};
 
   plugins.forEach(plugin => {
     const { _registryApi } = plugin;
     if (_registryApi) {
       const apis = _registryApi(getAppContext, updateAppContext);
       Object.keys(apis).forEach(apiName => {
-        extendsPluginApi[apiName] = apis[apiName];
+        extendsPluginApi[apiName as AllKeysForCLIPluginExtendsAPI<Extends>] =
+          apis[apiName] as AllValueForCLIPluginExtendsAPI<Extends>;
       });
     }
   });
 
   if (extendsHooks) {
     Object.keys(extendsHooks!).forEach(hookName => {
-      extendsPluginApi[hookName] = (
+      extendsPluginApi[hookName as AllKeysForCLIPluginExtendsAPI<Extends>] = (
         extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
-      )[hookName].tap;
+      )[hookName].tap as AllValueForCLIPluginExtendsAPI<Extends>; // Type assertion
     });
   }
 
