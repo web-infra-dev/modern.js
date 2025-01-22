@@ -70,7 +70,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     Object.keys(extendsHooks!).forEach(hookName => {
       extendsPluginApi[hookName as AllKeysForCLIPluginExtendsAPI<Extends>] = (
         extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
-      )[hookName].tap as AllValueForCLIPluginExtendsAPI<Extends>; // Type assertion
+      )[hookName].tap as AllValueForCLIPluginExtendsAPI<Extends>;
     });
   }
 

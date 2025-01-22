@@ -62,7 +62,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
   plugins.forEach(plugin => {
     const { _registryApi } = plugin;
     if (_registryApi) {
-      const apis = _registryApi(getRuntimeContext, updateRuntimeContext); // Explicitly define the type
+      const apis = _registryApi(getRuntimeContext, updateRuntimeContext);
       Object.keys(apis).forEach(apiName => {
         extendsPluginApi[apiName as keyof RuntimePluginExtendsAPI<Extends>] =
           apis[
@@ -81,7 +81,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     });
   }
 
-  return {
+  const pluginAPI = {
     updateRuntimeContext,
     getHooks,
     getRuntimeConfig,
@@ -90,5 +90,20 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     wrapRoot: hooks.wrapRoot.tap,
     pickContext: hooks.pickContext.tap,
     ...extendsPluginApi,
-  } as RuntimePluginAPI<Extends>;
+  };
+
+  return new Proxy(pluginAPI, {
+    get(target: Record<string, any>, prop: string) {
+      // hack then function to fix p-defer handle error
+      if (prop === 'then') {
+        return undefined;
+      }
+      if (prop in target) {
+        return target[prop];
+      }
+      return () => {
+        console.warn(`api.${prop.toString()} not exist`);
+      };
+    },
+  }) as RuntimePluginAPI<Extends>;
 }
