@@ -11,6 +11,7 @@ export { routerPlugin };
 export default routerPlugin;
 
 export { modifyRoutes } from './plugin';
+export type { RouterExtendsHooks } from './hooks';
 
 export * from './withRouter';
 

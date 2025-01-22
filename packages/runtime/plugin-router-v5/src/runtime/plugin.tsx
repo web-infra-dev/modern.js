@@ -22,6 +22,10 @@ import {
 import { modifyRoutesHook } from './hooks';
 import { getLocation, renderRoutes, urlJoin } from './utils';
 
+export type RouterExtendsHooks = {
+  modifyRoutes: typeof modifyRoutesHook;
+};
+
 export type SingleRouteConfig = RouteProps & {
   redirect?: string;
   routes?: SingleRouteConfig[];
@@ -64,9 +68,7 @@ let routes: SingleRouteConfig[] = [];
 export const routerPlugin = (
   userConfig: RouterConfig = {},
 ): RuntimePluginFuture<{
-  extendHooks: {
-    modifyRoutes: typeof modifyRoutesHook;
-  };
+  extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',
