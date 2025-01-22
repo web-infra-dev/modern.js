@@ -20,10 +20,15 @@ declare module '@modern-js/utils/commander' {
 }
 export type ConfigFn<Config> = () => Config;
 
-export type ModifyConfigFn<Config> = TransformFunction<Config>;
+export type ModifyConfigFn<Config, ExtendConfigUtils> = (
+  arg: Config,
+  utils?: ExtendConfigUtils,
+) => Config | Promise<Config>;
 
-export type ModifyResolvedConfigFn<NormalizedConfig> =
-  TransformFunction<NormalizedConfig>;
+export type ModifyResolvedConfigFn<NormalizedConfig, ExtendConfigUtils> = (
+  arg: NormalizedConfig,
+  utils?: ExtendConfigUtils,
+) => NormalizedConfig | Promise<NormalizedConfig>;
 
 type IPartialMethod = (...script: string[]) => void;
 export interface PartialMethod {

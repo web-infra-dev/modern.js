@@ -10,6 +10,7 @@ export interface CLIPluginExtends<
   ExtendAPI extends Record<string, any> = {},
   ExtendHook extends Record<string, PluginHook<(...args: any[]) => any>> = {},
   ExtendBuildUtils extends Record<string, any> = {},
+  ExtendConfigUtils extends Record<string, any> = {},
 > {
   config?: Config;
   normalizedConfig?: NormalizedConfig;
@@ -17,6 +18,7 @@ export interface CLIPluginExtends<
   extendApi?: ExtendAPI;
   extendHooks?: ExtendHook;
   extendBuildUtils?: ExtendBuildUtils;
+  extendConfigUtils?: ExtendConfigUtils;
 }
 
 /**
