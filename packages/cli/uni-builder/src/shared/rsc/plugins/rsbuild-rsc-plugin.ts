@@ -38,19 +38,9 @@ export const rsbuildRscPlugin = ({
           const JSRule = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
 
           if (originalJsRule) {
-            const jsLoaderOptions = useBabel
-              ? originalJsRule.use(CHAIN_ID.USE.BABEL).get('options')
-              : originalJsRule.use(CHAIN_ID.USE.SWC).get('options');
-
-            const jsLoaderPath = useBabel
-              ? originalJsRule.use(CHAIN_ID.USE.BABEL).get('loader')
-              : originalJsRule.use(CHAIN_ID.USE.SWC).get('loader');
-
-            if (useBabel) {
-              originalJsRule.uses.delete(CHAIN_ID.USE.BABEL);
-            } else {
-              originalJsRule.uses.delete(CHAIN_ID.USE.SWC);
-            }
+            const jsLoaderOptions = originalJsRule.use(JSRule).get('options');
+            const jsLoaderPath = originalJsRule.use(JSRule).get('loader');
+            originalJsRule.uses.delete(JSRule);
 
             chain.module
               .rule(CHAIN_ID.RULE.JS)
@@ -93,7 +83,8 @@ export const rsbuildRscPlugin = ({
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
-            .resolve.conditionNames.merge([webpackRscLayerName, '...']);
+            .resolve.conditionNames.add(webpackRscLayerName)
+            .add('...');
 
           chain.module
             .rule('server-module')
