@@ -11,7 +11,7 @@ import {
   relative,
   resolve,
 } from 'path';
-import { js } from '@ast-grep/napi';
+import { Lang, type NapiConfig, parse } from '@ast-grep/napi';
 import { fs, logger } from '@modern-js/utils';
 import {
   type MatchPath,
@@ -260,8 +260,8 @@ export const redirect = {
       );
 
       try {
-        const sgNode = js.parse(code).root();
-        const matcher = {
+        const sgNode = parse(Lang.JavaScript, code).root();
+        const matcher: NapiConfig = {
           rule: {
             kind: 'string_fragment',
             any: [

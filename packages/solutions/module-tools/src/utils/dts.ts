@@ -1,5 +1,5 @@
 import { dirname, join, relative, resolve } from 'path';
-import { js } from '@ast-grep/napi';
+import { Lang, type NapiConfig, parse } from '@ast-grep/napi';
 import { fs, chalk, globby, json5, logger } from '@modern-js/utils';
 import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
 import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
@@ -149,8 +149,8 @@ export const processDtsFilesAfterTsc = async (config: GeneratorDtsConfig) => {
         );
         try {
           // js can override more case than ts
-          const sgNode = js.parse(code).root();
-          const matcher = {
+          const sgNode = parse(Lang.JavaScript, code).root();
+          const matcher: NapiConfig = {
             rule: {
               kind: 'string_fragment',
               any: [

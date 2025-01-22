@@ -1,22 +1,23 @@
 import type {
-  ModifyBundlerChainFn,
-  ModifyRsbuildConfigFn,
-  ModifyRspackConfigFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
   OnAfterBuildFn,
   OnAfterCreateCompilerFn,
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
 } from '@rsbuild/core';
 import { createAsyncHook, createCollectAsyncHook } from '../hooks';
 import type {
   AddCommandFn,
   AddWatchFilesFn,
   ConfigFn,
+  ModifyBundlerChainFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
   ModifyResolvedConfigFn,
+  ModifyRsbuildConfigFn,
+  ModifyRspackConfigFn,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
   OnAfterDeployFn,
   OnAfterDevFn,
   OnBeforeDeployFn,
@@ -28,7 +29,34 @@ import type {
 } from '../types/cli/hooks';
 import type { DeepPartial } from '../types/utils';
 
-export function initHooks<Config, NormalizedConfig>() {
+export type {
+  OnAfterBuildFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeBuildFn,
+  OnBeforeCreateCompilerFn,
+  OnDevCompileDoneFn,
+  AddCommandFn,
+  AddWatchFilesFn,
+  ConfigFn,
+  ModifyBundlerChainFn,
+  ModifyConfigFn,
+  ModifyHtmlPartialsFn,
+  ModifyResolvedConfigFn,
+  ModifyRsbuildConfigFn,
+  ModifyRspackConfigFn,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
+  OnAfterDeployFn,
+  OnBeforeDeployFn,
+  OnBeforeDevFn,
+  OnAfterDevFn,
+  OnBeforeExitFn,
+  OnBeforeRestartFn,
+  OnFileChangedFn,
+  OnPrepareFn,
+};
+
+export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
   return {
     /**
      * add config for this cli plugin
@@ -45,11 +73,16 @@ export function initHooks<Config, NormalizedConfig>() {
     modifyResolvedConfig:
       createAsyncHook<ModifyResolvedConfigFn<NormalizedConfig>>(),
 
-    modifyRsbuildConfig: createAsyncHook<ModifyRsbuildConfigFn>(),
-    modifyBundlerChain: createAsyncHook<ModifyBundlerChainFn>(),
-    modifyRspackConfig: createAsyncHook<ModifyRspackConfigFn>(),
-    modifyWebpackChain: createAsyncHook<ModifyWebpackChainFn>(),
-    modifyWebpackConfig: createAsyncHook<ModifyWebpackConfigFn>(),
+    modifyRsbuildConfig:
+      createAsyncHook<ModifyRsbuildConfigFn<ExtendBuildUtils>>(),
+    modifyBundlerChain:
+      createAsyncHook<ModifyBundlerChainFn<ExtendBuildUtils>>(),
+    modifyRspackConfig:
+      createAsyncHook<ModifyRspackConfigFn<ExtendBuildUtils>>(),
+    modifyWebpackChain:
+      createAsyncHook<ModifyWebpackChainFn<ExtendBuildUtils>>(),
+    modifyWebpackConfig:
+      createAsyncHook<ModifyWebpackConfigFn<ExtendBuildUtils>>(),
     modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),
@@ -60,6 +93,7 @@ export function initHooks<Config, NormalizedConfig>() {
     onBeforeRestart: createAsyncHook<OnBeforeRestartFn>(),
     onBeforeCreateCompiler: createAsyncHook<OnBeforeCreateCompilerFn>(),
     onAfterCreateCompiler: createAsyncHook<OnAfterCreateCompilerFn>(),
+    onDevCompileDone: createAsyncHook<OnDevCompileDoneFn>(),
     onBeforeBuild: createAsyncHook<OnBeforeBuildFn>(),
     onAfterBuild: createAsyncHook<OnAfterBuildFn>(),
     onBeforeDev: createAsyncHook<OnBeforeDevFn>(),
@@ -70,6 +104,6 @@ export function initHooks<Config, NormalizedConfig>() {
   };
 }
 
-export type Hooks<Config, NormalizedConfig> = ReturnType<
-  typeof initHooks<Config, NormalizedConfig>
+export type Hooks<Config, NormalizedConfig, ExtendBuildUtils> = ReturnType<
+  typeof initHooks<Config, NormalizedConfig, ExtendBuildUtils>
 >;

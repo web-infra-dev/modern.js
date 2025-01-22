@@ -20,10 +20,7 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
   /**
    * The plugins add new apis to the plugin manager.
    */
-  _registryApi?: (
-    getAppContext: () => Context,
-    updateAppContext: (context: Context) => void,
-  ) => Record<string, (...args: any[]) => any>;
+  _registryApi?: (...params: any[]) => Record<string, (...args: any[]) => any>;
   /**
    * The setup function of the plugin, which can be an async function.
    * This function is called once when the plugin is initialized.

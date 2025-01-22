@@ -65,7 +65,7 @@ export function sanitizeError<T = unknown>(error: T) {
     process.env.NODE_ENV !== 'development' &&
     process.env.NODE_ENV !== 'test'
   ) {
-    const sanitized = new Error('Unexpected Server Error');
+    const sanitized = new Error(error.message || 'Unexpected Server Error');
     sanitized.stack = undefined;
     return sanitized;
   }

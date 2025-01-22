@@ -152,7 +152,7 @@ export function getHookRunners(
       return hooks.onBeforeDev.call();
     },
     afterDev: async (params: { isFirstCompile: boolean }) => {
-      return hooks.onAfterDev.call(params);
+      return hooks.onDevCompileDone.call(params as any);
     },
     beforeDeploy: async (options: Record<string, any>) => {
       return hooks.onBeforeDeploy.call(options);

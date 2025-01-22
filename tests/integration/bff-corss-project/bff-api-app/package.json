@@ -1,0 +1,97 @@
+{
+  "name": "bff-api-app",
+  "version": "2.63.7",
+  "scripts": {
+    "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
+    "build": "modern build",
+    "serve": "modern serve",
+    "deploy": "modern deploy",
+    "start:bff": "modern serve --api-only",
+    "new": "modern new"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "dependencies": {
+    "@modern-js/plugin-express": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "express": "^4.17.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "3.14.1",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5"
+  },
+  "exports": {
+    "./api/context/index": {
+      "import": "./dist-1/client/context/index.js",
+      "types": "./dist-1/api/context/index.d.ts"
+    },
+    "./api/index": {
+      "import": "./dist-1/client/index.js",
+      "types": "./dist-1/api/index.d.ts"
+    },
+    "./api/upload": {
+      "import": "./dist-1/client/upload.js",
+      "types": "./dist-1/api/upload.d.ts"
+    },
+    "./api/user/[id]": {
+      "import": "./dist-1/client/user/[id].js",
+      "types": "./dist-1/api/user/[id].d.ts"
+    },
+    "./api/user/index": {
+      "import": "./dist-1/client/user/index.js",
+      "types": "./dist-1/api/user/index.d.ts"
+    },
+    "./plugin": {
+      "require": "./dist-1/plugin/index.js",
+      "types": "./dist-1/plugin/index.d.ts"
+    },
+    "./runtime": {
+      "import": "./dist-1/runtime/index.js",
+      "types": "./dist-1/runtime/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "api/context/index": [
+        "./dist-1/api/context/index.d.ts"
+      ],
+      "api/index": [
+        "./dist-1/api/index.d.ts"
+      ],
+      "api/upload": [
+        "./dist-1/api/upload.d.ts"
+      ],
+      "api/user/[id]": [
+        "./dist-1/api/user/[id].d.ts"
+      ],
+      "api/user/index": [
+        "./dist-1/api/user/index.d.ts"
+      ],
+      "runtime": [
+        "./dist-1/runtime/index.d.ts"
+      ],
+      "plugin": [
+        "./dist-1/plugin/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "./dist-1/client/**/*",
+    "./dist-1/api/**/*",
+    "./dist-1/runtime/**/*",
+    "./dist-1/plugin/**/*"
+  ]
+}

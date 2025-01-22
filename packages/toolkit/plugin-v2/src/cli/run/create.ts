@@ -1,4 +1,4 @@
-import { logger } from '@modern-js/utils';
+import { createDebugger, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
 import type { CLIPlugin, CLIPluginExtends } from '../../types/cli/plugin';
@@ -15,16 +15,19 @@ import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
+const debug = createDebugger('plugin-v2');
+
 export const createCli = <Extends extends CLIPluginExtends>() => {
-  let initOptions: CLIRunOptions;
+  let initOptions: CLIRunOptions<Extends>;
   const pluginManager = createPluginManager();
 
-  async function init(options: CLIRunOptions) {
+  async function init(options: CLIRunOptions<Extends>) {
     pluginManager.clear();
     initOptions = options;
     const {
       metaName = 'MODERN',
       configFile,
+      config,
       command,
       version,
       packageJsonConfig,
@@ -44,6 +47,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
       appDirectory,
       configFile,
       packageJsonConfig,
+      config,
     );
 
     const allPlugins = [
@@ -59,6 +63,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     pluginManager.addPlugins(allPlugins);
 
     const plugins = (await pluginManager.getPlugins()) as CLIPlugin<Extends>[];
+
+    debug(
+      'CLI Plugins:',
+      plugins.map(p => p.name),
+    );
 
     const context = await createContext<Extends>({
       appContext: initAppContext<Extends>({
@@ -130,11 +139,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     await context.hooks.onPrepare.call();
 
     // compat old modernjs hook
-    await (context.hooks as any)?.onAfterPrepare.call();
+    await (context.hooks as any)?.onAfterPrepare?.call();
 
     return { appContext: context };
   }
-  async function run(options: CLIRunOptions) {
+  async function run(options: CLIRunOptions<Extends>) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
 

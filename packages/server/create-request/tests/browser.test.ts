@@ -34,7 +34,11 @@ describe('configure', () => {
     });
 
     configure({ request: customRequest });
-    const request = createRequest(path, method, 8080, undefined);
+    const request = createRequest({
+      path,
+      method,
+      port: 8080,
+    });
     const res = await request();
     const data = await res.json();
 
@@ -57,7 +61,11 @@ describe('configure', () => {
     });
 
     configure({ request: customRequest });
-    const request = createRequest(path, method, 8080, undefined);
+    const request = createRequest({
+      path,
+      method,
+      port: 8080,
+    });
     const res = await request({
       query: {
         users: ['foo', 'bar'],
@@ -78,7 +86,11 @@ describe('configure', () => {
     });
 
     configure({ interceptor });
-    const request = createRequest(path, method, 8080, undefined);
+    const request = createRequest({
+      path,
+      method,
+      port: 8080,
+    });
     const res = await request();
     const data = await res.json();
 
@@ -100,7 +112,11 @@ describe('configure', () => {
     });
 
     configure({ request: customRequest, interceptor });
-    const request = createRequest(path, method, 8080, undefined);
+    const request = createRequest({
+      path,
+      method,
+      port: 8080,
+    });
     const res = await request();
     const data = await res.json();
 
@@ -119,8 +135,11 @@ describe('configure', () => {
     });
 
     configure({ interceptor });
-
-    const request = createRequest(`${path}/:id`, method, 8080, undefined);
+    const request = createRequest({
+      path: `${path}/:id`,
+      method,
+      port: 8080,
+    });
     const res = await request('modernjs');
     const data = await res.json();
     expect(res instanceof Response).toBe(true);
@@ -137,7 +156,11 @@ describe('configure', () => {
 
     configure({ interceptor });
 
-    const request = createRequest(`${path}/:id`, method, 8080, undefined);
+    const request = createRequest({
+      path: `${path}/:id`,
+      method,
+      port: 8080,
+    });
     const res = await request({
       params: {
         id: 'modernjs',

@@ -1,7 +1,9 @@
+import path from 'path';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import {
+  fs,
   cleanRequireCache,
   deprecatedCommands,
   emptyDir,
@@ -176,7 +178,15 @@ export const appTools = (
     api.onFileChanged(async e => {
       const { filename, eventType, isPrivate } = e;
 
-      if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
+      const { appDirectory, apiDirectory } = api.getAppContext();
+      const relativeApiPath = path.relative(appDirectory, apiDirectory);
+      const isApiProject = filename.startsWith(`${relativeApiPath}/`);
+
+      if (
+        !isPrivate &&
+        (eventType === 'change' || eventType === 'unlink') &&
+        !isApiProject
+      ) {
         const { closeServer } = await import('./utils/createServer.js');
         await closeServer();
         await restart(api.getHooks(), filename);
@@ -195,6 +205,7 @@ export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
 export type { DevOptions } from './utils/types';
+export { generateWatchFiles } from './utils/generateWatchFiles';
 
 export * from './types';
 

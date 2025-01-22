@@ -5,13 +5,14 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
-  RequestUploader,
   Sender,
+  UploadCreator,
 } from './types';
 import { getUploadPayload } from './utiles';
 
-let realRequest: typeof fetch;
-let realAllowedHeaders: string[];
+const realRequest: Map<string, typeof fetch> = new Map();
+
+const realAllowedHeaders: Map<string, string[]> = new Map();
 
 const originFetch = (...params: Parameters<typeof fetch>) => {
   const [url, init] = params;
@@ -19,34 +20,42 @@ const originFetch = (...params: Parameters<typeof fetch>) => {
   if (init?.method?.toLowerCase() === 'get') {
     init.body = undefined;
   }
-
   return fetch(url, init).then(handleRes);
 };
 
 export const configure = (options: IOptions) => {
-  const { request, interceptor, allowedHeaders } = options;
-  realRequest = request || originFetch;
+  const {
+    request,
+    interceptor,
+    allowedHeaders,
+    requestId = 'default',
+  } = options;
+  let configuredRequest = request || originFetch;
   if (interceptor && !request) {
-    realRequest = interceptor(fetch);
+    configuredRequest = interceptor(fetch);
   }
   if (Array.isArray(allowedHeaders)) {
-    realAllowedHeaders = allowedHeaders;
+    realAllowedHeaders.set(requestId, allowedHeaders);
   }
+  realRequest.set(requestId, configuredRequest);
 };
 
-export const createRequest: RequestCreator = (
+export const createRequest: RequestCreator = ({
   path,
   method,
   port,
   httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
   fetch = originFetch,
-) => {
+  domain,
+  requestId = 'default',
+}) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
 
   const sender: Sender = async (...args) => {
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
+
     let body;
     let finalURL: string;
     let headers: Record<string, any>;
@@ -119,6 +128,9 @@ export const createRequest: RequestCreator = (
 
     headers.accept = `application/json,*/*;q=0.8`;
 
+    if (domain) {
+      finalURL = `${domain}${finalURL}`;
+    }
     return fetcher(finalURL, {
       method,
       body,
@@ -129,11 +141,20 @@ export const createRequest: RequestCreator = (
   return sender;
 };
 
-export const createUploader: RequestUploader = (path: string) => {
+export const createUploader: UploadCreator = ({
+  path,
+  domain,
+  requestId = 'default',
+}) => {
   const sender: Sender = (...args) => {
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
+
     const { body, headers } = getUploadPayload(args);
-    return fetcher(path, { method: 'POST', body, headers });
+    return fetcher(domain ? `${domain}${path}` : path, {
+      method: 'POST',
+      body,
+      headers,
+    });
   };
 
   return sender;

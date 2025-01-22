@@ -111,7 +111,7 @@ export const dev = async (
     serverConfigFile,
     plugins: pluginInstances,
     ...devServerOptions,
-  };
+  } as any;
 
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
@@ -137,6 +137,7 @@ export const dev = async (
         );
       },
     );
+    setServer(server);
   } else {
     const { server, afterListen } = await createDevServer(
       {

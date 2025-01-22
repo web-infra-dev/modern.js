@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.63.6",
+  "version": "2.63.7",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -41,6 +41,11 @@
       "types": "./dist/types/loader.d.ts",
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
+    },
+    "./runtime/create-request": {
+      "types": "./dist/types/create-request/index.d.ts",
+      "jsnext:source": "./src/runtime/create-request/index.ts",
+      "default": "./dist/cjs/runtime/create-request/index.js"
     }
   },
   "typesVersions": {
@@ -53,6 +58,9 @@
       ],
       "server": [
         "./dist/types/server.d.ts"
+      ],
+      "runtime/create-request": [
+        "./dist/types/runtime/create-request/index.d.ts"
       ]
     }
   },
