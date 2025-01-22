@@ -1,5 +1,15 @@
 # @e2e/garfish-dashboard-router-v6
 
+## 2.64.0
+
+### Patch Changes
+
+- Updated dependencies [48c11bf]
+- Updated dependencies [9e6f86e]
+  - @modern-js/plugin-router-v5@2.64.0
+  - @modern-js/runtime@2.64.0
+  - @modern-js/plugin-garfish@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes

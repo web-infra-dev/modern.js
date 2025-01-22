@@ -1,6 +1,6 @@
 {
   "name": "ssr-base-json-test",
-  "version": "2.63.7",
+  "version": "2.64.0",
   "private": true,
   "scripts": {
     "dev": "modern dev"
