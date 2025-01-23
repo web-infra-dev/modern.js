@@ -139,6 +139,7 @@ exports[`create builder provider config should add default config 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "server": undefined,
   "source": {},
 }
 `;

@@ -130,11 +130,13 @@ export async function getServerManifest(
 export function injectServerManifest(
   pwd: string,
   routes?: ServerRoute[],
+  manifestPromise?: Promise<ServerManifest>,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
       const logger = c.get('logger');
-      const serverManifest = await getServerManifest(pwd, routes, logger);
+      const serverManifest = await (manifestPromise ||
+        getServerManifest(pwd, routes, logger));
 
       c.set('serverManifest', serverManifest);
     }
@@ -142,6 +144,59 @@ export function injectServerManifest(
     await next();
   };
 }
+
+export async function getRscServerManifest(pwd: string) {
+  const rscServerManifest = await compatibleRequire(
+    path.join(pwd, 'bundles', 'react-server-manifest.json'),
+  ).catch(_ => undefined);
+  return rscServerManifest;
+}
+
+export async function getClientManifest(pwd: string) {
+  const rscClientManifest = await compatibleRequire(
+    path.join(pwd, 'react-client-manifest.json'),
+  ).catch(_ => undefined);
+  return rscClientManifest;
+}
+
+export async function getRscSSRManifest(pwd: string) {
+  const rscSSRManifest = await compatibleRequire(
+    path.join(pwd, 'react-ssr-manifest.json'),
+  ).catch(_ => undefined);
+  return rscSSRManifest;
+}
+
+export const injectRscManifestPlugin = (): ServerPlugin => ({
+  name: '@modern-js/plugin-inject-rsc-manifest',
+  setup(api) {
+    return {
+      async prepare() {
+        const { middlewares, distDirectory: pwd } = api.useAppContext();
+        middlewares.push({
+          name: 'inject-rsc-manifest',
+          handler: async (c, next) => {
+            if (!c.get('rscServerManifest')) {
+              const rscServerManifest = await getRscServerManifest(pwd);
+              c.set('rscServerManifest', rscServerManifest);
+            }
+
+            if (!c.get('rscClientManifest')) {
+              const rscClientManifest = await getClientManifest(pwd);
+              c.set('rscClientManifest', rscClientManifest);
+            }
+
+            if (!c.get('rscSSRManifest')) {
+              const rscSSRManifest = await getRscSSRManifest(pwd);
+              c.set('rscSSRManifest', rscSSRManifest);
+            }
+
+            await next();
+          },
+        });
+      },
+    };
+  },
+});
 
 export const injectResourcePlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-inject-resource',
@@ -151,19 +206,21 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       async prepare() {
         const { middlewares, routes, distDirectory: pwd } = api.useAppContext();
 
+        // In Production, should warmup server bundles on prepare.
         let htmlTemplatePromise:
           | ReturnType<typeof getHtmlTemplates>
           | undefined;
-        // In Production, should warmup server bundles on prepare.
+        let manifestPromise: Promise<ServerManifest> | undefined;
+
         if (isProd()) {
-          getServerManifest(pwd, routes || [], console);
+          manifestPromise = getServerManifest(pwd, routes || [], console);
           htmlTemplatePromise = getHtmlTemplates(pwd, routes || []);
         }
 
         middlewares.push({
           name: 'inject-server-manifest',
 
-          handler: injectServerManifest(pwd, routes),
+          handler: injectServerManifest(pwd, routes, manifestPromise),
         });
 
         middlewares.push({

@@ -1,5 +1,10 @@
 import type { IncomingMessage } from 'http';
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type {
+  ClientManifest as RscClientManifest,
+  SSRManifest as RscSSRManifest,
+  ServerManifest as RscServerManifest,
+} from '@modern-js/types/server';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type { CacheConfig, ServerManifest, UserConfig } from '../../types';
@@ -20,6 +25,11 @@ export interface SSRRenderOptions {
   staticGenerate: boolean;
   config: UserConfig;
   serverManifest: ServerManifest;
+
+  rscServerManifest?: RscServerManifest;
+  rscClientManifest?: RscClientManifest;
+  rscSSRManifest?: RscSSRManifest;
+
   loaderContext: Map<string, unknown>;
 
   params: Params;
@@ -46,6 +56,9 @@ export async function ssrRender(
     staticGenerate,
     nodeReq,
     serverManifest,
+    rscSSRManifest,
+    rscClientManifest,
+    rscServerManifest,
     locals,
     params,
     loaderContext,
@@ -94,6 +107,10 @@ export async function ssrRender(
     loaderContext,
     config,
 
+    rscSSRManifest,
+    rscClientManifest,
+    rscServerManifest,
+
     locals,
     reporter,
     staticGenerate,
@@ -115,11 +132,11 @@ export async function ssrRender(
     response = await getCacheResult(request, {
       cacheControl,
       container: cacheConfig?.container,
-      requestHandler,
+      requestHandler: requestHandler!,
       requestHandlerOptions,
     });
   } else {
-    response = await requestHandler(request, requestHandlerOptions);
+    response = await requestHandler!(request, requestHandlerOptions);
   }
 
   response.headers.set(X_MODERNJS_RENDER, 'server');
