@@ -48,6 +48,7 @@ export const registerEsm = async ({ appDir, distDir, alias }) => {
     if (hasTsconfig) {
       tsConfig = readTsConfigByFile(tsconfigPath);
     }
+
     register('./esbuild-loader.mjs', import.meta.url, {
       data: {
         appDir,

@@ -83,14 +83,9 @@ function createSSRContext(
 
   const url = new URL(request.url);
 
-  const host =
-    headers.get('X-Forwarded-Host') || headers.get('host') || url.host;
+  const host = headers.get('host') || url.host;
 
-  let protocol = (
-    headers.get('X-Forwarded-Proto') ||
-    url.protocol ||
-    'http'
-  ).split(/\s*,\s*/, 1)[0];
+  let protocol = (url.protocol || 'http').split(/\s*,\s*/, 1)[0];
 
   // The protocal including the final `:`.
   // Follow: https://developer.mozilla.org/en-US/docs/Web/API/URL/protocol
