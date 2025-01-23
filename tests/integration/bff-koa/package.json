@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "bff-koa",
-  "version": "2.63.7",
+  "version": "2.64.0",
   "type": "module",
   "scripts": {
     "dev": "modern dev",

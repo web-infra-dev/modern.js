@@ -1,5 +1,13 @@
 # @modern-js/plugin-worker
 
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.64.0
+- @modern-js/server-utils@2.64.0
+- @modern-js/utils@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes
