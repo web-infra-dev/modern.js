@@ -4012,9 +4012,6 @@ importers:
 
   packages/toolkit/plugin-v2:
     dependencies:
-      '@modern-js/node-bundle-require':
-        specifier: workspace:*
-        version: link:../node-bundle-require
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../runtime-utils
@@ -4024,6 +4021,9 @@ importers:
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
+      jiti:
+        specifier: 1.21.7
+        version: 1.21.7
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -16733,6 +16733,10 @@ packages:
 
   jiti@1.20.0:
     resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
+    hasBin: true
+
+  jiti@1.21.7:
+    resolution: {integrity: sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==}
     hasBin: true
 
   jju@1.4.0:
@@ -33669,6 +33673,8 @@ snapshots:
       - ts-node
 
   jiti@1.20.0: {}
+
+  jiti@1.21.7: {}
 
   jju@1.4.0: {}
 

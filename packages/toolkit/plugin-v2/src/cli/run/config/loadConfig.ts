@@ -1,11 +1,7 @@
 import type { Stats } from 'fs';
 import path from 'path';
-import {
-  bundleRequire,
-  defaultGetOutputFile,
-} from '@modern-js/node-bundle-require';
 import { fs, CONFIG_CACHE_DIR, globby } from '@modern-js/utils';
-
+import jiti from 'jiti';
 /**
  * Get user config from package.json.
  * @param appDirectory - App root directory.
@@ -60,27 +56,31 @@ export const clearFilesOverTime = async (
   }
 };
 
-const bundleRequireWithCatch = async (
-  configFile: string,
-  { appDirectory }: { appDirectory: string },
-): Promise<any> => {
-  try {
-    const mod = await bundleRequire(configFile, {
-      autoClear: false,
-      getOutputFile: async (filePath: string) => {
-        const defaultOutputFileName = path.basename(
-          await defaultGetOutputFile(filePath),
-        );
-        const outputPath = path.join(appDirectory, CONFIG_CACHE_DIR);
-        // 10 min
-        const timeLimit = 10 * 60;
-        await clearFilesOverTime(outputPath, timeLimit);
-        return path.join(outputPath, defaultOutputFileName);
-      },
-    });
+/**
+ * Load a configuration file dynamically
+ * @param {string} configFile - Path to the configuration file (absolute or relative)
+ * @returns {any} - The loaded configuration object
+ */
+function loadConfigContent<T>(configFile: string): T {
+  // Create a jiti instance
+  const _require = jiti(__filename, {
+    esmResolve: true,
+    // disable require cache to support restart CLI and read the new config
+    requireCache: false,
+    interopDefault: true,
+  });
+  // Check if the file exists
+  if (!fs.existsSync(configFile)) {
+    throw new Error(`Configuration file does not exist: ${configFile}`);
+  }
 
-    return mod;
-  } catch (e) {
+  try {
+    // Dynamically load the configuration file using jiti
+    const config = _require(configFile);
+
+    // If the file exports as ESM, access the `default` property
+    return config.default || config;
+  } catch (e: any) {
     if (e instanceof Error) {
       e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${
         e.message || ''
@@ -88,7 +88,7 @@ const bundleRequireWithCatch = async (
     }
     throw e;
   }
-};
+}
 
 /**
  * Parse and load user config file, support extensions like .ts, mjs, js, ejs.
@@ -118,11 +118,7 @@ export const loadConfig = async <T>(
   let config: T | undefined;
 
   if (configFile) {
-    delete require.cache[configFile];
-
-    const mod = await bundleRequireWithCatch(configFile, { appDirectory });
-
-    config = mod.default || mod;
+    config = loadConfigContent<T>(configFile);
   }
 
   return {
