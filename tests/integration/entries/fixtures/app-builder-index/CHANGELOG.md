@@ -1,5 +1,11 @@
 # entries-app-builder-index
 
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/app-tools@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes

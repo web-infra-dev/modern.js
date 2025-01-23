@@ -1,6 +1,6 @@
 {
   "name": "integration-module-tools",
-  "version": "2.63.7",
+  "version": "2.64.0",
   "private": true,
   "sideEffects": [],
   "main": "./dist/lib/index.js",
