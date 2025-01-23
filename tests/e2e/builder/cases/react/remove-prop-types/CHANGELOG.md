@@ -1,5 +1,7 @@
 # @e2e/builder-remove-prop-types
 
+## 2.64.0
+
 ## 2.63.7
 
 ## 2.63.6

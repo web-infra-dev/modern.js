@@ -16,6 +16,7 @@ import { useContext, useMemo } from 'react';
 import { type RuntimePluginFuture, RuntimeReactContext } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import {
+  type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
@@ -43,10 +44,7 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
 ): RuntimePluginFuture<{
-  extendHooks: {
-    modifyRoutes: typeof modifyRoutesHook;
-    onBeforeCreateRoutes: typeof onBeforeCreateRoutesHook;
-  };
+  extendHooks: RouterExtendsHooks;
 }> => {
   return {
     name: '@modern-js/plugin-router',

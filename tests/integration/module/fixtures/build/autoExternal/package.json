@@ -1,6 +1,6 @@
 {
   "name": "auto-external-test",
-  "version": "2.63.7",
+  "version": "2.64.0",
   "dependencies": {
     "path-browserify": "1.0.1"
   },

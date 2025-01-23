@@ -1,5 +1,23 @@
 # @modern-js/plugin-router-v5
 
+## 2.64.0
+
+### Patch Changes
+
+- 48c11bf: feat: export router extend hooks type
+
+  feat: 导出 router 插件扩展 Hooks 类型
+
+- Updated dependencies [48c11bf]
+- Updated dependencies [48c11bf]
+- Updated dependencies [9e6f86e]
+  - @modern-js/runtime@2.64.0
+  - @modern-js/plugin-v2@2.64.0
+  - @modern-js/plugin@2.64.0
+  - @modern-js/runtime-utils@2.64.0
+  - @modern-js/types@2.64.0
+  - @modern-js/utils@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes

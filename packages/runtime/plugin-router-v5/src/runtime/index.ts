@@ -1,6 +1,11 @@
 import { routerPlugin } from './plugin';
 
-export type { SingleRouteConfig, HistoryConfig, RouterConfig } from './plugin';
+export type {
+  SingleRouteConfig,
+  HistoryConfig,
+  RouterConfig,
+  RouterExtendsHooks,
+} from './plugin';
 export { routerPlugin } from './plugin';
 export default routerPlugin;
 

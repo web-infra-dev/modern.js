@@ -1,5 +1,16 @@
 # ssg-fixtures-web-server
 
+## 2.64.0
+
+### Patch Changes
+
+- Updated dependencies [48c11bf]
+- Updated dependencies [9e6f86e]
+  - @modern-js/runtime@2.64.0
+  - @modern-js/app-tools@2.64.0
+  - @modern-js/plugin-ssg@2.64.0
+  - @modern-js/plugin-server@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes
