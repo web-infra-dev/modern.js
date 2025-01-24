@@ -43,7 +43,10 @@ export async function launchAppWithPage(appDir: string) {
   const browser = await puppeteer.launch(launchOptions as any);
   const page = await browser.newPage();
 
-  await page.goto(`http://localhost:${port}`);
+  await page.goto(`http://localhost:${port}`, {
+    waitUntil: 'networkidle0',
+    timeout: 10000,
+  });
 
   return {
     app,
