@@ -70,15 +70,15 @@
     "test": "jest"
   },
   "dependencies": {
-    "jiti": "1.21.7",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "@swc/helpers": "0.5.13"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.13",
+    "jiti": "1.21.7"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.2.1",
+    "@rsbuild/core": "1.2.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
