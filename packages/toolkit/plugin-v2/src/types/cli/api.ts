@@ -47,7 +47,8 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<
       Hooks<
         Extends['config'],
         Extends['normalizedConfig'],
-        Extends['extendBuildUtils']
+        Extends['extendBuildUtils'],
+        Extends['extendConfigUtils']
       > &
         Extends['extendHooks']
     >;
@@ -58,9 +59,14 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<
 
     // config hooks
     config: PluginHookTap<ConfigFn<DeepPartial<Extends['config']>>>;
-    modifyConfig: PluginHookTap<ModifyConfigFn<Extends['config']>>;
+    modifyConfig: PluginHookTap<
+      ModifyConfigFn<Extends['config'], Extends['extendConfigUtils']>
+    >;
     modifyResolvedConfig: PluginHookTap<
-      ModifyResolvedConfigFn<Extends['normalizedConfig']>
+      ModifyResolvedConfigFn<
+        Extends['normalizedConfig'],
+        Extends['extendConfigUtils']
+      >
     >;
 
     // modify rsbuild config hooks

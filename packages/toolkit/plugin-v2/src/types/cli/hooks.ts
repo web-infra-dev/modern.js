@@ -18,12 +18,17 @@ declare module '@modern-js/utils/commander' {
     commandsMap: Map<string, Command>;
   }
 }
-export type ConfigFn<Config> = () => Config;
+export type ConfigFn<Config> = () => Config | Promise<Config>;
 
-export type ModifyConfigFn<Config> = TransformFunction<Config>;
+export type ModifyConfigFn<Config, ExtendConfigUtils> = (
+  arg: Config,
+  utils?: ExtendConfigUtils,
+) => Config | Promise<Config>;
 
-export type ModifyResolvedConfigFn<NormalizedConfig> =
-  TransformFunction<NormalizedConfig>;
+export type ModifyResolvedConfigFn<NormalizedConfig, ExtendConfigUtils> = (
+  arg: NormalizedConfig,
+  utils?: ExtendConfigUtils,
+) => NormalizedConfig | Promise<NormalizedConfig>;
 
 type IPartialMethod = (...script: string[]) => void;
 export interface PartialMethod {
@@ -64,11 +69,11 @@ export type OnBeforeDevFn = () => Promise<void> | void;
 export type OnAfterDevFn = (params: { port: number }) => Promise<void> | void;
 
 export type OnBeforeDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
 export type OnAfterDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
 export type OnBeforeExitFn = () => void;

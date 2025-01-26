@@ -56,7 +56,12 @@ export type {
   OnPrepareFn,
 };
 
-export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
+export function initHooks<
+  Config,
+  NormalizedConfig,
+  ExtendBuildUtils,
+  ExtendConfigUtils,
+>() {
   return {
     /**
      * add config for this cli plugin
@@ -66,12 +71,14 @@ export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
      * @private
      * modify config for this cli plugin
      */
-    modifyConfig: createAsyncHook<ModifyConfigFn<Config>>(),
+    modifyConfig: createAsyncHook<ModifyConfigFn<Config, ExtendConfigUtils>>(),
     /**
      * modify final config
      */
     modifyResolvedConfig:
-      createAsyncHook<ModifyResolvedConfigFn<NormalizedConfig>>(),
+      createAsyncHook<
+        ModifyResolvedConfigFn<NormalizedConfig, ExtendConfigUtils>
+      >(),
 
     modifyRsbuildConfig:
       createAsyncHook<ModifyRsbuildConfigFn<ExtendBuildUtils>>(),
@@ -104,6 +111,16 @@ export function initHooks<Config, NormalizedConfig, ExtendBuildUtils>() {
   };
 }
 
-export type Hooks<Config, NormalizedConfig, ExtendBuildUtils> = ReturnType<
-  typeof initHooks<Config, NormalizedConfig, ExtendBuildUtils>
+export type Hooks<
+  Config,
+  NormalizedConfig,
+  ExtendBuildUtils,
+  ExtendConfigUtils,
+> = ReturnType<
+  typeof initHooks<
+    Config,
+    NormalizedConfig,
+    ExtendBuildUtils,
+    ExtendConfigUtils
+  >
 >;

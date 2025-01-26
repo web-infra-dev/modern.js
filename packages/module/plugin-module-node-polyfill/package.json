@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.13",
-    "assert": "2.0.0",
+    "assert": "2.1.0",
     "browserify-zlib": "0.2.0",
     "buffer": "6.0.3",
     "console-browserify": "1.2.0",

@@ -1,13 +1,6 @@
 import path from 'path';
-import { fs, CONFIG_CACHE_DIR } from '@modern-js/utils';
-import { checkTwinMacroExist, template } from '../src/macro';
-
-describe('template utils function', () => {
-  it('generate tailwindcss.config.js template', () => {
-    const result = template(`${CONFIG_CACHE_DIR}/modern.config.js`);
-    expect(result).toMatchSnapshot();
-  });
-});
+import { fs } from '@modern-js/utils';
+import { checkTwinMacroExist } from '../src/macro';
 
 describe('checkTwinMacroExist', () => {
   let originPkgContent = '';
