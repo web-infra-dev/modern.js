@@ -71,10 +71,10 @@ export async function run({
   }
 
   const appDirectory = await initAppDir(cwd);
-  const finalConfigFile = customConfigFile || getConfigFile(configFile);
+  const finalConfigFile: string = customConfigFile || getConfigFile(configFile);
   const autoLoadPlugins = await isAutoLoadPlugins(
     appDirectory,
-    finalConfigFile || 'modern.config.ts',
+    finalConfigFile,
     packageJsonConfig,
     metaName,
   );
