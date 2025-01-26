@@ -34,7 +34,7 @@ export const tailwindcssPlugin = (
           // twin.macro >= v3.0.0 support config object
           // twin.macro < v3.0.0 only support config path
           // https://github.com/ben-rogerson/twin.macro/releases/tag/3.0.0
-          // after v2.63.7, not support config path
+          // after v2.64.0, not support config path
           const twinMajorVersion = getTwinMacroMajorVersion(appDirectory);
           if (twinMajorVersion && twinMajorVersion < 3) {
             console.warn(
