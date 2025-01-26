@@ -53,7 +53,8 @@ export type InternalContext<Extends extends CLIPluginExtends> =
     hooks: Hooks<
       Extends['config'],
       Extends['normalizedConfig'],
-      Extends['extendBuildUtils']
+      Extends['extendBuildUtils'],
+      Extends['extendConfigUtils']
     > &
       Extends['extendHooks'];
     /** All plugin registry hooks */
