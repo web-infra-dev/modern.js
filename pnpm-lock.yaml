@@ -4314,8 +4314,8 @@ importers:
         specifier: ^14
         version: 14.18.35
       '@vercel/ncc':
-        specifier: 0.33.3
-        version: 0.33.3
+        specifier: 0.38.3
+        version: 0.38.3
       dts-packer:
         specifier: 0.0.3
         version: 0.0.3
@@ -12933,8 +12933,8 @@ packages:
   '@ungap/structured-clone@1.2.1':
     resolution: {integrity: sha512-fEzPV3hSkSMltkw152tJKNARhOupqbH96MZWyRjNaYZOMIzbrTeQDG+MTc6Mr2pgzFQzFxAfmhGDNP5QK++2ZA==}
 
-  '@vercel/ncc@0.33.3':
-    resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
+  '@vercel/ncc@0.38.3':
+    resolution: {integrity: sha512-rnK6hJBS6mwc+Bkab+PGPs9OiS0i/3kdTO+CkI8V0/VrW3vmz7O2Pxjw/owOlmo6PKEIxRSeZKv/kuL9itnpYA==}
     hasBin: true
 
   '@vercel/nft@0.26.5':
@@ -28488,7 +28488,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.1': {}
 
-  '@vercel/ncc@0.33.3': {}
+  '@vercel/ncc@0.38.3': {}
 
   '@vercel/nft@0.26.5(encoding@0.1.13)':
     dependencies:
