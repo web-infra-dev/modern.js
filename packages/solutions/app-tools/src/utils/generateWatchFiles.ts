@@ -1,5 +1,6 @@
 import path from 'path';
 import { fs, getServerConfig } from '@modern-js/utils';
+import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
 import type { AppToolsContext } from '../types/new';
 
 /**
@@ -12,7 +13,6 @@ const getPackageConfig = <T>(
   appDirectory: string,
   packageJsonConfig?: string,
 ) => {
-  const PACKAGE_JSON_CONFIG_NAME = 'modernConfig';
   const json = JSON.parse(
     fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
   );

@@ -23,10 +23,10 @@ export interface RunOptions {
 export async function run({
   cwd,
   initialLog,
-  metaName,
+  metaName = 'MODERN',
   version,
   internalPlugins,
-  packageJsonConfig,
+  packageJsonConfig = PACKAGE_JSON_CONFIG_NAME,
   configFile,
 }: RunOptions) {
   const command = process.argv[2];
@@ -74,7 +74,9 @@ export async function run({
   const finalConfigFile = customConfigFile || getConfigFile(configFile);
   const autoLoadPlugins = await isAutoLoadPlugins(
     appDirectory,
-    finalConfigFile,
+    finalConfigFile || 'modern.config.ts',
+    packageJsonConfig,
+    metaName,
   );
   const plugins = await loadInternalPlugins(
     appDirectory,
@@ -88,7 +90,7 @@ export async function run({
     initialLog: initialLog || `Modern.js Framework v${version}`,
     configFile: finalConfigFile,
     metaName,
-    packageJsonConfig: packageJsonConfig || PACKAGE_JSON_CONFIG_NAME,
+    packageJsonConfig: packageJsonConfig,
     internalPlugins: plugins,
     handleSetupResult,
   });
