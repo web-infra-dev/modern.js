@@ -22,17 +22,9 @@ import type {
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
-import type { RuntimePlugin } from './hooks';
 import type { Bundler } from './utils';
 
 export type AfterPrepareFn = () => Promise<void> | void;
-export type InternalRuntimePluginsFn = TransformFunction<{
-  entrypoint: Entrypoint;
-  plugins: RuntimePlugin[];
-}>;
-export type InternalServerPluginsFn = TransformFunction<{
-  plugins: ServerPlugin[];
-}>;
 export type CheckEntryPointFn = TransformFunction<{
   path: string;
   entry: false | string;
@@ -66,8 +58,6 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
 
-  _internalRuntimePlugins: PluginHookTap<InternalRuntimePluginsFn>;
-  _internalServerPlugins: PluginHookTap<InternalServerPluginsFn>;
   checkEntryPoint: PluginHookTap<CheckEntryPointFn>;
   modifyEntrypoints: PluginHookTap<ModifyEntrypointsFn>;
   modifyFileSystemRoutes: PluginHookTap<ModifyFileSystemRoutesFn>;
@@ -116,8 +106,6 @@ export interface AppToolsExtendHooks
   extends Record<string, PluginHook<(...args: any[]) => any>> {
   onAfterPrepare: AsyncHook<AfterPrepareFn>;
   deploy: AsyncHook<DeplpoyFn>;
-  _internalRuntimePlugins: AsyncHook<InternalRuntimePluginsFn>;
-  _internalServerPlugins: AsyncHook<InternalServerPluginsFn>;
   checkEntryPoint: AsyncHook<CheckEntryPointFn>;
   modifyEntrypoints: AsyncHook<ModifyEntrypointsFn>;
   modifyFileSystemRoutes: AsyncHook<ModifyFileSystemRoutesFn>;

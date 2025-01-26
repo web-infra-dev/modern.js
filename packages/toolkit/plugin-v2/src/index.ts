@@ -19,6 +19,8 @@ export type {
   Entrypoint,
   CLIPlugin,
   CLIPluginExtends,
+  RuntimePluginConfig,
+  ServerPluginConfig,
 } from './types/cli';
 export type {
   RuntimePluginAPI,
