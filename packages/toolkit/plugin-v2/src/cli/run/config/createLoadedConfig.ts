@@ -1,9 +1,7 @@
-import path from 'path';
 import {
   fs,
   CONFIG_FILE_EXTENSIONS,
   chalk,
-  findExists,
   getCommand,
   getNodeEnv,
   isDevCommand,

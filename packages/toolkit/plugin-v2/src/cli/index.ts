@@ -28,4 +28,4 @@ export {
   type OnFileChangedFn,
   type OnPrepareFn,
 } from './hooks';
-export { cli, createLoadedConfig, initAppDir, createCli } from './run';
+export { cli, createLoadedConfig, initAppDir, createCli, loadEnv } from './run';
