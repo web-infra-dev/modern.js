@@ -18,7 +18,7 @@ declare module '@modern-js/utils/commander' {
     commandsMap: Map<string, Command>;
   }
 }
-export type ConfigFn<Config> = () => Config;
+export type ConfigFn<Config> = () => Config | Promise<Config>;
 
 export type ModifyConfigFn<Config, ExtendConfigUtils> = (
   arg: Config,
