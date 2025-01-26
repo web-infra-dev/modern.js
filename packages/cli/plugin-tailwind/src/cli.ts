@@ -1,15 +1,8 @@
-import path from 'path';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import { fs, CONFIG_CACHE_DIR, globby, slash } from '@modern-js/utils';
 import { getTailwindConfig, loadConfigFile } from './config';
 import { designTokenPlugin } from './design-token/cli';
-import {
-  checkTwinMacroExist,
-  getRandomTwConfigFileName,
-  getTwinMacroMajorVersion,
-  template,
-} from './macro';
+import { checkTwinMacroExist, getTwinMacroMajorVersion } from './macro';
 import { getTailwindPath, getTailwindVersion } from './utils';
 
 export const tailwindcssPlugin = (
@@ -28,7 +21,6 @@ export const tailwindcssPlugin = (
 
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
-    let internalTwConfigPath = '';
     // When reinstalling dependencies, most of the time the project will be restarted
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
@@ -42,24 +34,12 @@ export const tailwindcssPlugin = (
           // twin.macro >= v3.0.0 support config object
           // twin.macro < v3.0.0 only support config path
           // https://github.com/ben-rogerson/twin.macro/releases/tag/3.0.0
+          // after v2.63.7, not support config path
           const twinMajorVersion = getTwinMacroMajorVersion(appDirectory);
-          const useConfigPath = twinMajorVersion && twinMajorVersion < 3;
-
-          if (useConfigPath) {
-            internalTwConfigPath = getRandomTwConfigFileName(internalDirectory);
-            const globPattern = slash(
-              path.join(appDirectory, CONFIG_CACHE_DIR, '*.cjs'),
+          if (twinMajorVersion && twinMajorVersion < 3) {
+            console.warn(
+              'Your twin.macro version is below 3.0.0. Please upgrade to the latest version to avoid potential issues.',
             );
-            const files = globby.sync(globPattern, {
-              absolute: true,
-            });
-            if (files.length > 0) {
-              fs.writeFileSync(
-                internalTwConfigPath,
-                template(files[files.length - 1]),
-                'utf-8',
-              );
-            }
           }
         }
       },
@@ -119,7 +99,7 @@ export const tailwindcssPlugin = (
                       {
                         twin: {
                           preset: supportCssInJsLibrary,
-                          config: internalTwConfigPath || tailwindConfig,
+                          config: tailwindConfig,
                         },
                       },
                     ],
