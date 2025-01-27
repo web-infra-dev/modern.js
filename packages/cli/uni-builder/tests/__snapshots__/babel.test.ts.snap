@@ -801,7 +801,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1073,7 +1073,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1218,7 +1218,7 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1379,7 +1379,7 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1532,7 +1532,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1671,7 +1671,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1779,7 +1779,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -1893,7 +1893,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2020,7 +2020,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2159,7 +2159,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2302,7 +2302,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2447,7 +2447,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2600,7 +2600,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2749,7 +2749,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -2888,7 +2888,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -3023,7 +3023,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
