@@ -3594,8 +3594,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       convert-source-map:
-        specifier: 1.8.0
-        version: 1.8.0
+        specifier: 1.9.0
+        version: 1.9.0
       enhanced-resolve:
         specifier: 5.17.1
         version: 5.17.1
@@ -14324,6 +14324,9 @@ packages:
   convert-source-map@1.8.0:
     resolution: {integrity: sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==}
 
+  convert-source-map@1.9.0:
+    resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
+
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
@@ -22234,7 +22237,7 @@ snapshots:
       '@babel/template': 7.25.9
       '@babel/traverse': 7.26.5
       '@babel/types': 7.26.5
-      convert-source-map: 1.8.0
+      convert-source-map: 1.9.0
       debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
@@ -30298,6 +30301,8 @@ snapshots:
   convert-source-map@1.8.0:
     dependencies:
       safe-buffer: 5.1.2
+
+  convert-source-map@1.9.0: {}
 
   convert-source-map@2.0.0: {}
 
@@ -40013,7 +40018,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       '@types/istanbul-lib-coverage': 2.0.6
-      convert-source-map: 1.8.0
+      convert-source-map: 1.9.0
 
   validate-npm-package-license@3.0.4:
     dependencies:
