@@ -3855,7 +3855,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.26.0",
+                    "version": "7.26.7",
                   },
                 ],
                 "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -3982,7 +3982,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.26.0",
+                    "version": "7.26.7",
                   },
                 ],
                 "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -4430,7 +4430,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.26.0",
+                        "version": "7.26.7",
                       },
                     ],
                     "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -4558,7 +4558,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.26.0",
+                        "version": "7.26.7",
                       },
                     ],
                     "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -5114,7 +5114,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.26.0",
+                    "version": "7.26.7",
                   },
                 ],
                 "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -5241,7 +5241,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.26.0",
+                    "version": "7.26.7",
                   },
                 ],
                 "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -5695,7 +5695,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.26.0",
+                        "version": "7.26.7",
                       },
                     ],
                     "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -5838,7 +5838,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.26.0",
+                        "version": "7.26.7",
                       },
                     ],
                     "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
