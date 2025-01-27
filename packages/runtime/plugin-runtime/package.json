@@ -196,8 +196,8 @@
     "@modern-js-reduck/react": "^1.1.10",
     "@modern-js-reduck/store": "^1.1.10",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
+    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -222,7 +222,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@remix-run/web-fetch": "^4.1.3",
-    "@rsbuild/core": "1.1.13",
+    "@rsbuild/core": "1.2.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",

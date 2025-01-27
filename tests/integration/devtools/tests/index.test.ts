@@ -52,10 +52,12 @@ describe('devtools dev', () => {
       waitUntil: ['networkidle0'],
     });
 
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.innerHTML, root);
-    const expected = '<h1>Hello, Modern.js!</h1>';
-    expect(targetText).toContain(expected);
+    const heading = await page.$eval(
+      'h1',
+      el => el.textContent === 'Hello, Modern.js!',
+    );
+
+    expect(heading).toBe(true);
     expect(errors.length).toEqual(0);
 
     await browser.close();
