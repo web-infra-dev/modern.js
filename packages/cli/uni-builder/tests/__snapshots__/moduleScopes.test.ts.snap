@@ -7,13 +7,13 @@ exports[`plugin-module-scopes > should set entry correctly 1`] = `
   },
   "extensionAlias": {
     ".js": [
-      ".js",
       ".ts",
       ".tsx",
+      ".js",
     ],
     ".jsx": [
-      ".jsx",
       ".tsx",
+      ".jsx",
     ],
   },
   "extensions": [
