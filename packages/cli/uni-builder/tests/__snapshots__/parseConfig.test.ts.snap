@@ -183,63 +183,6 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "environments": {},
   "html": {
     "appIcon": undefined,
-    "favicon": [
-      "/https/www.foo.com/default.ico",
-      [Function],
-    ],
-    "outputStructure": "nested",
-    "title": "",
-  },
-  "output": {
-    "charset": "ascii",
-    "dataUriLimit": 10000,
-    "distPath": {
-      "html": "html",
-    },
-    "polyfill": "entry",
-    "sourceMap": {
-      "css": true,
-    },
-  },
-  "performance": {},
-  "plugins": [],
-  "security": {},
-  "server": {
-    "htmlFallback": false,
-    "port": 8080,
-    "printUrls": false,
-    "publicDir": false,
-  },
-  "source": {
-    "alias": undefined,
-    "decorators": {
-      "version": "legacy",
-    },
-    "transformImport": undefined,
-  },
-  "tools": {
-    "htmlPlugin": [Function],
-    "lightningcssLoader": false,
-  },
-}
-`;
-
-exports[`parseCommonConfig > html.faviconByEntries 3`] = `
-{
-  "dev": {
-    "client": {
-      "overlay": false,
-      "path": "/webpack-hmr",
-      "port": "<port>",
-    },
-    "hmr": true,
-    "liveReload": true,
-    "progressBar": true,
-    "writeToDisk": [Function],
-  },
-  "environments": {},
-  "html": {
-    "appIcon": undefined,
     "inject": [Function],
     "outputStructure": "nested",
     "title": "",
@@ -278,7 +221,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 }
 `;
 
-exports[`parseCommonConfig > html.faviconByEntries 4`] = `
+exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 {
   "dev": {
     "client": {

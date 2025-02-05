@@ -5,12 +5,15 @@ import type {
   ParallelWorkflow,
 } from '@modern-js/plugin';
 import type {
+  RuntimePluginConfig,
+  ServerPluginConfig,
+} from '@modern-js/plugin-v2';
+import type {
   Entrypoint,
   HtmlPartials,
   NestedRouteForCli,
   PageRoute,
   RouteLegacy,
-  ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
 import type {
@@ -26,16 +29,10 @@ export interface ImportSpecifier {
   imported?: string;
 }
 
-export interface RuntimePlugin {
-  name: string;
-  path: string;
-  config: Record<string, any>;
-}
-
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   _internalRuntimePlugins: AsyncWaterfall<{
     entrypoint: Entrypoint;
-    plugins: RuntimePlugin[];
+    plugins: RuntimePluginConfig[];
   }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
@@ -61,7 +58,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     code: string;
   }>;
 
-  _internalServerPlugins: AsyncWaterfall<{ plugins: ServerPlugin[] }>;
+  _internalServerPlugins: AsyncWaterfall<{ plugins: ServerPluginConfig[] }>;
 
   // beforeCreateBuilder
   beforeDev: AsyncWorkflow<void, unknown>;
