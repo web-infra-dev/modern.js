@@ -3,7 +3,6 @@ import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import {
-  fs,
   cleanRequireCache,
   deprecatedCommands,
   emptyDir,
@@ -38,8 +37,6 @@ import type {
   CheckEntryPointFn,
   DeplpoyFn,
   GenerateEntryCodeFn,
-  InternalRuntimePluginsFn,
-  InternalServerPluginsFn,
   ModifyEntrypointsFn,
   ModifyFileSystemRoutesFn,
   ModifyServerRoutesFn,
@@ -91,8 +88,6 @@ export const appTools = (
   registryHooks: {
     onAfterPrepare: createAsyncHook<AfterPrepareFn>(),
     deploy: createAsyncHook<DeplpoyFn>(),
-    _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),
-    _internalServerPlugins: createAsyncHook<InternalServerPluginsFn>(),
     checkEntryPoint: createAsyncHook<CheckEntryPointFn>(),
     modifyEntrypoints: createAsyncHook<ModifyEntrypointsFn>(),
     modifyFileSystemRoutes: createAsyncHook<ModifyFileSystemRoutesFn>(),

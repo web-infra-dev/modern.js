@@ -27,7 +27,7 @@ jobs:
             nx-
 
       - name: Install Pnpm
-        run: corepack enable
+        run: npm i -g --force corepack && corepack enable
 
       - name: Setup Node.js 18
         uses: actions/setup-node@v3

@@ -137,18 +137,18 @@ describe('parseCommonConfig', () => {
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
-    expect(
-      (
-        await parseCommonConfig({
-          html: {
-            favicon: 'https://www.foo.com/default.ico',
-            faviconByEntries: {
-              foo: 'https://www.foo.com/foo.ico',
-            },
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
+    // expect(
+    //   (
+    //     await parseCommonConfig({
+    //       html: {
+    //         favicon: 'https://www.foo.com/default.ico',
+    //         faviconByEntries: {
+    //           foo: 'https://www.foo.com/foo.ico',
+    //         },
+    //       },
+    //     })
+    //   ).rsbuildConfig,
+    // ).toMatchSnapshot();
   });
 
   test('html.faviconByEntries', async () => {

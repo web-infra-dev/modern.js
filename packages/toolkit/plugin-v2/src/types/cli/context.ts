@@ -8,6 +8,7 @@ import type { CLIPluginAPI } from './api';
 import type { CLIPlugin, CLIPluginExtends } from './plugin';
 
 export interface Entrypoint {
+  isMainEntry?: boolean;
   entryName: string;
   entry: string;
 }
