@@ -6,6 +6,9 @@ import type {
   UniBuilderConfig,
 } from '@modern-js/uni-builder';
 import fs from '@modern-js/utils/fs-extra';
+import { type ConsoleType, logger } from '@rsbuild/core';
+
+logger.level = 'error';
 
 type CreateBuilderOptions = Omit<
   CreateUniBuilderOptions,
@@ -183,3 +186,32 @@ export async function build({
     instance: builder,
   };
 }
+
+export const proxyConsole = (
+  types: ConsoleType | ConsoleType[] = ['log', 'warn', 'info', 'error'],
+  keepAnsi = false,
+) => {
+  const logs: string[] = [];
+  const restores: Array<() => void> = [];
+
+  for (const type of Array.isArray(types) ? types : [types]) {
+    const method = console[type];
+
+    restores.push(() => {
+      console[type] = method;
+    });
+
+    console[type] = log => {
+      logs.push(log);
+    };
+  }
+
+  return {
+    logs,
+    restore: () => {
+      for (const restore of restores) {
+        restore();
+      }
+    },
+  };
+};

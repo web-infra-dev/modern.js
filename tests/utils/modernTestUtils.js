@@ -103,7 +103,7 @@ function runModernCommandDev(argv, stdOut, options = {}) {
         options.onStdout(message);
       }
 
-      if (options.stdout !== false) {
+      if (stdOut !== false && options.stdout !== false) {
         process.stdout.write(message);
       }
     }
