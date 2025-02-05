@@ -1,16 +1,18 @@
-import type { InternalContext } from '@modern-js/plugin-v2';
+import type {
+  InternalContext,
+  RuntimePluginConfig,
+  ServerPluginConfig,
+} from '@modern-js/plugin-v2';
 import type {
   Entrypoint,
   HtmlPartials,
   NestedRouteForCli,
   PageRoute,
-  ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
 import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
 import type { AppTools, AppToolsNormalizedConfig } from '../types';
-import type { RuntimePlugin } from '../types/hooks';
 import {
   transformHookParams,
   transformHookResult,
@@ -36,11 +38,13 @@ export function getHookRunners(
     },
     _internalRuntimePlugins: async (params: {
       entrypoint: Entrypoint;
-      plugins: RuntimePlugin[];
+      plugins: RuntimePluginConfig[];
     }) => {
       return hooks._internalRuntimePlugins.call(params);
     },
-    _internalServerPlugins: async (params: { plugins: ServerPlugin[] }) => {
+    _internalServerPlugins: async (params: {
+      plugins: ServerPluginConfig[];
+    }) => {
       return hooks._internalServerPlugins.call(params);
     },
     checkEntryPoint: async (params: {

@@ -114,6 +114,8 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     onBeforeDeploy: hooks.onBeforeDeploy.tap,
     onAfterDeploy: hooks.onAfterDeploy.tap,
     onBeforeExit: hooks.onBeforeExit.tap,
+    _internalRuntimePlugins: hooks._internalRuntimePlugins.tap,
+    _internalServerPlugins: hooks._internalServerPlugins.tap,
     ...extendsPluginApi,
   };
 
