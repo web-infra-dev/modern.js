@@ -19,7 +19,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       if (isV5(userConfig)) {
         const routerConfig = getEntryOptions(
           entrypoint.entryName,
-          entrypoint.isMainEntry,
+          entrypoint.isMainEntry!,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,
