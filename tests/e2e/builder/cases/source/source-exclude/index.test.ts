@@ -1,8 +1,9 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build } from '@scripts/shared';
+import { build, proxyConsole } from '@scripts/shared';
 
 test('should not compile specified file when source.exclude', async () => {
+  const { restore } = proxyConsole();
   await expect(
     build({
       cwd: __dirname,
@@ -17,4 +18,6 @@ test('should not compile specified file when source.exclude', async () => {
       },
     }),
   ).rejects.toThrowError('incompatible syntax');
+
+  restore();
 });
