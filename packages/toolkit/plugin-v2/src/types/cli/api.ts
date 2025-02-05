@@ -13,6 +13,8 @@ import type {
   AddCommandFn,
   AddWatchFilesFn,
   ConfigFn,
+  InternalRuntimePluginsFn,
+  InternalServerPluginsFn,
   ModifyBundlerChainFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
@@ -106,6 +108,8 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<
     onBeforeDeploy: PluginHookTap<OnBeforeDeployFn>;
     onAfterDeploy: PluginHookTap<OnAfterDeployFn>;
     onBeforeExit: PluginHookTap<OnBeforeExitFn>;
+    _internalRuntimePlugins: PluginHookTap<InternalRuntimePluginsFn>;
+    _internalServerPlugins: PluginHookTap<InternalServerPluginsFn>;
   } & CLIPluginExtendsAPI<Extends>
 >;
 
