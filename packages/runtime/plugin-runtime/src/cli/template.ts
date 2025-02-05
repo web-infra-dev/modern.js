@@ -1,5 +1,5 @@
 import path from 'path';
-import type { RuntimePlugin } from '@modern-js/app-tools';
+import type { RuntimePluginConfig } from '@modern-js/app-tools';
 import { JS_EXTENSIONS, findExists, formatImportPath } from '@modern-js/utils';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
@@ -127,7 +127,7 @@ export const runtimeRegister = ({
   internalSrcAlias: string;
   metaName: string;
   runtimeConfigFile: string | false;
-  runtimePlugins: RuntimePlugin[];
+  runtimePlugins: RuntimePluginConfig[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
 import { getGlobalAppConfig, getGlobalLayoutApp } from '@${metaName}/runtime/context';
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}

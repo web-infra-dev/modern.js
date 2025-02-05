@@ -1,3 +1,4 @@
+import type { ServerPlugin as ServerPluginConfig } from '@modern-js/types';
 import type { WebpackConfig } from '@modern-js/uni-builder';
 import type { Command } from '@modern-js/utils/commander';
 import type {
@@ -18,6 +19,15 @@ declare module '@modern-js/utils/commander' {
     commandsMap: Map<string, Command>;
   }
 }
+
+export interface RuntimePluginConfig {
+  name: string;
+  path: string;
+  config: Record<string, any>;
+}
+
+export type { ServerPluginConfig };
+
 export type ConfigFn<Config> = () => Config | Promise<Config>;
 
 export type ModifyConfigFn<Config, ExtendConfigUtils> = (
@@ -107,3 +117,11 @@ export type ModifyWebpackConfigFn<ExtendsUtils> = (
   config: WebpackConfig,
   utils: ModifyWebpackConfigUtils & ExtendsUtils,
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
+
+export type InternalRuntimePluginsFn = TransformFunction<{
+  entrypoint: Entrypoint;
+  plugins: RuntimePluginConfig[];
+}>;
+export type InternalServerPluginsFn = TransformFunction<{
+  plugins: ServerPluginConfig[];
+}>;

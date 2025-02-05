@@ -155,7 +155,7 @@ export async function render(
   );
 }
 
-async function renderWithReact18(
+export async function renderWithReact18(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -165,7 +165,7 @@ async function renderWithReact18(
   return root;
 }
 
-async function renderWithReact17(
+export async function renderWithReact17(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -174,7 +174,7 @@ async function renderWithReact17(
   return rootElement;
 }
 
-async function hydrateWithReact18(
+export async function hydrateWithReact18(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -183,7 +183,7 @@ async function hydrateWithReact18(
   return root;
 }
 
-async function hydrateWithReact17(
+export async function hydrateWithReact17(
   App: React.ReactElement,
   rootElement: HTMLElement,
   callback?: () => void,

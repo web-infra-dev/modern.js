@@ -27,5 +27,9 @@ export {
   type OnBeforeRestartFn,
   type OnFileChangedFn,
   type OnPrepareFn,
+  type InternalRuntimePluginsFn,
+  type InternalServerPluginsFn,
+  type RuntimePluginConfig,
+  type ServerPluginConfig,
 } from './hooks';
 export { cli, createLoadedConfig, initAppDir, createCli, loadEnv } from './run';
