@@ -11,12 +11,12 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   setup: api => {
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const { entryName, isMainEntry } = entrypoint;
-      const userConfig = api.useResolvedConfigContext();
-      const { packageName, metaName } = api.useAppContext();
+      const userConfig = api.getNormalizedConfig();
+      const { packageName, metaName } = api.getAppContext();
 
       const stateConfig = getEntryOptions(
         entryName,
-        isMainEntry,
+        isMainEntry!,
         userConfig.runtime,
         userConfig.runtimeByEntries,
         packageName,

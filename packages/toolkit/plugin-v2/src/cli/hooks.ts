@@ -10,6 +10,8 @@ import type {
   AddCommandFn,
   AddWatchFilesFn,
   ConfigFn,
+  InternalRuntimePluginsFn,
+  InternalServerPluginsFn,
   ModifyBundlerChainFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
@@ -26,6 +28,8 @@ import type {
   OnBeforeRestartFn,
   OnFileChangedFn,
   OnPrepareFn,
+  RuntimePluginConfig,
+  ServerPluginConfig,
 } from '../types/cli/hooks';
 import type { DeepPartial } from '../types/utils';
 
@@ -54,6 +58,10 @@ export type {
   OnBeforeRestartFn,
   OnFileChangedFn,
   OnPrepareFn,
+  InternalRuntimePluginsFn,
+  InternalServerPluginsFn,
+  RuntimePluginConfig,
+  ServerPluginConfig,
 };
 
 export function initHooks<
@@ -108,6 +116,8 @@ export function initHooks<
     onBeforeDeploy: createAsyncHook<OnBeforeDeployFn>(),
     onAfterDeploy: createAsyncHook<OnAfterDeployFn>(),
     onBeforeExit: createAsyncHook<OnBeforeExitFn>(),
+    _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),
+    _internalServerPlugins: createAsyncHook<InternalServerPluginsFn>(),
   };
 }
 
