@@ -1,8 +1,5 @@
 import path from 'path';
-import type { NavItem } from '@rspress/shared';
 import { defineConfig } from 'rspress/config';
-
-const { version } = require('./package.json');
 
 const docPath = path.join(__dirname, 'docs');
 
@@ -16,6 +13,9 @@ export default defineConfig({
   markdown: {
     checkDeadLinks: true,
     experimentalMdxRs: true,
+  },
+  search: {
+    codeBlocks: true,
   },
   head: [
     `
