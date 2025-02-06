@@ -1,5 +1,5 @@
 ---
-'@modern-js/app-tools': major
+'@modern-js/app-tools': patch
 ---
 
 fix(dev-server): apply dev configuration, then void dev.setupMiddlewares config lost
