@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 2.64.1
+
+### Patch Changes
+
+- f3876c1: fix: remove register esbuild in registerEsm & should log status correctly
+  fix: 移除在 registerEsm 中注册 esbuild & 正确地打印 status
+- 88aafcb: feat: load env in appTools when before the first time load modern config
+  feat: 在 appTools 在第一次加载 modern config 之前，加载环境变量
+- f83fd60: feat: migrate \_internalRuntimePlugins and \_internalServerPlugins hooks to plugin v2
+
+  feat: 迁移 \_internalRuntimePlugins 和 \_internalServerPlugins hook 函数到 plugin-v2
+
+- Updated dependencies [b69c8fa]
+- Updated dependencies [88aafcb]
+- Updated dependencies [f83fd60]
+- Updated dependencies [c5bb493]
+  - @modern-js/plugin-v2@2.64.1
+  - @modern-js/core@2.64.1
+  - @modern-js/plugin-data-loader@2.64.1
+  - @modern-js/plugin-i18n@2.64.1
+  - @modern-js/rsbuild-plugin-esbuild@2.64.1
+  - @modern-js/uni-builder@2.64.1
+  - @modern-js/server-core@2.64.1
+  - @modern-js/prod-server@2.64.1
+  - @modern-js/server@2.64.1
+  - @modern-js/server-utils@2.64.1
+  - @modern-js/node-bundle-require@2.64.1
+  - @modern-js/plugin@2.64.1
+  - @modern-js/types@2.64.1
+  - @modern-js/utils@2.64.1
+
 ## 2.64.0
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.64.1
+
+### Patch Changes
+
+- 5a9394d: feat: add warning for twin.macro v2 usage
+
+  feat: twin.macro v2 使用添加警告信息
+
+- Updated dependencies [f83fd60]
+  - @modern-js/runtime@2.64.1
+  - @modern-js/node-bundle-require@2.64.1
+  - @modern-js/runtime-utils@2.64.1
+  - @modern-js/utils@2.64.1
+
 ## 2.64.0
 
 ### Patch Changes

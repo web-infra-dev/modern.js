@@ -1,5 +1,12 @@
 # integration-disable-html
 
+## 2.64.1
+
+### Patch Changes
+
+- Updated dependencies [f83fd60]
+  - @modern-js/runtime@2.64.1
+
 ## 2.64.0
 
 ### Patch Changes
