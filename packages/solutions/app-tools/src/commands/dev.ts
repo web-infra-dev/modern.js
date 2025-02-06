@@ -89,13 +89,24 @@ export const dev = async (
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
+  const toolsDevServerConfig = normalizedConfig.tools?.devServer;
+
   const serverOptions = {
     metaName,
     dev: {
+      // [`normalizedConfig.tools.devServer`](https://modernjs.dev/en/configure/app/tools/dev-server.html) already deprecated, we should using `normalizedConfig.dev` instead firstly.
+      // Oterwise, the `normalizedConfig.dev` can't be apply correctly.
+      ...toolsDevServerConfig,
+      devMiddleware: {
+        writeToDisk: normalizedConfig.dev.writeToDisk,
+      },
       port,
-      https: normalizedConfig.dev.https,
-      host: normalizedConfig.dev.host,
-      ...normalizedConfig.tools?.devServer,
+      host: normalizedConfig.dev.host ?? (toolsDevServerConfig as any)?.host,
+      https: normalizedConfig.dev.https ?? (toolsDevServerConfig as any)?.https,
+      hot: normalizedConfig.dev.hmr ?? (toolsDevServerConfig as any)?.hot,
+      setupMiddlewares:
+        normalizedConfig.dev.setupMiddlewares ??
+        (toolsDevServerConfig as any)?.setupMiddlewares,
     },
     appContext: {
       appDirectory,

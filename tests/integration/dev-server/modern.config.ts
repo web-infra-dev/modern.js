@@ -37,6 +37,21 @@ export default applyBaseConfig({
       ],
     },
   },
+  dev: {
+    setupMiddlewares: [
+      (middlewares, _) => {
+        middlewares.push((req, res, next) => {
+          res.setHeader('x-push-middleware', 'test-middleware');
+          return next();
+        });
+
+        middlewares.unshift((req, res, next) => {
+          res.setHeader('x-unshift-middleware', 'test-middleware');
+          return next();
+        });
+      },
+    ],
+  },
   runtime: {
     router: false,
     state: false,
