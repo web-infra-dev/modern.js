@@ -1,5 +1,26 @@
 # @modern-js/plugin-v2
 
+## 2.64.1
+
+### Patch Changes
+
+- b69c8fa: feat: use `jiti` to read config file for supporting esm import
+
+  feat: 使用 `jiti` 读取配置文件，支持 esm 导入
+
+- 88aafcb: feat: load env in appTools when before the first time load modern config
+  feat: 在 appTools 在第一次加载 modern config 之前，加载环境变量
+- f83fd60: feat: migrate \_internalRuntimePlugins and \_internalServerPlugins hooks to plugin v2
+
+  feat: 迁移 \_internalRuntimePlugins 和 \_internalServerPlugins hook 函数到 plugin-v2
+
+- c5bb493: feat: cli plugin support ExtendConfigUtils
+
+  feat: cli 插件支持扩展 config 工具函数
+
+  - @modern-js/runtime-utils@2.64.1
+  - @modern-js/utils@2.64.1
+
 ## 2.64.0
 
 ### Minor Changes

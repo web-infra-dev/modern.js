@@ -1,6 +1,6 @@
 {
   "name": "ssr-partial-test",
-  "version": "2.64.0",
+  "version": "2.64.1",
   "private": true,
   "scripts": {
     "dev": "modern dev"
