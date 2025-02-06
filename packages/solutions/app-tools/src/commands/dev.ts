@@ -92,10 +92,17 @@ export const dev = async (
   const serverOptions = {
     metaName,
     dev: {
-      port,
-      https: normalizedConfig.dev.https,
-      host: normalizedConfig.dev.host,
+      // [`normalizedConfig.tools.devServer`](https://modernjs.dev/en/configure/app/tools/dev-server.html) already deprecated, we should using `normalizedConfig.dev` instead firstly.
+      // Oterwise, the `normalizedConfig.dev` can't be apply correctly.
       ...normalizedConfig.tools?.devServer,
+      devMiddleware: {
+        writeToDisk: normalizedConfig.dev.writeToDisk,
+      },
+      port,
+      host: normalizedConfig.dev.host,
+      https: normalizedConfig.dev.https,
+      hot: normalizedConfig.dev.hmr,
+      setupMiddlewares: normalizedConfig.dev.setupMiddlewares,
     },
     appContext: {
       appDirectory,

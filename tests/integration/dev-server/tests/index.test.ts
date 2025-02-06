@@ -30,6 +30,8 @@ describe('dev', () => {
     const headers = response!.headers();
     expect(headers['x-config']).toBe('test-config');
     expect(headers['x-plugin']).toBe('test-plugin');
+    expect(headers['x-push-middleware']).toBe('test-middleware');
+    expect(headers['x-unshift-middleware']).toBe('test-middleware');
   });
 
   test('should provide history api fallback correctly', async () => {
