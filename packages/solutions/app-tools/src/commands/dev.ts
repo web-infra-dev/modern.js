@@ -89,7 +89,7 @@ export const dev = async (
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
-  const toolsDevServerConfig = normalizedConfig.tools.devServer;
+  const toolsDevServerConfig = normalizedConfig.tools?.devServer;
 
   const serverOptions = {
     metaName,
@@ -101,12 +101,12 @@ export const dev = async (
         writeToDisk: normalizedConfig.dev.writeToDisk,
       },
       port,
-      host: normalizedConfig.dev.host ?? (toolsDevServerConfig as any).host,
-      https: normalizedConfig.dev.https ?? (toolsDevServerConfig as any).https,
-      hot: normalizedConfig.dev.hmr ?? (toolsDevServerConfig as any).hot,
+      host: normalizedConfig.dev.host ?? (toolsDevServerConfig as any)?.host,
+      https: normalizedConfig.dev.https ?? (toolsDevServerConfig as any)?.https,
+      hot: normalizedConfig.dev.hmr ?? (toolsDevServerConfig as any)?.hot,
       setupMiddlewares:
         normalizedConfig.dev.setupMiddlewares ??
-        (toolsDevServerConfig as any).setupMiddlewares,
+        (toolsDevServerConfig as any)?.setupMiddlewares,
     },
     appContext: {
       appDirectory,
