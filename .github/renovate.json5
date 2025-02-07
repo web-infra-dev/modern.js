@@ -125,6 +125,7 @@
     // need node 18
     "http-compression",
     "@biomejs/biome",
-    "caniuse-lite"
+    "caniuse-lite",
+    "@vercel/nft"
   ]
 }
