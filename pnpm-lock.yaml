@@ -3555,9 +3555,6 @@ importers:
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
-      '@vercel/nft':
-        specifier: 0.26.4
-        version: 0.26.4(encoding@0.1.13)
       es-module-lexer:
         specifier: ^1.1.0
         version: 1.2.1
@@ -13197,11 +13194,6 @@ packages:
 
   '@vercel/ncc@0.38.3':
     resolution: {integrity: sha512-rnK6hJBS6mwc+Bkab+PGPs9OiS0i/3kdTO+CkI8V0/VrW3vmz7O2Pxjw/owOlmo6PKEIxRSeZKv/kuL9itnpYA==}
-    hasBin: true
-
-  '@vercel/nft@0.26.4':
-    resolution: {integrity: sha512-j4jCOOXke2t8cHZCIxu1dzKLHLcFmYzC3yqAK6MfZznOL1QIJKd0xcFsXK3zcqzU7ScsE2zWkiMMNHGMHgp+FA==}
-    engines: {node: '>=16'}
     hasBin: true
 
   '@vercel/nft@0.27.3':
@@ -29242,24 +29234,6 @@ snapshots:
   '@ungap/structured-clone@1.2.1': {}
 
   '@vercel/ncc@0.38.3': {}
-
-  '@vercel/nft@0.26.4(encoding@0.1.13)':
-    dependencies:
-      '@mapbox/node-pre-gyp': 1.0.11(encoding@0.1.13)
-      '@rollup/pluginutils': 4.2.1
-      acorn: 8.14.0
-      acorn-import-attributes: 1.9.5(acorn@8.14.0)
-      async-sema: 3.1.1
-      bindings: 1.5.0
-      estree-walker: 2.0.2
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      micromatch: 4.0.8
-      node-gyp-build: 4.8.2
-      resolve-from: 5.0.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
 
   '@vercel/nft@0.27.3(encoding@0.1.13)':
     dependencies:
