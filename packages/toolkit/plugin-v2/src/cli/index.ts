@@ -29,6 +29,7 @@ export {
   type OnPrepareFn,
   type InternalRuntimePluginsFn,
   type InternalServerPluginsFn,
+  type ModifyServerRoutesFn,
   type RuntimePluginConfig,
   type ServerPluginConfig,
 } from './hooks';

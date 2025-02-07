@@ -36,7 +36,6 @@ export type ModifyFileSystemRoutesFn = TransformFunction<{
   entrypoint: Entrypoint;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
 }>;
-export type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>;
 export type DeplpoyFn = () => Promise<void> | void;
 export type GenerateEntryCodeFn = (params: {
   entrypoints: Entrypoint[];
@@ -61,7 +60,6 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   checkEntryPoint: PluginHookTap<CheckEntryPointFn>;
   modifyEntrypoints: PluginHookTap<ModifyEntrypointsFn>;
   modifyFileSystemRoutes: PluginHookTap<ModifyFileSystemRoutesFn>;
-  modifyServerRoutes: PluginHookTap<ModifyServerRoutesFn>;
 
   generateEntryCode: PluginHookTap<GenerateEntryCodeFn>;
   onBeforeGenerateRoutes: PluginHookTap<BeforeGenerateRoutesFn>;
@@ -109,7 +107,6 @@ export interface AppToolsExtendHooks
   checkEntryPoint: AsyncHook<CheckEntryPointFn>;
   modifyEntrypoints: AsyncHook<ModifyEntrypointsFn>;
   modifyFileSystemRoutes: AsyncHook<ModifyFileSystemRoutesFn>;
-  modifyServerRoutes: AsyncHook<ModifyServerRoutesFn>;
   generateEntryCode: AsyncHook<GenerateEntryCodeFn>;
   onBeforeGenerateRoutes: AsyncHook<BeforeGenerateRoutesFn>;
   /**

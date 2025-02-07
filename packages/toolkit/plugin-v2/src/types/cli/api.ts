@@ -21,6 +21,7 @@ import type {
   ModifyResolvedConfigFn,
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
+  ModifyServerRoutesFn,
   ModifyWebpackChainFn,
   ModifyWebpackConfigFn,
   OnAfterDeployFn,
@@ -110,6 +111,7 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<
     onBeforeExit: PluginHookTap<OnBeforeExitFn>;
     _internalRuntimePlugins: PluginHookTap<InternalRuntimePluginsFn>;
     _internalServerPlugins: PluginHookTap<InternalServerPluginsFn>;
+    modifyServerRoutes: PluginHookTap<ModifyServerRoutesFn>;
   } & CLIPluginExtendsAPI<Extends>
 >;
 
