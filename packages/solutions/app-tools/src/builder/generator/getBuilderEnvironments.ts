@@ -4,6 +4,7 @@ import {
   isProd,
   isSSR,
   isServiceWorker,
+  isUseRsc,
   isUseSSRBundle,
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
@@ -58,9 +59,9 @@ export function getBuilderEnvironments<B extends Bundler>(
     delete tempBuilderConfig.output.copy;
   }
 
-  const useNodeTarget = isProd()
-    ? isUseSSRBundle(normalizedConfig)
-    : isSSR(normalizedConfig);
+  const useNodeTarget =
+    isUseRsc(normalizedConfig) ||
+    (isProd() ? isUseSSRBundle(normalizedConfig) : isSSR(normalizedConfig));
 
   if (useNodeTarget) {
     environments.node = {

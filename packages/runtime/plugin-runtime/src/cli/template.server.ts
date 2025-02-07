@@ -2,13 +2,13 @@ import { formatImportPath } from '@modern-js/utils';
 
 const SERVER_ENTRY = `
 import {
-  #render,
+  renderStreaming,
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
 
-  const body = await #render(request, <ServerRoot />, options);
+  const body = await renderStreaming(request, <ServerRoot />, options);
 
   return new Response(body, {
     headers: {
@@ -19,6 +19,39 @@ const handleRequest = async (request, ServerRoot, options) => {
 };
 
 export const requestHandler = createRequestHandler(handleRequest);
+`;
+
+const SERVER_ENTRY_RSC = `
+import {
+  renderStreaming,
+  createRequestHandler,
+} from '@#metaName/runtime/ssr/server';
+import { RSCServerSlot } from '@#metaName/runtime/rsc/client';
+export { handleAction } from '@#metaName/runtime/rsc/server';
+
+const handleRequest = async (request, ServerRoot, options) => {
+
+  const body = await renderStreaming(request,
+    <ServerRoot>
+      <RSCServerSlot />
+    </ServerRoot>,
+    {
+      ...options,
+      rscRoot: <options.RSCRoot />,
+    },
+  );
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      #headers
+    },
+  })
+};
+
+export const requestHandler = createRequestHandler(handleRequest, {
+  enableRsc: true,
+});
 `;
 
 type ServerIndexOptinos = GenHandlerCodeOptions & {
@@ -34,11 +67,41 @@ export const serverIndex = (options: ServerIndexOptinos) => {
   `;
 };
 
+export const entryForCSRWithRSC = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `
+  import App from './AppProxy';
+  import { renderRsc } from '@${metaName}/runtime/rsc/server'
+  export { handleAction } from '@${metaName}/runtime/rsc/server';
+
+
+  export const rscRequestHandler = ({
+    clientManifest
+  }) => {
+    const stream = renderRsc({
+      element: <App/>,
+      clientManifest,
+    })
+
+    const response = new Response(stream, {
+      headers: {
+        'Transfer-Encoding': 'chunked',
+      },
+    });
+    return response
+  }
+`;
+};
+
 type GenHandlerCodeOptions = {
   customServerEntry?: string | false;
   srcDirectory: string;
   internalSrcAlias: string;
   entry: string;
+  enableRsc?: boolean;
 } & TransformServerEntryOptions;
 
 function genHandlerCode({
@@ -47,13 +110,18 @@ function genHandlerCode({
   customServerEntry,
   srcDirectory,
   internalSrcAlias,
+  enableRsc,
 }: GenHandlerCodeOptions) {
   if (customServerEntry) {
-    return `export { default as requestHandler } from '${formatImportPath(
+    const realEntryPath = formatImportPath(
       customServerEntry.replace(srcDirectory, internalSrcAlias),
-    )}'`;
+    );
+    return `
+      export * from '${realEntryPath}';
+      export { default as requestHandler } from '${realEntryPath}'`;
   } else {
-    const serverEntry = transformServerEntry(SERVER_ENTRY, {
+    const entrySource = enableRsc ? SERVER_ENTRY_RSC : SERVER_ENTRY;
+    const serverEntry = transformServerEntry(entrySource, {
       metaName: metaName || 'modern-js',
       mode,
     });

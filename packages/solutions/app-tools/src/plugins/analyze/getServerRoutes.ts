@@ -126,7 +126,7 @@ const collectHtmlRoutes = (
     output: {
       distPath: { html: htmlPath } = {},
     },
-    server: { baseUrl, routes, ssr, ssrByEntries },
+    server: { baseUrl, routes, ssr, ssrByEntries, rsc },
     deploy,
   } = config;
   const { packageName } = appContext;
@@ -148,6 +148,7 @@ const collectHtmlRoutes = (
       const isStream =
         typeof entryOptions === 'object' && entryOptions.mode === 'stream';
       const { resHeaders } = routes?.[entryName] || ({} as any);
+      const isRSC = !!rsc;
 
       let route: ServerRoute | ServerRoute[] = {
         urlPath: `/${isMain ? '' : entryName}`,
@@ -160,15 +161,17 @@ const collectHtmlRoutes = (
           ),
         ),
         isSPA: true,
-        isStream,
+        isStream: isStream || isRSC,
         isSSR,
+        isRSC,
         responseHeaders: resHeaders,
         worker: isWorker
           ? `${SERVER_WORKER_BUNDLE_DIRECTORY}/${entryName}.js`
           : undefined,
-        bundle: isSSR
-          ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
-          : undefined,
+        bundle:
+          isSSR || isRSC
+            ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
+            : undefined,
       };
 
       if (routes?.hasOwnProperty(entryName)) {

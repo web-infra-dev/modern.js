@@ -39,6 +39,8 @@ export async function generateBuilder<B extends Bundler>(
 
   const builder = await createUniBuilder({
     cwd: appContext.appDirectory,
+    rscClientRuntimePath: `@${appContext.metaName}/runtime/rsc/client`,
+    rscServerRuntimePath: `@${appContext.metaName}/runtime/rsc/server`,
     frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
     config: builderConfig,
