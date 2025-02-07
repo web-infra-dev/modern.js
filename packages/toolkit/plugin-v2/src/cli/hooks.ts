@@ -18,6 +18,7 @@ import type {
   ModifyResolvedConfigFn,
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
+  ModifyServerRoutesFn,
   ModifyWebpackChainFn,
   ModifyWebpackConfigFn,
   OnAfterDeployFn,
@@ -60,6 +61,7 @@ export type {
   OnPrepareFn,
   InternalRuntimePluginsFn,
   InternalServerPluginsFn,
+  ModifyServerRoutesFn,
   RuntimePluginConfig,
   ServerPluginConfig,
 };
@@ -118,6 +120,7 @@ export function initHooks<
     onBeforeExit: createAsyncHook<OnBeforeExitFn>(),
     _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),
     _internalServerPlugins: createAsyncHook<InternalServerPluginsFn>(),
+    modifyServerRoutes: createAsyncHook<ModifyServerRoutesFn>(),
   };
 }
 

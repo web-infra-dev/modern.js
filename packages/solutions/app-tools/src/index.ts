@@ -39,7 +39,6 @@ import type {
   GenerateEntryCodeFn,
   ModifyEntrypointsFn,
   ModifyFileSystemRoutesFn,
-  ModifyServerRoutesFn,
   RegisterBuildPlatformFn,
   RegisterDevFn,
 } from './types/new';
@@ -91,7 +90,6 @@ export const appTools = (
     checkEntryPoint: createAsyncHook<CheckEntryPointFn>(),
     modifyEntrypoints: createAsyncHook<ModifyEntrypointsFn>(),
     modifyFileSystemRoutes: createAsyncHook<ModifyFileSystemRoutesFn>(),
-    modifyServerRoutes: createAsyncHook<ModifyServerRoutesFn>(),
     generateEntryCode: createAsyncHook<GenerateEntryCodeFn>(),
     onBeforeGenerateRoutes: createAsyncHook<BeforeGenerateRoutesFn>(),
     onBeforePrintInstructions: createAsyncHook<BeforePrintInstructionsFn>(),

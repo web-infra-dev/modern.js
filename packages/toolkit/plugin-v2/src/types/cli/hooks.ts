@@ -1,4 +1,7 @@
-import type { ServerPlugin as ServerPluginConfig } from '@modern-js/types';
+import type {
+  ServerPlugin as ServerPluginConfig,
+  ServerRoute,
+} from '@modern-js/types';
 import type { WebpackConfig } from '@modern-js/uni-builder';
 import type { Command } from '@modern-js/utils/commander';
 import type {
@@ -125,3 +128,4 @@ export type InternalRuntimePluginsFn = TransformFunction<{
 export type InternalServerPluginsFn = TransformFunction<{
   plugins: ServerPluginConfig[];
 }>;
+export type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>;
