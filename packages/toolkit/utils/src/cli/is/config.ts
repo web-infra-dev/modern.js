@@ -39,6 +39,10 @@ export const isUseSSRBundle = (config: any): boolean => {
   return isSSR(config);
 };
 
+export const isUseRsc = (config: any): boolean => {
+  return config?.server?.rsc;
+};
+
 /**
  * Is Worker project
  *

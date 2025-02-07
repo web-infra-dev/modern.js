@@ -53,6 +53,12 @@ const ssrBuilderPlugin = (
         config.output.target === 'node' || name === 'workerSSR';
       const userConfig = modernAPI.getNormalizedConfig();
 
+      // Maybe we can enable it for node 18 and above, but we can't ensure it in the compilation.
+      const ssrEnv =
+        userConfig.deploy?.worker?.ssr || userConfig.server?.rsc
+          ? 'edge'
+          : 'node';
+
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
@@ -64,6 +70,7 @@ const ssrBuilderPlugin = (
             'process.env.MODERN_TARGET': isServerEnvironment
               ? JSON.stringify('node')
               : JSON.stringify('browser'),
+            'process.env.MODERN_SSR_ENV': JSON.stringify(ssrEnv),
           },
         },
         tools: {
