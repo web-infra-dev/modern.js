@@ -2,13 +2,13 @@ import { formatImportPath } from '@modern-js/utils';
 
 const SERVER_ENTRY = `
 import {
-  renderStreaming,
+  #render,
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
 
-  const body = await renderStreaming(request, <ServerRoot />, options);
+  const body = await #render(request, <ServerRoot />, options);
 
   return new Response(body, {
     headers: {
