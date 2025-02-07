@@ -3,12 +3,8 @@ import { configure } from 'bff-api-app/runtime';
 import React, { useEffect } from 'react';
 
 configure({
-  interceptor(request) {
-    return async (url, params) => {
-      const path = `http://localhost:3399${url}`;
-      const res = await request(path, params);
-      return res.json();
-    };
+  setDomain() {
+    return 'http://127.0.0.1:3399';
   },
 });
 

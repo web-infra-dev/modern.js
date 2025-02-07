@@ -21,7 +21,7 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
 
         const runtimePath =
           process.env.NODE_ENV === 'development' &&
-          !useConfig?.bff?.enableCrossProjectInvocation
+          !useConfig?.bff?.crossProject
             ? require.resolve('@modern-js/plugin-express/runtime')
             : '@modern-js/plugin-express/runtime';
 

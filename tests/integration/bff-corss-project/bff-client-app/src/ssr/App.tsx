@@ -3,15 +3,8 @@ import hello from 'bff-api-app/api/index';
 import { configure } from 'bff-api-app/runtime';
 
 configure({
-  interceptor(request) {
-    return async (url, params) => {
-      let path = url.toString();
-      path = path.toString().replace('3399', '3401');
-
-      const res = await request(path, params);
-      const data = await res.json();
-      return data;
-    };
+  setDomain() {
+    return 'http://127.0.0.1:3401';
   },
 });
 

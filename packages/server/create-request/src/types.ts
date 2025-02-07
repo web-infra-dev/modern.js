@@ -42,5 +42,9 @@ export type IOptions<F = typeof fetch> = {
   request?: F;
   interceptor?: (request: F) => F;
   allowedHeaders?: string[];
+  setDomain?: (ops?: {
+    target: 'node' | 'browser';
+    requestId: string;
+  }) => string;
   requestId?: string;
 };

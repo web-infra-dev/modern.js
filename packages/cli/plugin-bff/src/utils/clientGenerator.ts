@@ -25,6 +25,63 @@ interface FileDetails {
   relativeTargetDistDir: string;
   exportKey: string;
 }
+const API_DIR = 'api';
+const PLUGIN_DIR = 'plugin';
+const RUNTIME_DIR = 'runtime';
+const CLIENT_DIR = 'client';
+
+const EXPORT_PREFIX = `./${API_DIR}/`;
+const TYPE_PREFIX = `${API_DIR}/`;
+
+function deepMerge<T extends Record<string, any>>(
+  target: T | undefined,
+  source: Partial<T>,
+  strategy?: {
+    array?: 'append' | 'prepend' | 'replace';
+    dedupe?: boolean;
+  },
+): T {
+  const base = (target || {}) as T;
+  const merged = { ...base };
+
+  for (const [key, value] of Object.entries(source)) {
+    if (Array.isArray(value) && Array.isArray(base[key])) {
+      merged[key as keyof T] = [
+        ...(strategy?.array === 'prepend' ? value : base[key]),
+        ...(strategy?.array === 'append' ? value : []),
+        ...(strategy?.array !== 'replace' && strategy?.array !== 'prepend'
+          ? base[key]
+          : []),
+      ].filter((v, i, a) =>
+        strategy?.dedupe
+          ? a.findIndex(e => JSON.stringify(e) === JSON.stringify(v)) === i
+          : true,
+      ) as T[keyof T];
+      continue;
+    }
+
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      merged[key as keyof T] = deepMerge(base[key], value, strategy);
+      continue;
+    }
+
+    if (!(key in base)) {
+      merged[key as keyof T] = value;
+    }
+  }
+
+  return merged;
+}
+
+const filterObjectKeys = <T extends Record<string, any>>(
+  obj: T | undefined,
+  predicate: (key: string) => boolean,
+): T => {
+  return Object.fromEntries(
+    Object.entries(obj || {}).filter(([key]) => predicate(key)),
+  ) as T;
+};
+
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
@@ -48,7 +105,7 @@ export async function readDirectoryFiles(
         const parsedPath = path.parse(relativePath);
 
         const targetDir = path.join(
-          `./${relativeDistPath}/client`,
+          `./${relativeDistPath}/${CLIENT_DIR}`,
           parsedPath.dir,
           `${parsedPath.name}.js`,
         );
@@ -96,58 +153,87 @@ async function setPackage(
   }[],
   appDirectory: string,
   relativeDistPath: string,
-  relativeApiPath: string,
 ) {
   try {
     const packagePath = path.resolve(appDirectory, './package.json');
     const packageContent = await fs.readFile(packagePath, 'utf8');
     const packageJson = JSON.parse(packageContent);
 
-    packageJson.exports = packageJson.exports || {};
-    packageJson.typesVersions = packageJson.typesVersions || { '*': {} };
+    packageJson.exports = filterObjectKeys(
+      packageJson.exports,
+      key => !key.startsWith(EXPORT_PREFIX),
+    );
 
-    files.forEach(file => {
-      const exportKey = `./api/${file.exportKey}`;
-      const jsFilePath = `./${file.targetDir}`;
-      const typePath = file.relativeTargetDistDir;
+    if (packageJson.typesVersions?.['*']) {
+      packageJson.typesVersions['*'] = filterObjectKeys(
+        packageJson.typesVersions['*'],
+        key => !key.startsWith(TYPE_PREFIX),
+      );
+    }
 
-      packageJson.exports[exportKey] = {
-        import: jsFilePath,
-        types: typePath,
-      };
-
-      packageJson.typesVersions['*'][`api/${file.exportKey}`] = [typePath];
-    });
-
-    packageJson.exports['./plugin'] = {
-      require: `./${relativeDistPath}/plugin/index.js`,
-      types: `./${relativeDistPath}/plugin/index.d.ts`,
-    };
-
-    packageJson.exports['./runtime'] = {
-      import: `./${relativeDistPath}/runtime/index.js`,
-      types: `./${relativeDistPath}/runtime/index.d.ts`,
-    };
-    packageJson.typesVersions['*'].runtime = [
-      `./${relativeDistPath}/runtime/index.d.ts`,
-    ];
-    packageJson.typesVersions['*'].plugin = [
-      `./${relativeDistPath}/plugin/index.d.ts`,
-    ];
-
-    packageJson.files = [
-      `${relativeDistPath}/client/**/*`,
-      `${relativeDistPath}/${relativeApiPath}/**/*`,
-      `${relativeDistPath}/runtime/**/*`,
-      `${relativeDistPath}/plugin/**/*`,
-    ];
+    const mergedPackage = deepMerge(
+      packageJson,
+      {
+        exports: files.reduce(
+          (acc, file) => {
+            const exportKey = `${EXPORT_PREFIX}${file.exportKey}`;
+            const jsFilePath = `./${file.targetDir}`;
+            return deepMerge(acc, {
+              [exportKey]: {
+                import: jsFilePath,
+                types: jsFilePath.replace('js', 'd.ts'),
+              },
+            });
+          },
+          {
+            './plugin': {
+              require: `./${relativeDistPath}/${PLUGIN_DIR}/index.js`,
+              types: `./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`,
+            },
+            './runtime': {
+              import: `./${relativeDistPath}/${RUNTIME_DIR}/index.js`,
+              types: `./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`,
+            },
+          },
+        ),
+        typesVersions: {
+          '*': files.reduce(
+            (acc, file) => {
+              const typeFilePath = `./${file.targetDir}`.replace('js', 'd.ts');
+              return deepMerge(acc, {
+                [`${TYPE_PREFIX}${file.exportKey}`]: [typeFilePath],
+              });
+            },
+            {
+              runtime: [`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`],
+              plugin: [`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`],
+            },
+          ),
+        },
+        files: [
+          `${relativeDistPath}/${CLIENT_DIR}/**/*`,
+          `${relativeDistPath}/${RUNTIME_DIR}/**/*`,
+          `${relativeDistPath}/${PLUGIN_DIR}/**/*`,
+        ],
+      },
+      {
+        array: 'append',
+        dedupe: true,
+      },
+    );
 
     await fs.promises.writeFile(
       packagePath,
-      JSON.stringify(packageJson, null, 2),
+      JSON.stringify(mergedPackage, null, 2),
     );
   } catch (error) {
     logger.error(`package.json update failed: ${error}`);
+  }
+}
+
+export async function copyFiles(from: string, to: string) {
+  if (await fs.pathExists(from)) {
+    await fs.copy(from, to);
   }
 }
 
@@ -197,6 +283,10 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
       const code = await getClitentCode(source.resourcePath, source.source);
       if (code?.value) {
         await writeTargetFile(source.absTargetDir, code.value);
+        await copyFiles(
+          source.relativeTargetDistDir,
+          source.targetDir.replace(`js`, 'd.ts'),
+        );
       }
     }
     logger.info(`Client bundle generate succeed`);
@@ -204,12 +294,7 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     logger.error(`Client bundle generate failed: ${error}`);
   }
 
-  setPackage(
-    sourceList,
-    draftOptions.appDir,
-    draftOptions.relativeDistPath,
-    draftOptions.relativeApiPath,
-  );
+  setPackage(sourceList, draftOptions.appDir, draftOptions.relativeDistPath);
 }
 
 export default clientGenerator;

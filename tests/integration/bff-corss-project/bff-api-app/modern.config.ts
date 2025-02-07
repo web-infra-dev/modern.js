@@ -5,7 +5,7 @@ import { applyBaseConfig } from '../../../utils/applyBaseConfig';
 export default applyBaseConfig({
   bff: {
     prefix: '/api-app',
-    enableCrossProjectInvocation: true,
+    crossProject: true,
   },
   plugins: [expressPlugin(), bffPlugin()],
   server: {

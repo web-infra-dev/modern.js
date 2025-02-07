@@ -14,6 +14,8 @@ const realRequest: Map<string, typeof fetch> = new Map();
 
 const realAllowedHeaders: Map<string, string[]> = new Map();
 
+const domainMap: Map<string, string> = new Map();
+
 const originFetch = (...params: Parameters<typeof fetch>) => {
   const [url, init] = params;
 
@@ -28,6 +30,7 @@ export const configure = (options: IOptions) => {
     request,
     interceptor,
     allowedHeaders,
+    setDomain,
     requestId = 'default',
   } = options;
   let configuredRequest = request || originFetch;
@@ -36,6 +39,15 @@ export const configure = (options: IOptions) => {
   }
   if (Array.isArray(allowedHeaders)) {
     realAllowedHeaders.set(requestId, allowedHeaders);
+  }
+  if (setDomain) {
+    domainMap.set(
+      requestId,
+      setDomain({
+        target: 'browser',
+        requestId,
+      }),
+    );
   }
   realRequest.set(requestId, configuredRequest);
 };
@@ -128,9 +140,10 @@ export const createRequest: RequestCreator = ({
 
     headers.accept = `application/json,*/*;q=0.8`;
 
-    if (domain) {
-      finalURL = `${domain}${finalURL}`;
-    }
+    const configDomain = domainMap.get(requestId);
+
+    finalURL = `${configDomain || domain || ''}${finalURL}`;
+
     return fetcher(finalURL, {
       method,
       body,
@@ -150,7 +163,11 @@ export const createUploader: UploadCreator = ({
     const fetcher = realRequest.get(requestId) || originFetch;
 
     const { body, headers } = getUploadPayload(args);
-    return fetcher(domain ? `${domain}${path}` : path, {
+
+    const configDomain = domainMap.get(requestId);
+    const finalURL = `${configDomain || domain || ''}${path}`;
+
+    return fetcher(finalURL, {
       method: 'POST',
       body,
       headers,

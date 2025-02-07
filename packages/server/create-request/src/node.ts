@@ -18,6 +18,9 @@ type Fetch = typeof nodeFetch;
 const realRequest: Map<string, Fetch> = new Map();
 
 const realAllowedHeaders: Map<string, string[]> = new Map();
+
+const domainMap: Map<string, string> = new Map();
+
 const originFetch = (...params: Parameters<typeof nodeFetch>) => {
   const [, init] = params;
 
@@ -33,6 +36,7 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
     request,
     interceptor,
     allowedHeaders,
+    setDomain,
     requestId = 'default',
   } = options;
   let configuredRequest = (request as Fetch) || originFetch;
@@ -41,6 +45,15 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
   }
   if (Array.isArray(allowedHeaders)) {
     realAllowedHeaders.set(requestId, allowedHeaders);
+  }
+  if (setDomain) {
+    domainMap.set(
+      requestId,
+      setDomain({
+        target: 'node',
+        requestId,
+      }),
+    );
   }
   realRequest.set(requestId, configuredRequest);
 };
@@ -125,8 +138,9 @@ export const createRequest: RequestCreator<typeof nodeFetch> = ({
           body = payload.formUrlencoded;
         }
       }
+      const configDomain = domainMap.get(requestId);
 
-      url = `http://127.0.0.1:${port}${finalPath}`;
+      url = `${configDomain || `http://127.0.0.1:${port}`}${finalPath}`;
     }
 
     const fetcher = realRequest.get(requestId) || originFetch;
@@ -150,7 +164,11 @@ export const createUploader: UploadCreator = ({
   const sender: Sender = (...args) => {
     const fetcher = realRequest.get(requestId) || originFetch;
     const { body, headers } = getUploadPayload(args);
-    return fetcher(path, { method: 'POST', body, headers });
+
+    const configDomain = domainMap.get(requestId);
+    const finalURL = `${configDomain || ''}${path}`;
+
+    return fetcher(finalURL, { method: 'POST', body, headers });
   };
 
   return sender;

@@ -1,0 +1,116 @@
+import { PackageManagerTabs } from '@theme';
+
+# Cross-Project Invocation
+
+Based on the BFF architecture, Modern.js provides cross-project invocation capabilities, allowing BFF functions created in one project to be invoked by other projects through integrated calls, enabling function sharing and feature reuse across projects.
+Cross-project invocation consists of **producer** and **consumer** sides. The producer is responsible for creating and providing BFF services while generating integrated invocation SDK, and the consumer initiates requests through these SDK.
+
+## BFF Producer
+
+Upgrade Modern.js dependencies to version x.64.2 or higher, then enable cross-project invocation via configuration. Projects with BFF capabilities enabled can act as BFF producers, or you can create standalone BFF applications.
+When executing `dev` or `build`, the following artifacts for consumers will be automatically generated:
+- API functions under the `dist/client` directory
+- Runtime configuration functions under the `dist/runtime` directory
+- Interface exports defined in `exports` field of `package.json`
+- File list for npm publication specified in `files` field of `package.json`
+
+### Existing BFF-enabled Projects
+
+1. Enable Cross-Project Invocation
+
+Ensure the current project has BFF enabled with API files defined under `api/lambda`. Add the following configuration:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  bff: {
+    crossProject: true,
+  }
+});
+```
+
+2. Generate SDK Type Files
+
+To provide type hints for the integrated invocation SDK, enable the `declaration` option in TypeScript configuration:
+
+```ts title="tsconfig.json"
+"compilerOptions": {
+    "declaration": true,
+}
+```
+
+### Create BFF Application
+
+import CreateApi from "@site-docs-en/components/create-bff-api-app"
+
+<CreateApi/>
+
+## BFF Consumer
+
+:::info
+You can initiate requests to BFF producers from projects using any framework via the SDK.
+:::
+
+### Intra-Monorepo Invocation
+
+When producer and consumer are in the same Monorepo, directly import the SDK. API functions reside under `${package_name}/api`:
+
+```ts title="src/routes/page.tsx"
+import { useState, useEffect } from 'react';
+import { get as hello } from '${package_name}/api/hello';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    hello().then(setText);
+  }, []);
+  return <div>{text}</div>;
+};
+```
+
+### Cross-Project Invocation
+
+When producer and consumer are in separate repositories, publish the BFF producer as an npm package. The invocation method remains the same as intra-Monorepo.
+
+### Domain Configuration and Extensions
+
+For real-world scenarios requiring custom BFF service domains, use the configuration function:
+
+```ts title="src/routes/page.tsx"
+import { configure } from '${package_name}/runtime';
+
+configure({
+  setDomain() {
+    return 'https://your-bff-api.com';
+  },
+});
+```
+
+The `configure` function from `${package_name}/runtime` supports domain configuration via `setDomain`, interceptors, and custom SDK. When extending both **current project** and **cross-project** SDK on the same page:
+
+```ts title="src/routes/page.tsx"
+import { configure } from '${package_name}/runtime';
+import { configure as innerConfigure } from '@modern-js/runtime/bff';
+import axios from 'axios';
+
+configure({
+    setDomain() {
+        return 'https://your-bff-api.com';
+    },
+});
+
+innerConfigure({
+  async request(...config: Parameters<typeof fetch>) {
+    const [url, params] = config;
+    const res = await axios({
+      url: url as string,
+      method: params?.method as Method,
+      data: params?.body,
+      headers: {
+        'x-header': 'innerConfigure',
+      },
+    });
+    return res.data;
+  },
+});
+```

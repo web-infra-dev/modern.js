@@ -117,7 +117,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
     const handleCrossProjectInvocation = async (isBuild = false) => {
       const { bff } = api.useResolvedConfigContext();
-      if (bff?.enableCrossProjectInvocation) {
+      if (bff?.crossProject) {
         if (!isBuild) {
           await compileApi();
         }
@@ -242,7 +242,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
 
-        if (config?.bff?.enableCrossProjectInvocation) {
+        if (config?.bff?.crossProject) {
           return [appContext.apiDirectory];
         } else {
           return [];

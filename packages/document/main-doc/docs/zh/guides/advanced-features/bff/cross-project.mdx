@@ -1,0 +1,120 @@
+import { PackageManagerTabs } from '@theme';
+
+# 跨项目调用
+
+基于 BFF 架构，Modern.js 提供了跨项目调用的能力，即在一个项目中创建的 BFF 函数可以被其他项目进行一体化调用，实现项目间的函数共享和功能复用。
+跨项目调用分为 BFF 的**生产端**和**消费端**。生产端负责创建和提供 BFF 服务、生成一体化调用 SDK，而消费端通过调用 SDK 发起接口请求。
+
+## BFF 生产端
+
+升级 Modern.js 相关依赖到 x.64.2 及以上版本，通过配置即可启用跨项目调用能力。你可以将已启用 BFF 能力的项目视为 BFF 生产端，也可以单独创建独立的 BFF 应用。
+当执行 `dev` 或 `build`，都会自动生成供消费端使用的产物，包括：
+- `dist/client` 目录下的接口函数
+- `dist/runtime` 目录下的运行时配置函数
+- `package.json` 中 `exports` 定义接口函数出口
+- `package.json` 中 `files` 指定发布到 npm 包的文件列表
+
+### 已启用 BFF 的项目
+
+1. 开启跨项目调用
+
+确保当前项目已启动 BFF 能力，并在 `api/lambda` 目录下定义接口文件。完成如下配置：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  bff: {
+    crossProject: true,
+  }
+});
+```
+
+
+2. 生成 SDK 类型文件
+
+为一体化调用 SDK 提供类型提示，需要在 `TypeScript` 的 `tsconfig.json` 文件中打开 `declaration` 选项，配置如下：
+
+```ts title="tsconfig.json"
+"compilerOptions": {
+    "declaration": true,
+}
+```
+
+### 创建 BFF 应用
+
+import CreateApi from "@site-docs/components/create-bff-api-app"
+
+<CreateApi/>
+
+## BFF 消费端
+
+:::info
+你可以在任意框架的项目中通过调用 SDK 向 BFF 生产端发起接口请求。
+:::
+
+### 同一 Monorepo 内调用
+
+如果生产端和消费端在同一 Monorepo 中，可以直接引入 SDK。接口函数位于 `${package_name}/api` 目录下，示例如下：
+
+```ts title="src/routes/page.tsx"
+import { useState, useEffect } from 'react';
+import { get as hello } from '${package_name}/api/hello';
+
+export default () => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    hello().then(setText);
+  }, []);
+  return <div>{text}</div>;
+};
+```
+
+### 独立项目间调用
+
+当生产端和消费端不在同一个 Monorepo 中时，生产端需要通过 `npm publish` 将 BFF 生产端项目发布为包，调用方式与 Monorepo 内相同。
+
+### 配置域名及扩展功能
+
+实际应用场景中，跨项目调用需要指定 BFF 服务的域名。可以通过以下配置函数实现：
+
+```ts title="src/routes/page.tsx"
+import { configure } from '${package_name}/runtime';
+
+configure({
+  setDomain() {
+    return 'https://your-bff-api.com';
+  },
+});
+```
+
+`${package_name}/runtime` 目录下的 `configure` 函数，支持通过 `setDomain` 配置域名，`configure` 同样支持添加拦截器和自定义请求 SDK 能力。
+当需要在同一页面中同时对**当前项目**和**跨项目**的一体化调用 SDK 进行扩展，建议采用以下配置：
+
+```ts title="src/routes/page.tsx"
+import { configure } from '${package_name}/runtime';
+import { configure as innerConfigure } from '@modern-js/runtime/bff';
+import axios from 'axios';
+
+configure({
+    setDomain() {
+        return 'https://your-bff-api.com';
+    },
+});
+
+innerConfigure({
+  async request(...config: Parameters<typeof fetch>) {
+    const [url, params] = config;
+    const res = await axios({
+      url: url as string,
+      method: params?.method as Method,
+      data: params?.body,
+      headers: {
+        'x-header': 'innerConfigure',
+      },
+    });
+    return res.data;
+  },
+});
+
+
+```
