@@ -3,10 +3,10 @@
   "name": "rsc-ssr-app",
   "version": "2.9.0",
   "scripts": {
-    "dev": "BUNDLER=rspack modern dev",
-    "dev:webpack": "BUNDLER=webpack  modern dev",
-    "build": "BUNDLER=rspack modern build",
-    "build:webpack": "BUNDLER=webpack modern build",
+    "dev": "cross-env BUNDLER=rspack modern dev",
+    "dev:webpack": "cross-env BUNDLER=webpack  modern dev",
+    "build": "cross-env BUNDLER=rspack modern build",
+    "build:webpack": "cross-env BUNDLER=webpack modern build",
     "serve": "modern serve",
     "new": "modern new"
   },
@@ -30,6 +30,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "isomorphic-fetch": "^3.0.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "cross-env": "^7.0.3"
   }
 }
