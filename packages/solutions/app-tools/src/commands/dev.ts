@@ -17,7 +17,7 @@ import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
 
-export interface ExtraServerOptions {
+interface ExtraServerOptions {
   applyPlugins?: ApplyPlugins;
 }
 
