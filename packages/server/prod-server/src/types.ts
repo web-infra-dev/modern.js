@@ -7,8 +7,6 @@ import type { Reporter } from '@modern-js/types';
 import type { Logger } from '@modern-js/utils';
 
 interface ProdServerExtraOptions {
-  logger?: Logger;
-
   /** compat modern.server-runtime.config.ts */
   serverConfigFile?: string;
 
