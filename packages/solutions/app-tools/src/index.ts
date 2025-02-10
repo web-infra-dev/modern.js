@@ -197,7 +197,7 @@ export { mergeConfig } from '@modern-js/core';
 export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
-export { start as serve } from './commands/serve';
+export { serve } from './commands/serve';
 export type { DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
 
