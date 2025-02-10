@@ -11,7 +11,10 @@ import {
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
-import type { ExtraServerOptions } from './dev';
+
+type ExtraServerOptions = {
+  launcher?: typeof createProdServer;
+};
 
 export const serve = async (
   api: CLIPluginAPI<AppTools<'shared'>>,
@@ -54,50 +57,47 @@ export const serve = async (
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
-  const app = await createProdServer(
-    {
-      metaName,
-      pwd: distDirectory,
-      config: {
-        ...userConfig,
-        dev: userConfig.dev as any,
-        // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
-        output: {
-          path: userConfig.output.distPath?.root,
-          ...(userConfig.output || {}),
-        } as any,
-      },
-      routes: serverRoutes,
-      plugins: pluginInstances,
-      serverConfigFile,
-      serverConfigPath,
-      appContext: {
-        appDirectory,
-        internalDirectory,
-        sharedDirectory: getTargetDir(
-          appContext.sharedDirectory,
-          appContext.appDirectory,
-          appContext.distDirectory,
-        ),
-        apiDirectory: isCrossProjectServer
-          ? appContext.apiDirectory
-          : getTargetDir(
-              appContext.apiDirectory,
-              appContext.appDirectory,
-              appContext.distDirectory,
-            ),
-        lambdaDirectory: isCrossProjectServer
-          ? appContext.lambdaDirectory
-          : getTargetDir(
-              appContext.lambdaDirectory,
-              appContext.appDirectory,
-              appContext.distDirectory,
-            ),
-      },
-      runMode,
+  const app = await (serverOptions?.launcher || createProdServer)({
+    metaName,
+    pwd: distDirectory,
+    config: {
+      ...userConfig,
+      dev: userConfig.dev as any,
+      // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
+      output: {
+        path: userConfig.output.distPath?.root,
+        ...(userConfig.output || {}),
+      } as any,
     },
-    serverOptions?.applyPlugins,
-  );
+    routes: serverRoutes,
+    plugins: pluginInstances,
+    serverConfigFile,
+    serverConfigPath,
+    appContext: {
+      appDirectory,
+      internalDirectory,
+      sharedDirectory: getTargetDir(
+        appContext.sharedDirectory,
+        appContext.appDirectory,
+        appContext.distDirectory,
+      ),
+      apiDirectory: isCrossProjectServer
+        ? appContext.apiDirectory
+        : getTargetDir(
+            appContext.apiDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+      lambdaDirectory: isCrossProjectServer
+        ? appContext.lambdaDirectory
+        : getTargetDir(
+            appContext.lambdaDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+    },
+    runMode,
+  });
 
   app.listen(port, async () => {
     await printInstructions(
