@@ -13,8 +13,21 @@ import {
 } from './render';
 
 export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
-  logger?: Logger;
+  logger?: Logger | false;
 };
+
+function createSilenceLogger() {
+  return new Proxy(
+    {},
+    {
+      get: () => {
+        return () => {
+          // do nothing
+        };
+      },
+    },
+  ) as Logger;
+}
 
 export function createDefaultPlugins(
   options: CreateDefaultPluginsOptions = {},
@@ -23,7 +36,9 @@ export function createDefaultPlugins(
     logPlugin(),
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),
-    injectloggerPluigin(options.logger),
+    injectloggerPluigin(
+      options.logger ? options.logger : createSilenceLogger(),
+    ),
     injectServerTiming(),
     processedByPlugin(),
   ];

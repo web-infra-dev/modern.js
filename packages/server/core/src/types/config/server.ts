@@ -44,6 +44,7 @@ export interface ServerUserConfig {
    * @default false
    */
   useJsonScript?: boolean;
+  logger?: boolean | Record<string, unknown>;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
