@@ -94,8 +94,8 @@ export const serverCommand = (
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async () => {
-      const { start } = await import('./serve.js');
-      await start(api);
+      const { serve } = await import('./serve.js');
+      await serve(api);
     });
 };
 

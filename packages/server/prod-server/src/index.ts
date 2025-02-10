@@ -6,7 +6,10 @@ import {
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
 import sourceMapSupport from 'source-map-support';
-import { applyPlugins } from './apply';
+import {
+  type ApplyPlugins,
+  applyPlugins as defaultApplyPlugins,
+} from './apply';
 import type { BaseEnv, ProdServerOptions } from './types';
 
 sourceMapSupport.install();
@@ -22,7 +25,10 @@ export type { ServerPlugin } from '@modern-js/server-core';
 
 export type { ProdServerOptions, BaseEnv } from './types';
 
-export const createProdServer = async (options: ProdServerOptions) => {
+export const createProdServer = async (
+  options: ProdServerOptions,
+  applyPlugins?: ApplyPlugins,
+) => {
   await loadServerEnv(options);
 
   const serverBaseOptions = options;
@@ -51,7 +57,7 @@ export const createProdServer = async (options: ProdServerOptions) => {
   // load env file.
   const nodeServer = await createNodeServer(server.handle.bind(server));
 
-  await applyPlugins(server, options, nodeServer);
+  await (applyPlugins || defaultApplyPlugins)(server, options, nodeServer);
 
   await server.init();
 
