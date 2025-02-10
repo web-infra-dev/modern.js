@@ -11,8 +11,12 @@ import {
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
+import type { ExtraServerOptions } from './dev';
 
-export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
+export const serve = async (
+  api: CLIPluginAPI<AppTools<'shared'>>,
+  serverOptions?: ExtraServerOptions,
+) => {
   const appContext = api.getAppContext();
   const userConfig = api.getNormalizedConfig();
   const hooks = api.getHooks();
@@ -50,47 +54,50 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
-  const app = await createProdServer({
-    metaName,
-    pwd: distDirectory,
-    config: {
-      ...userConfig,
-      dev: userConfig.dev as any,
-      // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
-      output: {
-        path: userConfig.output.distPath?.root,
-        ...(userConfig.output || {}),
-      } as any,
+  const app = await createProdServer(
+    {
+      metaName,
+      pwd: distDirectory,
+      config: {
+        ...userConfig,
+        dev: userConfig.dev as any,
+        // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
+        output: {
+          path: userConfig.output.distPath?.root,
+          ...(userConfig.output || {}),
+        } as any,
+      },
+      routes: serverRoutes,
+      plugins: pluginInstances,
+      serverConfigFile,
+      serverConfigPath,
+      appContext: {
+        appDirectory,
+        internalDirectory,
+        sharedDirectory: getTargetDir(
+          appContext.sharedDirectory,
+          appContext.appDirectory,
+          appContext.distDirectory,
+        ),
+        apiDirectory: isCrossProjectServer
+          ? appContext.apiDirectory
+          : getTargetDir(
+              appContext.apiDirectory,
+              appContext.appDirectory,
+              appContext.distDirectory,
+            ),
+        lambdaDirectory: isCrossProjectServer
+          ? appContext.lambdaDirectory
+          : getTargetDir(
+              appContext.lambdaDirectory,
+              appContext.appDirectory,
+              appContext.distDirectory,
+            ),
+      },
+      runMode,
     },
-    routes: serverRoutes,
-    plugins: pluginInstances,
-    serverConfigFile,
-    serverConfigPath,
-    appContext: {
-      appDirectory,
-      internalDirectory,
-      sharedDirectory: getTargetDir(
-        appContext.sharedDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
-      apiDirectory: isCrossProjectServer
-        ? appContext.apiDirectory
-        : getTargetDir(
-            appContext.apiDirectory,
-            appContext.appDirectory,
-            appContext.distDirectory,
-          ),
-      lambdaDirectory: isCrossProjectServer
-        ? appContext.lambdaDirectory
-        : getTargetDir(
-            appContext.lambdaDirectory,
-            appContext.appDirectory,
-            appContext.distDirectory,
-          ),
-    },
-    runMode,
-  });
+    serverOptions?.applyPlugins,
+  );
 
   app.listen(port, async () => {
     await printInstructions(
