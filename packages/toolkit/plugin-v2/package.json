@@ -25,7 +25,7 @@
       "types": "./dist/types/index.d.ts",
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.js",
+        "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
@@ -43,6 +43,10 @@
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
+      "node": {
+        "import": "./dist/esm/runtime/index.js",
+        "require": "./dist/cjs/runtime/index.js"
+      },
       "default": "./dist/esm/runtime/index.js"
     }
   },
