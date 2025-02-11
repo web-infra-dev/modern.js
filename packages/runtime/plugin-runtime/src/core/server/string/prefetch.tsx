@@ -57,7 +57,7 @@ export const prefetch = async (
         // tracker.trackTiming(SSRTimings.PRERENDER, cost);
       } catch (e) {
         const error = e as Error;
-        onError(SSRErrors.PRERENDER, error);
+        onError(error, SSRErrors.PRERENDER);
 
         // re-throw the error
         throw e;
@@ -81,7 +81,7 @@ export const prefetch = async (
 
       onTiming(SSRTimings.USE_LOADER, cost);
     } catch (e) {
-      onError(SSRErrors.USE_LOADER, e);
+      onError(e, SSRErrors.USE_LOADER);
 
       // re-throw the error
       throw e;
@@ -90,7 +90,7 @@ export const prefetch = async (
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
       if (data._error) {
-        onError(SSRErrors.USE_LOADER, data._error);
+        onError(data._error, SSRErrors.USE_LOADER);
         delete data._error;
       }
     });

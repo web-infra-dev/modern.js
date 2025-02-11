@@ -1,3 +1,4 @@
+import type { OnError, OnTiming } from '@modern-js/app-tools';
 import { run } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
@@ -15,13 +16,7 @@ import {
 } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
-import {
-  SSRErrors,
-  SSRTimings,
-  type Tracer,
-  createOnError,
-  createOnTiming,
-} from '../tracer';
+import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
 import { LoadableCollector } from './loadable';
 import { prefetch } from './prefetch';
@@ -39,10 +34,7 @@ export const renderString: RenderString = async (
   return run(headersData, async () => {
     const { resource, runtimeContext, config, onError, onTiming } = options;
 
-    const tracer: Tracer = {
-      onError: createOnError(onError),
-      onTiming: createOnTiming(onTiming),
-    };
+    const tracer: Tracer = { onError, onTiming };
 
     const routerContext = runtimeContext.routerContext as StaticHandlerContext;
 
@@ -74,7 +66,7 @@ export const renderString: RenderString = async (
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-      tracer.onError(SSRErrors.PRERENDER, e);
+      tracer.onError(e, SSRErrors.PRERENDER);
     }
 
     const collectors = [
@@ -146,7 +138,7 @@ async function generateHtml(
     onTiming(SSRTimings.RENDER_HTML, cost);
   } catch (e) {
     chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-    onError(SSRErrors.RENDER_HTML, e);
+    onError(e, SSRErrors.RENDER_HTML);
   }
 
   // collectors do effect

@@ -30,7 +30,7 @@ export type RequestHandlerConfig = {
 
 export type LoaderContext = Map<string, any>;
 
-export type OnError = (err: unknown) => void;
+export type OnError = (err: unknown, key?: string) => void;
 
 export type OnTiming = (name: string, dur: number) => void;
 
@@ -64,8 +64,8 @@ export type RequestHandlerOptions = {
   /** @deprecated */
   metrics?: Metrics;
 
-  onError?: OnError;
-  onTiming?: OnTiming;
+  onError: OnError;
+  onTiming: OnTiming;
 };
 
 export type RequestHandler = (

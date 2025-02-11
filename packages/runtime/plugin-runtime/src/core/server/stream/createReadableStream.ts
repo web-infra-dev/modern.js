@@ -4,6 +4,7 @@ import checkIsBot from 'isbot';
 import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { SSRErrors } from '../tracer';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -117,13 +118,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
             const readableStream = getReadableStreamFromString(fallbackHtml);
             resolve(readableStream);
-            options?.onShellError?.(error);
+            options.onShellError?.(error);
           });
         },
         onError(error: unknown) {
           renderLevel = RenderLevel.CLIENT_RENDER;
-
-          options?.onError?.(error);
+          options.onError(error);
         },
       });
     });

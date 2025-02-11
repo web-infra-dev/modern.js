@@ -20,6 +20,7 @@ import { createLoaderManager } from '../loader/loaderManager';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
+import { SSRErrors } from './tracer';
 import { getSSRConfigByEntry, getSSRMode } from './utils';
 
 export type { RequestHandlerConfig as HandleRequestConfig } from '@modern-js/app-tools';
@@ -232,6 +233,14 @@ export const createRequestHandler: CreateRequestHandler = async (
       context.routerContext?.statusCode !== 200
     ) {
       context.ssrContext?.response.status(context.routerContext?.statusCode);
+    }
+
+    // log error by monitors when data loader throw error
+    const errors = Object.values(
+      (context.routerContext?.errors || {}) as Record<string, Error>,
+    );
+    if (errors.length > 0) {
+      options.onError(errors[0], SSRErrors.LOADER_ERROR);
     }
 
     context.initialData = initialData;
