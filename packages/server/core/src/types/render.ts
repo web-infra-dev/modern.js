@@ -10,7 +10,7 @@ import type {
 } from '@modern-js/types';
 import type { ServerManifest } from './server';
 
-// TODO combine with RequestHandlerOptions
+// TODO: combine some field with RequestHandlerOptions
 export interface RenderOptions {
   loaderContext?: Map<string, unknown>;
 

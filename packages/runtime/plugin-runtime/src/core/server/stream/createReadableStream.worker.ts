@@ -40,8 +40,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         nonce: config.nonce,
         rscRoot,
         onError(error: unknown) {
-          // TODO: add error key
-          options.onError(error);
+          options.onError?.(error);
         },
       });
 

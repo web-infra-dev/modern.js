@@ -5,7 +5,6 @@ export default applyBaseConfig({
     router: true,
   },
   server: {
-    baseUrl: '/lala',
     ssr: {
       disablePrerender: true,
       unsafeHeaders: ['Host'],
