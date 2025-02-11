@@ -1,9 +1,9 @@
 import type { IncomingMessage } from 'http';
-import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
-import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
+import { X_MODERNJS_RENDER } from '../../constants';
 import type {
   CacheConfig,
   FallbackReason,
@@ -18,11 +18,9 @@ import {
   createErrorHtml,
   getPathname,
   getRuntimeEnv,
-  onError as onErrorFn,
   parseHeaders,
   parseQuery,
   sortRoutes,
-  transformResponse,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
 import { renderRscHandler } from './renderRscHandler';
@@ -40,6 +38,11 @@ interface CreateRenderOptions {
   forceCSR?: boolean;
   nonce?: string;
 }
+
+type FallbackWrapper = (
+  reason: FallbackReason,
+  err?: unknown,
+) => ReturnType<OnFallback>;
 
 const DYNAMIC_ROUTE_REG = /\/:./;
 
@@ -113,7 +116,7 @@ export async function createRender({
   cacheConfig,
   forceCSR,
   config,
-  onFallback: onFallbackFn,
+  onFallback,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
 
@@ -146,9 +149,9 @@ export async function createRender({
     const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
     let fallbackReason = null;
 
-    const onFallback = async (reason: FallbackReason, error?: unknown) => {
+    const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
       fallbackReason = reason;
-      return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
+      return onFallback?.(reason, { logger, reporter, metrics }, error);
     };
 
     if (!routeInfo) {
@@ -176,15 +179,15 @@ export async function createRender({
       routeInfo.isSSR,
       forceCSR,
       nodeReq,
-      onFallback,
+      fallbackWrapper,
     );
 
     const headerData = parseHeaders(req);
 
-    const onError = (e: unknown) => {
+    const onError = (e: unknown, key?: string) => {
       monitors?.error(
         `SSR Error - ${
-          e instanceof Error ? e.name : e
+          key || (e instanceof Error ? e.name : e)
         }, error = %s, req.url = %s, req.headers = %o`,
         e instanceof Error ? e.stack || e.message : e,
         forMatchpathname,
@@ -194,11 +197,6 @@ export async function createRender({
 
     const onTiming = (name: string, dur: number) => {
       monitors?.timing(name, dur, 'SSR');
-    };
-
-    const onBoundError = async (e: unknown) => {
-      onErrorFn(ErrorDigest.ERENDER, e as string | Error, monitors, req);
-      await onFallback?.('error', e);
     };
 
     const renderOptions: SSRRenderOptions & {
@@ -232,7 +230,7 @@ export async function createRender({
       case 'data':
         response =
           (await dataHandler(req, renderOptions)) ||
-          (await renderHandler(req, renderOptions, 'ssr', onBoundError));
+          (await renderHandler(req, renderOptions, 'ssr', fallbackWrapper));
         break;
       case 'rsc-tree':
         response = await renderRscHandler(req, renderOptions);
@@ -246,7 +244,7 @@ export async function createRender({
           req,
           renderOptions,
           renderMode,
-          onBoundError,
+          fallbackWrapper,
         );
         break;
       default:
@@ -264,7 +262,7 @@ async function renderHandler(
   request: Request,
   options: SSRRenderOptions,
   mode: 'ssr' | 'csr',
-  onError: (e: unknown) => Promise<void>,
+  fallbackWrapper: FallbackWrapper,
 ) {
   let response: Response | null = null;
 
@@ -315,7 +313,8 @@ async function renderHandler(
     try {
       response = await ssrRender(request, options);
     } catch (e) {
-      await onError(e);
+      options.onError(e as Error, ErrorDigest.ERENDER);
+      await fallbackWrapper('error', e);
       response = csrRender(options.html);
     }
   } else {
@@ -340,7 +339,7 @@ async function getRenderMode(
   isSSR?: boolean,
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
-  onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
+  onFallback?: FallbackWrapper,
 ): Promise<'ssr' | 'csr' | 'data' | 'rsc-action' | 'rsc-tree'> {
   const query = parseQuery(req);
   if (req.headers.get('x-rsc-action')) {

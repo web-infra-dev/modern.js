@@ -44,7 +44,7 @@ export const createErrorHtml = (status: number) => {
 export enum ErrorDigest {
   ENOTF = 'Page could not be found',
   EINTER = 'Internal server error',
-  ERENDER = 'SSR render failed',
+  ERENDER = 'SSR render fallback',
   // INIT: 'Server init error',
   // WARMUP: 'SSR warmup failed',
   // EMICROINJ: 'Get micro-frontend info failed',

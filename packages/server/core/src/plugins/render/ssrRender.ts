@@ -41,8 +41,8 @@ export interface SSRRenderOptions {
   cacheConfig?: CacheConfig;
   nodeReq?: IncomingMessage;
 
-  onError?: OnError;
-  onTiming?: OnTiming;
+  onError: OnError;
+  onTiming: OnTiming;
 }
 
 const SERVER_RUNTIME_ENTRY = 'requestHandler';
