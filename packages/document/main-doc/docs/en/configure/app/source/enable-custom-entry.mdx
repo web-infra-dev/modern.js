@@ -7,9 +7,7 @@ title: enableCustomEntry
 - **Type:** `boolean`
 - **Default:** `false`
 
-This option is used for custom Modern.js entries.
-
-When this option is enabled, Modern.js will use the `src/entry.[jt]sx` file as the project's entry point. For more details, refer to [Entries](/guides/concept/entries.html).
+This option is used for custom Modern.js entries. When this option is enabled, Modern.js will try to use the `src/entry.[jt]sx` file and `src/entry.server.[jt]sx` as the project's entry point.
 
 ## Example
 
@@ -39,3 +37,32 @@ beforeRender().then(() => {
   render(<ModernRoot />);
 });
 ```
+
+:::info
+For more browser entry details, refer to [Entries](/guides/concept/entries.html).
+:::
+
+
+create `src/entry.server.tsx` file，add custom behavior for rendering responses：
+
+```tsx
+import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
+import type { HandleRequest } from '@edenx/runtime/ssr/server';
+
+const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
+  // do something before rendering
+  const body = await renderString(request, <ServerRoot />, options);
+
+  const newBody = body + '<div>Byte-Dance</div>';
+
+  return new Response(newBody, {
+    headers: {
+      'content-type': 'text/html; charset=UTF-8',
+      'x-custom-header': 'abc',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
