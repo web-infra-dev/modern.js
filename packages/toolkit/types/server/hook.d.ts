@@ -4,7 +4,7 @@ import type {
   ServerResponse,
 } from 'http';
 import type { ServerRoute } from './route';
-import type { Reporter } from './utils';
+import type { Logger, Metrics, Reporter } from './utils';
 
 export type CookieAPI = {
   /**
