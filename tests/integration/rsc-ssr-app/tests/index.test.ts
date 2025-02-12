@@ -13,97 +13,113 @@ import {
 
 const appDir = path.resolve(__dirname, '../');
 
-if (isVersionAtLeast18()) {
-  describe('dev', () => {
-    let app: any;
-    let appPort: number;
-    let page: Page;
-    let browser: Browser;
-    beforeAll(async () => {
-      appPort = await getPort();
-      app = await launchApp(
-        appDir,
-        appPort,
-        {},
-        {
-          BUNDLER: 'webpack',
-        },
-      );
-      browser = await puppeteer.launch(launchOptions as any);
-      page = await browser.newPage();
+describe('dev', () => {
+  let app: any;
+  let appPort: number;
+  let page: Page;
+  let browser: Browser;
+
+  if (!isVersionAtLeast18()) {
+    test('should skip in lower node version', () => {
+      expect(true).toBe(true);
     });
 
-    afterAll(async () => {
-      await killApp(app);
-      await page.close();
-      await browser.close();
+    return;
+  }
+
+  beforeAll(async () => {
+    appPort = await getPort();
+    app = await launchApp(
+      appDir,
+      appPort,
+      {},
+      {
+        BUNDLER: 'webpack',
+      },
+    );
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
+  });
+
+  afterAll(async () => {
+    await killApp(app);
+    await page.close();
+    await browser.close();
+  });
+
+  describe('client component root', () => {
+    const baseUrl = `client-component-root`;
+
+    it('should render page correctly', () =>
+      renderClientRootPageCorrectly({ baseUrl, appPort, page }));
+    it('should render page with context correctly', () =>
+      renderPageWithContext({ baseUrl, appPort, page }));
+  });
+
+  describe('server component root', () => {
+    const baseUrl = `server-component-root`;
+    it('should render page correctly', () =>
+      renderServerRootPageCorrectly({ baseUrl, appPort, page }));
+    it('should support client and server actions', () =>
+      supportServerAction({ baseUrl, appPort, page }));
+  });
+});
+
+describe('build', () => {
+  let appPort: number;
+  let app: unknown;
+  let page: Page;
+  let browser: Browser;
+  const errors: string[] = [];
+
+  if (!isVersionAtLeast18()) {
+    test('should skip in lower node version', () => {
+      expect(true).toBe(true);
     });
 
-    describe('client component root', () => {
-      const baseUrl = `client-component-root`;
+    return;
+  }
 
-      it('should render page correctly', () =>
-        renderClientRootPageCorrectly({ baseUrl, appPort, page }));
-      it('should render page with context correctly', () =>
-        renderPageWithContext({ baseUrl, appPort, page }));
+  beforeAll(async () => {
+    appPort = await getPort();
+    await modernBuild(appDir, [], {
+      env: {
+        BUNDLER: 'webpack',
+      },
     });
-
-    describe('server component root', () => {
-      const baseUrl = `server-component-root`;
-      it('should render page correctly', () =>
-        renderServerRootPageCorrectly({ baseUrl, appPort, page }));
-      it('should support client and server actions', () =>
-        supportServerAction({ baseUrl, appPort, page }));
+    app = await modernServe(appDir, appPort, {
+      cwd: appDir,
+    });
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
+    page.on('pageerror', error => {
+      errors.push(error.message);
     });
   });
 
-  describe('build', () => {
-    let appPort: number;
-    let app: unknown;
-    let page: Page;
-    let browser: Browser;
-    const errors: string[] = [];
-    beforeAll(async () => {
-      appPort = await getPort();
-      await modernBuild(appDir, [], {
-        env: {
-          BUNDLER: 'webpack',
-        },
-      });
-      app = await modernServe(appDir, appPort, {
-        cwd: appDir,
-      });
-      browser = await puppeteer.launch(launchOptions as any);
-      page = await browser.newPage();
-      page.on('pageerror', error => {
-        errors.push(error.message);
-      });
-    });
-
-    afterAll(async () => {
-      await killApp(app);
-      await page.close();
-      await browser.close();
-    });
-
-    describe('client component root', () => {
-      const baseUrl = `client-component-root`;
-
-      it('should render page correctly', () =>
-        renderClientRootPageCorrectly({ baseUrl, appPort, page }));
-      it('should render page with context correctly', () =>
-        renderPageWithContext({ baseUrl, appPort, page }));
-    });
-
-    describe('server component root', () => {
-      const baseUrl = `server-component-root`;
-      it('should render page correctly', () =>
-        renderServerRootPageCorrectly({ baseUrl, appPort, page }));
-      it('should support server action', () =>
-        supportServerAction({ baseUrl, appPort, page }));
-    });
+  afterAll(async () => {
+    await killApp(app);
+    await page.close();
+    await browser.close();
   });
-}
+
+  describe('client component root', () => {
+    const baseUrl = `client-component-root`;
+
+    it('should render page correctly', () =>
+      renderClientRootPageCorrectly({ baseUrl, appPort, page }));
+    it('should render page with context correctly', () =>
+      renderPageWithContext({ baseUrl, appPort, page }));
+  });
+
+  describe('server component root', () => {
+    const baseUrl = `server-component-root`;
+    it('should render page correctly', () =>
+      renderServerRootPageCorrectly({ baseUrl, appPort, page }));
+    it('should support server action', () =>
+      supportServerAction({ baseUrl, appPort, page }));
+  });
+});
 
 interface TestOptions {
   baseUrl: string;
