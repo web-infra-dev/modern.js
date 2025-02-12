@@ -6,7 +6,8 @@ export const pluginFrameworkConfig = (configPath: string): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(chain => {
-      if (!fs.existsSync(configPath)) {
+      // TODO: Support rspack after support `performance.buildCache.buildDependencies` configuration
+      if (!fs.existsSync(configPath) || api.context.bundlerType !== 'webpack') {
         return;
       }
 
@@ -14,6 +15,14 @@ export const pluginFrameworkConfig = (configPath: string): RsbuildPlugin => ({
 
       if (!cache) {
         return;
+      }
+
+      if (cache === true) {
+        chain.cache({
+          buildDependencies: {
+            frameworkConfig: [configPath],
+          },
+        });
       }
 
       cache.buildDependencies = {
