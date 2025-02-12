@@ -2,7 +2,9 @@
 
 exports[`html minify > should not apply html minify in production when disableMinimize 1`] = `
 [
-  RsbuildCorePlugin {},
+  {
+    "name": "RsbuildCorePlugin",
+  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {
@@ -133,7 +135,9 @@ exports[`html minify > should not apply html minify in production when disableMi
 
 exports[`html minify > should not apply html minify when htmlPlugin.minify false 1`] = `
 [
-  RsbuildCorePlugin {},
+  {
+    "name": "RsbuildCorePlugin",
+  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {
@@ -264,7 +268,9 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
 
 exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = `
 [
-  RsbuildCorePlugin {},
+  {
+    "name": "RsbuildCorePlugin",
+  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {

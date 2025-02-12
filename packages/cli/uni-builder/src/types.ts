@@ -41,6 +41,8 @@ import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 type ArrayOrNot<T> = T | T[];
 
+export type CacheGroup = Rspack.OptimizationSplitChunksCacheGroup;
+
 export type Stats = Omit<
   Rspack.Stats,
   '#private' | 'hash' | 'startTime' | 'endTime'

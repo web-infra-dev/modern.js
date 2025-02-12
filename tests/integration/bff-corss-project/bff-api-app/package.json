@@ -14,8 +14,8 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
-    "@modern-js/plugin-express": "workspace:*",
     "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-express": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "express": "^4.17.2",
     "react": "^18.3.1",
