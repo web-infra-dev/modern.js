@@ -1,5 +1,21 @@
 # @modern-js/prod-server
 
+## 2.64.2
+
+### Patch Changes
+
+- 4ae943d: fix: add `server.logger` to control internal server logger
+  fix: 添加 `server.logger` 配置来控制 Server 内部日志
+- c73217b: chore: support serve command use custom serve launcher
+  chore: 支持 serve 命令使用自定义启动器
+- 02ca983: feat: unify server monitors usage, add error logger for data loader
+  feat: 统一 server 监控的使用方式，为 data loader 添加错误日志
+- Updated dependencies [4ae943d]
+- Updated dependencies [02ca983]
+  - @modern-js/server-core@2.64.2
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

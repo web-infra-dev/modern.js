@@ -1,5 +1,17 @@
 # file-based-router
 
+## 2.64.2
+
+### Patch Changes
+
+- Updated dependencies [c73217b]
+- Updated dependencies [02ca983]
+- Updated dependencies [eba3803]
+- Updated dependencies [18b55af]
+  - @modern-js/app-tools@2.64.2
+  - @modern-js/runtime@2.64.2
+  - @modern-js/plugin-router-v5@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

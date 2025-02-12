@@ -1,5 +1,40 @@
 # @modern-js/app-tools
 
+## 2.64.2
+
+### Patch Changes
+
+- c73217b: chore: support serve command use custom serve launcher
+  chore: 支持 serve 命令使用自定义启动器
+- eba3803: fix(dev-server): apply dev configuration, then void dev.setupMiddlewares config lost
+  fix(dev-server): 应用 dev 配置防止 dev.setupMiddlewares 丢失
+- 18b55af: feat: move modifyServerRoutes hook to plugin v2
+
+  feat: 将 modifyServerRoutes 钩子函数移动到 plugin v2 中
+
+- Updated dependencies [4ae943d]
+- Updated dependencies [f8b5ea9]
+- Updated dependencies [80fe649]
+- Updated dependencies [c73217b]
+- Updated dependencies [02ca983]
+- Updated dependencies [18b55af]
+- Updated dependencies [96a8726]
+- Updated dependencies [37afe36]
+  - @modern-js/prod-server@2.64.2
+  - @modern-js/server-core@2.64.2
+  - @modern-js/uni-builder@2.64.2
+  - @modern-js/plugin-v2@2.64.2
+  - @modern-js/types@2.64.2
+  - @modern-js/plugin-data-loader@2.64.2
+  - @modern-js/server@2.64.2
+  - @modern-js/server-utils@2.64.2
+  - @modern-js/core@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin-i18n@2.64.2
+  - @modern-js/rsbuild-plugin-esbuild@2.64.2
+  - @modern-js/node-bundle-require@2.64.2
+  - @modern-js/plugin@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

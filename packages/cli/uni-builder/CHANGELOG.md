@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.64.2
+
+### Patch Changes
+
+- f8b5ea9: feat: bump rsbuild & rspack 1.2.x
+- 37afe36: fix: compat chain.cache true
+  - @modern-js/utils@2.64.2
+  - @modern-js/babel-preset@2.64.2
+  - @modern-js/flight-server-transform-plugin@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

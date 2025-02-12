@@ -1,5 +1,7 @@
 # integration-config-function-params
 
+## 2.64.2
+
 ## 2.64.1
 
 ## 2.64.0

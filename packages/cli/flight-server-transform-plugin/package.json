@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/flight-server-transform-plugin",
-  "version": "2.63.4",
+  "version": "2.64.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/web-infra-dev/modern.js",
@@ -8,10 +8,10 @@
   },
   "license": "MIT",
   "keywords": [
-      "swc-plugin"
+    "swc-plugin"
   ],
   "files": [
-      "flight_server_transform_plugin.wasm"
+    "flight_server_transform_plugin.wasm"
   ],
   "main": "flight_server_transform_plugin.wasm",
   "scripts": {

@@ -1,7 +1,7 @@
 {
   "name": "@source-code-build/components",
   "private": true,
-  "version": "2.64.1",
+  "version": "2.64.2",
   "main": "./dist/index.js",
   "source": "./src/index.tsx",
   "exports": {

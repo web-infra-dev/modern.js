@@ -1,5 +1,20 @@
 # @modern-js/plugin-v2
 
+## 2.64.2
+
+### Patch Changes
+
+- 80fe649: fix: plugin v2 runtime export add node config
+
+  fix: plugin v2 runtime 导出增加 node 配置
+
+- 18b55af: feat: move modifyServerRoutes hook to plugin v2
+
+  feat: 将 modifyServerRoutes 钩子函数移动到 plugin v2 中
+
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

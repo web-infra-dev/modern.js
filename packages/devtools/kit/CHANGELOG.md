@@ -1,5 +1,13 @@
 # @modern-js/devtools-kit
 
+## 2.64.2
+
+### Patch Changes
+
+- Updated dependencies [96a8726]
+  - @modern-js/types@2.64.2
+  - @modern-js/utils@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

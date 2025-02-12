@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 2.64.2
+
+### Patch Changes
+
+- 4ae943d: fix: add `server.logger` to control internal server logger
+  fix: 添加 `server.logger` 配置来控制 Server 内部日志
+- 02ca983: feat: unify server monitors usage, add error logger for data loader
+  feat: 统一 server 监控的使用方式，为 data loader 添加错误日志
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

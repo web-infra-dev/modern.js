@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.64.2
+
+### Patch Changes
+
+- 96a8726: fix: types for custom server hook
+  fix: 自定义 server 的 hook 类型
+
 ## 2.64.1
 
 ## 2.64.0
