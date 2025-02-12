@@ -42,14 +42,14 @@ export async function applyPlugins(
   const cacheConfig = await loadCacheConfig(loadCachePwd);
 
   serverBase.notFound(c => {
-    const logger = c.get('logger');
-    onError(ErrorDigest.ENOTF, '404 not found', logger, c.req.raw);
+    const monitors = c.get('monitors');
+    onError(ErrorDigest.ENOTF, '404 not found', monitors, c.req.raw);
     return c.html(createErrorHtml(404), 404);
   });
 
   serverBase.onError((err, c) => {
-    const logger = c.get('logger');
-    onError(ErrorDigest.EINTER, err, logger, c.req.raw);
+    const monitors = c.get('monitors');
+    onError(ErrorDigest.EINTER, err, monitors, c.req.raw);
     return c.html(createErrorHtml(500), 500);
   });
 

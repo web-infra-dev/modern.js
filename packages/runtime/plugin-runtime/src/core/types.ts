@@ -1,3 +1,4 @@
+import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RenderLevel } from './constants';
 import type { LoaderResult } from './loader/loaderManager';
@@ -68,8 +69,8 @@ export type SSRServerContext = Pick<
   };
   htmlModifiers: BuildHtmlCb[];
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
-  onError?: (e: unknown) => void;
-  onTiming?: (name: string, dur: number) => void;
+  onError: OnError;
+  onTiming: OnTiming;
   useJsonScript?: boolean;
 };
 

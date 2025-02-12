@@ -1,3 +1,4 @@
+import type { OnError } from '@modern-js/app-tools';
 import { run } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
@@ -11,12 +12,7 @@ import type { RuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestConfig } from '../requestHandler';
 import type { RenderStreaming, SSRConfig } from '../shared';
-import {
-  SSRErrors,
-  SSRTimings,
-  createOnError,
-  createOnTiming,
-} from '../tracer';
+import { SSRErrors, SSRTimings } from '../tracer';
 import { getSSRConfigByEntry } from '../utils';
 
 export type CreateReadableStreamFromElementOptions = {
@@ -33,7 +29,7 @@ export type CreateReadableStreamFromElementOptions = {
   onShellReady?: () => void;
   onShellError?: (error: unknown) => void;
   onAllReady?: () => void;
-  onError?: (error: unknown) => void;
+  onError: OnError;
 };
 
 export type CreateReadableStreamFromElement = (
@@ -79,9 +75,7 @@ export function createRenderStreaming(
     return run(headersData, async () => {
       const end = time();
       const { runtimeContext, config, resource } = options;
-
-      const onError = createOnError(options.onError);
-      const onTiming = createOnTiming(options.onTiming);
+      const { onError, onTiming } = options;
 
       const { htmlTemplate, entryName } = resource;
 
@@ -124,10 +118,10 @@ export function createRenderStreaming(
             onTiming(SSRTimings.RENDER_HTML, cost);
           },
           onShellError(error) {
-            onError(SSRErrors.RENDER_SHELL, error);
+            onError(error, SSRErrors.RENDER_SHELL);
           },
           onError(error) {
-            onError(SSRErrors.RENDER_STREAM, error);
+            onError(error, SSRErrors.RENDER_STREAM);
           },
         },
       );
