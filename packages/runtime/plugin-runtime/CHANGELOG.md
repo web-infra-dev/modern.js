@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.64.2
+
+### Patch Changes
+
+- 02ca983: feat: unify server monitors usage, add error logger for data loader
+  feat: 统一 server 监控的使用方式，为 data loader 添加错误日志
+- Updated dependencies [80fe649]
+- Updated dependencies [18b55af]
+- Updated dependencies [96a8726]
+  - @modern-js/plugin-v2@2.64.2
+  - @modern-js/types@2.64.2
+  - @modern-js/plugin-data-loader@2.64.2
+  - @modern-js/render@2.64.2
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin@2.64.2
+
 ## 2.64.1
 
 ### Patch Changes

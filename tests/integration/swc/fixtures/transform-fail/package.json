@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "transform-fail",
-  "version": "2.64.1",
+  "version": "2.64.2",
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "react": "^18.3.1",

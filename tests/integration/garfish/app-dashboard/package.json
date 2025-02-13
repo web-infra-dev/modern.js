@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "app-garfish-dashboard",
-  "version": "2.64.1",
+  "version": "2.64.2",
   "scripts": {
     "dev": "modern dev"
   },
