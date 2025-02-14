@@ -314,10 +314,7 @@ export const fileSystemRoutes = async ({
       }
     } else if (route._component) {
       if (splitRouteChunks) {
-        lazyImport = createLazyImport({
-          componentPath: route._component,
-          routeId: route.id,
-        });
+        lazyImport = `() => import('${route._component}')`;
         component = `loadable(${lazyImport})`;
       } else {
         components.push(route._component);
