@@ -50,8 +50,7 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
     domainMap.set(
       requestId,
       setDomain({
-        target: 'node',
-        requestId,
+        target: 'server',
       }),
     );
   }

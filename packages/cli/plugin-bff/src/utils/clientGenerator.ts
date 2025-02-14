@@ -33,55 +33,6 @@ const CLIENT_DIR = 'client';
 const EXPORT_PREFIX = `./${API_DIR}/`;
 const TYPE_PREFIX = `${API_DIR}/`;
 
-function deepMerge<T extends Record<string, any>>(
-  target: T | undefined,
-  source: Partial<T>,
-  strategy?: {
-    array?: 'append' | 'prepend' | 'replace';
-    dedupe?: boolean;
-  },
-): T {
-  const base = (target || {}) as T;
-  const merged = { ...base };
-
-  for (const [key, value] of Object.entries(source)) {
-    if (Array.isArray(value) && Array.isArray(base[key])) {
-      merged[key as keyof T] = [
-        ...(strategy?.array === 'prepend' ? value : base[key]),
-        ...(strategy?.array === 'append' ? value : []),
-        ...(strategy?.array !== 'replace' && strategy?.array !== 'prepend'
-          ? base[key]
-          : []),
-      ].filter((v, i, a) =>
-        strategy?.dedupe
-          ? a.findIndex(e => JSON.stringify(e) === JSON.stringify(v)) === i
-          : true,
-      ) as T[keyof T];
-      continue;
-    }
-
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      merged[key as keyof T] = deepMerge(base[key], value, strategy);
-      continue;
-    }
-
-    if (!(key in base)) {
-      merged[key as keyof T] = value;
-    }
-  }
-
-  return merged;
-}
-
-const filterObjectKeys = <T extends Record<string, any>>(
-  obj: T | undefined,
-  predicate: (key: string) => boolean,
-): T => {
-  return Object.fromEntries(
-    Object.entries(obj || {}).filter(([key]) => predicate(key)),
-  ) as T;
-};
-
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
@@ -140,6 +91,31 @@ export async function readDirectoryFiles(
   return filesList;
 }
 
+function mergePackageJson(
+  packageJson: any,
+  files: string[],
+  typesVersion: Record<string, any>,
+  exports: Record<string, any>,
+) {
+  packageJson.files = [...new Set([...(packageJson.files || []), ...files])];
+
+  packageJson.typesVersions ??= {};
+  const starTypes = packageJson.typesVersions['*'] || {};
+  Object.keys(starTypes).forEach(
+    k => k.startsWith(TYPE_PREFIX) && delete starTypes[k],
+  );
+  packageJson.typesVersions['*'] = {
+    ...starTypes,
+    ...(typesVersion['*'] || {}),
+  };
+
+  packageJson.exports ??= {};
+  Object.keys(packageJson.exports).forEach(
+    k => k.startsWith(EXPORT_PREFIX) && delete packageJson.exports[k],
+  );
+  Object.assign(packageJson.exports, exports);
+}
+
 async function writeTargetFile(absTargetDir: string, content: string) {
   await fs.mkdir(path.dirname(absTargetDir), { recursive: true });
   await fs.writeFile(absTargetDir, content);
@@ -159,72 +135,58 @@ async function setPackage(
     const packageContent = await fs.readFile(packagePath, 'utf8');
     const packageJson = JSON.parse(packageContent);
 
-    packageJson.exports = filterObjectKeys(
-      packageJson.exports,
-      key => !key.startsWith(EXPORT_PREFIX),
-    );
+    const addFiles = [
+      `${relativeDistPath}/${CLIENT_DIR}/**/*`,
+      `${relativeDistPath}/${RUNTIME_DIR}/**/*`,
+      `${relativeDistPath}/${PLUGIN_DIR}/**/*`,
+    ];
 
-    if (packageJson.typesVersions?.['*']) {
-      packageJson.typesVersions['*'] = filterObjectKeys(
-        packageJson.typesVersions['*'],
-        key => !key.startsWith(TYPE_PREFIX),
-      );
-    }
-
-    const mergedPackage = deepMerge(
-      packageJson,
-      {
-        exports: files.reduce(
-          (acc, file) => {
-            const exportKey = `${EXPORT_PREFIX}${file.exportKey}`;
-            const jsFilePath = `./${file.targetDir}`;
-            return deepMerge(acc, {
-              [exportKey]: {
-                import: jsFilePath,
-                types: jsFilePath.replace('js', 'd.ts'),
-              },
-            });
-          },
-          {
-            './plugin': {
-              require: `./${relativeDistPath}/${PLUGIN_DIR}/index.js`,
-              types: `./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`,
-            },
-            './runtime': {
-              import: `./${relativeDistPath}/${RUNTIME_DIR}/index.js`,
-              types: `./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`,
-            },
-          },
-        ),
-        typesVersions: {
-          '*': files.reduce(
-            (acc, file) => {
-              const typeFilePath = `./${file.targetDir}`.replace('js', 'd.ts');
-              return deepMerge(acc, {
-                [`${TYPE_PREFIX}${file.exportKey}`]: [typeFilePath],
-              });
-            },
-            {
-              runtime: [`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`],
-              plugin: [`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`],
-            },
-          ),
+    const typesVersions = {
+      '*': files.reduce(
+        (acc, file) => {
+          const typeFilePath = `./${file.targetDir}`.replace('js', 'd.ts');
+          return {
+            ...acc,
+            [`${TYPE_PREFIX}${file.exportKey}`]: [typeFilePath],
+          };
         },
-        files: [
-          `${relativeDistPath}/${CLIENT_DIR}/**/*`,
-          `${relativeDistPath}/${RUNTIME_DIR}/**/*`,
-          `${relativeDistPath}/${PLUGIN_DIR}/**/*`,
-        ],
+        {
+          [RUNTIME_DIR]: [`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`],
+          [PLUGIN_DIR]: [`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`],
+        },
+      ),
+    };
+
+    const exports = files.reduce(
+      (acc, file) => {
+        const exportKey = `${EXPORT_PREFIX}${file.exportKey}`;
+        const jsFilePath = `./${file.targetDir}`;
+
+        return {
+          ...acc,
+          [exportKey]: {
+            import: jsFilePath,
+            types: jsFilePath.replace(/\.js$/, '.d.ts'),
+          },
+        };
       },
       {
-        array: 'append',
-        dedupe: true,
+        [`./${PLUGIN_DIR}`]: {
+          require: `./${relativeDistPath}/${PLUGIN_DIR}/index.js`,
+          types: `./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`,
+        },
+        [`./${RUNTIME_DIR}`]: {
+          import: `./${relativeDistPath}/${RUNTIME_DIR}/index.js`,
+          types: `./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`,
+        },
       },
     );
+
+    mergePackageJson(packageJson, addFiles, typesVersions, exports);
 
     await fs.promises.writeFile(
       packagePath,
-      JSON.stringify(mergedPackage, null, 2),
+      JSON.stringify(packageJson, null, 2),
     );
   } catch (error) {
     logger.error(`package.json update failed: ${error}`);

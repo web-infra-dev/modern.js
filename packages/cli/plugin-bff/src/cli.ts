@@ -260,7 +260,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         if (
           !isPrivate &&
           (eventType === 'change' || eventType === 'unlink') &&
-          filename.startsWith(`${relativeApiPath}/`)
+          filename.startsWith(`${relativeApiPath}/`) &&
+          (filename.endsWith('.ts') || filename.endsWith('.js'))
         ) {
           await handleCrossProjectInvocation();
         }

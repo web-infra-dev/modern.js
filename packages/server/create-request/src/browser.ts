@@ -45,7 +45,6 @@ export const configure = (options: IOptions) => {
       requestId,
       setDomain({
         target: 'browser',
-        requestId,
       }),
     );
   }
