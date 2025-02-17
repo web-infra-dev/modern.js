@@ -51,7 +51,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.9",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -320,7 +320,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.7",
+                "version": "7.26.9",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
