@@ -26,7 +26,14 @@ if (isVersionAtLeast1819()) {
     beforeAll(async () => {
       jest.setTimeout(1000 * 60 * 2);
       port = await getPort();
-      app = await launchApp(appDir, port, {});
+      app = await launchApp(
+        appDir,
+        port,
+        {},
+        {
+          NODE_OPTIONS: '--no-experimental-require-module',
+        },
+      );
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
     });
