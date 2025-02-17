@@ -105,7 +105,7 @@ importers:
         version: 7.26.7
       '@rsbuild/plugin-babel':
         specifier: 1.0.3
-        version: 1.0.3(@rsbuild/core@1.2.7)
+        version: 1.0.3(@rsbuild/core@1.2.8)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -495,11 +495,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@rsbuild/plugin-webpack-swc':
         specifier: 1.0.9
-        version: 1.0.9(@rsbuild/core@1.2.7)
+        version: 1.0.9(@rsbuild/core@1.2.8)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -600,11 +600,11 @@ importers:
         version: 5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19)
     devDependencies:
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@rsbuild/webpack':
         specifier: 1.2.2
-        version: 1.2.2(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19)
+        version: 1.2.2(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -636,59 +636,59 @@ importers:
         specifier: 0.5.15
         version: 0.5.15(@types/webpack@5.28.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@rsbuild/plugin-assets-retry':
         specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.2.7)
+        version: 1.1.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-babel':
         specifier: 1.0.3
-        version: 1.0.3(@rsbuild/core@1.2.7)
+        version: 1.0.3(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-check-syntax':
-        specifier: 1.2.2
-        version: 1.2.2(@rsbuild/core@1.2.7)
+        specifier: 1.3.0
+        version: 1.3.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-css-minimizer':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)(esbuild@0.17.19)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
+        version: 1.0.2(@rsbuild/core@1.2.8)(esbuild@0.17.19)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       '@rsbuild/plugin-less':
         specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.2.7)
+        version: 1.1.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-pug':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)
+        version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-react':
         specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.2.7)
+        version: 1.1.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-rem':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)
+        version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-sass':
         specifier: 1.2.1
-        version: 1.2.1(@rsbuild/core@1.2.7)
+        version: 1.2.1(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-source-build':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)
+        version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-styled-components':
         specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@1.2.7)
+        version: 1.2.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-svgr':
         specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.2.7)
+        version: 1.0.6(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-toml':
         specifier: 1.0.1
-        version: 1.0.1(@rsbuild/core@1.2.7)
+        version: 1.0.1(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-type-check':
         specifier: 1.2.1
-        version: 1.2.1(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(typescript@5.3.3)
+        version: 1.2.1(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(typescript@5.3.3)
       '@rsbuild/plugin-typed-css-modules':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)
+        version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-yaml':
         specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.2.7)
+        version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/webpack':
         specifier: 1.2.2
-        version: 1.2.2(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)
+        version: 1.2.2(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)
       '@swc/core':
         specifier: 1.10.16
         version: 1.10.16(@swc/helpers@0.5.13)
@@ -788,7 +788,7 @@ importers:
         version: link:../../toolkit/types
       '@rsbuild/plugin-webpack-swc':
         specifier: 1.0.9
-        version: 1.0.9(@rsbuild/core@1.2.7)
+        version: 1.0.9(@rsbuild/core@1.2.8)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -863,8 +863,8 @@ importers:
         specifier: ^3.0.5
         version: 3.2.0(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1129,8 +1129,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/uni-builder
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2500,8 +2500,8 @@ importers:
         specifier: ^4.1.3
         version: 4.4.2
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3547,11 +3547,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@rsbuild/plugin-node-polyfill':
         specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.2.7)
+        version: 1.3.0(@rsbuild/core@1.2.8)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -3582,7 +3582,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-webpack-swc':
         specifier: 1.0.9
-        version: 1.0.9(@rsbuild/core@1.2.7)
+        version: 1.0.9(@rsbuild/core@1.2.8)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3699,8 +3699,8 @@ importers:
         specifier: workspace:@modern-js/module-tools@*
         version: 'link:'
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3790,8 +3790,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@storybook/components':
         specifier: ~7.6.12
         version: 7.6.20(@types/react-dom@19.0.3(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -4094,8 +4094,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/uni-builder
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4785,11 +4785,11 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@rsbuild/core':
-        specifier: 1.2.7
-        version: 1.2.7
+        specifier: 1.2.8
+        version: 1.2.8
       '@rsbuild/plugin-webpack-swc':
         specifier: 1.0.9
-        version: 1.0.9(@rsbuild/core@1.2.7)
+        version: 1.0.9(@rsbuild/core@1.2.8)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.17.14
@@ -11923,8 +11923,8 @@ packages:
     engines: {node: '>=16.7.0'}
     hasBin: true
 
-  '@rsbuild/core@1.2.7':
-    resolution: {integrity: sha512-Jf2Wqe0WN8gWNIf0TnujKmLKhfeC1y3qufKhznvgrOWb6XST5guS5nSwYvYc/S1VkK8IKMXBjWLdHKQZk6pe4g==}
+  '@rsbuild/core@1.2.8':
+    resolution: {integrity: sha512-I5cPKnJxkc+K552x17s2BlSs2Ox8bauoWPpy8mPtW7xwT3h9pprPO6zsMPkj/TJhkGLmeJ1bcVxf6NcrP/jWSA==}
     engines: {node: '>=16.7.0'}
     hasBin: true
 
@@ -11938,8 +11938,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-check-syntax@1.2.2':
-    resolution: {integrity: sha512-AUypCZtXCauefEkbctV8hBoOgp50VfN211jtu7QxwkSzltB94vG8tAHzD1peNXee1Ptb8aiaXnjeokj604lVQQ==}
+  '@rsbuild/plugin-check-syntax@1.3.0':
+    resolution: {integrity: sha512-lHrd6hToPFVOGWr0U/Ox7pudHWdhPSFsr2riWpjNRlUuwiXdU2SYMROaVUCrLJvYFzJyEMsFOi1w59rBQCG2HQ==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -15171,9 +15171,6 @@ packages:
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
-
-  domutils@3.1.0:
-    resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
 
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
@@ -27303,7 +27300,7 @@ snapshots:
     transitivePeerDependencies:
       - '@rspack/tracing'
 
-  '@rsbuild/core@1.2.7':
+  '@rsbuild/core@1.2.8':
     dependencies:
       '@rspack/core': 1.2.3(@swc/helpers@0.5.15)
       '@rspack/lite-tapable': 1.0.1
@@ -27312,17 +27309,17 @@ snapshots:
     transitivePeerDependencies:
       - '@rspack/tracing'
 
-  '@rsbuild/plugin-assets-retry@1.1.0(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-assets-retry@1.1.0(@rsbuild/core@1.2.8)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-babel@1.0.3(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-babel@1.0.3(@rsbuild/core@1.2.8)':
     dependencies:
       '@babel/core': 7.26.7
       '@babel/plugin-proposal-decorators': 7.25.9(@babel/core@7.26.7)
       '@babel/plugin-transform-class-properties': 7.25.9(@babel/core@7.26.7)
       '@babel/preset-typescript': 7.26.0(@babel/core@7.26.7)
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       '@types/babel__core': 7.20.5
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
@@ -27330,7 +27327,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-check-syntax@1.2.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-check-syntax@1.3.0(@rsbuild/core@1.2.8)':
     dependencies:
       acorn: 8.14.0
       browserslist-to-es-version: 1.0.0
@@ -27338,14 +27335,14 @@ snapshots:
       picocolors: 1.1.1
       source-map: 0.7.4
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-css-minimizer@1.0.2(@rsbuild/core@1.2.7)(esbuild@0.17.19)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))':
+  '@rsbuild/plugin-css-minimizer@1.0.2(@rsbuild/core@1.2.8)(esbuild@0.17.19)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))':
     dependencies:
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       reduce-configs: 1.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
     transitivePeerDependencies:
       - '@parcel/css'
       - '@swc/css'
@@ -27361,13 +27358,13 @@ snapshots:
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
 
-  '@rsbuild/plugin-less@1.1.0(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-less@1.1.0(@rsbuild/core@1.2.8)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
 
-  '@rsbuild/plugin-node-polyfill@1.3.0(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-node-polyfill@1.3.0(@rsbuild/core@1.2.8)':
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
@@ -27393,15 +27390,15 @@ snapshots:
       util: 0.12.5
       vm-browserify: 1.1.2
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-pug@1.0.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-pug@1.0.2(@rsbuild/core@1.2.8)':
     dependencies:
       '@types/pug': 2.0.10
       pug: 3.0.3
       reduce-configs: 1.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
   '@rsbuild/plugin-react@1.1.0(@rsbuild/core@1.2.3)':
     dependencies:
@@ -27409,18 +27406,18 @@ snapshots:
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.16.0)
       react-refresh: 0.16.0
 
-  '@rsbuild/plugin-react@1.1.0(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-react@1.1.0(@rsbuild/core@1.2.8)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.16.0)
       react-refresh: 0.16.0
 
-  '@rsbuild/plugin-rem@1.0.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-rem@1.0.2(@rsbuild/core@1.2.8)':
     dependencies:
       deepmerge: 4.3.1
       terser: 5.36.0
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
   '@rsbuild/plugin-sass@1.2.1(@rsbuild/core@1.2.3)':
     dependencies:
@@ -27431,34 +27428,34 @@ snapshots:
       reduce-configs: 1.1.0
       sass-embedded: 1.83.4
 
-  '@rsbuild/plugin-sass@1.2.1(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-sass@1.2.1(@rsbuild/core@1.2.8)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       deepmerge: 4.3.1
       loader-utils: 2.0.4
       postcss: 8.5.1
       reduce-configs: 1.1.0
       sass-embedded: 1.83.4
 
-  '@rsbuild/plugin-source-build@1.0.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-source-build@1.0.2(@rsbuild/core@1.2.8)':
     dependencies:
       fast-glob: 3.3.2
       json5: 2.2.3
       yaml: 2.6.1
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-styled-components@1.2.0(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-styled-components@1.2.0(@rsbuild/core@1.2.8)':
     dependencies:
       '@swc/plugin-styled-components': 6.7.0
       reduce-configs: 1.1.0
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-svgr@1.0.6(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-svgr@1.0.6(@rsbuild/core@1.2.8)':
     dependencies:
-      '@rsbuild/core': 1.2.7
-      '@rsbuild/plugin-react': 1.1.0(@rsbuild/core@1.2.7)
+      '@rsbuild/core': 1.2.8
+      '@rsbuild/plugin-react': 1.1.0(@rsbuild/core@1.2.8)
       '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
@@ -27467,32 +27464,32 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-toml@1.0.1(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-toml@1.0.1(@rsbuild/core@1.2.8)':
     dependencies:
       toml: 3.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-type-check@1.2.1(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(typescript@5.3.3)':
+  '@rsbuild/plugin-type-check@1.2.1(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(typescript@5.3.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
       reduce-configs: 1.1.0
       ts-checker-rspack-plugin: 1.1.1(@rspack/core@1.2.3(@swc/helpers@0.5.13))(typescript@5.3.3)
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
     transitivePeerDependencies:
       - '@rspack/core'
       - typescript
 
-  '@rsbuild/plugin-typed-css-modules@1.0.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-typed-css-modules@1.0.2(@rsbuild/core@1.2.8)':
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-webpack-swc@1.0.9(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-webpack-swc@1.0.9(@rsbuild/core@1.2.8)':
     dependencies:
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.15)
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       '@swc/helpers': 0.5.15
       core-js: 3.39.0
       deepmerge: 4.3.1
@@ -27500,13 +27497,13 @@ snapshots:
       picocolors: 1.1.1
       semver: 7.6.3
 
-  '@rsbuild/plugin-yaml@1.0.2(@rsbuild/core@1.2.7)':
+  '@rsbuild/plugin-yaml@1.0.2(@rsbuild/core@1.2.8)':
     optionalDependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
 
-  '@rsbuild/webpack@1.2.2(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)':
+  '@rsbuild/webpack@1.2.2(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       copy-webpack-plugin: 11.0.0(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       html-webpack-plugin: 5.6.3(@rspack/core@1.2.3(@swc/helpers@0.5.13))(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       mini-css-extract-plugin: 2.9.2(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
@@ -27521,9 +27518,9 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@rsbuild/webpack@1.2.2(@rsbuild/core@1.2.7)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19)':
+  '@rsbuild/webpack@1.2.2(@rsbuild/core@1.2.8)(@rspack/core@1.2.3(@swc/helpers@0.5.13))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19)':
     dependencies:
-      '@rsbuild/core': 1.2.7
+      '@rsbuild/core': 1.2.8
       copy-webpack-plugin: 11.0.0(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19))
       html-webpack-plugin: 5.6.3(@rspack/core@1.2.3(@swc/helpers@0.5.13))(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19))
       mini-css-extract-plugin: 2.9.2(webpack@5.97.1(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.17.19))
@@ -31321,7 +31318,7 @@ snapshots:
       boolbase: 1.0.0
       css-what: 6.1.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       nth-check: 2.1.1
 
   css-to-react-native@3.2.0:
@@ -31718,12 +31715,6 @@ snapshots:
       dom-serializer: 1.4.1
       domelementtype: 2.3.0
       domhandler: 4.3.1
-
-  domutils@3.1.0:
-    dependencies:
-      dom-serializer: 2.0.0
-      domelementtype: 2.3.0
-      domhandler: 5.0.3
 
   domutils@3.2.2:
     dependencies:
@@ -33351,7 +33342,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       entities: 4.5.0
 
   htmr@1.0.2(react@18.3.1):
