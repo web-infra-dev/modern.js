@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "pure-esm-project",
-  "version": "2.64.2",
+  "version": "2.64.3",
   "type": "module",
   "scripts": {
     "dev": "NODE_OPTIONS='--no-experimental-require-module' modern dev",
