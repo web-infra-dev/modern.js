@@ -10,7 +10,7 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
-import { isVersionAtLeast1819 } from '@modern-js/utils';
+import { isVersionAtLeast22, isVersionAtLeast1819 } from '@modern-js/utils';
 
 const appDir = path.resolve(__dirname, '../');
 dns.setDefaultResultOrder('ipv4first');
@@ -30,9 +30,11 @@ if (isVersionAtLeast1819()) {
         appDir,
         port,
         {},
-        {
-          NODE_OPTIONS: '--no-experimental-require-module',
-        },
+        isVersionAtLeast22()
+          ? {
+              NODE_OPTIONS: '--no-experimental-require-module',
+            }
+          : {},
       );
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
