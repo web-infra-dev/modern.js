@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.64.3
+
+### Patch Changes
+
+- d77a6df: feat(server): allow x-parse-through-body header to parse through the body of req
+  feat(server): 添加 x-parse-through-body 以透传请求体
+  - @modern-js/plugin@2.64.3
+  - @modern-js/runtime-utils@2.64.3
+  - @modern-js/utils@2.64.3
+
 ## 2.64.2
 
 ### Patch Changes

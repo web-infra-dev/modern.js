@@ -1,5 +1,13 @@
 # @source-code-build/app-ts-loader
 
+## 2.64.3
+
+### Patch Changes
+
+- Updated dependencies [5044904]
+  - @modern-js/runtime@2.64.3
+  - @source-code-build/common@2.64.3
+
 ## 2.64.2
 
 ### Patch Changes

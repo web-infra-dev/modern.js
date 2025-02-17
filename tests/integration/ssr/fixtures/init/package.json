@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "init",
-  "version": "2.64.2",
+  "version": "2.64.3",
   "scripts": {
     "dev": "modern dev"
   },

@@ -1,6 +1,6 @@
 {
   "name": "postcss-test",
-  "version": "2.64.2",
+  "version": "2.64.3",
   "devDependencies": {
     "postcss-alias": "2.0.0"
   },
