@@ -39,7 +39,8 @@ export const createWebRequest = (
     (!(method === 'GET' || method === 'HEAD') &&
       req.url?.includes('__loader')) ||
     req.headers['x-mf-micro'] ||
-    req.headers['x-rsc-action']
+    req.headers['x-rsc-action'] ||
+    req.headers['x-parse-through-body']
   ) {
     init.body = body ?? createReadableStreamFromReadable(req);
     (init as { duplex: 'half' }).duplex = 'half';
