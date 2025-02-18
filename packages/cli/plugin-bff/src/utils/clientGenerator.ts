@@ -33,6 +33,9 @@ const CLIENT_DIR = 'client';
 const EXPORT_PREFIX = `./${API_DIR}/`;
 const TYPE_PREFIX = `${API_DIR}/`;
 
+const toPosixPath = (p: string) => p.replace(/\\/g, '/');
+const posixJoin = (...args: string[]) => toPosixPath(path.join(...args));
+
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
@@ -55,7 +58,7 @@ export async function readDirectoryFiles(
         const relativePath = path.relative(directory, resourcePath);
         const parsedPath = path.parse(relativePath);
 
-        const targetDir = path.join(
+        const targetDir = posixJoin(
           `./${relativeDistPath}/${CLIENT_DIR}`,
           parsedPath.dir,
           `${parsedPath.name}.js`,
@@ -66,13 +69,13 @@ export async function readDirectoryFiles(
           appDirectory,
           currentPath,
         );
-        const typesFilePath = path.join(
+        const typesFilePath = posixJoin(
           `./${relativeDistPath}`,
           relativePathFromAppDirectory,
           `${name}.d.ts`,
         );
         const relativeTargetDistDir = `./${typesFilePath}`;
-        const exportKey = path.join(parsedPath.dir, name);
+        const exportKey = toPosixPath(path.join(parsedPath.dir, name));
 
         filesList.push({
           resourcePath,
@@ -136,23 +139,30 @@ async function setPackage(
     const packageJson = JSON.parse(packageContent);
 
     const addFiles = [
-      `${relativeDistPath}/${CLIENT_DIR}/**/*`,
-      `${relativeDistPath}/${RUNTIME_DIR}/**/*`,
-      `${relativeDistPath}/${PLUGIN_DIR}/**/*`,
+      posixJoin(relativeDistPath, CLIENT_DIR, '**', '*'),
+      posixJoin(relativeDistPath, RUNTIME_DIR, '**', '*'),
+      posixJoin(relativeDistPath, PLUGIN_DIR, '**', '*'),
     ];
 
     const typesVersions = {
       '*': files.reduce(
         (acc, file) => {
-          const typeFilePath = `./${file.targetDir}`.replace('js', 'd.ts');
+          const typeFilePath = toPosixPath(`./${file.targetDir}`).replace(
+            'js',
+            'd.ts',
+          );
           return {
             ...acc,
-            [`${TYPE_PREFIX}${file.exportKey}`]: [typeFilePath],
+            [toPosixPath(`${TYPE_PREFIX}${file.exportKey}`)]: [typeFilePath],
           };
         },
         {
-          [RUNTIME_DIR]: [`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`],
-          [PLUGIN_DIR]: [`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`],
+          [RUNTIME_DIR]: [
+            toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`),
+          ],
+          [PLUGIN_DIR]: [
+            toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`),
+          ],
         },
       ),
     };
@@ -160,24 +170,24 @@ async function setPackage(
     const exports = files.reduce(
       (acc, file) => {
         const exportKey = `${EXPORT_PREFIX}${file.exportKey}`;
-        const jsFilePath = `./${file.targetDir}`;
+        const jsFilePath = toPosixPath(`./${file.targetDir}`);
 
         return {
           ...acc,
-          [exportKey]: {
+          [toPosixPath(exportKey)]: {
             import: jsFilePath,
-            types: jsFilePath.replace(/\.js$/, '.d.ts'),
+            types: toPosixPath(jsFilePath.replace(/\.js$/, '.d.ts')),
           },
         };
       },
       {
-        [`./${PLUGIN_DIR}`]: {
-          require: `./${relativeDistPath}/${PLUGIN_DIR}/index.js`,
-          types: `./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`,
+        [toPosixPath(`./${PLUGIN_DIR}`)]: {
+          require: toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.js`),
+          types: toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`),
         },
-        [`./${RUNTIME_DIR}`]: {
-          import: `./${relativeDistPath}/${RUNTIME_DIR}/index.js`,
-          types: `./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`,
+        [toPosixPath(`./${RUNTIME_DIR}`)]: {
+          import: toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.js`),
+          types: toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`),
         },
       },
     );
@@ -195,7 +205,7 @@ async function setPackage(
 
 export async function copyFiles(from: string, to: string) {
   if (await fs.pathExists(from)) {
-    await fs.copy(from, to);
+    await fs.copy(toPosixPath(from), toPosixPath(to));
   }
 }
 
