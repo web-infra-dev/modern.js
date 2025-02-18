@@ -1,5 +1,5 @@
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import type { ServerHookRunner } from '@modern-js/server-core';
+import type { ServerPluginHooks } from '@modern-js/server-core';
 
 const cleanSSRCache = (distDir: string) => {
   Object.keys(require.cache).forEach(key => {
@@ -9,10 +9,10 @@ const cleanSSRCache = (distDir: string) => {
   });
 };
 
-export const onRepack = (distDir: string, runner: ServerHookRunner) => {
+export const onRepack = (distDir: string, hooks: ServerPluginHooks) => {
   cleanSSRCache(distDir);
   fileReader.reset();
-  runner.reset({
+  hooks.onReset.call({
     event: {
       type: 'repack',
     },
