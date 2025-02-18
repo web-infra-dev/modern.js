@@ -1,6 +1,7 @@
 import type {
   AsyncHook,
   AsyncInterruptHook,
+  AsyncPipelineHook,
   CollectAsyncHook,
   CollectSyncHook,
   SyncHook,
@@ -145,6 +146,38 @@ export function createCollectSyncHook<
     }
 
     return results;
+  };
+
+  return {
+    tap,
+    call,
+  };
+}
+
+export function createAsyncPipelineHook<
+  Callback extends (...args: any[]) => any,
+>(): AsyncPipelineHook<Callback> {
+  const callbacks: Callback[] = [];
+
+  const tap = (cb: Callback) => {
+    callbacks.push(cb);
+  };
+
+  const call = async (...params: Parameters<Callback>) => {
+    for (const callback of callbacks) {
+      let runNext = false;
+      const next = (info: any) => {
+        runNext = true;
+        params[0] = info;
+      };
+      const result = await callback(...params, next);
+      if (!next) {
+        params[0] = result;
+        break;
+      }
+    }
+
+    return (params[0] as Promise<UnwrapPromise<ReturnType<Callback>>>) || [];
   };
 
   return {
