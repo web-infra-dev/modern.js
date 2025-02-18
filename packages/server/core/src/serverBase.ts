@@ -10,6 +10,7 @@ import type {
   ServerPluginHooks,
 } from './types';
 import type { CliConfig } from './types/config';
+import { loadConfig } from './utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -45,10 +46,15 @@ export class ServerBase<E extends Env = any> {
    * - 应用 middlewares
    */
   async init() {
+    const { serverConfig, config: cliConfig } = this.options;
+    const mergedConfig = loadConfig({
+      cliConfig,
+      serverConfig: serverConfig || {},
+    });
     const { serverContext } = await server.run({
       plugins: this.plugins as Plugin[],
       options: this.options,
-      config: this.options.config,
+      config: mergedConfig,
     });
     this.serverContext = serverContext as unknown as ServerContext;
     this.#applyMiddlewares();
