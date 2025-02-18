@@ -36,8 +36,6 @@ export const createWebRequest = (
   const url = `http://${req.headers.host}${req.url}`;
   const fullUrl = new URL(url);
 
-  const request = new Request(url, init);
-
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
   if (
     body ||
@@ -51,6 +49,8 @@ export const createWebRequest = (
     init.body = body ?? createReadableStreamFromReadable(req);
     (init as { duplex: 'half' }).duplex = 'half';
   }
+
+  const request = new Request(url, init);
 
   return request;
 };
