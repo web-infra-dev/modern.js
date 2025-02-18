@@ -85,12 +85,12 @@ exports[`html minify > should not apply html minify in production when disableMi
   },
   DefinePlugin {
     "definitions": {
-      "import.meta.env.ASSET_PREFIX": "\\"\\"",
+      "import.meta.env.ASSET_PREFIX": """",
       "import.meta.env.BASE_URL": "\\"/\\"",
       "import.meta.env.DEV": false,
-      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.MODE": ""production"",
       "import.meta.env.PROD": true,
-      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.ASSET_PREFIX": """",
       "process.env.BASE_URL": "\\"/\\"",
     },
   },
@@ -218,12 +218,12 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
   },
   DefinePlugin {
     "definitions": {
-      "import.meta.env.ASSET_PREFIX": "\\"\\"",
+      "import.meta.env.ASSET_PREFIX": """",
       "import.meta.env.BASE_URL": "\\"/\\"",
       "import.meta.env.DEV": false,
-      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.MODE": ""production"",
       "import.meta.env.PROD": true,
-      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.ASSET_PREFIX": """",
       "process.env.BASE_URL": "\\"/\\"",
     },
   },
@@ -288,12 +288,12 @@ exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = 
   },
   DefinePlugin {
     "definitions": {
-      "import.meta.env.ASSET_PREFIX": "\\"\\"",
+      "import.meta.env.ASSET_PREFIX": """",
       "import.meta.env.BASE_URL": "\\"/\\"",
       "import.meta.env.DEV": false,
-      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.MODE": ""production"",
       "import.meta.env.PROD": true,
-      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.ASSET_PREFIX": """",
       "process.env.BASE_URL": "\\"/\\"",
     },
   },

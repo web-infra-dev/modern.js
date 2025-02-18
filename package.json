@@ -19,7 +19,7 @@
     "test": "npm run test:ut",
     "test:rspack": "cd tests && pnpm run test:rspack",
     "test:jest": "cd tests && pnpm run test:ut",
-    "test:vitest": "node scripts/vitest-config/vitestRunAll.js",
+    "test:vitest": "cross-env VITE_CJS_IGNORE_WARNING=true node scripts/vitest-config/vitestRunAll.js",
     "test:ut": "pnpm run test:jest && pnpm run test:vitest",
     "test:ut:update": "pnpm run test:jest -u && pnpm run test:vitest -u",
     "test:e2e": "cd tests && npm run test",
@@ -75,7 +75,7 @@
     "@scripts/build": "workspace:*",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
-    "@vitest/ui": "^0.34.0",
+    "@vitest/ui": "^3.0.0",
     "antd": "^5",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
@@ -84,7 +84,7 @@
     "lint-staged": "~13.3.0",
     "nx": "^17.0.1",
     "rimraf": "^6.0.1",
-    "vitest": "0.34.6"
+    "vitest": "^3.0.0"
   },
   "pnpm": {
     "peerDependencyRules": {

@@ -210,7 +210,7 @@ export async function parseCommonConfig(
   }
 
   if (disableCssExtract) {
-    output.injectStyles = disableCssExtract;
+    output.injectStyles ??= disableCssExtract;
   }
 
   if (enableInlineStyles) {
