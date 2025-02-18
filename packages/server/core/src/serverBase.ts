@@ -1,14 +1,13 @@
-import { createContext } from '@modern-js/plugin';
-import type { ISAppContext, ServerRoute } from '@modern-js/types';
-import { Hono } from 'hono';
-import { PluginManager } from './pluginManager';
+import type { Plugin } from '@modern-js/plugin-v2';
+import { type ServerCreateOptions, server } from '@modern-js/plugin-v2/server';
+import { Hono, type MiddlewareHandler } from 'hono';
 import type {
-  AppContext,
   Env,
-  Middleware as MiddlewareHandler,
   ServerConfig,
-  ServerHookRunner,
+  ServerContext,
   ServerPlugin,
+  ServerPluginFurure,
+  ServerPluginHooks,
 } from './types';
 import type { CliConfig } from './types/config';
 
@@ -18,95 +17,51 @@ declare module '@modern-js/types' {
   }
 }
 
-export type ServerBaseOptions = {
+export interface ServerBaseOptions extends ServerCreateOptions {
   /** server working directory, and then also dist directory */
-  pwd: string;
   config: CliConfig;
   serverConfig?: ServerConfig;
-  metaName?: string;
-  routes?: ServerRoute[];
-  appContext: {
-    internalDirectory?: string;
-    appDirectory?: string;
-    sharedDirectory?: string;
-    apiDirectory?: string;
-    lambdaDirectory?: string;
-  };
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
-};
+}
 
 export class ServerBase<E extends Env = any> {
   public options: ServerBaseOptions;
 
-  public runner!: ServerHookRunner;
-
   private app: Hono<E>;
 
-  private appContext: AppContext;
+  private plugins: (ServerPlugin | ServerPluginFurure)[] = [];
 
-  private pluginManager: PluginManager;
+  private serverContext: ServerContext | null = null;
 
   constructor(options: ServerBaseOptions) {
     this.options = options;
-
-    const { config, serverConfig } = options;
-    const appContext = this.#getAppContext();
-
-    this.appContext = appContext;
-
-    this.pluginManager = new PluginManager({
-      cliConfig: config,
-      appContext,
-      serverConfig,
-    });
 
     this.app = new Hono<E>();
   }
 
   /**
    * 初始化顺序
-   * - 初始化 pluginManager;
-   * - 执行 runner.prepare;
+   * - server runner
    * - 应用 middlewares
    */
   async init() {
-    const runner = await this.pluginManager.init();
-
-    this.runner = runner;
-
-    await runner.prepare();
-
+    const { serverContext } = await server.run({
+      plugins: this.plugins as Plugin[],
+      options: this.options,
+      config: this.options.config,
+    });
+    this.serverContext = serverContext as unknown as ServerContext;
     this.#applyMiddlewares();
 
     return this;
   }
 
   addPlugins(plugins: ServerPlugin[]) {
-    this.pluginManager.addPlugins(plugins);
-  }
-
-  #getAppContext(): AppContext {
-    const { appContext: context, pwd, routes, metaName } = this.options;
-
-    const appContext = {
-      routes,
-      middlewares: [],
-      appDirectory: context?.appDirectory || '',
-      apiDirectory: context?.apiDirectory,
-      internalDirectory: context?.internalDirectory || '',
-      lambdaDirectory: context?.lambdaDirectory,
-      sharedDirectory: context?.sharedDirectory || '',
-      distDirectory: pwd,
-      plugins: [],
-      metaName: metaName || 'modern-js',
-      serverBase: this,
-    } as any;
-
-    return createContext<ISAppContext>(appContext);
+    this.plugins.push(...plugins);
   }
 
   #applyMiddlewares() {
-    const { middlewares } = this.appContext.get();
+    const { middlewares } = this.serverContext!;
 
     const preMiddlewares: typeof middlewares = [];
     const defaultMiddlewares: typeof middlewares = [];
@@ -168,6 +123,10 @@ export class ServerBase<E extends Env = any> {
         return [handler];
       }
     }
+  }
+
+  get hooks() {
+    return this.serverContext!.hooks as ServerPluginHooks;
   }
 
   get all() {
