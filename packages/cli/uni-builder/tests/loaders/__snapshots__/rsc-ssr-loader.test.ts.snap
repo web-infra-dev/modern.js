@@ -50,13 +50,13 @@ exports[`rscSsrLoader > should transform server module correctly 1`] = `
     'use server';
   
 export const foo = () => {
-          throw new Error(\\"Server actions must not be called during server-side rendering.\\")
+          throw new Error("Server actions must not be called during server-side rendering.")
         }
 export const bar = () => {
-          throw new Error(\\"Server actions must not be called during server-side rendering.\\")
+          throw new Error("Server actions must not be called during server-side rendering.")
         }
 export const b = () => {
-          throw new Error(\\"Server actions must not be called during server-side rendering.\\")
+          throw new Error("Server actions must not be called during server-side rendering.")
         }
-export default () => {throw new Error(\\"Server actions must not be called during server-side rendering.\\")}"
+export default () => {throw new Error("Server actions must not be called during server-side rendering.")}"
 `;
