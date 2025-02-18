@@ -12,8 +12,9 @@ import type { ServerBase } from '../../serverBase';
 import type {
   Context,
   Middleware,
+  PrepareWebServerFn,
   ServerEnv,
-  ServerHookRunner,
+  ServerPluginHooks,
 } from '../../types';
 import { transformResponse } from '../../utils';
 import { type ResArgs, createBaseHookContext } from './base';
@@ -32,16 +33,14 @@ const isHtmlResponse = (response: Response) => {
 };
 
 export class CustomServer {
-  private runner: ServerHookRunner;
+  private hooks: ServerPluginHooks;
 
-  private serverMiddlewarePromise: ReturnType<
-    ServerHookRunner['prepareWebServer']
-  >;
+  private serverMiddlewarePromise: ReturnType<PrepareWebServerFn>;
 
   private serverBase: ServerBase;
 
-  constructor(runner: ServerHookRunner, serverBase: ServerBase, pwd: string) {
-    this.runner = runner;
+  constructor(hooks: ServerPluginHooks, serverBase: ServerBase, pwd: string) {
+    this.hooks = hooks;
 
     this.serverBase = serverBase;
 
@@ -50,15 +49,12 @@ export class CustomServer {
 
     // get api or web server handler from server-framework plugin
     // prepareWebServe must run before server runner.
-    this.serverMiddlewarePromise = runner.prepareWebServer(
-      {
-        pwd,
-        config: {
-          middleware: webExtension,
-        },
+    this.serverMiddlewarePromise = hooks.prepareWebServer.call({
+      pwd,
+      config: {
+        middleware: webExtension,
       },
-      { onLast: () => [] },
-    );
+    });
   }
 
   getHookMiddleware(
@@ -75,7 +71,7 @@ export class CustomServer {
       const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
 
       const getCost = time();
-      await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
+      await this.hooks.afterMatch.call(afterMatchCtx);
       const cost = getCost();
 
       cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_MATCH, cost);
@@ -131,9 +127,7 @@ export class CustomServer {
 
         c.res = transformResponse(c.res, (chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
-          return this.runner.afterStreamingRender(context, {
-            onLast: ({ chunk }) => chunk,
-          });
+          return this.hooks.afterStreamingRender.call(context);
         });
       } else {
         // run afterRenderHook hook
@@ -144,7 +138,7 @@ export class CustomServer {
         );
 
         const getCost = time();
-        await this.runner.afterRender(afterRenderCtx, { onLast: noop });
+        await this.hooks.afterRender.call(afterRenderCtx);
         const cost = getCost();
 
         cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_RENDER, cost);
