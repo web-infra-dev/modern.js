@@ -22,7 +22,7 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
         const runtimePath = '@modern-js/plugin-koa/runtime';
         const alias =
           process.env.NODE_ENV === 'production' ||
-          !!modernConfig?.bff?.enableCrossProjectInvocation
+          !!modernConfig?.bff?.crossProject
             ? runtimePath
             : require.resolve(runtimePath);
 

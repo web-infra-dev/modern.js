@@ -53,15 +53,15 @@
     },
     "./api/context/index": {
       "import": "./dist/client/context/index.js",
-      "types": "./dist/api/context/index.d.ts"
+      "types": "./dist/client/context/index.d.ts"
     },
     "./api/index": {
       "import": "./dist/client/index.js",
-      "types": "./dist/api/index.d.ts"
+      "types": "./dist/client/index.d.ts"
     },
     "./api/upload": {
       "import": "./dist/client/upload.js",
-      "types": "./dist/api/upload.d.ts"
+      "types": "./dist/client/upload.d.ts"
     },
     "./plugin": {
       "require": "./dist/plugin/index.js",
@@ -97,9 +97,8 @@
     }
   },
   "files": [
-    "./dist/client/**/*",
-    "./dist/api/**/*",
-    "./dist/runtime/**/*",
-    "./dist/plugin/**/*"
+    "dist/client/**/*",
+    "dist/runtime/**/*",
+    "dist/plugin/**/*"
   ]
 }

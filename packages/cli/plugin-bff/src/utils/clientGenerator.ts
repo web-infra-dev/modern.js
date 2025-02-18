@@ -25,6 +25,14 @@ interface FileDetails {
   relativeTargetDistDir: string;
   exportKey: string;
 }
+const API_DIR = 'api';
+const PLUGIN_DIR = 'plugin';
+const RUNTIME_DIR = 'runtime';
+const CLIENT_DIR = 'client';
+
+const EXPORT_PREFIX = `./${API_DIR}/`;
+const TYPE_PREFIX = `${API_DIR}/`;
+
 export async function readDirectoryFiles(
   appDirectory: string,
   directory: string,
@@ -48,7 +56,7 @@ export async function readDirectoryFiles(
         const parsedPath = path.parse(relativePath);
 
         const targetDir = path.join(
-          `./${relativeDistPath}/client`,
+          `./${relativeDistPath}/${CLIENT_DIR}`,
           parsedPath.dir,
           `${parsedPath.name}.js`,
         );
@@ -83,6 +91,31 @@ export async function readDirectoryFiles(
   return filesList;
 }
 
+function mergePackageJson(
+  packageJson: any,
+  files: string[],
+  typesVersion: Record<string, any>,
+  exports: Record<string, any>,
+) {
+  packageJson.files = [...new Set([...(packageJson.files || []), ...files])];
+
+  packageJson.typesVersions ??= {};
+  const starTypes = packageJson.typesVersions['*'] || {};
+  Object.keys(starTypes).forEach(
+    k => k.startsWith(TYPE_PREFIX) && delete starTypes[k],
+  );
+  packageJson.typesVersions['*'] = {
+    ...starTypes,
+    ...(typesVersion['*'] || {}),
+  };
+
+  packageJson.exports ??= {};
+  Object.keys(packageJson.exports).forEach(
+    k => k.startsWith(EXPORT_PREFIX) && delete packageJson.exports[k],
+  );
+  Object.assign(packageJson.exports, exports);
+}
+
 async function writeTargetFile(absTargetDir: string, content: string) {
   await fs.mkdir(path.dirname(absTargetDir), { recursive: true });
   await fs.writeFile(absTargetDir, content);
@@ -96,51 +129,60 @@ async function setPackage(
   }[],
   appDirectory: string,
   relativeDistPath: string,
-  relativeApiPath: string,
 ) {
   try {
     const packagePath = path.resolve(appDirectory, './package.json');
     const packageContent = await fs.readFile(packagePath, 'utf8');
     const packageJson = JSON.parse(packageContent);
 
-    packageJson.exports = packageJson.exports || {};
-    packageJson.typesVersions = packageJson.typesVersions || { '*': {} };
+    const addFiles = [
+      `${relativeDistPath}/${CLIENT_DIR}/**/*`,
+      `${relativeDistPath}/${RUNTIME_DIR}/**/*`,
+      `${relativeDistPath}/${PLUGIN_DIR}/**/*`,
+    ];
 
-    files.forEach(file => {
-      const exportKey = `./api/${file.exportKey}`;
-      const jsFilePath = `./${file.targetDir}`;
-      const typePath = file.relativeTargetDistDir;
-
-      packageJson.exports[exportKey] = {
-        import: jsFilePath,
-        types: typePath,
-      };
-
-      packageJson.typesVersions['*'][`api/${file.exportKey}`] = [typePath];
-    });
-
-    packageJson.exports['./plugin'] = {
-      require: `./${relativeDistPath}/plugin/index.js`,
-      types: `./${relativeDistPath}/plugin/index.d.ts`,
+    const typesVersions = {
+      '*': files.reduce(
+        (acc, file) => {
+          const typeFilePath = `./${file.targetDir}`.replace('js', 'd.ts');
+          return {
+            ...acc,
+            [`${TYPE_PREFIX}${file.exportKey}`]: [typeFilePath],
+          };
+        },
+        {
+          [RUNTIME_DIR]: [`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`],
+          [PLUGIN_DIR]: [`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`],
+        },
+      ),
     };
 
-    packageJson.exports['./runtime'] = {
-      import: `./${relativeDistPath}/runtime/index.js`,
-      types: `./${relativeDistPath}/runtime/index.d.ts`,
-    };
-    packageJson.typesVersions['*'].runtime = [
-      `./${relativeDistPath}/runtime/index.d.ts`,
-    ];
-    packageJson.typesVersions['*'].plugin = [
-      `./${relativeDistPath}/plugin/index.d.ts`,
-    ];
+    const exports = files.reduce(
+      (acc, file) => {
+        const exportKey = `${EXPORT_PREFIX}${file.exportKey}`;
+        const jsFilePath = `./${file.targetDir}`;
 
-    packageJson.files = [
-      `./${relativeDistPath}/client/**/*`,
-      `./${relativeDistPath}/${relativeApiPath}/**/*`,
-      `./${relativeDistPath}/runtime/**/*`,
-      `./${relativeDistPath}/plugin/**/*`,
-    ];
+        return {
+          ...acc,
+          [exportKey]: {
+            import: jsFilePath,
+            types: jsFilePath.replace(/\.js$/, '.d.ts'),
+          },
+        };
+      },
+      {
+        [`./${PLUGIN_DIR}`]: {
+          require: `./${relativeDistPath}/${PLUGIN_DIR}/index.js`,
+          types: `./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`,
+        },
+        [`./${RUNTIME_DIR}`]: {
+          import: `./${relativeDistPath}/${RUNTIME_DIR}/index.js`,
+          types: `./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`,
+        },
+      },
+    );
+
+    mergePackageJson(packageJson, addFiles, typesVersions, exports);
 
     await fs.promises.writeFile(
       packagePath,
@@ -148,6 +190,12 @@ async function setPackage(
     );
   } catch (error) {
     logger.error(`package.json update failed: ${error}`);
+  }
+}
+
+export async function copyFiles(from: string, to: string) {
+  if (await fs.pathExists(from)) {
+    await fs.copy(from, to);
   }
 }
 
@@ -197,6 +245,10 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
       const code = await getClitentCode(source.resourcePath, source.source);
       if (code?.value) {
         await writeTargetFile(source.absTargetDir, code.value);
+        await copyFiles(
+          source.relativeTargetDistDir,
+          source.targetDir.replace(`js`, 'd.ts'),
+        );
       }
     }
     logger.info(`Client bundle generate succeed`);
@@ -204,12 +256,7 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     logger.error(`Client bundle generate failed: ${error}`);
   }
 
-  setPackage(
-    sourceList,
-    draftOptions.appDir,
-    draftOptions.relativeDistPath,
-    draftOptions.relativeApiPath,
-  );
+  setPackage(sourceList, draftOptions.appDir, draftOptions.relativeDistPath);
 }
 
 export default clientGenerator;

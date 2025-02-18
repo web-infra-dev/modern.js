@@ -29,6 +29,10 @@ async function runtimeGenerator({
     request?: F;
     interceptor?: (request: F) => F;
     allowedHeaders?: string[];
+    setDomain?: (ops?: {
+      target: 'node' | 'browser';
+      requestId: string;
+    }) => string;
     requestId?: string;
   };
   export declare const configure: (options: IOptions) => void;`;

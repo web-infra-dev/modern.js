@@ -8,7 +8,7 @@ export default applyBaseConfig({
   },
   bff: {
     prefix: '/bff-api',
-    enableCrossProjectInvocation: true,
+    crossProject: true,
   },
   plugins: [bffPlugin(), expressPlugin()],
 });
