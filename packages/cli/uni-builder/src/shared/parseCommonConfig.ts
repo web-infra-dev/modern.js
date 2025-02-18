@@ -24,7 +24,6 @@ import { pluginArco } from './plugins/arco';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
-import { pluginFrameworkConfig } from './plugins/frameworkConfig';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -441,8 +440,18 @@ export async function parseCommonConfig(
     rsbuildPlugins.push(pluginFallback());
   }
 
-  if (frameworkConfigPath) {
-    rsbuildPlugins.push(pluginFrameworkConfig(frameworkConfigPath));
+  if (frameworkConfigPath && performanceConfig.buildCache !== false) {
+    const buildCache =
+      typeof performanceConfig.buildCache === 'object'
+        ? performanceConfig.buildCache
+        : {};
+    rsbuildConfig.performance!.buildCache = {
+      ...buildCache,
+      buildDependencies: [
+        frameworkConfigPath,
+        ...(buildCache.buildDependencies || []),
+      ],
+    };
   }
 
   rsbuildPlugins.push(
