@@ -129,6 +129,8 @@ const createApp = async ({
         nodeReq: ctx.req,
         templates: ctx.req.__templates!,
         serverManifest: ctx.req.__serverManifest!,
+        // We will remove koa plugin so we just add a plain object here
+        monitors: {} as any,
       });
 
       if (response) {

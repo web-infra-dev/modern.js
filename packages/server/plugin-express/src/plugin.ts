@@ -124,6 +124,8 @@ const createApp = async ({
         nodeReq: req,
         templates: req.__templates,
         serverManifest: req.__serverManifest,
+        // We will remove express plugin so we just add a plain object here
+        monitors: {} as any,
       });
       if (response) {
         return sendResponse(response, res).then(next);
