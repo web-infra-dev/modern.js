@@ -31,6 +31,14 @@ export type {
   RuntimePluginExtends,
 } from './types/runtime';
 export type {
+  ServerPluginAPI,
+  ServerContext,
+  InternalServerContext,
+  ServerPlugin,
+  ServerPluginExtends,
+  FileChangeEvent,
+} from './types/server';
+export type {
   SyncHook,
   AsyncHook,
   AsyncInterruptHook,
