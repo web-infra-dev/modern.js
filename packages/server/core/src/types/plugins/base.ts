@@ -20,6 +20,7 @@ import type { Render } from '../render';
 import type { ServerPluginFurure } from './new';
 import type { ServerPlugin } from './old';
 
+export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin-v2';
 export type FallbackReason = 'error' | 'header' | 'query';
 
 export type FallbackInput = {

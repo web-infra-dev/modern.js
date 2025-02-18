@@ -36,6 +36,7 @@ export type {
   InternalServerContext,
   ServerPlugin,
   ServerPluginExtends,
+  ResetEvent,
   FileChangeEvent,
 } from './types/server';
 export type {
