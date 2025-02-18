@@ -28,14 +28,14 @@ export const renderPlugin = (): ServerPlugin => ({
           distDirectory: pwd,
           serverBase,
         } = api.useAppContext();
-        const runner = api.useHookRunners();
+        const hooks = (api as any).getHooks();
         const config = api.useConfigContext();
 
         if (!routes) {
           return;
         }
 
-        const customServer = new CustomServer(runner, serverBase!, pwd);
+        const customServer = new CustomServer(hooks, serverBase!, pwd);
 
         // render.middleware can register by server config and prepare hook
         // render.middleware is the same as unstable_middleware in server/index.ts, but execute before unstable_middleware
