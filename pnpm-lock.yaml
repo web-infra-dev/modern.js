@@ -2861,6 +2861,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/plugin-v2':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin-v2
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
