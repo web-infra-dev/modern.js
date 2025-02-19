@@ -1,5 +1,11 @@
 # custom-file-system-entry
 
+## 2.65.0
+
+### Patch Changes
+
+- @modern-js/runtime@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

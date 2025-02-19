@@ -1,6 +1,6 @@
 {
   "name": "dts-test",
-  "version": "2.64.3",
+  "version": "2.65.0",
   "devDependencies": {
     "react": "^18.3.1"
   },
