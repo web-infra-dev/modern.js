@@ -2,6 +2,7 @@ import {
   ErrorDigest,
   type NodeServer,
   type ServerBase,
+  compatPlugin,
   createDefaultPlugins,
   createErrorHtml,
   faviconPlugin,
@@ -15,7 +16,7 @@ import {
   loadCacheConfig,
   serverStaticPlugin,
 } from '@modern-js/server-core/node';
-import { Logger, createLogger, isProd } from '@modern-js/utils';
+import { createLogger, isProd } from '@modern-js/utils';
 import type { ProdServerOptions } from './types';
 
 // Now we not use logger options, it can be implemented in the future
@@ -55,6 +56,7 @@ export async function applyPlugins(
 
   const loggerOptions = config.server.logger;
   const plugins = [
+    compatPlugin(),
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
     ...createDefaultPlugins({
       cacheConfig,

@@ -56,13 +56,15 @@ export class ServerBase<E extends Env = any> {
       options: this.options,
       config: mergedConfig,
     });
+    serverContext.serverBase = this;
+    serverContext.middlewares = [];
     this.serverContext = serverContext as unknown as ServerContext;
     this.#applyMiddlewares();
 
     return this;
   }
 
-  addPlugins(plugins: ServerPlugin[]) {
+  addPlugins(plugins: (ServerPlugin | ServerPluginFurure)[]) {
     this.plugins.push(...plugins);
   }
 

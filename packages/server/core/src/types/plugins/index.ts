@@ -10,4 +10,7 @@ export type {
   NodeRequest,
   NodeResponse,
   FileChangeEvent,
+  FallbackInput,
+  WebServerStartInput,
+  APIServerStartInput,
 } from './base';
