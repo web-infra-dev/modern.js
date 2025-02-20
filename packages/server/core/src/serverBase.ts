@@ -1,6 +1,7 @@
 import type { Plugin } from '@modern-js/plugin-v2';
 import { type ServerCreateOptions, server } from '@modern-js/plugin-v2/server';
 import { Hono, type MiddlewareHandler } from 'hono';
+import { handleSetupResult } from './plugins/compat/hooks';
 import type {
   Env,
   ServerConfig,
@@ -55,6 +56,7 @@ export class ServerBase<E extends Env = any> {
       plugins: this.plugins as Plugin[],
       options: this.options,
       config: mergedConfig,
+      handleSetupResult,
     });
     serverContext.serverBase = this;
     serverContext.middlewares = [];
