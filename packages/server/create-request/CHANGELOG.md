@@ -1,5 +1,14 @@
 # @modern-js/create-request
 
+## 2.65.0
+
+### Patch Changes
+
+- b43988e: feat: BFF 跨项目调用支持配置域名，补充文档
+  feat: BFF cross-project-invocation supports configuration of domain, add doc
+  - @modern-js/runtime-utils@2.65.0
+  - @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

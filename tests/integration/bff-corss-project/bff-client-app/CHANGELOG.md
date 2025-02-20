@@ -1,5 +1,16 @@
 # bff-client-app
 
+## 2.65.0
+
+### Patch Changes
+
+- Updated dependencies [b43988e]
+- Updated dependencies [b854d7b]
+  - @modern-js/plugin-bff@2.65.0
+  - bff-api-app@2.65.0
+  - @modern-js/plugin-express@2.65.0
+  - @modern-js/runtime@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

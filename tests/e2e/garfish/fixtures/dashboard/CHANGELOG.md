@@ -1,5 +1,12 @@
 # @e2e/garfish-dashboard
 
+## 2.65.0
+
+### Patch Changes
+
+- @modern-js/plugin-garfish@2.65.0
+- @modern-js/runtime@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes
