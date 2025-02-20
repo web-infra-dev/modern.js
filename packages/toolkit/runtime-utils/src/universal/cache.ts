@@ -144,7 +144,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
   fn: T,
   options?: CacheOptions,
 ): T {
-  const { tag = 'default', maxAge = 60000 } = options || {};
+  const { tag = 'default', maxAge = CacheTime.MINUTE * 5 } = options || {};
   const store = getLRUCache();
 
   const tags = Array.isArray(tag) ? tag : [tag];
