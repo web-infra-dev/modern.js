@@ -59,7 +59,6 @@ export class ServerBase<E extends Env = any> {
       handleSetupResult,
     });
     serverContext.serverBase = this;
-    serverContext.middlewares = [];
     this.serverContext = serverContext as unknown as ServerContext;
     this.#applyMiddlewares();
 

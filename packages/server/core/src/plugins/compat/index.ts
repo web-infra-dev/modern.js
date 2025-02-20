@@ -10,6 +10,7 @@ import type {
 } from '../../types';
 import { getHookRunners } from './hooks';
 
+export { handleSetupResult } from './hooks';
 export const compatPlugin = (): ServerPluginFurure => ({
   name: '@modern-js/server-compat',
   registryHooks: {

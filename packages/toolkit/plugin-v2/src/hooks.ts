@@ -171,7 +171,7 @@ export function createAsyncPipelineHook<
         params[0] = info;
       };
       const result = await callback(...params, next);
-      if (!next) {
+      if (!runNext) {
         params[0] = result;
         break;
       }
