@@ -46,12 +46,14 @@ export const createServer = <Extends extends ServerPluginExtends>() => {
     return { serverContext: context };
   }
 
-  function run(options: ServerRunOptions) {
+  async function run(options: ServerRunOptions) {
     const { serverContext } = init(options);
-    const config = serverContext.hooks.modifyConfig.call(serverContext.config);
-    serverContext.config = config;
+    const config = await serverContext.hooks.modifyConfig.call(
+      serverContext.config,
+    );
+    serverContext.config = config as Extends['config'];
 
-    serverContext.hooks.onPrepare.call();
+    await serverContext.hooks.onPrepare.call();
 
     return { serverContext };
   }

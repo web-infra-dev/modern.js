@@ -1,4 +1,4 @@
-import { createServerBase, faviconPlugin } from '../../src';
+import { compatPlugin, createServerBase, faviconPlugin } from '../../src';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 describe('favion plugin', () => {
@@ -9,7 +9,7 @@ describe('favion plugin', () => {
       appContext: getDefaultAppContext(),
     });
 
-    server.addPlugins([faviconPlugin()]);
+    server.addPlugins([compatPlugin(), faviconPlugin()]);
 
     await server.init();
     const response = await server.request('/favicon.ico');

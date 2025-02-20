@@ -1,5 +1,6 @@
 import type { Logger } from '@modern-js/types';
-import type { ServerPlugin } from '../types';
+import type { ServerPlugin, ServerPluginFurure } from '../types';
+import { compatPlugin } from './compat';
 import { logPlugin } from './log';
 import {
   initMonitorsPlugin,
@@ -33,7 +34,8 @@ function createSilenceLogger() {
 export function createDefaultPlugins(
   options: CreateDefaultPluginsOptions = {},
 ) {
-  const plugins: ServerPlugin[] = [
+  const plugins: (ServerPlugin | ServerPluginFurure)[] = [
+    compatPlugin(),
     logPlugin(),
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),

@@ -1,7 +1,7 @@
 import path from 'path';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin, createPluginManager } from './helpers';
+import { APIPlugin, serverInit } from './helpers';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/operator');
@@ -10,22 +10,19 @@ describe('support Api function', () => {
   let apiHandler: any;
   const prefix = '/api';
   beforeAll(async () => {
-    const pluginManager = createPluginManager({
+    const hooks = await serverInit({
       serverConfig: {
         bff: {
           enableHandleWeb: true,
         },
       },
+      plugins: [APIPlugin, plugin()],
     });
 
-    pluginManager.addPlugins([APIPlugin, plugin()]);
-
-    const runner = await pluginManager.init();
-
-    apiHandler = await runner.prepareApiServer({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix,
-      render: async req => {
+      render: async (req: any) => {
         if (req.url === '/render-page') {
           return new Response('Hello Modern Render', {
             status: 200,

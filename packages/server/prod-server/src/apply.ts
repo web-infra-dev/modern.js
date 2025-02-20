@@ -2,7 +2,6 @@ import {
   ErrorDigest,
   type NodeServer,
   type ServerBase,
-  compatPlugin,
   createDefaultPlugins,
   createErrorHtml,
   faviconPlugin,
@@ -56,7 +55,6 @@ export async function applyPlugins(
 
   const loggerOptions = config.server.logger;
   const plugins = [
-    compatPlugin(),
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
     ...createDefaultPlugins({
       cacheConfig,

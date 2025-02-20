@@ -12,4 +12,4 @@ export {
   createDefaultPlugins,
   type CreateDefaultPluginsOptions,
 } from './default';
-export { compatPlugin } from './compat';
+export { compatPlugin, handleSetupResult } from './compat';
