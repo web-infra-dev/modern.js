@@ -3,10 +3,15 @@ import type { ServerPluginAPI } from './api';
 import type { Hooks } from './hooks';
 import type { ServerPlugin, ServerPluginExtends } from './plugin';
 
+export interface Middleware {
+  name: string;
+}
+
 export type ServerContext<Extends extends ServerPluginExtends> = Omit<
   ISAppContext,
   'plugins'
 > & {
+  middlewares: Middleware[];
   routes: ServerRoute[];
   appDirectory: string;
   apiDirectory?: string;

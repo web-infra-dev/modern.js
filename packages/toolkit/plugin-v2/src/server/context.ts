@@ -27,6 +27,7 @@ export function initServerContext<Extends extends ServerPluginExtends>(params: {
     distDirectory: options.pwd,
     metaName: options.metaName || 'modern-js',
     plugins: plugins,
+    middlewares: [],
   };
 }
 
