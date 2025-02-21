@@ -73,12 +73,12 @@ describe('cache function', () => {
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
-  it('should use default maxAge (60000ms)', async () => {
+  it('should use default maxAge', async () => {
     const mockFn = jest.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn);
 
     await cachedFn('param1');
-    jest.advanceTimersByTime(CacheTime.MINUTE - 1);
+    jest.advanceTimersByTime(CacheTime.MINUTE * 5 - 1);
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(1);
 

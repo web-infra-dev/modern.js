@@ -1,5 +1,5 @@
-import { AsyncLocalStorage } from 'async_hooks';
 import { LRUCache } from 'lru-cache';
+import { getAsyncLocalStorage } from './async_storage';
 
 export const CacheSize = {
   KB: 1024,
@@ -31,7 +31,6 @@ interface CacheItem<T> {
 }
 
 const isServer = typeof window === 'undefined';
-const asyncLocalStorage = isServer ? new AsyncLocalStorage() : null;
 const requestCacheMap = new WeakMap<Request, Map<string, any>>();
 
 let lruCache:
@@ -152,7 +151,8 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
-      const request = asyncLocalStorage?.getStore() as Request;
+      const asyncLocalStorage = await getAsyncLocalStorage();
+      const request = asyncLocalStorage?.getStore();
       if (request) {
         let requestCache = requestCacheMap.get(request);
         if (!requestCache) {
@@ -211,6 +211,7 @@ export function withRequestCache<
   }
 
   return (async (req: Request, ...args: Parameters<T>) => {
+    const asyncLocalStorage = await getAsyncLocalStorage();
     return asyncLocalStorage!.run(req, () => handler(req, ...args));
   }) as T;
 }
