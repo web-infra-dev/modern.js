@@ -1,5 +1,13 @@
 # @e2e/garfish-main-router-v6
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/plugin-garfish@2.65.1
+- @modern-js/plugin-router-v5@2.65.1
+- @modern-js/runtime@2.65.1
+
 ## 2.65.0
 
 ### Patch Changes

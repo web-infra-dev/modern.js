@@ -1,5 +1,11 @@
 # server-json-script
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.65.1
+
 ## 2.65.0
 
 ### Patch Changes

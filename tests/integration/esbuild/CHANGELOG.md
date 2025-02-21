@@ -1,5 +1,7 @@
 # esbuild-integration
 
+## 2.65.1
+
 ## 2.65.0
 
 ## 2.64.3

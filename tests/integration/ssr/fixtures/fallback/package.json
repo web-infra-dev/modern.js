@@ -1,6 +1,6 @@
 {
   "name": "ssr-base-fallback-test",
-  "version": "2.65.0",
+  "version": "2.65.1",
   "private": true,
   "scripts": {
     "dev": "modern dev"
