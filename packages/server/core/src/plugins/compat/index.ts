@@ -19,7 +19,7 @@ export const compatPlugin = (): ServerPluginFurure => ({
     prepareApiServer: createAsyncPipelineHook<PrepareApiServerFn>(),
     afterMatch: createAsyncPipelineHook<AfterMatchFn>(),
     afterRender: createAsyncPipelineHook<AfterRenderFn>(),
-    createAfterStreamingRender:
+    afterStreamingRender:
       createAsyncPipelineHook<AfterStreamingRenderContextFn>(),
   },
   _registryApi: (getServerContext, updateServerContext) => {
