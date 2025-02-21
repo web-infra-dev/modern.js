@@ -1,5 +1,13 @@
 # app-garfish-dashboard
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/app-tools@2.65.1
+- @modern-js/plugin-garfish@2.65.1
+- @modern-js/runtime@2.65.1
+
 ## 2.65.0
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # integration-asset-prefix
 
+## 2.65.1
+
 ## 2.65.0
 
 ## 2.64.3
