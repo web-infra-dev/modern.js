@@ -11,6 +11,7 @@ import {
   httpCallBack2HonoMid,
   sendResponse,
 } from '@modern-js/server-core/node';
+import type { Monitors } from '@modern-js/types';
 import { fs, compatibleRequire, logger } from '@modern-js/utils';
 import Koa, { type Middleware } from 'koa';
 import type Application from 'koa';
@@ -18,6 +19,18 @@ import koaBody from 'koa-body';
 import Router from 'koa-router';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
+
+// We will remove express plugin so we just add a mock monitors object here
+const defaultMonitor: Monitors = {
+  push(monitor) {},
+  counter(name, ...args) {},
+  info(message, ...args) {},
+  debug(message, ...args) {},
+  trace(message, ...args) {},
+  warn(message, ...args) {},
+  error(message, ...args) {},
+  timing(name, dur, ...args) {},
+};
 
 declare module 'http' {
   interface IncomingMessage {
@@ -129,8 +142,7 @@ const createApp = async ({
         nodeReq: ctx.req,
         templates: ctx.req.__templates!,
         serverManifest: ctx.req.__serverManifest!,
-        // We will remove koa plugin so we just add a plain object here
-        monitors: {} as any,
+        monitors: defaultMonitor,
       });
 
       if (response) {

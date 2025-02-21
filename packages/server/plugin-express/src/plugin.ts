@@ -11,6 +11,7 @@ import {
   httpCallBack2HonoMid,
   sendResponse,
 } from '@modern-js/server-core/node';
+import type { Monitors } from '@modern-js/types';
 import { fs, compatibleRequire, logger } from '@modern-js/utils';
 import cookieParser from 'cookie-parser';
 import express, { type RequestHandler, type Express } from 'express';
@@ -28,6 +29,18 @@ declare global {
     }
   }
 }
+
+// We will remove express plugin so we just add a mock monitors object here
+const defaultMonitor: Monitors = {
+  push(monitor) {},
+  counter(name, ...args) {},
+  info(message, ...args) {},
+  debug(message, ...args) {},
+  trace(message, ...args) {},
+  warn(message, ...args) {},
+  error(message, ...args) {},
+  timing(name, dur, ...args) {},
+};
 
 type Middleware = RequestHandler | string;
 
@@ -124,8 +137,7 @@ const createApp = async ({
         nodeReq: req,
         templates: req.__templates,
         serverManifest: req.__serverManifest,
-        // We will remove express plugin so we just add a plain object here
-        monitors: {} as any,
+        monitors: defaultMonitor,
       });
       if (response) {
         return sendResponse(response, res).then(next);
