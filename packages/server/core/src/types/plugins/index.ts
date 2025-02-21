@@ -6,7 +6,6 @@ export type {
   OnFallback,
   FallbackReason,
   GetRenderHandlerOptions,
-  NodeServer,
   NodeRequest,
   NodeResponse,
   FileChangeEvent,
