@@ -53,7 +53,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
         connectWebSocket &&
           nodeServer &&
           connectWebSocket({ server: nodeServer });
-
+        // TODO: remove any
         const hooks = (api as any).getHooks();
 
         builder?.onDevCompileDone(({ stats }) => {
