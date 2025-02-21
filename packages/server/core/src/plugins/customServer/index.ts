@@ -4,7 +4,7 @@ import type {
   UnstableMiddleware,
   UnstableMiddlewareContext,
 } from '@modern-js/types';
-import { isFunction } from '@modern-js/utils';
+import { isArray, isFunction } from '@modern-js/utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import type * as streamModule from '../../adapters/node/polyfills/stream';
 import { ServerTimings } from '../../constants';
@@ -167,7 +167,10 @@ export class CustomServer {
     const serverMiddleware = await this.serverMiddlewarePromise;
 
     // if no server middleware in server/index.ts, return render middleware
-    if (!serverMiddleware || !isFunction(serverMiddleware)) {
+    if (
+      !serverMiddleware ||
+      (!isFunction(serverMiddleware) && !isArray(serverMiddleware))
+    ) {
       return renderMiddlewares;
     }
 
