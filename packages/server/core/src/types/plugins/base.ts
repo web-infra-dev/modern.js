@@ -99,8 +99,6 @@ declare module '@modern-js/types' {
 export type NodeRequest = IncomingMessage;
 export type NodeResponse = ServerResponse;
 
-export type { NodeServer };
-
 export type CacheConfig = {
   strategy: CacheOption;
   container?: Container;
