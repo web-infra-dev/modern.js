@@ -511,6 +511,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1459,6 +1462,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2361,6 +2367,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -3284,6 +3293,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -4289,6 +4301,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -5554,6 +5569,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },

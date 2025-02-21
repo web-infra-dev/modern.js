@@ -512,6 +512,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1412,6 +1415,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -2142,6 +2148,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
