@@ -12847,8 +12847,8 @@ packages:
     peerDependencies:
       '@swc/core': '*'
 
-  '@swc/plugin-styled-components@6.7.0':
-    resolution: {integrity: sha512-da9RL9GEWnyYzvQ/haupYkgcmt7AKlstzhbxVY0BEHuolHlhEpxqLLkKAExU/Mb/76XIdmevkH8r20JjRtB1kA==}
+  '@swc/plugin-styled-components@6.8.2':
+    resolution: {integrity: sha512-mpYDH7PYqyb+VjQtIOMIZe1J8TuHN8b+WvIp75OOpHSPAKUM1yW7iikTn9/wr2rv5Pg0MEVeGKBxBznevmA61w==}
 
   '@swc/types@0.1.17':
     resolution: {integrity: sha512-V5gRru+aD8YVyCOMAjMpWR1Ui577DD5KSJsHP8RAxopAH22jFz6GZd/qxqjO6MJHQhcsjvjOFXyDhyLQUnMveQ==}
@@ -27609,7 +27609,7 @@ snapshots:
 
   '@rsbuild/plugin-styled-components@1.2.0(@rsbuild/core@1.2.10)':
     dependencies:
-      '@swc/plugin-styled-components': 6.7.0
+      '@swc/plugin-styled-components': 6.8.2
       reduce-configs: 1.1.0
     optionalDependencies:
       '@rsbuild/core': 1.2.10
@@ -28940,7 +28940,7 @@ snapshots:
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
 
-  '@swc/plugin-styled-components@6.7.0':
+  '@swc/plugin-styled-components@6.8.2':
     dependencies:
       '@swc/counter': 0.1.3
 
