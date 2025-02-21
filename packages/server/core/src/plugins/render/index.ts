@@ -28,6 +28,7 @@ export const renderPlugin = (): ServerPlugin => ({
           distDirectory: pwd,
           serverBase,
         } = api.useAppContext();
+        // TODO: remove any
         const hooks = (api as any).getHooks();
         const config = api.useConfigContext();
 

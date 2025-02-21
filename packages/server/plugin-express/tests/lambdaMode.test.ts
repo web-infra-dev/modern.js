@@ -31,9 +31,9 @@ describe('lambda-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await createHooks([APIPlugin, plugin()]);
+    const hooks = await createHooks([APIPlugin, plugin()]);
 
-    apiHandler = await runner.prepareApiServer.call({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix,
     });
