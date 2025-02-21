@@ -206,7 +206,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
           Promise.resolve().then(async () => {
             try {
               const newData = await fn(...args);
-              tagCache.set(key, {
+              tagCache!.set(key, {
                 data: newData,
                 timestamp: Date.now(),
                 isRevalidating: false,
