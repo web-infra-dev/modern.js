@@ -52,6 +52,7 @@ export class ServerBase<E extends Env = any> {
       cliConfig,
       serverConfig: serverConfig || {},
     });
+    this.addPlugins(mergedConfig.plugins || []);
     const { serverContext } = await server.run({
       plugins: this.plugins as Plugin[],
       options: this.options,
