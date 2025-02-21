@@ -4,4 +4,7 @@ const sharedConfig = require('@scripts/jest-config');
 module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
+  moduleNameMapper: {
+    '^./async_storage$': './async_storage.server',
+  },
 };
