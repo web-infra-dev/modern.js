@@ -153,7 +153,7 @@ describe('cache function', () => {
 
     await expect(cachedFn('param1')).rejects.toThrow(error);
     await expect(cachedFn('param1')).rejects.toThrow(error);
-    expect(mockFn).toHaveBeenCalledTimes(2); // errors should not be cached
+    expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
   describe('server-side caching', () => {
@@ -219,7 +219,7 @@ describe('cache function', () => {
 
       expect(result1).toBe('test data');
       expect(result2).toBe('test data');
-      expect(mockFn).toHaveBeenCalledTimes(2); // Called once per request
+      expect(mockFn).toHaveBeenCalledTimes(2);
     });
 
     it('should handle errors in request cache', async () => {
@@ -231,7 +231,7 @@ describe('cache function', () => {
         try {
           await cachedFn('param1');
         } catch (e) {
-          await cachedFn('param1'); // Second call should also throw
+          await cachedFn('param1');
           return 'should not reach here';
         }
       });
@@ -311,7 +311,7 @@ describe('cache function', () => {
     });
 
     it('should limit cache based on data size', async () => {
-      configureCache({ maxSize: 3 * CacheSize.KB }); // 3KB cache
+      configureCache({ maxSize: 3 * CacheSize.KB });
 
       const mockFn = jest.fn().mockImplementation((size: number) => {
         return Promise.resolve('x'.repeat(size));
@@ -321,11 +321,9 @@ describe('cache function', () => {
       await cachedFn(1024);
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      // should hit cache
       await cachedFn(1024);
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      // Create another 3KB string, exceeding the 3KB limit
       await cachedFn(3 * CacheSize.KB);
 
       await cachedFn(1024);
@@ -343,20 +341,17 @@ describe('cache function', () => {
       await cachedFn('key1');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      // Create many small objects
       const smallObject = { a: 'x'.repeat(10) };
       mockFn.mockResolvedValue(smallObject);
 
-      // Create enough objects to exceed remaining cache size
       for (let i = 0; i < 50; i++) {
         await cachedFn(`key2_${i}`);
       }
 
-      // Try to get large array again - should miss cache
       mockFn.mockResolvedValueOnce(largeArray);
       await cachedFn('key1');
 
-      expect(mockFn).toHaveBeenCalledTimes(52); // 1 + 50 + 1
+      expect(mockFn).toHaveBeenCalledTimes(52);
     });
 
     it('should share LRU cache store between different tags', async () => {
@@ -374,7 +369,6 @@ describe('cache function', () => {
       mockFn.mockResolvedValueOnce(mediumData);
       await cachedFn2('key2');
 
-      // Try to get data from tag1 again - should miss as total size (4KB) exceeded limit (3KB)
       await cachedFn1('key1');
 
       expect(mockFn).toHaveBeenCalledTimes(3);
@@ -441,6 +435,140 @@ describe('cache function', () => {
       expect(generateKey([{}])).toBe(generateKey([{}]));
       expect(generateKey([[]])).toBe(generateKey([[]]));
       expect(generateKey([{}])).not.toBe(generateKey([[]]));
+    });
+  });
+
+  describe('stale-while-revalidate', () => {
+    it('should return stale data and revalidate in background during revalidate window', async () => {
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce('initial data')
+        .mockResolvedValueOnce('updated data');
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: 2,
+      });
+
+      const result1 = await cachedFn('param');
+      expect(result1).toBe('initial data');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      jest.advanceTimersByTime(CacheTime.SECOND + 500);
+
+      const result2 = await cachedFn('param');
+      expect(result2).toBe('initial data');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+
+      await Promise.resolve();
+      expect(mockFn).toHaveBeenCalledTimes(2);
+
+      const result3 = await cachedFn('param');
+      expect(result3).toBe('updated data');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle concurrent requests during revalidation', async () => {
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce('initial data')
+        .mockResolvedValueOnce('updated data');
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: 2,
+      });
+      await cachedFn('param');
+
+      jest.advanceTimersByTime(CacheTime.SECOND + 500);
+
+      expect(mockFn).toHaveBeenCalledTimes(1);
+      const results = await Promise.all([
+        cachedFn('param'),
+        cachedFn('param'),
+        cachedFn('param'),
+      ]);
+
+      expect(results).toEqual(['initial data', 'initial data', 'initial data']);
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should fetch new data when outside revalidate window', async () => {
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce('initial data')
+        .mockResolvedValueOnce('updated data');
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: 2,
+      });
+
+      const result1 = await cachedFn('param');
+      expect(result1).toBe('initial data');
+
+      jest.advanceTimersByTime(CacheTime.SECOND * 4);
+
+      const result2 = await cachedFn('param');
+      expect(result2).toBe('updated data');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle background revalidation failure', async () => {
+      const error = new Error('revalidation failed');
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce('initial data')
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce('updated data');
+
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: 2,
+      });
+
+      const result1 = await cachedFn('param');
+      expect(result1).toBe('initial data');
+
+      jest.advanceTimersByTime(CacheTime.SECOND + 500);
+
+      const result2 = await cachedFn('param');
+      expect(result2).toBe('initial data');
+
+      await Promise.resolve();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Background revalidation failed:',
+        error,
+      );
+
+      const result3 = await cachedFn('param');
+      expect(result3).toBe('initial data');
+
+      await Promise.resolve();
+      const result4 = await cachedFn('param');
+      expect(result4).toBe('updated data');
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should not revalidate when within maxAge', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: 2,
+      });
+
+      await cachedFn('param');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      jest.advanceTimersByTime(CacheTime.SECOND / 2);
+      await cachedFn('param');
+
+      await Promise.resolve();
+      expect(mockFn).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -19,6 +19,7 @@ export const CacheTime = {
 interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
+  revalidate?: number;
 }
 
 interface CacheConfig {
@@ -28,6 +29,7 @@ interface CacheConfig {
 interface CacheItem<T> {
   data: T;
   timestamp: number;
+  isRevalidating?: boolean;
 }
 
 const isServer = typeof window === 'undefined';
@@ -143,7 +145,11 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
   fn: T,
   options?: CacheOptions,
 ): T {
-  const { tag = 'default', maxAge = CacheTime.MINUTE * 5 } = options || {};
+  const {
+    tag = 'default',
+    maxAge = CacheTime.MINUTE * 5,
+    revalidate = 0,
+  } = options || {};
   const store = getLRUCache();
 
   const tags = Array.isArray(tag) ? tag : [tag];
@@ -187,14 +193,40 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
     const cached = tagCache.get(key);
     const now = Date.now();
 
-    if (cached && now - cached.timestamp < maxAge) {
-      return cached.data;
+    if (cached) {
+      const age = now - cached.timestamp;
+
+      if (age < maxAge) {
+        return cached.data;
+      }
+
+      if (revalidate > 0 && age < maxAge + revalidate * 1000) {
+        if (!cached.isRevalidating) {
+          cached.isRevalidating = true;
+          Promise.resolve().then(async () => {
+            try {
+              const newData = await fn(...args);
+              tagCache.set(key, {
+                data: newData,
+                timestamp: Date.now(),
+                isRevalidating: false,
+              });
+              store.set(fn, tagCache);
+            } catch (error) {
+              cached.isRevalidating = false;
+              console.error('Background revalidation failed:', error);
+            }
+          });
+        }
+        return cached.data;
+      }
     }
 
     const data = await fn(...args);
     tagCache.set(key, {
       data,
       timestamp: now,
+      isRevalidating: false,
     });
 
     store.set(fn, tagCache);
