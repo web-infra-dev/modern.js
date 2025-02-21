@@ -2694,7 +2694,7 @@ importers:
         version: 0.5.13
       react-server-dom-webpack:
         specifier: 19.0.0
-        version: 19.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(webpack@5.98.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
+        version: 19.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(webpack@5.98.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19))
       rsc-html-stream:
         specifier: 0.0.4
         version: 0.0.4
@@ -2715,11 +2715,11 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@22.13.4)(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.13))(@types/node@22.13.4)(typescript@5.6.3))
       react:
-        specifier: '19.0.0 '
-        version: 19.0.0
+        specifier: ^18.3.1
+        version: 18.3.1
       react-dom:
-        specifier: '19.0.0 '
-        version: 19.0.0(react@19.0.0)
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -39009,12 +39009,12 @@ snapshots:
       '@remix-run/router': 1.22.0
       react: 18.3.1
 
-  react-server-dom-webpack@19.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(webpack@5.98.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)):
+  react-server-dom-webpack@19.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(webpack@5.98.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)):
     dependencies:
       acorn-loose: 8.4.0
       neo-async: 2.6.2
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       webpack: 5.98.0(@swc/core@1.10.16(@swc/helpers@0.5.13))(esbuild@0.17.19)
       webpack-sources: 3.2.3
 
