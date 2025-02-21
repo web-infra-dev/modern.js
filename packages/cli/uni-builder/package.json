@@ -50,7 +50,7 @@
     "@rsbuild/plugin-rem": "1.0.2",
     "@rsbuild/plugin-sass": "1.2.1",
     "@rsbuild/plugin-source-build": "1.0.2",
-    "@rsbuild/plugin-styled-components": "1.2.0",
+    "@rsbuild/plugin-styled-components": "1.2.2-beta.0",
     "@rsbuild/plugin-svgr": "1.0.6",
     "@rsbuild/plugin-toml": "1.0.1",
     "@rsbuild/plugin-type-check": "1.2.1",
