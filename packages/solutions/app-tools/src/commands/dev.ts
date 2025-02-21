@@ -49,10 +49,6 @@ export const dev = async (
     normalizedConfig?.source?.alias,
   );
 
-  api.modifyResolvedConfig(config => {
-    return { ...config, cliOptions: options };
-  });
-
   const {
     appDirectory,
     distDirectory,
