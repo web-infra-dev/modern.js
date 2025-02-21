@@ -129,6 +129,7 @@
     "./cache": {
       "types": "./dist/types/cache/index.d.ts",
       "jsnext:source": "./src/cache/index.ts",
+      "require": "./dist/cjs/cache/index.js",
       "default": "./dist/esm/cache/index.js"
     }
   },
