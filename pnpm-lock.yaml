@@ -669,8 +669,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-styled-components':
-        specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@1.2.8)
+        specifier: 1.2.2-beta.0
+        version: 1.2.2-beta.0(@rsbuild/core@1.2.8)
       '@rsbuild/plugin-svgr':
         specifier: 1.0.6
         version: 1.0.6(@rsbuild/core@1.2.8)
@@ -12118,8 +12118,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-styled-components@1.2.0':
-    resolution: {integrity: sha512-f4016NEI3lC0GiVKwm07YJqyldSCRGbFnAoqZys095cKq1fEaOhugYS4b5rwmqEu8TXEcsQx1X/Dd6T6AOQPtw==}
+  '@rsbuild/plugin-styled-components@1.2.2-beta.0':
+    resolution: {integrity: sha512-8Ep3+bDCWrT0KSozP71lC8+yAbs5/obXtjs/dzzXTePCe5paBqjZXBo2tNBnopLesGFDvGYGFYD8mI9hIP6Khg==}
     peerDependencies:
       '@rsbuild/core': ^1.2.0
     peerDependenciesMeta:
@@ -27610,7 +27610,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.2.8
 
-  '@rsbuild/plugin-styled-components@1.2.0(@rsbuild/core@1.2.8)':
+  '@rsbuild/plugin-styled-components@1.2.2-beta.0(@rsbuild/core@1.2.8)':
     dependencies:
       '@swc/plugin-styled-components': 6.7.0
       reduce-configs: 1.1.0
