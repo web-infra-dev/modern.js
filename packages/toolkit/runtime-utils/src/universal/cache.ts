@@ -158,12 +158,12 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
       const asyncLocalStorage = await getAsyncLocalStorage();
-      const request = asyncLocalStorage?.getStore();
-      if (request) {
-        let requestCache = requestCacheMap.get(request);
+      const store = asyncLocalStorage?.getStore();
+      if (store?.request) {
+        let requestCache = requestCacheMap.get(store.request);
         if (!requestCache) {
           requestCache = new Map();
-          requestCacheMap.set(request, requestCache);
+          requestCacheMap.set(store.request, requestCache);
         }
 
         const key = generateKey(args);
@@ -244,7 +244,9 @@ export function withRequestCache<
 
   return (async (req: Request, ...args: Parameters<T>) => {
     const asyncLocalStorage = await getAsyncLocalStorage();
-    return asyncLocalStorage!.run(req, () => handler(req, ...args));
+    return asyncLocalStorage!.run({ request: req }, () =>
+      handler(req, ...args),
+    );
   }) as T;
 }
 
