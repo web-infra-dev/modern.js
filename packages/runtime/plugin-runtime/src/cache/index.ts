@@ -1,1 +1,1 @@
-export { cache } from '@modern-js/runtime-utils/cache';
+export * from '@modern-js/runtime-utils/cache';
