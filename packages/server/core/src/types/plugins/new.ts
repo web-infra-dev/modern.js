@@ -34,7 +34,7 @@ export type AfterMatchFn = (ctx: AfterMatchContext) => Promise<any>;
 export type AfterRenderFn = (ctx: AfterRenderContext) => Promise<any>;
 export type AfterStreamingRenderContextFn = (
   ctx: AfterStreamingRenderContext,
-) => Promise<string>;
+) => Promise<AfterStreamingRenderContext>;
 
 export interface ServerPluginExtends extends BaseServerPluginExtends {
   config: ServerConfig;

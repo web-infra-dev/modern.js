@@ -126,9 +126,11 @@ export class CustomServer {
           routeInfo,
         );
 
-        c.res = transformResponse(c.res, (chunk: string) => {
+        c.res = transformResponse(c.res, async (chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
-          return this.hooks.afterStreamingRender.call(context);
+          const { chunk: newChunk } =
+            await this.hooks.afterStreamingRender.call(context);
+          return newChunk;
         });
       } else {
         // run afterRenderHook hook
