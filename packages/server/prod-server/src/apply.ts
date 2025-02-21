@@ -1,6 +1,6 @@
+import type { Server as NodeServer } from 'node:http';
 import {
   ErrorDigest,
-  type NodeServer,
   type ServerBase,
   createDefaultPlugins,
   createErrorHtml,
