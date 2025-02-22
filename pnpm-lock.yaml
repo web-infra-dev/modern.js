@@ -634,7 +634,7 @@ importers:
         version: link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.15
-        version: 0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))
+        version: 0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.35.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))
       '@rsbuild/core':
         specifier: 1.2.8
         version: 1.2.8
@@ -957,7 +957,7 @@ importers:
         version: 0.1.3(react@18.3.1)
       type-fest:
         specifier: ^4.1.0
-        version: 4.33.0
+        version: 4.35.0
       typescript:
         specifier: ~5.0.4
         version: 5.0.4
@@ -1051,7 +1051,7 @@ importers:
         version: 18.3.1
       type-fest:
         specifier: ^4.1.0
-        version: 4.33.0
+        version: 4.35.0
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -1148,7 +1148,7 @@ importers:
         version: 8.5.14
       type-fest:
         specifier: ^4.1.0
-        version: 4.33.0
+        version: 4.35.0
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -21389,8 +21389,8 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@4.33.0:
-    resolution: {integrity: sha512-s6zVrxuyKbbAsSAD5ZPTB77q4YIdRctkTbJ2/Dqlinwz+8ooH2gd+YA7VA6Pa93KML9GockVvoxjZ2vHP+mu8g==}
+  type-fest@4.35.0:
+    resolution: {integrity: sha512-2/AwEFQDFEy30iOLjrvHDIH7e4HEWH+f1Yl1bI5XMqzuoCUqwYCdxachgsgv0og/JdVZUhbfjcJAoHj5L1753A==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -25550,7 +25550,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.35.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))':
     dependencies:
       ansi-html: 0.0.9
       core-js-pure: 3.26.0
@@ -25563,7 +25563,7 @@ snapshots:
       webpack: 5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19)
     optionalDependencies:
       '@types/webpack': 5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19)
-      type-fest: 4.33.0
+      type-fest: 4.35.0
 
   '@polka/url@1.0.0-next.28': {}
 
@@ -30911,7 +30911,7 @@ snapshots:
       js-yaml: 4.1.0
       semver: 7.7.1
       table: 6.8.1
-      type-fest: 4.33.0
+      type-fest: 4.35.0
 
   check-error@2.1.1: {}
 
@@ -41142,7 +41142,7 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@4.33.0: {}
+  type-fest@4.35.0: {}
 
   type-is@1.6.18:
     dependencies:
