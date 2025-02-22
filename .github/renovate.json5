@@ -126,6 +126,7 @@
     "http-compression",
     "@biomejs/biome",
     "caniuse-lite",
-    "@vercel/nft"
+    "@vercel/nft",
+    "vitest"
   ]
 }
