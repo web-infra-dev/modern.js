@@ -1,5 +1,5 @@
 import type { Container } from '@modern-js/types';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 
 interface MemoryContainerOptions {
   /** The maximum size of the cache, unit(MB). The default of value is 256. */
@@ -12,7 +12,9 @@ interface MemoryContainerOptions {
  * MemoryContainer, it use lur-cache as cahe layer.
  * It has a Time to Live, by default as 1 hour.
  */
-export class MemoryContainer<K, V = unknown> implements Container<K, V> {
+export class MemoryContainer<K extends string, V extends {}>
+  implements Container<K, V>
+{
   private static BYTE = 1;
 
   private static KB: number = 1024 * this.BYTE;
@@ -27,12 +29,15 @@ export class MemoryContainer<K, V = unknown> implements Container<K, V> {
 
   private static hour: number = this.minute * 60;
 
-  private cache: LRU<K, V>;
+  private cache: LRUCache<K, V>;
 
   constructor({ max, maxAge }: MemoryContainerOptions = {}) {
-    this.cache = new LRU({
-      max: (max || 256) * MemoryContainer.MB,
-      maxAge: maxAge || MemoryContainer.hour,
+    this.cache = new LRUCache({
+      maxSize: (max || 256) * MemoryContainer.MB,
+      ttl: maxAge || MemoryContainer.hour,
+      sizeCalculation: (value, key) => {
+        return JSON.stringify(value).length;
+      },
     });
   }
 
@@ -52,7 +57,7 @@ export class MemoryContainer<K, V = unknown> implements Container<K, V> {
   async delete(key: K) {
     const exist = await this.has(key);
     if (exist) {
-      this.cache.del(key);
+      this.cache.delete(key);
     }
     return exist;
   }

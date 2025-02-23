@@ -49,3 +49,4 @@ jobs:
           --ignore-dep '@types/react'
           --ignore-dep 'react-dom'
           --ignore-dep '@types/react-dom'
+          --ignore-dep 'lru-cache'

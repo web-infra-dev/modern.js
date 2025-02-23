@@ -125,6 +125,12 @@
       "types": "./dist/types/rsc/client.d.ts",
       "jsnext:source": "./src/rsc/client.ts",
       "default": "./dist/esm/rsc/client.js"
+    },
+    "./cache": {
+      "types": "./dist/types/cache/index.d.ts",
+      "jsnext:source": "./src/cache/index.ts",
+      "require": "./dist/cjs/cache/index.js",
+      "default": "./dist/esm/cache/index.js"
     }
   },
   "typesVersions": {
@@ -188,6 +194,9 @@
       ],
       "rsc/client": [
         "./dist/types/rsc/client.d.ts"
+      ],
+      "cache": [
+        "./dist/types/cache/index.d.ts"
       ]
     }
   },
