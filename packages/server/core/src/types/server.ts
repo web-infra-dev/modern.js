@@ -1,4 +1,3 @@
-import type { Readable } from 'node:stream';
 import type {
   Logger,
   Metrics,
@@ -23,13 +22,14 @@ export type RequestHandler = (
   ...args: any[]
 ) => Response | Promise<Response>;
 
-type ServerLoaderBundle = {
+export type ServerLoaderBundle = {
   routes: NestedRoute[];
   handleRequest: (options: {
     request: Request;
     serverRoutes: ServerRoute[];
     routes: NestedRoute[];
     context: {
+      monitors: Monitors;
       reporter?: Reporter;
       loaderContext?: Map<string, unknown>;
     };
@@ -59,13 +59,13 @@ export type ServerManifest = {
 };
 
 type ServerVariables = {
-  /** @deprecated  */
+  /** @deprecated */
   logger: Logger;
 
-  /** @deprecated  */
+  /** @deprecated */
   reporter?: Reporter;
 
-  /** @deprecated  */
+  /** @deprecated */
   metrics?: Metrics;
 
   monitors: Monitors;

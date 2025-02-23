@@ -199,6 +199,7 @@ export async function createRender({
       monitors?.timing(name, dur, 'SSR');
     };
 
+    // TODO: named `renderOptions` is not accurate
     const renderOptions: SSRRenderOptions & {
       serverRoutes: ServerRoute[];
     } = {
@@ -214,6 +215,7 @@ export async function createRender({
       params,
       logger,
       metrics,
+      monitors,
       locals,
       rscClientManifest,
       rscSSRManifest,

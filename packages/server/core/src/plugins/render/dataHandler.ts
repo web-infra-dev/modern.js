@@ -8,6 +8,7 @@ export const dataHandler = async (
     routeInfo,
     serverRoutes,
     reporter,
+    monitors,
     onError,
     onTiming,
     serverManifest,
@@ -29,6 +30,7 @@ export const dataHandler = async (
     serverRoutes,
     context: {
       reporter,
+      monitors,
       loaderContext,
     },
     onTiming,

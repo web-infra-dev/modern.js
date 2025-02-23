@@ -1,5 +1,6 @@
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import type {
+  Monitors,
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
@@ -63,6 +64,8 @@ export type RequestHandlerOptions = {
 
   /** @deprecated */
   metrics?: Metrics;
+
+  monitors: Monitors;
 
   onError: OnError;
   onTiming: OnTiming;

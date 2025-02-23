@@ -222,6 +222,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@remix-run/router": "1.20.0",
     "@swc/helpers": "0.5.13",
@@ -242,7 +243,6 @@
     }
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

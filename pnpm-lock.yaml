@@ -4120,6 +4120,9 @@ importers:
 
   packages/toolkit/runtime-utils:
     dependencies:
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../types
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../utils
@@ -4139,9 +4142,6 @@ importers:
         specifier: ^6.0.0
         version: 6.0.2
     devDependencies:
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../types
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -7249,6 +7249,40 @@ importers:
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.15))(@types/node@14.18.35)(typescript@5.6.3))
+
+  tests/integration/server-monitors:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-server':
+        specifier: workspace:*
+        version: link:../../../packages/server/plugin-server
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^16
+        version: 16.11.68
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.5(@types/react@18.3.18)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
 
   tests/integration/server-prod:
     dependencies:

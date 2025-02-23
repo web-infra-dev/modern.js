@@ -21,5 +21,11 @@ export default defineConfig({
   output: {
     disableTsChecker: true,
   },
-  plugins: [appTools({}), bffPlugin(), koaPlugin()],
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    bffPlugin(),
+    koaPlugin(),
+  ],
 });

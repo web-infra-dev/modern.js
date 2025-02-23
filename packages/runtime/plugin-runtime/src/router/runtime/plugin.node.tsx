@@ -83,6 +83,7 @@ export const routerPlugin = (
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
         );
+        // TODO: we may remove it or put it to other runtime plugins in next version
         requestContext.set(reporterCtx, reporter);
         const hooks = api.getHooks();
 

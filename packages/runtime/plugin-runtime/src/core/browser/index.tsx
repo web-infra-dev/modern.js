@@ -93,8 +93,7 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
-    // This field may suitable to be called `requestData`,
-    // because both SSR and CSR can get the context
+    // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
     const loadersData = ssrData.data?.loadersData || {};
 

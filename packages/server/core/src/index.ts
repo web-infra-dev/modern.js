@@ -14,6 +14,7 @@ export type {
   HonoRequest as InternalRequest,
   ServerEnv,
   ServerManifest,
+  ServerLoaderBundle,
 } from './types';
 
 export { getLoaderCtx } from './helper';
