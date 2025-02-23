@@ -53,12 +53,12 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
         connectWebSocket &&
           nodeServer &&
           connectWebSocket({ server: nodeServer });
-
-        const runner = api.useHookRunners();
+        // TODO: remove any
+        const hooks = (api as any).getHooks();
 
         builder?.onDevCompileDone(({ stats }) => {
           if (stats.toJson({ all: false }).name !== 'server') {
-            onRepack(distDirectory, runner);
+            onRepack(distDirectory, hooks);
           }
         });
 

@@ -19,6 +19,13 @@ export type AsyncInterruptHook<Callback extends (...args: any[]) => any> = {
   ) => Promise<UnwrapPromise<ReturnType<Callback>>>;
 };
 
+export type AsyncPipelineHook<Callback extends (...args: any[]) => any> = {
+  tap: (cb: Callback) => void;
+  call: (
+    ...args: Parameters<Callback>
+  ) => Promise<UnwrapPromise<ReturnType<Callback>>>;
+};
+
 export type CollectAsyncHook<Callback extends (...params: any[]) => any> = {
   tap: (cb: Callback) => void;
   call: (
@@ -36,7 +43,8 @@ export type PluginHook<Callback extends (...args: any[]) => any> =
   | AsyncHook<Callback>
   | CollectSyncHook<Callback>
   | CollectAsyncHook<Callback>
-  | AsyncInterruptHook<Callback>;
+  | AsyncInterruptHook<Callback>
+  | AsyncPipelineHook<Callback>;
 
 export type PluginHookTap<T extends (...args: any[]) => any> = (
   options: T,

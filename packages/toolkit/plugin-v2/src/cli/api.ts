@@ -1,5 +1,4 @@
 import { merge } from '@modern-js/utils/lodash';
-import { modifyBundlerChain } from '@rsbuild/core/dist-types/configChain';
 import type { PluginHook } from '../types';
 import type {
   AllKeysForCLIPluginExtendsAPI,
