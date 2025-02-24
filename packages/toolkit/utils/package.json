@@ -157,7 +157,35 @@
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-      "./react-server-dom-webpack": "./dist/compiled/react-server-dom-webpack/*"
+      "./react-server-dom-webpack": "./compiled/react-server-dom-webpack/index.js",
+      "./react-server-dom-webpack/client": {
+        "workerd": "./compiled/react-server-dom-webpack/client.edge.js",
+        "deno": "./compiled/react-server-dom-webpack/client.edge.js",
+        "worker": "./compiled/react-server-dom-webpack/client.edge.js",
+        "node": {
+          "webpack": "./compiled/react-server-dom-webpack/client.node.js",
+          "default": "./compiled/react-server-dom-webpack/client.node.unbundled.js"
+        },
+        "edge-light": "./compiled/react-server-dom-webpack/client.edge.js",
+        "browser": "./compiled/react-server-dom-webpack/client.browser.js",
+        "default": "./compiled/react-server-dom-webpack/client.browser.js"
+      },
+      "./react-server-dom-webpack/client.browser": "./compiled/react-server-dom-webpack/client.browser.js",
+      "./react-server-dom-webpack/client.edge": "./compiled/react-server-dom-webpack/client.edge.js",
+      "./react-server-dom-webpack/server": {
+        "react-server": {
+          "workerd": "./compiled/react-server-dom-webpack/server.edge.js",
+          "deno": "./compiled/react-server-dom-webpack/server.browser.js",
+          "node": {
+            "webpack": "./compiled/react-server-dom-webpack/server.node.js",
+            "default": "./compiled/react-server-dom-webpack/server.node.unbundled.js"
+          },
+          "edge-light": "./compiled/react-server-dom-webpack/server.edge.js",
+          "browser": "./compiled/react-server-dom-webpack/server.browser.js"
+        },
+        "default": "./compiled/react-server-dom-webpack/server.js"
+      },
+      "./react-server-dom-webpack/server.edge": "./compiled/react-server-dom-webpack/server.edge.js"
     }
   },
   "typesVersions": {
