@@ -11,6 +11,7 @@ import {
   type InjectRenderHandlerOptions,
   injectRenderHandlerPlugin,
 } from './render';
+import { injectRoutePlugin } from './route';
 
 export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
   logger?: Logger | false;
@@ -39,6 +40,7 @@ export function createDefaultPlugins(
     injectloggerPlugin(options.logger ? options.logger : createSilenceLogger()),
     injectServerTiming(),
     processedByPlugin(),
+    injectRoutePlugin(),
   ];
 
   return plugins;

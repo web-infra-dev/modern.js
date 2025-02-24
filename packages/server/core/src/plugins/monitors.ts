@@ -223,23 +223,21 @@ export const injectServerTiming = (): ServerPlugin => ({
   },
 });
 
-export function initReporter(entryName: string) {
+export function requestLatencyMiddleware(entryName: string) {
   return async (c: Context<ServerEnv>, next: Next) => {
-    const reporter = c.get('reporter');
+    const monitors = c.get('monitors');
 
-    if (!reporter) {
+    if (!monitors) {
       await next();
       return;
     }
 
-    await reporter.init({ entryName });
-
-    // reporter global timeing
+    // record page request timing, should include hook/middleware/render
     const getCost = time();
 
     await next();
 
     const cost = getCost();
-    reporter.reportTiming(ServerTimings.SERVER_HANDLE_REQUEST, cost);
+    monitors.timing(ServerTimings.SERVER_HANDLE_REQUEST, cost);
   };
 }
