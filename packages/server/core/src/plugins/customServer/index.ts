@@ -313,15 +313,3 @@ async function createMiddlewareContextFromHono(
     redirect: c.redirect.bind(c),
   };
 }
-
-export function injectRoute(route: {
-  entryName: string;
-}): Middleware<ServerEnv> {
-  return async (c, next) => {
-    if (route && !c.get('route')) {
-      c.set('route', route);
-    }
-
-    await next();
-  };
-}

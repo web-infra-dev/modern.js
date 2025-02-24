@@ -10,11 +10,7 @@ import type {
   ServerPlugin,
 } from '../../types';
 import { sortRoutes } from '../../utils';
-import {
-  CustomServer,
-  getServerMidFromUnstableMid,
-  injectRoute,
-} from '../customServer';
+import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
 import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
@@ -58,6 +54,7 @@ export const renderPlugin = (): ServerPlugin => ({
 
           middlewares.push({
             name: 'page-latency',
+            path: urlPath,
             handler: requestLatencyMiddleware(entryName),
           });
 
@@ -65,11 +62,6 @@ export const renderPlugin = (): ServerPlugin => ({
             entryName,
             routes,
           );
-
-          middlewares.push({
-            name: 'inject-route-info',
-            handler: injectRoute({ entryName }),
-          });
 
           middlewares.push({
             name: 'custom-server-hook',
