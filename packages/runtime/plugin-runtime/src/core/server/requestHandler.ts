@@ -159,7 +159,7 @@ export const createRequestHandler: CreateRequestHandler = async (
   const requestHandler: RequestHandler = async (request, options) => {
     const headersData = parseHeaders(request);
     return storage.run(
-      { headers: headersData, monitors: options.monitors },
+      { headers: headersData, request, monitors: options.monitors },
       async () => {
         const Root = createRoot();
 

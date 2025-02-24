@@ -1,4 +1,5 @@
 export type Query = Record<string, string>;
+export { getRequest } from './async_storage';
 
 export function parseQuery(req: Request): Query {
   const query: Query = {};

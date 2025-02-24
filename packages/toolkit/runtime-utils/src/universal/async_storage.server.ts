@@ -1,12 +1,12 @@
-import type { AsyncLocalStorage } from 'async_hooks';
-import type { Store } from './async_storage';
+import { storage } from '../node/storage';
 
-let asyncLocalStorage: AsyncLocalStorage<Store> | null = null;
+export const getAsyncLocalStorage = async (): Promise<
+  typeof storage | null
+> => {
+  return storage;
+};
 
-export async function getAsyncLocalStorage(): Promise<AsyncLocalStorage<Store> | null> {
-  if (!asyncLocalStorage) {
-    const { AsyncLocalStorage } = await import('async_hooks');
-    asyncLocalStorage = new AsyncLocalStorage<Store>();
-  }
-  return asyncLocalStorage;
-}
+export const getRequest: () => Request | null | undefined = () => {
+  const context = storage.useContext();
+  return context?.request;
+};

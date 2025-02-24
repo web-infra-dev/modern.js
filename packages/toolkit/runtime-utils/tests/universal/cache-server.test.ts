@@ -33,7 +33,9 @@ describe('cache function', () => {
 
   it('should cache function call results', async () => {
     const mockFn = jest.fn().mockResolvedValue('test data');
-    const cachedFn = cache(mockFn);
+    const cachedFn = cache(mockFn, {
+      tag: 'testTag',
+    });
 
     const result1 = await cachedFn('param1');
     const result2 = await cachedFn('param1');
@@ -47,7 +49,9 @@ describe('cache function', () => {
     const mockFn = jest.fn((param: string) =>
       Promise.resolve(`result_${param}`),
     );
-    const cachedFn = cache(mockFn);
+    const cachedFn = cache(mockFn, {
+      tag: 'testTag',
+    });
 
     const result1 = await cachedFn('param1');
     const result2 = await cachedFn('param2');
@@ -75,7 +79,9 @@ describe('cache function', () => {
 
   it('should use default maxAge', async () => {
     const mockFn = jest.fn().mockResolvedValue('test data');
-    const cachedFn = cache(mockFn);
+    const cachedFn = cache(mockFn, {
+      tag: 'testTag',
+    });
 
     await cachedFn('param1');
     jest.advanceTimersByTime(CacheTime.MINUTE * 5 - 1);
@@ -149,7 +155,9 @@ describe('cache function', () => {
   it('should handle errors correctly', async () => {
     const error = new Error('test error');
     const mockFn = jest.fn().mockRejectedValue(error);
-    const cachedFn = cache(mockFn);
+    const cachedFn = cache(mockFn, {
+      tag: 'testTag',
+    });
 
     await expect(cachedFn('param1')).rejects.toThrow(error);
     await expect(cachedFn('param1')).rejects.toThrow(error);

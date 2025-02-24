@@ -1,5 +1,5 @@
 import { LRUCache } from 'lru-cache';
-import { getAsyncLocalStorage } from './async_storage';
+import { getAsyncLocalStorage, getRequest } from './async_storage';
 
 export const CacheSize = {
   KB: 1024,
@@ -157,13 +157,12 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
-      const asyncLocalStorage = await getAsyncLocalStorage();
-      const store = asyncLocalStorage?.getStore();
-      if (store?.request) {
-        let requestCache = requestCacheMap.get(store.request);
+      const request = await getRequest();
+      if (request) {
+        let requestCache = requestCacheMap.get(request);
         if (!requestCache) {
           requestCache = new Map();
-          requestCacheMap.set(store.request, requestCache);
+          requestCacheMap.set(request, requestCache);
         }
 
         const key = generateKey(args);
@@ -182,56 +181,61 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
           throw error;
         }
       }
-    }
-
-    let tagCache = store.get(fn);
-    if (!tagCache) {
-      tagCache = new Map();
-    }
-
-    const key = generateKey(args);
-    const cached = tagCache.get(key);
-    const now = Date.now();
-
-    if (cached) {
-      const age = now - cached.timestamp;
-
-      if (age < maxAge) {
-        return cached.data;
+    } else if (typeof options !== 'undefined') {
+      let tagCache = store.get(fn);
+      if (!tagCache) {
+        tagCache = new Map();
       }
 
-      if (revalidate > 0 && age < maxAge + revalidate * 1000) {
-        if (!cached.isRevalidating) {
-          cached.isRevalidating = true;
-          Promise.resolve().then(async () => {
-            try {
-              const newData = await fn(...args);
-              tagCache!.set(key, {
-                data: newData,
-                timestamp: Date.now(),
-                isRevalidating: false,
-              });
-              store.set(fn, tagCache);
-            } catch (error) {
-              cached.isRevalidating = false;
-              console.error('Background revalidation failed:', error);
-            }
-          });
+      const key = generateKey(args);
+      const cached = tagCache.get(key);
+      const now = Date.now();
+
+      if (cached) {
+        const age = now - cached.timestamp;
+
+        if (age < maxAge) {
+          return cached.data;
         }
-        return cached.data;
+
+        if (revalidate > 0 && age < maxAge + revalidate * 1000) {
+          if (!cached.isRevalidating) {
+            cached.isRevalidating = true;
+            Promise.resolve().then(async () => {
+              try {
+                const newData = await fn(...args);
+                tagCache!.set(key, {
+                  data: newData,
+                  timestamp: Date.now(),
+                  isRevalidating: false,
+                });
+                store.set(fn, tagCache);
+              } catch (error) {
+                cached.isRevalidating = false;
+                console.error('Background revalidation failed:', error);
+              }
+            });
+          }
+          return cached.data;
+        }
       }
+
+      const data = await fn(...args);
+      tagCache.set(key, {
+        data,
+        timestamp: now,
+        isRevalidating: false,
+      });
+
+      store.set(fn, tagCache);
+
+      return data;
+    } else {
+      console.warn(
+        'The cache function will not work because it runs on the client and there are no options are provided.',
+      );
+      return fn(...args);
     }
-
-    const data = await fn(...args);
-    tagCache.set(key, {
-      data,
-      timestamp: now,
-      isRevalidating: false,
-    });
-
-    store.set(fn, tagCache);
-
-    return data;
   }) as T;
 }
 

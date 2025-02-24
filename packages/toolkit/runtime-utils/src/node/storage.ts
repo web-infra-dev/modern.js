@@ -31,10 +31,10 @@ const createStorage = <T>() => {
       throw new Error(`Unable to use async_hook, please confirm the node version >= 12.17
         `);
     }
-    const context = storage.getStore();
+    const context = storage?.getStore();
     if (!context) {
       throw new Error(
-        `Can't call useContext out of scope, make sure @modern-js/utils is a single version in node_modules`,
+        `Can't call useContext out of scope, make sure @modern-js/runtime-utils is a single version in node_modules`,
       );
     }
 
@@ -48,7 +48,8 @@ const createStorage = <T>() => {
 };
 
 const storage = createStorage<{
-  headers: IncomingHttpHeaders;
-  monitors: Monitors;
+  headers?: IncomingHttpHeaders;
+  monitors?: Monitors;
+  request?: Request;
 }>();
 export { storage };

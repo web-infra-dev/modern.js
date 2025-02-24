@@ -1,10 +1,11 @@
-import type { AsyncLocalStorage } from 'async_hooks';
+import type { storage } from '../node/storage';
 
-export interface Store {
-  request: Request;
-}
+export const getAsyncLocalStorage = async (): Promise<
+  typeof storage | null
+> => {
+  return Promise.resolve(null);
+};
 
-export const getAsyncLocalStorage =
-  (): Promise<AsyncLocalStorage<Store> | null> => {
-    return Promise.resolve(null);
-  };
+export const getRequest: () => Request | null = () => {
+  return null;
+};
