@@ -89,7 +89,6 @@
     "tsconfig-paths": "4.2.0",
     "upath": "2.0.1",
     "url-join": "4.0.1",
-    "webpack-chain": "npm:webpack-5-chain@8.0.2",
-    "react-server-dom-webpack": "19.0.0"
+    "webpack-chain": "npm:webpack-5-chain@8.0.2"
   }
 }
