@@ -1,6 +1,7 @@
 import type { IncomingMessage } from 'http';
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import type {
+  Monitors,
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
@@ -18,6 +19,7 @@ import type {
 import { getPathname, parseHeaders } from '../../utils';
 import { getCacheResult, matchCacheControl } from './ssrCache';
 
+// TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
 export interface SSRRenderOptions {
   pwd: string;
   html: string;
@@ -41,6 +43,7 @@ export interface SSRRenderOptions {
   cacheConfig?: CacheConfig;
   nodeReq?: IncomingMessage;
 
+  monitors: Monitors;
   onError: OnError;
   onTiming: OnTiming;
 }
@@ -63,6 +66,7 @@ export async function ssrRender(
     params,
     loaderContext,
     reporter,
+    monitors,
     cacheConfig,
     logger,
     metrics,
@@ -116,6 +120,7 @@ export async function ssrRender(
     staticGenerate,
     logger,
     metrics,
+    monitors,
 
     onError,
     onTiming,

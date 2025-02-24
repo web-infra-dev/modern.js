@@ -1,6 +1,7 @@
 import { time } from '@modern-js/runtime-utils/time';
 import type {
   CoreMonitor,
+  CounterEvent,
   LogEvent,
   LogLevel,
   Logger,
@@ -47,13 +48,29 @@ function createMonitors(): Monitors {
       log('info', message, args);
     },
 
-    timing(name: string, dur: number, desc?: string) {
+    trace(message: string, ...args: any[]): void {
+      log('trace', message, args);
+    },
+
+    timing(name: string, dur: number, desc?: string, ...args: any[]) {
       const event: TimingEvent = {
         type: 'timing',
         payload: {
           name,
           dur,
           desc,
+          args,
+        },
+      };
+      coreMonitors.forEach(monitor => monitor(event));
+    },
+
+    counter(name: string, ...args: any[]) {
+      const event: CounterEvent = {
+        type: 'counter',
+        payload: {
+          name,
+          args,
         },
       };
       coreMonitors.forEach(monitor => monitor(event));
@@ -89,7 +106,7 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
   },
 });
 
-export const injectloggerPluigin = (inputLogger?: Logger): ServerPlugin => ({
+export const injectloggerPlugin = (inputLogger?: Logger): ServerPlugin => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
@@ -102,6 +119,7 @@ export const injectloggerPluigin = (inputLogger?: Logger): ServerPlugin => ({
           name: 'inject-logger',
 
           handler: async (c: Context<ServerEnv>, next) => {
+            // TODO: remove in next version
             if (!c.get('logger')) {
               c.set('logger', logger);
             }
@@ -112,7 +130,11 @@ export const injectloggerPluigin = (inputLogger?: Logger): ServerPlugin => ({
               if (event.type === 'log') {
                 const { level, message, args } = event.payload;
 
-                logger[level](message, ...(args || []));
+                if (level === 'trace') {
+                  logger.info(message, ...(args || []));
+                } else {
+                  logger[level](message, ...(args || []));
+                }
               }
 
               if (event.type === 'timing') {

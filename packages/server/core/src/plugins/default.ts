@@ -4,7 +4,7 @@ import { logPlugin } from './log';
 import {
   initMonitorsPlugin,
   injectServerTiming,
-  injectloggerPluigin,
+  injectloggerPlugin,
 } from './monitors';
 import { processedByPlugin } from './processedBy';
 import {
@@ -36,9 +36,7 @@ export function createDefaultPlugins(
     logPlugin(),
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),
-    injectloggerPluigin(
-      options.logger ? options.logger : createSilenceLogger(),
-    ),
+    injectloggerPlugin(options.logger ? options.logger : createSilenceLogger()),
     injectServerTiming(),
     processedByPlugin(),
   ];

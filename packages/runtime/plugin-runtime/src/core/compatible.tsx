@@ -1,4 +1,5 @@
 import type { RuntimePlugin } from '@modern-js/plugin-v2';
+import type { Monitors } from '@modern-js/types';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
@@ -255,5 +256,5 @@ export const useRuntimeContext = () => {
     [context],
   );
 
-  return memoizedContext;
+  return memoizedContext as TRuntimeContext;
 };
