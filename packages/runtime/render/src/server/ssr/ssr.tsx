@@ -42,7 +42,7 @@ export const renderSSRStream = async (
     const [{ renderRsc }, { createFromReadableStream }, { injectRSCPayload }] =
       await Promise.all([
         import('../rsc'),
-        import('react-server-dom-webpack/client.edge'),
+        import('@modern-js/utils/react-server-dom-webpack/client.edge'),
         import('../../rsc-html-stream/server'),
       ]);
 

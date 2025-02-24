@@ -1,12 +1,12 @@
-import { type ReactNode, createContext, use, useState } from 'react';
 import {
   createFromReadableStream,
   createServerReference,
-} from 'react-server-dom-webpack/client.browser';
+} from '@modern-js/utils/react-server-dom-webpack/client.browser';
+import { type ReactNode, createContext, use, useState } from 'react';
 export { rscStream } from 'rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 export { callServer } from './callServer';
-export { createFromFetch } from 'react-server-dom-webpack/client.browser';
+export { createFromFetch } from '@modern-js/utils/react-server-dom-webpack/client.browser';
 
 declare global {
   interface Window {
