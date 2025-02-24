@@ -2689,12 +2689,12 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
-      react-server-dom-webpack:
-        specifier: 19.0.0
-        version: 19.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))
       rsc-html-stream:
         specifier: 0.0.4
         version: 0.0.4
@@ -2715,11 +2715,11 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@22.13.5)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@22.13.5)(typescript@5.6.3))
       react:
-        specifier: '19.0.0 '
-        version: 19.0.0
+        specifier: ^18.3.1
+        version: 18.3.1
       react-dom:
-        specifier: '19.0.0 '
-        version: 19.0.0(react@19.0.0)
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -13669,10 +13669,6 @@ packages:
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  acorn-loose@8.4.0:
-    resolution: {integrity: sha512-M0EUka6rb+QC4l9Z3T0nJEzNOO7JcoJlYMrBlyBCiFSXRyxjLKayd4TbQs2FDRWQU1h9FR7QVNHt+PEaoNL5rQ==}
-    engines: {node: '>=0.4.0'}
-
   acorn-node@1.8.2:
     resolution: {integrity: sha512-8mt+fslDufLYntIoPAaIMUe/lrbrehIiwmR3t2k9LljIzoigEPF27eLk2hy8zSGzmR/ogr7zbRKINMo1u0yh5A==}
 
@@ -19878,14 +19874,6 @@ packages:
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: '>=16.8'
-
-  react-server-dom-webpack@19.0.0:
-    resolution: {integrity: sha512-hLug9KEXLc8vnU9lDNe2b2rKKDaqrp5gNiES4uyu2Up3FZfZJZmdwLFXlWzdA9gTB/6/cWduSB2K1Lfag2pSvw==}
-    engines: {node: '>=0.10.0'}
-    peerDependencies:
-      react: ^19.0.0
-      react-dom: ^19.0.0
-      webpack: ^5.59.0
 
   react-side-effect@2.1.2:
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
@@ -30013,10 +30001,6 @@ snapshots:
     dependencies:
       acorn: 8.14.0
 
-  acorn-loose@8.4.0:
-    dependencies:
-      acorn: 8.14.0
-
   acorn-node@1.8.2:
     dependencies:
       acorn: 7.4.1
@@ -39023,15 +39007,6 @@ snapshots:
     dependencies:
       '@remix-run/router': 1.22.0
       react: 18.3.1
-
-  react-server-dom-webpack@19.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19)):
-    dependencies:
-      acorn-loose: 8.4.0
-      neo-async: 2.6.2
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      webpack: 5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19)
-      webpack-sources: 3.2.3
 
   react-side-effect@2.1.2(react@18.3.1):
     dependencies:
