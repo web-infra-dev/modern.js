@@ -1,3 +1,5 @@
+import type { IncomingHttpHeaders } from 'http';
+import type { Monitors } from '@modern-js/types';
 import * as ah from 'async_hooks';
 
 const createStorage = <T>() => {
@@ -45,4 +47,8 @@ const createStorage = <T>() => {
   };
 };
 
-export { createStorage };
+const storage = createStorage<{
+  headers: IncomingHttpHeaders;
+  monitors: Monitors;
+}>();
+export { storage };

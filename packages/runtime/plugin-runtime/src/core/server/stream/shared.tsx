@@ -1,7 +1,5 @@
 import type { OnError } from '@modern-js/app-tools';
-import { run } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
-import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import type {
   ClientManifest as RscClientManifest,
   SSRManifest as RscSSRManifest,
@@ -70,63 +68,56 @@ export function createRenderStreaming(
 ): RenderStreaming {
   return async (request, serverRoot, options) => {
     const createReadableStreamFromElement = await createReadableStreamPromise;
-    const headersData = parseHeaders(request);
 
-    return run(headersData, async () => {
-      const end = time();
-      const { runtimeContext, config, resource } = options;
-      const { onError, onTiming } = options;
+    const end = time();
+    const { runtimeContext, config, resource } = options;
+    const { onError, onTiming } = options;
 
-      const { htmlTemplate, entryName } = resource;
+    const { htmlTemplate, entryName } = resource;
 
-      const ssrConfig = getSSRConfigByEntry(
-        entryName,
-        config.ssr,
-        config.ssrByEntries,
-      );
+    const ssrConfig = getSSRConfigByEntry(
+      entryName,
+      config.ssr,
+      config.ssrByEntries,
+    );
 
-      const RSCServerRoot = ({ children }: { children: React.ReactNode }) => {
-        return <>{children}</>;
-      };
+    const RSCServerRoot = ({ children }: { children: React.ReactNode }) => {
+      return <>{children}</>;
+    };
 
-      let rootElement = wrapRuntimeContextProvider(
-        serverRoot,
-        Object.assign(runtimeContext, { ssr: true }),
-      );
+    let rootElement = wrapRuntimeContextProvider(
+      serverRoot,
+      Object.assign(runtimeContext, { ssr: true }),
+    );
 
-      rootElement = <RSCServerRoot>{rootElement}</RSCServerRoot>;
+    rootElement = <RSCServerRoot>{rootElement}</RSCServerRoot>;
 
-      const stream = await createReadableStreamFromElement(
-        request,
-        rootElement,
-        {
-          config,
-          htmlTemplate,
-          runtimeContext,
-          ssrConfig,
-          entryName,
-          rscClientManifest: options.rscClientManifest,
-          rscSSRManifest: options.rscSSRManifest,
-          rscServerManifest: options.rscServerManifest,
-          rscRoot: options.rscRoot,
-          onShellReady() {
-            const cost = end();
-            onTiming(SSRTimings.RENDER_SHELL, cost);
-          },
-          onAllReady() {
-            const cost = end();
-            onTiming(SSRTimings.RENDER_HTML, cost);
-          },
-          onShellError(error) {
-            onError(error, SSRErrors.RENDER_SHELL);
-          },
-          onError(error) {
-            onError(error, SSRErrors.RENDER_STREAM);
-          },
-        },
-      );
-
-      return stream;
+    const stream = await createReadableStreamFromElement(request, rootElement, {
+      config,
+      htmlTemplate,
+      runtimeContext,
+      ssrConfig,
+      entryName,
+      rscClientManifest: options.rscClientManifest,
+      rscSSRManifest: options.rscSSRManifest,
+      rscServerManifest: options.rscServerManifest,
+      rscRoot: options.rscRoot,
+      onShellReady() {
+        const cost = end();
+        onTiming(SSRTimings.RENDER_SHELL, cost);
+      },
+      onAllReady() {
+        const cost = end();
+        onTiming(SSRTimings.RENDER_HTML, cost);
+      },
+      onShellError(error) {
+        onError(error, SSRErrors.RENDER_SHELL);
+      },
+      onError(error) {
+        onError(error, SSRErrors.RENDER_STREAM);
+      },
     });
+
+    return stream;
   };
 }
