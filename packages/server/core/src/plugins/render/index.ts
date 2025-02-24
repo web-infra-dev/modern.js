@@ -15,7 +15,7 @@ import {
   getServerMidFromUnstableMid,
   injectRoute,
 } from '../customServer';
-import { initReporter } from '../monitors';
+import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
@@ -57,8 +57,8 @@ export const renderPlugin = (): ServerPlugin => ({
             : `${originUrlPath}/*`;
 
           middlewares.push({
-            name: 'init-reporter',
-            handler: initReporter(entryName),
+            name: 'page-latency',
+            handler: requestLatencyMiddleware(entryName),
           });
 
           const customServerHookMiddleware = customServer.getHookMiddleware(
