@@ -101,7 +101,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
