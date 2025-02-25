@@ -168,7 +168,9 @@ export function createAsyncPipelineHook<
       let runNext = false;
       const next = (info: any) => {
         runNext = true;
-        params[0] = info;
+        if (info) {
+          params[0] = info;
+        }
       };
       const result = await callback(...params, next);
       if (!runNext) {
