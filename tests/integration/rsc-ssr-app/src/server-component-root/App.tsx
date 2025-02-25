@@ -1,4 +1,5 @@
 import 'server-only';
+import { getRequest } from '@modern-js/runtime';
 import { Suspense } from 'react';
 import styles from './App.module.less';
 import Suspended from './Suspended';
@@ -6,6 +7,8 @@ import { Counter } from './components/Counter';
 import { getCountState } from './components/ServerState';
 
 const App = ({ name }: { name: string }) => {
+  const request = getRequest();
+  console.log(typeof request?.url);
   const countStateFromServer = getCountState();
   return (
     <div className={styles.root}>

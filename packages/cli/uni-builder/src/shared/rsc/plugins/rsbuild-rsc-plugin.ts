@@ -131,6 +131,12 @@ export const rsbuildRscPlugin = ({
             .issuerLayer(webpackRscLayerName)
             .resolve.conditionNames.add(webpackRscLayerName)
             .add('...');
+
+          // TODO: Adapt to all modules
+          chain.module
+            .rule('rsc-common')
+            .resource([/\/node\/storage/])
+            .layer('rsc-common');
         };
 
         const flightCssHandler = () => {

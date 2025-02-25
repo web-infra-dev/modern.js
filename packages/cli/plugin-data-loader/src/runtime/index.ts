@@ -77,6 +77,7 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
     {
       headers: headersData,
       monitors,
+      request,
     },
     async () => {
       const routes = transformNestedRoutes(routesConfig, reporter);

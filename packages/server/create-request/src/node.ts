@@ -72,7 +72,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = ({
   const sender: Sender = (...args) => {
     let webRequestHeaders = [] as unknown as IncomingHttpHeaders;
     if (requestId === 'default') {
-      ({ headers: webRequestHeaders } = storage.useContext());
+      webRequestHeaders = storage.useContext().headers!;
     }
     let body;
     let headers: Record<string, any>;
