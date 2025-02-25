@@ -213,7 +213,14 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
                 store.set(fn, tagCache);
               } catch (error) {
                 cached.isRevalidating = false;
-                console.error('Background revalidation failed:', error);
+                if (isServer) {
+                  const asyncLocalStorage = await getAsyncLocalStorage();
+                  asyncLocalStorage
+                    ?.useContext()
+                    ?.monitors?.error((error as Error).message);
+                } else {
+                  console.error('Background revalidation failed:', error);
+                }
               }
             });
           }
