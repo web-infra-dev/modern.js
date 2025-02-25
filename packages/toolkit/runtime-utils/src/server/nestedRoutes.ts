@@ -1,22 +1,4 @@
-import type { ModernServerContext, ServerRoute } from '@modern-js/types';
-
-export type ServerContext = Pick<
-  ModernServerContext,
-  | 'logger'
-  | 'req'
-  | 'reporter'
-  | 'res'
-  | 'params'
-  | 'headers'
-  | 'method'
-  | 'url'
-  | 'host'
-  | 'protocol'
-  | 'origin'
-  | 'href'
-  | 'path'
-  | 'query'
->;
+import type { ServerRoute } from '@modern-js/types';
 
 function sortByUrlPath(entries: ServerRoute[]): ServerRoute[] {
   entries.sort(function (a, b) {

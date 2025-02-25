@@ -46,17 +46,16 @@ export const renderPlugin = (): ServerPlugin => ({
 
         const pageRoutes = getPageRoutes(routes);
 
+        middlewares.push({
+          name: 'page-latency',
+          handler: requestLatencyMiddleware(),
+        });
+
         for (const route of pageRoutes) {
           const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
           const urlPath = originUrlPath.endsWith('/')
             ? `${originUrlPath}*`
             : `${originUrlPath}/*`;
-
-          middlewares.push({
-            name: 'page-latency',
-            path: urlPath,
-            handler: requestLatencyMiddleware(entryName),
-          });
 
           const customServerHookMiddleware = customServer.getHookMiddleware(
             entryName,
