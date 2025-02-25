@@ -821,7 +821,7 @@ importers:
     dependencies:
       cookie-es:
         specifier: ^1.0.0
-        version: 1.0.0
+        version: 1.2.2
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -987,7 +987,7 @@ importers:
         version: 0.2.19
       cookie-es:
         specifier: ^1.0.0
-        version: 1.0.0
+        version: 1.2.2
       flatted:
         specifier: ^3.2.9
         version: 3.3.3
@@ -1078,7 +1078,7 @@ importers:
         version: 4.0.0
       cookie-es:
         specifier: ^1.0.0
-        version: 1.0.0
+        version: 1.2.2
       flatted:
         specifier: ^3.2.9
         version: 3.3.3
@@ -14714,8 +14714,8 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  cookie-es@1.0.0:
-    resolution: {integrity: sha512-mWYvfOLrfEc996hlKcdABeIiPHUPC6DM2QYZdGGOvhOTbA3tjm2eBwqlJpoFdjC89NI4Qt6h0Pu06Mp+1Pj5OQ==}
+  cookie-es@1.2.2:
+    resolution: {integrity: sha512-+W7VmiVINB+ywl1HGXJXmrqkOhpKrIiVZV6tQuV54ZyQC7MMuBt81Vc336GMLoHBq5hV/F9eXgt5Mnx0Rha5Fg==}
 
   cookie-parser@1.4.7:
     resolution: {integrity: sha512-nGUvgXnotP3BsjiLX2ypbQnWoGUPIIfHQNZkkC668ntrzGWEZVW70HDEB1qnNGMicPje6EttlIgzo51YSwNQGw==}
@@ -31245,7 +31245,7 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  cookie-es@1.0.0: {}
+  cookie-es@1.2.2: {}
 
   cookie-parser@1.4.7:
     dependencies:
