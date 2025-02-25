@@ -1221,7 +1221,7 @@ importers:
         version: 0.5.13
       covertable:
         specifier: ^2.2.2
-        version: 2.2.5
+        version: 2.4.1
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -14804,8 +14804,8 @@ packages:
       typescript:
         optional: true
 
-  covertable@2.2.5:
-    resolution: {integrity: sha512-xwHZSOMBDp7s/4i4j9opnvIeU029Smwe2EKr8sDPGQ3ClkpN0O5gDpon/YylbMpJ2x1EeFZKJFLKAksaaIwHGQ==}
+  covertable@2.4.1:
+    resolution: {integrity: sha512-WYHNrqFiRGh7hIUVDqoMvp/Mi1PrR0m27kHqkVxSMLSRPrKrekuLT5aXIAAeUPKoda8eOjV7BbAy0rGVTFfqLQ==}
 
   create-ecdh@4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
@@ -31357,7 +31357,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  covertable@2.2.5:
+  covertable@2.4.1:
     dependencies:
       js-md5: 0.7.3
 
