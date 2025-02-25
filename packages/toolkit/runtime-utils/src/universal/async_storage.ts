@@ -5,7 +5,3 @@ export const getAsyncLocalStorage = async (): Promise<
 > => {
   return Promise.resolve(null);
 };
-
-export const getRequest: () => Request | null = () => {
-  return null;
-};

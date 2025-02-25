@@ -5,8 +5,3 @@ export const getAsyncLocalStorage = async (): Promise<
 > => {
   return storage;
 };
-
-export const getRequest: () => Request | null | undefined = () => {
-  const context = storage.useContext();
-  return context?.request;
-};

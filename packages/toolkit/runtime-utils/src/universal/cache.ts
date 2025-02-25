@@ -1,5 +1,5 @@
 import { LRUCache } from 'lru-cache';
-import { getAsyncLocalStorage, getRequest } from './async_storage';
+import { getAsyncLocalStorage } from './async_storage';
 
 export const CacheSize = {
   KB: 1024,
@@ -157,7 +157,8 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
-      const request = await getRequest();
+      const asyncLocalStorage = await getAsyncLocalStorage();
+      const request = asyncLocalStorage?.useContext()?.request;
       if (request) {
         let requestCache = requestCacheMap.get(request);
         if (!requestCache) {

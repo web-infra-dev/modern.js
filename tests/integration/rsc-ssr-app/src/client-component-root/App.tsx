@@ -2,10 +2,13 @@
 import 'client-only';
 import { useRuntimeContext } from '@modern-js/runtime';
 import './App.css';
+import { getRequest } from '@modern-js/runtime';
 import { Counter } from './components/Counter';
 
 const App = () => {
   const context = useRuntimeContext();
+  const request = getRequest();
+  console.log(typeof request?.url);
   return (
     <>
       <div className="container">

@@ -42,11 +42,6 @@
       "require": "./dist/cjs/node/index.js",
       "default": "./dist/esm/node/index.js"
     },
-    "./storage": {
-      "types": "./dist/types/node/storage.d.ts",
-      "require": "./dist/cjs/node/storage.js",
-      "default": "./dist/esm/node/storage.js"
-    },
     "./node/router": {
       "types": "./dist/types/node/router.d.ts",
       "jsnext:source": "./src/node/router.ts",
@@ -134,11 +129,6 @@
         "require": "./dist/cjs/node/index.js",
         "default": "./dist/esm/node/index.js"
       },
-      "./storage": {
-        "types": "./dist/types/node/storage.d.ts",
-        "require": "./dist/cjs/node/storage.js",
-        "default": "./dist/esm/node/storage.js"
-      },
       "./server": {
         "types": "./dist/types/server/index.d.ts",
         "require": "./dist/cjs/server/index.js",
@@ -204,9 +194,6 @@
       ],
       "node": [
         "./dist/types/node/index.d.ts"
-      ],
-      "storage": [
-        "./dist/types/node/storage.d.ts"
       ],
       "server": [
         "./dist/types/server/index.d.ts"

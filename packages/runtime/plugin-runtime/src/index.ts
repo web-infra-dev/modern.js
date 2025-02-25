@@ -9,7 +9,7 @@ export type { RuntimeContext } from './core/context/runtime';
 export type { RuntimeUserConfig } from './config';
 
 export { getMonitors } from './core/context/monitors';
-export { getRequest } from '@modern-js/runtime-utils/universal/request';
+export { getRequest } from './core/context/request';
 
 export {
   createApp,

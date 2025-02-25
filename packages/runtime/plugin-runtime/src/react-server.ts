@@ -1,1 +1,1 @@
-export { getRequest } from '@modern-js/runtime-utils/universal/request';
+export { getRequest } from './core/context/request';
