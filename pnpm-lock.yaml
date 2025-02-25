@@ -116,8 +116,8 @@ importers:
         specifier: 2.3.3
         version: 2.3.3
       core-js:
-        specifier: ~3.37.1
-        version: 3.37.1
+        specifier: ~3.40.0
+        version: 3.40.0
     devDependencies:
       '@modern-js/tsconfig':
         specifier: workspace:*
@@ -14760,9 +14760,6 @@ packages:
 
   core-js-pure@3.26.0:
     resolution: {integrity: sha512-LiN6fylpVBVwT8twhhluD9TzXmZQQsr2I2eIKtWNbZI1XMfBT7CV18itaN6RA7EtQd/SDdRx/wzvAShX2HvhQA==}
-
-  core-js@3.37.1:
-    resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
 
   core-js@3.39.0:
     resolution: {integrity: sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==}
@@ -31300,8 +31297,6 @@ snapshots:
       browserslist: 4.24.4
 
   core-js-pure@3.26.0: {}
-
-  core-js@3.37.1: {}
 
   core-js@3.39.0: {}
 

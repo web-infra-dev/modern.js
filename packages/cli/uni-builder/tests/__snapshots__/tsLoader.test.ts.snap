@@ -61,7 +61,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -144,7 +144,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -250,7 +250,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -352,7 +352,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

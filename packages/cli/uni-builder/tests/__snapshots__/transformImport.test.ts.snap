@@ -564,7 +564,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -710,7 +710,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -837,7 +837,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -971,7 +971,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
