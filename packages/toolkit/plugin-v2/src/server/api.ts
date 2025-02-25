@@ -1,5 +1,5 @@
 import { createDebugger } from '@modern-js/utils';
-import { merge } from '@modern-js/utils/lodash';
+import { assign } from '@modern-js/utils/lodash';
 import type { PluginHook } from '../types';
 import type { PluginManager } from '../types/plugin';
 import type {
@@ -71,7 +71,7 @@ export function initPluginAPI<Extends extends ServerPluginExtends>({
   function updateServerContext(
     updateContext: DeepPartial<ServerContext<Extends>>,
   ) {
-    context = merge(context, updateContext);
+    context = assign(context, updateContext);
   }
 
   const pluginAPI = {
