@@ -157,8 +157,8 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
-      const asyncLocalStorage = await getAsyncLocalStorage();
-      const request = asyncLocalStorage?.useContext()?.request;
+      const storage = getAsyncLocalStorage();
+      const request = storage?.useContext()?.request;
       if (request) {
         let requestCache = requestCacheMap.get(request);
         if (!requestCache) {
@@ -214,8 +214,8 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
               } catch (error) {
                 cached.isRevalidating = false;
                 if (isServer) {
-                  const asyncLocalStorage = await getAsyncLocalStorage();
-                  asyncLocalStorage
+                  const storage = getAsyncLocalStorage();
+                  storage
                     ?.useContext()
                     ?.monitors?.error((error as Error).message);
                 } else {
@@ -255,10 +255,8 @@ export function withRequestCache<
   }
 
   return (async (req: Request, ...args: Parameters<T>) => {
-    const asyncLocalStorage = await getAsyncLocalStorage();
-    return asyncLocalStorage!.run({ request: req }, () =>
-      handler(req, ...args),
-    );
+    const storage = getAsyncLocalStorage();
+    return storage!.run({ request: req }, () => handler(req, ...args));
   }) as T;
 }
 

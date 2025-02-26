@@ -98,7 +98,6 @@ export const routerPlugin = (
                 props: {
                   nonce,
                 },
-                reporter,
               }),
             );
 

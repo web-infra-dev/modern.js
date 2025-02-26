@@ -80,7 +80,7 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
       request,
     },
     async () => {
-      const routes = transformNestedRoutes(routesConfig, reporter);
+      const routes = transformNestedRoutes(routesConfig);
       const { queryRoute } = createStaticHandler(routes, {
         basename,
       });

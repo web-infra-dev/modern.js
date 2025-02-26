@@ -223,7 +223,7 @@ export const injectServerTiming = (): ServerPlugin => ({
   },
 });
 
-export function requestLatencyMiddleware(entryName: string) {
+export function requestLatencyMiddleware() {
   return async (c: Context<ServerEnv>, next: Next) => {
     const monitors = c.get('monitors');
 

@@ -48,8 +48,6 @@ export function createCustomMiddlewaresCtx(
     resArgs,
   );
 
-  const reporter = c.get('reporter');
-
   const response = baseContext.response as ModernResponse & {
     locals: Record<string, any>;
   };
@@ -57,7 +55,6 @@ export function createCustomMiddlewaresCtx(
 
   return {
     ...baseContext,
-    reporter,
     response,
     source: {
       req: c.env.node?.req,

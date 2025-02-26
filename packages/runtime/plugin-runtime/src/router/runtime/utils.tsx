@@ -5,12 +5,7 @@ import {
   type StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
 import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
-import type {
-  NestedRoute,
-  PageRoute,
-  Reporter,
-  SSRMode,
-} from '@modern-js/types';
+import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
 import type React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
@@ -22,12 +17,10 @@ export function getRouteComponents(
     globalApp,
     ssrMode,
     props,
-    reporter,
   }: {
     globalApp?: React.ComponentType<any>;
     ssrMode?: SSRMode;
     props?: Record<string, any>;
-    reporter?: Reporter;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -45,7 +38,6 @@ export function getRouteComponents(
         DeferredDataComponent:
           ssrMode === 'stream' ? DeferredDataScripts : undefined,
         props,
-        reporter,
       });
       routeElements.push(routeElement);
     } else {
@@ -67,12 +59,10 @@ export function renderRoutes({
   routesConfig,
   props,
   ssrMode,
-  reporter,
 }: {
   routesConfig: RouterConfig['routesConfig'];
   props?: Record<string, any>;
   ssrMode?: SSRMode;
-  reporter?: Reporter;
 }) {
   if (!routesConfig) {
     return null;
@@ -85,7 +75,6 @@ export function renderRoutes({
     globalApp,
     ssrMode,
     props,
-    reporter,
   });
   return routeElements;
 }
