@@ -135,7 +135,7 @@ export const rsbuildRscPlugin = ({
           // TODO: Adapt to all modules
           chain.module
             .rule('rsc-common')
-            .resource([/\/node\/storage/])
+            .resource([/[/\\]node[/\\]storage/])
             .layer('rsc-common');
         };
 

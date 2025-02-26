@@ -199,7 +199,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
           return cached.data;
         }
 
-        if (revalidate > 0 && age < maxAge + revalidate * 1000) {
+        if (revalidate > 0 && age < maxAge + revalidate) {
           if (!cached.isRevalidating) {
             cached.isRevalidating = true;
             Promise.resolve().then(async () => {
@@ -240,7 +240,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       return data;
     } else {
       console.warn(
-        'The cache function will not work because it runs on the client and there are no options are provided.',
+        'The cache function will not work because it runs on the browser and there are no options are provided.',
       );
       return fn(...args);
     }
