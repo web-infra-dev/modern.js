@@ -48,7 +48,11 @@ function runModernCommand(argv, options = {}) {
 
       const compileErrorMarker = /Compile error/i;
 
-      if (cmd === 'build' && rejectOnCompileError && compileErrorMarker.test(message)) {
+      if (
+        cmd === 'build' &&
+        rejectOnCompileError &&
+        compileErrorMarker.test(message)
+      ) {
         reject(new Error(message));
       }
 
