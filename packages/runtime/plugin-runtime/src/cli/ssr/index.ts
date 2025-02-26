@@ -138,7 +138,10 @@ export const ssrPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
             // ensure that all packages use the same storage in @modern-js/runtime-utils/node
             '@modern-js/runtime-utils/node$': require
               .resolve('@modern-js/runtime-utils/node')
-              .replace('/cjs/', '/esm/'),
+              .replace(
+                `${path.sep}cjs${path.sep}`,
+                `${path.sep}esm${path.sep}`,
+              ),
           },
         },
         tools: {
