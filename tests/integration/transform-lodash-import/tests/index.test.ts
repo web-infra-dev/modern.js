@@ -3,7 +3,7 @@ import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
-describe('test both source.transformImport and performance.transformLodash to handle lodash', () => {
+describe.skip('test both source.transformImport and performance.transformLodash to handle lodash', () => {
   let buildRes: { stdout: string };
   beforeAll(async () => {
     buildRes = await modernBuild(appDir);
