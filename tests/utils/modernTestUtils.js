@@ -10,7 +10,7 @@ const kModernAppTools = path.join(
 );
 
 function runModernCommand(argv, options = {}) {
-  const { cwd, rejectOnCompileError = true } = options;
+  const { cwd, rejectOnCompileError = false } = options;
   const cmd = argv[0];
   const env = {
     ...process.env,
