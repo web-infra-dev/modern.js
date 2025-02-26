@@ -22,7 +22,7 @@ describe('client-side behavior', () => {
     const result = await cachedFn('param');
 
     expect(console.warn).toHaveBeenCalledWith(
-      'The cache function will not work because it runs on the client and there are no options are provided.',
+      'The cache function will not work because it runs on the browser and there are no options are provided.',
     );
 
     expect(mockFn).toHaveBeenCalledWith('param');
@@ -65,7 +65,7 @@ describe('stale-while-revalidate', () => {
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
-      revalidate: 2,
+      revalidate: CacheTime.SECOND * 2,
     });
 
     const result1 = await cachedFn('param');
@@ -94,7 +94,7 @@ describe('stale-while-revalidate', () => {
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
-      revalidate: 2,
+      revalidate: CacheTime.SECOND * 2,
     });
     await cachedFn('param');
 
@@ -119,7 +119,7 @@ describe('stale-while-revalidate', () => {
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
-      revalidate: 2,
+      revalidate: CacheTime.SECOND * 2,
     });
 
     const result1 = await cachedFn('param');
@@ -144,7 +144,7 @@ describe('stale-while-revalidate', () => {
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
-      revalidate: 2,
+      revalidate: CacheTime.SECOND * 2,
     });
 
     const result1 = await cachedFn('param');
@@ -176,7 +176,7 @@ describe('stale-while-revalidate', () => {
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
-      revalidate: 2,
+      revalidate: CacheTime.SECOND * 2,
     });
 
     await cachedFn('param');
