@@ -10,7 +10,7 @@ const kModernAppTools = path.join(
 );
 
 function runModernCommand(argv, options = {}) {
-  const { cwd } = options;
+  const { cwd, rejectOnCompileError = true } = options;
   const cmd = argv[0];
   const env = {
     ...process.env,
@@ -45,6 +45,13 @@ function runModernCommand(argv, options = {}) {
       }
       stdoutOutput += chunk;
       const message = chunk.toString();
+
+      const compileErrorMarker = /Compile error/i;
+
+      if (cmd === 'build' && rejectOnCompileError && compileErrorMarker.test(message)) {
+        reject(new Error(message));
+      }
+
       if (marker?.test(message)) {
         resolve({
           code: 0,
@@ -72,7 +79,7 @@ function runModernCommand(argv, options = {}) {
 }
 
 function runModernCommandDev(argv, stdOut, options = {}) {
-  const { cwd } = options;
+  const { cwd, rejectOnCompileError = true } = options;
   const env = {
     ...process.env,
     ...options.env,
@@ -92,6 +99,15 @@ function runModernCommandDev(argv, stdOut, options = {}) {
         dev: /> Local:/i,
         serve: /> Local:/i,
       };
+      const compileErrorMarker = /Compile error/i;
+
+      if (rejectOnCompileError && compileErrorMarker.test(message)) {
+        if (!didResolve) {
+          didResolve = true;
+          reject(new Error(message));
+        }
+      }
+
       if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {
           didResolve = true;
