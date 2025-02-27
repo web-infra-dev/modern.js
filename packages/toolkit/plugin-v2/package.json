@@ -82,7 +82,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.2.8",
+    "@rsbuild/core": "1.2.12",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
