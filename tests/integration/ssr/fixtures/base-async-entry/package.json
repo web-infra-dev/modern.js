@@ -1,6 +1,6 @@
 {
   "name": "ssr-base-async-entry-test",
-  "version": "2.65.1",
+  "version": "2.65.2",
   "private": true,
   "scripts": {
     "dev": "modern dev"

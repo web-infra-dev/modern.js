@@ -1,5 +1,23 @@
 # @modern-js/server-plugin
 
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1fe923c: chore: use monitors instead of reporter to report Data Loader cost
+  chore: 使用 monitors 代替 reporter 来上报 Data Loader 耗时
+- f3fc1db: chore: remove `reporter.init` and use Monitors to report request cost
+  chore: 移除 `reporter.init` 并且使用 Monitors 上报请求耗时
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [1f83d96]
+  - @modern-js/runtime-utils@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/plugin@2.65.2
+
 ## 2.65.1
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @modern-js/plugin-express
 
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [f3fc1db]
+- Updated dependencies [1f83d96]
+  - @modern-js/types@2.65.2
+  - @modern-js/server-core@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/bff-core@2.65.2
+  - @modern-js/bff-runtime@2.65.2
+
 ## 2.65.1
 
 ### Patch Changes

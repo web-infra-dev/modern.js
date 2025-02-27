@@ -1,5 +1,7 @@
 # @e2e/webpack-builder-source-map
 
+## 2.65.2
+
 ## 2.65.1
 
 ## 2.65.0

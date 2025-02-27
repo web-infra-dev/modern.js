@@ -1,6 +1,6 @@
 {
   "name": "browser-false",
-  "version": "2.65.1",
+  "version": "2.65.2",
   "browser": {
     "./util": false
   },
