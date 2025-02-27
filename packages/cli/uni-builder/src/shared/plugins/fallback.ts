@@ -71,7 +71,10 @@ export const pluginFallback = (): RsbuildPlugin => ({
         filename.media ?? `[name]${getHash(rsbuildConfig)}[ext]`;
 
       chain.output.merge({
-        assetModuleFilename: join(distDir, mediaFilename),
+        assetModuleFilename:
+          typeof mediaFilename === 'string'
+            ? join(distDir, mediaFilename)
+            : mediaFilename,
       });
     });
 
