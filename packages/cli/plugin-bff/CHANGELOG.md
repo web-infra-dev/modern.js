@@ -1,5 +1,31 @@
 # @modern-js/plugin-bff
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.65.1
+- @modern-js/server-core@2.65.1
+- @modern-js/create-request@2.65.1
+- @modern-js/server-utils@2.65.1
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- b43988e: feat: BFF 跨项目调用支持配置域名，补充文档
+  feat: BFF cross-project-invocation supports configuration of domain, add doc
+- b854d7b: fix(bff): fixed path issue of generating package.json attribute
+  fix(bff): 修复生成 package.json 属性的路径问题
+- Updated dependencies [b43988e]
+- Updated dependencies [4c0aca6]
+  - @modern-js/create-request@2.65.0
+  - @modern-js/server-core@2.65.0
+  - @modern-js/server-utils@2.65.0
+  - @modern-js/bff-core@2.65.0
+  - @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

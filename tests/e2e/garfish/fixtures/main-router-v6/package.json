@@ -1,7 +1,7 @@
 {
   "name": "@e2e/garfish-main-router-v6",
   "private": true,
-  "version": "2.64.3",
+  "version": "2.65.1",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",

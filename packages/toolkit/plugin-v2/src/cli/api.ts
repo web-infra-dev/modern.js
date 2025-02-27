@@ -1,5 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
-import { modifyBundlerChain } from '@rsbuild/core/dist-types/configChain';
+import { assign } from '@modern-js/utils/lodash';
 import type { PluginHook } from '../types';
 import type {
   AllKeysForCLIPluginExtendsAPI,
@@ -76,7 +75,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
   }
 
   function updateAppContext(updateContext: DeepPartial<AppContext<Extends>>) {
-    context = merge(context, updateContext);
+    context = assign(context, updateContext);
   }
 
   const pluginAPI = {

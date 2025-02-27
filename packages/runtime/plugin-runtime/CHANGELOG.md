@@ -1,5 +1,29 @@
 # @modern-js/runtime
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/plugin-v2@2.65.1
+- @modern-js/plugin-data-loader@2.65.1
+- @modern-js/render@2.65.1
+- @modern-js/plugin@2.65.1
+- @modern-js/runtime-utils@2.65.1
+- @modern-js/types@2.65.1
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- @modern-js/plugin-v2@2.65.0
+- @modern-js/plugin-data-loader@2.65.0
+- @modern-js/render@2.65.0
+- @modern-js/plugin@2.65.0
+- @modern-js/runtime-utils@2.65.0
+- @modern-js/types@2.65.0
+- @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

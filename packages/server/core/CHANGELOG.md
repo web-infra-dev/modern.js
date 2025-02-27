@@ -1,5 +1,23 @@
 # @modern-js/server-plugin
 
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.65.1
+- @modern-js/runtime-utils@2.65.1
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- 4c0aca6: feat: pass through the body, when query is pass_body
+  feat: 透传 body，当 query 为 pass_body 时
+  - @modern-js/plugin@2.65.0
+  - @modern-js/runtime-utils@2.65.0
+  - @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

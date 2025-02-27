@@ -1,5 +1,5 @@
 import type { IncomingHttpHeaders } from 'http';
-import { useHeaders } from '@modern-js/runtime-utils/node';
+import { storage } from '@modern-js/runtime-utils/node';
 import nodeFetch from 'node-fetch';
 import { type Key, compile, pathToRegexp } from 'path-to-regexp';
 import { stringify } from 'query-string';
@@ -72,7 +72,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = ({
   const sender: Sender = (...args) => {
     let webRequestHeaders = [] as unknown as IncomingHttpHeaders;
     if (requestId === 'default') {
-      webRequestHeaders = useHeaders();
+      webRequestHeaders = storage.useContext().headers!;
     }
     let body;
     let headers: Record<string, any>;

@@ -15,6 +15,7 @@ describe('swc transform failed minify', () => {
         NODE_ENV: 'development',
         PORT: port,
       },
+      rejectOnCompileError: false,
     });
 
     expect(cp).toBeDefined();

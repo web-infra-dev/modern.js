@@ -101,7 +101,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -370,7 +370,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

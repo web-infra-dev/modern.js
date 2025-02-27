@@ -1,5 +1,24 @@
 # @modern-js/uni-builder
 
+## 2.65.1
+
+### Patch Changes
+
+- bee51bb: fix: update rsbuild styled-components plugin
+  fix: 更新 rsbuild styled-components 插件
+  - @modern-js/babel-preset@2.65.1
+  - @modern-js/flight-server-transform-plugin@2.65.1
+  - @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- 0dcd5ea: fix: support add frameworkConfigPath to buildCache.buildDependencies when rspack build
+  - @modern-js/babel-preset@2.65.0
+  - @modern-js/flight-server-transform-plugin@2.65.0
+  - @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

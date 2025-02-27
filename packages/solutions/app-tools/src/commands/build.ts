@@ -69,10 +69,6 @@ export const build = async (
     return;
   }
 
-  api.modifyResolvedConfig(config => {
-    return { ...config, cliOptions: options };
-  });
-
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
 
   await buildServerConfig({

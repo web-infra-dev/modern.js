@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "bff-express",
-  "version": "2.64.3",
+  "version": "2.65.1",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -51,6 +51,10 @@
       "import": "./dist/runtime/index.js",
       "types": "./dist/runtime/index.d.ts"
     },
+    "./plugin": {
+      "require": "./dist/plugin/index.js",
+      "types": "./dist/plugin/index.d.ts"
+    },
     "./api/context/index": {
       "import": "./dist/client/context/index.js",
       "types": "./dist/client/context/index.d.ts"
@@ -62,10 +66,6 @@
     "./api/upload": {
       "import": "./dist/client/upload.js",
       "types": "./dist/client/upload.d.ts"
-    },
-    "./plugin": {
-      "require": "./dist/plugin/index.js",
-      "types": "./dist/plugin/index.d.ts"
     }
   },
   "typesVersions": {
@@ -82,17 +82,17 @@
       "runtime": [
         "./dist/runtime/index.d.ts"
       ],
-      "api/context/index": [
-        "./dist/api/context/index.d.ts"
-      ],
-      "api/index": [
-        "./dist/api/index.d.ts"
-      ],
-      "api/upload": [
-        "./dist/api/upload.d.ts"
-      ],
       "plugin": [
         "./dist/plugin/index.d.ts"
+      ],
+      "api/context/index": [
+        "./dist/client/context/index.d.ts"
+      ],
+      "api/index": [
+        "./dist/client/index.d.ts"
+      ],
+      "api/upload": [
+        "./dist/client/upload.d.ts"
       ]
     }
   },

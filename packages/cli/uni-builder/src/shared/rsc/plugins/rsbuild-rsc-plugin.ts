@@ -1,4 +1,7 @@
+import path from 'node:path';
+import fse from '@modern-js/utils/fs-extra';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { logger } from '@rsbuild/core';
 import { webpackRscLayerName } from '../common';
 import { RscClientPlugin } from './rsc-client-plugin';
 import { RscServerPlugin } from './rsc-server-plugin';
@@ -6,6 +9,36 @@ import { RspackRscClientPlugin } from './rspack-rsc-client-plugin';
 import { RscServerPlugin as RspackRscServerPlugin } from './rspack-rsc-server-plugin';
 
 const CSS_RULE_NAMES = ['less', 'css', 'scss', 'sass'];
+
+const checkReactVersionAtLeast19 = async (appDir: string) => {
+  const packageJsonPath = path.resolve(appDir, 'package.json');
+  const packageJson = await fse.readJSON(packageJsonPath);
+
+  if (!packageJson.dependencies) {
+    return false;
+  }
+
+  const { dependencies } = packageJson;
+  const reactVersion = dependencies.react;
+  const reactDomVersion = dependencies['react-dom'];
+
+  if (!reactVersion || !reactDomVersion) {
+    return false;
+  }
+
+  const cleanVersion = (version: string) => version.replace(/[\^~]/g, '');
+  const reactVersionParts = cleanVersion(reactVersion).split('.');
+  const reactDomVersionParts = cleanVersion(reactDomVersion).split('.');
+
+  const reactMajor = parseInt(reactVersionParts[0], 10);
+  const reactDomMajor = parseInt(reactDomVersionParts[0], 10);
+
+  if (Number.isNaN(reactMajor) || Number.isNaN(reactDomMajor)) {
+    return false;
+  }
+
+  return reactMajor >= 19 && reactDomMajor >= 19;
+};
 
 export const rsbuildRscPlugin = ({
   appDir,
@@ -23,6 +56,13 @@ export const rsbuildRscPlugin = ({
   setup(api) {
     api.modifyBundlerChain({
       handler: async (chain, { isServer, CHAIN_ID }) => {
+        if (!(await checkReactVersionAtLeast19(appDir))) {
+          logger.error(
+            'Enable react server component, please make sure the react and react-dom versions are greater than or equal to 19.0.0',
+          );
+          process.exit(1);
+        }
+
         const entryPath2Name = new Map<string, string>();
 
         for (const [name, entry] of Object.entries(
@@ -91,6 +131,11 @@ export const rsbuildRscPlugin = ({
             .issuerLayer(webpackRscLayerName)
             .resolve.conditionNames.add(webpackRscLayerName)
             .add('...');
+
+          chain.module
+            .rule('rsc-common')
+            .resource([/universal[/\\]async_storage/])
+            .layer('rsc-common');
         };
 
         const flightCssHandler = () => {

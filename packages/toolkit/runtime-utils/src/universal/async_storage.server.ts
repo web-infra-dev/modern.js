@@ -1,3 +1,5 @@
+import type { IncomingHttpHeaders } from 'http';
+import type { Monitors } from '@modern-js/types';
 import * as ah from 'async_hooks';
 
 const createStorage = <T>() => {
@@ -29,10 +31,10 @@ const createStorage = <T>() => {
       throw new Error(`Unable to use async_hook, please confirm the node version >= 12.17
         `);
     }
-    const context = storage.getStore();
+    const context = storage?.getStore();
     if (!context) {
       throw new Error(
-        `Can't call useContext out of scope, make sure @modern-js/utils is a single version in node_modules`,
+        `Can't call useContext out of scope, make sure @modern-js/runtime-utils is a single version in node_modules`,
       );
     }
 
@@ -45,4 +47,16 @@ const createStorage = <T>() => {
   };
 };
 
-export { createStorage };
+const storage = createStorage<{
+  monitors?: Monitors;
+  headers?: IncomingHttpHeaders;
+  request?: Request;
+}>();
+
+type Storage = typeof storage;
+
+export { storage, type Storage };
+
+export const getAsyncLocalStorage = (): Storage => {
+  return storage;
+};

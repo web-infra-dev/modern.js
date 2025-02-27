@@ -1,5 +1,52 @@
 # @modern-js/app-tools
 
+## 2.65.1
+
+### Patch Changes
+
+- Updated dependencies [bee51bb]
+  - @modern-js/uni-builder@2.65.1
+  - @modern-js/core@2.65.1
+  - @modern-js/server@2.65.1
+  - @modern-js/plugin-v2@2.65.1
+  - @modern-js/plugin-data-loader@2.65.1
+  - @modern-js/plugin-i18n@2.65.1
+  - @modern-js/rsbuild-plugin-esbuild@2.65.1
+  - @modern-js/server-core@2.65.1
+  - @modern-js/prod-server@2.65.1
+  - @modern-js/server-utils@2.65.1
+  - @modern-js/node-bundle-require@2.65.1
+  - @modern-js/plugin@2.65.1
+  - @modern-js/types@2.65.1
+  - @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Minor Changes
+
+- a28e69d: feat: support rsbuild modify config hook
+
+  feat: 支持 rsbuild 修改配置的 Hook 函数
+
+### Patch Changes
+
+- Updated dependencies [0dcd5ea]
+- Updated dependencies [4c0aca6]
+  - @modern-js/uni-builder@2.65.0
+  - @modern-js/server-core@2.65.0
+  - @modern-js/core@2.65.0
+  - @modern-js/server@2.65.0
+  - @modern-js/plugin-v2@2.65.0
+  - @modern-js/plugin-data-loader@2.65.0
+  - @modern-js/prod-server@2.65.0
+  - @modern-js/server-utils@2.65.0
+  - @modern-js/plugin-i18n@2.65.0
+  - @modern-js/rsbuild-plugin-esbuild@2.65.0
+  - @modern-js/node-bundle-require@2.65.0
+  - @modern-js/plugin@2.65.0
+  - @modern-js/types@2.65.0
+  - @modern-js/utils@2.65.0
+
 ## 2.64.3
 
 ### Patch Changes

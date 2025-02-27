@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.64.3",
+  "version": "2.65.1",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -26,6 +26,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "react-server": "./dist/esm/react-server.js",
       "jsnext:source": "./src/index.ts",
       "default": "./dist/esm/index.js"
     },
@@ -125,6 +126,12 @@
       "types": "./dist/types/rsc/client.d.ts",
       "jsnext:source": "./src/rsc/client.ts",
       "default": "./dist/esm/rsc/client.js"
+    },
+    "./cache": {
+      "types": "./dist/types/cache/index.d.ts",
+      "jsnext:source": "./src/cache/index.ts",
+      "require": "./dist/cjs/cache/index.js",
+      "default": "./dist/esm/cache/index.js"
     }
   },
   "typesVersions": {
@@ -188,6 +195,9 @@
       ],
       "rsc/client": [
         "./dist/types/rsc/client.d.ts"
+      ],
+      "cache": [
+        "./dist/types/cache/index.d.ts"
       ]
     }
   },

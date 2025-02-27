@@ -1,6 +1,6 @@
 {
   "name": "asset-publicPath-test",
-  "version": "2.64.3",
+  "version": "2.65.1",
   "dependencies": {
     "react": "^18.3.1"
   },

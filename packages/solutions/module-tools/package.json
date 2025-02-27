@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.64.3",
+  "version": "2.65.1",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@ast-grep/napi": "0.34.4",
+    "@ast-grep/napi": "0.35.0",
     "@babel/core": "^7.26.0",
     "@babel/types": "^7.26.0",
     "@modern-js/core": "workspace:*",

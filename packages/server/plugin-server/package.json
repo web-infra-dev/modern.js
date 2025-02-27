@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.64.3",
+  "version": "2.65.1",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/cjs/cli.js",
