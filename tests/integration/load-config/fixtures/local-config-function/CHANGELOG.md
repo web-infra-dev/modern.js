@@ -1,5 +1,7 @@
 # integration-local-config-function
 
+## 2.65.2
+
 ## 2.65.1
 
 ## 2.65.0

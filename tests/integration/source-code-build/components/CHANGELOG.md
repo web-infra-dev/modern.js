@@ -1,5 +1,11 @@
 # @source-code-build/components
 
+## 2.65.2
+
+### Patch Changes
+
+- @source-code-build/utils@2.65.2
+
 ## 2.65.1
 
 ### Patch Changes

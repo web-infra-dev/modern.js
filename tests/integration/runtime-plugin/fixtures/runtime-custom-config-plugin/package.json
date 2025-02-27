@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "runtime-custom-config-plugin",
-  "version": "2.65.1",
+  "version": "2.65.2",
   "scripts": {
     "dev": "modern dev"
   },

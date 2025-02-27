@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1f83d96: fix(render): fork react-server-dom-webpack to avoid warnings about installing dependencies
+  fix(render): 内置 react-server-dom-webpack 到 packages/toolkit/utils/compiled 中，避免安装依赖的警告
+
 ## 2.65.1
 
 ## 2.65.0

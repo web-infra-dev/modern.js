@@ -1,5 +1,18 @@
 # @modern-js/create-request
 
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [1f83d96]
+  - @modern-js/runtime-utils@2.65.2
+  - @modern-js/utils@2.65.2
+
 ## 2.65.1
 
 ### Patch Changes

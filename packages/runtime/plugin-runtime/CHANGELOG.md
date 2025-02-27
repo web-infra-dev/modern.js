@@ -1,5 +1,28 @@
 # @modern-js/runtime
 
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1fe923c: chore: use monitors instead of reporter to report Data Loader cost
+  chore: 使用 monitors 代替 reporter 来上报 Data Loader 耗时
+- 8837b85: feat(runtime): support cache function & getRequest function
+  feat(runtime): 支持 cache 函数 和 getRequest 函数
+- Updated dependencies [63d477e]
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [1f83d96]
+  - @modern-js/plugin-v2@2.65.2
+  - @modern-js/plugin-data-loader@2.65.2
+  - @modern-js/runtime-utils@2.65.2
+  - @modern-js/types@2.65.2
+  - @modern-js/render@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/plugin@2.65.2
+
 ## 2.65.1
 
 ### Patch Changes

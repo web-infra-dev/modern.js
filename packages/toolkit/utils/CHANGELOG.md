@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.65.2
+
+### Patch Changes
+
+- 1f83d96: fix(render): fork react-server-dom-webpack to avoid warnings about installing dependencies
+  fix(render): 内置 react-server-dom-webpack 到 packages/toolkit/utils/compiled 中，避免安装依赖的警告
+
 ## 2.65.1
 
 ## 2.65.0
