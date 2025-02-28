@@ -537,12 +537,14 @@ export function ssrLoaderCombinedModule(
 }
 
 export const runtimeGlobalContext = async ({
+  entryName,
   metaName,
   srcDirectory,
   nestedRoutesEntry,
   internalSrcAlias,
   globalApp,
 }: {
+  entryName: string;
   metaName: string;
   srcDirectory: string;
   nestedRoutesEntry?: string;
@@ -600,7 +602,9 @@ export const runtimeGlobalContext = async ({
 
 import { routes } from './routes';
 
+const entryName = '${entryName}';
 setGlobalContext({
+  entryName,
   layoutApp,
   routes,
   appInit,

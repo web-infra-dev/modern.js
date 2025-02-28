@@ -164,7 +164,8 @@ const getImportRuntimeConfigCode = (
       ),
     )
   ) {
-    return `import runtimeConfig from '${internalSrcAlias}/${runtimeConfigFile}';`;
+    return `import modernRuntime from '${internalSrcAlias}/${runtimeConfigFile}';
+const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(getCurrentEntryName()) : modernRuntime`;
   }
   return `let runtimeConfig;`;
 };
@@ -195,7 +196,8 @@ export const runtimeRegister = ({
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePluginConfig[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalAppConfig, getGlobalLayoutApp } from '@${metaName}/runtime/context';
+import { getGlobalAppConfig, getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
+
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
 const plugins = [];
@@ -212,12 +214,14 @@ registerPlugin(plugins, runtimeConfig);
 `;
 
 export const runtimeGlobalContext = ({
+  entryName,
   srcDirectory,
   internalSrcAlias,
   metaName,
   entry,
   customEntry,
 }: {
+  entryName: string;
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
@@ -237,7 +241,9 @@ import App from '${
     )
   }';
 
+const entryName = '${entryName}';
 setGlobalContext({
+  entryName,
   App,
 });`;
 };
