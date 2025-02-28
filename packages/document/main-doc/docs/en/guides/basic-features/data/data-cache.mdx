@@ -15,7 +15,7 @@ import { fetchUserData } from './api';
 const getUser = cache(fetchUserData);
 
 const loader = async () => {
-  const user = await getUser(user); // 函数入参发生变化时，函数会重新执行
+  const user = await getUser(user); // When the parameters of the function changes, the function will be re-executed
   return {
     user,
   };
