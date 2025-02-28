@@ -76,6 +76,10 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
     headers: IncomingHttpHeaders;
     host: string;
     url: string;
+    referer?: string;
+    userAgent?: string;
+    cookie?: string;
+    cookieMap?: Record<string, string>;
     [propsName: string]: any;
   };
   response: BaseResponseLike;

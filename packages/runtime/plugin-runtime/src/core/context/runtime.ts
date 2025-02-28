@@ -16,12 +16,14 @@ interface BaseRuntimeContext {
   store?: Store;
   routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
+  context?: TSSRContext;
   /**
    * private
    */
   unstable_getBlockNavState?: () => boolean;
 }
 
+// It's the RuntimeContext passed internally
 export interface RuntimeContext extends BaseRuntimeContext {
   [key: string]: any;
 }
@@ -30,6 +32,7 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
 export const ServerRouterContext = createContext({} as any);
 
+// TODO: We should export this context to user as RuntimeContext, use in `init` function
 export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   initialData?: Record<string, unknown>;
   isBrowser: boolean;

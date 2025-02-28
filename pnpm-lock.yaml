@@ -7650,6 +7650,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
       react:
         specifier: ^18.3.1
         version: 18.3.1

@@ -33,12 +33,12 @@ const getQuery = () =>
       return res;
     }, {});
 
-function getSSRData(): SSRContainer & ExtraSSRContainer {
+function getSSRData(): SSRContainer {
   const ssrData = window._SSR_DATA;
 
   const ssrRequest = ssrData?.context?.request;
 
-  const finalSSRData: SSRContainer & ExtraSSRContainer = {
+  const finalSSRData: SSRContainer = {
     ...(ssrData || {
       renderLevel: 0,
       mode: 'string',
@@ -117,7 +117,7 @@ export async function render(
       }),
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
-      ...{ ssrContext: ssrData.context },
+      ssrContext: ssrData.context,
     });
 
     context.initialData = ssrData.data?.initialData;

@@ -1,3 +1,4 @@
+import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { type RenderLevel, SSR_DATA_JSON_ID } from '../../constants';
@@ -99,7 +100,7 @@ function createReplaceSSRData(options: {
         pathname: request.pathname,
         host: request.host,
         url: request.url,
-        headers,
+        headers: headers as IncomingHttpHeaders,
       },
     },
     mode: 'stream',
