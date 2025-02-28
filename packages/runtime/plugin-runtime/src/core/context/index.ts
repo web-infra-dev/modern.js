@@ -10,6 +10,7 @@ export {
 } from './runtime';
 
 interface GlobalContext {
+  entryName?: string;
   /**
    * App.tsx export default component
    */
@@ -45,6 +46,7 @@ export function setGlobalContext(
     appConfig?: () => AppConfig;
   },
 ) {
+  globalContext.entryName = context.entryName;
   globalContext.App = context.App;
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
@@ -54,6 +56,10 @@ export function setGlobalContext(
       : context.appConfig;
   globalContext.layoutApp = context.layoutApp;
   globalContext.RSCRoot = context.RSCRoot;
+}
+
+export function getCurrentEntryName() {
+  return globalContext.entryName;
 }
 
 export function getGlobalRSCRoot() {

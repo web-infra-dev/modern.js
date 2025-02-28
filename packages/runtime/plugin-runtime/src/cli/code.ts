@@ -193,6 +193,7 @@ export const generateCode = async (
         let contextCode = '';
         if (!config.server.rsc) {
           contextCode = template.runtimeGlobalContext({
+            entryName,
             srcDirectory,
             internalSrcAlias,
             metaName,
