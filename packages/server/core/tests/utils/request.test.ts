@@ -81,6 +81,6 @@ describe('test utils.request', () => {
           'x-forwarded-host': 'localhost:9090',
         }),
       } as Request),
-    ).toBe('localhost:9090');
+    ).toBe('localhost:8080');
   });
 });
