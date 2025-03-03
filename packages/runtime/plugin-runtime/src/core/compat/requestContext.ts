@@ -1,4 +1,4 @@
-// this plugin is use for
+// this plugin is use to provide request context to runtime context
 import type { RuntimeContext } from '../context';
 import type { RuntimePluginFuture } from '../plugin/types';
 import type { TSSRContext } from '../types';
