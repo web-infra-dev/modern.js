@@ -1,0 +1,25 @@
+在 Modern.js 中，日志事件内由 `LoggerMonitor` 处理，它会将日志输出到控制台。
+
+:::info
+内置的 `LoggerMonitor` 依赖了 [rslog](https://www.npmjs.com/package/rslog) 库。
+:::
+
+例如在项目中有意的抛出一个错误：
+
+```tsx title=routes/page.tsx
+import './index.css';
+
+const Index = () => <div className="container-box">{a}</div>;
+
+export default Index;
+```
+
+如果运行正常，可以在控制台看到如下输出：
+
+```shell
+> Local:    http://localhost:8080/
+> press h + enter to show shortcuts
+
+error   SSR Error - App Prerender, error = ReferenceError: a is not defined
+    at Index (/somepath/page.tsx:3:1)
+```

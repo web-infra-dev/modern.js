@@ -1,0 +1,20 @@
+在 Modern.js 中，指标事件也由 `LoggerMonitor` 处理，它会将指标按照一定格式输出到控制台。
+
+:::info
+内置的 `LoggerMonitor` 依赖了 [rslog](https://www.npmjs.com/package/rslog) 库。
+:::
+
+在 Modern.js 中初始化的 `rslog` 实例默认在开发环境下会输出 `debug` 级别及以上的日志，在生产环境下会输出所有日志。而在内置的 `LoggerMonitor` 中，所有的指标事件都被输出为 Debug 日志。因此如果希望在开发环境查看指标事件的信息，需要添加额外的环境变量。
+
+开发者可以在运行 `dev` 命令时添加环境变量 `DEBUG=true`，如果运行正常，访问后可以在控制台看到如下输出：
+
+```shell
+> Local:    http://localhost:8080/
+> press h + enter to show shortcuts
+
+debug   SSR Debug - server-loader, cost: 2.000094, req.url = /
+debug   SSR Debug - ssr-prerender, cost: 6.99997, req.url = /
+debug   SSR Debug - ssr-render-html, cost: 0.999927, req.url = /
+debug   Debug - server-handle-request, cost: 19.999981, req.url = /
+debug     --> GET / 200 90ms
+```

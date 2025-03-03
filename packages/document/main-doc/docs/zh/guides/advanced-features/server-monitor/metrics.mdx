@@ -1,0 +1,43 @@
+# 指标
+
+指标事件是由 Monitors 分发，类型为 `timing` 或 `counter` 的事件。
+
+## 内置事件
+
+当项目开启 SSR 时，我们需要关注 Server 端各阶段耗时，并且有能力对 Server 端的问题进行定位。
+
+基于服务端运行逻辑，Modern.js 在内部提供了以下指标事件：
+
+| Key                      | 描述             |
+| ------------------------ | ---------------  |
+| server-handle-request    | EdenX Server 处理请求单次耗时                                                           |
+| ssr-render-shell         | [SSR]在使用 Streaming SSR 时， React 将渲染一个套壳(shell)优先传输。这里表明套壳渲染完成时间                              |
+| ssr-render-html          | [SSR] React 将组件树渲染成 html 所消耗的时间，通常不会超过 50ms                                                         |
+| server-middleware        | EdenX 自定义 Server `Middleware` 执行总时                                                                           |
+| server-loader            | Server 端整体 Data Loader 耗时                                                                                     |
+| server-loader-#id        | Server 端各个 Data Loader 耗时                                                                                      |
+| server-loader-navigation | 前端导航时，服务端 Data Loader 的整体耗时                                                                              |
+
+Modenr.js 服务端流程如图所示：
+
+![server](https://lf3-static.bytednsdoc.com/obj/eden-cn/eeeh7uhbepxlpe/edenx-website/e374def0-c179-40aa-9cfe-e82e181663b1.jpeg)
+
+
+
+## 内置 Monitor
+
+import InternalMetrics from '@site-docs/components/internal-metrics.mdx';
+
+<InternalMetrics />
+
+## Server-Timing
+
+在 Modern.js 中，服务端还会额外将各阶段指标作为 Server-Timing 注入到 HTML 响应头中。
+
+在浏览器中，开发者可以通过 [Performance API](https://developer.mozilla.org/en-US/docs/Web/API/Performance) 获取：
+
+```ts
+const navigation = performance.getEntriesByType('navigation')[0];
+const serverTiming = navigation.serverTiming;
+console.log(serverTiming);
+```

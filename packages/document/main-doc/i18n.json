@@ -79,6 +79,10 @@
     "zh": "优化页面性能",
     "en": "Optimize Page Performance"
   },
+  "server-monitor": {
+    "zh": "服务端监控",
+    "en": "Server Monitor"
+  },
   "micro-frontend": {
     "zh": "微前端",
     "en": "Micro Frontend"

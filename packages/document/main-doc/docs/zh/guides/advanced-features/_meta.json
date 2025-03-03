@@ -8,6 +8,12 @@
   },
   {
     "type": "dir",
+    "name": "server-monitor",
+    "label": "server-monitor",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "page-performance",
     "label": "page-performance",
     "collapsed": true
