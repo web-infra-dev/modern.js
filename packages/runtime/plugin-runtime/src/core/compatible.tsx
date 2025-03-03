@@ -146,7 +146,7 @@ export const bootstrap: BootStrap = async (
         loaderManager: createLoaderManager(initialLoadersState, {
           skipStatic: true,
         }),
-        ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+        ssrContext: ssrData?.context || {},
       });
 
       context.initialData = ssrData?.data?.initialData;
@@ -228,23 +228,10 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
-  const baseSSRContext = context.ssrContext;
-  const tSSRContext = baseSSRContext
-    ? {
-        isBrowser: context.isBrowser,
-        request: baseSSRContext.request || ({} as TSSRContext['request']),
-        response: baseSSRContext.response || ({} as TSSRContext['response']),
-        logger: baseSSRContext.logger || ({} as TSSRContext['logger']),
-        getInitData: () => {
-          return Object.freeze(context.initialData);
-        },
-      }
-    : ({} as TSSRContext);
-
   // TODO: Here we should not provide all the RuntimeReactContext to the user
   const pickedContext: TRuntimeContext = {
     ...context,
-    context: tSSRContext,
+    context: context.context || ({} as TSSRContext),
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
   };

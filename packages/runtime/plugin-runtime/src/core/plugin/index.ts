@@ -4,6 +4,7 @@ import { runtime } from '@modern-js/plugin-v2/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { compatPlugin } from '../compat';
 import { handleSetupResult } from '../compat/hooks';
+import { requestContextPlugin } from '../compat/requestContext';
 import { setGlobalInternalRuntimeContext } from '../context';
 import type { Plugin as RuntimePlugin } from './base';
 import type {
@@ -23,7 +24,12 @@ export function registerPlugin(
 ) {
   const { plugins = [] } = runtimeConfig || {};
   const { runtimeContext } = runtime.run({
-    plugins: [compatPlugin(), ...internalPlugins, ...plugins] as Plugin[],
+    plugins: [
+      compatPlugin(),
+      requestContextPlugin(),
+      ...internalPlugins,
+      ...plugins,
+    ] as Plugin[],
     config: runtimeConfig || {},
     handleSetupResult,
   });

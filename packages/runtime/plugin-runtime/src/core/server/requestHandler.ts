@@ -133,6 +133,7 @@ function createSSRContext(
       params,
       headers: headersData,
       host,
+      referer: headers.get('referer')!,
       raw: request,
     },
     response: {
