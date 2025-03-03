@@ -1,0 +1,169 @@
+---
+title: Data Caching
+sidebar_position: 4
+---
+# Data Caching
+
+The `cache` function allows you to cache the results of data fetching or computation.
+
+## Basic Usage
+
+```ts
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData } from './api';
+
+const getUser = cache(fetchUserData);
+
+const loader = async () => {
+  const user = await getUser(user); // When the parameters of the function changes, the function will be re-executed
+  return {
+    user,
+  };
+};
+```
+
+
+### Parameters
+
+- `fn`: The data fetching or computation function to be cached
+- `options` (optional): Cache configuration
+  - `tag`: Tag to identify the cache, which can be used to invalidate the cache
+  - `maxAge`: Cache validity period (milliseconds)
+  - `revalidate`: Time window for revalidating the cache (milliseconds), similar to HTTP Cache-Control's stale-while-revalidate functionality
+
+The type of the `options` parameter is as follows:
+
+```ts
+interface CacheOptions {
+  tag?: string | string[];
+  maxAge?: number;
+  revalidate?: number;
+}
+```
+
+
+### Return Value
+
+The `cache` function returns a new function with caching capabilities. Multiple calls to this function will not re-execute the `fn` function.
+
+## Usage Scope
+
+Unlike React's [cache](https://react.dev/reference/react/cache) function which can only be used in server components,
+EdenX's `cache` function can be used in any frontend or server-side code.
+
+## Detailed Usage
+
+### Without `options` Parameter
+
+When no `options` parameter is provided, it's primarily useful in SSR projects, the cache lifecycle is limited to a single SSR rendering request. For example, when the same cachedFn is called in multiple data loaders, the cachedFn function won't be executed repeatedly. This allows data sharing between different data loaders while avoiding duplicate requests. EdenX will re-execute the `fn` function with each server request.
+
+:::info
+Without the `options` parameter, it can be considered a replacement for React's [`cache`](https://react.dev/reference/react/cache) function and can be used in any server-side code (such as in data loaders of SSR projects), not limited to server components.
+:::
+
+```ts
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData } from './api';
+
+const getUser = cache(fetchUserData);
+
+const loader = async () => {
+  const user = await getUser();
+  return {
+    user,
+  };
+};
+```
+
+
+### With `options` Parameter
+
+#### `maxAge` Parameter
+
+After each computation, the framework records the time when the cache is written.
+When the function is called again, it checks if the cache has expired based on the `maxAge` parameter.
+If expired, the `fn` function is re-executed; otherwise, the cached data is returned.
+
+```ts
+import { cache, CacheTime } from '@modern-js/runtime/cache';
+
+const getDashboardStats = cache(
+  async () => {
+    return await fetchComplexStatistics();
+  },
+  {
+    maxAge: CacheTime.MINUTE * 2,  // Calling this function within 2 minutes will return cached data
+  }
+);
+```
+
+
+#### `revalidate` Parameter
+
+The `revalidate` parameter sets a time window for revalidating the cache after it expires. It can be used together with the `maxAge` parameter, similar to HTTP Cache-Control's stale-while-revalidate mode.
+
+In the following example, within the 2-minute period before the cache expires, calls to `getDashboardStats` will return cached data. If the cache has expired (between 2 and 3 minutes), requests will first return the old data, then refresh the data in the background and update the cache.
+
+```ts
+import { cache, CacheTime } from '@modern-js/runtime/cache';
+
+const getDashboardStats = cache(
+  async () => {
+    return await fetchComplexStatistics();
+  },
+  {
+    maxAge: CacheTime.MINUTE * 2,
+    revalidate: CacheTime.MINUTE * 1,
+  }
+);
+```
+
+
+#### `tag` Parameter
+
+The `tag` parameter identifies the cache with a tag, which can be a string or an array of strings.
+You can invalidate caches based on this tag, and multiple cache functions can use the same tag.
+
+```ts
+import { cache, revalidateTag } from '@modern-js/runtime/cache';
+
+const getDashboardStats = cache(
+  async () => {
+    return await fetchDashboardStats();
+  },
+  {
+    tag: 'dashboard',
+  }
+);
+
+const getComplexStatistics = cache(
+  async () => {
+    return await fetchComplexStatistics();
+  },
+  {
+    tag: 'dashboard',
+  }
+);
+
+revalidateTag('dashboard-stats'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
+```
+
+
+### Storage
+
+Currently, both client and server caches are stored in memory.
+The default storage limit for all cached functions is 1GB. When this limit is reached, the oldest cache is removed using an LRU algorithm.
+
+:::info
+Considering that the results of `cache` function caching are not large, they are currently stored in memory by default.
+:::
+
+You can specify the storage limit using the `configureCache` function:
+
+```ts
+import { configureCache, CacheSize } from '@modern-js/runtime/cache';
+
+configureCache({
+  maxSize: CacheSize.MB * 10, // 10MB
+});
+```
