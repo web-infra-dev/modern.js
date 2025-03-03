@@ -1,14 +1,51 @@
 'use client';
 import 'client-only';
-import { useRuntimeContext } from '@modern-js/runtime';
+import {
+  getRequest,
+  redirect,
+  setHeaders,
+  setStatus,
+  useRuntimeContext,
+} from '@modern-js/runtime';
 import './App.css';
-import { getRequest } from '@modern-js/runtime';
 import { Counter } from './components/Counter';
+
+const handleResponse = (responseType: string) => {
+  switch (responseType) {
+    case 'headers':
+      setHeaders({ 'x-test': 'test-value' });
+      return { message: 'headers set' };
+
+    case 'status':
+      setStatus(418);
+      return { message: 'status set' };
+
+    case 'redirect':
+      redirect('/server-component-root', 307);
+      return null;
+
+    case 'redirect-with-headers':
+      redirect('/server-component-root', {
+        status: 301,
+        headers: {
+          'x-redirect-test': 'test',
+        },
+      });
+      return null;
+
+    default:
+      return { message: 'invalid type' };
+  }
+};
 
 const App = () => {
   const context = useRuntimeContext();
   const request = getRequest();
-  console.log(typeof request?.url);
+  const url = new URL(request.url);
+  const responseType = url.searchParams.get('type');
+  if (responseType) {
+    handleResponse(responseType);
+  }
   return (
     <>
       <div className="container">

@@ -10,6 +10,7 @@ export type { RuntimeUserConfig } from './config';
 
 export { getMonitors } from './core/context/monitors';
 export { getRequest } from './core/context/request';
+export { setHeaders, setStatus, redirect } from './core/context/response';
 
 export {
   createApp,

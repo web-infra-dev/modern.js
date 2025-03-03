@@ -51,6 +51,10 @@ const storage = createStorage<{
   monitors?: Monitors;
   headers?: IncomingHttpHeaders;
   request?: Request;
+  responseProxy?: {
+    headers: Record<string, string>;
+    status: number;
+  };
 }>();
 
 type Storage = typeof storage;

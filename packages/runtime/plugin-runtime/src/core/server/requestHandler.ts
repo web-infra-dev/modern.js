@@ -48,7 +48,7 @@ export type CreateRequestHandler = (
 
 type ResponseProxy = {
   headers: Record<string, string>;
-  code: number;
+  status: number;
 };
 
 function createSSRContext(
@@ -141,7 +141,7 @@ function createSSRContext(
         responseProxy.headers[key] = value;
       },
       status(code) {
-        responseProxy.code = code;
+        responseProxy.status = code;
       },
       locals: locals || {},
     },
@@ -159,8 +159,17 @@ export const createRequestHandler: CreateRequestHandler = async (
 ) => {
   const requestHandler: RequestHandler = async (request, options) => {
     const headersData = parseHeaders(request);
+    const responseProxy: ResponseProxy = {
+      headers: {},
+      status: -1,
+    };
     return storage.run(
-      { headers: headersData, request, monitors: options.monitors },
+      {
+        headers: headersData,
+        request,
+        monitors: options.monitors,
+        responseProxy,
+      },
       async () => {
         const Root = createRoot();
 
@@ -182,11 +191,6 @@ export const createRequestHandler: CreateRequestHandler = async (
           }
           const init = getGlobalAppInit();
           return init?.(context);
-        };
-
-        const responseProxy: ResponseProxy = {
-          headers: {},
-          code: -1,
         };
 
         const ssrContext = createSSRContext(request, {
@@ -277,9 +281,9 @@ export const createRequestHandler: CreateRequestHandler = async (
           response.headers.set(key, value);
         });
 
-        if (responseProxy.code !== -1) {
+        if (responseProxy.status !== -1) {
           return new Response(response.body, {
-            status: responseProxy.code,
+            status: responseProxy.status,
             headers: response.headers,
           });
         }
