@@ -4,8 +4,7 @@ sidebar_position: 4
 ---
 # 数据缓存
 
-`cache` 函数可以让你缓存数据获取或计算的结果，它拥有 react [cache](https://react.dev/reference/react/cache) 函数所有的能力，可以当做 `cache` 函数的替代品，
-但它的能力会比 `cache` 函数更强大。
+`cache` 函数可以让你缓存数据获取或计算的结果。
 
 ## 基本用法
 
@@ -54,7 +53,7 @@ EdenX 提供的 `cache` 函数可以在任意的前端或服务端的代码中�
 
 ### 无 `options` 参数
 
-当无 `options` 参数传入时，主要可以用于 SSR 项目，如可以在多个 data loader 中调用同一个 cachedFn 时，不会重复执行 cachedFn 函数。这样可以在不同的 data loader 中共享数据，同时避免重复的请求。EdenX 会在每次收到服务端请求时，重新执行 `fn` 函数(即缓存的生命周期是单次 ssr 渲染的请求)。
+当无 `options` 参数传入时，主要可以用于 SSR 项目，缓存的生命周期是单次 ssr 渲染的请求，如可以在多个 data loader 中调用同一个 cachedFn 时，不会重复执行 cachedFn 函数。这样可以在不同的 data loader 中共享数据，同时避免重复的请求，EdenX 会在每次收到服务端请求时，重新执行 `fn` 函数。
 
 :::info
 无 `options` 参数时，可以看作是 react [`cache`](https://react.dev/reference/react/cache) 函数的替代品，可以在任意服务端代码中使用（比如可以在 SSR 项目的 data loader 中），不局限于 server component。
@@ -99,7 +98,7 @@ const getDashboardStats = cache(
 `revalidate` 参数用于设置缓存过期后，重新验证缓存的时间窗口，可以和 `maxAge` 参数一起使用，类似与 HTTP Cache-Control 的 stale-while-revalidate 模式。
 
 
-如以下示例，在缓存未过期的 2 分钟内，如果调用 `getDashboardStats` 函数，会返回缓存的数据，如果缓存过期，2 分到3分钟内，收到的请求会先返回旧数据，然后后台会重新请求数据，并更新缓存。
+如以下示例，在缓存未过期的 2分钟内，如果调用 `getDashboardStats` 函数，会返回缓存的数据，如果缓存过期，2分到3分钟内，收到的请求会先返回旧数据，然后后台会重新请求数据，并更新缓存。
 
 ```ts
 import { cache, CacheTime } from '@modern-js/runtime/cache';
