@@ -6,6 +6,7 @@
     "label": "use-bff",
     "collapsed": true
   },
+
   {
     "type": "dir",
     "name": "page-performance",
@@ -16,5 +17,11 @@
   "compatibility",
   "low-level",
   "source-build",
+  {
+    "type": "dir",
+    "name": "server-monitor",
+    "label": "server-monitor",
+    "collapsed": true
+  },
   "web-server"
 ]

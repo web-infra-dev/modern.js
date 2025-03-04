@@ -1,0 +1,25 @@
+In Modern.js, log events are handled by `LoggerMonitor`, which outputs logs to the console.
+
+:::info
+The built-in `LoggerMonitor` depends on the [rslog](https://www.npmjs.com/package/rslog) library.
+:::
+
+For example, intentionally throwing an error in the project:
+
+```tsx title=routes/page.tsx
+import './index.css';
+
+const Index = () => <div className="container-box">{a}</div>;
+
+export default Index;
+```
+
+If running normally, you can see the following output in the console:
+
+```shell
+> Local:    http://localhost:8080/
+> press h + enter to show shortcuts
+
+error   SSR Error - App Prerender, error = ReferenceError: a is not defined
+    at Index (/somepath/page.tsx:3:1)
+```
