@@ -2,6 +2,7 @@ import { useRouteLoaderData as useRouteData } from '@modern-js/runtime-utils/rou
 import { routerPlugin } from './plugin';
 import type { RouterConfig, SingleRouteConfig } from './types';
 
+declare const MODERN_ROUTER_ID_PREFIX: string | undefined;
 export * from '@modern-js/runtime-utils/router';
 
 export type { SingleRouteConfig, RouterConfig };
