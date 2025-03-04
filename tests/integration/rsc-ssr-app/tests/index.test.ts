@@ -54,6 +54,8 @@ describe('dev', () => {
       renderClientRootPageCorrectly({ baseUrl, appPort, page }));
     it('should render page with context correctly', () =>
       renderPageWithContext({ baseUrl, appPort, page }));
+    it('should support response api', () =>
+      supportResponseAPIForClientRoot({ baseUrl, appPort, page }));
   });
 
   describe('server component root', () => {
@@ -62,6 +64,8 @@ describe('dev', () => {
       renderServerRootPageCorrectly({ baseUrl, appPort, page }));
     it('should support client and server actions', () =>
       supportServerAction({ baseUrl, appPort, page }));
+    it('should support response api', () =>
+      supportResponseAPIForServerRoot({ baseUrl, appPort, page }));
   });
 });
 
@@ -110,6 +114,8 @@ describe('build', () => {
       renderClientRootPageCorrectly({ baseUrl, appPort, page }));
     it('should render page with context correctly', () =>
       renderPageWithContext({ baseUrl, appPort, page }));
+    it('should support response api', () =>
+      supportResponseAPIForClientRoot({ baseUrl, appPort, page }));
   });
 
   describe('server component root', () => {
@@ -118,6 +124,8 @@ describe('build', () => {
       renderServerRootPageCorrectly({ baseUrl, appPort, page }));
     it('should support server action', () =>
       supportServerAction({ baseUrl, appPort, page }));
+    it('should support response api', () =>
+      supportResponseAPIForServerRoot({ baseUrl, appPort, page }));
   });
 });
 
@@ -180,4 +188,76 @@ async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
   );
   serverCount = await page.$eval('.server-count', el => el.textContent);
   expect(serverCount).toBe('1');
+}
+
+async function supportResponseAPIForServerRoot({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  const headersRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=headers`,
+  );
+  expect(headersRes.headers.get('x-test')).toBe('test-value');
+
+  // Test setStatus
+  const statusRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=status`,
+  );
+  expect(statusRes.status).toBe(418);
+
+  // Test redirect with status code
+  const redirectRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect`,
+    { redirect: 'manual' },
+  );
+  expect(redirectRes.status).toBe(307);
+  expect(redirectRes.headers.get('location')).toBe('/client-component-root');
+
+  // Test redirect with init object
+  const redirectWithHeadersRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect-with-headers`,
+    { redirect: 'manual' },
+  );
+  expect(redirectWithHeadersRes.status).toBe(301);
+  expect(redirectWithHeadersRes.headers.get('location')).toBe(
+    '/client-component-root',
+  );
+  expect(redirectWithHeadersRes.headers.get('x-redirect-test')).toBe('test');
+}
+
+async function supportResponseAPIForClientRoot({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  const headersRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=headers`,
+  );
+  expect(headersRes.headers.get('x-test')).toBe('test-value');
+
+  // Test setStatus
+  const statusRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=status`,
+  );
+  expect(statusRes.status).toBe(418);
+
+  // Test redirect with status code
+  const redirectRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect`,
+    { redirect: 'manual' },
+  );
+  expect(redirectRes.status).toBe(307);
+  expect(redirectRes.headers.get('location')).toBe('/server-component-root');
+
+  // Test redirect with init object
+  const redirectWithHeadersRes = await fetch(
+    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect-with-headers`,
+    { redirect: 'manual' },
+  );
+  expect(redirectWithHeadersRes.status).toBe(301);
+  expect(redirectWithHeadersRes.headers.get('location')).toBe(
+    '/server-component-root',
+  );
+  expect(redirectWithHeadersRes.headers.get('x-redirect-test')).toBe('test');
 }
