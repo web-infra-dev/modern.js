@@ -4133,8 +4133,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       lru-cache:
-        specifier: ^11.0.2
-        version: 11.0.2
+        specifier: ^10.4.3
+        version: 10.4.3
       react-router-dom:
         specifier: 6.27.0
         version: 6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
