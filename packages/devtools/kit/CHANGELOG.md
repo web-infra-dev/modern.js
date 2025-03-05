@@ -1,5 +1,13 @@
 # @modern-js/devtools-kit
 
+## 2.65.3
+
+### Patch Changes
+
+- Updated dependencies [b337977]
+  - @modern-js/types@2.65.3
+  - @modern-js/utils@2.65.3
+
 ## 2.65.2
 
 ### Patch Changes
