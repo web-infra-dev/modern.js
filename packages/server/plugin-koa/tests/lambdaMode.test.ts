@@ -4,7 +4,7 @@ import koaBody from 'koa-body';
 import Router from 'koa-router';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin, createPluginManager } from './helpers';
+import { APIPlugin, serverInit } from './helpers';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 const API_DIR = './api';
@@ -12,12 +12,12 @@ const MockKoa = Koa;
 const MockRouter = Router;
 const MockKoaBody = koaBody;
 
-async function createRunner() {
-  const pluginManager = createPluginManager();
+async function createHooks() {
+  const hooks = await serverInit({
+    plugins: [APIPlugin, plugin()],
+  });
 
-  pluginManager.addPlugins([APIPlugin, plugin()]);
-
-  return pluginManager.init();
+  return hooks;
 }
 
 describe('lambda-mode', () => {
@@ -28,9 +28,9 @@ describe('lambda-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await createRunner();
+    const hooks = await createHooks();
 
-    apiHandler = await runner.prepareApiServer({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix,
     });
@@ -115,10 +115,10 @@ describe('lambda-mode', () => {
 });
 
 describe('add middlewares', () => {
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner();
+    hooks = await createHooks();
   });
 
   test('should works', async () => {
@@ -135,7 +135,7 @@ describe('add middlewares', () => {
       fakeMiddleware,
       fakeMiddleware2,
     ];
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       config: {
@@ -161,10 +161,10 @@ describe('support use koaBody in app.ts', () => {
   const name = 'modernjs';
   const foo = { id, name };
 
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner();
+    hooks = await createHooks();
   });
 
   test('support use koaBody', async () => {
@@ -189,7 +189,7 @@ describe('support use koaBody in app.ts', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -204,10 +204,10 @@ describe('support use koaBody in app.ts', () => {
 describe('support app.ts in lambda mode', () => {
   const name = 'modernjs';
 
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner();
+    hooks = await createHooks();
   });
 
   beforeEach(() => {
@@ -227,7 +227,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -248,7 +248,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -274,7 +274,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -301,7 +301,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',

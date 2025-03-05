@@ -5,8 +5,6 @@ export { AGGRED_DIR } from './constants';
 export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
 
-export { PluginManager, type PluginManagerOptions } from './pluginManager';
-
 export type {
   Middleware,
   Context,
@@ -19,7 +17,7 @@ export type {
 
 export { getLoaderCtx } from './helper';
 export * from './plugins';
-export * from './types/plugin';
+export * from './types/plugins';
 export * from './types/render';
 export * from '@modern-js/plugin';
 export * from './types/config';
