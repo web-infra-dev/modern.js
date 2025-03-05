@@ -1,5 +1,29 @@
 # @modern-js/runtime
 
+## 2.65.3
+
+### Patch Changes
+
+- dc78fc0: feat: defineRuntimeConfig supports function parameters and multiple entry configuration
+
+  feat: defineRuntimeConfig 支持函数参数及配置多入口
+
+- b337977: fix: requestContext should be add on runtimeContext before init
+  fix: requestContext 应该在 init 前添加到 runtimeContext
+- 437638f: feat: export getMonitors for server component
+  feat: 为 server component 暴露 getMonitors
+- 087ae7c: feat: Add response APIs to support setting response headers, status codes, and redirects
+  feat: 添加一些响应的 API，可以设置响应头，状态码，及重定向
+- Updated dependencies [b337977]
+- Updated dependencies [087ae7c]
+  - @modern-js/types@2.65.3
+  - @modern-js/runtime-utils@2.65.3
+  - @modern-js/plugin-data-loader@2.65.3
+  - @modern-js/render@2.65.3
+  - @modern-js/plugin-v2@2.65.3
+  - @modern-js/utils@2.65.3
+  - @modern-js/plugin@2.65.3
+
 ## 2.65.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.65.3
+
+### Patch Changes
+
+- 7899005: docs: add monitors API docs
+  docs: 添加 monitors API 使用文档
+  - @modern-js/sandpack-react@2.65.3
+
 ## 2.65.2
 
 ### Patch Changes

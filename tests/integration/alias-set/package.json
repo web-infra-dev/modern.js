@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@integration-test/alias-set",
-  "version": "2.65.2",
+  "version": "2.65.3",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build"

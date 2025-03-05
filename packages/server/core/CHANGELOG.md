@@ -1,5 +1,14 @@
 # @modern-js/server-plugin
 
+## 2.65.3
+
+### Patch Changes
+
+- Updated dependencies [087ae7c]
+  - @modern-js/runtime-utils@2.65.3
+  - @modern-js/utils@2.65.3
+  - @modern-js/plugin@2.65.3
+
 ## 2.65.2
 
 ### Patch Changes
