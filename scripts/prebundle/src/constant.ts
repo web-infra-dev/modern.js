@@ -129,6 +129,32 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'cli/uni-builder',
+    packageName: '@modern-js/uni-builder',
+    dependencies: [
+      {
+        name: 'babel-plugin-lodash',
+        ignoreDts: true,
+        externals: {
+          // should keep glob v7 (windowsPathsNoEscape by default)
+          glob: '@modern-js/utils/glob',
+        },
+        // Fix the deprecated babel API
+        // https://github.com/lodash/babel-plugin-lodash/issues/259
+        // https://github.com/lodash/babel-plugin-lodash/pull/261
+        beforeBundle(task) {
+          const mainFile = join(task.depPath, 'lib/index.js');
+          replaceFileContent(mainFile, content => {
+            return content.replace(
+              '(0, _types.isModuleDeclaration)(node)',
+              '(0, _types.isImportDeclaration)(node) || (0, _types.isExportDeclaration)(node)',
+            );
+          });
+        },
+      },
+    ],
+  },
+  {
     // Todo: rename
     packageDir: 'solutions/module-tools',
     packageName: '@modern-js/module-tools',
@@ -212,4 +238,4 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
-];
+].filter(f => f.packageName === '@modern-js/uni-builder');
