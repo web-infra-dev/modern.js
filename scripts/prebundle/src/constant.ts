@@ -238,4 +238,4 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
-].filter(f => f.packageName === '@modern-js/uni-builder');
+];
