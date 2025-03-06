@@ -1,5 +1,15 @@
 # @modern-js/plugin-bff
 
+## 2.65.3
+
+### Patch Changes
+
+- @modern-js/bff-core@2.65.3
+- @modern-js/server-core@2.65.3
+- @modern-js/create-request@2.65.3
+- @modern-js/utils@2.65.3
+- @modern-js/server-utils@2.65.3
+
 ## 2.65.2
 
 ### Patch Changes

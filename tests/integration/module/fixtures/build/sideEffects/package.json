@@ -1,6 +1,6 @@
 {
   "name": "module-tools-side-effects-test",
-  "version": "2.65.2",
+  "version": "2.65.3",
   "sideEffects": true,
   "private": true
 }

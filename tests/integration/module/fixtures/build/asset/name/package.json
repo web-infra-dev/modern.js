@@ -1,6 +1,6 @@
 {
   "name": "asset-name-test",
-  "version": "2.65.2",
+  "version": "2.65.3",
   "dependencies": {
     "react": "^18.3.1"
   },
