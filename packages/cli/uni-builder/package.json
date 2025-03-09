@@ -59,7 +59,7 @@
     "@rsbuild/webpack": "1.2.3",
     "@swc/core": "1.10.18",
     "@swc/helpers": "0.5.13",
-    "autoprefixer": "10.4.20",
+    "autoprefixer": "10.4.21",
     "babel-loader": "9.2.1",
     "babel-plugin-import": "1.13.8",
     "babel-plugin-styled-components": "1.13.3",
