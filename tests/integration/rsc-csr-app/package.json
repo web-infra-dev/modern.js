@@ -16,8 +16,8 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "client-only": "^0.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "server-only": "^0.0.1"
   },
   "devDependencies": {

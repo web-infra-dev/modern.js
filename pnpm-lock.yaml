@@ -4,6 +4,22 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  react18:
+    react:
+      specifier: ^18.3.1
+      version: 18.3.1
+    react-dom:
+      specifier: ^18.3.1
+      version: 18.3.1
+  react19:
+    react:
+      specifier: ^19.0.0
+      version: 19.0.0
+    react-dom:
+      specifier: ^19.0.0
+      version: 19.0.0
+
 pnpmfileChecksum: xgsanqyu6btouvnpjms5qrs35q
 
 importers:
@@ -354,10 +370,10 @@ importers:
         specifier: ^3.5.1
         version: 3.5.3
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       supertest:
         specifier: ^6.1.6
@@ -477,10 +493,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.3.3))
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-router-dom:
         specifier: 6.27.0
@@ -578,7 +594,7 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       tailwindcss:
         specifier: ^3.3.3
@@ -805,10 +821,10 @@ importers:
         specifier: ^4.14.202
         version: 4.17.14
       react:
-        specifier: ^18.2.0
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.2.0
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       terser:
         specifier: ^5.31.1
@@ -914,7 +930,7 @@ importers:
         specifier: ^10.0.1
         version: 10.0.8(postcss@8.5.3)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-base16-styling:
         specifier: ^0.10.0
@@ -923,7 +939,7 @@ importers:
         specifier: ^4.28.5
         version: 4.28.5
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-dom-exp:
         specifier: npm:react-dom@0.0.0-experimental-51ffd3564-20231025
@@ -1047,7 +1063,7 @@ importers:
         specifier: 3.3.8
         version: 3.3.8
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       type-fest:
         specifier: ^4.1.0
@@ -1178,10 +1194,10 @@ importers:
         specifier: ^10
         version: 10.1.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       rspress:
         specifier: 1.42.0
@@ -1202,10 +1218,10 @@ importers:
         specifier: 1.42.0
         version: 1.42.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       rspress:
         specifier: 1.42.0
@@ -1896,10 +1912,10 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/base-generator':
@@ -2309,10 +2325,10 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-router-dom:
         specifier: 6.27.0
@@ -2385,10 +2401,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.3.3))
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
@@ -2536,10 +2552,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.3.3))
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
@@ -2675,10 +2691,10 @@ importers:
         specifier: ^17.0.2
         version: 17.0.33
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
@@ -2715,10 +2731,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@22.13.10)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@22.13.10)(typescript@5.6.3))
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
@@ -4161,10 +4177,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.3.3))
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
@@ -4554,10 +4570,10 @@ importers:
         specifier: 4.2.0
         version: 4.2.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-is:
         specifier: ^18
@@ -4760,10 +4776,10 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-router-dom:
         specifier: 6.22.0
@@ -4812,10 +4828,10 @@ importers:
         specifier: ^4
         version: 4.24.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/e2e/builder/cases/import-antd-v5:
@@ -4824,10 +4840,10 @@ importers:
         specifier: ^5
         version: 5.23.2(date-fns@2.30.0)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/e2e/builder/cases/import-arco:
@@ -4836,10 +4852,10 @@ importers:
         specifier: ^2.46.0
         version: 2.65.0(@types/react@19.0.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/e2e/builder/cases/moment:
@@ -4861,10 +4877,10 @@ importers:
   tests/e2e/builder/cases/source-map:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       source-map:
         specifier: 0.7.4
@@ -4873,10 +4889,10 @@ importers:
   tests/e2e/garfish:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/e2e':
@@ -4910,10 +4926,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -4950,10 +4966,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -4987,10 +5003,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5024,10 +5040,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5058,10 +5074,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5092,10 +5108,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5132,10 +5148,10 @@ importers:
         specifier: 2.15.4
         version: 2.15.4
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5178,10 +5194,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5212,10 +5228,10 @@ importers:
   tests/integration/asset-prefix:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5234,10 +5250,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5265,10 +5281,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5308,10 +5324,10 @@ importers:
         specifier: ^4.17.2
         version: 4.21.2
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5363,10 +5379,10 @@ importers:
         specifier: ^4.17.2
         version: 4.21.2
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5421,10 +5437,10 @@ importers:
         specifier: ^4.17.2
         version: 4.21.2
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5473,10 +5489,10 @@ importers:
         specifier: ^4.17.2
         version: 4.20.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5528,10 +5544,10 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5571,10 +5587,10 @@ importers:
   tests/integration/builder-plugins:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5593,10 +5609,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5624,10 +5640,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5652,10 +5668,10 @@ importers:
   tests/integration/copy-assets:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5674,10 +5690,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5705,10 +5721,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5736,10 +5752,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5767,10 +5783,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5798,10 +5814,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5838,10 +5854,10 @@ importers:
         specifier: 2.15.4
         version: 2.15.4
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
@@ -5884,10 +5900,10 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       react-router:
         specifier: ^6
@@ -5924,10 +5940,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -5961,10 +5977,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6004,10 +6020,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-builder-index:
@@ -6016,10 +6032,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-custom:
@@ -6031,10 +6047,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-custom-bootstrap:
@@ -6046,10 +6062,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-custom-routes:
@@ -6061,10 +6077,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-entry:
@@ -6076,10 +6092,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-route:
@@ -6091,10 +6107,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/entries/fixtures/app-server-entry:
@@ -6109,10 +6125,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/toolkit/runtime-utils
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/esbuild:
@@ -6130,10 +6146,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6152,10 +6168,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/garfish/app-master:
@@ -6170,10 +6186,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/garfish/app-table:
@@ -6188,10 +6204,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/load-config:
@@ -6206,10 +6222,10 @@ importers:
   tests/integration/load-config/fixtures/async-config-function:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6219,10 +6235,10 @@ importers:
   tests/integration/load-config/fixtures/basic-local-config:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6232,10 +6248,10 @@ importers:
   tests/integration/load-config/fixtures/config-function-params:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6245,10 +6261,10 @@ importers:
   tests/integration/load-config/fixtures/local-config-function:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6261,10 +6277,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6325,10 +6341,10 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
@@ -6343,25 +6359,25 @@ importers:
   tests/integration/module/fixtures/build/asset/limit:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/name:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/path:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/publicPath:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/svgr: {}
@@ -6380,7 +6396,7 @@ importers:
         version: 8.5.3
     devDependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/banner-footer: {}
@@ -6398,7 +6414,7 @@ importers:
   tests/integration/module/fixtures/build/dts:
     devDependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
 
   tests/integration/module/fixtures/build/dts-composite: {}
@@ -6541,10 +6557,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6581,10 +6597,10 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       zod:
         specifier: ^3.22.3
@@ -6618,10 +6634,10 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6655,10 +6671,10 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6692,10 +6708,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/rsc-csr-app:
@@ -6707,10 +6723,10 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       react:
-        specifier: ^19.0.0
+        specifier: catalog:react19
         version: 19.0.0
       react-dom:
-        specifier: ^19.0.0
+        specifier: catalog:react19
         version: 19.0.0(react@19.0.0)
       server-only:
         specifier: ^0.0.1
@@ -6753,7 +6769,7 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       react:
-        specifier: ^19
+        specifier: catalog:react19
         version: 19.0.0
       react-dom:
         specifier: ^19
@@ -6804,10 +6820,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/runtime-plugin/fixtures/runtime-custom-config-plugin:
@@ -6819,10 +6835,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/runtime/fixtures/file-based-router:
@@ -6837,10 +6853,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/runtime/fixtures/use-loader:
@@ -6852,10 +6868,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/select-entry:
@@ -6873,10 +6889,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6904,10 +6920,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6935,10 +6951,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -6978,10 +6994,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7018,10 +7034,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7055,10 +7071,10 @@ importers:
         specifier: ^1.7.4
         version: 1.7.9(debug@4.3.7)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7089,10 +7105,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7123,10 +7139,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7157,10 +7173,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7191,10 +7207,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7231,10 +7247,10 @@ importers:
         specifier: ^4.17.2
         version: 4.21.1
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7256,10 +7272,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7296,10 +7312,10 @@ importers:
         specifier: ^4.17.2
         version: 4.20.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7327,10 +7343,10 @@ importers:
         specifier: ^4.17.2
         version: 4.20.0
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7358,10 +7374,10 @@ importers:
         specifier: ^5
         version: 5.23.2(date-fns@2.30.0)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7395,10 +7411,10 @@ importers:
         specifier: ^5
         version: 5.23.2(date-fns@2.30.0)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7455,10 +7471,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssg/fixtures/nested-routes:
@@ -7473,10 +7489,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssg/fixtures/simple:
@@ -7491,10 +7507,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssg/fixtures/web-server:
@@ -7512,10 +7528,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssr:
@@ -7536,10 +7552,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7564,10 +7580,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7592,10 +7608,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7620,10 +7636,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7657,10 +7673,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssr/fixtures/inline:
@@ -7672,10 +7688,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssr/fixtures/partial:
@@ -7684,10 +7700,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7715,10 +7731,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
 
   tests/integration/ssr/fixtures/streaming:
@@ -7727,10 +7743,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7755,10 +7771,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7780,10 +7796,10 @@ importers:
   tests/integration/storybook:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       typescript:
         specifier: ^5
@@ -7820,10 +7836,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7857,10 +7873,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7876,10 +7892,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7895,10 +7911,10 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -7935,10 +7951,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^2
@@ -7959,10 +7975,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^3.3.3
@@ -7983,10 +7999,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^3.3.3
@@ -8007,10 +8023,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^3.3.3
@@ -8031,10 +8047,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^3.3.3
@@ -8055,10 +8071,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       twin.macro:
         specifier: ^2
@@ -8079,10 +8095,10 @@ importers:
         specifier: ^8.4.35
         version: 8.4.49
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
       tailwindcss:
         specifier: ^3.3.3
@@ -8097,10 +8113,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -8128,10 +8144,10 @@ importers:
   tests/integration/transform-import:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -8162,10 +8178,10 @@ importers:
   tests/integration/transform-lodash-import:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -8205,10 +8221,10 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       react:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: catalog:react18
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@modern-js/app-tools':
@@ -29974,8 +29990,7 @@ snapshots:
 
   acorn@8.14.0: {}
 
-  acorn@8.14.1:
-    optional: true
+  acorn@8.14.1: {}
 
   address@1.2.2: {}
 

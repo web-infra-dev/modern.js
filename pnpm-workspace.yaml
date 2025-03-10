@@ -20,3 +20,11 @@ packages:
  - 'tests/integration/**/*'
  - 'tests/e2e/**/*'
  - 'website/*'
+
+catalogs:
+  react18:
+    react: ^18.3.1
+    react-dom: ^18.3.1
+  react19:
+    react: ^19.0.0
+    react-dom: ^19.0.0
