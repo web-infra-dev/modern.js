@@ -905,8 +905,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       nanoid:
-        specifier: 3.3.8
-        version: 3.3.8
+        specifier: 3.3.9
+        version: 3.3.9
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -1044,8 +1044,8 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.3.3))
       nanoid:
-        specifier: 3.3.8
-        version: 3.3.8
+        specifier: 3.3.9
+        version: 3.3.9
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -4515,8 +4515,8 @@ importers:
         specifier: 1.2.8
         version: 1.2.8
       nanoid:
-        specifier: 3.3.8
-        version: 3.3.8
+        specifier: 3.3.9
+        version: 3.3.9
       normalize-path:
         specifier: 3.0.0
         version: 3.0.0
@@ -18130,8 +18130,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@3.3.8:
-    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
+  nanoid@3.3.9:
+    resolution: {integrity: sha512-SppoicMGpZvbF1l3z4x7No3OlIjP7QJvC9XR7AhZr1kL133KHnKPztkKDc+Ir4aJ/1VhTySrtKhrsycmrMQfvg==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -36386,7 +36386,7 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  nanoid@3.3.8: {}
+  nanoid@3.3.9: {}
 
   natural-compare@1.4.0: {}
 
@@ -37507,13 +37507,13 @@ snapshots:
 
   postcss@8.5.2:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.9
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
   postcss@8.5.3:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.9
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
