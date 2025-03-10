@@ -36,7 +36,7 @@ async function onServerChange({
   const { mock } = AGGRED_DIR;
   const mockPath = path.normalize(path.join(pwd, mock));
 
-  const { runner } = server;
+  const { hooks } = server;
   if (filepath.startsWith(mockPath)) {
     await initOrUpdateMockMiddlewares(pwd);
     logger.info('Finish update the mock handlers');
@@ -47,7 +47,7 @@ async function onServerChange({
         payload: [{ filename: filepath, event }],
       };
 
-      await runner.reset({
+      await hooks.onReset.call({
         event: fileChangeEvent,
       });
       debug(`Finish reload server, trigger by ${filepath} ${event}`);
