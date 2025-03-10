@@ -8,8 +8,8 @@
     "@modern-js/runtime": "workspace:*",
     "autoprefixer": "10.4.21",
     "postcss": "^8.4.35",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
     "tailwindcss": "^2"
   }
 }

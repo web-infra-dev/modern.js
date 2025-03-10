@@ -2,7 +2,7 @@
   "name": "asset-limit-test",
   "version": "2.65.3",
   "dependencies": {
-    "react": "^18.3.1"
+    "react": "catalog:react18"
   },
   "private": true
 }
