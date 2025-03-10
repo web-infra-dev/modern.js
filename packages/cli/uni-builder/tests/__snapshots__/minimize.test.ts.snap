@@ -2,9 +2,6 @@
 
 exports[`html minify > should not apply html minify in production when disableMinimize 1`] = `
 [
-  {
-    "name": "RsbuildCorePlugin",
-  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {
@@ -19,6 +16,9 @@ exports[`html minify > should not apply html minify in production when disableMi
       "insert": undefined,
       "linkType": "text/css",
     },
+  },
+  {
+    "name": "RsbuildCorePlugin",
   },
   HtmlWebpackPlugin {
     "options": {
@@ -135,9 +135,6 @@ exports[`html minify > should not apply html minify in production when disableMi
 
 exports[`html minify > should not apply html minify when htmlPlugin.minify false 1`] = `
 [
-  {
-    "name": "RsbuildCorePlugin",
-  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {
@@ -152,6 +149,9 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "insert": undefined,
       "linkType": "text/css",
     },
+  },
+  {
+    "name": "RsbuildCorePlugin",
   },
   HtmlWebpackPlugin {
     "options": {
@@ -268,9 +268,6 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
 
 exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = `
 [
-  {
-    "name": "RsbuildCorePlugin",
-  },
   MiniCssExtractPlugin {
     "_sortedModulesCache": WeakMap {},
     "options": {
@@ -285,6 +282,9 @@ exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = 
       "insert": undefined,
       "linkType": "text/css",
     },
+  },
+  {
+    "name": "RsbuildCorePlugin",
   },
   DefinePlugin {
     "definitions": {

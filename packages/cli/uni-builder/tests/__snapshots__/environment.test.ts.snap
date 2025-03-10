@@ -890,18 +890,18 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
-      {
-        "name": "RsbuildCorePlugin",
-      },
-      HotModuleReplacementPlugin {
-        "name": "HotModuleReplacementPlugin",
-      },
       CssExtractRspackPlugin {
         "options": {
           "chunkFilename": "static/css/async/[name].css",
           "filename": "static/css/[name].css",
           "ignoreOrder": true,
         },
+      },
+      {
+        "name": "RsbuildCorePlugin",
+      },
+      HotModuleReplacementPlugin {
+        "name": "HotModuleReplacementPlugin",
       },
       HtmlRspackPlugin {
         "options": {
