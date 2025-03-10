@@ -889,18 +889,18 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
-    {
-      "name": "RsbuildCorePlugin",
-    },
-    HotModuleReplacementPlugin {
-      "name": "HotModuleReplacementPlugin",
-    },
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].css",
         "filename": "static/css/[name].css",
         "ignoreOrder": true,
       },
+    },
+    {
+      "name": "RsbuildCorePlugin",
+    },
+    HotModuleReplacementPlugin {
+      "name": "HotModuleReplacementPlugin",
     },
     HtmlRspackPlugin {
       "options": {
@@ -2780,15 +2780,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
-    {
-      "name": "RsbuildCorePlugin",
-    },
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].[contenthash:8].css",
         "filename": "static/css/[name].[contenthash:8].css",
         "ignoreOrder": true,
       },
+    },
+    {
+      "name": "RsbuildCorePlugin",
     },
     HtmlRspackPlugin {
       "options": {
@@ -4752,12 +4752,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
-    {
-      "name": "RsbuildCorePlugin",
-    },
-    HotModuleReplacementPlugin {
-      "options": {},
-    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -4772,6 +4766,12 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "insert": undefined,
         "linkType": "text/css",
       },
+    },
+    {
+      "name": "RsbuildCorePlugin",
+    },
+    HotModuleReplacementPlugin {
+      "options": {},
     },
     HtmlWebpackPlugin {
       "options": {
@@ -6091,9 +6091,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "hints": false,
   },
   "plugins": [
-    {
-      "name": "RsbuildCorePlugin",
-    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -6108,6 +6105,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "insert": undefined,
         "linkType": "text/css",
       },
+    },
+    {
+      "name": "RsbuildCorePlugin",
     },
     HtmlWebpackPlugin {
       "options": {
