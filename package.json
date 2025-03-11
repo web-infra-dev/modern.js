@@ -40,7 +40,7 @@
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
-    "check-dependencies": "check-dependency-version-consistency .",
+    "check-dependencies": "node ./scripts/check-dependencies.js",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "npx taze major --include /rspress/ -w -r -l",
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
