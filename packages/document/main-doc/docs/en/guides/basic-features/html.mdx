@@ -24,9 +24,13 @@ For example, consider the following directory structure:
     └── modern-app-env.d.ts
 ```
 
-`entry-a` will use the `Docoument.[jt]sx` file under the current entry as the template. If there is no `Document.[jt]sx` file under the current entry, like `entry-b`, it will look for the `Document.[jt]sx` file under the root directory.
+`entry-a` will use the `Document.[jt]sx` file under the current entry as the template. If there is no `Document.[jt]sx` file under the current entry, like `entry-b`, it will look for the `Document.[jt]sx` file under the root directory.
 
 If not found, default template will be used.
+
+:::tip
+The `Document.[jt]sx` module will be compiled by esbuild and rendered to a string as the HTML template content, similar to [Static Site Generation](/guides/basic-features/render/ssg.html). The HTML template module will not be compiled by the Bundler. The React Hooks in the component also will not be executed at browser runtime, and JavaScript resources such as images cannot be resolved and imported.
+:::
 
 ### HTML Components
 
