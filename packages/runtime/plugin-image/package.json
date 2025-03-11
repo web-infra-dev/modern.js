@@ -1,0 +1,49 @@
+{
+  "name": "@modern-js/rsbuild-plugin-image",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "build:storybook": "storybook build",
+    "dev": "rslib build --watch",
+    "storybook": "storybook dev --no-open --port 6006",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "1.2.17",
+    "@rsbuild/plugin-react": "1.1.1",
+    "@rslib/core": "^0.5.4",
+    "@storybook/addon-essentials": "^8.6.4",
+    "@storybook/addon-interactions": "^8.6.4",
+    "@storybook/addon-links": "^8.6.4",
+    "@storybook/addon-onboarding": "^8.6.4",
+    "@storybook/blocks": "^8.6.4",
+    "@storybook/react": "^8.6.4",
+    "@storybook/test": "^8.6.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/react": "^19.0.10",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "storybook": "^8.6.4",
+    "storybook-addon-rslib": "^1.0.0",
+    "storybook-react-rsbuild": "^1.0.0",
+    "typescript": "^5",
+    "@scripts/vitest-config": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  }
+}
