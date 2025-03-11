@@ -639,8 +639,8 @@ importers:
         specifier: 1.2.16
         version: 1.2.16
       '@rsbuild/plugin-assets-retry':
-        specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@1.2.16)
+        specifier: 1.2.1
+        version: 1.2.1(@rsbuild/core@1.2.16)
       '@rsbuild/plugin-babel':
         specifier: 1.0.4
         version: 1.0.4(@rsbuild/core@1.2.16)
@@ -11899,8 +11899,8 @@ packages:
     engines: {node: '>=16.7.0'}
     hasBin: true
 
-  '@rsbuild/plugin-assets-retry@1.2.0':
-    resolution: {integrity: sha512-4/nWYWN9T0T4xeHesCUefJ1mqcNt+jSjA0DuHPwcVO1Z6JjhOLhG2+thf9Bbi8w1lNMwxfV+RmghmfBv+YesYA==}
+  '@rsbuild/plugin-assets-retry@1.2.1':
+    resolution: {integrity: sha512-VJ4h8hw5Pdrx5h6O0ffdUNxcOYTHQ9to6oxGTdMFXJh/HRcIUy8+5mNoAYHkk5sqTQtyli8QOesJXhqGbrENfw==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -27152,7 +27152,7 @@ snapshots:
     transitivePeerDependencies:
       - '@rspack/tracing'
 
-  '@rsbuild/plugin-assets-retry@1.2.0(@rsbuild/core@1.2.16)':
+  '@rsbuild/plugin-assets-retry@1.2.1(@rsbuild/core@1.2.16)':
     optionalDependencies:
       '@rsbuild/core': 1.2.16
 
