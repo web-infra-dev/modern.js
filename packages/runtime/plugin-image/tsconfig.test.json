@@ -10,5 +10,5 @@
     "moduleResolution": "bundler",
     "useDefineForClassFields": true
   },
-  "include": ["tests", "./vitest.setup.ts"]
+  "include": ["tests", "vitest.setup.ts"]
 }
