@@ -55,7 +55,10 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 
 export default createModuleFederationConfig({
   name: 'remote',
-  filename: 'remoteEntry.js',
+  manifest: {
+    filePath: 'static',
+  },
+  filename: 'static/remoteEntry.js',
   exposes: {
     './Button': './src/components/Button.tsx',
   },
@@ -65,6 +68,10 @@ export default createModuleFederationConfig({
   },
 });
 ```
+
+:::tip
+在上述代码块中，我们为 Module Federation 导出的 manifest 和 remoteEntry.js 都设置了 `static` 前缀，这是因为 Modern.js 要求将所有需要暴露的资源都放在 `static/` 目录下，Modern.js 的服务器在生产环境时也只会托管 `static/` 目录。
+:::
 
 另外，我们还需要修改 `modern.config.ts`，为生产者提供一个开发环境的端口，让消费者可以通过此端口访问生产者的资源：
 
@@ -100,7 +107,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'host',
   remotes: {
-    remote: 'remote@http://localhost:3051/mf-manifest.json',
+    remote: 'remote@http://localhost:3051/static/mf-manifest.json',
   },
   shared: {
     react: { singleton: true },
@@ -142,7 +149,7 @@ export default Index;
     }
   }
 }
-``` 
+```
 
 :::tip
 在消费者中，我们通过 `remote/Button` 来引用远程模块。这里简单介绍下这个路径具体代表了什么，可以先将它抽象成 `[remoteAlias]/[remoteExpose]`。
@@ -173,6 +180,41 @@ export default Index;
 :::
 
 访问 `http://localhost:8080/remote`，可以看到页面中已经包含了生产者的远程模块 `Button` 组件。
+
+我们也可以在本地执行 `modern serve` 来模拟生产环境。
+
+因为 Module Federation 插件会自动读取 Modern.js 的 `output.assetPrefix` 配置作为远程模块的访问地址，而该值在生产环境下构建后默认是 `/`。如果不做特殊处理，消费者将从自己的域名下拉取远程模块的入口文件。我们可以添加如下配置：
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+const isLocal = process.env.IS_LOCAL === 'true';
+
+// https://modernjs.dev/en/configure/app/usage
+export default defineConfig({
+  server: {
+    port: 3051,
+  },
+  runtime: {
+    router: true,
+  },
+  output: {
+    // Now this configuration is only used in the local when you run modern serve command.
+    // If you want to deploy the application to the platform, use your own domain name.
+    // Module federation will automatically write it to mf-manifest.json, which influences consumer to fetch remoteEntry.js.
+    assetPrefix: isLocal ? 'http://127.0.0.1:3051' : '/',
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack', // Set to 'webpack' to enable webpack
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+```
+
+现在，在生产者中运行 `IS_LOCAL=true modern build && modern serve`，在消费者中运行 `modern build && modern serve`，即可在本地模拟生产环境，访问到远程模块。
 
 上述用例可以参考：[Modern.js & Module Federation 基础用法示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base)。
 
