@@ -4,19 +4,57 @@
 
 ## Modern.js 框架插件
 
-Modern.js 拥有自己的框架插件系统，你可以通过在 `modern.config.ts` 中配置 [`plugins`](/configure/app/plugins) 字段来使用 Modern.js 插件。
+Modern.js 拥有一个强大的框架插件系统，允许开发者通过插件来扩展和增强框架的功能。这一系统不仅使得 Modern.js 本身具备灵活的架构能力，还为开发者提供了丰富的工具和接口，以便于实现自定义的功能和优化应用性能。
 
 ### 插件类型
 
 框架插件可以细分成三类，分别是：
 
-1. [CLI 插件](/plugin/cli-plugins)：用于在应用执行 Modern.js 命令时，提供额外的功能。例如，添加命令、修改配置、监听文件等。大多数构建相关的能力都可以通过 CLI 插件来实现。
-2. 服务端插件：用于在应用接受请求时，提供额外的功能。例如，添加中间件、修改请求响应等。
-3. 运行时插件：用于在应用运行 React 代码时，提供额外的功能。例如，执行初始化行为，包裹 React 高阶组件等。
+#### CLI 插件
 
-:::note
-服务端插件和运行时插件即将正式对外开放。
-:::
+CLI 插件用于在应用执行 `modern` 命令时，提供额外的功能。例如，添加命令、修改配置、监听文件等。大多数构建相关的能力都可以通过 CLI 插件来实现。
+
+CLI 插件可通过 `modern.config.ts` 中的 `plugins` 字段进行配置。
+
+```ts title="modern.config.ts"
+// an example for bff
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin()],
+});
+```
+
+#### Runtime 插件
+
+Runtime 插件用于在应用运行 React 代码时，提供额外的功能。例如，执行初始化行为，实现 React 高阶组件（HOC）封装等。
+
+Runtime 插件通过 `src/modern.runtime.ts` 中的 `plugins` 字段进行配置。
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { routerPlugin } from '@modern-js/runtime/router';
+
+export default defineRuntimeConfig({
+  plugins: [routerPlugin()],
+});
+```
+
+#### Server 插件
+
+Server 插件用于在应用接受请求时，提供额外的功能。例如，添加中间件、修改请求响应等。
+
+Server 插件通过 `server/modern.server.ts` 中的 `plugins` 字段进行配置。
+
+```ts title="src/modern.server.ts"
+import { defineConfig } from '@modern-js/app-tools/server';
+import bffPlugin from '@modern-js/plugin-bff/server';
+
+export default defineConfig({
+  plugins: [bffPlugin()],
+});
+```
 
 ### 开发插件
 
