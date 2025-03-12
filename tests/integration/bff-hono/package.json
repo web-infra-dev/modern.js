@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "bff-express",
-  "version": "2.65.5",
+  "name": "bff-hono",
+  "version": "2.65.2",
   "scripts": {
     "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/plugin-express": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "express": "^4.17.2",
+    "@modern-js/plugin-server": "workspace:*",
+    "hono": "^3.12.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ts-node": "^10.9.1",
@@ -26,12 +26,13 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@types/express": "^4.17.13",
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
-    "typescript": "^5"
+    "typescript": "^5",
+        "ts-node": "~10.8.1",
+    "tsconfig-paths": "~3.14.1"
   },
   "exports": {
     "./context/index": {

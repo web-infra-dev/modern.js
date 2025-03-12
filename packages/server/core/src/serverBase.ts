@@ -1,6 +1,7 @@
 import { createContext } from '@modern-js/plugin';
 import type { ISAppContext, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
+import { run } from './context';
 import { PluginManager } from './pluginManager';
 import type {
   AppContext,
@@ -61,6 +62,7 @@ export class ServerBase<E extends Env = any> {
     });
 
     this.app = new Hono<E>();
+    this.app.use('*', run);
   }
 
   /**
@@ -208,6 +210,14 @@ export class ServerBase<E extends Env = any> {
 
   get notFound() {
     return this.app.notFound.bind(this.app);
+  }
+
+  get routes() {
+    return this.app.routes;
+  }
+
+  get route() {
+    return this.app.route.bind(this.app);
   }
 
   get onError() {
