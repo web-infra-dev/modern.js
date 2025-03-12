@@ -3,19 +3,18 @@ import { defineConfig } from '@rslib/core';
 import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 
 export default defineConfig({
+  source: {
+    entry: { index: ['./src/**', '!**/*.stories.*'] },
+  },
+  output: {
+    target: 'web',
+    distPath: { root: 'dist' },
+  },
   lib: [
-    {
-      id: 'runtime',
-      source: {
-        entry: { index: ['./src/**', '!**/*.stories.*'] },
-      },
-      output: { target: 'web', distPath: { root: 'dist' } },
-      bundle: false,
-      dts: false,
-      format: 'esm',
-      plugins: [pluginReact()],
-    },
+    { format: 'esm', bundle: false },
+    { format: 'cjs', bundle: false },
   ],
+  plugins: [pluginReact()],
   tools: {
     rspack(config) {
       config.plugins ||= [];
