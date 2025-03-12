@@ -89,7 +89,7 @@ export type OnAfterDeployFn = (
   options?: Record<string, any>,
 ) => Promise<void> | void;
 
-export type OnBeforeExitFn = () => void;
+export type OnBeforeExitFn = () => Promise<void> | void;
 
 export type ModifyBundlerChainFn<ExtendsUtils> = (
   chain: RspackChain,

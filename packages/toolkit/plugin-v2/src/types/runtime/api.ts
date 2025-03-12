@@ -3,7 +3,7 @@ import type { DeepPartial } from '../utils';
 import type { RuntimeContext } from './context';
 import type { Hooks } from './hooks';
 import type {
-  ModifyRuntimeConfigFn,
+  ConfigFn,
   OnBeforeRenderFn,
   PickContextFn,
   WrapRootFn,
@@ -21,9 +21,7 @@ export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<
     onBeforeRender: PluginHookTap<OnBeforeRenderFn<Extends['extendContext']>>;
     wrapRoot: PluginHookTap<WrapRootFn>;
     pickContext: PluginHookTap<PickContextFn<RuntimeContext>>;
-    modifyRuntimeConfig: PluginHookTap<
-      ModifyRuntimeConfigFn<Extends['config']>
-    >;
+    config: PluginHookTap<ConfigFn<Extends['config']>>;
   } & RuntimePluginExtendsAPI<Extends>
 >;
 
