@@ -162,6 +162,7 @@ export const createUploader: UploadCreator = ({
     const fetcher = realRequest.get(requestId) || originFetch;
 
     const { body, headers } = getUploadPayload(args);
+    console.log('up headers', headers);
 
     const configDomain = domainMap.get(requestId);
     const finalURL = `${configDomain || domain || ''}${path}`;
