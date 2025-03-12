@@ -1,5 +1,6 @@
 import { pluginReact } from '@rsbuild/plugin-react';
 import { defineConfig } from '@rslib/core';
+import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 
 export default defineConfig({
   lib: [
@@ -7,24 +8,25 @@ export default defineConfig({
       id: 'runtime',
       source: {
         entry: { index: ['./src/**', '!**/*.stories.*'] },
-        tsconfigPath: './tsconfig.runtime.json',
       },
-      output: { target: 'web', distPath: { root: 'dist/runtime' } },
+      output: { target: 'web', distPath: { root: 'dist' } },
       bundle: false,
-      dts: true,
+      dts: false,
       format: 'esm',
       plugins: [pluginReact()],
     },
-    {
-      id: 'plugin',
-      source: {
-        entry: { index: ['./lib/**'] },
-        tsconfigPath: './tsconfig.plugin.json',
-      },
-      output: { target: 'node', distPath: { root: 'dist/plugin' } },
-      bundle: false,
-      dts: true,
-      format: 'cjs',
-    },
   ],
+  tools: {
+    rspack(config) {
+      config.plugins ||= [];
+      config.plugins.push(
+        new TsCheckerRspackPlugin({
+          typescript: {
+            build: true,
+            mode: 'write-dts',
+          },
+        }),
+      );
+    },
+  },
 });

@@ -9,7 +9,5 @@
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "useDefineForClassFields": true
-  },
-  "include": ["src"],
-  "exclude": ["**/*.stories.*"]
+  }
 }

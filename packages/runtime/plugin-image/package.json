@@ -24,6 +24,8 @@
     "@rsbuild/core": "1.2.17",
     "@rsbuild/plugin-react": "1.1.1",
     "@rslib/core": "^0.5.4",
+    "@types/node": "^18",
+    "@scripts/vitest-config": "workspace:*",
     "@storybook/addon-essentials": "^8.6.4",
     "@storybook/addon-interactions": "^8.6.4",
     "@storybook/addon-links": "^8.6.4",
@@ -39,8 +41,8 @@
     "storybook": "^8.6.4",
     "storybook-addon-rslib": "^1.0.0",
     "storybook-react-rsbuild": "^1.0.0",
-    "typescript": "^5",
-    "@scripts/vitest-config": "workspace:*"
+    "ts-checker-rspack-plugin": "^1.1.1",
+    "typescript": "^5"
   },
   "peerDependencies": {
     "react": ">=16.9.0",
