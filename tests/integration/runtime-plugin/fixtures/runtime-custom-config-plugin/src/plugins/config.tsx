@@ -1,19 +1,17 @@
-import type { Plugin } from '@modern-js/runtime';
+import type { RuntimePluginFuture } from '@modern-js/runtime';
 
-export const configPlugin = (): Plugin => {
+export const configPlugin = (): RuntimePluginFuture => {
   return {
     name: 'app-custom-config-plugin',
     post: ['@modern-js/plugin-router'],
-    setup: _api => {
-      return {
-        config() {
-          return {
-            router: {
-              basename: 'test',
-            },
-          };
-        },
-      };
+    setup: api => {
+      api.config(() => {
+        return {
+          router: {
+            basename: 'test',
+          },
+        };
+      });
     },
   };
 };
