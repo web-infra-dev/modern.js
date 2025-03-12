@@ -22,13 +22,5 @@ export default applyBaseConfig({
         .add(path.resolve(__dirname, 'node_modules'))
         .add('node_modules');
     },
-    rspack(config, { isServer }) {
-      if (!config.output) {
-        config.output = {};
-      }
-      if (!isServer) {
-        config.output.chunkFilename = 'static/js/async/[name].[contenthash].js';
-      }
-    },
   },
 });
