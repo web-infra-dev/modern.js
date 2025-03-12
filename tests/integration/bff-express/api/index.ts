@@ -2,6 +2,7 @@ import {
   Api,
   Data,
   Headers,
+  Middleware,
   Params,
   Post,
   Query,
@@ -39,6 +40,10 @@ export const postHello = Api(
   Query(QuerySchema),
   Data(DataSchema),
   Headers(HeadersSchema),
+  Middleware(async (req, res, next) => {
+    console.info(`express Middleware access url: ${req.url}`);
+    await next();
+  }),
   async ({ query, data, params, headers }) => {
     const ctx = useContext();
     return {
