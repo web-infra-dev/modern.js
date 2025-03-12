@@ -36,7 +36,6 @@ export class FileReader {
     path: string,
     encoding: 'utf-8' | 'buffer' = 'utf-8',
   ): Promise<string | Buffer | null> {
-    console.log(path, '!!');
     const _readfile = this._readFileFactory(Fs);
     return _readfile(path, encoding);
   }
