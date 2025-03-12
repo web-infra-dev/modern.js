@@ -51,10 +51,10 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.9",
+                "version": "7.26.10",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -101,7 +101,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

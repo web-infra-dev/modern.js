@@ -51,10 +51,10 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.9",
+                "version": "7.26.10",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -101,7 +101,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -320,10 +320,10 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.26.9",
+                "version": "7.26.10",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -370,7 +370,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.37",
+                  "version": "3.40",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -445,7 +445,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
         "options": {
           "cwd": "",
           "env": {
-            "coreJs": "3.39",
+            "coreJs": "3.41",
             "mode": "entry",
             "targets": [
               "> 0.01%",
