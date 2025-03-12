@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.18",
     "@rsbuild/plugin-webpack-swc": "1.0.12",
     "@swc/helpers": "0.5.13"
   },
