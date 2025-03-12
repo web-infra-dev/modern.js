@@ -91,6 +91,10 @@
     "zh": "插件系统",
     "en": "Plugin System"
   },
+  "official-plugins": {
+    "zh": "官方插件",
+    "en": "Official Plugins"
+  },
   "cli-plugins": {
     "zh": "CLI 插件",
     "en": "CLI Plugins"
