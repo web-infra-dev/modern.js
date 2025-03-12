@@ -35,7 +35,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -179,7 +179,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -315,7 +315,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -414,7 +414,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -550,7 +550,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -686,7 +686,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -804,7 +804,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -851,7 +851,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1076,7 +1076,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1123,7 +1123,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1221,7 +1221,7 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1284,7 +1284,7 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1382,7 +1382,7 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1437,7 +1437,7 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1535,7 +1535,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1582,7 +1582,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1674,7 +1674,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1702,7 +1702,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1782,7 +1782,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1804,7 +1804,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1896,7 +1896,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1943,7 +1943,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2023,7 +2023,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2064,7 +2064,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2162,7 +2162,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2209,7 +2209,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2305,7 +2305,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2352,7 +2352,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2450,7 +2450,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2505,7 +2505,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2603,7 +2603,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2650,7 +2650,7 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2752,7 +2752,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2799,7 +2799,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -2891,7 +2891,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -2946,7 +2946,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -3026,7 +3026,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -3075,7 +3075,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

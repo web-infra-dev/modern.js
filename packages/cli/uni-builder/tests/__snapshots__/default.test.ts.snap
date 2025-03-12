@@ -149,7 +149,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -228,7 +228,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -511,9 +511,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -634,7 +631,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -726,7 +723,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -889,18 +886,18 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    {
+      "name": "RsbuildCorePlugin",
+    },
+    HotModuleReplacementPlugin {
+      "name": "HotModuleReplacementPlugin",
+    },
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].css",
         "filename": "static/css/[name].css",
         "ignoreOrder": true,
       },
-    },
-    {
-      "name": "RsbuildCorePlugin",
-    },
-    HotModuleReplacementPlugin {
-      "name": "HotModuleReplacementPlugin",
     },
     HtmlRspackPlugin {
       "options": {
@@ -1462,9 +1459,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2005,7 +1999,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2084,7 +2078,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.40",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2367,9 +2361,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2490,7 +2481,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2582,7 +2573,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.40",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2780,15 +2771,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
+    {
+      "name": "RsbuildCorePlugin",
+    },
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].[contenthash:8].css",
         "filename": "static/css/[name].[contenthash:8].css",
         "ignoreOrder": true,
       },
-    },
-    {
-      "name": "RsbuildCorePlugin",
     },
     HtmlRspackPlugin {
       "options": {
@@ -3293,9 +3284,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -3870,7 +3858,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.26.9",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash/index.js",
                   {},
@@ -3917,7 +3905,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.40",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3997,7 +3985,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.26.9",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash/index.js",
                   {},
@@ -4038,7 +4026,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.40",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -4301,9 +4289,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -4448,7 +4433,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.26.9",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                     [
                       "<ROOT>/compiled/babel-plugin-lodash/index.js",
                       {},
@@ -4480,7 +4465,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.40",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4576,7 +4561,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.26.9",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                     [
                       "<ROOT>/compiled/babel-plugin-lodash/index.js",
                       {},
@@ -4608,7 +4593,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.40",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4752,6 +4737,12 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    {
+      "name": "RsbuildCorePlugin",
+    },
+    HotModuleReplacementPlugin {
+      "options": {},
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -4766,12 +4757,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "insert": undefined,
         "linkType": "text/css",
       },
-    },
-    {
-      "name": "RsbuildCorePlugin",
-    },
-    HotModuleReplacementPlugin {
-      "options": {},
     },
     HtmlWebpackPlugin {
       "options": {
@@ -5132,7 +5117,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.26.9",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash/index.js",
                   {},
@@ -5179,7 +5164,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.40",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -5259,7 +5244,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.26.9",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash/index.js",
                   {},
@@ -5306,7 +5291,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.40",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -5569,9 +5554,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "resolve": {
           "preferRelative": true,
         },
@@ -5716,7 +5698,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.26.9",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                     [
                       "<ROOT>/compiled/babel-plugin-lodash/index.js",
                       {},
@@ -5763,7 +5745,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.40",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -5859,7 +5841,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.26.9",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
                     [
                       "<ROOT>/compiled/babel-plugin-lodash/index.js",
                       {},
@@ -5906,7 +5888,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.40",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -6091,6 +6073,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "hints": false,
   },
   "plugins": [
+    {
+      "name": "RsbuildCorePlugin",
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -6105,9 +6090,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "insert": undefined,
         "linkType": "text/css",
       },
-    },
-    {
-      "name": "RsbuildCorePlugin",
     },
     HtmlWebpackPlugin {
       "options": {

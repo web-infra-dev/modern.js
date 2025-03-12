@@ -36,7 +36,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -136,7 +136,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -221,7 +221,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -321,7 +321,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -406,7 +406,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.41",
+            "coreJs": "3.40",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -517,7 +517,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -564,7 +564,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -663,7 +663,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -710,7 +710,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -809,7 +809,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -837,7 +837,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -936,7 +936,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
                 "version": "7.26.9",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -971,7 +971,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.40",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
