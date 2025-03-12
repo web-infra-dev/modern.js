@@ -14,7 +14,7 @@ export type RuntimeHooks = {
   beforeRender: AsyncInterruptWorkflow<RuntimeContext, void>;
   wrapRoot: Waterfall<React.ComponentType<any>>;
   pickContext: Waterfall<TRuntimeContext>;
-  modifyRuntimeConfig: SyncParallelWorkflow<void, Record<string, any>>;
+  config: SyncParallelWorkflow<void, Record<string, any>>;
 };
 
 export type RuntimePluginAPI = { useRuntimeConfigContext: () => RuntimeConfig };

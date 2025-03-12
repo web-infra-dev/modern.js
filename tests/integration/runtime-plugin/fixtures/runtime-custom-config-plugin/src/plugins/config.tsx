@@ -6,7 +6,7 @@ export const configPlugin = (): Plugin => {
     post: ['@modern-js/plugin-router'],
     setup: _api => {
       return {
-        modifyRuntimeConfig() {
+        config() {
           return {
             router: {
               basename: 'test',

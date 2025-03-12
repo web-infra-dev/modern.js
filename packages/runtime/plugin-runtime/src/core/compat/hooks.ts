@@ -51,8 +51,8 @@ export function getHookRunners(
     pickContext: (context: RuntimeContext) => {
       return hooks.pickContext.call(context);
     },
-    modifyRuntimeConfig: (config: RuntimeConfig) => {
-      return hooks.modifyRuntimeConfig.call(config);
+    config: () => {
+      return hooks.config.call();
     },
   };
 }

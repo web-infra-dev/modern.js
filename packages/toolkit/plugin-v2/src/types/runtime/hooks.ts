@@ -14,13 +14,11 @@ export type PickContextFn<RuntimeContext> = (
   context: RuntimeContext,
 ) => RuntimeContext;
 
-export type ModifyRuntimeConfigFn<RuntimeConfig> = (
-  config: RuntimeConfig,
-) => RuntimeConfig;
+export type ConfigFn<RuntimeConfig> = () => RuntimeConfig;
 
 export type Hooks<RuntimeConfig, RuntimeContext> = {
   onBeforeRender: AsyncInterruptHook<OnBeforeRenderFn<RuntimeContext>>;
   wrapRoot: SyncHook<WrapRootFn>;
   pickContext: SyncHook<PickContextFn<RuntimeContext>>;
-  modifyRuntimeConfig: CollectSyncHook<ModifyRuntimeConfigFn<RuntimeConfig>>;
+  config: CollectSyncHook<ConfigFn<RuntimeConfig>>;
 };
