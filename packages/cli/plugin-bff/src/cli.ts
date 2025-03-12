@@ -15,6 +15,11 @@ const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
+    const useConfig = api.useConfigContext();
+
+    useConfig.bff ??= {};
+    (useConfig.bff as any).runtimeFramework = 'hono';
+
     const compileApi = async () => {
       const {
         appDirectory,
@@ -127,6 +132,18 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
     return {
       config() {
+        const useConfig = api.useConfigContext();
+        const { bff } = useConfig ?? {};
+        const isHono = (bff as any)?.runtimeFramework === 'hono';
+        const isDev = process.env.NODE_ENV === 'development';
+        const useLocalRuntime = isDev && !useConfig?.bff?.crossProject;
+
+        const runtimePath = isHono
+          ? useLocalRuntime
+            ? require.resolve('@modern-js/plugin-bff/runtime')
+            : '@modern-js/plugin-bff/runtime'
+          : undefined;
+
         return {
           tools: {
             bundlerChain: (chain, { CHAIN_ID, isServer }) => {
@@ -183,6 +200,9 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           },
           source: {
             moduleScopes: [`./${API_DIR}`, /create-request/],
+            alias: runtimePath
+              ? { '@modern-js/runtime/server': runtimePath }
+              : undefined,
           },
         };
       },
@@ -207,7 +227,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           isSSR: false,
         })) as ServerRoute[];
 
-        if (bff?.enableHandleWeb) {
+        if ((bff as any).runtimeFramework !== 'hono' && bff?.enableHandleWeb) {
           return {
             routes: (
               routes.map(route => {
@@ -227,7 +247,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         plugins.push({
           name: '@modern-js/plugin-bff/server',
         });
-
         return { plugins };
       },
       async beforeDev() {

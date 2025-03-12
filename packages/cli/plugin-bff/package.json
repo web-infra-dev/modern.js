@@ -21,12 +21,13 @@
   "main": "./dist/cjs/cli.js",
   "module": "./dist/esm/cli.js",
   "exports": {
-    "./types": "./types.d.ts",
     ".": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/cjs/cli.js"
     },
+    "./types": "./types/index.d.ts",
+    "./types/runtime": "./types/runtime.d.ts",
     "./cli": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
@@ -41,6 +42,11 @@
       "types": "./dist/types/loader.d.ts",
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
+      "default": "./dist/cjs/runtime/index.js"
     },
     "./runtime/create-request": {
       "types": "./dist/types/create-request/index.d.ts",
@@ -78,6 +84,9 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "type-is": "^1.6.18",
+    "hono": "^3.12.2",
+    "formidable": "^1.2.2",
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
@@ -92,6 +101,8 @@
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "@types/type-is": "^1.6.3",
+    "@types/formidable": "^1.2.3",
     "jest": "^29",
     "memfs": "^3.5.1",
     "ts-jest": "^29.1.0",

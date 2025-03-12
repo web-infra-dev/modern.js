@@ -9,6 +9,7 @@ import {
   requireExistModule,
 } from '@modern-js/utils';
 import { API_APP_NAME } from './constants';
+import { HonoRuntime } from './runtime/hono';
 
 type SF = (args: any) => void;
 class Storage {
@@ -32,6 +33,9 @@ export default (): ServerPluginLegacy => ({
     const transformAPI = createTransformAPI(storage);
     let apiAppPath = '';
     let apiRouter: ApiRouter;
+
+    const honoRuntime = new HonoRuntime(api);
+
     return {
       async prepare() {
         const appContext = api.useAppContext();
@@ -101,6 +105,12 @@ export default (): ServerPluginLegacy => ({
             ],
           });
         }
+
+        honoRuntime.registerMiddleware({
+          customMiddlewares: middlewares,
+          prefix,
+          enableHandleWeb,
+        });
       },
       async reset({ event }) {
         storage.reset();
@@ -123,6 +133,9 @@ export default (): ServerPluginLegacy => ({
             ...appContext,
             apiHandlerInfos,
           });
+
+          await honoRuntime.setHandlers();
+          await honoRuntime.registerApiRoutes();
         }
       },
 

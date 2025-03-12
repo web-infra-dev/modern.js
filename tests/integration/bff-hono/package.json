@@ -1,0 +1,105 @@
+{
+  "private": true,
+  "name": "bff-hono",
+  "version": "2.65.2",
+  "scripts": {
+    "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
+    "build": "modern build",
+    "serve": "modern serve",
+    "start:bff": "modern serve --api-only",
+    "new": "modern new"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "dependencies": {
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-server": "workspace:*",
+    "hono": "^3.12.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "3.14.1",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5",
+        "ts-node": "~10.8.1",
+    "tsconfig-paths": "~3.14.1"
+  },
+  "exports": {
+    "./context/index": {
+      "import": "./dist/client/context/index.js",
+      "types": "./dist/api/context/index.d.ts"
+    },
+    "./index": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/api/index.d.ts"
+    },
+    "./upload": {
+      "import": "./dist/client/upload.js",
+      "types": "./dist/api/upload.d.ts"
+    },
+    "./server-plugin": "./dist/server-plugin/index.js",
+    "./runtime": {
+      "import": "./dist/runtime/index.js",
+      "types": "./dist/runtime/index.d.ts"
+    },
+    "./plugin": {
+      "require": "./dist/plugin/index.js",
+      "types": "./dist/plugin/index.d.ts"
+    },
+    "./api/context/index": {
+      "import": "./dist/client/context/index.js",
+      "types": "./dist/client/context/index.d.ts"
+    },
+    "./api/index": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./api/upload": {
+      "import": "./dist/client/upload.js",
+      "types": "./dist/client/upload.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "context/index": [
+        "./dist/api/context/index.d.ts"
+      ],
+      "index": [
+        "./dist/api/index.d.ts"
+      ],
+      "upload": [
+        "./dist/api/upload.d.ts"
+      ],
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ],
+      "plugin": [
+        "./dist/plugin/index.d.ts"
+      ],
+      "api/context/index": [
+        "./dist/client/context/index.d.ts"
+      ],
+      "api/index": [
+        "./dist/client/index.d.ts"
+      ],
+      "api/upload": [
+        "./dist/client/upload.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/client/**/*",
+    "dist/runtime/**/*",
+    "dist/plugin/**/*"
+  ]
+}
