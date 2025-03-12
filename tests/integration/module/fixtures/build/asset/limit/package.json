@@ -1,6 +1,6 @@
 {
   "name": "asset-limit-test",
-  "version": "2.65.3",
+  "version": "2.65.4",
   "dependencies": {
     "react": "^18.3.1"
   },

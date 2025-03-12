@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 2.65.4
+
+### Patch Changes
+
+- 93e12ae: feat: support watch mode in modern build
+- Updated dependencies [7bce153]
+- Updated dependencies [49bedb9]
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/plugin-v2@2.65.4
+  - @modern-js/uni-builder@2.65.4
+  - @modern-js/utils@2.65.4
+  - @modern-js/server-core@2.65.4
+  - @modern-js/core@2.65.4
+  - @modern-js/server@2.65.4
+  - @modern-js/plugin-data-loader@2.65.4
+  - @modern-js/plugin-i18n@2.65.4
+  - @modern-js/prod-server@2.65.4
+  - @modern-js/server-utils@2.65.4
+  - @modern-js/node-bundle-require@2.65.4
+  - @modern-js/plugin@2.65.4
+  - @modern-js/rsbuild-plugin-esbuild@2.65.4
+  - @modern-js/types@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes
