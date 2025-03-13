@@ -1,0 +1,50 @@
+# 插件迁移
+
+Modern.js 之前的 CLI 插件写法在当前大版本中依旧支持，可以通过一下方式完成迁移。
+
+
+## 修改插件定义
+
+将插件类型由 `CliPlugin<AppTools<'shared'>>` 修改为 `CliPluginFuture<AppTools<'shared'>>`
+
+## 修改 Hooks 调用方式
+
+将使用 return hooks 的写法改成直接 api.xx 调用
+
+## 修改 api
+
+- `useAppContext` => `getAppContext`
+
+- `useConfigContext` => `getConfig`
+
+- `useResolvedConfigContext` => `getNormalizedConfig`
+
+- `beforeConfig` 不再支持，直接定义到 setup 函数中即可
+
+- `prepare` => `onPrepare`
+
+- `afterPrepare` => `onAfterPrepare` 不推荐使用，后续可能废弃
+
+- `beforePrintInstructions` => `onBeforePrintInstructions`
+
+- `commands` => `addCommand`
+
+- `watchFiles` => `addWatchFiles`
+
+- `fileChange` => `onFileChanged`
+
+- `beforeCreateCompiler` => `onBeforeCreateCompiler`
+
+- `afterCreateCompiler` => `onAfterCreateCompiler`
+
+- `beforeBuild` => `onBeforeBuild`
+
+- `afterBuild` => `onAfterBuild`
+
+- `beforeDev` => `onBeforeDev`
+
+- `afterDev` => `onDevCompileDone`
+
+- `beforeExit` => `onBeforeExit`
+
+- `htmlPartials` => `modifyHtmlPartials`
