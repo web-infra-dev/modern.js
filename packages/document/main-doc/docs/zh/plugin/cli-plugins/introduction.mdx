@@ -1,0 +1,500 @@
+# CLI 插件
+
+## 插件概览
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+    name: '@xx/my-plugin',
+    setup: (api) => {
+        api.xx()
+    },
+});
+```
+
+## API
+
+### 获取信息
+
+#### getConfig
+
+获取用户配置文件 `mdern.config.ts` 中配置信息。
+
+```ts
+const config = api.getConfig();
+```
+
+#### getNormalizedConfig
+
+获取用户配置文件 + 插件 `config` + 插件 `modifyResolvedConfig` Hook 执行完成之后的配置信息，需要在 `modifyResolvedConfig` 的后续生命周期中获取。
+
+```ts
+const config = api.getNormalizedConfig();
+```
+
+#### getAppContext
+
+获取 App Context 信息，信息内容：
+
+| 字段名称 | 信息内容 | 备注 |
+| --- | --- | --- |
+| command | 当前命令名称 |  |
+| port | Dev 服务端口号 | 需要在 `onPrepare` 之后的 Hook 获取 |
+| configFile | 配置文件路径 | 绝对路径 |
+| isProd | 是否为 Production 模式 |  |
+| appDirectory | 项目根目录 | 绝对路径 |
+| srcDirectory | 项目源码目录 | 绝对路径 |
+| distDirectory | 项目产物输出目录 | 绝对路径，需要在 `modifyResolvedConfig` 之后的 Hook 获取 |
+| sharedDirectory | 公共模块目录 | 绝对路径 |
+| internalDirectory | 框架临时输出目录 | 绝对路径 |
+| nodeModulesDirectory | node\_modules 目录 | 绝对路径 |
+| ip | 当前机器的 IPv4 地址 |  |
+| packageName | 项目 `package.json` 的 name |  |
+| plugins | 当前注册的插件 |  |
+| entrypoints | 页面入口信息 |  |
+| serverRoutes | 服务端路由信息 |  |
+| bundlerType | 打包工具类型 | 需要在 `onPrepare` 之后的 Hook 获取 |
+| metaName(.modern-js) | 框架内部名称 |  |
+| apiDirectory | API 模块目录 | BFF 使用，绝对路径 |
+| lambdaDirectory | lambda 模块目录 | BFF 使用，绝对路径 |
+| runtimeConfigFile | Runtime 配置文件名称 |  |
+| serverConfigFile | Server 配置文件名称 |  |
+| checkedEntries | 指定的入口信息 |  |
+| apiOnly | 是否为 `apiOnly` 模式 | |
+| internalDirAlias | 框架临时输出目录别名 |  |
+| internalSrcAlias | 框架 `src` 目录别名 |  |
+
+```ts
+const context = api.getAppContext();
+```
+
+#### isPluginExists
+
+判断插件是否存在
+
+```ts
+const isPluginExists = api.isPluginExists('@modern-js/plugin-xxx');
+```
+
+#### getHooks
+
+获取执行 Hooks 的函数
+
+```ts
+const hooks = api.getHooks();
+hooks.onPrepare.call();
+```
+
+### Hooks
+
+#### config
+
+- 功能：收集配置
+- 执行阶段：解析完 modern.config.ts 中的配置之后
+- 类型：`type ConfigFn<Config> = () => Config | Promise<Config>`
+- 使用示例
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.config(() => {
+        return {
+          /** some config */
+        };
+     });
+  },
+});
+```
+
+插件在 `config` hook 中返回的配置信息，会被 Modern.js 统一收集与合并，最终生成一份 `NormalizedConfig`。在进行配置合并时，优先级由高到低依次为：
+
+1. 用户在 `modern.config.*` 文件里定义的配置
+
+2. 插件通过 `config` hook 定义的配置
+
+3. Modern.js 默认配置。
+
+
+#### onPrepare
+
+- 功能：运行主流程的前置准备流程
+
+- 执行阶段：校验完配置之后
+
+- 类型：`type OnPrepareFn = () => Promise<void> | void`
+
+- 使用示例
+
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.onPrepare(async () => {
+        // do something
+     });
+  },
+});
+```
+
+#### addCommand
+
+- 功能：为 commander 添加新的 CLI 命令
+
+- 执行阶段：`prepare` Hook 运行完成之后
+
+- 类型：`type AddCommandFn = (`*`params`*`: { program: Command }) => void`
+
+- 使用示例：
+
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.addCommand(async ({ program }) => {
+         program.command('foo').action(async () => {
+          // do something
+          console.log('foo');
+        });
+      });
+  },
+});
+```
+
+#### addWatchFiles
+
+- 功能：为 dev 命令添加新的 watch 文件
+
+- 执行阶段：`addCommand` Hook 运行完成之后
+
+- 类型：
+
+```ts
+type WatchFilesReturnType =
+  | Array<string>
+  | { files: string[]; isPrivate: boolean };
+type AddWatchFilesFn = () =>
+  | WatchFilesReturnType
+  | Promise<WatchFilesReturnType>;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.addWatchFiles(async () => {
+        // 计算 files
+        return files
+      });
+  },
+});
+```
+
+#### onFileChanged
+
+- 功能：为 dev 命令添加新的 watch 文件
+
+- 执行阶段：监听的文件变化之后
+
+- 类型：
+
+```ts
+type OnFileChangedFn = (params: {
+  filename: string;
+  eventType: 'add' | 'change' | 'unlink';
+  isPrivate: boolean;
+}) => void;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.onFileChanged(async e => {
+      const { filename, eventType, isPrivate } = e;
+      // do something
+    });
+  },
+});
+```
+
+#### onBeforeExit
+
+- 功能：在退出进程前，重置一些文件状态
+
+- 执行阶段：进程退出之前
+
+- 类型：`type OnBeforeExitFn = () => void | Promise<void>`
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.onBeforeExit(async () => {
+      // do something
+    });
+  },
+});
+```
+
+#### onBeforeBuild
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#onbeforebuild
+
+#### onAfterBuild
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#onafterbuild
+
+#### onDevCompileDone
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#ondevcompiledone
+
+#### onBeforeCreateCompiler
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#onbeforecreatecompiler
+
+#### onAfterCreateCompiler
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#onaftercreatecompiler
+
+#### onAfterDev
+
+对应 Rsbuild `onAfterStartDevServer` hook，详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#onafterstartdevserver
+
+#### modifyBundlerChain
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#modifybundlerchain
+
+#### modifyRsbuildConfig
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#modifyrsbuildconfig
+
+#### modifyRspackConfig
+
+详细参考 https://rsbuild.dev/zh/plugins/dev/hooks#modifyrspackconfig
+
+#### modifyWebpackChain
+
+- 功能： 使用 webpack-chain 来修改 webpack 配置
+
+- 执行阶段：计算 webpack 最终配置时
+
+- 类型：
+
+```ts
+export type ModifyWebpackChainFn<ExtendsUtils> = (
+  chain: RspackChain,
+  utils: ModifyWebpackChainUtils,
+) => Promise<void> | void;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.modifyWebpackChain(async (chain, utils) => {
+      // do something
+    });
+  },
+});
+```
+
+#### modifyWebpackConfig
+
+- 功能： 使用 webpack-chain 来修改 webpack 配置
+
+- 执行阶段：计算 webpack 最终配置时
+
+- 类型：
+
+```ts
+type ModifyWebpackConfigFn<ExtendsUtils> = (
+  config: WebpackConfig,
+  utils: ModifyWebpackConfigUtils,
+) => Promise<WebpackConfig | void> | WebpackConfig | void;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.modifyWebpackConfig(async (config, utils) => {
+      // do something
+    });
+  },
+});
+```
+
+:::info
+使用 `modern.config.ts` 修改构建配置和使用插件修改配置的执行顺序如下：
+
+- Rspack 项目
+
+```ts
+modifyRsbuildConfig
+modifyBundlerChain
+tools.bundlerChain
+modifyRspackConfig
+tools.rspack
+```
+
+- Webpack 项目
+
+```ts
+modifyBundlerChain
+tools.bundlerChain
+modifyWebpackChain
+tools.webpackChain
+modifyWebpackConfig
+tools.webpack
+```
+:::
+
+#### onBeforeDev
+
+- 功能：运行 dev 主流程的之前的任务
+
+- 执行阶段：`dev` 命令运行时，项目开始启动前执行
+
+- 类型：`type OnBeforeDevFn = () => Promise<void> | void`
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.onBeforeDev(async () => {
+      // do something
+    });
+  },
+});
+```
+
+#### deploy
+
+- 功能： 部署时执行的任务
+
+- 执行阶段：执行 deploy 命令，并且 build 完成后。
+
+- 类型：`type DeplpoyFn = () => Promise<void> | void`
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.deploy(async () => {
+      // do something
+    });
+  },
+});
+```
+
+#### modifyServerRoutes
+
+- 功能：用于修改生成服务器路由中的内容
+
+- 执行阶段：生成 Server 路由文件之前，`[prepare](https://modernjs.dev/plugin/plugin-system/hook-list.html#prepare)` 阶段触发
+
+- 类型：`type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>`
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.modifyServerRoutes(async ({ routes }) => {
+      // do something
+      const apiServerRoutes = ...
+      return routes.concat(apiServerRoutes)
+    });
+  },
+});
+```
+
+#### modifyHtmlPartials
+
+- 功能：用于定制生成的 HTML 页面模版
+
+- 执行阶段：`[prepare](https://modernjs.dev/plugin/plugin-system/hook-list.html#prepare)` 阶段触发
+
+- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; partials: HtmlPartials; }>`
+
+- 使用示例：
+
+```ts
+type ModifyHtmlPartialsFn = (params: {
+  entrypoint: Entrypoint;
+  partials: {
+    top: PartialMethod;
+    head: PartialMethod;
+    body: PartialMethod;
+  };
+}) => Promise<void> | void;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.modifyHtmlPartials(async ({ entrypoint, partials }) => {
+      // do something
+      partials.top.append('xxx')
+    });
+  },
+});
+```
+
+#### onBeforePrintInstructions
+
+- 功能：在中间件函数中可以拿到即将打印的日志信息，并对其进行修改
+
+- 执行阶段：打印日志信息之前执行
+
+- 类型：`type BeforePrintInstructionsFn = ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>`
+
+- 使用示例：
+
+
+```ts
+import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+  setup(api) {
+    api.onBeforePrintInstructions(async ({ instructions }) => {
+      // do something
+      return { instructions }
+    });
+  },
+});
+```
