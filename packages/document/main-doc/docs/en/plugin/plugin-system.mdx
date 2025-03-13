@@ -1,0 +1,193 @@
+# 插件系统
+
+Modern.js 提供了一套轻量而强大的插件系统，旨在实现其自身的大多数功能，同时也允许用户进行扩展。
+
+Modern.js 从框架构建、运行时和服务端三个方面，分别提供了 CLI 插件、Runtime 插件和 Server 插件的功能扩展。
+
+开发者可以通过编写插件来修改 Modern.js 的默认行为，从而实现功能的定制化和个性化需求。
+
+插件所具备的能力包括但不限于以下几点：
+
+- 注册命令
+- 修改 Modern.js 的配置和配置校验 Schema
+- 配置编译时的 Webpack、Babel、Less、Sass、Tailwind CSS 等工具
+- 修改运行时所需渲染的 React 组件或元素
+- 修改页面和服务器路由
+- 定制化控制台输出
+- 定制化动态 HTML 模板
+- 定制化 Node.js 服务器框架
+- 定制化 React 组件的客户端/服务器端渲染
+
+## 插件结构
+
+Modern.js 的三种插件类型均遵循相同的结构，如下所示：
+
+```ts
+import type { Plugin } from '@modern-js/plugin-v2';
+
+const myPlugin = (): Plugin => ({
+  name: 'example',
+  setup(api) {
+    api.xxx(() => {
+      // 执行某些动作
+    });
+  },
+});
+```
+
+各部分的作用分别为：
+
+##### `name`
+
+- 类型： `string`
+- 说明：标识插件的名称。在插件体系中，该名称必须唯一，否则将导致插件加载失败。
+
+##### `setup`
+
+- 类型： `(api: PluginAPI) => MaybePromise<void>`
+- 说明：插件逻辑的主要入口。
+
+##### `api`
+
+- 类型： `PluginAPI`
+- 说明：插件的 API，包含插件支持的 Hooks 和工具函数。
+
+##### `pre`
+
+- 类型： `string[]`
+- 说明：用于插入插件执行顺序。在 `pre` 中声明的插件会在此插件之前执行。
+
+##### `post`
+
+- 类型： `string[]`
+- 说明：用于确定插件执行顺序。在 `post` 中声明的插件会在此插件之后执行。
+
+##### `required`
+
+- 类型： `string[]`
+- 说明：该插件依赖的其它插件。在运行前，会校验依赖的插件是否已注册。
+
+##### `usePlugins`
+
+- 类型： `Plugin`
+- 说明：主动在插件中注册其他相同类型的插件。
+
+:::info
+`usePlugins` 中声明的插件默认在当前插件之前执行。需要在其后执行，请使用 `post` 声明。
+:::
+
+##### `registryHooks`
+
+- 类型： `Record<string, PluginHook<(...args: any[]) => any>>`
+- 说明：扩展当前支持的 Hook 函数，以实现自定义功能。
+
+## 插件系统的组成
+
+Modern.js 插件系统主要由以下部分构成：
+
+### 插件管理器
+
+插件管理器是系统的核心，它负责插件的注册、依赖处理和执行排序，确保插件按照正确的顺序初始化。
+
+```ts
+import { createPluginManager } from '@modern-js/plugin-v2';
+
+// 创建插件管理器
+const pluginManager = createPluginManager();
+// 注册插件
+pluginManager.addPlugins(allPlugins);
+// 获取拓扑排序后的插件列表
+const plugins = pluginManager.getPlugins() as RuntimePlugin<Extends>[];
+// 检查特定插件是否存在
+const isPluginExists = pluginManager.isPluginExists('myPlugin');
+```
+
+### 插件 Hook 模型
+
+插件 Hook 模型是插件系统的核心组件，定义了插件间的通信接口。
+
+Modern.js 的插件系统主要提供两类 Hook 模型：
+
+#### Async Hook
+
+Async Hook 是异步 Hook 模型，允许插件在执行时异步等待其他插件的结果。
+
+Async Hook 将依次执行每个注册的 Hook 函数，这些函数为 Async 函数，当前 Hook 函数的返回值被作为下一个 Hook 的首个参数，最终返回最后一个 Hook 函数的返回值。
+
+示例：
+
+```ts
+// 定义 Hooks
+import { createAsyncHook } from '@modern-js/plugin-v2';
+
+export type AfterPrepareFn = () => Promise<void> | void;
+export const onAfterPrepare = createAsyncHook<AfterPrepareFn>();
+
+// 插件中注册 Hooks
+const myPlugin = () => ({
+  name: "my-plugin",
+  registryHooks: {
+    onAfterPrepare,
+  },
+  setup: (api) => {
+    api.onPrepare(async () => {
+      // 插件中使用注册的 Hooks
+      const hooks = api.getHooks();
+      await hooks.onAfterPrepare.call();
+    });
+  }
+});
+
+// 在其他插件中使用 Hook
+const myPlugin2 = () => ({
+  name: "my-plugin-2",
+  setup: (api) => {
+    api.onAfterPrepare(async () => {
+      // TOOD
+    });
+  }
+})
+```
+
+#### Sync Hook
+
+Sync Hook 是同步 Hook 模型，允许插件在执行时同步获取其他插件的执行结果。
+
+Sync Hook 会依次执行每一个注册的 Hook 函数，都是 Sync 函数，当前 Hook 函数的返回值会是下一 Hook 的首个参数，并最终返回最后一个 Hook 函数的返回值。
+
+示例：
+
+```ts
+// 定义 Hooks
+import { createSyncHook } from '@modern-js/plugin-v2';
+
+type RouteObject = {/** TODO **/};
+const modifyRoutes = createSyncHook<(routes: RouteObject[]) => RouteObject[]>();
+
+// 插件中注册 Hooks
+const myPlugin = () => ({
+  name: "my-plugin",
+  registryHooks: {
+    modifyRoutes,
+  },
+  setup: (api) => {
+    api.onPrepare(async () => {
+      const routes = {};
+      // 在插件中使用注册的 Hooks
+      const hooks = api.getHooks();
+      const routesResult = hooks.modifyRoutes.call(routes);
+    });
+  }
+});
+
+// 其他插件使用 Hooks
+const myPlugin2 = () => ({
+  name: "my-plugin",
+  setup: (api) => {
+    api.modifyRoutes(async (routes) => {
+      // 修改 routes
+      return routes;
+    });
+  }
+});
+```
