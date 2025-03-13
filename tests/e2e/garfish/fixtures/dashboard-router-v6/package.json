@@ -1,7 +1,7 @@
 {
   "name": "@e2e/garfish-dashboard-router-v6",
   "private": true,
-  "version": "2.65.3",
+  "version": "2.65.4",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",

@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 2.65.4
+
+### Patch Changes
+
+- Updated dependencies [0d47cb8]
+  - @modern-js/utils@2.65.4
+  - @modern-js/babel-compiler@2.65.4
+  - @modern-js/babel-preset@2.65.4
+  - @modern-js/babel-plugin-module-resolver@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/plugin-v2
 
+## 2.65.4
+
+### Patch Changes
+
+- 7bce153: feat: rename runtime plugin modifyRuntimeConfig hook to config
+
+  feat: 重命名 runtime 插件 modifyRuntimeConfig 钩子为 config
+
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

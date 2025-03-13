@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.65.4
+
+### Patch Changes
+
+- 49bedb9: fix: should not escape windows path when use transformLodash
+- Updated dependencies [0d47cb8]
+  - @modern-js/utils@2.65.4
+  - @modern-js/babel-preset@2.65.4
+  - @modern-js/flight-server-transform-plugin@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes
