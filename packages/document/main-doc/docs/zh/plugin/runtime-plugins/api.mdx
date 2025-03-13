@@ -1,4 +1,4 @@
-# API
+# Runtime 插件 API
 
 ## 插件概览
 
@@ -8,7 +8,7 @@ import type { RuntimePluginFuture } from '@modern-js/runtime';
 const myRuntimePlugin = (): RuntimePluginFuture => ({
     name: '@xx/my-plugin',
     setup: (api) => {
-        api.xx()
+        api.xx();
     },
 });
 ```
@@ -19,31 +19,32 @@ const myRuntimePlugin = (): RuntimePluginFuture => ({
 
 #### getRuntimeConfig
 
-获取用户配置文件 `mdern.runtime.ts` 中配置信息
+获取用户配置文件 `mdern.runtime.ts` 中的配置信息。
 
 ```ts
 const config = api.getRuntimeConfig();
 ```
 
+---
+
 #### getHooks
 
-获取执行 Hooks 的函数
+获取执行 Hooks 的函数。
 
 ```ts
 const hooks = api.getHooks();
 hooks.onBeforeRender.call(context);
 ```
 
+---
+
 ### Hooks
 
 #### onBeforeRender
 
 - 功能：在应用渲染之前增加行为
-
 - 执行阶段：渲染（SSR/CSR）
-
 - 类型：`type OnBeforeRenderFn<RuntimeContext> = (`*`context`*`: RuntimeContext) => Promise<void> | void`
-
 - 使用示例：
 
 ```ts
@@ -61,14 +62,13 @@ export const configPlugin = (): RuntimePluginFuture => {
 };
 ```
 
+---
+
 #### wrapRoot
 
 - 功能：修改需要渲染的组件
-
 - 执行阶段：计算渲染组件（SSR/CSR），返回的组件真正执行是在渲染时
-
 - 类型：`type WrapRootFn = (`*`root`*`: React.ComponentType<any>) => React.ComponentType<any>`
-
 - 使用示例：
 
 ```ts
@@ -80,7 +80,8 @@ export const configPlugin = (): RuntimePluginFuture => {
     setup: api => {
       api.wrapRoot((App) => {
         const AppWrapper = (props) => {
-           return <Provider value={xx}><App {...props}/></Provider>
+           // 确保将 props 传递给原始组件
+           return <Provider value={xx}><App {...props}/></Provider>;
         };
         return AppWrapper;
       });
@@ -90,5 +91,5 @@ export const configPlugin = (): RuntimePluginFuture => {
 ```
 
 :::warning
-注意：在使用 `wrapRoot` 包裹外层组件时，一定记得把 props 再传给 App，不然容易丢失 props
+注意：在使用 `wrapRoot` 包裹外层组件时，记得将 props 再次传给 App，否则容易丢失 props。
 :::
