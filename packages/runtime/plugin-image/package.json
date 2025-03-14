@@ -10,6 +10,10 @@
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css",
+    "dist/logger.*"
+  ],
   "files": [
     "dist"
   ],
@@ -20,11 +24,16 @@
     "storybook": "storybook dev --no-open --port 6006",
     "test": "vitest run"
   },
+  "dependencies": {
+    "image-size": "^2.0.1",
+    "p-memoize": "^7.1.1",
+    "rslog": "^1.1.0",
+    "type-fest": "^4.37.0"
+  },
   "devDependencies": {
     "@rsbuild/core": "1.2.17",
     "@rsbuild/plugin-react": "1.1.1",
     "@rslib/core": "^0.5.4",
-    "@types/node": "^18",
     "@scripts/vitest-config": "workspace:*",
     "@storybook/addon-essentials": "^8.6.4",
     "@storybook/addon-interactions": "^8.6.4",
@@ -35,9 +44,11 @@
     "@storybook/test": "^8.6.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@types/node": "^18",
     "@types/react": "^19.0.10",
     "jsdom": "^26.0.0",
     "react": "^19.0.0",
+    "sharp": "^0.33.5",
     "storybook": "^8.6.4",
     "storybook-addon-rslib": "^1.0.0",
     "storybook-react-rsbuild": "^1.0.0",
@@ -46,6 +57,7 @@
   },
   "peerDependencies": {
     "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react-dom": ">=16.9.0",
+    "sharp": ">=0.33.5"
   }
 }

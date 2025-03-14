@@ -8,5 +8,5 @@
     "lib": ["ES2021", "DOM"]
   },
   "include": ["src"],
-  "exclude": ["**/*.stories.*"]
+  "exclude": ["**/*.stories.*", "**/*.test.*"]
 }
