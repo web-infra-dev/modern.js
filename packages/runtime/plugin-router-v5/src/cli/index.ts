@@ -35,8 +35,8 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
           path: `@${metaName}/plugin-router-v5/runtime`,
           config:
             typeof routerConfig === 'boolean'
-              ? { serverBase }
-              : { ...routerConfig, serverBase },
+              ? { serverBase, enable: !!routerConfig }
+              : { ...routerConfig, serverBase, enable: !!routerConfig },
         });
       }
       return { entrypoint, plugins };
