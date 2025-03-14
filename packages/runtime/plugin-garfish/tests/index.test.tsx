@@ -151,7 +151,7 @@ describe('plugin-garfish', () => {
     let unmount = () => {};
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [garfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin({...microFrontendConfig, enable: true,})],
       })(App);
       const res = render(<AppWrapper />);
       unmount = res.unmount;
@@ -254,7 +254,7 @@ describe('plugin-garfish', () => {
 
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [garfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin({...microFrontendConfig, enable: true,})],
       })(App);
       render(<AppWrapper />, {});
     });
@@ -310,7 +310,7 @@ describe('plugin-garfish', () => {
 
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [garfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin({...microFrontendConfig, enable: true,})],
       })(App);
       render(<AppWrapper />, {});
     });

@@ -18,7 +18,7 @@ const testPlugin: RuntimePlugin = {
 describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
     const AppWrapper = createApp({
-      plugins: [testPlugin, createRouterPlugin({})],
+      plugins: [testPlugin, createRouterPlugin({ enable: true })],
     })(App);
 
     interface Props {
@@ -38,6 +38,7 @@ describe('@modern-js/plugin-router-v5', () => {
       plugins: [
         testPlugin,
         createRouterPlugin({
+          enable: true,
           routesConfig: {
             routes: [{ path: '/', component: App as any }],
             globalApp: App,
@@ -87,6 +88,7 @@ describe('@modern-js/plugin-router-v5', () => {
       plugins: [
         testPlugin,
         createRouterPlugin({
+          enable: true,
           routesConfig: {
             routes: [
               { path: '/', component: App as any },
@@ -138,6 +140,7 @@ describe('@modern-js/plugin-router-v5', () => {
           },
         } as RuntimePlugin,
         createRouterPlugin({
+          enable: true,
           routesConfig: { routes: [{ path: '/' }] },
         }),
       ],
