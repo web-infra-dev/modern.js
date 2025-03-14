@@ -55,9 +55,14 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   return storeConfig;
 };
 
-export const statePlugin = (userConfig: StateConfig = {}): Plugin => ({
+export const statePlugin = (
+  userConfig: Partial<StateConfig & { enable: boolean }> = {},
+): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: api => {
+    if (!userConfig.enable) {
+      return;
+    }
     let storeConfig: StoreConfig;
     return {
       wrapRoot(App) {

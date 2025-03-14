@@ -42,7 +42,7 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
 }
 
 export const routerPlugin = (
-  userConfig: Partial<RouterConfig> = {},
+  userConfig: Partial<RouterConfig & { enable: boolean }> = {},
 ): RuntimePluginFuture<{
   extendHooks: RouterExtendsHooks;
 }> => {
@@ -53,6 +53,9 @@ export const routerPlugin = (
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
     },
     setup: api => {
+      if (!userConfig.enable) {
+        return;
+      }
       let routes: RouteObject[] = [];
 
       api.onBeforeRender(context => {

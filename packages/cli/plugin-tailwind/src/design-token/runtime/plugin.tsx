@@ -15,50 +15,55 @@ interface DesignTokenConfig {
   };
 }
 export const designTokenPlugin = (
-  userConfig: DesignTokenConfig = {},
+  userConfig: Partial<DesignTokenConfig & { enable: true }> = {},
 ): Plugin => ({
   name: '@modern-js/plugin-design-token',
 
-  setup: api => ({
-    wrapRoot(App) {
-      const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
-      const { options } = merge(pluginConfig.designToken || {}, userConfig);
-      const DesignTokenAppWrapper = (props: any) => {
-        const {
-          token = {},
-          useStyledComponentsThemeProvider = false,
-          useDesignTokenContext = false,
-        } = options;
-        if (useStyledComponentsThemeProvider && useDesignTokenContext) {
-          const { ThemeProvider } = require('@modern-js/runtime/styled');
-          return (
-            <ThemeProvider theme={token}>
+  setup: api => {
+    if (!userConfig.enable) {
+      return;
+    }
+    return {
+      wrapRoot(App) {
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const { options } = merge(pluginConfig.designToken || {}, userConfig);
+        const DesignTokenAppWrapper = (props: any) => {
+          const {
+            token = {},
+            useStyledComponentsThemeProvider = false,
+            useDesignTokenContext = false,
+          } = options;
+          if (useStyledComponentsThemeProvider && useDesignTokenContext) {
+            const { ThemeProvider } = require('@modern-js/runtime/styled');
+            return (
+              <ThemeProvider theme={token}>
+                <DesignTokenContext.Provider value={token}>
+                  <App {...props} />
+                </DesignTokenContext.Provider>
+              </ThemeProvider>
+            );
+          } else if (useStyledComponentsThemeProvider) {
+            const { ThemeProvider } = require('@modern-js/runtime/styled');
+            return (
+              <ThemeProvider theme={token}>
+                <App {...props} />
+              </ThemeProvider>
+            );
+          } else if (useDesignTokenContext) {
+            return (
               <DesignTokenContext.Provider value={token}>
                 <App {...props} />
               </DesignTokenContext.Provider>
-            </ThemeProvider>
-          );
-        } else if (useStyledComponentsThemeProvider) {
-          const { ThemeProvider } = require('@modern-js/runtime/styled');
-          return (
-            <ThemeProvider theme={token}>
-              <App {...props} />
-            </ThemeProvider>
-          );
-        } else if (useDesignTokenContext) {
-          return (
-            <DesignTokenContext.Provider value={token}>
-              <App {...props} />
-            </DesignTokenContext.Provider>
-          );
-        } else {
-          return <App {...props} />;
-        }
-      };
+            );
+          } else {
+            return <App {...props} />;
+          }
+        };
 
-      return DesignTokenAppWrapper;
-    },
-  }),
+        return DesignTokenAppWrapper;
+      },
+    };
+  },
 });
 
 export default designTokenPlugin;

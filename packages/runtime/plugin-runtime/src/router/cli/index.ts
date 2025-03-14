@@ -46,14 +46,14 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       )?.router;
-      if (routerConfig && !isV5(userConfig)) {
+      if (!isV5(userConfig)) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router`,
           config:
             typeof routerConfig === 'boolean'
-              ? { serverBase }
-              : { ...routerConfig, serverBase },
+              ? { serverBase, enable: !!routerConfig }
+              : { ...routerConfig, serverBase, enable: !!routerConfig },
         });
       }
 

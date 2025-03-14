@@ -51,9 +51,14 @@ async function initOptions(manifest: Manifest = {}, options: Options = {}) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
+export const garfishPlugin = (
+  userConfig: Partial<Config & { enable: boolean }> = {},
+): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
+    if (!userConfig.enable) {
+      return;
+    }
     setExternal();
     return {
       wrapRoot(App) {
