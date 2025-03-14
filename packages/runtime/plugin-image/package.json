@@ -22,7 +22,8 @@
     "build:storybook": "storybook build",
     "dev": "rslib build --watch",
     "storybook": "storybook dev --no-open --port 6006",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "image-size": "^2.0.1",
