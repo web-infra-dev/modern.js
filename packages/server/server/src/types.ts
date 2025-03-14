@@ -5,6 +5,7 @@ import type {
   NodeServer,
   ServerBase,
   ServerBaseOptions,
+  ServerPlugin,
 } from '@modern-js/server-core';
 
 export type { DevServerOptions, DevServerHttpsOptions };
@@ -20,14 +21,13 @@ export type ExtraOptions = {
   /**
    * The existing compiler can be used here.
    */
-  compilier?: Rspack.Compiler | Rspack.MultiCompiler;
+  compiler?: Rspack.Compiler | Rspack.MultiCompiler;
 
-  /** compat, the default value is modern.server-runtime.config.ts  */
-  serverConfigFile?: string;
-
-  serverConfigPath?: string;
+  serverConfigPath: string;
 
   builder?: UniBuilderInstance;
+
+  plugins?: ServerPlugin[];
 };
 
 export type ModernDevServerOptions<
@@ -36,6 +36,6 @@ export type ModernDevServerOptions<
 
 export type ApplyPlugins<O extends ServerBaseOptions = ServerBaseOptions> = (
   server: ServerBase,
-  options: O,
+  options: ModernDevServerOptions<O>,
   nodeServer?: NodeServer,
 ) => Promise<void>;

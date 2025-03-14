@@ -79,8 +79,6 @@ export class PluginManager {
 
     const coreManager = createAsyncManager(hooks, pluginApi);
 
-    this.addPlugins(this.#options.serverConfig?.plugins || []);
-
     this.#plugins.forEach(p => {
       const plugin = coreManager.createPlugin(p.setup, p);
       coreManager.usePlugin(plugin);
@@ -96,6 +94,7 @@ export class PluginManager {
       serverConfig: serverConfig || {},
     });
 
+    // TODO: Do we need this hook ?
     const finalServerConfig = await runner.config(mergedConfig);
 
     this.#configContext.set(finalServerConfig);

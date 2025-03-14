@@ -5,6 +5,7 @@ import {
   createDefaultPlugins,
   createErrorHtml,
   faviconPlugin,
+  injectConfigMiddlewarePlugin,
   onError,
   renderPlugin,
 } from '@modern-js/server-core';
@@ -54,6 +55,8 @@ export async function applyPlugins(
   });
 
   const loggerOptions = config.server.logger;
+  const { middlewares, renderMiddlewares } = options.serverConfig || {};
+
   const plugins = [
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
     ...createDefaultPlugins({
@@ -61,6 +64,7 @@ export async function applyPlugins(
       staticGenerate: options.staticGenerate,
       logger: loggerOptions === false ? false : getLogger(loggerOptions),
     }),
+    injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
     injectResourcePlugin(),
     injectRscManifestPlugin(),
