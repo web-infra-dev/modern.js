@@ -37,8 +37,6 @@ export const createProdServer = async (options: ProdServerOptions) => {
   }
 
   const serverRuntimeConfig = await loadServerRuntimeConfig(
-    options.pwd,
-    options.serverConfigFile,
     options.serverConfigPath,
   );
 

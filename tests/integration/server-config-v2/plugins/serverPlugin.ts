@@ -2,24 +2,37 @@ import type { ServerPluginLegacy } from '@modern-js/server-core';
 
 export default (): ServerPluginLegacy => ({
   name: 'serverPlugin1',
-  setup() {
+  setup(api) {
     return {
-      config(serverConfig) {
-        serverConfig.render ??= {};
-        serverConfig.render.middleware ??= [];
-        serverConfig.render.middleware.push(async (c, next) => {
-          await next();
+      prepare(serverConfig) {
+        const { middlewares, renderMiddlewares } = api.useAppContext();
 
-          const { response } = c;
+        middlewares?.push({
+          name: 'server-plugin-middleware',
+          handler: async (c, next) => {
+            const start = Date.now();
+            console.log('request timing in plugin', start);
 
-          const text = await response.text();
+            await next();
 
-          const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+            const end = Date.now();
 
-          c.response = c.body(newText, {
-            status: response.status,
-            headers: response.headers,
-          });
+            console.log('request timing in plugin', end);
+          },
+        });
+
+        renderMiddlewares?.push({
+          name: 'server-plugin-render-middleware',
+          handler: async (c, next) => {
+            const start = Date.now();
+            console.log('render timing in plugin', start);
+
+            await next();
+
+            const end = Date.now();
+
+            console.log('render timing in plugin', end);
+          },
         });
 
         return serverConfig;

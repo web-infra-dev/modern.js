@@ -13,3 +13,4 @@ export {
   type CreateDefaultPluginsOptions,
 } from './default';
 export { compatPlugin, handleSetupResult } from './compat';
+export { injectConfigMiddlewarePlugin } from './middlewares';
