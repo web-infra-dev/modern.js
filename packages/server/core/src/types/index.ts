@@ -1,4 +1,4 @@
 export * from './config';
-export * from './plugin';
+export * from './plugins';
 export * from './render';
 export * from './server';

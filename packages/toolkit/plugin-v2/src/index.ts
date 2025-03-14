@@ -5,6 +5,7 @@ export {
   createCollectSyncHook,
   createCollectAsyncHook,
   createAsyncInterruptHook,
+  createAsyncPipelineHook,
 } from './hooks';
 
 export type {
@@ -30,8 +31,21 @@ export type {
   RuntimePluginExtends,
 } from './types/runtime';
 export type {
+  ServerPluginAPI,
+  ServerContext,
+  InternalServerContext,
+  ServerPlugin,
+  ServerPluginExtends,
+  ResetEvent,
+  FileChangeEvent,
+} from './types/server';
+export type {
+  SyncHook,
   AsyncHook,
+  AsyncInterruptHook,
   CollectAsyncHook,
+  CollectSyncHook,
   PluginHook,
   PluginHookTap,
+  AsyncPipelineHook,
 } from './types/hooks';

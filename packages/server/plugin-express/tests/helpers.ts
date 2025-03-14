@@ -1,30 +1,47 @@
 import path from 'path';
 import { API_DIR, ApiRouter } from '@modern-js/bff-core';
+import type { Plugin } from '@modern-js/plugin-v2';
+import { server } from '@modern-js/plugin-v2/server';
 import {
-  PluginManager,
+  type ServerConfig,
   type ServerPlugin,
-  createContext,
+  type ServerPluginFurure,
+  compatPlugin,
+  handleSetupResult,
 } from '@modern-js/server-core';
+import { assign } from '@modern-js/utils/lodash';
 
-export function createPluginManager() {
-  const appContext = createContext<any>({});
-
-  const pluginManager = new PluginManager({
-    cliConfig: {
-      dev: {},
-      output: {},
-      source: {},
-      tools: {},
-      server: {},
-      html: {},
-      runtime: {},
-      bff: {},
-      security: {},
-    },
-    appContext,
+export async function serverInit({
+  plugins,
+  serverConfig,
+}: {
+  plugins?: (ServerPlugin | ServerPluginFurure)[];
+  serverConfig?: ServerConfig;
+}) {
+  const { serverContext } = await server.run({
+    plugins: [compatPlugin(), ...(plugins || [])] as Plugin[],
+    options: { appContext: {}, pwd: process.cwd() },
+    config: assign(
+      {},
+      {
+        dev: {},
+        output: {},
+        source: {},
+        tools: {},
+        server: {},
+        html: {},
+        runtime: {},
+        bff: {},
+        security: {},
+      },
+      serverConfig,
+    ),
+    handleSetupResult,
   });
 
-  return pluginManager;
+  const hooks = serverContext.pluginAPI?.getHooks();
+
+  return hooks as any;
 }
 
 export const APIPlugin: ServerPlugin = {
