@@ -11,16 +11,7 @@ import {
 import { parse } from 'flatted';
 import type { CliConfig, ServerConfig, UserConfig } from '../../../types';
 
-const requireConfig = async (
-  serverConfigPath: string,
-): Promise<ServerConfig | undefined> => {
-  if (fs.pathExistsSync(serverConfigPath)) {
-    return compatibleRequire(serverConfigPath);
-  }
-  return undefined;
-};
-
-async function loadServerConfigNew(
+export async function loadServerRuntimeConfig(
   serverConfigPath: string,
 ): Promise<ServerConfig | undefined> {
   const mod: ServerConfig | null = await requireExistModule(serverConfigPath);
@@ -29,31 +20,6 @@ async function loadServerConfigNew(
     return mod;
   }
   return undefined;
-}
-
-async function loadServerConfigOld(
-  pwd: string,
-  configFile: string,
-): Promise<ServerConfig | undefined> {
-  const serverConfigPath = path.join(pwd, `${configFile}.cjs`);
-  const serverConfig = await requireConfig(serverConfigPath);
-  return serverConfig;
-}
-
-export async function loadServerRuntimeConfig(
-  pwd: string,
-  oldServerFile: string = DEFAULT_SERVER_CONFIG,
-  newServerConfigPath?: string,
-) {
-  const newServerConfig =
-    newServerConfigPath && (await loadServerConfigNew(newServerConfigPath));
-
-  if (newServerConfig) {
-    return newServerConfig;
-  }
-
-  const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
-  return oldServerConfig;
 }
 
 export function loadServerCliConfig(

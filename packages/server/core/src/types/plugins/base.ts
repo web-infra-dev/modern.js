@@ -61,7 +61,7 @@ export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 /** Plugin Api */
 type MiddlewareOrder = 'pre' | 'post' | 'default';
 
-export type Middleware = {
+export type MiddlewareObj = {
   name: string;
 
   path?: string;
@@ -70,7 +70,7 @@ export type Middleware = {
 
   handler: MiddlewareHandler | MiddlewareHandler[];
 
-  before?: Array<Middleware['name']>;
+  before?: Array<MiddlewareObj['name']>;
 
   order?: MiddlewareOrder;
 };
@@ -87,7 +87,8 @@ export interface GetRenderHandlerOptions {
 
 declare module '@modern-js/types' {
   export interface ISAppContext {
-    middlewares: Middleware[];
+    renderMiddlewares: MiddlewareObj[];
+    middlewares: MiddlewareObj[];
     metaName: string;
 
     getRenderOptions?: GetRenderHandlerOptions;
@@ -104,14 +105,9 @@ export type CacheConfig = {
   container?: Container;
 };
 
-type RenderMiddleware = UnstableMiddleware;
-
-export interface RenderConfig {
-  cache?: CacheConfig;
-  middleware?: RenderMiddleware[];
-}
-
 export type ServerConfig = {
-  render?: RenderConfig;
+  // TODO: Middleware need more env
+  renderMiddlewares?: MiddlewareObj[];
+  middlewares?: MiddlewareObj[];
   plugins?: (ServerPlugin | ServerPluginLegacy)[];
 } & UserConfig;
