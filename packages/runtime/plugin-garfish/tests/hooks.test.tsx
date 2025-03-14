@@ -46,7 +46,7 @@ describe('plugin-garfish', () => {
     };
     await act(async () => {
       const AppWrapper = createApp({
-        plugins: [garfishPlugin(microFrontendConfig)],
+        plugins: [garfishPlugin({...microFrontendConfig, enable: true,})],
       })(App);
       render(<AppWrapper />);
     });

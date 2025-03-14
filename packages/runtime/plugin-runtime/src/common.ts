@@ -13,7 +13,6 @@ export interface AppConfig {
 
 export interface RuntimeConfig {
   state?: StateConfig;
-  stateByEntries?: { [name: string]: StateConfig };
   plugins?: Plugin[];
   [key: string]: any;
 }

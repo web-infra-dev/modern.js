@@ -66,7 +66,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
 let routes: SingleRouteConfig[] = [];
 
 export const routerPlugin = (
-  userConfig: RouterConfig = {},
+  userConfig: Partial<RouterConfig & { enable: boolean }> = {},
 ): RuntimePluginFuture<{
   extendHooks: RouterExtendsHooks;
 }> => {
@@ -76,6 +76,9 @@ export const routerPlugin = (
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      if (!userConfig.enable) {
+        return;
+      }
       api.onBeforeRender(context => {
         context.router = {
           useRouteMatch,

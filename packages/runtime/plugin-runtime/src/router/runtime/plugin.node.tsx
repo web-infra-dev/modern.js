@@ -39,7 +39,7 @@ function createRemixReuqest(request: Request) {
 }
 
 export const routerPlugin = (
-  userConfig: Partial<RouterConfig> = {},
+  userConfig: Partial<RouterConfig & { enable: boolean }> = {},
 ): RuntimePluginFuture<{
   extendHooks: RouterExtendsHooks;
 }> => {
@@ -50,6 +50,9 @@ export const routerPlugin = (
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
     },
     setup: api => {
+      if (!userConfig.enable) {
+        return;
+      }
       let finalRouteConfig: any = {};
 
       api.onBeforeRender(async (context, interrupt) => {

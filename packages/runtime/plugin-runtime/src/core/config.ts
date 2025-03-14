@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { AppConfig, RuntimeConfig } from '../common';
+import type { Plugin } from './plugin';
 
 const APP_CONFIG_SYMBOL = 'config';
 export const getConfig = (
@@ -21,10 +22,20 @@ export const defineConfig = (
   return Component;
 };
 
+type EnhancedRuntimeConfig = {
+  [K in keyof RuntimeConfig]: K extends 'plugins'
+    ? Plugin[]
+    : RuntimeConfig[K] & { enable: boolean };
+} & {
+  [key: string]: any;
+};
+
 /**
  * This function helps you to autocomplete configuration types.
  * It accepts a direct config object, or a function that returns a config.
  */
 export const defineRuntimeConfig = (
-  config: RuntimeConfig | ((entryName: string) => RuntimeConfig),
+  config:
+    | EnhancedRuntimeConfig
+    | ((entryName: string) => EnhancedRuntimeConfig),
 ) => config;

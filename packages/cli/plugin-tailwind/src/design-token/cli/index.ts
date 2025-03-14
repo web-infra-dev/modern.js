@@ -50,6 +50,7 @@ export const designTokenPlugin = (
               token: designTokens,
               useStyledComponentsThemeProvider: Boolean(useSCThemeProvider),
               useDesignTokenContext: false,
+              enable: true,
             },
           });
         }
