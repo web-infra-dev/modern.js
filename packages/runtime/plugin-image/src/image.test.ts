@@ -1,8 +1,103 @@
-import { join } from 'path';
-import { readFile } from 'fs/promises';
-import { beforeAll, describe, expect, it } from 'vitest';
+import sharp, { type ResizeOptions } from 'sharp';
+import { assert, beforeAll, describe, expect, it } from 'vitest';
 import { images } from '../tests/fixtures/images';
 import { Image, isRotatedOrientation } from './image';
+
+describe('Sharp', () => {
+  // Sunrise.jpg is a 100x75 image (without applying orientation).
+  const image = images.find(image => image.filename === 'sunrise.jpg');
+  assert(image);
+
+  it('should mutate the original instance by resize', async () => {
+    const img = sharp(image.buffer);
+    const resized = img.resize({ width: 50, height: 50 });
+    expect(resized).toBe(img);
+  });
+
+  it('should return new instance by clone', async () => {
+    const img = sharp(image.buffer);
+    const cloned = img.clone();
+    expect(cloned).not.toBe(img);
+
+    const resized = img.clone().resize({ width: 50, height: 50 });
+    expect(resized).not.toBe(img);
+
+    const formatted = img.clone().toFormat('webp', { quality: 80 });
+    expect(formatted).not.toBe(img);
+  });
+
+  it('should get metadata', async () => {
+    const img = sharp(image.buffer);
+    const metadata = await img.metadata();
+    expect(metadata).toMatchObject({
+      channels: 3,
+      chromaSubsampling: '4:2:0',
+      density: 72,
+      depth: 'uchar',
+      exif: expect.any(Buffer),
+      format: 'jpeg',
+      hasAlpha: false,
+      hasProfile: false,
+      isProgressive: false,
+      orientation: 6,
+      resolutionUnit: 'inch',
+      size: 2539,
+      space: 'srgb',
+      width: 100,
+      height: 75,
+    });
+  });
+
+  it("should won't apply transform to the metadata", async () => {
+    const img1 = sharp(image.buffer);
+    expect(await img1.metadata()).toMatchObject({
+      orientation: 6,
+      width: 100,
+      height: 75,
+    });
+
+    img1.rotate();
+    // Won't apply transform to the metadata.
+    expect(await img1.metadata()).toMatchObject({
+      orientation: 6,
+      width: 100,
+      height: 75,
+    });
+
+    // After convert to buffer, the metadata will be applied.
+    const img2 = sharp(await img1.toBuffer());
+    const metadata2 = await img2.metadata();
+    expect(metadata2).toMatchObject({
+      width: 75,
+      height: 100,
+    });
+    expect(metadata2.orientation).toBeUndefined();
+  });
+
+  const bound = { width: 50, height: 50 };
+  const resizeCases: ResizeOptions[] = [
+    { fit: 'cover', ...bound },
+    { fit: 'contain', ...bound },
+    { fit: 'fill', ...bound },
+    { fit: 'inside', width: 38, height: 50 },
+    { fit: 'outside', width: 50, height: 67 },
+  ];
+
+  /** @see https://sharp.pixelplumbing.com/api-resize */
+  it.each(resizeCases)(
+    'should resize image to ($width, $height) by $fit',
+    async ({ fit, width, height }) => {
+      const img = sharp(image.buffer);
+      const resizedBuf = await img
+        .rotate() // Apply orientation first
+        .resize({ fit, ...bound })
+        .toFormat('png')
+        .toBuffer();
+      const resized = sharp(resizedBuf);
+      expect(await resized.metadata()).toMatchObject({ width, height });
+    },
+  );
+});
 
 /**
  * 1. Normal orientation
@@ -48,7 +143,7 @@ describe('isRotatedOrientation', () => {
   });
 });
 
-describe.each(images)('Image $filename ($width x $height)', data => {
+describe.each(images)('Image $filename ($width, $height)', data => {
   const { filename, width, height, buffer } = data;
 
   beforeAll(async () => {

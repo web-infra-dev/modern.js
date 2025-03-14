@@ -24,7 +24,7 @@ export const loadSharp = pMemoize(async () => {
   logger.debug('Intend to load sharp package in first time');
   const exports = await import('sharp');
   logger.debug('Successfully loaded sharp package');
-  return exports;
+  return { ...exports, sharp: exports.default };
 });
 
 /**
@@ -57,8 +57,8 @@ export class Image {
 
   static async create(buf: Uint8Array) {
     logger.debug('Intend to create a new image instance');
-    const exported = await loadSharp();
-    return new Image(buf, exported.default(buf));
+    const { sharp } = await loadSharp();
+    return new Image(buf, sharp(buf));
   }
 
   private _size?: ImageSize;
@@ -84,6 +84,8 @@ export class Image {
     return this.sharp.resize(options);
   }
 
+  thumbnail(options: ResizeOptions) {}
+
   format(
     format: keyof FormatEnum,
     options?:
@@ -99,5 +101,9 @@ export class Image {
       | TiffOptions,
   ) {
     return this.sharp.toFormat(format, options);
+  }
+
+  clone() {
+    return new Image(this.buffer, this.sharp.clone());
   }
 }
