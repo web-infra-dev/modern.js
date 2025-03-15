@@ -1,10 +1,5 @@
 import type Webpack from 'webpack';
-import {
-  type Compilation,
-  Module,
-  type ModuleGraph,
-  NormalModule,
-} from 'webpack';
+import { type Compilation, NormalModule } from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,

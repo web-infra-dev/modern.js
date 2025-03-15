@@ -1,6 +1,3 @@
-/**
- * The plugin is developing, ignore it now
- */
 import type Webpack from 'webpack';
 import type { Compilation, ModuleGraph, NormalModule } from 'webpack';
 import {
@@ -25,13 +22,12 @@ export interface ModuleExportsInfo {
   readonly exportName: string;
 }
 
-const resourcePath2Entries = new Map<
-  string,
-  {
-    entryName: string;
-    entryPath: string;
-  }[]
->();
+export interface EntryInfo {
+  readonly entryName: string;
+  readonly entryPath: string;
+}
+
+const resourcePath2Entries = new Map<string, EntryInfo[]>();
 export class RscServerPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
   private serverReferencesMap: ServerReferencesMap = new Map();
@@ -41,29 +37,47 @@ export class RscServerPlugin {
   private styles: Set<string>;
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
-
     this.serverManifestFilename =
       options?.serverManifestFilename || `react-server-manifest.json`;
-
     this.entryPath2Name = options?.entryPath2Name || new Map();
+  }
+
+  private isValidModule(module: NormalModule): boolean {
+    return Boolean(module?.resource);
+  }
+
+  private hasValidEntries(
+    entries: EntryInfo[] | undefined,
+  ): entries is EntryInfo[] {
+    return Boolean(entries && entries.length > 0);
+  }
+
+  private getEntryNameFromIssuer(issuer: NormalModule): string | undefined {
+    return issuer.resource
+      ? this.entryPath2Name.get(issuer.resource)
+      : undefined;
+  }
+
+  private createEntryFromIssuer(
+    issuer: NormalModule,
+    entryName: string,
+  ): EntryInfo {
+    return { entryName, entryPath: issuer.resource };
   }
 
   private findModuleEntries(
     module: NormalModule,
     compilation: Compilation,
-    resourcePath2Entries: Map<
-      string,
-      Array<{ entryName: string; entryPath: string }>
-    >,
+    resourcePath2Entries: Map<string, EntryInfo[]>,
     visited = new Set<string>(),
-  ): Array<{ entryName: string; entryPath: string }> {
-    if (!module?.resource || visited.has(module.resource)) {
+  ): EntryInfo[] {
+    if (!this.isValidModule(module) || visited.has(module.resource)) {
       return [];
     }
     visited.add(module.resource);
 
     const currentEntries = resourcePath2Entries.get(module.resource);
-    if (currentEntries && currentEntries?.length > 0) {
+    if (this.hasValidEntries(currentEntries)) {
       return currentEntries;
     }
 
@@ -78,15 +92,13 @@ export class RscServerPlugin {
       resourcePath2Entries,
       visited,
     );
-    if (issuerEntries.length > 0) {
+    if (this.hasValidEntries(issuerEntries)) {
       return issuerEntries;
     }
 
-    if (issuer.resource) {
-      const entryName = this.entryPath2Name.get(issuer.resource);
-      if (entryName) {
-        return [{ entryName, entryPath: issuer.resource }];
-      }
+    const entryName = this.getEntryNameFromIssuer(issuer);
+    if (entryName) {
+      return [this.createEntryFromIssuer(issuer, entryName)];
     }
 
     return [];
@@ -96,37 +108,8 @@ export class RscServerPlugin {
     const {
       EntryPlugin,
       WebpackError,
-      // dependencies: { NullDependency },
-      // util: {
-      //   runtime: { getEntryRuntime },
-      // },
       sources: { RawSource },
-      // RuntimeGlobals,
     } = compiler.webpack;
-
-    // class ServerReferenceDependency extends NullDependency {
-    //   override get type(): string {
-    //     return `server-reference`;
-    //   }
-    // }
-
-    // ServerReferenceDependency.Template = class ServerReferenceDependencyTemplate extends (
-    //   NullDependency.Template
-    // ) {
-    //   override apply(
-    //     _dependency: ServerReferenceDependency,
-    //     _source: Webpack.sources.ReplaceSource,
-    //     { runtimeRequirements }: { runtimeRequirements: Set<string> },
-    //   ) {
-    //     runtimeRequirements.add(RuntimeGlobals.moduleId);
-    //   }
-    // };
-
-    // function hasServerReferenceDependency(module: Webpack.Module): boolean {
-    //   return module.dependencies.some(
-    //     dependency => dependency instanceof ServerReferenceDependency,
-    //   );
-    // }
 
     const includeModule = async (
       compilation: Webpack.Compilation,
