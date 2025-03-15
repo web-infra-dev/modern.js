@@ -1,0 +1,55 @@
+# 插件迁移
+
+在 Modern.js 的当前大版本中，之前的 CLI 插件写法依然得到支持，但推荐通过以下方式完成迁移。
+
+## 修改插件定义
+
+将插件的类型由 `CliPlugin<AppTools<'shared'>>` 修改为 `CliPluginFuture<AppTools<'shared'>>`。
+
+```ts
+- import type { CliPlugin, AppTools } from '@modern-js/app-tools';
++ import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+
+- const plugin: CliPlugin<AppTools<'shared'>> = { ... }
++ const plugin: CliPluginFuture<AppTools<'shared'>> = { ... }
+```
+## 修改 Hooks 调用方式
+
+将通过 return hooks 使用的写法改为直接调用 api.xx。
+
+```ts
+// Legacy
+{
+  setup: () => ({
+    commands({ program }) { /*...*/ }
+  })
+}
+
+// New
+{
+  setup: api => {
+    api.addCommand(({ program }) => { /*...*/ })
+  }
+}
+```
+
+## 修改 API
+
+- `useAppContext` 修改为 `getAppContext`
+- `useConfigContext` 修改为 `getConfig`
+- `useResolvedConfigContext` 修改为 `getNormalizedConfig`
+- `beforeConfig` 不再支持，直接在 setup 函数中定义即可
+- `prepare` 修改为 `onPrepare`
+- `afterPrepare` 修改为 `onAfterPrepare`，但不推荐使用，可能在后续版本中废弃
+- `beforePrintInstructions` 修改为 `onBeforePrintInstructions`
+- `commands` 修改为 `addCommand`
+- `watchFiles` 修改为 `addWatchFiles`
+- `fileChange` 修改为 `onFileChanged`
+- `beforeCreateCompiler` 修改为 `onBeforeCreateCompiler`
+- `afterCreateCompiler` 修改为 `onAfterCreateCompiler`
+- `beforeBuild` 修改为 `onBeforeBuild`
+- `afterBuild` 修改为 `onAfterBuild`
+- `beforeDev` 修改为 `onBeforeDev`
+- `afterDev` 修改为 `onDevCompileDone`
+- `beforeExit` 修改为 `onBeforeExit`
+- `htmlPartials` 修改为 `modifyHtmlPartials`

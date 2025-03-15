@@ -1,0 +1,43 @@
+# 插件迁移
+
+Modern.js 之前的 Runtime 插件写法在当前版本中依然支持。迁移插件可以通过以下方式完成。
+
+## 修改插件定义
+
+将插件类型从 `Plugin` 修改为 `RuntimePluginFuture`。
+
+```ts
+- import type { Plugin } from '@modern-js/runtime';
++ import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+- const plugin: Plugin = { ... }
++ const plugin: RuntimePluginFuture = { ... }
+```
+
+## 修改 Hooks 调用方式
+
+将使用 return hooks 的写法改为直接使用 api.xx 来调用。
+
+```ts
+// Legacy
+{
+  setup: () => ({
+    beforeRender({ program }) { /*...*/ }
+  })
+}
+
+// New
+{
+  setup: api => {
+    api.onBeforeRender(({ program }) => { /*...*/ })
+  }
+}
+```
+
+## 修改 API
+
+- 将 `beforeRender` 改为 `onBeforeRender`。
+
+:::warning
+此前兼容的 `hoc` 和 `init` 不再支持。需要改为使用 `wrapRoot` 和 `onBeforeRender`。
+:::
