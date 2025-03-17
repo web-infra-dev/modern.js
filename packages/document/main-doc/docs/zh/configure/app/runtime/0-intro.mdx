@@ -7,17 +7,21 @@ sidebar_position: 1
 
 此节将介绍 Runtime 插件的配置。
 
-## 配置方式
+## 开启 Runtime 插件
 
-### runtime
+Runtime 插件分为两种，一种是纯 Runtime 插件，一种是 CLI 插件 + Runtime 插件的配置。
 
-- **类型：** `Object`
+对于纯 Runtime 插件，插件配置需要在 src/modern.runtime.ts 中配置，将插件直接注册到 plugins 字段中：
 
-runtime 配置方式如下：
+```ts title="src/modern.runtime.ts"
+import { definePluginConfig } from '@modern-js/runtime';
 
-#### 基本用法
+export default definePluginConfig({
+  plugins: [runtimePlugin({...params})]
+})
+```
 
-在 `modern.config.ts` 中配置
+对于 CLI 插件 + Runtime 插件，通常 CLI 插件会自动注册 Runtime 插件，只需注册 CLI 插件，无需再重复注册，但是需要在 `modern.config.ts` 中配置开启插件：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -27,78 +31,56 @@ export default defineConfig({
     state: true,
     router: true,
   },
+  plugins: [customPlugin({ enable: true })]
 });
 ```
 
-#### 运行时配置
+Modern.js 提供的 Runtime 插件都为 CLI + Runtime 插件的形式，并且 router 和 state 插件内置，无需注册。
 
-通过 [`defineConfig`](/apis/app/runtime/app/define-config) API 配置：
+## 配置 Runtime 插件参数
+
+对于内置的 Runtime 插件，支持在 src/modern.runtime.ts 中进行配置。
 
 :::info
-当 runtime 配置中存在函数时，只能使用该方式进行配置。
-
+Modern.js 之前的配置方式为在 `modern.config.ts` runtime 配置中进行配置，但是无法配置函数等动态参数。
 :::
 
-import { Tabs, Tab as TabItem } from "@theme";
+```ts title="src/modern.runtime.ts"
+import { definePluginConfig } from '@modern-js/runtime';
 
-<Tabs>
-  <TabItem value="layout" label="约定式路由" default>
-
-```tsx title="src/routes/layout.tsx"
-import type { AppConfig } from '@modern-js/runtime';
-
-export const config = (): AppConfig => {
-  return {
-    router: {
-      supportHtml5History: false
-    }
-  }
-};
-```
-
-  </TabItem>
-
-  <TabItem value="app" label="自控路由">
-
-```ts title="src/App.tsx"
-import { defineConfig } from '@modern-js/runtime';
-
-const App = () => {
-  /** */
-};
-
-defineConfig(App, {
+export default definePluginConfig({
   router: {
     supportHtml5History: false,
-  },
-});
-
-export default App;
+  }
+})
 ```
 
-  </TabItem>
-</Tabs>
+对于自定义的 Runtime 插件，可以在注册 Runtime 插件时自动注册配置信息
 
-:::info
-使用运行时配置，可以解决 Runtime 插件配置需要在运行时才能获取到具体内容问题。
+```ts title="src/modern.runtime.ts"
+import { definePluginConfig } from '@modern-js/runtime';
+export default definePluginConfig({
+  plugins: [customPlugin({ param: 'test' })]
+})
+```
 
-Runtime 插件运行时配置和直接在 `modern.config.ts` 中的配置默认会进行合并，且运行时配置优先级更高。
+## 多入口插件配置
 
-:::
+对于纯 Runtime 插件，可以直接在 src/modern.runtime.ts 中通过函数判断入口名称决定 Runtime 插件是否注册生效
 
-:::warning
-defineConfig 中只能定义 Runtime 插件的具体配置内容，确认是否开启插件还需要通过 `modern.config.ts` 中的配置决定。
+```ts title="src/modern.runtime.ts"
+import { definePluginConfig } from '@modern-js/runtime';
+export default definePluginConfig((entryName: string) => {
+  if (entryName === 'entry1') {
+    return {
+      plugins: [customPlugin({ param: 'test' })]
+    }
+  }
+  return { plugins: []}
+})
+```
 
-:::
-
-### runtimeByEntries
-
-- **类型：** `Object`
-- **默认值：**无
-
-#### 说明
-
-按入口添加 runtime 配置，选项属性同 runtime 一致，指定值会和 runtime 属性内容做替换合并操作。
+对于 CLI + runtime 插件，需要在 modern.config.ts 中通过 runtimeByEntries 进行开启插件，插件的动态配置再配置 src/modern.runtime.ts 的函数形式使用。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -117,4 +99,18 @@ export default defineConfig({
     },
   },
 });
+```
+
+```ts title="src/modern.runtime.ts"
+import { definePluginConfig } from '@modern-js/runtime';
+export default definePluginConfig((entryName: string) => {
+  if (entryName === 'entry1') {
+    return {
+      router: {
+        supportHtml5History: true
+      }
+    }
+  }
+  return {}
+})
 ```
