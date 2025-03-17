@@ -458,22 +458,57 @@ api.onBeforeBuild(({ bundlerConfigs }) => {
 
 ---
 
-#### `api.onBeforeCreateCompiler`
+#### `api.onAfterBuild`
 
-Registers a hook function to be executed before the bundler compiler instance is created.
+Registers a hook function that is executed after the build process completes.
 
-- **Type:** `api.onBeforeCreateCompiler(beforeCreateCompilerFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>)`
-- **Parameters:**
-  - `beforeCreateCompilerFn`: A function that receives the final bundler configuration array.
-- **Execution Phase:** Before creating the bundler compiler.
-- **Corresponding Rsbuild Hook**: [beforeCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#beforecreatecompiler)
-- **Example:**
+-   **Type:**  `api.onAfterBuild(buildFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `buildFn`: The function to be executed after the build.  It takes no arguments and can be asynchronous.
+-   **Execution Stage:** After the build process has finished.
+-   **Corresponding Rsbuild Hook**: [onAfterBuild](https://rsbuild.dev/en/plugins/dev/hooks#onafterbuild)
+-   **Example:**
 
 ```typescript
-api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-  // You can perform final checks on the configuration here,
-  // but avoid modifying the configuration at this stage.
-  console.log('Bundler configurations before compiler creation:', bundlerConfigs);
+api.onAfterBuild(() => {
+    // Upload source maps after the build
+});
+```
+
+---
+
+#### `api.onDevCompileDone`
+
+Registers a hook function that is executed after the development server has finished compiling.
+
+-   **Type:**  `api.onDevCompileDone(compileFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `compileFn`: The function to be executed after compilation is complete.
+-   **Execution Stage:**  After the development server has started and the initial compilation is complete.
+-   **Corresponding Rsbuild Hook**: [onDevCompileDone](https://rsbuild.dev/en/plugins/dev/hooks#ondevcompiledone)
+-   **Example:**
+
+```typescript
+api.onDevCompileDone(() => {
+    // Open the browser after the initial compilation is complete
+});
+```
+---
+
+#### `api.onBeforeCreateCompiler`
+
+Registers a hook function that is executed before the compiler instance is created.
+
+-   **Type:**  `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `createFn`: The function to be executed before creation. It takes no arguments and can be asynchronous.
+-   **Execution Stage:** Before the Webpack or Rspack compiler instance is created.
+-   **Corresponding Rsbuild Hook**: [onBeforeCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onbeforecreatecompiler)
+-   **Example:**
+
+```typescript
+api.onBeforeCreateCompiler(() => {
+    // You can access compiler-related configurations here
 });
 ```
 
@@ -481,261 +516,117 @@ api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
 
 #### `api.onAfterCreateCompiler`
 
-Registers a hook function to be executed after the bundler compiler instance is created.
+Registers a hook function that is executed after the compiler instance has been created.
 
--   **Type:** `api.onAfterCreateCompiler(afterCreateCompilerFn: ({ compiler }: { compiler: Compiler | MultiCompiler }) => void | Promise<void>)`
+-   **Type:**  `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `afterCreateCompilerFn`: A function that receives the bundler compiler instance.
--   **Execution Phase:** After creating the bundler compiler.
--   **Corresponding Rsbuild Hook**: [afterCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#aftercreatecompiler)
+    -   `createFn`: The function to be executed after creation. It takes no arguments and can be asynchronous.
+-   **Execution Stage:** After the Webpack or Rspack compiler instance has been created.
+-   **Corresponding Rsbuild Hook**: [onAfterCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onaftercreatecompiler)
 -   **Example:**
 
 ```typescript
-api.onAfterCreateCompiler(({ compiler }) => {
-  // Add custom webpack/rspack plugins
-  if (compiler.constructor.name === 'Compiler') {
-      // Single compiler (webpack or rspack)
-      new MyCustomWebpackPlugin().apply(compiler);
-  } else {
-      // MultiCompiler (webpack)
-      compiler.compilers.forEach(childCompiler => {
-        new MyCustomWebpackPlugin().apply(childCompiler);
-      });
-  }
+api.onAfterCreateCompiler(() => {
+    // You can access the compiler instance here
 });
 ```
 
 ---
 
-#### `api.onBeforeStartDevServer`
+#### `api.onBeforeDev`
 
-Registers a hook function to be executed before the development server starts.
+Registers a hook function that is executed before the development server starts.
 
--   **Type:** `api.onBeforeStartDevServer(beforeStartDevServerFn: () => void | Promise<void>)`
+-   **Type:** `api.onBeforeDev(devFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `beforeStartDevServerFn`: A function without parameters.
--   **Execution Phase:** Before starting the development server.
+    -   `devFn`: The function to be executed before the development server starts. It takes no arguments and can be asynchronous.
+-   **Execution Stage:** Before the `dev` command starts the development server.
 -   **Example:**
 
 ```typescript
-api.onBeforeStartDevServer(() => {
-  // Perform operations before starting the server, such as setting up proxy rules, etc.
-  console.log('Preparing to start the development server...');
+api.onBeforeDev(async () => {
+  // Check if the port is already in use
+  await checkPortAvailability(3000);
 });
 ```
 
 ---
 
-#### `api.onDevServerReady`
+#### `api.onAfterDev`
 
-Registers a hook function to be executed after the development server is ready.
+Registers a hook function that is executed after the development server has started.
 
--   **Type:** `api.onDevServerReady(devServerReadyFn: ({ port }: { port: number }) => void | Promise<void>)`
+- **Type:** `api.onAfterDev(devFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `devFn`: The function to execute after the development server has started.
+- **Execution Stage:** After successful start of the development server.
+- **Corresponding Rsbuild Hook**: [onAfterStartDevServer](https://rsbuild.dev/en/plugins/dev/hooks#onafterstartdevserver)
+- **Example:**
+
+```typescript
+api.onAfterDev(()=>{
+    // Report dev-related information
+})
+```
+
+---
+
+#### `api.onBeforeExit`
+
+Registers a hook function that is executed before the process exits.
+
+-   **Type:** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `devServerReadyFn`: A function that receives the development server port number as a parameter.
--   **Execution Phase:** After the development server is ready.
+    -   `exitFn`: The function to be executed before the process exits. It takes no arguments and can be asynchronous.
+-   **Execution Stage:**  Before the Modern.js process is about to exit (e.g., when the user presses Ctrl+C).
 -   **Example:**
 
 ```typescript
-api.onDevServerReady(({ port }) => {
-  console.log(`Development server is running on port ${port}`);
+api.onBeforeExit(async () => {
+  // Perform cleanup operations, such as closing database connections or deleting temporary files
+  await cleanupMyResources();
 });
 ```
 
 ---
 
-#### `api.onAfterStartDevServer`
+#### `api.deploy`
 
-Registers a hook function to be executed after the development server has started.
+Registers a hook function to be executed during the deployment stage.
 
--   **Type:** `api.onAfterStartDevServer(afterStartDevServerFn: ({ port }: { port: number }) => void | Promise<void>)`
+-   **Type:**  `api.deploy(deployFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `afterStartDevServerFn`: A function that receives the development server port number as a parameter.
--   **Execution Phase:** After starting the development server.
+    -   `deployFn`: The task to be executed during deployment.
+-   **Execution Stage:**  When the `deploy` command is executed, and after the `build` is complete.
 -   **Example:**
 
 ```typescript
-api.onAfterStartDevServer(({ port }) => {
-  // Perform operations after the server starts, such as opening the browser, etc.
-  console.log(`Server started successfully. Access it at http://localhost:${port}`);
-});
+api.deploy(()=>{
+    // Execute deployment
+})
 ```
 
 ---
 
-#### `api.onBeforeStartProdServer`
+#### `api.onBeforePrintInstructions`
 
-Registers a hook function to be executed before the production server starts (after running `start` command).
+Registers a hook that is executed before printing success messages.
 
--   **Type:** `api.onBeforeStartProdServer(beforeStartProdServerFn: () => void | Promise<void>)`
+-   **Type:**  `api.onBeforePrintInstructions(printFn: ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>)`
 -   **Parameters:**
-    -   `beforeStartProdServerFn`: A function without parameters.
--   **Execution Phase:** Before starting the production server.
+    -   `printFn`: The function to modify the printed message. It returns the modified message.
+-   **Execution Stage:** Before printing success messages.
 -   **Example:**
 
 ```typescript
-api.onBeforeStartProdServer(() => {
-  console.log('Preparing to start the production server...');
+api.onBeforePrintInstructions(({ instructions }) => {
+  // do something
+  return { instructions }
 });
 ```
-
----
-#### `api.onAfterStartProdServer`
-
-Registers a hook function to be executed after the production server has started (after running `start` command).
-
--   **Type:** `api.onAfterStartProdServer(afterStartProdServerFn: ({ port }: { port: number }) => void | Promise<void>)`
--   **Parameters:**
-    -   `afterStartProdServerFn`:  A function that receives the production server port number as a parameter.
--   **Execution Phase:** After starting the production server.
--   **Example:**
-
-```typescript
-api.onAfterStartProdServer(({ port }) => {
-  console.log(`Production server started successfully. Access it at http://localhost:${port}`);
-});
-```
-
 ---
 
-#### `api.onBeforeBuildProdServer`
+## Other Notes
 
-Registers a hook function to be executed before building for the production server (before running `start` command).
-
--   **Type:** `api.onBeforeBuildProdServer(beforeBuildProdServerFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `beforeBuildProdServerFn`: A function without parameters.
--   **Execution Phase:** Before building the production server.
--   **Example:**
-
-```typescript
-api.onBeforeBuildProdServer(() => {
-  console.log('Building the production server...');
-});
-```
-
----
-
-#### `api.onAfterBuildProdServer`
-
-Registers a hook function to be executed after building for the production server (before running `start` command).
-
--   **Type:** `api.onAfterBuildProdServer(afterBuildProdServerFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `afterBuildProdServerFn`: A function without parameters.
--   **Execution Phase:** After building the production server.
--   **Example:**
-
-```typescript
-api.onAfterBuildProdServer(() => {
-  console.log('Production server build completed.');
-});
-```
-
----
-
-#### `api.onAfterBuild`
-
-Registers a hook function to be executed after the build process is complete.
-
--   **Type:** `api.onAfterBuild(buildFn: ({ stats }: { stats?: RspackStats | WebpackStats }) => void | Promise<void>)`
--   **Parameters:**
-    -   `buildFn`: A build completion function that receives the build statistics object as a parameter.
--   **Execution Phase:** After the build process is complete.
--   **Example:**
-
-```typescript
-api.onAfterBuild(({ stats }) => {
-  if (stats) {
-    console.log(stats.toString()); // Output build statistics
-  }
-  console.log('Build completed.');
-});
-```
-
----
-
-#### `api.onExit`
-
-Registers a hook function to be executed when the Modern.js process is about to exit.
-
--   **Type:** `api.onExit(exitFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `exitFn`: An exit function, without parameters, can be asynchronous.
--   **Execution Phase:** When the Modern.js process is about to exit (e.g., after a `SIGINT` signal).
--   **Example:**
-
-```typescript
-api.onExit(() => {
-  // Perform cleanup operations, such as closing database connections, removing temporary files, etc.
-  console.log('Exiting Modern.js...');
-});
-```
-
----
-
-### Type Definitions
-
-```typescript
-// Type definitions (Simplified for clarity.  Refer to the actual source code for complete definitions)
-
-type UserConfig = any; // The actual user configuration type.
-type RspackConfig = any; // Rspack configuration type.
-type WebpackConfig = any; // Webpack configuration type.
-type WebpackChain = any;  // webpack-chain instance type.
-type RspackChain = any; // RspackChain instance type.
-type RspackUtils = any;  // Rspack utility functions.
-type WebpackUtils = any;  // Webpack utility functions.
-type ServerRoute = any; // Server route type.
-type HtmlPartials = any; // HTML partials type.
-type Entrypoint = any;   // Entry point information type.
-type RspackStats = any; // Rspack Stats type.
-type WebpackStats = any; // Webpack Stats type.
-type Compiler = any; // Webpack or Rspack compiler
-type MultiCompiler = any; // Webpack MultiCompiler
-type RsbuildConfig = any; // Rsbuild config
-type RsbuildUtils = any; // Rsbuild utils
-
-interface AppContext {
-  // ... (Fields listed in the api.getAppContext section) ...
-}
-
-interface CliPluginFuture<T> {
-  name: string;
-  setup: (api: CliPluginAPI<T>) => void;
-}
-
-interface CliPluginAPI<T> {
-  getAppContext: () => AppContext;
-  getConfig: () => UserConfig;
-  getNormalizedConfig: () => UserConfig;
-  isPluginExists: (pluginName: string) => boolean;
-  getHooks: () => any; // Returns an object with all hook functions.
-
-  config: (configFn: () => UserConfig | Promise<UserConfig>) => void;
-  modifyBundlerChain: (modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>) => void;
-  modifyRsbuildConfig: (modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void) => void;
-  modifyRspackConfig: (modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void) => void;
-  modifyWebpackChain: (modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>) => void;
-  modifyWebpackConfig: (modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void) => void;
-  modifyServerRoutes: (transformFn: (routes: ServerRoute[]) => ServerRoute[]) => void;
-  modifyHtmlPartials: (modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void) => void;
-
-  onPrepare: (prepareFn: () => void | Promise<void>) => void;
-  addCommand: (commandFn: ({ program: any }) => void) => void; // program is a Commander.js Command instance
-  addWatchFiles: (watchFn: () => string[] | { files: string[]; isPrivate: boolean; }) => void;
-  onFileChanged: (changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void) => void;
-  onBeforeBuild: (buildFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>) => void;
-  onBeforeCreateCompiler: (beforeCreateCompilerFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>) => void;
-  onAfterCreateCompiler: (afterCreateCompilerFn: ({ compiler }: { compiler: Compiler | MultiCompiler }) => void | Promise<void>) => void;
-  onBeforeStartDevServer: (beforeStartDevServerFn: () => void | Promise<void>) => void;
-  onDevServerReady: (devServerReadyFn: ({ port }: { port: number }) => void | Promise<void>) => void;
-  onAfterStartDevServer: (afterStartDevServerFn: ({ port }: { port: number }) => void | Promise<void>) => void;
-  onBeforeStartProdServer: (beforeStartProdServerFn: () => void | Promise<void>) => void;
-  onAfterStartProdServer: (afterStartProdServerFn: ({ port }: { port: number }) => void | Promise<void>) => void;
-  onBeforeBuildProdServer: (beforeBuildProdServerFn: () => void | Promise<void>) => void;
-  onAfterBuildProdServer: (afterBuildProdServerFn: () => void | Promise<void>) => void;
-  onAfterBuild: (buildFn: ({ stats }: { stats?: RspackStats | WebpackStats }) => void | Promise<void>) => void;
-  onExit: (exitFn: () => void | Promise<void>) => void;
-}
-
+-   Refer to [CLI Plugin Lifecycle](./life-cycle.mdx) to understand the execution order of plugin hooks.
+-   Refer to [CLI Plugin Migration Guide](./migration.mdx) to learn how to migrate from the old version of plugins to the new version.
