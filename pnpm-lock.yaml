@@ -272,7 +272,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       resolve-from:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3363,7 +3363,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -5413,7 +5413,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -5996,7 +5996,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -7053,7 +7053,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -7226,7 +7226,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.21.1
@@ -7291,7 +7291,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -7322,7 +7322,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -7528,7 +7528,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.8.2(debug@4.3.7)
+        version: 1.8.3(debug@4.3.7)
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -13743,8 +13743,8 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  axios@1.8.2:
-    resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
+  axios@1.8.3:
+    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
 
   b-tween@0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
@@ -25060,7 +25060,7 @@ snapshots:
     dependencies:
       '@modern-js/codesmith-utils': 2.6.7
       '@swc/helpers': 0.5.1
-      axios: 1.8.2(debug@4.3.7)
+      axios: 1.8.3(debug@4.3.7)
       debug: 4.3.7(supports-color@5.5.0)
       tar: 6.2.1
     transitivePeerDependencies:
@@ -25126,7 +25126,7 @@ snapshots:
       '@modern-js/plugin-i18n': 2.65.4
       '@modern-js/utils': 2.65.4
       '@swc/helpers': 0.5.13
-      axios: 1.8.2(debug@4.3.7)
+      axios: 1.8.3(debug@4.3.7)
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - debug
@@ -27380,7 +27380,7 @@ snapshots:
       '@rsdoctor/sdk': 0.4.13(@rspack/core@1.2.8(@swc/helpers@0.5.15))(bufferutil@4.0.8)(utf-8-validate@5.0.10)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.15))(esbuild@0.17.19))
       '@rsdoctor/types': 0.4.13(@rspack/core@1.2.8(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.15))(esbuild@0.17.19))
       '@rsdoctor/utils': 0.4.13(@rspack/core@1.2.8(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.15))(esbuild@0.17.19))
-      axios: 1.8.2(debug@4.3.7)
+      axios: 1.8.3(debug@4.3.7)
       enhanced-resolve: 5.12.0
       filesize: 10.1.6
       fs-extra: 11.3.0
@@ -30014,7 +30014,7 @@ snapshots:
 
   available-typed-arrays@1.0.5: {}
 
-  axios@1.8.2(debug@4.3.7):
+  axios@1.8.3(debug@4.3.7):
     dependencies:
       follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.2
@@ -36163,7 +36163,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.8.2(debug@4.3.7)
+      axios: 1.8.3(debug@4.3.7)
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -41385,7 +41385,7 @@ snapshots:
 
   wait-on@7.2.0:
     dependencies:
-      axios: 1.8.2(debug@4.3.7)
+      axios: 1.8.3(debug@4.3.7)
       joi: 17.13.3
       lodash: 4.17.21
       minimist: 1.2.8
