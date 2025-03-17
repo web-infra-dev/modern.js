@@ -100,7 +100,7 @@ export class ServerBase<E extends Env = any> {
       plugins: [],
       metaName: metaName || 'modern-js',
       serverBase: this,
-    };
+    } as any;
 
     return createContext<ISAppContext>(appContext);
   }

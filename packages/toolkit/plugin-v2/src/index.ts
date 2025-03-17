@@ -1,5 +1,11 @@
 export { createPluginManager } from './manager';
-export { createAsyncHook, createCollectAsyncHook } from './hooks';
+export {
+  createSyncHook,
+  createAsyncHook,
+  createCollectSyncHook,
+  createCollectAsyncHook,
+  createAsyncInterruptHook,
+} from './hooks';
 
 export type {
   Plugin,
@@ -13,7 +19,16 @@ export type {
   Entrypoint,
   CLIPlugin,
   CLIPluginExtends,
+  RuntimePluginConfig,
+  ServerPluginConfig,
 } from './types/cli';
+export type {
+  RuntimePluginAPI,
+  RuntimeContext,
+  InternalRuntimeContext,
+  RuntimePlugin,
+  RuntimePluginExtends,
+} from './types/runtime';
 export type {
   AsyncHook,
   CollectAsyncHook,

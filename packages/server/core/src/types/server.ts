@@ -1,4 +1,3 @@
-import type { Readable } from 'node:stream';
 import type {
   Logger,
   Metrics,
@@ -7,6 +6,11 @@ import type {
   Reporter,
   ServerRoute,
 } from '@modern-js/types';
+import type {
+  ClientManifest as RscClientManifest,
+  SSRManifest as RscSSRManifest,
+  ServerManifest as RscServerManifest,
+} from '@modern-js/types/server';
 import type {
   RequestHandler as BundleRequestHandler,
   OnError,
@@ -18,13 +22,14 @@ export type RequestHandler = (
   ...args: any[]
 ) => Response | Promise<Response>;
 
-type ServerLoaderBundle = {
+export type ServerLoaderBundle = {
   routes: NestedRoute[];
   handleRequest: (options: {
     request: Request;
     serverRoutes: ServerRoute[];
     routes: NestedRoute[];
     context: {
+      monitors: Monitors;
       reporter?: Reporter;
       loaderContext?: Map<string, unknown>;
     };
@@ -35,7 +40,14 @@ type ServerLoaderBundle = {
 };
 
 type ServerRenderBundle = {
-  requestHandler: Promise<BundleRequestHandler>;
+  requestHandler?: Promise<BundleRequestHandler>;
+  handleAction?: (
+    req: Request,
+    options: { clientManifest: RscClientManifest },
+  ) => Promise<Response>;
+  rscRequestHandler?: (options: {
+    clientManifest: RscClientManifest;
+  }) => Promise<Response>;
 };
 
 export type ServerManifest = {
@@ -47,18 +59,24 @@ export type ServerManifest = {
 };
 
 type ServerVariables = {
-  /** @deprecated  */
+  /** @deprecated */
   logger: Logger;
 
-  /** @deprecated  */
+  /** @deprecated */
   reporter?: Reporter;
 
-  /** @deprecated  */
+  /** @deprecated */
   metrics?: Metrics;
 
   monitors: Monitors;
 
   serverManifest?: ServerManifest;
+
+  rscServerManifest?: RscServerManifest;
+
+  rscClientManifest?: RscClientManifest;
+
+  rscSSRManifest?: RscSSRManifest;
 
   templates?: Record<string, string>;
 

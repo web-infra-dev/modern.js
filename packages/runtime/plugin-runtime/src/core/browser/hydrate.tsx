@@ -3,7 +3,7 @@ import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type React from 'react';
 import type { Root } from 'react-dom/client';
 import { RenderLevel } from '../constants';
-import type { RuntimeContext } from '../context';
+import type { RuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
@@ -25,23 +25,6 @@ export function hydrateRoot(
     },
     _hydration: true,
   };
-
-  const { ssrContext } = hydrateContext;
-
-  const currentPathname = normalizePathname(window.location.pathname);
-  const initialPathname =
-    ssrContext?.request?.pathname &&
-    normalizePathname(ssrContext.request.pathname);
-
-  if (
-    initialPathname &&
-    initialPathname !== currentPathname &&
-    context.router
-  ) {
-    const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
-    console.error(errorMsg);
-    window.location.reload();
-  }
 
   const callback = () => {
     // won't cause component re-render because context's reference identity doesn't change

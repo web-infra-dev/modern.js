@@ -1,5 +1,69 @@
 # @modern-js/main-doc
 
+## 2.65.4
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- 7899005: docs: add monitors API docs
+  docs: 添加 monitors API 使用文档
+  - @modern-js/sandpack-react@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- b43988e: feat: BFF 跨项目调用支持配置域名，补充文档
+  feat: BFF cross-project-invocation supports configuration of domain, add doc
+  - @modern-js/sandpack-react@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.64.1
+
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

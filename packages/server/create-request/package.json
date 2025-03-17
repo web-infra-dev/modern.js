@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.63.6",
+  "version": "2.65.4",
   "jsnext:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -41,6 +41,16 @@
       "default": "./dist/esm-node/browser.js"
     },
     "./server": {
+      "types": "./dist/types/node.d.ts",
+      "jsnext:source": "./src/node.ts",
+      "default": "./dist/cjs/node.js"
+    },
+    "./browser": {
+      "types": "./dist/types/browser.d.ts",
+      "jsnext:source": "./src/browser.ts",
+      "default": "./dist/esm/browser.js"
+    },
+    "./default": {
       "types": "./dist/types/node.d.ts",
       "jsnext:source": "./src/node.ts",
       "default": "./dist/cjs/node.js"

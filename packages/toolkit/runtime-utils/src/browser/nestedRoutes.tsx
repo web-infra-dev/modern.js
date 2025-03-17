@@ -1,4 +1,4 @@
-import type { NestedRoute, Reporter } from '@modern-js/types';
+import type { NestedRoute } from '@modern-js/types';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 /**
  * runtime utils for nested routes generating
@@ -14,16 +14,12 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { time } from '../time';
+import { getAsyncLocalStorage } from '../universal/async_storage';
 
-export const transformNestedRoutes = (
-  routes: NestedRoute[],
-  reporter?: Reporter,
-) => {
+export const transformNestedRoutes = (routes: NestedRoute[]) => {
   const routeElements = [];
   for (const route of routes) {
-    const routeElement = renderNestedRoute(route, {
-      reporter,
-    });
+    const routeElement = renderNestedRoute(route);
     routeElements.push(routeElement);
   }
 
@@ -40,19 +36,18 @@ export const renderNestedRoute = (
     parent?: NestedRoute;
     DeferredDataComponent?: DeferredDataComponentType;
     props?: Record<string, any>;
-    reporter?: Reporter;
   } = {},
 ) => {
   const { children, index, id, component, isRoot, lazyImport, config, handle } =
     nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
-  const { parent, props = {}, reporter } = options;
+  const { parent, props = {} } = options;
 
   const routeProps: Omit<RouteProps, 'children' | 'lazy'> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
-    loader: createLoader(nestedRoute, reporter),
+    loader: createLoader(nestedRoute),
     action: nestedRoute.action,
     hasErrorBoundary: nestedRoute.hasErrorBoundary,
     shouldRevalidate: nestedRoute.shouldRevalidate,
@@ -113,7 +108,6 @@ export const renderNestedRoute = (
   const childElements = children?.map(childRoute => {
     return renderNestedRoute(childRoute, {
       parent: nestedRoute,
-      reporter,
     });
   });
 
@@ -128,7 +122,7 @@ export const renderNestedRoute = (
   return routeElement;
 };
 
-function createLoader(route: NestedRoute, reporter?: Reporter): LoaderFunction {
+function createLoader(route: NestedRoute): LoaderFunction {
   const { loader } = route;
   if (loader) {
     return async (args: LoaderFunctionArgs) => {
@@ -138,8 +132,11 @@ function createLoader(route: NestedRoute, reporter?: Reporter): LoaderFunction {
       const end = time();
       const res = await loader(args);
       const cost = end();
-      if (typeof document === 'undefined' && reporter) {
-        reporter?.reportTiming(`${LOADER_REPORTER_NAME}-${route.id}`, cost);
+      if (typeof document === 'undefined') {
+        const storage = getAsyncLocalStorage();
+        storage
+          ?.useContext()
+          .monitors?.timing(`${LOADER_REPORTER_NAME}-${route.id}`, cost);
       }
       return res;
     };

@@ -66,6 +66,9 @@ export default defineConfig({
       collapsed: false,
     }),
   ],
+  search: {
+    codeBlocks: true,
+  },
   markdown: {
     checkDeadLinks: true,
     experimentalMdxRs: true,

@@ -1,5 +1,192 @@
 # @modern-js/runtime
 
+## 2.65.4
+
+### Patch Changes
+
+- 7bce153: feat: rename runtime plugin modifyRuntimeConfig hook to config
+
+  feat: 重命名 runtime 插件 modifyRuntimeConfig 钩子为 config
+
+- Updated dependencies [7bce153]
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/plugin-v2@2.65.4
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+  - @modern-js/plugin-data-loader@2.65.4
+  - @modern-js/render@2.65.4
+  - @modern-js/plugin@2.65.4
+  - @modern-js/types@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- dc78fc0: feat: defineRuntimeConfig supports function parameters and multiple entry configuration
+
+  feat: defineRuntimeConfig 支持函数参数及配置多入口
+
+- b337977: fix: requestContext should be add on runtimeContext before init
+  fix: requestContext 应该在 init 前添加到 runtimeContext
+- 437638f: feat: export getMonitors for server component
+  feat: 为 server component 暴露 getMonitors
+- 087ae7c: feat: Add response APIs to support setting response headers, status codes, and redirects
+  feat: 添加一些响应的 API，可以设置响应头，状态码，及重定向
+- Updated dependencies [b337977]
+- Updated dependencies [087ae7c]
+  - @modern-js/types@2.65.3
+  - @modern-js/runtime-utils@2.65.3
+  - @modern-js/plugin-data-loader@2.65.3
+  - @modern-js/render@2.65.3
+  - @modern-js/plugin-v2@2.65.3
+  - @modern-js/utils@2.65.3
+  - @modern-js/plugin@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1fe923c: chore: use monitors instead of reporter to report Data Loader cost
+  chore: 使用 monitors 代替 reporter 来上报 Data Loader 耗时
+- 8837b85: feat(runtime): support cache function & getRequest function
+  feat(runtime): 支持 cache 函数 和 getRequest 函数
+- Updated dependencies [63d477e]
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [1f83d96]
+  - @modern-js/plugin-v2@2.65.2
+  - @modern-js/plugin-data-loader@2.65.2
+  - @modern-js/runtime-utils@2.65.2
+  - @modern-js/types@2.65.2
+  - @modern-js/render@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/plugin@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/plugin-v2@2.65.1
+- @modern-js/plugin-data-loader@2.65.1
+- @modern-js/render@2.65.1
+- @modern-js/plugin@2.65.1
+- @modern-js/runtime-utils@2.65.1
+- @modern-js/types@2.65.1
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- @modern-js/plugin-v2@2.65.0
+- @modern-js/plugin-data-loader@2.65.0
+- @modern-js/render@2.65.0
+- @modern-js/plugin@2.65.0
+- @modern-js/runtime-utils@2.65.0
+- @modern-js/types@2.65.0
+- @modern-js/utils@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- 5044904: fix(router): compatible with splitRouteChunks is false in react17 + csr
+  fix(router): 在 react17 和 csr 模式下，兼容 splitRouteChunks 为 false 的情况
+  - @modern-js/plugin-data-loader@2.64.3
+  - @modern-js/render@2.64.3
+  - @modern-js/plugin@2.64.3
+  - @modern-js/plugin-v2@2.64.3
+  - @modern-js/runtime-utils@2.64.3
+  - @modern-js/types@2.64.3
+  - @modern-js/utils@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- 02ca983: feat: unify server monitors usage, add error logger for data loader
+  feat: 统一 server 监控的使用方式，为 data loader 添加错误日志
+- Updated dependencies [80fe649]
+- Updated dependencies [18b55af]
+- Updated dependencies [96a8726]
+  - @modern-js/plugin-v2@2.64.2
+  - @modern-js/types@2.64.2
+  - @modern-js/plugin-data-loader@2.64.2
+  - @modern-js/render@2.64.2
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- f83fd60: feat: migrate \_internalRuntimePlugins and \_internalServerPlugins hooks to plugin v2
+
+  feat: 迁移 \_internalRuntimePlugins 和 \_internalServerPlugins hook 函数到 plugin-v2
+
+- Updated dependencies [b69c8fa]
+- Updated dependencies [88aafcb]
+- Updated dependencies [f83fd60]
+- Updated dependencies [c5bb493]
+  - @modern-js/plugin-v2@2.64.1
+  - @modern-js/plugin-data-loader@2.64.1
+  - @modern-js/plugin@2.64.1
+  - @modern-js/runtime-utils@2.64.1
+  - @modern-js/types@2.64.1
+  - @modern-js/utils@2.64.1
+
+## 2.64.0
+
+### Minor Changes
+
+- 9e6f86e: feat: runtime plugin use plugin v2
+
+  feat: runtime 插件使用插件 v2
+
+### Patch Changes
+
+- 48c11bf: feat: export router extend hooks type
+
+  feat: 导出 router 插件扩展 Hooks 类型
+
+- Updated dependencies [48c11bf]
+- Updated dependencies [9e6f86e]
+  - @modern-js/plugin-v2@2.64.0
+  - @modern-js/plugin-data-loader@2.64.0
+  - @modern-js/plugin@2.64.0
+  - @modern-js/runtime-utils@2.64.0
+  - @modern-js/types@2.64.0
+  - @modern-js/utils@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- f5af01d: feat: add new configuration for reload on SSR URL mismatch
+  feat: 添加新的配置，支持在 SSR URL 不匹配时重新加载页面
+- 41849f6: feat: support styled-component in streaming ssr
+  feat: 在流式渲染中支持 styled-component
+- 09a91c2: feat: unify the response logic of the Loader in SSR
+  feat: 统一 SSR 中 Loader 的响应逻辑
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [775bc3b]
+- Updated dependencies [28ec156]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [09a91c2]
+  - @modern-js/plugin-v2@2.63.7
+  - @modern-js/plugin-data-loader@2.63.7
+  - @modern-js/plugin@2.63.7
+  - @modern-js/runtime-utils@2.63.7
+  - @modern-js/types@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

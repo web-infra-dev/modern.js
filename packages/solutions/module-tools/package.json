@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.63.6",
+  "version": "2.65.4",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@ast-grep/napi": "0.16.0",
+    "@ast-grep/napi": "0.35.0",
     "@babel/core": "^7.26.0",
     "@babel/types": "^7.26.0",
     "@modern-js/core": "workspace:*",
@@ -73,9 +73,9 @@
     "@modern-js/swc-plugins": "0.6.11",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rollup/pluginutils": "4.1.1",
+    "@rollup/pluginutils": "4.2.1",
     "@swc/helpers": "0.5.13",
-    "convert-source-map": "1.8.0",
+    "convert-source-map": "1.9.0",
     "enhanced-resolve": "5.17.1",
     "esbuild": "0.19.2",
     "magic-string": "0.30.17",
@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
-    "@rsbuild/core": "1.1.13",
+    "@rsbuild/core": "1.2.19",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/convert-source-map": "1.5.2",

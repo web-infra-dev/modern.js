@@ -5,7 +5,7 @@ export {
   getRenderHandler,
 } from './render';
 export { faviconPlugin } from './favicon';
-export { injectServerTiming, injectloggerPluigin } from './monitors';
+export { injectServerTiming, injectloggerPlugin } from './monitors';
 export { processedByPlugin } from './processedBy';
 export { logPlugin } from './log';
 export {

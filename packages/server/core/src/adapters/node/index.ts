@@ -14,6 +14,7 @@ export {
   getHtmlTemplates,
   getServerManifest,
   injectNodeSeverPlugin,
+  injectRscManifestPlugin,
 } from './plugins';
 
 export {

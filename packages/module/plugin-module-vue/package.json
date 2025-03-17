@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-vue",
-  "version": "2.63.6",
+  "version": "2.65.4",
   "description": "The vue plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -29,7 +29,7 @@
     "@babel/plugin-syntax-typescript": "7.25.9",
     "@modern-js/plugin-module-babel": "workspace:*",
     "@swc/helpers": "0.5.13",
-    "@vue/babel-plugin-jsx": "1.1.5",
+    "@vue/babel-plugin-jsx": "1.2.5",
     "esbuild-plugin-vue3": "0.3.2"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.63.6"
+    "@modern-js/module-tools": "workspace:^2.65.4"
   },
   "publishConfig": {
     "access": "public",

@@ -4,28 +4,43 @@ import { logPlugin } from './log';
 import {
   initMonitorsPlugin,
   injectServerTiming,
-  injectloggerPluigin,
+  injectloggerPlugin,
 } from './monitors';
 import { processedByPlugin } from './processedBy';
 import {
   type InjectRenderHandlerOptions,
   injectRenderHandlerPlugin,
 } from './render';
+import { injectRoutePlugin } from './route';
 
 export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
-  logger?: Logger;
+  logger?: Logger | false;
 };
+
+function createSilenceLogger() {
+  return new Proxy(
+    {},
+    {
+      get: () => {
+        return () => {
+          // do nothing
+        };
+      },
+    },
+  ) as Logger;
+}
 
 export function createDefaultPlugins(
   options: CreateDefaultPluginsOptions = {},
 ) {
   const plugins: ServerPlugin[] = [
+    logPlugin(),
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),
-    injectloggerPluigin(options.logger),
+    injectloggerPlugin(options.logger ? options.logger : createSilenceLogger()),
     injectServerTiming(),
-    logPlugin(),
     processedByPlugin(),
+    injectRoutePlugin(),
   ];
 
   return plugins;

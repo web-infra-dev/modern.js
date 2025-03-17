@@ -1,8 +1,19 @@
 import type { IncomingMessage } from 'node:http';
-import type { Logger, Metrics, Monitors, Reporter } from '@modern-js/types';
+import type {
+  Logger,
+  Metrics,
+  Monitors,
+  Reporter,
+  ClientManifest as RscClientManifest,
+  SSRManifest as RscSSRManifest,
+  ServerManifest as RscServerManifest,
+} from '@modern-js/types';
 import type { ServerManifest } from './server';
 
+// TODO: combine some field with RequestHandlerOptions
 export interface RenderOptions {
+  monitors: Monitors;
+
   loaderContext?: Map<string, unknown>;
 
   /** ssr render html templates */
@@ -26,9 +37,13 @@ export interface RenderOptions {
   /** For compat rewrite MPA, while not modify request  */
   matchEntryName?: string;
 
-  monitors?: Monitors;
-
   serverManifest: ServerManifest;
+
+  rscServerManifest?: RscServerManifest;
+
+  rscClientManifest?: RscClientManifest;
+
+  rscSSRManifest?: RscSSRManifest;
 
   nodeReq?: IncomingMessage;
 }

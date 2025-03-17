@@ -1,3 +1,4 @@
+import path from 'path';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
@@ -36,11 +37,8 @@ import type {
   CheckEntryPointFn,
   DeplpoyFn,
   GenerateEntryCodeFn,
-  InternalRuntimePluginsFn,
-  InternalServerPluginsFn,
   ModifyEntrypointsFn,
   ModifyFileSystemRoutesFn,
-  ModifyServerRoutesFn,
   RegisterBuildPlatformFn,
   RegisterDevFn,
 } from './types/new';
@@ -89,12 +87,9 @@ export const appTools = (
   registryHooks: {
     onAfterPrepare: createAsyncHook<AfterPrepareFn>(),
     deploy: createAsyncHook<DeplpoyFn>(),
-    _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),
-    _internalServerPlugins: createAsyncHook<InternalServerPluginsFn>(),
     checkEntryPoint: createAsyncHook<CheckEntryPointFn>(),
     modifyEntrypoints: createAsyncHook<ModifyEntrypointsFn>(),
     modifyFileSystemRoutes: createAsyncHook<ModifyFileSystemRoutesFn>(),
-    modifyServerRoutes: createAsyncHook<ModifyServerRoutesFn>(),
     generateEntryCode: createAsyncHook<GenerateEntryCodeFn>(),
     onBeforeGenerateRoutes: createAsyncHook<BeforeGenerateRoutesFn>(),
     onBeforePrintInstructions: createAsyncHook<BeforePrintInstructionsFn>(),
@@ -176,7 +171,15 @@ export const appTools = (
     api.onFileChanged(async e => {
       const { filename, eventType, isPrivate } = e;
 
-      if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
+      const { appDirectory, apiDirectory } = api.getAppContext();
+      const relativeApiPath = path.relative(appDirectory, apiDirectory);
+      const isApiProject = filename.startsWith(`${relativeApiPath}/`);
+
+      if (
+        !isPrivate &&
+        (eventType === 'change' || eventType === 'unlink') &&
+        !isApiProject
+      ) {
         const { closeServer } = await import('./utils/createServer.js');
         await closeServer();
         await restart(api.getHooks(), filename);
@@ -194,7 +197,9 @@ export { mergeConfig } from '@modern-js/core';
 export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
+export { serve } from './commands/serve';
 export type { DevOptions } from './utils/types';
+export { generateWatchFiles } from './utils/generateWatchFiles';
 
 export * from './types';
 

@@ -8,6 +8,7 @@ import type { CLIPluginAPI } from './api';
 import type { CLIPlugin, CLIPluginExtends } from './plugin';
 
 export interface Entrypoint {
+  isMainEntry?: boolean;
   entryName: string;
   entry: string;
 }
@@ -53,7 +54,8 @@ export type InternalContext<Extends extends CLIPluginExtends> =
     hooks: Hooks<
       Extends['config'],
       Extends['normalizedConfig'],
-      Extends['extendBuildUtils']
+      Extends['extendBuildUtils'],
+      Extends['extendConfigUtils']
     > &
       Extends['extendHooks'];
     /** All plugin registry hooks */

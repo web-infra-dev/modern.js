@@ -52,7 +52,8 @@ export async function createContext<Extends extends CLIPluginExtends>({
       ...initHooks<
         Extends['config'],
         Extends['normalizedConfig'],
-        Extends['extendBuildUtils']
+        Extends['extendBuildUtils'],
+        Extends['extendConfigUtils']
       >(),
       ...extendsHooks,
     },

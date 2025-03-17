@@ -70,6 +70,7 @@ export class CustomServer {
       const routeInfo = routes.find(route => route.entryName === entryName)!;
       const monitors = c.get('monitors');
 
+      // Not provider monitors in hook context, for hook is deprecated in next version
       const baseHookCtx = createBaseHookContext(c);
       const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
 
@@ -183,6 +184,7 @@ export class CustomServer {
       return renderMiddlewares;
     }
 
+    // TODO: This middleware way is depreated in next version
     return async (c, next) => {
       const monitors = c.get('monitors');
 
@@ -239,6 +241,8 @@ function isRedirect(headers: Headers, code?: number) {
   return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
 }
 
+// TODO: maybe we need use hono ctx directly
+// TODO: after we use hono ctx, we should use `c.get('monitors')` to get monitors
 async function createMiddlewareContextFromHono(
   c: Context<ServerNodeEnv & ServerEnv>,
 ): Promise<UnstableMiddlewareContext> {
@@ -307,17 +311,5 @@ async function createMiddlewareContextFromHono(
     html: c.html.bind(c),
 
     redirect: c.redirect.bind(c),
-  };
-}
-
-export function injectRoute(route: {
-  entryName: string;
-}): Middleware<ServerEnv> {
-  return async (c, next) => {
-    if (route && !c.get('route')) {
-      c.set('route', route);
-    }
-
-    await next();
   };
 }

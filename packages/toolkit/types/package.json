@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.63.6",
+  "version": "2.65.4",
   "types": "./index.d.ts",
   "exports": {
     ".": {
@@ -35,6 +35,9 @@
       ],
       "hoist-non-react-statics": [
         "./packages/hoist-non-react-statics.d.ts"
+      ],
+      "server": [
+        "./server/index.d.ts"
       ]
     }
   },

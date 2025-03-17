@@ -34,6 +34,9 @@ module.exports = {
           '<rootDir>/packages/runtime/plugin-runtime/src/core/react',
         '^@modern-js/runtime$':
           '<rootDir>/packages/runtime/plugin-runtime/src/index',
+        '^@modern-js/plugin-v2/runtime$':
+          '<rootDir>/packages/toolkit/plugin-v2/src/runtime/index',
+        '^./async_storage$': './async_storage.server',
       },
       globals: {},
       resolver: '<rootDir>/tests/jest.resolver.js',

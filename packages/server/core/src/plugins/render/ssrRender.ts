@@ -1,5 +1,11 @@
 import type { IncomingMessage } from 'http';
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type {
+  Monitors,
+  ClientManifest as RscClientManifest,
+  SSRManifest as RscSSRManifest,
+  ServerManifest as RscServerManifest,
+} from '@modern-js/types/server';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type { CacheConfig, ServerManifest, UserConfig } from '../../types';
@@ -13,6 +19,7 @@ import type {
 import { getPathname, parseHeaders } from '../../utils';
 import { getCacheResult, matchCacheControl } from './ssrCache';
 
+// TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
 export interface SSRRenderOptions {
   pwd: string;
   html: string;
@@ -20,6 +27,11 @@ export interface SSRRenderOptions {
   staticGenerate: boolean;
   config: UserConfig;
   serverManifest: ServerManifest;
+
+  rscServerManifest?: RscServerManifest;
+  rscClientManifest?: RscClientManifest;
+  rscSSRManifest?: RscSSRManifest;
+
   loaderContext: Map<string, unknown>;
 
   params: Params;
@@ -31,8 +43,9 @@ export interface SSRRenderOptions {
   cacheConfig?: CacheConfig;
   nodeReq?: IncomingMessage;
 
-  onError?: OnError;
-  onTiming?: OnTiming;
+  monitors: Monitors;
+  onError: OnError;
+  onTiming: OnTiming;
 }
 
 const SERVER_RUNTIME_ENTRY = 'requestHandler';
@@ -46,10 +59,14 @@ export async function ssrRender(
     staticGenerate,
     nodeReq,
     serverManifest,
+    rscSSRManifest,
+    rscClientManifest,
+    rscServerManifest,
     locals,
     params,
     loaderContext,
     reporter,
+    monitors,
     cacheConfig,
     logger,
     metrics,
@@ -94,11 +111,16 @@ export async function ssrRender(
     loaderContext,
     config,
 
+    rscSSRManifest,
+    rscClientManifest,
+    rscServerManifest,
+
     locals,
     reporter,
     staticGenerate,
     logger,
     metrics,
+    monitors,
 
     onError,
     onTiming,
@@ -115,11 +137,11 @@ export async function ssrRender(
     response = await getCacheResult(request, {
       cacheControl,
       container: cacheConfig?.container,
-      requestHandler,
+      requestHandler: requestHandler!,
       requestHandlerOptions,
     });
   } else {
-    response = await requestHandler(request, requestHandlerOptions);
+    response = await requestHandler!(request, requestHandlerOptions);
   }
 
   response.headers.set(X_MODERNJS_RENDER, 'server');

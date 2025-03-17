@@ -1,3 +1,7 @@
+import type {
+  ServerPlugin as ServerPluginConfig,
+  ServerRoute,
+} from '@modern-js/types';
 import type { WebpackConfig } from '@modern-js/uni-builder';
 import type { Command } from '@modern-js/utils/commander';
 import type {
@@ -18,12 +22,26 @@ declare module '@modern-js/utils/commander' {
     commandsMap: Map<string, Command>;
   }
 }
-export type ConfigFn<Config> = () => Config;
 
-export type ModifyConfigFn<Config> = TransformFunction<Config>;
+export interface RuntimePluginConfig {
+  name: string;
+  path: string;
+  config: Record<string, any>;
+}
 
-export type ModifyResolvedConfigFn<NormalizedConfig> =
-  TransformFunction<NormalizedConfig>;
+export type { ServerPluginConfig };
+
+export type ConfigFn<Config> = () => Config | Promise<Config>;
+
+export type ModifyConfigFn<Config, ExtendConfigUtils> = (
+  arg: Config,
+  utils?: ExtendConfigUtils,
+) => Config | Promise<Config>;
+
+export type ModifyResolvedConfigFn<NormalizedConfig, ExtendConfigUtils> = (
+  arg: NormalizedConfig,
+  utils?: ExtendConfigUtils,
+) => NormalizedConfig | Promise<NormalizedConfig>;
 
 type IPartialMethod = (...script: string[]) => void;
 export interface PartialMethod {
@@ -61,19 +79,17 @@ export type OnBeforeRestartFn = () => Promise<void> | void;
 
 export type OnBeforeDevFn = () => Promise<void> | void;
 
-export type OnAfterDevFn = (params: {
-  isFirstCompile: boolean;
-}) => Promise<void> | void;
+export type OnAfterDevFn = (params: { port: number }) => Promise<void> | void;
 
 export type OnBeforeDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
 export type OnAfterDeployFn = (
-  options: Record<string, any>,
+  options?: Record<string, any>,
 ) => Promise<void> | void;
 
-export type OnBeforeExitFn = () => void;
+export type OnBeforeExitFn = () => Promise<void> | void;
 
 export type ModifyBundlerChainFn<ExtendsUtils> = (
   chain: RspackChain,
@@ -104,3 +120,12 @@ export type ModifyWebpackConfigFn<ExtendsUtils> = (
   config: WebpackConfig,
   utils: ModifyWebpackConfigUtils & ExtendsUtils,
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
+
+export type InternalRuntimePluginsFn = TransformFunction<{
+  entrypoint: Entrypoint;
+  plugins: RuntimePluginConfig[];
+}>;
+export type InternalServerPluginsFn = TransformFunction<{
+  plugins: ServerPluginConfig[];
+}>;
+export type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>;

@@ -212,6 +212,26 @@ export const fileSystemRoutes = async ({
     return '';
   };
 
+  const createLazyImport = ({
+    componentPath,
+    routeId,
+    webpackChunkName,
+    eager,
+  }: {
+    componentPath: string;
+    routeId?: string;
+    webpackChunkName?: boolean;
+    eager?: boolean;
+  }) => {
+    const importOptions = webpackChunkName
+      ? `/* webpackChunkName: "${routeId}" */ `
+      : eager
+        ? `/* webpackMode: "eager" */ `
+        : '';
+
+    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
+  };
+
   const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
@@ -260,25 +280,36 @@ export const fileSystemRoutes = async ({
       }
 
       if (route._component) {
-        if (splitRouteChunks) {
-          if (route.isRoot) {
-            lazyImport = `() => import('${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
-            rootLayoutCode = `import RootLayout from '${route._component}'`;
-            component = `RootLayout`;
-          } else if (ssrMode === 'string') {
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
-            component = `loadable(${lazyImport})`;
+        if (route.isRoot) {
+          lazyImport = createLazyImport({
+            componentPath: route._component,
+            routeId: route.id,
+          });
+          rootLayoutCode = `import RootLayout from '${route._component}'`;
+          component = 'RootLayout';
+        } else if (splitRouteChunks) {
+          lazyImport = createLazyImport({
+            componentPath: route._component,
+            routeId: route.id,
+            webpackChunkName: true,
+          });
+          // csr and streaming ssr use lazy
+          component =
+            ssrMode === 'string'
+              ? `loadable(${lazyImport})`
+              : `lazy(${lazyImport})`;
+        } else {
+          if (ssrMode === 'string') {
+            components.push(route._component);
+            component = `component_${components.length - 1}`;
           } else {
-            // csr and streaming
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
+            lazyImport = createLazyImport({
+              componentPath: route._component,
+              routeId: route.id,
+              eager: true,
+            });
             component = `lazy(${lazyImport})`;
           }
-        } else if (ssrMode === 'string') {
-          components.push(route._component);
-          component = `component_${components.length - 1}`;
-        } else {
-          lazyImport = `() => import(/* webpackMode: "eager" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
-          component = `lazy(${lazyImport})`;
         }
       }
     } else if (route._component) {
@@ -506,12 +537,14 @@ export function ssrLoaderCombinedModule(
 }
 
 export const runtimeGlobalContext = async ({
+  entryName,
   metaName,
   srcDirectory,
   nestedRoutesEntry,
   internalSrcAlias,
   globalApp,
 }: {
+  entryName: string;
   metaName: string;
   srcDirectory: string;
   nestedRoutesEntry?: string;
@@ -569,7 +602,9 @@ export const runtimeGlobalContext = async ({
 
 import { routes } from './routes';
 
+const entryName = '${entryName}';
 setGlobalContext({
+  entryName,
   layoutApp,
   routes,
   appInit,

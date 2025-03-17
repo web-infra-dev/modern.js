@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.63.6",
+  "version": "2.65.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -43,8 +43,8 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.6.5",
-    "@modern-js/codesmith-utils": "2.6.5",
+    "@modern-js/codesmith": "2.6.7",
+    "@modern-js/codesmith-utils": "2.6.7",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",

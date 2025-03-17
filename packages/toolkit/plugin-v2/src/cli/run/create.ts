@@ -1,6 +1,7 @@
-import { logger } from '@modern-js/utils';
+import { createDebugger, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
+import type { InternalContext } from '../../types/cli/context';
 import type { CLIPlugin, CLIPluginExtends } from '../../types/cli/plugin';
 import type { Plugin } from '../../types/plugin';
 import type { DeepPartial } from '../../types/utils';
@@ -15,16 +16,48 @@ import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
-export const createCli = <Extends extends CLIPluginExtends>() => {
-  let initOptions: CLIRunOptions;
-  const pluginManager = createPluginManager();
+const debug = createDebugger('plugin-v2');
 
-  async function init(options: CLIRunOptions) {
+export const createCli = <Extends extends CLIPluginExtends>() => {
+  let initOptions: CLIRunOptions<Extends>;
+  const pluginManager = createPluginManager();
+  const existListenerMap = new Map();
+
+  function createExistListener(
+    event: string,
+    context: InternalContext<Extends>,
+  ) {
+    return async function (err: unknown) {
+      await context.hooks.onBeforeExit.call();
+
+      let hasError = false;
+
+      if (err instanceof Error) {
+        logger.error(err.stack);
+        hasError = true;
+      } else if (
+        err &&
+        (event === 'unhandledRejection' || event === 'uncaughtException')
+      ) {
+        // We should not pass it, if err is not instanceof Error.
+        // We can use `console.trace` to follow it call stack,
+        console.trace('Unknown Error', err);
+        hasError = true;
+      }
+
+      process.nextTick(() => {
+        process.exit(hasError ? 1 : 0);
+      });
+    };
+  }
+
+  async function init(options: CLIRunOptions<Extends>) {
     pluginManager.clear();
     initOptions = options;
     const {
       metaName = 'MODERN',
       configFile,
+      config,
       command,
       version,
       packageJsonConfig,
@@ -44,6 +77,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
       appDirectory,
       configFile,
       packageJsonConfig,
+      config,
     );
 
     const allPlugins = [
@@ -59,6 +93,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     pluginManager.addPlugins(allPlugins);
 
     const plugins = (await pluginManager.getPlugins()) as CLIPlugin<Extends>[];
+
+    debug(
+      'CLI Plugins:',
+      plugins.map(p => p.name),
+    );
 
     const context = await createContext<Extends>({
       appContext: initAppContext<Extends>({
@@ -88,28 +127,12 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
       event => {
-        process.on(event, async (err: unknown) => {
-          await context.hooks.onBeforeExit.call();
-
-          let hasError = false;
-
-          if (err instanceof Error) {
-            logger.error(err.stack);
-            hasError = true;
-          } else if (
-            err &&
-            (event === 'unhandledRejection' || event === 'uncaughtException')
-          ) {
-            // We should not pass it, if err is not instanceof Error.
-            // We can use `console.trace` to follow it call stack,
-            console.trace('Unknown Error', err);
-            hasError = true;
-          }
-
-          process.nextTick(() => {
-            process.exit(hasError ? 1 : 0);
-          });
-        });
+        if (existListenerMap.get(event)) {
+          process.off(event, existListenerMap.get(event));
+        }
+        const existListener = createExistListener(event, context);
+        existListenerMap.set(event, existListener);
+        process.on(event, existListener);
       },
     );
 
@@ -134,7 +157,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
     return { appContext: context };
   }
-  async function run(options: CLIRunOptions) {
+  async function run(options: CLIRunOptions<Extends>) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
 

@@ -1,9 +1,8 @@
 import cookieTool from 'cookie';
 import type React from 'react';
-import { getGlobalAppInit } from '../context';
+import { getGlobalAppInit, getGlobalInternalRuntimeContext } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
-import { getGlobalRunner } from '../plugin/runner';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
@@ -34,12 +33,12 @@ const getQuery = () =>
       return res;
     }, {});
 
-function getSSRData(): SSRContainer & ExtraSSRContainer {
+function getSSRData(): SSRContainer {
   const ssrData = window._SSR_DATA;
 
   const ssrRequest = ssrData?.context?.request;
 
-  const finalSSRData: SSRContainer & ExtraSSRContainer = {
+  const finalSSRData: SSRContainer = {
     ...(ssrData || {
       renderLevel: 0,
       mode: 'string',
@@ -82,17 +81,19 @@ export async function render(
   App: React.ReactElement,
   id?: HTMLElement | string,
 ) {
-  const runner = getGlobalRunner();
-  const context: RuntimeContext = getInitialContext(runner);
+  const context: RuntimeContext = getInitialContext();
   const runBeforeRender = async (context: RuntimeContext) => {
-    await runner.beforeRender(context);
+    const internalRuntimeContext = getGlobalInternalRuntimeContext();
+    const api = internalRuntimeContext!.pluginAPI;
+    api!.updateRuntimeContext(context);
+    const hooks = internalRuntimeContext!.hooks;
+    await hooks.onBeforeRender.call(context);
     const init = getGlobalAppInit();
     return init?.(context);
   };
 
   if (isClientArgs(id)) {
-    // This field may suitable to be called `requestData`,
-    // because both SSR and CSR can get the context
+    // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
     const loadersData = ssrData.data?.loadersData || {};
 
@@ -116,7 +117,7 @@ export async function render(
       }),
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
-      ...{ ssrContext: ssrData.context },
+      ssrContext: ssrData.context,
     });
 
     context.initialData = ssrData.data?.initialData;
@@ -153,7 +154,7 @@ export async function render(
   );
 }
 
-async function renderWithReact18(
+export async function renderWithReact18(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -163,7 +164,7 @@ async function renderWithReact18(
   return root;
 }
 
-async function renderWithReact17(
+export async function renderWithReact17(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -172,7 +173,7 @@ async function renderWithReact17(
   return rootElement;
 }
 
-async function hydrateWithReact18(
+export async function hydrateWithReact18(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
@@ -181,7 +182,7 @@ async function hydrateWithReact18(
   return root;
 }
 
-async function hydrateWithReact17(
+export async function hydrateWithReact17(
   App: React.ReactElement,
   rootElement: HTMLElement,
   callback?: () => void,

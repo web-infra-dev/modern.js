@@ -41,6 +41,8 @@ import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 type ArrayOrNot<T> = T | T[];
 
+export type CacheGroup = Rspack.OptimizationSplitChunksCacheGroup;
+
 export type Stats = Omit<
   Rspack.Stats,
   '#private' | 'hash' | 'startTime' | 'endTime'
@@ -68,11 +70,15 @@ export type CreateBuilderCommonOptions = {
   frameworkConfigPath?: string;
   /** The root path of current project. */
   cwd: string;
+  rscClientRuntimePath?: string;
+  rscServerRuntimePath?: string;
 };
 
 export type BundlerType = 'rspack' | 'webpack';
 
 export type CreateUniBuilderOptions = {
+  rscClientRuntimePath?: string;
+  rscServerRuntimePath?: string;
   bundlerType: BundlerType;
   config: UniBuilderConfig;
 } & Partial<CreateBuilderCommonOptions>;
@@ -446,6 +452,9 @@ export type UniBuilderConfig = {
   output?: Omit<OutputConfig, 'polyfill' | 'distPath'> & {
     polyfill?: Polyfill | 'ua';
     distPath?: DistPath;
+  };
+  server?: {
+    rsc?: boolean;
   };
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;

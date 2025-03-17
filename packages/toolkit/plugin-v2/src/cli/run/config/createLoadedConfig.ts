@@ -1,9 +1,7 @@
-import path from 'path';
 import {
   fs,
   CONFIG_FILE_EXTENSIONS,
   chalk,
-  findExists,
   getCommand,
   getNodeEnv,
   isDevCommand,
@@ -70,6 +68,7 @@ export async function createLoadedConfig<T>(
   appDirectory: string,
   configFilePath: string,
   packageJsonConfig?: string,
+  otherConfig?: T,
 ): Promise<LoadedConfig<T>> {
   const configFile = getConfigFilePath(appDirectory, configFilePath);
 
@@ -101,6 +100,10 @@ export async function createLoadedConfig<T>(
     if (localConfig) {
       mergedConfig = mergeConfig([mergedConfig, localConfig]);
     }
+  }
+
+  if (otherConfig) {
+    mergedConfig = mergeConfig([mergedConfig, otherConfig]);
   }
 
   return {

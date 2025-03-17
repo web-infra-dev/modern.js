@@ -1,13 +1,16 @@
+import type { InternalRuntimeContext } from '@modern-js/plugin-v2';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type { AppConfig } from '../../common';
+import type { RuntimeExtends } from '../plugin/types';
 
 export {
-  RuntimeReactContext,
   type RuntimeContext,
+  RuntimeReactContext,
   getInitialContext,
 } from './runtime';
 
 interface GlobalContext {
+  entryName?: string;
   /**
    * App.tsx export default component
    */
@@ -28,13 +31,22 @@ interface GlobalContext {
    * page router _app.tsx export layout app
    */
   layoutApp?: React.ComponentType;
+
+  internalRuntimeContext?: InternalRuntimeContext<RuntimeExtends>;
+  /**
+   * RSCRoot
+   */
+  RSCRoot?: React.ComponentType;
 }
 
 const globalContext: GlobalContext = {};
 
 export function setGlobalContext(
-  context: Omit<GlobalContext, 'appConfig'> & { appConfig?: () => AppConfig },
+  context: Omit<GlobalContext, 'appConfig' | 'internalRuntimeContext'> & {
+    appConfig?: () => AppConfig;
+  },
 ) {
+  globalContext.entryName = context.entryName;
   globalContext.App = context.App;
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
@@ -43,6 +55,25 @@ export function setGlobalContext(
       ? context.appConfig()
       : context.appConfig;
   globalContext.layoutApp = context.layoutApp;
+  globalContext.RSCRoot = context.RSCRoot;
+}
+
+export function getCurrentEntryName() {
+  return globalContext.entryName;
+}
+
+export function getGlobalRSCRoot() {
+  return globalContext.RSCRoot;
+}
+
+export function setGlobalInternalRuntimeContext(
+  context: InternalRuntimeContext<RuntimeExtends>,
+) {
+  globalContext.internalRuntimeContext = context;
+}
+
+export function getGlobalInternalRuntimeContext() {
+  return globalContext.internalRuntimeContext!;
 }
 
 export function getGlobalApp() {

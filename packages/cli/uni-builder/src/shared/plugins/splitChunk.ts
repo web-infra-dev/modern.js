@@ -1,5 +1,6 @@
 import { isPackageInstalled, isPlainObject } from '@modern-js/utils';
-import type { CacheGroups, RsbuildPlugin, SplitChunks } from '@rsbuild/core';
+import type { RsbuildPlugin, SplitChunks } from '@rsbuild/core';
+import type { CacheGroup } from '../../types';
 
 const DEP_MATCH_TEMPLATE = /[\\/]node_modules[\\/](<SOURCES>)[\\/]/.source;
 
@@ -10,7 +11,7 @@ const createDependenciesRegExp = (...dependencies: (string | RegExp)[]) => {
 };
 
 function createCacheGroups(group: Record<string, (string | RegExp)[]>) {
-  const experienceCacheGroup: CacheGroups = {};
+  const experienceCacheGroup: Record<string, CacheGroup> = {};
   for (const [name, pkgs] of Object.entries(group)) {
     const key = `lib-${name}`;
     experienceCacheGroup[key] = {

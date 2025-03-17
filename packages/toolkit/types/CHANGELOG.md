@@ -1,5 +1,42 @@
 # @modern-js/types
 
+## 2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- b337977: fix: requestContext should be add on runtimeContext before init
+  fix: requestContext 应该在 init 前添加到 runtimeContext
+
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1f83d96: fix(render): fork react-server-dom-webpack to avoid warnings about installing dependencies
+  fix(render): 内置 react-server-dom-webpack 到 packages/toolkit/utils/compiled 中，避免安装依赖的警告
+
+## 2.65.1
+
+## 2.65.0
+
+## 2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- 96a8726: fix: types for custom server hook
+  fix: 自定义 server 的 hook 类型
+
+## 2.64.1
+
+## 2.64.0
+
+## 2.63.7
+
 ## 2.63.6
 
 ## 2.63.5

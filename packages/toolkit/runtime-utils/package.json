@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.63.6",
+  "version": "2.65.4",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -95,6 +95,12 @@
       "jsnext:source": "./src/merge.ts",
       "require": "./dist/cjs/merge.js",
       "default": "./dist/esm/merge.js"
+    },
+    "./cache": {
+      "types": "./dist/types/universal/cache.d.ts",
+      "jsnext:source": "./src/universal/cache.ts",
+      "require": "./dist/cjs/universal/cache.js",
+      "default": "./dist/esm/universal/cache.js"
     }
   },
   "publishConfig": {
@@ -115,7 +121,6 @@
       },
       "./browser": {
         "types": "./dist/types/browser/index.d.ts",
-        "jsnext:source": "./src/browser/index.d.ts",
         "require": "./dist/cjs/browser/index.js",
         "default": "./dist/esm/browser/index.js"
       },
@@ -168,6 +173,11 @@
         "types": "./dist/types/merge.d.ts",
         "require": "./dist/cjs/merge.js",
         "default": "./dist/esm/merge.js"
+      },
+      "./cache": {
+        "types": "./dist/types/universal/cache.d.ts",
+        "require": "./dist/cjs/universal/cache.js",
+        "default": "./dist/esm/universal/cache.js"
       }
     }
   },
@@ -211,6 +221,9 @@
       ],
       "merge": [
         "./dist/types/merge.d.ts"
+      ],
+      "cache": [
+        "./dist/types/universal/cache.d.ts"
       ]
     }
   },
@@ -222,10 +235,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@remix-run/router": "1.20.0",
     "@swc/helpers": "0.5.13",
-    "lru-cache": "^6.0.0",
+    "lru-cache": "^10.4.3",
     "react-router-dom": "6.27.0",
     "serialize-javascript": "^6.0.0"
   },
@@ -242,11 +256,9 @@
     }
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
-    "@types/lru-cache": "^5.1.1",
     "@types/node": "^14",
     "@types/serialize-javascript": "^5.0.1",
     "jest": "^29",

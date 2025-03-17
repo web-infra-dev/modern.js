@@ -39,6 +39,8 @@ export async function generateBuilder<B extends Bundler>(
 
   const builder = await createUniBuilder({
     cwd: appContext.appDirectory,
+    rscClientRuntimePath: `@${appContext.metaName}/runtime/rsc/client`,
+    rscServerRuntimePath: `@${appContext.metaName}/runtime/rsc/server`,
     frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
     config: builderConfig,
@@ -57,12 +59,14 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterBasic,
     builderPluginAdapterHtml,
     builderPluginAdapterSSR,
+    builderPluginAdapterHooks,
   } = await import('../shared/builderPlugins/index.js');
 
   builder.addPlugins([
     builderPluginAdapterBasic(),
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
+    builderPluginAdapterHooks(options),
   ]);
 
   builder.addPlugins([builderPluginAdapterCopy(options)], {

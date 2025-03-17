@@ -1,5 +1,5 @@
 import path from 'path';
-import type { RuntimePlugin } from '@modern-js/app-tools';
+import type { RuntimePluginConfig } from '@modern-js/app-tools';
 import { JS_EXTENSIONS, findExists, formatImportPath } from '@modern-js/utils';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
@@ -14,6 +14,7 @@ const genRenderCode = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -22,6 +23,7 @@ const genRenderCode = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) => {
   if (customEntry) {
     return `import '${formatImportPath(
@@ -30,6 +32,21 @@ const genRenderCode = ({
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
+
+${
+  enableRsc
+    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@${metaName}/runtime/rsc/client';`
+    : ''
+}
+
+${
+  enableRsc
+    ? `const data = createFromReadableStream(rscStream, {
+    callServer: callServer,
+  });`
+    : ''
+}
+
 ${
   customBootstrap
     ? `import customBootstrap from '${formatImportPath(
@@ -38,6 +55,8 @@ ${
     : ''
 }
 
+
+
 const ModernRoot = createRoot();
 
 ${
@@ -45,8 +64,52 @@ ${
     ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
         mountId || 'root'
       }'));`
-    : `render(<ModernRoot />, '${mountId || 'root'}');`
+    : enableRsc
+      ? `render(<ModernRoot>
+                  <RscClientRoot data={data} />
+                </ModernRoot>, '${mountId || 'root'}');`
+      : `render(<ModernRoot />, '${mountId || 'root'}');`
 }`;
+};
+
+export const entryForCSRWithRSC = ({
+  metaName,
+  entryName,
+  urlPath = '/',
+  mountId = 'root',
+}: {
+  metaName: string;
+  entryName: string;
+  urlPath?: string;
+  mountId?: string;
+}) => {
+  return `
+  import '@${metaName}/runtime/registry/${entryName}';
+  import { render } from '@${metaName}/runtime/browser';
+  import { createRoot } from '@${metaName}/runtime/react';
+
+  import {
+    RscClientRoot,
+    createFromFetch
+  } from '@${metaName}/runtime/rsc/client';
+
+  const content = createFromFetch(
+    fetch('${urlPath}', {
+      headers: {
+        'x-rsc-tree': 'true',
+      },
+    }),
+  );
+
+  const ModernRoot = createRoot();
+
+  render(
+    <ModernRoot>
+      <RscClientRoot data={content} />
+    </ModernRoot>,
+    '${mountId}',
+  );
+  `;
 };
 
 export const index = ({
@@ -58,6 +121,7 @@ export const index = ({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -67,6 +131,7 @@ export const index = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  enableRsc?: boolean;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
 ${genRenderCode({
@@ -77,6 +142,7 @@ ${genRenderCode({
   customEntry,
   customBootstrap,
   mountId,
+  enableRsc,
 })}
 `;
 
@@ -98,7 +164,8 @@ const getImportRuntimeConfigCode = (
       ),
     )
   ) {
-    return `import runtimeConfig from '${internalSrcAlias}/${runtimeConfigFile}';`;
+    return `import modernRuntime from '${internalSrcAlias}/${runtimeConfigFile}';
+const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(getCurrentEntryName()) : modernRuntime`;
   }
   return `let runtimeConfig;`;
 };
@@ -127,9 +194,10 @@ export const runtimeRegister = ({
   internalSrcAlias: string;
   metaName: string;
   runtimeConfigFile: string | false;
-  runtimePlugins: RuntimePlugin[];
+  runtimePlugins: RuntimePluginConfig[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalAppConfig, getGlobalLayoutApp } from '@${metaName}/runtime/context';
+import { getGlobalAppConfig, getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
+
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
 const plugins = [];
@@ -146,12 +214,14 @@ registerPlugin(plugins, runtimeConfig);
 `;
 
 export const runtimeGlobalContext = ({
+  entryName,
   srcDirectory,
   internalSrcAlias,
   metaName,
   entry,
   customEntry,
 }: {
+  entryName: string;
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
@@ -171,7 +241,76 @@ import App from '${
     )
   }';
 
+const entryName = '${entryName}';
 setGlobalContext({
+  entryName,
   App,
 });`;
+};
+
+export const runtimeGlobalContextForRSCServer = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
+  import AppProxy from './AppProxy';
+
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
+
+
+  setGlobalContext({
+    App: DefaultRoot,
+    RSCRoot: AppProxy,
+  });`;
+};
+
+export const runtimeGlobalContextForRSCClient = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
+
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
+
+  setGlobalContext({
+    App: DefaultRoot
+  });`;
+};
+
+export const AppProxyForRSC = ({
+  srcDirectory,
+  internalSrcAlias,
+  entry,
+  customEntry,
+}: {
+  srcDirectory: string;
+  internalSrcAlias: string;
+  entry: string;
+  customEntry?: boolean;
+}) => {
+  return `
+  import App from '${
+    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
+    formatImportPath(
+      customEntry
+        ? entry
+            .replace(/entry\.[tj]sx/, 'App')
+            .replace(srcDirectory, internalSrcAlias)
+        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
+    )
+  }';
+  import React from 'react';
+
+  export default function Root() {
+    return React.createElement(App, null);
+  }
+  `;
 };

@@ -1,5 +1,271 @@
 # @modern-js/app-tools
 
+## 2.65.4
+
+### Patch Changes
+
+- 93e12ae: feat: support watch mode in modern build
+- Updated dependencies [7bce153]
+- Updated dependencies [49bedb9]
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/plugin-v2@2.65.4
+  - @modern-js/uni-builder@2.65.4
+  - @modern-js/utils@2.65.4
+  - @modern-js/server-core@2.65.4
+  - @modern-js/core@2.65.4
+  - @modern-js/server@2.65.4
+  - @modern-js/plugin-data-loader@2.65.4
+  - @modern-js/plugin-i18n@2.65.4
+  - @modern-js/prod-server@2.65.4
+  - @modern-js/server-utils@2.65.4
+  - @modern-js/node-bundle-require@2.65.4
+  - @modern-js/plugin@2.65.4
+  - @modern-js/rsbuild-plugin-esbuild@2.65.4
+  - @modern-js/types@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- Updated dependencies [b337977]
+  - @modern-js/types@2.65.3
+  - @modern-js/core@2.65.3
+  - @modern-js/plugin-data-loader@2.65.3
+  - @modern-js/uni-builder@2.65.3
+  - @modern-js/server-core@2.65.3
+  - @modern-js/prod-server@2.65.3
+  - @modern-js/server@2.65.3
+  - @modern-js/plugin-v2@2.65.3
+  - @modern-js/utils@2.65.3
+  - @modern-js/server-utils@2.65.3
+  - @modern-js/plugin-i18n@2.65.3
+  - @modern-js/rsbuild-plugin-esbuild@2.65.3
+  - @modern-js/node-bundle-require@2.65.3
+  - @modern-js/plugin@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- Updated dependencies [63d477e]
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [f3fc1db]
+- Updated dependencies [1f83d96]
+  - @modern-js/plugin-v2@2.65.2
+  - @modern-js/plugin-data-loader@2.65.2
+  - @modern-js/types@2.65.2
+  - @modern-js/server-core@2.65.2
+  - @modern-js/uni-builder@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/prod-server@2.65.2
+  - @modern-js/server@2.65.2
+  - @modern-js/core@2.65.2
+  - @modern-js/server-utils@2.65.2
+  - @modern-js/plugin-i18n@2.65.2
+  - @modern-js/node-bundle-require@2.65.2
+  - @modern-js/plugin@2.65.2
+  - @modern-js/rsbuild-plugin-esbuild@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- Updated dependencies [bee51bb]
+  - @modern-js/uni-builder@2.65.1
+  - @modern-js/core@2.65.1
+  - @modern-js/server@2.65.1
+  - @modern-js/plugin-v2@2.65.1
+  - @modern-js/plugin-data-loader@2.65.1
+  - @modern-js/plugin-i18n@2.65.1
+  - @modern-js/rsbuild-plugin-esbuild@2.65.1
+  - @modern-js/server-core@2.65.1
+  - @modern-js/prod-server@2.65.1
+  - @modern-js/server-utils@2.65.1
+  - @modern-js/node-bundle-require@2.65.1
+  - @modern-js/plugin@2.65.1
+  - @modern-js/types@2.65.1
+  - @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Minor Changes
+
+- a28e69d: feat: support rsbuild modify config hook
+
+  feat: 支持 rsbuild 修改配置的 Hook 函数
+
+### Patch Changes
+
+- Updated dependencies [0dcd5ea]
+- Updated dependencies [4c0aca6]
+  - @modern-js/uni-builder@2.65.0
+  - @modern-js/server-core@2.65.0
+  - @modern-js/core@2.65.0
+  - @modern-js/server@2.65.0
+  - @modern-js/plugin-v2@2.65.0
+  - @modern-js/plugin-data-loader@2.65.0
+  - @modern-js/prod-server@2.65.0
+  - @modern-js/server-utils@2.65.0
+  - @modern-js/plugin-i18n@2.65.0
+  - @modern-js/rsbuild-plugin-esbuild@2.65.0
+  - @modern-js/node-bundle-require@2.65.0
+  - @modern-js/plugin@2.65.0
+  - @modern-js/types@2.65.0
+  - @modern-js/utils@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- Updated dependencies [d77a6df]
+  - @modern-js/server-core@2.64.3
+  - @modern-js/plugin-data-loader@2.64.3
+  - @modern-js/prod-server@2.64.3
+  - @modern-js/server@2.64.3
+  - @modern-js/server-utils@2.64.3
+  - @modern-js/core@2.64.3
+  - @modern-js/plugin-i18n@2.64.3
+  - @modern-js/rsbuild-plugin-esbuild@2.64.3
+  - @modern-js/uni-builder@2.64.3
+  - @modern-js/node-bundle-require@2.64.3
+  - @modern-js/plugin@2.64.3
+  - @modern-js/plugin-v2@2.64.3
+  - @modern-js/types@2.64.3
+  - @modern-js/utils@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- c73217b: chore: support serve command use custom serve launcher
+  chore: 支持 serve 命令使用自定义启动器
+- eba3803: fix(dev-server): apply dev configuration, then void dev.setupMiddlewares config lost
+  fix(dev-server): 应用 dev 配置防止 dev.setupMiddlewares 丢失
+- 18b55af: feat: move modifyServerRoutes hook to plugin v2
+
+  feat: 将 modifyServerRoutes 钩子函数移动到 plugin v2 中
+
+- Updated dependencies [4ae943d]
+- Updated dependencies [f8b5ea9]
+- Updated dependencies [80fe649]
+- Updated dependencies [c73217b]
+- Updated dependencies [02ca983]
+- Updated dependencies [18b55af]
+- Updated dependencies [96a8726]
+- Updated dependencies [37afe36]
+  - @modern-js/prod-server@2.64.2
+  - @modern-js/server-core@2.64.2
+  - @modern-js/uni-builder@2.64.2
+  - @modern-js/plugin-v2@2.64.2
+  - @modern-js/types@2.64.2
+  - @modern-js/plugin-data-loader@2.64.2
+  - @modern-js/server@2.64.2
+  - @modern-js/server-utils@2.64.2
+  - @modern-js/core@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin-i18n@2.64.2
+  - @modern-js/rsbuild-plugin-esbuild@2.64.2
+  - @modern-js/node-bundle-require@2.64.2
+  - @modern-js/plugin@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- f3876c1: fix: remove register esbuild in registerEsm & should log status correctly
+  fix: 移除在 registerEsm 中注册 esbuild & 正确地打印 status
+- 88aafcb: feat: load env in appTools when before the first time load modern config
+  feat: 在 appTools 在第一次加载 modern config 之前，加载环境变量
+- f83fd60: feat: migrate \_internalRuntimePlugins and \_internalServerPlugins hooks to plugin v2
+
+  feat: 迁移 \_internalRuntimePlugins 和 \_internalServerPlugins hook 函数到 plugin-v2
+
+- Updated dependencies [b69c8fa]
+- Updated dependencies [88aafcb]
+- Updated dependencies [f83fd60]
+- Updated dependencies [c5bb493]
+  - @modern-js/plugin-v2@2.64.1
+  - @modern-js/core@2.64.1
+  - @modern-js/plugin-data-loader@2.64.1
+  - @modern-js/plugin-i18n@2.64.1
+  - @modern-js/rsbuild-plugin-esbuild@2.64.1
+  - @modern-js/uni-builder@2.64.1
+  - @modern-js/server-core@2.64.1
+  - @modern-js/prod-server@2.64.1
+  - @modern-js/server@2.64.1
+  - @modern-js/server-utils@2.64.1
+  - @modern-js/node-bundle-require@2.64.1
+  - @modern-js/plugin@2.64.1
+  - @modern-js/types@2.64.1
+  - @modern-js/utils@2.64.1
+
+## 2.64.0
+
+### Patch Changes
+
+- Updated dependencies [48c11bf]
+- Updated dependencies [9e6f86e]
+  - @modern-js/plugin-v2@2.64.0
+  - @modern-js/core@2.64.0
+  - @modern-js/plugin-data-loader@2.64.0
+  - @modern-js/plugin-i18n@2.64.0
+  - @modern-js/rsbuild-plugin-esbuild@2.64.0
+  - @modern-js/uni-builder@2.64.0
+  - @modern-js/server-core@2.64.0
+  - @modern-js/prod-server@2.64.0
+  - @modern-js/server@2.64.0
+  - @modern-js/server-utils@2.64.0
+  - @modern-js/node-bundle-require@2.64.0
+  - @modern-js/plugin@2.64.0
+  - @modern-js/types@2.64.0
+  - @modern-js/utils@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- fa20ea7: feat: adjust after dev hook type and run time
+
+  feat: 调整 onAfterDev 钩子函数的类型和执行时机
+
+- fa20ea7: feat: add onDevCompileDone hook
+
+  feat: 添加 onDevCompileDone 钩子函数
+
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
+- 28ec156: feat: cli plugin support extend build utils
+
+  feat: cli 插件支持扩展构建工具函数
+
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [fdcb0ee]
+- Updated dependencies [775bc3b]
+- Updated dependencies [28ec156]
+- Updated dependencies [fa20ea7]
+- Updated dependencies [09a91c2]
+  - @modern-js/plugin-v2@2.63.7
+  - @modern-js/server@2.63.7
+  - @modern-js/core@2.63.7
+  - @modern-js/plugin-data-loader@2.63.7
+  - @modern-js/plugin-i18n@2.63.7
+  - @modern-js/rsbuild-plugin-esbuild@2.63.7
+  - @modern-js/uni-builder@2.63.7
+  - @modern-js/server-core@2.63.7
+  - @modern-js/prod-server@2.63.7
+  - @modern-js/server-utils@2.63.7
+  - @modern-js/node-bundle-require@2.63.7
+  - @modern-js/plugin@2.63.7
+  - @modern-js/types@2.63.7
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

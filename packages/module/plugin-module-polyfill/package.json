@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-polyfill",
-  "version": "2.63.6",
+  "version": "2.65.4",
   "description": "The polyfill plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -30,7 +30,7 @@
     "@babel/plugin-syntax-jsx": "7.25.9",
     "@babel/plugin-syntax-typescript": "7.25.9",
     "@modern-js/plugin-module-babel": "workspace:*",
-    "babel-plugin-polyfill-corejs3": "0.5.2"
+    "babel-plugin-polyfill-corejs3": "0.11.1"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
@@ -43,7 +43,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.63.6",
+    "@modern-js/module-tools": "workspace:^2.65.4",
     "core-js-pure": "^3.25.0"
   },
   "publishConfig": {

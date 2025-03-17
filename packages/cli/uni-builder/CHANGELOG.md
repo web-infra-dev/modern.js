@@ -1,5 +1,92 @@
 # @modern-js/uni-builder
 
+## 2.65.4
+
+### Patch Changes
+
+- 49bedb9: fix: should not escape windows path when use transformLodash
+- Updated dependencies [0d47cb8]
+  - @modern-js/utils@2.65.4
+  - @modern-js/babel-preset@2.65.4
+  - @modern-js/flight-server-transform-plugin@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- @modern-js/utils@2.65.3
+- @modern-js/babel-preset@2.65.3
+- @modern-js/flight-server-transform-plugin@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- 1f83d96: fix(render): fork react-server-dom-webpack to avoid warnings about installing dependencies
+  fix(render): 内置 react-server-dom-webpack 到 packages/toolkit/utils/compiled 中，避免安装依赖的警告
+- Updated dependencies [1f83d96]
+  - @modern-js/utils@2.65.2
+  - @modern-js/babel-preset@2.65.2
+  - @modern-js/flight-server-transform-plugin@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- bee51bb: fix: update rsbuild styled-components plugin
+  fix: 更新 rsbuild styled-components 插件
+  - @modern-js/babel-preset@2.65.1
+  - @modern-js/flight-server-transform-plugin@2.65.1
+  - @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- 0dcd5ea: fix: support add frameworkConfigPath to buildCache.buildDependencies when rspack build
+  - @modern-js/babel-preset@2.65.0
+  - @modern-js/flight-server-transform-plugin@2.65.0
+  - @modern-js/utils@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.64.3
+- @modern-js/flight-server-transform-plugin@2.64.3
+- @modern-js/utils@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- f8b5ea9: feat: bump rsbuild & rspack 1.2.x
+- 37afe36: fix: compat chain.cache true
+  - @modern-js/utils@2.64.2
+  - @modern-js/babel-preset@2.64.2
+  - @modern-js/flight-server-transform-plugin@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.64.1
+- @modern-js/utils@2.64.1
+
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.64.0
+- @modern-js/utils@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.63.7
+- @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

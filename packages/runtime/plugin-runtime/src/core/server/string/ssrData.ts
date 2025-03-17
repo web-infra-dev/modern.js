@@ -1,3 +1,4 @@
+import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
@@ -68,7 +69,7 @@ export class SSRDataCollector implements Collector {
           pathname: request.pathname,
           host: request.host,
           url: request.url,
-          headers,
+          headers: headers as IncomingHttpHeaders,
         },
         reporter: {
           sessionId: reporter?.sessionId,

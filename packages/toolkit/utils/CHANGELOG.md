@@ -1,5 +1,36 @@
 # @modern-js/utils
 
+## 2.65.4
+
+### Patch Changes
+
+- 0d47cb8: feat: use require.resolve to check react version to fix use pnpm catalog in pnpm workspace
+
+  feat: 使用 require.resolve 来检查 react 版本，以修复 pnpm workspace 中使用 pnpm catalog 的问题
+
+## 2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- 1f83d96: fix(render): fork react-server-dom-webpack to avoid warnings about installing dependencies
+  fix(render): 内置 react-server-dom-webpack 到 packages/toolkit/utils/compiled 中，避免安装依赖的警告
+
+## 2.65.1
+
+## 2.65.0
+
+## 2.64.3
+
+## 2.64.2
+
+## 2.64.1
+
+## 2.64.0
+
+## 2.63.7
+
 ## 2.63.6
 
 ## 2.63.5

@@ -17,7 +17,7 @@ import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
 
-export interface ExtraServerOptions {
+interface ExtraServerOptions {
   applyPlugins?: ApplyPlugins;
 }
 
@@ -48,10 +48,6 @@ export const dev = async (
     appContext.distDirectory,
     normalizedConfig?.source?.alias,
   );
-
-  api.modifyResolvedConfig(config => {
-    return { ...config, cliOptions: options };
-  });
 
   const {
     appDirectory,
@@ -89,13 +85,24 @@ export const dev = async (
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
+  const toolsDevServerConfig = normalizedConfig.tools?.devServer;
+
   const serverOptions = {
     metaName,
     dev: {
+      // [`normalizedConfig.tools.devServer`](https://modernjs.dev/en/configure/app/tools/dev-server.html) already deprecated, we should using `normalizedConfig.dev` instead firstly.
+      // Oterwise, the `normalizedConfig.dev` can't be apply correctly.
+      ...toolsDevServerConfig,
+      devMiddleware: {
+        writeToDisk: normalizedConfig.dev.writeToDisk,
+      },
       port,
-      https: normalizedConfig.dev.https,
-      host: normalizedConfig.dev.host,
-      ...normalizedConfig.tools?.devServer,
+      host: normalizedConfig.dev.host ?? (toolsDevServerConfig as any)?.host,
+      https: normalizedConfig.dev.https ?? (toolsDevServerConfig as any)?.https,
+      hot: normalizedConfig.dev.hmr ?? (toolsDevServerConfig as any)?.hot,
+      setupMiddlewares:
+        normalizedConfig.dev.setupMiddlewares ??
+        (toolsDevServerConfig as any)?.setupMiddlewares,
     },
     appContext: {
       appDirectory,
@@ -111,7 +118,7 @@ export const dev = async (
     serverConfigFile,
     plugins: pluginInstances,
     ...devServerOptions,
-  };
+  } as any;
 
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
@@ -137,6 +144,7 @@ export const dev = async (
         );
       },
     );
+    setServer(server);
   } else {
     const { server, afterListen } = await createDevServer(
       {

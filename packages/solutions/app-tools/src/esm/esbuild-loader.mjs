@@ -1,4 +1,5 @@
 import { pathToFileURL } from 'url';
+import { load as esbuildLoad } from 'esbuild-register/loader';
 import { createMatchPath } from './utils.mjs';
 
 let matchPath;
@@ -17,4 +18,16 @@ export function resolve(specifier, context, defaultResolve) {
     : defaultResolve(specifier, context);
 }
 
-export { load } from 'esbuild-register/loader';
+export function load(url, context, defaultLoad) {
+  const filePath = new URL(url).pathname;
+
+  if (url.startsWith('node:')) {
+    return defaultLoad(url, context);
+  }
+
+  if (filePath.includes('node_modules')) {
+    return defaultLoad(url, context);
+  }
+
+  return esbuildLoad(url, context, defaultLoad);
+}

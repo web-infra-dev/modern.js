@@ -69,10 +69,6 @@ export const build = async (
     return;
   }
 
-  api.modifyResolvedConfig(config => {
-    return { ...config, cliOptions: options };
-  });
-
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
 
   await buildServerConfig({
@@ -87,5 +83,7 @@ export const build = async (
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
-  await appContext.builder.build();
+  await appContext.builder.build({
+    watch: options?.watch,
+  });
 };

@@ -1,5 +1,65 @@
 # @modern-js/generator-cases
 
+## 3.7.22
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.22
+
+## 3.7.21
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.21
+
+## 3.7.20
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.20
+
+## 3.7.19
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.19
+
+## 3.7.18
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.18
+
+## 3.7.17
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.17
+
+## 3.7.16
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.16
+
+## 3.7.15
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.15
+
+## 3.7.14
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.14
+
+## 3.7.13
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.13
+
 ## 3.7.12
 
 ### Patch Changes

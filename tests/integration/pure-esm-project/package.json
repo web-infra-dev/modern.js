@@ -1,10 +1,10 @@
 {
   "private": true,
   "name": "pure-esm-project",
-  "version": "2.63.6",
+  "version": "2.65.4",
   "type": "module",
   "scripts": {
-    "dev": "modern dev",
+    "dev": "NODE_OPTIONS='--no-experimental-require-module' modern dev",
     "dev:bff": "modern dev --api-only",
     "build": "modern build",
     "serve": "modern serve",

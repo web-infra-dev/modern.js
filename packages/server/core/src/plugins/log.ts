@@ -73,7 +73,14 @@ function logHandler(): Middleware<ServerEnv> {
     log(logFn, LogPrefix.Incoming, method, path);
     const start = Date.now();
     await next();
-    log(logFn, LogPrefix.Outgoing, method, path, c.res.status, time(start));
+    log(
+      logFn,
+      LogPrefix.Outgoing,
+      method,
+      path,
+      (c?.env as any)?.node?.res?.statusCode ?? c.res.status,
+      time(start),
+    );
   };
 }
 

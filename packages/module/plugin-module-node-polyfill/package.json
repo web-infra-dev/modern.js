@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-node-polyfill",
-  "version": "2.63.6",
+  "version": "2.65.4",
   "description": "The node polyfill plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.13",
-    "assert": "2.0.0",
+    "assert": "2.1.0",
     "browserify-zlib": "0.2.0",
     "buffer": "6.0.3",
     "console-browserify": "1.2.0",
@@ -58,7 +58,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.63.6"
+    "@modern-js/module-tools": "workspace:^2.65.4"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

@@ -1,4 +1,4 @@
-import { run } from '@modern-js/runtime-utils/node';
+import { storage } from '@modern-js/runtime-utils/node';
 /**
  * @jest-environment node
  */
@@ -31,9 +31,12 @@ describe('configure', () => {
     const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
-    run(
+    storage.run(
       {
-        referer: url,
+        headers: {
+          referer: url,
+        },
+        monitors: {} as any,
       },
       async () => {
         nock(url).get(path).reply(200, response);
@@ -41,7 +44,7 @@ describe('configure', () => {
         const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
-        const request = createRequest(path, method, port);
+        const request = createRequest({ path, method, port });
         const res = await request();
         const data = await res.json();
 
@@ -57,9 +60,12 @@ describe('configure', () => {
     const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
-    run(
+    storage.run(
       {
-        referer: url,
+        headers: {
+          referer: url,
+        },
+        monitors: {} as any,
       },
       async () => {
         nock(url)
@@ -72,7 +78,7 @@ describe('configure', () => {
         const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
-        const request = createRequest(path, method, port);
+        const request = createRequest({ path, method, port });
         const res = await request({
           query: {
             users: ['foo', 'bar'],
@@ -88,56 +94,71 @@ describe('configure', () => {
   });
 
   test('should support interceptor', done => {
-    run({}, async () => {
-      nock(url).get(path).reply(200, response);
+    storage.run(
+      {
+        monitors: {} as any,
+        headers: {},
+      },
+      async () => {
+        nock(url).get(path).reply(200, response);
 
-      const interceptor = jest.fn(
-        request => (requestPath: any) => request(requestPath),
-      );
+        const interceptor = jest.fn(
+          request => (requestPath: any) => request(requestPath),
+        );
 
-      configure({ interceptor: interceptor as any });
-      const request = createRequest(path, method, 8080);
-      const res = await request();
-      const data = await res.json();
+        configure({ interceptor: interceptor as any });
+        const request = createRequest({ path, method, port: 8080 });
+        const res = await request();
+        const data = await res.json();
 
-      expect(res instanceof Response).toBe(true);
-      expect(data).toStrictEqual(response);
-      done();
-    });
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
   });
 
   test('should has correct priority', done => {
-    run({}, async () => {
-      nock(url).get(path).reply(200, response);
+    storage.run(
+      {
+        monitors: {} as any,
+        headers: {},
+      },
+      async () => {
+        nock(url).get(path).reply(200, response);
 
-      const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
-      const interceptor = jest.fn(
-        request => (requestPath: any) => request(requestPath),
-      );
+        const interceptor = jest.fn(
+          request => (requestPath: any) => request(requestPath),
+        );
 
-      configure({
-        request: customRequest as unknown as typeof fetch,
-        interceptor: interceptor as any,
-      });
-      const request = createRequest(path, method, 8080);
-      const res = await request();
-      const data = await res.json();
+        configure({
+          request: customRequest as unknown as typeof fetch,
+          interceptor: interceptor as any,
+        });
+        const request = createRequest({ path, method, port: 8080 });
+        const res = await request();
+        const data = await res.json();
 
-      expect(interceptor).toHaveBeenCalledTimes(0);
-      expect(customRequest).toHaveBeenCalledTimes(1);
-      expect(res instanceof Response).toBe(true);
-      expect(data).toStrictEqual(response);
-      done();
-    });
+        expect(interceptor).toHaveBeenCalledTimes(0);
+        expect(customRequest).toHaveBeenCalledTimes(1);
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
   });
 
   test('should support custom headers in ssr environment', done => {
     const authKey = 'aaa';
 
-    run(
+    storage.run(
       {
-        authorization: authKey,
+        headers: {
+          authorization: authKey,
+        },
+        monitors: {} as any,
       },
       async () => {
         nock(url, {
@@ -149,7 +170,7 @@ describe('configure', () => {
           .reply(200, response);
 
         configure({ allowedHeaders: ['authorization'] });
-        const request = createRequest(path, method, 8080);
+        const request = createRequest({ path, method, port: 8080 });
         const data = await request();
 
         expect(data).toStrictEqual(response);
@@ -159,44 +180,64 @@ describe('configure', () => {
   });
 
   test('should support params', done => {
-    run({}, async () => {
-      nock(url).get(`${path}/modernjs`).reply(200, response);
+    storage.run(
+      {
+        monitors: {} as any,
+        headers: {},
+      },
+      async () => {
+        nock(url).get(`${path}/modernjs`).reply(200, response);
 
-      const interceptor = jest.fn(
-        request => (requestPath: any) => request(requestPath),
-      );
+        const interceptor = jest.fn(
+          request => (requestPath: any) => request(requestPath),
+        );
 
-      configure({ interceptor: interceptor as any });
+        configure({ interceptor: interceptor as any });
 
-      const request = createRequest(`${path}/:id`, method, 8080, undefined);
-      const res = await request('modernjs');
-      const data = await res.json();
-      expect(res instanceof Response).toBe(true);
-      expect(data).toStrictEqual(response);
-      done();
-    });
+        const request = createRequest({
+          path: `${path}/:id`,
+          method,
+          port: 8080,
+        });
+        const res = await request('modernjs');
+        const data = await res.json();
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
   });
 
   test('should support params with schema', done => {
-    run({}, async () => {
-      nock(url).get(`${path}/modernjs`).reply(200, response);
+    storage.run(
+      {
+        monitors: {} as any,
+        headers: {},
+      },
+      async () => {
+        nock(url).get(`${path}/modernjs`).reply(200, response);
 
-      const interceptor = jest.fn(
-        request => (requestPath: any) => request(requestPath),
-      );
+        const interceptor = jest.fn(
+          request => (requestPath: any) => request(requestPath),
+        );
 
-      configure({ interceptor: interceptor as any });
+        configure({ interceptor: interceptor as any });
 
-      const request = createRequest(`${path}/:id`, method, 8080, undefined);
-      const res = await request({
-        params: {
-          id: 'modernjs',
-        },
-      });
-      const data = await res.json();
-      expect(res instanceof Response).toBe(true);
-      expect(data).toStrictEqual(response);
-      done();
-    });
+        const request = createRequest({
+          path: `${path}/:id`,
+          method,
+          port: 8080,
+        });
+        const res = await request({
+          params: {
+            id: 'modernjs',
+          },
+        });
+        const data = await res.json();
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
   });
 });

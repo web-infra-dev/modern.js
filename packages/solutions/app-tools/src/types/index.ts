@@ -1,5 +1,10 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin-v2';
+import type {
+  CLIPlugin,
+  CLIPluginExtends,
+  RuntimePluginConfig,
+  ServerPluginConfig,
+} from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
@@ -13,7 +18,7 @@ import type {
 } from './new';
 import type { Bundler } from './utils';
 
-export type { CLIPluginExtends };
+export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 export * from './hooks';
 export * from './config';
 export * from './legacyConfig';

@@ -41,7 +41,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       const userConfig = api.getNormalizedConfig();
       const routerConfig = getEntryOptions(
         entrypoint.entryName,
-        entrypoint.isMainEntry,
+        entrypoint.isMainEntry!,
         userConfig.runtime,
         userConfig.runtimeByEntries,
         packageName,

@@ -20,7 +20,7 @@ async function basicUsage(page: Page, appPort: number) {
     /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
   );
 
-  expect(body).toMatch(/<div hidden id="S:0">[\s\S]*<div>About content<\/div>/);
+  expect(body).toMatch(/<div>About content<\/div>/);
   expect(body).toMatch('reporter');
 
   const headers = await res?.headers();

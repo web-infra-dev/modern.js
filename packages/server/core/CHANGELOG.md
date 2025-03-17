@@ -1,5 +1,108 @@
 # @modern-js/server-plugin
 
+## 2.65.4
+
+### Patch Changes
+
+- f1cd095: feat: Modern.js server static middleware should always use system fs
+  feat: Modern.js 的静态中间件应该始终使用系统 fs
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+  - @modern-js/plugin@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- Updated dependencies [087ae7c]
+  - @modern-js/runtime-utils@2.65.3
+  - @modern-js/utils@2.65.3
+  - @modern-js/plugin@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- 793be44: feat: support get monitors in Data Loader and Component
+  feat: 在 Data Loader 和组件中支持获取 monitors
+- 1fe923c: chore: use monitors instead of reporter to report Data Loader cost
+  chore: 使用 monitors 代替 reporter 来上报 Data Loader 耗时
+- f3fc1db: chore: remove `reporter.init` and use Monitors to report request cost
+  chore: 移除 `reporter.init` 并且使用 Monitors 上报请求耗时
+- Updated dependencies [793be44]
+- Updated dependencies [1fe923c]
+- Updated dependencies [8837b85]
+- Updated dependencies [1f83d96]
+  - @modern-js/runtime-utils@2.65.2
+  - @modern-js/utils@2.65.2
+  - @modern-js/plugin@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.65.1
+- @modern-js/runtime-utils@2.65.1
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- 4c0aca6: feat: pass through the body, when query is pass_body
+  feat: 透传 body，当 query 为 pass_body 时
+  - @modern-js/plugin@2.65.0
+  - @modern-js/runtime-utils@2.65.0
+  - @modern-js/utils@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- d77a6df: feat(server): allow x-parse-through-body header to parse through the body of req
+  feat(server): 添加 x-parse-through-body 以透传请求体
+  - @modern-js/plugin@2.64.3
+  - @modern-js/runtime-utils@2.64.3
+  - @modern-js/utils@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- 4ae943d: fix: add `server.logger` to control internal server logger
+  fix: 添加 `server.logger` 配置来控制 Server 内部日志
+- 02ca983: feat: unify server monitors usage, add error logger for data loader
+  feat: 统一 server 监控的使用方式，为 data loader 添加错误日志
+  - @modern-js/runtime-utils@2.64.2
+  - @modern-js/utils@2.64.2
+  - @modern-js/plugin@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.64.1
+- @modern-js/runtime-utils@2.64.1
+- @modern-js/utils@2.64.1
+
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/plugin@2.64.0
+- @modern-js/runtime-utils@2.64.0
+- @modern-js/utils@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- @modern-js/plugin@2.63.7
+- @modern-js/runtime-utils@2.63.7
+- @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

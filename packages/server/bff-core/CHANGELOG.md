@@ -1,5 +1,73 @@
 # @modern-js/bff-core
 
+## 2.65.4
+
+### Patch Changes
+
+- Updated dependencies [0d47cb8]
+  - @modern-js/utils@2.65.4
+
+## 2.65.3
+
+### Patch Changes
+
+- @modern-js/utils@2.65.3
+
+## 2.65.2
+
+### Patch Changes
+
+- Updated dependencies [1f83d96]
+  - @modern-js/utils@2.65.2
+
+## 2.65.1
+
+### Patch Changes
+
+- @modern-js/utils@2.65.1
+
+## 2.65.0
+
+### Patch Changes
+
+- @modern-js/utils@2.65.0
+
+## 2.64.3
+
+### Patch Changes
+
+- @modern-js/utils@2.64.3
+
+## 2.64.2
+
+### Patch Changes
+
+- @modern-js/utils@2.64.2
+
+## 2.64.1
+
+### Patch Changes
+
+- @modern-js/utils@2.64.1
+
+## 2.64.0
+
+### Patch Changes
+
+- @modern-js/utils@2.64.0
+
+## 2.63.7
+
+### Patch Changes
+
+- 39f955f: fix(bff): client bundle supplement env variables & fix bff test
+  fix(bff): client 产物补充环境变量 & 集成测试问题修复
+- fdcb0ee: feat: bff support independent project
+
+  feat: bff 支持跨项目调用
+
+  - @modern-js/utils@2.63.7
+
 ## 2.63.6
 
 ### Patch Changes

@@ -12,7 +12,14 @@ import type { AppNormalizedConfig, AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 
-export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
+type ExtraServerOptions = {
+  launcher?: typeof createProdServer;
+};
+
+export const serve = async (
+  api: CLIPluginAPI<AppTools<'shared'>>,
+  serverOptions?: ExtraServerOptions,
+) => {
   const appContext = api.getAppContext();
   const userConfig = api.getNormalizedConfig();
   const hooks = api.getHooks();
@@ -26,6 +33,8 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
     serverRoutes,
     serverConfigFile,
   } = appContext;
+
+  const { isCrossProjectServer } = (userConfig?.bff as any) || {};
 
   logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
@@ -48,7 +57,7 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
 
   const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
-  const app = await createProdServer({
+  const app = await (serverOptions?.launcher || createProdServer)({
     metaName,
     pwd: distDirectory,
     config: {
@@ -72,16 +81,20 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
         appContext.appDirectory,
         appContext.distDirectory,
       ),
-      apiDirectory: getTargetDir(
-        appContext.apiDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
-      lambdaDirectory: getTargetDir(
-        appContext.lambdaDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
+      apiDirectory: isCrossProjectServer
+        ? appContext.apiDirectory
+        : getTargetDir(
+            appContext.apiDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+      lambdaDirectory: isCrossProjectServer
+        ? appContext.lambdaDirectory
+        : getTargetDir(
+            appContext.lambdaDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
     },
     runMode,
   });

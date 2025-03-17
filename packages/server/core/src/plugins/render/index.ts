@@ -10,12 +10,8 @@ import type {
   ServerPlugin,
 } from '../../types';
 import { sortRoutes } from '../../utils';
-import {
-  CustomServer,
-  getServerMidFromUnstableMid,
-  injectRoute,
-} from '../customServer';
-import { initReporter } from '../monitors';
+import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
@@ -50,26 +46,21 @@ export const renderPlugin = (): ServerPlugin => ({
 
         const pageRoutes = getPageRoutes(routes);
 
+        middlewares.push({
+          name: 'page-latency',
+          handler: requestLatencyMiddleware(),
+        });
+
         for (const route of pageRoutes) {
           const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
           const urlPath = originUrlPath.endsWith('/')
             ? `${originUrlPath}*`
             : `${originUrlPath}/*`;
 
-          middlewares.push({
-            name: 'init-reporter',
-            handler: initReporter(entryName),
-          });
-
           const customServerHookMiddleware = customServer.getHookMiddleware(
             entryName,
             routes,
           );
-
-          middlewares.push({
-            name: 'inject-route-info',
-            handler: injectRoute({ entryName }),
-          });
 
           middlewares.push({
             name: 'custom-server-hook',
@@ -117,6 +108,9 @@ function createRenderHandler(
     const monitors = c.get('monitors');
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
+    const rscServerManifest = c.get('rscServerManifest');
+    const rscClientManifest = c.get('rscClientManifest');
+    const rscSSRManifest = c.get('rscSSRManifest');
     const locals = c.get('locals');
     const metrics = c.get('metrics');
     const matchPathname = c.get('matchPathname');
@@ -134,6 +128,9 @@ function createRenderHandler(
       templates,
       metrics,
       serverManifest,
+      rscServerManifest,
+      rscClientManifest,
+      rscSSRManifest,
       loaderContext,
       locals,
       matchPathname,

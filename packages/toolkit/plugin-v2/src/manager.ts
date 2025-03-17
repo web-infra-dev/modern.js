@@ -1,9 +1,12 @@
-import { createDebugger, isFunction, logger } from '@modern-js/utils';
+/**
+ * NOTE: This file will be used in both Node.js and runtime environments. Please avoid importing Node.js-specific APIs.
+ */
 import type { Plugin, PluginManager } from './types/plugin';
-import type { Falsy } from './types/utils';
+import type { Falsy, MaybePromise } from './types/utils';
 
-const debug = createDebugger('plugin-v2');
-// Validates if the plugin is a valid CLIPlugin instance
+const isFunction = (obj: ((api: {}) => MaybePromise<void>) | undefined) =>
+  typeof obj === 'function';
+// Validates if the plugin is a valid plugin instance
 function validatePlugin(plugin: unknown) {
   const type = typeof plugin;
 
@@ -76,7 +79,7 @@ export function createPluginManager(): PluginManager {
     validatePlugin(newPlugin);
     const { name, usePlugins = [], pre = [], post = [] } = newPlugin;
     if (plugins.has(name)) {
-      logger.warn(`Plugin ${name} already exists.`);
+      console.warn(`Plugin ${name} already exists.`);
       return;
     }
     plugins.set(name, newPlugin);
@@ -153,11 +156,6 @@ export function createPluginManager(): PluginManager {
     });
 
     result = result.filter(result => result);
-
-    debug(
-      'CLI Plugins:',
-      result.map(p => p.name),
-    );
 
     return result;
   };

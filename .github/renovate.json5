@@ -60,6 +60,7 @@
       ],
       "groupName": "remix monorepo",
       "groupSlug": "remix",
+      "enabled": false,
     },
     {
       "matchPackageNames": [
@@ -124,6 +125,8 @@
     // need node 18
     "http-compression",
     "@biomejs/biome",
-    "caniuse-lite"
+    "caniuse-lite",
+    "@vercel/nft",
+    "vitest"
   ]
 }

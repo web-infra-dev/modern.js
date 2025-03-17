@@ -1,31 +1,42 @@
+import type { Plugin } from '@modern-js/plugin-v2';
+import type { InternalRuntimeContext } from '@modern-js/plugin-v2/runtime';
+import { runtime } from '@modern-js/plugin-v2/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
-import { type Plugin, RuntimeConfigContext, runtime } from './base';
-import { getGlobalRunner, setGlobalRunner } from './runner';
+import { compatPlugin } from '../compat';
+import { handleSetupResult } from '../compat/hooks';
+import { requestContextPlugin } from '../compat/requestContext';
+import { setGlobalInternalRuntimeContext } from '../context';
+import type { Plugin as RuntimePlugin } from './base';
+import type {
+  RuntimeConfig,
+  RuntimeExtends,
+  RuntimePluginFuture,
+} from './types';
 
-export * from './base';
-
-export interface RuntimeConfig {
-  plugins?: Plugin[];
-}
-
-function setupConfigContext() {
-  const runner = getGlobalRunner();
-  const configs = runner.modifyRuntimeConfig();
-  RuntimeConfigContext.set(merge({}, ...configs));
-}
+// old type
+export type { Plugin } from './base';
+// new type
+export type { RuntimePluginFuture };
 
 export function registerPlugin(
-  internalPlugins: Plugin[],
+  internalPlugins: (RuntimePlugin | RuntimePluginFuture)[],
   runtimeConfig?: RuntimeConfig,
-  customRuntime?: typeof runtime,
 ) {
   const { plugins = [] } = runtimeConfig || {};
-  (customRuntime || runtime).usePlugin(...internalPlugins, ...plugins);
-  const runner = (customRuntime || runtime).init();
-  // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
-  setGlobalRunner(runner);
-  setupConfigContext();
-  return runner;
+  const { runtimeContext } = runtime.run({
+    plugins: [
+      compatPlugin(),
+      requestContextPlugin(),
+      ...internalPlugins,
+      ...plugins,
+    ] as Plugin[],
+    config: runtimeConfig || {},
+    handleSetupResult,
+  });
+  setGlobalInternalRuntimeContext(
+    runtimeContext as unknown as InternalRuntimeContext<RuntimeExtends>,
+  );
+  return runtimeContext;
 }
 
 export function mergeConfig(

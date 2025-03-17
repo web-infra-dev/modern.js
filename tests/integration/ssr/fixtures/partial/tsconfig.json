@@ -8,7 +8,9 @@
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"],
       "@api/*": ["./api/*"]
-    }
+    },
+    "module": "Node16",
+    "moduleResolution": "node16"
   },
   "include": ["src", "shared", "config", "modern.config.ts", "api", "server"]
 }

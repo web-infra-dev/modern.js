@@ -1,3 +1,5 @@
+import type { IncomingHttpHeaders } from 'node:http';
+import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RenderLevel } from './constants';
 import type { LoaderResult } from './loader/loaderManager';
@@ -30,14 +32,7 @@ export interface SSRContainer {
   mode: SSRMode;
   data?: SSRData; // string ssr data
   context?: {
-    request: {
-      params: Record<string, any>;
-      query: Record<string, string>;
-      pathname: string;
-      host: string;
-      url: string;
-      headers?: Record<string, string | undefined>;
-    };
+    request: BaseSSRServerContext['request'];
     reporter?: {
       sessionId?: string;
     };
@@ -61,35 +56,30 @@ export type SSRServerContext = Pick<
 > & {
   request: BaseSSRServerContext['request'] & {
     baseUrl: string;
-    userAgent: string;
-    cookie: string;
-    cookieMap: Record<string, string>;
     raw: Request;
   };
   htmlModifiers: BuildHtmlCb[];
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
-  onError?: (e: unknown) => void;
-  onTiming?: (name: string, dur: number) => void;
+  onError: OnError;
+  onTiming: OnTiming;
   useJsonScript?: boolean;
 };
 
 /* 通过 useRuntimeContext 获取的 SSRContext */
 interface TSSRBaseContext {
-  request: BaseSSRServerContext['request'] & {
-    userAgent: string;
-    cookie: string;
-  };
+  request: BaseSSRServerContext['request'];
   [propName: string]: any;
 }
 
-interface ServerContext extends TSSRBaseContext {
+export interface ServerContext extends TSSRBaseContext {
   isBrowser: false;
   response: BaseSSRServerContext['response'];
   logger: BaseSSRServerContext['logger'];
 }
 
-interface ClientContext extends TSSRBaseContext {
+export interface ClientContext extends TSSRBaseContext {
   isBrowser: true;
 }
 
+// TODO: rename it, maybe requestContext or renderContext
 export declare type TSSRContext = ServerContext | ClientContext;

@@ -1,4 +1,4 @@
-import { run } from '@modern-js/runtime-utils/node';
+import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
@@ -15,13 +15,7 @@ import {
 } from '../constants';
 import { createReplaceHelemt } from '../helmet';
 import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
-import {
-  SSRErrors,
-  SSRTimings,
-  type Tracer,
-  createOnError,
-  createOnTiming,
-} from '../tracer';
+import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
 import { LoadableCollector } from './loadable';
 import { prefetch } from './prefetch';
@@ -34,88 +28,81 @@ export const renderString: RenderString = async (
   serverRoot,
   options,
 ) => {
-  const headersData = parseHeaders(request);
+  const { resource, runtimeContext, config, onError, onTiming } = options;
 
-  return run(headersData, async () => {
-    const { resource, runtimeContext, config, onError, onTiming } = options;
+  const tracer: Tracer = { onError, onTiming };
 
-    const tracer: Tracer = {
-      onError: createOnError(onError),
-      onTiming: createOnTiming(onTiming),
-    };
+  const routerContext = runtimeContext.routerContext as StaticHandlerContext;
 
-    const routerContext = runtimeContext.routerContext as StaticHandlerContext;
+  const { htmlTemplate, entryName, loadableStats, routeManifest } = resource;
 
-    const { htmlTemplate, entryName, loadableStats, routeManifest } = resource;
+  const ssrConfig = getSSRConfigByEntry(
+    entryName,
+    config.ssr,
+    config.ssrByEntries,
+  );
 
-    const ssrConfig = getSSRConfigByEntry(
-      entryName,
-      config.ssr,
-      config.ssrByEntries,
-    );
+  const chunkSet: ChunkSet = {
+    renderLevel: RenderLevel.CLIENT_RENDER,
+    ssrScripts: '',
+    jsChunk: '',
+    cssChunk: '',
+  };
 
-    const chunkSet: ChunkSet = {
-      renderLevel: RenderLevel.CLIENT_RENDER,
-      ssrScripts: '',
-      jsChunk: '',
-      cssChunk: '',
-    };
+  let prefetchData = {};
 
-    let prefetchData = {};
-
-    try {
-      prefetchData = await prefetch(
-        serverRoot,
-        request,
-        options,
-        ssrConfig,
-        tracer,
-      );
-      chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
-    } catch (e) {
-      chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-      tracer.onError(SSRErrors.PRERENDER, e);
-    }
-
-    const collectors = [
-      new StyledCollector(chunkSet),
-      new LoadableCollector({
-        stats: loadableStats,
-        nonce: config.nonce,
-        routeManifest,
-        template: htmlTemplate,
-        entryName,
-        chunkSet,
-        config,
-      }),
-      new SSRDataCollector({
-        request,
-        prefetchData,
-        ssrConfig,
-        ssrContext: runtimeContext.ssrContext!,
-        chunkSet,
-        routerContext,
-        nonce: config.nonce,
-        useJsonScript: config.useJsonScript,
-      }),
-    ];
-
-    const rootElement = wrapRuntimeContextProvider(
+  try {
+    prefetchData = await prefetch(
       serverRoot,
-      Object.assign(runtimeContext, { ssr: true }),
-    );
-
-    const html = await generateHtml(
-      rootElement,
-      htmlTemplate,
-      chunkSet,
-      collectors,
-      runtimeContext.ssrContext?.htmlModifiers || [],
+      request,
+      options,
+      ssrConfig,
       tracer,
     );
+    chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
+  } catch (e) {
+    chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
+    tracer.onError(e, SSRErrors.PRERENDER);
+  }
 
-    return html;
-  });
+  const collectors = [
+    new StyledCollector(chunkSet),
+    new LoadableCollector({
+      stats: loadableStats,
+      nonce: config.nonce,
+      routeManifest,
+      template: htmlTemplate,
+      entryName,
+      chunkSet,
+      config,
+    }),
+    new SSRDataCollector({
+      request,
+      prefetchData,
+      ssrConfig,
+      ssrContext: runtimeContext.ssrContext!,
+      chunkSet,
+      routerContext,
+      nonce: config.nonce,
+      useJsonScript: config.useJsonScript,
+    }),
+  ];
+
+  const rootElement = wrapRuntimeContextProvider(
+    serverRoot,
+    Object.assign(runtimeContext, { ssr: true }),
+  );
+
+  const html = await generateHtml(
+    rootElement,
+    htmlTemplate,
+    chunkSet,
+    collectors,
+    runtimeContext.ssrContext?.htmlModifiers || [],
+    tracer,
+  );
+
+  return html;
 };
 
 async function generateHtml(
@@ -146,7 +133,7 @@ async function generateHtml(
     onTiming(SSRTimings.RENDER_HTML, cost);
   } catch (e) {
     chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-    onError(SSRErrors.RENDER_HTML, e);
+    onError(e, SSRErrors.RENDER_HTML);
   }
 
   // collectors do effect

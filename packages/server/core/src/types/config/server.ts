@@ -34,6 +34,7 @@ export interface ServerUserConfig {
   publicRoutes?: Record<string, string>;
   ssr?: SSR;
   ssrByEntries?: SSRByEntries;
+  rsc?: boolean;
   baseUrl?: string | string[];
   port?: number;
   watchOptions?: WatchOptions;
@@ -43,6 +44,7 @@ export interface ServerUserConfig {
    * @default false
    */
   useJsonScript?: boolean;
+  logger?: boolean | Record<string, unknown>;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;

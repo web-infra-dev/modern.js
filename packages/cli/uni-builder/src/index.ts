@@ -23,6 +23,7 @@ export type {
   Stats,
   MultiStats,
   RspackConfig,
+  CacheGroup,
 } from './types';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
@@ -42,8 +43,8 @@ export {
   type RsbuildConfig,
   type RsbuildTarget,
   type NormalizedConfig,
-  type CacheGroup,
 } from '@rsbuild/core';
+
 export type { webpack, WebpackConfig } from '@rsbuild/webpack';
 export {
   RUNTIME_CHUNK_NAME,

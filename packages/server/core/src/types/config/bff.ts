@@ -6,6 +6,7 @@ export interface BffUserConfig {
   proxy?: Record<string, Options>;
   httpMethodDecider?: HttpMethodDecider;
   enableHandleWeb?: boolean;
+  crossProject?: boolean;
 }
 
 export type BffNormalizedConfig = BffUserConfig;

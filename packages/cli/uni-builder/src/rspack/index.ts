@@ -7,6 +7,7 @@ import type {
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -22,6 +23,9 @@ export async function parseConfig(
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
+  uniBuilderConfig.performance ??= {};
+  uniBuilderConfig.performance.buildCache ??= false;
+
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
     options,
@@ -120,6 +124,19 @@ export async function parseConfig(
     rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
+  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
+  if (enableRsc) {
+    const { rscClientRuntimePath, rscServerRuntimePath } = options;
+    rsbuildPlugins.push(
+      rsbuildRscPlugin({
+        appDir: options.cwd,
+        isRspack: true,
+        rscClientRuntimePath,
+        rscServerRuntimePath,
+      }),
+    );
+  }
+
   return {
     rsbuildConfig,
     rsbuildPlugins,
@@ -135,7 +152,13 @@ export type UniBuilderInstance = Omit<
 export async function createRspackBuilder(
   options: CreateUniBuilderOptions,
 ): Promise<UniBuilderInstance> {
-  const { cwd = process.cwd(), config, ...rest } = options;
+  const {
+    cwd = process.cwd(),
+    config,
+    rscClientRuntimePath,
+    rscServerRuntimePath,
+    ...rest
+  } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
     ...rest,
