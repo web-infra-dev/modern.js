@@ -1,48 +1,48 @@
-# 插件迁移
+# Plugin Migration
 
-### 迁移背景
+### Migration Background
 
-Modern.js 插件系统持续演进，为了提供更清晰的 API 和更强大的功能，我们对 Runtime 插件的定义和使用方式进行了优化。虽然旧版插件写法部分仍被兼容，但我们强烈建议您按照本指南进行迁移，以充分利用新版插件系统的优势。
+The Modern.js plugin system is constantly evolving.  To provide a clearer API and more powerful features, we've optimized the definition and usage of Runtime plugins. While the old plugin syntax is still partially compatible, we strongly recommend migrating according to this guide to take full advantage of the new plugin system.
 
-### 迁移步骤总览
+### Migration Steps Overview
 
-1.  **更新插件类型定义**：将 `Plugin` 类型替换为 `RuntimePluginFuture`。
-2.  **调整 Hooks 调用方式**：从 `return hooks` 模式迁移到 `api.xxx` 直接调用。
-3.  **替换已变更的 API**：参照详细的 API 映射表，更新您的代码。
+1.  **Update Plugin Type Definition:** Replace the `Plugin` type with `RuntimePluginFuture`.
+2.  **Adjust Hook Invocation:** Migrate from the `return hooks` pattern to direct `api.xxx` calls.
+3.  **Replace Changed APIs:** Refer to the detailed API mapping table and update your code.
 
-### 详细迁移步骤
+### Detailed Migration Steps
 
-#### 更新插件类型定义
+#### Update Plugin Type Definition
 
-这是迁移的第一步，也是最关键的一步。它确保您的插件能够与新版插件系统正确交互。
+This is the first and most crucial step. It ensures that your plugin interacts correctly with the new plugin system.
 
 ```typescript
-// 旧版写法
+// Old Syntax
 import type { Plugin } from '@modern-js/runtime';
 
 const plugin: Plugin = { ... };
 
-// 新版写法
+// New Syntax
 import type { RuntimePluginFuture } from '@modern-js/runtime';
 
 const plugin: RuntimePluginFuture = { ... };
 ```
 
-**说明：** `RuntimePluginFuture` 类型是新版插件的标准定义，它带来了更好的类型推断和更清晰的 API 结构。
+**Explanation:** The `RuntimePluginFuture` type is the standard definition for new plugins. It provides better type inference and a clearer API structure.
 
-#### 调整 Hooks 调用方式
+#### Adjust Hook Invocation
 
-新版插件系统推荐使用 `api` 对象直接调用 Hooks，这种方式更直观、更易于维护。
+The new plugin system recommends using the `api` object to directly call Hooks. This approach is more intuitive and easier to maintain.
 
 ```typescript
-// 旧版写法 (return hooks)
+// Old Syntax (return hooks)
 {
   setup: () => ({
     beforeRender({ req, res }) { /*...*/ }
   })
 }
 
-// 新版写法 (api.xxx)
+// New Syntax (api.xxx)
 {
   setup: api => {
     api.onBeforeRender(({ req, res }) => { /*...*/ })
@@ -50,30 +50,30 @@ const plugin: RuntimePluginFuture = { ... };
 }
 ```
 
-**说明：** `api` 对象提供了所有可用的 Hooks 和工具方法。
+**Explanation:** The `api` object provides all available Hooks and utility methods.
 
-#### 替换已变更的 API
+#### Replace Changed APIs
 
-为了保持 API 的一致性和清晰性，我们对部分 API 的名称进行了调整。同时，`hoc` 和 `init` 这两个 Hook 已被移除，请使用新的 Hook 进行替代。下表列出了所有变更的 API 及其新旧对应关系：
+To maintain API consistency and clarity, we've adjusted the names of some APIs.  Additionally, the `hoc` and `init` Hooks have been removed. Please use the new Hooks as replacements. The table below lists all changed APIs and their old and new counterparts:
 
-| 旧版 API      | 新版 API          | 说明                                                                                                                     |
-| :------------ | :---------------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `beforeRender` | `onBeforeRender`  | 在应用渲染前执行。                                                                                                       |
-| `hoc`         | `wrapRoot`        | **重要变更：** 用于包裹根组件，实现高阶组件 (HOC) 的功能。请确保将 props 传递给原始组件。                               |
-| `init`        | `onBeforeRender`  | **重要变更：** 在应用渲染前执行初始化逻辑。                                                                                 |
+| Old API       | New API           | Description                                                                                                                                                                                                                                                                                                 |
+| :------------ | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `beforeRender` | `onBeforeRender`  | Executed before application rendering.                                                                                                                                                                                                                                                                        |
+| `hoc`         | `wrapRoot`        | **Important Change:** Used to wrap the root component, achieving the functionality of a Higher-Order Component (HOC).  Make sure to pass props to the original component.                                                                                                                                    |
+| `init`        | `onBeforeRender`  | **Important Change:**  Execute initialization logic before application rendering. This replaces the previous `init` hook. Use `onBeforeRender` to perform any setup or initialization tasks that were previously done in `init`.  This provides a single, consistent point for pre-rendering logic. |
 
-**说明：**
-- `onBeforeRender` 替代了原来的 `beforeRender` 和 `init`，分别用于渲染前逻辑和初始化。
-- `wrapRoot` 替代了 `hoc`，用于实现高阶组件功能，使用时务必注意 props 的传递。
+**Explanation:**
+- `onBeforeRender` replaces both the original `beforeRender` and `init`, used for pre-rendering logic and initialization, respectively.
+- `wrapRoot` replaces `hoc` and is used to implement higher-order component functionality.  It's crucial to pass props correctly when using `wrapRoot`.
 
-**`wrapRoot` 使用示例：**
+**`wrapRoot` Usage Example:**
 
 ```typescript
 {
   setup: api => {
     api.wrapRoot((App) => {
       const AppWrapper = (props) => {
-        // 确保将 props 传递给原始组件
+        // Ensure props are passed to the original component
         return <Provider value={xx}><App {...props}/></Provider>;
       };
       return AppWrapper;
@@ -82,20 +82,20 @@ const plugin: RuntimePluginFuture = { ... };
 }
 ```
 
-### 常见问题解答
+### Frequently Asked Questions
 
-**Q: 迁移后，我的插件还能正常工作吗？**
+**Q: Will my plugin still work correctly after migration?**
 
-A: 只要您按照本指南正确完成了所有步骤，您的插件应该能够正常工作。如果您遇到任何问题，请查阅 Modern.js 的官方文档或寻求社区支持。
+A: As long as you've correctly completed all the steps in this guide, your plugin should function properly. If you encounter any issues, please refer to the official Modern.js documentation or seek community support.
 
-**Q: 我必须立即迁移我的插件吗？**
+**Q: Do I have to migrate my plugin immediately?**
 
-A: 虽然旧版插件写法仍然兼容，但我们强烈建议您尽快迁移。新版插件系统提供了更好的性能和更丰富的功能，长期来看，迁移是值得的。
+A: While the old plugin syntax remains partially compatible, we strongly recommend migrating as soon as possible. The new plugin system offers improved performance and richer functionality, making migration worthwhile in the long run.
 
-**Q: 我可以在哪里找到更多关于新版插件系统的信息？**
+**Q: Where can I find more information about the new plugin system?**
 
-A: 请查阅 Modern.js 的官方文档，特别是关于插件系统的部分。您也可以参考其他已迁移的插件示例，了解最佳实践。
+A: Please consult the official Modern.js documentation, especially the section on the plugin system. You can also refer to examples of other migrated plugins to understand best practices.
 
-### 总结
+### Summary
 
-通过这份详细的迁移指南，我们希望能够帮助您顺利地将您的 Runtime 插件迁移到 Modern.js 的新版插件系统。如果您在迁移过程中遇到任何问题，请随时向我们寻求帮助。
+With this detailed migration guide, we hope to help you smoothly transition your Runtime plugins to the new Modern.js plugin system. If you encounter any problems during the migration process, please don't hesitate to ask for assistance.

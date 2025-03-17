@@ -1,22 +1,22 @@
-# CLI 插件 API
+# CLI Plugin API
 
-# Modern.js CLI 插件 API
+# Modern.js CLI Plugin API
 
-本文档详细介绍了 Modern.js CLI 插件的 API。CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
+This document details the API for Modern.js CLI plugins. CLI plugins allow you to extend and customize the functionality of Modern.js projects during the build and development process.
 
-## 插件基础结构
+## Plugin Basic Structure
 
-一个典型的 CLI 插件结构如下：
+A typical CLI plugin structure is as follows:
 
 ```typescript
 import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
 
 const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
-  name: '@my-org/my-plugin', // 插件名称，确保唯一性
+  name: '@my-org/my-plugin', // Plugin name, ensure uniqueness
   setup: (api) => {
-    // 在这里使用 API 注册钩子、添加命令等
+    // Use the API here to register hooks, add commands, etc.
     api.onBeforeBuild(() => {
-      console.log('构建即将开始...');
+      console.log('Build is about to start...');
     });
   },
 });
@@ -24,53 +24,53 @@ const myCliPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
 export default myCliPlugin;
 ```
 
-`setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
+The `setup` function receives an `api` object, which provides all available CLI plugin APIs.
 
-## API 参考
+## API Reference
 
-### 信息获取
+### Information Retrieval
 
 #### `api.getAppContext`
 
-获取 Modern.js 应用的上下文信息。
+Gets the context information of the Modern.js application.
 
-- **返回值:** `AppContext` 对象，包含以下字段：
+-   **Returns:** An `AppContext` object containing the following fields:
 
-| 字段名               | 类型                 | 描述                                                                  | 何时可用                               |
-| -------------------- | -------------------- | --------------------------------------------------------------------- | -------------------------------------- |
-| `command`            | `string`             | 当前执行的命令 (e.g., `dev`, `build`, `deploy`)                        | -                                   |
-| `port`               | `number`             | 开发服务器端口号                                                      | `onPrepare` 之后                        |
-| `configFile`         | `string`             | 配置文件的绝对路径                                                    | -                                   |
-| `isProd`             | `boolean`            | 是否为生产模式                                                        | -                                   |
-| `appDirectory`       | `string`             | 项目根目录的绝对路径                                                  | -                                   |
-| `srcDirectory`       | `string`             | 项目源码目录的绝对路径                                                | -                                   |
-| `distDirectory`      | `string`             | 项目产物输出目录的绝对路径                                            | `modifyResolvedConfig` 之后              |
-| `sharedDirectory`    | `string`             | 公共模块目录的绝对路径                                                | -                                   |
-| `internalDirectory`  | `string`             | 框架内部临时输出目录的绝对路径                                        | -                                   |
-| `nodeModulesDirectory` | `string`             | `node_modules` 目录的绝对路径                                         | -                                   |
-| `ip`                 | `string`             | 当前机器的 IPv4 地址                                                  | -                                   |
-| `packageName`        | `string`             | 项目 `package.json` 中的 `name` 字段                                   | -                                   |
-| `plugins`            | `object[]`           | 当前已注册的插件列表                                                  | -                                   |
-| `entrypoints`        | `object[]`           | 页面入口信息                                                          | -                                   |
-| `serverRoutes`       | `object[]`           | 服务端路由信息                                                        | -                                   |
-| `bundlerType`        | `webpack \| rspack` | 当前使用的打包工具类型 (`webpack` 或 `rspack`)                          | `onPrepare` 之后                        |
-| `metaName`           | `string`             | 框架内部名称                                                          | -                                   |
-| `apiDirectory`       | `string`             | API 模块目录的绝对路径 (BFF 使用)                                     | -                                   |
-| `lambdaDirectory`    | `string`             | Lambda 模块目录的绝对路径 (BFF 使用)                                  | -                                   |
-| `runtimeConfigFile`  | `string`             | 运行时配置文件的名称                                                  | -                                   |
-| `serverConfigFile`   | `string`             | 服务器配置文件的名称                                                  | -                                   |
-| `checkedEntries`     | `string[]`           | 指定的入口信息                                                        | -                                   |
-| `apiOnly`            | `boolean`            | 是否为 `apiOnly` 模式                                                  | -                                   |
-| `internalDirAlias`   | `string`             | 框架内部临时输出目录的别名                                            | -                                   |
-| `internalSrcAlias`   | `string`             | 框架 `src` 目录的别名                                                 | -                                   |
+| Field Name             | Type                 | Description                                                                   | When Available                         |
+| ---------------------- | -------------------- | ----------------------------------------------------------------------------- | -------------------------------------- |
+| `command`              | `string`             | The currently executing command (e.g., `dev`, `build`, `deploy`)              | -                                   |
+| `port`                 | `number`             | The development server port number                                             | After `onPrepare`                       |
+| `configFile`           | `string`             | The absolute path to the configuration file                                   | -                                   |
+| `isProd`               | `boolean`            | Whether it is in production mode                                              | -                                   |
+| `appDirectory`         | `string`             | The absolute path to the project root directory                               | -                                   |
+| `srcDirectory`         | `string`             | The absolute path to the project source code directory                        | -                                   |
+| `distDirectory`        | `string`             | The absolute path to the project output directory                             | After `modifyResolvedConfig`              |
+| `sharedDirectory`      | `string`             | The absolute path to the shared modules directory                             | -                                   |
+| `internalDirectory`    | `string`             | The absolute path to the framework's internal temporary output directory       | -                                   |
+| `nodeModulesDirectory` | `string`             | The absolute path to the `node_modules` directory                              | -                                   |
+| `ip`                   | `string`             | The IPv4 address of the current machine                                       | -                                   |
+| `packageName`          | `string`             | The `name` field in the project's `package.json`                               | -                                   |
+| `plugins`              | `object[]`           | The list of currently registered plugins                                     | -                                   |
+| `entrypoints`          | `object[]`           | Information about page entry points                                           | -                                   |
+| `serverRoutes`         | `object[]`           | Server-side routing information                                               | -                                   |
+| `bundlerType`          | `webpack \| rspack` | The type of bundler currently in use (`webpack` or `rspack`)                   | After `onPrepare`                       |
+| `metaName`             | `string`             | The internal name of the framework                                            | -                                   |
+| `apiDirectory`         | `string`             | The absolute path to the API module directory (used by BFF)                   | -                                   |
+| `lambdaDirectory`      | `string`             | The absolute path to the Lambda module directory (used by BFF)                | -                                   |
+| `runtimeConfigFile`    | `string`             | The name of the runtime configuration file                                    | -                                   |
+| `serverConfigFile`     | `string`             | The name of the server configuration file                                     | -                                   |
+| `checkedEntries`       | `string[]`           | Specified entry information                                                   | -                                   |
+| `apiOnly`              | `boolean`            | Whether it is in `apiOnly` mode                                               | -                                   |
+| `internalDirAlias`     | `string`             | Alias for the framework's internal temporary output directory                  | -                                   |
+| `internalSrcAlias`     | `string`             | Alias for the framework's `src` directory                                     | -                                   |
 
-- **示例:**
+-   **Example:**
 
 ```typescript
 api.onPrepare(() => {
   const appContext = api.getAppContext();
-  console.log(`当前项目运行在 ${appContext.isProd ? '生产' : '开发'} 模式`);
-  console.log(`打包工具: ${appContext.bundlerType}`);
+  console.log(`The current project is running in ${appContext.isProd ? 'production' : 'development'} mode`);
+  console.log(`Bundler: ${appContext.bundlerType}`);
 });
 ```
 
@@ -78,16 +78,16 @@ api.onPrepare(() => {
 
 #### `api.getConfig`
 
-获取用户在 `modern.config.ts` 文件中定义的配置。
+Gets the user-defined configuration from the `modern.config.ts` file.
 
--   **返回值:**  用户定义的配置对象。
--   **示例:**
+-   **Returns:** The user-defined configuration object.
+-   **Example:**
 
 ```typescript
 api.onPrepare(() => {
     const userConfig = api.getConfig();
     if (userConfig.output) {
-        console.log('用户自定义了 output 配置');
+        console.log('User has customized the output configuration');
     }
 });
 
@@ -97,21 +97,21 @@ api.onPrepare(() => {
 
 #### `api.getNormalizedConfig`
 
-获取经过 Modern.js 内部处理和插件修改后的最终配置（归一化配置）。
+Gets the final configuration after internal processing by Modern.js and modifications by plugins (normalized configuration).
 
-- **返回值:** 归一化后的配置对象。
-- **何时可用:** 必须在 `modifyResolvedConfig` 钩子之后使用。
-- **示例:**
+-   **Returns:** The normalized configuration object.
+-   **When Available:** Must be used after the `modifyResolvedConfig` hook.
+-   **Example:**
 
 ```typescript
 api.modifyResolvedConfig(resolvedConfig => {
-  // ... 修改配置 ...
+  // ... Modify the configuration ...
   return resolvedConfig;
 });
 
 api.onBeforeBuild(() => {
   const finalConfig = api.getNormalizedConfig();
-  console.log('最终构建配置：', finalConfig);
+  console.log('Final build configuration:', finalConfig);
 });
 ```
 
@@ -119,16 +119,16 @@ api.onBeforeBuild(() => {
 
 #### `api.isPluginExists`
 
-检查指定的插件是否已注册。
+Checks if a specified plugin is registered.
 
-- **参数:**
-  - `pluginName:string`: 要检查的插件名称。
-- **返回值:** `boolean` 值，表示插件是否存在。
-- **示例:**
+-   **Parameters:**
+    -   `pluginName: string`: The name of the plugin to check.
+-   **Returns:** A `boolean` value indicating whether the plugin exists.
+-   **Example:**
 
 ```typescript
 if (api.isPluginExists('@modern-js/plugin-tailwind')) {
-  console.log('Tailwind CSS 插件已启用');
+  console.log('Tailwind CSS plugin is enabled');
 }
 ```
 
@@ -136,59 +136,59 @@ if (api.isPluginExists('@modern-js/plugin-tailwind')) {
 
 #### `api.getHooks`
 
-获取所有已注册的钩子函数。
+Gets all registered hook functions.
 
-- **返回值:** 包含所有钩子函数的对象。
-- **示例:**
+-   **Returns:** An object containing all hook functions.
+-   **Example:**
 
 ```typescript
 const hooks = api.getHooks();
-// 手动触发 onPrepare 钩子
+// Manually trigger the onPrepare hook
 hooks.onPrepare.call();
 ```
 
 ---
 
-### 配置修改
+### Configuration Modification
 
 #### `api.config`
 
-注册一个函数来修改 Modern.js 的初始配置。
+Registers a function to modify the initial configuration of Modern.js.
 
-- **类型:**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
-- **参数:**
-  - `configFn`: 一个返回配置对象或 Promise 的函数。
-- **执行阶段:** 解析完 `modern.config.ts` 中的配置之后。
-- **示例:**
+-   **Type:**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
+-   **Parameters:**
+    -   `configFn`: A function that returns a configuration object or a Promise.
+-   **Execution Phase:** After parsing the configuration in `modern.config.ts`.
+-   **Example:**
 
 ```typescript
 api.config(() => {
   return {
     output: {
-      disableTsChecker: true, // 关闭 TypeScript 类型检查
+      disableTsChecker: true, // Disable TypeScript type checking
     },
   };
 });
 ```
 
-**配置合并优先级**（从高到低）：
+**Configuration Merge Priority** (highest to lowest):
 
-1.  用户在 `modern.config.*` 文件中定义的配置。
-2.  插件通过 `api.config()` 注册的配置。
-3.  Modern.js 默认配置。
+1.  User-defined configuration in the `modern.config.*` file.
+2.  Configuration registered by plugins via `api.config()`.
+3.  Modern.js default configuration.
 
 ---
 
 #### `modifyBundlerChain`
 
-注册一个函数来使用 chain API 修改 webpack 或者 Rspack 配置。
+Registers a function to modify the webpack or Rspack configuration using the chain API.
 
-- **类型:**  `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 `webpack-chain` 或 `RspackChain` 实例和实用工具作为参数。
-- **执行阶段:** 在生成最终的 Webpack 或 Rspack 配置时。
-- **对应 Rsbuild Hook**: [modifybundlerchain](https://rsbuild.dev/zh/plugins/dev/hooks#modifybundlerchain)
-- **示例:**
+- **Type:** `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
+- **Parameters:**
+  - `modifyFn`: A modification function that receives a `webpack-chain` or `RspackChain` instance and utility functions as parameters.
+- **Execution Phase:** When generating the final Webpack or Rspack configuration.
+- **Corresponding Rsbuild Hook**: [modifyBundlerChain](https://rsbuild.dev/en/plugins/dev/hooks#modifybundlerchain)
+- **Example:**
 
 ```typescript
 api.modifyBundlerChain((chain, utils) => {
@@ -201,18 +201,18 @@ api.modifyBundlerChain((chain, utils) => {
 
 #### `api.modifyRsbuildConfig`
 
-注册一个函数来修改 Rsbuild 的配置。
+Registers a function to modify the Rsbuild configuration.
 
--   **类型:**  `api.modifyRsbuildConfig(modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Rsbuild 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Rsbuild 配置时。
--   **对应 Rsbuild Hook**: [modifyRsbuildConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrsbuildconfig)
--   **示例:**
+-   **Type:**  `api.modifyRsbuildConfig(modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void)`
+-   **Parameters:**
+    -   `modifyFn`: A modification function that receives the Rsbuild configuration object and utility functions as parameters.  It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+-   **Execution Phase:** When generating the final Rsbuild configuration.
+-   **Corresponding Rsbuild Hook**: [modifyRsbuildConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrsbuildconfig)
+-   **Example:**
 
 ```typescript
 api.modifyRsbuildConfig((config, utils) => {
-  // 添加一个自定义的 Rsbuild 插件
+  // Add a custom Rsbuild plugin
   config.plugins.push(myCustomRsbuildPlugin());
 });
 
@@ -221,14 +221,14 @@ api.modifyRsbuildConfig((config, utils) => {
 
 #### `api.modifyRspackConfig`
 
-注册一个函数来修改 Rspack 的配置。(当使用 Rspack 作为打包工具时)
+Registers a function to modify the Rspack configuration (when Rspack is used as the bundler).
 
--   **类型:**  `api.modifyRspackConfig(modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Rspack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Rspack 配置时。
--   **对应 Rsbuild Hook**: [modifyRspackConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrspackconfig)
--   **示例:**
+-   **Type:**  `api.modifyRspackConfig(modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void)`
+-   **Parameters:**
+    -   `modifyFn`: A modification function that receives the Rspack configuration object and utility functions as parameters.  It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+-   **Execution Phase:** When generating the final Rspack configuration.
+-   **Corresponding Rsbuild Hook**: [modifyRspackConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrspackconfig)
+-   **Example:**
 
 ```typescript
 api.modifyRspackConfig((config, utils) => {
@@ -243,17 +243,17 @@ api.modifyRspackConfig((config, utils) => {
 
 #### `api.modifyWebpackChain`
 
-注册一个函数来使用 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 修改 Webpack 配置。(当使用 Webpack 作为打包工具时)
+Registers a function to modify the Webpack configuration using [webpack-chain](https://github.com/neutrinojs/webpack-chain) (when Webpack is used as the bundler).
 
-- **类型:**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 `webpack-chain` 实例和实用工具作为参数。
-- **执行阶段:** 在生成最终的 Webpack 配置时。
-- **示例:**
+-   **Type:**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
+-   **Parameters:**
+    -   `modifyFn`: A modification function that receives a `webpack-chain` instance and utility functions as parameters.
+-   **Execution Phase:** When generating the final Webpack configuration.
+-   **Example:**
 
 ```typescript
 api.modifyWebpackChain((chain, utils) => {
-  // 添加一个自定义的 Webpack loader
+  // Add a custom Webpack loader
   chain.module
     .rule('my-loader')
     .test(/\.my-ext$/)
@@ -266,25 +266,24 @@ api.modifyWebpackChain((chain, utils) => {
 
 #### `api.modifyWebpackConfig`
 
-注册一个函数来直接修改 Webpack 配置对象。(当使用 Webpack 作为打包工具时)
+Registers a function to directly modify the Webpack configuration object (when Webpack is used as the bundler).
 
--   **类型:**  `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Webpack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Webpack 配置时。
--   **示例:**
+-   **Type:**  `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
+-   **Parameters:**
+    -   `modifyFn`: A modification function that receives the Webpack configuration object and utility functions as parameters. It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+-   **Execution Phase:** When generating the final Webpack configuration.
+-   **Example:**
 
 ```typescript
 api.modifyWebpackConfig((config, utils) => {
-  // 禁用 source map
+  // Disable source maps
   config.devtool = false;
 });
-
 ```
 
-**构建配置修改顺序**：
+**Build Configuration Modification Order:**
 
--   **Rsbuild 项目**:
+-   **Rsbuild Projects**:
     ```
     modifyRsbuildConfig
     modifyBundlerChain
@@ -292,7 +291,7 @@ api.modifyWebpackConfig((config, utils) => {
     modifyRspackConfig
     tools.rspack
     ```
--   **Webpack 项目**:
+-   **Webpack Projects**:
     ```
     modifyBundlerChain
     tools.bundlerChain
@@ -306,17 +305,17 @@ api.modifyWebpackConfig((config, utils) => {
 
 #### `api.modifyServerRoutes`
 
-注册一个函数来修改服务器路由配置。
+Registers a function to modify the server route configuration.
 
-- **类型** `api.modifyServerRoutes(transformFn: (routes: ServerRoute[]) => ServerRoute[])`
-- **参数:**
-  - `transformFn`: 转换函数，接收当前服务器路由数组作为参数，返回修改后的数组。
-- **执行阶段:** 在生成服务器路由文件之前 ( `prepare` 阶段)。
-- **示例:**
+- **Type:** `api.modifyServerRoutes(transformFn: (routes: ServerRoute[]) => ServerRoute[])`
+- **Parameters:**
+  - `transformFn`: A transformation function that receives the current server route array as a parameter and returns the modified array.
+- **Execution Phase:** Before generating the server route file (during the `prepare` phase).
+- **Example:**
 
 ```typescript
 api.modifyServerRoutes(routes => {
-  // 添加一个新的 API 路由
+  // Add a new API route
   routes.push({
     route: '/api/my-endpoint',
     method: 'GET',
@@ -330,18 +329,18 @@ api.modifyServerRoutes(routes => {
 
 #### `api.modifyHtmlPartials`
 
-注册一个函数来修改 HTML 模板片段。
+Registers a function to modify HTML template partials.
 
-- **类型** `api.modifyHtmlPartials(modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 HTML 模板片段对象和当前入口点信息作为参数。
-    - `partials`: 包含 `top`, `head`, `body` 三个部分,每个部分都有`append`, `prepend`, `replace`三个方法。
-- **执行阶段:** 在生成 HTML 文件之前 ( `prepare` 阶段)。
-- **示例:**
+- **Type:** `api.modifyHtmlPartials(modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void)`
+- **Parameters:**
+  - `modifyFn`: A modification function that receives the HTML template partials object and the current entry point information as parameters.
+    - `partials`: Contains `top`, `head`, and `body` sections. Each section has `append`, `prepend`, and `replace` methods.
+- **Execution Phase:** Before generating the HTML file (during the `prepare` phase).
+- **Example:**
 
 ```typescript
 api.modifyHtmlPartials(({ entrypoint, partials }) => {
-  // 在所有页面的 <head> 标签中添加一个 meta 标签
+  // Add a meta tag to the <head> of all pages
   if (partials.head && partials.head.append) {
       partials.head.append(`<meta name="my-custom-meta" content="value">`);
   }
@@ -350,21 +349,21 @@ api.modifyHtmlPartials(({ entrypoint, partials }) => {
 
 ---
 
-### 构建流程控制
+### Build Process Control
 
 #### `api.onPrepare`
 
-注册一个在 Modern.js 准备阶段执行的钩子函数。
+Registers a hook function to be executed during the Modern.js preparation phase.
 
-- **类型** `api.onPrepare(prepareFn: () => void | Promise<void>)`
-- **参数:**
-  - `prepareFn`: 准备函数，无参数，可异步。
-- **执行阶段:** 在 Modern.js 完成配置校验之后。
-- **示例:**
+-   **Type:** `api.onPrepare(prepareFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `prepareFn`: A preparation function, without parameters, can be asynchronous.
+-   **Execution Phase:** After Modern.js has completed configuration validation.
+-   **Example:**
 
 ```typescript
 api.onPrepare(async () => {
-  // 执行一些初始化操作，例如检查环境、下载依赖等
+  // Perform some initialization operations, such as checking the environment, downloading dependencies, etc.
   await prepareMyCustomEnvironment();
 });
 ```
@@ -373,22 +372,22 @@ api.onPrepare(async () => {
 
 #### `api.addCommand`
 
-注册一个函数来添加自定义的 CLI 命令。
+Registers a function to add custom CLI commands.
 
-- **类型** `api.addCommand(commandFn: ({ program: Command }) => void)`
-- **参数:**
-  - `commandFn`: 接收 `commander` 的 `program` 对象作为参数，用于定义新的命令。
-- **执行阶段:** `prepare` 钩子运行完成后。
-- **示例:**
+-   **Type:** `api.addCommand(commandFn: ({ program: Command }) => void)`
+-   **Parameters:**
+    -   `commandFn`: Receives the `program` object from `commander` as a parameter, used to define new commands.
+-   **Execution Phase:** After the `prepare` hook has completed.
+-   **Example:**
 
 ```typescript
 api.addCommand(({ program }) => {
   program
     .command('my-command')
-    .description('我的自定义命令')
+    .description('My custom command')
     .action(async () => {
-      // 执行命令逻辑
-      console.log('执行自定义命令...');
+      // Execute command logic
+      console.log('Executing custom command...');
     });
 });
 ```
@@ -397,19 +396,19 @@ api.addCommand(({ program }) => {
 
 #### `api.addWatchFiles`
 
-注册一个函数来添加额外的文件监听列表（用于开发模式）。
+Registers a function to add additional files to the watch list (for development mode).
 
-- **类型** `api.addWatchFiles(watchFn: () => string[] | { files: string[]; isPrivate: boolean; })`
-- **参数:**
-  - `watchFn`: 返回一个包含文件路径的数组，或一个包含 `files` 和 `isPrivate` 属性的对象。
-    - `files`: 要监听的文件路径数组。
-    - `isPrivate`: 是否为框架内部文件（影响文件变更时的行为）。
-- **执行阶段:** `addCommand` 钩子运行完成之后。
-- **示例:**
+-   **Type:** `api.addWatchFiles(watchFn: () => string[] | { files: string[]; isPrivate: boolean; })`
+-   **Parameters:**
+    -   `watchFn`: Returns an array of file paths or an object containing `files` and `isPrivate` properties.
+        -   `files`: An array of file paths to watch.
+        -   `isPrivate`: Whether the files are internal to the framework (affects behavior when files change).
+-   **Execution Phase:** After the `addCommand` hook has completed.
+-   **Example:**
 
 ```typescript
 api.addWatchFiles(() => {
-  // 监听项目根目录下的 .env 文件
+  // Watch the .env file in the project root directory
   return [path.resolve(api.getAppContext().appDirectory, '.env')];
 });
 ```
@@ -418,21 +417,22 @@ api.addWatchFiles(() => {
 
 #### `api.onFileChanged`
 
-注册一个在监听文件发生变化时执行的钩子函数（用于开发模式）。
+Registers a hook function to be executed when a watched file changes (for development mode).
 
-- **类型** `api.onFileChanged(changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void)`
-- **参数:**
-  - `changeFn`: 文件变化处理函数，接收以下参数：
-    - `filename`: 发生变化的文件路径。
-    - `eventType`: 变化类型 (`add`, `change`, `unlink`)。
-    - `isPrivate`: 是否为框架内部文件。
-- **执行阶段:** 监听文件变化之后。
-- **示例:**
+-   **Type:** `api.onFileChanged(changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void)`
+-   **Parameters:**
+    -   `changeFn`: A file change handler function that receives the following parameters:
+        -   `filename`: The path to the changed file.
+        -   `eventType`: The type of change (`add`, `change`, or `unlink`).
+        -   `isPrivate`: Whether the changed file is internal to the framework.
+-   **Execution Phase:** When a watched file changes.
+-   **Example:**
 
 ```typescript
 api.onFileChanged(({ filename, eventType }) => {
-  if (eventType === 'change' && filename.endsWith('.ts')) {
-    console.log('TypeScript 文件发生变化，可能需要重新编译...');
+  if (eventType === 'change' && filename.endsWith('.env')) {
+    console.log('.env file changed, restarting server...');
+    // Restart the development server or perform other actions
   }
 });
 ```
@@ -441,189 +441,301 @@ api.onFileChanged(({ filename, eventType }) => {
 
 #### `api.onBeforeBuild`
 
-注册一个在构建开始前执行的钩子函数。
+Registers a hook function to be executed before the build process starts.
 
-- **类型** `api.onBeforeBuild(buildFn: () => void | Promise<void>)`
-- **参数:**
-  - `buildFn`: 构建前执行的函数，无参数，可异步。
-- **执行阶段:** 在执行构建流程之前。
-- **对应 Rsbuild Hook**: [onBeforeBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforebuild)
-- **示例:**
-
-```typescript
-api.onBeforeBuild(()=>{
-    // 构建前做一些环境检查
-})
-```
----
-
-#### `api.onAfterBuild`
-
-注册一个在构建完成后执行的钩子函数。
-
--   **类型:**  `api.onAfterBuild(buildFn: () => void | Promise<void>)`
--   **参数:**
-    -   `buildFn`: 构建后执行的函数，无参数，可异步。
--   **执行阶段:** 在执行构建流程之后。
--   **对应 Rsbuild Hook**: [onAfterBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onafterbuild)
--   **示例:**
+-   **Type:** `api.onBeforeBuild(buildFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `buildFn`: A build preparation function that receives the final bundler configuration array as a parameter.
+-   **Execution Phase:** Before the build process starts.
+-   **Example:**
 
 ```typescript
-api.onAfterBuild(()=>{
-    // 构建后上传sourceMap
-})
+api.onBeforeBuild(({ bundlerConfigs }) => {
+  // Perform pre-build checks or operations, such as linting, code formatting, etc.
+  console.log('Starting build with configuration:', bundlerConfigs);
+});
 ```
 
----
-
-#### `api.onDevCompileDone`
-注册一个在开发服务器编译完成后执行的钩子函数。
-
--   **类型:**  `api.onDevCompileDone(compileFn: () => void | Promise<void>)`
--   **参数:**
-    -   `compileFn`: 编译完成后执行的函数。
--   **执行阶段:** 开发服务器启动，且首次编译完成后。
--   **对应 Rsbuild Hook**: [onDevCompileDone](https://rsbuild.dev/zh/plugins/dev/hooks#ondevcompiledone)
--   **示例:**
-
-```typescript
-api.onDevCompileDone(()=>{
-    // 首次编译完成，打开浏览器
-})
-```
 ---
 
 #### `api.onBeforeCreateCompiler`
 
-注册一个在创建编译器实例之前执行的钩子函数。
+Registers a hook function to be executed before the bundler compiler instance is created.
 
--   **类型:**  `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
--   **参数:**
-    -   `createFn`: 创建前执行的函数，无参数，可异步。
--   **执行阶段:** 在创建 Webpack 或 Rspack 编译器实例之前。
--   **对应 Rsbuild Hook**: [onBeforeCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforecreatecompiler)
--   **示例:**
+- **Type:** `api.onBeforeCreateCompiler(beforeCreateCompilerFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>)`
+- **Parameters:**
+  - `beforeCreateCompilerFn`: A function that receives the final bundler configuration array.
+- **Execution Phase:** Before creating the bundler compiler.
+- **Corresponding Rsbuild Hook**: [beforeCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#beforecreatecompiler)
+- **Example:**
 
 ```typescript
-api.onBeforeCreateCompiler(()=>{
-    // 可以获取 compiler 相关配置
-})
+api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
+  // You can perform final checks on the configuration here,
+  // but avoid modifying the configuration at this stage.
+  console.log('Bundler configurations before compiler creation:', bundlerConfigs);
+});
 ```
 
 ---
 
 #### `api.onAfterCreateCompiler`
-注册一个在创建编译器实例之后执行的钩子函数。
 
--   **类型:**  `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
--   **参数:**
-    -   `createFn`: 创建后执行的函数，无参数，可异步。
--   **执行阶段:** 在创建 Webpack 或 Rspack 编译器实例之后。
--   **对应 Rsbuild Hook**: [onAfterCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onaftercreatecompiler)
--   **示例:**
+Registers a hook function to be executed after the bundler compiler instance is created.
 
-```typescript
-api.onAfterCreateCompiler(()=>{
-    // 可以获取 compiler 实例
-})
-```
-
----
-
-#### `api.onBeforeDev`
-
-注册一个在开发服务器启动前执行的钩子函数。
-
-- **类型:** `api.onBeforeDev(devFn: () => void | Promise<void>)`
-- **参数:**
-  - `devFn`: 开发服务器启动前执行的函数，无参数，可异步。
-- **执行阶段:** 在执行 `dev` 命令启动开发服务器之前。
-- **示例:**
+-   **Type:** `api.onAfterCreateCompiler(afterCreateCompilerFn: ({ compiler }: { compiler: Compiler | MultiCompiler }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `afterCreateCompilerFn`: A function that receives the bundler compiler instance.
+-   **Execution Phase:** After creating the bundler compiler.
+-   **Corresponding Rsbuild Hook**: [afterCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#aftercreatecompiler)
+-   **Example:**
 
 ```typescript
-api.onBeforeDev(async () => {
-  // 检查端口是否被占用
-  await checkPortAvailability(3000);
+api.onAfterCreateCompiler(({ compiler }) => {
+  // Add custom webpack/rspack plugins
+  if (compiler.constructor.name === 'Compiler') {
+      // Single compiler (webpack or rspack)
+      new MyCustomWebpackPlugin().apply(compiler);
+  } else {
+      // MultiCompiler (webpack)
+      compiler.compilers.forEach(childCompiler => {
+        new MyCustomWebpackPlugin().apply(childCompiler);
+      });
+  }
 });
 ```
 
 ---
 
-#### `api.onAfterDev`
+#### `api.onBeforeStartDevServer`
 
-注册一个在开发服务器启动后执行的钩子函数。
+Registers a hook function to be executed before the development server starts.
 
-- **类型:** `api.onAfterDev(devFn: () => void | Promise<void>)`
-- **参数:**
-    -   `devFn`: 开发服务器启动后执行的函数。
-- **执行阶段:** 开发服务器成功启动后。
-- **对应 Rsbuild Hook**: [onAfterStartDevServer](https://rsbuild.dev/zh/plugins/dev/hooks#onafterstartdevserver)
-- **示例:**
-
-```typescript
-api.onAfterDev(()=>{
-    // 上报 dev 相关信息
-})
-```
-
----
-
-#### `api.onBeforeExit`
-
-注册一个在进程退出前执行的钩子函数。
-
-- **类型:** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
-- **参数:**
-  - `exitFn`: 进程退出前执行的函数，无参数，可异步。
-- **执行阶段:** 在 Modern.js 进程即将退出时（例如，用户按下 Ctrl+C）。
-- **示例:**
+-   **Type:** `api.onBeforeStartDevServer(beforeStartDevServerFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `beforeStartDevServerFn`: A function without parameters.
+-   **Execution Phase:** Before starting the development server.
+-   **Example:**
 
 ```typescript
-api.onBeforeExit(async () => {
-  // 执行一些清理操作，例如关闭数据库连接、删除临时文件等
-  await cleanupMyResources();
+api.onBeforeStartDevServer(() => {
+  // Perform operations before starting the server, such as setting up proxy rules, etc.
+  console.log('Preparing to start the development server...');
 });
 ```
 
 ---
 
-#### `api.deploy`
+#### `api.onDevServerReady`
 
-注册一个在部署阶段执行的钩子函数。
+Registers a hook function to be executed after the development server is ready.
 
--   **类型:**  `api.deploy(deployFn: () => void | Promise<void>)`
--   **参数:**
-    -   `deployFn`: 部署时执行的任务。
--   **执行阶段:** 执行 `deploy` 命令，并且 `build` 完成后。
--   **示例:**
-
-```typescript
-api.deploy(()=>{
-    // 执行部署
-})
-```
-
----
-
-#### `api.onBeforePrintInstructions`
-
-注册一个在打印成功信息前执行的钩子。
-
--   **类型:**  `api.onBeforePrintInstructions(printFn: ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>)`
--   **参数:**
-    -   `printFn`: 修改打印信息的函数, 返回修改后的信息。
--   **执行阶段:** 打印成功信息前。
--   **示例:**
+-   **Type:** `api.onDevServerReady(devServerReadyFn: ({ port }: { port: number }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `devServerReadyFn`: A function that receives the development server port number as a parameter.
+-   **Execution Phase:** After the development server is ready.
+-   **Example:**
 
 ```typescript
-api.onBeforePrintInstructions(({ instructions }) => {
-  // do something
-  return { instructions }
+api.onDevServerReady(({ port }) => {
+  console.log(`Development server is running on port ${port}`);
 });
 ```
+
 ---
 
-## 其他说明
+#### `api.onAfterStartDevServer`
 
--   可以参考 [CLI 插件生命周期](./life-cycle.mdx) 了解插件钩子的执行顺序。
--   可以参考 [CLI 插件迁移指南](./migration.mdx) 了解如何从旧版插件迁移到新版。
+Registers a hook function to be executed after the development server has started.
+
+-   **Type:** `api.onAfterStartDevServer(afterStartDevServerFn: ({ port }: { port: number }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `afterStartDevServerFn`: A function that receives the development server port number as a parameter.
+-   **Execution Phase:** After starting the development server.
+-   **Example:**
+
+```typescript
+api.onAfterStartDevServer(({ port }) => {
+  // Perform operations after the server starts, such as opening the browser, etc.
+  console.log(`Server started successfully. Access it at http://localhost:${port}`);
+});
+```
+
+---
+
+#### `api.onBeforeStartProdServer`
+
+Registers a hook function to be executed before the production server starts (after running `start` command).
+
+-   **Type:** `api.onBeforeStartProdServer(beforeStartProdServerFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `beforeStartProdServerFn`: A function without parameters.
+-   **Execution Phase:** Before starting the production server.
+-   **Example:**
+
+```typescript
+api.onBeforeStartProdServer(() => {
+  console.log('Preparing to start the production server...');
+});
+```
+
+---
+#### `api.onAfterStartProdServer`
+
+Registers a hook function to be executed after the production server has started (after running `start` command).
+
+-   **Type:** `api.onAfterStartProdServer(afterStartProdServerFn: ({ port }: { port: number }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `afterStartProdServerFn`:  A function that receives the production server port number as a parameter.
+-   **Execution Phase:** After starting the production server.
+-   **Example:**
+
+```typescript
+api.onAfterStartProdServer(({ port }) => {
+  console.log(`Production server started successfully. Access it at http://localhost:${port}`);
+});
+```
+
+---
+
+#### `api.onBeforeBuildProdServer`
+
+Registers a hook function to be executed before building for the production server (before running `start` command).
+
+-   **Type:** `api.onBeforeBuildProdServer(beforeBuildProdServerFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `beforeBuildProdServerFn`: A function without parameters.
+-   **Execution Phase:** Before building the production server.
+-   **Example:**
+
+```typescript
+api.onBeforeBuildProdServer(() => {
+  console.log('Building the production server...');
+});
+```
+
+---
+
+#### `api.onAfterBuildProdServer`
+
+Registers a hook function to be executed after building for the production server (before running `start` command).
+
+-   **Type:** `api.onAfterBuildProdServer(afterBuildProdServerFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `afterBuildProdServerFn`: A function without parameters.
+-   **Execution Phase:** After building the production server.
+-   **Example:**
+
+```typescript
+api.onAfterBuildProdServer(() => {
+  console.log('Production server build completed.');
+});
+```
+
+---
+
+#### `api.onAfterBuild`
+
+Registers a hook function to be executed after the build process is complete.
+
+-   **Type:** `api.onAfterBuild(buildFn: ({ stats }: { stats?: RspackStats | WebpackStats }) => void | Promise<void>)`
+-   **Parameters:**
+    -   `buildFn`: A build completion function that receives the build statistics object as a parameter.
+-   **Execution Phase:** After the build process is complete.
+-   **Example:**
+
+```typescript
+api.onAfterBuild(({ stats }) => {
+  if (stats) {
+    console.log(stats.toString()); // Output build statistics
+  }
+  console.log('Build completed.');
+});
+```
+
+---
+
+#### `api.onExit`
+
+Registers a hook function to be executed when the Modern.js process is about to exit.
+
+-   **Type:** `api.onExit(exitFn: () => void | Promise<void>)`
+-   **Parameters:**
+    -   `exitFn`: An exit function, without parameters, can be asynchronous.
+-   **Execution Phase:** When the Modern.js process is about to exit (e.g., after a `SIGINT` signal).
+-   **Example:**
+
+```typescript
+api.onExit(() => {
+  // Perform cleanup operations, such as closing database connections, removing temporary files, etc.
+  console.log('Exiting Modern.js...');
+});
+```
+
+---
+
+### Type Definitions
+
+```typescript
+// Type definitions (Simplified for clarity.  Refer to the actual source code for complete definitions)
+
+type UserConfig = any; // The actual user configuration type.
+type RspackConfig = any; // Rspack configuration type.
+type WebpackConfig = any; // Webpack configuration type.
+type WebpackChain = any;  // webpack-chain instance type.
+type RspackChain = any; // RspackChain instance type.
+type RspackUtils = any;  // Rspack utility functions.
+type WebpackUtils = any;  // Webpack utility functions.
+type ServerRoute = any; // Server route type.
+type HtmlPartials = any; // HTML partials type.
+type Entrypoint = any;   // Entry point information type.
+type RspackStats = any; // Rspack Stats type.
+type WebpackStats = any; // Webpack Stats type.
+type Compiler = any; // Webpack or Rspack compiler
+type MultiCompiler = any; // Webpack MultiCompiler
+type RsbuildConfig = any; // Rsbuild config
+type RsbuildUtils = any; // Rsbuild utils
+
+interface AppContext {
+  // ... (Fields listed in the api.getAppContext section) ...
+}
+
+interface CliPluginFuture<T> {
+  name: string;
+  setup: (api: CliPluginAPI<T>) => void;
+}
+
+interface CliPluginAPI<T> {
+  getAppContext: () => AppContext;
+  getConfig: () => UserConfig;
+  getNormalizedConfig: () => UserConfig;
+  isPluginExists: (pluginName: string) => boolean;
+  getHooks: () => any; // Returns an object with all hook functions.
+
+  config: (configFn: () => UserConfig | Promise<UserConfig>) => void;
+  modifyBundlerChain: (modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>) => void;
+  modifyRsbuildConfig: (modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void) => void;
+  modifyRspackConfig: (modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void) => void;
+  modifyWebpackChain: (modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>) => void;
+  modifyWebpackConfig: (modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void) => void;
+  modifyServerRoutes: (transformFn: (routes: ServerRoute[]) => ServerRoute[]) => void;
+  modifyHtmlPartials: (modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void) => void;
+
+  onPrepare: (prepareFn: () => void | Promise<void>) => void;
+  addCommand: (commandFn: ({ program: any }) => void) => void; // program is a Commander.js Command instance
+  addWatchFiles: (watchFn: () => string[] | { files: string[]; isPrivate: boolean; }) => void;
+  onFileChanged: (changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void) => void;
+  onBeforeBuild: (buildFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>) => void;
+  onBeforeCreateCompiler: (beforeCreateCompilerFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>) => void;
+  onAfterCreateCompiler: (afterCreateCompilerFn: ({ compiler }: { compiler: Compiler | MultiCompiler }) => void | Promise<void>) => void;
+  onBeforeStartDevServer: (beforeStartDevServerFn: () => void | Promise<void>) => void;
+  onDevServerReady: (devServerReadyFn: ({ port }: { port: number }) => void | Promise<void>) => void;
+  onAfterStartDevServer: (afterStartDevServerFn: ({ port }: { port: number }) => void | Promise<void>) => void;
+  onBeforeStartProdServer: (beforeStartProdServerFn: () => void | Promise<void>) => void;
+  onAfterStartProdServer: (afterStartProdServerFn: ({ port }: { port: number }) => void | Promise<void>) => void;
+  onBeforeBuildProdServer: (beforeBuildProdServerFn: () => void | Promise<void>) => void;
+  onAfterBuildProdServer: (afterBuildProdServerFn: () => void | Promise<void>) => void;
+  onAfterBuild: (buildFn: ({ stats }: { stats?: RspackStats | WebpackStats }) => void | Promise<void>) => void;
+  onExit: (exitFn: () => void | Promise<void>) => void;
+}
+

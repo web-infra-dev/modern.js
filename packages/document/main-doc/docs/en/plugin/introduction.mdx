@@ -1,48 +1,48 @@
-# 插件介绍
+# Introduction to Plugins
 
-Modern.js 提供了一套强大的插件体系，允许开发者通过编写插件来扩展框架功能、定制构建流程，以及满足各种个性化的开发需求。无论你是想添加一个自定义命令、优化构建产物，还是实现一套独特的部署方案，Modern.js 的插件系统都能为你提供强大的支持。
+Modern.js provides a powerful plugin system that allows developers to extend the framework's functionality, customize the build process, and meet a variety of personalized development needs. Whether you want to add a custom command, optimize build output, or implement a unique deployment solution, Modern.js's plugin system provides robust support.
 
-## 为什么需要插件？
+## Why Plugins?
 
-在 Web 应用开发中，我们经常会遇到一些框架本身无法直接满足的需求，例如：
+In web application development, we often encounter needs that the framework itself cannot directly satisfy, such as:
 
-- **我想添加一个自定义的命令行工具，来帮助我自动化一些任务。**
-- **我希望能够处理一种新的文件格式，比如 `.xyz`。**
-- **我需要在应用启动前执行一些初始化的操作。**
-- **我想对构建生成的 CSS 文件进行特殊的处理。**
-- **我需要定制应用的路由逻辑，或者添加一些服务端中间件。**
+-   **I want to add a custom command-line tool to help me automate some tasks.**
+-   **I want to be able to handle a new file format, such as `.xyz`.**
+-   **I need to perform some initialization operations before the application starts.**
+-   **I want to perform special processing on the generated CSS files.**
+-   **I need to customize the application's routing logic or add some server-side middleware.**
 
-在没有插件系统的情况下，这些需求可能需要修改框架源码，或者采用一些繁琐的 hack 手段。而 Modern.js 的插件系统提供了一种优雅、灵活且可维护的解决方案。
+Without a plugin system, these requirements might require modifying the framework's source code or resorting to cumbersome hacks.  Modern.js's plugin system offers an elegant, flexible, and maintainable solution.
 
-## 何时使用哪种插件？
+## When to Use Which Plugin?
 
-Modern.js 提供了两种主要的插件类型：Modern.js 框架插件和 Rsbuild 构建插件。选择哪种插件取决于你的具体需求：
+Modern.js offers two main types of plugins: Modern.js framework plugins and Rsbuild build plugins.  The choice of which plugin to use depends on your specific needs:
 
-- **Rsbuild 构建插件：** 如果你的需求与构建过程密切相关，特别是涉及到 Webpack 或 Rspack 配置的修改，那么你应该选择 Rsbuild 插件。例如：
-    - 修改 Webpack/Rspack 的 `loader` 或 `plugin` 配置。
-    - 处理新的文件类型。
-    - 修改或编译文件内容。
-    - 对构建产物进行优化或处理。
+-   **Rsbuild Build Plugins:** If your needs are closely related to the build process, especially involving modifications to Webpack or Rspack configuration, then you should choose an Rsbuild plugin.  For example:
+    -   Modifying Webpack/Rspack `loader` or `plugin` configurations.
+    -   Handling new file types.
+    -   Modifying or compiling file contents.
+    -   Optimizing or processing build artifacts.
 
-- **Modern.js 框架插件：** 如果你的需求与 Modern.js 框架本身的功能扩展、运行时行为或服务端逻辑相关，那么你应该选择 Modern.js 插件。例如：
-    - 添加自定义的命令行命令。
-    - 修改应用的路由配置。
-    - 定制化应用的渲染过程（如 SSR）。
-    - 添加服务端中间件或处理函数。
+-   **Modern.js Framework Plugins:** If your needs relate to the extension of Modern.js framework itself, runtime behavior, or server-side logic, then you should choose a Modern.js plugin. For example:
+    -   Adding custom command-line commands.
+    -   Modifying the application's routing configuration.
+    -   Customizing the application's rendering process (e.g., SSR).
+    -   Adding server-side middleware or handler functions.
 
-简单来说，需要修改 Webpack/Rspack 配置时，使用 Rsbuild 插件；其他与框架相关的功能扩展，使用 Modern.js 插件。
+In short, use Rsbuild plugins when you need to modify Webpack/Rspack configurations; use Modern.js plugins for other framework-related extensions.
 
-## Modern.js 框架插件
+## Modern.js Framework Plugins
 
-### 插件类型
+### Plugin Types
 
-Modern.js 框架插件可以细分为三类，分别是：
+Modern.js framework plugins can be further divided into three categories:
 
-#### CLI 插件
+#### CLI Plugins
 
-CLI 插件用于在应用执行 `modern` 命令时提供额外功能，例如添加命令、修改配置、监听文件等。大部分构建相关能力均可通过 CLI 插件实现。
+CLI plugins are used to provide additional functionality when running `modern` commands in the application, such as adding commands, modifying configurations, and listening for file changes. Most build-related capabilities can be implemented through CLI plugins.
 
-CLI 插件可通过 `modern.config.ts` 中的 `plugins` 字段进行配置。
+CLI plugins can be configured via the `plugins` field in `modern.config.ts`.
 
 ```ts title="modern.config.ts"
 // an example for bff
@@ -54,11 +54,11 @@ export default defineConfig({
 });
 ```
 
-#### Runtime 插件
+#### Runtime Plugins
 
-Runtime 插件用于在应用运行 React 代码时提供额外功能，例如执行初始化行为、实现 React 高阶组件（HOC）封装。
+Runtime plugins are used to provide additional functionality when the application is running React code, such as performing initialization behaviors and implementing React Higher-Order Component (HOC) encapsulation.
 
-Runtime 插件通过 `src/modern.runtime.ts` 中的 `plugins` 字段配置。
+Runtime plugins are configured via the `plugins` field in `src/modern.runtime.ts`.
 
 ```ts title="src/modern.runtime.ts"
 import { defineRuntimeConfig } from '@modern-js/runtime';
@@ -69,11 +69,11 @@ export default defineRuntimeConfig({
 });
 ```
 
-#### Server 插件
+#### Server Plugins
 
-Server 插件用于在应用接受请求时提供额外功能，例如添加中间件、修改请求响应等。
+Server plugins are used to provide additional functionality when the application receives requests, such as adding middleware and modifying request responses.
 
-Server 插件通过 `server/modern.server.ts` 中的 `plugins` 字段进行配置。
+Server plugins are configured via the `plugins` field in `server/modern.server.ts`.
 
 ```ts title="src/modern.server.ts"
 import { defineConfig } from '@modern-js/app-tools/server';
@@ -85,66 +85,66 @@ export default defineConfig({
 ```
 
 :::tip
-Modern.js 从 `MAJOR_VERSION.66.0` 起正式对外使用新的插件机制。
+Modern.js officially uses the new plugin mechanism starting from `MAJOR_VERSION.66.0`.
 
-如果你的当前版本低于 MAJOR_VERSION.66.0，可通过执行 `npx modern upgrade` 进行升级。
+If your current version is lower than MAJOR_VERSION.66.0, you can upgrade by running `npx modern upgrade`.
 :::
 
-### 开发插件
+### Developing Plugins
 
-如果你需要开发 Modern.js 框架插件，请阅读 [Modern.js 插件系统](/plugin/plugin-system) 获取更多信息。
+If you need to develop Modern.js framework plugins, please read [Modern.js Plugin System](/plugin/plugin-system) for more information.
 
-## Rsbuild 构建插件
+## Rsbuild Build Plugins
 
-Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修改默认的构建行为，添加各类额外功能，包括但不限于：
+Rsbuild is the underlying build tool for Modern.js. By adding Rsbuild plugins, you can modify the default build behavior and add various additional functionalities, including but not limited to:
 
-- 修改 Rsbuild 配置
-- 处理新的文件类型
-- 修改或编译文件
-- 部署产物
+- Modifying Rsbuild configuration
+- Handling new file types
+- Modifying or compiling files
+- Deploying artifacts
 
-你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
+You can register Rsbuild plugins in `modern.config.ts` via the `builderPlugins` option.  See [builderPlugins](/configure/app/builder-plugins.html) for details.
 
 :::tip
-Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](https://rsbuild.dev/)。
+Starting from `MAJOR_VERSION.46.0`, Modern.js upgraded its underlying build tool to [Rsbuild](https://rsbuild.dev/).
 
-如果你的当前版本低于 MAJOR_VERSION.46.0，可通过执行 `npx modern upgrade` 进行升级。
+If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by running `npx modern upgrade`.
 :::
 
 :::info
-可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.dev/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
+You can read [Rsbuild Official Website - Plugins](https://rsbuild.dev/plugins/list/index) to learn more about the Rsbuild plugin system.
 :::
 
-### 官方插件
+### Official Plugins
 
-#### 内置插件
+#### Built-in Plugins
 
-以下为已在 Modern.js 中内置的 Rsbuild 官方插件，无需安装，即可启用：
+The following are official Rsbuild plugins that are already built into Modern.js.  They can be enabled without installation:
 
-| 插件                                                                                         | 介绍                                                                                     | Modern.js 链接                                                                                                                        |
+| Plugin                                                                                         | Description                                                                                     | Modern.js Link                                                                                                                        |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [React 插件](https://rsbuild.dev/zh/plugins/list/plugin-react)                               | 提供对 React 的支持                                                                      | -                                                                                                                                     |
-| [SVGR 插件](https://rsbuild.dev/zh/plugins/list/plugin-svgr)                                 | 支持将 SVG 图片转换为一个 React 组件                                                     | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
-| [Styled Components 插件](https://github.com/rspack-contrib/rsbuild-plugin-styled-components) | 提供对 styled-components 的编译时支持                                                    | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
-| [Assets Retry 插件](https://rsbuild.dev/zh/plugins/list/plugin-assets-retry)                 | 用于在静态资源加载失败时自动发起重试请求                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
-| [Type Check 插件](https://github.com/rspack-contrib/rsbuild-plugin-type-check)               | 用于在单独的进程中运行 TypeScript 类型检查                                               | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
-| [Node Polyfill 插件](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)         | 用于注入 Node 核心模块在浏览器端的 polyfills                                             | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
-| [Source Build 插件](https://github.com/rspack-contrib/rsbuild-plugin-source-build)           | 用于 monorepo 场景，支持引用其他子目录的源代码，并完成构建和热更新                       | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
-| [Check Syntax 插件](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)           | 用于分析产物的语法兼容性，判断是否存在导致兼容性问题的高级语法                           | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
-| [CSS Minimizer 插件](https://github.com/rspack-contrib/rsbuild-plugin-css-minimizer)         | 用于自定义 CSS 压缩工具，切换到 [cssnano](https://cssnano.co/) 或其他工具进行 CSS 压缩   | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
-| [Pug 插件](https://github.com/rspack-contrib/rsbuild-plugin-pug)                             | 提供对 Pug 模板引擎的支持                                                                | [tools.pug](/configure/app/tools/pug.html)                                                                                            |
-| [Rem 插件](https://github.com/rspack-contrib/rsbuild-plugin-rem)                             | 用于实现移动端页面的 rem 自适应布局                                                      | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
-| [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | 用于引用 YAML 文件，并将其转换为 JavaScript 对象                                         | [YAML 文件](/guides/basic-features/static-assets/json-files.html#yaml-文件)                                                                         |
-| [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | 用于引用 TOML 文件，并将其转换为 JavaScript 对象                                         | [TOML 文件](/guides/basic-features/static-assets/json-files.html#toml-文件)                                                                       |
+| [React Plugin](https://rsbuild.dev/zh/plugins/list/plugin-react)                               | Provides support for React                                                                      | -                                                                                                                                     |
+| [SVGR Plugin](https://rsbuild.dev/zh/plugins/list/plugin-svgr)                                 | Supports converting SVG images into React components                                                     | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [Styled Components Plugin](https://github.com/rspack-contrib/rsbuild-plugin-styled-components) | Provides compile-time support for styled-components                                                    | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
+| [Assets Retry Plugin](https://rsbuild.dev/zh/plugins/list/plugin-assets-retry)                 | Automatically retries requests when static asset loading fails                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
+| [Type Check Plugin](https://github.com/rspack-contrib/rsbuild-plugin-type-check)               | Runs TypeScript type checking in a separate process                                               | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
+| [Node Polyfill Plugin](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)         | Injects polyfills for Node core modules in the browser                                             | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
+| [Source Build Plugin](https://github.com/rspack-contrib/rsbuild-plugin-source-build)           | For monorepo scenarios, supports referencing source code from other subdirectories and completing builds and hot updates                       | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
+| [Check Syntax Plugin](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)           | Analyzes the syntax compatibility of the build artifacts to determine if there are any advanced syntax features that cause compatibility issues                           | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
+| [CSS Minimizer Plugin](https://github.com/rspack-contrib/rsbuild-plugin-css-minimizer)         | Used to customize the CSS compression tool, switch to [cssnano](https://cssnano.co/) or other tools for CSS compression   | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
+| [Pug Plugin](https://github.com/rspack-contrib/rsbuild-plugin-pug)                             | Provides support for the Pug template engine                                                                | [tools.pug](/configure/app/tools/pug.html)                                                                                            |
+| [Rem Plugin](https://github.com/rspack-contrib/rsbuild-plugin-rem)                             | Implements rem adaptive layout for mobile pages                                                      | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
+| [YAML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | Used to reference YAML files and convert them to JavaScript objects                                         | [YAML Files](/guides/basic-features/static-assets/json-files.html#yaml-files)                                                                         |
+| [TOML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | Used to reference TOML files and convert them to JavaScript objects                                         | [TOML Files](/guides/basic-features/static-assets/json-files.html#toml-files)                                                                       |
 
-#### 未内置的插件
+#### Plugins Not Built-in
 
-以下是未在 Modern.js 中内置的 Rsbuild 官方插件：
+The following are official Rsbuild plugins that are not built into Modern.js:
 
-- [Image Compress 插件](https://github.com/rspack-contrib/rsbuild-plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
-- [Stylus 插件](https://rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
-- [UMD 插件](https://github.com/rspack-contrib/rsbuild-plugin-umd)：用于构建 UMD 格式的产物。
+- [Image Compress Plugin](https://github.com/rspack-contrib/rsbuild-plugin-image-compress): Compresses image resources used in the project.
+- [Stylus Plugin](https://rsbuild.dev/zh/plugins/list/plugin-stylus): Uses Stylus as the CSS preprocessor.
+- [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd): Used to build UMD format artifacts.
 
-import OtherPlugins from '@site-docs/components/other-plugins.mdx';
+import OtherPlugins from '@site-docs-en/components/other-plugins.mdx';
 
 <OtherPlugins />
