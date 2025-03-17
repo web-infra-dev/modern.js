@@ -67,6 +67,7 @@
     "ora": "5.4.1",
     "p-map": "4.0.0",
     "pkg-up": "3.1.0",
+    "postcss-load-config": "6.0.1",
     "postcss-custom-properties": "13.3.12",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-font-variant": "5.0.0",

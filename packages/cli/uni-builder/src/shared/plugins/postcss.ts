@@ -1,8 +1,51 @@
 import { applyOptionsChain, isProd } from '@modern-js/utils';
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type { PostCSSLoaderOptions, RsbuildPlugin } from '@rsbuild/core';
 import type { Options } from 'cssnano';
 import type { ToolsAutoprefixerConfig } from '../../types';
 import { getCssSupport } from '../getCssSupport';
+
+type PostCSSConfig = NonNullable<PostCSSLoaderOptions['postcssOptions']>;
+type PostCSSOptions = Exclude<PostCSSConfig, (loader: any) => any>;
+
+const userPostcssrcCache = new Map<
+  string,
+  PostCSSOptions | Promise<PostCSSOptions>
+>();
+
+// Create a new config object,
+// ensure isolation of config objects between different builds
+const clonePostCSSConfig = (config: PostCSSOptions) => ({
+  ...config,
+  plugins: config.plugins ? [...config.plugins] : undefined,
+});
+
+// copy from rsbuild
+async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
+  const cached = userPostcssrcCache.get(root);
+
+  if (cached) {
+    return clonePostCSSConfig(await cached);
+  }
+
+  const { default: postcssrc } = await import(
+    '../../../compiled/postcss-load-config'
+  );
+
+  const promise = postcssrc({}, root).catch((err: Error) => {
+    // ignore the config not found error
+    if (err.message?.includes('No PostCSS Config found')) {
+      return {};
+    }
+    throw err;
+  });
+
+  userPostcssrcCache.set(root, promise);
+
+  return promise.then((config: PostCSSOptions) => {
+    userPostcssrcCache.set(root, config);
+    return clonePostCSSConfig(config);
+  });
+}
 
 export interface PluginPostcssOptions {
   autoprefixer?: ToolsAutoprefixerConfig;
@@ -18,7 +61,7 @@ export const pluginPostcss = (
 
   setup(api) {
     const { autoprefixer } = options;
-    api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
+    api.modifyEnvironmentConfig(async (config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
         return config;
       }
@@ -68,12 +111,17 @@ export const pluginPostcss = (
         ),
       ].filter(Boolean);
 
+      const userOptions = await loadUserPostcssrc(api.context.rootPath);
+
+      // 1. Make sure user post.config.* can take effect
+      // 2. Make sure user's object config can be merged with the default config, not override (keeps the original behavior even though this is wrong)
       return mergeEnvironmentConfig(
         {
           tools: {
             postcss: {
               postcssOptions: {
-                plugins,
+                ...userOptions,
+                plugins: [...(userOptions.plugins || []), ...plugins],
               },
             },
           },
