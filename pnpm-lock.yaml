@@ -894,7 +894,7 @@ importers:
         version: 1.2.1
       flatted:
         specifier: ^3.2.9
-        version: 3.3.2
+        version: 3.3.3
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -990,7 +990,7 @@ importers:
         version: 1.0.0
       flatted:
         specifier: ^3.2.9
-        version: 3.3.2
+        version: 3.3.3
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -1081,7 +1081,7 @@ importers:
         version: 1.0.0
       flatted:
         specifier: ^3.2.9
-        version: 3.3.2
+        version: 3.3.3
       hono:
         specifier: 4.5.8
         version: 4.5.8
@@ -2881,7 +2881,7 @@ importers:
         version: 1.0.3
       flatted:
         specifier: ^3.2.9
-        version: 3.3.2
+        version: 3.3.3
       hono:
         specifier: ^3.12.2
         version: 3.12.12
@@ -3566,7 +3566,7 @@ importers:
         version: 3.5.0(esbuild@0.17.19)
       flatted:
         specifier: ^3.2.9
-        version: 3.3.2
+        version: 3.3.3
       mlly:
         specifier: ^1.6.1
         version: 1.7.4
@@ -15846,9 +15846,6 @@ packages:
   flat@5.0.2:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
-
-  flatted@3.3.2:
-    resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
@@ -32518,12 +32515,10 @@ snapshots:
 
   flat-cache@3.0.4:
     dependencies:
-      flatted: 3.3.2
+      flatted: 3.3.3
       rimraf: 3.0.2
 
   flat@5.0.2: {}
-
-  flatted@3.3.2: {}
 
   flatted@3.3.3: {}
 
