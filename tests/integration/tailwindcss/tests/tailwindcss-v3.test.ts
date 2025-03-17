@@ -28,6 +28,22 @@ describe('use tailwindcss v3', () => {
     await clear();
   });
 
+  test(`should load tailwind.config.js and merge postcss config file correctly`, async () => {
+    const appDir = path.resolve(
+      fixtures,
+      'tailwindcss-v3-js-config-with-postcss-config',
+    );
+    const { page, clear } = await launchAppWithPage(appDir);
+
+    const textColor = await page.$eval('p', p =>
+      window.getComputedStyle(p).getPropertyValue('color'),
+    );
+
+    expect(textColor).toBe('rgb(31, 182, 255)');
+
+    await clear();
+  });
+
   test(`should load tailwind.config.ts correctly`, async () => {
     const appDir = path.resolve(fixtures, 'tailwindcss-v3-ts-config');
     const { page, clear } = await launchAppWithPage(appDir);
