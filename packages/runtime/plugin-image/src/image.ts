@@ -65,12 +65,8 @@ export class Image {
 
   size() {
     if (!this._size) {
-      const { width, height, type, orientation } = imageSize(this.buffer);
-      if (type && isRotatedOrientation(type, orientation)) {
-        this._size = { width: height, height: width };
-      } else {
-        this._size = { width, height };
-      }
+      const { width, height } = imageSize(this.buffer);
+      this._size = { width, height };
     }
     const { width, height } = this._size;
     return { width, height };
@@ -78,7 +74,7 @@ export class Image {
 
   resize(options: ResizeOptions) {
     const { width, height } = options;
-    this._size = { ...this.size() };
+    this._size ||= { ...this.size() };
     width && (this._size.width = width);
     height && (this._size.height = height);
     return this.sharp.resize(options);

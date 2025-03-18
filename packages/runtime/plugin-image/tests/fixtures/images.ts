@@ -20,7 +20,7 @@ const _images = [
   // { filename: 'mountain.jpg', width: 100, height: 58 },
   { filename: 'opera.png', width: 100, height: 100 },
   // { filename: 'street.jpg', width: 100, height: 75 },
-  { filename: 'sunrise.jpg', width: 75, height: 100 },
+  { filename: 'sunrise.jpg', width: 100, height: 75 },
   // { filename: 'sunset.jpg', width: 100, height: 75 },
 ] satisfies Partial<FixtureImageData>[];
 
