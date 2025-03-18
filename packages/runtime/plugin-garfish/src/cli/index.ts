@@ -140,6 +140,26 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
             if (resolveOptions?.deploy?.microFrontend) {
               chain.output.libraryTarget('umd');
 
+              const DEFAULT_ASSET_PREFIX = '/';
+
+              // Only override assetPrefix when using the default asset prefix,
+              // this allows user or other plugins to set asset prefix.
+              const resolvedAssetPrefix = resolveOptions.dev?.assetPrefix;
+              const isUsingDefaultAssetPrefix =
+                !useConfig.dev?.assetPrefix &&
+                (!resolvedAssetPrefix ||
+                  resolvedAssetPrefix === DEFAULT_ASSET_PREFIX);
+
+              if (
+                isUsingDefaultAssetPrefix &&
+                resolveOptions?.server?.port &&
+                env === 'development'
+              ) {
+                chain.output.publicPath(
+                  `//localhost:${resolveOptions.server.port}/`,
+                );
+              }
+
               const { enableHtmlEntry, externalBasicLibrary } =
                 getDefaultMicroFrontedConfig(
                   resolveOptions.deploy?.microFrontend,
