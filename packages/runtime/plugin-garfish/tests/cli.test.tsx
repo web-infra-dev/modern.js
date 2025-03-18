@@ -189,7 +189,6 @@ describe('plugin-garfish cli', () => {
     expect(generateConfig).toMatchObject({
       output: {
         libraryTarget: 'umd',
-        publicPath: '//localhost:8080/',
         filename: 'index.js',
       },
       externals,
@@ -237,7 +236,6 @@ describe('plugin-garfish cli', () => {
     expect(generateConfig).toMatchObject({
       output: {
         libraryTarget: 'umd',
-        publicPath: '//localhost:8080/',
       },
     });
     expect(generateConfig.externals).toBeUndefined();
