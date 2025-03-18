@@ -71,7 +71,6 @@ export const serve = async (
     },
     routes: serverRoutes,
     plugins: pluginInstances,
-    serverConfigFile,
     serverConfigPath,
     appContext: {
       appDirectory,
