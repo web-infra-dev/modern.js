@@ -33,7 +33,7 @@ interface CacheItem<T> {
 }
 
 const isServer = typeof window === 'undefined';
-const requestCacheMap = new WeakMap<Request, Map<string, any>>();
+const requestCacheMap = new WeakMap<Request, Map<any, any>>();
 
 let lruCache:
   | LRUCache<(...args: any[]) => any, Map<string, CacheItem<any>>>
@@ -166,19 +166,25 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
           requestCacheMap.set(request, requestCache);
         }
 
+        let fnCache = requestCache.get(fn) as Map<string, any>;
+        if (!fnCache) {
+          fnCache = new Map();
+          requestCache.set(fn, fnCache);
+        }
+
         const key = generateKey(args);
-        if (requestCache.has(key)) {
-          return requestCache.get(key);
+        if (fnCache.has(key)) {
+          return fnCache.get(key);
         }
 
         const promise = fn(...args);
-        requestCache.set(key, promise);
+        fnCache.set(key, promise);
 
         try {
           const data = await promise;
           return data;
         } catch (error) {
-          requestCache.delete(key);
+          fnCache.delete(key);
           throw error;
         }
       }
