@@ -122,7 +122,7 @@ const collectHtmlRoutes = (
 ): ServerRoute[] => {
   const {
     source: { mainEntryName },
-    html: { disableHtmlFolder },
+    html: { disableHtmlFolder, outputStructure },
     output: {
       distPath: { html: htmlPath } = {},
     },
@@ -156,7 +156,9 @@ const collectHtmlRoutes = (
         entryPath: removeLeadingSlash(
           path.posix.normalize(
             `${htmlPath}/${entryName}${
-              disableHtmlFolder ? '.html' : '/index.html'
+              disableHtmlFolder || outputStructure === 'flat'
+                ? '.html'
+                : '/index.html'
             }`,
           ),
         ),
