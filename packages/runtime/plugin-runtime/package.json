@@ -210,6 +210,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "jiti": "2.4.2",
     "@babel/core": "^7.26.0",
     "@babel/types": "^7.26.0",
     "@loadable/babel-plugin": "5.15.3",

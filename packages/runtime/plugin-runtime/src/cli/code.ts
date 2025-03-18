@@ -19,6 +19,7 @@ import {
 } from './constants';
 import * as template from './template';
 import * as serverTemplate from './template.server';
+import { getRuntimePluginEnableState } from './utils';
 
 function getSSRMode(
   entry: string,
@@ -54,11 +55,13 @@ export const generateCode = async (
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;
   const {
+    packageName,
     runtimeConfigFile,
     internalDirectory,
     internalSrcAlias,
     metaName,
     srcDirectory,
+    appDirectory,
     serverRoutes,
   } = appContext;
   await Promise.all(
@@ -175,6 +178,16 @@ export const generateCode = async (
         await fs.outputFile(registerFile, registerCode, 'utf8');
 
         // runtime-register.js
+        // Before calculating runtime-register.js, we need to obtain a list of whether a runtime plugin is enabled through the runtime configuration in modern.config.ts and the configuration in src/modern.runtime.ts
+        const runtimePluginsEnableState = await getRuntimePluginEnableState({
+          packageName,
+          entrypoint,
+          config,
+          runtimeConfigFile,
+          runtimePlugins,
+          srcDirectory,
+          appDirectory,
+        });
         const registerRuntimeCode = template.runtimeRegister({
           entryName,
           srcDirectory,
@@ -182,6 +195,7 @@ export const generateCode = async (
           metaName,
           runtimeConfigFile,
           runtimePlugins,
+          runtimePluginsEnableState,
         });
         const registerRuntimeFile = path.resolve(
           internalDirectory,

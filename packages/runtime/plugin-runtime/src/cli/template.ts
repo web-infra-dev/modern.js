@@ -188,6 +188,7 @@ export const runtimeRegister = ({
   metaName,
   runtimeConfigFile,
   runtimePlugins,
+  runtimePluginsEnableState,
 }: {
   entryName: string;
   srcDirectory: string;
@@ -195,6 +196,7 @@ export const runtimeRegister = ({
   metaName: string;
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePluginConfig[];
+  runtimePluginsEnableState: Record<string, boolean>;
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
 import { getGlobalAppConfig, getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
 
@@ -203,12 +205,15 @@ ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 const plugins = [];
 
 ${runtimePlugins
-  .map(
-    ({ name, path, config }) => `import { ${name}Plugin } from '${path}';
-
-${getRegisterRuntimePluginCode(entryName, name, config)}
-`,
-  )
+  .map(({ name, path, config }) => {
+    if (runtimePluginsEnableState[name]) {
+      return `import { ${name}Plugin } from '${path}';
+      ${getRegisterRuntimePluginCode(entryName, name, config)}
+      `;
+    } else {
+      return '';
+    }
+  })
   .join('\n')}
 registerPlugin(plugins, runtimeConfig);
 `;
