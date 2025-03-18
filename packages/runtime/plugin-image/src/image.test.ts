@@ -5,7 +5,7 @@ import { Image, isRotatedOrientation } from './image';
 
 describe('Sharp', () => {
   // Sunrise.jpg is a 100x75 image (without applying orientation).
-  const image = images.find(image => image.filename === 'sunrise.jpg');
+  const image = images.find(image => image.filename.endsWith('sunrise.jpg'));
   assert(image);
 
   it('should mutate the original instance by resize', async () => {
@@ -143,7 +143,7 @@ describe('isRotatedOrientation', () => {
   });
 });
 
-describe.each(images)('Image $filename ($width, $height)', data => {
+describe.each(images)('Image $basename ($width, $height)', data => {
   const { filename, width, height, buffer } = data;
 
   beforeAll(async () => {
@@ -163,10 +163,7 @@ describe.each(images)('Image $filename ($width, $height)', data => {
 
     image.resize({ width: 64, height: 64 });
 
-    expect(image.size()).toEqual({
-      width: 64,
-      height: 64,
-    });
+    expect(image.size()).toEqual({ width: 64, height: 64 });
   });
 
   it('should convert image format', async () => {

@@ -2384,6 +2384,9 @@ importers:
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10
+      jiti:
+        specifier: 1.21.7
+        version: 1.21.7
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)

@@ -1,7 +1,13 @@
-import type { Rspack } from '@rsbuild/core';
+import { fileURLToPath } from 'node:url';
+import path from 'path';
+import { type Rspack, rspack } from '@rsbuild/core';
 import { assert, beforeEach, describe, expect, it, vi } from 'vitest';
 import { images } from '../tests/fixtures/images';
 import loader from './loader';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const loaderName = path.resolve(__dirname, '../tests/fixtures/loader.cjs');
 
 type LoaderCallback = (
   err: Error | null | undefined,
@@ -41,7 +47,7 @@ describe('image loader', () => {
   });
 
   it.each(images)(
-    'should process $filename and generate thumbnail',
+    'should process $basename and generate thumbnail',
     async data => {
       const { buffer, width, height } = data;
 
@@ -68,7 +74,7 @@ describe('image loader', () => {
   );
 
   it.each(images)(
-    'should maintain aspect ratio of $filename in thumbnail',
+    'should maintain aspect ratio of $basename in thumbnail',
     async data => {
       const { buffer, width, height } = data;
 
@@ -93,5 +99,48 @@ describe('image loader', () => {
 
     const [error] = await executeLoader(Buffer.from('invalid image'));
     expect(error).toBeInstanceOf(Error);
+  });
+
+  it('should return static image data', async () => {
+    const image = images.find(image => image.filename.endsWith('sunrise.jpg'));
+    assert(image);
+
+    const compiler = rspack({
+      entry: `data:javascript,export { default } from ${JSON.stringify(image.filename)};`,
+      module: { rules: [{ test: /\.jpg$/, loader: loaderName }] },
+      output: {
+        chunkLoading: false,
+        library: { type: 'commonjs' },
+        publicPath: '/',
+      },
+      optimization: { minimize: false },
+    });
+
+    const result = new Promise<unknown>((resolve, reject) => {
+      compiler.run((err, stats) => {
+        if (err) reject(err);
+        assert(stats);
+        const chunks = Object.values(stats.compilation.assets);
+        const mainChunk = stats.compilation.assets['main.js'];
+        assert(chunks.length === 2 && mainChunk);
+        const fn = new Function('exports', mainChunk.source().toString());
+        const exportsParam: unknown = {};
+        fn(exportsParam);
+        resolve(exportsParam);
+      });
+    });
+
+    await expect(result).resolves.toEqual({
+      default: {
+        src: expect.stringMatching(/^\/.*\.jpg$/),
+        width: 100,
+        height: 75,
+        thumbnail: {
+          width: 8,
+          height: 6,
+          src: expect.stringMatching(/^data:image\/jpeg;base64,/),
+        },
+      },
+    });
   });
 });

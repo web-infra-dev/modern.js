@@ -1,8 +1,7 @@
 import { imageSize } from 'image-size';
-import type { ISizeCalculationResult } from 'image-size/types/interface';
 import pMemoize from 'p-memoize';
+import type sharp from 'sharp';
 import type {
-  AvailableFormatInfo,
   AvifOptions,
   FormatEnum,
   GifOptions,
@@ -17,14 +16,33 @@ import type {
   TiffOptions,
   WebpOptions,
 } from 'sharp';
-import { logger } from './logger';
+import { inspectBuffer } from './buffer';
+import { isDebug, logger } from './logger';
 import type { ImageSize } from './types/image';
+
+export type SharpModule = typeof import('sharp') & {
+  sharp: typeof sharp;
+  default: typeof sharp;
+};
 
 export const loadSharp = pMemoize(async () => {
   logger.debug('Intend to load sharp package in first time');
-  const exports = await import('sharp');
-  logger.debug('Successfully loaded sharp package');
-  return { ...exports, sharp: exports.default };
+  const mod = (await import('sharp')) as any;
+
+  const ret: SharpModule = {
+    ...mod,
+    ...mod.default,
+    sharp: mod.default || mod,
+    default: mod.default || mod,
+  };
+
+  if (isDebug()) {
+    const { sharp, default: _, ...rest } = ret;
+    logger.debug(
+      `Successfully loaded sharp package with exports: sharp(${typeof sharp}), default(${typeof _}), ${Object.keys(rest).join(', ')}`,
+    );
+  }
+  return ret;
 });
 
 /**
@@ -56,7 +74,11 @@ export class Image {
   ) {}
 
   static async create(buf: Uint8Array) {
-    logger.debug('Intend to create a new image instance');
+    if (isDebug()) {
+      logger.debug(
+        `Intend to create a new image instance with buffer: ${inspectBuffer(buf)}`,
+      );
+    }
     const { sharp } = await loadSharp();
     return new Image(buf, sharp(buf));
   }
