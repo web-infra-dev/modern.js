@@ -1,0 +1,29 @@
+---
+title: favicon.*
+sidebar_position: 3
+---
+
+# Favicon
+
+When there is a `favicon.*` file in the `config` directory at the root of the project, Modern.js will automatically set the file to the [html.favicon](/configure/app/html/favicon) configuration option for generating the favicon icon on the page:
+
+```
+./config
+└── favicon.ico
+```
+
+After the build is completed, you can see the following tags automatically generated in HTML:
+
+```html
+<link rel="icon" href="/favicon.ico" />
+```
+
+## Order
+
+When setting up the favicon, Modern.js looks for files in the following order:
+
+- `favicon.png`
+- `favicon.jpg`
+- `favicon.jpeg`
+- `favicon.svg`
+- `favicon.ico`
