@@ -1,0 +1,29 @@
+---
+title: favicon.*
+sidebar_position: 3
+---
+
+# Favicon
+
+当项目根目录的 `config` 目录下存在 `favicon.*` 文件时，Modern.js 会自动将该文件设置到 [html.favicon](/configure/app/html/favicon) 配置项中，用于生成页面的 favicon 图标：
+
+```
+./config
+└── favicon.ico
+```
+
+构建完成后，可以看到 HTML 中自动生成了以下标签：
+
+```html
+<link rel="icon" href="/favicon.ico" />
+```
+
+## 查找顺序
+
+在设置 app icon 时，Modern.js 会按以下顺序寻找文件：
+
+- `favicon.png`
+- `favicon.jpg`
+- `favicon.jpeg`
+- `favicon.svg`
+- `favicon.ico`
