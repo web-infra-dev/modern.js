@@ -32,20 +32,20 @@ export default myRuntimePlugin;
 ```
 
 -   `name`:  A unique identifier for the plugin.
--   `setup`: The main logic of the plugin, which receives an `api` object as a parameter, used to register hooks.
+-   `setup`: The main logic of the plugin, which receives an `api` object as a parameter.  This `api` object is used to register hooks.
 
 ## API Overview
 
 The Runtime Plugin API is primarily divided into the following categories:
 
--   **Information Retrieval**:  Getting runtime configurations and hook functions.
+-   **Information Retrieval**:  Getting runtime configuration and hook functions.
 -   **Lifecycle Hooks**:  Executing custom logic at different stages of the application's rendering process.
 
 ### Information Retrieval
 
 #### `getRuntimeConfig`
 
-Retrieves the user-defined runtime configuration specified in the `modern.runtime.ts` file.
+Gets the runtime configuration defined by the user in the `modern.runtime.ts` file.
 
 -   **Usage**:
 
@@ -54,14 +54,15 @@ const config = api.getRuntimeConfig();
 console.log(config.myCustomSetting);
 ```
 
--   **Notes**:
-    -   This method returns a *copy* of the user's configuration.  Modifying the return value will not affect the original configuration.
+:::warning
+This method returns a *copy* of the user's configuration. Modifying the returned value will not affect the original configuration.
+:::
 
 #### `getHooks`
 
-Retrieves hook functions that can be manually triggered.
+Gets the hook functions that can be triggered manually.
 
-- **Type**:
+-   **Type:**
 
 ```ts
 () => {
@@ -70,7 +71,7 @@ Retrieves hook functions that can be manually triggered.
 };
 ```
 
--   **Usage**:
+-   **Usage:**
 
 ```ts
 const hooks = api.getHooks();
@@ -81,33 +82,34 @@ await hooks.onBeforeRender.call(myContext);
 
 #### `onBeforeRender`
 
-Executes before the application renders (including both server-side rendering and client-side rendering). You can use this hook to perform data prefetching, modify the rendering context, and so on.
+Executes before the application renders (including both server-side rendering and client-side rendering).  You can use this hook to perform data prefetching, modify the rendering context, etc.
 
--   **Type**:
+-   **Type:**
 
     ```ts
     type OnBeforeRenderFn<RuntimeContext> = (context: RuntimeContext) => Promise<void> | void;
     ```
     `RuntimeContext` contains contextual information about the current request, such as the request object, response object, etc.
 
--   **Usage**:
+-   **Usage:**
 
     ```ts
     api.onBeforeRender(async (context) => {
       const data = await fetchData(context.req);
-      context.data = data; // Add data to the context
+      context.data = data; // Add the data to the context
     });
     ```
 
--   **Notes**:
-    -   This hook is executed before *every* render, so avoid performing long-running operations.
-    -   You can modify the `context` object within this hook, and the modified `context` will be passed to subsequent rendering processes.
+:::warning
+- This hook executes before *every* render, so avoid performing long-running operations.
+- You can modify the `context` object in this hook, and the modified `context` will be passed to subsequent rendering processes.
+:::
 
 #### `wrapRoot`
 
-Allows you to wrap the application's root component with a custom React component. This is commonly used to add global Providers, layout components, etc.
+Allows you to wrap the application's root component with a custom React component.  This is commonly used to add global Providers, layout components, etc.
 
--   **Type**:
+-   **Type:**
 
     ```ts
     type WrapRootFn = (
@@ -115,7 +117,7 @@ Allows you to wrap the application's root component with a custom React componen
     ) => React.ComponentType<any>;
     ```
 
--   **Usage**:
+-   **Usage:**
 
     ```ts
     api.wrapRoot((App) => {
@@ -123,7 +125,7 @@ Allows you to wrap the application's root component with a custom React componen
         return (
           <MyGlobalProvider>
             <Layout>
-              <App {...props} /> {/* Ensure props are passed */}
+              <App {...props} /> {/* Make sure to pass props */}
             </Layout>
           </MyGlobalProvider>
         );
@@ -131,10 +133,10 @@ Allows you to wrap the application's root component with a custom React componen
       return AppWrapper;
     });
     ```
-
--   **Notes**:
-    -   **It is crucial to pass the `props` to the original `App` component**, otherwise, the application may not function correctly.
-    -   The component returned by `wrapRoot` is re-created on every render, so avoid defining complex logic or state within it.
+:::warning
+-   **It is crucial to pass the `props` to the original `App` component**, otherwise, the application may not function correctly.
+-   The component returned by `wrapRoot` is recreated on every render, so avoid defining complex logic or state within it.
+:::
 
 ## Advanced Usage
 

@@ -1,7 +1,5 @@
 # CLI Plugin API
 
-# Modern.js CLI Plugin API
-
 This document details the API for Modern.js CLI plugins. CLI plugins allow you to extend and customize the functionality of Modern.js projects during the build and development process.
 
 ## Plugin Basic Structure
@@ -26,9 +24,7 @@ export default myCliPlugin;
 
 The `setup` function receives an `api` object, which provides all available CLI plugin APIs.
 
-## API Reference
-
-### Information Retrieval
+## Information Retrieval
 
 #### `api.getAppContext`
 
@@ -46,7 +42,6 @@ Gets the context information of the Modern.js application.
 | `srcDirectory`         | `string`             | The absolute path to the project source code directory                        | -                                   |
 | `distDirectory`        | `string`             | The absolute path to the project output directory                             | After `modifyResolvedConfig`              |
 | `sharedDirectory`      | `string`             | The absolute path to the shared modules directory                             | -                                   |
-| `internalDirectory`    | `string`             | The absolute path to the framework's internal temporary output directory       | -                                   |
 | `nodeModulesDirectory` | `string`             | The absolute path to the `node_modules` directory                              | -                                   |
 | `ip`                   | `string`             | The IPv4 address of the current machine                                       | -                                   |
 | `packageName`          | `string`             | The `name` field in the project's `package.json`                               | -                                   |
@@ -61,8 +56,6 @@ Gets the context information of the Modern.js application.
 | `serverConfigFile`     | `string`             | The name of the server configuration file                                     | -                                   |
 | `checkedEntries`       | `string[]`           | Specified entry information                                                   | -                                   |
 | `apiOnly`              | `boolean`            | Whether it is in `apiOnly` mode                                               | -                                   |
-| `internalDirAlias`     | `string`             | Alias for the framework's internal temporary output directory                  | -                                   |
-| `internalSrcAlias`     | `string`             | Alias for the framework's `src` directory                                     | -                                   |
 
 -   **Example:**
 
@@ -73,6 +66,10 @@ api.onPrepare(() => {
   console.log(`Bundler: ${appContext.bundlerType}`);
 });
 ```
+
+:::info
+The context information returned by `getAppContext` is read-only and cannot be modified directly.
+:::
 
 ---
 
@@ -147,19 +144,23 @@ const hooks = api.getHooks();
 hooks.onPrepare.call();
 ```
 
+:::wraning
+In custom plugins, you can only manually call the hooks registered by the corresponding plugin and cannot call official hooks to avoid affecting the normal execution order of the application.
+:::
+
 ---
 
-### Configuration Modification
+## Configuration Modification
 
 #### `api.config`
 
-Registers a function to modify the initial configuration of Modern.js.
+Modify the initial configuration of Modern.js.
 
--   **Type:**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
--   **Parameters:**
-    -   `configFn`: A function that returns a configuration object or a Promise.
--   **Execution Phase:** After parsing the configuration in `modern.config.ts`.
--   **Example:**
+- **Type:**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
+- **Parameters:**
+  - `configFn`: A function that returns a configuration object or a Promise.
+- **Execution Phase:** After parsing the configuration in `modern.config.ts`.
+- **Example:**
 
 ```typescript
 api.config(() => {
@@ -171,23 +172,23 @@ api.config(() => {
 });
 ```
 
-**Configuration Merge Priority** (highest to lowest):
+**Configuration Merging Priority** (from highest to lowest):
 
-1.  User-defined configuration in the `modern.config.*` file.
+1.  Configuration defined by the user in the `modern.config.*` file.
 2.  Configuration registered by plugins via `api.config()`.
-3.  Modern.js default configuration.
+3.  Default Modern.js configuration.
 
 ---
 
-#### `modifyBundlerChain`
+#### `api.modifyBundlerChain`
 
-Registers a function to modify the webpack or Rspack configuration using the chain API.
+Modify Webpack or Rspack configuration using the chain API.
 
 - **Type:** `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
 - **Parameters:**
   - `modifyFn`: A modification function that receives a `webpack-chain` or `RspackChain` instance and utility functions as parameters.
 - **Execution Phase:** When generating the final Webpack or Rspack configuration.
-- **Corresponding Rsbuild Hook**: [modifyBundlerChain](https://rsbuild.dev/en/plugins/dev/hooks#modifybundlerchain)
+- **Corresponding Rsbuild Hook:** [modifyBundlerChain](https://rsbuild.dev/en/plugins/dev/hooks#modifybundlerchain)
 - **Example:**
 
 ```typescript
@@ -201,13 +202,13 @@ api.modifyBundlerChain((chain, utils) => {
 
 #### `api.modifyRsbuildConfig`
 
-Registers a function to modify the Rsbuild configuration.
+Modify the Rsbuild configuration.
 
 -   **Type:**  `api.modifyRsbuildConfig(modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void)`
 -   **Parameters:**
-    -   `modifyFn`: A modification function that receives the Rsbuild configuration object and utility functions as parameters.  It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+    -   `modifyFn`: A modification function that receives the Rsbuild configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
 -   **Execution Phase:** When generating the final Rsbuild configuration.
--   **Corresponding Rsbuild Hook**: [modifyRsbuildConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrsbuildconfig)
+-   **Corresponding Rsbuild Hook:** [modifyRsbuildConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrsbuildconfig)
 -   **Example:**
 
 ```typescript
@@ -221,20 +222,20 @@ api.modifyRsbuildConfig((config, utils) => {
 
 #### `api.modifyRspackConfig`
 
-Registers a function to modify the Rspack configuration (when Rspack is used as the bundler).
+Modify the Rspack configuration (when using Rspack as the bundler).
 
 -   **Type:**  `api.modifyRspackConfig(modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void)`
 -   **Parameters:**
-    -   `modifyFn`: A modification function that receives the Rspack configuration object and utility functions as parameters.  It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+    -   `modifyFn`: A modification function that receives the Rspack configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
 -   **Execution Phase:** When generating the final Rspack configuration.
--   **Corresponding Rsbuild Hook**: [modifyRspackConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrspackconfig)
+-   **Corresponding Rsbuild Hook:** [modifyRspackConfig](https://rsbuild.dev/en/plugins/dev/hooks#modifyrspackconfig)
 -   **Example:**
 
 ```typescript
 api.modifyRspackConfig((config, utils) => {
   config.builtins.minify = {
-      enable: true,
-      implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
+    enable: true,
+    implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
   }
 });
 ```
@@ -243,13 +244,13 @@ api.modifyRspackConfig((config, utils) => {
 
 #### `api.modifyWebpackChain`
 
-Registers a function to modify the Webpack configuration using [webpack-chain](https://github.com/neutrinojs/webpack-chain) (when Webpack is used as the bundler).
+Modify the Webpack configuration using [webpack-chain](https://github.com/neutrinojs/webpack-chain) (when using Webpack as the bundler).
 
--   **Type:**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
--   **Parameters:**
-    -   `modifyFn`: A modification function that receives a `webpack-chain` instance and utility functions as parameters.
--   **Execution Phase:** When generating the final Webpack configuration.
--   **Example:**
+- **Type:**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
+- **Parameters:**
+  - `modifyFn`: A modification function that receives a `webpack-chain` instance and utility functions as parameters.
+- **Execution Phase:** When generating the final Webpack configuration.
+- **Example:**
 
 ```typescript
 api.modifyWebpackChain((chain, utils) => {
@@ -266,24 +267,25 @@ api.modifyWebpackChain((chain, utils) => {
 
 #### `api.modifyWebpackConfig`
 
-Registers a function to directly modify the Webpack configuration object (when Webpack is used as the bundler).
+Directly modify the Webpack configuration object (when using Webpack as the bundler).
 
 -   **Type:**  `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
 -   **Parameters:**
-    -   `modifyFn`: A modification function that receives the Webpack configuration object and utility functions as parameters. It can return a modified configuration object, a Promise, or nothing (modifying the original object directly).
+    -   `modifyFn`: A modification function that receives the Webpack configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
 -   **Execution Phase:** When generating the final Webpack configuration.
 -   **Example:**
 
 ```typescript
 api.modifyWebpackConfig((config, utils) => {
-  // Disable source maps
+  // Disable source map
   config.devtool = false;
 });
+
 ```
 
-**Build Configuration Modification Order:**
+**Build Configuration Modification Order**
 
--   **Rsbuild Projects**:
+-   **Building with Rspack:**
     ```
     modifyRsbuildConfig
     modifyBundlerChain
@@ -291,7 +293,7 @@ api.modifyWebpackConfig((config, utils) => {
     modifyRspackConfig
     tools.rspack
     ```
--   **Webpack Projects**:
+-   **Building with Webpack:**
     ```
     modifyBundlerChain
     tools.bundlerChain
@@ -305,21 +307,23 @@ api.modifyWebpackConfig((config, utils) => {
 
 #### `api.modifyServerRoutes`
 
-Registers a function to modify the server route configuration.
+Modify the server routing configuration.
 
 - **Type:** `api.modifyServerRoutes(transformFn: (routes: ServerRoute[]) => ServerRoute[])`
 - **Parameters:**
-  - `transformFn`: A transformation function that receives the current server route array as a parameter and returns the modified array.
+  - `transformFn`: A transformation function that receives the current server routes array as a parameter and returns the modified array.
 - **Execution Phase:** Before generating the server route file (during the `prepare` phase).
 - **Example:**
 
 ```typescript
 api.modifyServerRoutes(routes => {
   // Add a new API route
-  routes.push({
-    route: '/api/my-endpoint',
-    method: 'GET',
-    handler: require.resolve('./api/my-endpoint'),
+  routes.concat({
+    urlPath: '/api',
+    isApi: true,
+    entryPath: '',
+    isSPA: false,
+    isSSR: false,
   });
   return routes;
 });
@@ -329,37 +333,41 @@ api.modifyServerRoutes(routes => {
 
 #### `api.modifyHtmlPartials`
 
-Registers a function to modify HTML template partials.
+Modify HTML template partials.
 
 - **Type:** `api.modifyHtmlPartials(modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void)`
 - **Parameters:**
   - `modifyFn`: A modification function that receives the HTML template partials object and the current entry point information as parameters.
-    - `partials`: Contains `top`, `head`, and `body` sections. Each section has `append`, `prepend`, and `replace` methods.
+    - `partials`: Contains `top`, `head`, and `body` sections, each with `append`, `prepend`, and `replace` methods.
 - **Execution Phase:** Before generating the HTML file (during the `prepare` phase).
 - **Example:**
 
 ```typescript
 api.modifyHtmlPartials(({ entrypoint, partials }) => {
-  // Add a meta tag to the <head> of all pages
+  // Add a meta tag to the <head> section of all pages
   if (partials.head && partials.head.append) {
       partials.head.append(`<meta name="my-custom-meta" content="value">`);
   }
 });
 ```
 
+:::warning
+This hook function will not be executed when using a [completely custom HTML template](/guides/basic-features/html.html#completely-custom-html-template).
+:::
+
 ---
 
-### Build Process Control
+## Build Process Control
 
 #### `api.onPrepare`
 
-Registers a hook function to be executed during the Modern.js preparation phase.
+Add additional logic during the Modern.js preparation phase.
 
--   **Type:** `api.onPrepare(prepareFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `prepareFn`: A preparation function, without parameters, can be asynchronous.
--   **Execution Phase:** After Modern.js has completed configuration validation.
--   **Example:**
+- **Type:** `api.onPrepare(prepareFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `prepareFn`: A preparation function, without parameters, can be asynchronous.
+- **Execution Phase:** After Modern.js has completed configuration validation.
+- **Example:**
 
 ```typescript
 api.onPrepare(async () => {
@@ -372,13 +380,13 @@ api.onPrepare(async () => {
 
 #### `api.addCommand`
 
-Registers a function to add custom CLI commands.
+Add a custom CLI command.
 
--   **Type:** `api.addCommand(commandFn: ({ program: Command }) => void)`
--   **Parameters:**
-    -   `commandFn`: Receives the `program` object from `commander` as a parameter, used to define new commands.
--   **Execution Phase:** After the `prepare` hook has completed.
--   **Example:**
+- **Type:** `api.addCommand(commandFn: ({ program: Command }) => void)`
+- **Parameters:**
+  - `commandFn`: Receives the `program` object from `commander` as a parameter, used to define new commands.
+- **Execution Phase:** After the `prepare` hook has completed.
+- **Example:**
 
 ```typescript
 api.addCommand(({ program }) => {
@@ -396,15 +404,15 @@ api.addCommand(({ program }) => {
 
 #### `api.addWatchFiles`
 
-Registers a function to add additional files to the watch list (for development mode).
+Add additional files to the watch list (for development mode).
 
--   **Type:** `api.addWatchFiles(watchFn: () => string[] | { files: string[]; isPrivate: boolean; })`
--   **Parameters:**
-    -   `watchFn`: Returns an array of file paths or an object containing `files` and `isPrivate` properties.
-        -   `files`: An array of file paths to watch.
-        -   `isPrivate`: Whether the files are internal to the framework (affects behavior when files change).
--   **Execution Phase:** After the `addCommand` hook has completed.
--   **Example:**
+- **Type:** `api.addWatchFiles(watchFn: () => string[] | { files: string[]; isPrivate: boolean; })`
+- **Parameters:**
+  - `watchFn`: Returns an array of file paths or an object containing `files` and `isPrivate` properties.
+    - `files`: An array of file paths to watch.
+    - `isPrivate`: Whether the files are framework-internal (affects behavior when files change).
+- **Execution Phase:** After the `addCommand` hook has completed.
+- **Example:**
 
 ```typescript
 api.addWatchFiles(() => {
@@ -417,22 +425,21 @@ api.addWatchFiles(() => {
 
 #### `api.onFileChanged`
 
-Registers a hook function to be executed when a watched file changes (for development mode).
+Add additional logic when a watched file changes (for development mode).
 
--   **Type:** `api.onFileChanged(changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void)`
--   **Parameters:**
-    -   `changeFn`: A file change handler function that receives the following parameters:
-        -   `filename`: The path to the changed file.
-        -   `eventType`: The type of change (`add`, `change`, or `unlink`).
-        -   `isPrivate`: Whether the changed file is internal to the framework.
--   **Execution Phase:** When a watched file changes.
--   **Example:**
+- **Type:** `api.onFileChanged(changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void)`
+- **Parameters:**
+  - `changeFn`: A file change handler function that receives the following parameters:
+    - `filename`: The path of the changed file.
+    - `eventType`: The type of change (`add`, `change`, `unlink`).
+    - `isPrivate`: Whether the file is framework-internal.
+- **Execution Phase:** After a watched file changes.
+- **Example:**
 
 ```typescript
 api.onFileChanged(({ filename, eventType }) => {
-  if (eventType === 'change' && filename.endsWith('.env')) {
-    console.log('.env file changed, restarting server...');
-    // Restart the development server or perform other actions
+  if (eventType === 'change' && filename.endsWith('.ts')) {
+    console.log('TypeScript file changed, may need to recompile...');
   }
 });
 ```
@@ -441,51 +448,49 @@ api.onFileChanged(({ filename, eventType }) => {
 
 #### `api.onBeforeBuild`
 
-Registers a hook function to be executed before the build process starts.
+Add additional logic before the build starts.
 
--   **Type:** `api.onBeforeBuild(buildFn: ({ bundlerConfigs }: { bundlerConfigs: RspackConfig[] | WebpackConfig[] }) => void | Promise<void>)`
--   **Parameters:**
-    -   `buildFn`: A build preparation function that receives the final bundler configuration array as a parameter.
--   **Execution Phase:** Before the build process starts.
--   **Example:**
+- **Type:** `api.onBeforeBuild(buildFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `buildFn`: A function to be executed before the build, without parameters, can be asynchronous.
+- **Execution Phase:** Before executing the build process.
+- **Corresponding Rsbuild Hook:** [onBeforeBuild](https://rsbuild.dev/en/plugins/dev/hooks#onbeforebuild)
+- **Example:**
 
 ```typescript
-api.onBeforeBuild(({ bundlerConfigs }) => {
-  // Perform pre-build checks or operations, such as linting, code formatting, etc.
-  console.log('Starting build with configuration:', bundlerConfigs);
-});
+api.onBeforeBuild(()=>{
+    // Perform some environment checks before building
+})
 ```
-
 ---
 
 #### `api.onAfterBuild`
 
-Registers a hook function that is executed after the build process completes.
+Add additional logic after the build is complete.
 
 -   **Type:**  `api.onAfterBuild(buildFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `buildFn`: The function to be executed after the build.  It takes no arguments and can be asynchronous.
--   **Execution Stage:** After the build process has finished.
--   **Corresponding Rsbuild Hook**: [onAfterBuild](https://rsbuild.dev/en/plugins/dev/hooks#onafterbuild)
+    -   `buildFn`: A function to be executed after the build, without parameters, can be asynchronous.
+-   **Execution Phase:** After executing the build process.
+-   **Corresponding Rsbuild Hook:** [onAfterBuild](https://rsbuild.dev/en/plugins/dev/hooks#onafterbuild)
 -   **Example:**
 
 ```typescript
-api.onAfterBuild(() => {
-    // Upload source maps after the build
-});
+api.onAfterBuild(()=>{
+    // Upload sourceMap after building
+})
 ```
 
 ---
 
 #### `api.onDevCompileDone`
-
-Registers a hook function that is executed after the development server has finished compiling.
+Add additional logic after the development server compilation is complete.
 
 -   **Type:**  `api.onDevCompileDone(compileFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `compileFn`: The function to be executed after compilation is complete.
--   **Execution Stage:**  After the development server has started and the initial compilation is complete.
--   **Corresponding Rsbuild Hook**: [onDevCompileDone](https://rsbuild.dev/en/plugins/dev/hooks#ondevcompiledone)
+    -   `compileFn`: A function to be executed after compilation is complete.
+-   **Execution Phase:** After the development server starts and the initial compilation is complete.
+-   **Corresponding Rsbuild Hook:** [onDevCompileDone](https://rsbuild.dev/en/plugins/dev/hooks#ondevcompiledone)
 -   **Example:**
 
 ```typescript
@@ -497,37 +502,36 @@ api.onDevCompileDone(() => {
 
 #### `api.onBeforeCreateCompiler`
 
-Registers a hook function that is executed before the compiler instance is created.
+Add additional logic before creating the compiler instance.
 
 -   **Type:**  `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `createFn`: The function to be executed before creation. It takes no arguments and can be asynchronous.
--   **Execution Stage:** Before the Webpack or Rspack compiler instance is created.
--   **Corresponding Rsbuild Hook**: [onBeforeCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onbeforecreatecompiler)
+    -   `createFn`: A function to be executed before creation, without parameters, can be asynchronous.
+-   **Execution Phase:** Before creating the Webpack or Rspack compiler instance.
+-   **Corresponding Rsbuild Hook:** [onBeforeCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onbeforecreatecompiler)
 -   **Example:**
 
 ```typescript
 api.onBeforeCreateCompiler(() => {
-    // You can access compiler-related configurations here
+    // Can get compiler related configuration
 });
 ```
 
 ---
 
 #### `api.onAfterCreateCompiler`
-
-Registers a hook function that is executed after the compiler instance has been created.
+Add additional logic after creating the compiler instance.
 
 -   **Type:**  `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
 -   **Parameters:**
-    -   `createFn`: The function to be executed after creation. It takes no arguments and can be asynchronous.
--   **Execution Stage:** After the Webpack or Rspack compiler instance has been created.
--   **Corresponding Rsbuild Hook**: [onAfterCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onaftercreatecompiler)
+    -   `createFn`:  A function to be executed after creation, without parameters, can be asynchronous.
+-   **Execution Phase:** After creating the Webpack or Rspack compiler instance.
+-   **Corresponding Rsbuild Hook:** [onAfterCreateCompiler](https://rsbuild.dev/en/plugins/dev/hooks#onaftercreatecompiler)
 -   **Example:**
 
 ```typescript
 api.onAfterCreateCompiler(() => {
-    // You can access the compiler instance here
+    // Can get the compiler instance
 });
 ```
 
@@ -535,17 +539,17 @@ api.onAfterCreateCompiler(() => {
 
 #### `api.onBeforeDev`
 
-Registers a hook function that is executed before the development server starts.
+Add additional logic before starting the development server.
 
--   **Type:** `api.onBeforeDev(devFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `devFn`: The function to be executed before the development server starts. It takes no arguments and can be asynchronous.
--   **Execution Stage:** Before the `dev` command starts the development server.
--   **Example:**
+- **Type:** `api.onBeforeDev(devFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `devFn`: A function to be executed before starting the development server, without parameters, can be asynchronous.
+- **Execution Phase:** Before executing the `dev` command to start the development server.
+- **Example:**
 
 ```typescript
 api.onBeforeDev(async () => {
-  // Check if the port is already in use
+  // Check if the port is occupied
   await checkPortAvailability(3000);
 });
 ```
@@ -554,18 +558,18 @@ api.onBeforeDev(async () => {
 
 #### `api.onAfterDev`
 
-Registers a hook function that is executed after the development server has started.
+Add additional logic after starting the development server.
 
 - **Type:** `api.onAfterDev(devFn: () => void | Promise<void>)`
 - **Parameters:**
-  - `devFn`: The function to execute after the development server has started.
-- **Execution Stage:** After successful start of the development server.
-- **Corresponding Rsbuild Hook**: [onAfterStartDevServer](https://rsbuild.dev/en/plugins/dev/hooks#onafterstartdevserver)
+    -   `devFn`: A function to be executed after the development server starts.
+- **Execution Phase:** After the development server has successfully started.
+- **Corresponding Rsbuild Hook:** [onAfterStartDevServer](https://rsbuild.dev/en/plugins/dev/hooks#onafterstartdevserver)
 - **Example:**
 
 ```typescript
 api.onAfterDev(()=>{
-    // Report dev-related information
+    // Report dev related information
 })
 ```
 
@@ -573,49 +577,31 @@ api.onAfterDev(()=>{
 
 #### `api.onBeforeExit`
 
-Registers a hook function that is executed before the process exits.
+Add additional logic before the process exits.
 
--   **Type:** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `exitFn`: The function to be executed before the process exits. It takes no arguments and can be asynchronous.
--   **Execution Stage:**  Before the Modern.js process is about to exit (e.g., when the user presses Ctrl+C).
--   **Example:**
+- **Type:** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `exitFn`: A function to be executed before the process exits, without parameters, can be asynchronous.
+- **Execution Phase:** When the Modern.js process is about to exit (for example, when the user presses Ctrl+C).
+- **Example:**
 
 ```typescript
 api.onBeforeExit(async () => {
-  // Perform cleanup operations, such as closing database connections or deleting temporary files
+  // Perform some cleanup operations, such as closing database connections, deleting temporary files, etc.
   await cleanupMyResources();
 });
 ```
 
 ---
 
-#### `api.deploy`
-
-Registers a hook function to be executed during the deployment stage.
-
--   **Type:**  `api.deploy(deployFn: () => void | Promise<void>)`
--   **Parameters:**
-    -   `deployFn`: The task to be executed during deployment.
--   **Execution Stage:**  When the `deploy` command is executed, and after the `build` is complete.
--   **Example:**
-
-```typescript
-api.deploy(()=>{
-    // Execute deployment
-})
-```
-
----
-
 #### `api.onBeforePrintInstructions`
 
-Registers a hook that is executed before printing success messages.
+Add additional logic before printing success information.
 
 -   **Type:**  `api.onBeforePrintInstructions(printFn: ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>)`
 -   **Parameters:**
-    -   `printFn`: The function to modify the printed message. It returns the modified message.
--   **Execution Stage:** Before printing success messages.
+    -   `printFn`: Function to modify the printed information, returns the modified information.
+-   **Execution Phase:** Before printing success information.
 -   **Example:**
 
 ```typescript

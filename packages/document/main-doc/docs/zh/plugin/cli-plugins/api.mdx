@@ -67,9 +67,9 @@ api.onPrepare(() => {
 });
 ```
 
-：：：info
+:::info
 `getAppContext` 返回的上下文信息是只读的，无法直接进行修改。
-：：：
+:::
 
 ---
 
@@ -493,9 +493,9 @@ api.onAfterBuild(()=>{
 -   **示例：**
 
 ```typescript
-api.onDevCompileDone(()=>{
+api.onDevCompileDone(() => {
     // 首次编译完成，打开浏览器
-})
+});
 ```
 ---
 
@@ -511,9 +511,9 @@ api.onDevCompileDone(()=>{
 -   **示例：**
 
 ```typescript
-api.onBeforeCreateCompiler(()=>{
+api.onBeforeCreateCompiler(() => {
     // 可以获取 compiler 相关配置
-})
+});
 ```
 
 ---
@@ -529,9 +529,9 @@ api.onBeforeCreateCompiler(()=>{
 -   **示例：**
 
 ```typescript
-api.onAfterCreateCompiler(()=>{
+api.onAfterCreateCompiler(() => {
     // 可以获取 compiler 实例
-})
+});
 ```
 
 ---
