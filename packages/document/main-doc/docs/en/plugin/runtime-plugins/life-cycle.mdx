@@ -1,3 +1,29 @@
 # Life Cycle
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/runtime-plugin-cycle-2.png)
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    init{{"Runtime Initialization"}}
+    load_config(Load User Configuration File)
+    runtime_plugin(Load Runtime Plugins<br><sub>Plugins registered in the configuration file<br>Runtime plugins registered by CLI<br>Plugins used within plugins</sub>)
+    registry_hooks(Register Hooks Functions<br><sub>Execute the plugin setup function, register hooks defined in the plugin, and the logic in the plugin setup will also be executed here</sub>)
+
+    wrapRoot(wrapRoot<br><sub>The logic returned in wrapRoot will be executed when the component is rendered</sub>)
+    onBeforeRender(onBeforeRender)
+
+    init --> load_config
+    load_config --> runtime_plugin
+    runtime_plugin --> registry_hooks
+    registry_hooks --> wrapRoot
+    wrapRoot --> onBeforeRender
+
+    style init fill:#FDE68A,font-size:10px;
+    style load_config stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style runtime_plugin stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF,font-size:10px;
+    style wrapRoot font-size:10px;
+    style onBeforeRender font-size:10px;
+`}
+</Mermaid>

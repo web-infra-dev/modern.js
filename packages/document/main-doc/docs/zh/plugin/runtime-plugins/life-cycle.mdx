@@ -1,3 +1,29 @@
 # 生命周期
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/runtime-plugin-cycle-2.png)
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    init{{"Runtime 初始化"}}
+    load_config(加载用户配置文件)
+    runtime_plugin(加载 Runtime 插件<br><sub>配置文件中注册的插件<br>CLI 插件注册的 Runtime 插件<br>插件中使用的插件</sub>)
+    registry_hooks(注册 Hooks 函数<br><sub>执行插件 setup 函数，注册插件中定义的 Hook, 插件 setup 中逻辑也会在这里执行</sub>)
+
+    wrapRoot(wrapRoot<br><sub>wrapRoot 中返回组件中的逻辑会在组件渲染时执行</sub>)
+    onBeforeRender(onBeforeRender)
+
+    init --> load_config
+    load_config --> runtime_plugin
+    runtime_plugin --> registry_hooks
+    registry_hooks --> wrapRoot
+    wrapRoot --> onBeforeRender
+
+    style init fill:#FDE68A,font-size:10px;
+    style load_config stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style runtime_plugin stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF,font-size:10px;
+    style wrapRoot font-size:10px;
+    style onBeforeRender font-size:10px;
+`}
+</Mermaid>

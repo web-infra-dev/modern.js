@@ -37,6 +37,10 @@
 
 .modern-doc {
   .modern-mermaid {
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
     .flow-start,
     .flow-end {
       rect,
@@ -210,4 +214,8 @@
 .modern-mermaid {
   font-size: 20px;
   text-align: center;
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
 }
