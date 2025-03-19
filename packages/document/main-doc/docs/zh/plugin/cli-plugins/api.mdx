@@ -1,6 +1,4 @@
-# CLI 插件 API
-
-# Modern.js CLI 插件 API
+# 插件 API
 
 本文档详细介绍了 Modern.js CLI 插件的 API。CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
 
@@ -26,19 +24,17 @@ export default myCliPlugin;
 
 `setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
 
-## API 参考
-
-### 信息获取
+## 信息获取
 
 #### `api.getAppContext`
 
 获取 Modern.js 应用的上下文信息。
 
-- **返回值:** `AppContext` 对象，包含以下字段：
+- **返回值：** `AppContext` 对象，包含以下字段：
 
 | 字段名               | 类型                 | 描述                                                                  | 何时可用                               |
 | -------------------- | -------------------- | --------------------------------------------------------------------- | -------------------------------------- |
-| `command`            | `string`             | 当前执行的命令 (e.g., `dev`, `build`, `deploy`)                        | -                                   |
+| `command`            | `string`             | 当前执行的命令 (e.g.， `dev`， `build`， `deploy`)                        | -                                   |
 | `port`               | `number`             | 开发服务器端口号                                                      | `onPrepare` 之后                        |
 | `configFile`         | `string`             | 配置文件的绝对路径                                                    | -                                   |
 | `isProd`             | `boolean`            | 是否为生产模式                                                        | -                                   |
@@ -46,7 +42,6 @@ export default myCliPlugin;
 | `srcDirectory`       | `string`             | 项目源码目录的绝对路径                                                | -                                   |
 | `distDirectory`      | `string`             | 项目产物输出目录的绝对路径                                            | `modifyResolvedConfig` 之后              |
 | `sharedDirectory`    | `string`             | 公共模块目录的绝对路径                                                | -                                   |
-| `internalDirectory`  | `string`             | 框架内部临时输出目录的绝对路径                                        | -                                   |
 | `nodeModulesDirectory` | `string`             | `node_modules` 目录的绝对路径                                         | -                                   |
 | `ip`                 | `string`             | 当前机器的 IPv4 地址                                                  | -                                   |
 | `packageName`        | `string`             | 项目 `package.json` 中的 `name` 字段                                   | -                                   |
@@ -61,18 +56,20 @@ export default myCliPlugin;
 | `serverConfigFile`   | `string`             | 服务器配置文件的名称                                                  | -                                   |
 | `checkedEntries`     | `string[]`           | 指定的入口信息                                                        | -                                   |
 | `apiOnly`            | `boolean`            | 是否为 `apiOnly` 模式                                                  | -                                   |
-| `internalDirAlias`   | `string`             | 框架内部临时输出目录的别名                                            | -                                   |
-| `internalSrcAlias`   | `string`             | 框架 `src` 目录的别名                                                 | -                                   |
 
-- **示例:**
+- **示例：**
 
 ```typescript
 api.onPrepare(() => {
   const appContext = api.getAppContext();
   console.log(`当前项目运行在 ${appContext.isProd ? '生产' : '开发'} 模式`);
-  console.log(`打包工具: ${appContext.bundlerType}`);
+  console.log(`打包工具： ${appContext.bundlerType}`);
 });
 ```
+
+：：：info
+`getAppContext` 返回的上下文信息是只读的，无法直接进行修改。
+：：：
 
 ---
 
@@ -80,8 +77,8 @@ api.onPrepare(() => {
 
 获取用户在 `modern.config.ts` 文件中定义的配置。
 
--   **返回值:**  用户定义的配置对象。
--   **示例:**
+-   **返回值：**  用户定义的配置对象。
+-   **示例：**
 
 ```typescript
 api.onPrepare(() => {
@@ -99,9 +96,9 @@ api.onPrepare(() => {
 
 获取经过 Modern.js 内部处理和插件修改后的最终配置（归一化配置）。
 
-- **返回值:** 归一化后的配置对象。
-- **何时可用:** 必须在 `modifyResolvedConfig` 钩子之后使用。
-- **示例:**
+- **返回值：** 归一化后的配置对象。
+- **何时可用：** 必须在 `modifyResolvedConfig` 钩子之后使用。
+- **示例：**
 
 ```typescript
 api.modifyResolvedConfig(resolvedConfig => {
@@ -121,10 +118,10 @@ api.onBeforeBuild(() => {
 
 检查指定的插件是否已注册。
 
-- **参数:**
-  - `pluginName:string`: 要检查的插件名称。
-- **返回值:** `boolean` 值，表示插件是否存在。
-- **示例:**
+- **参数：**
+  - `pluginName: string`： 要检查的插件名称。
+- **返回值：** `boolean` 值，表示插件是否存在。
+- **示例：**
 
 ```typescript
 if (api.isPluginExists('@modern-js/plugin-tailwind')) {
@@ -138,8 +135,8 @@ if (api.isPluginExists('@modern-js/plugin-tailwind')) {
 
 获取所有已注册的钩子函数。
 
-- **返回值:** 包含所有钩子函数的对象。
-- **示例:**
+- **返回值：** 包含所有钩子函数的对象。
+- **示例：**
 
 ```typescript
 const hooks = api.getHooks();
@@ -147,19 +144,22 @@ const hooks = api.getHooks();
 hooks.onPrepare.call();
 ```
 
+:::wraning
+在自定义插件中，只能手动调用对应插件注册的钩子，不能调用官方钩子，以免影响正常应用的执行顺序。
+:::
 ---
 
-### 配置修改
+## 配置修改
 
 #### `api.config`
 
-注册一个函数来修改 Modern.js 的初始配置。
+修改 Modern.js 的初始配置。
 
-- **类型:**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
-- **参数:**
-  - `configFn`: 一个返回配置对象或 Promise 的函数。
-- **执行阶段:** 解析完 `modern.config.ts` 中的配置之后。
-- **示例:**
+- **类型：**  `api.config(configFn: () => UserConfig | Promise<UserConfig>)`
+- **参数：**
+  - `configFn`： 一个返回配置对象或 Promise 的函数。
+- **执行阶段：** 解析完 `modern.config.ts` 中的配置之后。
+- **示例：**
 
 ```typescript
 api.config(() => {
@@ -179,16 +179,16 @@ api.config(() => {
 
 ---
 
-#### `modifyBundlerChain`
+#### `api.modifyBundlerChain`
 
-注册一个函数来使用 chain API 修改 webpack 或者 Rspack 配置。
+使用 chain API 修改 webpack 或者 Rspack 配置。
 
-- **类型:**  `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 `webpack-chain` 或 `RspackChain` 实例和实用工具作为参数。
-- **执行阶段:** 在生成最终的 Webpack 或 Rspack 配置时。
-- **对应 Rsbuild Hook**: [modifybundlerchain](https://rsbuild.dev/zh/plugins/dev/hooks#modifybundlerchain)
-- **示例:**
+- **类型：**  `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
+- **参数：**
+  - `modifyFn`： 修改函数，接收 `webpack-chain` 或 `RspackChain` 实例和实用工具作为参数。
+- **执行阶段：** 在生成最终的 Webpack 或 Rspack 配置时。
+- **对应 Rsbuild Hook**： [modifybundlerchain](https://rsbuild.dev/zh/plugins/dev/hooks#modifybundlerchain)
+- **示例：**
 
 ```typescript
 api.modifyBundlerChain((chain, utils) => {
@@ -201,14 +201,14 @@ api.modifyBundlerChain((chain, utils) => {
 
 #### `api.modifyRsbuildConfig`
 
-注册一个函数来修改 Rsbuild 的配置。
+修改 Rsbuild 的配置。
 
--   **类型:**  `api.modifyRsbuildConfig(modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Rsbuild 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Rsbuild 配置时。
--   **对应 Rsbuild Hook**: [modifyRsbuildConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrsbuildconfig)
--   **示例:**
+-   **类型：**  `api.modifyRsbuildConfig(modifyFn: (config: RsbuildConfig, utils: RsbuildUtils) => RsbuildConfig | Promise<RsbuildConfig> | void)`
+-   **参数：**
+    -   `modifyFn`： 修改函数，接收 Rsbuild 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
+-   **执行阶段：** 在生成最终的 Rsbuild 配置时。
+-   **对应 Rsbuild Hook**： [modifyRsbuildConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrsbuildconfig)
+-   **示例：**
 
 ```typescript
 api.modifyRsbuildConfig((config, utils) => {
@@ -221,20 +221,20 @@ api.modifyRsbuildConfig((config, utils) => {
 
 #### `api.modifyRspackConfig`
 
-注册一个函数来修改 Rspack 的配置。(当使用 Rspack 作为打包工具时)
+修改 Rspack 的配置。(当使用 Rspack 作为打包工具时)
 
--   **类型:**  `api.modifyRspackConfig(modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Rspack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Rspack 配置时。
--   **对应 Rsbuild Hook**: [modifyRspackConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrspackconfig)
--   **示例:**
+-   **类型：**  `api.modifyRspackConfig(modifyFn: (config: RspackConfig, utils: RspackUtils) => RspackConfig | Promise<RspackConfig> | void)`
+-   **参数：**
+    -   `modifyFn`： 修改函数，接收 Rspack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
+-   **执行阶段：** 在生成最终的 Rspack 配置时。
+-   **对应 Rsbuild Hook**： [modifyRspackConfig](https://rsbuild.dev/zh/plugins/dev/hooks#modifyrspackconfig)
+-   **示例：**
 
 ```typescript
-api.modifyRspackConfig((config, utils) => {
+api.modifyRspackConfig((config， utils) => {
   config.builtins.minify = {
-      enable: true,
-      implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
+    enable: true,
+    implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
   }
 });
 ```
@@ -243,13 +243,13 @@ api.modifyRspackConfig((config, utils) => {
 
 #### `api.modifyWebpackChain`
 
-注册一个函数来使用 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 修改 Webpack 配置。(当使用 Webpack 作为打包工具时)
+使用 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 修改 Webpack 配置。(当使用 Webpack 作为打包工具时)
 
-- **类型:**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 `webpack-chain` 实例和实用工具作为参数。
-- **执行阶段:** 在生成最终的 Webpack 配置时。
-- **示例:**
+- **类型：**  `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
+- **参数：**
+  - `modifyFn`： 修改函数，接收 `webpack-chain` 实例和实用工具作为参数。
+- **执行阶段：** 在生成最终的 Webpack 配置时。
+- **示例：**
 
 ```typescript
 api.modifyWebpackChain((chain, utils) => {
@@ -266,13 +266,13 @@ api.modifyWebpackChain((chain, utils) => {
 
 #### `api.modifyWebpackConfig`
 
-注册一个函数来直接修改 Webpack 配置对象。(当使用 Webpack 作为打包工具时)
+直接修改 Webpack 配置对象。(当使用 Webpack 作为打包工具时)
 
--   **类型:**  `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
--   **参数:**
-    -   `modifyFn`: 修改函数，接收 Webpack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
--   **执行阶段:** 在生成最终的 Webpack 配置时。
--   **示例:**
+-   **类型：**  `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
+-   **参数：**
+    -   `modifyFn`： 修改函数，接收 Webpack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
+-   **执行阶段：** 在生成最终的 Webpack 配置时。
+-   **示例：**
 
 ```typescript
 api.modifyWebpackConfig((config, utils) => {
@@ -282,9 +282,9 @@ api.modifyWebpackConfig((config, utils) => {
 
 ```
 
-**构建配置修改顺序**：
+**构建配置修改顺序**
 
--   **Rsbuild 项目**:
+-   **使用 Rspack 构建**：
     ```
     modifyRsbuildConfig
     modifyBundlerChain
@@ -292,7 +292,7 @@ api.modifyWebpackConfig((config, utils) => {
     modifyRspackConfig
     tools.rspack
     ```
--   **Webpack 项目**:
+-   **使用 Webpack 构建**：
     ```
     modifyBundlerChain
     tools.bundlerChain
@@ -306,21 +306,23 @@ api.modifyWebpackConfig((config, utils) => {
 
 #### `api.modifyServerRoutes`
 
-注册一个函数来修改服务器路由配置。
+修改服务器路由配置。
 
 - **类型** `api.modifyServerRoutes(transformFn: (routes: ServerRoute[]) => ServerRoute[])`
-- **参数:**
-  - `transformFn`: 转换函数，接收当前服务器路由数组作为参数，返回修改后的数组。
-- **执行阶段:** 在生成服务器路由文件之前 ( `prepare` 阶段)。
-- **示例:**
+- **参数：**
+  - `transformFn`： 转换函数，接收当前服务器路由数组作为参数，返回修改后的数组。
+- **执行阶段：** 在生成服务器路由文件之前 ( `prepare` 阶段)。
+- **示例：**
 
 ```typescript
 api.modifyServerRoutes(routes => {
   // 添加一个新的 API 路由
-  routes.push({
-    route: '/api/my-endpoint',
-    method: 'GET',
-    handler: require.resolve('./api/my-endpoint'),
+  routes.concat({
+    urlPath: '/api',
+    isApi: true,
+    entryPath: '',
+    isSPA: false,
+    isSSR: false,
   });
   return routes;
 });
@@ -330,14 +332,14 @@ api.modifyServerRoutes(routes => {
 
 #### `api.modifyHtmlPartials`
 
-注册一个函数来修改 HTML 模板片段。
+修改 HTML 模板片段。
 
 - **类型** `api.modifyHtmlPartials(modifyFn: (partials: HtmlPartials, entrypoint: Entrypoint) => void)`
-- **参数:**
-  - `modifyFn`: 修改函数，接收 HTML 模板片段对象和当前入口点信息作为参数。
-    - `partials`: 包含 `top`, `head`, `body` 三个部分,每个部分都有`append`, `prepend`, `replace`三个方法。
-- **执行阶段:** 在生成 HTML 文件之前 ( `prepare` 阶段)。
-- **示例:**
+- **参数：**
+  - `modifyFn`： 修改函数，接收 HTML 模板片段对象和当前入口点信息作为参数。
+    - `partials`： 包含 `top`， `head`， `body` 三个部分，每个部分都有`append`， `prepend`， `replace`三个方法。
+- **执行阶段：** 在生成 HTML 文件之前 ( `prepare` 阶段)。
+- **示例：**
 
 ```typescript
 api.modifyHtmlPartials(({ entrypoint, partials }) => {
@@ -348,19 +350,23 @@ api.modifyHtmlPartials(({ entrypoint, partials }) => {
 });
 ```
 
+:::wraning
+当使用[完全自定义模板](/guides/basic-features/html.html#完全自定义-html-模板)时，该钩子函数将不会执行。
+:::
+
 ---
 
-### 构建流程控制
+## 构建流程控制
 
 #### `api.onPrepare`
 
-注册一个在 Modern.js 准备阶段执行的钩子函数。
+在 Modern.js 准备阶段添加额外的逻辑。
 
 - **类型** `api.onPrepare(prepareFn: () => void | Promise<void>)`
-- **参数:**
+- **参数：**
   - `prepareFn`: 准备函数，无参数，可异步。
-- **执行阶段:** 在 Modern.js 完成配置校验之后。
-- **示例:**
+- **执行阶段：** 在 Modern.js 完成配置校验之后。
+- **示例：**
 
 ```typescript
 api.onPrepare(async () => {
@@ -373,13 +379,13 @@ api.onPrepare(async () => {
 
 #### `api.addCommand`
 
-注册一个函数来添加自定义的 CLI 命令。
+添加自定义的 CLI 命令。
 
 - **类型** `api.addCommand(commandFn: ({ program: Command }) => void)`
-- **参数:**
-  - `commandFn`: 接收 `commander` 的 `program` 对象作为参数，用于定义新的命令。
-- **执行阶段:** `prepare` 钩子运行完成后。
-- **示例:**
+- **参数：**
+  - `commandFn`： 接收 `commander` 的 `program` 对象作为参数，用于定义新的命令。
+- **执行阶段：** `prepare` 钩子运行完成后。
+- **示例：**
 
 ```typescript
 api.addCommand(({ program }) => {
@@ -397,15 +403,15 @@ api.addCommand(({ program }) => {
 
 #### `api.addWatchFiles`
 
-注册一个函数来添加额外的文件监听列表（用于开发模式）。
+添加额外的文件监听列表（用于开发模式）。
 
 - **类型** `api.addWatchFiles(watchFn: () => string[] | { files: string[]; isPrivate: boolean; })`
-- **参数:**
-  - `watchFn`: 返回一个包含文件路径的数组，或一个包含 `files` 和 `isPrivate` 属性的对象。
-    - `files`: 要监听的文件路径数组。
-    - `isPrivate`: 是否为框架内部文件（影响文件变更时的行为）。
-- **执行阶段:** `addCommand` 钩子运行完成之后。
-- **示例:**
+- **参数：**
+  - `watchFn`： 返回一个包含文件路径的数组，或一个包含 `files` 和 `isPrivate` 属性的对象。
+    - `files`： 要监听的文件路径数组。
+    - `isPrivate`： 是否为框架内部文件（影响文件变更时的行为）。
+- **执行阶段：** `addCommand` 钩子运行完成之后。
+- **示例：**
 
 ```typescript
 api.addWatchFiles(() => {
@@ -418,16 +424,16 @@ api.addWatchFiles(() => {
 
 #### `api.onFileChanged`
 
-注册一个在监听文件发生变化时执行的钩子函数（用于开发模式）。
+在监听文件发生变化时添加额外的逻辑（用于开发模式）。
 
 - **类型** `api.onFileChanged(changeFn: (params: { filename: string; eventType: 'add' | 'change' | 'unlink'; isPrivate: boolean; }) => void)`
-- **参数:**
-  - `changeFn`: 文件变化处理函数，接收以下参数：
-    - `filename`: 发生变化的文件路径。
-    - `eventType`: 变化类型 (`add`, `change`, `unlink`)。
-    - `isPrivate`: 是否为框架内部文件。
-- **执行阶段:** 监听文件变化之后。
-- **示例:**
+- **参数：**
+  - `changeFn`： 文件变化处理函数，接收以下参数：
+    - `filename`： 发生变化的文件路径。
+    - `eventType`： 变化类型 (`add`， `change`， `unlink`)。
+    - `isPrivate`： 是否为框架内部文件。
+- **执行阶段：** 监听文件变化之后。
+- **示例：**
 
 ```typescript
 api.onFileChanged(({ filename, eventType }) => {
@@ -441,14 +447,14 @@ api.onFileChanged(({ filename, eventType }) => {
 
 #### `api.onBeforeBuild`
 
-注册一个在构建开始前执行的钩子函数。
+在构建开始之前添加额外的逻辑。
 
 - **类型** `api.onBeforeBuild(buildFn: () => void | Promise<void>)`
-- **参数:**
-  - `buildFn`: 构建前执行的函数，无参数，可异步。
-- **执行阶段:** 在执行构建流程之前。
-- **对应 Rsbuild Hook**: [onBeforeBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforebuild)
-- **示例:**
+- **参数：**
+  - `buildFn`： 构建前执行的函数，无参数，可异步。
+- **执行阶段：** 在执行构建流程之前。
+- **对应 Rsbuild Hook**： [onBeforeBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforebuild)
+- **示例：**
 
 ```typescript
 api.onBeforeBuild(()=>{
@@ -459,14 +465,14 @@ api.onBeforeBuild(()=>{
 
 #### `api.onAfterBuild`
 
-注册一个在构建完成后执行的钩子函数。
+在构建完成后添加额外的逻辑。
 
--   **类型:**  `api.onAfterBuild(buildFn: () => void | Promise<void>)`
--   **参数:**
-    -   `buildFn`: 构建后执行的函数，无参数，可异步。
--   **执行阶段:** 在执行构建流程之后。
--   **对应 Rsbuild Hook**: [onAfterBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onafterbuild)
--   **示例:**
+-   **类型：**  `api.onAfterBuild(buildFn: () => void | Promise<void>)`
+-   **参数：**
+    -   `buildFn`： 构建后执行的函数，无参数，可异步。
+-   **执行阶段：** 在执行构建流程之后。
+-   **对应 Rsbuild Hook**： [onAfterBuild](https://rsbuild.dev/zh/plugins/dev/hooks#onafterbuild)
+-   **示例：**
 
 ```typescript
 api.onAfterBuild(()=>{
@@ -477,14 +483,14 @@ api.onAfterBuild(()=>{
 ---
 
 #### `api.onDevCompileDone`
-注册一个在开发服务器编译完成后执行的钩子函数。
+在开发服务器编译完成后添加额外的逻辑。
 
--   **类型:**  `api.onDevCompileDone(compileFn: () => void | Promise<void>)`
--   **参数:**
-    -   `compileFn`: 编译完成后执行的函数。
--   **执行阶段:** 开发服务器启动，且首次编译完成后。
--   **对应 Rsbuild Hook**: [onDevCompileDone](https://rsbuild.dev/zh/plugins/dev/hooks#ondevcompiledone)
--   **示例:**
+-   **类型：**  `api.onDevCompileDone(compileFn: () => void | Promise<void>)`
+-   **参数：**
+    -   `compileFn`： 编译完成后执行的函数。
+-   **执行阶段：** 开发服务器启动，且首次编译完成后。
+-   **对应 Rsbuild Hook**： [onDevCompileDone](https://rsbuild.dev/zh/plugins/dev/hooks#ondevcompiledone)
+-   **示例：**
 
 ```typescript
 api.onDevCompileDone(()=>{
@@ -495,14 +501,14 @@ api.onDevCompileDone(()=>{
 
 #### `api.onBeforeCreateCompiler`
 
-注册一个在创建编译器实例之前执行的钩子函数。
+在创建编译器实例之前添加额外的逻辑。
 
--   **类型:**  `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
--   **参数:**
-    -   `createFn`: 创建前执行的函数，无参数，可异步。
--   **执行阶段:** 在创建 Webpack 或 Rspack 编译器实例之前。
--   **对应 Rsbuild Hook**: [onBeforeCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforecreatecompiler)
--   **示例:**
+-   **类型：**  `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
+-   **参数：**
+    -   `createFn`： 创建前执行的函数，无参数，可异步。
+-   **执行阶段：** 在创建 Webpack 或 Rspack 编译器实例之前。
+-   **对应 Rsbuild Hook**： [onBeforeCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onbeforecreatecompiler)
+-   **示例：**
 
 ```typescript
 api.onBeforeCreateCompiler(()=>{
@@ -513,14 +519,14 @@ api.onBeforeCreateCompiler(()=>{
 ---
 
 #### `api.onAfterCreateCompiler`
-注册一个在创建编译器实例之后执行的钩子函数。
+在创建编译器实例之后添加额外的逻辑。
 
--   **类型:**  `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
--   **参数:**
-    -   `createFn`: 创建后执行的函数，无参数，可异步。
--   **执行阶段:** 在创建 Webpack 或 Rspack 编译器实例之后。
--   **对应 Rsbuild Hook**: [onAfterCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onaftercreatecompiler)
--   **示例:**
+-   **类型：**  `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
+-   **参数：**
+    -   `createFn`： 创建后执行的函数，无参数，可异步。
+-   **执行阶段：** 在创建 Webpack 或 Rspack 编译器实例之后。
+-   **对应 Rsbuild Hook**： [onAfterCreateCompiler](https://rsbuild.dev/zh/plugins/dev/hooks#onaftercreatecompiler)
+-   **示例：**
 
 ```typescript
 api.onAfterCreateCompiler(()=>{
@@ -532,13 +538,13 @@ api.onAfterCreateCompiler(()=>{
 
 #### `api.onBeforeDev`
 
-注册一个在开发服务器启动前执行的钩子函数。
+在开发服务器启动前添加额外的逻辑。
 
-- **类型:** `api.onBeforeDev(devFn: () => void | Promise<void>)`
-- **参数:**
-  - `devFn`: 开发服务器启动前执行的函数，无参数，可异步。
-- **执行阶段:** 在执行 `dev` 命令启动开发服务器之前。
-- **示例:**
+- **类型：** `api.onBeforeDev(devFn: () => void | Promise<void>)`
+- **参数：**
+  - `devFn`： 开发服务器启动前执行的函数，无参数，可异步。
+- **执行阶段：** 在执行 `dev` 命令启动开发服务器之前。
+- **示例：**
 
 ```typescript
 api.onBeforeDev(async () => {
@@ -551,14 +557,14 @@ api.onBeforeDev(async () => {
 
 #### `api.onAfterDev`
 
-注册一个在开发服务器启动后执行的钩子函数。
+在开发服务器启动后添加额外的逻辑。
 
-- **类型:** `api.onAfterDev(devFn: () => void | Promise<void>)`
-- **参数:**
-    -   `devFn`: 开发服务器启动后执行的函数。
-- **执行阶段:** 开发服务器成功启动后。
-- **对应 Rsbuild Hook**: [onAfterStartDevServer](https://rsbuild.dev/zh/plugins/dev/hooks#onafterstartdevserver)
-- **示例:**
+- **类型：** `api.onAfterDev(devFn: () => void | Promise<void>)`
+- **参数：**
+    -   `devFn`： 开发服务器启动后执行的函数。
+- **执行阶段：** 开发服务器成功启动后。
+- **对应 Rsbuild Hook**： [onAfterStartDevServer](https://rsbuild.dev/zh/plugins/dev/hooks#onafterstartdevserver)
+- **示例：**
 
 ```typescript
 api.onAfterDev(()=>{
@@ -570,13 +576,13 @@ api.onAfterDev(()=>{
 
 #### `api.onBeforeExit`
 
-注册一个在进程退出前执行的钩子函数。
+在进程退出前添加额外的逻辑。
 
-- **类型:** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
-- **参数:**
-  - `exitFn`: 进程退出前执行的函数，无参数，可异步。
-- **执行阶段:** 在 Modern.js 进程即将退出时（例如，用户按下 Ctrl+C）。
-- **示例:**
+- **类型：** `api.onBeforeExit(exitFn: () => void | Promise<void>)`
+- **参数：**
+  - `exitFn`： 进程退出前执行的函数，无参数，可异步。
+- **执行阶段：** 在 Modern.js 进程即将退出时（例如，用户按下 Ctrl+C）。
+- **示例：**
 
 ```typescript
 api.onBeforeExit(async () => {
@@ -587,33 +593,15 @@ api.onBeforeExit(async () => {
 
 ---
 
-#### `api.deploy`
-
-注册一个在部署阶段执行的钩子函数。
-
--   **类型:**  `api.deploy(deployFn: () => void | Promise<void>)`
--   **参数:**
-    -   `deployFn`: 部署时执行的任务。
--   **执行阶段:** 执行 `deploy` 命令，并且 `build` 完成后。
--   **示例:**
-
-```typescript
-api.deploy(()=>{
-    // 执行部署
-})
-```
-
----
-
 #### `api.onBeforePrintInstructions`
 
-注册一个在打印成功信息前执行的钩子。
+在打印成功信息前添加额外的逻辑。
 
--   **类型:**  `api.onBeforePrintInstructions(printFn: ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>)`
--   **参数:**
-    -   `printFn`: 修改打印信息的函数, 返回修改后的信息。
--   **执行阶段:** 打印成功信息前。
--   **示例:**
+-   **类型：**  `api.onBeforePrintInstructions(printFn: ({instructions: string}) => {instructions: string} | Promise<{instructions: string}>)`
+-   **参数：**
+    -   `printFn`： 修改打印信息的函数， 返回修改后的信息。
+-   **执行阶段：** 打印成功信息前。
+-   **示例：**
 
 ```typescript
 api.onBeforePrintInstructions(({ instructions }) => {
