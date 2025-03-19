@@ -1,4 +1,4 @@
-import type { StateConfig } from './dist/types';
+import type { StateConfig } from '../dist/types';
 
 declare module '@modern-js/runtime' {
   interface AppConfig {
@@ -11,6 +11,6 @@ declare module '@modern-js/runtime' {
 }
 declare module '@modern-js/app-tools' {
   interface RuntimeUserConfig {
-    state?: StateConfig;
+    state?: StateConfig | boolean;
   }
 }
