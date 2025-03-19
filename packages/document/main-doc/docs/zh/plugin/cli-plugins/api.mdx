@@ -144,9 +144,10 @@ const hooks = api.getHooks();
 hooks.onPrepare.call();
 ```
 
-:::wraning
+:::warning
 在自定义插件中，只能手动调用对应插件注册的钩子，不能调用官方钩子，以免影响正常应用的执行顺序。
 :::
+
 ---
 
 ## 配置修改
@@ -350,7 +351,7 @@ api.modifyHtmlPartials(({ entrypoint, partials }) => {
 });
 ```
 
-:::wraning
+:::warning
 当使用[完全自定义模板](/guides/basic-features/html.html#完全自定义-html-模板)时，该钩子函数将不会执行。
 :::
 
