@@ -186,6 +186,30 @@ describe('cache function', () => {
       expect(mockFn).toHaveBeenCalledTimes(2); // Called once for 'param1' and once for 'param2'
     });
 
+    it('should not mix different functions with same parameters', async () => {
+      const mockFn1 = jest.fn().mockResolvedValue('data1');
+      const mockFn2 = jest.fn().mockResolvedValue('data2');
+      const cachedFn1 = cache(mockFn1);
+      const cachedFn2 = cache(mockFn2);
+
+      const handler = withRequestCache(async (req: Request) => {
+        const result1 = await cachedFn1('sameParam');
+        const result2 = await cachedFn2('sameParam');
+        const result3 = await cachedFn1('sameParam');
+        return { result1, result2, result3 };
+      });
+
+      const { result1, result2, result3 } = await handler(
+        new MockRequest() as unknown as Request,
+      );
+
+      expect(result1).toBe('data1');
+      expect(result2).toBe('data2');
+      expect(result3).toBe('data1');
+      expect(mockFn1).toHaveBeenCalledTimes(1);
+      expect(mockFn2).toHaveBeenCalledTimes(1);
+    });
+
     it('should use normal caching when options provided on server', async () => {
       const mockFn = jest.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { maxAge: CacheTime.SECOND });
