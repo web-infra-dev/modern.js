@@ -1,4 +1,3 @@
-import type { Store } from '@modern-js-reduck/store';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext } from 'react';
@@ -12,8 +11,6 @@ interface BaseRuntimeContext {
   isBrowser: boolean;
   // ssr type
   ssrContext?: SSRServerContext;
-  // state type
-  store?: Store;
   routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
   context?: TSSRContext;
@@ -41,8 +38,6 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   request?: SSRServerContext['request'];
   /** @deprecated use context.response field instead */
   response?: SSRServerContext['response'];
-  // store type
-  store?: Store;
   [key: string]: any;
 }
 

@@ -4,11 +4,10 @@ import {
   type StoreConfig,
   createStore,
 } from '@modern-js-reduck/store';
+import type { Plugin } from '@modern-js/runtime';
+import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { useContext } from 'react';
-import { isBrowser } from '../../common';
-import { RuntimeReactContext } from '../../core';
-import type { Plugin } from '../../core';
 import { autoActions, devtools, effects, immer } from '../plugins';
 
 type StatePluginType = 'immer' | 'effects' | 'autoActions' | 'devtools';
