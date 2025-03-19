@@ -12,12 +12,17 @@ export async function createDevServer(
   options: ModernDevServerOptions,
   applyPlugins: ApplyPlugins,
 ) {
-  const { config, pwd, serverConfigPath, builder } = options;
+  const { config, pwd, serverConfigFile, serverConfigPath, builder } = options;
   const dev = getDevOptions(options);
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = (await loadServerRuntimeConfig(serverConfigPath)) || {};
+  const serverConfig =
+    (await loadServerRuntimeConfig(
+      distDir,
+      serverConfigFile,
+      serverConfigPath,
+    )) || {};
 
   const prodServerOptions = {
     ...options,

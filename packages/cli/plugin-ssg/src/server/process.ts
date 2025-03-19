@@ -58,6 +58,8 @@ process.on('message', async (chunk: string) => {
       pwd: distDirectory,
       config: options as any,
       appContext,
+      // TODO
+      serverConfigPath: '',
       routes,
       plugins: await loadServerPlugins(
         plugins,
