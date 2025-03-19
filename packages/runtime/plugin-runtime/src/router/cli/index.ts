@@ -1,6 +1,7 @@
 import path from 'node:path';
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import type {
+  Entrypoint,
   NestedRouteForCli,
   PageRoute,
   ServerRoute,
@@ -31,6 +32,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
     const nestedRoutesForServer: Record<string, unknown> = {};
 
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
+      const { nestedRoutesEntry, pageRoutesEntry } = entrypoint as Entrypoint;
       const { packageName, serverRoutes, metaName } = api.getAppContext();
       const serverBase = serverRoutes
         .filter(
@@ -46,7 +48,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       )?.router;
-      if (routerConfig && !isV5(userConfig)) {
+      if ((nestedRoutesEntry || pageRoutesEntry) && !isV5(userConfig)) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router`,
