@@ -1,6 +1,3 @@
-/**
- * The plugin is developing, ignore it now
- */
 import path from 'path';
 import type Webpack from 'webpack';
 import type { Module } from 'webpack';
@@ -38,11 +35,9 @@ export class RspackRscClientPlugin {
   apply(compiler: Webpack.Compiler): void {
     const {
       EntryPlugin,
-      // AsyncDependenciesBlock,
       RuntimeGlobals,
       RuntimeModule,
       WebpackError,
-      // dependencies: { ModuleDependency, NullDependency },
       sources: { RawSource },
     } = compiler.webpack;
 
@@ -52,20 +47,10 @@ export class RspackRscClientPlugin {
       styles: [],
     };
 
-    // class ClientReferenceDependency extends ModuleDependency {
-    //   override get type(): string {
-    //     return `client-reference`;
-    //   }
-    // }
-
     const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
       const entryModules: Webpack.Module[] = [];
 
       for (const [, entryValue] of compilation.entries.entries()) {
-        // const entryDependency = entryValue.dependencies.find(
-        //   dependency => dependency.constructor.name === `EntryDependency`,
-        // );
-
         const entryDependency = entryValue.dependencies[0];
 
         if (!entryDependency) {
@@ -100,15 +85,17 @@ export class RspackRscClientPlugin {
     ) => {
       const promises = [];
       [...this.clientReferencesMap.keys()].forEach((resourcePath, index) => {
-        const dependency = EntryPlugin.createDependency(resourcePath, {
-          name: resourcePath,
-        });
         const entries = compilation.entries.entries();
 
         for (const [entryName, entry] of entries) {
+          const runtimeName = entry.options.runtime || entryName;
           if (hasExtension(entryName)) {
             continue;
           }
+
+          const dependency = EntryPlugin.createDependency(resourcePath, {
+            name: resourcePath,
+          });
 
           promises.push(
             new Promise((resolve, reject) => {
@@ -122,6 +109,9 @@ export class RspackRscClientPlugin {
                   if (error) {
                     reject(error);
                   } else {
+                    compilation.moduleGraph
+                      .getExportsInfo(module!)
+                      .setUsedInUnknownWay(runtimeName);
                     this.dependencies.push(dependency);
                     resolve(undefined);
                   }
@@ -147,6 +137,9 @@ export class RspackRscClientPlugin {
                   if (error) {
                     reject(error);
                   } else {
+                    compilation.moduleGraph
+                      .getExportsInfo(module!)
+                      .setUsedInUnknownWay(undefined);
                     this.dependencies.push(dependency);
                     resolve(undefined);
                   }
@@ -226,9 +219,15 @@ export class RspackRscClientPlugin {
 
         compilation.hooks.processAssets.tap(RspackRscClientPlugin.name, () => {
           const clientManifest: ClientManifest = {};
-          const { chunkGraph, moduleGraph, modules } = compilation;
+          const { chunkGraph, moduleGraph } = compilation;
 
-          for (const module of modules) {
+          // use dependencies, not modules
+          // so that the bundler can get the moduleId if the dependency points to a different module when optimizing like concat modules.
+          for (const dependency of this.dependencies) {
+            const module = moduleGraph.getModule(dependency);
+            if (!module) {
+              continue;
+            }
             const resourcePath = module.nameForCondition();
 
             const clientReferences = resourcePath
