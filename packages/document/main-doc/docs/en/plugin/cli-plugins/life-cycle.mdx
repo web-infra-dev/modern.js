@@ -1,3 +1,139 @@
 # Life Cycle
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/cli-plugin-life-cycle.png)
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    init{{"CLI Plugin Init"}}
+    env(Initialize Environment Variables)
+    load_config(Load User Configuration File)
+    cli_plugin(Load CLI Plugin)
+    registry_hooks(Register Hooks Function<br><sub>Execute plugin setup function, register hooks defined in the plugin, and the logic in the plugin setup will also be executed here</sub>)
+
+    app_tools{{"app-tools"}}
+
+    config(Configuration)
+    onPrepare(On Prepare)
+    addCommand(Add Command)
+    addWatchFiles(Add Watch Files)
+    onFileChanged(On File Changed)
+    onBeforeExit(On Before Exit<br><sub>Triggered by SIGINT, SIGTERM, unhandledRejection, uncaughtException events</sub>)
+
+    onBeforeDev(On Before Dev)
+    onBeforeRestart(On Before Restart<br><sub>Triggered when modified files require a service restart</sub>)
+    onBeforeBuild(On Before Build<br><sub>Triggered in standalone BFF projects</sub>)
+    onAfterBuild(On After Build<br><sub>Triggered in standalone BFF projects</sub>)
+    modifyServerRoutes(Modify Server Routes)
+    modifyHtmlPartials(Modify HTML Partials)
+
+    onPrepare_fork(On Prepare)
+    addCommand_fork(Add Command)
+    onFileChanged_fork(On File Changed)
+
+    registry_rsbuild_hooks(Register rsbuild Hooks<br><sub>This only registers the rsbuild hooks; the specific execution timing is determined by the rsbuild plugin mechanism</sub>)
+
+    modifyBundlerChain(Modify Bundler Chain)
+    modifyRsbuildConfig(Modify Rsbuild Configuration)
+    modifyRspackConfig(Modify Rspack Configuration)
+    modifyWebpackChain(Modify Webpack Chain)
+    modifyWebpackConfig(Modify Webpack Configuration)
+
+    onBeforeBuild_rsbuild(On Before Build)
+    onAfterBuild_rsbuild(On After Build)
+    onDevCompileDone(On Dev Compile Done)
+    onBeforeCreateCompiler(On Before Create Compiler)
+    onAfterCreateCompiler(On After Create Compiler)
+    onAfterDev(On After Dev<br><sub>Corresponds to the onAfterStartDevServer Hook of rsbuild</sub>)
+
+    dev[/dev/]
+    build[/build/]
+    extra_command[/.../]
+
+    dev_fork[/dev/]
+    build_fork[/build/]
+    serve[/serve/]
+    deploy[/deploy/]
+    inspect[/inspect/]
+    upgrade[/upgrade/]
+
+    onPrepare_fork --> modifyServerRoutes
+    modifyServerRoutes --> modifyHtmlPartials
+    modifyHtmlPartials --> registry_rsbuild_hooks
+    registry_rsbuild_hooks --> modifyBundlerChain
+    modifyBundlerChain --> modifyRsbuildConfig
+    modifyRsbuildConfig --> modifyRspackConfig
+    modifyRspackConfig --> modifyWebpackChain
+    modifyWebpackChain --> modifyWebpackConfig
+    registry_rsbuild_hooks --> onBeforeBuild_rsbuild
+    onBeforeBuild_rsbuild --> onAfterBuild_rsbuild
+    onAfterBuild_rsbuild --> onDevCompileDone
+    onDevCompileDone --> onBeforeCreateCompiler
+    onBeforeCreateCompiler --> onAfterCreateCompiler
+    onAfterCreateCompiler --> onAfterDev
+
+    dev_fork --> onBeforeDev
+    onBeforeDev --> onFileChanged_fork
+    onFileChanged_fork --> onBeforeRestart
+
+    build_fork --> onBeforeBuild
+    onBeforeBuild --> onAfterBuild
+
+    app_tools --- spacer5[ ] --- spacer6[ ] --- spacer7[ ] --- spacer8[ ] --- spacer9[ ] --> onPrepare_fork
+    onPrepare_fork --> addCommand_fork
+    addCommand_fork --> dev_fork
+    addCommand_fork --> build_fork
+    addCommand_fork --> serve
+    addCommand_fork --> deploy
+    addCommand_fork --> inspect
+    addCommand_fork --> upgrade
+
+    init --> env
+    env --> load_config
+    load_config --> cli_plugin
+    cli_plugin --> registry_hooks
+
+    registry_hooks --> config
+    config --> onPrepare
+    onPrepare --> addCommand
+
+    addCommand --> dev
+    addCommand --> build
+    addCommand --> extra_command
+
+    dev --> addWatchFiles
+    addWatchFiles --> onFileChanged
+
+    onFileChanged --> onBeforeExit
+    build --- spacer[ ] --- spacer2[ ] --> onBeforeExit
+    extra_command --- spacer3[ ] --- spacer4[ ] --> onBeforeExit
+
+    style init fill:#FDE68A;
+    style app_tools fill:#FDE68A;
+    style env stroke-dasharray:5 5,fill:#86EFAC;
+    style registry_rsbuild_hooks stroke-dasharray:5 5,fill:#9CA3AF;
+    style load_config stroke-dasharray:5 5,fill:#86EFAC;
+    style cli_plugin stroke-dasharray:5 5,fill:#86EFAC;
+    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF;
+
+    style dev fill:#7DD3FC;
+    style build fill:#7DD3FC;
+    style extra_command fill:#7DD3FC;
+    style dev_fork fill:#7DD3FC;
+    style build_fork fill:#7DD3FC;
+    style serve fill:#7DD3FC;
+    style upgrade fill:#7DD3FC;
+    style deploy fill:#7DD3FC;
+    style inspect fill:#7DD3FC;
+
+    style spacer fill:none,stroke:none,height:0px;
+    style spacer2 fill:none,stroke:none,height:0px;
+    style spacer3 fill:none,stroke:none,height:0px;
+    style spacer4 fill:none,stroke:none,height:0px;
+    style spacer5 fill:none,stroke:none,height:0px;
+    style spacer6 fill:none,stroke:none,height:0px;
+    style spacer7 fill:none,stroke:none,height:0px;
+    style spacer8 fill:none,stroke:none,height:0px;
+    style spacer9 fill:none,stroke:none,height:0px;
+`}
+</Mermaid>
