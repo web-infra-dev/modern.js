@@ -5,7 +5,7 @@ import {
   type InternalRequest,
   type Middleware,
 } from '@modern-js/server-core';
-import { connectMid2HonoMid } from '@modern-js/server-core/node';
+import { connectMockMid2HonoMid } from '@modern-js/server-core/node';
 import type { NextFunction } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
@@ -163,7 +163,7 @@ export async function getMockMiddleware(pwd: string): Promise<Middleware> {
       const { handler } = matchedMockAPI;
 
       if (typeof handler === 'function') {
-        return await connectMid2HonoMid(handler)(c, next);
+        return await connectMockMid2HonoMid(handler)(c, next);
       } else {
         return c.json(handler);
       }

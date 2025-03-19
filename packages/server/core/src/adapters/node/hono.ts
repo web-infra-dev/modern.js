@@ -79,3 +79,34 @@ export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
     });
   };
 };
+
+/**
+ * Because we are not sure how use devServer.before and devServer.after, we add a new function to handle the mock middleware
+ * And we supose mock handler always process the res directly
+ * So we need to set the context.finalized = true and resolve the promise
+ */
+export const connectMockMid2HonoMid = (
+  handler: ConnectMiddleware,
+): Middleware => {
+  return async (context: Context<ServerNodeEnv>, next: Next) => {
+    return new Promise((resolve, reject) => {
+      const { req, res } = context.env.node;
+      // The function lenth < 3 means the handler is not a function with next
+      if (handler.length < 3) {
+        res.once('finish', () => {
+          context.finalized = true;
+          resolve();
+        });
+        handler(req, res, noop);
+      } else {
+        handler(req, res, err => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(next());
+          }
+        });
+      }
+    });
+  };
+};
