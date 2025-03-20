@@ -1,11 +1,11 @@
 import { initAppDir } from '@modern-js/plugin-v2/cli';
 import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
 import type { InternalPlugins } from '@modern-js/types';
-import { minimist } from '@modern-js/utils';
+import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';
-import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
+import { PACKAGE_JSON_CONFIG_NAME, STATE_PLUGIN_NAME } from '../constants';
 import { getConfigFile } from '../utils/getConfigFile';
-import { isAutoLoadPlugins } from '../utils/isAutoLoadPlugins';
+import { getUserConfig } from '../utils/getUserConfig';
 import { loadInternalPlugins } from '../utils/loadPlugins';
 
 export interface RunOptions {
@@ -13,6 +13,7 @@ export interface RunOptions {
   configFile?: string;
   metaName?: string;
   packageJsonConfig?: string;
+  statePluginName?: string;
   internalPlugins?: {
     cli?: InternalPlugins;
     autoLoad?: InternalPlugins;
@@ -27,6 +28,7 @@ export async function run({
   version,
   internalPlugins,
   packageJsonConfig = PACKAGE_JSON_CONFIG_NAME,
+  statePluginName = STATE_PLUGIN_NAME,
   configFile,
 }: RunOptions) {
   const command = process.argv[2];
@@ -72,7 +74,7 @@ export async function run({
 
   const appDirectory = await initAppDir(cwd);
   const finalConfigFile: string = customConfigFile || getConfigFile(configFile);
-  const autoLoadPlugins = await isAutoLoadPlugins(
+  const userConfig = await getUserConfig(
     appDirectory,
     finalConfigFile,
     packageJsonConfig,
@@ -82,8 +84,32 @@ export async function run({
     appDirectory,
     internalPlugins?.cli,
     internalPlugins?.autoLoad,
-    autoLoadPlugins,
+    userConfig.autoLoadPlugins,
   );
+
+  if (
+    !userConfig.autoLoadPlugins &&
+    userConfig.runtime &&
+    typeof userConfig.runtime !== 'boolean' &&
+    (userConfig.runtime?.state === true ||
+      typeof userConfig.runtime?.state === 'object')
+  ) {
+    if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
+      console.error(
+        `${chalk.red('\n[Error]')} In the current version, if you need to use ${chalk.yellow.bold(`\`runtime.state\``)}, you must run ${chalk.yellow.bold(`\`pnpm install ${statePluginName}\``)} to install the ${statePluginName} dependency and manually register the plugin. Please add the following code to ${finalConfigFile}:
+
+${chalk.yellow.bold(`import { statePlugin } from '${statePluginName}';
+
+export default defineConfig({
+  plugins: [
+    ...,
+    statePlugin(),
+  ],
+});
+        `)}`,
+      );
+    }
+  }
 
   await CLIPluginRun({
     cwd,
