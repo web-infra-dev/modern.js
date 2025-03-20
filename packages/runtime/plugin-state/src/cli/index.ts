@@ -21,13 +21,11 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       )?.state;
-      if (stateConfig) {
-        plugins.push({
-          name: PLUGIN_IDENTIFIER,
-          path: `@${metaName}/runtime/model`,
-          config: typeof stateConfig === 'boolean' ? {} : stateConfig,
-        });
-      }
+      plugins.push({
+        name: PLUGIN_IDENTIFIER,
+        path: `@${metaName}/runtime/model`,
+        config: typeof stateConfig === 'boolean' ? {} : stateConfig,
+      });
       return { entrypoint, plugins };
     });
     api.config(() => {
