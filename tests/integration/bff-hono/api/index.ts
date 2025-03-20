@@ -8,13 +8,15 @@ import {
   Pipe,
   Post,
   Query,
-  useContext,
-} from '@modern-js/runtime/server';
+  useHonoContext,
+} from '@modern-js/plugin-bff/hono';
 import { z } from 'zod';
 
-export default async () => ({
-  message: 'Hello Modern.js',
-});
+export default async () => {
+  return {
+    message: 'Hello Modern.js',
+  };
+};
 
 export const post = async ({ formUrlencoded }: { formUrlencoded: any }) => {
   return {
@@ -37,7 +39,6 @@ const ParamsSchema = z.object({
 
 const HeadersSchema = z.object({
   'x-header': z.string(),
-  'x-parse-through-body': z.string(),
 });
 
 export const postHello = Api(
@@ -63,7 +64,7 @@ export const postHello = Api(
     return input;
   }),
   async ({ query, data, params, headers }) => {
-    const c = useContext();
+    const c = useHonoContext();
     c.res.headers.set('x-bff-api', c.req.path);
     return {
       path: c.req.path,
@@ -80,7 +81,7 @@ export const getHello = Api(
   Query(QuerySchema),
   async ({ query }) => {
     try {
-      const c = useContext();
+      const c = useHonoContext();
       c.res.headers.set('x-bff-api', c.req.path);
     } catch (error) {
       return {

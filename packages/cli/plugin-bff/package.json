@@ -27,7 +27,6 @@
       "default": "./dist/cjs/cli.js"
     },
     "./types": "./types/index.d.ts",
-    "./types/runtime": "./types/runtime.d.ts",
     "./cli": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
@@ -43,10 +42,10 @@
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
     },
-    "./runtime": {
-      "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/cjs/runtime/index.js"
+    "./hono": {
+      "types": "./dist/types/runtime/hono/index.d.ts",
+      "jsnext:source": "./src/runtime/hono/index.ts",
+      "default": "./dist/cjs/runtime/hono/index.js"
     },
     "./runtime/create-request": {
       "types": "./dist/types/create-request/index.d.ts",
@@ -64,6 +63,9 @@
       ],
       "server": [
         "./dist/types/server.d.ts"
+      ],
+      "hono": [
+        "./dist/types/runtime/hono/index.d.ts"
       ],
       "runtime/create-request": [
         "./dist/types/runtime/create-request/index.d.ts"
@@ -85,7 +87,6 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "type-is": "^1.6.18",
-    "hono": "^3.12.2",
     "formidable": "^1.2.2",
     "@swc/helpers": "0.5.13"
   },
@@ -107,7 +108,12 @@
     "memfs": "^3.5.1",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.98.0"
+    "webpack": "^5.98.0",
+    "hono": "^3.12.2",
+    "zod": "^3.22.3"
+  },
+  "peerDependencies": {
+    "hono": "^3.12.2"
   },
   "sideEffects": false,
   "publishConfig": {

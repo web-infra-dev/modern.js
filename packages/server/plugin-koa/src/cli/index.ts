@@ -11,8 +11,12 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
     const useConfig = api.useConfigContext();
 
-    useConfig.bff ??= {};
-    (useConfig.bff as any).runtimeFramework = 'koa';
+    const appContext = api.useAppContext();
+
+    api.setAppContext({
+      ...appContext,
+      bffRuntimeFramework: 'koa',
+    });
 
     return {
       config() {
