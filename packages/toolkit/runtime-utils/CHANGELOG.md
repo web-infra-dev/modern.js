@@ -1,5 +1,16 @@
 # @modern-js/runtime-utils
 
+## 2.65.5
+
+### Patch Changes
+
+- 90a3c1c: fix(cache): handle different functions with same parameters for cache function
+  fix(cache): 正确处理使用 cache 函数时，不同函数，相同参数的 case
+- 58a1afd: feat: Add response APIs to support setting response headers, status codes, and redirects
+  feat: 添加一些响应的 API，可以设置响应头，状态码，及重定向
+  - @modern-js/types@2.65.5
+  - @modern-js/utils@2.65.5
+
 ## 2.65.4
 
 ### Patch Changes

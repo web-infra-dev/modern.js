@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.65.5
+
+### Patch Changes
+
+- 58a1afd: feat: improve support rsc with rspack
+  feat: 完善 rspack 下对 rsc 的支持
+- 037bb48: fix: postcss.config not works
+  - @modern-js/babel-preset@2.65.5
+  - @modern-js/flight-server-transform-plugin@2.65.5
+  - @modern-js/utils@2.65.5
+
 ## 2.65.4
 
 ### Patch Changes

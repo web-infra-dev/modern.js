@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "rsc-ssr-app",
-  "version": "2.65.4",
+  "version": "2.65.5",
   "scripts": {
     "dev": "cross-env BUNDLER=rspack modern dev",
     "dev:webpack": "cross-env BUNDLER=webpack  modern dev",
