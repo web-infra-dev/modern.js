@@ -112,13 +112,12 @@ const getHonoInput = async (c: Context) => {
     const contentType = c.req.header('content-type') || '';
     if (typeIs.is(contentType, ['application/json'])) {
       try {
-        draft.data = await c.req.json();
+        draft.data = await resolveData(c);
       } catch {
         draft.data = {};
       }
     } else if (typeIs.is(contentType, ['multipart/form-data'])) {
-      const formData = await resolveHonoFormData(c);
-      draft.formData = formData;
+      draft.formData = await resolveFormData(c);
     } else if (typeIs.is(contentType, ['application/x-www-form-urlencoded'])) {
       draft.formUrlencoded = await c.req.parseBody();
     } else {
@@ -130,20 +129,45 @@ const getHonoInput = async (c: Context) => {
   return draft;
 };
 
-const resolveHonoFormData = (c: Context): Promise<Record<string, any>> => {
-  const form = formidable({ multiples: true });
+const resolveFormData = (c: Context): Promise<Record<string, any>> => {
   return new Promise((resolve, reject) => {
-    form.parse(c.env.node?.req, (err, fields, files) => {
-      if (err) {
-        reject(err);
-      }
+    try {
+      const nodeReadable = c.env.node?.req;
 
-      resolve({
-        ...fields,
-        ...files,
+      if (!c.env.node?.req) return {};
+
+      nodeReadable.headers = {
+        'content-type': c.env.node.req.headers['content-type'],
+        'content-length': c.env.node.req.headers['content-length'],
+      };
+      const form = formidable({
+        multiples: true,
       });
-    });
+
+      form.parse(nodeReadable, (err, fields, files) => {
+        if (err) reject(err);
+        resolve({ ...fields, ...files });
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
+
+async function resolveData(c: Context): Promise<Record<string, any>> {
+  try {
+    const nodeReadable = c.env.node?.req;
+    if (!c.env.node?.req) return {};
+
+    let data = '';
+    for await (const chunk of nodeReadable) {
+      data += chunk.toString('utf8');
+    }
+
+    return JSON.parse(data);
+  } catch (error) {
+    return {};
+  }
+}
 
 export default createHonoRoutes;

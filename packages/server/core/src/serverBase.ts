@@ -32,6 +32,7 @@ export type ServerBaseOptions = {
     sharedDirectory?: string;
     apiDirectory?: string;
     lambdaDirectory?: string;
+    bffRuntimeFramework?: string;
   };
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
 };
@@ -102,6 +103,7 @@ export class ServerBase<E extends Env = any> {
       plugins: [],
       metaName: metaName || 'modern-js',
       serverBase: this,
+      bffRuntimeFramework: context.bffRuntimeFramework,
     } as any;
 
     return createContext<ISAppContext>(appContext);

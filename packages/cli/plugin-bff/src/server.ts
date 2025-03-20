@@ -1,6 +1,6 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
-import type { PluginAPI, ServerPlugin } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,
@@ -107,7 +107,6 @@ export default (): ServerPlugin => ({
         }
 
         honoRuntime.registerMiddleware({
-          customMiddlewares: middlewares,
           prefix,
           enableHandleWeb,
         });

@@ -8,12 +8,9 @@ import createHonoRoutes from '../utils/createHonoRoutes';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
 
-type SF = (args: any) => void;
-
 interface MiddlewareOptions {
   prefix: string;
   enableHandleWeb?: boolean;
-  customMiddlewares: SF[];
 }
 
 export class HonoRuntime {
@@ -54,10 +51,11 @@ export class HonoRuntime {
   };
 
   registerMiddleware = async (options: MiddlewareOptions) => {
-    const { prefix, enableHandleWeb, customMiddlewares } = options;
+    const { prefix } = options;
 
-    const { bff } = this.api.useConfigContext();
-    if ((bff as any)?.runtimeFramework !== 'hono') {
+    const { bffRuntimeFramework } = this.api.useAppContext();
+
+    if (bffRuntimeFramework !== 'hono') {
       this.isHono = false;
       return;
     }
@@ -79,21 +77,6 @@ export class HonoRuntime {
         order: 'post',
         before,
       });
-
-    (customMiddlewares as unknown as MiddlewareHandler[]).forEach(handler => {
-      globalMiddlewares.push({
-        name: 'bff-custom-middleware',
-        handler: (c: Context, next: Next) => {
-          if (c.req.path.startsWith(prefix || '/api') || enableHandleWeb) {
-            return handler(c, next);
-          } else {
-            return next();
-          }
-        },
-        order: 'post',
-        before,
-      });
-    });
 
     await this.setHandlers();
 

@@ -12,9 +12,11 @@ import {
 } from '@modern-js/runtime/server';
 import { z } from 'zod';
 
-export default async () => ({
-  message: 'Hello Modern.js',
-});
+export default async () => {
+  return {
+    message: 'Hello Modern.js',
+  };
+};
 
 export const post = async ({ formUrlencoded }: { formUrlencoded: any }) => {
   return {
@@ -37,7 +39,6 @@ const ParamsSchema = z.object({
 
 const HeadersSchema = z.object({
   'x-header': z.string(),
-  'x-parse-through-body': z.string(),
 });
 
 export const postHello = Api(
