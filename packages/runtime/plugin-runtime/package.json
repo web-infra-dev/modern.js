@@ -34,7 +34,6 @@
     "./types": "./types/index.d.ts",
     "./types/index": "./types/index.d.ts",
     "./types/router": "./types/router.d.ts",
-    "./types/model": "./types/model.d.ts",
     "./context": {
       "types": "./dist/types/core/context/index.d.ts",
       "jsnext:source": "./src/core/context/index.ts",
@@ -91,11 +90,6 @@
       "jsnext:source": "./src/document/index.ts",
       "node": "./dist/cjs/document/index.js",
       "default": "./dist/esm/document/index.js"
-    },
-    "./model": {
-      "types": "./types/model.d.ts",
-      "jsnext:source": "./src/state/index.ts",
-      "default": "./dist/esm/state/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
@@ -177,9 +171,6 @@
       ],
       "ssr/server": [
         "./dist/types/core/server/server.d.ts"
-      ],
-      "model": [
-        "./types/model.d.ts"
       ],
       "router": [
         "./dist/types/router/index.d.ts"
