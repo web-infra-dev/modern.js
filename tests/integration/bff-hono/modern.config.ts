@@ -4,12 +4,15 @@ import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   server: {
-    ssr: true,
+    ssr: {
+      mode: 'stream',
+    },
+  },
+  runtime: {
+    router: true,
   },
   bff: {
-    prefix: '/bff-hono',
-    enableHandleWeb: true,
-    // crossProject: true,
+    prefix: '/bff-api',
   },
   plugins: [bffPlugin(), serverPlugin()],
 });

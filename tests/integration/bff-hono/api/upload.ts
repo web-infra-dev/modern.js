@@ -1,4 +1,4 @@
-import { Api, Upload } from '@modern-js/runtime/server';
+import { Api, Upload } from '@modern-js/runtime/hono';
 import { z } from 'zod';
 
 const FileSchema = z.object({

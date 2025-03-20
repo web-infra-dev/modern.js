@@ -3,7 +3,13 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
-import { fs, API_DIR, SHARED_DIR, normalizeOutputPath } from '@modern-js/utils';
+import {
+  fs,
+  API_DIR,
+  SHARED_DIR,
+  isProd,
+  normalizeOutputPath,
+} from '@modern-js/utils';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
@@ -11,15 +17,11 @@ import runtimeGenerator from './utils/runtimeGenerator';
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
+const RUNTIME_BFF = '@modern-js/plugin-bff/runtime';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
-    const useConfig = api.useConfigContext();
-
-    useConfig.bff ??= {};
-    (useConfig.bff as any).runtimeFramework = 'hono';
-
     const compileApi = async () => {
       const {
         appDirectory,
@@ -130,18 +132,22 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       }
     };
 
+    const isHono = () => {
+      const { bffRuntimeFramework } = api.useAppContext();
+      return bffRuntimeFramework === 'hono';
+    };
+
     return {
       config() {
         const useConfig = api.useConfigContext();
-        const { bff } = useConfig ?? {};
-        const isHono = (bff as any)?.runtimeFramework === 'hono';
-        const isDev = process.env.NODE_ENV === 'development';
-        const useLocalRuntime = isDev && !useConfig?.bff?.crossProject;
+        const useLocalRuntime = !isProd() && !useConfig?.bff?.crossProject;
 
-        const runtimePath = isHono
-          ? useLocalRuntime
-            ? require.resolve('@modern-js/plugin-bff/runtime')
-            : '@modern-js/plugin-bff/runtime'
+        const runtimePath = useLocalRuntime
+          ? require.resolve(RUNTIME_BFF)
+          : RUNTIME_BFF;
+
+        const runtimeAlias = isHono()
+          ? { '@modern-js/runtime/hono': runtimePath }
           : undefined;
 
         return {
@@ -200,9 +206,10 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           },
           source: {
             moduleScopes: [`./${API_DIR}`, /create-request/],
-            alias: runtimePath
-              ? { '@modern-js/runtime/server': runtimePath }
-              : undefined,
+            alias: runtimeAlias,
+          },
+          output: {
+            externals: runtimeAlias,
           },
         };
       },
@@ -227,7 +234,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           isSSR: false,
         })) as ServerRoute[];
 
-        if ((bff as any).runtimeFramework !== 'hono' && bff?.enableHandleWeb) {
+        if (!isHono() && bff?.enableHandleWeb) {
           return {
             routes: (
               routes.map(route => {

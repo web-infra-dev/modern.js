@@ -8,6 +8,7 @@ import {
   isWebOnly,
   requireExistModule,
 } from '@modern-js/utils';
+import { isFunction } from '@modern-js/utils';
 import { API_APP_NAME } from './constants';
 import { HonoRuntime } from './runtime/hono';
 
@@ -87,7 +88,7 @@ export default (): ServerPluginLegacy => ({
           );
         }
 
-        if (handler) {
+        if (handler && isFunction(handler)) {
           globalMiddlewares.push({
             name: 'bind-bff',
             handler: (c, next) => {
@@ -107,7 +108,6 @@ export default (): ServerPluginLegacy => ({
         }
 
         honoRuntime.registerMiddleware({
-          customMiddlewares: middlewares,
           prefix,
           enableHandleWeb,
         });

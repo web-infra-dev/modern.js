@@ -1,5 +1,4 @@
-declare module '@modern-js/runtime/server' {
-  import type { Request, Response, RequestHandler } from 'express';
+declare module '@modern-js/runtime/hono' {
   import type { Context, MiddlewareHandler, Next } from 'hono';
 
   import type {
@@ -19,8 +18,8 @@ declare module '@modern-js/runtime/server' {
   ) => void;
 
   export type Middleware = (
-    context: MiddlewareContext,
-    next: NextFunction,
+    context: Context,
+    next: Next,
   ) => Promise<void> | void;
 
   type HonoOptions = {
@@ -31,14 +30,12 @@ declare module '@modern-js/runtime/server' {
 
   type HonoAttacher = (options: HonoOptions) => void;
 
-  export function useContext(): Context;
+  export function useHonoContext(): Context;
 
   export function hook(attacher: HonoAttacher): HonoAttacher;
 
   export const Pipe: import('../src/runtime').Pipe;
   export const Middleware: import('../src/runtime').Middleware;
-
-  export type { RequestHandler };
 
   export * from '@modern-js/bff-core';
   export * from '@modern-js/bff-runtime';

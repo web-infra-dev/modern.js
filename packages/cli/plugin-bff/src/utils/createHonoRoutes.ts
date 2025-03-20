@@ -33,7 +33,6 @@ const handleResponseMeta = (c: Context, handler: Handler) => {
     HttpMetadata.Response,
     handler,
   );
-
   if (Array.isArray(responseMeta)) {
     for (const meta of responseMeta) {
       switch (meta.type) {
@@ -43,8 +42,7 @@ const handleResponseMeta = (c: Context, handler: Handler) => {
           }
           break;
         case ResponseMetaType.Redirect:
-          c.redirect(meta.value as string);
-          break;
+          return c.redirect(meta.value as string);
         case ResponseMetaType.StatusCode:
           c.status(meta.value as number);
           break;
@@ -53,6 +51,7 @@ const handleResponseMeta = (c: Context, handler: Handler) => {
       }
     }
   }
+  return null;
 };
 
 export const createHonoHandler = (handler: Handler) => {
@@ -62,7 +61,10 @@ export const createHonoHandler = (handler: Handler) => {
 
       if (isWithMetaHandler(handler)) {
         try {
-          handleResponseMeta(c, handler);
+          const response = handleResponseMeta(c, handler);
+          if (response) {
+            return response;
+          }
           if (c.env?.node?.res?.headersSent) return;
 
           const result = await handler(input);
@@ -110,19 +112,24 @@ const getHonoInput = async (c: Context) => {
 
   try {
     const contentType = c.req.header('content-type') || '';
+
     if (typeIs.is(contentType, ['application/json'])) {
       try {
-        draft.data = await c.req.json();
+        const rawBody = await resolveRawBody(c);
+        const decodedBody = decodeBuffer(rawBody, contentType);
+        draft.data = safeJsonParse(decodedBody);
       } catch {
         draft.data = {};
       }
     } else if (typeIs.is(contentType, ['multipart/form-data'])) {
-      const formData = await resolveHonoFormData(c);
-      draft.formData = formData;
+      draft.formData = await resolveFormData(c);
     } else if (typeIs.is(contentType, ['application/x-www-form-urlencoded'])) {
-      draft.formUrlencoded = await c.req.parseBody();
+      const rawBody = await resolveRawBody(c);
+      const decodedBody = decodeBuffer(rawBody, contentType);
+      draft.formUrlencoded = parseUrlEncoded(decodedBody);
     } else {
-      draft.body = await c.req.parseBody();
+      const rawBody = await resolveRawBody(c);
+      draft.body = rawBody.toString('utf8');
     }
   } catch (error) {
     draft.body = null;
@@ -130,20 +137,60 @@ const getHonoInput = async (c: Context) => {
   return draft;
 };
 
-const resolveHonoFormData = (c: Context): Promise<Record<string, any>> => {
-  const form = formidable({ multiples: true });
+const resolveFormData = (c: Context): Promise<Record<string, any>> => {
   return new Promise((resolve, reject) => {
-    form.parse(c.env.node?.req, (err, fields, files) => {
-      if (err) {
-        reject(err);
-      }
+    try {
+      const nodeReadable = c.env.node?.req;
 
-      resolve({
-        ...fields,
-        ...files,
+      if (!c.env.node?.req) return {};
+
+      nodeReadable.headers = {
+        'content-type': c.env.node.req.headers['content-type'],
+        'content-length': c.env.node.req.headers['content-length'],
+      };
+      const form = formidable({
+        multiples: true,
       });
-    });
+
+      form.parse(nodeReadable, (err, fields, files) => {
+        if (err) reject(err);
+        resolve({ ...fields, ...files });
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
+
+async function resolveRawBody(c: Context): Promise<Buffer> {
+  const nodeReadable = c.env.node?.req;
+  if (!nodeReadable) return Buffer.from('');
+
+  const chunks: Buffer[] = [];
+  for await (const chunk of nodeReadable) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks as any);
+}
+
+function decodeBuffer(body: Buffer, contentType: string): string {
+  const charset = contentType.match(/charset=([\w-]+)/)?.[1] || 'utf8';
+  return body.toString(charset as BufferEncoding);
+}
+
+function parseUrlEncoded(data: string): Record<string, any> {
+  const params = new URLSearchParams(data);
+  return Object.fromEntries(params.entries());
+}
+
+function safeJsonParse(data: string): Record<string, any> {
+  if (!data.trim()) return {};
+  try {
+    return JSON.parse(data);
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Invalid JSON: ${message ? message : 'parse error'}`);
+  }
+}
 
 export default createHonoRoutes;
