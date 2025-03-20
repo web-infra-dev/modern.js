@@ -33,6 +33,7 @@ export function createProvider(
         basename,
         dom,
         props,
+        appName,
       }: {
         basename: string;
         dom: HTMLElement;
@@ -43,14 +44,17 @@ export function createProvider(
         const mountNode = generateRootDom(dom, id || 'root');
         if (customBootstrap) {
           root = await customBootstrap(ModernRoot, () =>
-            render(<ModernRoot basename={basename} {...props} />, mountNode),
+            render(
+              <ModernRoot basename={basename} appName={appName} {...props} />,
+              mountNode,
+            ),
           );
         } else {
           if (beforeRender) {
-            await beforeRender(ModernRoot, { basename, ...props });
+            await beforeRender(ModernRoot, { basename, appName, ...props });
           }
           root = await render(
-            <ModernRoot basename={basename} {...props} />,
+            <ModernRoot basename={basename} appName={appName} {...props} />,
             mountNode,
           );
         }
