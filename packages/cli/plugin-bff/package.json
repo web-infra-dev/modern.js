@@ -44,7 +44,7 @@
       "default": "./dist/cjs/loader.js"
     },
     "./runtime": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/cjs/runtime/index.js"
     },
@@ -64,6 +64,9 @@
       ],
       "server": [
         "./dist/types/server.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
       ],
       "runtime/create-request": [
         "./dist/types/runtime/create-request/index.d.ts"

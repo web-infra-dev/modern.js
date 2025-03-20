@@ -7,9 +7,7 @@ export default applyBaseConfig({
     ssr: true,
   },
   bff: {
-    prefix: '/bff-hono',
-    enableHandleWeb: true,
-    // crossProject: true,
+    prefix: '/bff-api',
   },
   plugins: [bffPlugin(), serverPlugin()],
 });
