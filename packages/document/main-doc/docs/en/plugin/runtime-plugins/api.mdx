@@ -43,7 +43,7 @@ The Runtime Plugin API is primarily divided into the following categories:
 
 ### Information Retrieval
 
-#### `getRuntimeConfig`
+#### `api.getRuntimeConfig`
 
 Gets the runtime configuration defined by the user in the `modern.runtime.ts` file.
 
@@ -58,7 +58,7 @@ console.log(config.myCustomSetting);
 This method returns a *copy* of the user's configuration. Modifying the returned value will not affect the original configuration.
 :::
 
-#### `getHooks`
+#### `api.getHooks`
 
 Gets the hook functions that can be triggered manually.
 
@@ -80,7 +80,7 @@ await hooks.onBeforeRender.call(myContext);
 
 ### Lifecycle Hooks
 
-#### `onBeforeRender`
+#### `api.onBeforeRender`
 
 Executes before the application renders (including both server-side rendering and client-side rendering).  You can use this hook to perform data prefetching, modify the rendering context, etc.
 
@@ -105,7 +105,7 @@ Executes before the application renders (including both server-side rendering an
 - You can modify the `context` object in this hook, and the modified `context` will be passed to subsequent rendering processes.
 :::
 
-#### `wrapRoot`
+#### `api.wrapRoot`
 
 Allows you to wrap the application's root component with a custom React component.  This is commonly used to add global Providers, layout components, etc.
 

@@ -43,7 +43,7 @@ Runtime 插件 API 主要分为以下几类：
 
 ### 信息获取
 
-#### `getRuntimeConfig`
+#### `api.getRuntimeConfig`
 
 获取用户在 `modern.runtime.ts` 文件中定义的运行时配置。
 
@@ -58,7 +58,7 @@ console.log(config.myCustomSetting);
 此方法返回的是用户配置的副本，修改返回值不会影响原始配置。
 :::
 
-#### `getHooks`
+#### `api.getHooks`
 
 获取可用于手动触发的钩子函数。
 
@@ -80,7 +80,7 @@ await hooks.onBeforeRender.call(myContext);
 
 ### 生命周期钩子
 
-#### `onBeforeRender`
+#### `api.onBeforeRender`
 
 在应用渲染（包括服务器端渲染和客户端渲染）之前执行。您可以在此钩子中执行数据预取、修改渲染上下文等操作。
 
@@ -105,7 +105,7 @@ await hooks.onBeforeRender.call(myContext);
 - 您可以在此钩子中修改 `context` 对象，并将修改后的 `context` 传递给后续的渲染过程。
 :::
 
-#### `wrapRoot`
+#### `api.wrapRoot`
 
 允许您使用自定义的 React 组件包裹应用的根组件。常用于添加全局的 Provider、布局组件等。
 
