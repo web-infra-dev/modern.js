@@ -176,7 +176,7 @@ export const routerPlugin = (
                 context={routerContext}
               >
                 {createRoutes ? (
-                  <App Component={createRoutes()} />
+                  <App Component={createRoutes()} {...props} />
                 ) : App && !finalRouteConfig?.routes ? (
                   <App {...props} />
                 ) : (
