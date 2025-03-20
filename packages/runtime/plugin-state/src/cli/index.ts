@@ -23,7 +23,7 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       )?.state;
       plugins.push({
         name: PLUGIN_IDENTIFIER,
-        path: `@${metaName}/runtime/model`,
+        path: `@${metaName}/plugin-state/runtime`,
         config: typeof stateConfig === 'boolean' ? {} : stateConfig || {},
       });
       return { entrypoint, plugins };
@@ -46,7 +46,7 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         'plugins',
       );
       pluginsExportsUtils.addExport(
-        `export { default as state } from '@${metaName}/runtime/model'`,
+        `export { default as state } from '@${metaName}/plugin-state/runtime'`,
       );
     });
   },
