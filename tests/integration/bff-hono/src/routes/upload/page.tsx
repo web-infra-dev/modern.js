@@ -12,7 +12,7 @@ const getMockImage = () => {
   return new File([blob], 'mock_image.png', { type: 'image/png' });
 };
 
-const Index = (): JSX.Element => {
+const Page = () => {
   const [file, setFile] = React.useState<FileList | null>();
   const [fileName, setFileName] = React.useState<string>('');
 
@@ -27,7 +27,7 @@ const Index = (): JSX.Element => {
       for (let i = 0; i < file.length; i++) {
         formData.append('images', file[i]);
       }
-      await fetch('/bff-hono/upload', {
+      await fetch('/bff-api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -71,4 +71,4 @@ const Index = (): JSX.Element => {
   );
 };
 
-export default Index;
+export default Page;

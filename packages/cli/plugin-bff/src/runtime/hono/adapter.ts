@@ -1,22 +1,18 @@
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import type { PluginAPI, ServerMiddleware } from '@modern-js/server-core';
-import { CustomServer } from '@modern-js/server-core';
 import { isProd } from '@modern-js/utils';
 import { Hono } from 'hono';
 import type { Context, MiddlewareHandler, Next } from 'hono';
-import createHonoRoutes from '../utils/createHonoRoutes';
+import createHonoRoutes from '../../utils/createHonoRoutes';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
-
-type SF = (args: any) => void;
 
 interface MiddlewareOptions {
   prefix: string;
   enableHandleWeb?: boolean;
-  customMiddlewares: SF[];
 }
 
-export class HonoRuntime {
+export class HonoAdapter {
   apiMiddleware: ServerMiddleware[] = [];
   apiServer: Hono | null = null;
   api: PluginAPI;
@@ -33,7 +29,7 @@ export class HonoRuntime {
 
     const honoHandlers = createHonoRoutes(apiHandlerInfos as APIHandlerInfo[]);
     this.apiMiddleware = honoHandlers.map(({ path, method, handler }) => ({
-      name: `bff-api-${method}-${path}`,
+      name: 'hono-bff-api',
       path,
       method,
       handler,
@@ -54,46 +50,16 @@ export class HonoRuntime {
   };
 
   registerMiddleware = async (options: MiddlewareOptions) => {
-    const { prefix, enableHandleWeb, customMiddlewares } = options;
+    const { prefix } = options;
 
-    const { bff } = this.api.useConfigContext();
-    if ((bff as any)?.runtimeFramework !== 'hono') {
+    const { bffRuntimeFramework } = this.api.useAppContext();
+
+    if (bffRuntimeFramework !== 'hono') {
       this.isHono = false;
       return;
     }
 
-    const { serverBase } = this.api.useAppContext();
-    const hooks = (this.api as any).getHooks();
-    const { distDirectory: pwd, middlewares: globalMiddlewares } =
-      this.api.useAppContext();
-
-    const customServer = new CustomServer(hooks, serverBase!, pwd);
-
-    const customServerMiddleware = await customServer.getServerMiddleware();
-
-    customServerMiddleware &&
-      globalMiddlewares.push({
-        name: 'bff-custom-server-middleware',
-        path: `${prefix}/*`,
-        handler: customServerMiddleware,
-        order: 'post',
-        before,
-      });
-
-    (customMiddlewares as unknown as MiddlewareHandler[]).forEach(handler => {
-      globalMiddlewares.push({
-        name: 'bff-custom-middleware',
-        handler: (c: Context, next: Next) => {
-          if (c.req.path.startsWith(prefix || '/api') || enableHandleWeb) {
-            return handler(c, next);
-          } else {
-            return next();
-          }
-        },
-        order: 'post',
-        before,
-      });
-    });
+    const { middlewares: globalMiddlewares } = this.api.useAppContext();
 
     await this.setHandlers();
 

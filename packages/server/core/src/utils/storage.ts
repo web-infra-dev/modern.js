@@ -24,7 +24,7 @@ const createStorage = <T>() => {
     });
   };
 
-  const useContext: () => T = () => {
+  const useHonoContext: () => T = () => {
     if (!storage) {
       throw new Error(`Unable to use async_hook, please confirm the node version >= 12.17
         `);
@@ -39,7 +39,7 @@ const createStorage = <T>() => {
 
   return {
     run,
-    useContext,
+    useHonoContext,
   };
 };
 

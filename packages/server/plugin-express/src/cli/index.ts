@@ -12,8 +12,12 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
 
     const useConfig = api.useConfigContext();
 
-    useConfig.bff ??= {};
-    (useConfig.bff as any).runtimeFramework = 'express';
+    const appContext = api.useAppContext();
+
+    api.setAppContext({
+      ...appContext,
+      bffRuntimeFramework: 'express',
+    });
 
     return {
       config() {

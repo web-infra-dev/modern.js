@@ -110,6 +110,7 @@ export const dev = async (
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
+      bffRuntimeFramework: appContext.bffRuntimeFramework,
     },
     serverConfigPath,
     routes: serverRoutes,

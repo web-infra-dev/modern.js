@@ -162,6 +162,11 @@ export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
    * @deprecated compat old plugin, default is app tools
    */
   toolsType?: string;
+  /**
+   * Identification for bff runtime framework
+   * @private
+   */
+  bffRuntimeFramework?: string;
 }
 
 export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<

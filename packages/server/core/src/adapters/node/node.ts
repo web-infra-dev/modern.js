@@ -123,6 +123,7 @@ const getRequestListener = (handler: RequestHandler) => {
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);
+
       const response = await handler(request, {
         node: {
           req,

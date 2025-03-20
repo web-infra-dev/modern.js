@@ -1,8 +1,8 @@
 import type { Plugin } from '@modern-js/plugin-v2';
 import { type ServerCreateOptions, server } from '@modern-js/plugin-v2/server';
 import { Hono, type MiddlewareHandler } from 'hono';
-import { handleSetupResult } from './plugins/compat/hooks';
 import { run } from './context';
+import { handleSetupResult } from './plugins/compat/hooks';
 
 import type {
   Env,

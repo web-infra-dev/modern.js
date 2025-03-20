@@ -15,7 +15,7 @@ dns.setDefaultResultOrder('ipv4first');
 
 const appDir = path.resolve(__dirname, '../');
 
-describe('bff express in dev', () => {
+describe('bff hono in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
@@ -39,10 +39,12 @@ describe('bff express in dev', () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`, {
       timeout: 50000,
     });
-    // Reduce the probability of timeout on windows CI
     await new Promise(resolve => setTimeout(resolve, 3000));
     const text = await page.$eval('.hello', el => el?.textContent);
+    const username = await page.$eval('.username', el => el?.textContent);
+
     expect(text).toBe('Hello Modern.js');
+    expect(username).toBe('user123');
   });
 
   test('basic usage with ssr', async () => {
@@ -57,12 +59,6 @@ describe('bff express in dev', () => {
     const info = await res.json();
     expect(res.headers.get('x-id')).toBe('1');
     expect(info.message).toBe('Hello Modern.js');
-  });
-
-  test('support _app.ts', async () => {
-    const res = await fetch(`${host}:${port}${prefix}/foo`);
-    const text = await res.text();
-    expect(text).toBe('foo');
   });
 
   test('support custom sdk', async () => {
@@ -86,7 +82,7 @@ describe('bff express in dev', () => {
   });
 });
 
-describe('bff express in prod', () => {
+describe('bff hono in prod', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
@@ -109,19 +105,15 @@ describe('bff express in prod', () => {
     page = await browser.newPage();
   });
 
-  // FIXME: Skipped because this test often times out on Windows
   test('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     const text1 = await page.$eval('.hello', el => el?.textContent);
-    expect(text1).toBe('bff-express');
+    expect(text1).toBe('bff-hono');
     await new Promise(resolve => setTimeout(resolve, 300));
     const text2 = await page.$eval('.hello', el => el?.textContent);
     expect(text2).toBe('Hello Modern.js');
   });
 
-  // FIXME: This test unit is probably crazy
-  // when you run it on local, It is normal.
-  // when you run it on test, It is crazy.
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
     const text1 = await page.$eval('.hello', el => el?.textContent);
@@ -133,12 +125,6 @@ describe('bff express in prod', () => {
     const info = await res.json();
     expect(res.headers.get('x-id')).toBe('1');
     expect(info.message).toBe('Hello Modern.js');
-  });
-
-  test('support _app.ts', async () => {
-    const res = await fetch(`${host}:${port}${prefix}/foo`);
-    const text = await res.text();
-    expect(text).toBe('foo');
   });
 
   test('support custom sdk', async () => {
