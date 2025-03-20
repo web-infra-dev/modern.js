@@ -55,6 +55,7 @@ console.log(config.myCustomSetting);
 ```
 
 :::warning
+
 此方法返回的是用户配置的副本，修改返回值不会影响原始配置。
 :::
 
@@ -101,8 +102,10 @@ await hooks.onBeforeRender.call(myContext);
     ```
 
 :::warning
+
 - 此钩子在每次渲染前都会执行，因此应避免执行耗时过长的操作。
 - 您可以在此钩子中修改 `context` 对象，并将修改后的 `context` 传递给后续的渲染过程。
+
 :::
 
 #### `api.wrapRoot`
@@ -133,9 +136,12 @@ await hooks.onBeforeRender.call(myContext);
       return AppWrapper;
     });
     ```
+
 :::warning
+
 -   **务必将 `props` 传递给原始的 `App` 组件**，否则可能导致应用无法正常工作。
--   `wrapRoot` 返回的组件会在每次渲染时重新创建，因此应避免在其中定义复杂的逻辑或状态。
+-  `wrapRoot` 返回的组件会在每次渲染时重新创建，因此应避免在其中定义复杂的逻辑或状态。
+
 :::
 
 ## 进阶用法
