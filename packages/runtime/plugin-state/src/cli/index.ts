@@ -30,6 +30,16 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       }
       return { entrypoint, plugins };
     });
+    api.config(() => {
+      const { metaName } = api.getAppContext();
+      return {
+        source: {
+          alias: {
+            [`@${metaName}/runtime/model`]: `@${metaName}/plugin-state/runtime`,
+          },
+        },
+      };
+    });
     api.addRuntimeExports(() => {
       const { internalDirectory, metaName } = api.useAppContext();
 
