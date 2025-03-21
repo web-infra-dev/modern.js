@@ -17,7 +17,9 @@ function getHash(filepath: string) {
 
   const fileBuf = Buffer.from(relativePath);
   const fsHash = crypto.createHash('md5');
-  const md5 = fsHash.update(fileBuf).digest('hex');
+  const md5 = fsHash
+    .update(fileBuf as unknown as ArrayBufferView & Uint8Array)
+    .digest('hex');
   return md5;
 }
 

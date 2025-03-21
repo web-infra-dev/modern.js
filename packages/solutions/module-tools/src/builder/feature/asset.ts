@@ -7,7 +7,7 @@ import { transform } from '../../../compiled/@svgr/core';
 import jsx from '../../../compiled/@svgr/plugin-jsx';
 import svgo from '../../../compiled/@svgr/plugin-svgo';
 import { assetExt } from '../../constants/file';
-import type { Asset, ICompiler, SvgrOptions } from '../../types';
+import type { Asset, ICompiler, LoadResult, SvgrOptions } from '../../types';
 import { getHash, normalizeSlashes } from '../../utils';
 
 const name = 'asset';
@@ -31,7 +31,7 @@ export const asset = {
           true,
         ]);
         return {
-          contents,
+          contents: contents as unknown as LoadResult['contents'],
           loader,
         };
       }
