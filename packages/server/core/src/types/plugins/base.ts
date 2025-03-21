@@ -17,7 +17,7 @@ import type {
 import type { MiddlewareHandler } from 'hono';
 import type { UserConfig } from '../config';
 import type { Render } from '../render';
-import type { ServerPluginFurure } from './new';
+import type { ServerPluginFuture } from './new';
 import type { ServerPlugin } from './old';
 
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin-v2';
@@ -113,5 +113,5 @@ export interface RenderConfig {
 
 export type ServerConfig = {
   render?: RenderConfig;
-  plugins?: (ServerPlugin | ServerPluginFurure)[];
+  plugins?: (ServerPlugin | ServerPluginFuture)[];
 } & UserConfig;

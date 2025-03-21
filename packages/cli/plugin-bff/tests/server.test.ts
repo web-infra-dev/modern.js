@@ -4,7 +4,7 @@ import { server } from '@modern-js/plugin-v2/server';
 import {
   type ServerConfig,
   type ServerPlugin,
-  type ServerPluginFurure,
+  type ServerPluginFuture,
   compatPlugin,
   handleSetupResult,
 } from '@modern-js/server-core';
@@ -21,7 +21,7 @@ export async function serverInit({
   plugins,
   serverConfig,
 }: {
-  plugins?: (ServerPlugin | ServerPluginFurure)[];
+  plugins?: (ServerPlugin | ServerPluginFuture)[];
   serverConfig?: ServerConfig;
 }) {
   const { serverContext } = await server.run({

@@ -7,7 +7,7 @@ import type {
   ServerConfig,
   ServerContext,
   ServerPlugin,
-  ServerPluginFurure,
+  ServerPluginFuture,
   ServerPluginHooks,
 } from './types';
 import type { CliConfig } from './types/config';
@@ -31,7 +31,7 @@ export class ServerBase<E extends Env = any> {
 
   private app: Hono<E>;
 
-  private plugins: (ServerPlugin | ServerPluginFurure)[] = [];
+  private plugins: (ServerPlugin | ServerPluginFuture)[] = [];
 
   private serverContext: ServerContext | null = null;
 
@@ -66,7 +66,7 @@ export class ServerBase<E extends Env = any> {
     return this;
   }
 
-  addPlugins(plugins: (ServerPlugin | ServerPluginFurure)[]) {
+  addPlugins(plugins: (ServerPlugin | ServerPluginFuture)[]) {
     this.plugins.push(...plugins);
   }
 
