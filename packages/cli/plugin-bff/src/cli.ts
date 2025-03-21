@@ -3,7 +3,13 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
-import { fs, API_DIR, SHARED_DIR, normalizeOutputPath } from '@modern-js/utils';
+import {
+  fs,
+  API_DIR,
+  SHARED_DIR,
+  isProd,
+  normalizeOutputPath,
+} from '@modern-js/utils';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
@@ -125,8 +131,24 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       }
     };
 
+    const isHono = () => {
+      const { bffRuntimeFramework } = api.useAppContext();
+      return bffRuntimeFramework === 'hono';
+    };
+
     return {
       config() {
+        const useConfig = api.useConfigContext();
+        const useLocalRuntime = !isProd() && !useConfig?.bff?.crossProject;
+
+        const runtimePath = useLocalRuntime
+          ? require.resolve('@modern-js/plugin-bff/runtime')
+          : '@modern-js/plugin-bff/runtime';
+
+        const alias = isHono()
+          ? { '@modern-js/runtime/server': runtimePath }
+          : undefined;
+
         return {
           tools: {
             bundlerChain: (chain, { CHAIN_ID, isServer }) => {
@@ -183,6 +205,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           },
           source: {
             moduleScopes: [`./${API_DIR}`, /create-request/],
+            alias,
           },
         };
       },
@@ -207,7 +230,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           isSSR: false,
         })) as ServerRoute[];
 
-        if (bff?.enableHandleWeb) {
+        if (!isHono() && bff?.enableHandleWeb) {
           return {
             routes: (
               routes.map(route => {
@@ -227,7 +250,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         plugins.push({
           name: '@modern-js/plugin-bff/server',
         });
-
         return { plugins };
       },
       async beforeDev() {

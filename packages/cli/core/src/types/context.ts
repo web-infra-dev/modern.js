@@ -83,4 +83,9 @@ export interface IAppContext {
    * @private
    */
   partialsByEntrypoint?: Record<string, HtmlPartials>;
+  /**
+   * Identification for bff runtime framework
+   * @private
+   */
+  bffRuntimeFramework?: string;
 }

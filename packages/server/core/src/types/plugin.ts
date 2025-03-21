@@ -163,6 +163,7 @@ type Middleware = {
 
   order?: MiddlewareOrder;
 };
+export type ServerMiddleware = Middleware;
 
 export interface GetRenderHandlerOptions {
   pwd: string;
