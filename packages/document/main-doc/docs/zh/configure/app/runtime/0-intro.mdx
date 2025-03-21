@@ -1,120 +1,88 @@
----
-title: 总览
-sidebar_position: 1
----
+# 介绍
 
-# 总览
-
-此节将介绍 Runtime 插件的配置。
-
-## 配置方式
-
-### runtime
-
-- **类型：** `Object`
-
-runtime 配置方式如下：
-
-#### 基本用法
-
-在 `modern.config.ts` 中配置
-
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  runtime: {
-    state: true,
-    router: true,
-  },
-});
-```
-
-#### 运行时配置
-
-通过 [`defineConfig`](/apis/app/runtime/app/define-config) API 配置：
+Modern.js 的运行时（Runtime）配置需集中在 `src/modern.runtime.ts` 文件中声明。
 
 :::info
-当 runtime 配置中存在函数时，只能使用该方式进行配置。
+如果项目中还没有此文件，请执行以下命令创建：
 
+```bash
+touch src/modern.runtime.ts
+```
 :::
 
-import { Tabs, Tab as TabItem } from "@theme";
+## 基本配置
 
-<Tabs>
-  <TabItem value="layout" label="约定式路由" default>
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
-```tsx title="src/routes/layout.tsx"
-import type { AppConfig } from '@modern-js/runtime';
-
-export const config = (): AppConfig => {
-  return {
-    router: {
-      supportHtml5History: false
-    }
-  }
-};
-```
-
-  </TabItem>
-
-  <TabItem value="app" label="自控路由">
-
-```ts title="src/App.tsx"
-import { defineConfig } from '@modern-js/runtime';
-
-const App = () => {
-  /** */
-};
-
-defineConfig(App, {
+export default defineRuntimeConfig({
   router: {
-    supportHtml5History: false,
+    // 路由配置
   },
+  state: {
+    // 状态管理配置
+  },
+  // 其他运行时模块...
 });
-
-export default App;
 ```
 
-  </TabItem>
-</Tabs>
+## 多入口配置
 
-:::info
-使用运行时配置，可以解决 Runtime 插件配置需要在运行时才能获取到具体内容问题。
+对于多入口应用，`defineRuntimeConfig` 可接收一个函数，根据入口名称返回特定配置：
 
-Runtime 插件运行时配置和直接在 `modern.config.ts` 中的配置默认会进行合并，且运行时配置优先级更高。
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
-:::
+export default defineRuntimeConfig((entryName) => {
+  if (entryName === 'main') {
+    return {
+      router: {
+        // "main" 入口的路由配置
+      },
+      state: {
+        // "main" 入口的状态管理配置
+      },
+    };
+  }
+
+  // 其他入口配置
+  return {
+    masterApp: {
+      // 微前端配置示例
+    },
+  };
+});
+```
 
 :::warning
-defineConfig 中只能定义 Runtime 插件的具体配置内容，确认是否开启插件还需要通过 `modern.config.ts` 中的配置决定。
-
+使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高。
 :::
 
-### runtimeByEntries
+## 配置方式演进
 
-- **类型：** `Object`
-- **默认值：**无
+在 MAJOR_VERSION.66.0 之前，运行时配置分散在多个位置：
 
-#### 说明
+1. `modern.config.ts` 中的 `runtime` 和 `runtimeByEntries` 字段
+2. 各入口的 `App.config` 或 `layout` 文件导出的 `config` 函数
 
-按入口添加 runtime 配置，选项属性同 runtime 一致，指定值会和 runtime 属性内容做替换合并操作。
+为提升可维护性，Modern.js 引入了统一的 `src/modern.runtime.ts` 配置入口。
 
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
+### 旧配置方式（兼容但不推荐）
 
-export default defineConfig({
-  runtime: {
-    state: false,
-  },
-  runtimeByEntries: {
-    entry1: {
-      state: true, // { state: true }
-    },
-    entry2: {
-      // { state: false, router: true }
-      router: true,
-    },
-  },
-});
+```ts
+// modern.config.ts
+export default {
+  runtime: { /* ... */ },
+  runtimeByEntries: { /* ... */ },
+};
+
+// App.config
+App.config = {/* ... */}
+
+// layout 文件
+export const config = () => { /* 动态配置逻辑 */ };
 ```
+
+### 迁移建议
+
+强烈建议将所有运行时配置迁移至 `src/modern.runtime.ts`。虽然旧配置方式目前仍兼容，但计划在未来版本中逐步废弃。统一配置入口可避免配置分散，显著提高项目可维护性。
