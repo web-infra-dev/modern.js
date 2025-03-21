@@ -8,9 +8,9 @@ import {
   compatPlugin,
   handleSetupResult,
 } from '@modern-js/server-core';
+import { assign } from '@modern-js/utils/lodash';
 import plugin from '../src/server';
 import './helper';
-import { assign } from '@modern-js/utils/lodash';
 
 const noop = () => {};
 

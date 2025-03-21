@@ -42,9 +42,9 @@ export class ServerBase<E extends Env = any> {
   }
 
   /**
-   * 初始化顺序
+   * Order
    * - server runner
-   * - 应用 middlewares
+   * - apply middlewares
    */
   async init() {
     const { serverConfig, config: cliConfig } = this.options;
