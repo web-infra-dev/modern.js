@@ -1,5 +1,4 @@
 import type { RouterConfig } from './router';
-import type { StateConfig } from './state';
 
 export type { Plugin, RuntimePluginFuture } from './core';
 export type { AppConfig, RuntimeConfig } from './common';
@@ -22,4 +21,4 @@ export {
   useRuntimeContext,
 } from './core';
 
-export type { StateConfig, RouterConfig };
+export type { RouterConfig };

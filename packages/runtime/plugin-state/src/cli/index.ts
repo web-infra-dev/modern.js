@@ -21,14 +21,22 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       )?.state;
-      if (stateConfig) {
-        plugins.push({
-          name: PLUGIN_IDENTIFIER,
-          path: `@${metaName}/runtime/model`,
-          config: typeof stateConfig === 'boolean' ? {} : stateConfig,
-        });
-      }
+      plugins.push({
+        name: PLUGIN_IDENTIFIER,
+        path: `@${metaName}/plugin-state/runtime`,
+        config: typeof stateConfig === 'boolean' ? {} : stateConfig || {},
+      });
       return { entrypoint, plugins };
+    });
+    api.config(() => {
+      const { metaName } = api.getAppContext();
+      return {
+        source: {
+          alias: {
+            [`@${metaName}/runtime/model`]: `@${metaName}/plugin-state/runtime`,
+          },
+        },
+      };
     });
     api.addRuntimeExports(() => {
       const { internalDirectory, metaName } = api.useAppContext();
@@ -38,7 +46,7 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         'plugins',
       );
       pluginsExportsUtils.addExport(
-        `export { default as state } from '@${metaName}/runtime/model'`,
+        `export { default as state } from '@${metaName}/plugin-state/runtime'`,
       );
     });
   },

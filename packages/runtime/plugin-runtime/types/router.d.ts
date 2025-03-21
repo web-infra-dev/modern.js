@@ -20,6 +20,5 @@ declare module '@modern-js/runtime' {
 
   interface RuntimeConfig {
     router?: Partial<RouterConfig>;
-    routerByEntries?: { [name: string]: Partial<RouterConfig> };
   }
 }

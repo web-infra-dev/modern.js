@@ -1,10 +1,10 @@
+import state from '@modern-js/plugin-state/runtime';
 import { createApp } from '@modern-js/runtime';
 import type {
   Plugin,
   RouterConfig,
   RuntimePluginFuture,
 } from '@modern-js/runtime';
-import state from '@modern-js/runtime/model';
 import router from '@modern-js/runtime/router';
 import React from 'react';
 import type { IConfig } from '../type';
