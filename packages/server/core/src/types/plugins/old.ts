@@ -25,6 +25,11 @@ import type {
 } from './base';
 
 export interface ServerHooks {
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   */
   config: AsyncWaterfall<ServerConfig>;
 
   prepare: AsyncWaterfall<void>;
