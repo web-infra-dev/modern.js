@@ -1,0 +1,115 @@
+# 渲染预处理 (Render Preprocessing)
+
+在某些场景下，应用需要在渲染前执行预处理操作。Modern.js 推荐使用 **[Runtime 插件 (Runtime Plugin)](/plugin/introduction.html#runtime-插件)** 来实现这类逻辑。
+
+## 定义 Runtime 插件
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const myRuntimePlugin = (): RuntimePluginFuture => ({
+  name: 'my-runtime-plugin',
+  setup: (api) => {
+    api.onBeforeRender((context) => {
+      // 在渲染前执行的逻辑
+      console.log('Before rendering:', context);
+    });
+  },
+});
+
+export default myRuntimePlugin;
+```
+
+## 注册插件
+
+在项目 `src/modern.runtime.ts` 文件中注册插件：
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import myRuntimePlugin from './plugins/myRuntimePlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myRuntimePlugin()],
+});
+```
+
+## 应用场景 -- 全局数据注入
+
+通过 `onBeforeRender` 钩子的 `context` 参数，可以向应用注入全局数据。应用的组件可以通过 `useRuntimeContext` Hook 访问这些数据。
+
+:::info
+
+此功能在以下场景中特别有用：
+* 需要页面级前置数据的应用
+* 自定义数据注入流程
+* 框架迁移场景（例如从 Next.js 迁移）
+
+:::
+
+**定义数据注入插件**
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const dataInjectionPlugin = (): RuntimePluginFuture => ({
+  name: 'data-injection-plugin',
+  setup: api => {
+    api.onBeforeRender(context => {
+      // 向 context 中注入数据
+      context.message = 'Hello World';
+    });
+  },
+});
+
+export default dataInjectionPlugin;
+```
+
+**在组件中使用注入的数据**
+
+```tsx
+import { useRuntimeContext } from '@modern-js/runtime';
+
+export default function MyComponent() {
+  const context = useRuntimeContext();
+  const { message } = context;
+
+  return <div>{message}</div>;
+}
+```
+
+**结合 SSR 使用**
+
+在 SSR 场景下，浏览器端可以获取服务端渲染期间通过 `onBeforeRender` 注入的数据。开发者可以根据需求决定是否在浏览器端重新获取数据来覆盖服务端数据。
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const dataInjectionPlugin = (): RuntimePluginFuture => ({
+  name: 'data-injection-plugin',
+  setup: api => {
+    api.onBeforeRender(context => {
+      if (process.env.MODERN_TARGET === 'node') {
+        // 服务端渲染时设置数据
+        context.message = 'Hello World By Server';
+      } else {
+        // 客户端渲染时检查数据
+        if (!context.message) {
+          // 如果没有获取到服务端数据，则设置客户端数据
+          context.message = 'Hello World By Client';
+        }
+      }
+    });
+  },
+});
+
+export default dataInjectionPlugin;
+```
+
+## 兼容性说明
+
+在 Modern.js 的早期版本中，支持通过 `routes/layout.tsx` 中的 `init` 钩子以及 `App.init` 方法来添加渲染预处理逻辑。这些方式目前仍然**被支持**，但我们**强烈推荐**使用 Runtime 插件实现。
+
+:::warning
+
+未来版本中，`routes/layout.tsx` 的 `init` 钩子和 `App.init` 方法将逐步**废弃**。建议尽早迁移到 Runtime 插件方案。
+:::

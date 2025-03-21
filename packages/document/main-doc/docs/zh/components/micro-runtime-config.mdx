@@ -1,7 +1,7 @@
-```js title="src/App.tsx"
-import { defineConfig } from '@modern-js/runtime';
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
-defineConfig(App, {
+export default defineRuntimeConfig({
   masterApp: {
     apps: [{
       name: 'Table',
