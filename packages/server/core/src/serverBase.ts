@@ -74,6 +74,7 @@ export class ServerBase<E extends Env = any> {
 
     this.runner = runner;
 
+    // 插件执行 prepare 会 push 所有 middlewares
     await runner.prepare();
 
     this.#applyMiddlewares();
@@ -91,6 +92,7 @@ export class ServerBase<E extends Env = any> {
     const appContext = {
       routes,
       middlewares: [],
+      renderMiddlewares: [],
       appDirectory: context?.appDirectory || '',
       apiDirectory: context?.apiDirectory,
       internalDirectory: context?.internalDirectory || '',
@@ -100,7 +102,7 @@ export class ServerBase<E extends Env = any> {
       plugins: [],
       metaName: metaName || 'modern-js',
       serverBase: this,
-    } as any;
+    };
 
     return createContext<ISAppContext>(appContext);
   }

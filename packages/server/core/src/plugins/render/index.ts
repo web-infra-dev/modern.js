@@ -26,23 +26,15 @@ export const renderPlugin = (): ServerPlugin => ({
           routes,
           render,
           distDirectory: pwd,
-          serverBase,
+          renderMiddlewares,
         } = api.useAppContext();
         const runner = api.useHookRunners();
-        const config = api.useConfigContext();
 
         if (!routes) {
           return;
         }
 
-        const customServer = new CustomServer(runner, serverBase!, pwd);
-
-        // render.middleware can register by server config and prepare hook
-        // render.middleware is the same as unstable_middleware in server/index.ts, but execute before unstable_middleware
-        // TODO：check api and add docs for render.middleware
-        const serverMiddleware =
-          config.render?.middleware &&
-          getServerMidFromUnstableMid(config.render.middleware);
+        const customServer = new CustomServer(runner, pwd);
 
         const pageRoutes = getPageRoutes(routes);
 
@@ -68,8 +60,14 @@ export const renderPlugin = (): ServerPlugin => ({
             handler: customServerHookMiddleware,
           });
 
+          // config.renderMiddlewares can register by server config and prepare hook
+          renderMiddlewares?.forEach(m => {
+            middlewares.push(m);
+          });
+
+          // TODO: Unstable middleware should be deprecated
           const customServerMiddleware =
-            await customServer.getServerMiddleware(serverMiddleware);
+            await customServer.getServerMiddleware();
 
           customServerMiddleware &&
             middlewares.push({
