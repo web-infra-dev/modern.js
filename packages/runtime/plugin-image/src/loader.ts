@@ -19,7 +19,7 @@ async function process(this: Rspack.LoaderContext, content: Buffer) {
   // Create the blurred thumbnail from the original image.
   const scale = BLUR_IMG_SIZE / Math.max(width, height);
   const thumbnail: ImageResource = {
-    src: '',
+    url: '',
     width: Math.round(width * scale),
     height: Math.round(height * scale),
   };
@@ -27,10 +27,10 @@ async function process(this: Rspack.LoaderContext, content: Buffer) {
   image.resize(thumbnail);
 
   const buf = await image.format('jpeg').toBuffer();
-  thumbnail.src = `data:image/jpeg;base64,${buf.toString('base64')}`;
-  logger.debug(`Created thumbnail: ${thumbnail.src}`);
+  thumbnail.url = `data:image/jpeg;base64,${buf.toString('base64')}`;
+  logger.debug(`Created thumbnail: ${thumbnail.url}`);
 
-  const data: ImageModule = { src, width, height, thumbnail };
+  const data: ImageModule = { url: src, width, height, thumbnail };
   return `export default ${JSON.stringify(data)}`;
 }
 

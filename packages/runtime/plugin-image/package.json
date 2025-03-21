@@ -43,7 +43,7 @@
     "@storybook/blocks": "^8.6.4",
     "@storybook/react": "^8.6.4",
     "@storybook/test": "^8.6.4",
-    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/jest-dom": "6.4.7",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^18",
     "@types/react": "^19.0.10",

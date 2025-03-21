@@ -6,6 +6,13 @@ const config = defineConfig({
     root: __dirname,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    coverage: {
+      include: ['src'],
+      exclude: ['**/*.stories.*'],
+    },
+  },
+  define: {
+    __INTERNAL_MODERNJS_IMAGE_OPTIONS__: { quality: 90 },
   },
 });
 

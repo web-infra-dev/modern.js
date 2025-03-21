@@ -60,14 +60,14 @@ describe('image loader', () => {
 
       const content = JSON.parse(moduleContent.replace('export default ', ''));
       expect(content).toMatchObject({
-        src: '/assets/image.123456.jpg',
+        url: '/assets/image.123456.jpg',
         width,
         height,
         thumbnail: {
+          url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           // TODO: use concrete value.
           width: expect.any(Number),
           height: expect.any(Number),
-          src: expect.stringMatching(/^data:image\/jpeg;base64,/),
         },
       });
     },
@@ -132,13 +132,13 @@ describe('image loader', () => {
 
     await expect(result).resolves.toEqual({
       default: {
-        src: expect.stringMatching(/^\/.*\.jpg$/),
+        url: expect.stringMatching(/^\/.*\.jpg$/),
         width: 100,
         height: 75,
         thumbnail: {
+          url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           width: 8,
           height: 6,
-          src: expect.stringMatching(/^data:image\/jpeg;base64,/),
         },
       },
     });

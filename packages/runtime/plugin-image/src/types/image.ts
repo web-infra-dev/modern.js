@@ -4,7 +4,7 @@ export interface ImageSize {
 }
 
 export interface ImageResource extends ImageSize {
-  src: string;
+  url: string;
 }
 
 export interface ImageModule extends ImageResource {

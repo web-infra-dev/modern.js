@@ -6,5 +6,5 @@
     "lib": ["ES2021", "DOM"],
     "types": ["node"]
   },
-  "include": ["tests", "src/**/*.test.*", "vitest.setup.ts"]
+  "include": ["tests", "src/env.d.ts", "src/**/*.test.*", "vitest.setup.ts"]
 }

@@ -174,4 +174,14 @@ describe.each(images)('Image $basename ($width, $height)', data => {
     expect(webpBuffer).toBeInstanceOf(Buffer);
     expect(webpBuffer.length).toBeGreaterThan(0);
   });
+
+  it('should return cached size with different reference', async () => {
+    const image = await Image.create(buffer);
+
+    const size1 = image.size();
+    const size2 = image.size();
+
+    expect(size1).toEqual(size2);
+    expect(size1).not.toBe(size2);
+  });
 });
