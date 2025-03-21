@@ -1,5 +1,5 @@
 import * as path from 'path';
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/server-core';
 import { requireExistModule } from '@modern-js/utils';
 
 export const isDev = (): boolean => process.env.NODE_ENV === 'development';
@@ -16,7 +16,7 @@ export const SHARED_DIR = 'shared';
 
 export const API_APP_NAME = '_app';
 
-export default (): ServerPlugin => ({
+export default (): ServerPluginLegacy => ({
   name: 'serverPlugin1',
   setup: api => {
     return {

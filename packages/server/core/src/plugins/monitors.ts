@@ -9,7 +9,7 @@ import type {
   TimingEvent,
 } from '@modern-js/types';
 import { SERVER_TIMING, ServerTimings } from '../constants';
-import type { Context, Next, ServerEnv, ServerPlugin } from '../types';
+import type { Context, Next, ServerEnv, ServerPluginLegacy } from '../types';
 
 function createMonitors(): Monitors {
   const coreMonitors: CoreMonitor[] = [];
@@ -80,7 +80,7 @@ function createMonitors(): Monitors {
   return mointors;
 }
 
-export const initMonitorsPlugin = (): ServerPlugin => ({
+export const initMonitorsPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/init-mointor',
 
   setup(api) {
@@ -106,7 +106,9 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
   },
 });
 
-export const injectloggerPlugin = (inputLogger?: Logger): ServerPlugin => ({
+export const injectloggerPlugin = (
+  inputLogger?: Logger,
+): ServerPluginLegacy => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
@@ -169,7 +171,7 @@ export const injectloggerPlugin = (inputLogger?: Logger): ServerPlugin => ({
   },
 });
 
-export const injectServerTiming = (): ServerPlugin => ({
+export const injectServerTiming = (): ServerPluginLegacy => ({
   name: '@modern-js/inject-server-timing',
 
   setup(api) {

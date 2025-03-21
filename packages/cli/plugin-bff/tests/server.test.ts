@@ -4,7 +4,7 @@ import { server } from '@modern-js/plugin-v2/server';
 import {
   type ServerConfig,
   type ServerPlugin,
-  type ServerPluginFuture,
+  type ServerPluginLegacy,
   compatPlugin,
   handleSetupResult,
 } from '@modern-js/server-core';
@@ -21,7 +21,7 @@ export async function serverInit({
   plugins,
   serverConfig,
 }: {
-  plugins?: (ServerPlugin | ServerPluginFuture)[];
+  plugins?: (ServerPlugin | ServerPluginLegacy)[];
   serverConfig?: ServerConfig;
 }) {
   const { serverContext } = await server.run({
@@ -53,7 +53,7 @@ describe('bff server plugin', () => {
   describe('prepareApiServer', () => {
     it('should work well', async () => {
       let apiHandlerInfos = null;
-      const mockApiPlugin: ServerPlugin = {
+      const mockApiPlugin: ServerPluginLegacy = {
         name: 'mock-api',
 
         setup(api) {
@@ -82,7 +82,7 @@ describe('bff server plugin', () => {
     it('should work well with prefix', async () => {
       let apiHandlerInfos = null;
 
-      const mockApiPlugin: ServerPlugin = {
+      const mockApiPlugin: ServerPluginLegacy = {
         name: 'mock-api',
 
         setup(api) {

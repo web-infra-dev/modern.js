@@ -3,7 +3,7 @@ import type {
   GetRenderHandlerOptions,
   OnFallback,
   Render,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '../../types';
 import { createRender } from './render';
 
@@ -15,7 +15,7 @@ export interface InjectRenderHandlerOptions {
 export const injectRenderHandlerPlugin = ({
   staticGenerate,
   cacheConfig,
-}: InjectRenderHandlerOptions): ServerPlugin => ({
+}: InjectRenderHandlerOptions): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-render',
   setup(api) {
     return {

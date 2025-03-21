@@ -5,7 +5,7 @@ import type {
   InternalRequest,
   Render,
   ServerManifest,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
@@ -157,7 +157,7 @@ const initApp = (app: express.Express) => {
   return app;
 };
 
-export default (): ServerPlugin => {
+export default (): ServerPluginLegacy => {
   let app: Express;
   let apiDir: string;
   let mode: 'function' | 'framework';

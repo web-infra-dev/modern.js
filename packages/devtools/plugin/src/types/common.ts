@@ -5,7 +5,7 @@ import type {
   DevtoolsContext,
   ServerManifest,
 } from '@modern-js/devtools-kit/node';
-import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
+import type { ServerPluginLegacy, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import type { Hookable } from 'hookable';
 
@@ -13,7 +13,9 @@ export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
 >[0];
 
-export type ServerPluginAPI = Parameters<NonNullable<ServerPlugin['setup']>>[0];
+export type ServerPluginAPI = Parameters<
+  NonNullable<ServerPluginLegacy['setup']>
+>[0];
 
 export type BufferLike =
   | string

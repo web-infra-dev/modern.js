@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  type ServerPlugin,
+  type ServerPluginLegacy,
   compatPlugin,
   createServerBase,
 } from '@modern-js/server-core';
@@ -27,7 +27,7 @@ function getDefaultAppContext() {
   };
 }
 
-function createMockPlugin(pwd: string): ServerPlugin {
+function createMockPlugin(pwd: string): ServerPluginLegacy {
   return {
     name: 'mock-plugin',
     setup(api) {

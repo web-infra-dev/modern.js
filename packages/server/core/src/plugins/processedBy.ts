@@ -1,6 +1,6 @@
-import type { ServerPlugin } from '../types';
+import type { ServerPluginLegacy } from '../types';
 
-export const processedByPlugin = (): ServerPlugin => ({
+export const processedByPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-processed',
 
   setup(api) {

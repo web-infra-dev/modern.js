@@ -55,7 +55,7 @@ export interface ServerPluginExtends extends BaseServerPluginExtends {
     afterStreamingRender: AsyncPipelineHook<AfterStreamingRenderContextFn>;
   };
 }
-export type ServerPluginFuture = BaseServerPlugin<ServerPluginExtends>;
+export type ServerPlugin = BaseServerPlugin<ServerPluginExtends>;
 
 export type ServerContext = BaseServerContext<ServerPluginExtends> &
   ServerPluginExtends['extendContext'];

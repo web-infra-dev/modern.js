@@ -1,6 +1,6 @@
 import type { CliPlugin, IAppContext } from '@modern-js/core';
 // must import from server-core, due to ts compiler error.
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/server-core';
 import { isApiOnly } from '@modern-js/utils';
 import {
   DEFAULT_RESOLVER_PATH,
@@ -22,7 +22,7 @@ export const setJestConfigForBFF = async ({
 }: {
   pwd: string;
   userConfig: any;
-  plugins: ServerPlugin[];
+  plugins: ServerPluginLegacy[];
   routes: any[];
   utils: TestConfigOperator;
   appContext: IAppContext;

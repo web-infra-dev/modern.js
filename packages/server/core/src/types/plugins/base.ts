@@ -17,8 +17,8 @@ import type {
 import type { MiddlewareHandler } from 'hono';
 import type { UserConfig } from '../config';
 import type { Render } from '../render';
-import type { ServerPluginFuture } from './new';
-import type { ServerPlugin } from './old';
+import type { ServerPlugin } from './new';
+import type { ServerPluginLegacy } from './old';
 
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin-v2';
 export type FallbackReason = 'error' | 'header' | 'query';
@@ -113,5 +113,5 @@ export interface RenderConfig {
 
 export type ServerConfig = {
   render?: RenderConfig;
-  plugins?: (ServerPlugin | ServerPluginFuture)[];
+  plugins?: (ServerPlugin | ServerPluginLegacy)[];
 } & UserConfig;
