@@ -5,7 +5,7 @@ import { createFilter } from '@rollup/pluginutils';
 import type { ImportKind, Loader, Plugin } from 'esbuild';
 import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
-import type { ICompiler, SideEffects } from '../../types';
+import type { ICompiler, LoadResult, SideEffects } from '../../types';
 import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
 import { writeFile } from './write-file';
 
@@ -242,7 +242,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
             return;
           }
           result = {
-            contents: await fs.promises.readFile(args.path),
+            contents: (await fs.promises.readFile(
+              args.path,
+            )) as unknown as LoadResult['contents'],
           };
         }
 

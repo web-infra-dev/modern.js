@@ -264,9 +264,9 @@ export async function parseCommonConfig(
   if (tags) {
     // The function will be executed at the end of the HTML processing flow
     html.tags = Array.isArray(tags)
-      ? tags
-          .filter(t => typeof t !== 'function')
-          .concat(tags.filter(t => typeof t === 'function'))
+      ? (tags.filter(t => typeof t !== 'function') as typeof tags).concat(
+          tags.filter(t => typeof t === 'function'),
+        )
       : tags;
   }
 
