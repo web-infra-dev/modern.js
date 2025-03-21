@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.65.4",
+  "version": "2.65.5",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -112,7 +112,6 @@
   "publishConfig": {
     "access": "public",
     "main": "./dist/index.js",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts",
     "typesVersions": {

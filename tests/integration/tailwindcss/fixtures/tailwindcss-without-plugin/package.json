@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "integration-tailwindcss-without-plugin",
-  "version": "2.9.0",
+  "version": "2.65.5",
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",

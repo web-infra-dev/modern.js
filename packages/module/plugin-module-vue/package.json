@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-vue",
-  "version": "2.65.4",
+  "version": "2.65.5",
   "description": "The vue plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -41,11 +41,10 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.65.4"
+    "@modern-js/module-tools": "workspace:^2.65.5"
   },
   "publishConfig": {
     "access": "public",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts"
   }

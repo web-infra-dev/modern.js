@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.65.5
+
+### Patch Changes
+
+- e8f7355: fix: route.json html entry path when config html.outputStructure
+
+  fix: 修复当配置 html.outputStructure 为 flat 时，route.json 中 html 入口文件路径
+
+- Updated dependencies [58a1afd]
+- Updated dependencies [fb6bf9e]
+- Updated dependencies [037bb48]
+  - @modern-js/uni-builder@2.65.5
+  - @modern-js/server@2.65.5
+  - @modern-js/server-core@2.65.5
+  - @modern-js/core@2.65.5
+  - @modern-js/plugin-v2@2.65.5
+  - @modern-js/plugin-data-loader@2.65.5
+  - @modern-js/prod-server@2.65.5
+  - @modern-js/server-utils@2.65.5
+  - @modern-js/plugin-i18n@2.65.5
+  - @modern-js/rsbuild-plugin-esbuild@2.65.5
+  - @modern-js/node-bundle-require@2.65.5
+  - @modern-js/plugin@2.65.5
+  - @modern-js/types@2.65.5
+  - @modern-js/utils@2.65.5
+
 ## 2.65.4
 
 ### Patch Changes

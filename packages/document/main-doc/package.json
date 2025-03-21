@@ -21,11 +21,10 @@
     "build": "rspress build",
     "preview": "rspress preview"
   },
-  "version": "2.65.4",
+  "version": "2.65.5",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*"

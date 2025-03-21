@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.4",
+  "version": "2.65.5",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -272,7 +272,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/types/index"
   }
 }
