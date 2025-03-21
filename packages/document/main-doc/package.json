@@ -27,7 +27,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@modern-js/sandpack-react": "workspace:*"
+    "@modern-js/sandpack-react": "workspace:*",
+    "mermaid": "^11.4.1"
   },
   "devDependencies": {
     "@rspress/shared": "1.42.0",

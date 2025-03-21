@@ -1,77 +1,149 @@
-# Plugin
+# Introduction
 
-In Modern.js, you can directly use two types of plugins: Modern.js framework plugins and Rsbuild plugins.
+Modern.js provides a powerful plugin system that allows developers to extend the framework's functionality, customize the build process, and meet a variety of personalized development needs. Whether you want to add a custom command, optimize build output, or implement a unique deployment solution, Modern.js's plugin system provides robust support.
 
-## Modern.js Framework Plugin
+## Why Plugins?
 
-Modern.js has its own framework plugin system. You can use Modern.js plugins by configuring the [`plugins`](/configure/app/plugins) field in `modern.config.ts`.
+In web application development, we often encounter needs that the framework itself cannot directly satisfy, such as:
+
+-   **I want to add a custom command-line tool to help me automate some tasks.**
+-   **I want to be able to handle a new file format, such as `.xyz`.**
+-   **I need to perform some initialization operations before the application starts.**
+-   **I want to perform special processing on the generated CSS files.**
+-   **I need to customize the application's routing logic or add some server-side middleware.**
+
+Without a plugin system, these requirements might require modifying the framework's source code or resorting to cumbersome hacks.  Modern.js's plugin system offers an elegant, flexible, and maintainable solution.
+
+## When to Use Which Plugin?
+
+Modern.js offers two main types of plugins: Modern.js framework plugins and Rsbuild build plugins.  The choice of which plugin to use depends on your specific needs:
+
+-   **Rsbuild Build Plugins:** If your needs are closely related to the build process, especially involving modifications to Webpack or Rspack configuration, then you should choose an Rsbuild plugin.  For example:
+    -   Modifying Webpack/Rspack `loader` or `plugin` configurations.
+    -   Handling new file types.
+    -   Modifying or compiling file contents.
+    -   Optimizing or processing build artifacts.
+
+-   **Modern.js Framework Plugins:** If your needs relate to the extension of Modern.js framework itself, runtime behavior, or server-side logic, then you should choose a Modern.js plugin. For example:
+    -   Adding custom command-line commands.
+    -   Modifying the application's routing configuration.
+    -   Customizing the application's rendering process (e.g., SSR).
+    -   Adding server-side middleware or handler functions.
+
+In short, use Rsbuild plugins when you need to modify Webpack/Rspack configurations; use Modern.js plugins for other framework-related extensions.
+
+## Modern.js Framework Plugins
 
 ### Plugin Types
 
-Framework plugins can be categorized into three types:
+Modern.js framework plugins can be further divided into three categories:
 
-1. [CLI Plugins](/plugin/cli-plugins): These are used to provide additional functionality when the Modern.js commands are executed in the application. Examples include adding commands, modifying configuration, and monitoring files. Most build-related capabilities can be achieved through CLI plugins.
-2. Server Plugins: These add extra functionality when the application receives requests. Examples include adding middleware and modifying request responses.
-3. Runtime Plugins: These provide additional functionality when the application runs React code. Examples include performing initialization actions and wrapping React higher-order components.
+#### CLI Plugins
 
-:::note
-Server plugins and Runtime plugins are coming soon.
+CLI plugins are used to provide additional functionality when running `modern` commands in the application, such as adding commands, modifying configurations, and listening for file changes. Most build-related capabilities can be implemented through CLI plugins.
+
+CLI plugins can be configured via the `plugins` field in `modern.config.ts`.
+
+```ts title="modern.config.ts"
+// an example for bff
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin()],
+});
+```
+
+#### Runtime Plugins
+
+Runtime plugins are used to provide additional functionality when the application is running React code, such as performing initialization behaviors and implementing React Higher-Order Component (HOC) encapsulation.
+
+Runtime plugins are configured via the `plugins` field in `src/modern.runtime.ts`.
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { routerPlugin } from '@modern-js/runtime/router';
+
+export default defineRuntimeConfig({
+  plugins: [routerPlugin()],
+});
+```
+
+{/* #### Server Plugins
+
+Server plugins are used to provide additional functionality when the application receives requests, such as adding middleware and modifying request responses.
+
+Server plugins are configured via the `plugins` field in `server/modern.server.ts`.
+
+```ts title="src/modern.server.ts"
+import { defineConfig } from '@modern-js/app-tools/server';
+import bffPlugin from '@modern-js/plugin-bff/server';
+
+export default defineConfig({
+  plugins: [bffPlugin()],
+});
+``` */}
+
+:::tip
+Modern.js officially uses the new plugin mechanism starting from `MAJOR_VERSION.66.0`.
+
+If your current version is lower than MAJOR_VERSION.66.0, you can upgrade by running `npx modern upgrade`.
 :::
 
 ### Developing Plugins
 
-If you need to develop Modern.js framework plugins, you can read [Modern.js Plugin System](/plugin/plugin-system/introduction) for more information.
+If you need to develop Modern.js framework plugins, please read [Modern.js Plugin System](/plugin/plugin-system) for more information.
 
-Rsbuild is the build tool of Modern.js. You can modify the default build behavior and add various additional features by adding the Rsbuild plugin, including but not limited to:
+## Rsbuild Build Plugins
 
-- Modifying Rspack configurations
-- Processing new file types
+Rsbuild is the underlying build tool for Modern.js. By adding Rsbuild plugins, you can modify the default build behavior and add various additional functionalities, including but not limited to:
+
+- Modifying Rsbuild configuration
+- Handling new file types
 - Modifying or compiling files
 - Deploying artifacts
 
-You can register the Rsbuild plugin through the `builderPlugins` option in `modern.config.ts`, see [builderPlugins](/configure/app/builder-plugins) for details.
+You can register Rsbuild plugins in `modern.config.ts` via the `builderPlugins` option.  See [builderPlugins](/configure/app/builder-plugins.html) for details.
 
 :::tip
-Modern.js has upgraded the build tool to [Rsbuild](https://rsbuild.dev/) starting from `MAJOR_VERSION.46.0`.
+Starting from `MAJOR_VERSION.46.0`, Modern.js upgraded its underlying build tool to [Rsbuild](https://rsbuild.dev/).
 
-If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
+If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by running `npx modern upgrade`.
 :::
 
 :::info
-For more information about the Rsbuild plugin system, you can read [Rsbuild Official Site - Plugins](https://rsbuild.dev/plugins/list/index).
+You can read [Rsbuild Official Website - Plugins](https://rsbuild.dev/plugins/list/index) to learn more about the Rsbuild plugin system.
 :::
-
-## Rsbuild Plugin
 
 ### Official Plugins
 
-#### Builtin Plugins
+#### Built-in Plugins
 
-Here are the official Rsbuild plugins built into Modern.js:
+The following are official Rsbuild plugins that are already built into Modern.js.  They can be enabled without installation:
 
-| Plugin Name                                                                                    | Introduce                                                                                                    | Modern.js Link                                                                                                                        |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [React Plugin](https://rsbuild.dev/plugins/list/plugin-react)                                  | Provides support for React                                                                                   | -                                                                                                                                     |
-| [SVGR Plugin](https://rsbuild.dev/plugins/list/plugin-svgr)                                    | Support convert SVG to React components                                                                      | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
-| [Styled Components Plugin](https://github.com/rspack-contrib/rsbuild-plugin-styled-components) | Provides compile-time support for styled-components                                                          | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
-| [Assets Retry Plugin](https://rsbuild.dev/plugins/list/plugin-assets-retry)                    | Used to automatically resend requests when static assets fail to load                                        | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
-| [Type Check Plugin](https://github.com/rspack-contrib/rsbuild-plugin-type-check)                        | Used to run TypeScript type checker on a separate process                                                    | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
-| [Node Polyfill Plugin](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)         | Used to inject polyfills of Node core modules in the browser side                                            | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
-| [Source Build Plugin](https://github.com/rspack-contrib/rsbuild-plugin-source-build)           | Supports referencing source code from other subdirectories                                                   | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
-| [Check Syntax Plugin](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)           | Used to analyze the syntax compatibility of artifacts                                                        | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
-| [CSS Minimizer Plugin](https://github.com/rspack-contrib/rsbuild-plugin-css-minimizer)         | Used to customize CSS minimizer, switch to [cssnano](https://cssnano.co/) or other tools for CSS compression | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
-| [Pug Plugin](https://github.com/rspack-contrib/rsbuild-plugin-pug)                             | Provides support for the Pug template engine                                                                 | [tools.pug](/configure/app/tools/pug.html)                                                                                            |
-| [Rem Plugin](https://github.com/rspack-contrib/rsbuild-plugin-rem)                                      | Implements the rem adaptive layout for mobile pages                                                          | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
-| [YAML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | Used to import YAML files and convert them into JavaScript objects                                           | [TOML File](/guides/basic-features/static-assets/json-files.html#toml-file)                                                                         |
-| [TOML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | Used to import TOML files and convert them into JavaScript objects                                           | [YAML File](/guides/basic-features/static-assets/json-files.html#yaml-file)                                                                         |
+| Plugin                                                                                         | Description                                                                                     | Modern.js Link                                                                                                                        |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| [React Plugin](https://rsbuild.dev/zh/plugins/list/plugin-react)                               | Provides support for React                                                                      | -                                                                                                                                     |
+| [SVGR Plugin](https://rsbuild.dev/zh/plugins/list/plugin-svgr)                                 | Supports converting SVG images into React components                                                     | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [Styled Components Plugin](https://github.com/rspack-contrib/rsbuild-plugin-styled-components) | Provides compile-time support for styled-components                                                    | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
+| [Assets Retry Plugin](https://rsbuild.dev/zh/plugins/list/plugin-assets-retry)                 | Automatically retries requests when static asset loading fails                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
+| [Type Check Plugin](https://github.com/rspack-contrib/rsbuild-plugin-type-check)               | Runs TypeScript type checking in a separate process                                               | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
+| [Node Polyfill Plugin](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)         | Injects polyfills for Node core modules in the browser                                             | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
+| [Source Build Plugin](https://github.com/rspack-contrib/rsbuild-plugin-source-build)           | For monorepo scenarios, supports referencing source code from other subdirectories and completing builds and hot updates                       | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
+| [Check Syntax Plugin](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)           | Analyzes the syntax compatibility of the build artifacts to determine if there are any advanced syntax features that cause compatibility issues                           | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
+| [CSS Minimizer Plugin](https://github.com/rspack-contrib/rsbuild-plugin-css-minimizer)         | Used to customize the CSS compression tool, switch to [cssnano](https://cssnano.co/) or other tools for CSS compression   | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
+| [Pug Plugin](https://github.com/rspack-contrib/rsbuild-plugin-pug)                             | Provides support for the Pug template engine                                                                | [tools.pug](/configure/app/tools/pug.html)                                                                                            |
+| [Rem Plugin](https://github.com/rspack-contrib/rsbuild-plugin-rem)                             | Implements rem adaptive layout for mobile pages                                                      | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
+| [YAML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | Used to reference YAML files and convert them to JavaScript objects                                         | [YAML Files](/guides/basic-features/static-assets/json-files.html#yaml-files)                                                                         |
+| [TOML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | Used to reference TOML files and convert them to JavaScript objects                                         | [TOML Files](/guides/basic-features/static-assets/json-files.html#toml-files)                                                                       |
 
-#### Un-builtin Plugins
+#### Plugins Not Built-in
 
-Here are the official Rsbuild plugins that are not built into Modern.js:
+The following are official Rsbuild plugins that are not built into Modern.js:
 
-- [Image Compress Plugin](https://github.com/rspack-contrib/rsbuild-plugin-image-compress): Compress the image resources used in the project.
-- [Stylus Plugin](https://rsbuild.dev/plugins/list/plugin-stylus): Use Stylus as the CSS preprocessor.
-- [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd): Used to build outputs in UMD format.
+- [Image Compress Plugin](https://github.com/rspack-contrib/rsbuild-plugin-image-compress): Compresses image resources used in the project.
+- [Stylus Plugin](https://rsbuild.dev/zh/plugins/list/plugin-stylus): Uses Stylus as the CSS preprocessor.
+- [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd): Used to build UMD format artifacts.
 
 import OtherPlugins from '@site-docs-en/components/other-plugins.mdx';
 
