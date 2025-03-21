@@ -1,0 +1,239 @@
+# 插件系统
+
+Modern.js 采用高度可扩展的插件化架构，其核心功能和扩展能力均通过插件实现。插件系统不仅保证了框架的灵活性，也为开发者提供了强大的定制化手段。本文将重点介绍如何编写 Modern.js 插件，帮助您快速上手插件开发。
+
+## 核心理念：一切皆插件
+
+Modern.js 秉承“一切皆插件”的设计哲学，将框架的各项功能模块化，通过插件的形式进行组装和扩展。这种设计带来了诸多优势，包括：
+
+-   **高内聚，低耦合**：各功能模块独立开发、测试和维护，降低系统复杂度。
+-   **灵活可扩展**：用户可通过编写或组合插件，轻松定制框架行为，无需修改核心代码。
+-   **易于复用**：插件可跨项目共享，提高开发效率。
+-   **渐进式增强**：按需引入插件，无需一开始就承载所有功能的复杂性。
+
+## 插件类型与适用场景
+
+Modern.js 提供了三种主要插件类型，分别对应应用开发的不同阶段：
+
+**CLI 插件**：
+    -   **作用阶段**：构建时（执行 `modern` 命令时）。
+    -   **典型场景**：
+        -   扩展命令行工具。
+        -   修改构建配置。
+        -   监听文件变化。
+        -   控制构建流程。
+    -   **配置方式**：`modern.config.ts` 中的 `plugins` 字段。
+
+**Runtime 插件**：
+    -   **作用阶段**：应用运行时（浏览器/Node.js 环境）。
+    -   **典型场景**：
+        -   初始化全局状态或服务。
+        -   封装 React 高阶组件（HOC）。
+        -   拦截或修改路由行为。
+        -   控制渲染流程。
+    -   **配置方式**：`src/modern.runtime.ts` 中的 `plugins` 字段。
+
+{/* **Server 插件**：
+    -   **作用阶段**：服务端请求处理阶段。
+    -   **典型场景**：
+        -   添加自定义中间件。
+        -   扩展服务端 API。
+        -   定制化 SSR 逻辑。
+        -   与后端框架集成。
+    -   **配置方式**：`server/modern.server.ts` 中的 `plugins` 字段。 */}
+
+## 插件结构
+
+一个典型的 Modern.js 插件包含以下几个关键部分：
+
+```ts
+import type { Plugin } from '@modern-js/plugin-v2';
+
+const myPlugin: Plugin = {
+  name: 'my-awesome-plugin', // 插件的唯一标识符（必需）
+
+  // 插件依赖和执行顺序（可选）
+  pre: [],    // 在此插件之前执行的插件名列表，默认为空数组
+  post: [],   // 在此插件之后执行的插件名列表，默认为空数组
+  required: [],// 必需的插件列表，若依赖的插件未注册，则会报错，默认为空数组
+  usePlugins: [], // 内部使用的插件实例列表，默认为空数组
+
+  // 注册新的 Hook (可选)
+  registryHook: {},
+
+  // 插件的入口函数（必需）
+  setup(api) {
+    // 插件的核心逻辑，通过 api 对象调用插件 API
+    api.modifyWebpackConfig(config => { /* ... */ });
+    api.onPrepare(() => { /* ... */ });
+    // ... 其他 API 调用
+  },
+};
+
+export default myPlugin;
+```
+
+**字段说明：**
+
+##### `name`
+
+- 类型： `string`
+- 说明：标识插件的名称。在插件体系中，该名称必须唯一，否则将导致插件加载失败。
+
+:::info
+后续 `pre`, `post`, `required` 中声明的插件名称都是这里的 name 字段.
+:::
+
+##### `setup`
+
+- 类型： `(api: PluginAPI) => MaybePromise<void>`
+- 说明：插件逻辑的主要入口。
+
+###### `api`
+
+- 类型： `PluginAPI`
+- 说明：插件的 API，包含插件支持的 Hooks 和工具函数。
+
+##### `pre`
+
+- 类型： `string[]`
+- 说明：用于插入插件执行顺序。在 `pre` 中声明的插件会在此插件之前执行。
+
+##### `post`
+
+- 类型： `string[]`
+- 说明：用于确定插件执行顺序。在 `post` 中声明的插件会在此插件之后执行。
+
+##### `required`
+
+- 类型： `string[]`
+- 说明：该插件依赖的其它插件。在运行前，会校验依赖的插件是否已注册。
+
+:::info
+如果在 `pre` 或 `post` 中配置了未注册的插件名，这些插件名将被**自动忽略**，不会影响其他插件的执行。
+
+如果需要明确声明当前插件依赖的插件必须存在，需要使用 `required` 字段。
+:::
+
+##### `usePlugins`
+
+- 类型： `Plugin`
+- 说明：主动在插件中注册其他相同类型的插件。
+
+:::info
+`usePlugins` 中声明的插件默认在当前插件之前执行。需要在其后执行，请使用 `post` 声明。
+:::
+
+##### `registryHooks`
+
+- 类型： `Record<string, PluginHook<(...args: any[]) => any>>`
+- 说明：扩展当前支持的 Hook 函数，以实现自定义功能。
+
+
+## 插件 Hook 模型
+
+Modern.js 插件系统的核心是其 Hook 模型，它定义了插件之间的通信机制。Modern.js 主要提供两种 Hook 类型：
+
+### Async Hook（异步 Hook）
+
+-   **特点**：
+    -   Hook 函数异步执行，支持 `async/await`。
+    -   前一个 Hook 函数的返回值会作为下一个 Hook 函数的第一个参数。
+    -   最终返回最后一个 Hook 函数的返回值。
+-   **适用场景**：涉及异步操作的场景（如网络请求、文件读写等）。
+-   **创建方式**：使用 `createAsyncHook` 创建。
+
+示例：
+
+```ts
+// 定义 Hooks
+import { createAsyncHook } from '@modern-js/plugin-v2';
+
+export type AfterPrepareFn = () => Promise<void> | void;
+export const onAfterPrepare = createAsyncHook<AfterPrepareFn>();
+
+// 插件中注册 Hooks
+const myPlugin = () => ({
+  name: "my-plugin",
+  registryHooks: {
+    onAfterPrepare,
+  },
+  setup: (api) => {
+    api.onPrepare(async () => {
+      // 插件中使用注册的 Hooks
+      const hooks = api.getHooks();
+      await hooks.onAfterPrepare.call();
+    });
+  }
+});
+
+// 在其他插件中使用 Hook
+const myPlugin2 = () => ({
+  name: "my-plugin-2",
+  setup: (api) => {
+    api.onAfterPrepare(async () => {
+      // TOOD
+    });
+  }
+})
+```
+
+### Sync Hook（同步 Hook）
+
+-   **特点**：
+    -   Hook 函数同步执行。
+    -   前一个 Hook 函数的返回值会作为下一个 Hook 函数的第一个参数。
+    -   最终返回最后一个 Hook 函数的返回值。
+-   **适用场景**：需要同步修改数据的场景（如修改配置、路由等）。
+-   **创建方式**：使用 `createSyncHook` 创建。
+
+示例：
+
+```ts
+// 定义 Hooks
+import { createSyncHook } from '@modern-js/plugin-v2';
+
+type RouteObject = {/** TODO **/};
+const modifyRoutes = createSyncHook<(routes: RouteObject[]) => RouteObject[]>();
+
+// 插件中注册 Hooks
+const myPlugin = () => ({
+  name: "my-plugin",
+  registryHooks: {
+    modifyRoutes,
+  },
+  setup: (api) => {
+    api.onPrepare(async () => {
+      const routes = {};
+      // 在插件中使用注册的 Hooks
+      const hooks = api.getHooks();
+      const routesResult = hooks.modifyRoutes.call(routes);
+    });
+  }
+});
+
+// 其他插件使用 Hooks
+const myPlugin2 = () => ({
+  name: "my-plugin",
+  setup: (api) => {
+    api.modifyRoutes(async (routes) => {
+      // 修改 routes
+      return routes;
+    });
+  }
+});
+```
+
+## 插件开发最佳实践
+
+- **单一职责**: 每个插件应该专注于实现一个特定的、内聚的功能。避免创建功能庞杂、职责不清的插件。
+- **命名规范**: 插件名称应清晰、简洁, 并遵循一定的命名约定 (如 `plugin-xxx` 或 `@scope/plugin-xxx`).
+- **类型安全**: 充分利用 TypeScript 的类型系统, 确保插件 API 的类型安全, 减少运行时错误。
+- **文档完善**: 为插件编写清晰的文档, 包括 API 说明、使用示例、配置项解释以及变更日志。
+- **测试充分**: 对插件进行单元测试和集成测试, 确保其稳定性、可靠性以及在各种场景下的兼容性。
+- **减少副作用**: 插件应该尽可能地减少对外部环境的修改 (如全局变量、文件系统等), 保持插件的独立性和可移植性。
+- **错误处理**: 插件内部应该妥善处理可能出现的错误, 避免因为插件的异常导致整个应用崩溃。
+- **性能优化**: 注意插件的性能影响, 避免不必要的计算和资源消耗, 特别是在循环或频繁调用的 Hook 中。
+- **版本控制**: 遵循语义化版本控制 (Semantic Versioning), 确保插件的向后兼容性, 方便用户升级。
+
+遵循这些最佳实践, 可以帮助您开发出高质量、易维护、易使用的 Modern.js 插件。
