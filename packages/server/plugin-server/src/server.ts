@@ -1,4 +1,4 @@
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/server-core';
 import type {
   MiddlewareContext,
   NextFunction,
@@ -79,7 +79,7 @@ function getFactory(storage: Storage) {
   return factory;
 }
 
-export default (): ServerPlugin => ({
+export default (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {

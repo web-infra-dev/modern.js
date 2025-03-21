@@ -87,7 +87,7 @@ export type ServerPluginAPI = {
 export type PluginAPI = ServerPluginAPI & CommonAPI<ServerHooks>;
 
 /**old server plugin. */
-export type ServerPlugin = PluginOptions<
+export type ServerPluginLegacy = PluginOptions<
   ServerHooks,
   AsyncSetup<ServerHooks, PluginAPI>
 >;

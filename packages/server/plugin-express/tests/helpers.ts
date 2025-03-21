@@ -5,7 +5,7 @@ import { server } from '@modern-js/plugin-v2/server';
 import {
   type ServerConfig,
   type ServerPlugin,
-  type ServerPluginFuture,
+  type ServerPluginLegacy,
   compatPlugin,
   handleSetupResult,
 } from '@modern-js/server-core';
@@ -15,7 +15,7 @@ export async function serverInit({
   plugins,
   serverConfig,
 }: {
-  plugins?: (ServerPlugin | ServerPluginFuture)[];
+  plugins?: (ServerPlugin | ServerPluginLegacy)[];
   serverConfig?: ServerConfig;
 }) {
   const { serverContext } = await server.run({
@@ -44,7 +44,7 @@ export async function serverInit({
   return hooks as any;
 }
 
-export const APIPlugin: ServerPlugin = {
+export const APIPlugin: ServerPluginLegacy = {
   name: 'api-plugin',
 
   setup(api) {

@@ -1,6 +1,6 @@
 import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import type { Middleware, ServerEnv, ServerPlugin } from '../types';
+import type { Middleware, ServerEnv, ServerPluginLegacy } from '../types';
 import { sortRoutes } from '../utils';
 
 function injectRoute(route: {
@@ -24,7 +24,7 @@ function getPageRoutes(routes: ServerRoute[]): ServerRoute[] {
   );
 }
 
-export const injectRoutePlugin = (): ServerPlugin => ({
+export const injectRoutePlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-route',
 
   setup(api) {

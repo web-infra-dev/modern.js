@@ -1,6 +1,6 @@
-import type { ServerPlugin } from '../types';
+import type { ServerPluginLegacy } from '../types';
 
-export const faviconPlugin = (): ServerPlugin => ({
+export const faviconPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-favicon',
 
   setup(api) {

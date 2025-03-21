@@ -1,4 +1,7 @@
-import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
+import type {
+  ServerBaseOptions,
+  ServerPluginLegacy,
+} from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
 import type { UniBuilderInstance } from '@modern-js/uni-builder';
@@ -20,7 +23,7 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;
 };
 
-export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
+export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {

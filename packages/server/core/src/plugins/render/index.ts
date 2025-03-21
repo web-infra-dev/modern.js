@@ -7,7 +7,7 @@ import type {
   Middleware,
   Render,
   ServerEnv,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '../../types';
 import { sortRoutes } from '../../utils';
 import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
@@ -15,7 +15,7 @@ import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
-export const renderPlugin = (): ServerPlugin => ({
+export const renderPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {

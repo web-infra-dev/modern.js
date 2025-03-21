@@ -1,6 +1,6 @@
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export default (): ServerPluginLegacy => ({
   name: 'serverPlugin1',
   setup() {
     return {

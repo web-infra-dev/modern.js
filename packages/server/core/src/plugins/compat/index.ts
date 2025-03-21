@@ -6,12 +6,12 @@ import type {
   FallbackFn,
   PrepareApiServerFn,
   PrepareWebServerFn,
-  ServerPluginFuture,
+  ServerPlugin,
 } from '../../types';
 import { getHookRunners } from './hooks';
 
 export { handleSetupResult } from './hooks';
-export const compatPlugin = (): ServerPluginFuture => ({
+export const compatPlugin = (): ServerPlugin => ({
   name: '@modern-js/server-compat',
   registryHooks: {
     fallback: createAsyncHook<FallbackFn>(),

@@ -1,6 +1,6 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/server-core';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,
@@ -25,7 +25,7 @@ const createTransformAPI = (storage: Storage) => ({
   },
 });
 
-export default (): ServerPlugin => ({
+export default (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     const storage = new Storage();
