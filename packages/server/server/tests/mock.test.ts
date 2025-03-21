@@ -1,5 +1,9 @@
 import path from 'path';
-import { type ServerPlugin, createServerBase } from '@modern-js/server-core';
+import {
+  type ServerPluginLegacy,
+  compatPlugin,
+  createServerBase,
+} from '@modern-js/server-core';
 import { getMockMiddleware } from '../src/helpers';
 
 function getDefaultConfig() {
@@ -23,7 +27,7 @@ function getDefaultAppContext() {
   };
 }
 
-function createMockPlugin(pwd: string): ServerPlugin {
+function createMockPlugin(pwd: string): ServerPluginLegacy {
   return {
     name: 'mock-plugin',
     setup(api) {
@@ -53,7 +57,10 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'cjs'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'cjs')),
+    ]);
 
     await server.init();
 
@@ -77,7 +84,10 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'empty'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'empty')),
+    ]);
 
     await server.init();
 
@@ -92,7 +102,10 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'exist'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'exist')),
+    ]);
 
     await server.init();
 
@@ -114,7 +127,10 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'exist'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'exist')),
+    ]);
 
     await server.init();
 
@@ -129,7 +145,10 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'disable'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'disable')),
+    ]);
 
     await server.init();
 
@@ -144,7 +163,10 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
     });
 
-    server.addPlugins([createMockPlugin(path.join(pwd, 'disable-runtime'))]);
+    server.addPlugins([
+      compatPlugin(),
+      createMockPlugin(path.join(pwd, 'disable-runtime')),
+    ]);
 
     await server.init();
 
@@ -165,7 +187,10 @@ describe('should mock middleware work correctly', () => {
         appContext: getDefaultAppContext(),
       });
 
-      server.addPlugins([createMockPlugin(path.join(pwd, 'module-error'))]);
+      server.addPlugins([
+        compatPlugin(),
+        createMockPlugin(path.join(pwd, 'module-error')),
+      ]);
 
       await server.init();
     } catch (e: any) {
@@ -181,7 +206,10 @@ describe('should mock middleware work correctly', () => {
         appContext: getDefaultAppContext(),
       });
 
-      server.addPlugins([createMockPlugin(path.join(pwd, 'type-error'))]);
+      server.addPlugins([
+        compatPlugin(),
+        createMockPlugin(path.join(pwd, 'type-error')),
+      ]);
 
       await server.init();
     } catch (e: any) {

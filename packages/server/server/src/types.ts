@@ -1,11 +1,8 @@
+import type { Server as NodeServer } from 'node:http';
 import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 
-import type {
-  NodeServer,
-  ServerBase,
-  ServerBaseOptions,
-} from '@modern-js/server-core';
+import type { ServerBase, ServerBaseOptions } from '@modern-js/server-core';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 

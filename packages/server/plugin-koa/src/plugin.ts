@@ -4,7 +4,7 @@ import type { APIHandlerInfo } from '@modern-js/bff-core';
 import type {
   Render,
   ServerManifest,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '@modern-js/server-core';
 import type { InternalRequest } from '@modern-js/server-core';
 import {
@@ -154,7 +154,7 @@ const createApp = async ({
   return app;
 };
 
-export default (): ServerPlugin => {
+export default (): ServerPluginLegacy => {
   let app: Application;
   let apiDir: string;
   let mode: 'function' | 'framework';

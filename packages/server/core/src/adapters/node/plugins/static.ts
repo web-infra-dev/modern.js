@@ -8,11 +8,11 @@ import type {
   HtmlNormalizedConfig,
   Middleware,
   OutputNormalizedConfig,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 
-export const serverStaticPlugin = (): ServerPlugin => ({
+export const serverStaticPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-server-static',
 
   setup(api) {

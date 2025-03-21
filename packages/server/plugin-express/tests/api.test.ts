@@ -1,7 +1,7 @@
 import path from 'path';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin, createPluginManager } from './helpers';
+import { APIPlugin, serverInit } from './helpers';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/operator');
@@ -10,13 +10,11 @@ describe('support api function', () => {
   let apiHandler: any;
   const prefix = '/api';
   beforeAll(async () => {
-    const pluginManager = createPluginManager();
+    const hooks = await serverInit({
+      plugins: [APIPlugin, plugin()],
+    });
 
-    pluginManager.addPlugins([APIPlugin, plugin()]);
-
-    const runner = await pluginManager.init();
-
-    apiHandler = await runner.prepareApiServer({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix,
     });

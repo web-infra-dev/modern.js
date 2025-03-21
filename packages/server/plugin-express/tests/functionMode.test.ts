@@ -1,7 +1,7 @@
 import * as path from 'path';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin, createPluginManager } from './helpers';
+import { APIPlugin, serverInit } from './helpers';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/function-mode');
@@ -13,11 +13,11 @@ describe('function-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const pluginManager = createPluginManager();
-    pluginManager.addPlugins([APIPlugin, plugin()]);
+    const hooks = await serverInit({
+      plugins: [APIPlugin, plugin()],
+    });
 
-    const runner = await pluginManager.init();
-    apiHandler = await runner.prepareApiServer({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix: '/',
     });

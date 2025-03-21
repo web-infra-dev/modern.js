@@ -7,7 +7,7 @@ import type {
   Middleware,
   Render,
   ServerEnv,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '../../types';
 import { sortRoutes } from '../../utils';
 import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
@@ -15,7 +15,7 @@ import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
-export const renderPlugin = (): ServerPlugin => ({
+export const renderPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
@@ -28,14 +28,15 @@ export const renderPlugin = (): ServerPlugin => ({
           distDirectory: pwd,
           serverBase,
         } = api.useAppContext();
-        const runner = api.useHookRunners();
+        // TODO: remove any
+        const hooks = (api as any).getHooks();
         const config = api.useConfigContext();
 
         if (!routes) {
           return;
         }
 
-        const customServer = new CustomServer(runner, serverBase!, pwd);
+        const customServer = new CustomServer(hooks, serverBase!, pwd);
 
         // render.middleware can register by server config and prepare hook
         // render.middleware is the same as unstable_middleware in server/index.ts, but execute before unstable_middleware

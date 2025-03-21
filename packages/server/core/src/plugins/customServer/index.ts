@@ -4,6 +4,7 @@ import type {
   UnstableMiddleware,
   UnstableMiddlewareContext,
 } from '@modern-js/types';
+import { isArray, isFunction } from '@modern-js/utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import type * as streamModule from '../../adapters/node/polyfills/stream';
 import { ServerTimings } from '../../constants';
@@ -12,8 +13,9 @@ import type { ServerBase } from '../../serverBase';
 import type {
   Context,
   Middleware,
+  PrepareWebServerFn,
   ServerEnv,
-  ServerHookRunner,
+  ServerPluginHooks,
 } from '../../types';
 import { transformResponse } from '../../utils';
 import { type ResArgs, createBaseHookContext } from './base';
@@ -32,16 +34,14 @@ const isHtmlResponse = (response: Response) => {
 };
 
 export class CustomServer {
-  private runner: ServerHookRunner;
+  private hooks: ServerPluginHooks;
 
-  private serverMiddlewarePromise: ReturnType<
-    ServerHookRunner['prepareWebServer']
-  >;
+  private serverMiddlewarePromise: ReturnType<PrepareWebServerFn>;
 
   private serverBase: ServerBase;
 
-  constructor(runner: ServerHookRunner, serverBase: ServerBase, pwd: string) {
-    this.runner = runner;
+  constructor(hooks: ServerPluginHooks, serverBase: ServerBase, pwd: string) {
+    this.hooks = hooks;
 
     this.serverBase = serverBase;
 
@@ -50,15 +50,12 @@ export class CustomServer {
 
     // get api or web server handler from server-framework plugin
     // prepareWebServe must run before server runner.
-    this.serverMiddlewarePromise = runner.prepareWebServer(
-      {
-        pwd,
-        config: {
-          middleware: webExtension,
-        },
+    this.serverMiddlewarePromise = hooks.prepareWebServer.call({
+      pwd,
+      config: {
+        middleware: webExtension,
       },
-      { onLast: () => [] },
-    );
+    });
   }
 
   getHookMiddleware(
@@ -75,7 +72,7 @@ export class CustomServer {
       const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
 
       const getCost = time();
-      await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
+      await this.hooks.afterMatch.call(afterMatchCtx);
       const cost = getCost();
 
       cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_MATCH, cost);
@@ -129,11 +126,11 @@ export class CustomServer {
           routeInfo,
         );
 
-        c.res = transformResponse(c.res, (chunk: string) => {
+        c.res = transformResponse(c.res, async (chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
-          return this.runner.afterStreamingRender(context, {
-            onLast: ({ chunk }) => chunk,
-          });
+          const { chunk: newChunk } =
+            await this.hooks.afterStreamingRender.call(context);
+          return newChunk;
         });
       } else {
         // run afterRenderHook hook
@@ -144,7 +141,7 @@ export class CustomServer {
         );
 
         const getCost = time();
-        await this.runner.afterRender(afterRenderCtx, { onLast: noop });
+        await this.hooks.afterRender.call(afterRenderCtx);
         const cost = getCost();
 
         cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_RENDER, cost);
@@ -170,7 +167,10 @@ export class CustomServer {
     const serverMiddleware = await this.serverMiddlewarePromise;
 
     // if no server middleware in server/index.ts, return render middleware
-    if (!serverMiddleware) {
+    if (
+      !serverMiddleware ||
+      (!isFunction(serverMiddleware) && !isArray(serverMiddleware))
+    ) {
       return renderMiddlewares;
     }
 
