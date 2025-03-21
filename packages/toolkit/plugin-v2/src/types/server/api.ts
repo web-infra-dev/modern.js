@@ -1,7 +1,7 @@
 import type { PluginHook, PluginHookTap } from '../hooks';
 import type { DeepPartial } from '../utils';
 import type { ServerContext } from './context';
-import type { Hooks } from './hooks';
+import type { Hooks, ModifyConfigFn, OnPrepareFn, OnResetFn } from './hooks';
 import type { ServerPluginExtends } from './plugin';
 
 export type ServerPluginAPI<Extends extends ServerPluginExtends> = Readonly<
@@ -12,6 +12,9 @@ export type ServerPluginAPI<Extends extends ServerPluginExtends> = Readonly<
     ) => void;
     getHooks: () => Readonly<Hooks<Extends['config']> & Extends['extendHooks']>;
     getServerConfig: () => Readonly<Extends['config']>;
+    modifyConfig: PluginHookTap<ModifyConfigFn<Extends['config']>>;
+    onPrepare: PluginHookTap<OnPrepareFn>;
+    onReset: PluginHookTap<OnResetFn>;
   } & ServerPluginExtendsAPI<Extends>
 >;
 

@@ -49,11 +49,6 @@ export interface ServerHooks {
    */
   fallback: ParallelWorkflow<FallbackInput>;
 
-  /**
-   * @deprecated
-   *
-   * deprecate it next major version
-   */
   prepareApiServer: AsyncPipeline<APIServerStartInput, MiddlewareHandler>;
 
   /**
