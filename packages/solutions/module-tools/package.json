@@ -112,7 +112,6 @@
   "publishConfig": {
     "access": "public",
     "main": "./dist/index.js",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts",
     "typesVersions": {
