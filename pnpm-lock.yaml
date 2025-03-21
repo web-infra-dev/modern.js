@@ -213,6 +213,9 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../core
+      '@modern-js/plugin-v2':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin-v2
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
@@ -2867,6 +2870,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/plugin-v2':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin-v2
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
@@ -3023,6 +3029,9 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
+      '@modern-js/plugin-v2':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin-v2
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3105,6 +3114,9 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
+      '@modern-js/plugin-v2':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin-v2
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
