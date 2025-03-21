@@ -97,7 +97,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-
     "types": "./dist/index.d.ts"
   }
 }

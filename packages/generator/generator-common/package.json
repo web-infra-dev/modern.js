@@ -56,7 +56,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-
     "types": "./dist/types/index.d.ts"
   }
 }
