@@ -11,6 +11,10 @@ export const getDevOptions = (options: ModernDevServerOptions) => {
 
 export const getDevAssetPrefix = (builder?: UniBuilderInstance) => {
   return new Promise<string>(resolve => {
+    if (!builder) {
+      return resolve('');
+    }
+
     builder?.onAfterCreateCompiler(params => {
       let webCompiler: typeof params.compiler;
       if ('compilers' in params.compiler) {
@@ -25,10 +29,10 @@ export const getDevAssetPrefix = (builder?: UniBuilderInstance) => {
       if (publicPath && typeof publicPath === 'string') {
         // remove host and port
         const formatPublicPath = publicPath.replace(/^https?:\/\/[^/]+/, '');
-        resolve(formatPublicPath);
+        return resolve(formatPublicPath);
       }
 
-      resolve('');
+      return resolve('');
     });
   });
 };
