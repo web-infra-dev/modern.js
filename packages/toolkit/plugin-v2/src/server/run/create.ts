@@ -53,8 +53,6 @@ export const createServer = <Extends extends ServerPluginExtends>() => {
     );
     serverContext.config = config as Extends['config'];
 
-    await serverContext.hooks.onPrepare.call();
-
     return { serverContext };
   }
 
