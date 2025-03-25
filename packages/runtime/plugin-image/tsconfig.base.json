@@ -9,6 +9,9 @@
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "useDefineForClassFields": true,
-    "types": ["@rsbuild/core/types"]
+    "types": ["@rsbuild/core/types"],
+    "paths": {
+      "@vitest/expect": ["node_modules/@vitest/expect"]
+    }
   }
 }

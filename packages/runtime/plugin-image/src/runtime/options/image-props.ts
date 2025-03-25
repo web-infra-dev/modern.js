@@ -4,12 +4,17 @@ import { resolveImageComponentContext } from './image-component-context';
 import { resolveImageOptions } from './image-options';
 
 export function resolveImageProps(props: ImageProps) {
-  const { alt = '', ...rest } = props;
+  const { alt = '', priority = false, onError, onLoad, ...rest } = props;
+
   const ret = {
     ...resolveImageComponentContext(rest),
     ...resolveImageOptions(rest),
     alt,
+    priority,
+    onLoad,
+    onError,
   };
+
   return ret;
 }
 

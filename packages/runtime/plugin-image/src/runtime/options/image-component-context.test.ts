@@ -10,7 +10,6 @@ describe('resolveImageComponentContext', () => {
       fill: false,
       loading: 'lazy',
       densities: [1, 2],
-      priority: false,
       placeholder: false,
     });
   });
@@ -20,28 +19,22 @@ describe('resolveImageComponentContext', () => {
       fill: true,
       loading: 'eager',
       densities: [1, 2, 3],
-      priority: true,
       placeholder: 'blur',
     });
     expect(context).toMatchObject({
       fill: true,
       loading: 'eager',
       densities: [1, 2, 3],
-      priority: true,
       placeholder: 'blur',
     });
   });
 
   it('should allow partial override of options', () => {
-    const context = resolveImageComponentContext({
-      fill: true,
-      priority: true,
-    });
+    const context = resolveImageComponentContext({ fill: true });
     expect(context).toMatchObject({
       fill: true,
       loading: 'lazy',
       densities: [1, 2],
-      priority: true,
       placeholder: false,
     });
   });
@@ -51,7 +44,7 @@ describe('resolveImageComponentContext', () => {
     expect(context).toHaveProperty('densities');
     expect(context).toHaveProperty('fill');
     expect(context).toHaveProperty('placeholder');
-    expect(context).toHaveProperty('priority');
+    expect(context).not.toHaveProperty('priority');
     expect(context).toHaveProperty('loading');
   });
 });

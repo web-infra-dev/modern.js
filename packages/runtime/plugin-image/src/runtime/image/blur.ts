@@ -1,5 +1,12 @@
 import type { ImageResource } from '../../types/image';
 
+/**
+ * This implementation is based on code from [Next.js](https://github.com/vercel/next.js/blob/ed10f7ed0246fcc763194197eb9beebcbd063162/packages/next/src/shared/lib/image-blur-svg.ts#L1-L34)
+ * which is licensed under the MIT License.
+ *
+ * @param param0
+ * @returns
+ */
 export function getBlurImage({
   width,
   height,

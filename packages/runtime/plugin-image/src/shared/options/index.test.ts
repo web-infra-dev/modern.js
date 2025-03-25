@@ -59,7 +59,6 @@ describe('ImageComponentContext', () => {
         "loader": undefined,
         "loading": "lazy",
         "placeholder": false,
-        "priority": false,
         "quality": 75,
       }
     `);

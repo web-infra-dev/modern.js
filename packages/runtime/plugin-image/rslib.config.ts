@@ -4,7 +4,7 @@ import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 
 export default defineConfig({
   source: {
-    entry: { index: ['./src/**', '!**/*.stories.*'] },
+    entry: { index: ['./src/**', '!**/*.stories.*', '!**/*.test.*'] },
   },
   output: {
     target: 'web',

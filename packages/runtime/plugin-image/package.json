@@ -51,6 +51,7 @@
     "react": "^19.0.0",
     "jiti": "1.21.7",
     "sharp": "^0.33.5",
+    "@vitest/expect": "3.0.9",
     "storybook": "^8.6.4",
     "storybook-addon-rslib": "^1.0.0",
     "storybook-react-rsbuild": "^1.0.0",

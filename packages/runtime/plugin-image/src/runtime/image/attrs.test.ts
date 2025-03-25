@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { ResolvedImageProps } from '../options/image-props';
-import { resolveImageAttrs, resolveImageStyle, resolveSrcSet } from './attrs';
+import {
+  resolveImageAttrs,
+  resolveImageStyle,
+  resolvePlaceholderStyle,
+  resolveSrcSet,
+} from './attrs';
 
 const defaultProps = {
   alt: 'Test image',
@@ -15,18 +20,19 @@ const defaultProps = {
 } as ResolvedImageProps;
 
 describe('resolveImageStyle', () => {
-  it('should preserve existing style properties', () => {
-    const props: ResolvedImageProps = {
-      ...defaultProps,
-      src: 'test.jpg',
-      width: 100,
-      height: 100,
-      style: { color: 'red', margin: '10px' },
-    };
-    const result = resolveImageStyle(props);
-    expect(result).toEqual({ color: 'red', margin: '10px' });
+  it('should resolve image style', () => {
+    const result = resolveImageStyle({ ...defaultProps });
+    expect(result).toMatchInlineSnapshot(`{}`);
   });
 
+  it('should throw error when configured unsupported props', () => {
+    expect(() =>
+      resolveImageStyle({ ...defaultProps, fill: true }),
+    ).toThrowError();
+  });
+});
+
+describe('resolvePlaceholderStyle', () => {
   it('should apply thumbnail styles with blur placeholder', () => {
     const props: ResolvedImageProps = {
       ...defaultProps,
@@ -40,9 +46,8 @@ describe('resolveImageStyle', () => {
       },
       placeholder: 'blur',
     };
-    const result = resolveImageStyle(props);
+    const result = resolvePlaceholderStyle(props);
     expect(result).toMatchObject({
-      color: 'transparent',
       backgroundSize: 'cover',
       backgroundPosition: '50% 50%',
       backgroundRepeat: 'no-repeat',
@@ -58,9 +63,9 @@ describe('resolveImageStyle', () => {
       height: 100,
       placeholder: 'custom-placeholder.jpg',
     };
-    const result = resolveImageStyle(props);
+    const result = resolvePlaceholderStyle(props);
     expect(result).toMatchObject({
-      backgroundImage: 'url(custom-placeholder.jpg)',
+      backgroundImage: 'url("custom-placeholder.jpg")',
     });
   });
 });
@@ -199,6 +204,31 @@ describe('resolveImageAttrs', () => {
       src: 'override.jpg',
       srcSet: '/image?t=test.jpg&w=100&q=75 1x,/image?t=test.jpg&w=200&q=75 2x',
       sizes: undefined,
+    });
+  });
+
+  it('should preserve existing style properties', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      src: 'test.jpg',
+      width: 100,
+      height: 100,
+      placeholder: 'blur',
+      thumbnail: {
+        url: 'data:image/jpeg;base64,xyz',
+        width: 10,
+        height: 10,
+      },
+      style: { color: 'red', margin: '10px' },
+    };
+    const result = resolveImageAttrs(props);
+    expect(result.style).toEqual({
+      backgroundImage: expect.any(String),
+      backgroundPosition: '50% 50%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      color: 'red',
+      margin: '10px',
     });
   });
 });

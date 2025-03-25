@@ -26,13 +26,6 @@ export interface ImageComponentContext extends ImageContext {
    */
   densities?: number[];
   /**
-   * Whether the image should be prioritized for loading.
-   * When true, the image will be preloaded and given loading priority.
-   * Use for images that are above the fold or critical to user experience.
-   * @default {false}
-   */
-  priority?: boolean;
-  /**
    * Placeholder to show while the image is loading.
    * Can be set to 'blur' for a blurred version of the image,
    * or a custom base64 encoded image data.
@@ -49,6 +42,5 @@ export function createImageComponentContext() {
     fill: false,
     loading: 'lazy',
     placeholder: false,
-    priority: false,
   } satisfies ImageComponentContext;
 }

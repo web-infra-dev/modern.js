@@ -13,6 +13,13 @@ import { type ImageOptions, createImageOptions } from './image-options';
  */
 export interface ImageProps extends ImageComponentContext, ImageOptions {
   /**
+   * Whether the image should be prioritized for loading.
+   * When true, the image will be preloaded and given loading priority.
+   * Use for images that are above the fold or critical to user experience.
+   * @default {false}
+   */
+  priority?: boolean;
+  /**
    * Alternative text description of the image.
    * Required for accessibility. Describes the image content for screen readers
    * and displays when the image fails to load.
@@ -54,12 +61,12 @@ export interface ImageProps extends ImageComponentContext, ImageOptions {
    * Callback function that executes when the image load event fires.
    * @example onLoad={event => done())}
    */
-  onLoad?: (event: Event) => void;
+  onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
   /**
    * Callback function that executes if the image fails to load.
    * @example onError(event => fail()}
    */
-  onError?: (event: Event) => void;
+  onError?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
 }
 
 export function createImageProps() {
@@ -68,5 +75,6 @@ export function createImageProps() {
     ...createImageOptions(),
     alt: '',
     src: '',
+    priority: false,
   } satisfies ImageProps;
 }

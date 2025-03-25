@@ -8,7 +8,6 @@ export function resolveImageComponentContext(context: ImageComponentContext) {
     fill = false,
     loading = 'lazy',
     densities = [1, 2],
-    priority = false,
     placeholder = false,
   } = context;
 
@@ -17,7 +16,6 @@ export function resolveImageComponentContext(context: ImageComponentContext) {
     densities,
     fill,
     placeholder,
-    priority,
     loading,
   };
   return ret;

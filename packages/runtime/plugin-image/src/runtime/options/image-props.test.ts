@@ -21,4 +21,17 @@ describe('resolveImageProps', () => {
       width: undefined,
     });
   });
+
+  it('should override default values with provided options', () => {
+    const props = resolveImageProps({
+      alt: 'Foo',
+      src: '/foo.jpg',
+      priority: true,
+    });
+    expect(props).toMatchObject({
+      alt: 'Foo',
+      src: '/foo.jpg',
+      priority: true,
+    });
+  });
 });
