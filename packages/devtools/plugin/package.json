@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.3",
+  "version": "2.65.5",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -75,7 +75,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.13",
     "@types/node": "^14",
@@ -85,7 +85,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.65.3"
+    "@modern-js/runtime": "workspace:^2.65.5"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -95,7 +95,6 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.3",
+  "version": "2.65.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
   "main": "./dist/cjs/cli/index.js",
@@ -65,6 +65,7 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
+    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -89,7 +90,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/types/cli/index.d.ts"
   }
 }

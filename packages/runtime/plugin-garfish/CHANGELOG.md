@@ -1,5 +1,36 @@
 # @modern-js/plugin-garfish
 
+## 2.65.5
+
+### Patch Changes
+
+- 9c30e63: fix: fix the compatibility issue of the garfish plugin rendering nodes
+
+  fix: 修复 garfish 插件渲染节点兼容性问题
+
+- 28b95e3: feat: garfish provider support add appName props
+
+  feat: garfish provider 支持添加 appName props
+
+- Updated dependencies [90a3c1c]
+- Updated dependencies [58a1afd]
+  - @modern-js/runtime-utils@2.65.5
+  - @modern-js/runtime@2.65.5
+  - @modern-js/plugin-v2@2.65.5
+  - @modern-js/utils@2.65.5
+
+## 2.65.4
+
+### Patch Changes
+
+- Updated dependencies [7bce153]
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/runtime@2.65.4
+  - @modern-js/plugin-v2@2.65.4
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

@@ -1,10 +1,10 @@
-import type { NodeServer, ServerPlugin } from '../../../types';
-
+import type { Server as NodeServer } from 'node:http';
+import type { ServerPluginLegacy } from '../../../types';
 export const injectNodeSeverPlugin = ({
   nodeServer,
 }: {
   nodeServer: NodeServer;
-}): ServerPlugin => ({
+}): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-node-server',
 
   setup(api) {

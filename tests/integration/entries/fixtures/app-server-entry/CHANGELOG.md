@@ -1,5 +1,27 @@
 # app-entry-server
 
+## 2.65.5
+
+### Patch Changes
+
+- Updated dependencies [e8f7355]
+- Updated dependencies [90a3c1c]
+- Updated dependencies [58a1afd]
+  - @modern-js/app-tools@2.65.5
+  - @modern-js/runtime-utils@2.65.5
+  - @modern-js/runtime@2.65.5
+
+## 2.65.4
+
+### Patch Changes
+
+- Updated dependencies [7bce153]
+- Updated dependencies [f1cd095]
+- Updated dependencies [93e12ae]
+  - @modern-js/runtime@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+  - @modern-js/app-tools@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

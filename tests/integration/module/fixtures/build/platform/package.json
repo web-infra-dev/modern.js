@@ -1,6 +1,6 @@
 {
   "name": "platform-test",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "browser": {
     "path": "path-browserify"
   },

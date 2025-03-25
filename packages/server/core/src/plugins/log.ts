@@ -1,4 +1,4 @@
-import type { Middleware, ServerEnv, ServerPlugin } from '../types';
+import type { Middleware, ServerEnv, ServerPluginLegacy } from '../types';
 // The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
 // license at https://github.com/honojs/hono/blob/main/LICENSE
 import { getPathname } from '../utils';
@@ -84,7 +84,7 @@ function logHandler(): Middleware<ServerEnv> {
   };
 }
 
-export const logPlugin = (): ServerPlugin => ({
+export const logPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-log',
 
   setup(api) {

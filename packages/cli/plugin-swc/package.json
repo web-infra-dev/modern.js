@@ -14,7 +14,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.3",
+  "version": "2.65.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@rsbuild/plugin-webpack-swc": "1.0.12",
     "@swc/helpers": "0.5.13"
   },
@@ -55,7 +55,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

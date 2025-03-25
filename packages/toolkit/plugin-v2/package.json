@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.3",
+  "version": "2.65.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -48,6 +48,15 @@
         "require": "./dist/cjs/runtime/index.js"
       },
       "default": "./dist/esm/runtime/index.js"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
+      "node": {
+        "import": "./dist/esm-node/server/index.js",
+        "require": "./dist/cjs/server/index.js"
+      },
+      "default": "./dist/esm/server/index.js"
     }
   },
   "typesVersions": {
@@ -63,6 +72,9 @@
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
       ]
     }
   },
@@ -82,7 +94,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
@@ -95,7 +107,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

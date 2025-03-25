@@ -1,0 +1,139 @@
+# 生命周期
+
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    init{{"CLI 初始化"}}
+    env(初始化环境变量)
+    load_config(加载用户配置文件)
+    cli_plugin(加载 CLI 插件)
+    registry_hooks(注册 Hooks 函数<br><sub>执行插件 setup 函数，注册插件中定义的 Hook, 插件 setup 中逻辑也会在这里执行</sub>)
+
+    app_tools{{"app-tools"}}
+
+    config(config)
+    onPrepare(onPrepare)
+    addCommand(addCommand)
+    addWatchFiles(addWatchFiles)
+    onFileChanged(onFileChanged)
+    onBeforeExit(onBeforeExit<br><sub>SIGINT, SIGTERM, unhandledRejection, uncaughtException 事件触发</sub>)
+
+    onBeforeDev(onBeforeDev)
+    onBeforeRestart(onBeforeRestart<br><sub>修改的文件需要重启服务时触发</sub>)
+    onBeforeBuild(onBeforeBuild<br><sub>在独立 BFF 项目时触发</sub>)
+    onAfterBuild(onAfterBuild<br><sub>在独立 BFF 项目时触发</sub>)
+    modifyServerRoutes(modifyServerRoutes)
+    modifyHtmlPartials(modifyHtmlPartials)
+
+    onPrepare_fork(onPrepare)
+    addCommand_fork(addCommand)
+    onFileChanged_fork(onFileChanged)
+
+    registry_rsbuild_hooks(注册 rsbuild Hooks<br><sub>这里只是注册 rsbuild 的 Hook，具体的执行时机是由 rsbuild 的插件机制决定的</sub>)
+
+    modifyBundlerChain(modifyBundlerChain)
+    modifyRsbuildConfig(modifyRsbuildConfig)
+    modifyRspackConfig(modifyRspackConfig)
+    modifyWebpackChain(modifyWebpackChain)
+    modifyWebpackConfig(modifyWebpackConfig)
+
+    onBeforeBuild_rsbuild(onBeforeBuild)
+    onAfterBuild_rsbuild(onAfterBuild)
+    onDevCompileDone(onDevCompileDone)
+    onBeforeCreateCompiler(onBeforeCreateCompiler)
+    onAfterCreateCompiler(onAfterCreateCompiler)
+    onAfterDev(onAfterDev<br><sub>对应 rsbuild 的  onAfterStartDevServer Hook</sub>)
+
+    dev[/dev/]
+    build[/build/]
+    extra_command[/.../]
+
+    dev_fork[/dev/]
+    build_fork[/build/]
+    serve[/serve/]
+    deploy[/deploy/]
+    inspect[/inspect/]
+    upgrade[/upgrade/]
+
+    onPrepare_fork --> modifyServerRoutes
+    modifyServerRoutes --> modifyHtmlPartials
+    modifyHtmlPartials --> registry_rsbuild_hooks
+    registry_rsbuild_hooks --> modifyBundlerChain
+    modifyBundlerChain --> modifyRsbuildConfig
+    modifyRsbuildConfig --> modifyRspackConfig
+    modifyRspackConfig --> modifyWebpackChain
+    modifyWebpackChain --> modifyWebpackConfig
+    registry_rsbuild_hooks --> onBeforeBuild_rsbuild
+    onBeforeBuild_rsbuild --> onAfterBuild_rsbuild
+    onAfterBuild_rsbuild --> onDevCompileDone
+    onDevCompileDone --> onBeforeCreateCompiler
+    onBeforeCreateCompiler --> onAfterCreateCompiler
+    onAfterCreateCompiler --> onAfterDev
+
+    dev_fork --> onBeforeDev
+    onBeforeDev --> onFileChanged_fork
+    onFileChanged_fork --> onBeforeRestart
+
+    build_fork --> onBeforeBuild
+    onBeforeBuild --> onAfterBuild
+
+    app_tools --- spacer5[ ] --- spacer6[ ] --- spacer7[ ] --- spacer8[ ] --- spacer9[ ] --> onPrepare_fork
+    onPrepare_fork --> addCommand_fork
+    addCommand_fork --> dev_fork
+    addCommand_fork --> build_fork
+    addCommand_fork --> serve
+    addCommand_fork --> deploy
+    addCommand_fork --> inspect
+    addCommand_fork --> upgrade
+
+    init --> env
+    env --> load_config
+    load_config --> cli_plugin
+    cli_plugin --> registry_hooks
+
+    registry_hooks --> config
+    config --> onPrepare
+    onPrepare --> addCommand
+
+    addCommand --> dev
+    addCommand --> build
+    addCommand --> extra_command
+
+    dev --> addWatchFiles
+    addWatchFiles --> onFileChanged
+
+    onFileChanged --> onBeforeExit
+    build --- spacer[ ] --- spacer2[ ] --> onBeforeExit
+    extra_command --- spacer3[ ] --- spacer4[ ] --> onBeforeExit
+
+    style init fill:#FDE68A;
+    style app_tools fill:#FDE68A;
+    style env stroke-dasharray:5 5,fill:#86EFAC;
+    style registry_rsbuild_hooks stroke-dasharray:5 5,fill:#9CA3AF;
+    style load_config stroke-dasharray:5 5,fill:#86EFAC;
+    style cli_plugin stroke-dasharray:5 5,fill:#86EFAC;
+    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF;
+
+    style dev fill:#7DD3FC;
+    style build fill:#7DD3FC;
+    style extra_command fill:#7DD3FC;
+    style dev_fork fill:#7DD3FC;
+    style build_fork fill:#7DD3FC;
+    style serve fill:#7DD3FC;
+    style upgrade fill:#7DD3FC;
+    style deploy fill:#7DD3FC;
+    style inspect fill:#7DD3FC;
+
+    style spacer fill:none,stroke:none,height:0px;
+    style spacer2 fill:none,stroke:none,height:0px;
+    style spacer3 fill:none,stroke:none,height:0px;
+    style spacer4 fill:none,stroke:none,height:0px;
+    style spacer5 fill:none,stroke:none,height:0px;
+    style spacer6 fill:none,stroke:none,height:0px;
+    style spacer7 fill:none,stroke:none,height:0px;
+    style spacer8 fill:none,stroke:none,height:0px;
+    style spacer9 fill:none,stroke:none,height:0px;
+`}
+</Mermaid>

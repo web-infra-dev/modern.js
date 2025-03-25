@@ -15,7 +15,7 @@ import type {
   Middleware,
   ServerEnv,
   ServerManifest,
-  ServerPlugin,
+  ServerPluginLegacy,
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
 
@@ -166,7 +166,7 @@ export async function getRscSSRManifest(pwd: string) {
   return rscSSRManifest;
 }
 
-export const injectRscManifestPlugin = (): ServerPlugin => ({
+export const injectRscManifestPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-rsc-manifest',
   setup(api) {
     return {
@@ -198,7 +198,7 @@ export const injectRscManifestPlugin = (): ServerPlugin => ({
   },
 });
 
-export const injectResourcePlugin = (): ServerPlugin => ({
+export const injectResourcePlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-resource',
 
   setup(api) {

@@ -1,5 +1,28 @@
 # @modern-js/server-plugin
 
+## 2.65.5
+
+### Patch Changes
+
+- fb6bf9e: fix: add new mid connet for mock handler
+- Updated dependencies [90a3c1c]
+- Updated dependencies [58a1afd]
+  - @modern-js/runtime-utils@2.65.5
+  - @modern-js/plugin@2.65.5
+  - @modern-js/utils@2.65.5
+
+## 2.65.4
+
+### Patch Changes
+
+- f1cd095: feat: Modern.js server static middleware should always use system fs
+  feat: Modern.js 的静态中间件应该始终使用系统 fs
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+  - @modern-js/plugin@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

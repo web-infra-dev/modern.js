@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.65.3",
+  "version": "2.65.5",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -106,7 +106,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/types/index.d.ts",
     "exports": {
       "./router": {

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-banner",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "description": "The banner plugin of Modern.js Module.",
   "keywords": [
     "react",
@@ -46,7 +46,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.65.3"
+    "@modern-js/module-tools": "workspace:^2.65.5"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {
@@ -55,7 +55,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts"
   }

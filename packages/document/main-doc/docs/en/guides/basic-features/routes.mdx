@@ -530,7 +530,11 @@ This feature is very useful when applications require pre-rendered data, custom 
 ```ts title="src/routes/layout.tsx"
 import { RuntimeContext } from '@modern-js/runtime';
 
-export const init = (context: RuntimeContext) => {
+type InitialData = {
+  message: string;
+}
+
+export const init = (context: RuntimeContext): InitialData => {
   return {
     message: 'Hello World',
   };
@@ -542,7 +546,7 @@ import { useRuntimeContext } from '@modern-js/runtime;
 
 export default () => {
   const context = useRuntimeContext();
-  const { message } = context.initialData;
+  const { message } = context.initialData as InitialData;
 
   return <div>{message}</div>;
 };
@@ -551,9 +555,9 @@ export default () => {
 With SSR, the browser can obtain the data returned by `init` during SSR. Developers can decide whether to re-fetch the data on the browser side to override the SSR data. For example:
 
 ```tsx title="src/routes/layout.tsx"
-import { RuntimeContext } from '@modern-js/runtime;
+import type { RuntimeContext } from '@modern-js/runtime;
 
-export const init = (context: RuntimeContext) => {
+export const init = (runtimeContext: RuntimeContext) => {
   if (process.env.MODERN_TARGET === 'node') {
     return {
       message: 'Hello World By Server',

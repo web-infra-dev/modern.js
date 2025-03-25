@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { identifier } from 'safe-identifier';
-import type { ICompiler, Source } from '../../../types';
+import type { ICompiler, LoadResult, Source } from '../../../types';
 import { isStyleExt, resolvePathAndQuery } from '../../../utils';
 import { transformStyle } from './transformStyle';
 
@@ -21,7 +21,9 @@ export const css = {
           };
         }
         return {
-          contents: readFileSync(args.path),
+          contents: readFileSync(
+            args.path,
+          ) as unknown as LoadResult['contents'],
           loader: 'css',
         };
       }

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@e2e/builder",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "scripts": {
     "test": "pnpm run test:webpack && pnpm run test:rspack",
     "test:webpack": "playwright test",
@@ -20,7 +20,7 @@
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.33.0",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@rsbuild/plugin-webpack-swc": "1.0.12",
     "@types/lodash": "^4.14.202",
     "@types/node": "^14",

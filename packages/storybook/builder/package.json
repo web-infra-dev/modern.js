@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -60,7 +60,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@storybook/components": "~7.6.12",
     "@storybook/core-common": "~7.6.12",
     "@storybook/csf-plugin": "~7.6.12",
@@ -91,7 +91,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

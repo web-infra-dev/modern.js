@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -75,7 +75,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

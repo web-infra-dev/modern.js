@@ -1,5 +1,40 @@
 # @modern-js/runtime
 
+## 2.65.5
+
+### Patch Changes
+
+- 58a1afd: feat: Add response APIs to support setting response headers, status codes, and redirects
+  feat: 添加一些响应的 API，可以设置响应头，状态码，及重定向
+- Updated dependencies [90a3c1c]
+- Updated dependencies [58a1afd]
+  - @modern-js/runtime-utils@2.65.5
+  - @modern-js/plugin-v2@2.65.5
+  - @modern-js/plugin-data-loader@2.65.5
+  - @modern-js/render@2.65.5
+  - @modern-js/plugin@2.65.5
+  - @modern-js/types@2.65.5
+  - @modern-js/utils@2.65.5
+
+## 2.65.4
+
+### Patch Changes
+
+- 7bce153: feat: rename runtime plugin modifyRuntimeConfig hook to config
+
+  feat: 重命名 runtime 插件 modifyRuntimeConfig 钩子为 config
+
+- Updated dependencies [7bce153]
+- Updated dependencies [0d47cb8]
+- Updated dependencies [f1cd095]
+  - @modern-js/plugin-v2@2.65.4
+  - @modern-js/utils@2.65.4
+  - @modern-js/runtime-utils@2.65.4
+  - @modern-js/plugin-data-loader@2.65.4
+  - @modern-js/render@2.65.4
+  - @modern-js/plugin@2.65.4
+  - @modern-js/types@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes

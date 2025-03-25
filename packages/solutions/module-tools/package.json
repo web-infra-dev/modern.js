@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.65.3",
+  "version": "2.65.5",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
-    "@rsbuild/core": "1.2.17",
+    "@rsbuild/core": "1.2.19",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/convert-source-map": "1.5.2",
@@ -112,7 +112,6 @@
   "publishConfig": {
     "access": "public",
     "main": "./dist/index.js",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts",
     "typesVersions": {

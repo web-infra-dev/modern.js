@@ -63,6 +63,7 @@ export const buildCommand = async (
     .description(i18n.t(localeKeys.command.build.describe))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
+    .option('-w --watch', i18n.t(localeKeys.command.build.watch))
     .action(async (options: BuildOptions) => {
       const { build } = await import('./build.js');
       await build(api, options);

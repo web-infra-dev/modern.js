@@ -2,6 +2,7 @@ import type {
   CreateDefaultPluginsOptions,
   ServerBaseOptions,
   ServerPlugin,
+  ServerPluginLegacy,
 } from '@modern-js/server-core';
 import type { Reporter } from '@modern-js/types';
 import type { Logger } from '@modern-js/utils';
@@ -12,7 +13,7 @@ interface ProdServerExtraOptions {
 
   serverConfigPath?: string;
 
-  plugins?: ServerPlugin[];
+  plugins?: (ServerPlugin | ServerPluginLegacy)[];
 }
 
 export type ProdServerOptions = Exclude<ServerBaseOptions, 'serverConfig'> &

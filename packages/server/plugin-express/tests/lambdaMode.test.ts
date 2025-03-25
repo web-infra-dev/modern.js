@@ -11,20 +11,16 @@ import express, {
 } from 'express';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin, createPluginManager } from './helpers';
+import { APIPlugin, serverInit } from './helpers';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 const API_DIR = './api';
 
-async function createRunner(plugins: any[]) {
-  const pluginManager = createPluginManager();
+async function createHooks(plugins: any[]) {
+  const hooks = await serverInit({ plugins });
 
-  pluginManager.addPlugins(plugins);
-
-  const runner = await pluginManager.init();
-
-  return runner;
+  return hooks;
 }
 
 describe('lambda-mode', () => {
@@ -35,9 +31,9 @@ describe('lambda-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await createRunner([APIPlugin, plugin()]);
+    const hooks = await createHooks([APIPlugin, plugin()]);
 
-    apiHandler = await runner.prepareApiServer({
+    apiHandler = await hooks.prepareApiServer.call({
       pwd,
       prefix,
     });
@@ -122,10 +118,10 @@ describe('lambda-mode', () => {
 });
 
 describe('add middlewares', () => {
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner([APIPlugin, plugin()]);
+    hooks = await createHooks([APIPlugin, plugin()]);
   });
 
   test('should support add by function', async () => {
@@ -141,7 +137,7 @@ describe('add middlewares', () => {
       fakeMiddleware,
       fakeMiddleware2,
     ];
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       config: {
@@ -187,7 +183,7 @@ describe('add middlewares', () => {
       }),
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       config: {
@@ -208,10 +204,10 @@ describe('add middlewares', () => {
 });
 
 describe('support app.ts in lambda mode', () => {
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner([APIPlugin, plugin()]);
+    hooks = await createHooks([APIPlugin, plugin()]);
   });
 
   beforeEach(() => {
@@ -233,7 +229,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -256,7 +252,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -283,7 +279,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -311,7 +307,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -360,7 +356,7 @@ describe('support app.ts in lambda mode', () => {
       { virtual: true },
     );
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       prefix: '/',
@@ -377,10 +373,10 @@ describe('support app.ts in lambda mode', () => {
 });
 
 describe('support as async handler', () => {
-  let runner: any;
+  let hooks: any;
 
   beforeAll(async () => {
-    runner = await createRunner([APIPlugin, plugin()]);
+    hooks = await createHooks([APIPlugin, plugin()]);
   });
 
   test('API handler should works', async () => {
@@ -398,7 +394,7 @@ describe('support as async handler', () => {
       res.send(foo);
     });
 
-    const apiHandler = await runner.prepareApiServer({
+    const apiHandler = await hooks.prepareApiServer.call({
       pwd,
       mode: 'framework',
       config: { middleware: [wrapMiddleware] },

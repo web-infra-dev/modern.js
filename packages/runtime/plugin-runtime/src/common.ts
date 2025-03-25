@@ -1,4 +1,4 @@
-import type { Plugin } from './core/plugin';
+import type { Plugin, RuntimePluginFuture } from './core/plugin';
 import type { RouterConfig } from './router';
 import type { StateConfig } from './state';
 
@@ -14,7 +14,7 @@ export interface AppConfig {
 export interface RuntimeConfig {
   state?: StateConfig;
   stateByEntries?: { [name: string]: StateConfig };
-  plugins?: Plugin[];
+  plugins?: (Plugin | RuntimePluginFuture)[];
   [key: string]: any;
 }
 

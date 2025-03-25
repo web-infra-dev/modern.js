@@ -1,0 +1,12 @@
+[
+  {
+    "type": "dir",
+    "name": "cli-plugins",
+    "label": "cli-plugins"
+  },
+  {
+    "type": "dir",
+    "name": "rsbuild-plugins",
+    "label": "rsbuild-plugins"
+  }
+]

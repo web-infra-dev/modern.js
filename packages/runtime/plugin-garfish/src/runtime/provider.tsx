@@ -3,6 +3,13 @@ import { createRoot } from '@meta/runtime/react';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
 import type { Root } from 'react-dom/client';
 
+function generateRootDom(dom: HTMLElement, id: string) {
+  const mountNode = dom
+    ? dom.querySelector(`#${id}`) || dom
+    : document.getElementById(id);
+  return mountNode as HTMLElement;
+}
+
 export function createProvider(
   id?: string,
   {
@@ -26,6 +33,7 @@ export function createProvider(
         basename,
         dom,
         props,
+        appName,
       }: {
         basename: string;
         dom: HTMLElement;
@@ -33,18 +41,21 @@ export function createProvider(
         appName?: string;
       }) {
         const ModernRoot = createRoot(null);
-
+        const mountNode = generateRootDom(dom, id || 'root');
         if (customBootstrap) {
           root = await customBootstrap(ModernRoot, () =>
-            render(<ModernRoot basename={basename} {...props} />, dom),
+            render(
+              <ModernRoot basename={basename} appName={appName} {...props} />,
+              mountNode,
+            ),
           );
         } else {
           if (beforeRender) {
-            await beforeRender(ModernRoot, { basename, ...props });
+            await beforeRender(ModernRoot, { basename, appName, ...props });
           }
           root = await render(
-            <ModernRoot basename={basename} {...props} />,
-            dom,
+            <ModernRoot basename={basename} appName={appName} {...props} />,
+            mountNode,
           );
         }
       },

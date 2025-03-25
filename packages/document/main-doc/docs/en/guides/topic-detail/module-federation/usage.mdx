@@ -54,7 +54,10 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 
 export default createModuleFederationConfig({
   name: 'remote',
-  filename: 'remoteEntry.js',
+  manifest: {
+    filePath: 'static',
+  },
+  filename: 'static/remoteEntry.js',
   exposes: {
     './Button': './src/components/Button.tsx',
   },
@@ -64,6 +67,10 @@ export default createModuleFederationConfig({
   },
 });
 ```
+
+:::tip
+In the above code block, we have prefixed both the manifest and remoteEntry.js exported by Module Federation with `static`. This is because Modern.js requires all resources that need to be exposed to be placed in the `static/` directory, and Modern.js's server will only host the `static/` directory in production environments.
+:::
 
 Additionally, modify `modern.config.ts` to provide a development environment port for the producer, allowing the consumer to access the producer's resources through this port:
 
@@ -99,7 +106,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'host',
   remotes: {
-    remote: 'remote@http://localhost:3051/mf-manifest.json',
+    remote: 'remote@http://localhost:3051/static/mf-manifest.json',
   },
   shared: {
     react: { singleton: true },
@@ -172,6 +179,43 @@ After modifying the producer's code, the consumer will automatically fetch the p
 :::
 
 Access `http://localhost:8080/remote`, and you will see that the page includes the `Button` component from the producer's remote module.
+
+We can also execute `modern serve` locally to simulate the production environment.
+
+Because the Module Federation plugin will automatically read Modern.js's `output.assetPrefix` configuration as the access address for remote modules, and this value defaults to `/` after building in the production environment.
+
+If we want to simulate the production environment in local, but not configure `output.assetPrefix`, consumers will pull the entry file of the remote module from their own domain. So We can add the following configuration:
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+const isLocal = process.env.IS_LOCAL === 'true';
+
+// https://modernjs.dev/en/configure/app/usage
+export default defineConfig({
+  server: {
+    port: 3051,
+  },
+  runtime: {
+    router: true,
+  },
+  output: {
+    // Now this configuration is only used in the local when you run modern serve command.
+    // If you want to deploy the application to the platform, use your own domain name.
+    // Module federation will automatically write it to mf-manifest.json, which influences consumer to fetch remoteEntry.js.
+    assetPrefix: isLocal ? 'http://127.0.0.1:3051' : '/',
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack', // Set to 'webpack' to enable webpack
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+```
+
+Now, in the producer, run `IS_LOCAL=true modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
 
 You can refer to this example: [Modern.js & Module Federation Basic Example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base).
 

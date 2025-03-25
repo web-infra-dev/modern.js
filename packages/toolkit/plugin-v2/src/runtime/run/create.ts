@@ -50,12 +50,12 @@ export const createRuntime = <Extends extends RuntimePluginExtends>() => {
 
   function run(options: RuntimeRunOptions) {
     const { runtimeContext } = init(options);
-    const configs = runtimeContext.hooks.modifyRuntimeConfig
-      .call(runtimeContext.config)
+    const configs = runtimeContext.hooks.config
+      .call()
       .filter((config): config is NonNullable<typeof config> =>
         Boolean(config),
       );
-    runtimeContext.config = merge({}, ...configs);
+    runtimeContext.config = merge({}, ...configs, runtimeContext.config || {});
     return { runtimeContext };
   }
 

@@ -20,39 +20,65 @@ export class FileReader {
     encoding: 'utf-8' | 'buffer' = 'utf-8',
   ): Promise<string | Buffer | null> {
     const { fs } = this;
-    const cache = await this.storage.get(path);
-    if (cache === null) {
-      return null;
-    }
-    if (cache) {
-      return this.encodingContent(cache, encoding);
-    }
+    const _readfile = this._readFileFactory(fs);
+    return _readfile(path, encoding);
+  }
 
-    const isExistFile = await new Promise(resolve => {
-      fs.stat(path, (err, stats) => {
-        if (err) {
-          resolve(false);
-          return;
-        }
-        if (stats.isFile()) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+  async readFileFromSystem(
+    path: string,
+    encoding?: 'utf-8',
+  ): Promise<string | null>;
+  async readFileFromSystem(
+    path: string,
+    encoding?: 'buffer',
+  ): Promise<Buffer | null>;
+  async readFileFromSystem(
+    path: string,
+    encoding: 'utf-8' | 'buffer' = 'utf-8',
+  ): Promise<string | Buffer | null> {
+    const _readfile = this._readFileFactory(Fs);
+    return _readfile(path, encoding);
+  }
+
+  _readFileFactory(fs: typeof Fs) {
+    return async (
+      path: string,
+      encoding: 'utf-8' | 'buffer' = 'utf-8',
+    ): Promise<string | Buffer | null> => {
+      const cache = await this.storage.get(path);
+      if (cache === null) {
+        return null;
+      }
+      if (cache) {
+        return this.encodingContent(cache, encoding);
+      }
+
+      const isExistFile = await new Promise(resolve => {
+        fs.stat(path, (err, stats) => {
+          if (err) {
+            resolve(false);
+            return;
+          }
+          if (stats.isFile()) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
       });
-    });
 
-    if (isExistFile) {
-      const content = await fs.promises.readFile(path);
+      if (isExistFile) {
+        const content = await fs.promises.readFile(path);
 
-      this.storage.set(path, content);
+        this.storage.set(path, content);
 
-      return this.encodingContent(content, encoding);
-    } else {
-      // if is not exist, return null value.
-      this.storage.set(path, null);
-      return null;
-    }
+        return this.encodingContent(content, encoding);
+      } else {
+        // if is not exist, return null value.
+        this.storage.set(path, null);
+        return null;
+      }
+    };
   }
 
   /**

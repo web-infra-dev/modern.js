@@ -1,5 +1,26 @@
 # @modern-js/uni-builder
 
+## 2.65.5
+
+### Patch Changes
+
+- 58a1afd: feat: improve support rsc with rspack
+  feat: 完善 rspack 下对 rsc 的支持
+- 037bb48: fix: postcss.config not works
+  - @modern-js/babel-preset@2.65.5
+  - @modern-js/flight-server-transform-plugin@2.65.5
+  - @modern-js/utils@2.65.5
+
+## 2.65.4
+
+### Patch Changes
+
+- 49bedb9: fix: should not escape windows path when use transformLodash
+- Updated dependencies [0d47cb8]
+  - @modern-js/utils@2.65.4
+  - @modern-js/babel-preset@2.65.4
+  - @modern-js/flight-server-transform-plugin@2.65.4
+
 ## 2.65.3
 
 ### Patch Changes
