@@ -19,7 +19,7 @@ export const getDevAssetPrefix = (builder?: UniBuilderInstance) => {
       let webCompiler: typeof params.compiler;
       if ('compilers' in params.compiler) {
         webCompiler = params.compiler.compilers.find(c => {
-          return c.name === 'web';
+          return c.name === 'web' || c.name === 'client';
         })!;
       } else {
         webCompiler = params.compiler;
