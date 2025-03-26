@@ -124,7 +124,9 @@ export type ToolsDevServerConfig = ConfigChain<{
 }>;
 
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
-  TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
+  TerserPlugin.DefinedDefaultMinimizerAndOptions<
+    import('terser').MinifyOptions
+  >;
 
 export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
