@@ -3589,8 +3589,8 @@ importers:
         specifier: ^1.6.1
         version: 1.7.4
       ndepe:
-        specifier: 0.1.6
-        version: 0.1.6(encoding@0.1.13)
+        specifier: 0.1.8
+        version: 0.1.8(encoding@0.1.13)
       pkg-types:
         specifier: ^1.1.0
         version: 1.3.1
@@ -17917,8 +17917,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  ndepe@0.1.6:
-    resolution: {integrity: sha512-gQT5rqLHzjQH3HKdJe90h9kx7fxAZgvFnjBhPnP/h/w4Av27myHoiDJElqUFq3ZiKMXoNSuVarA8HF22qBIR7g==}
+  ndepe@0.1.8:
+    resolution: {integrity: sha512-0mvZ1o5F0GStEzsZIrlGAYmLOtrILwMCh2vHAT1J2qZdyCqgMUo/5FBVk1B54pmCZCDxOS8mMm3MAIW5nCDL3w==}
 
   needle@3.3.1:
     resolution: {integrity: sha512-6k0YULvhpw+RoLNiQCRKOl09Rv1dPLr8hHnVjHqdolKwDrdNyk+Hmrthi4lIGPPz3r39dLx0hsF5s40sZ3Us4Q==}
@@ -22211,7 +22211,7 @@ snapshots:
       '@babel/traverse': 7.26.10(supports-color@5.5.0)
       '@babel/types': 7.26.10
       convert-source-map: 1.9.0
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -29286,7 +29286,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -31135,7 +31135,7 @@ snapshots:
   detect-port@1.6.1:
     dependencies:
       address: 1.2.2
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -31890,7 +31890,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.7(supports-color@5.5.0)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -32067,7 +32067,7 @@ snapshots:
     dependencies:
       chalk: 4.1.2
       commander: 5.1.0
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -32814,7 +32814,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -32848,14 +32848,14 @@ snapshots:
   https-proxy-agent@4.0.0:
     dependencies:
       agent-base: 5.1.1
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -33222,7 +33222,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -35090,7 +35090,7 @@ snapshots:
   micromark@3.1.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -35294,7 +35294,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  ndepe@0.1.6(encoding@0.1.13):
+  ndepe@0.1.8(encoding@0.1.13):
     dependencies:
       '@vercel/nft': 0.27.3(encoding@0.1.13)
       debug: 4.3.7(supports-color@5.5.0)
@@ -36400,7 +36400,7 @@ snapshots:
   puppeteer-core@2.1.1(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@5.5.0)
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
