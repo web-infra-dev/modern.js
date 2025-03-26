@@ -5,7 +5,7 @@ import {
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
 import { devPlugin } from './dev';
-import { getDevOptions } from './helpers';
+import { getDevAssetPrefix, getDevOptions } from './helpers';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
 
 export async function createDevServer(
@@ -47,6 +47,7 @@ export async function createDevServer(
     nodeServer = await createNodeServer(server.handle.bind(server));
   }
 
+  const promise = getDevAssetPrefix(builder);
   const builderDevServer = await builder?.createDevServer({
     runCompile: options.runCompile,
     compiler: options.compilier,
@@ -58,6 +59,12 @@ export async function createDevServer(
       builderDevServer,
     }),
   ]);
+
+  // run after createDevServer, we can get assetPrefix from builder
+  const assetPrefix = await promise;
+  if (assetPrefix) {
+    prodServerOptions.config.output.assetPrefix = assetPrefix;
+  }
 
   await applyPlugins(server, prodServerOptions, nodeServer);
 
