@@ -4,6 +4,8 @@
     "module": "ESNext",
     "jsx": "react-jsx",
     "strict": true,
+    "baseUrl": "./src",
+    "stripInternal": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "resolveJsonModule": true,

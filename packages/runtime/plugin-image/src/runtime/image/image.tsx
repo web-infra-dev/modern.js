@@ -92,7 +92,7 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
   };
 
   const handleRef = (img: HTMLImageElement | null) => {
-    if (process.env.NODE_ENV === 'test') {
+    if (IS_TEST) {
       (resolvedProps as DebuggableImageProps).beforeRef?.(img);
     }
     if (img) {
