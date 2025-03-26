@@ -16,7 +16,6 @@ import type {
 import {
   fs,
   getEntryOptions,
-  isRouterV5,
   isSSGEntry,
   isUseSSRBundle,
   logger,
@@ -39,6 +38,7 @@ export const generateCode = async (
   config: AppNormalizedConfig<'shared'>,
   entrypoints: Entrypoint[],
   api: CLIPluginAPI<AppTools<'shared'>>,
+  isRouterV5: boolean,
 ) => {
   const {
     internalDirectory,
@@ -50,8 +50,7 @@ export const generateCode = async (
 
   const hooks = api.getHooks();
 
-  const isV5 = isRouterV5(config);
-  const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
+  const getRoutes = isRouterV5 ? getClientRoutesLegacy : getClientRoutes;
   const oldVersion =
     typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
@@ -83,7 +82,7 @@ export const generateCode = async (
             internalDirAlias,
           });
         }
-        if (!isV5 && entrypoint.nestedRoutesEntry) {
+        if (!isRouterV5 && entrypoint.nestedRoutesEntry) {
           nestedRoutes = await walk(
             entrypoint.nestedRoutesEntry,
             entrypoint.nestedRoutesEntry,

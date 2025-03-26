@@ -1,5 +1,6 @@
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
+import './types';
 
 const PLUGIN_IDENTIFIER = 'state';
 

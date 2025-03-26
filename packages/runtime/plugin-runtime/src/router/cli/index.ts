@@ -11,7 +11,6 @@ import {
   NESTED_ROUTE_SPEC_FILE,
   createRuntimeExportsUtils,
   getEntryOptions,
-  isRouterV5 as isV5,
 } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
 import { isRouteEntry } from './entry';
@@ -31,6 +30,9 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
     const nestedRoutes: Record<string, unknown> = {};
     const nestedRoutesForServer: Record<string, unknown> = {};
 
+    const { metaName } = api.getAppContext();
+
+    const isRouterV5 = api.isPluginExists(`@${metaName}/plugin-router-v5`);
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const { nestedRoutesEntry, pageRoutesEntry } = entrypoint as Entrypoint;
       const { packageName, serverRoutes, metaName } = api.getAppContext();
@@ -48,7 +50,8 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       )?.router;
-      if ((nestedRoutesEntry || pageRoutesEntry) && !isV5(userConfig)) {
+
+      if ((nestedRoutesEntry || pageRoutesEntry) && !isRouterV5) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router`,
@@ -79,28 +82,30 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       };
     });
     api.modifyEntrypoints(async ({ entrypoints }) => {
-      const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
+      const newEntryPoints = await handleModifyEntrypoints(
+        isRouterV5,
+        entrypoints,
+      );
       return { entrypoints: newEntryPoints };
     });
     api.generateEntryCode(async ({ entrypoints }) => {
-      await handleGeneratorEntryCode(api, entrypoints);
+      await handleGeneratorEntryCode(api, entrypoints, isRouterV5);
     });
     api.addRuntimeExports(() => {
-      const userConfig = api.useResolvedConfigContext();
       const { internalDirectory, metaName } = api.useAppContext();
 
       const pluginsExportsUtils = createRuntimeExportsUtils(
         internalDirectory,
         'plugins',
       );
-      if (!isV5(userConfig)) {
+      if (!isRouterV5) {
         pluginsExportsUtils.addExport(
           `export { default as router } from '@${metaName}/runtime/router'`,
         );
       }
     });
     api.onFileChanged(async e => {
-      await handleFileChange(api, e);
+      await handleFileChange(api, isRouterV5, e);
     });
 
     api.modifyFileSystemRoutes(({ entrypoint, routes }) => {

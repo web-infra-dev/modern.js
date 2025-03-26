@@ -59,12 +59,6 @@ export const isServiceWorker = (config: any): boolean => {
   return false;
 };
 
-export const isRouterV5 = (config: {
-  runtime?: { router?: { mode?: string } | boolean };
-}) =>
-  typeof config.runtime?.router !== 'boolean' &&
-  config?.runtime?.router?.mode === 'react-router-5';
-
 export const isSSGEntry = (
   config: any,
   entryName: string,
