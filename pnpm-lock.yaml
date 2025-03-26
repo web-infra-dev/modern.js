@@ -2705,8 +2705,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       rsc-html-stream:
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: 0.0.5
+        version: 0.0.5
     devDependencies:
       '@modern-js/server-core':
         specifier: workspace:*
@@ -20017,8 +20017,8 @@ packages:
   roughjs@4.6.6:
     resolution: {integrity: sha512-ZUz/69+SYpFN/g/lUlo2FXcIjRkSu3nDarreVdGGndHEBJ6cXPdKguS8JGxwj5HA5xIbVKSmLgr5b3AWxtRfvQ==}
 
-  rsc-html-stream@0.0.4:
-    resolution: {integrity: sha512-1isiXIrlTI/vRLTvS3O4fMrO9qIHje1FSphufrIV5QfzHUgBDCZFwP9b8+rH63nbhxtcKTqfyziwM+2khfX0Uw==}
+  rsc-html-stream@0.0.5:
+    resolution: {integrity: sha512-UhLsi8XLAu1NIBcFZjykoPiSLEAxfkGxkmr/Tnv4KnqhG18A65dVTCWovRvFdpzng6IyVW2f6nTAKz7lw+QhgQ==}
 
   rslog@1.2.3:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
@@ -38265,7 +38265,7 @@ snapshots:
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
 
-  rsc-html-stream@0.0.4: {}
+  rsc-html-stream@0.0.5: {}
 
   rslog@1.2.3: {}
 
