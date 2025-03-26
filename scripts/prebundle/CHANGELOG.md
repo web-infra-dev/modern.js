@@ -1,5 +1,12 @@
 # @scripts/prebundle
 
+## 2.66.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.66.0
+- @scripts/build@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

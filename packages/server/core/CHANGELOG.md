@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 2.66.0
+
+### Patch Changes
+
+- e48a5ae: feat: rename ServerPlugin to ServerPluginLegacy and ServerPluginFuture to ServerPlugin
+
+  feat: 将 ServerPlugin 类型重命名为 ServerPluginLegacy，ServerPluginFuture 类型重命名为 ServerPlugin
+
+- Updated dependencies [e48a5ae]
+  - @modern-js/plugin-v2@2.66.0
+  - @modern-js/plugin@2.66.0
+  - @modern-js/runtime-utils@2.66.0
+  - @modern-js/utils@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @e2e/webpack-builder-import-antd-v4
 
+## 2.66.0
+
 ## 2.65.5
 
 ## 2.65.4

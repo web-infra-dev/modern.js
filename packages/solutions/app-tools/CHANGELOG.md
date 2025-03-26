@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 2.66.0
+
+### Patch Changes
+
+- Updated dependencies [e106c67]
+- Updated dependencies [e48a5ae]
+- Updated dependencies [e48a5ae]
+  - @modern-js/server@2.66.0
+  - @modern-js/server-core@2.66.0
+  - @modern-js/plugin-v2@2.66.0
+  - @modern-js/plugin-data-loader@2.66.0
+  - @modern-js/prod-server@2.66.0
+  - @modern-js/server-utils@2.66.0
+  - @modern-js/core@2.66.0
+  - @modern-js/plugin-i18n@2.66.0
+  - @modern-js/rsbuild-plugin-esbuild@2.66.0
+  - @modern-js/uni-builder@2.66.0
+  - @modern-js/node-bundle-require@2.66.0
+  - @modern-js/plugin@2.66.0
+  - @modern-js/types@2.66.0
+  - @modern-js/utils@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # app-entry
 
+## 2.66.0
+
+### Patch Changes
+
+- @modern-js/app-tools@2.66.0
+- @modern-js/runtime@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @modern-js/plugin-koa
 
+## 2.66.0
+
+### Minor Changes
+
+- e48a5ae: feat: server plugin use plugin v2
+
+  feat: server 插件使用 plugin v2 实现
+
+### Patch Changes
+
+- Updated dependencies [e48a5ae]
+  - @modern-js/server-core@2.66.0
+  - @modern-js/bff-core@2.66.0
+  - @modern-js/bff-runtime@2.66.0
+  - @modern-js/types@2.66.0
+  - @modern-js/utils@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

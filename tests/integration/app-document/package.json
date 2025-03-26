@@ -1,6 +1,6 @@
 {
   "name": "app-document",
-  "version": "2.65.5",
+  "version": "2.66.0",
   "private": true,
   "scripts": {
     "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",
