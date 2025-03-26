@@ -678,8 +678,8 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(@rsbuild/core@1.2.19)(typescript@5.6.3)
       '@rsbuild/plugin-toml':
-        specifier: 1.0.1
-        version: 1.0.1(@rsbuild/core@1.2.19)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.2.19)
       '@rsbuild/plugin-type-check':
         specifier: 1.2.1
         version: 1.2.1(@rsbuild/core@1.2.19)(@rspack/core@1.2.8(@swc/helpers@0.5.13))(typescript@5.6.3)
@@ -11857,10 +11857,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-toml@1.0.1':
-    resolution: {integrity: sha512-CsYlSKGYY2nm4nrubYGbbPsYE33p+5D1Y6i8FJKQtfAvsw6WdDO2l1Xmg9XuLL0s5mIGmAZFhj5tCMMW7yTX4A==}
+  '@rsbuild/plugin-toml@1.1.0':
+    resolution: {integrity: sha512-kzmgwXthLO1Co3KY0cGZ/3+jRY0u00Wh59+C5whTekpR0Ww3IXB6f/l/mKel6sk5s+3r8GRwhSbi0erv2AN+bg==}
     peerDependencies:
-      '@rsbuild/core': 0.x || 1.x || ^1.0.1-beta.0
+      '@rsbuild/core': 1.x
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -26851,7 +26851,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@rsbuild/plugin-toml@1.0.1(@rsbuild/core@1.2.19)':
+  '@rsbuild/plugin-toml@1.1.0(@rsbuild/core@1.2.19)':
     dependencies:
       toml: 3.0.0
     optionalDependencies:
