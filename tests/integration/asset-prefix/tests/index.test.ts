@@ -64,4 +64,14 @@ describe('asset prefix', () => {
 
     expect(assetPrefix).toEqual(expected);
   });
+
+  test(`should access the file which create by writeFile correctly`, async () => {
+    const url = `http://${DEFAULT_DEV_HOST}:${appPort}/static/test.js`;
+    const resp = await page.goto(url, {
+      waitUntil: ['networkidle0'],
+      timeout: 50000,
+    });
+    const content = await resp?.text();
+    expect(content).toMatch('console.log("test")');
+  });
 });
