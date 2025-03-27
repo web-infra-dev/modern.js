@@ -1,5 +1,7 @@
 # @scripts/release-versin
 
+## 2.66.0
+
 ## 2.65.5
 
 ## 2.65.4

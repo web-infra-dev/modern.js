@@ -1,5 +1,12 @@
 # rsc-ssr-app
 
+## 2.66.0
+
+### Patch Changes
+
+- @modern-js/render@2.66.0
+- @modern-js/runtime@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

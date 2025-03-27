@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "integration-asset-prefix",
-  "version": "2.65.5",
+  "version": "2.66.0",
   "scripts": {
     "dev": "modern dev"
   },
