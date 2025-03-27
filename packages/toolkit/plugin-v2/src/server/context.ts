@@ -29,6 +29,7 @@ export function initServerContext<Extends extends ServerPluginExtends>(params: {
     plugins: plugins,
     middlewares: [],
     bffRuntimeFramework: options.appContext.bffRuntimeFramework,
+    renderMiddlewares: [],
   };
 }
 

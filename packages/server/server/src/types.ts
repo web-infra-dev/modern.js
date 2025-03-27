@@ -7,6 +7,7 @@ import type {
   ServerBase,
   ServerBaseOptions,
   ServerPlugin,
+  ServerPluginLegacy,
 } from '@modern-js/server-core';
 
 export type { DevServerOptions, DevServerHttpsOptions };
@@ -31,7 +32,7 @@ export type ExtraOptions = {
 
   builder?: UniBuilderInstance;
 
-  plugins?: ServerPlugin[];
+  plugins?: (ServerPlugin | ServerPluginLegacy)[];
 };
 
 export type ModernDevServerOptions<

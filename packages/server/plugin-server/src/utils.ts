@@ -4,7 +4,14 @@ import type {
   MiddlewareContext,
   NextFunction,
 } from '@modern-js/types';
-import { SERVER_DIR, requireExistModule } from '@modern-js/utils';
+import {
+  SERVER_DIR,
+  chalk,
+  findExists,
+  getMeta,
+  logger,
+  requireExistModule,
+} from '@modern-js/utils';
 
 const WEB_APP_NAME = 'index';
 
@@ -52,4 +59,22 @@ export const loadServerMod = async (pwd: string = process.cwd()) => {
     hooks,
     middleware,
   };
+};
+
+export const checkServerMod = async (
+  metaName: string,
+  pwd: string = process.cwd(),
+) => {
+  const webAppPath = path.resolve(pwd, SERVER_DIR, WEB_APP_NAME);
+  const final = {
+    extensions: ['.ts', '.js'],
+    interop: true,
+  };
+  const exist = findExists(final.extensions.map(ext => `${webAppPath}${ext}`));
+  const meta = getMeta(metaName);
+  if (exist) {
+    logger.warn(
+      `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`server/index.ts\``)} is no longer maintained, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)} for custom server-side logic;`,
+    );
+  }
 };

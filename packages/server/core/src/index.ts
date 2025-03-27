@@ -9,6 +9,7 @@ export { Hono, type MiddlewareHandler } from 'hono';
 
 export type {
   Middleware,
+  MiddlewareHandler,
   Context,
   Next,
   HonoRequest as InternalRequest,

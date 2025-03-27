@@ -4,8 +4,11 @@ import {
   DEFAULT_SERVER_CONFIG,
   OUTPUT_CONFIG_FILE,
   lodash as _,
+  chalk,
   compatibleRequire,
   ensureAbsolutePath,
+  getMeta,
+  logger,
   requireExistModule,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
@@ -44,6 +47,7 @@ export async function loadServerRuntimeConfig(
   pwd: string,
   oldServerFile: string = DEFAULT_SERVER_CONFIG,
   newServerConfigPath?: string,
+  metaName?: string,
 ) {
   const newServerConfig =
     newServerConfigPath && (await loadServerConfigNew(newServerConfigPath));
@@ -53,6 +57,12 @@ export async function loadServerRuntimeConfig(
   }
 
   const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
+  if (oldServerConfig) {
+    const meta = getMeta(metaName);
+    logger.warn(
+      `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`server/index.ts\``)} is no longer maintained, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)} for custom server-side logic;`,
+    );
+  }
   return oldServerConfig;
 }
 
