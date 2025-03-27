@@ -1,3 +1,4 @@
+import type { Store } from '@modern-js-reduck/store';
 import type { StateConfig } from '../dist/types';
 import '@modern-js-reduck/plugin-auto-actions';
 import '@modern-js-reduck/plugin-devtools';
@@ -23,5 +24,9 @@ declare module '@modern-js/runtime' {
 
   interface RuntimeConfig {
     state?: StateConfig;
+  }
+
+  interface TRuntimeContext {
+    store?: Store;
   }
 }
