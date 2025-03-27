@@ -96,7 +96,7 @@ export async function run({
       typeof userConfig.runtime?.state === 'object')
   ) {
     if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
-      console.error(
+      console.warn(
         `${chalk.red('\n[Warning]')} In the current version, if you need to use ${chalk.yellow.bold(`\`runtime.state\``)}, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. Please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
 
 ${chalk.yellow.bold(`import { statePlugin } from '${statePluginName}';
