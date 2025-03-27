@@ -97,7 +97,7 @@ export async function run({
   ) {
     if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
       console.warn(
-        `${chalk.red('\n[Warning]')} In the current version, if you need to use ${chalk.yellow.bold(`\`runtime.state\``)}, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. Please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
+        `${chalk.red('\n[Warning]')} We will no longer support built-in \`runtime.state\`. If you want to use Reduck, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. After install state plugin, please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
 
 ${chalk.yellow.bold(`import { statePlugin } from '${statePluginName}';
 
