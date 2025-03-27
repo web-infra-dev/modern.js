@@ -102,17 +102,18 @@ function getHtml(url: string, port: number): Promise<string> {
         headers,
       },
       res => {
-        let html = '';
+        const chunks: Uint8Array[] = [];
 
         res.on('error', error => {
           reject(error);
         });
 
         res.on('data', chunk => {
-          html += chunk.toString();
+          chunks.push(chunk);
         });
 
         res.on('end', () => {
+          const html = Buffer.concat(chunks).toString();
           resolve(html);
         });
       },
