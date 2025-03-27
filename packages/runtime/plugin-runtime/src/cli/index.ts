@@ -7,7 +7,6 @@ import {
 } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
 import { routerPlugin } from '../router/cli';
-import { statePlugin } from '../state/cli';
 import { builderPluginAlias } from './alias';
 import { generateCode } from './code';
 import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
@@ -15,7 +14,7 @@ import { isRuntimeEntry } from './entry';
 import { ssrPlugin } from './ssr';
 
 export { isRuntimeEntry } from './entry';
-export { statePlugin, ssrPlugin, routerPlugin, documentPlugin };
+export { ssrPlugin, routerPlugin, documentPlugin };
 export const runtimePlugin = (params?: {
   plugins?: CliPluginFuture<AppTools<'shared'>>[];
 }): CliPluginFuture<AppTools<'shared'>> => ({
@@ -31,7 +30,6 @@ export const runtimePlugin = (params?: {
   usePlugins: params?.plugins || [
     ssrPlugin(),
     routerPlugin(),
-    statePlugin(),
     documentPlugin(),
   ],
   setup: api => {
@@ -162,7 +160,6 @@ export const runtimePlugin = (params?: {
 
     api.onBeforeRestart(() => {
       cleanRequireCache([
-        require.resolve('../state/cli'),
         require.resolve('../router/cli'),
         require.resolve('./ssr'),
       ]);

@@ -15,12 +15,14 @@ export function initAppContext<Extends extends CLIPluginExtends>(params: {
   configFile: string;
   command: string;
   appDirectory: string;
+  metaName: string;
   plugins: CLIPlugin<Extends>[];
   srcDir?: string;
   distDir?: string;
 }): AppContext<Extends> {
   const { appDirectory, srcDir = 'src', distDir = 'dist' } = params;
   return {
+    metaName: params.metaName,
     packageName: params.packageName,
     configFile: params.configFile,
     command: params.command,

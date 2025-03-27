@@ -106,6 +106,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
         command: command,
         appDirectory,
         plugins,
+        metaName,
       }),
       config: loaded.config,
       normalizedConfig: {},

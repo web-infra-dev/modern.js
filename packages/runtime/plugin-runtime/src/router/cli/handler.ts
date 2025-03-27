@@ -10,16 +10,16 @@ import { modifyEntrypoints } from './entry';
 let originEntrypoints: any[] = [];
 
 export async function handleModifyEntrypoints(
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  isRouterV5: boolean,
   entrypoints: Entrypoint[],
 ) {
-  const config = api.getNormalizedConfig();
-  return modifyEntrypoints(entrypoints, config);
+  return modifyEntrypoints(entrypoints, isRouterV5);
 }
 
 export async function handleGeneratorEntryCode(
   api: CLIPluginAPI<AppTools<'shared'>>,
   entrypoints: Entrypoint[],
+  isRouterV5: boolean,
 ) {
   const appContext = api.getAppContext();
   const { internalDirectory } = appContext;
@@ -31,6 +31,7 @@ export async function handleGeneratorEntryCode(
     resolvedConfig as AppNormalizedConfig<'shared'>,
     entrypoints,
     api,
+    isRouterV5,
   );
   await Promise.all(
     entrypoints.map(async entrypoint => {
@@ -55,6 +56,7 @@ export async function handleGeneratorEntryCode(
 
 export async function handleFileChange(
   api: CLIPluginAPI<AppTools<'shared'>>,
+  isRouterV5: boolean,
   e: any,
 ) {
   const appContext = api.getAppContext();
@@ -84,6 +86,7 @@ export async function handleFileChange(
       resolvedConfig as AppNormalizedConfig<'shared'>,
       entrypoints,
       api,
+      isRouterV5,
     );
   }
 }
