@@ -15,6 +15,8 @@ export interface Entrypoint {
 
 /** The public context */
 export type AppContext<Extends extends CLIPluginExtends> = {
+  // current framework meta name
+  metaName: string;
   // current project package name
   packageName: string;
   // current config file absolute path

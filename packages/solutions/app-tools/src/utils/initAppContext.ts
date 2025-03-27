@@ -23,7 +23,6 @@ export const initAppContext = ({
   const {
     metaName = 'modern-js',
     apiDir = 'api',
-    distDir = '',
     sharedDir = 'shared',
   } = options || {};
   const pkgPath = path.resolve(appDirectory, './package.json');

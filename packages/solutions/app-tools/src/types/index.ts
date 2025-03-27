@@ -89,6 +89,7 @@ export type AppToolsOptions = {
    * @default `webpack`
    * */
   bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
+  metaName?: string;
 };
 
 export type {

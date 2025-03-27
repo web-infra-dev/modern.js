@@ -52,6 +52,7 @@ export const appTools = (
   options: AppToolsOptions = {
     // default webpack to be compatible with original projects
     bundler: 'webpack',
+    metaName: 'modern-js',
   },
 ): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools',
@@ -105,7 +106,9 @@ export const appTools = (
     api.updateAppContext(
       initAppContext({
         appDirectory: context.appDirectory,
-        options: {},
+        options: {
+          metaName: options.metaName,
+        },
         serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
         runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
         tempDir: userConfig.output?.tempDir,
