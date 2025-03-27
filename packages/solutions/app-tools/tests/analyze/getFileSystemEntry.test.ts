@@ -19,6 +19,7 @@ describe('get entrypoints from file system', () => {
     const plugins = pluginManager.getPlugins();
     const context = await createContext<AppTools>({
       appContext: {
+        metaName: 'modern-js',
         appDirectory,
         plugins,
       } as any,
@@ -31,7 +32,7 @@ describe('get entrypoints from file system', () => {
     });
     context.pluginAPI = pluginAPI;
     for (const plugin of plugins) {
-      const setupResult = (await plugin.setup(pluginAPI)) as any;
+      const setupResult = (await plugin.setup!(pluginAPI)) as any;
       if (setupResult) {
         await handleSetupResult(setupResult, pluginAPI);
       }

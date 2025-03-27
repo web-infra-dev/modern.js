@@ -48,6 +48,9 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   setup: api => {
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const userConfig = api.getNormalizedConfig();
+      if (userConfig.deploy.microFrontend) {
+        return { entrypoint, plugins };
+      }
       const { packageName, metaName } = api.getAppContext();
       const runtimeConfig = getEntryOptions(
         entrypoint.entryName,
