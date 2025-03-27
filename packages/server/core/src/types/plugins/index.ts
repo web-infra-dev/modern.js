@@ -12,4 +12,5 @@ export type {
   FallbackInput,
   WebServerStartInput,
   APIServerStartInput,
+  MiddlewareObj,
 } from './base';

@@ -159,7 +159,10 @@ export class CustomServer {
   > {
     const serverMiddleware = await this.serverMiddlewarePromise;
 
-    if (!serverMiddleware) {
+    if (
+      !serverMiddleware ||
+      (!isFunction(serverMiddleware) && !isArray(serverMiddleware))
+    ) {
       return;
     }
 

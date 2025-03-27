@@ -1,7 +1,7 @@
 import type { ServerPluginLegacy } from '@modern-js/server-core';
 
 export default (): ServerPluginLegacy => ({
-  name: 'serverPlugin1',
+  name: 'serverPlugin2',
   setup(api) {
     return {
       prepare(serverConfig) {
