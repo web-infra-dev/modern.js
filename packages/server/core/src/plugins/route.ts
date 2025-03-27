@@ -18,7 +18,7 @@ function injectRoute(route: {
 function getPageRoutes(routes: ServerRoute[]): ServerRoute[] {
   return (
     routes
-      .filter(route => !route.isApi)
+      .filter(route => route.entryName)
       // ensure route.urlPath.length diminishing
       .sort(sortRoutes)
   );
