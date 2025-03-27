@@ -1,9 +1,9 @@
-import type { MiddlewareObj, ServerPlugin } from '../types';
+import type { MiddlewareObj, ServerPluginLegacy } from '../types';
 
 export const injectConfigMiddlewarePlugin = (
   configMiddlewares: MiddlewareObj[] = [],
   configRenderMiddlewares: MiddlewareObj[] = [],
-): ServerPlugin => ({
+): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-config-middleware',
 
   setup(api) {

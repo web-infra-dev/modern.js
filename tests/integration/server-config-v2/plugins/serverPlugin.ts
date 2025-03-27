@@ -1,7 +1,7 @@
-import type { ServerPluginLegacy } from '@modern-js/server-core';
+import type { ServerPluginLegacy } from '@modern-js/runtime/server';
 
 export default (): ServerPluginLegacy => ({
-  name: 'serverPlugin1',
+  name: 'serverPluginV2',
   setup(api) {
     return {
       prepare(serverConfig) {
@@ -32,6 +32,17 @@ export default (): ServerPluginLegacy => ({
             const end = Date.now();
 
             console.log('render timing in plugin', end);
+
+            const { res } = c;
+
+            const text = await res.text();
+
+            const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+
+            c.res = c.body(newText, {
+              status: res.status,
+              headers: res.headers,
+            });
           },
         });
 

@@ -1,7 +1,9 @@
 import type { Plugin } from '@modern-js/plugin-v2';
 import { type ServerCreateOptions, server } from '@modern-js/plugin-v2/server';
+import { differenceBy } from '@modern-js/utils/lodash';
 import { Hono, type MiddlewareHandler } from 'hono';
 import { handleSetupResult } from './plugins/compat/hooks';
+
 import type {
   Env,
   ServerConfig,
@@ -53,7 +55,12 @@ export class ServerBase<E extends Env = any> {
       serverConfig: serverConfig || {},
     });
     // TODO adjust use plugins position
-    this.addPlugins(mergedConfig.plugins || []);
+    const restPlugins = differenceBy(
+      mergedConfig.plugins || [],
+      this.plugins,
+      'name',
+    );
+    this.addPlugins(restPlugins);
 
     const { serverContext } = await server.run({
       plugins: this.plugins as Plugin[],

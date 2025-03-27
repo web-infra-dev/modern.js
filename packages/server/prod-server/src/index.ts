@@ -40,10 +40,15 @@ export const createProdServer = async (options: ProdServerOptions) => {
     options.pwd,
     options.serverConfigFile,
     options.serverConfigPath,
+    options.metaName,
   );
 
   if (serverRuntimeConfig) {
     serverBaseOptions.serverConfig = serverRuntimeConfig;
+    serverBaseOptions.plugins = [
+      ...(serverRuntimeConfig.plugins || []),
+      ...(options.plugins || []),
+    ];
   }
 
   const server = createServerBase<BaseEnv>(serverBaseOptions);
