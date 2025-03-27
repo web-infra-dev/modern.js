@@ -55,7 +55,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     pluginManager.clear();
     initOptions = options;
     const {
-      metaName = 'MODERN',
+      metaName = 'modern-js',
       configFile,
       config,
       command,
