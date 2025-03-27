@@ -583,6 +583,9 @@ export const runtimeGlobalContext = async ({
       } else {
         imports.push(`let appInit;`);
       }
+    } else {
+      imports.push(`let appConfig;`);
+      imports.push(`let appInit;`);
     }
   } else {
     imports.push(`let appConfig;`);
