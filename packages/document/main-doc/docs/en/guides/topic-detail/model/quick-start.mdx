@@ -1,13 +1,12 @@
----
-sidebar_position: 1
-title: Quick Start
----
+# Quick Start
 
 :::caution
 New projects are no longer recommended to use Reduck. You can use state management tools from the community, such as [Jotai](https://jotai.org/), [zustand](https://zustand.docs.pmnd.rs/getting-started/introduction), [valtio](https://valtio.dev/docs/introduction/getting-started), etc.
 :::
 
-# Quick Start
+import ReduckNotify from '@site-docs-en/components/reduck-notify';
+
+<ReduckNotify />
 
 import ReduckMigration from "@site-docs-en/components/reduck-migration"
 
@@ -22,8 +21,7 @@ In the MVC pattern, Reduck plays the role of M(Model), React UI Component corres
 The state management solution of Modern.js is implemented through built-in Reduck. Using Reduck in Modern.js not only eliminates the manual integration process, but also allows all Reduck APIs to be imported and used directly from the Modern.js Runtime package, providing a better consistency experience.
 
 :::info
-1. To use Reduck APIs in Modern.js, you need to set [runtime.state](/configure/app/runtime/state) to enable the state management plugin.
-2. Reduck can also be used separately as a state management library [outside of Modern.js](/guides/topic-detail/model/use-out-of-modernjs).
+Reduck can also be used separately as a state management library [outside of Modern.js](/guides/topic-detail/model/use-out-of-modernjs).
 
 :::
 

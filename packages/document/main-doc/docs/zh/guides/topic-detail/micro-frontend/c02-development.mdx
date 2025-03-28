@@ -14,9 +14,9 @@ title: 体验微前端
 
 目前项目的路由模式分为以下三种
 
-- 约定式路由 (设置 `router: true` 并使用文件路由)
-- 自控式路由 (设置 `router: true` 并自己创建 `BrowserRouter` 等)
-- 其他 (设置 `router: false` 项目内自己安装和使用 `react-router-dom`)
+- [约定式路由](/guides/concept/entries.html#约定式路由)
+- [自控式路由](/guides/concept/entries.html#自控式路由)
+- 其他 (项目自行安装和使用 `react-router-dom`)
 
 在本教程中我们会为主应用创建两个子应用 Table 和 Dashboard (Table 为约定式路由，Dashboard 为自控式路由)
 
@@ -206,7 +206,6 @@ export default defineConfig({
   },
   runtime: {
     router: true,
-    state: true,
   },
   deploy: {
     microFrontend: true,
@@ -259,7 +258,6 @@ export default defineConfig({
   },
   runtime: {
     router: true,
-    state: true,
   },
   deploy: {
     microFrontend: true,
