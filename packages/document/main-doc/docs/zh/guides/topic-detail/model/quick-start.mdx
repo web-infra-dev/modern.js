@@ -1,15 +1,14 @@
----
-sidebar_position: 1
-title: 快速上手
----
+# 快速上手
 
 :::caution
 新项目不再推荐使用 Reduck，可以使用社区中的状态管理工具，例如 [Jotai](https://jotai.org/)、[zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)、[valtio](https://valtio.dev/docs/introduction/getting-started) 等。
 :::
 
-# 快速上手
+import ReduckNotify from '@site-docs/components/reduck-notify';
 
-import ReduckMigration from "@site-docs/components/reduck-migration"
+<ReduckNotify />
+
+import ReduckMigration from '@site-docs/components/reduck-migration';
 
 <ReduckMigration />
 
@@ -22,8 +21,8 @@ Reduck 在 MVC 模式中，扮演 M(Model) 的角色，React UI Component 对应
 Modern.js 的状态管理解决方案，是通过内置 Reduck 实现的。在 Modern.js 中使用 Reduck，不仅免去了手动集成的环节，而且所有 Reduck API 都可以从 Modern.js 的 Runtime 包中直接导入使用，具有更好的一致性体验。
 
 :::info
-1. Modern.js 中使用 Reduck API，需要先设置 [runtime.state](/configure/app/runtime/state) 以启用状态管理插件。
-2. Reduck 也可以脱离 Modern.js 作为状态管理库[单独使用](/guides/topic-detail/model/use-out-of-modernjs)。
+
+Reduck 也可以脱离 Modern.js 作为状态管理库[单独使用](/guides/topic-detail/model/use-out-of-modernjs)。
 
 :::
 

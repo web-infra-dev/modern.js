@@ -8,6 +8,7 @@ Modern.js 的运行时（Runtime）配置需集中在 `src/modern.runtime.ts` �
 ```bash
 touch src/modern.runtime.ts
 ```
+
 :::
 
 ## 基本配置
@@ -28,12 +29,12 @@ export default defineRuntimeConfig({
 
 ## 多入口配置
 
-对于多入口应用，`defineRuntimeConfig` 可接收一个函数，根据入口名称返回特定配置：
+对于多入口应用，`defineRuntimeConfig` 函数可以根据入口名称返回特定的配置：
 
 ```tsx
 import { defineRuntimeConfig } from '@modern-js/runtime';
 
-export default defineRuntimeConfig((entryName) => {
+export default defineRuntimeConfig(entryName => {
   if (entryName === 'main') {
     return {
       router: {
@@ -45,7 +46,7 @@ export default defineRuntimeConfig((entryName) => {
     };
   }
 
-  // 其他入口配置
+  // 其他入口的配置
   return {
     masterApp: {
       // 微前端配置示例
@@ -54,8 +55,12 @@ export default defineRuntimeConfig((entryName) => {
 });
 ```
 
+:::tip
+使用 `src/modern.runtime.ts` 配置方式不支持导出异步函数，这与 Modern.js 的渲染方式有关。如果需要添加异步逻辑，请使用 **[Runtime 插件 (Runtime Plugin)](/plugin/introduction.html#runtime-插件)**。
+:::
+
 :::warning
-使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高。
+使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高版本。
 :::
 
 ## 配置方式演进
@@ -72,15 +77,23 @@ export default defineRuntimeConfig((entryName) => {
 ```ts
 // modern.config.ts
 export default {
-  runtime: { /* ... */ },
-  runtimeByEntries: { /* ... */ },
+  runtime: {
+    /* ... */
+  },
+  runtimeByEntries: {
+    /* ... */
+  },
 };
 
 // App.config
-App.config = {/* ... */}
+App.config = {
+  /* ... */
+};
 
 // layout 文件
-export const config = () => { /* 动态配置逻辑 */ };
+export const config = () => {
+  /* 动态配置逻辑 */
+};
 ```
 
 ### 迁移建议
