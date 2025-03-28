@@ -1,7 +1,3 @@
----
-sidebar_position: 5
-title: 副作用管理
----
 # 副作用管理
 
 Model 中的 Action 必须是一个纯函数，执行过程中不会产生任何副作用。但在真实的业务中，我们会遇到很多副作用场景，如：请求 HTTP 接口获取状态数据，或者在更新状态的同时修改 localStorage、发送事件等。在 Reduck 中，是通过 Model 的 Effects 函数管理副作用的。
