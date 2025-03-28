@@ -1,4 +1,5 @@
 import { type ImageContext, createImageContext } from './image-context';
+import type { ImageProps } from './image-props';
 
 export interface ImageComponentContext extends ImageContext {
   /**
@@ -11,7 +12,12 @@ export interface ImageComponentContext extends ImageContext {
   /**
    * Loading behavior for the image.
    * 'lazy' enables lazy loading, 'eager' loads immediately.
-   * @default {lazy}
+   *
+   * Avoid using `priority={true}` together with `loading="lazy"`
+   * as these attributes have contradictory purposes.
+   *
+   * Will be default to `'lazy'` while the {@link ImageProps.priority} is not `true`.
+   * @default {'lazy'}
    */
   loading?: 'lazy' | 'eager';
   /**

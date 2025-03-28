@@ -14,6 +14,8 @@ describe('resolveImageProps', () => {
       height: undefined,
       loader: defaultLoader,
       loading: 'lazy',
+      onError: undefined,
+      onLoad: undefined,
       placeholder: false,
       priority: false,
       quality: 75,
@@ -24,17 +26,29 @@ describe('resolveImageProps', () => {
   });
 
   it('should override default values with provided options', () => {
-    const props = resolveImageProps({
+    const props1 = resolveImageProps({
       alt: 'Foo',
       src: '/foo.jpg',
       priority: true,
-      unoptimized: true,
     });
-    expect(props).toMatchObject({
+    expect(props1).toMatchObject({ priority: true });
+
+    const props2 = resolveImageProps({
       alt: 'Foo',
       src: '/foo.jpg',
-      priority: true,
-      unoptimized: true,
+      loading: 'eager',
     });
+    expect(props2).toMatchObject({ loading: 'eager' });
+
+    expect(() => {
+      resolveImageProps({
+        alt: 'Foo',
+        src: '/foo.jpg',
+        loading: 'lazy',
+        priority: true,
+      });
+    }).toThrowError(
+      'Can\'t use priority={true} and loading="lazy" at the same time, please only use one of them.',
+    );
   });
 });

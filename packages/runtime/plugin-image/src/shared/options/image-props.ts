@@ -16,6 +16,7 @@ export interface ImageProps extends ImageComponentContext, ImageOptions {
    * Whether the image should be prioritized for loading.
    * When true, the image will be preloaded and given loading priority.
    * Use for images that are above the fold or critical to user experience.
+   *
    * @default {false}
    */
   priority?: boolean;

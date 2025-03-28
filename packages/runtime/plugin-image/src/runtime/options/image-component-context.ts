@@ -6,9 +6,9 @@ import {
 export function resolveImageComponentContext(context: ImageComponentContext) {
   const {
     fill = false,
-    loading = 'lazy',
     densities = [1, 2],
     placeholder = false,
+    loading = 'lazy',
   } = context;
 
   const ret = {

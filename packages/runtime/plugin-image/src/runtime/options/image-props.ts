@@ -1,10 +1,21 @@
 import type { Merge } from 'type-fest';
-import type { ImageProps } from '../../shared/options';
+import type { ImageComponentContext, ImageProps } from '../../shared/options';
 import { resolveImageComponentContext } from './image-component-context';
 import { resolveImageOptions } from './image-options';
 
 export function resolveImageProps(props: ImageProps) {
   const { alt = '', priority = false, onError, onLoad, ...rest } = props;
+  let { loading } = props;
+
+  if (priority === true) {
+    if (loading === 'lazy') {
+      throw new Error(
+        'Can\'t use priority={true} and loading="lazy" at the same time, please only use one of them.',
+      );
+    }
+  } else {
+    loading ||= 'lazy';
+  }
 
   const ret = {
     ...resolveImageComponentContext(rest),
@@ -13,6 +24,7 @@ export function resolveImageProps(props: ImageProps) {
     priority,
     onLoad,
     onError,
+    loading,
   };
 
   return ret;
