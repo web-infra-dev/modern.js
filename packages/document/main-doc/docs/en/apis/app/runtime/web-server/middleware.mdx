@@ -6,9 +6,9 @@ title: Middleware
 
 Used to extend the built-in Web Server of Modern.js, unlike [Hook](/apis/app/runtime/web-server/hook), Middleware can directly operate Node's origin request and response, and can be extended using the framework plugin.
 
-:::note
+:::warning
 
-In the next major release, Modern.js will use new middleware to replace this approach.
+Middleware will be removed in the next major version.
 
 It is recommended to use [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware) to handle page requests.
 
@@ -118,24 +118,3 @@ export const Middleware = () => async (ctx, next) => {
   ctx.response.locals.rpc = createRpcInstance();
 };
 ```
-
-### Framework Extension
-
-Middleware can also use runtime framework extensions like BFF.
-
-When using framework runtime extensions, type information is exported from `@modern-js/runtime/{namespace}`. Middleware can use framework syntax, such as framework middleware writing, the following is pseudo-code:
-
-```ts
-import { SomeType } from '@modern-js/runtime/{namespace}';
-
-export const middleware: SomeType = (ctx, next) => {
-  console.log(ctx.url);
-  next();
-};
-```
-
-By default, the framework extension capability of Web Server is turned off after installing the framework extension plugin. If you want to use the framework extension, you can turn it on through ['server.enableFrameworkExt'](/configure/app/server/enable-framework-ext.html).
-
-:::info
-The type name exported by the framework extension may not 'Middleware', but is named by the framework extension plugin.
-:::
