@@ -25,7 +25,7 @@ export interface RunOptions {
 export async function run({
   cwd,
   initialLog,
-  metaName = 'MODERN',
+  metaName = 'modern-js',
   version,
   internalPlugins,
   packageJsonConfig = PACKAGE_JSON_CONFIG_NAME,
