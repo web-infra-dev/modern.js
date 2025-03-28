@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { ResolvedImageProps } from '../options/image-props';
 import {
   resolveImageAttrs,
@@ -240,6 +240,22 @@ describe('resolveImageAttrs', () => {
       color: 'red',
       margin: '10px',
     });
+  });
+
+  it('should not generate srcSet & sizes when unoptimized', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      loader: vi.fn(),
+      src: 'test.jpg',
+      width: 100,
+      height: 100,
+      unoptimized: true,
+    };
+    const result = resolveImageAttrs(props);
+    expect(result.srcSet).toBeUndefined();
+    expect(result.sizes).toBeUndefined();
+    expect(result.src).toBe('test.jpg');
+    expect(props.loader).not.toBeCalled();
   });
 });
 

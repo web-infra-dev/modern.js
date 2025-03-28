@@ -22,6 +22,16 @@ export interface ImageOptions extends ImageContext {
    * @example height={500}
    */
   height?: number;
+  /**
+   * Whether to disable image optimization.
+   *
+   * But it will enforced to be `true` while some cases:
+   * - `src` is an invalid URL.
+   * - `src` is a data URL / blob URL.
+   * - Using a SVG image.
+   * @default false
+   */
+  unoptimized?: boolean;
 }
 
 export function createImageOptions() {
@@ -30,5 +40,6 @@ export function createImageOptions() {
     src: '',
     width: undefined,
     height: undefined,
+    unoptimized: false,
   } satisfies ImageOptions;
 }

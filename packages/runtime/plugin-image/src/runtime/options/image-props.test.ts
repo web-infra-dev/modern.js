@@ -18,6 +18,7 @@ describe('resolveImageProps', () => {
       priority: false,
       quality: 75,
       src: '/foo.jpg',
+      unoptimized: false,
       width: undefined,
     });
   });
@@ -27,11 +28,13 @@ describe('resolveImageProps', () => {
       alt: 'Foo',
       src: '/foo.jpg',
       priority: true,
+      unoptimized: true,
     });
     expect(props).toMatchObject({
       alt: 'Foo',
       src: '/foo.jpg',
       priority: true,
+      unoptimized: true,
     });
   });
 });

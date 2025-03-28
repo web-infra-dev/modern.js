@@ -38,6 +38,7 @@ describe('ImageOptions', () => {
         "loader": undefined,
         "quality": 75,
         "src": "",
+        "unoptimized": false,
         "width": undefined,
       }
     `);
@@ -101,6 +102,7 @@ describe('ImageProps', () => {
         "priority": false,
         "quality": 75,
         "src": "",
+        "unoptimized": false,
         "width": undefined,
       }
     `);

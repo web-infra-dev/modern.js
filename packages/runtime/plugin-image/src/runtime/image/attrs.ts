@@ -85,7 +85,9 @@ export interface ConditionalSrc {
 }
 
 export function resolveSrcSet(options: ResolvedImageProps) {
-  const { densities, width, sizes } = options;
+  const { densities, width, sizes, unoptimized } = options;
+
+  if (unoptimized) return undefined;
 
   const srcSet: ConditionalSrc[] = [];
   if (typeof width === 'number' && !sizes) {
@@ -103,7 +105,9 @@ export function resolveSrcSet(options: ResolvedImageProps) {
 }
 
 export function resolveSizes(options: ResolvedImageProps) {
-  const { width, sizes } = options;
+  const { width, sizes, unoptimized } = options;
+
+  if (unoptimized) return undefined;
 
   if (typeof width === 'number' && !sizes) {
     return undefined;
@@ -126,9 +130,9 @@ export function resolveImageAttrs(
 
   const srcSet = resolveSrcSet(props);
   const serializedSrcSet = srcSet
-    .map(({ url, condition }) => `${url} ${condition}`)
+    ?.map(({ url, condition }) => `${url} ${condition}`)
     .join(',');
-  if (srcSet.length > 0) {
+  if (srcSet && srcSet.length > 0) {
     src = overrideSrc ?? srcSet.at(-1)?.url ?? src;
   }
 

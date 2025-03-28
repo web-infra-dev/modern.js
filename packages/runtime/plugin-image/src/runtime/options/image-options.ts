@@ -7,6 +7,7 @@ export function resolveImageOptions(options: ImageOptions) {
   let src: string;
   let height: number | undefined;
   let width: number | undefined;
+  let { unoptimized = false } = options;
   if (typeof options.src === 'string') {
     // Just use user defined width, height properties because there's no intrinsic size.
     ({ src, width, height } = options);
@@ -30,6 +31,15 @@ export function resolveImageOptions(options: ImageOptions) {
     }
   }
 
+  if (
+    !src ||
+    src.startsWith('data:') ||
+    src.startsWith('blob:') ||
+    src.split('?', 1)[0].endsWith('.svg')
+  ) {
+    unoptimized = true;
+  }
+
   const ret = {
     ...createImageOptions(),
     loader: defaultLoader,
@@ -37,6 +47,7 @@ export function resolveImageOptions(options: ImageOptions) {
     src,
     height,
     width,
+    unoptimized,
   };
   return ret;
 }

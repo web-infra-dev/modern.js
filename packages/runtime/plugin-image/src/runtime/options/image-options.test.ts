@@ -12,6 +12,7 @@ describe('resolveImageOptions', () => {
         "loader": [Function],
         "quality": 75,
         "src": "/foo.jpg",
+        "unoptimized": false,
         "width": undefined,
       }
     `);
@@ -79,5 +80,37 @@ describe('resolveImageOptions', () => {
       width: 150,
     });
     expect(props2).toMatchObject({ width: 150, height: 200 });
+  });
+
+  it('should resolve unoptimized', () => {
+    const props1 = resolveImageOptions({
+      src: '/foo.jpg',
+      unoptimized: true,
+    });
+    expect(props1).toMatchObject({ unoptimized: true });
+
+    const props2 = resolveImageOptions({
+      src: '/foo.svg',
+      unoptimized: false,
+    });
+    expect(props2).toMatchObject({ unoptimized: true });
+
+    const props3 = resolveImageOptions({
+      src: '/foo.svg',
+    });
+    expect(props3).toMatchObject({ unoptimized: true });
+
+    const props4 = resolveImageOptions({
+      src: 'data:image/svg+xml,<svg></svg>',
+    });
+    expect(props4).toMatchObject({ unoptimized: true });
+
+    const props5 = resolveImageOptions({
+      src: 'blob:any-blob-url',
+    });
+    expect(props5).toMatchObject({ unoptimized: true });
+
+    const props6 = resolveImageOptions({ src: '/foo.jpg' });
+    expect(props6).toMatchObject({ unoptimized: false });
   });
 });
