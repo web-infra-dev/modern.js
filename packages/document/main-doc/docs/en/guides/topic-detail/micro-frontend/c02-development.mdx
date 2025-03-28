@@ -14,9 +14,9 @@ Through this chapter you can learn:
 
 The routing modes of the current project are divided into the following three types:
 
-- File-based routing (`router: true` and file-based)
-- Self-Controlled routing (`router: true` and create `BrowserRouter`)
-- Other (`router: false` and independent installation of `react-router-dom` in the project)
+- [Conventional Routing](/guides/concept/entries.html#conventional-routing)
+- [Self-controlled Routing](/guides/concept/entries.html#self-controlled-routing)
+- Other (independent installation of `react-router-dom` in the project)
 
 First, clarify the routing mode of the main application [create a file-based routing main App](#file-based-routing-main-app) or [create a self-controlled main App](#self-controlled-main-app)
 
@@ -244,7 +244,6 @@ export default defineConfig({
   },
   runtime: {
     router: true,
-    state: true,
   },
   deploy: {
     microFrontend: true,
