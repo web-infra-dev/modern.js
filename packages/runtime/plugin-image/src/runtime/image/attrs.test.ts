@@ -4,6 +4,7 @@ import {
   resolveImageAttrs,
   resolveImageStyle,
   resolvePlaceholderStyle,
+  resolveSizes,
   resolveSrcSet,
 } from './attrs';
 
@@ -80,8 +81,8 @@ describe('resolveSrcSet', () => {
     };
     const result = resolveSrcSet(props);
     expect(result).toEqual([
-      '/image?t=test.jpg&w=100&q=75 1x',
-      '/image?t=test.jpg&w=200&q=75 2x',
+      { url: '/image?t=test.jpg&w=100&q=75', condition: '1x' },
+      { url: '/image?t=test.jpg&w=200&q=75', condition: '2x' },
     ]);
   });
 
@@ -95,8 +96,8 @@ describe('resolveSrcSet', () => {
     };
     const result = resolveSrcSet(props);
     expect(result).toEqual([
-      '/image?t=test.jpg&w=150&q=75 1.5x',
-      '/image?t=test.jpg&w=300&q=75 3x',
+      { url: '/image?t=test.jpg&w=150&q=75', condition: '1.5x' },
+      { url: '/image?t=test.jpg&w=300&q=75', condition: '3x' },
     ]);
   });
 
@@ -109,7 +110,9 @@ describe('resolveSrcSet', () => {
       densities: [1],
     };
     const result = resolveSrcSet(props);
-    expect(result).toEqual(['/image?t=test.jpg&w=100&q=75 1x']);
+    expect(result).toEqual([
+      { url: '/image?t=test.jpg&w=100&q=75', condition: '1x' },
+    ]);
   });
 
   it('should generate srcSet with responsive sizes', () => {
@@ -122,15 +125,22 @@ describe('resolveSrcSet', () => {
     };
     const result = resolveSrcSet(props);
     expect(result).toEqual([
-      '/image?t=test.jpg&w=384&q=75 384w',
-      '/image?t=test.jpg&w=640&q=75 640w',
-      '/image?t=test.jpg&w=750&q=75 750w',
-      '/image?t=test.jpg&w=828&q=75 828w',
-      '/image?t=test.jpg&w=1080&q=75 1080w',
-      '/image?t=test.jpg&w=1200&q=75 1200w',
-      '/image?t=test.jpg&w=1920&q=75 1920w',
-      '/image?t=test.jpg&w=2048&q=75 2048w',
-      '/image?t=test.jpg&w=3840&q=75 3840w',
+      { url: '/image?t=test.jpg&w=16&q=75', condition: '16w' },
+      { url: '/image?t=test.jpg&w=32&q=75', condition: '32w' },
+      { url: '/image?t=test.jpg&w=48&q=75', condition: '48w' },
+      { url: '/image?t=test.jpg&w=64&q=75', condition: '64w' },
+      { url: '/image?t=test.jpg&w=96&q=75', condition: '96w' },
+      { url: '/image?t=test.jpg&w=128&q=75', condition: '128w' },
+      { url: '/image?t=test.jpg&w=256&q=75', condition: '256w' },
+      { url: '/image?t=test.jpg&w=384&q=75', condition: '384w' },
+      { url: '/image?t=test.jpg&w=640&q=75', condition: '640w' },
+      { url: '/image?t=test.jpg&w=750&q=75', condition: '750w' },
+      { url: '/image?t=test.jpg&w=828&q=75', condition: '828w' },
+      { url: '/image?t=test.jpg&w=1080&q=75', condition: '1080w' },
+      { url: '/image?t=test.jpg&w=1200&q=75', condition: '1200w' },
+      { url: '/image?t=test.jpg&w=1920&q=75', condition: '1920w' },
+      { url: '/image?t=test.jpg&w=2048&q=75', condition: '2048w' },
+      { url: '/image?t=test.jpg&w=3840&q=75', condition: '3840w' },
     ]);
   });
 
@@ -143,8 +153,8 @@ describe('resolveSrcSet', () => {
     };
     const result = resolveSrcSet(props);
     expect(result).toEqual([
-      '/image?t=test.jpg&w=100&q=75 1x',
-      '/image?t=test.jpg&w=200&q=75 2x',
+      { url: '/image?t=test.jpg&w=100&q=75', condition: '1x' },
+      { url: '/image?t=test.jpg&w=200&q=75', condition: '2x' },
     ]);
   });
 });
@@ -159,7 +169,7 @@ describe('resolveImageAttrs', () => {
     };
     const result = resolveImageAttrs(props);
     expect(result).toMatchObject({
-      src: '/image?t=test.jpg&w=200&q=75 2x',
+      src: '/image?t=test.jpg&w=200&q=75',
       alt: 'Test image',
       width: 100,
       height: 100,
@@ -230,5 +240,30 @@ describe('resolveImageAttrs', () => {
       color: 'red',
       margin: '10px',
     });
+  });
+});
+
+describe('resolveSizes', () => {
+  it('should return sizes', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      src: 'test.jpg',
+      width: 100,
+      height: 100,
+      sizes: '(max-width: 768px) 100vw, 50vw',
+    };
+    const result = resolveSizes(props);
+    expect(result).toBe('(max-width: 768px) 100vw, 50vw');
+  });
+
+  it('should return undefined when no width or sizes provided', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      src: 'test.jpg',
+      width: 100,
+      height: 100,
+    };
+    const result = resolveSizes(props);
+    expect(result).toBeUndefined();
   });
 });

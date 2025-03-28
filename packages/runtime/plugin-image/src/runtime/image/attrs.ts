@@ -2,7 +2,6 @@ import { type CSSProperties, use } from 'react';
 import type { ResolvedImageProps } from '../options/image-props';
 import { getBlurImage } from './blur';
 import { applyImageLoader } from './loader';
-import { parseSizes, resolveResponsiveSizes } from './sizes';
 
 const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [
   '-moz-initial',
@@ -75,33 +74,49 @@ export function resolveImageStyle(props: ResolvedImageProps): CSSProperties {
   return style;
 }
 
-export function resolveSrcSet(options: ResolvedImageProps) {
-  const { src, densities, width, sizes } = options;
+// TODO: make `imageSizes` and `deviceSizes` configurable.
+const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384];
+const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
+const allSizes = [...imageSizes, ...deviceSizes];
 
-  const srcSet: string[] = [];
-  if (sizes) {
-    const responsiveSizes = resolveResponsiveSizes(width, parseSizes(sizes));
-    for (const responsiveWidth of responsiveSizes) {
-      const url = applyImageLoader({ ...options, width: responsiveWidth });
-      srcSet.push(`${url} ${responsiveWidth}w`);
-    }
-  } else if (width) {
+export interface ConditionalSrc {
+  url: string;
+  condition?: string;
+}
+
+export function resolveSrcSet(options: ResolvedImageProps) {
+  const { densities, width, sizes } = options;
+
+  const srcSet: ConditionalSrc[] = [];
+  if (typeof width === 'number' && !sizes) {
     for (const density of densities) {
       const url = applyImageLoader({ ...options, width: width * density });
-      srcSet.push(`${url} ${density}x`);
+      srcSet.push({ url, condition: `${density}x` });
     }
   } else {
-    srcSet.push(`${src} 1x`);
+    for (const width of allSizes) {
+      const url = applyImageLoader({ ...options, width });
+      srcSet.push({ url, condition: `${width}w` });
+    }
   }
-
   return srcSet;
+}
+
+export function resolveSizes(options: ResolvedImageProps) {
+  const { width, sizes } = options;
+
+  if (typeof width === 'number' && !sizes) {
+    return undefined;
+  } else {
+    return sizes || '100vw';
+  }
 }
 
 export function resolveImageAttrs(
   props: ResolvedImageProps,
 ): React.ImgHTMLAttributes<HTMLImageElement> {
   let { src } = props;
-  const { alt, width, height, sizes, overrideSrc, loading, priority } = props;
+  const { alt, width, height, overrideSrc, loading, priority } = props;
 
   const style = {
     ...props.style,
@@ -110,9 +125,14 @@ export function resolveImageAttrs(
   };
 
   const srcSet = resolveSrcSet(props);
+  const serializedSrcSet = srcSet
+    .map(({ url, condition }) => `${url} ${condition}`)
+    .join(',');
   if (srcSet.length > 0) {
-    src = overrideSrc ?? srcSet.at(-1)!;
+    src = overrideSrc ?? srcSet.at(-1)?.url ?? src;
   }
+
+  const sizes = resolveSizes(props);
 
   const attrs: React.ImgHTMLAttributes<HTMLImageElement> = {
     src,
@@ -120,8 +140,8 @@ export function resolveImageAttrs(
     style,
     width,
     height,
+    srcSet: serializedSrcSet,
     sizes,
-    srcSet: srcSet.length > 0 ? srcSet.join(',') : undefined,
     loading,
     // TODO: Add data-* attributes to tag component states.
   };

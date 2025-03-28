@@ -8,13 +8,17 @@ export function resolveImageOptions(options: ImageOptions) {
   let height: number | undefined;
   let width: number | undefined;
   if (typeof options.src === 'string') {
+    // Just use user defined width, height properties because there's no intrinsic size.
     ({ src, width, height } = options);
   } else {
+    // Fill width & height by intrinsic size.
     ({ url: src, width, height } = options.src);
     if (options.width !== undefined && options.height !== undefined) {
+      // Replacing by user defined.
       width = options.width;
       height = options.height;
     } else {
+      // Calculate the missing one by the aspect ratio of intrinsic size.
       const aspectRatio = width / height;
       if (options.width !== undefined) {
         width = options.width;

@@ -1,8 +1,3 @@
-import { invariant } from '../../shared/utils';
-
-const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
-const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384];
-
 export interface SizeDescriptor {
   condition: string | null;
   value: string;
@@ -50,41 +45,4 @@ export function validateSizes(sizes: SizeDescriptor[]) {
       }
     }
   }
-}
-
-export function resolveResponsiveSizes(
-  value: number | undefined,
-  sizes: SizeDescriptor[],
-): number[] {
-  const allSizes = [...imageSizes, ...deviceSizes];
-
-  if (value !== undefined && !sizes.some(size => size.value.endsWith('vw'))) {
-    return allSizes;
-  }
-
-  const viewportWidthRe = /(-?[\d.]+)vw\s*$/g;
-  const percentSizes: number[] = [];
-
-  for (const size of sizes) {
-    let match;
-    while ((match = viewportWidthRe.exec(size.value)) !== null) {
-      const percent = Number(match[1]);
-      invariant(
-        !Number.isNaN(percent),
-        `Invalid size part: ${size.value} (must be a number)`,
-      );
-      invariant(
-        percent >= 0 && percent <= 100,
-        `Invalid size part: ${size.value} (must be between 0 and 100)`,
-      );
-      percentSizes.push(percent);
-    }
-  }
-
-  if (percentSizes.length) {
-    const smallestRatio = Math.min(...percentSizes) * 0.01;
-    return allSizes.filter((s: number) => s >= deviceSizes[0] * smallestRatio);
-  }
-
-  return allSizes;
 }
