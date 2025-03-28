@@ -71,7 +71,8 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
     setProgramVersion(version);
 
-    loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
+    const envName = metaName === 'modern-js' ? 'MODERN' : metaName;
+    loadEnv(appDirectory, process.env[`${envName.toUpperCase()}_ENV`]);
 
     const loaded = await createLoadedConfig<Extends['config']>(
       appDirectory,
