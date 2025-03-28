@@ -32,7 +32,7 @@ export function resolveImageOptions(options: ImageOptions) {
   }
 
   if (
-    !src ||
+    typeof src !== 'string' ||
     src.startsWith('data:') ||
     src.startsWith('blob:') ||
     src.split('?', 1)[0].endsWith('.svg')
