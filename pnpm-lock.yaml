@@ -4648,8 +4648,8 @@ importers:
         specifier: ^3.29.4
         version: 3.29.5
       rollup-plugin-dts:
-        specifier: 6.1.1
-        version: 6.1.1(rollup@3.29.5)(typescript@5.6.3)
+        specifier: 6.2.1
+        version: 6.2.1(rollup@3.29.5)(typescript@5.6.3)
       sass:
         specifier: 1.86.0
         version: 1.86.0
@@ -20069,8 +20069,8 @@ packages:
   robust-predicates@3.0.2:
     resolution: {integrity: sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg==}
 
-  rollup-plugin-dts@6.1.1:
-    resolution: {integrity: sha512-aSHRcJ6KG2IHIioYlvAOcEq6U99sVtqDDKVhnwt70rW6tsz3tv5OSjEiWcgzfsHdLyGXZ/3b/7b/+Za3Y6r1XA==}
+  rollup-plugin-dts@6.2.1:
+    resolution: {integrity: sha512-sR3CxYUl7i2CHa0O7bA45mCrgADyAQ0tVtGSqi3yvH28M+eg1+g5d7kQ9hLvEz5dorK3XVsH5L2jwHLQf72DzA==}
     engines: {node: '>=16'}
     peerDependencies:
       rollup: ^3.29.4 || ^4
@@ -38299,7 +38299,7 @@ snapshots:
 
   robust-predicates@3.0.2: {}
 
-  rollup-plugin-dts@6.1.1(rollup@3.29.5)(typescript@5.6.3):
+  rollup-plugin-dts@6.2.1(rollup@3.29.5)(typescript@5.6.3):
     dependencies:
       magic-string: 0.30.17
       rollup: 3.29.5
