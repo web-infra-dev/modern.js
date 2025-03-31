@@ -46,6 +46,7 @@ module.exports = {
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/uni-builder/',
         '<rootDir>/packages/cli/babel-preset/',
+        '<rootDir>/packages/runtime/plugin-image/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',
