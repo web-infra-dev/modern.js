@@ -5,10 +5,9 @@ import { resolveImageProps } from './image-props';
 
 describe('resolveImageProps', () => {
   it('should return the resolved image props with default values', () => {
-    const props = resolveImageProps({ alt: 'Foo', src: '/foo.jpg' });
+    const props = resolveImageProps({ src: '/foo.jpg' });
     expectTypeOf(props).toMatchTypeOf<ImageProps>();
     expect(props).toEqual({
-      alt: 'Foo',
       densities: [1, 2],
       fill: false,
       height: undefined,

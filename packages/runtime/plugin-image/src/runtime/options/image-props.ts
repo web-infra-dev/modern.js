@@ -4,7 +4,7 @@ import { resolveImageComponentContext } from './image-component-context';
 import { resolveImageOptions } from './image-options';
 
 export function resolveImageProps(props: ImageProps) {
-  const { alt = '', priority = false, onError, onLoad, ...rest } = props;
+  const { alt, priority = false, onError, onLoad, ...rest } = props;
   let { loading } = props;
 
   if (priority === true) {

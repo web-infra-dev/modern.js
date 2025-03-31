@@ -26,7 +26,7 @@ export interface ImageProps extends ImageComponentContext, ImageOptions {
    * and displays when the image fails to load.
    * @example alt="Picture of the author"
    */
-  alt: string;
+  alt?: string;
   /**
    * Responsive size configuration for the image.
    * Defines how image width varies across different viewport sizes.
@@ -68,7 +68,6 @@ export function createImageProps() {
   return {
     ...createImageComponentContext(),
     ...createImageOptions(),
-    alt: '',
     src: '',
     priority: false,
   } satisfies ImageProps;

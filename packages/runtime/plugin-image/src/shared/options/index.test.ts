@@ -89,7 +89,6 @@ describe('ImageProps', () => {
     expectTypeOf(options).toMatchTypeOf<ImageProps>();
     expect(options).toMatchInlineSnapshot(`
       {
-        "alt": "",
         "densities": [
           1,
           2,
