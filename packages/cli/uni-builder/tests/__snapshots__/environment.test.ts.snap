@@ -38,6 +38,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
+          },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -121,6 +124,92 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resolve": {
+            "preferRelative": true,
+          },
+          "resourceQuery": /inline/,
+          "sideEffects": true,
+          "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 1,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                "postcssOptions": {
+                  "config": false,
+                  "plugins": [
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-flexbugs-fixes",
+                    },
+                    {
+                      "postcssPlugin": "postcss-custom-properties",
+                      "prepare": [Function],
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-initial",
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-page-break",
+                    },
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-font-variant",
+                    },
+                    {
+                      "AtRule": {
+                        "custom-media": [Function],
+                        "media": [Function],
+                      },
+                      "postcssPlugin": "postcss-media-minmax",
+                    },
+                    {
+                      "Rule": [Function],
+                      "postcssPlugin": "postcss-nesting",
+                    },
+                    {
+                      "browsers": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                      "info": [Function],
+                      "options": {
+                        "flexbox": "no-2009",
+                        "overrideBrowserslist": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                      },
+                      "postcssPlugin": "autoprefixer",
+                      "prepare": [Function],
+                    },
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.css\\$/,
+          "type": "asset/source",
         },
         {
           "dependency": {
@@ -304,6 +393,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
@@ -331,6 +424,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
@@ -356,6 +453,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "resourceQuery": /inline/,
               "type": "asset/inline",
+            },
+            {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
             },
             {
               "generator": {
@@ -406,6 +507,9 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resolve": {
             "preferRelative": true,
+          },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
           },
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -512,11 +616,116 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 3,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                "postcssOptions": {
+                  "config": false,
+                  "plugins": [
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-flexbugs-fixes",
+                    },
+                    {
+                      "postcssPlugin": "postcss-custom-properties",
+                      "prepare": [Function],
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-initial",
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-page-break",
+                    },
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-font-variant",
+                    },
+                    {
+                      "AtRule": {
+                        "custom-media": [Function],
+                        "media": [Function],
+                      },
+                      "postcssPlugin": "postcss-media-minmax",
+                    },
+                    {
+                      "Rule": [Function],
+                      "postcssPlugin": "postcss-nesting",
+                    },
+                    {
+                      "browsers": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                      "info": [Function],
+                      "options": {
+                        "flexbox": "no-2009",
+                        "overrideBrowserslist": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                      },
+                      "postcssPlugin": "autoprefixer",
+                      "prepare": [Function],
+                    },
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+              "options": {
+                "join": [Function],
+                "sourceMap": false,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+              "options": {
+                "api": "modern-compiler",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "dependency": {
             "not": "url",
           },
           "resolve": {
             "preferRelative": true,
+          },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
           },
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -613,6 +822,100 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.less\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 2,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                "postcssOptions": {
+                  "config": false,
+                  "plugins": [
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-flexbugs-fixes",
+                    },
+                    {
+                      "postcssPlugin": "postcss-custom-properties",
+                      "prepare": [Function],
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-initial",
+                    },
+                    {
+                      "Declaration": [Function],
+                      "postcssPlugin": "postcss-page-break",
+                    },
+                    {
+                      "Once": [Function],
+                      "postcssPlugin": "postcss-font-variant",
+                    },
+                    {
+                      "AtRule": {
+                        "custom-media": [Function],
+                        "media": [Function],
+                      },
+                      "postcssPlugin": "postcss-media-minmax",
+                    },
+                    {
+                      "Rule": [Function],
+                      "postcssPlugin": "postcss-nesting",
+                    },
+                    {
+                      "browsers": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                      "info": [Function],
+                      "options": {
+                        "flexbox": "no-2009",
+                        "overrideBrowserslist": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                      },
+                      "postcssPlugin": "autoprefixer",
+                      "prepare": [Function],
+                    },
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "lessOptions": {
+                  "javascriptEnabled": true,
+                  "paths": [
+                    "node_modules",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
         },
         {
           "oneOf": [
@@ -1060,6 +1363,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
+          },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -1083,6 +1389,31 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resolve": {
+            "preferRelative": true,
+          },
+          "resourceQuery": /inline/,
+          "sideEffects": true,
+          "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 0,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.css\\$/,
+          "type": "asset/source",
         },
         {
           "dependency": {
@@ -1250,6 +1581,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "emit": false,
                 "filename": "static/image/[name].[contenthash:8][ext]",
@@ -1279,6 +1614,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "emit": false,
                 "filename": "static/media/[name].[contenthash:8][ext]",
@@ -1306,6 +1645,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "resourceQuery": /inline/,
               "type": "asset/inline",
+            },
+            {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
             },
             {
               "generator": {
@@ -1370,6 +1713,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
+          },
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
@@ -1415,11 +1761,55 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 2,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+              "options": {
+                "join": [Function],
+                "sourceMap": false,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+              "options": {
+                "api": "modern-compiler",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "dependency": {
             "not": "url",
           },
           "resolve": {
             "preferRelative": true,
+          },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
           },
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -1456,6 +1846,39 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.less\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 1,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "lessOptions": {
+                  "javascriptEnabled": true,
+                  "paths": [
+                    "node_modules",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
         },
         {
           "oneOf": [
@@ -1809,6 +2232,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
+          },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -1832,6 +2258,31 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resolve": {
+            "preferRelative": true,
+          },
+          "resourceQuery": /inline/,
+          "sideEffects": true,
+          "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 0,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.css\\$/,
+          "type": "asset/source",
         },
         {
           "dependency": {
@@ -2000,6 +2451,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
@@ -2027,6 +2482,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
@@ -2052,6 +2511,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "resourceQuery": /inline/,
               "type": "asset/inline",
+            },
+            {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
             },
             {
               "generator": {
@@ -2103,6 +2566,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
+          },
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
@@ -2148,11 +2614,55 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 2,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+              "options": {
+                "join": [Function],
+                "sourceMap": false,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+              "options": {
+                "api": "modern-compiler",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "dependency": {
             "not": "url",
           },
           "resolve": {
             "preferRelative": true,
+          },
+          "resourceQuery": {
+            "not": /raw\\|inline/,
           },
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -2189,6 +2699,39 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
+        },
+        {
+          "resourceQuery": /inline/,
+          "test": /\\\\\\.less\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+              "options": {
+                "exportType": "string",
+                "importLoaders": 1,
+                "modules": false,
+                "sourceMap": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "lessOptions": {
+                  "javascriptEnabled": true,
+                  "paths": [
+                    "node_modules",
+                  ],
+                },
+                "sourceMap": true,
+              },
+            },
+          ],
+        },
+        {
+          "resourceQuery": /raw/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
         },
         {
           "oneOf": [
