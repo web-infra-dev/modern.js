@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { ResolvedImageProps } from '../options/image-props';
+import {
+  type ResolvedImageProps,
+  resolveImageProps,
+} from '../options/image-props';
 import {
   resolveImageAttrs,
   resolveImageStyle,
@@ -68,6 +71,27 @@ describe('resolvePlaceholderStyle', () => {
     expect(result).toMatchObject({
       backgroundImage: 'url("custom-placeholder.jpg")',
     });
+  });
+
+  it('should throw error when placeholder is blur but no thumbnail provided', () => {
+    expect(() =>
+      resolvePlaceholderStyle(
+        resolveImageProps({
+          alt: 'test',
+          src: 'test.jpg',
+          placeholder: 'blur',
+        }),
+      ),
+    ).toThrowError(/placeholder="blur"/);
+    expect(() =>
+      resolvePlaceholderStyle(
+        resolveImageProps({
+          alt: 'test',
+          src: { url: 'test.jpg', width: 100, height: 100 },
+          placeholder: 'blur',
+        }),
+      ),
+    ).toThrowError(/placeholder="blur"/);
   });
 });
 

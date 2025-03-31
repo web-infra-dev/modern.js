@@ -1,5 +1,5 @@
 import type { Merge } from 'type-fest';
-import type { ImageComponentContext, ImageProps } from '../../shared/options';
+import type { ImageProps } from '../../shared/options';
 import { resolveImageComponentContext } from './image-component-context';
 import { resolveImageOptions } from './image-options';
 

@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { type ImageOptions, createImageOptions } from '../../shared/options';
+import type { ImageResource } from '../../types/image';
 import { ImageOptionsContext } from '../image/context';
 import { defaultLoader } from '../image/loader';
 
@@ -7,13 +8,14 @@ export function resolveImageOptions(options: ImageOptions) {
   let src: string;
   let height: number | undefined;
   let width: number | undefined;
+  let thumbnail: ImageResource | undefined;
   let { unoptimized = false } = options;
   if (typeof options.src === 'string') {
     // Just use user defined width, height properties because there's no intrinsic size.
     ({ src, width, height } = options);
   } else {
     // Fill width & height by intrinsic size.
-    ({ url: src, width, height } = options.src);
+    ({ url: src, width, height, thumbnail } = options.src);
     if (options.width !== undefined && options.height !== undefined) {
       // Replacing by user defined.
       width = options.width;
@@ -48,6 +50,7 @@ export function resolveImageOptions(options: ImageOptions) {
     height,
     width,
     unoptimized,
+    thumbnail,
   };
   return ret;
 }

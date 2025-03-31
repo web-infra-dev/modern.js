@@ -12,6 +12,7 @@ describe('resolveImageOptions', () => {
         "loader": [Function],
         "quality": 75,
         "src": "/foo.jpg",
+        "thumbnail": undefined,
         "unoptimized": false,
         "width": undefined,
       }

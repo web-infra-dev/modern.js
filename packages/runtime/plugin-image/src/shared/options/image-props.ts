@@ -41,12 +41,6 @@ export interface ImageProps extends ImageComponentContext, ImageOptions {
    */
   style?: CSSProperties;
   /**
-   * Low-quality thumbnail to show while the main image loads.
-   * Can be a base64 encoded image or an ImageResource object.
-   * @example thumbnail="data:image/jpeg..."
-   */
-  thumbnail?: ImageResource;
-  /**
    * Alternative source URL for SEO or specific use cases.
    * Overrides the main src when needed.
    * @example overrideSrc="/seo.png"

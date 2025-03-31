@@ -21,12 +21,17 @@ const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [
 export function resolvePlaceholderStyle(
   props: ResolvedImageProps,
 ): CSSProperties {
-  const { width, height, placeholder, thumbnail = '' } = props;
+  const { width, height, placeholder, thumbnail } = props;
   const style: CSSProperties = {};
   const objectFit = props.style?.objectFit;
 
   let backgroundImage: string | undefined;
   if (placeholder === 'blur') {
+    if (!thumbnail) {
+      throw new Error(
+        `Image component with placeholder="blur" property requires src prop with thumbnail resource to be set: ${JSON.stringify(props.src)}`,
+      );
+    }
     backgroundImage = `url("data:image/svg+xml;charset=utf-8,${getBlurImage({ thumbnail, width, height, objectFit })}")`;
   } else if (typeof placeholder === 'string') {
     backgroundImage = `url("${placeholder}")`;
