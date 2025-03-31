@@ -29,11 +29,16 @@ export function resolvePlaceholderStyle(
   if (placeholder === 'blur') {
     if (!thumbnail) {
       throw new Error(
-        `Image component with placeholder="blur" property requires src prop with thumbnail resource to be set: ${JSON.stringify(props.src)}`,
+        `Image component with placeholder="blur" property requires src prop with thumbnail resource to be set: ${props.src}`,
       );
     }
     backgroundImage = `url("data:image/svg+xml;charset=utf-8,${getBlurImage({ thumbnail, width, height, objectFit })}")`;
   } else if (typeof placeholder === 'string') {
+    if (!placeholder.startsWith('data:image/')) {
+      throw new Error(
+        `Image component with placeholder prop must be a data URL, but got ${JSON.stringify(placeholder)}: ${props.src}`,
+      );
+    }
     backgroundImage = `url("${placeholder}")`;
   }
 

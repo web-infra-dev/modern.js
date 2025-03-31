@@ -65,11 +65,11 @@ describe('resolvePlaceholderStyle', () => {
       src: 'https://example.com/test.jpg',
       width: 100,
       height: 100,
-      placeholder: 'custom-placeholder.jpg',
+      placeholder: 'data:image/svg+xml;base64,xyz',
     };
     const result = resolvePlaceholderStyle(props);
     expect(result).toMatchObject({
-      backgroundImage: 'url("custom-placeholder.jpg")',
+      backgroundImage: 'url("data:image/svg+xml;base64,xyz")',
     });
   });
 
@@ -92,6 +92,14 @@ describe('resolvePlaceholderStyle', () => {
         }),
       ),
     ).toThrowError(/placeholder="blur"/);
+  });
+
+  it('should throw error when placeholder is not a data URL', () => {
+    expect(() =>
+      resolvePlaceholderStyle(
+        resolveImageProps({ alt: 'test', src: 'test.jpg', placeholder: 'foo' }),
+      ),
+    ).toThrowError(/must be a data URL/);
   });
 });
 
