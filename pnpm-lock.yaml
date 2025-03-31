@@ -947,8 +947,8 @@ importers:
         specifier: ^18
         version: 18.3.1
       react-json-tree:
-        specifier: ^0.19.0
-        version: 0.19.0(@types/react@18.3.18)(react@18.3.1)
+        specifier: ^0.20.0
+        version: 0.20.0(@types/react@18.3.18)(react@18.3.1)
       react-json-view:
         specifier: ^1.21.3
         version: 1.21.3(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -12964,6 +12964,9 @@ packages:
   '@types/lodash@4.17.14':
     resolution: {integrity: sha512-jsxagdikDiDBeIRaPYtArcT8my4tN1og7MtMRquFT3XNA6axxyHDRUemqDz/taRDdOUn0GnGHRCuff4q48sW9A==}
 
+  '@types/lodash@4.17.16':
+    resolution: {integrity: sha512-HX7Em5NYQAXKW+1T+FiuG27NGwzJfCX3s1GjOa7ujxZa52kjJLOr4FUxT+giF6Tgxv1e+/czV/iTtBw27WTU9g==}
+
   '@types/lru-cache@5.1.1':
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
 
@@ -19639,11 +19642,11 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-json-tree@0.19.0:
-    resolution: {integrity: sha512-PqT1WRVcWP+RROsZPQfNEKIC1iM/ZMfY4g5jN6oDnXp5593PPRAYgoHcgYCDjflAHQMtxl8XGdlTwIBdEGUXvw==}
+  react-json-tree@0.20.0:
+    resolution: {integrity: sha512-h+f9fUNAxzBx1rbrgUF7+zSWKGHDtt2VPYLErIuB0JyKGnWgFMM21ksqQyb3EXwXNnoMW2rdE5kuAaubgGOx2Q==}
     peerDependencies:
-      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-json-view@1.21.3:
     resolution: {integrity: sha512-13p8IREj9/x/Ye4WI/JpjhoIwuzEgUAtgJZNBJckfzJt1qyh24BdTm6UQNGnyTq9dapQdrqvquZTo3dz1X6Cjw==}
@@ -28662,6 +28665,8 @@ snapshots:
       '@types/lodash': 4.17.14
 
   '@types/lodash@4.17.14': {}
+
+  '@types/lodash@4.17.16': {}
 
   '@types/lru-cache@5.1.1': {}
 
@@ -37700,9 +37705,9 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-json-tree@0.19.0(@types/react@18.3.18)(react@18.3.1):
+  react-json-tree@0.20.0(@types/react@18.3.18)(react@18.3.1):
     dependencies:
-      '@types/lodash': 4.17.14
+      '@types/lodash': 4.17.16
       '@types/react': 18.3.18
       react: 18.3.1
       react-base16-styling: 0.10.0
