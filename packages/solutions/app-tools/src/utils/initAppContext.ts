@@ -2,16 +2,17 @@ import path from 'path';
 import { fs, address } from '@modern-js/utils';
 
 export const initAppContext = ({
+  metaName,
   appDirectory,
   runtimeConfigFile,
   options,
   serverConfigFile,
   tempDir,
 }: {
+  metaName: string;
   appDirectory: string;
   runtimeConfigFile: string;
   options?: {
-    metaName?: string;
     srcDir?: string;
     apiDir?: string;
     distDir?: string;
@@ -20,15 +21,9 @@ export const initAppContext = ({
   serverConfigFile: string;
   tempDir?: string;
 }) => {
-  const {
-    metaName = 'modern-js',
-    apiDir = 'api',
-    distDir = '',
-    sharedDir = 'shared',
-  } = options || {};
+  const { apiDir = 'api', sharedDir = 'shared' } = options || {};
   const pkgPath = path.resolve(appDirectory, './package.json');
   return {
-    metaName,
     runtimeConfigFile,
     serverConfigFile,
     ip: address.ip(),

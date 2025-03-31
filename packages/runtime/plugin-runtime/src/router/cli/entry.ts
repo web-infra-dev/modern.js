@@ -1,6 +1,6 @@
 import path from 'path';
 import type { Entrypoint } from '@modern-js/types';
-import { fs, JS_EXTENSIONS, findExists, isRouterV5 } from '@modern-js/utils';
+import { fs, JS_EXTENSIONS, findExists } from '@modern-js/utils';
 import { hasApp } from '../../cli/entry';
 import {
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
@@ -26,7 +26,7 @@ export const isRouteEntry = (dir: string) => {
 
 export const modifyEntrypoints = (
   entrypoints: Entrypoint[],
-  config: Record<string, any> = {},
+  isRouterV5: boolean,
 ) => {
   return entrypoints.map(entrypoint => {
     if (!entrypoint.isAutoMount) {
@@ -36,7 +36,7 @@ export const modifyEntrypoints = (
       if (entrypoint.fileSystemRoutes) {
         // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.
         // At this time, the `routes` will be used by default, and react router v5 is not supported.
-        if (isRouterV5(config)) {
+        if (isRouterV5) {
           throw Error(
             'Custom entries with conventional routing not support use react router v5!',
           );
