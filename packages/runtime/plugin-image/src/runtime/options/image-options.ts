@@ -33,6 +33,28 @@ export function resolveImageOptions(options: ImageOptions) {
     }
   }
 
+  for (const [key, value] of [
+    ['width', width],
+    ['height', height],
+  ] as const) {
+    if (value === undefined) continue;
+    if (typeof value !== 'number') {
+      throw new Error(
+        `Image with src ${src} must have ${key} prop as a number, but got: ${value}`,
+      );
+    }
+    if (!Number.isFinite(value)) {
+      throw new Error(
+        `Image with src ${src} must have ${key} prop as a number, but got: ${value}`,
+      );
+    }
+    if (value < 0) {
+      throw new Error(
+        `Image with src ${src} must have ${key} prop as a positive number, but got: ${value}`,
+      );
+    }
+  }
+
   if (
     typeof src !== 'string' ||
     src.startsWith('data:') ||

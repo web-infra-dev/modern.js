@@ -114,4 +114,28 @@ describe('resolveImageOptions', () => {
     const props6 = resolveImageOptions({ src: '/foo.jpg' });
     expect(props6).toMatchObject({ unoptimized: false });
   });
+
+  it('should throw error when width or height is invalid', () => {
+    expect(() =>
+      // @ts-expect-error width is not a number
+      resolveImageOptions({ src: '/foo.jpg', width: null }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Image with src /foo.jpg must have width prop as a number, but got: null]`,
+    );
+    expect(() =>
+      resolveImageOptions({ src: '/foo.jpg', width: NaN }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Image with src /foo.jpg must have width prop as a number, but got: NaN]`,
+    );
+    expect(() =>
+      resolveImageOptions({ src: '/foo.jpg', width: Infinity }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Image with src /foo.jpg must have width prop as a number, but got: Infinity]`,
+    );
+    expect(() =>
+      resolveImageOptions({ src: '/foo.jpg', width: -1 }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: Image with src /foo.jpg must have width prop as a positive number, but got: -1]`,
+    );
+  });
 });
