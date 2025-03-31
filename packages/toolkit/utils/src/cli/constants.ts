@@ -135,6 +135,7 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/module-tools': '@modern-js/module-tools',
   '@modern-js/doc-tools': '@modern-js/doc-tools',
   '@modern-js/runtime': '@modern-js/runtime/cli',
+  '@modern-js/plugin-state': '@modern-js/plugin-state/cli',
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
   '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',

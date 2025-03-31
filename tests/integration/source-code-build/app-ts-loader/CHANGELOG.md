@@ -1,5 +1,12 @@
 # @source-code-build/app-ts-loader
 
+## 2.66.0
+
+### Patch Changes
+
+- @modern-js/runtime@2.66.0
+- @source-code-build/common@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@scripts/release-versin",
-  "version": "2.65.5",
+  "version": "2.66.0",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

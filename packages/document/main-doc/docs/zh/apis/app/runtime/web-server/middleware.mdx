@@ -6,11 +6,9 @@ title: Middleware
 
 用于拓展 Modern.js 内置的 Web Server，与 [Hook](/apis/app/runtime/web-server/hook) 不同的是，Middleware 可以直接操作 Node 原生的请求、响应对象，并且可以使用框架拓展。
 
-:::note
+:::warning
 
-在下一个大版本，Modern.js 将会使用新 Middleware 来替代该写法。
-
-推荐使用 [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware) 处理页面请求。
+Middleware 将会在下一个大版本中废弃，推荐使用 [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware) 处理页面请求。
 
 :::
 
@@ -119,22 +117,3 @@ export const Middleware = () => async (ctx, next) => {
   ctx.response.locals.rpc = createRpcInstance();
 };
 ```
-
-### 框架拓展
-
-Middleware 还可以和 BFF 一样，使用运行时框架拓展。Modern.js 约定，当使用框架运行时拓展时，类型信息从 `@modern-js/runtime/{namespace}` 下导出，Middleware 可以使用框架语法，例如框架中间件写法，以下是伪代码：
-
-```ts
-import { SomeType } from '@modern-js/runtime/{namespace}';
-
-export const middleware: SomeType = (ctx, next) => {
-  console.log(ctx.url);
-  next();
-};
-```
-
-默认情况下，在安装框架拓展插件后，Web Server 的框架拓展能力是关闭的。如果希望使用框架拓展，可以通过 [`server.enableFrameworkExt`](/configure/app/server/enable-framework-ext.html) 开启。
-
-:::info
-框架拓展导出的类型名不一定为 Middleware，命名由框架拓展插件。
-:::

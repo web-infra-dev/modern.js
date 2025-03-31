@@ -1,6 +1,6 @@
 {
   "name": "ssr-base-test",
-  "version": "2.65.5",
+  "version": "2.66.0",
   "private": true,
   "scripts": {
     "dev": "modern dev"

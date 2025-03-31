@@ -1,5 +1,7 @@
 # integration-load-config
 
+## 2.66.0
+
 ## 2.65.5
 
 ## 2.65.4

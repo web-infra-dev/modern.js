@@ -1,13 +1,14 @@
 {
   "private": true,
   "name": "app-route",
-  "version": "2.65.5",
+  "version": "2.66.0",
   "scripts": {
     "dev": "modern dev"
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-state": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }

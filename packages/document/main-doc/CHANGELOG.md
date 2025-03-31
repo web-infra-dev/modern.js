@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.66.0
+
+### Patch Changes
+
+- b693deb: docs: Enhance Modern.js Plugin doc
+
+  docs: 提升 Modern.js Plugin 文档
+
+  - @modern-js/sandpack-react@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

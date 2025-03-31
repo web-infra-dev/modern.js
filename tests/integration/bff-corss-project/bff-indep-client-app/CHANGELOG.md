@@ -1,5 +1,15 @@
 # bff-indep-client-app
 
+## 2.66.0
+
+### Patch Changes
+
+- Updated dependencies [e48a5ae]
+  - @modern-js/plugin-express@2.66.0
+  - @modern-js/plugin-bff@2.66.0
+  - bff-api-app@2.66.0
+  - @modern-js/runtime@2.66.0
+
 ## 2.65.5
 
 ### Patch Changes

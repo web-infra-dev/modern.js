@@ -48,6 +48,9 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   setup: api => {
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const userConfig = api.getNormalizedConfig();
+      if (userConfig.deploy.microFrontend) {
+        return { entrypoint, plugins };
+      }
       const { packageName, metaName } = api.getAppContext();
       const runtimeConfig = getEntryOptions(
         entrypoint.entryName,
@@ -56,13 +59,11 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtimeByEntries,
         packageName,
       );
-      if (runtimeConfig?.masterApp) {
-        plugins.push({
-          name: 'garfish',
-          path: `@${metaName}/plugin-garfish/runtime`,
-          config: runtimeConfig?.masterApp || {},
-        });
-      }
+      plugins.push({
+        name: 'garfish',
+        path: `@${metaName}/plugin-garfish/runtime`,
+        config: runtimeConfig?.masterApp || {},
+      });
       return { entrypoint, plugins };
     });
     api.modifyResolvedConfig(config => {

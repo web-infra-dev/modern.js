@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.65.5",
+  "version": "2.66.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -62,7 +62,7 @@
     "less": "4.2.2",
     "mime-types": "2.1.35",
     "minimist": "1.2.8",
-    "nanoid": "3.3.9",
+    "nanoid": "3.3.11",
     "normalize-path": "3.0.0",
     "ora": "5.4.1",
     "p-map": "4.0.0",
@@ -80,8 +80,8 @@
     "react-dom": "^18.3.1",
     "react-is": "^18",
     "rollup": "^3.29.4",
-    "rollup-plugin-dts": "6.1.1",
-    "sass": "1.85.1",
+    "rollup-plugin-dts": "6.2.1",
+    "sass": "1.86.0",
     "semver": "7.7.1",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",

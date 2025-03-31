@@ -1,16 +1,4 @@
-import type { StateConfig } from '../dist/types';
-
-declare module '@modern-js/app-tools' {
-  interface RuntimeUserConfig {
-    state?: StateConfig | boolean;
-  }
-}
-
-declare module '@modern-js/module-tools' {
-  interface RuntimeUserConfig {
-    state?: StateConfig | boolean;
-  }
-}
+/// <reference types='@modern-js/plugin-state/types' />
 
 declare module 'http' {
   interface ServerResponse {

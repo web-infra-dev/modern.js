@@ -11,10 +11,7 @@ declare module '@modern-js/runtime' {
   }
 
   interface RuntimeConfig {
-    garfish?: Config;
-    garfishByEntries?: {
-      [name: string]: Config;
-    };
+    masterApp?: Config;
   }
 }
 declare module '@modern-js/app-tools' {

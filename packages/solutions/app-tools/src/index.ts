@@ -104,8 +104,8 @@ export const appTools = (
     i18n.changeLanguage({ locale });
     api.updateAppContext(
       initAppContext({
+        metaName: context.metaName,
         appDirectory: context.appDirectory,
-        options: {},
         serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
         runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
         tempDir: userConfig.output?.tempDir,
