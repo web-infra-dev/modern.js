@@ -69,7 +69,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: ^3.0.0
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
 
   packages/cli/babel-preset:
     dependencies:
@@ -2215,7 +2215,7 @@ importers:
         version: 1.2.5(@babel/core@7.26.10)
       esbuild-plugin-vue3:
         specifier: 0.3.2
-        version: 0.3.2(pug@3.0.3)(sass@1.85.1)
+        version: 0.3.2(pug@3.0.3)(sass@1.86.0)
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -4651,8 +4651,8 @@ importers:
         specifier: 6.1.1
         version: 6.1.1(rollup@3.29.5)(typescript@5.6.3)
       sass:
-        specifier: 1.85.1
-        version: 1.85.1
+        specifier: 1.86.0
+        version: 1.86.0
       semver:
         specifier: 7.7.1
         version: 7.7.1
@@ -20276,8 +20276,8 @@ packages:
     engines: {node: '>=16.0.0'}
     hasBin: true
 
-  sass@1.85.1:
-    resolution: {integrity: sha512-Uk8WpxM5v+0cMR0XjX9KfRIacmSG86RH4DCCZjLU2rFh5tyutt9siAXJ7G+YfxQ99Q6wrRMbMlVl6KqUms71ag==}
+  sass@1.86.0:
+    resolution: {integrity: sha512-zV8vGUld/+mP4KbMLJMX7TyGCuUp7hnkOScgCMsWuHtns8CWBoz+vmEhoGMXsaJrbUP8gj+F1dLvVe79sK8UdA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -28969,13 +28969,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0))':
+  '@vitest/mocker@3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0))':
     dependencies:
       '@vitest/spy': 3.0.5
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
 
   '@vitest/pretty-format@3.0.5':
     dependencies:
@@ -29013,7 +29013,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.12
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
 
   '@vitest/utils@3.0.5':
     dependencies:
@@ -31601,7 +31601,7 @@ snapshots:
 
   esbuild-plugin-alias@0.2.1: {}
 
-  esbuild-plugin-vue3@0.3.2(pug@3.0.3)(sass@1.85.1):
+  esbuild-plugin-vue3@0.3.2(pug@3.0.3)(sass@1.86.0):
     dependencies:
       '@vue/compiler-core': 3.5.13
       '@vue/compiler-sfc': 3.5.13
@@ -31609,7 +31609,7 @@ snapshots:
       typescript: 4.9.5
     optionalDependencies:
       pug: 3.0.3
-      sass: 1.85.1
+      sass: 1.86.0
 
   esbuild-register@3.6.0(esbuild@0.17.19):
     dependencies:
@@ -38494,7 +38494,7 @@ snapshots:
       sass-embedded-win32-ia32: 1.85.0
       sass-embedded-win32-x64: 1.85.0
 
-  sass@1.85.1:
+  sass@1.86.0:
     dependencies:
       chokidar: 4.0.3
       immutable: 5.0.2
@@ -40225,13 +40225,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite-node@3.0.5(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0):
+  vite-node@3.0.5(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       es-module-lexer: 1.6.0
       pathe: 2.0.3
-      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -40243,7 +40243,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0):
+  vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       esbuild: 0.17.19
       postcss: 8.5.3
@@ -40252,14 +40252,14 @@ snapshots:
       '@types/node': 20.5.1
       fsevents: 2.3.3
       less: 4.2.2
-      sass: 1.85.1
+      sass: 1.86.0
       sass-embedded: 1.85.0
       terser: 5.39.0
 
-  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0):
+  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.0.9)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 3.0.5
-      '@vitest/mocker': 3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0))
+      '@vitest/mocker': 3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0))
       '@vitest/pretty-format': 3.0.8
       '@vitest/runner': 3.0.5
       '@vitest/snapshot': 3.0.5
@@ -40275,8 +40275,8 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
-      vite-node: 3.0.5(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.85.1)(terser@5.39.0)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
+      vite-node: 3.0.5(@types/node@20.5.1)(less@4.2.2)(sass-embedded@1.85.0)(sass@1.86.0)(terser@5.39.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
