@@ -102,7 +102,9 @@ export class Image {
     return this.sharp.resize(options);
   }
 
-  thumbnail(options: ResizeOptions) {}
+  thumbnail(options: ResizeOptions) {
+    // TODO: Implement the thumbnail method in the future
+  }
 
   format(
     format: keyof FormatEnum,
