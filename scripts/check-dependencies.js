@@ -18,7 +18,6 @@ const ignoreDeps = [
   '@types/react-dom',
   'lru-cache',
   'storybook',
-  '@testing-library/react',
   '@storybook/react',
   '@storybook/addon-essentials',
 ];
