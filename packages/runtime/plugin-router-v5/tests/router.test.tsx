@@ -1,5 +1,5 @@
-import { createApp } from '@modern-js/runtime';
-import type { RuntimePlugin } from '@modern-js/runtime/plugin';
+import { createApp } from '@modern-js/app-tools/runtime';
+import type { RuntimePlugin } from '@modern-js/app-tools/runtime/plugin';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { useHistory } from '../src';

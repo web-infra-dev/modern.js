@@ -18,7 +18,6 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-swc": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/react": "^18.3.11",

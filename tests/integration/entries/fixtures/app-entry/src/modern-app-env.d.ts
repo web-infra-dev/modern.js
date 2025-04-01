@@ -1,2 +1,2 @@
 /// <reference types='@modern-js/app-tools/types' />
-/// <reference types='@modern-js/runtime/types' />
+/// <reference types='../../../../../types/common.d.ts' />

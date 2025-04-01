@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
-import { createApp } from '@modern-js/runtime';
+import { createApp } from '@modern-js/app-tools/runtime';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 // https://stackoverflow.com/questions/49034907/fetch-mock-does-not-mock-my-fetch

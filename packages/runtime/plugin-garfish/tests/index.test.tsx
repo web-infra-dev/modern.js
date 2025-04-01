@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createApp } from '@modern-js/runtime';
+import { createApp } from '@modern-js/app-tools/runtime';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 import 'jest-location-mock';

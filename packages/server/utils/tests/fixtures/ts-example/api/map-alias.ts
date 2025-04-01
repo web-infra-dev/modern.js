@@ -1,4 +1,4 @@
 // @ts-expect-error
-import core from '@modern-js/runtime';
+import core from '@modern-js/app-tools/runtime';
 
 core();

@@ -148,17 +148,11 @@
   },
   "peerDependencies": {
     "react": ">=17",
-    "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.67.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/runtime": {
-      "optional": true
-    }
+    "react-dom": ">=17"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

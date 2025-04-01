@@ -57,7 +57,7 @@
   "license": "MIT",
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-state": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",

@@ -71,7 +71,6 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
@@ -83,14 +82,6 @@
     "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.67.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/runtime": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {
