@@ -1,3 +1,3 @@
-import runtime from '@modern-js/runtime';
+import runtime from '@modern-js/app-tools/runtime';
 
 runtime();

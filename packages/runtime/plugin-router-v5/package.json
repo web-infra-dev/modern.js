@@ -74,13 +74,11 @@
   },
   "peerDependencies": {
     "react": ">=17",
-    "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.67.0"
+    "react-dom": ">=17"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",

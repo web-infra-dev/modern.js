@@ -1,4 +1,4 @@
-import type { Plugin } from '@modern-js/runtime';
+import type { Plugin } from '@modern-js/app-tools/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import React, { useContext } from 'react';
 

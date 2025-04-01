@@ -4,8 +4,8 @@ import {
   type StoreConfig,
   createStore,
 } from '@modern-js-reduck/store';
-import type { Plugin } from '@modern-js/runtime';
-import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
+import type { Plugin } from '@modern-js/app-tools/runtime';
+import { RuntimeReactContext, isBrowser } from '@modern-js/app-tools/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { useContext } from 'react';
 import { autoActions, devtools, effects, immer } from '../plugins';

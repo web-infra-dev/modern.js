@@ -28,6 +28,7 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
+import { runtimePlugin } from './runtime/cli';
 import type { AppTools, AppToolsOptions, CliPluginFuture } from './types';
 import type {
   AddRuntimeExportsFn,
@@ -73,6 +74,7 @@ export const appTools = (
     }),
     serverBuildPlugin(),
     deployPlugin(),
+    runtimePlugin(),
   ],
   post: [
     '@modern-js/plugin-initialize',
@@ -80,6 +82,7 @@ export const appTools = (
     '@modern-js/plugin-ssr',
     '@modern-js/plugin-document',
     '@modern-js/plugin-state',
+    '@modern-js/runtime',
     '@modern-js/plugin-router',
     '@modern-js/plugin-router-v5',
     '@modern-js/plugin-polyfill',
