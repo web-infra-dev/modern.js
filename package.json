@@ -88,7 +88,8 @@
     "rimraf": "^6.0.1",
     "typescript": "^5.8.2",
     "vitest": "3.0.9",
-    "@vitest/ui": "3.0.9"
+    "@vitest/ui": "3.0.9",
+    "@vitest/expect": "3.0.9"
   },
   "pnpm": {
     "peerDependencyRules": {
