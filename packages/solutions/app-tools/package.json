@@ -241,7 +241,8 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "build": "modern-lib build && pnpm run gen-static",
+    "gen-static": "ts-node ./scripts/gen-static.ts",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {

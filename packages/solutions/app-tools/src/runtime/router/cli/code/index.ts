@@ -51,9 +51,11 @@ export const generateCode = async (
   const hooks = api.getHooks();
 
   const getRoutes = isRouterV5 ? getClientRoutesLegacy : getClientRoutes;
+  const runtimeConfig =
+    typeof config?.runtime === 'boolean' ? {} : config?.runtime;
   const oldVersion =
-    typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
-      ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
+    typeof (runtimeConfig.router as { oldVersion: boolean }) === 'object'
+      ? Boolean((runtimeConfig.router as { oldVersion: boolean }).oldVersion)
       : false;
 
   await Promise.all(entrypoints.map(generateEntryCode));

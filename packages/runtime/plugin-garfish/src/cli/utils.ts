@@ -1,11 +1,16 @@
-import type { AppNormalizedConfig } from '@modern-js/app-tools';
+import type {
+  AppNormalizedConfig,
+  RuntimeUserConfig,
+} from '@modern-js/app-tools';
 
 // support legacy config
 export function getRuntimeConfig(config: Partial<AppNormalizedConfig>) {
-  if (config?.runtime?.features) {
-    return config?.runtime?.features;
+  const runtimeConfig: RuntimeUserConfig =
+    typeof config?.runtime === 'boolean' ? {} : config?.runtime || {};
+  if (runtimeConfig?.features) {
+    return runtimeConfig?.features;
   }
-  return config?.runtime || {};
+  return runtimeConfig || {};
 }
 
 // support legacy config
@@ -14,12 +19,14 @@ export function setRuntimeConfig(
   key: string,
   value: any,
 ): undefined {
-  if (config?.runtime?.features?.[key]) {
-    config.runtime.features[key] = value;
+  const runtimeConfig: RuntimeUserConfig =
+    typeof config?.runtime === 'boolean' ? {} : config?.runtime || {};
+  if (runtimeConfig?.features?.[key]) {
+    runtimeConfig.features[key] = value;
     return undefined;
   }
-  if (config?.runtime?.[key]) {
-    config.runtime[key] = value;
+  if (runtimeConfig?.[key]) {
+    runtimeConfig[key] = value;
     return undefined;
   }
   return undefined;

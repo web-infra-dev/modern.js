@@ -24,7 +24,7 @@ export interface UserConfig {
   source?: SourceUserConfig;
   tools?: ToolsUserConfig;
   server?: ServerUserConfig;
-  runtime?: RuntimeUserConfig;
+  runtime?: boolean | RuntimeUserConfig;
   html?: HtmlUserConfig;
   bff?: BffUserConfig;
   dev?: DevUserConfig;

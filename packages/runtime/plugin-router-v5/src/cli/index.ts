@@ -1,4 +1,8 @@
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type {
+  AppTools,
+  CliPluginFuture,
+  RuntimeUserConfig,
+} from '@modern-js/app-tools';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import './types';
 import type { ServerRoute } from '@modern-js/types';
@@ -12,12 +16,14 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const userConfig = api.getNormalizedConfig();
       const { serverRoutes, metaName, packageName } = api.getAppContext();
-      const routerConfig = getEntryOptions(
-        entrypoint.entryName,
-        entrypoint.isMainEntry!,
-        userConfig.runtime,
-        userConfig.runtimeByEntries,
-        packageName,
+      const routerConfig = (
+        getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry!,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        ) as RuntimeUserConfig
       )?.router;
       const serverBase = serverRoutes
         .filter(

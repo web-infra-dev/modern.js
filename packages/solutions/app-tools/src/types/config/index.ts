@@ -38,7 +38,7 @@ export interface AppToolsUserConfig<B extends Bundler> {
   bff?: BffUserConfig;
   dev?: DevUserConfig;
   deploy?: DeployUserConfig;
-  runtime?: RuntimeUserConfig;
+  runtime?: boolean | RuntimeUserConfig;
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: HtmlUserConfig;
   tools?: ToolsUserConfig<B>;
