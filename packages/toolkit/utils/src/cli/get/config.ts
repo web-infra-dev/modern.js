@@ -15,13 +15,15 @@ export const getEntryOptions = <T>(
       optionsByEntry = getOptionsByEntryName(packageName, optionsByEntries);
     }
 
-    return optionsByEntry !== undefined
-      ? isPlainObject(optionsByEntry) && isPlainObject(baseOptions)
-        ? { ...baseOptions, ...optionsByEntry }
-        : optionsByEntry
-      : baseOptions;
+    const result =
+      optionsByEntry !== undefined
+        ? isPlainObject(optionsByEntry) && isPlainObject(baseOptions)
+          ? { ...baseOptions, ...optionsByEntry }
+          : optionsByEntry
+        : baseOptions;
+    return typeof result === 'boolean' ? ({} as T) : result;
   } else {
-    return baseOptions;
+    return typeof baseOptions === 'boolean' ? ({} as T) : baseOptions;
   }
 };
 

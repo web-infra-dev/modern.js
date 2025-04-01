@@ -9,7 +9,7 @@ import {
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
-describe('app-custom', () => {
+describe('app-entry', () => {
   let app: unknown;
   let page: Page;
   let browser: Browser;

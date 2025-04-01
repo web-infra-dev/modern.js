@@ -4,6 +4,7 @@ export default defineConfig({
   source: {
     enableCustomEntry: true,
   },
+  runtime: true,
   plugins: [
     appTools({
       bundler: process.env.BUNDLER === 'webpack' ? 'webpack' : 'rspack',

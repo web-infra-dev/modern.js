@@ -12,7 +12,11 @@ import {
   getEntryOptions,
 } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
-import type { AppTools, CliPluginFuture } from '../../../types';
+import type {
+  AppTools,
+  CliPluginFuture,
+  RuntimeUserConfig,
+} from '../../../types';
 import { isRouteEntry } from './entry';
 import {
   handleFileChange,
@@ -48,12 +52,14 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         .map(route => route.urlPath)
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
       const userConfig = api.getNormalizedConfig();
-      const routerConfig = getEntryOptions(
-        entrypoint.entryName,
-        entrypoint.isMainEntry!,
-        userConfig.runtime,
-        userConfig.runtimeByEntries,
-        packageName,
+      const routerConfig = (
+        getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry!,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        ) as RuntimeUserConfig
       )?.router;
 
       if ((nestedRoutesEntry || pageRoutesEntry) && !isRouterV5) {

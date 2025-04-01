@@ -2,6 +2,7 @@ import type {
   AppNormalizedConfig,
   AppTools,
   CliPluginFuture,
+  RuntimeUserConfig,
 } from '@modern-js/app-tools';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
@@ -58,7 +59,7 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         userConfig.runtime,
         userConfig.runtimeByEntries,
         packageName,
-      );
+      ) as RuntimeUserConfig;
       plugins.push({
         name: 'garfish',
         path: `@${metaName}/plugin-garfish/runtime`,

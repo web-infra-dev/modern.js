@@ -258,3 +258,6 @@ declare module '*.xml' {
   const src: string;
   export default src;
 }
+
+declare module '@modern-js/runtime' {}
+declare module '@modern-js/runtime/*' {}

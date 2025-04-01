@@ -74,6 +74,7 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
     if (!isEnableRuntime) {
       return;
     }
+    const { metaName } = api.getAppContext();
     // get params for document.tsx
     function getDocParams(params: {
       config: NormalizedConfig<AppTools>;
@@ -96,7 +97,7 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       // config: HtmlPluginConfig,
       templateParameters: Record<string, unknown>,
     ) => {
-      const { entrypoints, internalDirectory, appDirectory } =
+      const { entrypoints, internalDirectory, appDirectory, metaName } =
         api.getAppContext();
       // search the document.[tsx|jsx|js|ts] under entry
       const documentFilePath = getDocumenByEntryName(
@@ -145,6 +146,9 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         );
         // transform document file to html string
         await build({
+          alias: {
+            [`@${metaName}/runtime/document`]: `@${metaName}/app-tools/runtime/document`,
+          },
           entryPoints: [documentFilePath],
           outfile: htmlOutputFile,
           platform: 'node',
@@ -157,6 +161,25 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
           },
           bundle: true,
           plugins: [
+            {
+              name: 'alias-plugin',
+              setup(build) {
+                const filter = new RegExp(`^@${metaName}/runtime/document$`);
+                build.onResolve({ filter: filter }, () => {
+                  return {
+                    path: path.join(
+                      require.resolve(
+                        `@${metaName}/app-tools/runtime/document`,
+                        {
+                          paths: [appDirectory],
+                        },
+                      ),
+                      '../../../../esm/runtime/document/index.js',
+                    ),
+                  };
+                });
+              },
+            },
             {
               name: 'make-all-packages-external',
               setup(build) {

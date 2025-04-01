@@ -140,7 +140,10 @@ function applyRouterPlugin<B extends Bundler>(
     entrypoint => entrypoint.nestedRoutesEntry,
   );
 
-  const routerConfig: any = normalizedConfig?.runtime?.router;
+  const routerConfig: any =
+    typeof normalizedConfig?.runtime === 'object'
+      ? normalizedConfig?.runtime?.router
+      : {};
   const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
