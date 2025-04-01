@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsconfig.stories.tsbuildinfo",
+    "noEmit": true
+  },
+  "include": ["src/**/*.stories.*"]
+}
