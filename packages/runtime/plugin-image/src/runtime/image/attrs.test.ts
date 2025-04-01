@@ -1,3 +1,4 @@
+import { ImageModule } from 'types/image';
 import { describe, expect, it, vi } from 'vitest';
 import {
   type ResolvedImageProps,
@@ -14,7 +15,7 @@ import {
 const defaultProps = {
   alt: 'Test image',
   loader: ({ src, width, quality }) =>
-    `/image?t=${src}&w=${width}&q=${quality}`,
+    `/image?t=${encodeURIComponent(src)}&w=${width}&q=${quality}`,
   quality: 75,
   loading: 'lazy',
   densities: [1, 2],
@@ -187,6 +188,56 @@ describe('resolveSrcSet', () => {
     expect(result).toEqual([
       { url: '/image?t=test.jpg&w=100&q=75', condition: '1x' },
       { url: '/image?t=test.jpg&w=200&q=75', condition: '2x' },
+    ]);
+  });
+
+  it('should get width from arguments even if width is not provided', () => {
+    const loader = vi.fn(defaultProps.loader);
+    const props = resolveImageProps({
+      src: '/test.jpg',
+      loader,
+      height: 100,
+    });
+    const result = resolveSrcSet(props)!;
+    expect(result.length).toBe(16);
+    expect(result.at(0)).toEqual({
+      condition: '16w',
+      url: '/image?t=%2Ftest.jpg&w=16&q=75',
+    });
+    expect(result.at(-1)).toEqual({
+      condition: '3840w',
+      url: '/image?t=%2Ftest.jpg&w=3840&q=75',
+    });
+
+    expect(loader).toHaveBeenCalledWith({
+      src: '/test.jpg',
+      width: 16,
+      quality: 75,
+    });
+    expect(loader).toHaveBeenCalledWith({
+      src: '/test.jpg',
+      width: 3840,
+      quality: 75,
+    });
+  });
+
+  it('should apply loader by width inferred from height', () => {
+    const loader = vi.fn(defaultProps.loader);
+    const props = resolveImageProps({
+      src: { url: '/test.jpg', width: 300, height: 200 },
+      loader,
+      height: 100,
+    });
+    const result = resolveSrcSet(props)!;
+    expect(result).toEqual([
+      {
+        condition: '1x',
+        url: '/image?t=%2Ftest.jpg&w=150&q=75',
+      },
+      {
+        condition: '2x',
+        url: '/image?t=%2Ftest.jpg&w=300&q=75',
+      },
     ]);
   });
 });
