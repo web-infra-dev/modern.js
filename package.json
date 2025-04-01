@@ -92,8 +92,7 @@
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
-        "@mdx-js/react@^1.6.22>react": "18",
-        "@testing-library/jest-dom>vitest": "3.0.9"
+        "@mdx-js/react@^1.6.22>react": "18"
       }
     },
     "allowedDeprecatedVersions": {
