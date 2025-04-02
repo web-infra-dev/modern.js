@@ -19,6 +19,7 @@ export default function Document(): React.ReactElement {
     templateParams,
   } = useContext(DocumentContext);
 
+  console.log('===htmlConfig', htmlConfig);
   return (
     <Html {...{ fromUserDoc: true, lang: 'cn' }}>
       <Head {...{ class: 'head' }}>
