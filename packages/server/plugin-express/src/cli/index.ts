@@ -5,6 +5,7 @@ import { createRuntimeExportsUtils } from '@modern-js/utils';
 
 export const expressPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
+  pre: ['@modern-js/runtime'],
   setup: api => {
     let bffExportsUtils: any;
     const { useAppContext } = api;

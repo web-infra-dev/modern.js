@@ -11,7 +11,7 @@ export default defineConfig({
     router: true,
   },
   source: {
-    moduleScopes: [/plugin-data-loader/],
+    moduleScopes: [/plugin-data-loader/, /app-tools/],
   },
   server: {
     ssr: {

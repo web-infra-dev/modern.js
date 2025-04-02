@@ -146,9 +146,6 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         );
         // transform document file to html string
         await build({
-          alias: {
-            [`@${metaName}/runtime/document`]: `@${metaName}/app-tools/runtime/document`,
-          },
           entryPoints: [documentFilePath],
           outfile: htmlOutputFile,
           platform: 'node',
@@ -164,20 +161,20 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
             {
               name: 'alias-plugin',
               setup(build) {
-                const filter = new RegExp(`^@${metaName}/runtime/document$`);
-                build.onResolve({ filter: filter }, () => {
-                  return {
-                    path: path.join(
-                      require.resolve(
-                        `@${metaName}/app-tools/runtime/document`,
-                        {
-                          paths: [appDirectory],
-                        },
-                      ),
-                      '../../../../esm/runtime/document/index.js',
-                    ),
-                  };
-                });
+                const aliases = {
+                  [`@${metaName}/runtime/document`]: `@${metaName}/app-tools/runtime/document`,
+                };
+                for (const [alias, replacement] of Object.entries(aliases)) {
+                  build.onResolve(
+                    { filter: new RegExp(`^${alias}(/.*)?$`) },
+                    args => {
+                      return {
+                        path: replacement,
+                        external: true,
+                      };
+                    },
+                  );
+                }
               },
             },
             {

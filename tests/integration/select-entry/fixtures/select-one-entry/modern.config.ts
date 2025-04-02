@@ -1,3 +1,3 @@
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-export default applyBaseConfig();
+export default applyBaseConfig({ runtime: true });

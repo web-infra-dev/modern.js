@@ -5,6 +5,7 @@ import { createRuntimeExportsUtils } from '@modern-js/utils';
 
 export const koaPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-koa',
+  pre: ['@modern-js/runtime'],
   setup: api => {
     let bffExportsUtils: any;
     const { useAppContext } = api;
@@ -34,7 +35,7 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
           },
           source: {
             alias: {
-              '@modern-js/runtime/server$': alias,
+              '@modern-js/runtime/server': alias,
               '@modern-js/runtime/koa': alias,
             },
           },

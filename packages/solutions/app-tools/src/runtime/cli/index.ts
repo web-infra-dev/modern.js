@@ -142,7 +142,7 @@ export const runtimePlugin = (params?: {
             [`@${metaName}/runtime/styled$`]: require.resolve(
               '@modern-js/app-tools/runtime/styled',
             ),
-            [`@${metaName}/runtime/server$`]: require.resolve(
+            [`@${metaName}/runtime/server`]: require.resolve(
               '@modern-js/app-tools/runtime/server',
             ),
             [`@${metaName}/runtime/ssr$`]: require.resolve(
