@@ -2,6 +2,7 @@ import path from 'path';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
+  runtime: true,
   server: {
     rsc: true,
   },

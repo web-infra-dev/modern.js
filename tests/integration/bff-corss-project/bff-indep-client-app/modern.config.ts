@@ -3,6 +3,7 @@ import { expressPlugin } from '@modern-js/plugin-express';
 import { applyBaseConfig } from '../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
+  runtime: true,
   bff: {
     prefix: '/indep-web-app',
   },

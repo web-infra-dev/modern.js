@@ -24,7 +24,6 @@ export default applyBaseConfig({
     router: {
       mode: 'react-router-5',
     },
-    state: true,
   },
   source: {
     entries: {

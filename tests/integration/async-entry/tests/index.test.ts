@@ -13,7 +13,9 @@ describe('generate async entry', () => {
         path.resolve(appDir, `node_modules/.modern-js/main/index.jsx`),
         'utf8',
       ),
-    ).toContain(`import { createRoot } from '@modern-js/runtime/react';`);
+    ).toContain(
+      `import { createRoot } from '@modern-js/app-tools/runtime/react';`,
+    );
 
     expect(
       readFileSync(

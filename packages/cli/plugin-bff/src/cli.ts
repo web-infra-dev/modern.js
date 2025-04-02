@@ -14,6 +14,7 @@ const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
+  pre: ['@modern-js/runtime'],
   setup: api => {
     const compileApi = async () => {
       const {
