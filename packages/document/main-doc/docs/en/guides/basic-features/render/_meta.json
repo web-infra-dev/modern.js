@@ -1,1 +1,1 @@
-["ssr", "streaming-ssr", "ssr-cache", "ssg"]
+["ssr", "streaming-ssr", "ssr-cache", "ssg", "before-render"]

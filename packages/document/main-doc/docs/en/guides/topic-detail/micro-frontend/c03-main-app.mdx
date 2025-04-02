@@ -35,8 +35,10 @@ import MicroRuntimeConfig from '@site-docs-en/components/micro-runtime-config';
 
 This function allows you to pull a list of remote child applications and register them with the runtime framework:
 
-```ts title="App.tsx"
-defineConfig(App, {
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
   masterApp: {
     manifest: {
       getAppList: async () => {

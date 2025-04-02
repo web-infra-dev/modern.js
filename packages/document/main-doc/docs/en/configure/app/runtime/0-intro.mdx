@@ -1,119 +1,95 @@
----
-title: Overview
-sidebar_position: 1
----
+# Introduce
 
-# Overview
-
-This section describes configuration of the Runtime plugin.
-
-## Configuration
-
-### runtime
-
-- **Type:** `Object`
-
-The runtime is configured as follows:
-
-#### Base
-
-Configure in `modern.config.ts`:
-
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  runtime: {
-    state: true,
-    router: true,
-  },
-});
-```
-
-#### DefineConfig
-
-Configure using [`defineConfig`](/apis/app/runtime/app/define-config) API:
+Modern.js runtime configuration should be centralized in the `src/modern.runtime.ts` file.
 
 :::info
-When there is a function in the runtime configuration, it can only be configured this way.
+If this file doesn't exist in your project yet, create it with the following command:
 
+```bash
+touch src/modern.runtime.ts
+```
 :::
 
-import { Tabs, Tab as TabItem } from "@theme";
+## Basic Configuration
 
-<Tabs>
-  <TabItem value="layout" label="Conventional Routing" default>
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
-```tsx title="src/routes/layout.tsx"
-import type { AppConfig } from '@modern-js/runtime';
-
-export const config = (): AppConfig => {
-  return {
-    router: {
-      supportHtml5History: false
-    }
-  }
-};
-```
-
-  </TabItem>
-
-  <TabItem value="app" label="Self-controlled Routing">
-
-```ts title="src/App.tsx"
-import { defineConfig } from '@modern-js/runtime';
-
-const App = () => {
-  /** */
-};
-
-defineConfig(App, {
+export default defineRuntimeConfig({
   router: {
-    supportHtml5History: false,
+    // Router configuration
   },
+  state: {
+    // State management configuration
+  },
+  // Other runtime modules...
 });
-
-export default App;
 ```
 
-  </TabItem>
-</Tabs>
+## Multi-Entry Configuration
 
-:::info
-Using runtime configuration, you can solve the problem that runtime plugin configuration needs to be at runtime to get specific content.
+For multi-entry applications, `defineRuntimeConfig` can accept a function that returns specific configurations based on the entry name:
 
-Runtime plugin runtime configuration and configuration directly in `modern.config.ts` are merged by default, and runtime configuration takes precedence.
+```tsx
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
+export default defineRuntimeConfig((entryName) => {
+  if (entryName === 'main') {
+    return {
+      router: {
+        // Router configuration for "main" entry
+      },
+      state: {
+        // State management configuration for "main" entry
+      },
+    };
+  }
+
+  // Configuration for other entries
+  return {
+    masterApp: {
+      // Micro-frontend configuration example
+    },
+  };
+});
+```
+:::tip
+Using the `src/modern.runtime.ts` configuration approach does not support exporting asynchronous functions, which is related to the rendering method of Modern.js. If you need to add asynchronous logic, please use the **[Runtime Plugin](/plugin/introduction.html#runtime-plugin)**.
 :::
 
 :::warning
-The `defineConfig` API only accepts the specific configuration of Runtime plugins. Enabling the plugin is determined through `modern.config.ts` configuration."
-
+Using the `src/modern.runtime.ts` configuration approach requires Modern.js version **MAJOR_VERSION.66.0** or higher.
 :::
 
-### runtimeByEntries
+import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
 
-- **Type:** `Object`
+<RuntimeCliConfig />
 
-#### Introduction
+## Configuration Evolution
 
-Add the runtime configuration according to the entry. The option attribute is consistent with the runtime. The specified value will be replaced and merged with the content of the runtime attribute.
+Before MAJOR_VERSION.66.0, runtime configurations were scattered across multiple locations:
 
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
+1. The `runtime` and `runtimeByEntries` fields in `modern.config.ts`
+2. The `App.config` or the `config` function exported from `layout` files for each entry
 
-export default defineConfig({
-  runtime: {
-    state: false,
-  },
-  runtimeByEntries: {
-    entry1: {
-      state: true, // { state: true }
-    },
-    entry2: {
-      // { state: false, router: true }
-      router: true,
-    },
-  },
-});
+To improve maintainability, Modern.js introduced the unified `src/modern.runtime.ts` configuration entry.
+
+### Legacy Configuration (Compatible but Not Recommended)
+
+```ts
+// modern.config.ts
+export default {
+  runtime: { /* ... */ },
+  runtimeByEntries: { /* ... */ },
+};
+
+// App.config
+App.config = {/* ... */}
+
+// layout file
+export const config = () => { /* Dynamic configuration logic */ };
 ```
+
+### Migration Recommendation
+
+We strongly recommend migrating all runtime configurations to `src/modern.runtime.ts`. Although the legacy configuration approach is still compatible, it is planned to be gradually deprecated in future versions. A unified configuration entry prevents scattered configurations and significantly improves project maintainability.

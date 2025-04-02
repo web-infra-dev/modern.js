@@ -35,8 +35,10 @@ import MicroRuntimeConfig from '@site-docs/components/micro-runtime-config';
 
 通过该函数可以拉取远程的子应用列表，并将其注册至运行时框架：
 
-```ts title="App.tsx"
-defineConfig(App, {
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
   masterApp: {
     manifest: {
       getAppList: async () => {

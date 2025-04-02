@@ -1,44 +1,30 @@
----
-title: App.[tj]sx
-sidebar_position: 1
----
 # App.[tj]sx
 
-The identifier for the entry points when the application uses [Self-controlled Routing](/guides/concept/entries.html#self-controlled-routing).
+The entry identifier when using [Self-controlled Routing](/guides/concept/entries.html#self-controlled-routing) in the application.
 
-`App.[tj]sx` is not the actual entry. Modern.js will generate the real entry for application. The content is roughly as follows:
+`App.[tj]sx` is not the actual application entry; Modern.js will automatically generate the real entry file, which is roughly as follows:
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createApp, bootstrap } from '@modern-js/runtime';
-// App.[jt]sx
+// runtime-global-context
+import { setGlobalContext } from '@modern-js/runtime/context';
 import App from '@_modern_js_src/App';
-// runtime plugin
-import { router } from '@modern-js/runtime/plugins';
 
-const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
-const MOUNT_ID = 'root';
+setGlobalContext({
+  App,
+});
 
-let AppWrapper = null;
+// index.tsx
+import './runtime-global-context';
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
 
-function render() {
-  AppWrapper = createApp({
-    plugins: [
-     router({...{"serverBase":["/"]}, ...App.config?.router}),
-    ]
-  })(App)
-  if (IS_BROWSER) {
-    bootstrap(AppWrapper, MOUNT_ID, null, ReactDOM);
-  }
-  return AppWrapper
-}
+const ModernRoot = createRoot();
 
-AppWrapper = render();
-export default AppWrapper;
+render(<ModernRoot />, 'root');
 ```
 
-:::note
-In the multi-entry scenario, each entry can have its own `App.[jt]sx`. See [Entries](/guides/concept/entries) for details.
+When `createRoot` is executed, it will retrieve the registered Global App and generate the actual React component.
 
+:::note
+In scenarios with multiple entry points, each entry can have its own independent `App.[jt]sx`. For more details, see [Entry Points](/guides/concept/entries).
 :::
