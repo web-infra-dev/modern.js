@@ -7059,6 +7059,9 @@ importers:
 
   tests/integration/server-config-v2:
     dependencies:
+      '@modern-js/plugin-server':
+        specifier: workspace:*
+        version: link:../../../packages/server/plugin-server
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime

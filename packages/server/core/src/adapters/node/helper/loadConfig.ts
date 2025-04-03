@@ -6,6 +6,7 @@ import {
   lodash as _,
   compatibleRequire,
   ensureAbsolutePath,
+  logger,
   requireExistModule,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
@@ -53,6 +54,11 @@ export async function loadServerRuntimeConfig(
   }
 
   const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
+  if (oldServerConfig) {
+    logger.warn(
+      '🟡 [Deprecated] modern.server-runtime.config.ts is no longer maintained, please migrate to server/modern.server.ts for custom server-side logic',
+    );
+  }
   return oldServerConfig;
 }
 

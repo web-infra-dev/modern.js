@@ -8,6 +8,7 @@ import { isProd, logger } from '@modern-js/utils';
 import {
   type Hook,
   type Middleware,
+  checkServerMod,
   loadMiddleware,
   loadServerMod,
 } from './utils';
@@ -123,6 +124,7 @@ export default (): ServerPluginLegacy => ({
 
     return {
       async prepare() {
+        await checkServerMod(pwd);
         await loadMod();
       },
       async reset() {

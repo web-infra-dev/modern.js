@@ -17,20 +17,24 @@ export async function createDevServer(
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = await loadServerRuntimeConfig(
-    distDir,
-    serverConfigFile,
-    serverConfigPath,
-  );
+  const serverConfig =
+    (await loadServerRuntimeConfig(
+      distDir,
+      serverConfigFile,
+      serverConfigPath,
+    )) || {};
 
   const prodServerOptions = {
     ...options,
     pwd: distDir, // server base pwd must distDir,
+    serverConfig,
+    /**
+     * 1. server plugins from modern.server.ts
+     * 2. server plugins register by cli use _internalServerPlugins
+     * Merge plugins, the plugins from modern.server.ts will run first
+     */
+    plugins: [...(serverConfig.plugins || []), ...(options.plugins || [])],
   };
-
-  if (serverConfig) {
-    prodServerOptions.serverConfig = serverConfig;
-  }
 
   const server = createServerBase(prodServerOptions);
 
@@ -50,7 +54,7 @@ export async function createDevServer(
   const promise = getDevAssetPrefix(builder);
   const builderDevServer = await builder?.createDevServer({
     runCompile: options.runCompile,
-    compiler: options.compilier,
+    compiler: options.compiler,
   });
 
   server.addPlugins([
