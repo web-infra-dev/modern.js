@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 2.67.0
+
+### Minor Changes
+
+- fb9fc66: feat: Centralize runtime plugin configuration into `src/modern.runtime.ts`
+
+  feat: runtime 插件配置集中到 `src/modern.runtime.ts` 中
+
+### Patch Changes
+
+- 0a683a9: fix: initAppContext should not update metaName
+
+  fix: initAppContext 时不应该更新 metaName
+
+- a1b580a: fix: temp dir of the framework should be watched
+  fix: 框架的临时目录应该被监听
+- Updated dependencies [7503f22]
+  - @modern-js/server-core@2.67.0
+  - @modern-js/plugin-data-loader@2.67.0
+  - @modern-js/prod-server@2.67.0
+  - @modern-js/server@2.67.0
+  - @modern-js/server-utils@2.67.0
+  - @modern-js/core@2.67.0
+  - @modern-js/plugin-i18n@2.67.0
+  - @modern-js/rsbuild-plugin-esbuild@2.67.0
+  - @modern-js/uni-builder@2.67.0
+  - @modern-js/node-bundle-require@2.67.0
+  - @modern-js/plugin@2.67.0
+  - @modern-js/plugin-v2@2.67.0
+  - @modern-js/types@2.67.0
+  - @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes

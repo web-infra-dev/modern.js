@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.67.0
+
+### Patch Changes
+
+- 7503f22: fix: should detect page route by entryName, not isApi
+  fix: 应该通过 entryName 来判断是否是页面路由，而不是 isApi
+  - @modern-js/plugin@2.67.0
+  - @modern-js/plugin-v2@2.67.0
+  - @modern-js/runtime-utils@2.67.0
+  - @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes
