@@ -1,5 +1,18 @@
 # @modern-js/storybook-builder
 
+## 2.67.0
+
+### Patch Changes
+
+- Updated dependencies [fe46fdc]
+- Updated dependencies [fb9fc66]
+- Updated dependencies [fb9fc66]
+  - @modern-js/runtime@2.67.0
+  - @modern-js/plugin-state@2.67.0
+  - @modern-js/core@2.67.0
+  - @modern-js/uni-builder@2.67.0
+  - @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes

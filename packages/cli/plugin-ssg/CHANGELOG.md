@@ -1,5 +1,14 @@
 # @modern-js/plugin-ssg
 
+## 2.67.0
+
+### Patch Changes
+
+- 759d92d: fix: ssg should concat buffer first, then stringify buffer
+  fix: ssg 应该先拼接 buffer, 再将 buffer 处理成字符串
+  - @modern-js/prod-server@2.67.0
+  - @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.67.0
+
+### Patch Changes
+
+- 0bd864b: docs: refactor runtime config doc
+
+  docs: 重构 Runtime 配置文档
+
+  - @modern-js/sandpack-react@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes
