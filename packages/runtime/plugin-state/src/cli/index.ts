@@ -1,5 +1,8 @@
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
-import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
+import {
+  createRuntimeExportsUtils,
+  getRuntimeEntryOptions,
+} from '@modern-js/utils';
 import './types';
 import type { RuntimeUserConfig } from '@modern-js/app-tools';
 
@@ -17,7 +20,7 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       const { packageName, metaName } = api.getAppContext();
 
       const stateConfig = (
-        getEntryOptions(
+        getRuntimeEntryOptions(
           entryName,
           isMainEntry!,
           userConfig.runtime,

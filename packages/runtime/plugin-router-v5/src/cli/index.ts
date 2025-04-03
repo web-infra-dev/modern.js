@@ -3,7 +3,10 @@ import type {
   CliPluginFuture,
   RuntimeUserConfig,
 } from '@modern-js/app-tools';
-import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
+import {
+  createRuntimeExportsUtils,
+  getRuntimeEntryOptions,
+} from '@modern-js/utils';
 import './types';
 import type { ServerRoute } from '@modern-js/types';
 
@@ -17,7 +20,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       const userConfig = api.getNormalizedConfig();
       const { serverRoutes, metaName, packageName } = api.getAppContext();
       const routerConfig = (
-        getEntryOptions(
+        getRuntimeEntryOptions(
           entrypoint.entryName,
           entrypoint.isMainEntry!,
           userConfig.runtime,
