@@ -35,8 +35,8 @@ export default createRequestHandler(handleRequest);
 如果用户需自定义 Server-Side Rendering 入口，可以在 `src/entry.server.ts`、`src/{entryName}/entry.server.ts` 中自定义 server 入口。
 
 ```tsx title="src/entry.server.tsx"
-import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
-import type { HandleRequest } from '@edenx/runtime/ssr/server';
+import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
+import type { HandleRequest } from '@modern-js/runtime/ssr/server';
 
 const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   // do something before rendering
