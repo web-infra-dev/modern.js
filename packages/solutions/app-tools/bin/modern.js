@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-const {
-  INTERNAL_APP_TOOLS_PLUGINS,
-  INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
-} = require('@modern-js/utils');
+const { INTERNAL_APP_TOOLS_PLUGINS } = require('@modern-js/utils');
 
 const { version } = require('../package.json');
 

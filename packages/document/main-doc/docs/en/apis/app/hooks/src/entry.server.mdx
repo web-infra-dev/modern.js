@@ -35,8 +35,8 @@ export default createRequestHandler(handleRequest);
 Users need to customize the Server-Side Rendering entry points, they can customize the server entry in `src/entry.server.ts` or `src/{entryName}/entry.server.ts`.
 
 ```tsx title="src/entry.server.tsx"
-import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
-import type { HandleRequest } from '@edenx/runtime/ssr/server';
+import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
+import type { HandleRequest } from '@modern-js/runtime/ssr/server';
 
 const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   // do something before rendering

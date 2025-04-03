@@ -46,8 +46,8 @@ For more browser entry details, refer to [Entries](/guides/concept/entries.html)
 create `src/entry.server.tsx` file，add custom behavior for rendering responses：
 
 ```tsx
-import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
-import type { HandleRequest } from '@edenx/runtime/ssr/server';
+import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
+import type { HandleRequest } from '@modern-js/runtime/ssr/server';
 
 const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   // do something before rendering

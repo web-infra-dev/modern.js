@@ -25,7 +25,7 @@ const SERVER_ENTRY_RSC = `
 import {
   renderStreaming,
   createRequestHandler,
-} from '@#metaName/runtime/ssr/server';
+} from '@#metaName/app-tools/runtime/ssr/server';
 import { RSCServerSlot } from '@#metaName/app-tools/runtime/rsc/client';
 export { handleAction } from '@#metaName/app-tools/runtime/rsc/server';
 
