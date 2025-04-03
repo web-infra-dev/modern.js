@@ -6,7 +6,10 @@ import type {
 } from '@modern-js/app-tools';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
-import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
+import {
+  createRuntimeExportsUtils,
+  getRuntimeEntryOptions,
+} from '@modern-js/utils';
 import { logger } from '../util';
 import { generateCode } from './code';
 import type { AppendEntryCodeFn } from './hooks';
@@ -53,7 +56,7 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         return { entrypoint, plugins };
       }
       const { packageName, metaName } = api.getAppContext();
-      const runtimeConfig = getEntryOptions(
+      const runtimeConfig = getRuntimeEntryOptions(
         entrypoint.entryName,
         entrypoint.isMainEntry!,
         userConfig.runtime,

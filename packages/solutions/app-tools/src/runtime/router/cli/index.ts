@@ -9,7 +9,7 @@ import {
   fs,
   NESTED_ROUTE_SPEC_FILE,
   createRuntimeExportsUtils,
-  getEntryOptions,
+  getRuntimeEntryOptions,
 } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
 import type {
@@ -53,7 +53,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
       const userConfig = api.getNormalizedConfig();
       const routerConfig = (
-        getEntryOptions(
+        getRuntimeEntryOptions(
           entrypoint.entryName,
           entrypoint.isMainEntry!,
           userConfig.runtime,
