@@ -1,3 +1,3 @@
-const { handler } = require('./netlify-handler');
+const { handler } = require('./netlify-handler.cjs');
 
 module.exports.default = handler;
