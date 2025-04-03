@@ -35,7 +35,6 @@ export const createWebRequest = (
 
   const url = `http://${req.headers.host}${req.url}`;
   const fullUrl = new URL(url);
-
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
   if (
     body ||
@@ -115,6 +114,7 @@ const getRequestListener = (handler: RequestHandler) => {
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);
+
       const response = await handler(request, {
         node: {
           req,

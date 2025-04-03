@@ -4,6 +4,8 @@ export { AGGRED_DIR } from './constants';
 
 export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
+export { useHonoContext } from './context';
+export { CustomServer } from './plugins/customServer';
 
 export type {
   Middleware,

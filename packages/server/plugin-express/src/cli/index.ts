@@ -9,6 +9,16 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
     let bffExportsUtils: any;
     const { useAppContext } = api;
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
+
+    const useConfig = api.useConfigContext();
+
+    const appContext = api.useAppContext();
+
+    api.setAppContext({
+      ...appContext,
+      bffRuntimeFramework: 'express',
+    });
+
     return {
       config() {
         const appContext = useAppContext();
@@ -16,8 +26,6 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
           appContext.internalDirectory,
           'server',
         );
-
-        const useConfig = api.useConfigContext();
 
         const runtimePath =
           process.env.NODE_ENV === 'development' &&
