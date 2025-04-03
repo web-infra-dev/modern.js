@@ -4,7 +4,7 @@ import WebpackChain from '@modern-js/utils/webpack-chain';
 import { garfishPlugin, externals } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
 import { createPluginManager, Plugin } from '@modern-js/plugin-v2';
-import runtimePlugin from '@modern-js/runtime/cli';
+import runtimePlugin from '@modern-js/app-tools/runtime/cli';
 import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
 import path from 'path';
 
@@ -24,8 +24,8 @@ async function setup(config: any) {
       plugins,
       appDirectory: path.join(__dirname, './feature'),
     } as any,
-    config: config,
-    normalizedConfig: { ...config, plugins: [] } as any,
+    config: { runtime: true, ...config },
+    normalizedConfig: { runtime: true, ...config, plugins: [] } as any,
   });
   const pluginAPI = {
     ...initPluginAPI<AppTools>({
@@ -53,7 +53,7 @@ async function setup(config: any) {
     return config
   })
   for (const plugin of plugins) {
-    await plugin.setup(pluginAPI);
+    await plugin.setup!(pluginAPI);
   }
   return pluginAPI;
 }

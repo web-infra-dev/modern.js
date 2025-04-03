@@ -104,77 +104,33 @@ export const runtimePlugin = (params?: {
              * So need to add alias
              */
             'styled-components': require.resolve('styled-components'),
-            '@meta/runtime/browser$': require.resolve(
-              '@modern-js/app-tools/runtime/browser',
-            ),
-            '@meta/runtime/react$': require.resolve(
-              '@modern-js/app-tools/runtime/react',
-            ),
-            '@meta/runtime/context$': require.resolve(
-              '@modern-js/app-tools/runtime/context',
-            ),
-            '@meta/runtime$': require.resolve('@modern-js/app-tools/runtime'),
+            '@meta/runtime/browser$': `@${metaName}/app-tools/browser`,
+            '@meta/runtime/react$': `@${metaName}/app-tools/react`,
+            '@meta/runtime/context$': `@${metaName}/app-tools/runtime/context`,
+            '@meta/runtime$': `@${metaName}/app-tools/runtime`,
             /**
              * Compatible with the reference path of the old version of the plugin.
              */
             [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
-            [`@${metaName}/runtime/browser$`]: require.resolve(
-              '@modern-js/app-tools/runtime/browser',
-            ),
-            [`@${metaName}/runtime/react$`]: require.resolve(
-              '@modern-js/app-tools/runtime/react',
-            ),
-            [`@${metaName}/runtime/context$`]: require.resolve(
-              '@modern-js/app-tools/runtime/context',
-            ),
-            [`@${metaName}/runtime$`]: require.resolve(
-              '@modern-js/app-tools/runtime',
-            ),
-            [`@${metaName}/runtime/plugin$`]: require.resolve(
-              '@modern-js/app-tools/runtime/plugin',
-            ),
-            [`@${metaName}/runtime/loadable$`]: require.resolve(
-              '@modern-js/app-tools/runtime/loadable',
-            ),
-            [`@${metaName}/runtime/head$`]: require.resolve(
-              '@modern-js/app-tools/runtime/head',
-            ),
-            [`@${metaName}/runtime/styled$`]: require.resolve(
-              '@modern-js/app-tools/runtime/styled',
-            ),
-            [`@${metaName}/runtime/server`]: require.resolve(
-              '@modern-js/app-tools/runtime/server',
-            ),
-            [`@${metaName}/runtime/ssr$`]: require.resolve(
-              '@modern-js/app-tools/runtime/ssr',
-            ),
-            [`@${metaName}/runtime/ssr/server$`]: require.resolve(
-              '@modern-js/app-tools/runtime/ssr/server',
-            ),
-            [`@${metaName}/runtime/document$`]: require.resolve(
-              '@modern-js/app-tools/runtime/document',
-            ),
-            [`@${metaName}/runtime/cli$`]: require.resolve(
-              '@modern-js/app-tools/runtime/cli',
-            ),
-            [`@${metaName}/runtime/router$`]: require.resolve(
-              '@modern-js/app-tools/runtime/router',
-            ),
-            [`@${metaName}/runtime/router/server$`]: require.resolve(
-              '@modern-js/app-tools/runtime/router/server',
-            ),
-            [`@${metaName}/runtime/loadable-bundler-plugin$`]: require.resolve(
-              '@modern-js/app-tools/runtime/loadable-bundler-plugin',
-            ),
-            [`@${metaName}/runtime/rsc/server$`]: require.resolve(
-              '@modern-js/app-tools/runtime/rsc/server',
-            ),
-            [`@${metaName}/runtime/rsc/client$`]: require.resolve(
-              '@modern-js/app-tools/runtime/rsc/client',
-            ),
-            [`@${metaName}/runtime/cache$`]: require.resolve(
-              '@modern-js/app-tools/runtime/cache',
-            ),
+            [`@${metaName}/runtime/browser$`]: `@${metaName}/app-tools/runtime/browser`,
+            [`@${metaName}/runtime/react$`]: `@${metaName}/app-tools/runtime/react`,
+            [`@${metaName}/runtime/context$`]: `@${metaName}/app-tools/runtime/context`,
+            [`@${metaName}/runtime$`]: `@${metaName}/app-tools/runtime`,
+            [`@${metaName}/runtime/plugin$`]: `@${metaName}/app-tools/runtime/plugin`,
+            [`@${metaName}/runtime/loadable$`]: `@${metaName}/app-tools/runtime/loadable`,
+            [`@${metaName}/runtime/head$`]: `@${metaName}/app-tools/runtime/head`,
+            [`@${metaName}/runtime/styled$`]: `@${metaName}/app-tools/runtime/styled`,
+            [`@${metaName}/runtime/server`]: `@${metaName}/app-tools/runtime/server`,
+            [`@${metaName}/runtime/ssr$`]: `@${metaName}/app-tools/runtime/ssr`,
+            [`@${metaName}/runtime/ssr/server$`]: `@${metaName}/app-tools/runtime/ssr/server`,
+            [`@${metaName}/runtime/document$`]: `@${metaName}/app-tools/runtime/document`,
+            [`@${metaName}/runtime/cli$`]: `@${metaName}/app-tools/runtime/cli`,
+            [`@${metaName}/runtime/router$`]: `@${metaName}/app-tools/runtime/router`,
+            [`@${metaName}/runtime/router/server$`]: `@${metaName}/app-tools/runtime/router/server`,
+            [`@${metaName}/runtime/loadable-bundler-plugin$`]: `@${metaName}/app-tools/runtime/loadable-bundler-plugin`,
+            [`@${metaName}/runtime/rsc/server$`]: `@${metaName}/app-tools/runtime/rsc/server`,
+            [`@${metaName}/runtime/rsc/client$`]: `@${metaName}/app-tools/runtime/rsc/client`,
+            [`@${metaName}/runtime/cache$`]: `@${metaName}/app-tools/runtime/cache`,
           },
           globalVars: {
             'process.env.IS_REACT18': process.env.IS_REACT18,
@@ -190,7 +146,7 @@ export const runtimePlugin = (params?: {
               .rule('modern-entry')
               .test(/\.jsx?$/)
               .include.add(
-                path.resolve(appDirectory, 'node_modules', `.${metaName}`),
+                path.resolve(appDirectory, 'node_modules', `.$metaName`),
               )
               .end()
               .sideEffects(true);

@@ -95,16 +95,11 @@ export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };
 
-export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
-  '@modern-js/runtime': '@modern-js/runtime/cli',
-};
-
 /**
  * Internal module-tools plugins that work as soon as they are installed.
  */
 export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/module-tools': '@modern-js/module-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
   '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   // legacy router (inner react-router-dom v5)
@@ -123,7 +118,6 @@ export const INTERNAL_MONOREPO_TOOLS_PLUGINS: InternalPlugins = {
  */
 export const INTERNAL_DOC_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/doc-tools': '@modern-js/doc-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
 };
 
 /**
@@ -134,7 +128,6 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
   '@modern-js/module-tools': '@modern-js/module-tools',
   '@modern-js/doc-tools': '@modern-js/doc-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
   '@modern-js/plugin-state': '@modern-js/plugin-state/cli',
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
