@@ -1,6 +1,6 @@
 import type { AppTools } from '@modern-js/app-tools';
 import runtimePlugin from '@modern-js/app-tools/runtime/cli';
-import { createPluginManager } from '@modern-js/plugin-v2';
+import { type Plugin, createPluginManager } from '@modern-js/plugin-v2';
 import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
 import plugin, { useHistory, useParams } from '../src';
 import cliPlugin from '../src/cli';
@@ -16,7 +16,10 @@ describe('plugin-router-legacy', () => {
 describe('cli-router-legacy', () => {
   const setup = async () => {
     const pluginManager = createPluginManager();
-    pluginManager.addPlugins([runtimePlugin(), cliPlugin() as any]);
+    pluginManager.addPlugins([
+      runtimePlugin() as Plugin,
+      cliPlugin() as Plugin,
+    ]);
     const plugins = pluginManager.getPlugins();
     const context = await createContext<AppTools>({
       appContext: {

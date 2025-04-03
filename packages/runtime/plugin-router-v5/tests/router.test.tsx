@@ -1,5 +1,6 @@
 import { createApp } from '@modern-js/app-tools/runtime';
 import type { RuntimePluginFuture } from '@modern-js/app-tools/runtime/plugin';
+import type { Plugin } from '@modern-js/plugin-v2';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { useHistory } from '../src';
@@ -18,7 +19,7 @@ const testPlugin: RuntimePluginFuture = {
 describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
     const AppWrapper = createApp({
-      plugins: [testPlugin, createRouterPlugin({}) as any],
+      plugins: [testPlugin, createRouterPlugin({}) as Plugin],
     })(App);
 
     interface Props {
@@ -42,7 +43,7 @@ describe('@modern-js/plugin-router-v5', () => {
             routes: [{ path: '/', component: App as any }],
             globalApp: App,
           },
-        }) as any,
+        }) as Plugin,
       ],
     })();
 
@@ -94,7 +95,7 @@ describe('@modern-js/plugin-router-v5', () => {
             ],
           },
           supportHtml5History: false, // use hash router
-        }) as any,
+        }) as Plugin,
       ],
     })(App);
 
@@ -136,10 +137,10 @@ describe('@modern-js/plugin-router-v5', () => {
               return modifyFn?.(routes);
             });
           },
-        } as any,
+        } as Plugin,
         createRouterPlugin({
           routesConfig: { routes: [{ path: '/' }] },
-        }),
+        }) as Plugin,
       ],
     })(App);
 
