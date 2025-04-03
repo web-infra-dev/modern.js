@@ -1,7 +1,6 @@
 import path from 'path';
 import { type Plugin, createPluginManager } from '@modern-js/plugin-v2';
 import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
-import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { appTools } from '../../src';
 import { handleSetupResult } from '../../src/compat/hooks';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
@@ -15,7 +14,7 @@ describe('get entrypoints from file system', () => {
 
   const setup = async ({ appDirectory }: { appDirectory: string }) => {
     const pluginManager = createPluginManager();
-    pluginManager.addPlugins([appTools() as Plugin, runtimePlugin() as Plugin]);
+    pluginManager.addPlugins([appTools() as Plugin]);
     const plugins = pluginManager.getPlugins();
     const context = await createContext<AppTools>({
       appContext: {
@@ -23,8 +22,8 @@ describe('get entrypoints from file system', () => {
         appDirectory,
         plugins,
       } as any,
-      config: {},
-      normalizedConfig: { plugins: [] } as any,
+      config: { runtime: true },
+      normalizedConfig: { plugins: [], runtime: true } as any,
     });
     pluginAPI = initPluginAPI<AppTools>({
       context,

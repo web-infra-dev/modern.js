@@ -25,17 +25,17 @@ module.exports = {
         ],
       },
       moduleNameMapper: {
-        '^@meta/runtime$': '<rootDir>/packages/runtime/plugin-runtime/src',
+        '^@meta/runtime$': '<rootDir>/packages/solutions/app-tools/src/runtime',
         '^@meta/runtime/context$':
-          '<rootDir>/packages/runtime/plugin-runtime/src/core/context',
+          '<rootDir>/packages/solutions/app-tools/src/runtime/core/context',
         '^@modern-js/runtime/browser$':
-          '<rootDir>/packages/runtime/plugin-runtime/src/core/browser',
+          '<rootDir>/packages/solutions/app-tools/src/runtime/core/browser',
         '^@modern-js/runtime/react$':
-          '<rootDir>/packages/runtime/plugin-runtime/src/core/react',
+          '<rootDir>/packages/solutions/app-tools/src/runtime/core/react',
         '^@modern-js/runtime$':
-          '<rootDir>/packages/runtime/plugin-runtime/src/index',
+          '<rootDir>/packages/solutions/app-tools/src/runtime',
         '^@modern-js/plugin-v2/runtime$':
-          '<rootDir>/packages/toolkit/plugin-v2/src/runtime/index',
+          '<rootDir>/packages/toolkit/plugin-v2/src/runtime',
         '^./async_storage$': './async_storage.server',
       },
       globals: {},
