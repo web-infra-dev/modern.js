@@ -32,6 +32,24 @@ export async function run({
   statePluginName = STATE_PLUGIN_NAME,
   configFile,
 }: RunOptions) {
+  const nodeVersion = process.versions.node;
+  const versionArr = nodeVersion.split('.').map(Number);
+
+  if (versionArr[0] <= 16) {
+    console.warn(`
+    ${chalk.bgRed.white.bold(' ⚠️ CRITICAL VERSION UPDATE NOTICE ⚠️ ')}
+
+    ${chalk.red.bold('Modern.js will drop support for Node.js 16')}
+    ${chalk.red('(EOL after Q3 2025)')}
+
+    ${chalk.yellow('▸ Current version:')}    ${chalk.yellow.bold(`v${nodeVersion}`)}
+
+    ${chalk.cyan('Migration Path:')}
+      ${chalk.gray('├──')} ${chalk.yellow('Quick upgrade')}: ${chalk.bold('nvm install --lts && nvm use --lts')}
+      ${chalk.gray('├──')} ${chalk.yellow('Official download')}: ${chalk.underline('https://nodejs.org/')}
+      ${chalk.gray('└──')} ${chalk.yellow('Verify installation')}: ${chalk.bold('node -v && npm -v')}
+    `);
+  }
   const command = process.argv[2];
 
   const cliParams = minimist<{
