@@ -32,6 +32,30 @@ export async function run({
   statePluginName = STATE_PLUGIN_NAME,
   configFile,
 }: RunOptions) {
+  const nodeVersion = process.versions.node;
+  const versionArr = nodeVersion.split('.').map(Number);
+
+  if (versionArr[0] <= 16) {
+    console.warn(`
+  ${chalk.bgRed.white.bold(' ⚠️ CRITICAL NODE.JS VERSION ALERT ⚠️ ')}
+
+  ${chalk.red.bold('Node.js 16 End-of-Life Notice:')}
+  ${chalk.red.bold.underline('October 1, 2025')} ${chalk.red('- Security updates and support will cease')}
+
+  ${chalk.yellow('▸ Detected Runtime:')}  ${chalk.yellow.bold(`Node.js v${nodeVersion}`)}
+  ${chalk.green('▸ Required Minimum:')} ${chalk.green.bold('Node.js LTS (v20.x or higher)')}
+
+  ${chalk.cyan('Immediate Action Required:')}
+    ${chalk.gray('├──')} ${chalk.yellow('Recommended Upgrade')}
+       ${chalk.bold('nvm install --lts=hydrogen && nvm use --lts')}
+    ${chalk.gray('├──')} ${chalk.yellow('Manual Installation')}
+       ${chalk.underline('https://nodejs.org/download/release/lts-hydrogen/')}
+     ${chalk.gray('└──')} ${chalk.yellow('Environment Verification')}
+       ${chalk.bold('node -v && npm -v')}
+
+  ${chalk.hex('#AAAAAA').italic('[Security Advisory] Production environments must update before 2025-10-01')}
+      `);
+  }
   const command = process.argv[2];
 
   const cliParams = minimist<{
