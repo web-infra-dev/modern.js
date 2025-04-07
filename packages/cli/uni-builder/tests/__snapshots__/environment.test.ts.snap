@@ -931,6 +931,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "resourceQuery": /react/,
               "type": "javascript/auto",
               "use": [
@@ -1895,6 +1899,10 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/inline",
             },
             {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
+            },
+            {
               "resourceQuery": /react/,
               "type": "javascript/auto",
               "use": [
@@ -2745,6 +2753,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "resourceQuery": /inline/,
               "type": "asset/inline",
+            },
+            {
+              "resourceQuery": /raw/,
+              "type": "asset/source",
             },
             {
               "resourceQuery": /react/,
