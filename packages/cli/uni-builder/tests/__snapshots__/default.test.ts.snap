@@ -930,6 +930,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/inline",
           },
           {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
+          },
+          {
             "resourceQuery": /react/,
             "type": "javascript/auto",
             "use": [
@@ -1940,6 +1944,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "resourceQuery": /inline/,
             "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
           },
           {
             "resourceQuery": /react/,
@@ -3209,6 +3217,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset/inline",
           },
           {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
+          },
+          {
             "resourceQuery": /react/,
             "type": "javascript/auto",
             "use": [
@@ -4193,6 +4205,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "resourceQuery": /inline/,
             "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
           },
           {
             "resourceQuery": /react/,
@@ -5564,6 +5580,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "resourceQuery": /inline/,
             "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
           },
           {
             "resourceQuery": /react/,
@@ -7135,6 +7155,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "resourceQuery": /inline/,
             "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /raw/,
+            "type": "asset/source",
           },
           {
             "resourceQuery": /react/,
