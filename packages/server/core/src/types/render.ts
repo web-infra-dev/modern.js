@@ -8,6 +8,7 @@ import type {
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
 } from '@modern-js/types';
+import type { NodeRequest } from '@modern-js/types/server';
 import type { ServerManifest } from './server';
 
 // TODO: combine some field with RequestHandlerOptions
@@ -45,7 +46,7 @@ export interface RenderOptions {
 
   rscSSRManifest?: RscSSRManifest;
 
-  nodeReq?: IncomingMessage;
+  nodeReq?: NodeRequest;
 }
 
 export type Render = (
