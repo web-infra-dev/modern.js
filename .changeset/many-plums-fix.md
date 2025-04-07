@@ -12,3 +12,4 @@
 ---
 
 feat(ssr): support streaming ssr to work with http2
+feat(ssr): 支持 streaming ssr 和 http2 协议一起工作
