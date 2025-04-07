@@ -81,7 +81,7 @@
     "react-is": "^18",
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "6.2.1",
-    "sass": "1.86.0",
+    "sass": "1.86.3",
     "semver": "7.7.1",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",
