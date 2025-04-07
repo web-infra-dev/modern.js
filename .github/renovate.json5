@@ -127,6 +127,8 @@
     "@biomejs/biome",
     "caniuse-lite",
     "@vercel/nft",
-    "vitest"
+    "vitest",
+    "@types/react",
+    "@types/react-dom"
   ]
 }
