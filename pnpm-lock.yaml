@@ -636,8 +636,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin':
-        specifier: 0.5.15
-        version: 0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))
+        specifier: 0.5.16
+        version: 0.5.16(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))
       '@rsbuild/core':
         specifier: 1.3.2
         version: 1.3.2
@@ -10676,8 +10676,8 @@ packages:
     deprecated: Please update to the latest version of Playwright to test up-to-date browsers.
     hasBin: true
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15':
-    resolution: {integrity: sha512-LFWllMA55pzB9D34w/wXUCf8+c+IYKuJDgxiZ3qMhl64KRMBHYM1I3VdGaD2BV5FNPV2/S2596bppxHbv2ZydQ==}
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.16':
+    resolution: {integrity: sha512-kLQc9xz6QIqd2oIYyXRUiAp79kGpFBm3fEM9ahfG1HI0WI5gdZ2OVHWdmZYnwODt7ISck+QuQ6sBPrtvUBML7Q==}
     engines: {node: '>= 10.13'}
     peerDependencies:
       '@types/webpack': 4.x || 5.x
@@ -25205,7 +25205,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.16(@types/webpack@5.28.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.33.0)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19))':
     dependencies:
       ansi-html: 0.0.9
       core-js-pure: 3.26.0
