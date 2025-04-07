@@ -37,18 +37,24 @@ export async function run({
 
   if (versionArr[0] <= 16) {
     console.warn(`
-    ${chalk.bgRed.white.bold(' ⚠️ CRITICAL VERSION UPDATE NOTICE ⚠️ ')}
+  ${chalk.bgRed.white.bold(' ⚠️ CRITICAL NODE.JS VERSION ALERT ⚠️ ')}
 
-    ${chalk.red.bold('Modern.js will drop support for Node.js 16')}
-    ${chalk.red('(EOL after Q3 2025)')}
+  ${chalk.red.bold('Node.js 16 End-of-Life Notice:')}
+  ${chalk.red.bold.underline('October 1, 2025')} ${chalk.red('- Security updates and support will cease')}
 
-    ${chalk.yellow('▸ Current version:')}    ${chalk.yellow.bold(`v${nodeVersion}`)}
+  ${chalk.yellow('▸ Detected Runtime:')}  ${chalk.yellow.bold(`Node.js v${nodeVersion}`)}
+  ${chalk.green('▸ Required Minimum:')} ${chalk.green.bold('Node.js LTS (v20.x or higher)')}
 
-    ${chalk.cyan('Migration Path:')}
-      ${chalk.gray('├──')} ${chalk.yellow('Quick upgrade')}: ${chalk.bold('nvm install --lts && nvm use --lts')}
-      ${chalk.gray('├──')} ${chalk.yellow('Official download')}: ${chalk.underline('https://nodejs.org/')}
-      ${chalk.gray('└──')} ${chalk.yellow('Verify installation')}: ${chalk.bold('node -v && npm -v')}
-    `);
+  ${chalk.cyan('Immediate Action Required:')}
+    ${chalk.gray('├──')} ${chalk.yellow('Recommended Upgrade')}
+       ${chalk.bold('nvm install --lts=hydrogen && nvm use --lts')}
+    ${chalk.gray('├──')} ${chalk.yellow('Manual Installation')}
+       ${chalk.underline('https://nodejs.org/download/release/lts-hydrogen/')}
+     ${chalk.gray('└──')} ${chalk.yellow('Environment Verification')}
+       ${chalk.bold('node -v && npm -v')}
+
+  ${chalk.hex('#AAAAAA').italic('[Security Advisory] Production environments must update before 2025-10-01')}
+      `);
   }
   const command = process.argv[2];
 
