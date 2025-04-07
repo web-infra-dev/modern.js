@@ -10,7 +10,7 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
-import { isVersionAtLeast22, isVersionAtLeast1819 } from '@modern-js/utils';
+import { isVersionAtLeast20, isVersionAtLeast1819 } from '@modern-js/utils';
 
 const appDir = path.resolve(__dirname, '../');
 dns.setDefaultResultOrder('ipv4first');
@@ -30,7 +30,7 @@ if (isVersionAtLeast1819()) {
         appDir,
         port,
         {},
-        isVersionAtLeast22()
+        isVersionAtLeast20()
           ? {
               NODE_OPTIONS: '--no-experimental-require-module',
             }
