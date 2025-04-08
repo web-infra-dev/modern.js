@@ -8,7 +8,9 @@ import {
   isWebOnly,
   requireExistModule,
 } from '@modern-js/utils';
+import { isFunction } from '@modern-js/utils';
 import { API_APP_NAME } from './constants';
+import { HonoRuntime } from './runtime/hono';
 
 type SF = (args: any) => void;
 class Storage {
@@ -32,6 +34,9 @@ export default (): ServerPluginLegacy => ({
     const transformAPI = createTransformAPI(storage);
     let apiAppPath = '';
     let apiRouter: ApiRouter;
+
+    const honoRuntime = new HonoRuntime(api);
+
     return {
       async prepare() {
         const appContext = api.useAppContext();
@@ -83,7 +88,7 @@ export default (): ServerPluginLegacy => ({
           );
         }
 
-        if (handler) {
+        if (handler && isFunction(handler)) {
           globalMiddlewares.push({
             name: 'bind-bff',
             handler: (c, next) => {
@@ -101,6 +106,11 @@ export default (): ServerPluginLegacy => ({
             ],
           });
         }
+
+        honoRuntime.registerMiddleware({
+          prefix,
+          enableHandleWeb,
+        });
       },
       async reset({ event }) {
         storage.reset();
@@ -123,6 +133,9 @@ export default (): ServerPluginLegacy => ({
             ...appContext,
             apiHandlerInfos,
           });
+
+          await honoRuntime.setHandlers();
+          await honoRuntime.registerApiRoutes();
         }
       },
 
