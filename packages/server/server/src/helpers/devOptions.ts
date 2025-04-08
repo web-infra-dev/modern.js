@@ -25,7 +25,7 @@ export const getDevAssetPrefix = (builder?: UniBuilderInstance) => {
         webCompiler = params.compiler;
       }
 
-      const publicPath = webCompiler.options.output.publicPath;
+      const publicPath = webCompiler?.options?.output?.publicPath;
       if (publicPath && typeof publicPath === 'string') {
         // remove host and port
         const formatPublicPath = publicPath.replace(/^https?:\/\/[^/]+/, '');
