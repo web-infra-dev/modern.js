@@ -11,6 +11,21 @@ export default defineConfig({
   output: {
     target: 'web',
     distPath: { root: 'dist' },
+    copy: {
+      patterns: [
+        {
+          context: 'src',
+          from: 'global.d.ts',
+          transform: content =>
+            content
+              .toString()
+              .replace(
+                './types/image',
+                '@modern-js/rsbuild-plugin-image/runtime',
+              ),
+        },
+      ],
+    },
   },
   lib: [
     { format: 'esm', bundle: false, dts: true },

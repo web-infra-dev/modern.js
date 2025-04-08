@@ -5,6 +5,10 @@ export function createImageOptionsContext() {
   const ret: ImageContext = {};
   if (typeof __INTERNAL_MODERNJS_IMAGE_OPTIONS__ !== 'undefined') {
     Object.assign(ret, __INTERNAL_MODERNJS_IMAGE_OPTIONS__);
+    if (typeof __INTERNAL_MODERNJS_IMAGE_OPTIONS__.loader === 'string') {
+      const mod = require('__INTERNAL_MODERNJS_IMAGE_LOADER__');
+      ret.loader = mod.default || mod;
+    }
   }
   return ret;
 }

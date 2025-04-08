@@ -1,6 +1,7 @@
 import type { ImageProps } from '@/types/image';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useContext, useState } from 'react';
 import { resolveImageAttrs } from './attrs';
+import { ImageOptionsContext } from './context';
 import { resolveImageProps } from './props';
 import { type HTMLImageElementWithLoadedMark, createLoadEvent } from './utils';
 
@@ -10,9 +11,10 @@ export interface DebuggableImageProps extends ImageProps {
 }
 
 export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
+  const imageOptionsContext = useContext(ImageOptionsContext);
   const [blurComplete, setBlurComplete] = useState(false);
 
-  const resolvedProps = resolveImageProps(props);
+  const resolvedProps = resolveImageProps({ ...imageOptionsContext, ...props });
   if (blurComplete) resolvedProps.placeholder = false;
   const attrs = resolveImageAttrs(resolvedProps);
 

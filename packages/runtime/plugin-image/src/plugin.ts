@@ -8,22 +8,32 @@ export const pluginImage = (
     name: '@modern-js/rsbuild-plugin-image',
     setup(api) {
       // Serialize and inject the options to the runtime context.
-      api.modifyRsbuildConfig(config => {
-        config.source ||= {};
-        config.source.define ||= {};
-        config.source.define.__INTERNAL_MODERNJS_IMAGE_OPTIONS__ =
-          JSON.stringify(options);
+      api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+        return mergeRsbuildConfig(config, {
+          source: {
+            define: {
+              __INTERNAL_MODERNJS_IMAGE_OPTIONS__: JSON.stringify(options),
+            },
+          },
+          resolve: {
+            alias: aliases => {
+              if (options?.loader) {
+                aliases.__INTERNAL_MODERNJS_IMAGE_LOADER__ = options.loader;
+              }
+              return aliases;
+            },
+          },
+        });
       });
 
       // Modify the bundler chain to add the image loader.
-      api.modifyBundlerChain((chain, { CHAIN_ID }) => {
-        const rule = chain.module.rule(CHAIN_ID.RULE.IMAGE);
-        rule
-          .oneOf('image-component-module')
-          .type('asset/resource')
+      api.modifyBundlerChain(chain => {
+        chain.module
+          .rule('image-component-module')
+          .type('javascript/auto')
           .resourceQuery(/\?image$/)
           .use('image-component-loader')
-          .loader(require.resolve('./loader.cjs'));
+          .loader(require.resolve('./loader.js'));
       });
     },
   };

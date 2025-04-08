@@ -4,18 +4,21 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "node": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./runtime": {
       "types": "./dist/runtime/index.d.ts",
-      "node": "./dist/runtime/index.cjs",
-      "import": "./dist/runtime/index.js"
+      "node": "./dist/runtime/index.js",
+      "import": "./dist/runtime/index.mjs"
     },
     "./loader": {
       "types": "./dist/loader.d.ts",
-      "node": "./dist/loader.cjs",
-      "import": "./dist/loader.js"
+      "node": "./dist/loader.js",
+      "import": "./dist/loader.mjs"
+    },
+    "./types": {
+      "types": "./dist/global.d.ts"
     }
   },
   "typesVersions": {
@@ -28,11 +31,14 @@
       ],
       "loader": [
         "./dist/loader.d.ts"
+      ],
+      "types": [
+        "./dist/global.d.ts"
       ]
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "sideEffects": [
     "**/*.css",
