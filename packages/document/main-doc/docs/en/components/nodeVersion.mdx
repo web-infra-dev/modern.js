@@ -1,4 +1,4 @@
-Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 16.2.0. **We recommend using the LTS version of Node.js 18.**
+Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 18.20.8. **We recommend using the LTS version of Node.js 22.**
 
 You can check the currently used Node.js version with the following command:
 
@@ -6,21 +6,27 @@ You can check the currently used Node.js version with the following command:
 node -v
 ```
 
-If you do not have Node.js installed in your current environment, or the installed version is lower than 16.2.0, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
+If you do not have Node.js installed in your current environment, or the installed version is lower than 18.20.8, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
 
-Here is an example of how to install the Node.js 18 LTS version via nvm:
+Here is an example of how to install the Node.js 22 LTS version via nvm:
 
 ```bash
-# Install the long-term support version of Node.js 18
-nvm install 18 --lts
+# Install the long-term support version of Node.js 22
+nvm install 22 --lts
 
-# Make the newly installed Node.js 18 as the default version
-nvm alias default 18
+# Make the newly installed Node.js 22 as the default version
+nvm alias default 22
 
-# Switch to the newly installed Node.js 18
-nvm use 18
+# Switch to the newly installed Node.js 22
+nvm use 22
 ```
 
 :::tip nvm and fnm
 Both nvm and fnm are Node.js version management tools. Relatively speaking, nvm is more mature and stable, while fnm is implemented using Rust, which provides better performance than nvm.
+:::
+
+Additionally, after installing nvm or fnm, when there is a `.nvmrc` file containing `lts/jod` in the repository's root directory, the system will automatically install or switch to the correct Node.js version upon entering the repository.
+
+:::warning
+Modern.js currently still supports Node 16, but will officially terminate support for Node.js 16 in June 2025. To ensure a smooth transition for your project, please complete the Node.js version upgrade before June 2025.
 :::

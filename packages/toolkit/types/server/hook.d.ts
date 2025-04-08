@@ -4,6 +4,7 @@ import type {
   ServerResponse,
 } from 'http';
 import type { ServerRoute } from './route';
+import type { NodeRequest, NodeResponse } from './server';
 import type { Logger, Metrics, Reporter } from './utils';
 
 export type CookieAPI = {
@@ -90,7 +91,7 @@ export type MiddlewareContext<T extends 'worker' | 'node' = 'node'> =
     reporter?: Reporter;
     response: ModernResponse & { locals: Record<string, any> };
     source: {
-      req: T extends 'worker' ? Request : IncomingMessage;
-      res: T extends 'worker' ? ModernResponse : ServerResponse;
+      req: T extends 'worker' ? Request : NodeRequest;
+      res: T extends 'worker' ? ModernResponse : NodeResponse;
     };
   };

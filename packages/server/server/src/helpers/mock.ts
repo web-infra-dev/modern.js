@@ -1,4 +1,3 @@
-import type { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 import {
   AGGRED_DIR,
@@ -7,17 +6,17 @@ import {
 } from '@modern-js/server-core';
 import { connectMockMid2HonoMid } from '@modern-js/server-core/node';
 import type { NextFunction } from '@modern-js/types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
 import { fs } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
-
 /** Types: Mock  */
 type MockHandler =
   | {
       data: any;
     }
   | ((
-      req: IncomingMessage,
-      res: ServerResponse,
+      req: NodeRequest,
+      res: NodeResponse,
       next: NextFunction,
     ) => Promise<void> | void);
 
@@ -32,7 +31,7 @@ type MockAPI = {
 type MockHandlers = Record<string, MockHandler>;
 
 type MockConfig = {
-  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
+  enable: ((req: NodeRequest, res: NodeResponse) => boolean) | boolean;
 };
 
 type MockModule = {
@@ -93,7 +92,7 @@ const getMockModule = async (
 
   const enable = config?.enable as
     | boolean
-    | ((req: IncomingMessage, res: ServerResponse) => boolean)
+    | ((req: NodeRequest, res: NodeResponse) => boolean)
     | undefined;
 
   if (enable === false) {

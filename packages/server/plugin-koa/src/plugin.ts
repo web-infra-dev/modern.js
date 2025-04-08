@@ -12,6 +12,7 @@ import {
   sendResponse,
 } from '@modern-js/server-core/node';
 import type { Monitors } from '@modern-js/types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
 import { fs, compatibleRequire, logger } from '@modern-js/utils';
 import Koa, { type Middleware } from 'koa';
 import type Application from 'koa';
@@ -203,7 +204,9 @@ export default (): ServerPluginLegacy => {
           return app.callback()(req, res);
         };
 
-        return httpCallBack2HonoMid(callback);
+        return httpCallBack2HonoMid(
+          callback as (req: NodeRequest, res: NodeResponse) => Promise<void>,
+        );
       },
     }),
   };

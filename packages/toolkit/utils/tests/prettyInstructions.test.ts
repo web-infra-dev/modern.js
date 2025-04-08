@@ -117,16 +117,13 @@ describe('prettyInstructions', () => {
       serverRoutes: [mockServerRoute],
       port: 8080,
       apiOnly: false,
-      builder: {
-        context: {
-          devServer: {
-            https: true,
-          },
-        },
-      },
     };
 
-    const message = prettyInstructions(mockAppContext, {});
+    const message = prettyInstructions(mockAppContext, {
+      dev: {
+        https: true,
+      },
+    });
 
     expect(message).toMatchSnapshot();
 

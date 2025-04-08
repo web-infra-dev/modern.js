@@ -1,11 +1,11 @@
-import type { IncomingMessage, ServerResponse } from 'http';
+import type { NodeRequest, NodeResponse } from '@modern-js/server-core/node';
 import type { BffProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
 export type RequestHandler = (
-  req: IncomingMessage,
-  res: ServerResponse,
+  req: NodeRequest,
+  res: NodeResponse,
   next: NextFunction,
 ) => void;
 
