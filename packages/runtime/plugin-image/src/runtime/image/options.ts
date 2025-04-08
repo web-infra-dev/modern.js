@@ -1,8 +1,5 @@
-import { useContext } from 'react';
-import { type ImageOptions, createImageOptions } from '../../shared/options';
-import type { ImageResource } from '../../types/image';
-import { ImageOptionsContext } from '../image/context';
-import { defaultLoader } from '../image/loader';
+import type { ImageOptions, ImageResource } from '@/types/image';
+import { defaultImageLoader } from './loader';
 
 export function resolveImageOptions(options: ImageOptions) {
   let src: string;
@@ -10,6 +7,7 @@ export function resolveImageOptions(options: ImageOptions) {
   let width: number | undefined;
   let thumbnail: ImageResource | undefined;
   let { unoptimized = false } = options;
+
   if (typeof options.src === 'string') {
     // Just use user defined width, height properties because there's no intrinsic size.
     ({ src, width, height } = options);
@@ -64,23 +62,20 @@ export function resolveImageOptions(options: ImageOptions) {
     unoptimized = true;
   }
 
-  const ret = {
-    ...createImageOptions(),
-    loader: defaultLoader,
+  const resolved = {
+    densities: [1, 2],
+    loader: defaultImageLoader,
+    placeholder: false,
+    quality: 75,
     ...options,
     src,
     height,
     width,
     unoptimized,
     thumbnail,
-  };
-  return ret;
+  } satisfies ImageOptions & Record<string, any>;
+  return resolved;
 }
 
 export interface ResolvedImageOptions
   extends ReturnType<typeof resolveImageOptions> {}
-
-export function useResolvedImageOptions(options: ImageOptions) {
-  const context = useContext(ImageOptionsContext);
-  return resolveImageOptions({ ...context, ...options });
-}

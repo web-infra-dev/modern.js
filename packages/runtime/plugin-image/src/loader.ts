@@ -1,7 +1,7 @@
 import assert from 'assert';
 import type { Rspack } from '@rsbuild/core';
-import { logger } from 'rslog';
 import { Image } from './image';
+import { logger } from './logger';
 import { PLUGIN_NAME } from './shared/constants';
 import type { ImageModule, ImageResource } from './types/image';
 

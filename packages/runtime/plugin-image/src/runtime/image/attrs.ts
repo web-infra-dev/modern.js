@@ -1,7 +1,7 @@
 import { type CSSProperties, use } from 'react';
-import type { ResolvedImageProps } from '../options/image-props';
 import { getBlurImage } from './blur';
 import { applyImageLoader } from './loader';
+import type { ResolvedImageProps } from './props';
 
 const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [
   '-moz-initial',

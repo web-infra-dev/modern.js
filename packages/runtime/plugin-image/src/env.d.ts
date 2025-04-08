@@ -1,3 +1,4 @@
+/// <reference path="./global.d.ts" />
 import type { ImageContext } from './shared/options';
 
 declare global {

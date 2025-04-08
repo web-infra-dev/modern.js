@@ -1,5 +1,5 @@
+import type { ImageContext } from '@/types/image';
 import { type PropsWithChildren, createContext, useContext } from 'react';
-import type { ImageContext } from '../../shared/options';
 
 export function createImageOptionsContext() {
   const ret: ImageContext = {};

@@ -1,6 +1,6 @@
+import type { ImageOptions } from '@/types/image';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import type { ImageOptions } from '../../shared/options';
-import { resolveImageOptions } from './image-options';
+import { resolveImageOptions } from './options';
 
 describe('resolveImageOptions', () => {
   it('should return the resolved image props', () => {
@@ -8,8 +8,13 @@ describe('resolveImageOptions', () => {
     expectTypeOf(props).toMatchTypeOf<ImageOptions>();
     expect(props).toMatchInlineSnapshot(`
       {
+        "densities": [
+          1,
+          2,
+        ],
         "height": undefined,
         "loader": [Function],
+        "placeholder": false,
         "quality": 75,
         "src": "/foo.jpg",
         "thumbnail": undefined,

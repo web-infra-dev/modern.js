@@ -1,13 +1,4 @@
-import type { ImageOptions } from '../../shared/options';
-import type { ResolvedImageOptions } from '../options/image-options';
-
-export interface ImageLoaderArgs {
-  src: string;
-  quality: number;
-  width: number;
-}
-
-export type ImageLoader = (args: ImageLoaderArgs) => string;
+import type { ImageLoader, ImageLoaderArgs } from '@/types/image';
 
 export interface ApplyLoaderOptions extends ImageLoaderArgs {
   loader: ImageLoader;
@@ -19,5 +10,5 @@ export function applyImageLoader(options: ApplyLoaderOptions): string {
   return url;
 }
 
-export const defaultLoader: ImageLoader = ({ src, width, quality }) =>
-  `/_edenx/image?t=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+export const defaultImageLoader: ImageLoader = ({ src, width, quality }) =>
+  `/_modern_js/image?t=${encodeURIComponent(src)}&w=${width}&q=${quality}`;

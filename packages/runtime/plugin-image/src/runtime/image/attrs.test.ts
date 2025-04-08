@@ -1,9 +1,4 @@
-import { ImageModule } from 'types/image';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  type ResolvedImageProps,
-  resolveImageProps,
-} from '../options/image-props';
 import {
   resolveImageAttrs,
   resolveImageStyle,
@@ -11,6 +6,7 @@ import {
   resolveSizes,
   resolveSrcSet,
 } from './attrs';
+import { type ResolvedImageProps, resolveImageProps } from './props';
 
 const defaultProps = {
   alt: 'Test image',

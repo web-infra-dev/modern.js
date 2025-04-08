@@ -3,9 +3,7 @@ import { createLogger } from 'rslog';
 const logger = createLogger();
 
 export const isDebug = (): boolean => {
-  if (!process.env.DEBUG) {
-    return false;
-  }
+  if (!process.env.DEBUG) return false;
 
   const values = process.env.DEBUG.toLocaleLowerCase().split(',');
   return ['modernjs:image', '*'].some(key => values.includes(key));

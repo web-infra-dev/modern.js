@@ -1,3 +1,4 @@
+import { URLSearchParams } from 'url';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { defineConfig } from '@rslib/core';
 import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
@@ -20,9 +21,8 @@ export default defineConfig({
   ],
   plugins: [pluginReact()],
   tools: {
-    rspack(config) {
-      config.plugins ||= [];
-      config.plugins.push(
+    rspack(config, { appendPlugins }) {
+      appendPlugins(
         new TsCheckerRspackPlugin({
           typescript: {
             build: true,
@@ -30,6 +30,14 @@ export default defineConfig({
           },
         }),
       );
+
+      config.module ||= {};
+      config.module.rules ||= [];
+      config.module.rules.push({
+        resourceQuery: /\?image$/,
+        use: [{ loader: require.resolve('./tests/fixtures/loader.cjs') }],
+        type: 'javascript/auto',
+      });
     },
   },
 });

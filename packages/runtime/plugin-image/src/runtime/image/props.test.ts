@@ -1,7 +1,7 @@
+import type { ImageProps } from '@/types/image';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import type { ImageProps } from '../../shared/options';
-import { defaultLoader } from '../image/loader';
-import { resolveImageProps } from './image-props';
+import { defaultImageLoader } from './loader';
+import { resolveImageProps } from './props';
 
 describe('resolveImageProps', () => {
   it('should return the resolved image props with default values', () => {
@@ -11,7 +11,7 @@ describe('resolveImageProps', () => {
       densities: [1, 2],
       fill: false,
       height: undefined,
-      loader: defaultLoader,
+      loader: defaultImageLoader,
       loading: 'lazy',
       onError: undefined,
       onLoad: undefined,
