@@ -1,5 +1,6 @@
 import type { IncomingMessage } from 'http';
 import type { ServerRoute } from '@modern-js/types';
+import type { NodeRequest } from '@modern-js/types/server';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
@@ -340,7 +341,7 @@ async function getRenderMode(
   fallbackHeader: string,
   isSSR?: boolean,
   forceCSR?: boolean,
-  nodeReq?: IncomingMessage,
+  nodeReq?: NodeRequest,
   onFallback?: FallbackWrapper,
 ): Promise<'ssr' | 'csr' | 'data' | 'rsc-action' | 'rsc-tree'> {
   const query = parseQuery(req);

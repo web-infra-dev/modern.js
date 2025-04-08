@@ -4,6 +4,11 @@ import type {
   ServerResponse,
 } from 'http';
 import type {
+  Http2SecureServer,
+  Http2ServerRequest,
+  Http2ServerResponse,
+} from 'node:http2';
+import type {
   CacheOption,
   Container,
   HttpMethodDecider,
@@ -93,11 +98,9 @@ declare module '@modern-js/types' {
     getRenderOptions?: GetRenderHandlerOptions;
     render?: Render;
     routes?: ServerRoute[];
-    nodeServer?: NodeServer;
+    nodeServer?: NodeServer | Http2SecureServer;
   }
 }
-export type NodeRequest = IncomingMessage;
-export type NodeResponse = ServerResponse;
 
 export type CacheConfig = {
   strategy: CacheOption;

@@ -12,6 +12,7 @@ import {
   sendResponse,
 } from '@modern-js/server-core/node';
 import type { Monitors } from '@modern-js/types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
 import { fs, compatibleRequire, logger } from '@modern-js/utils';
 import cookieParser from 'cookie-parser';
 import express, { type RequestHandler, type Express } from 'express';
@@ -222,7 +223,9 @@ export default (): ServerPluginLegacy => {
 
             return app(req as Request, res as Response, handler);
           });
-        return httpCallBack2HonoMid(handler);
+        return httpCallBack2HonoMid(
+          handler as (req: NodeRequest, res: NodeResponse) => Promise<void>,
+        );
       },
     }),
   };

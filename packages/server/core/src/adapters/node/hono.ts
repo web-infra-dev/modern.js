@@ -1,13 +1,5 @@
-import type {
-  Context,
-  HonoRequest,
-  Middleware,
-  Next,
-  NodeRequest,
-  NodeResponse,
-  ServerEnv,
-  ServerManifest,
-} from '../../types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
+import type { Context, Middleware, Next, ServerEnv } from '../../types';
 import { type NodeBindings, isResFinalized } from './helper';
 
 export type ServerNodeEnv = {

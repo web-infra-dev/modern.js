@@ -1,6 +1,12 @@
 import { type Server as NodeServer, ServerResponse } from 'node:http';
+import type {
+  Http2SecureServer,
+  Http2ServerRequest,
+  Http2ServerResponse,
+} from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
-import type { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
+import type { RequestHandler } from '../../types';
 import { isResFinalized } from './helper';
 import { installGlobals } from './polyfills/install';
 import {
@@ -20,7 +26,10 @@ export const createWebRequest = (
   const headerRecord: [string, string][] = [];
   const len = req.rawHeaders.length;
   for (let i = 0; i < len; i += 2) {
-    headerRecord.push([req.rawHeaders[i], req.rawHeaders[i + 1]]);
+    const key = req.rawHeaders[i];
+    if (!key.startsWith(':')) {
+      headerRecord.push([key, req.rawHeaders[i + 1]]);
+    }
   }
 
   const { method } = req;
@@ -146,24 +155,42 @@ const getRequestListener = (handler: RequestHandler) => {
   };
 };
 
-type NodeServerWrapper = (NodeServer | NodeHttpsServer) & {
+type NodeServerWrapper = (NodeServer | NodeHttpsServer | Http2SecureServer) & {
   getRequestListener: () => ReturnType<typeof getRequestListener>;
   getRequestHandler: () => RequestHandler;
 };
 
 export const createNodeServer = async (
   requestHandler: RequestHandler,
-  httpsOptions?: Record<string, unknown>,
+  httpsOptions?: {
+    key?: string | Buffer;
+    cert?: string | Buffer;
+  },
+  http2?: boolean,
 ): Promise<NodeServerWrapper> => {
   const requestListener = getRequestListener(requestHandler);
 
   let nodeServer;
   if (httpsOptions) {
-    const { createServer } = await import('node:https');
-    nodeServer = createServer(
-      httpsOptions,
-      requestListener,
-    ) as NodeServerWrapper;
+    if (http2) {
+      const { createSecureServer } = await import('node:http2');
+      nodeServer = createSecureServer(
+        {
+          allowHTTP1: true,
+          maxSessionMemory: 1024,
+          ...httpsOptions,
+        },
+        (req: Http2ServerRequest, res: Http2ServerResponse) => {
+          return requestListener(req, res as unknown as NodeResponse);
+        },
+      ) as NodeServerWrapper;
+    } else {
+      const { createServer } = await import('node:https');
+      nodeServer = createServer(
+        httpsOptions,
+        requestListener,
+      ) as NodeServerWrapper;
+    }
   } else {
     const { createServer } = await import('node:http');
     nodeServer = createServer(requestListener) as NodeServerWrapper;
