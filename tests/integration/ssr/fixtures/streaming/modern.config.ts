@@ -7,9 +7,6 @@ export default applyBaseConfig({
   source: {
     enableCustomEntry: true,
   },
-  dev: {
-    https: true,
-  },
   server: {
     ssr: {
       mode: 'stream',
