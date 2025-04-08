@@ -47,7 +47,7 @@ export async function run({
 
   ${chalk.cyan('Immediate Action Required:')}
     ${chalk.gray('├──')} ${chalk.yellow('Recommended Upgrade')}
-       ${chalk.bold('nvm install --lts=hydrogen && nvm use --lts')}
+       ${chalk.bold('nvm install --lts=iron && nvm use --lts')}
     ${chalk.gray('├──')} ${chalk.yellow('Manual Installation')}
        ${chalk.underline('https://nodejs.org/download/release/lts-hydrogen/')}
      ${chalk.gray('└──')} ${chalk.yellow('Environment Verification')}
