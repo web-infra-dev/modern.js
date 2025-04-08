@@ -6,6 +6,7 @@
 # Dist
 node_modules
 dist/
+modern-js-rsbuild-plugin-image-*.tgz
 
 # IDE
 .vscode/*

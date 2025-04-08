@@ -1,13 +1,37 @@
 {
   "name": "@modern-js/rsbuild-plugin-image",
   "version": "2.66.0",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "node": "./dist/index.cjs",
       "import": "./dist/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "node": "./dist/runtime/index.cjs",
+      "import": "./dist/runtime/index.js"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "node": "./dist/loader.cjs",
+      "import": "./dist/loader.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ],
+      "loader": [
+        "./dist/loader.d.ts"
+      ]
+    }
+  },
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": [
@@ -23,7 +47,8 @@
     "dev": "rslib build --watch",
     "storybook": "storybook dev --no-open --port 6006",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "preview-pack": "bash ./scripts/preview-pack.sh"
   },
   "dependencies": {
     "image-size": "^2.0.1",
