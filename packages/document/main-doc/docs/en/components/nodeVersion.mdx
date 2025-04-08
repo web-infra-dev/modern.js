@@ -24,3 +24,5 @@ nvm use 20
 :::tip nvm and fnm
 Both nvm and fnm are Node.js version management tools. Relatively speaking, nvm is more mature and stable, while fnm is implemented using Rust, which provides better performance than nvm.
 :::
+
+Additionally, after installing nvm or fnm, when there is a `.nvmrc` file containing `lts/iron` in the repository's root directory, the system will automatically install or switch to the correct Node.js version upon entering the repository.
