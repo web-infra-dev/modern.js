@@ -1,4 +1,5 @@
 import type { Server as NodeServer } from 'node:http';
+import type { Http2SecureServer } from 'node:http2';
 import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
 import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 
@@ -34,5 +35,5 @@ export type ModernDevServerOptions<
 export type ApplyPlugins<O extends ServerBaseOptions = ServerBaseOptions> = (
   server: ServerBase,
   options: O,
-  nodeServer?: NodeServer,
+  nodeServer?: NodeServer | Http2SecureServer,
 ) => Promise<void>;

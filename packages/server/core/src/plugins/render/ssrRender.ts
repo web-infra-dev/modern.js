@@ -6,6 +6,7 @@ import type {
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
 } from '@modern-js/types/server';
+import type { NodeRequest } from '@modern-js/types/server';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 import { X_MODERNJS_RENDER } from '../../constants';
 import type { CacheConfig, ServerManifest, UserConfig } from '../../types';
@@ -41,7 +42,7 @@ export interface SSRRenderOptions {
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   cacheConfig?: CacheConfig;
-  nodeReq?: IncomingMessage;
+  nodeReq?: NodeRequest;
 
   monitors: Monitors;
   onError: OnError;
@@ -128,7 +129,7 @@ export async function ssrRender(
 
   const cacheControl = await matchCacheControl(
     cacheConfig?.strategy,
-    nodeReq || (new IncomingMessgeProxy(request) as IncomingMessage),
+    nodeReq || (new IncomingMessgeProxy(request) as unknown as NodeRequest),
   );
 
   let response: Response;

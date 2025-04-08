@@ -132,7 +132,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
         builderMiddlewares &&
           middlewares.push({
             name: 'rsbuild-dev',
-            handler: connectMid2HonoMid(builderMiddlewares),
+            handler: connectMid2HonoMid(builderMiddlewares as any),
           });
 
         after.forEach((middleware, index) => {

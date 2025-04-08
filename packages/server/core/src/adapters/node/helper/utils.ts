@@ -1,9 +1,5 @@
-import type {
-  HonoRequest,
-  NodeRequest,
-  NodeResponse,
-  ServerManifest,
-} from '../../../types';
+import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
+import type { HonoRequest, ServerManifest } from '../../../types';
 
 type ExtendedNodeRequest = NodeRequest & {
   __honoRequest?: HonoRequest;

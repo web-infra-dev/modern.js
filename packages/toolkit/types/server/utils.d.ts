@@ -1,9 +1,10 @@
 import type { IncomingMessage, ServerResponse } from 'http';
+import type { Http2ServerRequest } from 'node:http2';
 import type {
   Filter as ProxyFilter,
   Options as ProxyOptions,
 } from 'http-proxy-middleware';
-
+import type { NodeRequest } from './server';
 export interface Metrics {
   emitCounter: (
     name: string,
@@ -102,7 +103,7 @@ export type CacheControl = {
 };
 
 export type CacheOptionProvider = (
-  req: IncomingMessage,
+  req: NodeRequest,
 ) => Promise<CacheControl | false> | CacheControl | false;
 
 export type CacheOption =

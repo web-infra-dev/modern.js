@@ -1,4 +1,5 @@
 import type { Server as NodeServer } from 'node:http';
+import type { Http2SecureServer } from 'node:http2';
 import {
   ErrorDigest,
   type ServerBase,
@@ -34,7 +35,7 @@ export type ApplyPlugins = typeof applyPlugins;
 export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
-  nodeServer?: NodeServer,
+  nodeServer?: NodeServer | Http2SecureServer,
 ) {
   const { pwd, appContext, config } = options;
 

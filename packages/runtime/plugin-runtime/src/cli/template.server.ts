@@ -12,8 +12,7 @@ const handleRequest = async (request, ServerRoot, options) => {
 
   return new Response(body, {
     headers: {
-      'content-type': 'text/html; charset=utf-8',
-      #headers
+      'content-type': 'text/html; charset=utf-8'
     },
   })
 };
@@ -43,8 +42,7 @@ const handleRequest = async (request, ServerRoot, options) => {
 
   return new Response(body, {
     headers: {
-      'content-type': 'text/html; charset=utf-8',
-      #headers
+      'content-type': 'text/html; charset=utf-8'
     },
   })
 };
@@ -86,11 +84,7 @@ export const entryForCSRWithRSC = ({
       clientManifest,
     })
 
-    const response = new Response(stream, {
-      headers: {
-        'Transfer-Encoding': 'chunked',
-      },
-    });
+    const response = new Response(stream);
     return response
   }
 `;
@@ -143,10 +137,9 @@ function transformServerEntry(
 
   const output = source
     .replace(/#metaName/g, metaName)
-    .replace(/#render/g, mode === 'string' ? 'renderString' : 'renderStreaming')
     .replace(
-      /#headers/g,
-      mode === 'string' ? '' : `'transfer-encoding': 'chunked',`,
+      /#render/g,
+      mode === 'string' ? 'renderString' : 'renderStreaming',
     );
 
   return output;

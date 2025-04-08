@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
-import type { IncomingMessage, ServerResponse } from 'http';
 import { Readable } from 'stream';
+import type { NodeRequest, NodeResponse } from '@modern-js/types';
 import httpMocks from 'node-mocks-http';
 
 export type Options = {
@@ -13,7 +13,7 @@ export type Options = {
 };
 
 export const compile =
-  (requestHandler: (req: IncomingMessage, res: ServerResponse) => void) =>
+  (requestHandler: (req: NodeRequest, res: NodeResponse) => void) =>
   (options: Options, extend = {}): Promise<string> =>
     new Promise((resolve, reject) => {
       const req = httpMocks.createRequest({

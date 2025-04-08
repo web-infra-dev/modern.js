@@ -1,4 +1,3 @@
-import type { IncomingMessage } from 'http';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import type {
   CacheControl,
@@ -6,6 +5,7 @@ import type {
   CacheOptionProvider,
   Container,
 } from '@modern-js/types';
+import type { NodeRequest } from '@modern-js/types/server';
 import { X_RENDER_CACHE } from '../../constants';
 import type {
   RequestHandler,
@@ -139,7 +139,7 @@ type MaybeAsync<T> = Promise<T> | T;
 export function matchCacheControl(
   cacheOption?: CacheOption,
   // TODO: remove nodeReq
-  req?: IncomingMessage,
+  req?: NodeRequest,
 ): MaybeAsync<CacheControl | undefined | false> {
   if (!cacheOption || !req) {
     return undefined;

@@ -1,5 +1,6 @@
-import assert from 'assert';
-import { type Server, request } from 'http';
+import assert from 'node:assert';
+import { type Server, request } from 'node:http';
+import type { Http2SecureServer } from 'node:http2';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
   type ProdServerOptions,
@@ -44,7 +45,7 @@ process.on('message', async (chunk: string) => {
     plugins: ServerPlugin[];
   } = context;
 
-  let nodeServer: Server | null = null;
+  let nodeServer: Server | Http2SecureServer | null = null;
   try {
     const { server: serverConfig } = options;
 
