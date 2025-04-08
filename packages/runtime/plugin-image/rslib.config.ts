@@ -1,16 +1,12 @@
-import { URLSearchParams } from 'url';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { defineConfig } from '@rslib/core';
-import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 import { createDefines } from './define.config';
 
 export default defineConfig({
   source: {
     entry: { index: ['./src/**', '!**/*.stories.*', '!**/*.test.*'] },
     tsconfigPath: './tsconfig.build.json',
-    define: {
-      ...createDefines(),
-    },
+    define: { ...createDefines() },
   },
   output: {
     target: 'web',

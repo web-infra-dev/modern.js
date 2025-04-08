@@ -2420,9 +2420,6 @@ importers:
       storybook-react-rsbuild:
         specifier: ^1.0.0
         version: 1.0.1(@rsbuild/core@1.3.4)(@rspack/core@1.3.2(@swc/helpers@0.5.15))(@storybook/test@8.6.12(storybook@8.6.12(bufferutil@4.0.8)(prettier@2.8.8)(utf-8-validate@5.0.10)))(@types/react@19.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(rollup@4.34.8)(storybook@8.6.12(bufferutil@4.0.8)(prettier@2.8.8)(utf-8-validate@5.0.10))(typescript@5.8.3)(webpack-sources@3.2.3)(webpack@5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.15))(esbuild@0.19.2))
-      ts-checker-rspack-plugin:
-        specifier: ^1.1.1
-        version: 1.1.1(@rspack/core@1.3.2(@swc/helpers@0.5.15))(typescript@5.8.3)
       typescript:
         specifier: ^5
         version: 5.8.3

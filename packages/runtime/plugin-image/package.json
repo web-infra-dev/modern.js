@@ -79,7 +79,6 @@
     "storybook": "^8.6.4",
     "storybook-addon-rslib": "^1.0.0",
     "storybook-react-rsbuild": "^1.0.0",
-    "ts-checker-rspack-plugin": "^1.1.1",
     "typescript": "^5"
   },
   "peerDependencies": {
