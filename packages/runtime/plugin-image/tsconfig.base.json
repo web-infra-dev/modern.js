@@ -15,11 +15,8 @@
     "paths": {
       "@/*": ["*"],
       "@vitest/expect": ["../node_modules/@vitest/expect"],
-      "react": ["../node_modules/@types/react", "../node_modules/react"],
-      "react-dom": [
-        "../node_modules/@types/react-dom",
-        "../node_modules/react-dom"
-      ]
+      "react": ["../node_modules/@types/react"],
+      "react-dom": ["../node_modules/@types/react-dom"]
     }
   }
 }

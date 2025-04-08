@@ -7,6 +7,7 @@ import { createDefines } from './define.config';
 export default defineConfig({
   source: {
     entry: { index: ['./src/**', '!**/*.stories.*', '!**/*.test.*'] },
+    tsconfigPath: './tsconfig.build.json',
     define: {
       ...createDefines(),
     },
@@ -16,21 +17,12 @@ export default defineConfig({
     distPath: { root: 'dist' },
   },
   lib: [
-    { format: 'esm', bundle: false },
+    { format: 'esm', bundle: false, dts: true },
     { format: 'cjs', bundle: false },
   ],
   plugins: [pluginReact()],
   tools: {
-    rspack(config, { appendPlugins }) {
-      appendPlugins(
-        new TsCheckerRspackPlugin({
-          typescript: {
-            build: true,
-            mode: 'write-dts',
-          },
-        }),
-      );
-
+    rspack(config) {
       config.module ||= {};
       config.module.rules ||= [];
       config.module.rules.push({
