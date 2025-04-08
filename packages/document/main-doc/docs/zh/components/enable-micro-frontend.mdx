@@ -1,23 +1,30 @@
-```js title="modern.config.ts"
+```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   runtime: {
     router: true,
-    masterApp: {
-      apps: [{
-        name: 'Table',
-        entry: 'http://localhost:8081',
-        // activeWhen: '/table'
-      }, {
-        name: 'Dashboard',
-        entry: 'http://localhost:8082'
-        // activeWhen: '/dashboard'
-      }]
-    },
   },
   plugins: [appTools(), garfishPlugin()],
 });
 
+```
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  masterApp: {
+    apps: [{
+      name: 'Table',
+      entry: 'http://localhost:8081',
+      // activeWhen: '/table'
+    }, {
+      name: 'Dashboard',
+      entry: 'http://localhost:8082'
+      // activeWhen: '/dashboard'
+    }]
+  },
+});
 ```

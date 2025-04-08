@@ -1,0 +1,27 @@
+:::warning
+从 `MAJOR_VERSION.67.0` 起，Modern.js 不再默认提供 Reduck 状态管理能力。如果需要使用 Reduck，您需要安装并注册 state 插件。
+
+**安装步骤**
+
+1. 安装 `@modern-js/plugin-state` 依赖：
+
+```bash
+pnpm add @modern-js/plugin-state
+```
+
+2. 注册 state 插件：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { statePlugin } from '@modern-js/plugin-state';
+
+export default defineConfig({
+  ...,
+  plugins: [
+    ...,
+    statePlugin(),
+  ],
+});
+```
+
+:::

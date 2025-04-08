@@ -1,0 +1,27 @@
+:::warning
+Starting from `MAJOR_VERSION.67.0`, Modern.js no longer provides Reduck state management capabilities by default. If you need to use Reduck, you must install and register the state plugin.
+
+**Installation Steps**
+
+1. Install the `@modern-js/plugin-state` dependency:
+
+```bash
+pnpm add @modern-js/plugin-state
+```
+
+2. Register the state plugin:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { statePlugin } from '@modern-js/plugin-state';
+
+export default defineConfig({
+  ...,
+  plugins: [
+    ...,
+    statePlugin(),
+  ],
+});
+```
+
+:::

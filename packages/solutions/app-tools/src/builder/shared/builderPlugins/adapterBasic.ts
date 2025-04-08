@@ -1,8 +1,12 @@
 import path from 'path';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
+import type { Bundler } from '../../../types';
+import type { BuilderOptions } from '../types';
 
-export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
+export const builderPluginAdapterBasic = <B extends Bundler>(
+  options: BuilderOptions<B>,
+): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',
 
   setup(api) {
@@ -25,11 +29,20 @@ export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
           .loader(require.resolve('../loaders/serverModuleLoader'));
       }
 
+      const { appContext } = options;
+      const { metaName } = appContext;
+
       // compat modern-js v1
       // this helps symlinked packages to resolve packages correctly, such as `react/jsx-runtime`.
       chain.resolve.modules
         .add('node_modules')
         .add(path.join(api.context.rootPath, 'node_modules'));
+
+      chain.watchOptions({
+        ignored: [
+          `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|.git)[\\\\/]`,
+        ],
+      });
     });
   },
 });

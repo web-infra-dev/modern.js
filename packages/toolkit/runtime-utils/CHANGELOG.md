@@ -1,5 +1,12 @@
 # @modern-js/runtime-utils
 
+## 2.67.0
+
+### Patch Changes
+
+- @modern-js/types@2.67.0
+- @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes

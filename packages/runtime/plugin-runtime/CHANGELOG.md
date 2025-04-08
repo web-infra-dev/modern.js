@@ -1,5 +1,27 @@
 # @modern-js/runtime
 
+## 2.67.0
+
+### Minor Changes
+
+- fb9fc66: feat: Centralize runtime plugin configuration into `src/modern.runtime.ts`
+
+  feat: runtime 插件配置集中到 `src/modern.runtime.ts` 中
+
+### Patch Changes
+
+- fe46fdc: fix: global context appInit and appConfig not define error
+
+  fix: 修复 global context 文件 appInit 和 appConfig 未定义报错
+
+  - @modern-js/plugin-data-loader@2.67.0
+  - @modern-js/render@2.67.0
+  - @modern-js/plugin@2.67.0
+  - @modern-js/plugin-v2@2.67.0
+  - @modern-js/runtime-utils@2.67.0
+  - @modern-js/types@2.67.0
+  - @modern-js/utils@2.67.0
+
 ## 2.66.0
 
 ### Patch Changes

@@ -1,35 +1,37 @@
----
-sidebar_position: 0
----
+# Configuration
 
-# Configuring Modern.js
+There are three types of configurations in Modern.js: Compile configuration, Runtime configuration, and Server Runtime configuration.
 
-There are two configurations in the Modern.js, a compile configuration and a server runtime configuration.
+**Compile configuration** can be configured in two locations:
 
-The compile configuration can be configured in two places:
-
-- `modern.config.(ts|js|mjs)` file in the root path
-- `package.json` file
+- The `modern.config.(ts|js|mjs)` file at the root path
+- The `package.json` file
 
 :::info
-Configurations in both `package.json` and `modern.config.ts` file are not supported for the same configuration. Configuration in `modern.config.ts` is recommended.
+Modern.js does not support configuring the same configuration item in both `package.json` and `modern.config.ts` simultaneously. It is recommended to configure it in `modern.config.ts`. If Modern.js detects conflicts due to duplicate configurations, it will throw a warning.
 :::
 
-Server runtime configuration can be configured in the `modern.server-runtime.config.(ts|js|mjs)` file in the root path.
+**Runtime configuration** can be configured in the `src/modern.runtime.(ts|js|mjs)` file.
 
-## Configure in the configuration file
+{/* TODO server 配置文件更新 */}
+**Server Runtime configuration** can be configured in the `modern.server-runtime.config.(ts|js|mjs)` file in the root path.
 
-Modern.js configuration files are defined in the root path of the project, and supports `.ts`, `.js` and `.mjs` formats:
+
+## Compile Configuration
+
+### Configuring in Configuration Files
+
+The configuration files for Modern.js are defined in the root directory of the project and support `.ts`, `.js`, and `.mjs` formats:
 
 - `modern.config.ts`
 - `modern.config.js`
 - `modern.config.mjs`
 
-### modern.config.ts (recommended)
+#### modern.config.ts (Recommended)
 
-We recommend using configuration files in `.ts` format, which provides friendly TypeScript type hints to help you avoid configuration errors.
+We recommend using the `.ts` format for configuration files as it provides friendly TypeScript type hints, helping you avoid errors in the configuration.
 
-Import the `defineConfig` tool function from `@modern-js/app-tools`, which will help you with configuration type derivation and type completion:
+Import the `defineConfig` utility function from `@modern-js/app-tools`, which will assist you with type inference and type completion for the configuration:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -43,18 +45,18 @@ export default defineConfig({
 });
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `<'rspack'>` generic for `defineConfig`:
 
 ```diff title=modern.config.ts
 - export default defineConfig({
 + export default defineConfig<'rspack'>({
-   //...
+  // ...
 });
 ```
 
-### modern.config.js
+#### modern.config.js
 
-If you are developing a non-TypeScript project, you can use the configuration file in `.js` format:
+If you are developing a non-TypeScript project, you can use the `.js` format for the configuration file:
 
 ```js title="modern.config.js"
 export default {
@@ -66,7 +68,7 @@ export default {
 };
 ```
 
-You can also configure depending on your environment with `process.env.NODE_ENV`:
+You can also configure different settings based on the environment using `process.env.NODE_ENV`:
 
 ```js title="modern.config.js"
 export default {
@@ -76,9 +78,9 @@ export default {
 };
 ```
 
-### Export Configuration Function
+#### Exporting Configuration Functions
 
-Modern.js supports exporting a function in the configuration file, and you can dynamically compute the configuration in the function and return it to Modern.js.
+Modern.js supports exporting a function in the configuration file, where you can dynamically compute the configuration and return it to Modern.js.
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -92,16 +94,16 @@ export default defineConfig(({ env, command }) => ({
 }));
 ```
 
-This function takes the following parameters:
+This function accepts the following parameters:
 
-- `env`: same as the value of `process.env.NODE_ENV`.
+- `env`: Corresponds to the value of `process.env.NODE_ENV`.
   - When running `modern dev` or `modern start`, the value of `env` is `development`.
   - When running `modern build` or `modern serve`, the value of `env` is `production`.
-- `command`: corresponds to the currently running command, such as `dev`, `start`, `build`, `serve`.
+- `command`: Corresponds to the current command being run, such as `dev`, `start`, `build`, or `serve`.
 
-### Export Async Function
+#### Exporting Asynchronous Functions
 
-Modern.js also supports exporting an asynchronous function in the configuration file, you can perform some asynchronous operations in the function:
+Modern.js also supports exporting an asynchronous function in the configuration file, allowing you to perform some asynchronous operations:
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -117,11 +119,11 @@ export default defineConfig(async ({ env, command }) => {
 });
 ```
 
-### Specify the Configuration File
+#### Specifying Configuration Files
 
-You can specify the name of the configuration file using the `--config` option.
+The Modern.js command line supports specifying the name of the configuration file using the `--config` option.
 
-For example, if you need to use the `modern.prod.config.js` file when running `build`, you can add the following scripts to `package.json`:
+For example, if you need to use the `modern.prod.config.js` file when executing the `build` command, you can add the following configuration in `package.json`:
 
 ```json title="package.json"
 {
@@ -132,15 +134,15 @@ For example, if you need to use the `modern.prod.config.js` file when running `b
 }
 ```
 
-You can also abbreviate the `--config` option to `-c`:
+You can also abbreviate the `--config` option as `-c`:
 
 ```bash
 $ modern build -c modern.prod.config.js
 ```
 
-## Configure in package.json (not recommended)
+### Configuring in package.json (Not Recommended)
 
-In addition to configuration files, configuration options can also be set the `modernConfig` field in the `package.json`, such as:
+In addition to configuration files, you can also set configuration items under the `modernConfig` field in `package.json`, such as:
 
 ```json title="package.json"
 {
@@ -154,20 +156,20 @@ In addition to configuration files, configuration options can also be set the `m
 }
 ```
 
-Due to the limitation of the JSON file format, only simple types such as numbers, strings, boolean values, arrays, etc. can be defined in `package.json`. When we need to set the value of the function type, it is recommended to do so in the Modern.js configuration file.
+Due to the limitations of the JSON file format, only simple types such as numbers, strings, booleans, and arrays can be defined in `package.json`. When we need to set function-type values, it is recommended to do so in the Modern.js configuration file.
 
-### Note
+#### Notes
 
-- It is not recommended to use both `package.json` and `modern.config.t[j]s` for configuration. If both are used and a configuration conflict occurs, Modern.js will prompt error on the command line.
-- `@modern-js/runtime` exports the [defineConfig](/apis/app/runtime/app/define-config) API of the same name, please pay attention to the distinction.
+- It is not recommended to use both `package.json` and `modern.config.js` for configuration simultaneously. If both are used and conflicts arise, Modern.js will prompt an error in the command line.
+- The `@modern-js/runtime` exports a similarly named [defineConfig](/apis/app/runtime/app/define-config) API, so please be careful to distinguish between them.
 
-## Debug configuration locally
+### Local Debugging Configuration
 
-To facilitate local debugging configuration locally, Modern.js supports creating `modern.config.local.(ts|js|mjs)` files in the root directory of the project to override `modern.config.(ts|js|mjs)` configurations.
+To facilitate local debugging of configurations, Modern.js supports creating a `modern.config.local.(ts|js|mjs)` file in the root directory to override the configuration options in `modern.config.(ts|js|mjs)`.
 
-### Example
+#### Example
 
-For example, the port number is configured as `3000` in `modern.config.ts`:
+For example, if the `modern.config.ts` file in your project is configured with a port number of `3000`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -179,7 +181,7 @@ export default defineConfig({
 });
 ```
 
-If you need to change the port number to `3001` to debugging locally, but you don't want to change the `modern.config.ts` file of the current project, you can create a `modern.config.local.ts` file and add the following configuration:
+If you need to change the port number to `3001` for local debugging but do not want to modify the current project's `modern.config.ts` file, you can create a `modern.config.local.ts` file and add the following configuration:
 
 ```ts title="modern.config.local.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -191,52 +193,52 @@ export default defineConfig({
 });
 ```
 
-The configuration in the `modern.config.local.ts` file will be deep merged with the configuration in `modern.config.ts` and override the configurations in `modern.config.ts`, so `server.port` will be is overridden by `3001`.
+The configuration in the `modern.config.local.ts` file will be deeply merged with the configuration in `modern.config.ts`, overriding the options in `modern.config.ts`, so `server.port` will be changed to `3001`.
 
-### Note
+#### Notes
 
 When using `modern.config.local.ts`, please note the following:
 
-- The `modern.config.local.ts` file is only loaded when running `modern dev` or `modern start` commands, and will not be loaded when running `modern build`.
-- The `modern.config.local.ts` file overrides not only over `modern.config.ts`, but also the `modernConfig` field in `package.json`.
-- As `modern.config.local.ts` is only used for local debugging, it is not recommended to commit it to the repository, please ensure that the project's `.gitignore` file contains `modern.config.local.ts`.
+- The `modern.config.local.ts` file will only be loaded when executing the `modern dev` or `modern start` commands and will not be loaded during `modern build`.
+- The priority of the `modern.config.local.ts` file is higher than both `modern.config.ts` and the `modernConfig` field in `package.json`.
+- Since `modern.config.local.ts` is only used for local debugging, it is not recommended to commit it to the code repository. Ensure that the project's `.gitignore` file includes `modern.config.local.ts` and similar files.
 
-```bash title=".gitingore"
+```bash title=".gitignore"
 modern.config.local.*
 ```
 
-## Merge Multiple Configurations
+### Merging Multiple Configurations
 
-In some cases, you may need to merge multiple configurations into one configuration. You can use the `mergeConfig` util to merge multiple configurations.
+In some cases, you may need to merge multiple configurations into one. You can use the `mergeConfig` utility function to merge multiple configurations.
 
-The `mergeConfig` function accepts an array as a parameter, and each item in the array is a configuration object. `mergeConfig` will deeply merge each configuration object in the array, automatically merge multiple functions into an array, and returns a merged configuration object.
+The `mergeConfig` function accepts an array as a parameter, where each item in the array is a configuration object. `mergeConfig` will deeply merge each configuration object in the array, automatically merging multiple function items into an array, and finally returning a merged configuration object.
 
-### Example
+#### Example
 
 ```ts title="modern.config.ts"
 import { mergeConfig } from '@modern-js/app-tools';
 
 const config1 = {
-   dev: {
-     port: 3000,
-   },
-   tools: {
-     postcss: () => console. log('config1');
-   },
+  dev: {
+    port: 3000,
+  },
+  tools: {
+    postcss: () => console.log('config1');
+  },
 };
 const config2 = {
-   dev: {
-     port: 3001,
-   },
-   tools: {
-     postcss: () => console. log('config2');
-   },
+  dev: {
+    port: 3001,
+  },
+  tools: {
+    postcss: () => console.log('config2');
+  },
 };
 
 const mergedConfig = mergeConfig([config1, config2]);
 ```
 
-In the above example, the merged configuration object is:
+In the above example, the merged configuration object will be:
 
 ```ts
 const mergedConfig = {
@@ -249,9 +251,9 @@ const mergedConfig = {
 };
 ```
 
-## Configuration Type
+### Configuration Type Definitions
 
-Modern.js exports `AppUserConfig` type, which corresponds to the type of Modern.js configuration object:
+Modern.js exports the `AppUserConfig` type, which corresponds to the type of the Modern.js configuration object:
 
 ```ts title="modern.config.ts"
 import type { AppUserConfig } from '@modern-js/app-tools';
@@ -263,7 +265,7 @@ const config: AppUserConfig = {
 };
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `<'rspack'>` generic for `AppUserConfig`:
 
 ```ts title="modern.config.ts"
 import type { AppUserConfig } from '@modern-js/app-tools';
@@ -274,3 +276,25 @@ const config: AppUserConfig<'rspack'> = {
   },
 };
 ```
+
+## Runtime Configuration
+
+For detailed information on runtime configuration, please refer to the [Introduction to Runtime Configuration](/configure/app/runtime/0-intro.html).
+
+:::tip
+If the current Runtime configuration needs to be used both at compile time and runtime, please add the relevant configuration parameters at the plugin registration location.
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { statePlugin } from '@modern-js/plugin-state';
+
+export default defineConfig({
+  plugins: [
+    statePlugin({
+      /** Add parameters here */
+    }),
+  ],
+});
+```
+
+:::

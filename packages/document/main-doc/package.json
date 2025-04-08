@@ -21,7 +21,7 @@
     "build": "rspress build",
     "preview": "rspress preview"
   },
-  "version": "2.66.0",
+  "version": "2.67.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
@@ -31,7 +31,7 @@
     "mermaid": "^11.4.1"
   },
   "devDependencies": {
-    "@rspress/shared": "1.42.0",
+    "@rspress/shared": "1.43.10",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16",
     "classnames": "^2",
@@ -39,7 +39,7 @@
     "fs-extra": "^10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rspress": "1.42.0",
+    "rspress": "1.43.10",
     "ts-node": "^10.9.1",
     "typescript": "^5"
   }

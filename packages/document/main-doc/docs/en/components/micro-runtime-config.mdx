@@ -1,18 +1,17 @@
-```js title="src/App.tsx"
-import { defineConfig } from '@modern-js/runtime';
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
-defineConfig(App, {
+export default defineRuntimeConfig({
   masterApp: {
-    apps: [
-      {
-        name: 'DashBoard',
-        entry: 'http://127.0.0.1:8081/',
-      },
-      {
-        name: 'TableList',
-        entry: 'http://localhost:8082',
-      },
-    ],
+    apps: [{
+      name: 'Table',
+      entry: 'http://localhost:8081',
+      // activeWhen: '/table'
+    }, {
+      name: 'Dashboard',
+      entry: 'http://localhost:8082'
+      // activeWhen: '/dashboard'
+    }]
   },
 });
 ```

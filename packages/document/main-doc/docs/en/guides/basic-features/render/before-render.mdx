@@ -1,0 +1,115 @@
+# Render Preprocessing
+
+In certain scenarios, applications need to perform preprocessing operations before rendering. Modern.js recommends using **[Runtime Plugins](/plugin/introduction.html#runtime-plugins)** to implement this type of logic.
+
+## Defining a Runtime Plugin
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const myRuntimePlugin = (): RuntimePluginFuture => ({
+  name: 'my-runtime-plugin',
+  setup: (api) => {
+    api.onBeforeRender((context) => {
+      // Logic to execute before rendering
+      console.log('Before rendering:', context);
+    });
+  },
+});
+
+export default myRuntimePlugin;
+```
+
+## Registering the Plugin
+
+Register the plugin in your project's `src/modern.runtime.ts` file:
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import myRuntimePlugin from './plugins/myRuntimePlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myRuntimePlugin()],
+});
+```
+
+## Use Case -- Global Data Injection
+
+Through the `context` parameter of the `onBeforeRender` hook, you can inject global data into your application. Application components can access this data using the `useRuntimeContext` Hook.
+
+:::info
+
+This feature is particularly useful in the following scenarios:
+* Applications requiring page-level preliminary data
+* Custom data injection workflows
+* Framework migration scenarios (e.g., migrating from Next.js)
+
+:::
+
+**Defining a Data Injection Plugin**
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const dataInjectionPlugin = (): RuntimePluginFuture => ({
+  name: 'data-injection-plugin',
+  setup: api => {
+    api.onBeforeRender(context => {
+      // Inject data into the context
+      context.message = 'Hello World';
+    });
+  },
+});
+
+export default dataInjectionPlugin;
+```
+
+**Using Injected Data in Components**
+
+```tsx
+import { useRuntimeContext } from '@modern-js/runtime';
+
+export default function MyComponent() {
+  const context = useRuntimeContext();
+  const { message } = context;
+
+  return <div>{message}</div>;
+}
+```
+
+**Using with SSR**
+
+In SSR scenarios, the browser can access data injected via `onBeforeRender` during server-side rendering. Developers can decide whether to re-fetch data on the browser side to override server data based on their requirements.
+
+```ts
+import type { RuntimePluginFuture } from '@modern-js/runtime';
+
+const dataInjectionPlugin = (): RuntimePluginFuture => ({
+  name: 'data-injection-plugin',
+  setup: api => {
+    api.onBeforeRender(context => {
+      if (process.env.MODERN_TARGET === 'node') {
+        // Set data during server-side rendering
+        context.message = 'Hello World By Server';
+      } else {
+        // Check data during client-side rendering
+        if (!context.message) {
+          // If server data is not available, set client data
+          context.message = 'Hello World By Client';
+        }
+      }
+    });
+  },
+});
+
+export default dataInjectionPlugin;
+```
+
+## Compatibility Notes
+
+In earlier versions of Modern.js, it was possible to add render preprocessing logic through the `init` hook in `routes/layout.tsx` and the `App.init` method. These approaches are still **supported**, but we **strongly recommend** implementing with Runtime plugins instead.
+
+:::warning
+
+In future versions, the `init` hook in `routes/layout.tsx` and the `App.init` method will be gradually **deprecated**. We recommend migrating to the Runtime plugin approach as soon as possible.
+:::
