@@ -1285,6 +1285,8 @@ exports[`uni-builder environment compat > should generator environment config co
           "include": [
             /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           ],
+          "injectEntry": true,
+          "injectLoader": true,
           "overlay": false,
         },
       },
