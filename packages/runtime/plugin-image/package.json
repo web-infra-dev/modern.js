@@ -82,6 +82,7 @@
     "react": "^19.0.0",
     "jiti": "1.21.7",
     "sharp": "^0.33.5",
+    "ipx": "^3.0.3",
     "storybook": "^8.6.4",
     "storybook-addon-rslib": "^1.0.0",
     "storybook-react-rsbuild": "^1.0.0",
@@ -90,6 +91,11 @@
   "peerDependencies": {
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
-    "sharp": ">=0.33.5"
+    "sharp": ">=0.33.5",
+    "ipx": ">=3.0.3"
+  },
+  "peerDependenciesMeta": {
+    "sharp": { "optional": true },
+    "ipx": { "optional": true }
   }
 }
