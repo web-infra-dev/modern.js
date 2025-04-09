@@ -14,7 +14,7 @@ export const builderPluginAdapterCopy = <B extends Bundler>(
     api.modifyBundlerChain((chain, { CHAIN_ID }) => {
       // apply copy plugin
       if (chain.plugins.has(CHAIN_ID.PLUGIN.COPY)) {
-        const defaultCopyPattern = createPublicPattern(
+        const defaultCopyPattern = createPublicPattern<B>(
           appContext,
           modernConfig,
           chain,

@@ -14,10 +14,10 @@ const info = (file: { sourceFilename: string }) => ({
 
 export function createPublicPattern<B extends Bundler>(
   appContext: AppToolsContext<B>,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<B>,
   chain: RspackChain,
 ) {
-  const { publicDir } = createCopyInfo(appContext, config);
+  const { publicDir } = createCopyInfo<B>(appContext, config);
   return {
     info,
     from: '**/*',

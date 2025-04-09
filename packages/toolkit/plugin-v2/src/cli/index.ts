@@ -33,4 +33,11 @@ export {
   type RuntimePluginConfig,
   type ServerPluginConfig,
 } from './hooks';
-export { cli, createLoadedConfig, initAppDir, createCli, loadEnv } from './run';
+export {
+  cli,
+  createLoadedConfig,
+  initAppDir,
+  createCli,
+  loadEnv,
+  mergeConfig,
+} from './run';

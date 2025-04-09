@@ -1,4 +1,3 @@
-import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AsyncWaterfall,
   AsyncWorkflow,
@@ -22,6 +21,7 @@ import type {
   Stats,
   webpack,
 } from '@modern-js/uni-builder';
+import type { DevToolData, RegisterBuildPlatformResult } from '../types/utils';
 import type { Bundler } from './utils';
 
 export interface ImportSpecifier {

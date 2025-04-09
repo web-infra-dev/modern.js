@@ -1,4 +1,3 @@
-import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AppContext,
   AsyncHook,
@@ -21,6 +20,7 @@ import type {
 } from '@modern-js/types';
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
+import type { DevToolData, RegisterBuildPlatformResult } from '../types/utils';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { Bundler } from './utils';
 

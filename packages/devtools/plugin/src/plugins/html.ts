@@ -1,5 +1,4 @@
-import type { AppTools } from '@modern-js/app-tools';
-import type { UserConfig } from '@modern-js/core';
+import type { UserConfig } from '@modern-js/app-tools';
 import type { Plugin } from '../types';
 
 export const pluginHtml: Plugin = {
@@ -7,7 +6,7 @@ export const pluginHtml: Plugin = {
   async setup(api) {
     api.frameworkHooks.hook('config', async () => {
       const port = api.vars.http?.port;
-      const config: UserConfig<AppTools> = {
+      const config: UserConfig = {
         source: {
           preEntry: [require.resolve('../runtime')],
           globalVars: {

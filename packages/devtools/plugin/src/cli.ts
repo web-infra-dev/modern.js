@@ -124,7 +124,7 @@ export const devtoolsPlugin = (
         },
         async config() {
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
-          const configs: UserConfig<AppTools>[] =
+          const configs: UserConfig[] =
             await api.frameworkHooks.callHookParallel('config');
 
           const builderPlugin: RsbuildPlugin = {
@@ -181,7 +181,7 @@ export const devtoolsPlugin = (
             },
           };
           configs.push({ builderPlugins: [builderPlugin] });
-          return mergeConfig(configs) as unknown as UserConfig<AppTools>;
+          return mergeConfig(configs) as unknown as UserConfig;
         },
       };
     },

@@ -59,7 +59,9 @@ export function initSourceConfig(
   config.source.include = createBuilderInclude(config, appContext);
 
   if (bundler === 'webpack') {
-    config.source.moduleScopes = createBuilderModuleScope(config);
+    config.source.moduleScopes = createBuilderModuleScope(
+      config as unknown as AppNormalizedConfig<'webpack'>,
+    );
   }
 }
 

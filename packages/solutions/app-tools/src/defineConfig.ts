@@ -1,12 +1,17 @@
-import type { UserConfigExport } from '@modern-js/core';
 import type { AppLegacyUserConfig, AppUserConfig } from './types';
 
 /**
  * This function helps you to autocomplete configuration types.
  * It accepts a direct config object, or a function that returns a config.
  */
+export type ConfigParams = {
+  env: string;
+  command: string;
+};
 export const defineConfig = <B extends 'rspack' | 'webpack' = 'webpack'>(
-  config: UserConfigExport<AppUserConfig<B>>,
+  config:
+    | AppUserConfig<B>
+    | ((env: ConfigParams) => AppUserConfig<B> | Promise<AppUserConfig<B>>),
 ) => config;
 
 /**

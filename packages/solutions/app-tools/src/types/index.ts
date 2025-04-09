@@ -1,4 +1,4 @@
-import type { NormalizedConfig, UserConfig } from '@modern-js/core';
+import type { AsyncSetup, PluginOptions } from '@modern-js/plugin';
 import type {
   CLIPlugin,
   CLIPluginExtends,
@@ -12,6 +12,7 @@ import type {
   AppToolsLegacyUserConfig,
 } from './legacyConfig';
 import type {
+  AppToolsContext,
   AppToolsExtendAPI,
   AppToolsExtendContext,
   AppToolsExtendHooks,
@@ -41,13 +42,6 @@ export type {
   RequestHandlerOptions,
   RequestHandler,
 } from '@modern-js/server-core';
-export type {
-  IAppContext,
-  PluginAPI,
-  CliPlugin,
-  NormalizedConfig,
-  UserConfig,
-} from '@modern-js/core';
 
 // 同时支持 plugin and plugin v2
 export type AppTools<B extends Bundler = 'webpack'> = Required<
@@ -70,19 +64,47 @@ export type LegacyAppTools = {
   normalizedConfig: AppToolsLegacyNormalizedConfig;
 };
 
+/** old plugins */
+export type CliPlugin<
+  Extends extends {
+    hooks?: ExtendHooks;
+    userConfig?: ExtendUserConfig;
+    normalizedConfig?: ExtendNormalizedConfig;
+  } = {},
+  ExtendHooks extends Record<string, any> = {},
+  ExtendUserConfig extends Record<string, any> = {},
+  ExtendNormalizedConfig extends Record<string, any> = {},
+> = PluginOptions<
+  BaseHooks<Extends>,
+  AsyncSetup<BaseHooks<Extends> & Extends['hooks'], BasePluginAPI<Extends>>,
+  Extends['hooks']
+>;
+
 // plugin v2
 export type CliPluginFuture<Extends extends CLIPluginExtends> =
   CLIPlugin<Extends>;
 
 export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
-  NormalizedConfig<AppTools<B>>;
-export type AppLegacyNormalizedConfig = NormalizedConfig<LegacyAppTools>;
+  AppToolsNormalizedConfig<AppToolsUserConfig<B>> & {
+    plugins?: CliPluginFuture<AppTools<B>>[];
+    autoLoadPlugins?: boolean;
+  };
+export type AppLegacyNormalizedConfig = AppToolsLegacyNormalizedConfig & {
+  plugins?: any[];
+  autoLoadPlugins?: boolean;
+};
 
-export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
-  AppTools<B>
->;
-export type AppLegacyUserConfig = UserConfig<LegacyAppTools>;
-
+export type AppUserConfig<B extends Bundler = 'webpack'> =
+  AppToolsUserConfig<B> & { plugins?: any[]; autoLoadPlugins?: boolean };
+export type AppLegacyUserConfig = AppToolsLegacyUserConfig & {
+  plugins?: any[];
+  autoLoadPlugins?: boolean;
+};
+export type UserConfig<B extends Bundler = 'webpack'> = AppUserConfig<B>;
+export type NormalizedConfig<B extends Bundler = 'webpack'> =
+  | AppNormalizedConfig<B>
+  | AppLegacyNormalizedConfig;
+export type IAppContext = AppToolsContext<'shared'>;
 export type AppToolsOptions = {
   /**
    * Specify which bundler to use for the build.

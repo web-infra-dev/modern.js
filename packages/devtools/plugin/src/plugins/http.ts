@@ -109,7 +109,7 @@ export const pluginHttp: Plugin = {
           ws: true,
         },
       } as Record<string, ProxyDetail>;
-      return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;
+      return { tools: { devServer: { proxy } } } as UserConfig;
     });
 
     api.hooks.hook('cleanup', () => {

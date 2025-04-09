@@ -117,7 +117,7 @@ export function getHookRunners(
       return { partials: params.partials };
     },
     commands: async (params: { program: Command }) => {
-      return hooks.addCommand.call(params);
+      return hooks.addCommand.call(params as any);
     },
     watchFiles: async () => {
       return hooks.addWatchFiles.call();

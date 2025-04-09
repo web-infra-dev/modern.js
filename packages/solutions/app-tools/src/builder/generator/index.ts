@@ -1,5 +1,6 @@
 import {
   type BundlerType,
+  type UniBuilderConfig,
   type UniBuilderInstance,
   createUniBuilder,
 } from '@modern-js/uni-builder';
@@ -43,7 +44,7 @@ export async function generateBuilder<B extends Bundler>(
     rscServerRuntimePath: `@${appContext.metaName}/runtime/rsc/server`,
     frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
-    config: builderConfig,
+    config: builderConfig as UniBuilderConfig,
   });
 
   await applyBuilderPlugins(builder, options);

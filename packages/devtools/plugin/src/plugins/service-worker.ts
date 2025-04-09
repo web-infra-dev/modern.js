@@ -1,5 +1,4 @@
-import type { AppTools } from '@modern-js/app-tools';
-import type { UserConfig } from '@modern-js/core';
+import type { UserConfig } from '@modern-js/app-tools';
 import type { Plugin } from '../types';
 
 export const pluginServiceWorker: Plugin = {
@@ -19,7 +18,7 @@ export const pluginServiceWorker: Plugin = {
         '@modern-js/devtools-client/sw-proxy',
       );
 
-      const config: UserConfig<AppTools> = {
+      const config: UserConfig = {
         output: {
           copy: [{ from: swProxyEntry, to: 'public' }],
         },

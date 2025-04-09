@@ -30,12 +30,20 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     api.modifyRsbuildConfig(config => {
       return mergeRsbuildConfig(config, {
         html: {
-          inject: isStreamingSSR(normalizedConfig) ? 'body' : undefined,
+          inject: isStreamingSSR(
+            normalizedConfig as AppNormalizedConfig<'shared'>,
+          )
+            ? 'body'
+            : undefined,
         },
         server: {
           // the http-compression can't handler stream http.
           // so we disable compress when user use stream ssr temporarily.
-          compress: isStreamingSSR(normalizedConfig) ? false : undefined,
+          compress: isStreamingSSR(
+            normalizedConfig as AppNormalizedConfig<'shared'>,
+          )
+            ? false
+            : undefined,
         },
       });
     });
@@ -68,7 +76,8 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
-            appNormalizedConfig: normalizedConfig,
+            appNormalizedConfig:
+              normalizedConfig as AppNormalizedConfig<'shared'>,
           });
         }
 
@@ -80,7 +89,8 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         if (!isHtmlDisabled(builderConfig, target)) {
           applyAsyncChunkHtmlPlugin({
             chain,
-            modernConfig: options.normalizedConfig,
+            modernConfig:
+              options.normalizedConfig as AppNormalizedConfig<'shared'>,
             HtmlBundlerPlugin,
           });
         }

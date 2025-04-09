@@ -25,7 +25,7 @@ import type {
 
 export type BuilderContext = RsbuildContext;
 
-export type FrameworkConfig = UserConfig<AppTools>;
+export type FrameworkConfig = UserConfig;
 
 export type TransformedFrameworkConfig = NormalizedConfig<AppTools>;
 
