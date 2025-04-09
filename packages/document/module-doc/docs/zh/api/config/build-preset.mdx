@@ -112,8 +112,6 @@ export const buildConfig = [
 
 在类 [NPM](https://www.npmjs.com/) 包管理器下使用的 组件（库）通用模式。包含 `esm` 和 `cjs` 两种 Bundleless 产物（便于 _[Tree shaking](https://developer.mozilla.org/zh-CN/docs/Glossary/Tree_shaking)_ 优化），以及包含一份类型文件。
 
-对于源码中包含的样式文件，产物中提供样式的编译产物和样式的源文件。
-
 ```json title="package.json"
 {
     "main": "./dist/lib/index.js", // bundleless type
