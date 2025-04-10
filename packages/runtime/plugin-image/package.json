@@ -60,7 +60,8 @@
     "image-size": "^2.0.1",
     "p-memoize": "^7.1.1",
     "rslog": "^1.1.0",
-    "type-fest": "^4.37.0"
+    "type-fest": "^4.37.0",
+    "ufo": "^1.3.0"
   },
   "devDependencies": {
     "@rsbuild/core": "1.3.4",

@@ -2353,6 +2353,9 @@ importers:
       type-fest:
         specifier: ^4.37.0
         version: 4.39.1
+      ufo:
+        specifier: ^1.3.0
+        version: 1.5.4
     devDependencies:
       '@rsbuild/core':
         specifier: 1.3.4

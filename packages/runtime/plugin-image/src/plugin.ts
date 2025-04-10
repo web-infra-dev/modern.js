@@ -1,6 +1,8 @@
-import type { RequestHandler, RsbuildPlugin } from '@rsbuild/core';
-import type { IPX, IPXOptions, createIPXNodeServer } from 'ipx';
+import type { RsbuildPlugin } from '@rsbuild/core';
+import type { IPXOptions } from 'ipx';
+import { withoutBase } from 'ufo';
 import { logger } from './logger';
+import { DEFAULT_IPX_BASENAME } from './shared/constants';
 import { invariant, isModuleNotFoundError } from './shared/utils';
 import type { ImageSerializableContext } from './types/image';
 
@@ -21,6 +23,14 @@ class IPXNotFoundError extends Error {
   }
 }
 
+class LoaderOrIPXRequiredError extends Error {
+  constructor() {
+    super(
+      'You must enable the builtin `ipx` middleware or configure a custom `loader` file to use the image plugin.',
+    );
+  }
+}
+
 async function loadIPXModule() {
   try {
     return await import('ipx');
@@ -36,48 +46,77 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
     async setup(api) {
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
-        const ipxModule = options?.ipx && (await loadIPXModule());
+        if (!options?.ipx && !options?.loader)
+          throw new LoaderOrIPXRequiredError();
+
+        let serializable: ImageSerializableContext | undefined;
+
+        if (options) {
+          const { densities, loader, loading, placeholder, quality } = options;
+          serializable = { densities, loader, loading, placeholder, quality };
+        }
 
         return mergeRsbuildConfig(config, {
           source: {
             define: {
-              __INTERNAL_MODERNJS_IMAGE_OPTIONS__: JSON.stringify(options),
+              __INTERNAL_MODERNJS_IMAGE_OPTIONS__: JSON.stringify(serializable),
             },
           },
           resolve: {
             alias: aliases => {
               if (options?.loader) {
                 aliases.__INTERNAL_MODERNJS_IMAGE_LOADER__ = options.loader;
+              } else {
+                aliases.__INTERNAL_MODERNJS_IMAGE_LOADER__ = require.resolve(
+                  './runtime/image/loader',
+                );
               }
               return aliases;
+            },
+          },
+        });
+      });
+
+      // Setup the IPX middleware.
+      api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
+        if (!options?.ipx) return;
+        const { createIPX, createIPXNodeServer, ipxFSStorage } =
+          await loadIPXModule();
+        const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = options.ipx;
+
+        return mergeRsbuildConfig(config, {
+          source: {
+            define: {
+              __INTERNAL_MODERNJS_IMAGE_BASENAME__: JSON.stringify(basename),
             },
           },
           dev: {
             setupMiddlewares: [
               middlewares => {
-                if (!options?.ipx || !ipxModule) return;
                 const { distPath } = api.context;
                 invariant(distPath, 'distPath is required');
-                const { createIPX, createIPXNodeServer, ipxFSStorage } =
-                  ipxModule;
-                const {
-                  storage = ipxFSStorage({ dir: distPath }),
-                  basename = '/_modern_js/image',
-                  ...rest
-                } = options.ipx;
+
+                const { storage = ipxFSStorage({ dir: distPath }), ...rest } =
+                  ipxOptions;
                 const ipx = createIPX({ storage, ...rest });
                 logger.debug(`Created IPX with local storage from ${distPath}`);
                 logger.debug(`Created IPX with basename ${basename}`);
+
                 const originalMiddleware = createIPXNodeServer(ipx);
-                middlewares.push((req, res, next) => {
+                middlewares.push((req, res, _next) => {
+                  const next = () => {
+                    logger.debug(`IPX middleware incoming request: ${req.url}`);
+                    _next();
+                  };
+                  if (!req.url) return next();
+                  const newUrl = withoutBase(req.url, basename);
+                  if (newUrl === req.url) return next();
+                  req.url = newUrl;
+
                   logger.debug(
-                    `Incoming request to the IPX middleware: ${req.url}`,
+                    `IPX middleware incoming request (accepted): ${req.url}`,
                   );
-                  if (req.url?.startsWith(basename)) {
-                    req.url = req.url.slice(basename.length);
-                    return originalMiddleware(req, res);
-                  }
-                  return next();
+                  return originalMiddleware(req, res);
                 });
               },
             ],

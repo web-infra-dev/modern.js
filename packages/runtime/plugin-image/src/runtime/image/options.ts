@@ -1,5 +1,5 @@
 import type { ImageOptions, ImageResource } from '@/types/image';
-import { defaultImageLoader } from './loader';
+import { ipxImageLoader } from './loader';
 
 export function resolveImageOptions(options: ImageOptions) {
   let src: string;
@@ -64,7 +64,7 @@ export function resolveImageOptions(options: ImageOptions) {
 
   const resolved = {
     densities: [1, 2],
-    loader: defaultImageLoader,
+    loader: ipxImageLoader,
     placeholder: false,
     quality: 75,
     ...options,

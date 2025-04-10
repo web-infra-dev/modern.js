@@ -6,7 +6,9 @@ export const isDebug = (): boolean => {
   if (!process.env.DEBUG) return false;
 
   const values = process.env.DEBUG.toLocaleLowerCase().split(',');
-  return ['modernjs:image', '*'].some(key => values.includes(key));
+  return ['modernjs:image', 'modernjs:*', '*'].some(key =>
+    values.includes(key),
+  );
 };
 
 // setup the logger level
