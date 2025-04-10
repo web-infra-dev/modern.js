@@ -1,6 +1,6 @@
 import type { ImageProps } from '@/types/image';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import { defaultImageLoader } from './loader';
+import { ipxImageLoader } from './loader';
 import { resolveImageProps } from './props';
 
 describe('resolveImageProps', () => {
@@ -11,7 +11,7 @@ describe('resolveImageProps', () => {
       densities: [1, 2],
       fill: false,
       height: undefined,
-      loader: defaultImageLoader,
+      loader: ipxImageLoader,
       loading: 'lazy',
       onError: undefined,
       onLoad: undefined,

@@ -1,6 +1,10 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { withTestPreset } from '@scripts/vitest-config';
 import { defineConfig } from 'vitest/config';
 import { createDefines } from './define.config';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config = defineConfig({
   test: {
@@ -10,6 +14,11 @@ const config = defineConfig({
     coverage: {
       include: ['src'],
       exclude: ['**/*.stories.*'],
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
   define: {
