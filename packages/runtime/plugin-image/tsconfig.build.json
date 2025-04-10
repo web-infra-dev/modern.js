@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsconfig.build.tsbuildinfo",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "lib": ["ES2021", "DOM"]
+  },
+  "include": ["src"],
+  "exclude": ["**/*.stories.*", "**/*.test.*"]
+}

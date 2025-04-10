@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.test.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsconfig.stories.tsbuildinfo"
+  },
+  "include": ["src/**/*.stories.*", "src/env.d.ts"]
+}

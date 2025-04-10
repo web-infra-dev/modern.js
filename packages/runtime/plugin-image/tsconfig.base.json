@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2021"],
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": "./src",
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "useDefineForClassFields": true,
+    "types": ["@rsbuild/core/types"],
+    "paths": {
+      "@/*": ["*"],
+      "@vitest/expect": ["../node_modules/@vitest/expect"],
+      "react": ["../node_modules/@types/react"],
+      "react-dom": ["../node_modules/@types/react-dom"]
+    }
+  }
+}

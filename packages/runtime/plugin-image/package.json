@@ -1,0 +1,102 @@
+{
+  "name": "@modern-js/rsbuild-plugin-image",
+  "version": "2.66.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "node": "./dist/runtime/index.js",
+      "import": "./dist/runtime/index.mjs"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "node": "./dist/loader.js",
+      "import": "./dist/loader.mjs"
+    },
+    "./types": {
+      "types": "./dist/global.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ],
+      "loader": [
+        "./dist/loader.d.ts"
+      ],
+      "types": [
+        "./dist/global.d.ts"
+      ]
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css",
+    "dist/logger.*"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "build:storybook": "storybook build",
+    "dev": "rslib build --watch",
+    "storybook": "storybook dev --no-open --port 6006",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview-pack": "bash ./scripts/preview-pack.sh"
+  },
+  "dependencies": {
+    "image-size": "^2.0.1",
+    "p-memoize": "^7.1.1",
+    "rslog": "^1.1.0",
+    "type-fest": "^4.37.0",
+    "ufo": "^1.3.0"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "1.3.5",
+    "@rsbuild/plugin-react": "1.2.0",
+    "@rslib/core": "0.6.1",
+    "@scripts/vitest-config": "workspace:*",
+    "@storybook/addon-essentials": "^8.6.4",
+    "@storybook/addon-interactions": "^8.6.4",
+    "@storybook/addon-links": "^8.6.4",
+    "@storybook/addon-onboarding": "^8.6.4",
+    "@storybook/blocks": "^8.6.4",
+    "@storybook/react": "^8.6.4",
+    "@storybook/test": "^8.6.4",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "6.4.7",
+    "@types/node": "^18",
+    "@types/react": "^19.0.10",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "jiti": "1.21.7",
+    "sharp": "^0.33.5",
+    "ipx": "^3.0.3",
+    "storybook": "^8.6.4",
+    "storybook-addon-rslib": "^1.0.0",
+    "storybook-react-rsbuild": "^1.0.0",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0",
+    "sharp": ">=0.33.5",
+    "ipx": ">=3.0.3"
+  },
+  "peerDependenciesMeta": {
+    "sharp": { "optional": true },
+    "ipx": { "optional": true }
+  }
+}

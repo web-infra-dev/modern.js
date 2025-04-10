@@ -32,21 +32,3 @@ jobs:
 
       - name: Check dependency version consistency
         run: pnpm run check-dependencies
-          --ignore-dep '@types/node'
-          --ignore-dep 'antd'
-          --ignore-dep 'esbuild'
-          --ignore-dep 'fs-extra'
-          --ignore-dep 'glob'
-          --ignore-dep 'minimatch'
-          --ignore-dep 'react-router-dom'
-          --ignore-dep 'tailwindcss'
-          --ignore-dep 'tsconfig-paths'
-          --ignore-dep 'twin.macro'
-          --ignore-dep 'hono'
-          --ignore-dep 'type-fest'
-          --ignore-dep 'typescript'
-          --ignore-dep 'react'
-          --ignore-dep '@types/react'
-          --ignore-dep 'react-dom'
-          --ignore-dep '@types/react-dom'
-          --ignore-dep 'lru-cache'

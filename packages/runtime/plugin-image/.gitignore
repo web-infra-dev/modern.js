@@ -1,0 +1,14 @@
+# Local
+.DS_Store
+*.local
+*.log*
+
+# Dist
+node_modules
+dist/
+modern-js-rsbuild-plugin-image-*.tgz
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
