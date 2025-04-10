@@ -21,9 +21,6 @@ export const getUploadPayload = (args: any) => {
   }
 
   const body: any = formdata;
-  const headers: Record<string, any> = {
-    accept: `application/json,*/*;q=0.8`,
-  };
 
-  return { body, headers };
+  return { body, headers: payload.headers, params: payload.params };
 };
