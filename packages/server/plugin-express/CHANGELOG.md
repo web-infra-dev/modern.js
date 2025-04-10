@@ -1,5 +1,18 @@
 # @modern-js/plugin-express
 
+## 2.67.1
+
+### Patch Changes
+
+- 1d96265: feat(ssr): support streaming ssr to work with http2
+  feat(ssr): 支持 streaming ssr 和 http2 协议一起工作
+- Updated dependencies [1d96265]
+  - @modern-js/types@2.67.1
+  - @modern-js/utils@2.67.1
+  - @modern-js/server-core@2.67.1
+  - @modern-js/bff-core@2.67.1
+  - @modern-js/bff-runtime@2.67.1
+
 ## 2.67.0
 
 ### Patch Changes

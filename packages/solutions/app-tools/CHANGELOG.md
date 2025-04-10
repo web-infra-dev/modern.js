@@ -1,5 +1,32 @@
 # @modern-js/app-tools
 
+## 2.67.1
+
+### Patch Changes
+
+- 1d96265: feat(ssr): support streaming ssr to work with http2
+  feat(ssr): 支持 streaming ssr 和 http2 协议一起工作
+- ccad8f0: feat: add node 16 will not support warning
+
+  feat: 增加 node 16 即将不支持警告信息
+
+- Updated dependencies [1d96265]
+- Updated dependencies [4796ea9]
+  - @modern-js/prod-server@2.67.1
+  - @modern-js/server@2.67.1
+  - @modern-js/types@2.67.1
+  - @modern-js/utils@2.67.1
+  - @modern-js/server-core@2.67.1
+  - @modern-js/core@2.67.1
+  - @modern-js/plugin-data-loader@2.67.1
+  - @modern-js/uni-builder@2.67.1
+  - @modern-js/plugin-v2@2.67.1
+  - @modern-js/plugin-i18n@2.67.1
+  - @modern-js/server-utils@2.67.1
+  - @modern-js/node-bundle-require@2.67.1
+  - @modern-js/plugin@2.67.1
+  - @modern-js/rsbuild-plugin-esbuild@2.67.1
+
 ## 2.67.0
 
 ### Minor Changes
