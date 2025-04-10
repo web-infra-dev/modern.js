@@ -6,6 +6,7 @@ import type {
 } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
 import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
+import cloneable from 'cloneable-readable';
 import type { RequestHandler } from '../../types';
 import { isResFinalized } from './helper';
 import { installGlobals } from './polyfills/install';
@@ -43,19 +44,15 @@ export const createWebRequest = (
   res.on('close', () => controller.abort('res closed'));
 
   const url = `http://${req.headers.host}${req.url}`;
-  const fullUrl = new URL(url);
 
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
-  if (
-    body ||
-    (!(method === 'GET' || method === 'HEAD') &&
-      fullUrl.searchParams.has('__loader')) ||
-    fullUrl.searchParams.has('__pass_body') ||
-    req.headers['x-mf-micro'] ||
-    req.headers['x-rsc-action'] ||
-    req.headers['x-parse-through-body']
-  ) {
-    init.body = body ?? createReadableStreamFromReadable(req);
+  if (body || !(method === 'GET' || method === 'HEAD')) {
+    if (body) {
+      init.body = body;
+    } else {
+      const cloneableReq = cloneable(req);
+      init.body = createReadableStreamFromReadable(cloneableReq.clone());
+    }
     (init as { duplex: 'half' }).duplex = 'half';
   }
 
