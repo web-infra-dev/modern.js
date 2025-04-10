@@ -166,7 +166,10 @@ export const createNetlifyPreset: CreatePreset = (
       await handleDependencies({
         appDir: appDirectory,
         sourceDir: funcsDirectory,
-        includeEntries: [require.resolve('@modern-js/prod-server')],
+        includeEntries: [
+          require.resolve('@modern-js/prod-server'),
+          require.resolve('@modern-js/prod-server/netlify'),
+        ],
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
         },
