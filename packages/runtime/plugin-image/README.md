@@ -2,7 +2,7 @@
 
 > 🚧 The plugin is under active development, and the API is not stable. Please create an issue if you meet any trouble.
 
-The image plugin for Modern.js, which provide an `Image` component to render images with series features for better performance and developer experience.
+The image plugin for Modern.js, which provide an `<Image />` component to render images with series features for better performance and developer experience.
 
 ## Features
 
@@ -55,7 +55,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginImage } from '@modern-js/rsbuild-plugin-image';
 
 export default defineConfig({
-  builderPlugins: [pluginReact(), pluginImage({ ipx: {} })],
+  plugins: [pluginReact(), pluginImage({ ipx: {} })],
 });
 ```
 
