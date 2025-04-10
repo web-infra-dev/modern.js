@@ -58,7 +58,7 @@ export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
     return {
       wrapRoot(App) {
         const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
-        const config = merge(pluginConfig.garfish || {}, userConfig);
+        const config = merge(pluginConfig.masterApp || {}, userConfig);
         const { manifest, ...options } = config;
         logger('createPlugin', config);
         const promise = initOptions(manifest, options);
