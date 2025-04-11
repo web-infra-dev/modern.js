@@ -73,7 +73,7 @@ export const checkServerMod = async (
   const exist = findExists(final.extensions.map(ext => `${webAppPath}${ext}`));
   const meta = getMeta(metaName);
   if (exist) {
-    logger.warn(
+    console.warn(
       `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`server/index.ts\``)} is no longer maintained, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)} for custom server-side logic;`,
     );
   }

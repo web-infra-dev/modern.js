@@ -59,7 +59,7 @@ export async function loadServerRuntimeConfig(
   const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
   if (oldServerConfig) {
     const meta = getMeta(metaName);
-    logger.warn(
+    console.warn(
       `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`server/index.ts\``)} is no longer maintained, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)} for custom server-side logic;`,
     );
   }
