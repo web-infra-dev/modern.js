@@ -106,5 +106,6 @@ export type {
   Env,
   HonoRequest,
   Next,
+  MiddlewareHandler,
   MiddlewareHandler as Middleware,
 } from 'hono';
