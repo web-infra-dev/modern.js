@@ -11,13 +11,12 @@ export default (): ServerPluginLegacy => ({
           name: 'server-plugin-middleware',
           handler: async (c, next) => {
             const start = Date.now();
-            console.log('request timing in plugin', start);
 
             await next();
 
             const end = Date.now();
 
-            console.log('request timing in plugin', end);
+            c.res.headers.set('x-plugin-middleware', `dur=${end - start}`);
           },
         });
 
@@ -25,13 +24,15 @@ export default (): ServerPluginLegacy => ({
           name: 'server-plugin-render-middleware',
           handler: async (c, next) => {
             const start = Date.now();
-            console.log('render timing in plugin', start);
 
             await next();
 
             const end = Date.now();
 
-            console.log('render timing in plugin', end);
+            c.res.headers.set(
+              'x-plugin-render-middleware',
+              `dur=${end - start}`,
+            );
 
             const { res } = c;
 
