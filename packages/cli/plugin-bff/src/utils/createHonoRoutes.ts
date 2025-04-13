@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import {
   HttpMetadata,
@@ -114,22 +115,13 @@ const getHonoInput = async (c: Context) => {
     const contentType = c.req.header('content-type') || '';
 
     if (typeIs.is(contentType, ['application/json'])) {
-      try {
-        const rawBody = await resolveRawBody(c);
-        const decodedBody = decodeBuffer(rawBody, contentType);
-        draft.data = safeJsonParse(decodedBody);
-      } catch {
-        draft.data = {};
-      }
+      draft.data = await c.req.json();
     } else if (typeIs.is(contentType, ['multipart/form-data'])) {
       draft.formData = await resolveFormData(c);
     } else if (typeIs.is(contentType, ['application/x-www-form-urlencoded'])) {
-      const rawBody = await resolveRawBody(c);
-      const decodedBody = decodeBuffer(rawBody, contentType);
-      draft.formUrlencoded = parseUrlEncoded(decodedBody);
+      draft.formUrlencoded = await c.req.parseBody();
     } else {
-      const rawBody = await resolveRawBody(c);
-      draft.body = rawBody.toString('utf8');
+      draft.body = await c.req.json();
     }
   } catch (error) {
     draft.body = null;
@@ -140,19 +132,14 @@ const getHonoInput = async (c: Context) => {
 const resolveFormData = (c: Context): Promise<Record<string, any>> => {
   return new Promise((resolve, reject) => {
     try {
-      const nodeReadable = c.env.node?.req;
-
-      if (!c.env.node?.req) return {};
-
-      nodeReadable.headers = {
-        'content-type': c.env.node.req.headers['content-type'],
-        'content-length': c.env.node.req.headers['content-length'],
-      };
+      const nodeReadable = (Readable as any).fromWeb(
+        c.req.raw.body as ReadableStream,
+      );
       const form = formidable({
         multiples: true,
       });
 
-      form.parse(nodeReadable, (err, fields, files) => {
+      form.parse(c.env.node.req, (err, fields, files) => {
         if (err) reject(err);
         resolve({ ...fields, ...files });
       });
@@ -161,36 +148,5 @@ const resolveFormData = (c: Context): Promise<Record<string, any>> => {
     }
   });
 };
-
-async function resolveRawBody(c: Context): Promise<Buffer> {
-  const nodeReadable = c.env.node?.req;
-  if (!nodeReadable) return Buffer.from('');
-
-  const chunks: Buffer[] = [];
-  for await (const chunk of nodeReadable) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-  }
-  return Buffer.concat(chunks as any);
-}
-
-function decodeBuffer(body: Buffer, contentType: string): string {
-  const charset = contentType.match(/charset=([\w-]+)/)?.[1] || 'utf8';
-  return body.toString(charset as BufferEncoding);
-}
-
-function parseUrlEncoded(data: string): Record<string, any> {
-  const params = new URLSearchParams(data);
-  return Object.fromEntries(params.entries());
-}
-
-function safeJsonParse(data: string): Record<string, any> {
-  if (!data.trim()) return {};
-  try {
-    return JSON.parse(data);
-  } catch (error) {
-    const { message } = error as Error;
-    throw new Error(`Invalid JSON: ${message ? message : 'parse error'}`);
-  }
-}
 
 export default createHonoRoutes;
