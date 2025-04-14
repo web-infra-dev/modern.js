@@ -38,6 +38,7 @@ async function main() {
       bffRuntimeFramework: p_bffRuntimeFramework,
     },
     plugins: p_plugins,
+    serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
 

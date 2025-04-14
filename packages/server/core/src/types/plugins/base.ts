@@ -80,7 +80,7 @@ export type MiddlewareObj = {
   order?: MiddlewareOrder;
 };
 
-export type ServerMiddleware = Middleware;
+export type ServerMiddleware = MiddlewareObj;
 
 export interface GetRenderHandlerOptions {
   pwd: string;

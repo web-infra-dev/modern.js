@@ -1,4 +1,4 @@
-import type { ServerPluginLegacy } from '@modern-js/runtime/server';
+import type { ServerPluginLegacy } from '@modern-js/server-runtime';
 
 export default (): ServerPluginLegacy => ({
   name: 'serverPluginV2',

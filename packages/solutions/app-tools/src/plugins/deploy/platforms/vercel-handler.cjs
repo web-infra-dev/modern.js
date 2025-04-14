@@ -41,6 +41,7 @@ async function initServer() {
       lambdaDirectory: p_lambdaDirectory,
     },
     plugins: p_plugins,
+    serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
   const app = await createProdServer(prodServerOptions);

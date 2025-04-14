@@ -30,6 +30,7 @@ export const renderPlugin = (): ServerPluginLegacy => ({
         } = api.useAppContext();
         // TODO: remove any
         const hooks = (api as any).getHooks();
+        const config = api.useConfigContext();
 
         if (!routes) {
           return;

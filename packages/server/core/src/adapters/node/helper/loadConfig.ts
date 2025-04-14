@@ -60,7 +60,7 @@ export async function loadServerRuntimeConfig(
   if (oldServerConfig) {
     const meta = getMeta(metaName);
     console.warn(
-      `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`server/index.ts\``)} is no longer maintained, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)} for custom server-side logic;`,
+      `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`${oldServerFile}\``)} is no longer maintained. To extend the server, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)};`,
     );
   }
   return oldServerConfig;
