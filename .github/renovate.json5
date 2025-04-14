@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":disableDependencyDashboard"],
-  "rangeStrategy": "auto",
+ "rangeStrategy": "bump",
+ "updateLockFiles": true,
   "schedule": ["every weekend"],
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
   "lockFileMaintenance": {
@@ -10,6 +11,10 @@
   "ignoreScripts": false,
   "packageRules": [
     // ignore all major update
+    {
+      "matchUpdateTypes": ["lockFileMaintenance", "pin", "digest"],
+      "enabled": false
+    },
     {
       "matchUpdateTypes": ["major"],
       "enabled": false
