@@ -1,3 +1,4 @@
+import type { IncomingMessage } from 'node:http';
 import { Readable } from 'node:stream';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import {
@@ -117,7 +118,8 @@ const getHonoInput = async (c: Context) => {
     if (typeIs.is(contentType, ['application/json'])) {
       draft.data = await c.req.json();
     } else if (typeIs.is(contentType, ['multipart/form-data'])) {
-      draft.formData = await resolveFormData(c);
+      const nodeStream = await webStreamToNodeStream(c);
+      draft.formData = await resolveFormData(nodeStream);
     } else if (typeIs.is(contentType, ['application/x-www-form-urlencoded'])) {
       draft.formUrlencoded = await c.req.parseBody();
     } else {
@@ -129,23 +131,50 @@ const getHonoInput = async (c: Context) => {
   return draft;
 };
 
-const resolveFormData = (c: Context): Promise<Record<string, any>> => {
-  return new Promise((resolve, reject) => {
-    try {
-      const nodeReadable = (Readable as any).fromWeb(
-        c.req.raw.body as ReadableStream,
-      );
-      const form = formidable({
-        multiples: true,
-      });
+async function webStreamToNodeStream(c: Context) {
+  const reader = (c.req.raw.body as ReadableStream<Uint8Array>).getReader();
+  const nodeStream = new Readable({
+    async read() {
+      try {
+        const { done, value } = await reader.read();
+        if (done) {
+          this.push(null);
+        } else {
+          this.push(value);
+        }
+      } catch (err) {
+        this.destroy(err as any);
+      }
+    },
+    destroy(err, callback) {
+      reader.cancel(err).finally(() => callback(err));
+    },
+  }) as IncomingMessage;
 
-      form.parse(c.env.node.req, (err, fields, files) => {
-        if (err) reject(err);
-        resolve({ ...fields, ...files });
+  const headers = {
+    'content-type': c.req.header('content-type') || 'multipart/form-data',
+    'content-length': c.req.header('content-length') || '0',
+  };
+
+  nodeStream.headers = headers;
+  return nodeStream;
+}
+
+const resolveFormData = (
+  request: IncomingMessage,
+): Promise<Record<string, any>> => {
+  const form = formidable({ multiples: true });
+  return new Promise((resolve, reject) => {
+    form.parse(request, (err, fields, files) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve({
+        ...fields,
+        ...files,
       });
-    } catch (error) {
-      reject(error);
-    }
+    });
   });
 };
 
