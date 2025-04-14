@@ -26,7 +26,7 @@ import type { ServerPlugin } from './new';
 import type { ServerPluginLegacy } from './old';
 
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin-v2';
-export type FallbackReason = 'error' | 'header' | 'query';
+export type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
 
 export type FallbackInput = {
   reason: FallbackReason;
