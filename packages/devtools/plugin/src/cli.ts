@@ -176,6 +176,7 @@ export const devtoolsPlugin = (
                 api.builderHooks.callHookWith(
                   hooks => hooks.forEach(hook => hook()),
                   'onExit',
+                  { exitCode: 0 },
                 );
               });
             },
