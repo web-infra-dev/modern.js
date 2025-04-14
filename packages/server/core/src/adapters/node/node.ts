@@ -45,19 +45,37 @@ export const createWebRequest = (
 
   const url = `http://${req.headers.host}${req.url}`;
 
-  if (body || !(method === 'GET' || method === 'HEAD')) {
+  const needsRequestBody = body || !(method === 'GET' || method === 'HEAD');
+  const cloneableReq = needsRequestBody ? cloneable(req) : null;
+
+  if (needsRequestBody) {
     if (body) {
       init.body = body;
     } else {
-      const cloneableReq = cloneable(req);
-      init.body = createReadableStreamFromReadable(cloneableReq.clone());
+      const stream = cloneableReq!.clone();
+      init.body = createReadableStreamFromReadable(stream);
     }
     (init as { duplex: 'half' }).duplex = 'half';
   }
 
-  const request = new Request(url, init);
+  const originalRequest = new Request(url, init);
 
-  return request;
+  if (needsRequestBody) {
+    return new Proxy(originalRequest, {
+      get(target, prop) {
+        if (
+          ['json', 'text', 'blob', 'arrayBuffer', 'formData'].includes(
+            prop as string,
+          )
+        ) {
+          cloneableReq!.resume();
+        }
+        return target[prop as keyof Request];
+      },
+    });
+  }
+
+  return originalRequest;
 };
 
 export const sendResponse = async (response: Response, res: NodeResponse) => {
@@ -120,6 +138,7 @@ const getRequestListener = (handler: RequestHandler) => {
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);
+
       const response = await handler(request, {
         node: {
           req,
