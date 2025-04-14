@@ -7,7 +7,6 @@ exports[`bff cli plugin config 1`] = `
       "externals": undefined,
     },
     "source": {
-      "alias": undefined,
       "moduleScopes": [
         "api",
         /create-request/,
