@@ -6,14 +6,6 @@ import type {
 } from '@modern-js/types';
 
 export type {
-  ServerPluginLegacy,
-  MiddlewareObj,
-  Context,
-  Next,
-  MiddlewareHandler,
-} from '@modern-js/server-core';
-
-export type {
   // cache
   Container,
   CacheControl,

@@ -37,6 +37,7 @@ async function main() {
       lambdaDirectory: p_lambdaDirectory,
     },
     plugins: p_plugins,
+    serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
 

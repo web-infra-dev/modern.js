@@ -73,6 +73,5 @@ export async function applyPlugins(
     faviconPlugin(),
     renderPlugin(),
   ];
-
   serverBase.addPlugins(plugins);
 }

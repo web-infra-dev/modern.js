@@ -1,5 +1,7 @@
-import { defineConfig } from '@modern-js/app-tools/server';
-import type { MiddlewareHandler } from '@modern-js/runtime/server';
+import {
+  type MiddlewareHandler,
+  defineServerConfig,
+} from '@modern-js/server-runtime';
 import plugin1 from '../plugins/serverPlugin';
 
 const timing: MiddlewareHandler = async (c, next) => {
@@ -22,7 +24,7 @@ const requestTiming: MiddlewareHandler = async (c, next) => {
   c.res.headers.set('x-middleware', `dur=${end - start}`);
 };
 
-export default defineConfig({
+export default defineServerConfig({
   middlewares: [
     {
       name: 'request-timing',
