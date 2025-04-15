@@ -172,6 +172,13 @@ export const injectRscManifestPlugin = (): ServerPluginLegacy => ({
     return {
       async prepare() {
         const { middlewares, distDirectory: pwd } = api.useAppContext();
+        const config = api.useConfigContext();
+        // only rsc project need inject rsc manifest
+        if (!config.server?.rsc) {
+          return;
+        }
+
+        // TODO: should inject in prepare stage, not first request
         middlewares.push({
           name: 'inject-rsc-manifest',
           handler: async (c, next) => {

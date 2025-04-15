@@ -45,6 +45,11 @@ export interface ServerUserConfig {
    */
   useJsonScript?: boolean;
   logger?: boolean | Record<string, unknown>;
+  /**
+   * @description disable hook middleware for performance
+   * @default false
+   */
+  future_disableHookMiddleware?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
