@@ -49,7 +49,7 @@ export function createPublicMiddleware({
   routes,
 }: PublicMiddlwareOptions): Middleware {
   return async (c, next) => {
-    const route = matchRoute(c.req, routes);
+    const route = matchPublicRoute(c.req, routes);
 
     if (route) {
       const { entryPath } = route;
@@ -74,7 +74,7 @@ export function createPublicMiddleware({
   };
 }
 
-function matchRoute(req: HonoRequest, routes: ServerRoute[]) {
+function matchPublicRoute(req: HonoRequest, routes: ServerRoute[]) {
   for (const route of routes.sort(sortRoutes)) {
     if (
       !route.isSSR &&
@@ -133,9 +133,14 @@ export function createStaticMiddleware(
    * https://github.com/honojs/node-server/tree/8cea466fd05e6d2e99c28011fc0e2c2d3f3397c9?tab=readme-ov-file#license
    * */
   return async (c, next) => {
+    // If page route hit, we should skip static middleware for performance
+    const pageRoute = c.get('route');
+    if (pageRoute) {
+      return next();
+    }
+
     // exist is path
     const pathname = c.req.path;
-
     const hit = staticPathRegExp.test(pathname);
 
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
