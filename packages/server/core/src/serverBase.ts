@@ -186,14 +186,6 @@ export class ServerBase<E extends Env = any> {
     return this.app.notFound.bind(this.app);
   }
 
-  get routes() {
-    return this.app.routes;
-  }
-
-  get route() {
-    return this.app.route.bind(this.app);
-  }
-
   get onError() {
     return this.app.onError.bind(this.app);
   }

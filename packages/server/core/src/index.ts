@@ -5,7 +5,7 @@ export { AGGRED_DIR } from './constants';
 export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
 export { useHonoContext } from './context';
-export { CustomServer } from './plugins/customServer';
+export { Hono, type MiddlewareHandler } from 'hono';
 
 export type {
   Middleware,
