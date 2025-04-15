@@ -60,7 +60,7 @@ export const renderPlugin = (): ServerPluginLegacy => ({
 
           // Hook middleware will handle stream as string and then handle it as stream, which will cause the performance problem
           // TODO: Hook middleware will be deprecated in next version
-          if (config.server?.future_disableHookMiddleware !== true) {
+          if (config.server?.disableHook !== true) {
             const customServerHookMiddleware = customServer.getHookMiddleware(
               entryName,
               routes,

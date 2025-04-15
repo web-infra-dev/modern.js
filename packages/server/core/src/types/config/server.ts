@@ -49,7 +49,7 @@ export interface ServerUserConfig {
    * @description disable hook middleware for performance
    * @default false
    */
-  future_disableHookMiddleware?: boolean;
+  disableHook?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
