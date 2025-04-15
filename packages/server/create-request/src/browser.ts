@@ -158,13 +158,15 @@ export const createUploader: UploadCreator = ({
   domain,
   requestId = 'default',
 }) => {
+  const getFinalPath = compile(path, { encode: encodeURIComponent });
   const sender: Sender = (...args) => {
     const fetcher = realRequest.get(requestId) || originFetch;
 
-    const { body, headers } = getUploadPayload(args);
+    const { body, headers, params } = getUploadPayload(args);
+    const finalPath = getFinalPath(params);
 
     const configDomain = domainMap.get(requestId);
-    const finalURL = `${configDomain || domain || ''}${path}`;
+    const finalURL = `${configDomain || domain || ''}${finalPath}`;
 
     return fetcher(finalURL, {
       method: 'POST',

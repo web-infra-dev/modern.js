@@ -42,6 +42,12 @@ const Index = (): JSX.Element => {
       files: {
         images: file,
       },
+      headers: {
+        'log-id': '333',
+      },
+      params: {
+        id: '666',
+      },
     });
   };
 
@@ -49,6 +55,12 @@ const Index = (): JSX.Element => {
     upload({
       files: {
         images: getMockImage(),
+      },
+      headers: {
+        'log-id': '333',
+      },
+      params: {
+        id: '666',
       },
     }).then(res => {
       setFileName(res.data.file_name);
