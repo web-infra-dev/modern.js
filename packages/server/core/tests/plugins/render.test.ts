@@ -113,10 +113,15 @@ describe('should render html correctly', () => {
     );
     expect(html1).toBe('SSR Render');
 
+    let fallbackHeader;
     const html2 = await Promise.resolve(server.request('/?csr=1', {}, {})).then(
-      res => res.text(),
+      res => {
+        fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+        return res.text();
+      },
     );
     expect(html2).toMatch(/Hello Modern/);
+    expect(fallbackHeader).toBe('1;reason=query');
 
     const html3 = await Promise.resolve(
       server.request(
@@ -128,8 +133,30 @@ describe('should render html correctly', () => {
         },
         {},
       ),
-    ).then(res => res.text());
+    ).then(res => {
+      fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+      return res.text();
+    });
+    expect(fallbackHeader).toBe('1;reason=header');
     expect(html3).toMatch(/Hello Modern/);
+
+    // custom fallback reason in header.
+    const html4 = await Promise.resolve(
+      server.request(
+        '/',
+        {
+          headers: new Headers({
+            'x-modern-ssr-fallback': '1;reason=custom fallback reason',
+          }),
+        },
+        {},
+      ),
+    ).then(res => {
+      fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+      return res.text();
+    });
+    expect(fallbackHeader).toBe('1;reason=header,custom fallback reason');
+    expect(html4).toMatch(/Hello Modern/);
   });
 
   it('support serve data', async () => {

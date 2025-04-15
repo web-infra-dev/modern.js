@@ -357,16 +357,14 @@ async function getRenderMode(
     if (query.__loader) {
       return 'data';
     }
-    if (
-      forceCSR &&
-      (query.csr ||
-        req.headers.get(fallbackHeader) ||
-        nodeReq?.headers[fallbackHeader])
-    ) {
+    const fallbackHeaderValue: string | null =
+      req.headers.get(fallbackHeader) || nodeReq?.headers[fallbackHeader];
+    if (forceCSR && (query.csr || fallbackHeaderValue)) {
       if (query.csr) {
         await onFallback?.('query');
       } else {
-        await onFallback?.('header');
+        const reason = fallbackHeaderValue?.split(';')[1]?.split('=')[1];
+        await onFallback?.(reason ? `header,${reason}` : 'header');
       }
       return 'csr';
     }
