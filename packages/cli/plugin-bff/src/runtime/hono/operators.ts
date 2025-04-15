@@ -1,6 +1,9 @@
 import type { Operator } from '@modern-js/bff-core';
-import { useHonoContext } from '@modern-js/server-core';
-import type { Context, Next } from 'hono';
+import {
+  type Context,
+  type Next,
+  useHonoContext,
+} from '@modern-js/server-core';
 
 export type EndFunction = ((func: (res: Response) => void) => void) &
   ((data: unknown) => void);

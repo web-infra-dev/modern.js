@@ -8,6 +8,7 @@ export type ServerAppContext = {
   apiDirectory: string;
   lambdaDirectory: string;
   metaName: string;
+  bffRuntimeFramework: string;
 };
 
 export const serverAppContenxtTemplate = (
@@ -19,6 +20,7 @@ export const serverAppContenxtTemplate = (
     apiDirectory,
     lambdaDirectory,
     metaName,
+    bffRuntimeFramework,
   } = appContext;
   return {
     sharedDirectory: `path.join(__dirname, "${path.relative(
@@ -34,6 +36,7 @@ export const serverAppContenxtTemplate = (
       lambdaDirectory,
     )}")`,
     metaName,
+    bffRuntimeFramework: bffRuntimeFramework || 'hono',
   };
 };
 

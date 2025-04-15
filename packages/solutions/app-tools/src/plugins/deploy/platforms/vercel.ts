@@ -102,7 +102,7 @@ export const createVercelPreset: CreatePreset = (
         });
 
         await fse.writeJSON(path.join(funcsDirectory, '.vc-config.json'), {
-          runtime: 'nodejs20.x',
+          runtime: 'nodejs16.x',
           handler: 'index.js',
           launcherType: 'Nodejs',
           shouldAddHelpers: false,

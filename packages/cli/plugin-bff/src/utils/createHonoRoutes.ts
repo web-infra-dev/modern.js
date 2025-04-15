@@ -1,5 +1,3 @@
-import type { IncomingMessage } from 'node:http';
-import { Readable } from 'node:stream';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import {
   HttpMetadata,
@@ -8,8 +6,7 @@ import {
   ValidationError,
   isWithMetaHandler,
 } from '@modern-js/bff-core';
-import formidable from 'formidable';
-import type { Context, Next } from 'hono';
+import type { Context, Next } from '@modern-js/server-core';
 import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];
@@ -67,7 +64,7 @@ export const createHonoHandler = (handler: Handler) => {
           if (response) {
             return response;
           }
-          if (c.env?.node?.res?.headersSent) return;
+          if (c.finalized) return;
 
           const result = await handler(input);
           return result && typeof result === 'object'
@@ -87,7 +84,7 @@ export const createHonoHandler = (handler: Handler) => {
         const args = Object.values(input.params).concat(input);
         try {
           const body = await handler(...args);
-          if (c.env?.node?.res?.headersSent) {
+          if (c.finalized) {
             return await Promise.resolve();
           }
 
@@ -118,8 +115,7 @@ const getHonoInput = async (c: Context) => {
     if (typeIs.is(contentType, ['application/json'])) {
       draft.data = await c.req.json();
     } else if (typeIs.is(contentType, ['multipart/form-data'])) {
-      const nodeStream = await webStreamToNodeStream(c);
-      draft.formData = await resolveFormData(nodeStream);
+      draft.formData = await c.req.parseBody();
     } else if (typeIs.is(contentType, ['application/x-www-form-urlencoded'])) {
       draft.formUrlencoded = await c.req.parseBody();
     } else {
@@ -129,53 +125,6 @@ const getHonoInput = async (c: Context) => {
     draft.body = null;
   }
   return draft;
-};
-
-async function webStreamToNodeStream(c: Context) {
-  const reader = (c.req.raw.body as ReadableStream<Uint8Array>).getReader();
-  const nodeStream = new Readable({
-    async read() {
-      try {
-        const { done, value } = await reader.read();
-        if (done) {
-          this.push(null);
-        } else {
-          this.push(value);
-        }
-      } catch (err) {
-        this.destroy(err as any);
-      }
-    },
-    destroy(err, callback) {
-      reader.cancel(err).finally(() => callback(err));
-    },
-  }) as IncomingMessage;
-
-  const headers = {
-    'content-type': c.req.header('content-type') || 'multipart/form-data',
-    'content-length': c.req.header('content-length') || '0',
-  };
-
-  nodeStream.headers = headers;
-  return nodeStream;
-}
-
-const resolveFormData = (
-  request: IncomingMessage,
-): Promise<Record<string, any>> => {
-  const form = formidable({ multiples: true });
-  return new Promise((resolve, reject) => {
-    form.parse(request, (err, fields, files) => {
-      if (err) {
-        reject(err);
-      }
-
-      resolve({
-        ...fields,
-        ...files,
-      });
-    });
-  });
 };
 
 export default createHonoRoutes;

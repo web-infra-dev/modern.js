@@ -70,6 +70,10 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
+        .replace(
+          'p_bffRuntimeFramework',
+          `"${serverAppContext.bffRuntimeFramework}"`,
+        )
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
       if (isEsmProject) {

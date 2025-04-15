@@ -16,7 +16,6 @@
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/plugin-server": "workspace:*",
     "hono": "^3.12.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

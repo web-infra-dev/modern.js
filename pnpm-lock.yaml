@@ -203,6 +203,9 @@ importers:
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
+      type-is:
+        specifier: ^1.6.18
+        version: 1.6.18
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -237,6 +240,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      '@types/type-is':
+        specifier: ^1.6.3
+        version: 1.6.7
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.6.3))
@@ -252,6 +258,9 @@ importers:
       webpack:
         specifier: ^5.98.0
         version: 5.98.0(@swc/core@1.10.18(@swc/helpers@0.5.13))(esbuild@0.17.19)
+      zod:
+        specifier: ^3.22.3
+        version: 3.22.3
 
   packages/cli/plugin-changeset:
     dependencies:
@@ -2983,6 +2992,9 @@ importers:
       '@web-std/stream':
         specifier: ^1.0.3
         version: 1.0.3
+      cloneable-readable:
+        specifier: ^3.0.0
+        version: 3.0.0
       flatted:
         specifier: ^3.2.9
         version: 3.3.3
@@ -3002,6 +3014,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@types/cloneable-readable':
+        specifier: ^2.0.3
+        version: 2.0.3
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5610,6 +5625,52 @@ importers:
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.21
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.5(@types/react@18.3.18)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  tests/integration/bff-hono:
+    dependencies:
+      '@modern-js/plugin-bff':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-bff
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      hono:
+        specifier: ^3.12.2
+        version: 3.12.12
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+      tsconfig-paths:
+        specifier: 3.14.1
+        version: 3.14.1
+      zod:
+        specifier: ^3.22.3
+        version: 3.22.3
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -13509,6 +13570,9 @@ packages:
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
 
+  '@types/cloneable-readable@2.0.3':
+    resolution: {integrity: sha512-+Ihof4L4iu9k4WTzYbJSkzUxt6f1wzXn6u48fZYxgST+BsC9bBHTOJ59Buy1/4sC9j7ZWF7bxDf/n/mrtk/nzw==}
+
   '@types/configstore@2.1.1':
     resolution: {integrity: sha512-YY+hm3afkDHeSM2rsFXxeZtu0garnusBWNG1+7MknmDWQHqcH2w21/xOU9arJUi8ch4qyFklidANLCu3ihhVwQ==}
 
@@ -15106,6 +15170,9 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  cloneable-readable@3.0.0:
+    resolution: {integrity: sha512-Lkfd9IRx1nfiBr7UHNxJSl/x7DOeUfYmxzCkxYJC2tyc/9vKgV75msgLGurGQsak/NvJDHMWcshzEXRlxfvhqg==}
 
   clsx@1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
@@ -30028,6 +30095,10 @@ snapshots:
       '@types/node': 18.19.74
       '@types/responselike': 1.0.3
 
+  '@types/cloneable-readable@2.0.3':
+    dependencies:
+      '@types/node': 18.19.74
+
   '@types/configstore@2.1.1': {}
 
   '@types/connect-history-api-fallback@1.5.4':
@@ -32062,6 +32133,10 @@ snapshots:
       mimic-response: 1.0.1
 
   clone@1.0.4: {}
+
+  cloneable-readable@3.0.0:
+    dependencies:
+      readable-stream: 4.5.2
 
   clsx@1.2.1: {}
 

@@ -1,8 +1,14 @@
 import type { APIHandlerInfo } from '@modern-js/bff-core';
-import type { PluginAPI, ServerMiddleware } from '@modern-js/server-core';
+import type {
+  Context,
+  MiddlewareHandler,
+  Next,
+  PluginAPI,
+  ServerMiddleware,
+} from '@modern-js/server-core';
+import { Hono } from '@modern-js/server-core';
+
 import { isProd } from '@modern-js/utils';
-import { Hono } from 'hono';
-import type { Context, MiddlewareHandler, Next } from 'hono';
 import createHonoRoutes from '../../utils/createHonoRoutes';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
@@ -76,7 +82,10 @@ export class HonoAdapter {
         before,
         handler: async (c: Context, next: Next) => {
           if (this.apiServer) {
-            const response = await this.apiServer.fetch(c.req.raw, c.env);
+            const response = await this.apiServer.fetch(
+              c.req as unknown as Request,
+              c.env,
+            );
 
             if (response.status !== 404) {
               return new Response(response.body, response);
