@@ -5,15 +5,16 @@ import type {
   CliPluginFuture,
 } from '../../types';
 import type { AppToolsContext } from '../../types/new';
+import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
 import { getProjectUsage } from './utils';
-
 type DeployPresetCreators = {
   node: typeof createNodePreset;
   vercel: typeof createVercelPreset;
   netlify: typeof createNetlifyPreset;
+  ghPages: typeof createGhPagesPreset;
 };
 
 type DeployTarget = keyof DeployPresetCreators;
@@ -22,6 +23,7 @@ const deployPresets: DeployPresetCreators = {
   node: createNodePreset,
   vercel: createVercelPreset,
   netlify: createNetlifyPreset,
+  ghPages: createGhPagesPreset,
 };
 
 async function getDeployPreset(
