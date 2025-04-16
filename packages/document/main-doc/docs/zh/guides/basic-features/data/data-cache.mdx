@@ -154,7 +154,13 @@ revalidateTag('dashboard-stats'); // 会使 getDashboardStats 函数和 getCompl
 
 #### `customKey` 参数
 
-`customKey` 参数用于定制缓存的键，它是一个函数，接收一个包含被缓存函数的参数、函数本身及参数序列化后的结果的对象，返回值必须是字符串或 Symbol 类型，将作为缓存的键。这在某些场景下非常有用，比如当函数引用发生变化时，但你希望仍然返回缓存的数据。
+`customKey` 参数用于定制缓存的键，它是一个函数，接收一个包含以下属性的对象，返回值必须是字符串或 Symbol 类型，将作为缓存的键：
+
+- `params`：调用缓存函数时传入的参数数组
+- `fn`：原始被缓存的函数引用
+- `generatedKey`：框架基于入参自动生成的原始缓存键
+
+这在某些场景下非常有用，比如当函数引用发生变化时，但你希望仍然返回缓存的数据。
 
 ```ts
 import { cache } from '@modern-js/runtime/cache';
@@ -172,7 +178,7 @@ const getUserA = cache(
   }
 );
 
-// 在热更新或代码分割的情况下，即使函数引用变了，只要 customKey 返回相同的值，也会命中缓存
+// 即使函数引用变了，只要 customKey 返回相同的值，也会命中缓存
 const getUserB = cache(
   (...args) => fetchUserData(...args), // 新的函数引用
   {
@@ -194,7 +200,7 @@ const getUserC = cache(
   }
 );
 
-// 可以利用 generatedKey 参数
+// 可以利用 generatedKey 参数在默认键的基础上进行修改
 const getUserD = cache(
   fetchUserData,
   {
