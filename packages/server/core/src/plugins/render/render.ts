@@ -227,6 +227,13 @@ export async function createRender({
       onTiming,
     };
 
+    if (fallbackReason) {
+      renderOptions.html = injectFallbackReasonToHtml({
+        html: renderOptions.html,
+        reason: fallbackReason,
+      });
+    }
+
     let response: Response;
 
     switch (renderMode) {
@@ -318,7 +325,13 @@ async function renderHandler(
     } catch (e) {
       options.onError(e as Error, ErrorDigest.ERENDER);
       await fallbackWrapper('error', e);
-      response = csrRender(options.html);
+
+      response = csrRender(
+        injectFallbackReasonToHtml({
+          html: options.html,
+          reason: 'error',
+        }),
+      );
     }
   } else {
     response = csrRender(options.html);
@@ -372,6 +385,17 @@ async function getRenderMode(
   } else {
     return 'csr';
   }
+}
+
+function injectFallbackReasonToHtml({
+  html,
+  reason,
+}: {
+  html: string;
+  reason: FallbackReason;
+}) {
+  const tag = `<script>window.__ssr_fallback_reason__='${reason}'</script>`;
+  return html.replace(/<\/head>/, `${tag}</head>`);
 }
 
 function csrRender(html: string): Response {

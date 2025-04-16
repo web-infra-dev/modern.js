@@ -121,6 +121,7 @@ describe('should render html correctly', () => {
       },
     );
     expect(html2).toMatch(/Hello Modern/);
+    expect(html2.includes(`window.__ssr_fallback_reason__='query'`)).toBe(true);
     expect(fallbackHeader).toBe('1;reason=query');
 
     const html3 = await Promise.resolve(
@@ -138,6 +139,9 @@ describe('should render html correctly', () => {
       return res.text();
     });
     expect(fallbackHeader).toBe('1;reason=header');
+    expect(html3.includes(`window.__ssr_fallback_reason__='header'`)).toBe(
+      true,
+    );
     expect(html3).toMatch(/Hello Modern/);
 
     // custom fallback reason in header.
@@ -156,6 +160,11 @@ describe('should render html correctly', () => {
       return res.text();
     });
     expect(fallbackHeader).toBe('1;reason=header,custom fallback reason');
+    expect(
+      html4.includes(
+        `window.__ssr_fallback_reason__='header,custom fallback reason'`,
+      ),
+    ).toBe(true);
     expect(html4).toMatch(/Hello Modern/);
   });
 
@@ -172,5 +181,32 @@ describe('should render html correctly', () => {
     const response2 = await server.request('/user?__loader=layout', {}, {});
     const text2 = await response2.text();
     expect(text2).toBe('handle user');
+  });
+
+  it('should fallback to csr when render error', async () => {
+    const ssrPwd = path.join(pwd, 'ssr');
+    const server = await createSSRServer(ssrPwd, {
+      ssr: {
+        forceCSR: true,
+      },
+    });
+    let fallbackHeader;
+    // custom fallback reason in header.
+    const html = await Promise.resolve(
+      server.request(
+        '/',
+        {
+          headers: new Headers({
+            'x-render-error': '1',
+          }),
+        },
+        {},
+      ),
+    ).then(res => {
+      fallbackHeader = res.headers.get('x-modern-ssr-fallback');
+      return res.text();
+    });
+    expect(fallbackHeader).toBe('1;reason=error');
+    expect(html.includes(`window.__ssr_fallback_reason__='error'`)).toBe(true);
   });
 });
