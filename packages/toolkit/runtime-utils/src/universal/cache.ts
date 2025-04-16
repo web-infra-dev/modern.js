@@ -20,6 +20,11 @@ interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
+  customKey?: <Args extends any[]>(options: {
+    params: Args;
+    fn: (...args: Args) => any;
+    generatedKey: string;
+  }) => string | symbol;
 }
 
 interface CacheConfig {
@@ -36,21 +41,21 @@ const isServer = typeof window === 'undefined';
 const requestCacheMap = new WeakMap<Request, Map<any, any>>();
 
 let lruCache:
-  | LRUCache<(...args: any[]) => any, Map<string, CacheItem<any>>>
+  | LRUCache<Function | string | symbol, Map<string, CacheItem<any>>>
   | undefined;
 let cacheConfig: CacheConfig = {
   maxSize: CacheSize.GB,
 };
 
-const tagFnMap = new Map<string, Set<(...args: any[]) => Promise<any>>>();
+const tagKeyMap = new Map<string, Set<Function | string | symbol>>();
 
-function addTagFnRelation(tag: string, fn: (...args: any[]) => Promise<any>) {
-  let fns = tagFnMap.get(tag);
-  if (!fns) {
-    fns = new Set();
-    tagFnMap.set(tag, fns);
+function addTagKeyRelation(tag: string, key: Function | string | symbol) {
+  let keys = tagKeyMap.get(tag);
+  if (!keys) {
+    keys = new Set();
+    tagKeyMap.set(tag, keys);
   }
-  fns.add(fn);
+  keys.add(key);
 }
 
 export function configureCache(config: CacheConfig): void {
@@ -63,7 +68,7 @@ export function configureCache(config: CacheConfig): void {
 function getLRUCache() {
   if (!lruCache) {
     lruCache = new LRUCache<
-      (...args: any[]) => any,
+      Function | string | symbol,
       Map<string, CacheItem<any>>
     >({
       maxSize: cacheConfig.maxSize,
@@ -149,11 +154,15 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
     tag = 'default',
     maxAge = CacheTime.MINUTE * 5,
     revalidate = 0,
+    customKey,
   } = options || {};
   const store = getLRUCache();
 
   const tags = Array.isArray(tag) ? tag : [tag];
-  tags.forEach(t => addTagFnRelation(t, fn));
+
+  const getCacheKey = (args: Parameters<T>, generatedKey: string) => {
+    return customKey ? customKey({ params: args, fn, generatedKey }) : fn;
+  };
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
@@ -189,15 +198,22 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      let tagCache = store.get(fn);
-      if (!tagCache) {
-        tagCache = new Map();
-      }
-
       const key = generateKey(args);
-      const cached = tagCache.get(key);
       const now = Date.now();
 
+      const cacheKey = getCacheKey(args, key);
+
+      tags.forEach(t => addTagKeyRelation(t, cacheKey));
+
+      let cacheStore = store.get(cacheKey);
+      if (!cacheStore) {
+        cacheStore = new Map();
+      }
+
+      const storeKey =
+        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : key;
+
+      const cached = cacheStore.get(storeKey);
       if (cached) {
         const age = now - cached.timestamp;
 
@@ -211,12 +227,13 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
             Promise.resolve().then(async () => {
               try {
                 const newData = await fn(...args);
-                tagCache!.set(key, {
+                cacheStore!.set(storeKey, {
                   data: newData,
                   timestamp: Date.now(),
                   isRevalidating: false,
                 });
-                store.set(fn, tagCache);
+
+                store.set(cacheKey, cacheStore!);
               } catch (error) {
                 cached.isRevalidating = false;
                 if (isServer) {
@@ -235,13 +252,13 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       }
 
       const data = await fn(...args);
-      tagCache.set(key, {
+      cacheStore.set(storeKey, {
         data,
         timestamp: now,
         isRevalidating: false,
       });
 
-      store.set(fn, tagCache);
+      store.set(cacheKey, cacheStore);
 
       return data;
     } else {
@@ -267,10 +284,10 @@ export function withRequestCache<
 }
 
 export function revalidateTag(tag: string): void {
-  const fns = tagFnMap.get(tag);
-  if (fns) {
-    fns.forEach(fn => {
-      lruCache?.delete(fn);
+  const keys = tagKeyMap.get(tag);
+  if (keys) {
+    keys.forEach(key => {
+      lruCache?.delete(key);
     });
   }
 }
@@ -278,5 +295,5 @@ export function revalidateTag(tag: string): void {
 export function clearStore(): void {
   lruCache?.clear();
   lruCache = undefined;
-  tagFnMap.clear();
+  tagKeyMap.clear();
 }

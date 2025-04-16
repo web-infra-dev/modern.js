@@ -34,6 +34,7 @@ const loader = async () => {
   - `tag`: Tag to identify the cache, which can be used to invalidate the cache
   - `maxAge`: Cache validity period (milliseconds)
   - `revalidate`: Time window for revalidating the cache (milliseconds), similar to HTTP Cache-Control's stale-while-revalidate functionality
+  - `customKey`: Custom cache key function
 
 The type of the `options` parameter is as follows:
 
@@ -42,6 +43,11 @@ interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
+  customKey?: <Args extends any[]>(options: {
+    params: Args;
+    fn: (...args: Args) => any;
+    generatedKey: string;
+  }) => string | symbol;
 }
 ```
 
@@ -152,6 +158,58 @@ const getComplexStatistics = cache(
 revalidateTag('dashboard-stats'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
 ```
 
+
+#### `customKey` parameter
+
+The `customKey` parameter is used to customize the cache key. It is a function that receives an object containing the parameters of the cached function, the function itself, and the serialized result of the parameters, and returns a string or Symbol type as the cache key. This is very useful in some scenarios, such as when the function reference changes (such as hot update or dynamic import), but you want to still return the cached data.
+
+```ts
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData } from './api';
+
+// Different function references, but share the same cache via customKey
+const getUserA = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: ({ params }) => {
+      // Return a stable string as the cache key
+      return `user-${params[0]}`;
+    },
+  }
+);
+
+// Even if the function reference changes,
+// as long as customKey returns the same value, the cache will be hit
+const getUserB = cache(
+  (...args) => fetchUserData(...args), // New function reference
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: ({ params }) => {
+      // Return the same key as getUserA
+      return `user-${params[0]}`;
+    },
+  }
+);
+
+// You can also use Symbol as a cache key (usually used to share cache within the same application)
+const USER_CACHE_KEY = Symbol('user-cache');
+const getUserC = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: () => USER_CACHE_KEY,
+  }
+);
+
+// You can utilize the generatedKey parameter
+const getUserD = cache(
+  fetchUserData,
+  {
+    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
+  }
+);
+```
 
 ### Storage
 
