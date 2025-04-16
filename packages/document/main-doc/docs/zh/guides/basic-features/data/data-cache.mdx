@@ -190,6 +190,11 @@ const getUserB = cache(
   }
 );
 
+// 即使 getUserA 和 getUserB 是不同的函数引用，但由于它们的 customKey 返回相同的值
+// 所以当调用参数相同时，它们会共享缓存
+const dataA = await getUserA(1);
+const dataB = await getUserB(1); // 这里会命中缓存，不会再次发起请求
+
 // 也可以使用 Symbol 作为缓存键（通常用于共享同一个应用内的缓存）
 const USER_CACHE_KEY = Symbol('user-cache');
 const getUserC = cache(
@@ -207,11 +212,6 @@ const getUserD = cache(
     customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
   }
 );
-
-// 即使 getUserA 和 getUserB 是不同的函数引用，但由于它们的 customKey 返回相同的值
-// 所以当调用参数相同时，它们会共享缓存
-const dataA = await getUserA(1);
-const dataB = await getUserB(1); // 这里会命中缓存，不会再次发起请求
 ```
 
 ### 存储
