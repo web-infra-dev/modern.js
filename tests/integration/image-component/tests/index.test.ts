@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { isVersionAtLeast18 } from '@modern-js/utils';
 import puppeteer from 'puppeteer';
 import {
   getPort,
@@ -22,6 +23,7 @@ function existsSync(filePath: string) {
 
 describe('devtools build', () => {
   test(`should get right devtools build!`, async () => {
+    if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
@@ -35,6 +37,7 @@ describe('devtools build', () => {
   });
 
   it('should get image url with production CDN', async () => {
+    if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
     const app = await modernServe(appDir, appPort);
     const errors: string[] = [];
@@ -60,6 +63,7 @@ describe('devtools build', () => {
 
 describe('devtools dev', () => {
   test(`should render page correctly`, async () => {
+    if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
     const app = await launchApp(
       appDir,
