@@ -135,12 +135,12 @@ export function createStaticMiddleware(
   return async (c, next) => {
     // If page route hit, we should skip static middleware for performance
     const pageRoute = c.get('route');
-    if (pageRoute) {
+    const pathname = c.req.path;
+    if (pageRoute && path.extname(pathname) === '') {
       return next();
     }
 
     // exist is path
-    const pathname = c.req.path;
     const hit = staticPathRegExp.test(pathname);
 
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
