@@ -49,9 +49,6 @@ async function reorganizeHtmlFiles(
 
     try {
       await fs.move(sourceHtmlPath, targetHtmlPath);
-      logger.info(
-        `HTML file moved from ${sourceHtmlPath} to ${targetHtmlPath}`,
-      );
     } catch (error: any) {
       logger.error(`Failed to copy HTML file: ${error.message}`);
     }
