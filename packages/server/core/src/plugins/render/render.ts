@@ -146,8 +146,8 @@ export async function createRender({
       forMatchpathname,
       matchEntryName,
     );
-    const framework = metaName || 'modern-js';
-    const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
+    const framework = cutNameByHyphen(metaName || 'modern-js');
+    const fallbackHeader = `x-${framework}-ssr-fallback`;
     let fallbackReason = null;
 
     const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
@@ -231,6 +231,7 @@ export async function createRender({
       renderOptions.html = injectFallbackReasonToHtml({
         html: renderOptions.html,
         reason: fallbackReason,
+        framework,
       });
     }
 
@@ -240,7 +241,13 @@ export async function createRender({
       case 'data':
         response =
           (await dataHandler(req, renderOptions)) ||
-          (await renderHandler(req, renderOptions, 'ssr', fallbackWrapper));
+          (await renderHandler(
+            req,
+            renderOptions,
+            'ssr',
+            fallbackWrapper,
+            framework,
+          ));
         break;
       case 'rsc-tree':
         response = await renderRscHandler(req, renderOptions);
@@ -255,6 +262,7 @@ export async function createRender({
           renderOptions,
           renderMode,
           fallbackWrapper,
+          framework,
         );
         break;
       default:
@@ -273,6 +281,7 @@ async function renderHandler(
   options: SSRRenderOptions,
   mode: 'ssr' | 'csr',
   fallbackWrapper: FallbackWrapper,
+  framework: string,
 ) {
   let response: Response | null = null;
 
@@ -330,6 +339,7 @@ async function renderHandler(
         injectFallbackReasonToHtml({
           html: options.html,
           reason: 'error',
+          framework,
         }),
       );
     }
@@ -390,11 +400,13 @@ async function getRenderMode(
 function injectFallbackReasonToHtml({
   html,
   reason,
+  framework,
 }: {
   html: string;
   reason: FallbackReason;
+  framework: string;
 }) {
-  const tag = `<script>window.__ssr_fallback_reason__='${reason}'</script>`;
+  const tag = `<script id="__${framework}_ssr_fallback_reason__" type="application/json">${JSON.stringify({ reason })}</script>`;
   return html.replace(/<\/head>/, `${tag}</head>`);
 }
 

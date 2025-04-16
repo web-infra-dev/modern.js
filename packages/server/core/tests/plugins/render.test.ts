@@ -121,7 +121,11 @@ describe('should render html correctly', () => {
       },
     );
     expect(html2).toMatch(/Hello Modern/);
-    expect(html2.includes(`window.__ssr_fallback_reason__='query'`)).toBe(true);
+    expect(
+      html2.includes(
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"query"}</script>`,
+      ),
+    ).toBe(true);
     expect(fallbackHeader).toBe('1;reason=query');
 
     const html3 = await Promise.resolve(
@@ -139,9 +143,11 @@ describe('should render html correctly', () => {
       return res.text();
     });
     expect(fallbackHeader).toBe('1;reason=header');
-    expect(html3.includes(`window.__ssr_fallback_reason__='header'`)).toBe(
-      true,
-    );
+    expect(
+      html3.includes(
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"header"}</script>`,
+      ),
+    ).toBe(true);
     expect(html3).toMatch(/Hello Modern/);
 
     // custom fallback reason in header.
@@ -162,7 +168,7 @@ describe('should render html correctly', () => {
     expect(fallbackHeader).toBe('1;reason=header,custom fallback reason');
     expect(
       html4.includes(
-        `window.__ssr_fallback_reason__='header,custom fallback reason'`,
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"header,custom fallback reason"}</script>`,
       ),
     ).toBe(true);
     expect(html4).toMatch(/Hello Modern/);
@@ -207,6 +213,11 @@ describe('should render html correctly', () => {
       return res.text();
     });
     expect(fallbackHeader).toBe('1;reason=error');
-    expect(html.includes(`window.__ssr_fallback_reason__='error'`)).toBe(true);
+    console.log(`html -->`, html);
+    expect(
+      html.includes(
+        `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"error"}</script>`,
+      ),
+    ).toBe(true);
   });
 });
