@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "@integration-test/image-component",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "test:me": "../../node_modules/.bin/jest --config ../../jest.config.js integration/image-component"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/image": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@rsdoctor/rspack-plugin": "^0.4.9",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5"
+  },
+  "browserslist": {}
+}
