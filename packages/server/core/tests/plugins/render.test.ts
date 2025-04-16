@@ -213,7 +213,6 @@ describe('should render html correctly', () => {
       return res.text();
     });
     expect(fallbackHeader).toBe('1;reason=error');
-    console.log(`html -->`, html);
     expect(
       html.includes(
         `<script id="__modern_ssr_fallback_reason__" type="application/json">{"reason":"error"}</script>`,
