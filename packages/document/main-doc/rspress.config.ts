@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/',
   logo: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
   icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
-  lang: 'zh',
+  lang: 'en',
   themeDir: path.join(__dirname, 'src'),
   markdown: {
     checkDeadLinks: true,
