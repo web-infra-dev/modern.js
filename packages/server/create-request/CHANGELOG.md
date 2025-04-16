@@ -1,5 +1,15 @@
 # @modern-js/create-request
 
+## 2.67.2
+
+### Patch Changes
+
+- 6a5f36c: feat(bff): support params and headers for Upload
+  feat(bff): 为 Upload 操作符支持 params 和 headers
+- Updated dependencies [8f97aae]
+  - @modern-js/runtime-utils@2.67.2
+  - @modern-js/utils@2.67.2
+
 ## 2.67.1
 
 ### Patch Changes

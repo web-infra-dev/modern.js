@@ -1,5 +1,21 @@
 # @modern-js/server-plugin
 
+## 2.67.2
+
+### Patch Changes
+
+- b310249: feat(ssr): support customizing fallback reason via `x-modern-ssr-fallback` header
+  feat(ssr): 支持在 `x-modern-ssr-fallback` 中自定义降级原因
+- 23a111f: feat: improve modern.js server performance
+  feat: 提升 modern.js 服务器性能
+- c964f07: feat(ssr): inject fallback reason to html
+  feat(ssr): 注入降级原因到响应的 html
+- Updated dependencies [8f97aae]
+  - @modern-js/runtime-utils@2.67.2
+  - @modern-js/plugin-v2@2.67.2
+  - @modern-js/plugin@2.67.2
+  - @modern-js/utils@2.67.2
+
 ## 2.67.1
 
 ### Patch Changes

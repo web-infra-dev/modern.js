@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.67.2
+
+### Patch Changes
+
+- 8f97aae: fix(deploy): fix the deploy problem for netlify
+  fix(deploy): 修复部署 netlify 的问题
+  - @modern-js/types@2.67.2
+  - @modern-js/utils@2.67.2
+
 ## 2.67.1
 
 ### Patch Changes

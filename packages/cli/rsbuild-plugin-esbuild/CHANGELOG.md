@@ -1,5 +1,7 @@
 # @modern-js/rsbuild-plugin-esbuild
 
+## 2.67.2
+
 ## 2.67.1
 
 ## 2.67.0
