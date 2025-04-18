@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.67.2
+
+### Patch Changes
+
+- 26880ca: docs: use en as the default lang of document
+  docs: 使用英文作为默认的文档语言
+  - @modern-js/sandpack-react@2.67.2
+
 ## 2.67.1
 
 ### Patch Changes

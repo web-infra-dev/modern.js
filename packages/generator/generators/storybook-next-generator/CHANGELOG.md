@@ -1,5 +1,13 @@
 # @modern-js/storybook-next-generator
 
+## 3.7.27
+
+### Patch Changes
+
+- 1f785c8: fix: storybook generator template
+
+  fix: 修复 storybook 生成器模板
+
 ## 3.7.26
 
 ## 3.7.25

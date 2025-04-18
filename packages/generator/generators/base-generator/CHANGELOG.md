@@ -1,5 +1,7 @@
 # @modern-js/base-generator
 
+## 3.7.27
+
 ## 3.7.26
 
 ## 3.7.25
