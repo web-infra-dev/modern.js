@@ -7,6 +7,7 @@ export { createServerBase } from './serverBase';
 
 export type {
   Middleware,
+  MiddlewareHandler,
   Context,
   Next,
   HonoRequest as InternalRequest,

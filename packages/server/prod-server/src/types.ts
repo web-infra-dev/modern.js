@@ -11,12 +11,12 @@ interface ProdServerExtraOptions {
   /** compat modern.server-runtime.config.ts */
   serverConfigFile?: string;
 
-  serverConfigPath?: string;
+  serverConfigPath: string;
 
   plugins?: (ServerPlugin | ServerPluginLegacy)[];
 }
 
-export type ProdServerOptions = Exclude<ServerBaseOptions, 'serverConfig'> &
+export type ProdServerOptions = ServerBaseOptions &
   ProdServerExtraOptions &
   CreateDefaultPluginsOptions;
 

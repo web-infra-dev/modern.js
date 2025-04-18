@@ -41,8 +41,10 @@ async function initServer() {
       lambdaDirectory: p_lambdaDirectory,
     },
     plugins: p_plugins,
+    serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
+
   const requestHandler = await createNetlifyFunction(prodServerOptions);
 
   return requestHandler;

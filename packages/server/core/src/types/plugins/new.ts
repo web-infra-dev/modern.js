@@ -14,7 +14,7 @@ import type {
   UnstableMiddleware,
 } from '@modern-js/types';
 import type { MiddlewareHandler } from 'hono';
-import type { Middleware } from './base';
+import type { MiddlewareObj } from './base';
 import type {
   APIServerStartInput,
   FallbackInput,
@@ -39,7 +39,7 @@ export type AfterStreamingRenderContextFn = (
 export interface ServerPluginExtends extends BaseServerPluginExtends {
   config: ServerConfig;
   extendContext: {
-    middlewares: Middleware[];
+    middlewares: MiddlewareObj[];
   };
   extendApi: {
     setAppContext: (c: ISAppContext) => void;

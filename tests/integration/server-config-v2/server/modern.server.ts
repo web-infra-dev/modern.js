@@ -1,22 +1,41 @@
 import {
-  type RenderMiddleware,
-  defineConfig,
-} from '@modern-js/app-tools/server';
+  type MiddlewareHandler,
+  defineServerConfig,
+} from '@modern-js/server-runtime';
 import plugin1 from '../plugins/serverPlugin';
 
-const timing: RenderMiddleware = async (c, next) => {
+const timing: MiddlewareHandler = async (c, next) => {
   const start = Date.now();
 
   await next();
 
   const end = Date.now();
 
-  c.response.headers.set('server-timing', `render; dur=${end - start}`);
+  c.res.headers.set('server-timing', `render; dur=${end - start}`);
 };
 
-export default defineConfig({
-  render: {
-    middleware: [timing],
-  },
+const requestTiming: MiddlewareHandler = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+
+  c.res.headers.set('x-middleware', `dur=${end - start}`);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler: requestTiming,
+    },
+  ],
+  renderMiddlewares: [
+    {
+      name: 'render-timing',
+      handler: timing,
+    },
+  ],
   plugins: [plugin1()],
 });
