@@ -87,7 +87,7 @@
     "terser-webpack-plugin": "5.3.14",
     "ts-deepmerge": "7.0.2",
     "ts-loader": "9.4.4",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.5",
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
