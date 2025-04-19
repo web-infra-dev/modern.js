@@ -7,7 +7,7 @@ sidebar_position: 15
 目前，Modern.js 提供了两种部署方式：
 
 - 你可以将应用自行托管在包含 Node.js 环境的容器中，这为应用提供了部署的灵活性。
-- 你也可以通过平台部署应用，目前 Modern.js 官方支持了 [Netlify](https://www.netlify.com/) 和 [Vercel](https://vercel.com/) 平台。
+- 你也可以通过平台部署应用，目前 Modern.js 官方支持了 [Netlify](https://www.netlify.com/), [Vercel](https://vercel.com/) 和 [Github pages](https://pages.github.com/) 平台。
 
 :::info
 目前 Modern.js 仅支持在 Node.js 环境中运行，未来将提供更多运行时环境的支持。
@@ -25,6 +25,7 @@ MODERNJS_DEPLOY=netlify npx modern deploy
 :::info
 在 Modern.js 官方支持的部署平台中部署时，无需指定环境变量。
 :::
+
 
 ## ModernJS 内置 Node.js 服务器
 
@@ -107,6 +108,11 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
   command = "modern deploy"
 ```
 
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+
+:::
+
 在 Netlify 平台上添加项目，部署即可。
 
 ### 全栈项目
@@ -126,8 +132,12 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```
 
 :::info
-目前 Modern.js 还不支持在 Netlify Edge Functions 进行部署，我们将在后续的版本中支持。
+1. 目前 Modern.js 还不支持在 Netlify Edge Functions 进行部署，我们将在后续的版本中支持。
+2. 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
+
 :::
+
+
 
 
 ### Monorepo 项目
@@ -207,6 +217,11 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
 
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+
+:::
+
 ### 全栈项目
 
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Vercel Functions** 上。
@@ -214,12 +229,13 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，有两点需要注意：
 
 1. 当前，Modern.js 还不支持在 Vercel 平台上部署 BFF 项目，我们将在后续的版本中支持。
-2. Vercel 平台部署时，默认 node 运行时为 `20.x`，部署全栈项目时建议选择 `18.x`，具体原因详见[Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error)，你可以修改 `package.json` 指定版本：
-```json title="package.json"
-"engines": {
-  "node": "18.x"
-}
-```
+2. 函数运行的 node.js 版本由项目在 Vercel 平台配置决定。
+
+
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
+
+:::
 
 ### Monorepo 项目
 
@@ -272,6 +288,38 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ```
 
 提交你的代码，使用 Vercel 平台部署即可。
+
+## Github Pages
+
+如果你要为一个仓库常见 Github 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加
+以下配置：
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  //...
+  server:{
+    baseUrl: "/<repository-name>"
+  },
+  output: {
+    assetPrefix: "/<repository-name>",
+  }
+});
+```
+
+Github Pages 支持两种部署方式，通过分支部署或通过 Github Actions 部署，如果通过分支部署，可以使用以下步骤：
+1. 在 github 仓库中，选择 `Settings > Pages > Source > Deploy from a branch`。
+2. 安装 `gh-pages` 依赖作为开发依赖。
+3. 在 package.json 的 `scripts` 中添加 `"deploy:gh-pages": "MODERNJS_DEPLOY=ghPages modern deploy && gh-pages -d .output"`。
+4. 执行 `npm run deploy:gh-pages`。
+
+:::info
+1. 执行 `MODERNJS_DEPLOY=ghPages modern deploy`，Modern.js 会把可用于 github 部署的产物构建到 `.output` 目录。
+2. 可以参考项目[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+
+:::
+
+如果通过 Github Actions 部署，可以选择 Settings > Pages > Source > GitHub Actions，并在项目中添加 workflow 文件，可参考[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
 
 
 ## 自建 Node.js 服务器
