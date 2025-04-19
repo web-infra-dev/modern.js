@@ -469,4 +469,86 @@ describe('cache function', () => {
       expect(generateKey([{}])).not.toBe(generateKey([[]]));
     });
   });
+
+  describe('customKey', () => {
+    it('should share cache between different functions with same customKey', async () => {
+      const mockFn1 = jest.fn().mockResolvedValue('data1');
+      const mockFn2 = jest.fn().mockResolvedValue('data2');
+
+      const cachedFn1 = cache(mockFn1, {
+        customKey: () => 'shared-key',
+      });
+
+      const cachedFn2 = cache(mockFn2, {
+        customKey: () => 'shared-key',
+      });
+
+      const result1 = await cachedFn1('param');
+      expect(result1).toBe('data1');
+      expect(mockFn1).toHaveBeenCalledTimes(1);
+
+      const result2 = await cachedFn2('param');
+      expect(result2).toBe('data1');
+      expect(mockFn2).toHaveBeenCalledTimes(0);
+    });
+
+    it('should support Symbol as customKey return value', async () => {
+      const SYMBOL_KEY = Symbol('test-symbol');
+      const mockFn = jest.fn().mockResolvedValue('symbol data');
+
+      const cachedFn = cache(mockFn, {
+        customKey: () => SYMBOL_KEY,
+      });
+
+      const result1 = await cachedFn('param1');
+      expect(result1).toBe('symbol data');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      const result2 = await cachedFn('param2');
+      expect(result2).toBe('symbol data');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should support customKey that depends on function arguments', async () => {
+      const mockFn = jest
+        .fn()
+        .mockImplementation(id => Promise.resolve(`data for ${id}`));
+
+      const cachedFn = cache(mockFn, {
+        customKey: ({ params }) => `user-${params[0]}`,
+      });
+
+      const result1 = await cachedFn(1);
+      const result2 = await cachedFn(2);
+      const result3 = await cachedFn(1);
+
+      expect(result1).toBe('data for 1');
+      expect(result2).toBe('data for 2');
+      expect(result3).toBe('data for 1');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should respect maxAge and work with tag revalidation', async () => {
+      const mockFn = jest.fn().mockResolvedValue('cached data');
+      const cachedFn = cache(mockFn, {
+        tag: 'custom-tag',
+        customKey: () => 'test-key',
+        maxAge: CacheTime.SECOND,
+      });
+
+      await cachedFn('param');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      await cachedFn('param');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      revalidateTag('custom-tag');
+      await cachedFn('param');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+
+      jest.advanceTimersByTime(CacheTime.SECOND + 1);
+      await cachedFn('param');
+      expect(mockFn).toHaveBeenCalledTimes(3);
+    });
+  });
 });
