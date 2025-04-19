@@ -42,6 +42,11 @@
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
     },
+    "./hono": {
+      "types": "./dist/types/runtime/hono/index.d.ts",
+      "jsnext:source": "./src/runtime/hono/index.ts",
+      "default": "./dist/cjs/runtime/hono/index.js"
+    },
     "./runtime/create-request": {
       "types": "./dist/types/create-request/index.d.ts",
       "jsnext:source": "./src/runtime/create-request/index.ts",
@@ -58,6 +63,9 @@
       ],
       "server": [
         "./dist/types/server.d.ts"
+      ],
+      "hono": [
+        "./dist/types/runtime/hono/index.d.ts"
       ],
       "runtime/create-request": [
         "./dist/types/runtime/create-request/index.d.ts"
@@ -78,6 +86,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "type-is": "^1.6.18",
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
@@ -92,11 +101,13 @@
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "@types/type-is": "^1.6.3",
     "jest": "^29",
     "memfs": "^3.5.1",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.98.0"
+    "webpack": "^5.98.0",
+    "zod": "^3.22.3"
   },
   "sideEffects": false,
   "publishConfig": {

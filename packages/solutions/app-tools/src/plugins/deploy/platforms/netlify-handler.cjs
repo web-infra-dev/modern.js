@@ -39,6 +39,7 @@ async function initServer() {
       sharedDirectory: p_sharedDirectory,
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
+      bffRuntimeFramework: p_bffRuntimeFramework,
     },
     plugins: p_plugins,
     ...dynamicProdOptions,

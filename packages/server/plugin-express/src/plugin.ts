@@ -214,11 +214,12 @@ export default (): ServerPluginLegacy => {
               return resolve();
             };
 
-            res.on('finish', (err: Error) => {
-              if (err) {
-                return reject(err);
-              }
+            res.on('finish', () => {
               return resolve();
+            });
+
+            res.on('error', (err: Error) => {
+              return reject(err);
             });
 
             return app(req as Request, res as Response, handler);

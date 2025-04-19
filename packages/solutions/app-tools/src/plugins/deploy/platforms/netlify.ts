@@ -138,6 +138,10 @@ export const createNetlifyPreset: CreatePreset = (
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
         .replace('p_plugins', pluginsCode)
+        .replace(
+          'p_bffRuntimeFramework',
+          `"${serverAppContext.bffRuntimeFramework}"`,
+        )
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
