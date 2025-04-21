@@ -1178,7 +1178,7 @@ importers:
         specifier: ^16
         version: 16.11.68
       classnames:
-        specifier: ^2
+        specifier: ^2.5.1
         version: 2.5.1
       clsx:
         specifier: ^1.2.1
