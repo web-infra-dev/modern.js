@@ -20,10 +20,10 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@commitlint/cli':
-        specifier: ^17.6.3
+        specifier: ^17.8.1
         version: 17.8.1(@swc/core@1.10.18(@swc/helpers@0.5.17))
       '@commitlint/config-conventional':
-        specifier: ^17.6.3
+        specifier: ^17.8.1
         version: 17.8.1
       '@modern-js/monorepo-tools':
         specifier: workspace:*
