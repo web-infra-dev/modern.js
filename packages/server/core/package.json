@@ -56,13 +56,14 @@
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/plugin-v2": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.13",
     "@web-std/fetch": "^4.2.1",
     "@web-std/file": "^3.0.3",
     "@web-std/stream": "^1.0.3",
+    "cloneable-readable": "^3.0.0",
     "flatted": "^3.2.9",
     "hono": "^3.12.2",
     "ts-deepmerge": "7.0.2"
@@ -71,6 +72,7 @@
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@types/cloneable-readable": "^2.0.3",
     "@types/jest": "^29",
     "@types/merge-deep": "^3.0.0",
     "@types/node": "^14",

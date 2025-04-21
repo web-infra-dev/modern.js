@@ -6,6 +6,7 @@ import type {
 } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
 import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
+import cloneable from 'cloneable-readable';
 import type { RequestHandler } from '../../types';
 import { isResFinalized } from './helper';
 import { installGlobals } from './polyfills/install';
@@ -43,25 +44,38 @@ export const createWebRequest = (
   res.on('close', () => controller.abort('res closed'));
 
   const url = `http://${req.headers.host}${req.url}`;
-  const fullUrl = new URL(url);
 
-  // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
-  if (
-    body ||
-    (!(method === 'GET' || method === 'HEAD') &&
-      fullUrl.searchParams.has('__loader')) ||
-    fullUrl.searchParams.has('__pass_body') ||
-    req.headers['x-mf-micro'] ||
-    req.headers['x-rsc-action'] ||
-    req.headers['x-parse-through-body']
-  ) {
-    init.body = body ?? createReadableStreamFromReadable(req);
+  const needsRequestBody = body || !(method === 'GET' || method === 'HEAD');
+  const cloneableReq = needsRequestBody ? cloneable(req) : null;
+
+  if (needsRequestBody) {
+    if (body) {
+      init.body = body;
+    } else {
+      const stream = cloneableReq!.clone();
+      init.body = createReadableStreamFromReadable(stream);
+    }
     (init as { duplex: 'half' }).duplex = 'half';
   }
 
-  const request = new Request(url, init);
+  const originalRequest = new Request(url, init);
 
-  return request;
+  if (needsRequestBody) {
+    return new Proxy(originalRequest, {
+      get(target, prop) {
+        if (
+          ['json', 'text', 'blob', 'arrayBuffer', 'formData', 'body'].includes(
+            prop as string,
+          )
+        ) {
+          cloneableReq!.resume();
+        }
+        return target[prop as keyof Request];
+      },
+    });
+  }
+
+  return originalRequest;
 };
 
 export const sendResponse = async (response: Response, res: NodeResponse) => {
@@ -124,6 +138,7 @@ const getRequestListener = (handler: RequestHandler) => {
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);
+
       const response = await handler(request, {
         node: {
           req,

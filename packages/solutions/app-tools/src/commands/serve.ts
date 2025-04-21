@@ -95,6 +95,7 @@ export const serve = async (
             appContext.appDirectory,
             appContext.distDirectory,
           ),
+      bffRuntimeFramework: appContext.bffRuntimeFramework,
     },
     runMode,
   });

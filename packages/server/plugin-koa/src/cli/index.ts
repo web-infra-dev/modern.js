@@ -9,6 +9,15 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
     let bffExportsUtils: any;
     const { useAppContext } = api;
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
+    const useConfig = api.useConfigContext();
+
+    const appContext = api.useAppContext();
+
+    api.setAppContext({
+      ...appContext,
+      bffRuntimeFramework: 'koa',
+    });
+
     return {
       config() {
         const appContext = useAppContext();
@@ -17,12 +26,10 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
           'server',
         );
 
-        const modernConfig = api.useResolvedConfigContext();
-
         const runtimePath = '@modern-js/plugin-koa/runtime';
         const alias =
           process.env.NODE_ENV === 'production' ||
-          !!modernConfig?.bff?.crossProject
+          !!useConfig?.bff?.crossProject
             ? runtimePath
             : require.resolve(runtimePath);
 
