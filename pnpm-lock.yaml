@@ -4825,7 +4825,7 @@ importers:
         specifier: ^14
         version: 14.18.35
       cross-spawn:
-        specifier: ^7.0.3
+        specifier: ^7.0.6
         version: 7.0.6
       enhanced-resolve:
         specifier: 5.17.1
