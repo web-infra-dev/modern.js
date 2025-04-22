@@ -7,7 +7,9 @@ sidebar_position: 2
 Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，提供了基于文件约定的路由能力，并支持了业界流行的约定式路由模式：**嵌套路由**。当入口被识别为 [约定式路由](/guides/concept/entries.html#约定式路由) 时，Modern.js 会自动基于文件系统，生成对应的路由结构。
 
 :::note
+
 本小节提到的路由，都是约定式路由。
+
 :::
 
 ## 什么是嵌套路由
@@ -84,7 +86,9 @@ export default () => {
 ```
 
 :::note
+
 `<Outlet>` 是 React Router 6 中提供的 API，详情可以查看 [Outlet](https://reactrouter.com/en/main/components/outlet#outlet)。
+
 :::
 
 不同目录结构下，`<Outlet>` 所代表的组件也不同。为了方便介绍 `<Layout>` 与 `<Outlet>` 的关系，以下面的文件目录举例：
@@ -192,11 +196,15 @@ export default Blog;
 如果在某个子目录下存在 `$.tsx` 文件，该文件会作为通配路由组件，当没有匹配的路由时，会渲染该路由组件。
 
 :::note
+
 `$.tsx` 可以认为是一种特殊的 `<Page>` 组件，如果路由无法匹配，则 `$.tsx` 会作为 `<Layout>` 的子组件渲染。
+
 :::
 
 :::warning
+
 如果当前目录下不存在 `<Layout>` 组件时，则 `$.tsx` 不会生效。
+
 :::
 
 例如以下目录结构：
@@ -498,7 +506,58 @@ import Motivation from '@site-docs/components/convention-routing-motivation';
 在使用约定式路由的情况下，务必使用 `@modern-js/runtime/router` 中的 API，不直接使用 React Router 的 API。因为 Modern.js 内部会安装 React Router，如果应用中使用了 React Router 的 API，可能会导致两个版本的 React Router 同时存在，出现不符合预期的行为。
 
 :::note
+
 如果应用中必须直接使用 React Router 包的 API，例如部分路由行为被封装在统一的 npm 包中，那应用可以通过设置 [`source.alias`](/configure/app/source/alias)，将 `react-router` 和 `react-router-dom` 统一指向项目的依赖，避免两个版本的 React Router 同时存在的问题。
+
 :::
 
+2. 关于 `config` 函数和 `init` 函数的说明
+
+:::warning 不推荐使用
+
+Modern.js 早期版本支持在路由 layout 文件中通过导出 `config` 函数和 `init` 函数进行运行时配置和执行初始化操作。这些方式目前仍然**被支持**，但我们**强烈推荐**使用新方式。
+
+:::
+
+** config **
+
+在路由组件中，你可以通过导出 `config` 函数来添加动态 Runtime 配置：
+
+```tsx
+// routes/layout.tsx
+export const config = () => {
+  return {
+    // 动态 Runtime 配置
+  };
+};
+```
+
+:::tip
+
+我们强烈推荐使用 Runtime 配置文件来实现 Runtime 动态配置，而不是使用 `config` 函数。详情请参考 [Runtime 配置](/configure/app/runtime/0-intro)。
+
+:::
+
+** init **
+
+在路由组件中，你可以通过导出 `init` 函数来执行预渲染逻辑：
+
+```tsx
+// routes/layout.tsx
+export const init = () => {
+  // 初始化逻辑
+};
+```
+
+:::tip
+
+我们强烈推荐使用 [Runtime 插件](/plugin/introduction.html#runtime-插件) 来实现渲染预处理逻辑，而不是使用 `init` 函数。详情请参考 [渲染预处理](/guides/basic-features/render/before-render)。
+
+:::
+
+:::warning
+
+未来版本中，`config` 函数和 `init` 函数将逐步**废弃**。建议尽早迁移到 Runtime 配置文件和 Runtime插件方案。
+
+:::
 

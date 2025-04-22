@@ -7,7 +7,9 @@ sidebar_position: 2
 Modern.js routing is based on [React Router 6](https://reactrouter.com/en/main), offering file convention-based routing capabilities and supporting the industry-popular **nested routing** pattern. When an entry is recognized as [conventional routing](/guides/concept/entries.html#conventional-routing), Modern.js automatically generates the corresponding routing structure based on the file system.
 
 :::note
+
 The routing mentioned in this section all refers to conventional routing.
+
 :::
 
 ## What is Nested Routing
@@ -38,7 +40,9 @@ In the `routes/` directory, subdirectory names are mapped to route URLs. Modern.
 - `layout.tsx`: This is the layout component and controls the layout of all sub-routes in its directory by using `<Outlet>` to represent child components.
 
 :::tip
+
 `.ts`, `.js`, `.jsx`, or `.tsx` file extensions can be used for the above convention files.
+
 :::
 
 ### Page
@@ -83,7 +87,9 @@ export default () => {
 ```
 
 :::note
+
 `<Outlet>` is an API provided by React Router 6. For more details, see [Outlet](https://reactrouter.com/en/main/components/outlet#outlet).
+
 :::
 
 Under different directory structures, the components represented by `<Outlet>` are also different. To illustrate the relationship between `<Layout>` and `<Outlet>`, let's consider the following directory structure:
@@ -219,7 +225,7 @@ When you visit `/blog/a` and no routes match, the page will render the `routes/b
 </RootLayout>
 ```
 
-If you want `/blog` to match the `blog/$.tsx` file as well, you need to remove the `blog.tsx` file from the same directory and ensure there are no other sub-routes under `blog`.
+If you want `/blog` to match the `blog/$.tsx` file as well, you need to remove the `blog/layout.tsx` file from the same directory and ensure there are no other sub-routes under `blog`.
 
 Similarly, you can use [useParams](/apis/app/runtime/router/router#useparams) to capture the remaining part of the URL in the `$.tsx` component.
 
@@ -480,6 +486,8 @@ The `prefetch` attribute has three optional values:
 
 :::
 
+import Motivation from '@site-docs-en/components/convention-routing-motivation';
+
 <Motivation />
 
 ## FAQ
@@ -496,4 +504,52 @@ Additionally, when using conventional routing, make sure to use the API from `@m
 If you must directly use the React Router package's API (e.g., route behavior wrapped in a unified npm package), you can set [`source.alias`](/configure/app/source/alias) to point `react-router` and `react-router-dom` to the project's dependencies, avoiding the issue of two versions of React Router.
 :::
 
-import Motivation from '@site-docs-en/components/convention-routing-motivation';
+2. About `config` function and `init` function
+
+:::warning Not Recommended
+
+Modern.js early versions supported runtime configuration and initialization operations through `config` function and `init` function exported in route layout files. These methods are still **supported**, but we **strongly recommend** using the new methods.
+
+:::
+
+** config **
+
+In route components, you can add dynamic Runtime configuration by exporting a `config` function:
+
+```tsx
+// routes/layout.tsx
+export const config = () => {
+  return {
+    // dynamic Runtime configuration
+  };
+};
+```
+
+:::tip
+
+We strongly recommend using Runtime configuration files to implement Runtime dynamic configuration instead of using the `config` function. For more details, please refer to [Runtime Configuration](/configure/app/runtime/0-intro).
+
+:::
+
+** init **
+
+In route components, you can execute pre-rendering logic by exporting an `init` function:
+
+```tsx
+// routes/layout.tsx
+export const init = () => {
+  // initialization logic
+};
+```
+
+:::tip
+
+We strongly recommend using [Runtime Plugins](/plugin/introduction.html#runtime-plugin) to implement rendering preprocessing logic instead of using the `init` function. For more details, please refer to [Render Preprocessing](/guides/basic-features/render/before-render).
+
+:::
+
+:::warning
+
+In future versions, `config` function and `init` function will be gradually **deprecated**. We recommend migrating to Runtime configuration files and Runtime plugin solutions as soon as possible.
+
+:::

@@ -2,6 +2,12 @@
 
 Modern.js 的运行时（Runtime）配置需集中在 `src/modern.runtime.ts` 文件中声明。
 
+:::warning
+
+使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高版本。
+
+:::
+
 :::info
 如果项目中还没有此文件，请执行以下命令创建：
 
@@ -59,9 +65,7 @@ export default defineRuntimeConfig(entryName => {
 使用 `src/modern.runtime.ts` 配置方式不支持导出异步函数，这与 Modern.js 的渲染方式有关。如果需要添加异步逻辑，请使用 **[Runtime 插件 (Runtime Plugin)](/plugin/introduction.html#runtime-插件)**。
 :::
 
-:::warning
-使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高版本。
-:::
+
 
 import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
 

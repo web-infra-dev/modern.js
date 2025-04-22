@@ -2,12 +2,19 @@
 
 Modern.js runtime configuration should be centralized in the `src/modern.runtime.ts` file.
 
+:::warning
+
+Using the `src/modern.runtime.ts` configuration approach requires Modern.js version **MAJOR_VERSION.66.0** or higher.
+
+:::
+
 :::info
 If this file doesn't exist in your project yet, create it with the following command:
 
 ```bash
 touch src/modern.runtime.ts
 ```
+
 :::
 
 ## Basic Configuration
@@ -33,7 +40,7 @@ For multi-entry applications, `defineRuntimeConfig` can accept a function that r
 ```tsx
 import { defineRuntimeConfig } from '@modern-js/runtime';
 
-export default defineRuntimeConfig((entryName) => {
+export default defineRuntimeConfig(entryName => {
   if (entryName === 'main') {
     return {
       router: {
@@ -53,12 +60,9 @@ export default defineRuntimeConfig((entryName) => {
   };
 });
 ```
+
 :::tip
 Using the `src/modern.runtime.ts` configuration approach does not support exporting asynchronous functions, which is related to the rendering method of Modern.js. If you need to add asynchronous logic, please use the **[Runtime Plugin](/plugin/introduction.html#runtime-plugin)**.
-:::
-
-:::warning
-Using the `src/modern.runtime.ts` configuration approach requires Modern.js version **MAJOR_VERSION.66.0** or higher.
 :::
 
 import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
@@ -79,15 +83,23 @@ To improve maintainability, Modern.js introduced the unified `src/modern.runtime
 ```ts
 // modern.config.ts
 export default {
-  runtime: { /* ... */ },
-  runtimeByEntries: { /* ... */ },
+  runtime: {
+    /* ... */
+  },
+  runtimeByEntries: {
+    /* ... */
+  },
 };
 
 // App.config
-App.config = {/* ... */}
+App.config = {
+  /* ... */
+};
 
 // layout file
-export const config = () => { /* Dynamic configuration logic */ };
+export const config = () => {
+  /* Dynamic configuration logic */
+};
 ```
 
 ### Migration Recommendation
