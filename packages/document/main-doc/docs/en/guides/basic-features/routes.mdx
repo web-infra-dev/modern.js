@@ -512,7 +512,7 @@ Modern.js early versions supported runtime configuration and initialization oper
 
 :::
 
-** config **
+**config**
 
 In route components, you can add dynamic Runtime configuration by exporting a `config` function:
 
@@ -525,13 +525,7 @@ export const config = () => {
 };
 ```
 
-:::tip
-
-We strongly recommend using Runtime configuration files to implement Runtime dynamic configuration instead of using the `config` function. For more details, please refer to [Runtime Configuration](/configure/app/runtime/0-intro).
-
-:::
-
-** init **
+**init**
 
 In route components, you can execute pre-rendering logic by exporting an `init` function:
 
@@ -541,15 +535,3 @@ export const init = () => {
   // initialization logic
 };
 ```
-
-:::tip
-
-We strongly recommend using [Runtime Plugins](/plugin/introduction.html#runtime-plugin) to implement rendering preprocessing logic instead of using the `init` function. For more details, please refer to [Render Preprocessing](/guides/basic-features/render/before-render).
-
-:::
-
-:::warning
-
-In future versions, `config` function and `init` function will be gradually **deprecated**. We recommend migrating to Runtime configuration files and Runtime plugin solutions as soon as possible.
-
-:::
