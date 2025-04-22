@@ -9,6 +9,7 @@ Using the `src/modern.runtime.ts` configuration approach requires Modern.js vers
 :::
 
 :::info
+
 If this file doesn't exist in your project yet, create it with the following command:
 
 ```bash
@@ -62,7 +63,9 @@ export default defineRuntimeConfig(entryName => {
 ```
 
 :::tip
+
 Using the `src/modern.runtime.ts` configuration approach does not support exporting asynchronous functions, which is related to the rendering method of Modern.js. If you need to add asynchronous logic, please use the **[Runtime Plugin](/plugin/introduction.html#runtime-plugin)**.
+
 :::
 
 import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
