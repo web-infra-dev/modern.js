@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.67.3
+
+### Patch Changes
+
+- f6b81dd: refactor: avoid only one of "req" and "request" has a request body
+  refactor: 避免 req 和 request 只有一个有请求体
+
 ## 2.67.2
 
 ## 2.67.1

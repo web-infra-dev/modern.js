@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.67.3
+
+### Patch Changes
+
+- 7cde161: feat: support deployment for github pages
+  feat: 支持使用 github pages 部署
+- f6b81dd: refactor: avoid only one of "req" and "request" has a request body
+  refactor: 避免 req 和 request 只有一个有请求体
+- Updated dependencies [f6b81dd]
+- Updated dependencies [f6b81dd]
+  - @modern-js/server-core@2.67.3
+  - @modern-js/types@2.67.3
+  - @modern-js/plugin-data-loader@2.67.3
+  - @modern-js/prod-server@2.67.3
+  - @modern-js/server@2.67.3
+  - @modern-js/server-utils@2.67.3
+  - @modern-js/core@2.67.3
+  - @modern-js/uni-builder@2.67.3
+  - @modern-js/plugin-v2@2.67.3
+  - @modern-js/utils@2.67.3
+  - @modern-js/plugin-i18n@2.67.3
+  - @modern-js/rsbuild-plugin-esbuild@2.67.3
+  - @modern-js/node-bundle-require@2.67.3
+  - @modern-js/plugin@2.67.3
+
 ## 2.67.2
 
 ### Patch Changes
