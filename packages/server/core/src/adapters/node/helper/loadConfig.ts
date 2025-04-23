@@ -8,7 +8,6 @@ import {
   compatibleRequire,
   ensureAbsolutePath,
   getMeta,
-  logger,
   requireExistModule,
 } from '@modern-js/utils';
 import { parse } from 'flatted';

@@ -9,7 +9,6 @@ import {
   chalk,
   findExists,
   getMeta,
-  logger,
   requireExistModule,
 } from '@modern-js/utils';
 

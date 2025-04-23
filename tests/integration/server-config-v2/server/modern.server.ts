@@ -21,7 +21,7 @@ const requestTiming: MiddlewareHandler = async (c, next) => {
 
   const end = Date.now();
 
-  c.res.headers.set('x-middleware', `dur=${end - start}`);
+  c.res.headers.set('x-middleware', `request; dur=${end - start}`);
 };
 
 export default defineServerConfig({

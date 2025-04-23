@@ -16,7 +16,10 @@ export default (): ServerPluginLegacy => ({
 
             const end = Date.now();
 
-            c.res.headers.set('x-plugin-middleware', `dur=${end - start}`);
+            c.res.headers.set(
+              'x-plugin-middleware',
+              `request; dur=${end - start}`,
+            );
           },
         });
 

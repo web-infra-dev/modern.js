@@ -24,10 +24,18 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
+        "types": "./dist/types/index.d.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/cjs/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ]
     }
   },
   "scripts": {

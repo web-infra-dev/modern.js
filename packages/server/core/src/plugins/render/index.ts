@@ -68,7 +68,11 @@ export const renderPlugin = (): ServerPluginLegacy => ({
 
           // config.renderMiddlewares can register by server config and prepare hook
           renderMiddlewares?.forEach(m => {
-            middlewares.push(m);
+            middlewares.push({
+              name: m.name,
+              path: urlPath,
+              handler: m.handler,
+            });
           });
 
           // TODO: Unstable middleware should be deprecated

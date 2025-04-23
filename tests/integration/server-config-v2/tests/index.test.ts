@@ -22,6 +22,31 @@ const supportServerPlugins = async ({
   expect(res.status).toBe(200);
   const text = await res.text();
   expect(text).toMatch('bytedance');
+};
+
+const supportServerMiddleware = async ({
+  host,
+  port,
+}: {
+  host: string;
+  port: number;
+}) => {
+  const res = await fetch(`${host}:${port}/`);
+  expect(res.status).toBe(200);
+
+  const { headers } = res;
+  expect(headers.get('x-middleware')).toMatch('request');
+};
+
+const supportServerRenderMiddleware = async ({
+  host,
+  port,
+}: {
+  host: string;
+  port: number;
+}) => {
+  const res = await fetch(`${host}:${port}/`);
+  expect(res.status).toBe(200);
 
   const { headers } = res;
   expect(headers.get('Server-Timing')).toMatch('render');
@@ -45,6 +70,14 @@ describe('server config', () => {
     test('plugins should works', async () => {
       // await new Promise(resolve => setTimeout(resolve, 1000));
       await supportServerPlugins({
+        host,
+        port,
+      });
+      await supportServerMiddleware({
+        host,
+        port,
+      });
+      await supportServerRenderMiddleware({
         host,
         port,
       });
@@ -75,6 +108,14 @@ describe('server config', () => {
 
     test('plugins should works', async () => {
       await supportServerPlugins({
+        host,
+        port,
+      });
+      await supportServerMiddleware({
+        host,
+        port,
+      });
+      await supportServerRenderMiddleware({
         host,
         port,
       });

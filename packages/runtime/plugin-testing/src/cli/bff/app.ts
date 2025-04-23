@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { createProdServer, loadServerPlugins } from '@modern-js/prod-server';
 import type { ServerPlugin } from '@modern-js/types';
-import { SERVER_DIR } from '@modern-js/utils';
 import { AsyncLocalStorage } from 'async_hooks';
 
 const store = new AsyncLocalStorage();

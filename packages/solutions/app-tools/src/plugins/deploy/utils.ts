@@ -94,13 +94,13 @@ export const getProjectUsage = (
     SERVER_DIR,
     `${meta}.server`,
   );
-  const isServerCoonfigExists = ['.ts', '.js'].some(ex => {
+  const isServerConfigExists = ['.ts', '.js'].some(ex => {
     return fse.existsSync(`${serverConfigPath}${ex}`);
   });
 
   const useWebServer =
     isDepExists(appDirectory, '@modern-js/plugin-server') ||
-    isServerCoonfigExists;
+    isServerConfigExists;
 
   return { useSSR, useAPI, useWebServer };
 };
