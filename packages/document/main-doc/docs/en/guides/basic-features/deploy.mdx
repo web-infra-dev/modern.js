@@ -6,7 +6,7 @@ sidebar_position: 15
 
 Currently, Modern.js offers two deployment way:
 - You can host your application in a container that includes a Node.js environment on your own, which provides flexibility for the deployment of the application.
-- You can also deploy your application through a platform. Currently, Modern.js supports the [Netlify](https://www.netlify.com/) and [Vercel](https://vercel.com/).
+- You can also deploy your application through a platform. Currently, Modern.js officially supports deployment on [Netlify](https://www.netlify.com/), [Vercel](https://vercel.com/), and [Github pages](https://pages.github.com/).
 
 :::info
 Currently, Modern.js only supports running in a Node.js environment. Support for more runtime environments will be provided in the future.
@@ -110,6 +110,11 @@ Add the following content to `netlify.toml`:
   command = "modern deploy"
 ```
 
+:::info
+You can refer to the [deployment project example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
+
+:::
+
 Now, add a project to the Netlify platform and deploy it!
 
 ### Full Stack Project
@@ -129,7 +134,8 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 ```
 
 :::info
-Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
+1. Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
+2. You can refer to the [deployment project example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr).
 :::
 
 
@@ -213,6 +219,11 @@ Commit your project to git, select Framework Preset as `Other` on the Vercel pla
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
 
+:::info
+You can refer to the [deployment project examples](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
+
+:::
+
 ### Full Stack Project
 
 Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Vercel Functions**.
@@ -220,14 +231,12 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
 
 1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
-2. When deploying on Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects,
-see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error), you can modify `package.json` to specify the version:
-```json title="package.json"
-"engines": {
-  "node": "18.x"
-}
-```
+2. The Node.js version for function execution is determined by the project configuration on the Vercel platform.
 
+:::info
+You can refer to the [deployment project examples](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr).
+
+:::
 
 ### Monorepo
 
@@ -283,6 +292,48 @@ Add the following content to the `packages/app/vercel.json` file:
 ```
 
 Just submit your code and deploy it using the Vercel platform.
+
+## Github Pages
+
+If you're creating a GitHub Pages for a repository without a custom domain, the page URL will follow this format: `http://<username>.github.io/<repository-name>`. Therefore, you need to add the following configuration in `modern.config.ts`:
+
+```
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  //...
+  server: {
+    baseUrl: "/<repository-name>"
+  },
+  output: {
+    assetPrefix: "/<repository-name>",
+  }
+});
+```
+
+GitHub Pages supports two deployment ways: branch deployment or GitHub Actions deployment.
+
+For branch deployment, follow these steps:
+
+1. In the GitHub repository, navigate to Settings > Pages > Source > Deploy from a branch
+2. Install the `gh-pages` as devDependency
+3. Add the following script to `package.json`
+```
+"scripts": {
+  //...
+  "deploy:gh-pages": "MODERNJS_DEPLOY=ghPages modern deploy && gh-pages -d .output"
+}
+```
+
+4. Run `npm run deploy:gh-pages`
+
+:::info
+1. Running `MODERNJS_DEPLOY=ghPages modern deploy` will build the production output for GitHub in the .output directory.
+2. You can refer to the [project](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)
+:::
+
+For GitHub Actions deployment, select Settings > Pages > Source > GitHub Actions, and add a workflow file to the project. You can refer to the [example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
+
 
 ## Using Self-Built Node.js Server
 
