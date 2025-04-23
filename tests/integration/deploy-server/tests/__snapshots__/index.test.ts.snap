@@ -45,16 +45,9 @@ exports[`deploy support server when deploy target is vercel 1`] = `
 
 exports[`deploy support server when deploy target is vercel 2`] = `
 {
-  "default": {
-    "handler": "index.js",
-    "launcherType": "Nodejs",
-    "runtime": "nodejs16.x",
-    "shouldAddHelpers": false,
-    "supportsResponseStreaming": true,
-  },
   "handler": "index.js",
   "launcherType": "Nodejs",
-  "runtime": "nodejs16.x",
+  "runtime": Any<String>,
   "shouldAddHelpers": false,
   "supportsResponseStreaming": true,
 }

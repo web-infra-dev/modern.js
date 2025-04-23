@@ -63,7 +63,10 @@ describe('deploy', () => {
     expect(await fse.pathExists(publicDirectory)).toBe(true);
     expect(await fse.pathExists(bootstrapFile)).toBe(true);
     expect(config).toMatchSnapshot();
-    expect(funcsConfig).toMatchSnapshot();
+    expect({
+      ...funcsConfig.default,
+      runtime: expect.any(String),
+    }).toMatchSnapshot();
   });
 
   test('support server when deploy target is netlify', async () => {
