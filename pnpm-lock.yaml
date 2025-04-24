@@ -2342,11 +2342,11 @@ importers:
   packages/runtime/plugin-image:
     dependencies:
       '@rsbuild-image/core':
-        specifier: 0.0.1-next.20
-        version: 0.0.1-next.20(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        specifier: 0.0.1-next.16
+        version: 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@rsbuild-image/react':
-        specifier: 0.0.1-next.20
-        version: 0.0.1-next.20(@rsbuild-image/core@0.0.1-next.20(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        specifier: 0.0.1-next.16
+        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       ipx:
         specifier: ^3.0.3
         version: 3.0.3
@@ -12619,8 +12619,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rsbuild-image/core@0.0.1-next.20':
-    resolution: {integrity: sha512-GebkbuZ4Em5vFPG7YscvEXgSB29PEiw217W/g0MwCIvHnjmJ8sHPMqhR3em/EnK5NTf18WSAgLKmI+bkQzdJBg==}
+  '@rsbuild-image/core@0.0.1-next.16':
+    resolution: {integrity: sha512-CA788hY+ZKOMdfdGr1hamyBcS6BBZmq7aBk/bTv8OKnL6iZ3Lyw3TBBvBGG4SQtm86+0djpK3fef3oQNOCcsXQ==}
     peerDependencies:
       ipx: '>=3.0.3'
       react: '>=16.9.0'
@@ -12632,8 +12632,8 @@ packages:
       sharp:
         optional: true
 
-  '@rsbuild-image/react@0.0.1-next.20':
-    resolution: {integrity: sha512-60KxAyiomi7LwylXuCm5iLoB2wt2n6JmqTb7uXF1cjIxXF/ZRNqqPpha2IfJV3IUTamK8JsjSFwfYtaB2ErgWA==}
+  '@rsbuild-image/react@0.0.1-next.16':
+    resolution: {integrity: sha512-i3fELfYttZ7pLWI8oIx5EjomlwDEXfhtKfD2Yd943ZI/2JryLzNtywAHGPYvy2okJbJ0Zab8p5YKHrrEHRHJqg==}
     peerDependencies:
       '@rsbuild-image/core': '*'
       ipx: '>=3.0.3'
@@ -28480,8 +28480,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.8':
     optional: true
 
-  '@rsbuild-image/core@0.0.1-next.20(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
+      '@sindresorhus/is': 7.0.1
       image-size: 2.0.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -28492,9 +28493,9 @@ snapshots:
       ipx: 3.0.3
       sharp: 0.34.1
 
-  '@rsbuild-image/react@0.0.1-next.20(@rsbuild-image/core@0.0.1-next.20(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
-      '@rsbuild-image/core': 0.0.1-next.20(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+      '@rsbuild-image/core': 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@sindresorhus/is': 7.0.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
