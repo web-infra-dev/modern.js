@@ -57,11 +57,11 @@
   "license": "MIT",
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-state": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.3.10",
+    "@rsbuild/core": "1.3.11",
     "@storybook/components": "~7.6.12",
     "@storybook/core-common": "~7.6.12",
     "@storybook/csf-plugin": "~7.6.12",

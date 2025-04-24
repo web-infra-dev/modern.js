@@ -82,9 +82,9 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
+    "@modern-js/plugin-v2": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

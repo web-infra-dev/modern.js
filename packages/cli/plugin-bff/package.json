@@ -86,14 +86,14 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "type-is": "^1.6.18",
-    "@swc/helpers": "0.5.13"
+    "@swc/helpers": "0.5.13",
+    "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
+    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",

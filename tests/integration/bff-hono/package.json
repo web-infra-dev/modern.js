@@ -29,8 +29,8 @@
     "@types/node": "^14",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
-    "typescript": "^5",
-    "tsconfig-paths": "~3.14.1"
+    "tsconfig-paths": "~3.14.1",
+    "typescript": "^5"
   },
   "exports": {
     "./context/index": {
