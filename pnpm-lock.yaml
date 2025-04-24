@@ -669,8 +669,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.3.10)
       '@rsbuild/plugin-react':
-        specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@1.3.10)
+        specifier: 1.3.0
+        version: 1.3.0(@rsbuild/core@1.3.10)
       '@rsbuild/plugin-rem':
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.3.10)
@@ -12703,8 +12703,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-react@1.2.0':
-    resolution: {integrity: sha512-TXd0cvcLPF7OrO215vlGSyRXD6Fc3KQWhFuXFKOtRYp+C1Vc9oeW0GopUIStv2pI2/xtv2XX8GOAdJsnsc6lkA==}
+  '@rsbuild/plugin-react@1.3.0':
+    resolution: {integrity: sha512-3LxUoRTGDH9KB5ol5+4792DFJU5w3PKCcbF9QVRbL2Ma31WP/cEETTN7m5uZYyUZN/hOwrxU+ueRNNKD3XtaYQ==}
     peerDependencies:
       '@rsbuild/core': 1.x
 
@@ -12963,8 +12963,8 @@ packages:
       react-refresh:
         optional: true
 
-  '@rspack/plugin-react-refresh@1.2.0':
-    resolution: {integrity: sha512-DTsbtggCfsiXE5QQtYMS8rKfEF8GIjwPDbgIT6Kg8BlAjpJY4jT5IisyhfIi7YOT3d5RIvu60iFB6Kr9sSMsnA==}
+  '@rspack/plugin-react-refresh@1.4.1':
+    resolution: {integrity: sha512-bRALP4qEauvrB7RcMQ95rUHu1dw19V6c6uYukUTpA2OZDyMHTQ9cpEe28kaDwH/xsAuDNuYqnUZOW3NdLO/q3A==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
       webpack-hot-middleware: 2.x
@@ -28528,10 +28528,10 @@ snapshots:
       '@rspack/plugin-react-refresh': 1.0.1(react-refresh@0.16.0)
       react-refresh: 0.16.0
 
-  '@rsbuild/plugin-react@1.2.0(@rsbuild/core@1.3.10)':
+  '@rsbuild/plugin-react@1.3.0(@rsbuild/core@1.3.10)':
     dependencies:
       '@rsbuild/core': 1.3.10
-      '@rspack/plugin-react-refresh': 1.2.0(react-refresh@0.17.0)
+      '@rspack/plugin-react-refresh': 1.4.1(react-refresh@0.17.0)
       react-refresh: 0.17.0
     transitivePeerDependencies:
       - webpack-hot-middleware
@@ -28579,7 +28579,7 @@ snapshots:
   '@rsbuild/plugin-svgr@1.2.0(@rsbuild/core@1.3.10)(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.3.10
-      '@rsbuild/plugin-react': 1.2.0(@rsbuild/core@1.3.10)
+      '@rsbuild/plugin-react': 1.3.0(@rsbuild/core@1.3.10)
       '@svgr/core': 8.1.0(typescript@5.6.3)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0(typescript@5.6.3))
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0(typescript@5.6.3))(typescript@5.6.3)
@@ -28934,7 +28934,7 @@ snapshots:
     optionalDependencies:
       react-refresh: 0.16.0
 
-  '@rspack/plugin-react-refresh@1.2.0(react-refresh@0.17.0)':
+  '@rspack/plugin-react-refresh@1.4.1(react-refresh@0.17.0)':
     dependencies:
       error-stack-parser: 2.1.4
       html-entities: 2.6.0
