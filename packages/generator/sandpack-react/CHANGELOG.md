@@ -1,5 +1,7 @@
 # @modern-js/sandpack-react
 
+## 2.67.3
+
 ## 2.67.2
 
 ## 2.67.1

@@ -1,5 +1,14 @@
 # @modern-js/create-request
 
+## 2.67.3
+
+### Patch Changes
+
+- f6b81dd: feat: bff supports hono runtime framework
+  feat: bff 支持 hono 运行时框架
+  - @modern-js/runtime-utils@2.67.3
+  - @modern-js/utils@2.67.3
+
 ## 2.67.2
 
 ### Patch Changes
