@@ -22,6 +22,7 @@ const createApp = async (
       pwd,
       config,
       plugins: pluginInstances,
+      serverConfigPath: '',
       routes,
       appContext: {
         apiDirectory: path.join(pwd, 'api'),

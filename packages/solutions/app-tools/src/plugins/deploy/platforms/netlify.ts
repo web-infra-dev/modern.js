@@ -2,7 +2,9 @@ import path from 'node:path';
 import {
   DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
+  SERVER_DIR,
   fs as fse,
+  getMeta,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
@@ -40,6 +42,7 @@ export const createNetlifyPreset: CreatePreset = (
     entrypoints,
     serverPlugins,
     moduleType,
+    metaName,
   } = appContext;
 
   const isEsmProject = moduleType === 'module';
@@ -119,11 +122,15 @@ export const createNetlifyPreset: CreatePreset = (
         },
       };
 
+      const meta = getMeta(metaName);
+
       const pluginImportCode = genPluginImportsCode(plugins || []);
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
+
+      const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
 
       const pluginsCode = getPluginsCode(plugins);
 
@@ -142,6 +149,7 @@ export const createNetlifyPreset: CreatePreset = (
           'p_bffRuntimeFramework',
           `"${serverAppContext.bffRuntimeFramework}"`,
         )
+        .replace('p_serverDirectory', serverConfigPath)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);

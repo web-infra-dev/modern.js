@@ -2,8 +2,10 @@ import path from 'node:path';
 import {
   DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
+  SERVER_DIR,
   chalk,
   fs as fse,
+  getMeta,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
@@ -15,7 +17,8 @@ import {
 import type { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
-  const { appDirectory, distDirectory, serverPlugins, moduleType } = appContext;
+  const { appDirectory, distDirectory, serverPlugins, moduleType, metaName } =
+    appContext;
   const isEsmProject = moduleType === 'module';
 
   const plugins: PluginItem[] = serverPlugins.map(plugin => [
@@ -55,6 +58,10 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
+      const meta = getMeta(metaName);
+
+      const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
+
       const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
@@ -68,6 +75,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
         .replace('p_plugins', pluginsCode)
+        .replace('p_serverDirectory', serverConfigPath)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace(

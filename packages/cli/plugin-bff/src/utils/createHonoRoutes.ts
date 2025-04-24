@@ -11,7 +11,7 @@ import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];
 
-const createHonoRoutes = (handlerInfos: APIHandlerInfo[]) => {
+const createHonoRoutes = (handlerInfos: APIHandlerInfo[] = []) => {
   return handlerInfos.map(({ routePath, handler, httpMethod }) => {
     const routeMiddlwares = Reflect.getMetadata('middleware', handler) || [];
     const honoHandler = createHonoHandler(handler);

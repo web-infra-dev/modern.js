@@ -55,8 +55,6 @@ export class ServerBase<E extends Env = any> {
       cliConfig,
       serverConfig: serverConfig || {},
     });
-    // TODO adjust use plugins position
-    this.addPlugins(mergedConfig.plugins || []);
 
     const { serverContext } = await server.run({
       plugins: this.plugins as Plugin[],

@@ -31,10 +31,11 @@ async function getDeployPreset(
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
 ) {
-  const { appDirectory, distDirectory } = appContext;
+  const { appDirectory, distDirectory, metaName } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
     appDirectory,
     distDirectory,
+    metaName,
   );
   const needModernServer = useSSR || useAPI || useWebServer;
 

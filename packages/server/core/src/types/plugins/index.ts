@@ -11,4 +11,5 @@ export type {
   WebServerStartInput,
   APIServerStartInput,
   ServerMiddleware,
+  MiddlewareObj,
 } from './base';

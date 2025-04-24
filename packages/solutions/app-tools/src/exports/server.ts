@@ -1,12 +1,6 @@
-import type {
-  UnstableMiddleware,
-  UnstableMiddlewareContext,
-  UnstableNext,
-} from '@modern-js/types';
+import type { UnstableMiddlewareContext, UnstableNext } from '@modern-js/types';
 
 export type { ServerPlugin, ServerPluginLegacy } from '@modern-js/server-core';
-
-export type RenderMiddleware = UnstableMiddleware;
 
 export type RenderMiddlewareContext = UnstableMiddlewareContext;
 

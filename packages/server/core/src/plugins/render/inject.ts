@@ -44,7 +44,8 @@ export const injectRenderHandlerPlugin = ({
           routes,
           config,
           metaName,
-          cacheConfig: config.render?.cache || cacheConfig,
+          // TODO: support modern.server.ts cache config
+          cacheConfig: cacheConfig,
           staticGenerate,
           onFallback,
         };

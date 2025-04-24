@@ -9,7 +9,6 @@ import type { ServerNodeEnv } from '../../adapters/node/hono';
 import type * as streamModule from '../../adapters/node/polyfills/stream';
 import { ServerTimings } from '../../constants';
 import { getLoaderCtx } from '../../helper';
-import type { ServerBase } from '../../serverBase';
 import type {
   Context,
   Middleware,
@@ -38,12 +37,8 @@ export class CustomServer {
 
   private serverMiddlewarePromise: ReturnType<PrepareWebServerFn>;
 
-  private serverBase: ServerBase;
-
-  constructor(hooks: ServerPluginHooks, serverBase: ServerBase, pwd: string) {
+  constructor(hooks: ServerPluginHooks, pwd: string) {
     this.hooks = hooks;
-
-    this.serverBase = serverBase;
 
     // The webExtension is deprecated, so we give a empty array to it.
     const webExtension: any[] = [];
@@ -157,31 +152,24 @@ export class CustomServer {
     };
   }
 
-  async getServerMiddleware(
-    renderMiddlewares?: Middleware<ServerNodeEnv & ServerEnv>[],
-  ): Promise<
+  async getServerMiddleware(): Promise<
     | Middleware<ServerNodeEnv & ServerEnv>
     | Array<Middleware<ServerNodeEnv & ServerEnv>>
     | undefined
   > {
     const serverMiddleware = await this.serverMiddlewarePromise;
 
-    // if no server middleware in server/index.ts, return render middleware
     if (
       !serverMiddleware ||
       (!isFunction(serverMiddleware) && !isArray(serverMiddleware))
     ) {
-      return renderMiddlewares;
+      return;
     }
 
     // if server middleware is array, concat it with render middleware
     if (Array.isArray(serverMiddleware)) {
       const unstableMiddlewares = getServerMidFromUnstableMid(serverMiddleware);
-      return [...(renderMiddlewares || []), ...unstableMiddlewares];
-    } else if (renderMiddlewares) {
-      // if server middleware is not array, which means it is deprecated mode.
-      // if there has render middlewares, ignore the deprecated middlewares.
-      return renderMiddlewares;
+      return unstableMiddlewares;
     }
 
     // TODO: This middleware way is depreated in next version

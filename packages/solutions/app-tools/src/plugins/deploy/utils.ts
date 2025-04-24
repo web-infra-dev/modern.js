@@ -1,6 +1,12 @@
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
-import { ROUTE_SPEC_FILE, fs as fse, isDepExists } from '@modern-js/utils';
+import {
+  ROUTE_SPEC_FILE,
+  SERVER_DIR,
+  fs as fse,
+  getMeta,
+  isDepExists,
+} from '@modern-js/utils';
 import type { AppToolsContext } from '../../types/new';
 
 export type ServerAppContext = {
@@ -65,6 +71,7 @@ export const getPluginsCode = (plugins: PluginItem[]) => {
 export const getProjectUsage = (
   appDirectory: string,
   distDirectory: string,
+  metaName: string,
 ) => {
   const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
   const { routes } = fse.readJSONSync(routeJSON);
@@ -80,6 +87,20 @@ export const getProjectUsage = (
       useAPI = true;
     }
   });
-  const useWebServer = isDepExists(appDirectory, '@modern-js/plugin-server');
+
+  const meta = getMeta(metaName);
+  const serverConfigPath = path.resolve(
+    appDirectory,
+    SERVER_DIR,
+    `${meta}.server`,
+  );
+  const isServerConfigExists = ['.ts', '.js'].some(ex => {
+    return fse.existsSync(`${serverConfigPath}${ex}`);
+  });
+
+  const useWebServer =
+    isDepExists(appDirectory, '@modern-js/plugin-server') ||
+    isServerConfigExists;
+
   return { useSSR, useAPI, useWebServer };
 };
