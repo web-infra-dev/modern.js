@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.67.3
+
+### Patch Changes
+
+- f6b81dd: feat: bff supports hono runtime framework
+  feat: bff 支持 hono 运行时框架
+- f6b81dd: refactor: avoid only one of "req" and "request" has a request body
+  refactor: 避免 req 和 request 只有一个有请求体
+  - @modern-js/plugin-v2@2.67.3
+  - @modern-js/runtime-utils@2.67.3
+  - @modern-js/utils@2.67.3
+  - @modern-js/plugin@2.67.3
+
 ## 2.67.2
 
 ### Patch Changes
