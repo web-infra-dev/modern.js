@@ -1207,6 +1207,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "name": "RsbuildCorePlugin",
     },
     HotModuleReplacementPlugin {
+      "affectedHooks": undefined,
       "name": "HotModuleReplacementPlugin",
     },
     HtmlRspackPlugin {

@@ -1208,6 +1208,7 @@ exports[`uni-builder environment compat > should generator environment config co
         "name": "RsbuildCorePlugin",
       },
       HotModuleReplacementPlugin {
+        "affectedHooks": undefined,
         "name": "HotModuleReplacementPlugin",
       },
       HtmlRspackPlugin {
