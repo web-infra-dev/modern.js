@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 # 数据缓存
 
-`cache` 函数可以让你缓存数据获取或计算的结果。
+`cache` 函数可以让你缓存数据获取或计算的结果，相比整页[渲染缓存](/guides/basic-features/render/ssr-cache)，它提供了更精细的数据粒度控制，并且适用于客户端渲染(CSR)、服务端渲染（SSR）、API 服务(BFF)等多种场景。
 
 :::info
 需要 x.65.5 及以上版本
@@ -213,6 +213,68 @@ const getUserD = cache(
   }
 );
 ```
+
+#### `onCache` 参数
+
+`onCache` 参数允许你跟踪缓存统计信息，例如命中率。这是一个回调函数，接收有关每次缓存操作的信息，包括状态、键、参数和结果。
+
+```ts
+import { cache, CacheTime } from '@modern-js/runtime/cache';
+
+// 跟踪缓存统计
+const stats = {
+  total: 0,
+  hits: 0,
+  misses: 0,
+  stales: 0,
+  hitRate: () => stats.hits / stats.total
+};
+
+const getUser = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    onCache({ status, key, params, result }) {
+      // status 可以是 'hit'、'miss' 或 'stale'
+      stats.total++;
+
+      if (status === 'hit') {
+        stats.hits++;
+      } else if (status === 'miss') {
+        stats.misses++;
+      } else if (status === 'stale') {
+        stats.stales++;
+      }
+
+      console.log(`缓存${status === 'hit' ? '命中' : status === 'miss' ? '未命中' : '陈旧'}，键：${String(key)}`);
+      console.log(`当前命中率：${stats.hitRate() * 100}%`);
+    }
+  }
+);
+
+// 使用示例
+await getUser(1); // 缓存未命中
+await getUser(1); // 缓存命中
+await getUser(2); // 缓存未命中
+```
+
+`onCache` 回调接收一个包含以下属性的对象：
+
+- `status`: 缓存操作状态，可以是：
+  - `hit`: 缓存命中，返回缓存内容
+  - `miss`: 缓存未命中，执行函数并缓存结果
+  - `stale`: 缓存命中但数据陈旧，返回缓存内容同时在后台重新验证
+- `key`: 缓存键，可能是 `customKey` 的结果或默认生成的键
+- `params`: 传递给缓存函数的参数
+- `result`: 结果数据（来自缓存或新计算的）
+
+这个回调只在提供 `options` 参数时被调用。当使用不带选项的缓存函数（用于 SSR 请求范围内的缓存）时，不会调用 `onCache` 回调。
+
+`onCache` 回调对以下场景非常有用：
+- 监控缓存性能
+- 计算命中率
+- 记录缓存操作
+- 实现自定义指标
 
 ### 存储
 

@@ -551,4 +551,142 @@ describe('cache function', () => {
       expect(mockFn).toHaveBeenCalledTimes(3);
     });
   });
+
+  describe('cache statistics', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      clearStore();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should call onCache with hit status when cache hit', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const onCacheMock = jest.fn();
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        onCache: onCacheMock,
+      });
+
+      await cachedFn('param1');
+      expect(onCacheMock).toHaveBeenCalledTimes(1);
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'miss',
+          params: ['param1'],
+          result: 'test data',
+        }),
+      );
+
+      onCacheMock.mockClear();
+      await cachedFn('param1');
+      expect(onCacheMock).toHaveBeenCalledTimes(1);
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'hit',
+          params: ['param1'],
+          result: 'test data',
+        }),
+      );
+    });
+
+    it('should call onCache with stale status when in revalidate window', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const onCacheMock = jest.fn();
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: CacheTime.SECOND,
+        onCache: onCacheMock,
+      });
+
+      await cachedFn('param1');
+      onCacheMock.mockClear();
+
+      jest.advanceTimersByTime(CacheTime.SECOND + 10);
+
+      await cachedFn('param1');
+      expect(onCacheMock).toHaveBeenCalledTimes(1);
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'stale',
+          params: ['param1'],
+          result: 'test data',
+        }),
+      );
+
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should include correct key in onCache callback', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const onCacheMock = jest.fn();
+
+      // Case 1: Default key (function reference)
+      const cachedFn1 = cache(mockFn, {
+        onCache: onCacheMock,
+      });
+
+      await cachedFn1('param1');
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'miss',
+          key: JSON.stringify(['param1']),
+        }),
+      );
+
+      onCacheMock.mockClear();
+
+      // Case 2: Custom string key
+      const CUSTOM_KEY = 'my-custom-key';
+      const cachedFn2 = cache(mockFn, {
+        customKey: () => CUSTOM_KEY,
+        onCache: onCacheMock,
+      });
+
+      await cachedFn2('param1');
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'miss',
+          key: CUSTOM_KEY,
+        }),
+      );
+
+      onCacheMock.mockClear();
+
+      // Case 3: Custom symbol key
+      const SYMBOL_KEY = Symbol('test-key');
+      const cachedFn3 = cache(mockFn, {
+        customKey: () => SYMBOL_KEY,
+        onCache: onCacheMock,
+      });
+
+      await cachedFn3('param1');
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'miss',
+          key: SYMBOL_KEY,
+        }),
+      );
+    });
+
+    it('should not call onCache when no options are provided', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const onCacheMock = jest.fn();
+
+      const cachedFn = cache(mockFn);
+
+      const handler = withRequestCache(async (req: Request) => {
+        const result1 = await cachedFn('param1');
+        const result2 = await cachedFn('param1');
+        return { result1, result2 };
+      });
+
+      await handler(new MockRequest() as unknown as Request);
+      expect(onCacheMock).not.toHaveBeenCalled();
+    });
+  });
 });

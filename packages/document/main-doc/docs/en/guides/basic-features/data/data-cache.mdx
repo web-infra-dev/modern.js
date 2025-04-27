@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 # Data Caching
 
-The `cache` function allows you to cache the results of data fetching or computation.
+The `cache` function allows you to cache the results of data fetching or computation, Compared to full-page [rendering cache](/guides/basic-features/render/ssr-cache), it provides more fine-grained control over data granularity and is applicable to various scenarios such as Client-Side Rendering (CSR), Server-Side Rendering (SSR), and API services (BFF).
 
 :::info
 X.65.5 and above versions are required
@@ -216,6 +216,68 @@ const getUserD = cache(
   }
 );
 ```
+
+#### `onCache` Parameter
+
+The `onCache` parameter allows you to track cache statistics such as hit rate. It's a callback function that receives information about each cache operation, including the status, key, parameters, and result.
+
+```ts
+import { cache, CacheTime } from '@modern-js/runtime/cache';
+
+// Track cache statistics
+const stats = {
+  total: 0,
+  hits: 0,
+  misses: 0,
+  stales: 0,
+  hitRate: () => stats.hits / stats.total
+};
+
+const getUser = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    onCache({ status, key, params, result }) {
+      // status can be 'hit', 'miss', or 'stale'
+      stats.total++;
+
+      if (status === 'hit') {
+        stats.hits++;
+      } else if (status === 'miss') {
+        stats.misses++;
+      } else if (status === 'stale') {
+        stats.stales++;
+      }
+
+      console.log(`Cache ${status} for key: ${String(key)}`);
+      console.log(`Current hit rate: ${stats.hitRate() * 100}%`);
+    }
+  }
+);
+
+// Usage example
+await getUser(1); // Cache miss
+await getUser(1); // Cache hit
+await getUser(2); // Cache miss
+```
+
+The `onCache` callback receives an object with the following properties:
+
+- `status`: The cache operation status, which can be:
+  - `hit`: Cache hit, returning cached content
+  - `miss`: Cache miss, executing the function and caching the result
+  - `stale`: Cache hit but data is stale, returning cached content while revalidating in the background
+- `key`: The cache key, which is either the result of `customKey` or the default generated key
+- `params`: The parameters passed to the cached function
+- `result`: The result data (either from cache or newly computed)
+
+This callback is only invoked when the `options` parameter is provided. When using the cache function without options (for SSR request-scoped caching), the `onCache` callback is not called.
+
+The `onCache` callback is useful for:
+- Monitoring cache performance
+- Calculating hit rates
+- Logging cache operations
+- Implementing custom metrics
 
 ### Storage
 

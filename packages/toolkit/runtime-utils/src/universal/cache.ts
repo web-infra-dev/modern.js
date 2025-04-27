@@ -16,6 +16,15 @@ export const CacheTime = {
   MONTH: 30 * 24 * 60 * 60 * 1000,
 } as const;
 
+export type CacheStatus = 'hit' | 'stale' | 'miss';
+
+export interface CacheStatsInfo {
+  status: CacheStatus;
+  key: string | symbol;
+  params: any[];
+  result: any;
+}
+
 interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
@@ -25,6 +34,7 @@ interface CacheOptions {
     fn: (...args: Args) => any;
     generatedKey: string;
   }) => string | symbol;
+  onCache?: (info: CacheStatsInfo) => void;
 }
 
 interface CacheConfig {
@@ -155,6 +165,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
     maxAge = CacheTime.MINUTE * 5,
     revalidate = 0,
     customKey,
+    onCache,
   } = options || {};
   const store = getLRUCache();
 
@@ -198,10 +209,11 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      const key = generateKey(args);
+      const genKey = generateKey(args);
       const now = Date.now();
 
-      const cacheKey = getCacheKey(args, key);
+      const cacheKey = getCacheKey(args, genKey);
+      const finalKey = typeof cacheKey === 'function' ? genKey : cacheKey;
 
       tags.forEach(t => addTagKeyRelation(t, cacheKey));
 
@@ -211,17 +223,34 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       }
 
       const storeKey =
-        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : key;
+        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : genKey;
 
       const cached = cacheStore.get(storeKey);
       if (cached) {
         const age = now - cached.timestamp;
 
         if (age < maxAge) {
+          if (onCache) {
+            onCache({
+              status: 'hit',
+              key: finalKey,
+              params: args,
+              result: cached.data,
+            });
+          }
           return cached.data;
         }
 
         if (revalidate > 0 && age < maxAge + revalidate) {
+          if (onCache) {
+            onCache({
+              status: 'stale',
+              key: finalKey,
+              params: args,
+              result: cached.data,
+            });
+          }
+
           if (!cached.isRevalidating) {
             cached.isRevalidating = true;
             Promise.resolve().then(async () => {
@@ -252,6 +281,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       }
 
       const data = await fn(...args);
+
       cacheStore.set(storeKey, {
         data,
         timestamp: now,
@@ -259,6 +289,15 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       });
 
       store.set(cacheKey, cacheStore);
+
+      if (onCache) {
+        onCache({
+          status: 'miss',
+          key: finalKey,
+          params: args,
+          result: data,
+        });
+      }
 
       return data;
     } else {
