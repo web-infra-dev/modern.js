@@ -20,7 +20,7 @@ export const builderPluginAlias = ({
       const mainEntrypointsAlias: Record<string, string> = {};
       entrypoints.forEach(entrypoint => {
         entrypointsAlias[
-          `@${metaName}/runtime/registry/${entrypoint.entryName}`
+          `@${metaName}/runtime/registry/${entrypoint.entryName}$`
         ] = path.join(
           internalDirectory,
           entrypoint.entryName,
