@@ -39,6 +39,11 @@ interface CacheOptions {
 
 interface CacheConfig {
   maxSize: number;
+  unstable_shouldDisable?: ({
+    request,
+  }: {
+    request: Request;
+  }) => boolean | Promise<boolean>;
 }
 
 interface CacheItem<T> {
@@ -180,6 +185,17 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       const storage = getAsyncLocalStorage();
       const request = storage?.useContext()?.request;
       if (request) {
+        let shouldDisableCaching = false;
+        if (cacheConfig.unstable_shouldDisable) {
+          shouldDisableCaching = await Promise.resolve(
+            cacheConfig.unstable_shouldDisable({ request }),
+          );
+        }
+
+        if (shouldDisableCaching) {
+          return fn(...args);
+        }
+
         let requestCache = requestCacheMap.get(request);
         if (!requestCache) {
           requestCache = new Map();
@@ -225,8 +241,19 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       const storeKey =
         customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : genKey;
 
+      let shouldDisableCaching = false;
+      if (isServer && cacheConfig.unstable_shouldDisable) {
+        const storage = getAsyncLocalStorage();
+        const request = storage?.useContext()?.request;
+        if (request) {
+          shouldDisableCaching = await Promise.resolve(
+            cacheConfig.unstable_shouldDisable({ request }),
+          );
+        }
+      }
+
       const cached = cacheStore.get(storeKey);
-      if (cached) {
+      if (cached && !shouldDisableCaching) {
         const age = now - cached.timestamp;
 
         if (age < maxAge) {
@@ -282,13 +309,15 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
       const data = await fn(...args);
 
-      cacheStore.set(storeKey, {
-        data,
-        timestamp: now,
-        isRevalidating: false,
-      });
+      if (!shouldDisableCaching) {
+        cacheStore.set(storeKey, {
+          data,
+          timestamp: now,
+          isRevalidating: false,
+        });
 
-      store.set(cacheKey, cacheStore);
+        store.set(cacheKey, cacheStore);
+      }
 
       if (onCache) {
         onCache({
