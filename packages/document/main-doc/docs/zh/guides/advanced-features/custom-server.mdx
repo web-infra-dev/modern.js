@@ -1,0 +1,216 @@
+---
+sidebar_position: 16
+---
+
+# 自定义 Server
+
+Modern.js 将大部分项目需要的服务端能力都进行了封装，通常项目无需进行服务端开发。但在有些开发场景下，例如用户鉴权、请求预处理、添加页面渲染骨架等，项目仍需要对服务端进行定制。
+
+## 自定义 Server 能力
+
+项目目录下创建 `server/modern.server.ts` 文件，可以在这个文件中添加如下配置来扩展 Server：
+- **中间件（Middleware）**
+- **渲染中间件（RenderMiddleware）**
+- **服务端插件（Plugin）**
+
+
+其中 **Plugin** 中可以定义 **Middleware** 与 **RenderMiddleware**。 中间件加载流程如下图所示：
+
+<img
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/10eh7nuhpenuhog/server-md-wf.png"
+  style={{ width: '100%', maxWidth: '540px' }}
+/>
+
+### 基本配置
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  middlewares: [], // 中间件
+  renderMiddlewares: [], // 渲染中间件
+  plugins: [], // 插件
+});
+```
+
+
+### 类型定义
+
+`defineServerConfig` 类型定义如下:
+
+```ts
+import type { MiddlewareHandler } from 'hono';
+
+type MiddlewareObj = {
+    name: string;
+    path?: string;
+    method?: 'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
+    handler: MiddlewareHandler | MiddlewareHandler[];
+};
+type ServerConfig = {
+    middlewares?: MiddlewareObj[];
+    renderMiddlewares?: MiddlewareObj[];
+    plugins?: (ServerPlugin | ServerPluginLegacy)[];
+}
+```
+
+
+### Middleware
+
+Middleware 支持在 Modern.js 服务的**请求处理**与**页面路由**的流程前后，执行自定义逻辑。
+即自定义逻辑既要处理接口路由，也要作用于页面路由，那么 Middleware 是不二选择。如果仅需要处理 BFF 接口路由，可以通过配置 `path` 为 BFF 的 `prefix` 来实现。
+
+:::note
+BFF 场景只有[运行时框架](/guides/advanced-features/bff/frameworks.html)为 Hono 时，BFF 路由才会经过 Middleware。
+:::
+
+#### 使用姿势
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import { getMonitors } from '@modern-js/runtime';
+
+export const handler: MiddlewareHandler = async (c, next) => {
+  const monitors = getMonitors();
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // 上报耗时
+  monitors.timing('request_timing', end - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
+```
+
+:::warning
+必须执行 `next` 函数才会执行后续的 Middleware。
+:::
+
+
+### RenderMiddleware
+
+如果只需要处理页面渲染的前后执行逻辑，modern.js 也提供了渲染中间件。
+
+#### 使用姿势
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+
+// 注入 render 性能指标
+const renderTiming: MiddlewareHandler = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  c.res.headers.set('server-timing', `render; dur=${end - start}`);
+};
+
+// 修改响应体
+const modifyResBody: MiddlewareHandler = async (c, next) => {
+  await next();
+
+  const { res } = c;
+  const text = await res.text();
+  const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+
+  c.res = c.body(newText, {
+    status: res.status,
+    headers: res.headers,
+  });
+};
+
+export default defineServerConfig({
+  renderMiddlewares: [
+    {
+      name: 'render-timing',
+      handler: renderTiming,
+    },
+    {
+      name: 'modify-res-body',
+      handler: modifyResBody,
+    },
+  ],
+});
+```
+
+
+### Plugin
+
+Modern.js 支持在自定义插件中为 Server 添加上述 Middleware 及 RenderMiddleware。
+
+#### 使用姿势
+
+
+```ts title="server/plugins/server.ts"
+import type { ServerPluginLegacy } from '@modern-js/server-runtime';
+
+export default (): ServerPluginLegacy => ({
+  name: 'serverPlugin',
+  setup(api) {
+    return {
+      prepare(serverConfig) {
+        const { middlewares, renderMiddlewares } = api.useAppContext();
+
+        // 注入服务端数据，供页面 dataLoader 消费
+        middlewares?.push({
+          name: 'server-plugin-middleware',
+          handler: async (c, next) => {
+            c.set('message', 'hi modern.js');
+            await next();
+            // ...
+          },
+        });
+
+        // 重定向
+        renderMiddlewares?.push({
+          name: 'server-plugin-render-middleware',
+          handler: async (c, next) => {
+            const user = getUser(c.req);
+            if (!user) {
+              return c.redirect('/login');
+            }
+
+            await next();
+          },
+        });
+        return serverConfig;
+      },
+    };
+  },
+});
+```
+
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+import serverPlugin from './plugins/serverPlugin';
+
+export default defineServerConfig({
+  plugins: [serverPlugin()],
+});
+```
+
+
+```ts title="src/routes/page.data.ts"
+import { useHonoContext } from '@modern-js/server-runtime';
+import { defer } from '@modern-js/runtime/router';
+
+export default () => {
+  const ctx = useHonoContext();
+  // 消费服务端注入的数据
+  const message = ctx.get('message');
+
+  // ...
+};
+
+```
