@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 # 数据缓存
 
-`cache` 函数可以让你缓存数据获取或计算的结果。
+`cache` 函数可以让你缓存数据获取或计算的结果，相比整页[渲染缓存](/guides/basic-features/render/ssr-cache)，它提供了更精细的数据粒度控制，并且适用于客户端渲染(CSR)、服务端渲染（SSR）、API 服务(BFF)等多种场景。
 
 :::info
 需要 x.65.5 及以上版本
@@ -33,6 +33,7 @@ const loader = async () => {
   - `tag`: 用于标识缓存的标签，可以基于这个标签使缓存失效
   - `maxAge`: 缓存的有效期 (毫秒)
   - `revalidate`: 重新验证缓存的时间窗口（毫秒），与 HTTP Cache-Control 的 stale-while-revalidate 功能一致
+  - `customKey`: 自定义缓存键生成函数，用于在函数引用变化时保持缓存
 
 `options` 参数的类型如下：
 
@@ -41,6 +42,11 @@ interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
+  customKey?: <Args extends any[]>(options: {
+    params: Args;
+    fn: (...args: Args) => any;
+    generatedKey: string;
+  }) => string | symbol;
 }
 ```
 
@@ -146,6 +152,129 @@ const getComplexStatistics = cache(
 revalidateTag('dashboard-stats'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
 ```
 
+#### `customKey` 参数
+
+`customKey` 参数用于定制缓存的键，它是一个函数，接收一个包含以下属性的对象，返回值必须是字符串或 Symbol 类型，将作为缓存的键：
+
+- `params`：调用缓存函数时传入的参数数组
+- `fn`：原始被缓存的函数引用
+- `generatedKey`：框架基于入参自动生成的原始缓存键
+
+这在某些场景下非常有用，比如当函数引用发生变化时，但你希望仍然返回缓存的数据。
+
+```ts
+import { cache } from '@modern-js/runtime/cache';
+import { fetchUserData } from './api';
+
+// 不同的函数引用，但是通过 customKey 可以使它们共享一个缓存
+const getUserA = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: ({ params }) => {
+      // 返回一个稳定的字符串作为缓存的键
+      return `user-${params[0]}`;
+    },
+  }
+);
+
+// 即使函数引用变了，只要 customKey 返回相同的值，也会命中缓存
+const getUserB = cache(
+  (...args) => fetchUserData(...args), // 新的函数引用
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: ({ params }) => {
+      // 返回与 getUserA 相同的键
+      return `user-${params[0]}`;
+    },
+  }
+);
+
+// 即使 getUserA 和 getUserB 是不同的函数引用，但由于它们的 customKey 返回相同的值
+// 所以当调用参数相同时，它们会共享缓存
+const dataA = await getUserA(1);
+const dataB = await getUserB(1); // 这里会命中缓存，不会再次发起请求
+
+// 也可以使用 Symbol 作为缓存键（通常用于共享同一个应用内的缓存）
+const USER_CACHE_KEY = Symbol('user-cache');
+const getUserC = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: () => USER_CACHE_KEY,
+  }
+);
+
+// 可以利用 generatedKey 参数在默认键的基础上进行修改
+const getUserD = cache(
+  fetchUserData,
+  {
+    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
+  }
+);
+```
+
+#### `onCache` 参数
+
+`onCache` 参数允许你跟踪缓存统计信息，例如命中率。这是一个回调函数，接收有关每次缓存操作的信息，包括状态、键、参数和结果。
+
+```ts
+import { cache, CacheTime } from '@modern-js/runtime/cache';
+
+// 跟踪缓存统计
+const stats = {
+  total: 0,
+  hits: 0,
+  misses: 0,
+  stales: 0,
+  hitRate: () => stats.hits / stats.total
+};
+
+const getUser = cache(
+  fetchUserData,
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    onCache({ status, key, params, result }) {
+      // status 可以是 'hit'、'miss' 或 'stale'
+      stats.total++;
+
+      if (status === 'hit') {
+        stats.hits++;
+      } else if (status === 'miss') {
+        stats.misses++;
+      } else if (status === 'stale') {
+        stats.stales++;
+      }
+
+      console.log(`缓存${status === 'hit' ? '命中' : status === 'miss' ? '未命中' : '陈旧'}，键：${String(key)}`);
+      console.log(`当前命中率：${stats.hitRate() * 100}%`);
+    }
+  }
+);
+
+// 使用示例
+await getUser(1); // 缓存未命中
+await getUser(1); // 缓存命中
+await getUser(2); // 缓存未命中
+```
+
+`onCache` 回调接收一个包含以下属性的对象：
+
+- `status`: 缓存操作状态，可以是：
+  - `hit`: 缓存命中，返回缓存内容
+  - `miss`: 缓存未命中，执行函数并缓存结果
+  - `stale`: 缓存命中但数据陈旧，返回缓存内容同时在后台重新验证
+- `key`: 缓存键，可能是 `customKey` 的结果或默认生成的键
+- `params`: 传递给缓存函数的参数
+- `result`: 结果数据（来自缓存或新计算的）
+
+这个回调只在提供 `options` 参数时被调用。当使用不带选项的缓存函数（用于 SSR 请求范围内的缓存）时，不会调用 `onCache` 回调。
+
+`onCache` 回调对以下场景非常有用：
+- 监控缓存性能
+- 计算命中率
+- 记录缓存操作
+- 实现自定义指标
 
 ### 存储
 
@@ -164,3 +293,4 @@ configureCache({
   maxSize: CacheSize.MB * 10, // 10MB
 });
 ```
+

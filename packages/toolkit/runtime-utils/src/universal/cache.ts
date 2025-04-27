@@ -16,14 +16,34 @@ export const CacheTime = {
   MONTH: 30 * 24 * 60 * 60 * 1000,
 } as const;
 
+export type CacheStatus = 'hit' | 'stale' | 'miss';
+
+export interface CacheStatsInfo {
+  status: CacheStatus;
+  key: string | symbol;
+  params: any[];
+  result: any;
+}
+
 interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
+  customKey?: <Args extends any[]>(options: {
+    params: Args;
+    fn: (...args: Args) => any;
+    generatedKey: string;
+  }) => string | symbol;
+  onCache?: (info: CacheStatsInfo) => void;
 }
 
 interface CacheConfig {
   maxSize: number;
+  unstable_shouldDisable?: ({
+    request,
+  }: {
+    request: Request;
+  }) => boolean | Promise<boolean>;
 }
 
 interface CacheItem<T> {
@@ -36,21 +56,21 @@ const isServer = typeof window === 'undefined';
 const requestCacheMap = new WeakMap<Request, Map<any, any>>();
 
 let lruCache:
-  | LRUCache<(...args: any[]) => any, Map<string, CacheItem<any>>>
+  | LRUCache<Function | string | symbol, Map<string, CacheItem<any>>>
   | undefined;
 let cacheConfig: CacheConfig = {
   maxSize: CacheSize.GB,
 };
 
-const tagFnMap = new Map<string, Set<(...args: any[]) => Promise<any>>>();
+const tagKeyMap = new Map<string, Set<Function | string | symbol>>();
 
-function addTagFnRelation(tag: string, fn: (...args: any[]) => Promise<any>) {
-  let fns = tagFnMap.get(tag);
-  if (!fns) {
-    fns = new Set();
-    tagFnMap.set(tag, fns);
+function addTagKeyRelation(tag: string, key: Function | string | symbol) {
+  let keys = tagKeyMap.get(tag);
+  if (!keys) {
+    keys = new Set();
+    tagKeyMap.set(tag, keys);
   }
-  fns.add(fn);
+  keys.add(key);
 }
 
 export function configureCache(config: CacheConfig): void {
@@ -63,7 +83,7 @@ export function configureCache(config: CacheConfig): void {
 function getLRUCache() {
   if (!lruCache) {
     lruCache = new LRUCache<
-      (...args: any[]) => any,
+      Function | string | symbol,
       Map<string, CacheItem<any>>
     >({
       maxSize: cacheConfig.maxSize,
@@ -149,17 +169,33 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
     tag = 'default',
     maxAge = CacheTime.MINUTE * 5,
     revalidate = 0,
+    customKey,
+    onCache,
   } = options || {};
   const store = getLRUCache();
 
   const tags = Array.isArray(tag) ? tag : [tag];
-  tags.forEach(t => addTagFnRelation(t, fn));
+
+  const getCacheKey = (args: Parameters<T>, generatedKey: string) => {
+    return customKey ? customKey({ params: args, fn, generatedKey }) : fn;
+  };
 
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
       const storage = getAsyncLocalStorage();
       const request = storage?.useContext()?.request;
       if (request) {
+        let shouldDisableCaching = false;
+        if (cacheConfig.unstable_shouldDisable) {
+          shouldDisableCaching = await Promise.resolve(
+            cacheConfig.unstable_shouldDisable({ request }),
+          );
+        }
+
+        if (shouldDisableCaching) {
+          return fn(...args);
+        }
+
         let requestCache = requestCacheMap.get(request);
         if (!requestCache) {
           requestCache = new Map();
@@ -189,34 +225,71 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      let tagCache = store.get(fn);
-      if (!tagCache) {
-        tagCache = new Map();
-      }
-
-      const key = generateKey(args);
-      const cached = tagCache.get(key);
+      const genKey = generateKey(args);
       const now = Date.now();
 
-      if (cached) {
+      const cacheKey = getCacheKey(args, genKey);
+      const finalKey = typeof cacheKey === 'function' ? genKey : cacheKey;
+
+      tags.forEach(t => addTagKeyRelation(t, cacheKey));
+
+      let cacheStore = store.get(cacheKey);
+      if (!cacheStore) {
+        cacheStore = new Map();
+      }
+
+      const storeKey =
+        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : genKey;
+
+      let shouldDisableCaching = false;
+      if (isServer && cacheConfig.unstable_shouldDisable) {
+        const storage = getAsyncLocalStorage();
+        const request = storage?.useContext()?.request;
+        if (request) {
+          shouldDisableCaching = await Promise.resolve(
+            cacheConfig.unstable_shouldDisable({ request }),
+          );
+        }
+      }
+
+      const cached = cacheStore.get(storeKey);
+      if (cached && !shouldDisableCaching) {
         const age = now - cached.timestamp;
 
         if (age < maxAge) {
+          if (onCache) {
+            onCache({
+              status: 'hit',
+              key: finalKey,
+              params: args,
+              result: cached.data,
+            });
+          }
           return cached.data;
         }
 
         if (revalidate > 0 && age < maxAge + revalidate) {
+          if (onCache) {
+            onCache({
+              status: 'stale',
+              key: finalKey,
+              params: args,
+              result: cached.data,
+            });
+          }
+
           if (!cached.isRevalidating) {
             cached.isRevalidating = true;
             Promise.resolve().then(async () => {
               try {
                 const newData = await fn(...args);
-                tagCache!.set(key, {
+                cacheStore!.set(storeKey, {
                   data: newData,
                   timestamp: Date.now(),
                   isRevalidating: false,
                 });
-                store.set(fn, tagCache);
+
+                store.set(cacheKey, cacheStore!);
               } catch (error) {
                 cached.isRevalidating = false;
                 if (isServer) {
@@ -235,13 +308,25 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       }
 
       const data = await fn(...args);
-      tagCache.set(key, {
-        data,
-        timestamp: now,
-        isRevalidating: false,
-      });
 
-      store.set(fn, tagCache);
+      if (!shouldDisableCaching) {
+        cacheStore.set(storeKey, {
+          data,
+          timestamp: now,
+          isRevalidating: false,
+        });
+
+        store.set(cacheKey, cacheStore);
+      }
+
+      if (onCache) {
+        onCache({
+          status: 'miss',
+          key: finalKey,
+          params: args,
+          result: data,
+        });
+      }
 
       return data;
     } else {
@@ -267,10 +352,10 @@ export function withRequestCache<
 }
 
 export function revalidateTag(tag: string): void {
-  const fns = tagFnMap.get(tag);
-  if (fns) {
-    fns.forEach(fn => {
-      lruCache?.delete(fn);
+  const keys = tagKeyMap.get(tag);
+  if (keys) {
+    keys.forEach(key => {
+      lruCache?.delete(key);
     });
   }
 }
@@ -278,5 +363,5 @@ export function revalidateTag(tag: string): void {
 export function clearStore(): void {
   lruCache?.clear();
   lruCache = undefined;
-  tagFnMap.clear();
+  tagKeyMap.clear();
 }
