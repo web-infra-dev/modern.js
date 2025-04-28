@@ -552,6 +552,76 @@ describe('cache function', () => {
     });
   });
 
+  describe('getKey', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      clearStore();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should use getKey to generate custom cache key', async () => {
+      const mockFn = jest
+        .fn()
+        .mockImplementation((id, data) =>
+          Promise.resolve(`data for ${id}: ${JSON.stringify(data)}`),
+        );
+
+      const cachedFn = cache(mockFn, {
+        getKey: (...args) => `user-${args[0]}`,
+      });
+
+      const result1 = await cachedFn(1, { name: 'user1', role: 'admin' });
+      const result2 = await cachedFn(1, { name: 'user1', role: 'editor' });
+
+      expect(result1).toBe('data for 1: {"name":"user1","role":"admin"}');
+      expect(result2).toBe('data for 1: {"name":"user1","role":"admin"}');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should use getKey over default key generation', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const onCacheMock = jest.fn();
+
+      const cachedFn = cache(mockFn, {
+        getKey: () => 'constant-key',
+        onCache: onCacheMock,
+      });
+
+      await cachedFn('param1');
+      await cachedFn('param2');
+
+      expect(mockFn).toHaveBeenCalledTimes(1);
+      expect(onCacheMock).toHaveBeenCalledTimes(2);
+      expect(onCacheMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          status: 'hit',
+          key: 'constant-key',
+        }),
+      );
+    });
+
+    it('should work with getKey and tag revalidation', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+
+      const cachedFn = cache(mockFn, {
+        tag: 'getKey-test',
+        getKey: (...args) => `key-${args[0]}`,
+      });
+
+      await cachedFn('a');
+      await cachedFn('a');
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      revalidateTag('getKey-test');
+
+      await cachedFn('a');
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+  });
+
   describe('cache statistics', () => {
     beforeEach(() => {
       jest.useFakeTimers();

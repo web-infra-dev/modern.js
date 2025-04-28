@@ -29,6 +29,7 @@ interface CacheOptions {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
+  getKey?: <Args extends any[]>(...args: Args) => string;
   customKey?: <Args extends any[]>(options: {
     params: Args;
     fn: (...args: Args) => any;
@@ -171,6 +172,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
     revalidate = 0,
     customKey,
     onCache,
+    getKey,
   } = options || {};
   const store = getLRUCache();
 
@@ -225,7 +227,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      const genKey = generateKey(args);
+      const genKey = getKey ? getKey(...args) : generateKey(args);
       const now = Date.now();
 
       const cacheKey = getCacheKey(args, genKey);
