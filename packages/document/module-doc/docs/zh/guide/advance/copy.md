@@ -68,6 +68,25 @@ export default defineConfig({
 });
 ```
 
+或是拷贝 `./src/**/*.json` 文件：
+
+```ts
+import path from 'path';
+
+export default defineConfig({
+  buildConfig: {
+    copy: {
+      patterns: [
+        {
+          from: '**/*.json',
+          context: path.join(__dirname, './src'),
+        },
+      ],
+    },
+  },
+});
+```
+
 `patterns.to` 用于指定复制文件的输出路径，默认情况下它的值为 [`buildConfig.outDir`](/api/config/build-config#outdir)对应的值。因此我们按照如下方式将 `src/index.html` 复制到 `dist` 目录下：
 
 ```ts

@@ -332,6 +332,10 @@ export default defineConfig({
 });
 ```
 
+:::tip
+参考 [使用 Copy 工具](/guide/advance/copy) 了解 `copy` 选项的完整用法。
+:::
+
 ## copy.patterns
 
 - 类型： `CopyPattern[]`
@@ -883,7 +887,7 @@ export default defineConfig({
   buildConfig: {
     loader: {
       '.js': 'jsx',
-    }
+    },
   },
 });
 ```
@@ -991,13 +995,17 @@ export default {
 基本用法和 [alias](#alias) 一致。
 
 [alias](#alias) 的问题在于我们在 bundleless 场景下错误的处理了 Module ID 的情况：
+
 ```js
-import { createElement } from "react";
+import { createElement } from 'react';
 ```
+
 当我们配置了 `alias: { react: 'react-native' }` 后，结果会变成
+
 ```js
-import { createElement } from "./react-native";
+import { createElement } from './react-native';
 ```
+
 一个 Module ID 被错误的处理成了相对路径，显然这是不符合预期的。
 
 我们想要修复这个问题，但是这可能会破坏已有的项目，因此我们在 MAJOR_VERSION.58.0 版本提供了 `resolve.alias` 来解决这个问题。
@@ -1008,6 +1016,7 @@ import { createElement } from "./react-native";
 在下一个大版本，`resolve.alias` 将会取代 `alias` 。
 
 :::warning
+
 - 注意此配置不要与 [alias](#alias) 混用。
 - 注意此配置必须标注一个相对路径，例如 `{ "@": "./src" }` 而非 `{ "@": "src"}`。
 
@@ -1069,8 +1078,8 @@ export default defineConfig({
 
 ```ts
 type Tsconfig = {
-  configFile: string,
-  references?: string[] | undefined,
+  configFile: string;
+  references?: string[] | undefined;
 };
 ```
 
@@ -1083,12 +1092,11 @@ export default defineConfig({
     resolve: {
       tsConfig: {
         configFile: './tsconfig.json',
-      }
+      },
     },
   },
 });
 ```
-
 
 ## shims
 
@@ -1656,7 +1664,7 @@ export default defineConfig({
 
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
 
-```js title="modern.config.ts"
+````js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'umd',
@@ -1672,3 +1680,4 @@ export default defineConfig({
 ```import { aliases } from '../../../../../../toolkit/utils/dist/compiled/browserslist';
 import { createElement } from 'react';
 
+````
