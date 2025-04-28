@@ -32,7 +32,6 @@ export default defineConfig({
 });
 ```
 
-
 The `patterns.context` parameter is generally used in conjunction with `patterns.from`. By default, its value is the same as [`buildConfig.sourceDir`](/api/config/build-config#sourcedir). Therefore, we can specify the file `src/data.json` to be copied in the following way:
 
 > By default, `buildConfig.sourceDir` is set to `src`.
@@ -63,6 +62,25 @@ export default defineConfig({
           context: path.join(__dirname, './temp')
           to: '',
         }
+      ],
+    },
+  },
+});
+```
+
+Or to copy `./src/**/*.json` files:
+
+```ts
+import path from 'path';
+
+export default defineConfig({
+  buildConfig: {
+    copy: {
+      patterns: [
+        {
+          from: '**/*.json',
+          context: path.join(__dirname, './src'),
+        },
       ],
     },
   },
