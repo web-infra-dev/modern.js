@@ -39,7 +39,7 @@ interface CacheOptions {
 }
 
 interface CacheConfig {
-  maxSize: number;
+  maxSize?: number;
   unstable_shouldDisable?: ({
     request,
   }: {
@@ -87,7 +87,7 @@ function getLRUCache() {
       Function | string | symbol,
       Map<string, CacheItem<any>>
     >({
-      maxSize: cacheConfig.maxSize,
+      maxSize: cacheConfig.maxSize ?? CacheSize.GB,
       sizeCalculation: (value: Map<string, CacheItem<any>>): number => {
         if (!value.size) {
           return 1;
@@ -189,9 +189,9 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       if (request) {
         let shouldDisableCaching = false;
         if (cacheConfig.unstable_shouldDisable) {
-          shouldDisableCaching = await Promise.resolve(
-            cacheConfig.unstable_shouldDisable({ request }),
-          );
+          shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
+            request,
+          });
         }
 
         if (shouldDisableCaching) {
@@ -248,9 +248,9 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         const storage = getAsyncLocalStorage();
         const request = storage?.useContext()?.request;
         if (request) {
-          shouldDisableCaching = await Promise.resolve(
-            cacheConfig.unstable_shouldDisable({ request }),
-          );
+          shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
+            request,
+          });
         }
       }
 
