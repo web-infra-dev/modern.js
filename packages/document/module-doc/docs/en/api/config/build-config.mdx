@@ -339,6 +339,10 @@ export default {
 
 Reference for array settings: [copy-webpack-plugin patterns](https://github.com/webpack-contrib/copy-webpack-plugin#patterns)
 
+:::tip
+Refer to [Use the Copy Tools](/guide/advance/copy) for the complete usage of the `copy` option.
+:::
+
 ## copy.patterns
 
 - **Type**: `CopyPattern[]`
@@ -755,8 +759,7 @@ type HookList = {
   name: string;
   apply: (compiler: ICompiler) => void;
   applyAfterBuiltIn?: boolean;
-}
-
+};
 ```
 
 - **Default**: `[]`.
@@ -882,7 +885,6 @@ For more information about JSX Transform, you can refer to the following links:
 
 :::
 
-
 ## loader
 
 **Experimental**
@@ -895,7 +897,7 @@ export default defineConfig({
   buildConfig: {
     loader: {
       '.js': 'jsx',
-    }
+    },
   },
 });
 ```
@@ -1003,13 +1005,17 @@ Custom module resolution options
 The basic usage is the same as [alias](#alias).
 
 The issue with [alias](#alias) is that we incorrectly handled Module IDs in a bundleless scenario:
+
 ```js
-import { createElement } from "react";
+import { createElement } from 'react';
 ```
+
 When we configure alias: `{ react: 'react-native' }`, the result becomes:
+
 ```js
-import { createElement } from "./react-native";
+import { createElement } from './react-native';
 ```
+
 A Module ID is incorrectly processed as a relative path, which is not expected.
 
 We want to fix this issue, but it may break existing projects.
@@ -1021,6 +1027,7 @@ If you need this feature, please use `resolve.alias`.
 In the next major version, `resolve.alias` will replace [alias](#alias).
 
 :::warning
+
 - Note that this configuration should not be mixed with [alias](#alias).
 - Ensure that this configuration specifies a relative path, such as `{ "@": "./src" }` rather than `{ "@": "src"}`.
 
@@ -1074,7 +1081,6 @@ export default defineConfig({
 });
 ```
 
-
 ### resolve.tsconfig
 
 Used to configure enhanced-resolve in [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin) to support resolution of alias in tsconfig.json and nested `@` alias conflicts.
@@ -1083,8 +1089,8 @@ Used to configure enhanced-resolve in [tsconfig-paths-webpack-plugin](https://ww
 
 ```ts
 type Tsconfig = {
-  configFile: string,
-  references?: string[] | undefined,
+  configFile: string;
+  references?: string[] | undefined;
 };
 ```
 
@@ -1097,12 +1103,11 @@ export default defineConfig({
     resolve: {
       tsConfig: {
         configFile: './tsconfig.json',
-      }
+      },
     },
   },
 });
 ```
-
 
 ## shims
 
