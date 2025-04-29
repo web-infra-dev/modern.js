@@ -20,9 +20,15 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       return {
         source: {
           alias: {
-            'react-router-dom$': require.resolve('../runtime'),
-            '@remix-run/router': require.resolve('../runtime'),
-            'react-router-dom/server': require.resolve('../runtime'),
+            'react-router-dom$': require
+              .resolve('../runtime')
+              .replace(/\/cjs\//, '/esm/'),
+            '@remix-run/router': require
+              .resolve('../runtime')
+              .replace(/\/cjs\//, '/esm/'),
+            'react-router-dom/server': require
+              .resolve('../runtime')
+              .replace(/\/cjs\//, '/esm/'),
           },
           globalVars: {
             'process.env.ROUTER_VERSION': 'v7',

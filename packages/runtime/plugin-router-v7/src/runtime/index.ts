@@ -1,4 +1,5 @@
 export * from 'react-router';
+export { AbortedDeferredError } from '@modern-js/runtime-utils/browser';
 export const json = (data: any, init?: number | ResponseInit): Response => {
   console.warn('json is deprecated, Please use Response.json instead.');
   const responseInit = init

@@ -1,4 +1,4 @@
-import type { UNSAFE_DeferredData as DeferredData } from '@modern-js/runtime-utils/remix-router';
+import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import { redirect } from '@modern-js/runtime-utils/router';
 // Todo move this file to `runtime/` dir
 import { compile } from 'path-to-regexp';
@@ -80,6 +80,7 @@ const handleNetworkErrorResponse = async (res: Response) => {
 };
 
 export const createRequest = (routeId: string, method = 'get') => {
+  const isRouterV7 = process.env.ROUTER_VERSION === 'v7';
   return async ({
     params,
     request,
@@ -109,7 +110,8 @@ export const createRequest = (routeId: string, method = 'get') => {
     }
 
     if (isDeferredResponse(res)) {
-      return await parseDeferredReadableStream(res.body!);
+      const deferredData = await parseDeferredReadableStream(res.body!);
+      return isRouterV7 ? deferredData.data : deferredData;
     }
 
     // some response error not from modern.js
