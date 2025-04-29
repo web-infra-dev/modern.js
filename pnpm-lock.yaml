@@ -62,7 +62,7 @@ importers:
         specifier: ~13.3.0
         version: 13.3.0(enquirer@2.4.1)
       nx:
-        specifier: ^17.0.1
+        specifier: ^17.3.2
         version: 17.3.2(@swc/core@1.10.18(@swc/helpers@0.5.17))
       rimraf:
         specifier: ^6.0.1
