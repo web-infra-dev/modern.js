@@ -163,12 +163,16 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
               : new Error('Unexpected Server Error');
 
           // Handle errors uniformly using the application/json
-          response = Response.json(serializeError(errorInstance), {
-            status: 500,
-            headers: {
-              'X-Modernjs-Error': 'yes',
+          response = new Response(
+            JSON.stringify(serializeError(errorInstance)),
+            {
+              status: 500,
+              headers: {
+                'X-Modernjs-Error': 'yes',
+                'Content-Type': 'application/json',
+              },
             },
-          });
+          );
         }
       }
 
