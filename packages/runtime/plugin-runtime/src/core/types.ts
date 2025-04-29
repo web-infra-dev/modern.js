@@ -1,4 +1,3 @@
-import type { IncomingHttpHeaders } from 'node:http';
 import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RenderLevel } from './constants';

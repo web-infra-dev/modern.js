@@ -1,3 +1,5 @@
+// fork from https://github1s.com/remix-run/react-router/blob/v6/packages/router/utils.ts
+// license at https://github.com/remix-run/react-router/blob/v6/LICENSE.md
 export function invariant(value: boolean, message?: string): asserts value;
 export function invariant<T>(
   value: T | null | undefined,

@@ -61,10 +61,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/plugin": "workspace:*",
-    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.13",
     "react-router": "^7.5.0"
@@ -81,7 +78,6 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
-    "@types/invariant": "^2.2.30",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
