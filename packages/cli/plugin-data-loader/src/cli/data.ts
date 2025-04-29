@@ -9,8 +9,8 @@
  */
 import {
   AbortedDeferredError,
-  UNSAFE_DeferredData as DeferredData,
-} from '@modern-js/runtime-utils/remix-router';
+  DeferredData,
+} from '@modern-js/runtime-utils/browser';
 
 const DEFERRED_VALUE_PLACEHOLDER_PREFIX = '__deferred_promise:';
 export async function parseDeferredReadableStream(
