@@ -926,7 +926,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       postcss-custom-media:
-        specifier: ^10.0.1
+        specifier: ^10.0.8
         version: 10.0.8(postcss@8.5.3)
       react:
         specifier: ^18.3.1
