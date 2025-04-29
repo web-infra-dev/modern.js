@@ -247,7 +247,7 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.6.3))
       memfs:
-        specifier: ^3.5.1
+        specifier: ^3.5.3
         version: 3.5.3
       ts-jest:
         specifier: ^29.1.0
@@ -363,7 +363,7 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.13))(@types/node@14.18.35)(typescript@5.6.3))
       memfs:
-        specifier: ^3.5.1
+        specifier: ^3.5.3
         version: 3.5.3
       react:
         specifier: ^18.3.1
