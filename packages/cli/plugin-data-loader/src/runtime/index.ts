@@ -1,4 +1,5 @@
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
+import { activeDeferreds } from '@modern-js/runtime-utils/browser';
 import {
   createRequestContext,
   reporterCtx,
