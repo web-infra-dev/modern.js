@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "noEmit": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+    "types": ["node", "jest"]
+  },
+  "paths": {}
+}
