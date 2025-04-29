@@ -80,7 +80,7 @@ const handleNetworkErrorResponse = async (res: Response) => {
 };
 
 export const createRequest = (routeId: string, method = 'get') => {
-  const isRouterV7 = process.env.ROUTER_VERSION === 'v7';
+  const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
   return async ({
     params,
     request,

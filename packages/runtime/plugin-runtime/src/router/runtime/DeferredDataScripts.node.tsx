@@ -22,7 +22,7 @@ const DeferredDataScripts = (props?: {
   const staticContext = props?.context;
   const useJsonScript = props?.useJsonScript;
   const hydratedRef = useRef(false);
-  const isRouterV7 = process.env.ROUTER_VERSION === 'v7';
+  const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
 
   useEffect(() => {
     hydratedRef.current = true;

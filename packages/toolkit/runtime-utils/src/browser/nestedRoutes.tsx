@@ -139,7 +139,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
       }
       const end = time();
       const res = await loader(args);
-      const isRouterV7 = process.env.ROUTER_VERSION === 'v7';
+      const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
       if (isRouterV7) {
         let activeDeferreds = null;
         if (typeof document === 'undefined') {

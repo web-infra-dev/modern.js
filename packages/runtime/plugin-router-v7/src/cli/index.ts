@@ -31,7 +31,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
               .replace(/\/cjs\//, '/esm/'),
           },
           globalVars: {
-            'process.env.ROUTER_VERSION': 'v7',
+            'process.env._MODERN_ROUTER_VERSION': 'v7',
           },
         },
       };

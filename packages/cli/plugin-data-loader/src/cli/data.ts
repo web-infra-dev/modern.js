@@ -1,4 +1,3 @@
-import { DeferredData } from '@modern-js/runtime-utils/browser';
 /**
  * The following code is modified based on
  * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/packages/remix-react/data.ts
@@ -8,7 +7,10 @@ import { DeferredData } from '@modern-js/runtime-utils/browser';
  * Copyright 2021 Remix Software Inc.
  * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/LICENSE.md
  */
-import { AbortedDeferredError } from '@modern-js/runtime-utils/remix-router';
+import {
+  AbortedDeferredError,
+  UNSAFE_DeferredData as DeferredData,
+} from '@modern-js/runtime-utils/remix-router';
 
 const DEFERRED_VALUE_PLACEHOLDER_PREFIX = '__deferred_promise:';
 export async function parseDeferredReadableStream(
