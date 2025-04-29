@@ -5,7 +5,9 @@ configName: output.filename
 
 :::warning
 
-In Modern.js, avoid using this configuration to modify the html file name, which will cause the page to 404.
+In Modern.js `dev` command or use Modern.js server deployment, don't modify the html output filename. This will cause the page to be 404.
+
+In common, you don't need to modify the html filename. If you want modify `main.html` to `index.html`, using [source.mainEntryName](/configure/app/source/mainentryname).
 
 :::
 
@@ -15,7 +17,6 @@ In Modern.js, avoid using this configuration to modify the html file name, which
 
 ```ts
 type FilenameConfig = {
-  html?: string;
   js?:
     | string
     | ((pathData: Rspack.PathData, assetInfo: Rspack.JsAssetInfo) => string);
@@ -33,7 +34,6 @@ type FilenameConfig = {
 ```js
 // Development mode
 const devDefaultFilename = {
-  html: '[name].html',
   js: '[name].js',
   css: '[name].css',
   svg: '[name].[contenthash:8].svg',
@@ -45,7 +45,6 @@ const devDefaultFilename = {
 
 // Production mode
 const prodDefaultFilename = {
-  html: '[name].html',
   js: output.target === 'node' ? '[name].js' : '[name].[contenthash:8].js',
   css: '[name].[contenthash:8].css',
   svg: '[name].[contenthash:8].svg',
