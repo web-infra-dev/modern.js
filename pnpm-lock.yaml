@@ -4166,7 +4166,7 @@ importers:
         specifier: ^1.13.10
         version: 1.15.7
       got:
-        specifier: ^11.8.3
+        specifier: ^11.8.6
         version: 11.8.6
       typescript:
         specifier: ^5
