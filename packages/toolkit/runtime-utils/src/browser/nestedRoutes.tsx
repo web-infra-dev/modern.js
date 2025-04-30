@@ -130,6 +130,14 @@ export const renderNestedRoute = (
   return routeElement;
 };
 
+function isPlainObject(value: any): value is Record<string, any> {
+  return (
+    value != null &&
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) === Object.prototype
+  );
+}
+
 function createLoader(route: NestedRoute): LoaderFunction {
   const { loader } = route;
   if (loader) {
@@ -148,11 +156,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
         } else {
           activeDeferreds = originalActiveDeferreds;
         }
-        if (
-          res !== null &&
-          typeof res === 'object' &&
-          Object.getPrototypeOf(res) === Object.prototype
-        ) {
+        if (isPlainObject(res)) {
           const deferredData = privateDefer(res);
           activeDeferreds.set(route.id!, deferredData);
         }
