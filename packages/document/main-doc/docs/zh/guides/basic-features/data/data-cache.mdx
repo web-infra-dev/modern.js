@@ -12,6 +12,14 @@ sidebar_position: 4
 
 ## 基本用法
 
+:::note
+
+如果在 BFF 中使用 `cache` 函数，应该从 `@modern-js/server-runtime/cache` 导入相关函数
+
+`import { cache } from '@modern-js/server-runtime/cache'`
+
+:::
+
 ```ts
 import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';

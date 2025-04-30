@@ -12,6 +12,15 @@ X.65.5 and above versions are required
 
 ## Basic Usage
 
+:::note
+
+If you use the `cache` function in BFF, you should import the cache funtion from `@modern-js/server-runtime/cache`
+
+`import { cache } from '@modern-js/server-runtime/cache'`
+
+:::
+
+
 ```ts
 import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';
