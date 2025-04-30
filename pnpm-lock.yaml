@@ -56,7 +56,7 @@ importers:
         specifier: 0.17.19
         version: 0.17.19
       husky:
-        specifier: ^8.0.0
+        specifier: ^8.0.3
         version: 8.0.3
       lint-staged:
         specifier: ~13.3.0

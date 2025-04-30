@@ -83,7 +83,7 @@
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
     "esbuild": "0.17.19",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "lint-staged": "~13.3.0",
     "nx": "^17.3.2",
     "rimraf": "^6.0.1",
