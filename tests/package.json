@@ -34,7 +34,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "jest-environment-node": "^29.5.0",
     "jest-puppeteer": "^8.0.6",
-    "kill-port": "^2.0.0",
+    "kill-port": "^2.0.1",
     "puppeteer": "^19.11.1",
     "rimraf": "^6.0.1",
     "tree-kill": "^1.2.2",
