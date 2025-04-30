@@ -24,19 +24,19 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "types": "./dist/types/index.d.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./cache": {
       "node": {
         "jsnext:source": "./src/cache.ts",
-        "types": "./dist/types/cache.d.ts",
         "import": "./dist/esm-node/cache.js",
         "require": "./dist/cjs/cache.js"
       },
+      "types": "./dist/types/cache.d.ts",
       "default": "./dist/cjs/cache.js"
     }
   },
@@ -45,7 +45,7 @@
       ".": [
         "./dist/types/index.d.ts"
       ],
-      "./cache": [
+      "cache": [
         "./dist/types/cache.d.ts"
       ]
     }
