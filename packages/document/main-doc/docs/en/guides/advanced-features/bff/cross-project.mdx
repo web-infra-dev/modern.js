@@ -90,7 +90,7 @@ The `configure` function from `${package_name}/runtime` supports domain configur
 
 ```ts title="src/routes/page.tsx"
 import { configure } from '${package_name}/runtime';
-import { configure as innerConfigure } from '@modern-js/runtime/bff';
+import { configure as innerConfigure } from '@modern-js/plugin-bff/runtime/create-request';
 import axios from 'axios';
 
 configure({
