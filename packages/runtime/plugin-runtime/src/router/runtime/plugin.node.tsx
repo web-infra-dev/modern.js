@@ -117,6 +117,7 @@ export const routerPlugin = (
         const routerContext = await query(remixRequest, {
           requestContext,
         });
+
         const cost = end();
         context.ssrContext?.onTiming?.(LOADER_REPORTER_NAME, cost);
 

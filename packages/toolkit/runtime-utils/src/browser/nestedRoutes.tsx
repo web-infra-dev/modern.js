@@ -15,6 +15,14 @@ import {
 } from 'react-router-dom';
 import { time } from '../time';
 import { getAsyncLocalStorage } from '../universal/async_storage';
+import {
+  DeferredData,
+  activeDeferreds as originalActiveDeferreds,
+} from './deferreds';
+
+const privateDefer = (data: any) => {
+  return new DeferredData(data);
+};
 
 export const transformNestedRoutes = (routes: NestedRoute[]) => {
   const routeElements = [];
@@ -122,6 +130,14 @@ export const renderNestedRoute = (
   return routeElement;
 };
 
+function isPlainObject(value: any): value is Record<string, any> {
+  return (
+    value != null &&
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) === Object.prototype
+  );
+}
+
 function createLoader(route: NestedRoute): LoaderFunction {
   const { loader } = route;
   if (loader) {
@@ -131,6 +147,21 @@ function createLoader(route: NestedRoute): LoaderFunction {
       }
       const end = time();
       const res = await loader(args);
+      const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
+      if (isRouterV7) {
+        let activeDeferreds = null;
+        if (typeof document === 'undefined') {
+          activeDeferreds = getAsyncLocalStorage()?.useContext()
+            ?.activeDeferreds as Map<string, DeferredData>;
+        } else {
+          activeDeferreds = originalActiveDeferreds;
+        }
+        if (isPlainObject(res)) {
+          const deferredData = privateDefer(res);
+          activeDeferreds.set(route.id!, deferredData);
+        }
+      }
+
       const cost = end();
       if (typeof document === 'undefined') {
         const storage = getAsyncLocalStorage();

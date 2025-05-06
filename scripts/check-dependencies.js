@@ -17,6 +17,7 @@ const ignoreDeps = [
   'react-dom',
   '@types/react-dom',
   'lru-cache',
+  'react-router',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps

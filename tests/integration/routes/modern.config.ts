@@ -1,4 +1,5 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
+import routerPlugin from '@modern-js/plugin-router-v7';
 
 const bundler = process.env.BUNDLER;
 
@@ -7,6 +8,7 @@ export default defineConfig({
     appTools({
       bundler: bundler === 'rspack' ? 'rspack' : 'webpack',
     }),
+    routerPlugin(),
   ],
   runtime: {
     router: true,

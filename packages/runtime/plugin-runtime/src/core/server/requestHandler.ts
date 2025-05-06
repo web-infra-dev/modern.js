@@ -2,6 +2,7 @@ import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '@modern-js/app-tools';
+import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import { storage } from '@modern-js/runtime-utils/node';
 import {
   getPathname,
@@ -163,12 +164,14 @@ export const createRequestHandler: CreateRequestHandler = async (
       headers: {},
       status: -1,
     };
+    const activeDeferreds = new Map<string, DeferredData>();
     return storage.run(
       {
         headers: headersData,
         request,
         monitors: options.monitors,
         responseProxy,
+        activeDeferreds,
       },
       async () => {
         const Root = createRoot();

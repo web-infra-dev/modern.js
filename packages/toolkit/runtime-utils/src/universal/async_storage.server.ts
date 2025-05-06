@@ -55,6 +55,7 @@ const storage = createStorage<{
     headers: Record<string, string>;
     status: number;
   };
+  activeDeferreds?: Map<string, unknown>;
 }>();
 
 type Storage = typeof storage;

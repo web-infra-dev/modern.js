@@ -9,7 +9,6 @@ import {
   type UNSAFE_DeferredData as DeferredData,
   createStaticHandler,
   isRouteErrorResponse,
-  json,
 } from '@modern-js/runtime-utils/remix-router';
 import { matchEntry } from '@modern-js/runtime-utils/server';
 import { time } from '@modern-js/runtime-utils/time';
@@ -72,12 +71,14 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
   const end = time();
   const { reporter, loaderContext, monitors } = context;
   const headersData = parseHeaders(request);
+  const activeDeferreds = new Map<string, DeferredData>();
 
   return storage.run(
     {
       headers: headersData,
       monitors,
       request,
+      activeDeferreds,
     },
     async () => {
       const routes = transformNestedRoutes(routesConfig);
@@ -102,9 +103,18 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
             response.headers as unknown as Headers,
             basename,
           );
-        } else if (isPlainObject(response) && DEFERRED_SYMBOL in response) {
-          const deferredData = response[DEFERRED_SYMBOL] as DeferredData;
+        } else if (
+          isPlainObject(response) &&
+          (DEFERRED_SYMBOL in response || activeDeferreds.get(routeId))
+        ) {
+          let deferredData;
+          if (DEFERRED_SYMBOL in response) {
+            deferredData = response[DEFERRED_SYMBOL] as DeferredData;
+          } else {
+            deferredData = activeDeferreds.get(routeId)!;
+          }
           const body = createDeferredReadableStream(
+            // @ts-ignore
             deferredData,
             request.signal,
           );
@@ -152,12 +162,16 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
               : new Error('Unexpected Server Error');
 
           // Handle errors uniformly using the application/json
-          response = json(serializeError(errorInstance), {
-            status: 500,
-            headers: {
-              'X-Modernjs-Error': 'yes',
+          response = new Response(
+            JSON.stringify(serializeError(errorInstance)),
+            {
+              status: 500,
+              headers: {
+                'X-Modernjs-Error': 'yes',
+                'Content-Type': 'application/json',
+              },
             },
-          });
+          );
         }
       }
 

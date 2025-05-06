@@ -495,6 +495,78 @@ import Motivation from '@site-docs/components/convention-routing-motivation';
 
 <Motivation />
 
+## 升级到 react-router v7
+
+React Router v7 相比 React Router v6 减少了包体积（小约 15%），提供了更高效的路由匹配算法，对 React 19 和 TypeScript 也提供了更好的支持，
+相比 React Router v6 breaking change 非常少，同时 Modern.js 也对两个版本做了兼容，只需在项目中安装并注册相应的插件即可无缝升级。
+
+:::info
+
+更多 react router v6 到 react router v7 的变更，请查看[文档](https://reactrouter.com/upgrading/v6#upgrade-to-v7)
+
+:::
+
+### 环境要求
+
+React Router v7 对环境有一定要求：
+
+- Node.js 20+
+- React 18+
+- React DOM 18+
+
+### 安装插件
+
+首先，安装 Modern.js 的 React Router v7 插件：
+
+```bash
+pnpm add @modern-js/plugin-router-v7
+```
+
+### 配置插件
+
+在 `modern.config.ts` 中注册插件：
+
+```ts title="modern.config.ts"
+import { routerPlugin } from '@modern-js/plugin-router-v7';
+
+export default {
+  runtime: {
+    router: true,
+  },
+  plugins: [routerPlugin()],
+};
+```
+
+### 修改代码
+
+在 react router v7 中，不需要再使用 `defer` API 了，直接在 data loader 中返回数据即可：
+
+```ts title="routes/page.data.ts"
+import { defer } from '@modern-js/runtime/router';
+
+export const loader = async ({ params }) => {
+  // 推荐的 v7 风格
+  const user = fetchUser(params.id)
+  return { user };
+
+  // v6 风格，Modern.js 做了兼容，仍然可以继续使用
+  return defer({ data: 'hello' });
+};
+```
+
+react router v7 同样废弃了 `json` API：
+
+```ts title="routes/page.data.ts"
+export const loader = async ({ params }) => {
+  // 推荐的 v7 风格
+  return { data: 'hello' };
+
+  // v6 风格，Modern.js 做了兼容，仍然可以继续使用
+  return json({ data: 'hello' });
+};
+```
+
+
 ## 常见问题
 
 1. 为什么要提供 `@modern-js/runtime/router` 来导出 React Router API ?

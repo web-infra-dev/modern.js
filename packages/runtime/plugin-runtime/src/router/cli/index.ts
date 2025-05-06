@@ -78,6 +78,9 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
             /node_modules\/react-router-dom/,
             /node_modules\/@remix-run\/router/,
           ],
+          globalVars: {
+            'process.env._MODERN_ROUTER_VERSION': 'v6',
+          },
         },
       };
     });

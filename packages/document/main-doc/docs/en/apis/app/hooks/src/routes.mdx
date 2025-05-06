@@ -88,3 +88,73 @@ export default () => {
 `<Outlet>` is a new API in React Router 6. For details, see [Outlet](https://reactrouter.com/en/main/components/outlet#outlet).
 
 :::
+
+## Upgrading to React Router v7
+
+React Router v7 reduces bundle size (approximately 15% smaller) compared to React Router v6, provides a more efficient route matching algorithm, and offers better support for React 19 and TypeScript. There are very few breaking changes compared to React Router v6, and Modern.js has made both versions compatible, allowing for a seamless upgrade by simply installing and registering the appropriate plugin.
+
+:::info
+
+For more changes from React Router v6 to React Router v7, check the [documentation](https://reactrouter.com/upgrading/v6#upgrade-to-v7)
+
+:::
+
+### Requirements
+
+React Router v7 has certain environment requirements:
+
+- Node.js 20+
+- React 18+
+- React DOM 18+
+
+### Install the Plugin
+
+First, install the Modern.js React Router v7 plugin:
+
+```bash
+pnpm add @modern-js/plugin-router-v7
+```
+
+### Configure the Plugin
+
+Register the plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { routerPlugin } from '@modern-js/plugin-router-v7';
+
+export default {
+  runtime: {
+    router: true,
+  },
+  plugins: [routerPlugin()],
+};
+```
+
+### Code Changes
+
+In React Router v7, you no longer need to use the `defer` API; you can directly return data in the data loader:
+
+```ts title="routes/page.data.ts"
+import { defer } from '@modern-js/runtime/router';
+
+export const loader = async ({ params }) => {
+  // Recommended v7 style
+  const user = fetchUser(params.id)
+  return { user };
+
+  // v6 style, still compatible with Modern.js
+  return defer({ data: 'hello' });
+};
+```
+
+React Router v7 has also deprecated the `json` API:
+
+```ts title="routes/page.data.ts"
+export const loader = async ({ params }) => {
+  // Recommended v7 style
+  return { data: 'hello' };
+
+  // v6 style, still compatible with Modern.js
+  return json({ data: 'hello' });
+};
+```
