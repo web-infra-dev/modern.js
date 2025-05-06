@@ -11,8 +11,8 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       if (typeof alias !== 'undefined') {
         Object.keys(alias).forEach(key => {
           if (key.includes('react-router')) {
-            logger.warn(
-              `Checked for possible configuration of react-router alias, using react-router-v7 may fail`,
+            return logger.error(
+              `Checked for possible configuration of react-router alias, using react-router-v7 may fail, please remove the alias first`,
             );
           }
         });
