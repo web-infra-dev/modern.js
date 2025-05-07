@@ -13,6 +13,7 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "incremental": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -239,7 +240,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.41",
+                  "coreJs": "3.42",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -318,7 +319,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.41",
+                  "coreJs": "3.42",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -942,7 +943,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.41",
+                      "coreJs": "3.42",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -1034,7 +1035,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.41",
+                      "coreJs": "3.42",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -1244,8 +1245,8 @@ exports[`uni-builder environment compat > should generator environment config co
         "version": 6,
       },
       RsbuildHtmlPlugin {
+        "getContext": [Function],
         "getEnvironment": [Function],
-        "modifyTagsFn": [Function],
         "name": "RsbuildHtmlPlugin",
         "options": {
           "index": {
@@ -1327,7 +1328,6 @@ exports[`uni-builder environment compat > should generator environment config co
     ],
     "watchOptions": {
       "aggregateTimeout": 0,
-      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
     },
   },
   {
@@ -1340,6 +1340,7 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "incremental": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -2204,7 +2205,6 @@ exports[`uni-builder environment compat > should generator environment config co
     "target": "node",
     "watchOptions": {
       "aggregateTimeout": 0,
-      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
     },
   },
   {
@@ -2217,6 +2217,7 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "incremental": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -3042,7 +3043,6 @@ exports[`uni-builder environment compat > should generator environment config co
     ],
     "watchOptions": {
       "aggregateTimeout": 0,
-      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
     },
   },
 ]
