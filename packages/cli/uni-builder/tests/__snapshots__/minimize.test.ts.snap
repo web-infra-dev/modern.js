@@ -74,8 +74,8 @@ exports[`html minify > should not apply html minify in production when disableMi
     "version": 5,
   },
   RsbuildHtmlPlugin {
+    "getContext": [Function],
     "getEnvironment": [Function],
-    "modifyTagsFn": [Function],
     "name": "RsbuildHtmlPlugin",
     "options": {
       "index": {
@@ -207,8 +207,8 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
     "version": 5,
   },
   RsbuildHtmlPlugin {
+    "getContext": [Function],
     "getEnvironment": [Function],
-    "modifyTagsFn": [Function],
     "name": "RsbuildHtmlPlugin",
     "options": {
       "index": {

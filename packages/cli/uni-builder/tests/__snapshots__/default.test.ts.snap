@@ -12,6 +12,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "incremental": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -238,7 +239,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.42",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -317,7 +318,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.42",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -941,7 +942,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.42",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1033,7 +1034,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.42",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1243,8 +1244,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "version": 6,
     },
     RsbuildHtmlPlugin {
+      "getContext": [Function],
       "getEnvironment": [Function],
-      "modifyTagsFn": [Function],
       "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
@@ -1346,7 +1347,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
@@ -1387,6 +1387,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "incremental": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2286,7 +2287,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "target": "node",
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
@@ -2303,6 +2303,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "incremental": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2528,7 +2529,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.42",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2607,7 +2608,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.41",
+                "coreJs": "3.42",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -3231,7 +3232,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.42",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3323,7 +3324,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.41",
+                    "coreJs": "3.42",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3565,8 +3566,8 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "version": 6,
     },
     RsbuildHtmlPlugin {
+      "getContext": [Function],
       "getEnvironment": [Function],
-      "modifyTagsFn": [Function],
       "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
@@ -3653,7 +3654,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
@@ -3669,6 +3669,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "incremental": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -4549,7 +4550,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
@@ -5999,8 +5999,8 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     RsbuildHtmlPlugin {
+      "getContext": [Function],
       "getEnvironment": [Function],
-      "modifyTagsFn": [Function],
       "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
@@ -6119,7 +6119,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
@@ -7680,8 +7679,8 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "version": 5,
     },
     RsbuildHtmlPlugin {
+      "getContext": [Function],
       "getEnvironment": [Function],
-      "modifyTagsFn": [Function],
       "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
@@ -7791,7 +7790,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
-    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
   },
 }
 `;
