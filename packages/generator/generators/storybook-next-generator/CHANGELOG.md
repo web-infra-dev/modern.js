@@ -1,5 +1,7 @@
 # @modern-js/storybook-next-generator
 
+## 3.7.29
+
 ## 3.7.28
 
 ## 3.7.27
