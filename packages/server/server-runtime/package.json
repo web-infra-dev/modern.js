@@ -24,17 +24,29 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "types": "./dist/types/index.d.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
+    },
+    "./cache": {
+      "node": {
+        "jsnext:source": "./src/cache.ts",
+        "import": "./dist/esm-node/cache.js",
+        "require": "./dist/cjs/cache.js"
+      },
+      "types": "./dist/types/cache.d.ts",
+      "default": "./dist/cjs/cache.js"
     }
   },
   "typesVersions": {
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "cache": [
+        "./dist/types/cache.d.ts"
       ]
     }
   },
@@ -46,7 +58,8 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.13",
-    "@modern-js/server-core": "workspace:*"
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
