@@ -113,12 +113,14 @@ export async function run({
     userConfig.autoLoadPlugins,
   );
 
+  // We need exclude warning when use legacy state plugin, it's a inhouse logic.
   if (
     !userConfig.autoLoadPlugins &&
     userConfig.runtime &&
     typeof userConfig.runtime !== 'boolean' &&
     (userConfig.runtime?.state === true ||
-      typeof userConfig.runtime?.state === 'object')
+      (typeof userConfig.runtime?.state === 'object' &&
+        !userConfig.runtime?.state?.legacy))
   ) {
     if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
       console.warn(
