@@ -25,11 +25,22 @@ export const createWebRequest = (
   body?: BodyInit,
 ): Request => {
   const headerRecord: [string, string][] = [];
-  const len = req.rawHeaders.length;
-  for (let i = 0; i < len; i += 2) {
-    const key = req.rawHeaders[i];
-    if (!key.startsWith(':')) {
-      headerRecord.push([key, req.rawHeaders[i + 1]]);
+
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (key.startsWith(':')) {
+      continue;
+    }
+
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item !== undefined) {
+          headerRecord.push([key, item]);
+        }
+      }
+    } else if (value !== undefined) {
+      if (typeof value === 'string') {
+        headerRecord.push([key, value]);
+      }
     }
   }
 

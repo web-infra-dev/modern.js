@@ -381,7 +381,8 @@ async function getRenderMode(
       return 'data';
     }
     const fallbackHeaderValue: string | null =
-      req.headers.get(fallbackHeader) || nodeReq?.headers[fallbackHeader];
+      (req.headers.get(fallbackHeader) as string) ||
+      (nodeReq?.headers[fallbackHeader] as string);
     if (forceCSR && (query.csr || fallbackHeaderValue)) {
       if (query.csr) {
         await onFallback?.('query');
