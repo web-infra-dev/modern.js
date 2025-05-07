@@ -136,13 +136,14 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 :::info
 1. Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
 2. You can refer to the [deployment project example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr).
+
 :::
 
 
 ### Monorepo
 
 :::info
-The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#Pure Frontend Project) to deploy.
+The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#pure-front-end-project-1) to deploy.
 :::
 
 For Monorepo projects, in addition to building our current project, you also need to build other sub-projects in the repository that the current project depends on.
@@ -330,6 +331,7 @@ For branch deployment, follow these steps:
 :::info
 1. Running `MODERNJS_DEPLOY=ghPages modern deploy` will build the production output for GitHub in the .output directory.
 2. You can refer to the [project](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)
+
 :::
 
 For GitHub Actions deployment, select Settings > Pages > Source > GitHub Actions, and add a workflow file to the project. You can refer to the [example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
