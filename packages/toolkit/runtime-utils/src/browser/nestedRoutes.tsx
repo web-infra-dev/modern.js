@@ -167,7 +167,10 @@ function createLoader(route: NestedRoute): LoaderFunction {
         const storage = getAsyncLocalStorage();
         storage
           ?.useContext()
-          .monitors?.timing(`${LOADER_REPORTER_NAME}-${route.id}`, cost);
+          .monitors?.timing(
+            `${LOADER_REPORTER_NAME}-${route.id?.replace(/\//g, '_')}`,
+            cost,
+          );
       }
       return res;
     };
