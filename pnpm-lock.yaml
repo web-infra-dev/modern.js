@@ -950,7 +950,7 @@ importers:
         specifier: npm:react@0.0.0-experimental-51ffd3564-20231025
         version: react@0.0.0-experimental-51ffd3564-20231025
       react-icons:
-        specifier: ^4.11.0
+        specifier: ^4.12.0
         version: 4.12.0(react@18.3.1)
       react-is:
         specifier: ^18
