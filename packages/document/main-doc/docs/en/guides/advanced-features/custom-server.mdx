@@ -1,0 +1,218 @@
+---
+sidebar_position: 16
+---
+
+# Custom Server
+
+Modern.js encapsulates most server-side capabilities required by projects, typically eliminating the need for server-side development. However, in certain scenarios such as user authentication, request preprocessing, or adding page skeletons, custom server-side logic may still be necessary.
+
+## Custom Server Capabilities
+
+Create the `server/modern.server.ts` file in the project directory, and you can add the following configurations to extend the Server:
+- **Middleware**
+- **Render Middleware**
+- **Server Plugin**
+
+In the **Plugin**, you can define **Middleware** and **RenderMiddleware**. The middleware loading process is illustrated in the following diagram:
+
+<img
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/10eh7nuhpenuhog/server-md-wf.png"
+  style={{ width: '100%', maxWidth: '540px' }}
+/>
+
+### Basic Configuration
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  middlewares: [],
+  renderMiddlewares: [],
+  plugins: [],
+});
+```
+
+
+### Type Definition
+
+`defineServerConfig` type definition is as follows:
+
+```ts
+import type { MiddlewareHandler } from 'hono';
+
+type MiddlewareOrder = 'pre' | 'post' | 'default';
+type MiddlewareObj = {
+    name: string;
+    path?: string;
+    method?: 'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
+    handler: MiddlewareHandler | MiddlewareHandler[];
+    before?: Array<MiddlewareObj['name']>;
+    order?: MiddlewareOrder;
+};
+type ServerConfig = {
+    middlewares?: MiddlewareObj[];
+    renderMiddlewares?: MiddlewareObj[];
+    plugins?: (ServerPlugin | ServerPluginLegacy)[];
+}
+```
+
+
+### Middleware
+
+Middleware supports executing custom logic before and after the **request handling** and **page routing** processes in Modern.js services.
+That is, if custom logic needs to handle both API routes and affect page routes, then Middleware is the obvious choice. If you only need to handle BFF API routes, this can be achieved by configuring the `path` to the BFF's `prefix`.
+
+:::note
+In the BFF scenario, BFF routing will only go through Middleware when the [runtime framework](/guides/advanced-features/bff/frameworks.html) is Hono.
+:::
+
+#### Using Posture
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import { getMonitors } from '@modern-js/runtime';
+
+export const handler: MiddlewareHandler = async (c, next) => {
+  const monitors = getMonitors();
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // Report Duration
+  monitors.timing('request_timing', end - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
+```
+
+:::warning
+You must execute the `next` function to proceed with the subsequent Middleware.
+:::
+
+
+### RenderMiddleware
+
+If you only need to handle the logic before and after page rendering, modern.js also provides rendering middleware.
+
+#### Using Posture
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+
+// Inject render performance metrics
+const renderTiming: MiddlewareHandler = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  c.res.headers.set('server-timing', `render; dur=${end - start}`);
+};
+
+// Modify the Response Body
+const modifyResBody: MiddlewareHandler = async (c, next) => {
+  await next();
+
+  const { res } = c;
+  const text = await res.text();
+  const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+
+  c.res = c.body(newText, {
+    status: res.status,
+    headers: res.headers,
+  });
+};
+
+export default defineServerConfig({
+  renderMiddlewares: [
+    {
+      name: 'render-timing',
+      handler: renderTiming,
+    },
+    {
+      name: 'modify-res-body',
+      handler: modifyResBody,
+    },
+  ],
+});
+```
+
+
+### Plugin
+
+Modern.js supports adding the aforementioned middleware and rendering middleware for the Server in custom plugins.
+
+#### Using Posture
+
+
+```ts title="server/plugins/server.ts"
+import type { ServerPluginLegacy } from '@modern-js/server-runtime';
+
+export default (): ServerPluginLegacy => ({
+  name: 'serverPlugin',
+  setup(api) {
+    return {
+      prepare(serverConfig) {
+        const { middlewares, renderMiddlewares } = api.useAppContext();
+
+        // Inject server-side data for page dataLoader consumption
+        middlewares?.push({
+          name: 'server-plugin-middleware',
+          handler: async (c, next) => {
+            c.set('message', 'hi modern.js');
+            await next();
+            // ...
+          },
+        });
+
+        // redirect
+        renderMiddlewares?.push({
+          name: 'server-plugin-render-middleware',
+          handler: async (c, next) => {
+            const user = getUser(c.req);
+            if (!user) {
+              return c.redirect('/login');
+            }
+
+            await next();
+          },
+        });
+        return serverConfig;
+      },
+    };
+  },
+});
+```
+
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+import serverPlugin from './plugins/serverPlugin';
+
+export default defineServerConfig({
+  plugins: [serverPlugin()],
+});
+```
+
+
+```ts title="src/routes/page.data.ts"
+import { useHonoContext } from '@modern-js/server-runtime';
+import { defer } from '@modern-js/runtime/router';
+
+export default () => {
+  const ctx = useHonoContext();
+  // Consuming Data Injected by the Server-Side
+  const message = ctx.get('message');
+
+  // ...
+};
+
+```
