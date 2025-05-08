@@ -4,6 +4,7 @@ import { i18n, localeKeys } from '../locale';
 export enum Framework {
   Express = 'express',
   Koa = 'koa',
+  Hono = 'hono',
 }
 
 export const getFrameworkSchema = (
@@ -22,4 +23,5 @@ export const getFrameworkSchema = (
 export const FrameworkAppendTypeContent: Record<Framework, string> = {
   [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />`,
   [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />`,
+  [Framework.Hono]: `/// <reference types='@modern-js/plugin-bff/types/runtime' />`,
 };

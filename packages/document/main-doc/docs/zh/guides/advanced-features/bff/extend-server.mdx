@@ -4,6 +4,11 @@
 
 Modern.js 提供了两种方式，允许开发者根据运行时框架自由扩展 BFF Server。
 
+:::note
+以下两种方式仅支持 Express 和 Koa，Hono 运行时框架可通过自定义 server 扩展。
+
+:::
+
 ## 中间件
 
 开发者可以在编写 `api/_app.ts` 文件中编写中间件，用来扩展 BFF Server。以 Express 作为运行时框架为例，介绍如何手写一个中间件，添加权限校验：

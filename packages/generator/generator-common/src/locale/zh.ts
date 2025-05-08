@@ -59,6 +59,7 @@ export const ZH_LOCALE = {
     egg: 'Egg',
     express: 'Express',
     koa: 'Koa',
+    hono: 'Hono',
     nest: 'Nest',
   },
   bff: {

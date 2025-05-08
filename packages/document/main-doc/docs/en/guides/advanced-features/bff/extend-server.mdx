@@ -4,6 +4,10 @@ In some applications, developers may want to handle all BFF functions uniformly,
 
 Modern.js provides two methods that allow developers to extend the BFF Server freely according to the runtime framework.
 
+:::note
+The following two methods support only Express and Koa, and the Hono runtime framework can be extended with a custom server.
+:::
+
 ## Middleware
 
 Developers can write middleware in the `api/_app.ts` file to extend the BFF Server. Taking Express as the runtime framework, here is an example of how to write a middleware to add permission checks:

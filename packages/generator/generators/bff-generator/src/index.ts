@@ -24,6 +24,8 @@ import {
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
+type ExternalFramework = Exclude<Framework, Framework.Hono>;
+
 function isEmptyApiDir(apiDir: string) {
   const files = fs.readdirSync(apiDir);
   if (files.length === 0) {
@@ -71,13 +73,16 @@ export const handleTemplateFile = async (
   };
 
   // update bff plugin config
-  context.config.bffPluginName = BFFPluginName[framework as Framework];
-  context.config.bffPluginDependence =
-    BFFPluginDependence[framework as Framework];
-
   let updateInfo: Record<string, string> = {};
 
+  context.config.framework = framework;
+
   if (framework === Framework.Express || framework === Framework.Koa) {
+    context.config.bffPluginName =
+      BFFPluginName[framework as ExternalFramework];
+    context.config.bffPluginDependence =
+      BFFPluginDependence[framework as ExternalFramework];
+
     updateInfo = {
       [`devDependencies.@types/${framework as string}`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
     };
@@ -99,9 +104,11 @@ export const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-bff': `${await getBffPluginVersion(
             '@modern-js/plugin-bff',
           )}`,
-          [`dependencies.@modern-js/plugin-${framework as string}`]: `${await getBffPluginVersion(
-            `@modern-js/plugin-${framework as string}`,
-          )}`,
+          ...(framework !== Framework.Hono && {
+            [`dependencies.@modern-js/plugin-${framework as string}`]: `${await getBffPluginVersion(
+              `@modern-js/plugin-${framework as string}`,
+            )}`,
+          }),
           'devDependencies.ts-node': '~10.8.1',
           'devDependencies.tsconfig-paths': '~3.14.1',
           ...updateInfo,
@@ -161,19 +168,21 @@ export const handleTemplateFile = async (
           .replace('templates/function/info/', 'api/info/')
           .replace('.handlebars', ``),
     );
-    await appApi.forgeTemplate(
-      `templates/function/app/${language}/${
-        framework as string
-      }.${language}.handlebars`,
-      undefined,
-      resourceKey =>
-        resourceKey.replace(
-          `templates/function/app/${language}/${
-            framework as string
-          }.${language}.handlebars`,
-          `api/_app.${language}`,
-        ),
-    );
+    if (framework !== Framework.Hono) {
+      await appApi.forgeTemplate(
+        `templates/function/app/${language}/${
+          framework as string
+        }.${language}.handlebars`,
+        undefined,
+        resourceKey =>
+          resourceKey.replace(
+            `templates/function/app/${language}/${
+              framework as string
+            }.${language}.handlebars`,
+            `api/_app.${language}`,
+          ),
+      );
+    }
   } else {
     if (language === Language.TS) {
       await jsonAPI.update(
@@ -197,18 +206,20 @@ export const handleTemplateFile = async (
           .replace(`templates/framework/`, 'api/')
           .replace('.handlebars', `.${language}`),
     );
-    await appApi.forgeTemplate(
-      `templates/framework/app/${framework as string}/**/*`,
-      resourceKey =>
-        framework === Framework.Koa ? resourceKey.includes(language) : true,
-      resourceKey =>
-        resourceKey
-          .replace(`templates/framework/app/${framework as string}/`, 'api/')
-          .replace(
-            '.handlebars',
-            framework === Framework.Express ? `.${language}` : '',
-          ),
-    );
+    if (framework !== Framework.Hono) {
+      await appApi.forgeTemplate(
+        `templates/framework/app/${framework as string}/**/*`,
+        resourceKey =>
+          framework === Framework.Koa ? resourceKey.includes(language) : true,
+        resourceKey =>
+          resourceKey
+            .replace(`templates/framework/app/${framework as string}/`, 'api/')
+            .replace(
+              '.handlebars',
+              framework === Framework.Express ? `.${language}` : '',
+            ),
+      );
+    }
   }
 
   const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
@@ -262,6 +273,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       const configFile = await getModernConfigFile(appDir);
       const isTS = configFile.endsWith('ts');
       const {
+        framework,
         pluginName,
         bffPluginName,
         pluginDependence,
@@ -276,39 +288,47 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
         '\n',
       );
       if (shouldUsePluginNameExport) {
-        console.info(
-          chalk.yellow.bold(
-            `import { ${pluginName} } from '${pluginDependence}';`,
-          ),
-        );
+        if (framework !== Framework.Hono) {
+          console.info(
+            chalk.yellow.bold(
+              `import { ${pluginName} } from '${pluginDependence}';`,
+            ),
+          );
+        }
         console.info(
           chalk.yellow.bold(
             `import { ${bffPluginName} } from '${bffPluginDependence}';`,
           ),
         );
       } else {
-        console.info(
-          chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
-        );
+        if (framework !== Framework.Hono) {
+          console.info(
+            chalk.yellow.bold(
+              `import ${pluginName} from '${pluginDependence}';`,
+            ),
+          );
+        }
         console.info(
           chalk.yellow.bold(
             `import ${bffPluginName} from '${bffPluginDependence}';`,
           ),
         );
       }
+      const bffPluginNameStr =
+        framework === Framework.Hono ? '' : `, ${bffPluginName}()`;
 
       if (isTS) {
         console.info(`
 export default defineConfig({
   ...,
-  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()${bffPluginNameStr}`)}],
 });
 `);
       } else {
         console.info(`
 module.exports = {
   ...,
-  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()${bffPluginNameStr}`)}],
 };
 `);
       }

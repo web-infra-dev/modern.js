@@ -212,12 +212,12 @@ export const MWANewActionPluginDependence: Record<
   },
 };
 
-export const BFFPluginName: Record<Framework, string> = {
+export const BFFPluginName: Omit<Record<Framework, string>, 'hono'> = {
   [Framework.Express]: 'expressPlugin',
   [Framework.Koa]: 'koaPlugin',
 };
 
-export const BFFPluginDependence: Record<Framework, string> = {
+export const BFFPluginDependence: Omit<Record<Framework, string>, 'hono'> = {
   [Framework.Express]: '@modern-js/plugin-express',
   [Framework.Koa]: '@modern-js/plugin-koa',
 };
