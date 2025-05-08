@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 2.67.4
+
+### Patch Changes
+
+- Updated dependencies [35e9786]
+- Updated dependencies [2b65e0c]
+- Updated dependencies [b00922e]
+- Updated dependencies [b60d21c]
+  - @modern-js/runtime@2.67.4
+  - @modern-js/prod-server@2.67.4
+  - @modern-js/server-core@2.67.4
+  - @modern-js/babel-preset@2.67.4
+  - @modern-js/bff-core@2.67.4
+  - @modern-js/babel-compiler@2.67.4
+  - @modern-js/plugin@2.67.4
+  - @modern-js/types@2.67.4
+  - @modern-js/utils@2.67.4
+
 ## 2.67.3
 
 ### Patch Changes

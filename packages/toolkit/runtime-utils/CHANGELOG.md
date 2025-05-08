@@ -1,5 +1,24 @@
 # @modern-js/runtime-utils
 
+## 2.67.4
+
+### Patch Changes
+
+- 3a66335: feat: support getKey for cache funtion
+  feat: 为 cahce 函数支持 getKey
+- 03cf233: fix(router): replace slashes in route ID for loader timing reporting
+  fix(router): 为 server timing 替换 route id 中的 "/"
+- 446939a: feat(cache): support customKey for cache
+  feat(cache): 为缓存支持 customKey 函数
+- 446939a: feat: support unstable_shouldDisable
+  feat: 支持 unstable_shouldDisable
+- b00922e: feat: support plugin-router-v7
+  feat: support plugin-router-v7
+- 446939a: feat: support cache statistics
+  feat: 支持缓存命中率统计
+  - @modern-js/types@2.67.4
+  - @modern-js/utils@2.67.4
+
 ## 2.67.3
 
 ### Patch Changes

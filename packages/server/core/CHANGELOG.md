@@ -1,5 +1,25 @@
 # @modern-js/server-plugin
 
+## 2.67.4
+
+### Patch Changes
+
+- 35e9786: feat: modern.server supports extended server
+  feat: modern.server 支持扩展 modern.js 服务
+- 2b65e0c: fix(server): should sync all headers from req.headers
+  fix(server): 应该从 req.headers 同步所有的 headers
+- Updated dependencies [35e9786]
+- Updated dependencies [3a66335]
+- Updated dependencies [03cf233]
+- Updated dependencies [446939a]
+- Updated dependencies [446939a]
+- Updated dependencies [b00922e]
+- Updated dependencies [446939a]
+  - @modern-js/plugin-v2@2.67.4
+  - @modern-js/runtime-utils@2.67.4
+  - @modern-js/plugin@2.67.4
+  - @modern-js/utils@2.67.4
+
 ## 2.67.3
 
 ### Patch Changes

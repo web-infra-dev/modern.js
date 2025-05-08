@@ -1,5 +1,14 @@
 # @modern-js/uni-builder
 
+## 2.67.4
+
+### Patch Changes
+
+- ec9aa92: chore(deps): update Rsbuild to 1.3.11
+  - @modern-js/babel-preset@2.67.4
+  - @modern-js/flight-server-transform-plugin@2.67.4
+  - @modern-js/utils@2.67.4
+
 ## 2.67.3
 
 ### Patch Changes

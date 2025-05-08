@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.67.4
+
+### Patch Changes
+
+- 35e9786: feat: modern.server supports extended server
+  feat: modern.server 支持扩展 modern.js 服务
+- Updated dependencies [35e9786]
+- Updated dependencies [2b65e0c]
+- Updated dependencies [ec9aa92]
+- Updated dependencies [b00922e]
+  - @modern-js/prod-server@2.67.4
+  - @modern-js/plugin-v2@2.67.4
+  - @modern-js/server@2.67.4
+  - @modern-js/server-core@2.67.4
+  - @modern-js/uni-builder@2.67.4
+  - @modern-js/plugin-data-loader@2.67.4
+  - @modern-js/server-utils@2.67.4
+  - @modern-js/core@2.67.4
+  - @modern-js/plugin-i18n@2.67.4
+  - @modern-js/rsbuild-plugin-esbuild@2.67.4
+  - @modern-js/node-bundle-require@2.67.4
+  - @modern-js/plugin@2.67.4
+  - @modern-js/types@2.67.4
+  - @modern-js/utils@2.67.4
+
 ## 2.67.3
 
 ### Patch Changes
