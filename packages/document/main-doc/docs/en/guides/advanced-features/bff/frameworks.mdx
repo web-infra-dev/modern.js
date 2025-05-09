@@ -1,8 +1,12 @@
 # Runtime Framework
 
-Modern.js BFF supports different runtime frameworks. Currently, Modern.js BFF supports two runtime frameworks: [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/).
+Modern.js's BFF supports different runtime frameworks, and currently, Modern.js's BFF integrates [Hono.js](https://hono.dev/) by default and supports registering [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/).
 
 When using different runtime frameworks, some APIs may differ.
+
+:::info
+It is recommended to use the default integrated Hono.js runtime framework. The Express.js and Koa.js runtime framework plugins will no longer be maintained.
+:::
 
 ## Accessing Request Context
 
@@ -11,6 +15,20 @@ In BFF functions, you may need to access the request context to handle more logi
 import { Tabs, Tab as TabItem } from "@theme";
 
 <Tabs>
+<TabItem value="hono" label="Hono.js" default>
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/hono'
+export const get = async () => {
+  const c = useHonoContext();
+  console.info(`access url: ${c.req.url}`);
+  return 'Hello Modern.js'
+};
+```
+
+  </TabItem>
+
+
   <TabItem value="express" label="Express.js" default>
 
 ```ts title="api/lambda/hello.ts"
@@ -45,7 +63,39 @@ For more details, refer to [useContext](/apis/app/runtime/bff/use-context).
 
 In BFF functions, you may need to use middleware to handle more logic. Depending on the runtime framework, you need to use different APIs:
 
+:::note
+Only Express and Koa are supported through hook registration middleware, and the Hono runtime framework supports registration middleware through a custom server.
+:::
+
 <Tabs>
+<TabItem value="hono" label="Hono.js" default>
+
+```ts title="server/modern.server.ts"
+import {
+  type MiddlewareHandler,
+  defineServerConfig,
+} from '@modern-js/server-runtime';
+
+const setBffApiHeader: MiddlewareHandler = async (c, next) => {
+  if (c.req.parh.startsWith('/api')) {
+    c.res.headers.set('set-bff-api-header', '1');
+  }
+  await next();
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'set-bff-api-header',
+      handler: setBffApiHeader,
+    },
+  ]
+});
+
+
+```
+  </TabItem>
+
   <TabItem value="express" label="Express.js" default>
 
 ```ts title="api/_app.ts"
