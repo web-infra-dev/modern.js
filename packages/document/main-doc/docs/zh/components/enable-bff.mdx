@@ -21,6 +21,19 @@ import { PackageManagerTabs } from '@theme';
 import { Tabs, Tab as TabItem } from "@theme";
 
 <Tabs>
+
+  <TabItem value="hono" label="Hono.js" default>
+
+```ts title="modern.config.ts"
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [bffPlugin()], // bffPlugin 默认支持 Hono 运行时框架
+});
+```
+
+  </TabItem>
+
   <TabItem value="express" label="Express.js" default>
 
 ```ts title="modern.config.ts"
