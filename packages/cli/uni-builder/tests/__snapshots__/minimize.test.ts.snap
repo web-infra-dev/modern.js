@@ -41,7 +41,7 @@ exports[`html minify > should not apply html minify in production when disableMi
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
-      "minify": false,
+      "minify": "auto",
       "publicPath": "auto",
       "scriptLoading": "defer",
       "showErrors": true,
@@ -64,7 +64,6 @@ exports[`html minify > should not apply html minify in production when disableMi
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
-      "minify": false,
       "scriptLoading": "defer",
       "template": "",
       "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -74,14 +73,8 @@ exports[`html minify > should not apply html minify in production when disableMi
     "version": 5,
   },
   RsbuildHtmlPlugin {
-    "getContext": [Function],
-    "getEnvironment": [Function],
+    "getExtraData": [Function],
     "name": "RsbuildHtmlPlugin",
-    "options": {
-      "index": {
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-      },
-    },
   },
   DefinePlugin {
     "definitions": {
@@ -207,14 +200,8 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
     "version": 5,
   },
   RsbuildHtmlPlugin {
-    "getContext": [Function],
-    "getEnvironment": [Function],
+    "getExtraData": [Function],
     "name": "RsbuildHtmlPlugin",
-    "options": {
-      "index": {
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-      },
-    },
   },
   DefinePlugin {
     "definitions": {
