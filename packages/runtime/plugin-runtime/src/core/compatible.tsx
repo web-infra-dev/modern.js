@@ -239,9 +239,9 @@ export const useRuntimeContext = () => {
   const internalRuntimeContext = getGlobalInternalRuntimeContext();
   const hooks = internalRuntimeContext.hooks;
   const memoizedContext = useMemo(
-    () => hooks.pickContext.call(pickedContext as unknown as RuntimeContext),
+    () => hooks.pickContext.call(pickedContext as RuntimeContext),
     [context],
   );
 
-  return memoizedContext as unknown as TRuntimeContext;
+  return memoizedContext as TRuntimeContext;
 };
