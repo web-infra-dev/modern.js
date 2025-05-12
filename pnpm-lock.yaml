@@ -2342,11 +2342,11 @@ importers:
   packages/runtime/plugin-image:
     dependencies:
       '@rsbuild-image/core':
-        specifier: 0.0.1-next.31
-        version: 0.0.1-next.31(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        specifier: 0.0.1-next.16
+        version: 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@rsbuild-image/react':
-        specifier: 0.0.1-next.31
-        version: 0.0.1-next.31(@rsbuild-image/core@0.0.1-next.31(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        specifier: 0.0.1-next.16
+        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       ipx:
         specifier: ^3.0.3
         version: 3.0.3
@@ -12723,8 +12723,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rsbuild-image/core@0.0.1-next.31':
-    resolution: {integrity: sha512-nU0+/RoVY4+El6vXbwT7O8MDFw16CBWdJJzgBTesElikQhaA/b6NGuZ/cIEp3aJCWASpHuZWI+beo0J7t5Uy5A==}
+  '@rsbuild-image/core@0.0.1-next.16':
+    resolution: {integrity: sha512-CA788hY+ZKOMdfdGr1hamyBcS6BBZmq7aBk/bTv8OKnL6iZ3Lyw3TBBvBGG4SQtm86+0djpK3fef3oQNOCcsXQ==}
     peerDependencies:
       ipx: '>=3.0.3'
       react: '>=16.9.0'
@@ -12736,8 +12736,8 @@ packages:
       sharp:
         optional: true
 
-  '@rsbuild-image/react@0.0.1-next.31':
-    resolution: {integrity: sha512-YzL+ZSTlsYBk5o+mmn+UqLEc4zvp3JNOyrjBaRbQg0krtrskL2R1j2qCDVdZiuknNkI2QrAie2pyI7uWFh3InQ==}
+  '@rsbuild-image/react@0.0.1-next.16':
+    resolution: {integrity: sha512-i3fELfYttZ7pLWI8oIx5EjomlwDEXfhtKfD2Yd943ZI/2JryLzNtywAHGPYvy2okJbJ0Zab8p5YKHrrEHRHJqg==}
     peerDependencies:
       '@rsbuild-image/core': '*'
       ipx: '>=3.0.3'
@@ -18367,9 +18367,6 @@ packages:
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
-
-  knitwork@1.2.0:
-    resolution: {integrity: sha512-xYSH7AvuQ6nXkq42x0v5S8/Iry+cfulBz/DJQzhIyESdLD7425jXsPy4vn5cCXU+HhRN2kVw51Vd1K6/By4BQg==}
 
   koa-body@4.2.0:
     resolution: {integrity: sha512-wdGu7b9amk4Fnk/ytH8GuWwfs4fsB5iNkY8kZPpgQVb04QZSv85T0M8reb+cJmvLE8cjPYvBzRikD3s6qz8OoA==}
@@ -28614,10 +28611,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.8':
     optional: true
 
-  '@rsbuild-image/core@0.0.1-next.31(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
+      '@sindresorhus/is': 7.0.1
       image-size: 2.0.2
-      knitwork: 1.2.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       rslog: 1.2.3
@@ -28627,11 +28624,10 @@ snapshots:
       ipx: 3.0.3
       sharp: 0.34.1
 
-  '@rsbuild-image/react@0.0.1-next.31(@rsbuild-image/core@0.0.1-next.31(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
-      '@rsbuild-image/core': 0.0.1-next.31(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+      '@rsbuild-image/core': 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@sindresorhus/is': 7.0.1
-      debug: 4.4.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       type-fest: 4.40.0
@@ -28639,8 +28635,6 @@ snapshots:
     optionalDependencies:
       ipx: 3.0.3
       sharp: 0.34.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@rsbuild/core@1.2.3':
     dependencies:
@@ -36435,8 +36429,6 @@ snapshots:
   kleur@3.0.3: {}
 
   kleur@4.1.5: {}
-
-  knitwork@1.2.0: {}
 
   koa-body@4.2.0:
     dependencies:
