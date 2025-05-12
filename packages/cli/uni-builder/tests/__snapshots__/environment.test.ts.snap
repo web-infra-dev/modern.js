@@ -1245,14 +1245,8 @@ exports[`uni-builder environment compat > should generator environment config co
         "version": 6,
       },
       RsbuildHtmlPlugin {
-        "getContext": [Function],
-        "getEnvironment": [Function],
+        "getExtraData": [Function],
         "name": "RsbuildHtmlPlugin",
-        "options": {
-          "index": {
-            "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-          },
-        },
       },
       DefinePlugin {
         "_args": [
