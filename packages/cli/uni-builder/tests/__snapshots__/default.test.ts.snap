@@ -1244,14 +1244,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "version": 6,
     },
     RsbuildHtmlPlugin {
-      "getContext": [Function],
-      "getEnvironment": [Function],
+      "getExtraData": [Function],
       "name": "RsbuildHtmlPlugin",
-      "options": {
-        "index": {
-          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-        },
-      },
     },
     DefinePlugin {
       "_args": [
@@ -3553,7 +3547,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": [Function],
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
@@ -3566,14 +3559,8 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "version": 6,
     },
     RsbuildHtmlPlugin {
-      "getContext": [Function],
-      "getEnvironment": [Function],
+      "getExtraData": [Function],
       "name": "RsbuildHtmlPlugin",
-      "options": {
-        "index": {
-          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-        },
-      },
     },
     DefinePlugin {
       "_args": [
@@ -5966,7 +5953,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
+        "minify": "auto",
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
@@ -5989,7 +5976,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
         "scriptLoading": "defer",
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -5999,14 +5985,8 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     RsbuildHtmlPlugin {
-      "getContext": [Function],
-      "getEnvironment": [Function],
+      "getExtraData": [Function],
       "name": "RsbuildHtmlPlugin",
-      "options": {
-        "index": {
-          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-        },
-      },
     },
     DefinePlugin {
       "definitions": {
@@ -7608,26 +7588,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
+        "minify": "auto",
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
@@ -7650,26 +7611,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
         "scriptLoading": "defer",
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -7679,14 +7620,8 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "version": 5,
     },
     RsbuildHtmlPlugin {
-      "getContext": [Function],
-      "getEnvironment": [Function],
+      "getExtraData": [Function],
       "name": "RsbuildHtmlPlugin",
-      "options": {
-        "index": {
-          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
-        },
-      },
     },
     DefinePlugin {
       "definitions": {
