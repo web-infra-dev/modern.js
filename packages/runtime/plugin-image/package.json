@@ -41,8 +41,8 @@
     "dev": "rslib build --watch"
   },
   "dependencies": {
-    "@rsbuild-image/core": "0.0.1-next.16",
-    "@rsbuild-image/react": "0.0.1-next.16",
+    "@rsbuild-image/core": "0.0.1-next.31",
+    "@rsbuild-image/react": "0.0.1-next.31",
     "ipx": "^3.0.3",
     "sharp": "^0.34.1"
   },

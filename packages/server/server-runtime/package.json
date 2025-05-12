@@ -57,9 +57,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.13",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@modern-js/runtime-utils": "workspace:*"
+    "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
