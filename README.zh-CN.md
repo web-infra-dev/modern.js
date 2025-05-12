@@ -70,7 +70,7 @@ Modern.js 提供了一系列开箱即用的示例项目，你可以在 [modern-j
 
 ## Credits
 
-Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 [create-react-app](https://github.com/facebook/create-react-app)，[remix](https://github.com/vuejs/remix)，[jest](https://github.com/facebook/jest) 和 [bundle-require](https://github.com/egoist/bundle-require) 等，感谢这些项目：
+Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 [create-react-app](https://github.com/facebook/create-react-app)，[remix](https://github.com/remix-run/remix)，[jest](https://github.com/facebook/jest) 和 [bundle-require](https://github.com/egoist/bundle-require) 等，感谢这些项目：
 
 - `@modern-js/bundle-require`：修改自 [bundle-require](https://github.com/egoist/bundle-require)。
 - `@modern-js/plugin`：hook API 的实现参考了 [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline)。
