@@ -110,7 +110,7 @@ export const routerPlugin = (
           basename: _basename,
         });
 
-        // We can't pass post request to query,due to post request would triger react-router submit action.
+        // We can't pass post request to query,due to post request would trigger react-router submit action.
         // But user maybe do not define action for page.
         const remixRequest = createRemixReuqest(
           context.ssrContext!.request.raw,
@@ -145,13 +145,13 @@ export const routerPlugin = (
         }
 
         const router = createStaticRouter(routes, routerContext);
-        // routerContext is used in in css colletor、handle status code、inject loader data in html
+        // routerContext is used in in css collector、handle status code、inject loader data in html
         context.routerContext = routerContext;
 
         // private api, pass to React Component in `wrapRoot`
         // in the browser, we not need to pass router, cause we create Router in `wrapRoot`
         // but in node, we need to pass router, cause we need run async function, it can only run in `beforeRender`
-        // when we deprected React 17, we can use Suspense to handle this async function
+        // when we deprecated React 17, we can use Suspense to handle this async function
         // so the `remixRouter` has no type declare in RuntimeContext
         context.remixRouter = router;
 
