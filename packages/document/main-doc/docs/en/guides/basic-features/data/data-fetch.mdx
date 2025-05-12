@@ -152,7 +152,7 @@ Having the `loader` function run only on the server in SSR applications brings s
 
 :::
 
-We recommend using the `fetch` API in `loader` functions to make requests. Modern.js provides a default polyfill for the `fetch` API, allowing it to be used on the server. This means you can fetch data in a consistent manner whether in CSR or SSR:
+We recommend using the `fetch` API in `loader` functions to make requests. Since `fetch` works similarly on the client and server, you can fetch data in a consistent manner whether in CSR or SSR:
 
 ```tsx
 export async function loader() {
