@@ -1241,6 +1241,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "templateParameters": [Function],
           "title": "",
           "xhtml": false,
+          Symbol(entryName): "index",
         },
         "version": 6,
       },
