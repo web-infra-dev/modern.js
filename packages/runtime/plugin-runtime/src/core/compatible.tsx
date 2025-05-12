@@ -231,7 +231,6 @@ export const useRuntimeContext = () => {
   // TODO: Here we should not provide all the RuntimeReactContext to the user
   const pickedContext: TRuntimeContext = {
     ...context,
-    // If using convention routes, we should provide routes to the user
     context: context.context || ({} as TSSRContext),
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
