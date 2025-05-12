@@ -1,4 +1,5 @@
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
+import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext } from 'react';
 import type { RouteManifest } from '../../router/runtime/types';
@@ -30,7 +31,7 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 export const ServerRouterContext = createContext({} as any);
 
 // TODO: We should export this context to user as RuntimeContext, use in `init` function
-export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
+export interface TRuntimeContext {
   initialData?: Record<string, unknown>;
   isBrowser: boolean;
   context: TSSRContext;
@@ -38,6 +39,7 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   request?: SSRServerContext['request'];
   /** @deprecated use context.response field instead */
   response?: SSRServerContext['response'];
+  routes?: RouteObject[];
   [key: string]: any;
 }
 

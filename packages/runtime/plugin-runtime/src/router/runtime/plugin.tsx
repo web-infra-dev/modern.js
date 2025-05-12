@@ -86,6 +86,7 @@ export const routerPlugin = (
           get() {
             return routes;
           },
+          enumerable: true,
         });
       });
       api.wrapRoot(App => {

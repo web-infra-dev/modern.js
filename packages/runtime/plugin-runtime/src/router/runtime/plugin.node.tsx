@@ -8,7 +8,10 @@ import {
   createStaticRouter,
 } from '@modern-js/runtime-utils/node/router';
 import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
-import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
+import {
+  type RouteObject,
+  createRoutesFromElements,
+} from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
@@ -89,7 +92,7 @@ export const routerPlugin = (
 
         await hooks.onBeforeCreateRoutes.call(context);
 
-        let routes = createRoutes
+        let routes: RouteObject[] = createRoutes
           ? createRoutes()
           : createRoutesFromElements(
               renderRoutes({
@@ -153,7 +156,12 @@ export const routerPlugin = (
         context.remixRouter = router;
 
         // private api, pass to React Component in `wrapRoot`
-        context.routes = routes;
+        Object.defineProperty(context, 'routes', {
+          get() {
+            return routes;
+          },
+          enumerable: true,
+        });
       });
 
       api.wrapRoot(App => {
