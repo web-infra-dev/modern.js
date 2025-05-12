@@ -149,6 +149,7 @@ Having the `loader` function run only on the server in SSR applications brings s
 - **Simplifies usage**: Guarantees consistent data-fetching methods in SSR applications, so developers don't have to distinguish between client and server code.
 - **Reduces client bundle size**: Moves logic code and dependencies from the client to the server.
 - **Improves maintainability**: Less direct influence of data logic on front-end UI and avoids issues of accidentally including server dependencies in the client bundle or vice versa.
+
 :::
 
 We recommend using the `fetch` API in `loader` functions to make requests. Modern.js provides a default polyfill for the `fetch` API, allowing it to be used on the server. This means you can fetch data in a consistent manner whether in CSR or SSR:
