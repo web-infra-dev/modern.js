@@ -231,6 +231,8 @@ export const useRuntimeContext = () => {
   // TODO: Here we should not provide all the RuntimeReactContext to the user
   const pickedContext: TRuntimeContext = {
     ...context,
+    // If using convention routes, we should provide routes to the user
+    routes: context.routes || [],
     context: context.context || ({} as TSSRContext),
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
@@ -239,9 +241,9 @@ export const useRuntimeContext = () => {
   const internalRuntimeContext = getGlobalInternalRuntimeContext();
   const hooks = internalRuntimeContext.hooks;
   const memoizedContext = useMemo(
-    () => hooks.pickContext.call(pickedContext as RuntimeContext),
+    () => hooks.pickContext.call(pickedContext as unknown as RuntimeContext),
     [context],
   );
 
-  return memoizedContext as TRuntimeContext;
+  return memoizedContext as unknown as TRuntimeContext;
 };
