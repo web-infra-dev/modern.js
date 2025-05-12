@@ -39,7 +39,7 @@ export interface TRuntimeContext {
   request?: SSRServerContext['request'];
   /** @deprecated use context.response field instead */
   response?: SSRServerContext['response'];
-  routes: RouteObject[];
+  routes?: RouteObject[];
   [key: string]: any;
 }
 

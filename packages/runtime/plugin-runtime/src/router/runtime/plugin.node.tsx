@@ -156,7 +156,12 @@ export const routerPlugin = (
         context.remixRouter = router;
 
         // private api, pass to React Component in `wrapRoot`
-        context.routes = routes;
+        Object.defineProperty(context, 'routes', {
+          get() {
+            return routes;
+          },
+          enumerable: true,
+        });
       });
 
       api.wrapRoot(App => {

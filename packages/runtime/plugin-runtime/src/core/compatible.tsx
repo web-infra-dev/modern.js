@@ -232,7 +232,6 @@ export const useRuntimeContext = () => {
   const pickedContext: TRuntimeContext = {
     ...context,
     // If using convention routes, we should provide routes to the user
-    routes: context.routes || [],
     context: context.context || ({} as TSSRContext),
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
