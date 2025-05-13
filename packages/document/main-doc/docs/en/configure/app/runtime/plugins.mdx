@@ -1,30 +1,20 @@
 # plugins
 
-- **Type:** `CliPlugin[]`
+- **Type:** `RuntimePlugin[]`
 - **Default:** `[]`
 
-Used to configure custom Modern.js framework CLI plugins.
+Used to configure custom Modern.js Runtime plugins.
 
 Refer to [How to Develop Plugins](/plugin/plugin-system) for how to write custom plugins.
 
 ## Note
 
-This option is **used to configure framework CLI plugins**. If you need to configure other types of plugins, please choose the corresponding configuration method:
+This option is **used to configure framework Runtime plugins**. If you need to configure other types of plugins, please choose the corresponding configuration method:
 
 - Use [builderPlugins](/configure/app/builder-plugins) to configure Rsbuild plugins.
 - Use [tools.bundlerChain](/configure/app/tools/bundler-chain) to configure Rspack or webpack plugins.
 - Use [tools.babel](/configure/app/tools/babel) to configure Babel plugins.
-- Use [runtime.plugins](/configure/app/runtime/plugins) to configure framework Runtime plugins.
-
-## Plugin types
-
-Modern.js has three types of plugins:
-
-- `CLI plugins`, applicable to local development, compilation and construction stages, can extend various capabilities in the command line and compilation stages.
-- `Server plugins`, applicable to the server.
-- `Runtime plugins`, applicable to the front-end runtime.
-
-Currently, Modern.js has opened up the ability to customize CLI plugins, and Server plugins and Runtime plugins will be opened up later.
+- Use [plugins](/configure/app/plugins) to configure framework CLI plugins.
 
 ## Plugin execution order
 
@@ -34,16 +24,17 @@ When the plugin sets options that control the order, such as `pre` and `post`, t
 
 ## Example
 
-The following is an example of using CLI plugins.
+The following is an example of using Runtime plugins.
 
 ### Use plugins on npm
 
-To use plugins from npm registry, you need to first install the plugins , and import them in `modern.config.ts`.
+To use plugins from npm registry, you need to first install the plugins, and import them in your code.
 
-```ts title="modern.config.ts"
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 import { myPlugin } from 'my-plugin';
 
-export default defineConfig({
+export default defineRuntimeConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -52,10 +43,11 @@ export default defineConfig({
 
 To use local plugins, import them directly using a relative path.
 
-```ts title="modern.config.ts"
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 import { myPlugin } from './config/plugin/myPlugin';
 
-export default defineConfig({
+export default defineRuntimeConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -64,15 +56,14 @@ export default defineConfig({
 
 If the plugin provides some custom configuration options, they can be passed in as parameters to the plugin function.
 
-```ts title="modern.config.ts"
-import { myPlugin } from 'my-plugin';
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
 
-export default defineConfig({
-  plugins: [
-    myPlugin({
-      foo: 1,
-      bar: 2,
-    }),
-  ],
+export default defineRuntimeConfig({
+  plugins: [myPlugin({
+    foo: 1,
+    bar: 2,
+  })],
 });
 ```

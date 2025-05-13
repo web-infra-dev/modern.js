@@ -1,20 +1,24 @@
+---
+sidebar_position: 9
+---
+
 # plugins
 
-- **类型：** `CliPlugin[]`
+- **类型：** `RuntimePlugin[]`
 - **默认值：** `[]`
 
-用于配置自定义的 Modern.js 框架 CLI 插件。
+用于配置自定义的 Modern.js Runtime 插件。
 
 自定义插件的编写方式请参考 [如何编写插件](/plugin/plugin-system)。
 
 ## 注意事项
 
-该选项**用于配置框架 CLI 插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
+该选项**用于配置框架 Runtime插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
 
 - 配置 Rsbuild 插件，请使用 [builderPlugins](/configure/app/builder-plugins) 配置项。
 - 配置 Rspack 或 webpack 插件，请使用 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置项。
 - 配置 Babel 插件，请使用 [tools.babel](/configure/app/tools/babel) 配置项。
-- 配置框架 Runtime 插件，请使用 [runtime.plugins](/configure/app/runtime/plugins) 配置项。
+- 配置框架 CLI 插件，请使用 [plugins](/configure/app/plugins) 配置项。
 
 ## 插件执行顺序
 
@@ -24,16 +28,17 @@
 
 ## 示例
 
-下面是 CLI 插件的使用示例。
+下面是 Runtime 插件的使用示例。
 
 ### 使用 npm 上的插件
 
 使用 npm 上的插件，需要通过包管理器安装插件，并通过 import 引入。
 
-```ts title="modern.config.ts"
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 import { myPlugin } from 'my-plugin';
 
-export default defineConfig({
+export default defineRuntimeConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -42,10 +47,11 @@ export default defineConfig({
 
 使用本地代码仓库中的插件，直接通过相对路径 import 引入即可。
 
-```ts title="modern.config.ts"
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
 import { myPlugin } from './config/plugin/myPlugin';
 
-export default defineConfig({
+export default defineRuntimeConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -54,15 +60,14 @@ export default defineConfig({
 
 如果插件提供了一些自定义的配置项，可以通过插件函数的参数传入配置。
 
-```ts title="modern.config.ts"
-import { myPlugin } from 'my-plugin';
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
 
-export default defineConfig({
-  plugins: [
-    myPlugin({
-      foo: 1,
-      bar: 2,
-    }),
-  ],
+export default defineRuntimeConfig({
+  plugins: [myPlugin({
+    foo: 1,
+    bar: 2,
+  })],
 });
 ```
