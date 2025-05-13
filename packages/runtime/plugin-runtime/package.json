@@ -213,7 +213,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.14",

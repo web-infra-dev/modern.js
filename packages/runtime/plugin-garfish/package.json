@@ -74,7 +74,7 @@
     "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "@types/debug": "4.1.12",
     "@types/react-loadable": "^5.5.6",
     "debug": "4.3.7",

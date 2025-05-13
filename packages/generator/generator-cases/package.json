@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@modern-js/generator-common": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "covertable": "^2.2.2"
   },
   "devDependencies": {

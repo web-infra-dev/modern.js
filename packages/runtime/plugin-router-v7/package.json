@@ -60,7 +60,7 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "react-router": "^7.5.0"
   },
   "peerDependencies": {

@@ -76,7 +76,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18"
