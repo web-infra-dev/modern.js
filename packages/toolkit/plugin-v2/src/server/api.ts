@@ -74,10 +74,11 @@ export function initPluginAPI<Extends extends ServerPluginExtends>({
     context = assign(context, updateContext);
   }
 
+  // TODO: Add type in next major version when remove `Proxy`
   const pluginAPI = {
     isPluginExists: pluginManager.isPluginExists,
     getServerContext,
-    getConfig,
+    getServerConfig: getConfig,
     getHooks,
     updateServerContext,
 
