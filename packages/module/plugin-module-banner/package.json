@@ -33,13 +33,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.13"
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",

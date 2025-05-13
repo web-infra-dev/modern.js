@@ -58,7 +58,7 @@
     "@changesets/read": "^0.6.0",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "axios": "^1.7.4",
     "resolve-from": "^5.0.0"
   },

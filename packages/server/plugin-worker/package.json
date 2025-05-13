@@ -52,7 +52,7 @@
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13"
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

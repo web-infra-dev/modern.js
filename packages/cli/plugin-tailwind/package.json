@@ -57,7 +57,7 @@
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "babel-plugin-macros": "3.1.0"
   },
   "devDependencies": {

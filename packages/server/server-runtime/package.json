@@ -59,7 +59,7 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@swc/helpers": "0.5.13"
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

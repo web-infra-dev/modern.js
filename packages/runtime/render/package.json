@@ -30,7 +30,7 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "rsc-html-stream": "0.0.5"
   },
   "devDependencies": {

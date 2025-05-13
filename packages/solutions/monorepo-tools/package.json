@@ -50,7 +50,7 @@
     "@modern-js/utils": "workspace:*",
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "anymatch": "^3.1.2",
     "md5": "^2.3.0",
     "p-map": "4.0.0"

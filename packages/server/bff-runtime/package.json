@@ -37,7 +37,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "farrow-api": "^1.10.8",
     "farrow-pipeline": "^1.10.6",
     "farrow-schema": "^1.10.8"

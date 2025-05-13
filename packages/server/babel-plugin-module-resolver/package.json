@@ -38,7 +38,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.13",
+    "@swc/helpers": "^0.5.17",
     "glob": "^8.0.3",
     "pkg-up": "3.1.0",
     "reselect": "^4.1.7",
