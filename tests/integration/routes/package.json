@@ -12,11 +12,11 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
+    "@modern-js/plugin-router-v7": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "fs-extra": "^10.1.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@modern-js/plugin-router-v7": "workspace:*"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
