@@ -14,21 +14,6 @@ This option is **specifically for configuring framework CLI plugins**. If you ne
 - Use [tools.babel](/configure/app/tools/babel) for Babel plugins.
 - Use the [plugins field in runtime config](/configure/app/runtime/plugins) for framework Runtime plugins.
 
-## Plugin types
-
-Modern.js supports three types of plugins:
-
-- `CLI plugins`: Used during local development, compilation, and build stages. These plugins extend various capabilities in the command line and compilation processes.
-- `Server plugins`: Applied to the server-side.
-- `Runtime plugins`: Applied to the front-end runtime.
-
-Currently, Modern.js supports custom CLI plugins, with Server and Runtime plugin customization coming in future releases.
-
-## Plugin execution order
-
-By default, custom plugins are executed in the order they appear in the `plugins` array. Built-in Modern.js plugins execute before any custom plugins.
-
-When plugins include order control options such as `pre` or `post`, the execution order will be adjusted accordingly. For more details, refer to [Plugin Structure](plugin/plugin-system.html#%E6%8F%92%E4%BB%B6%E7%BB%93%E6%9E%84).
 
 ## Examples
 
