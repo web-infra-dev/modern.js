@@ -12,8 +12,8 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-server": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
