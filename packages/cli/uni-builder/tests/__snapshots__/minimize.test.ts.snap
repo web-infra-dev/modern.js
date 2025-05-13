@@ -41,7 +41,7 @@ exports[`html minify > should not apply html minify in production when disableMi
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
-      "minify": "auto",
+      "minify": false,
       "publicPath": "auto",
       "scriptLoading": "defer",
       "showErrors": true,
@@ -50,6 +50,7 @@ exports[`html minify > should not apply html minify in production when disableMi
       "templateParameters": [Function],
       "title": "",
       "xhtml": false,
+      Symbol(entryName): "index",
     },
     "userOptions": {
       "chunks": [
@@ -64,11 +65,13 @@ exports[`html minify > should not apply html minify in production when disableMi
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
+      "minify": false,
       "scriptLoading": "defer",
       "template": "",
       "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
+      Symbol(entryName): "index",
     },
     "version": 5,
   },
@@ -176,6 +179,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "templateParameters": [Function],
       "title": "",
       "xhtml": false,
+      Symbol(entryName): "index",
     },
     "userOptions": {
       "chunks": [
@@ -196,6 +200,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
+      Symbol(entryName): "index",
     },
     "version": 5,
   },
