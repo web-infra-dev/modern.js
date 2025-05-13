@@ -47,6 +47,7 @@ async function onServerChange({
         payload: [{ filename: filepath, event }],
       };
 
+      // TODO: should update to new api in next major version, do not use serverBase.hooks
       await hooks.onReset.call({
         event: fileChangeEvent,
       });

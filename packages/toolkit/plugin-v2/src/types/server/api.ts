@@ -6,9 +6,13 @@ import type { ServerPluginExtends } from './plugin';
 
 export type ServerPluginAPI<Extends extends ServerPluginExtends> = Readonly<
   {
-    getServerContext: () => Readonly<ServerContext<Extends>>;
+    getServerContext: () => Readonly<
+      ServerContext<Extends> & Extends['extendContext']
+    >;
     updateServerContext: (
-      updateContext: DeepPartial<ServerContext<Extends>>,
+      updateContext: DeepPartial<
+        ServerContext<Extends> & Extends['extendContext']
+      >,
     ) => void;
     getHooks: () => Readonly<Hooks<Extends['config']> & Extends['extendHooks']>;
     getServerConfig: () => Readonly<Extends['config']>;
