@@ -58,20 +58,18 @@ type ServerConfig = {
 ### Middleware
 
 Middleware 支持在 Modern.js 服务的**请求处理**与**页面路由**的流程前后，执行自定义逻辑。
-即自定义逻辑既要处理接口路由，也要作用于页面路由，那么 Middleware 是不二选择。如果仅需要处理 BFF 接口路由，可以通过配置 `path` 为 BFF 的 `prefix` 来实现。
+即自定义逻辑既要处理接口路由，也要作用于页面路由，那么 Middleware 是不二选择。
 
-:::note
-BFF 场景只有[运行时框架](/guides/advanced-features/bff/frameworks.html)为 Hono 时，BFF 路由才会经过 Middleware。
-:::
+如果仅需要处理 BFF 接口路由，可以通过检查 `req.path` 是否以 BFF `prefix` 开头，来判断是否为 BFF 接口请求。
+
 
 #### 使用姿势
 
 ```ts title="server/modern.server.ts"
 import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
-import { getMonitors } from '@modern-js/runtime';
 
 export const handler: MiddlewareHandler = async (c, next) => {
-  const monitors = getMonitors();
+  const monitors = c.get('monitors');
   const start = Date.now();
 
   await next();

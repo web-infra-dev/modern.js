@@ -3,11 +3,8 @@ title: useHonoContext
 ---
 # useHonoContext
 
-用于在一体化 BFF 函数中获取请求上下文。
+用于在一体化 BFF 函数中获取 Hono 上下文。
 
-:::caution 提示
-仅 Hono.js 运行时框架支持使用。
-:::
 
 ## 使用姿势
 
@@ -24,7 +21,7 @@ import { useHonoContext } from '@modern-js/plugin-bff/hono';
 开发者可以通过 `context` 获取更多的请求信息，例如设置响应头：
 
 ```ts
-import { useHonoContext } from '@modern-js/runtime/koa';
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
 
 export async function get() {
   const c = useHonoContext();

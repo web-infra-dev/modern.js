@@ -1,21 +1,15 @@
+---
+sidebar_position: 3
+title: Runtime Framework
+---
+
 # Runtime Framework
 
-Modern.js's BFF supports different runtime frameworks, and currently, Modern.js's BFF integrates [Hono.js](https://hono.dev/) by default and supports registering [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/).
+The BFF of Modern.js is integrated with the [Hono.js](https://hono.dev/) runtime framework by default.
 
-When using different runtime frameworks, some APIs may differ.
+## Getting Request Context
 
-:::info
-It is recommended to use the default integrated Hono.js runtime framework. The Express.js and Koa.js runtime framework plugins will no longer be maintained.
-:::
-
-## Accessing Request Context
-
-In BFF functions, you may need to access the request context to handle more logic. Depending on the runtime framework, you need to use different APIs:
-
-import { Tabs, Tab as TabItem } from "@theme";
-
-<Tabs>
-<TabItem value="hono" label="Hono.js" default>
+Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
 
 ```ts title="api/lambda/hello.ts"
 import { useHonoContext } from '@modern-js/plugin-bff/hono'
@@ -26,106 +20,6 @@ export const get = async () => {
 };
 ```
 
-  </TabItem>
-
-
-  <TabItem value="express" label="Express.js" default>
-
-```ts title="api/lambda/hello.ts"
-import { useContext } from '@modern-js/runtime/express'
-export const get = async () => {
-  const { req } = useContext();
-  console.info(`access url: ${req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-  </TabItem>
-  <TabItem value="koa" label="Koa.js">
-
-```ts title="api/lambda/hello.ts"
-import { useContext } from '@modern-js/runtime/koa'
-export const get = async () => {
-  const ctx = useContext();
-  console.info(`access url: ${req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-  </TabItem>
-</Tabs>
-
 :::info
-For more details, refer to [useContext](/apis/app/runtime/bff/use-context).
-:::
-
-## Using Middleware
-
-In BFF functions, you may need to use middleware to handle more logic. Depending on the runtime framework, you need to use different APIs:
-
-:::note
-Only Express and Koa are supported through hook registration middleware, and the Hono runtime framework supports registration middleware through a custom server.
-:::
-
-<Tabs>
-<TabItem value="hono" label="Hono.js" default>
-
-```ts title="server/modern.server.ts"
-import {
-  type MiddlewareHandler,
-  defineServerConfig,
-} from '@modern-js/server-runtime';
-
-const setBffApiHeader: MiddlewareHandler = async (c, next) => {
-  if (c.req.parh.startsWith('/api')) {
-    c.res.headers.set('set-bff-api-header', '1');
-  }
-  await next();
-};
-
-export default defineServerConfig({
-  middlewares: [
-    {
-      name: 'set-bff-api-header',
-      handler: setBffApiHeader,
-    },
-  ]
-});
-
-
-```
-  </TabItem>
-
-  <TabItem value="express" label="Express.js" default>
-
-```ts title="api/_app.ts"
-import { hook } from '@modern-js/runtime/express';
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware((req, res, next) => {
-    req.query.id = 'koa';
-    next();
-  });
-});
-```
-
-  </TabItem>
-  <TabItem value="koa" label="Koa.js">
-
-```ts title="api/_app.ts"
-import { hook } from '@modern-js/runtime/koa';
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(async (ctx, next) => {
-    ctx.req.query.id = 'koa';
-    await next();
-  });
-});
-```
-
-  </TabItem>
-</Tabs>
-
-:::info
-For more details, refer to [hook](/apis/app/runtime/bff/hook).
+For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
 :::

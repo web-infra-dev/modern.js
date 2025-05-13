@@ -3,11 +3,7 @@ title: useHonoContext
 ---
 # useHonoContext
 
-Used to obtain the request context in an integrated BFF function.
-
-:::caution 提示
-Only supported by the Hono.js runtime framework.
-:::
+Used to obtain Hono context in an integrated BFF function.
 
 ## Usage
 
@@ -24,7 +20,7 @@ import { useHonoContext } from '@modern-js/plugin-bff/hono';
 Developers can use `context` to obtain more request information, such as setting response headers:
 
 ```ts
-import { useHonoContext } from '@modern-js/runtime/koa';
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
 
 export async function get() {
   const c = useHonoContext();

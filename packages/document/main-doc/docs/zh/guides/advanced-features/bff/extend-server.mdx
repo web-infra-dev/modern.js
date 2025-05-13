@@ -2,31 +2,39 @@
 
 部分应用中，开发者可能希望对所有 BFF 函数做统一的处理，例如鉴权、日志、数据处理等。
 
-Modern.js 提供了两种方式，允许开发者根据运行时框架自由扩展 BFF Server。
+Modern.js 支持用户通过 [Custom Server](/guides/advanced-features/custom-server.html) 的方式来自由扩展 BFF Server。
 
-## 中间件
 
-开发者可以在编写 `api/_app.ts` 文件中编写中间件，用来扩展 BFF Server。以 Express 作为运行时框架为例，介绍如何手写一个中间件，添加权限校验：
+## 使用中间件
 
-```ts title="api/_app.ts"
-import { hook } from '@modern-js/runtime/server';
-import { Request, Response, NextFunction } from 'express';
+开发者可以在 `server/Modern.server.ts` 中通过 配置 middlewares 来使用中间件。下面介绍如何手写一个 BFF 中间件，添加权限校验：
 
-export default hook(({ addMiddleware }) => {
-  addMiddleware(async (req: Request, res: Response, next: NextFunction) => {
-    if (req.url !== '/api/login') {
-      const sid = req?.cookies?.sid;
-      if (!sid) {
-        res.status(400);
-        res.json({ code: -1, message: 'need login' });
-      } else {
-        next();
-      }
-    } else {
-      next();
+
+```ts title="server/modern.server.ts"
+import {
+  type MiddlewareHandler,
+  defineServerConfig,
+} from '@modern-js/server-runtime';
+
+const requireAuthForApi: MiddlewareHandler = async (c, next) => {
+  if (c.req.path.startsWith('/api') && c.req.path !== '/api/login') {
+    const sid = c.req.cookie('sid');
+    if (!sid) {
+      return c.json({ code: -1, message: 'need login' }, 400);
     }
-  });
+  }
+  await next();
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'require-auth-for-api',
+      handler: requireAuthForApi,
+    },
+  ]
 });
+
 ```
 
 
@@ -97,60 +105,4 @@ export default () => {
 
 ![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network3.png)
 
-以上代码模拟了在 `/api/_app.ts` 中添加中间件的方式，实现了简易的登录功能。同样，可以在这个钩子文件中实现其他功能来扩展 BFF Server。
-
-:::info
-不同运行时框架中，中间件的写法不一定相同，详情可见[运行时框架](/guides/advanced-features/bff/frameworks)。
-
-:::
-
-## 定义 Server 实例
-
-除了中间件之外，还可以通过 `api/app.ts` 文件来定义 BFF Server 的实例。开发者需要默认导出一个能被运行时框架插件识别的实例。这里简单展示一下 Koa 和 Express 如何定义 Server 实例。
-
-import { Tabs, Tab as TabItem } from "@theme";
-
-<Tabs>
-  <TabItem value="express" label="Express.js" default>
-
-```ts title="api/app.ts"
-import express from 'express';
-
-const app = express();
-app.use(async (req, res, next) => {
-  console.info(`access url: ${req.url}`);
-  next();
-});
-
-export default app;
-```
-
-  </TabItem>
-  <TabItem value="koa" label="Koa.js">
-
-```ts title="api/app.ts"
-import koa from 'koa';
-
-const app = new Koa();
-app.use(async (ctx, next) => {
-  console.info(`access url: ${ctx.url}`);
-  await next();
-});
-
-export default app;
-```
-
-  </TabItem>
-</Tabs>
-
-在复杂的 BFF 逻辑中，定义 Server 实例可以更方便通过一个入口来组织代码逻辑，设计目录结构。在这个文件中，可以执行初始化逻辑，添加全局中间件，声明路由，甚至扩展原有框架。
-
-BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
-
-:::note
-此时，如果应用中同时存在 `api/_app.ts`，则定义的中间件会被放在 `api/app.ts` 导出实例的最后执行。多数情况下，中间件就能覆盖大多数 BFF 函数的定制需求。只有当应用的服务端逻辑比较复杂时，才需要自定义 Server 实例。
-:::
-
-:::caution
-当应用中没有 `api/app.ts` 的时候，Modern.js 默认会添加 [koa-body](https://www.npmjs.com/package/koa-body)。当应用中存在 `api/app.ts` 时，如果开发者希望使用带有 Body 的 BFF 函数，需要**自行添加** `koa-body`。
-:::
+以上代码模拟了在 `server/Modern.server.ts` 中定义中间件的方式，实现了简易的登录功能。同样，可以在这个配置文件中实现其他功能来扩展 BFF Server。

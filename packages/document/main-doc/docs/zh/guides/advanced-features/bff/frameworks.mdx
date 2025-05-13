@@ -5,22 +5,11 @@ title: 运行时框架
 
 # 运行时框架
 
-Modern.js 的 BFF 支持不同的运行时框架，当前 Modern.js 的 BFF 默认集成 [Hono.js](https://hono.dev/) 并支持注册 [Express.js](https://expressjs.com/) 和 [Koa.js](https://koajs.com/)。
-
-使用不同运行时框架时，有部分 API 会存在差异。
-
-:::info
-推荐使用默认集成的 Hono.js 运行时框架，Express.js 及 Koa.js 运行时框架插件将不再继续维护。
-:::
+Modern.js 的 BFF 默认集成 [Hono.js](https://hono.dev/) 运行时框架。
 
 ## 获取请求上下文
 
-在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，根据不同的运行时框架，你需要从通过不同的 API 来获取：
-
-import { Tabs, Tab as TabItem } from "@theme";
-
-<Tabs>
-<TabItem value="hono" label="Hono.js" default>
+在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，你可以通过 `useHonoContext` 来获取：
 
 ```ts title="api/lambda/hello.ts"
 import { useHonoContext } from '@modern-js/plugin-bff/hono'
@@ -31,106 +20,7 @@ export const get = async () => {
 };
 ```
 
-  </TabItem>
-
-  <TabItem value="express" label="Express.js" default>
-
-```ts title="api/lambda/hello.ts"
-import { useContext } from '@modern-js/runtime/express'
-export const get = async () => {
-  const { req } = useContext();
-  console.info(`access url: ${req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-  </TabItem>
-
-  <TabItem value="koa" label="Koa.js">
-
-```ts title="api/lambda/hello.ts"
-import { useContext } from '@modern-js/runtime/koa'
-export const get = async () => {
-  const ctx = useContext();
-  console.info(`access url: ${req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-  </TabItem>
-</Tabs>
-
 :::info
-详细内容可以参考 [useContext](/apis/app/runtime/bff/use-context)。
+详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
 :::
 
-## 使用中间件
-
-在 BFF 函数中，有时需要使用中间件，来处理更多逻辑。此时，根据不同的运行时框架，你需要从通过不同的 API 来获取：
-
-:::note
-通过 hook 注册中间件仅支持 Express 和 Koa，Hono 可以通过自定义 server 注册中间件。
-:::
-
-<Tabs>
-  <TabItem value="hono" label="Hono.js" default>
-
-```ts title="server/modern.server.ts"
-import {
-  type MiddlewareHandler,
-  defineServerConfig,
-} from '@modern-js/server-runtime';
-
-const setBffApiHeader: MiddlewareHandler = async (c, next) => {
-  if (c.req.parh.startsWith('/api')) {
-    c.res.headers.set('set-bff-api-header', '1');
-  }
-  await next();
-};
-
-export default defineServerConfig({
-  middlewares: [
-    {
-      name: 'set-bff-api-header',
-      handler: setBffApiHeader,
-    },
-  ]
-});
-
-
-```
-  </TabItem>
-
-  <TabItem value="express" label="Express.js" default>
-
-```ts title="api/_app.ts"
-import { hook } from '@modern-js/runtime/express';
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware((req, res, next) => {
-    req.query.id = 'koa';
-    next();
-  });
-});
-```
-
-  </TabItem>
-  <TabItem value="koa" label="Koa.js">
-
-```ts title="api/_app.ts"
-import { hook } from '@modern-js/runtime/koa';
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(async (ctx, next) => {
-    ctx.req.query.id = 'koa';
-    await next();
-  });
-});
-```
-
-  </TabItem>
-</Tabs>
-
-:::info
-详细内容可以参考 [hook](/apis/app/runtime/bff/hook)。
-:::

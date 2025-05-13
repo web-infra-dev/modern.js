@@ -60,20 +60,17 @@ type ServerConfig = {
 ### Middleware
 
 Middleware supports executing custom logic before and after the **request handling** and **page routing** processes in Modern.js services.
-That is, if custom logic needs to handle both API routes and affect page routes, then Middleware is the obvious choice. If you only need to handle BFF API routes, this can be achieved by configuring the `path` to the BFF's `prefix`.
+If custom logic needs to handle both API routes and page routes, Middleware is the clear choice.
 
-:::note
-In the BFF scenario, BFF routing will only go through Middleware when the [runtime framework](/guides/advanced-features/bff/frameworks.html) is Hono.
-:::
+If you only need to handle BFF API routes, you can determine whether a request is for a BFF API by checking if `req.path` starts with the BFF `prefix`.
 
 #### Using Posture
 
 ```ts title="server/modern.server.ts"
 import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
-import { getMonitors } from '@modern-js/runtime';
 
 export const handler: MiddlewareHandler = async (c, next) => {
-  const monitors = getMonitors();
+  const monitors = c.get('monitors');
   const start = Date.now();
 
   await next();
