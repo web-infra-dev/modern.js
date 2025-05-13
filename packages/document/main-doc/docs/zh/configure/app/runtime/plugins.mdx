@@ -1,30 +1,15 @@
----
-sidebar_position: 9
----
-
 # plugins
 
 - **类型：** `RuntimePlugin[]`
 - **默认值：** `[]`
 
-用于配置自定义的 Modern.js Runtime 插件。
+用于配置自定义的 Modern.js Runtime 插件。自定义 Runtime 插件的编写方式请参考 [如何编写 Runtime 插件](/plugin/introduction.html#runtime-插件)。
 
-自定义插件的编写方式请参考 [如何编写插件](/plugin/plugin-system)。
+:::info
 
-## 注意事项
+Runtime 插件需要在 `src/modern.runtime.ts` 文件中的 plugins 中进行配置。
 
-该选项**用于配置框架 Runtime插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
-
-- 配置 Rsbuild 插件，请使用 [builderPlugins](/configure/app/builder-plugins) 配置项。
-- 配置 Rspack 或 webpack 插件，请使用 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置项。
-- 配置 Babel 插件，请使用 [tools.babel](/configure/app/tools/babel) 配置项。
-- 配置框架 CLI 插件，请使用 [plugins](/configure/app/plugins) 配置项。
-
-## 插件执行顺序
-
-默认情况下，自定义插件会按照 `plugins` 数组的顺序依次执行，Modern.js 内置插件的执行时机早于自定义插件。
-
-当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，会基于声明的字段对执行顺序进行调整，详见[插件结构](plugin/plugin-system.html#%E6%8F%92%E4%BB%B6%E7%BB%93%E6%9E%84)。
+:::
 
 ## 示例
 
