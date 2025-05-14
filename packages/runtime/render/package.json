@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.4",
+  "version": "2.67.5",
   "files": [
     "dist",
     "hook.d.ts"
