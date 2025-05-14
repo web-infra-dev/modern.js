@@ -93,7 +93,7 @@ export async function ssrRender(
     serverManifest.renderBundles?.[entryName || MAIN_ENTRY_NAME];
 
   if (!renderBundle) {
-    throw new Error(`Can't found renderBundle ${entryName || MAIN_ENTRY_NAME}`);
+    throw new Error(`Can't find renderBundle ${entryName || MAIN_ENTRY_NAME}`);
   }
 
   const requestHandler = await renderBundle[SERVER_RUNTIME_ENTRY];

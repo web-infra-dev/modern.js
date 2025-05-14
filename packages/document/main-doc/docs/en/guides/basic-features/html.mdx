@@ -8,7 +8,7 @@ Modern.js provides **JSX syntax** and **HTML(EJS) syntax** to customize the HTML
 
 ## JSX Syntax
 
-According to Modern.js conventions, you can create a `Document.[jt]sx` file under `src/` or the entry directory and default export a component". The rendering result of this component can be used as the HTML template of the entry.
+According to Modern.js conventions, you can create a `Document.[jt]sx` file under `src/` or the entry directory and default export a component. The rendering result of this component can be used as the HTML template of the entry.
 
 For example, consider the following directory structure:
 
@@ -218,9 +218,9 @@ The implementation of custom HTML fragments is to merge the fragments with the b
 
 :::
 
-### Custom the entire HTML Template
+### Customize the entire HTML Template
 
-In some cases, HTML fragments may be is not better meet the customization requirements. Modern.js provides a fully customized way.
+In some cases, HTML fragments may not offer enough control. Modern.js provides a fully customized way.
 
 :::caution Note
 It is generally not recommended to directly override the default HTML template, as some functional options may be lost. If it is truly necessary to customize the entire HTML template, it is recommended to modify based on the built-in template as needed.
