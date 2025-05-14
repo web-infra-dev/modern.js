@@ -118,8 +118,9 @@ import { Radio } from 'antd';
 
 然后将 UI 最顶部进行修改，增加一组单选框
 
-```tsx {4-9}
+```tsx
 export default function Layout() {
+  // [!code highlight:8]
   return (
     <div>
       <div className="h-16 p-2 flex items-center justify-center">
@@ -146,8 +147,9 @@ import { Outlet, useLocation, useNavigate } from '@modern-js/runtime/router';
 
 最后在 Layout 组件里增加局部状态和相关逻辑：
 
-```tsx {2-9}
+```tsx
 export default function Layout() {
+  // [!code highlight:8]
   const navigate = useNavigate();
   const location = useLocation();
   const [currentList, setList] = useState(location.pathname || '/');

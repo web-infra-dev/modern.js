@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLang } from 'rspress/runtime';
 
-const RsbuildLInk = ({ configName }: { configName: string }) => {
+const RsbuildLink = ({ configName }: { configName: string }) => {
   const lang = useLang();
   const href = `https://rsbuild.dev/${lang === 'zh' ? 'zh/' : ''}config/${configName
     .split('.')
@@ -16,4 +16,4 @@ const RsbuildLInk = ({ configName }: { configName: string }) => {
   );
 };
 
-export default RsbuildLInk;
+export default RsbuildLink;

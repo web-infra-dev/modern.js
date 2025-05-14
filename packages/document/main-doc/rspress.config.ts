@@ -1,4 +1,6 @@
 import path from 'path';
+import { pluginSass } from '@rsbuild/plugin-sass';
+import { transformerNotationHighlight } from '@shikijs/transformers';
 import { defineConfig } from 'rspress/config';
 
 const docPath = path.join(__dirname, 'docs');
@@ -12,7 +14,9 @@ export default defineConfig({
   themeDir: path.join(__dirname, 'src'),
   markdown: {
     checkDeadLinks: true,
-    experimentalMdxRs: true,
+    shiki: {
+      transformers: [transformerNotationHighlight()],
+    },
   },
   search: {
     codeBlocks: true,
@@ -91,5 +95,6 @@ export default defineConfig({
         '@site': require('path').resolve(__dirname),
       },
     },
+    plugins: [pluginSass()],
   },
 });
