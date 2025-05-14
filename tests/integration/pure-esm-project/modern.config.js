@@ -1,9 +1,10 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
 import { koaPlugin } from '@modern-js/plugin-koa';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 // https://modernjs.dev/docs/apis/app/config
-export default defineConfig({
+export default applyBaseConfig({
   bff: {
     enableHandleWeb: true,
   },
@@ -21,5 +22,5 @@ export default defineConfig({
   output: {
     disableTsChecker: true,
   },
-  plugins: [appTools({}), bffPlugin(), koaPlugin()],
+  plugins: [bffPlugin(), koaPlugin()],
 });
