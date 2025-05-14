@@ -6,12 +6,19 @@ sidebar_position: 16
 
 Modern.js encapsulates most server-side capabilities required by projects, typically eliminating the need for server-side development. However, in certain scenarios such as user authentication, request preprocessing, or adding page skeletons, custom server-side logic may still be necessary.
 
-## Custom Server Capabilities
+## Starting a Custom Server
 
-Create the `server/modern.server.ts` file in the project directory, and you can add the following configurations to extend the Server:
+To start a custom server, the following steps need to be taken:
+1. Add and install the dependencies `@modern-js/server-runtime` and `ts-node` to `devDependencies`.
+2. Add `server` to the `include` section of `tsconfig`.
+3. Create a file `server/modern.server.ts` in the project directory, where you can write custom logic.
+
+## Capabilities of the Custom Server
+
+In the `server/modern.server.ts` file, you can add the following configurations to extend the Server:
 - **Middleware**
 - **Render Middleware**
-- **Server Plugin**
+- **Server-side Plugin**
 
 In the **Plugin**, you can define **Middleware** and **RenderMiddleware**. The middleware loading process is illustrated in the following diagram:
 

@@ -6,13 +6,19 @@ sidebar_position: 16
 
 Modern.js 将大部分项目需要的服务端能力都进行了封装，通常项目无需进行服务端开发。但在有些开发场景下，例如用户鉴权、请求预处理、添加页面渲染骨架等，项目仍需要对服务端进行定制。
 
+## 开启自定义 Server
+
+开启自定义 Server 功能，需要执行以下步骤：
+1. devDependencies 增加 `@modern-js/server-runtime` 及 `ts-node`依赖并安装。
+2. `tsconfig` 的 `include` 中添加 `server`。
+3. 项目目录下创建 `server/modern.server.ts` 文件，可以在这个文件中编写自定义逻辑。
+
 ## 自定义 Server 能力
 
-项目目录下创建 `server/modern.server.ts` 文件，可以在这个文件中添加如下配置来扩展 Server：
+`server/modern.server.ts` 文件中添加如下配置来扩展 Server：
 - **中间件（Middleware）**
 - **渲染中间件（RenderMiddleware）**
 - **服务端插件（Plugin）**
-
 
 其中 **Plugin** 中可以定义 **Middleware** 与 **RenderMiddleware**。 中间件加载流程如下图所示：
 
