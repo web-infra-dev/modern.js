@@ -5932,9 +5932,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     {
       "name": "RsbuildCorePlugin",
     },
-    HotModuleReplacementPlugin {
-      "options": {},
-    },
+    HotModuleReplacementPlugin {},
     HtmlWebpackPlugin {
       "options": {
         "base": false,
