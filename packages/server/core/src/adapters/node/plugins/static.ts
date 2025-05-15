@@ -87,6 +87,23 @@ function matchPublicRoute(req: HonoRequest, routes: ServerRoute[]) {
   return undefined;
 }
 
+// Remove domain name from assetPrefix if it exists
+const extractPathname = (url: string): string => {
+  try {
+    // Check if the URL contains a protocol
+    if (url.includes('://')) {
+      return new URL(url).pathname || '/';
+    }
+    // Handle protocol-relative URLs (starting with //)
+    if (url.startsWith('//')) {
+      return new URL(`http:${url}`).pathname || '/';
+    }
+    return url;
+  } catch (e) {
+    return url;
+  }
+};
+
 export interface ServerStaticOptions {
   pwd: string;
   output: OutputNormalizedConfig;
@@ -108,6 +125,7 @@ export function createStaticMiddleware(
 ): Middleware {
   const { pwd, routes } = options;
   const prefix = options.output.assetPrefix || '/';
+  const pathPrefix = extractPathname(prefix);
 
   const {
     distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
@@ -120,7 +138,7 @@ export function createStaticMiddleware(
   const staticReg = ['static/', 'upload/', ...staticFiles];
   // TODO: Also remove iconReg
   const iconReg = ['favicon.ico', 'icon.png', ...favicons];
-  const regPrefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+  const regPrefix = pathPrefix.endsWith('/') ? pathPrefix : `${pathPrefix}/`;
   const staticPathRegExp = new RegExp(
     `^${regPrefix}(${[...staticReg, ...iconReg].join('|')})`,
   );
@@ -147,7 +165,7 @@ export function createStaticMiddleware(
     if (hit) {
       const filepath = path.join(
         pwd,
-        pathname.replace(prefix, () => ''),
+        pathname.replace(pathPrefix, () => ''),
       );
       if (!(await fs.pathExists(filepath))) {
         // FIXME: we shoud return a response with status is 404, if we can't found static asset
