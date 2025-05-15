@@ -10,7 +10,6 @@ import type {
   AfterMatchContext,
   AfterRenderContext,
   AfterStreamingRenderContext,
-  ISAppContext,
   UnstableMiddleware,
 } from '@modern-js/types';
 import type { MiddlewareHandler } from 'hono';
@@ -40,11 +39,7 @@ export interface ServerPluginExtends extends BaseServerPluginExtends {
   config: ServerConfig;
   extendContext: {
     middlewares: MiddlewareObj[];
-  };
-  extendApi: {
-    setAppContext: (c: ISAppContext) => void;
-    useAppContext: () => ISAppContext;
-    useConfigContext: () => ServerConfig;
+    renderMiddlewares: MiddlewareObj[];
   };
   extendHooks: {
     prepareWebServer: AsyncPipelineHook<PrepareWebServerFn>;

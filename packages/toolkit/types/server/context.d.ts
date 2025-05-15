@@ -119,6 +119,10 @@ export interface ServerInitHookContext {
   app?: HttpServer;
 }
 
+/**
+ * This type extends the `serverContext` type and is also compatible with `ServerPluginLegacy`.
+ * Future implementations should consider it as an extension of the `serverContext` type.
+ */
 export interface ISAppContext {
   appDirectory: string;
   internalDirectory: string;

@@ -15,7 +15,7 @@ interface ContextParams<Extends extends ServerPluginExtends> {
 export function initServerContext<Extends extends ServerPluginExtends>(params: {
   options: ServerCreateOptions;
   plugins: ServerPlugin<Extends>[];
-}): ServerContext<Extends> {
+}): ServerContext<Extends> & Extends['extendContext'] {
   const { options, plugins } = params;
   return {
     routes: options.routes || [],
