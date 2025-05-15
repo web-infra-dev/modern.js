@@ -1,0 +1,30 @@
+---
+title: useHonoContext
+---
+# useHonoContext
+
+Used to obtain Hono context in an integrated BFF function.
+
+## Usage
+
+```ts
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
+```
+
+## Function Signature
+
+`function useHonoContext(): Context`
+
+## Example
+
+Developers can use `context` to obtain more request information, such as setting response headers:
+
+```ts
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
+
+export async function get() {
+  const c = useHonoContext();
+  c.res.headers.set('x-bff-api', 'true');
+  // ...
+}
+```
