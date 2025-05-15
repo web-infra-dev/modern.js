@@ -161,8 +161,6 @@ export function createStaticMiddleware(
     // exist is path
     const hit = staticPathRegExp.test(pathname);
 
-    console.log('hit', hit, staticPathRegExp, pathname);
-
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
     if (hit) {
       const filepath = path.join(
