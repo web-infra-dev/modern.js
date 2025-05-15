@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.67.5
+
+### Patch Changes
+
+- 342b4d4: feat: when use convention routes, useRuntimeContext will return routes field, which is the routes of the current app
+  feat: 当前应用为约定式路由时，useRuntimeContext 支持返回 routes 字段，表示当前应用的完整路由表
+  - @modern-js/plugin-data-loader@2.67.5
+  - @modern-js/render@2.67.5
+  - @modern-js/plugin@2.67.5
+  - @modern-js/plugin-v2@2.67.5
+  - @modern-js/runtime-utils@2.67.5
+  - @modern-js/types@2.67.5
+  - @modern-js/utils@2.67.5
+
 ## 2.67.4
 
 ### Patch Changes
