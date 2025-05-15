@@ -1,0 +1,58 @@
+# plugins
+
+- **Type:** `RuntimePlugin[]`
+- **Default:** `[]`
+
+Used to configure custom Modern.js Runtime plugins. For details on how to create custom Runtime plugins, please refer to [How to Write Runtime Plugins](/plugin/introduction#runtime-plugins).
+
+:::info
+
+Runtime plugins must be configured in the `plugins` array within the `src/modern.runtime.ts` file.
+
+:::
+
+## Examples
+
+Here are examples demonstrating how to use Runtime plugins:
+
+### Using plugins from npm packages
+
+To use plugins published on npm, first install them via your package manager, then import them into your configuration.
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from 'my-plugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### Using local plugins
+
+To use plugins from your local codebase, import them directly using relative paths.
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### Plugin configuration
+
+If a plugin supports custom configuration options, you can provide them as arguments to the plugin function.
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin({
+    foo: 1,
+    bar: 2,
+  })],
+});
+```
