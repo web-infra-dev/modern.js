@@ -1,47 +1,27 @@
----
-sidebar_position: 9
----
-
 # plugins
 
 - **Type:** `CliPlugin[]`
 - **Default:** `[]`
 
-Used to configure custom Modern.js framework plugins.
-
-Refer to [How to Develop Plugins](/plugin/plugin-system) for how to write custom plugins.
+Used to configure custom Modern.js framework CLI plugins. For information on how to create custom CLI plugins, please refer to [How to Write CLI Plugins](/plugin/introduction.html#cli-plugins).
 
 ## Note
 
-This option is used to configure framework plugins. If you need to configure other types of plugins, please choose the corresponding configuration method:
+This option is **specifically for configuring framework CLI plugins**. If you need to configure other types of plugins, use the appropriate configuration method:
 
-- Use [builderPlugins](/configure/app/builder-plugins) to configure Rsbuild plugins.
-- Use [tools.bundlerChain](/configure/app/tools/bundler-chain) to configure Rspack or webpack plugins.
-- Use [tools.babel](/configure/app/tools/babel) to configure Babel plugins.
+- Use [builderPlugins](/configure/app/builder-plugins) for Rsbuild plugins.
+- Use [tools.bundlerChain](/configure/app/tools/bundler-chain) for Rspack or webpack plugins.
+- Use [tools.babel](/configure/app/tools/babel) for Babel plugins.
+- Use the [plugins field in runtime config](/configure/app/runtime/plugins) for framework Runtime plugins.
 
-## Plugin types
 
-Modern.js has three types of plugins:
+## Examples
 
-- `CLI plugins`, applicable to local development, compilation and construction stages, can extend various capabilities in the command line and compilation stages.
-- `Server plugins`, applicable to the server.
-- `Runtime plugins`, applicable to the front-end runtime.
+Below are examples of using CLI plugins:
 
-Currently, Modern.js has opened up the ability to customize CLI plugins, and Server plugins and Runtime plugins will be opened up later.
+### Using plugins from npm
 
-## Plugin execution order
-
-By default, custom plugins are executed in the order of the `plugins` array, and the execution time of built-in Modern.js plugins is earlier than that of custom plugins.
-
-When the plugin sets options that control the order, such as `pre` and `post`, the execution order will be adjusted based on the declared fields. Refer to [Plugins Structure](/plugin/plugin-system) for more information.
-
-## Example
-
-The following is an example of using CLI plugins.
-
-### Use plugins on npm
-
-To use plugins from npm registry, you need to first install the plugins , and import them in `modern.config.ts`.
+To use plugins from the npm registry, first install the plugins and then import them in your configuration:
 
 ```ts title="modern.config.ts"
 import { myPlugin } from 'my-plugin';
@@ -51,9 +31,9 @@ export default defineConfig({
 });
 ```
 
-### Use local plugins
+### Using local plugins
 
-To use local plugins, import them directly using a relative path.
+To use plugins from your local repository, import them directly using a relative path:
 
 ```ts title="modern.config.ts"
 import { myPlugin } from './config/plugin/myPlugin';
@@ -65,7 +45,7 @@ export default defineConfig({
 
 ### Plugin configuration
 
-If the plugin provides some custom configuration options, they can be passed in as parameters to the plugin function.
+If a plugin provides custom configuration options, pass them as parameters to the plugin function:
 
 ```ts title="modern.config.ts"
 import { myPlugin } from 'my-plugin';

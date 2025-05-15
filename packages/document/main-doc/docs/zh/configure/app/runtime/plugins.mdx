@@ -1,0 +1,58 @@
+# plugins
+
+- **类型：** `RuntimePlugin[]`
+- **默认值：** `[]`
+
+用于配置自定义的 Modern.js Runtime 插件。自定义 Runtime 插件的编写方式请参考 [如何编写 Runtime 插件](/plugin/introduction.html#runtime-插件)。
+
+:::info
+
+Runtime 插件需要在 `src/modern.runtime.ts` 文件中的 plugins 中进行配置。
+
+:::
+
+## 示例
+
+下面是 Runtime 插件的使用示例。
+
+### 使用 npm 上的插件
+
+使用 npm 上的插件，需要通过包管理器安装插件，并通过 import 引入。
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from 'my-plugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### 使用本地插件
+
+使用本地代码仓库中的插件，直接通过相对路径 import 引入即可。
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin()],
+});
+```
+
+### 插件配置项
+
+如果插件提供了一些自定义的配置项，可以通过插件函数的参数传入配置。
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineRuntimeConfig({
+  plugins: [myPlugin({
+    foo: 1,
+    bar: 2,
+  })],
+});
+```

@@ -1,39 +1,18 @@
----
-sidebar_position: 9
----
-
 # plugins
 
 - **类型：** `CliPlugin[]`
 - **默认值：** `[]`
 
-用于配置自定义的 Modern.js 框架插件。
-
-自定义插件的编写方式请参考 [如何编写插件](/plugin/plugin-system)。
+用于配置自定义的 Modern.js 框架 CLI 插件。自定义 CLI 插件的编写方式请参考 [如何编写 CLI 插件](/plugin/introduction.html#cli-插件)。
 
 ## 注意事项
 
-该选项**用于配置框架插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
+该选项**用于配置框架 CLI 插件**，如果你需要配置其他类型的插件，请选择对应的配置方式：
 
 - 配置 Rsbuild 插件，请使用 [builderPlugins](/configure/app/builder-plugins) 配置项。
 - 配置 Rspack 或 webpack 插件，请使用 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置项。
 - 配置 Babel 插件，请使用 [tools.babel](/configure/app/tools/babel) 配置项。
-
-## 插件类型
-
-Modern.js 中内置了三种不同的框架插件：
-
-- `CLI 插件`，适用于本地开发、编译构建阶段，可以在命令行和编译阶段扩展各种能力。
-- `Server 插件`，适用于服务端。
-- `Runtime 插件`，适用于前端运行时。
-
-目前 Modern.js 开放了自定义 CLI 插件的能力，Server 插件和 Runtime 插件会在后续开放。
-
-## 插件执行顺序
-
-默认情况下，自定义插件会按照 `plugins` 数组的顺序依次执行，Modern.js 内置插件的执行时机早于自定义插件。
-
-当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，会基于声明的字段对执行顺序进行调整，详见 [插件结构](/plugin/plugin-system)。
+- 配置框架 Runtime 插件，请使用 [runtime 配置文件 plugins](/configure/app/runtime/plugins) 配置项。
 
 ## 示例
 
