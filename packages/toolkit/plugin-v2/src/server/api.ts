@@ -88,6 +88,10 @@ export function initPluginAPI<Extends extends ServerPluginExtends>({
     ...extendsPluginApi,
   };
 
+  if (typeof Proxy === 'undefined') {
+    return pluginAPI as ServerPluginAPI<Extends>;
+  }
+
   return new Proxy(pluginAPI, {
     get(target: Record<string, any>, prop: string) {
       // hack then function to fix p-defer handle error
