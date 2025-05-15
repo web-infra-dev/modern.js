@@ -156,16 +156,35 @@ Allows you to wrap the application's root component with a custom React componen
 You can combine multiple hooks to implement more complex functionality. For example, you can use `onBeforeRender` to fetch data and then use `wrapRoot` to pass the data to the entire application via Context:
 
 ```ts
-api.onBeforeRender(async (context) => {
-  const data = await fetchData(context.req);
-  context.data = data;
-});
+import { RuntimePluginFuture, RuntimeReactContext } from '@modern-js/runtime';
+import { useContext, createContext } from 'react';
 
-api.wrapRoot((App) => {
-  return (props) => (
-    <DataContext.Provider value={props.data}>
-      <App {...props} />
-    </DataContext.Provider>
-  );
-});
+export const ThemeContext = createContext<{ theme: string } | null>(null);
+
+export const themePlugin = (): RuntimePluginFuture => {
+  return {
+    name: 'theme-plugin',
+    setup: api => {
+      api.onBeforeRender(async context => {
+        const userPreference = await fetch('/api/user/theme-settings').then(
+          res => res.json(),
+        );
+        context.data = {
+          theme: userPreference.theme,
+        };
+      });
+
+      api.wrapRoot(App => {
+        return props => {
+          const context = useContext(RuntimeReactContext);
+          return (
+            <ThemeContext.Provider value={context.data}>
+              <App {...props} />
+            </ThemeContext.Provider>
+          );
+        };
+      });
+    },
+  };
+};
 ```
