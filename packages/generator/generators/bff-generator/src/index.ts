@@ -3,22 +3,15 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  BFFPluginDependence,
-  BFFPluginName,
-  BFFType,
-  Framework,
-  FrameworkAppendTypeContent,
   Language,
   Solution,
   i18n as commonI18n,
-  getBFFSchema,
 } from '@modern-js/generator-common';
 import {
   fs,
   chalk,
   getModernConfigFile,
   getModernPluginVersion,
-  getPackageVersion,
   isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
@@ -45,8 +38,6 @@ export const handleTemplateFile = async (
 ) => {
   const jsonAPI = new JsonAPI(generator);
 
-  const ans = await appApi.getInputBySchemaFunc(getBFFSchema, context.config);
-
   const appDir = context.materials.default.basePath;
   const apiDir = path.join(appDir, 'api');
 
@@ -58,8 +49,6 @@ export const handleTemplateFile = async (
     }
   }
 
-  const { bffType, framework } = ans;
-
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
   const getBffPluginVersion = (packageName: string) => {
@@ -68,26 +57,6 @@ export const handleTemplateFile = async (
       distTag: context.config.distTag,
       cwd: context.materials.default.basePath,
     });
-  };
-
-  // update bff plugin config
-  context.config.bffPluginName = BFFPluginName[framework as Framework];
-  context.config.bffPluginDependence =
-    BFFPluginDependence[framework as Framework];
-
-  let updateInfo: Record<string, string> = {};
-
-  if (framework === Framework.Express || framework === Framework.Koa) {
-    updateInfo = {
-      [`devDependencies.@types/${framework as string}`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
-    };
-  }
-
-  updateInfo = {
-    ...updateInfo,
-    [`dependencies.${framework as string}`]: `~${await getPackageVersion(
-      framework as string,
-    )}`,
   };
 
   await jsonAPI.update(
@@ -99,12 +68,8 @@ export const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-bff': `${await getBffPluginVersion(
             '@modern-js/plugin-bff',
           )}`,
-          [`dependencies.@modern-js/plugin-${framework as string}`]: `${await getBffPluginVersion(
-            `@modern-js/plugin-${framework as string}`,
-          )}`,
           'devDependencies.ts-node': '~10.8.1',
           'devDependencies.tsconfig-paths': '~3.14.1',
-          ...updateInfo,
         },
       },
     },
@@ -130,65 +95,20 @@ export const handleTemplateFile = async (
     }
   }
 
-  if (bffType === BFFType.Func) {
-    if (language === Language.TS) {
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              'compilerOptions.paths.@api/*': ['./api/*'],
-            },
+  if (language === Language.TS) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            'compilerOptions.paths.@api/*': ['./api/lambda/*'],
           },
         },
-        true,
-      );
-    }
-    await appApi.forgeTemplate(
-      'templates/function/base/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/function/base/', 'api/')
-          .replace('.handlebars', `.${language}`),
+      },
+      true,
     );
-    await appApi.forgeTemplate(
-      `templates/function/info/*`,
-      resourceKey => resourceKey.includes(language),
-      resourceKey =>
-        resourceKey
-          .replace('templates/function/info/', 'api/info/')
-          .replace('.handlebars', ``),
-    );
-    await appApi.forgeTemplate(
-      `templates/function/app/${language}/${
-        framework as string
-      }.${language}.handlebars`,
-      undefined,
-      resourceKey =>
-        resourceKey.replace(
-          `templates/function/app/${language}/${
-            framework as string
-          }.${language}.handlebars`,
-          `api/_app.${language}`,
-        ),
-    );
-  } else {
-    if (language === Language.TS) {
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              'compilerOptions.paths.@api/*': ['./api/lambda/*'],
-            },
-          },
-        },
-        true,
-      );
-    }
+
     await appApi.forgeTemplate(
       `templates/framework/lambda/*`,
       undefined,
@@ -197,33 +117,6 @@ export const handleTemplateFile = async (
           .replace(`templates/framework/`, 'api/')
           .replace('.handlebars', `.${language}`),
     );
-    await appApi.forgeTemplate(
-      `templates/framework/app/${framework as string}/**/*`,
-      resourceKey =>
-        framework === Framework.Koa ? resourceKey.includes(language) : true,
-      resourceKey =>
-        resourceKey
-          .replace(`templates/framework/app/${framework as string}/`, 'api/')
-          .replace(
-            '.handlebars',
-            framework === Framework.Express ? `.${language}` : '',
-          ),
-    );
-  }
-
-  const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
-
-  if (appendTypeContent && language === Language.TS) {
-    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
-    if (fs.existsSync(typePath)) {
-      const npmrc = fs.readFileSync(typePath, 'utf-8');
-      if (!npmrc.includes(appendTypeContent)) {
-        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
-      }
-    } else {
-      fs.ensureFileSync(typePath);
-      fs.writeFileSync(typePath, appendTypeContent, 'utf-8');
-    }
   }
 };
 
@@ -261,13 +154,9 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       const appDir = context.materials.default.basePath;
       const configFile = await getModernConfigFile(appDir);
       const isTS = configFile.endsWith('ts');
-      const {
-        pluginName,
-        bffPluginName,
-        pluginDependence,
-        bffPluginDependence,
-        shouldUsePluginNameExport,
-      } = context.config;
+      const { pluginName, pluginDependence, shouldUsePluginNameExport } =
+        context.config;
+
       console.info(
         chalk.green(`\n[INFO]`),
         `${i18n.t(localeKeys.success)}`,
@@ -281,19 +170,9 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
             `import { ${pluginName} } from '${pluginDependence}';`,
           ),
         );
-        console.info(
-          chalk.yellow.bold(
-            `import { ${bffPluginName} } from '${bffPluginDependence}';`,
-          ),
-        );
       } else {
         console.info(
           chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
-        );
-        console.info(
-          chalk.yellow.bold(
-            `import ${bffPluginName} from '${bffPluginDependence}';`,
-          ),
         );
       }
 
@@ -301,14 +180,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
         console.info(`
 export default defineConfig({
   ...,
-  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
 });
 `);
       } else {
         console.info(`
 module.exports = {
   ...,
-  plugins: [..., ${chalk.yellow.bold(`${pluginName}(), ${bffPluginName}()`)}],
+  plugins: [..., ${chalk.yellow.bold(`${pluginName}()`)}],
 };
 `);
       }
