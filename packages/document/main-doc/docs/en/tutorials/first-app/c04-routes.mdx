@@ -118,10 +118,11 @@ import { Radio } from 'antd';
 
 Then modify the top of the UI to add a set of radio group:
 
-```tsx {4-9}
+```tsx
 export default function Layout() {
   return (
     <div>
+      // [!code highlight:6]
       <div className="h-16 p-2 flex items-center justify-center">
         <Radio.Group onChange={handleSetList} value={currentList}>
           <Radio value="/">All</Radio>
@@ -146,8 +147,9 @@ import { Outlet, useLocation, useNavigate } from '@modern-js/runtime/router';
 
 Finally, add local state and related logic to the Layout component:
 
-```tsx {2-9}
+```tsx
 export default function Layout() {
+  // [!code highlight:8]
   const navigate = useNavigate();
   const location = useLocation();
   const [currentList, setList] = useState(location.pathname || '/');

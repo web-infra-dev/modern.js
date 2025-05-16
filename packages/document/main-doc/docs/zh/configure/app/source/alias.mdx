@@ -1,6 +1,5 @@
 ---
 title: alias
-configName: source.alias
 ---
 
 # source.alias
@@ -19,6 +18,6 @@ type Alias = Record<string, string | false | (string | false)[]> | Function;
 对于 TypeScript 项目，你只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Rsbuild 会自动识别它，不需要额外配置 `source.alias` 字段，详见 [「路径别名」](https://modernjs.dev/guides/basic-features/alias.html)。
 :::
 
-import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
-<RsbuildConig />
+<RsbuildConfig configName="source.alias" />

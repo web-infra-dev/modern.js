@@ -56,11 +56,13 @@ Data Loader doesn't just work for SSR. In CSR projects, Data Loader can also avo
 
 Modern.js also provides a hooks API called `useLoaderData`, we modify the exported component of `src/routes/page.tsx`:
 
-```tsx {1,2,5,13}
+```tsx
+// [!code highlight:2]
 import { useLoaderData } from '@modern-js/runtime/router';
 import type { LoaderData } from './page.data';
 
 function Index() {
+  // [!code highlight:1]
   const { data } = useLoaderData() as LoaderData;
 
   return (
@@ -68,6 +70,7 @@ function Index() {
       <Helmet>
         <title>All</title>
       </Helmet>
+      // [!code highlight:1]
       <List
         dataSource={data}
         renderItem={info => <Item key={info.name} info={info} />}

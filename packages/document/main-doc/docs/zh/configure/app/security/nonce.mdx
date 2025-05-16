@@ -1,6 +1,5 @@
 ---
 title: nonce
-configName: security.nonce
 ---
 
 # security.nonce
@@ -15,6 +14,6 @@ type Nonce = string;
 
 为 HTML 所引入的脚本资源添加随机属性值 nonce，使浏览器在解析到带有匹配 nonce 值的内联脚本时，能判断该脚本是否能执行。
 
-import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
-<RsbuildConig />
+<RsbuildConfig configName="security.nonce" />

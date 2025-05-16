@@ -1,6 +1,5 @@
 ---
 title: externals
-configName: output.externals
 ---
 
 # output.externals
@@ -20,6 +19,6 @@ type Externals =
 
 在构建时，防止将代码中某些 `import` 的依赖包打包到 bundle 中，而是在运行时再去从外部获取这些依赖。
 
-import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
-<RsbuildConig />
+<RsbuildConfig configName="output.externals" />

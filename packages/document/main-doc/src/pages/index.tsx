@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { Helmet, useLocation } from 'rspress/runtime';
+import { Head, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';
@@ -94,7 +94,7 @@ export default function Home() {
 
   return (
     <div>
-      <Helmet>
+      <Head>
         <html className="dark" />
         <script>window.MODERN_THEME = 'dark';</script>
         <style type="text/css">{`
@@ -102,7 +102,7 @@ export default function Home() {
             display: none!important;
           }
         `}</style>
-      </Helmet>
+      </Head>
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
