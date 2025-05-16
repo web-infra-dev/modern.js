@@ -120,6 +120,10 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     ...extendsPluginApi,
   };
 
+  if (typeof Proxy === 'undefined') {
+    return pluginAPI as CLIPluginAPI<Extends>;
+  }
+
   return new Proxy(pluginAPI, {
     get(target: Record<string, any>, prop: string) {
       // hack then function to fix p-defer handle error
