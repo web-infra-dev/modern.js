@@ -55,6 +55,7 @@ export const getAntdMajorVersion = (appDirectory: string) => {
   }
 };
 
+// TODO(@vegerot): update this to `['defaults']` for next breaking change release
 export const defaults = ['> 0.01%', 'not dead', 'not op_mini all'];
 
 export const getBrowserslist = (appDirectory: string) =>
