@@ -62,7 +62,7 @@
     "test:watch": "vitest dev"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.1",
+    "@ampproject/remapping": "^2.3.0",
     "@ast-grep/napi": "0.35.0",
     "@babel/core": "^7.26.0",
     "@babel/types": "^7.26.0",
