@@ -3837,7 +3837,7 @@ importers:
   packages/solutions/module-tools:
     dependencies:
       '@ampproject/remapping':
-        specifier: ^2.2.1
+        specifier: ^2.3.0
         version: 2.3.0
       '@ast-grep/napi':
         specifier: 0.35.0
