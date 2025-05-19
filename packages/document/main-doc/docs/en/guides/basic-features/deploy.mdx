@@ -285,6 +285,7 @@ Add the following script to `packages/app/package.json` to run `build` command o
 ```
 
 Add the following content to the `packages/app/vercel.json` file:
+
 ```json title="vercel.json"
 {
   "buildCommand": "npm run deploy",
@@ -298,7 +299,7 @@ Just submit your code and deploy it using the Vercel platform.
 
 If you're creating a GitHub Pages for a repository without a custom domain, the page URL will follow this format: `http://<username>.github.io/<repository-name>`. Therefore, you need to add the following configuration in `modern.config.ts`:
 
-```
+```ts
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -331,7 +332,6 @@ For branch deployment, follow these steps:
 :::info
 1. Running `MODERNJS_DEPLOY=ghPages modern deploy` will build the production output for GitHub in the .output directory.
 2. You can refer to the [project](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)
-
 :::
 
 For GitHub Actions deployment, select Settings > Pages > Source > GitHub Actions, and add a workflow file to the project. You can refer to the [example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
@@ -407,7 +407,7 @@ Nginx is a high-performance HTTP and reverse proxy server that can handle static
 
 If your project is a purely front-end project, you can also deploy the application through Nginx. Here is an example of an Nginx configuration to demonstrate how to host the output of a purely front-end project.
 
-```conf title="nginx.conf"
+```nginx title="nginx.conf"
 # user [user] [group];
 worker_processes 1;
 
