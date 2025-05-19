@@ -4789,7 +4789,7 @@ importers:
         specifier: ^18
         version: 18.3.1
       rollup:
-        specifier: ^3.29.4
+        specifier: ^3.29.5
         version: 3.29.5
       rollup-plugin-dts:
         specifier: 6.2.1
