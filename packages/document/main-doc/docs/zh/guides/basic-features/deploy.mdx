@@ -110,7 +110,6 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 
 :::info
 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
-
 :::
 
 在 Netlify 平台上添加项目，部署即可。
@@ -197,6 +196,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ### 纯前端项目
 
 在当前项目的根目录添加 `vercel.json` 文件：
+
 ```bash
 ./
 ├── src
@@ -206,6 +206,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ```
 
 在 `vercel.json` 中添加以下内容：
+
 ```json title="vercel.json"
 {
   "buildCommand": "modern deploy",
@@ -219,7 +220,6 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 :::info
 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
-
 :::
 
 ### 全栈项目
@@ -314,6 +314,7 @@ Github Pages 支持两种部署方式，通过分支部署或通过 Github Actio
 4. 执行 `npm run deploy:gh-pages`。
 
 :::info
+
 1. 执行 `MODERNJS_DEPLOY=ghPages modern deploy`，Modern.js 会把可用于 github 部署的产物构建到 `.output` 目录。
 2. 可以参考项目[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
 
@@ -393,7 +394,7 @@ Nginx 是一个高性能的 HTTP 和反向代理服务器，它可以处理静�
 
 如果你的项目是纯前端项目，也可以通过 Nginx 来部署应用，以下提供一个 Nginx 配置的示例来演示如何托管一个纯前端项目的产物。
 
-```conf title="nginx.conf"
+```nginx title="nginx.conf"
 # user [user] [group];
 worker_processes 1;
 
