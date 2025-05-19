@@ -68,6 +68,11 @@ Thanks to the following friends for their contributions to Modern.js:
   <img src="https://opencollective.com/modernjs/contributors.svg?width=890&button=false" alt="contributors">
 </a>
 
+## Community
+
+Come and chat with us on [Discord](https://discord.gg/qPCqYg38De)! The Modern.js team and users are active there, and we're always looking for contributions.
+
+
 ## Credits
 
 Some implementations of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [remix](https://github.com/remix-run/remix), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
