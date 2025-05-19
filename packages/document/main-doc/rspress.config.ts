@@ -63,6 +63,11 @@ export default defineConfig({
     },
     socialLinks: [
       {
+        icon: 'discord',
+        mode: 'link',
+        content: 'https://discord.gg/qPCqYg38De',
+      },
+      {
         icon: 'github',
         mode: 'link',
         content: 'https://github.com/web-infra-dev/modern.js',
