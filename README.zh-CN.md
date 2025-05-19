@@ -68,6 +68,12 @@ Modern.js 提供了一系列开箱即用的示例项目，你可以在 [modern-j
   <img src="https://opencollective.com/modernjs/contributors.svg?width=890&button=false" alt="contributors">
 </a>
 
+## 社区
+
+欢迎加入我们的 [Discord](https://discord.gg/qPCqYg38De) 交流频道！Modern.js 团队和用户都在那里活跃，并且我们一直期待着各种贡献。
+
+你也可以加入[飞书群](https://applink.larkoffice.com/client/chat/chatter/add_by_link?link_token=d21hc667-9403-48a9-ba32-bc1440a80279) 与大家一起交流。
+
 ## Credits
 
 Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 [create-react-app](https://github.com/facebook/create-react-app)，[remix](https://github.com/remix-run/remix)，[jest](https://github.com/facebook/jest) 和 [bundle-require](https://github.com/egoist/bundle-require) 等，感谢这些项目：
