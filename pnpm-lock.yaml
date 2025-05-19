@@ -41,8 +41,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.5(@types/react@18.3.18)
       '@vitest/ui':
-        specifier: ^3.1.2
-        version: 3.1.2(vitest@3.0.5)
+        specifier: ^3.1.3
+        version: 3.1.3(vitest@3.0.5)
       antd:
         specifier: ^5
         version: 5.23.2(date-fns@2.30.0)(moment@2.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -69,7 +69,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: ^3.0.0
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.2)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0)
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.3)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0)
 
   packages/cli/babel-preset:
     dependencies:
@@ -14437,8 +14437,8 @@ packages:
   '@vitest/pretty-format@3.0.8':
     resolution: {integrity: sha512-BNqwbEyitFhzYMYHUVbIvepOyeQOSFA/NeJMIP9enMntkkxLgOcgABH6fjyXG85ipTgvero6noreavGIqfJcIg==}
 
-  '@vitest/pretty-format@3.1.2':
-    resolution: {integrity: sha512-R0xAiHuWeDjTSB3kQ3OQpT8Rx3yhdOAIm/JM4axXxnG7Q/fS8XUwggv/A4xzbQA+drYRjzkMnpYnOGAc4oeq8w==}
+  '@vitest/pretty-format@3.1.3':
+    resolution: {integrity: sha512-i6FDiBeJUGLDKADw2Gb01UtUNb12yyXAqC/mmRWuYl+m/U9GS7s8us5ONmGkGpUUo7/iAYzI2ePVfOZTYvUifA==}
 
   '@vitest/runner@3.0.5':
     resolution: {integrity: sha512-BAiZFityFexZQi2yN4OX3OkJC6scwRo8EhRB0Z5HIGGgd2q+Nq29LgHU/+ovCtd0fOfXj5ZI6pwdlUmC5bpi8A==}
@@ -14449,16 +14449,16 @@ packages:
   '@vitest/spy@3.0.5':
     resolution: {integrity: sha512-5fOzHj0WbUNqPK6blI/8VzZdkBlQLnT25knX0r4dbZI9qoZDf3qAdjoMmDcLG5A83W6oUUFJgUd0EYBc2P5xqg==}
 
-  '@vitest/ui@3.1.2':
-    resolution: {integrity: sha512-+YPgKiLpFEyBVJNHDkRcSDcLrrnr20lyU4HQoI9Jtq1MdvoX8usql9h38mQw82MBU1Zo5BPC6sw+sXZ6NS18CQ==}
+  '@vitest/ui@3.1.3':
+    resolution: {integrity: sha512-IipSzX+8DptUdXN/GWq3hq5z18MwnpphYdOMm0WndkRGYELzfq7NDP8dMpZT7JGW1uXFrIGxOW2D0Xi++ulByg==}
     peerDependencies:
-      vitest: 3.1.2
+      vitest: 3.1.3
 
   '@vitest/utils@3.0.5':
     resolution: {integrity: sha512-N9AX0NUoUtVwKwy21JtwzaqR5L5R5A99GAbrHfCCXK1lp593i/3AZAXhSP43wRQuxYsflrdzEfXZFo1reR1Nkg==}
 
-  '@vitest/utils@3.1.2':
-    resolution: {integrity: sha512-5GGd0ytZ7BH3H6JTj9Kw7Prn1Nbg0wZVrIvou+UWxm54d+WoXXgAgjFJ8wn3LdagWLFSEfpPeyYrByZaGEZHLg==}
+  '@vitest/utils@3.1.3':
+    resolution: {integrity: sha512-2Ltrpht4OmHO9+c/nmHtF09HWiyWdworqnHIwjfvDyWjuwKbdkcS9AnhsDn+8E2RM4x++foD1/tNuLPVvWG1Rg==}
 
   '@vue/babel-helper-vue-transform-on@1.2.5':
     resolution: {integrity: sha512-lOz4t39ZdmU4DJAa2hwPYmKc8EsuGa2U0L9KaZaOJUt0UwQNjNA3AZTq6uEivhOKhhG1Wvy96SvYBoFmCg3uuw==}
@@ -31542,7 +31542,7 @@ snapshots:
     dependencies:
       tinyrainbow: 2.0.0
 
-  '@vitest/pretty-format@3.1.2':
+  '@vitest/pretty-format@3.1.3':
     dependencies:
       tinyrainbow: 2.0.0
 
@@ -31561,16 +31561,16 @@ snapshots:
     dependencies:
       tinyspy: 3.0.2
 
-  '@vitest/ui@3.1.2(vitest@3.0.5)':
+  '@vitest/ui@3.1.3(vitest@3.0.5)':
     dependencies:
-      '@vitest/utils': 3.1.2
+      '@vitest/utils': 3.1.3
       fflate: 0.8.2
       flatted: 3.3.3
       pathe: 2.0.3
       sirv: 3.0.1
       tinyglobby: 0.2.13
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.2)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.3)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0)
 
   '@vitest/utils@3.0.5':
     dependencies:
@@ -31578,9 +31578,9 @@ snapshots:
       loupe: 3.1.3
       tinyrainbow: 2.0.0
 
-  '@vitest/utils@3.1.2':
+  '@vitest/utils@3.1.3':
     dependencies:
-      '@vitest/pretty-format': 3.1.2
+      '@vitest/pretty-format': 3.1.3
       loupe: 3.1.3
       tinyrainbow: 2.0.0
 
@@ -43489,7 +43489,7 @@ snapshots:
       sass-embedded: 1.86.0
       terser: 5.39.0
 
-  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.2)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0):
+  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.1.3)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 3.0.5
       '@vitest/mocker': 3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.3.0)(sass-embedded@1.86.0)(sass@1.86.3)(terser@5.39.0))
@@ -43514,7 +43514,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.5.1
-      '@vitest/ui': 3.1.2(vitest@3.0.5)
+      '@vitest/ui': 3.1.3(vitest@3.0.5)
       jsdom: 20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - less
