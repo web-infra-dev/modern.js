@@ -33,6 +33,11 @@ const defaultOptions = {
 };
 ```
 
+:::warning
+SSR Application does not enable the `minify.removeComments` configuration, otherwise the SSR rendering will fail.
+:::
+
+
 The configs of [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) or [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) can be modified through `tools.htmlPlugin`.
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
