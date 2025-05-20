@@ -1,4 +1,5 @@
 import * as ah from 'async_hooks';
+import type { Context } from 'hono';
 
 const createStorage = <T>() => {
   let storage: ah.AsyncLocalStorage<any>;
@@ -43,4 +44,4 @@ const createStorage = <T>() => {
   };
 };
 
-export { createStorage };
+export const { run, useHonoContext } = createStorage<Context>();

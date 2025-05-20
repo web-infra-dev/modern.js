@@ -4,3 +4,4 @@ export { loadServerRuntimeConfig, loadServerCliConfig } from './loadConfig';
 export { loadCacheConfig } from './loadCache';
 export { isResFinalized } from './utils';
 export type { NodeBindings } from './utils';
+export { useHonoContext } from './storage';

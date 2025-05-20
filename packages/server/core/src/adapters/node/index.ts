@@ -19,6 +19,7 @@ export {
   getServerManifest,
   injectNodeSeverPlugin,
   injectRscManifestPlugin,
+  honoContextPlugin,
 } from './plugins';
 
 export {
@@ -27,4 +28,5 @@ export {
   loadServerRuntimeConfig,
   loadServerCliConfig,
   loadCacheConfig,
+  useHonoContext,
 } from './helper';

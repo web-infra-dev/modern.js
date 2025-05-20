@@ -11,6 +11,7 @@ import {
   renderPlugin,
 } from '@modern-js/server-core';
 import {
+  honoContextPlugin,
   injectNodeSeverPlugin,
   injectResourcePlugin,
   injectRscManifestPlugin,
@@ -59,6 +60,7 @@ export async function applyPlugins(
   const { middlewares, renderMiddlewares } = options.serverConfig || {};
 
   const plugins = [
+    honoContextPlugin(),
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
     ...createDefaultPlugins({
       cacheConfig,
