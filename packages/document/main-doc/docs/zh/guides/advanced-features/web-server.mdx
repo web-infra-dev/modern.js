@@ -2,42 +2,230 @@
 sidebar_position: 16
 ---
 
-# 自定义 Web Server（不推荐）
-
-:::warning
-自定义 Web Server 兼容但不再推荐使用，扩展 Server 能力请移步 [自定义 Server](/guides/advanced-features/custom-server.html)，迁移指南参考 [迁移至新版自定义 Server](/guides/advanced-features/web-server.html#%E8%BF%81%E7%A7%BB%E8%87%B3%E6%96%B0%E7%89%88%E8%87%AA%E5%AE%9A%E4%B9%89-server)。
-:::
+# 自定义 Web Server
 
 Modern.js 将大部分项目需要的服务端能力都进行了封装，通常项目无需进行服务端开发。但在有些开发场景下，例如用户鉴权、请求预处理、添加页面渲染骨架等，项目仍需要对服务端进行定制。
 
-Modern.js 提供了 **渲染中间件（Middleware）** 与**生命周期钩子（Hook）** 两类 API 来扩展 Web Server。
-
-:::note
-Middleware 与 Hook 只会在用户请求页面路由时生效，BFF 路由不会经过这些 API。
-:::
-
 ## 开启自定义 Web Server
 
-开发者可以在项目根目录执行 `pnpm run new` 命令，开启「自定义 Web Server」功能：
+:::info
+必须确保 Modern.js 版本是 x.67.5 及以上。
+:::
 
-```bash
-? 请选择你想要的操作 创建工程元素
-? 请选择创建元素类型 新建「自定义 Web Server」源码目录
-```
+开启自定义 Web Server 功能，需要执行以下步骤：
+1. devDependencies 增加 `@modern-js/server-runtime` 及 `ts-node`依赖并安装。
+2. `tsconfig` 的 `include` 中添加 `server`。
+3. 项目目录下创建 `server/modern.server.ts` 文件，可以在这个文件中编写自定义逻辑。
 
-执行命令后，在 `modern.config.ts` 中注册 `@modern-js/plugin-server` 插件:
+## 自定义 Web Server 能力
 
-```ts title="modern.config.ts"
-import { serverPlugin } from '@modern-js/plugin-server';
+`server/modern.server.ts` 文件中添加如下配置来扩展 Server：
+- **中间件（Middleware）**
+- **渲染中间件（RenderMiddleware）**
+- **服务端插件（Plugin）**
 
-export default defineConfig({
-  plugins: [..., serverPlugin()],
+其中 **Plugin** 中可以定义 **Middleware** 与 **RenderMiddleware**。 中间件加载流程如下图所示：
+
+<img
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/10eh7nuhpenuhog/server-md-wf.png"
+  style={{ width: '100%', maxWidth: '540px' }}
+/>
+
+### 基本配置
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  middlewares: [], // 中间件
+  renderMiddlewares: [], // 渲染中间件
+  plugins: [], // 插件
 });
 ```
 
-开启功能后，项目目录下会自动创建 `server/index.ts` 文件，可以在这个文件中编写自定义逻辑。
 
-## 自定义 Web Server 能力
+### 类型定义
+
+`defineServerConfig` 类型定义如下:
+
+```ts
+import type { MiddlewareHandler } from 'hono';
+
+type MiddlewareObj = {
+    name: string;
+    path?: string;
+    method?: 'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
+    handler: MiddlewareHandler | MiddlewareHandler[];
+};
+type ServerConfig = {
+    middlewares?: MiddlewareObj[];
+    renderMiddlewares?: MiddlewareObj[];
+    plugins?: (ServerPlugin | ServerPluginLegacy)[];
+}
+```
+
+
+### Middleware
+
+Middleware 支持在 Modern.js 服务的**请求处理**与**页面路由**的流程前后，执行自定义逻辑。
+即自定义逻辑既要处理接口路由，也要作用于页面路由，那么 Middleware 是不二选择。
+
+:::note
+如果仅需要处理 BFF 接口路由，可以通过检查 `req.path` 是否以 BFF `prefix` 开头，来判断是否为 BFF 接口请求。
+:::
+
+使用姿势如下：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+
+export const handler: MiddlewareHandler = async (c, next) => {
+  const monitors = c.get('monitors');
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // 上报耗时
+  monitors.timing('request_timing', end - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
+```
+
+:::warning
+必须执行 `next` 函数才会执行后续的 Middleware。
+:::
+
+
+### RenderMiddleware
+
+如果只需要处理页面渲染的前后执行逻辑，modern.js 也提供了渲染中间件，使用姿势如下：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+
+// 注入 render 性能指标
+const renderTiming: MiddlewareHandler = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  c.res.headers.set('server-timing', `render; dur=${end - start}`);
+};
+
+// 修改响应体
+const modifyResBody: MiddlewareHandler = async (c, next) => {
+  await next();
+
+  const { res } = c;
+  const text = await res.text();
+  const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+
+  c.res = c.body(newText, {
+    status: res.status,
+    headers: res.headers,
+  });
+};
+
+export default defineServerConfig({
+  renderMiddlewares: [
+    {
+      name: 'render-timing',
+      handler: renderTiming,
+    },
+    {
+      name: 'modify-res-body',
+      handler: modifyResBody,
+    },
+  ],
+});
+```
+
+
+### Plugin
+
+Modern.js 支持在自定义插件中为 Server 添加上述 Middleware 及 RenderMiddleware，使用姿势如下：
+
+
+```ts title="server/plugins/server.ts"
+import type { ServerPluginLegacy } from '@modern-js/server-runtime';
+
+export default (): ServerPluginLegacy => ({
+  name: 'serverPlugin',
+  setup(api) {
+    return {
+      prepare(serverConfig) {
+        const { middlewares, renderMiddlewares } = api.useAppContext();
+
+        // 注入服务端数据，供页面 dataLoader 消费
+        middlewares?.push({
+          name: 'server-plugin-middleware',
+          handler: async (c, next) => {
+            c.set('message', 'hi modern.js');
+            await next();
+            // ...
+          },
+        });
+
+        // 重定向
+        renderMiddlewares?.push({
+          name: 'server-plugin-render-middleware',
+          handler: async (c, next) => {
+            const user = getUser(c.req);
+            if (!user) {
+              return c.redirect('/login');
+            }
+
+            await next();
+          },
+        });
+        return serverConfig;
+      },
+    };
+  },
+});
+```
+
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+import serverPlugin from './plugins/serverPlugin';
+
+export default defineServerConfig({
+  plugins: [serverPlugin()],
+});
+```
+
+
+```ts title="src/routes/page.data.ts"
+import { useHonoContext } from '@modern-js/server-runtime';
+import { defer } from '@modern-js/runtime/router';
+
+export default () => {
+  const ctx = useHonoContext();
+  // SSR 场景消费服务端注入的数据
+  const message = ctx.get('message');
+
+  // ...
+};
+
+```
+
+
+## 旧版 API（废弃）
+
+:::warning
+旧版 API 兼容但不再推荐使用，扩展 Server 能力请移步 [自定义 Web Server](/guides/advanced-features/web-server.html)，迁移指南参考 [迁移至新版自定义 Web Server](/guides/advanced-features/web-server.html#迁移至新版自定义-web-server)。
+:::
 
 ### Unstable Middleware
 
@@ -67,10 +255,6 @@ export const unstableMiddleware: UnstableMiddleware[] = [time];
 :::
 
 ### Hook
-
-:::warning
-我们推荐使用 UnstableMiddleware 代替 Hook。
-:::
 
 Modern.js 提供的 Hook 用于控制 Web Server 中的特定逻辑，所有的页面请求都会经过 Hook。
 
@@ -102,12 +286,12 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 :::
 
 
-## 迁移至新版自定义 Server
+## 迁移至新版自定义 Web Server
 
 ### 迁移背景
 
 Modern.js Server 在不断演进，为了提供更强大的功能，我们对中间件和 Server 插件的定义和使用方式进行了优化。
-虽然旧版自定义 Web Server 写法仍被兼容，但我们强烈建议您按照本指南进行迁移，以充分利用新版的优势。
+虽然旧版 API 仍被兼容，但我们强烈建议您按照本指南进行迁移，以充分利用新版的优势。
 
 ### 迁移步骤
 
@@ -152,7 +336,7 @@ UnstableMiddleware `Context` 和 Hono `Context` 的具体差异：
 | `c.request`              | `c.req.raw`                   | 参考 [HonoRequest raw](https://hono.dev/docs/api/request#raw) 文档         |
 | `c.response`             | `c.res`                       | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档       |
 | `c.route`                | `c.get('route')`              | 获取应用上下文信息                                                          |
-| `loaderContext.get`      | `honoContext.get`             | 通过 `c.set` 注入数据后 dataLoader 中消费：旧版通过 `loaderContext.get` 获取，新版参考 [Plugin](/guides/advanced-features/custom-server.html#使用姿势-2) 示例    |
+| `loaderContext.get`      | `honoContext.get`             | 通过 `c.set` 注入数据后 dataLoader 中消费：旧版通过 `loaderContext.get` 获取，新版参考 [Plugin](/guides/advanced-features/web-server.html#使用姿势-2) 示例    |
 
 #### Middleware
 
