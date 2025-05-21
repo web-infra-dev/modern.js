@@ -1,5 +1,20 @@
 # @modern-js/server-plugin
 
+## 2.67.6
+
+### Patch Changes
+
+- 67a21da: fix(server): static middleware should ignore domain when detect whether the request is for static asset
+  fix(server): 资源中间件在检测请求是否为静态资源时，应该忽略 assetPrefix 中的域名
+- e67b6d0: feat: add middlewares and renderMiddlewares to server plugin context
+  feat: 添加 middlewares 和 renderMiddlewares 到服务端插件上下文中
+- Updated dependencies [e67b6d0]
+- Updated dependencies [a3e140d]
+  - @modern-js/plugin-v2@2.67.6
+  - @modern-js/runtime-utils@2.67.6
+  - @modern-js/utils@2.67.6
+  - @modern-js/plugin@2.67.6
+
 ## 2.67.5
 
 ### Patch Changes

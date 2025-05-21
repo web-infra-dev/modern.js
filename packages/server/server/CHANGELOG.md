@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 2.67.6
+
+### Patch Changes
+
+- e67b6d0: feat: add middlewares and renderMiddlewares to server plugin context
+  feat: 添加 middlewares 和 renderMiddlewares 到服务端插件上下文中
+- Updated dependencies [67a21da]
+- Updated dependencies [e67b6d0]
+  - @modern-js/server-core@2.67.6
+  - @modern-js/types@2.67.6
+  - @modern-js/server-utils@2.67.6
+  - @modern-js/runtime-utils@2.67.6
+  - @modern-js/utils@2.67.6
+
 ## 2.67.5
 
 ### Patch Changes

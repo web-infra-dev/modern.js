@@ -1,5 +1,14 @@
 # @modern-js/server-utils
 
+## 2.67.6
+
+### Patch Changes
+
+- @modern-js/utils@2.67.6
+- @modern-js/babel-preset@2.67.6
+- @modern-js/babel-plugin-module-resolver@2.67.6
+- @modern-js/babel-compiler@2.67.6
+
 ## 2.67.5
 
 ### Patch Changes

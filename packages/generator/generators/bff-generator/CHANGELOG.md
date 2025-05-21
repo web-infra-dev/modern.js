@@ -1,5 +1,12 @@
 # @modern-js/bff-generator
 
+## 3.7.31
+
+### Patch Changes
+
+- 1a2e7bb: feat: migrate to Hono bff
+  feat: 迁移到 Hono bff
+
 ## 3.7.30
 
 ## 3.7.29
