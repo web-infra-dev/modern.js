@@ -63,6 +63,7 @@ const DeferredDataScripts = (props?: {
     const initialScript0 = useJsonScript
       ? `${serializeJson(_ROUTER_DATA)}`
       : '';
+    // When useJsonScript, script `modernInline` may not be used, and it will be replaced with an external link script internally
     const initialScript1 = useJsonScript
       ? modernInline
       : [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
@@ -165,7 +166,6 @@ const DeferredDataScripts = (props?: {
             />
           )}
           <script
-            async
             nonce={props?.nonce}
             data-script-src="modern-inline"
             suppressHydrationWarning
