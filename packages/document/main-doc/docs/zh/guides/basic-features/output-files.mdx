@@ -96,34 +96,6 @@ dist
     └── qux.[hash].mp4
 ```
 
-<!-- ## Node.js 产物目录
-
-当你在 Modern.js 中开启了 SSR 或 SSG 等服务端功能时，Modern.js 会在构建后生成一份 Node.js 产物，并输出到 `bundles` 目录下：
-
-```bash
-dist
-├── bundles
-│   └── [name].js
-├── static
-└── html
-```
-
-Node.js 产物通常只包含 JS 文件，不包含 HTML、CSS 等文件。此外，Node 产物的 JS 文件名称也不会自动生成哈希值。
-
-你可以通过 [output.distPath.server](/configure/app/output/dist-path) 配置项来修改 Node 产物的输出路径。
-
-比如，将 Node.js 产物输出到 `server` 目录：
-
-```ts
-export default {
-  output: {
-    distPath: {
-      server: 'server',
-    },
-  },
-};
-``` -->
-
 ## 扁平化产物目录
 
 有时候你不想产物目录有太多层级，可以将目录设置为空字符串，使生成的产物目录扁平化。

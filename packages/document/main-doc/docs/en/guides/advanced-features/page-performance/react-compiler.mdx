@@ -1,0 +1,44 @@
+# React Compiler
+
+The React Compiler is an experimental compiler introduced in React 19 that can automatically optimize your React code.
+
+Before starting to use the React Compiler, it is recommended to read the [React Compiler documentation](https://zh-hans.react.dev/learn/react-compiler) to understand its features, current status, and usage.
+
+## How to Use
+
+The steps to use the React Compiler in Modern.js are as follows:
+
+1. Modern.js does not officially support React 19 yet, but you can install `react-compiler-runtime@rc` in React 17 or 18 projects to allow the compiled code to run on versions before 19.
+
+2. Currently, the React Compiler only provides a Babel plugin, so you need to install `babel-plugin-react-compiler`.
+
+3. Register the Babel plugin in your Modern.js configuration file:
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+  },
+  tools: {
+    babel(_, { addPlugins }) {
+      addPlugins([
+        [
+          'babel-plugin-react-compiler',
+          {
+            target: '18',
+          },
+        ],
+      ]);
+    },
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+  ],
+});
+```
+
+> For detailed code, you can refer to the [Modern.js & React Compiler example project](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/react-compiler)
