@@ -167,13 +167,14 @@ const DeferredDataScripts = (props?: {
           )}
           <script
             nonce={props?.nonce}
+            defer
             data-script-src="modern-inline"
             suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: deferredScripts[1] }}
           />
           {deferredScripts[2].map(({ fnName, fnArgs, fnRun, fnScriptSrc }) => (
             <script
-              async
+              defer
               key={fnName}
               data-script-src={fnScriptSrc}
               data-fn-name={fnName}
