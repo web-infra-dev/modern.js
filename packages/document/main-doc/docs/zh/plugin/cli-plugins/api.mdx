@@ -324,7 +324,7 @@ api.modifyWebpackConfig((config, utils) => {
 ```typescript
 api.modifyServerRoutes(routes => {
   // 添加一个新的 API 路由
-  routes.concat({
+  routes.push({
     urlPath: '/api',
     isApi: true,
     entryPath: '',

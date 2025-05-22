@@ -324,7 +324,7 @@ Modify the server routing configuration.
 ```typescript
 api.modifyServerRoutes(routes => {
   // Add a new API route
-  routes.concat({
+  routes.push({
     urlPath: '/api',
     isApi: true,
     entryPath: '',
