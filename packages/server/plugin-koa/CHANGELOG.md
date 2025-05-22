@@ -1,5 +1,17 @@
 # @modern-js/plugin-koa
 
+## 2.67.6
+
+### Patch Changes
+
+- Updated dependencies [67a21da]
+- Updated dependencies [e67b6d0]
+  - @modern-js/server-core@2.67.6
+  - @modern-js/types@2.67.6
+  - @modern-js/bff-core@2.67.6
+  - @modern-js/utils@2.67.6
+  - @modern-js/bff-runtime@2.67.6
+
 ## 2.67.5
 
 ### Patch Changes

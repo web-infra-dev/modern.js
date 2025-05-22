@@ -1,5 +1,18 @@
 # @modern-js/plugin-v2
 
+## 2.67.6
+
+### Patch Changes
+
+- e67b6d0: feat: add middlewares and renderMiddlewares to server plugin context
+  feat: 添加 middlewares 和 renderMiddlewares 到服务端插件上下文中
+- a3e140d: fix: proxy may not exist when run in low browser
+
+  fix: 修复在低版本浏览器 proxy 可能不存在问题
+
+  - @modern-js/runtime-utils@2.67.6
+  - @modern-js/utils@2.67.6
+
 ## 2.67.5
 
 ### Patch Changes
