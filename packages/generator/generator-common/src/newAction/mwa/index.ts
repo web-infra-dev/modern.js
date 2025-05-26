@@ -175,7 +175,7 @@ export const MWANewActionPluginName: Record<
   Record<string, string>
 > = {
   [ActionType.Element]: {
-    [ActionElement.Server]: 'serverPlugin',
+    [ActionElement.Server]: '',
   },
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',

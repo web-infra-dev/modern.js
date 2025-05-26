@@ -12,10 +12,15 @@ Modern.js encapsulates most server-side capabilities required by projects, typic
 You must ensure that the Modern.js version is x.67.5 or above.
 :::
 
-To start a custom web server, the following steps need to be taken:
-1. Add and install the dependencies `@modern-js/server-runtime` and `ts-node` to `devDependencies`.
-2. Add `server` to the `include` section of `tsconfig`.
-3. Create a file `server/modern.server.ts` in the project directory, where you can write custom logic.
+Developers can execute the `pnpm run new` command in the project root directory to start the "Custom Web Server" feature:
+
+```bash
+? Select operation: Create project element
+? Select element type: Create "Custom Web Server" source directory
+```
+
+After executing the command, a `server/modern.server.ts` file will be automatically created in the project directory, where you can write custom logic.
+
 
 ## Capabilities of the Custom Web Server
 
@@ -229,6 +234,13 @@ export default () => {
 :::warning
 The legacy API is compatible but no longer recommended. For extending server capabilities, please refer to [Custom Web Server](/guides/advanced-features/web-server.html#custom-web-server). For migration guidelines, see [Migrating to the New Version of Custom Web Server](/guides/advanced-features/web-server.html#migrate-to-the-new-version-of-custom-web-server).
 :::
+
+### Enable
+To enable the custom Web Server feature, follow these steps:
+1. Add `@modern-js/plugin-server`、`tsconfig-paths` and `ts-node` to `devDependencies` and install them.
+2. Add `server` to the `include` section of `tsconfig`.
+3. Register the `@modern-js/plugin-server` plugin in `modern.config.ts`.
+4. Create a `server/index.ts` file in the project directory, where you can write custom logic.
 
 ### Unstable Middleware
 
