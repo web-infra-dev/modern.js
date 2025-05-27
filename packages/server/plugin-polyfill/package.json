@@ -54,7 +54,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/polyfill-lib": "^1.0.0",
+    "@modern-js/polyfill-lib": "^1.0.2",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^6.0.0",
