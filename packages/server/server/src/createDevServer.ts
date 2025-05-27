@@ -29,7 +29,10 @@ export async function createDevServer(
   const prodServerOptions = {
     ...options,
     pwd: distDir, // server base pwd must distDir,
-    serverConfig,
+    serverConfig: {
+      ...serverConfig,
+      ...options.serverConfig,
+    },
     /**
      * 1. server plugins from modern.server.ts
      * 2. server plugins register by cli use _internalServerPlugins
