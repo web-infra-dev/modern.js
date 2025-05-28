@@ -49,7 +49,7 @@ const handleTemplateFile = async (
   }
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-  const serverPlugin = '@modern-js/plugin-server';
+  const serverPlugin = '@modern-js/server-runtime';
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,

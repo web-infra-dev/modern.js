@@ -1,0 +1,33 @@
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+const renderTiming = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  console.log('render-timing', Date.now() - start);
+};
+
+const requestTiming = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  console.log('request-timing', Date.now() - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler: requestTiming,
+    },
+  ],
+  renderMiddlewares: [
+    {
+      name: 'render-timing',
+      handler: renderTiming,
+    },
+  ],
+  plugins: [],
+});
