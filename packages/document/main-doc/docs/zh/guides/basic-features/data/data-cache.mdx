@@ -159,7 +159,7 @@ const getComplexStatistics = cache(
   }
 );
 
-revalidateTag('dashboard-stats'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
+revalidateTag('dashboard'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
 ```
 
 #### `getKey` 参数

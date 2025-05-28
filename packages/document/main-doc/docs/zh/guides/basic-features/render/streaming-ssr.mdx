@@ -72,7 +72,7 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
 另外，`defer` 还可以同时接收异步数据和同步数据。在下述例子中，我们等待部分耗时较短的请求，在响应后通过对象数据返回，而耗时较长时间的请求，则通过 Promise 返回：
 
 ```ts title="user/[id]/page.data.ts"
-export const loader = ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {

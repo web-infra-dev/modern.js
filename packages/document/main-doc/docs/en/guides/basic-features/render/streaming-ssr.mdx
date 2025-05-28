@@ -68,7 +68,7 @@ Here, `user` is a Promise object representing asynchronously fetched data, proce
 Additionally, `defer` can receive both asynchronous and synchronous data. In the example below, short-duration requests are returned using object data, while longer-duration requests are returned using a Promise:
 
 ```ts title="user/[id]/page.data.ts"
-export const loader = ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
