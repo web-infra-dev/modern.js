@@ -4,6 +4,10 @@ title: terser
 
 # tools.terser
 
+import { Badge } from '@theme';
+
+<Badge type="danger" >Webpack Only</Badge>
+
 - **Type:** `Object | Function | undefined`
 - **Default:**
 
@@ -16,8 +20,6 @@ const defaultTerserOptions = {
   },
 };
 ```
-
-- **Bundler:** `only support webpack`
 
 When building for production, Modern.js will minimize the JavaScript code through [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin). The config of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) can be modified via `tools.terser`.
 
