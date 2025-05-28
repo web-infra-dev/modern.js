@@ -222,7 +222,7 @@ document.addEventListener('load', () => {
 export const doSomething = () => {}
 ```
 
-如果直接引用到组件中，会造成 CSR 加载报错，即使你已经使用环境变量进行判断，但仍然无法移除依赖中副作用的执行。
+如果直接引用到组件中，会造成 SSR 加载报错，即使你已经使用环境变量进行判断，但仍然无法移除依赖中副作用的执行。
 
 ```tsx title="routes/page.tsx"
 import { doSomething } from 'packageA';

@@ -217,7 +217,7 @@ document.addEventListener('load', () => {
 export const doSomething = () => {}
 ```
 
-Directly referencing this in a component will cause CSR to throw errors, even if you use environment variables to conditionally load the code. The side effects in the dependency will still execute.
+Directly referencing this in a component will cause SSR to throw errors, even if you use environment variables to conditionally load the code. The side effects in the dependency will still execute.
 
 ```tsx title="routes/page.tsx"
 import { doSomething } from 'packageA';
