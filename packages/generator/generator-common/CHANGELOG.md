@@ -1,5 +1,13 @@
 # @modern-js/generator-common
 
+## 3.7.32
+
+### Patch Changes
+
+- aa40bda: feat: update server generator
+  feat: 更新 server 生成器
+  - @modern-js/plugin-i18n@2.67.7
+
 ## 3.7.31
 
 ### Patch Changes
