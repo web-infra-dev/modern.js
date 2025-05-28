@@ -119,7 +119,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     { registry: context.config.registry, distTag: context.config.distTag },
   );
 
-  if (semver.lt(modernVersion, '2.67.5')) {
+  if (semver.valid(modernVersion) && semver.lt(modernVersion, '2.67.5')) {
     generator.logger.warn(
       `🟡 The current Modern.js version ${modernVersion} does not support Custom Web Server. Please upgrade to at least version 2.67.5.`,
     );
