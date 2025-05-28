@@ -323,7 +323,7 @@ export class RouterPlugin {
                         placeholder,
                         `<script ${nonceAttr}>${injectedContent}</script>`,
                       ),
-                  ),
+                  ) as any,
                   // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
                   undefined as any,
                 );
@@ -349,13 +349,13 @@ export class RouterPlugin {
                   htmlName,
                   new RawSource(
                     oldHtml.source().toString().replace(placeholder, script),
-                  ),
+                  ) as any,
                   // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
                   undefined as any,
                 );
                 compilation.emitAsset(
                   scriptPath,
-                  new RawSource(injectedContent),
+                  new RawSource(injectedContent) as any,
                 );
               }
             }
@@ -364,14 +364,14 @@ export class RouterPlugin {
           if (prevManifestAsset) {
             compilation.updateAsset(
               ROUTE_MANIFEST_FILE,
-              new RawSource(JSON.stringify(manifest, null, 2)),
+              new RawSource(JSON.stringify(manifest, null, 2)) as any,
               // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
               undefined as any,
             );
           } else {
             compilation.emitAsset(
               ROUTE_MANIFEST_FILE,
-              new RawSource(JSON.stringify(manifest, null, 2)),
+              new RawSource(JSON.stringify(manifest, null, 2)) as any,
             );
           }
         },
