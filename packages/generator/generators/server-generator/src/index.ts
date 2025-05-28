@@ -14,6 +14,7 @@ import {
   getModernPluginVersion,
   isTsProject,
   readTsConfigByFile,
+  semver,
 } from '@modern-js/generator-utils';
 
 function isEmptyServerDir(serverDir: string) {
@@ -109,6 +110,23 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
+    process.exit(1);
+  }
+
+  const modernVersion = await getModernPluginVersion(
+    Solution.MWA,
+    '@modern-js/app-tools',
+    { registry: context.config.registry, distTag: context.config.distTag },
+  );
+
+  if (semver.lt(modernVersion, '2.67.5')) {
+    generator.logger.warn(
+      `🟡 The current Modern.js version ${modernVersion} does not support Custom Web Server. Please upgrade to at least version 2.67.5.`,
+    );
+    throw Error(
+      'The current Modern.js version does not support Custom Web Server. Please upgrade to at least version 1.67.5',
+    );
+    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
