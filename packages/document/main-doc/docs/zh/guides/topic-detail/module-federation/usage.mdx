@@ -189,8 +189,6 @@ export default Index;
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
-const isLocal = process.env.IS_LOCAL === 'true';
-
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   server: {
@@ -203,7 +201,7 @@ export default defineConfig({
     // Now this configuration is only used in the local when you run modern serve command.
     // If you want to deploy the application to the platform, use your own domain name.
     // Module federation will automatically write it to mf-manifest.json, which influences consumer to fetch remoteEntry.js.
-    assetPrefix: isLocal ? 'http://127.0.0.1:3051' : '/',
+    assetPrefix: 'http://127.0.0.1:3051',
   },
   plugins: [
     appTools({
@@ -214,7 +212,7 @@ export default defineConfig({
 });
 ```
 
-现在，在生产者中运行 `IS_LOCAL=true modern build && modern serve`，在消费者中运行 `modern build && modern serve`，即可在本地模拟生产环境，访问到远程模块。
+现在，在生产者中运行 `modern build && modern serve`，在消费者中运行 `modern build && modern serve`，即可在本地模拟生产环境，访问到远程模块。
 
 上述用例可以参考：[Modern.js & Module Federation 基础用法示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base)。
 
