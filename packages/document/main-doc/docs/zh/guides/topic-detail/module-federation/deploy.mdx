@@ -1,8 +1,17 @@
 # 部署
 
-通常情况下，部署 Module Federation 应用，需要在消费者上将远程模块地址，调整为其线上地址。
+通常情况下，部署 Module Federation 应用，需要注意两点：
 
-例如已经将生产者部署到 `https://my-remote-module` 这个域名下，可以这样修改消费者的 `module-federation.config.ts` 文件：
+1. 保证消费者配置文件中的远程模块地址无误，消费者能够正确访问到生产者的 `manifest` 文件。
+2. 保证生产者 `manifest` 文件中各个资源能被正确访问到。
+
+我们推荐使用 Modern.js 的 [Node 服务](/guides/basic-features/deploy.html#modernjs-内置-nodejs-服务器)来部署 Module Federation 应用，以获得开箱即用的体验。
+
+## 消费者
+
+对于 Module Federation 的消费者来说，它与生产者的联系就是在配置文件中的远程模块地址。
+
+例如生产者部署在 `https://my-remote-module` 这个域名下，开发者需要修改消费者的配置文件：
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
@@ -10,7 +19,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'host',
   remotes: {
-    remote: 'remote@http://my-remote-module/mf-manifest.json',
+    remote: 'remote@https://my-remote-module/static/mf-manifest.json',
   },
   shared: {
     react: { singleton: true },
@@ -19,10 +28,77 @@ export default createModuleFederationConfig({
 });
 ```
 
-此时，消费者将加载生产环境的 `remote` 模块的 `manifest` 配置文件。
+此时，消费者将加载远程模块生产环境的 `manifest` 配置文件。
 
-## 通过平台部署
+:::note
+上述代码中，远程模块的地址是 `/static/mf-manifest.json`，这只是以 Modern.js 默认的产物路径举例。在实际项目中，开发者需要根据实际的访问路径进行配置。
+:::
 
-上述部署方式只是最简单的实践，在真实场景还有很多限制，例如版本管理、发布时序等。在字节跳动内部，我们在部署平台上搭建了 Module Federation 应用的部署流程，可以帮助开发者解决这些问题。
+## 生产者
 
-我们会持续关注社区里类似功能的平台，在未来完善 Modern.js + Module Federation 在这些类平台上的部署文档。
+对于 Module Federation 的生产者，开发者需要正确的配置 [`output.assetPrefix`](/configure/app/output/asset-prefix) 配置，它会影响到：
+
+1. `mf-manifest.json` 中定义的 `publicPath`，它决定了远程模块其他资源的访问路径。
+2. 通过 Modern.js 服务直接托管产物时，`mf-manifest.json` 文件的访问路径。
+
+在生产环境，开发者需要将 `output.assetPrefix` 配置为生产环境的访问路径。例如我们将生产者部署在 `https://my-remote-module` 这个域名下，需要将 `output.assetPrefix` 配置为 `https://my-remote-module`。
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  output: {
+    assetPrefix: 'https://my-remote-module',
+  },
+});
+```
+
+此时，生产者构建产物 `mf-manifest.json` 中定义的 `publicPath` 为 `https://my-remote-module`，例如：
+
+```json
+{
+  "id": "remote",
+  "name": "remote",
+  "metaData": {
+    "name": "remote",
+    "publicPath": "https://my-remote-module/"
+  },
+  "shared": [ /* xxx */ ],
+  "remotes": [],
+  "exposes": [ /* xxx */ ]
+}
+```
+
+消费者在访问远程模块时，会自动将 `publicPath` 拼接在远程模块的资源路径前。
+
+该配置也会影响到生产者 `mf-manifest.json` 的访问路径。例如将这个值设置为 `MyDomain/module-a` 时，`mf-manifest.json` 的托管路径变为 `MyDomain/module-a/static/mf-manifest.json`。
+
+此时，消费者在配置远程模块时，需要配置以下地址：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@MyDomain/module-a/static/mf-manifest.json',
+  },
+});
+```
+
+## 本地验证部署
+
+Modern.js 提供了 `modern deploy` 命令，可以方便生成可运行在 Node.js 环境的产物。
+
+```bash
+modern deploy
+```
+
+执行命令后，可以在控制台看到以下输出：
+
+```bash
+Static directory: .output/static
+You can preview this build by node .output/index
+```
+
+此时，开发者只需要运行 `node .output/index` 即可在本地预览部署后的效果。无论是 CSR 应用或是 SSR 应用，所有的 Module Federation 产物都能够被正确的访问。

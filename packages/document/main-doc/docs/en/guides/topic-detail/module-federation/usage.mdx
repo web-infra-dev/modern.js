@@ -190,8 +190,6 @@ If we want to simulate the production environment in local, but not configure `o
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
-const isLocal = process.env.IS_LOCAL === 'true';
-
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   server: {
@@ -204,7 +202,7 @@ export default defineConfig({
     // Now this configuration is only used in the local when you run modern serve command.
     // If you want to deploy the application to the platform, use your own domain name.
     // Module federation will automatically write it to mf-manifest.json, which influences consumer to fetch remoteEntry.js.
-    assetPrefix: isLocal ? 'http://127.0.0.1:3051' : '/',
+    assetPrefix: 'http://127.0.0.1:3051',
   },
   plugins: [
     appTools({
@@ -215,7 +213,7 @@ export default defineConfig({
 });
 ```
 
-Now, in the producer, run `IS_LOCAL=true modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+Now, in the producer, run `modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
 
 You can refer to this example: [Modern.js & Module Federation Basic Example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base).
 

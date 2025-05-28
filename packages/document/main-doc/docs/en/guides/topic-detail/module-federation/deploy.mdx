@@ -1,8 +1,17 @@
 # Deployment
 
-Typically, deploying a Module Federation application requires adjusting the remote module address on the consumer side to its online address.
+In general, when deploying a Module Federation application, there are two key points to consider:
 
-For example, if the producer is deployed to the domain `https://my-remote-module`, you can modify the consumer's `module-federation.config.ts` file as follows:
+1. Ensure that the remote module addresses in the consumer's configuration file are correct, and that the consumer can correctly access the producer's `manifest` file.
+2. Ensure that all resources in the producer's `manifest` file can be accessed correctly.
+
+We recommend using Modern.js's [Node Server](/guides/basic-features/deploy.html#using-modernjs-built-in-nodejs-server) to deploy Module Federation applications for an out-of-the-box experience.
+
+## Consumer
+
+For the consumer of Module Federation, its connection with the producer is the remote module address in the configuration file.
+
+For example, if the producer is deployed under the domain `https://my-remote-module`, the developer needs to modify the consumer's configuration file:
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
@@ -10,7 +19,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'host',
   remotes: {
-    remote: 'remote@http://my-remote-module/mf-manifest.json',
+    remote: 'remote@https://my-remote-module/static/mf-manifest.json',
   },
   shared: {
     react: { singleton: true },
@@ -19,10 +28,77 @@ export default createModuleFederationConfig({
 });
 ```
 
-At this point, the consumer will load the `manifest` configuration file of the `remote` module in the production environment.
+At this point, the consumer will load the `manifest` configuration file of the remote module production environment.
 
-## Deployment via Platform
+:::note
+In the above code, the address of the remote module is `/static/mf-manifest.json`, which is just an example using the default output path of Modern.js. In actual projects, developers need to configure according to the actual access path.
+:::
 
-The above deployment method is merely the simplest practice. In real-world scenarios, there are many constraints, such as version management, release sequencing, and more. Within ByteDance, we have set up a deployment process for Module Federation applications on our deployment platform, which helps developers address these issues.
+## Producer
 
-We will continue to keep an eye on platforms with similar functionalities in the community and, in the future, enhance the documentation for deploying Modern.js + Module Federation on these types of platforms.
+For the producer of Module Federation, developers need to correctly configure the [`output.assetPrefix`](/configure/app/output/asset-prefix) configuration, which affects:
+
+1. The `publicPath` defined in `mf-manifest.json`, which determines the access path of other resources of the remote module.
+2. The access path of the `mf-manifest.json` file when hosted directly by the Modern.js server.
+
+In the production environment, developers need to configure `output.assetPrefix` as the access path of the production environment. For example, if we deploy the producer under the domain `https://my-remote-module`, we need to configure `output.assetPrefix` as `https://my-remote-module`.
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  output: {
+    assetPrefix: 'https://my-remote-module',
+  },
+});
+```
+
+At this point, the `publicPath` defined in the producer's build output `mf-manifest.json` is `https://my-remote-module`, for example:
+
+```json
+{
+  "id": "remote",
+  "name": "remote",
+  "metaData": {
+    "name": "remote",
+    "publicPath": "https://my-remote-module/"
+  },
+  "shared": [ /* xxx */ ],
+  "remotes": [],
+  "exposes": [ /* xxx */ ]
+}
+```
+
+When the consumer accesses the remote module, it will automatically prepend the `publicPath` to the resource path of the remote module.
+
+This configuration will also affect the access path of the producer's `mf-manifest.json`. For example, if this value is set to `MyDomain/module-a`, the hosting path of `mf-manifest.json` becomes `MyDomain/module-a/static/mf-manifest.json`.
+
+At this point, the consumer needs to configure the following address when configuring the remote module:
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@MyDomain/module-a/static/mf-manifest.json',
+  },
+});
+```
+
+## Local Deployment Verification
+
+Modern.js provides the `modern deploy` command, which can easily generate products that can run in a Node.js environment.
+
+```bash
+modern deploy
+```
+
+After executing the command, you can see the following output in the console:
+
+```bash
+Static directory: .output/static
+You can preview this build by node .output/index
+```
+
+At this point, the developer only needs to run `node .output/index` to preview the effect locally. Whether it is a CSR or an SSR application, all Module Federation files can be accessed correctly.
