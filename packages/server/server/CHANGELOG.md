@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 2.67.7
+
+### Patch Changes
+
+- 433a70a: fix: createDevServer 需要兼容传入服务端配置的用法
+  fix: createDevServer should be compatible with the usage of passing server config
+  - @modern-js/server-core@2.67.7
+  - @modern-js/server-utils@2.67.7
+  - @modern-js/runtime-utils@2.67.7
+  - @modern-js/types@2.67.7
+  - @modern-js/utils@2.67.7
+
 ## 2.67.6
 
 ### Patch Changes

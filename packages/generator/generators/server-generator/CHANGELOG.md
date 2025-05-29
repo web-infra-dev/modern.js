@@ -1,5 +1,14 @@
 # @modern-js/server-generator
 
+## 3.7.32
+
+### Patch Changes
+
+- c7476bf: fix: add version verification
+  fix: 增加版本校验
+- aa40bda: feat: update server generator
+  feat: 更新 server 生成器
+
 ## 3.7.31
 
 ## 3.7.30
