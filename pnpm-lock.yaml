@@ -2354,8 +2354,8 @@ importers:
         specifier: 0.0.1-next.16
         version: 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@rsbuild-image/react':
-        specifier: 0.0.1-next.33
-        version: 0.0.1-next.33(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        specifier: 0.0.1-next.16
+        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       ipx:
         specifier: ^3.0.3
         version: 3.0.3
@@ -12765,8 +12765,8 @@ packages:
       sharp:
         optional: true
 
-  '@rsbuild-image/react@0.0.1-next.33':
-    resolution: {integrity: sha512-HGfEeZXjjCiYE10b0QmSNTdvw26JLufQ9z7ALXp1qc/7h9VcRYP+1A7v8FgCZCeyAx9v2nnPa+/dGCgTVKt1WA==}
+  '@rsbuild-image/react@0.0.1-next.16':
+    resolution: {integrity: sha512-i3fELfYttZ7pLWI8oIx5EjomlwDEXfhtKfD2Yd943ZI/2JryLzNtywAHGPYvy2okJbJ0Zab8p5YKHrrEHRHJqg==}
     peerDependencies:
       '@rsbuild-image/core': '*'
       ipx: '>=3.0.3'
@@ -29148,11 +29148,10 @@ snapshots:
       ipx: 3.0.3
       sharp: 0.34.1
 
-  '@rsbuild-image/react@0.0.1-next.33(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
       '@rsbuild-image/core': 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@sindresorhus/is': 7.0.1
-      debug: 4.4.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       type-fest: 4.40.0
@@ -29160,8 +29159,6 @@ snapshots:
     optionalDependencies:
       ipx: 3.0.3
       sharp: 0.34.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@rsbuild/core@1.2.3':
     dependencies:
