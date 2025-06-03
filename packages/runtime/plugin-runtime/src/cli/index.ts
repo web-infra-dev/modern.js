@@ -139,7 +139,7 @@ export const runtimePlugin = (params?: {
               chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
                 {
                   resourceRegExp: /^react-dom\/client$/,
-                  contextRegExp: /./,
+                  contextRegExp: /@modern-js\/runtime/,
                 },
               ]);
             }
@@ -149,7 +149,7 @@ export const runtimePlugin = (params?: {
               appendPlugins([
                 new rspack.IgnorePlugin({
                   resourceRegExp: /^react-dom\/client$/,
-                  contextRegExp: /./,
+                  contextRegExp: /@modern-js\/runtime/,
                 }),
               ]);
             }
