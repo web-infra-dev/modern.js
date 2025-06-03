@@ -107,12 +107,12 @@ export const initMonitorsPlugin = (): ServerPluginLegacy => ({
 });
 
 export const injectloggerPlugin = (
-  inputLogger?: Logger,
+  inputLogger: Logger,
 ): ServerPluginLegacy => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
-    const logger = inputLogger || console;
+    const logger = inputLogger;
     return {
       prepare() {
         const { middlewares } = api.useAppContext();

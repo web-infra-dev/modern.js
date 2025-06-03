@@ -11,9 +11,23 @@ import type {
   ServerRoute as ModernRoute,
   ServerPlugin,
 } from '@modern-js/types';
+import { createLogger } from '@modern-js/utils';
 import portfinder from 'portfinder';
 import { chunkArray } from '../libs/util';
 import { CLOSE_SIGN } from './consts';
+
+// SSG only interrupt when stderror, so we need to override the rslog's error to console.error
+function getLogger() {
+  const logger = createLogger({
+    level: 'verbose',
+  });
+  return {
+    ...logger,
+    error: (...args: any[]) => {
+      console.error(...args);
+    },
+  };
+}
 
 const MAX_CONCURRENT_REQUESTS = 10;
 
@@ -66,6 +80,7 @@ process.on('message', async (chunk: string) => {
         appContext.appDirectory || distDirectory,
       ),
       staticGenerate: true,
+      logger: getLogger(),
     };
 
     assert(process.send, 'process.send is not available');

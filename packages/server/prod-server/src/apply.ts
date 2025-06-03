@@ -38,7 +38,7 @@ export async function applyPlugins(
   options: ProdServerOptions,
   nodeServer?: NodeServer | Http2SecureServer,
 ) {
-  const { pwd, appContext, config } = options;
+  const { pwd, appContext, config, logger: optLogger } = options;
 
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
   const cacheConfig = await loadCacheConfig(loadCachePwd);
@@ -63,7 +63,8 @@ export async function applyPlugins(
     ...createDefaultPlugins({
       cacheConfig,
       staticGenerate: options.staticGenerate,
-      logger: loggerOptions === false ? false : getLogger(loggerOptions),
+      logger:
+        loggerOptions === false ? false : optLogger || getLogger(loggerOptions),
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
