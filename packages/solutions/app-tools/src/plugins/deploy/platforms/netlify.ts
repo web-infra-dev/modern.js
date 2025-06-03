@@ -5,6 +5,7 @@ import {
   SERVER_DIR,
   fs as fse,
   getMeta,
+  removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
@@ -184,6 +185,18 @@ export const createNetlifyPreset: CreatePreset = (
         ],
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
+        },
+        transformPackageJson: (pkgName, version, pkgJSON) => {
+          if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
+            return pkgJSON;
+          }
+
+          return {
+            ...pkgJSON,
+            exports: removeModuleSyncFromExports(
+              pkgJSON.exports as Record<string, any>,
+            ),
+          };
         },
       });
     },

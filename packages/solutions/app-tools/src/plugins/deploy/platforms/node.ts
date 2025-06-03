@@ -6,6 +6,7 @@ import {
   chalk,
   fs as fse,
   getMeta,
+  removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
@@ -115,6 +116,18 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
           return pkgName === '@modern-js/utils';
         },
         entryFilter: filter,
+        transformPackageJson: (pkgName, version, pkgJSON) => {
+          if (!pkgJSON.exports) {
+            return pkgJSON;
+          }
+
+          return {
+            ...pkgJSON,
+            exports: removeModuleSyncFromExports(
+              pkgJSON.exports as Record<string, any>,
+            ),
+          };
+        },
       });
     },
   };
