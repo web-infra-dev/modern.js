@@ -127,7 +127,8 @@ export const pluginBabel = (
 
           const babelConfig = applyOptionsChain(
             baseBabelConfig,
-            options?.babelLoaderOptions,
+            // ensure that each environment has its own babel options(plugins, presets, etc.) in multi-environments.
+            lodash.cloneDeep(options?.babelLoaderOptions),
             {
               ...getBabelUtils(baseBabelConfig),
               ...babelUtils,
