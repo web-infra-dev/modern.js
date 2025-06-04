@@ -159,7 +159,7 @@ export default {
   tools: {
     babel(config, { modifyPresetEnvOptions }) {
       modifyPresetEnvOptions({
-        targets: "last 2 versions",
+        targets: 'last 2 versions',
       });
     },
   },
@@ -172,9 +172,9 @@ export default {
     babel(config, { modifyPresetEnvOptions }) {
       modifyPresetEnvOptions({
         targets: {
-          chrome: "58",
-          ie: "11"
-        }
+          chrome: '58',
+          ie: '11',
+        },
       });
     },
   },
@@ -209,7 +209,7 @@ export default {
 
 ### 调试 Babel 配置
 
-当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [调试模式](https://rsbuild.dev/zh/guide/debug/debug-mode) 下查看最终生成的配置。
+当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [调试模式](https://rsbuild.rs/zh/guide/debug/debug-mode) 下查看最终生成的配置。
 
 首先通过 `DEBUG=builder` 参数开启调试模式：
 
@@ -222,4 +222,3 @@ DEBUG=builder pnpm build
 ```
 
 然后打开生成的 `(webpack|rspack).config.web.js`，搜索 `babel-loader` 关键词，即可看到完整的 `babel-loader` 配置内容。
-

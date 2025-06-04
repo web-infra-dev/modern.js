@@ -27,11 +27,11 @@ ERR! Error: Cannot find module 'react-dom/package.json'
 
 You can install the react-dom dependency in the project.
 
-``` json
+```json
 {
-    "devDependencies": {
-        "react-dom": "^17"
-    }
+  "devDependencies": {
+    "react-dom": "^17"
+  }
 }
 ```
 
@@ -43,18 +43,19 @@ Solutions:
 2. Find this code: `var _await$Promise$all = await Promise.all([preview, manager,`.
 3. Modify it：
 
-``` js
+```js
 var _await$Promise$all = await Promise.all([
     preview.catch(e => console.info(e)),
     manager // TODO #13083 Restore this when compiling the preview is fast enough
-  // .then((result) => {
-  //   if (!options.ci && !options.smokeTest) openInBrowser(address);
-  //   return result;
-  // })
-  .catch(previewBuilder.bail)]),
-      _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
-      previewResult = _await$Promise$all2[0],
-      managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
+      // .then((result) => {
+      //   if (!options.ci && !options.smokeTest) openInBrowser(address);
+      //   return result;
+      // })
+      .catch(previewBuilder.bail),
+  ]),
+  _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
+  previewResult = _await$Promise$all2[0],
+  managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
 ```
 
 ## Can`t find any stories is your Storybook
@@ -69,36 +70,39 @@ Storybook does not provide a solution for this, but there is one in the Storyboo
 
 1. Add the `.storybook/middleware.js` file and initialize the following:
 
-``` js
+```js
 /* eslint-disable filenames/match-exported */
 module.exports = function expressMiddleware(router) {
-    // router is express router
-    // import { Router } from 'express'
-    // router = new Router();
+  // router is express router
+  // import { Router } from 'express'
+  // router = new Router();
 };
 ```
 
 2. add `http-proxy-middleware` dependency
 3. Add proxy routing-related configuration
 
-``` js
+```js
 /* eslint-disable filenames/match-exported */
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function expressMiddleware (router) {
-  router.use('/api', createProxyMiddleware({
-    target: "http://localhost:8000",
-    changeOrigin: true
-  }))
-}
+module.exports = function expressMiddleware(router) {
+  router.use(
+    '/api',
+    createProxyMiddleware({
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+    }),
+  );
+};
 ```
 
 Link：https://github.com/storybookjs/storybook/issues/11551
 
 ## Tailwind CSS doesn't work in Storybook
 
-The Storybook build capability of the Modern.js Module is provided by [Rsbuild](https://rsbuild.dev/). Since the underlying implementation of Rsbuild is not integrated with Modern.js Module, the Modern.js Module plugins do not work in Storybook (Rsbuild).
+The Storybook build capability of the Modern.js Module is provided by [Rsbuild](https://rsbuild.rs/). Since the underlying implementation of Rsbuild is not integrated with Modern.js Module, the Modern.js Module plugins do not work in Storybook (Rsbuild).
 
 Solution: Register the tailwindcss PostCSS plugin in storybook.
 
-Reference link: [Rsbuild - tailwindcss](https://rsbuild.dev/guide/basic/tailwindcss#configuring-postcss).
+Reference link: [Rsbuild - tailwindcss](https://rsbuild.rs/guide/basic/tailwindcss#configuring-postcss).

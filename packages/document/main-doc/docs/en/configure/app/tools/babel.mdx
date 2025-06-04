@@ -160,7 +160,7 @@ export default {
   tools: {
     babel(config, { modifyPresetEnvOptions }) {
       modifyPresetEnvOptions({
-        targets: "last 2 versions",
+        targets: 'last 2 versions',
       });
     },
   },
@@ -173,9 +173,9 @@ export default {
     babel(config, { modifyPresetEnvOptions }) {
       modifyPresetEnvOptions({
         targets: {
-          chrome: "58",
-          ie: "11"
-        }
+          chrome: '58',
+          ie: '11',
+        },
       });
     },
   },
@@ -210,7 +210,7 @@ Deprecated, please use [source.exclude](https://modernjs.dev/en/configure/app/so
 
 ### Debugging Babel Configuration
 
-After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Rsbuild debug mode](https://rsbuild.dev/guide/debug/debug-mode).
+After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Rsbuild debug mode](https://rsbuild.rs/guide/debug/debug-mode).
 
 First, enable debug mode by using the `DEBUG=builder` parameter:
 

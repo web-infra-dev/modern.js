@@ -24,7 +24,7 @@ Options:
   -h, --help Show information about the current command
 ```
 
-Modern.js Module supports the `platform` build mode, which can be used to execute build tasks of other tools. Currently, the official support includes [Rspress](https://rspress.dev/). For example, you can start the doc build task to generate doc products by executing the `modern build --platform` commands.
+Modern.js Module supports the `platform` build mode, which can be used to execute build tasks of other tools. Currently, the official support includes [Rspress](https://rspress.rs/). For example, you can start the doc build task to generate doc products by executing the `modern build --platform` commands.
 
 ## `modern new`
 
@@ -66,7 +66,7 @@ Commands:
 
 The Modern.js Module provides the ability to use debugging tools, which can be started with the `modern dev` command. Note, however, that no debugging-related plugins are provided by default, so executing `modern dev` will prompt: _"No dev tools found available "_.
 
-The officially supported debugging tool is [Rspress](https://rspress.dev/), so you can run `modern dev` or `modern dev doc` to execute it after you run `modern new` to enable it.
+The officially supported debugging tool is [Rspress](https://rspress.rs/), so you can run `modern dev` or `modern dev doc` to execute it after you run `modern new` to enable it.
 
 ## `modern change`
 

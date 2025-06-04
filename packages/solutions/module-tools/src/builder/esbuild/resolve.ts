@@ -115,7 +115,7 @@ export interface ResolverOptions {
   extensions: string[];
   root: string;
   alias: Record<string, string>;
-  // https://rspack.dev/zh/config/resolve#resolvetsconfigreferences
+  // https://rspack.rs/zh/config/resolve#resolvetsconfigreferences
   tsConfig: {
     configFile: string;
     references?: string[] | undefined;

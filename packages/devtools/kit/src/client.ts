@@ -38,9 +38,9 @@ export class AnnouncementDefinition {
 }
 
 export class DoctorDefinition {
-  home = 'https://rsdoctor.dev';
+  home = 'https://rsdoctor.rs';
 
-  quickStart = 'https://rsdoctor.dev/guide/start/quick-start';
+  quickStart = 'https://rsdoctor.rs/guide/start/quick-start';
 }
 
 export class ClientDefinition {

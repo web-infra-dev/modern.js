@@ -17,7 +17,7 @@ sidebar_position: 5
 ### 前置准备
 
 1. 通过[微生成器](/guide/basic/use-micro-generator)开启文档功能。
-2. 阅读[Rspress 介绍](https://rspress.dev/zh/guide/start/introduction.html)。
+2. 阅读[Rspress 介绍](https://rspress.rs/zh/guide/start/introduction.html)。
 
 完成准备工作之后，接下来我们会基于 Rspress 为模块项目搭建一个文档站点。
 
@@ -25,7 +25,7 @@ sidebar_position: 5
 
 站点整体布局由三部分组成：导航栏、侧边栏以及正文部分，其中正文还包括了 TOC(Table of contents found at the beginning of a book or document)。
 
-Rspress 使用的是[文件系统路由](https://rspress.dev/zh/guide/basic/conventional-route.html)，模块文档基于此实现了侧边栏的自动生成。
+Rspress 使用的是[文件系统路由](https://rspress.rs/zh/guide/basic/conventional-route.html)，模块文档基于此实现了侧边栏的自动生成。
 例如，如果你有以下的文件结构：
 
 ```bash
@@ -55,7 +55,7 @@ docs
 ### 配置侧边栏
 
 如上图所示，模块文档已经为文件系统路由自动生成了侧边栏，其中侧边栏每一栏的文本是由文件的一级标题或者目录名决定。
-如果你需要自定义侧边栏，请使用 [\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html) 或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
+如果你需要自定义侧边栏，请使用 [\_meta.json](https://rspress.rs/zh/guide/basic/auto-nav-sidebar.html) 或者直接配置 [sidebar](https://rspress.rs/zh/api/config/config-theme.html#sidebar)。
 
 :::info
 如果你的文档目录结构是符合国际化的，例如：
@@ -70,15 +70,15 @@ docs
     ├── index.mdx
 ```
 
-你需要按照[国际化](https://rspress.dev/zh/guide/default-theme/i18n.html)章节，同时配置 `lang` 和 `locales`，否则模块自动生成的侧边栏不会处理 `zh` 和 `en` 这两个目录。
+你需要按照[国际化](https://rspress.rs/zh/guide/default-theme/i18n.html)章节，同时配置 `lang` 和 `locales`，否则模块自动生成的侧边栏不会处理 `zh` 和 `en` 这两个目录。
 :::
 
 ## 编写文档
 
 接下来我们可以专注于文档内容的编写了。除了最基本的编写 markdown 以外，你可能还需要了解以下进阶内容：
 
-- [使用 MDX](https://rspress.dev/zh/guide/basic/use-mdx.html)
-- [使用静态资源](https://rspress.dev/zh/guide/basic/static-assets.html)
+- [使用 MDX](https://rspress.rs/zh/guide/basic/use-mdx.html)
+- [使用静态资源](https://rspress.rs/zh/guide/basic/static-assets.html)
 
 ## 组件预览
 
@@ -351,7 +351,7 @@ API 解析工具
 
 ### doc
 
-[文档框架配置](https://rspress.dev/zh/api/index.html)
+[文档框架配置](https://rspress.rs/zh/api/index.html)
 
 ### entries
 
@@ -429,14 +429,14 @@ type ParseToolOptions = {
 ### deprecated: languages
 
 :::warning
-从 MAJOR_VERSION.44.0 版本开始，请参考 [国际化](https://rspress.dev/zh/guide/default-theme/i18n.html) 章节来实现多语言。
+从 MAJOR_VERSION.44.0 版本开始，请参考 [国际化](https://rspress.rs/zh/guide/default-theme/i18n.html) 章节来实现多语言。
 :::
 
 ### deprecated: useModuleSidebar
 
 :::warning
-从 MAJOR_VERSION.44.0 版本开始，内部实现了嗅探机制，请直接使用 [\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)
-或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar) 来实现自定义侧边栏。
+从 MAJOR_VERSION.44.0 版本开始，内部实现了嗅探机制，请直接使用 [\_meta.json](https://rspress.rs/zh/guide/basic/auto-nav-sidebar.html)
+或者直接配置 [sidebar](https://rspress.rs/zh/api/config/config-theme.html#sidebar) 来实现自定义侧边栏。
 :::
 
 ## 命令行
@@ -446,7 +446,7 @@ type ParseToolOptions = {
 
 ## 进阶指南
 
-以上已经介绍完了开发模块文档的基本内容，但是这对于开发一个完整的文档站是不够的。查看[Rspress](https://rspress.dev)以深入了解我们的文档框架。
+以上已经介绍完了开发模块文档的基本内容，但是这对于开发一个完整的文档站是不够的。查看[Rspress](https://rspress.rs)以深入了解我们的文档框架。
 你可以通过 `doc` 配置来修改文档框架配置。
 
 ```ts title="modern.config.ts"

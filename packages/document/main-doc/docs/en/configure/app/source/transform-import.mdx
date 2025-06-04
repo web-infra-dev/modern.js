@@ -74,12 +74,12 @@ export default {
 };
 ```
 
-You can also use the [function usage](https://rsbuild.dev/config/source/transform-import#function-type) of `transformImport` to modify the default configuration.
+You can also use the [function usage](https://rsbuild.rs/config/source/transform-import#function-type) of `transformImport` to modify the default configuration.
 
 ```js
 export default {
   source: {
-    transformImport: (imports) => {
+    transformImport: imports => {
       return imports.filter(data => data.libraryName !== 'antd');
     },
   },

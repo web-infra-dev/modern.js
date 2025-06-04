@@ -74,12 +74,12 @@ export default {
 };
 ```
 
-你也可以使用 `transformImport` 的 [function 用法](https://rsbuild.dev/zh/config/source/transform-import#function-%E7%B1%BB%E5%9E%8B) 对默认配置进行自定义修改。
+你也可以使用 `transformImport` 的 [function 用法](https://rsbuild.rs/zh/config/source/transform-import#function-%E7%B1%BB%E5%9E%8B) 对默认配置进行自定义修改。
 
 ```js
 export default {
   source: {
-    transformImport: (imports) => {
+    transformImport: imports => {
       return imports.filter(data => data.libraryName !== 'antd');
     },
   },
