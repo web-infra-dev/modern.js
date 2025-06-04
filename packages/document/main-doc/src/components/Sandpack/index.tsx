@@ -8,17 +8,7 @@ import './index.css';
 
 const Sandpack = (props: PropsWithChildren<ModernSandpackProps>) => {
   const dark = useDark();
-  const { children, ...otherProps } = props;
-  const files: Record<string, string> = {};
-  React.Children.forEach(children, (child: any) => {
-    if (child) {
-      const { meta, children } = child.props.children.props;
-      const matches = meta.match(/title="(.*)"/);
-      if (matches.length > 1) {
-        files[matches[1]] = children;
-      }
-    }
-  });
+  const { children, files, ...otherProps } = props;
   return (
     <NoSSR>
       <ModernSandpack

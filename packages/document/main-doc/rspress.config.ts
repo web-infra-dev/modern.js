@@ -92,13 +92,24 @@ export default defineConfig({
     },
   ],
   builderConfig: {
+    tools: {
+      // FIXME: use `?raw` after upgrading to Rsbuild@1.4.0, https://github.com/web-infra-dev/rsbuild/pull/5355
+      rspack(_config, { addRules }) {
+        addRules([
+          {
+            test: /\.txt$/i,
+            type: 'asset/source',
+          },
+        ]);
+      },
+    },
     output: {
       dataUriLimit: 0,
     },
     dev: {
       lazyCompilation: process.env.LAZY !== 'false',
     },
-    source: {
+    resolve: {
       alias: {
         '@site-docs': path.join(__dirname, './docs/zh'),
         '@site-docs-en': path.join(__dirname, './docs/en'),
