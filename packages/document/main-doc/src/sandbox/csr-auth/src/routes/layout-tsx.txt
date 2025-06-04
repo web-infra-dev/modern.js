@@ -1,0 +1,21 @@
+import { Link, Outlet } from '@modern-js/runtime/router';
+import { AuthProvider, AuthStatus } from './Auth';
+
+export default function Layout() {
+  return (
+    <AuthProvider>
+      <AuthStatus />
+
+      <ul>
+        <li>
+          <Link to="/">Public Page</Link>
+        </li>
+        <li>
+          <Link to="/protected">Protected Page</Link>
+        </li>
+      </ul>
+
+      <Outlet />
+    </AuthProvider>
+  );
+}

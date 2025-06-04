@@ -1,0 +1,11 @@
+import { RequireAuth } from '../Auth';
+
+export default function ProtectedPage() {
+  return (
+    <div className="container-box">
+      <RequireAuth>
+        <h3>Protected</h3>
+      </RequireAuth>
+    </div>
+  );
+}
