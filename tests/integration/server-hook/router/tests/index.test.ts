@@ -22,7 +22,7 @@ describe('test status code page', () => {
 
     browser = await puppeteer.launch({
       ...launchOptions,
-      ignoreHTTPSErrors: true, // https://github.com/puppeteer/puppeteer/issues/1137
+      acceptInsecureCerts: true, // https://github.com/puppeteer/puppeteer/issues/1137, Puppeteer 23.0.0 rename ignoreHTTPSErrors to acceptInsecureCerts
     } as any);
     page = await browser.newPage();
   });
