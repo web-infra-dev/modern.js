@@ -19,7 +19,7 @@ When using Rspack as the bundler, SWC will be used for transpiling and compressi
 
 ## Used in Rspack mode
 
-You can set the options of [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) through `tools.swc`.
+You can set the options of [builtin:swc-loader](https://rspack.rs/guide/features/builtin-swc-loader) through `tools.swc`.
 
 ```ts
 import { defineConfig } from '@modern-js/app-tools';
@@ -35,7 +35,7 @@ export default defineConfig<'rspack'>({
 });
 ```
 
-For more usage, please refer to [Rsbuild - tools.swc](https://rsbuild.dev/config/tools/swc).
+For more usage, please refer to [Rsbuild - tools.swc](https://rsbuild.rs/config/tools/swc).
 
 ### Register SWC Plugin
 
@@ -66,7 +66,7 @@ This means that you must to choose an SWC plugin that matches the current versio
 
 If you encounter the above issues, a common solution is to upgrade both the Modern.js and SWC plugins to the latest versions.
 
-For details, please refer to [Rsbuild - SWC Plugin Version](https://rsbuild.dev/guide/basic/configure-swc#swc-plugin-version).
+For details, please refer to [Rsbuild - SWC Plugin Version](https://rsbuild.rs/guide/basic/configure-swc#swc-plugin-version).
 
 ## Used in Webpack mode
 

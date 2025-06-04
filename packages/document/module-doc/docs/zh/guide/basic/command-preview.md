@@ -24,7 +24,7 @@ Options:
   -h, --help             展示当前命令的信息
 ```
 
-Modern.js Module 支持 `platform` 构建模式，可以用于执行其他工具的构建任务，目前官方支持的有 [Rspress](https://rspress.dev/)。例如，可以通过执行 `modern build --platform` 命令启动 doc 构建任务生成 doc 产物。
+Modern.js Module 支持 `platform` 构建模式，可以用于执行其他工具的构建任务，目前官方支持的有 [Rspress](https://rspress.rs/)。例如，可以通过执行 `modern build --platform` 命令启动 doc 构建任务生成 doc 产物。
 
 ## `modern new`
 
@@ -66,7 +66,7 @@ Commands:
 
 Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
 
-目前官方支持的调试工具有 [Rspress](https://rspress.dev/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev doc` 执行它。
+目前官方支持的调试工具有 [Rspress](https://rspress.rs/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev doc` 执行它。
 
 ## `modern change`
 

@@ -72,7 +72,7 @@ export default {
 
 ## 修改转译配置
 
-Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://rspack.dev/zh/guide/features/builtin-swc-loader) 进行代码转译。
+Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://rspack.rs/zh/guide/features/builtin-swc-loader) 进行代码转译。
 
 Modern.js 已对 `builtin:swc-loader` 的常见配置提供了更方便的配置方式，如：通过 [source.transformImport](/configure/app/source/transform-import) 配置组件库按需引入。如果对 `builtin:swc-loader` 有自定义配置的需求，可通过 [tools.swc](/configure/app/tools/swc) 进行配置：
 
@@ -100,7 +100,7 @@ export default defineConfig<'rspack'>({
 
 但 Modern.js 对于 Rspack 的依赖方式为锁版本方式（非自动升级），由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
 
-当你执行 dev / build 命令时，Modern.js 会在[开启调试模式时](https://rsbuild.dev/zh/guide/debug/debug-mode)自动打印当前使用的 Rspack 版本：
+当你执行 dev / build 命令时，Modern.js 会在[开启调试模式时](https://rsbuild.rs/zh/guide/debug/debug-mode)自动打印当前使用的 Rspack 版本：
 
 ![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/20240110-155444.png)
 

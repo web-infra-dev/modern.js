@@ -19,16 +19,17 @@ Modern.js 提供了一套强大的插件体系，允许开发者通过编写插�
 Modern.js 提供了两种主要的插件类型：Modern.js 框架插件和 Rsbuild 构建插件。选择哪种插件取决于你的具体需求：
 
 - **Rsbuild 构建插件：** 如果你的需求与构建过程密切相关，特别是涉及到 Webpack 或 Rspack 配置的修改，那么你应该选择 Rsbuild 插件。例如：
-    - 修改 Webpack/Rspack 的 `loader` 或 `plugin` 配置。
-    - 处理新的文件类型。
-    - 修改或编译文件内容。
-    - 对构建产物进行优化或处理。
+
+  - 修改 Webpack/Rspack 的 `loader` 或 `plugin` 配置。
+  - 处理新的文件类型。
+  - 修改或编译文件内容。
+  - 对构建产物进行优化或处理。
 
 - **Modern.js 框架插件：** 如果你的需求与 Modern.js 框架本身的功能扩展、运行时行为或服务端逻辑相关，那么你应该选择 Modern.js 插件。例如：
-    - 添加自定义的命令行命令。
-    - 修改应用的路由配置。
-    - 定制化应用的渲染过程（如 SSR）。
-    - 添加服务端中间件或处理函数。
+  - 添加自定义的命令行命令。
+  - 修改应用的路由配置。
+  - 定制化应用的渲染过程（如 SSR）。
+  - 添加服务端中间件或处理函数。
 
 简单来说，需要修改 Webpack/Rspack 配置时，使用 Rsbuild 插件；其他与框架相关的功能扩展，使用 Modern.js 插件。
 
@@ -69,13 +70,13 @@ export default defineRuntimeConfig({
 });
 ```
 
-{/* #### Server 插件
+{/\* #### Server 插件
 
 Server 插件用于在应用接受请求时提供额外功能，例如添加中间件、修改请求响应等。
 
 Server 插件通过 `server/modern.server.ts` 中的 `plugins` 字段进行配置。
 
-```ts title="src/modern.server.ts"
+````ts title="src/modern.server.ts"
 import { defineConfig } from '@modern-js/app-tools/server';
 import bffPlugin from '@modern-js/plugin-bff/server';
 
@@ -106,13 +107,13 @@ Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修�
 你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
 
 :::tip
-Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](https://rsbuild.dev/)。
+Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](https://rsbuild.rs/)。
 
 如果你的当前版本低于 MAJOR_VERSION.46.0，可通过执行 `npx modern upgrade` 进行升级。
 :::
 
 :::info
-可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.dev/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
+可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.rs/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
 :::
 
 ### 官方插件
@@ -123,10 +124,10 @@ Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](h
 
 | 插件                                                                                         | 介绍                                                                                     | Modern.js 链接                                                                                                                        |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [React 插件](https://rsbuild.dev/zh/plugins/list/plugin-react)                               | 提供对 React 的支持                                                                      | -                                                                                                                                     |
-| [SVGR 插件](https://rsbuild.dev/zh/plugins/list/plugin-svgr)                                 | 支持将 SVG 图片转换为一个 React 组件                                                     | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [React 插件](https://rsbuild.rs/zh/plugins/list/plugin-react)                               | 提供对 React 的支持                                                                      | -                                                                                                                                     |
+| [SVGR 插件](https://rsbuild.rs/zh/plugins/list/plugin-svgr)                                 | 支持将 SVG 图片转换为一个 React 组件                                                     | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
 | [Styled Components 插件](https://github.com/rspack-contrib/rsbuild-plugin-styled-components) | 提供对 styled-components 的编译时支持                                                    | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
-| [Assets Retry 插件](https://rsbuild.dev/zh/plugins/list/plugin-assets-retry)                 | 用于在静态资源加载失败时自动发起重试请求                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
+| [Assets Retry 插件](https://rsbuild.rs/zh/plugins/list/plugin-assets-retry)                 | 用于在静态资源加载失败时自动发起重试请求                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
 | [Type Check 插件](https://github.com/rspack-contrib/rsbuild-plugin-type-check)               | 用于在单独的进程中运行 TypeScript 类型检查                                               | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
 | [Node Polyfill 插件](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)         | 用于注入 Node 核心模块在浏览器端的 polyfills                                             | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
 | [Source Build 插件](https://github.com/rspack-contrib/rsbuild-plugin-source-build)           | 用于 monorepo 场景，支持引用其他子目录的源代码，并完成构建和热更新                       | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
@@ -142,9 +143,10 @@ Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](h
 以下是未在 Modern.js 中内置的 Rsbuild 官方插件：
 
 - [Image Compress 插件](https://github.com/rspack-contrib/rsbuild-plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
-- [Stylus 插件](https://rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
+- [Stylus 插件](https://rsbuild.rs/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
 - [UMD 插件](https://github.com/rspack-contrib/rsbuild-plugin-umd)：用于构建 UMD 格式的产物。
 
 import OtherPlugins from '@site-docs/components/other-plugins.mdx';
 
 <OtherPlugins />
+````

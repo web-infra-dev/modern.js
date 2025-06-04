@@ -17,7 +17,7 @@ This chapter describes how to quickly build a static documentation site for a mo
 ### Preliminary preparation
 
 1. Enable the documentation feature via [micro-generator](/guide/basic/use-micro-generator).
-2. Read [Introduction to Rspress](https://rspress.dev/guide/start/introduction.html).
+2. Read [Introduction to Rspress](https://rspress.rs/guide/start/introduction.html).
 
 After finishing the preparation work, we will build a documentation site for the module project based on Rspress.
 
@@ -25,7 +25,7 @@ After finishing the preparation work, we will build a documentation site for the
 
 The overall layout of the site consists of three parts: the navigation bar, the sidebar and the body part, which also includes the TOC (Table of contents found at the beginning of a book or document).
 
-The Rspress uses [File System Routing](https://rspress.dev/guide/basic/conventional-route.html), on which the module documentation is based, to automate the generation of the sidebar.
+The Rspress uses [File System Routing](https://rspress.rs/guide/basic/conventional-route.html), on which the module documentation is based, to automate the generation of the sidebar.
 For example, if you have the following file structure:
 
 ```bash
@@ -56,7 +56,7 @@ The sidebars corresponding in turn to the above file paths and routing paths are
 ### Configure sidebar
 
 As shown in the figure above, the module documentation has automatically generated sidebars for file system routing, where the text of each column of the sidebar is determined by the file's first level title or directory name.
-If you need to customize the sidebar, please use [\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) or configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) directly.
+If you need to customize the sidebar, please use [\_meta.json](https://rspress.rs/guide/basic/auto-nav-sidebar.html) or configure [sidebar](https://rspress.rs/api/config/config-theme.html#sidebar) directly.
 
 :::info
 If your document directory structure complies with internationalization, for example:
@@ -71,7 +71,7 @@ docs
     ├── index.mdx
 ```
 
-You need to follow [internationalization](https://rspress.dev/guide/default-theme/i18n.html) guide and configure `lang` 和 `locales`,
+You need to follow [internationalization](https://rspress.rs/guide/default-theme/i18n.html) guide and configure `lang` 和 `locales`,
 otherwise, the automatically generated sidebar of the module will not handle the `zh` and `en` directories.
 :::
 
@@ -79,8 +79,8 @@ otherwise, the automatically generated sidebar of the module will not handle the
 
 Next, we can focus on writing the content of the document. In addition to the basic Markdown syntax, you may also need to understand the following advanced topics:
 
-- [Using MDX](https://rspress.dev/guide/basic/use-mdx.html)
-- [Using Assets](https://rspress.dev/guide/basic/static-assets.html)
+- [Using MDX](https://rspress.rs/guide/basic/use-mdx.html)
+- [Using Assets](https://rspress.rs/guide/basic/static-assets.html)
 
 ## Component preview
 
@@ -357,7 +357,7 @@ API parse tool.
 
 ### doc
 
-[Config](https://rspress.dev/api/index.html).
+[Config](https://rspress.rs/api/index.html).
 
 ### entries
 
@@ -431,14 +431,14 @@ In case of `internal`, the component will be rendered directly in the page, othe
 ### deprecated: languages
 
 :::warning
-Starting from version MAJOR_VERSION.44.0, please refer to the [Internationalization](https://rspress.dev/guide/default-theme/i18n.html) section to implement multiple languages.
+Starting from version MAJOR_VERSION.44.0, please refer to the [Internationalization](https://rspress.rs/guide/default-theme/i18n.html) section to implement multiple languages.
 :::
 
 ### deprecated: useModuleSidebar
 
 :::warning
-Starting from version MAJOR_VERSION.44.0, a sniffing mechanism has been implemented internally, so please directly use [\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html)
-or directly configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) to implement a custom sidebar.
+Starting from version MAJOR_VERSION.44.0, a sniffing mechanism has been implemented internally, so please directly use [\_meta.json](https://rspress.rs/guide/basic/auto-nav-sidebar.html)
+or directly configure [sidebar](https://rspress.rs/api/config/config-theme.html#sidebar) to implement a custom sidebar.
 :::
 
 ## Scripts
@@ -448,7 +448,7 @@ or directly configure [sidebar](https://rspress.dev/api/config/config-theme.html
 
 ## Advanced guide
 
-The above has covered the basics of developing module documentation, but this is not enough for developing a complete documentation station. Check out the [Rspress](https://rspress.dev) for an in-depth look at our documentation framework.
+The above has covered the basics of developing module documentation, but this is not enough for developing a complete documentation station. Check out the [Rspress](https://rspress.rs) for an in-depth look at our documentation framework.
 You can modify the documentation framework configuration via the `doc` configuration.
 
 ```ts title="modern.config.ts"

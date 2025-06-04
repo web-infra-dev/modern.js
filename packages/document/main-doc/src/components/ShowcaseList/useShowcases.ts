@@ -57,7 +57,7 @@ export const useShowcases = (): ShowcaseItem[] => {
     },
     {
       name: 'Rspack',
-      url: 'https://rspack.dev/',
+      url: 'https://rspack.rs/',
       preview:
         'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/rspack-0424.jpeg',
       type: 'doc',

@@ -27,11 +27,11 @@ ERR! Error: Cannot find module 'react-dom/package.json'
 
 解决办法：在项目中安装 `react-dom` 依赖。
 
-``` json
+```json
 {
-    "devDependencies": {
-        "react-dom": "^17"
-    }
+  "devDependencies": {
+    "react-dom": "^17"
+  }
 }
 ```
 
@@ -43,18 +43,19 @@ ERR! Error: Cannot find module 'react-dom/package.json'
 2. 找到 `var _await$Promise$all = await Promise.all([preview, manager` 这附近的代码。
 3. 修改成：
 
-``` js
+```js
 var _await$Promise$all = await Promise.all([
     preview.catch(e => console.info(e)),
     manager // TODO #13083 Restore this when compiling the preview is fast enough
-  // .then((result) => {
-  //   if (!options.ci && !options.smokeTest) openInBrowser(address);
-  //   return result;
-  // })
-  .catch(previewBuilder.bail)]),
-      _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
-      previewResult = _await$Promise$all2[0],
-      managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
+      // .then((result) => {
+      //   if (!options.ci && !options.smokeTest) openInBrowser(address);
+      //   return result;
+      // })
+      .catch(previewBuilder.bail),
+  ]),
+  _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
+  previewResult = _await$Promise$all2[0],
+  managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
 ```
 
 ## Couldn't find any stories is your Storybook
@@ -69,36 +70,39 @@ Storybook 没有提供相关方案，不过 Storybook Issue 中有找到相关�
 
 1. 添加 `.storybook/middleware.js` 文件，并初始化下面的内容：
 
-``` js
+```js
 /* eslint-disable filenames/match-exported */
 module.exports = function expressMiddleware(router) {
-    // router is express router
-    // import { Router } from 'express'
-    // router = new Router();
+  // router is express router
+  // import { Router } from 'express'
+  // router = new Router();
 };
 ```
 
 2. 添加 http-proxy-middleware 依赖
 3. 添加代理路由相关配置
 
-``` js
+```js
 /* eslint-disable filenames/match-exported */
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function expressMiddleware (router) {
-  router.use('/api', createProxyMiddleware({
-    target: "http://localhost:8000",
-    changeOrigin: true
-  }))
-}
+module.exports = function expressMiddleware(router) {
+  router.use(
+    '/api',
+    createProxyMiddleware({
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+    }),
+  );
+};
 ```
 
 相关 issue 链接：[#11551](https://github.com/storybookjs/storybook/issues/11551)。
 
 ## Tailwind CSS 在 Storybook 中不生效
 
-Modern.js Module 的 Storybook 构建能力由 [Rsbuild](https://rsbuild.dev/) 提供，由于 Rsbuild 的底层实现与 Modern.js Module 并未打通，因此， Modern.js Module 插件无法在 Storybook (Rsbuild) 中生效。
+Modern.js Module 的 Storybook 构建能力由 [Rsbuild](https://rsbuild.rs/) 提供，由于 Rsbuild 的底层实现与 Modern.js Module 并未打通，因此， Modern.js Module 插件无法在 Storybook (Rsbuild) 中生效。
 
 解决办法：需要在 storybook 中单独注册 tailwindcss 的 PostCSS 插件。
 
-参考链接：[Rsbuild - tailwindcss](https://rsbuild.dev/zh/guide/basic/tailwindcss#%E9%85%8D%E7%BD%AE-postcss)。
+参考链接：[Rsbuild - tailwindcss](https://rsbuild.rs/zh/guide/basic/tailwindcss#%E9%85%8D%E7%BD%AE-postcss)。
