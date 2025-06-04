@@ -116,7 +116,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
           return pkgName === '@modern-js/utils';
         },
         entryFilter: filter,
-        transformPackageJson: (pkgName, version, pkgJSON) => {
+        transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports) {
             return pkgJSON;
           }

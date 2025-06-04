@@ -186,7 +186,7 @@ export const createNetlifyPreset: CreatePreset = (
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
         },
-        transformPackageJson: (pkgName, version, pkgJSON) => {
+        transformPackageJson: ({ pkgJSON }) => {
           if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
             return pkgJSON;
           }
