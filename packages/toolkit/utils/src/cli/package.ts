@@ -31,3 +31,24 @@ export async function canUsePnpm() {
     return false;
   }
 }
+
+export function removeModuleSyncFromExports(
+  exports: Record<string, any>,
+): Record<string, any> {
+  if (typeof exports !== 'object' || exports === null) {
+    return exports;
+  }
+
+  if (Array.isArray(exports)) {
+    return exports.map(removeModuleSyncFromExports);
+  }
+
+  const result: any = {};
+  for (const [key, value] of Object.entries(exports)) {
+    if (key === 'module-sync') {
+      continue;
+    }
+    result[key] = removeModuleSyncFromExports(value);
+  }
+  return result;
+}

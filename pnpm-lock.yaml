@@ -3794,8 +3794,8 @@ importers:
         specifier: ^1.6.1
         version: 1.7.4
       ndepe:
-        specifier: ^0.1.8
-        version: 0.1.8(encoding@0.1.13)
+        specifier: ^0.1.11
+        version: 0.1.11(encoding@0.1.13)
       pkg-types:
         specifier: ^1.1.0
         version: 1.3.1
@@ -19640,8 +19640,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  ndepe@0.1.8:
-    resolution: {integrity: sha512-0mvZ1o5F0GStEzsZIrlGAYmLOtrILwMCh2vHAT1J2qZdyCqgMUo/5FBVk1B54pmCZCDxOS8mMm3MAIW5nCDL3w==}
+  ndepe@0.1.11:
+    resolution: {integrity: sha512-Sh2TOUDRCJVAu/3M8Xb0o6VZFAIygUv6TSTXutY60YtYllx7e4ds49tvnFF0pIB6Ps8vJ/DFb+7ntNIlRtGNcQ==}
 
   needle@3.3.1:
     resolution: {integrity: sha512-6k0YULvhpw+RoLNiQCRKOl09Rv1dPLr8hHnVjHqdolKwDrdNyk+Hmrthi4lIGPPz3r39dLx0hsF5s40sZ3Us4Q==}
@@ -38768,7 +38768,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  ndepe@0.1.8(encoding@0.1.13):
+  ndepe@0.1.11(encoding@0.1.13):
     dependencies:
       '@vercel/nft': 0.27.3(encoding@0.1.13)
       debug: 4.3.7(supports-color@5.5.0)
@@ -38776,7 +38776,7 @@ snapshots:
       mlly: 1.6.1
       pkg-types: 1.3.1
       pkg-up: 3.1.0
-      semver: 7.7.1
+      semver: 7.7.2
     transitivePeerDependencies:
       - encoding
       - supports-color
