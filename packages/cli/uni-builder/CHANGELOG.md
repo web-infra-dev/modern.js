@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.67.8
+
+### Patch Changes
+
+- b82323b: fix: ensure that each environment has its own babel options
+  fix: 确保不同环境都有自己独立的 babel 配置对象
+- Updated dependencies [23c8201]
+  - @modern-js/utils@2.67.8
+  - @modern-js/babel-preset@2.67.8
+  - @modern-js/flight-server-transform-plugin@2.67.8
+
 ## 2.67.7
 
 ### Patch Changes

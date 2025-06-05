@@ -1,5 +1,16 @@
 # @modern-js/plugin-ssg
 
+## 2.67.8
+
+### Patch Changes
+
+- 532bbcb: fix: 修复 SSG 报错时没有中断构建的问题
+  fix: fix the issue that the build will not be interrupted when an error occurs in SSG
+- Updated dependencies [532bbcb]
+- Updated dependencies [23c8201]
+  - @modern-js/prod-server@2.67.8
+  - @modern-js/utils@2.67.8
+
 ## 2.67.7
 
 ### Patch Changes

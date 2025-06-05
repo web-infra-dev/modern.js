@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 2.67.8
+
+### Patch Changes
+
+- 23c8201: fix(deploy): avoid issues caused by the module-sync field
+  fix(deploy): 避免因为 module-sync 字段导致的问题
+- Updated dependencies [532bbcb]
+- Updated dependencies [b82323b]
+- Updated dependencies [23c8201]
+  - @modern-js/prod-server@2.67.8
+  - @modern-js/uni-builder@2.67.8
+  - @modern-js/utils@2.67.8
+  - @modern-js/core@2.67.8
+  - @modern-js/server@2.67.8
+  - @modern-js/plugin-v2@2.67.8
+  - @modern-js/plugin-data-loader@2.67.8
+  - @modern-js/plugin-i18n@2.67.8
+  - @modern-js/server-core@2.67.8
+  - @modern-js/server-utils@2.67.8
+  - @modern-js/node-bundle-require@2.67.8
+  - @modern-js/plugin@2.67.8
+  - @modern-js/rsbuild-plugin-esbuild@2.67.8
+  - @modern-js/types@2.67.8
+
 ## 2.67.7
 
 ### Patch Changes
