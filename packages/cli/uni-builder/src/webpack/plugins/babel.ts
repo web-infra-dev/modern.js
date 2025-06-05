@@ -3,7 +3,7 @@ import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
 import {
   applyOptionsChain,
-  isPlainObject,
+  isObject,
   isSupportAutomaticJsx,
 } from '@modern-js/utils';
 import { logger } from '@rsbuild/core';
@@ -128,11 +128,10 @@ export const pluginBabel = (
               { removeImport: true },
             ]);
           }
-
           const babelConfig = applyOptionsChain(
             baseBabelConfig,
             // ensure that each environment has its own babel options(plugins, presets, etc.) in multi-environments.
-            isPlainObject(options?.babelLoaderOptions)
+            isObject(options?.babelLoaderOptions)
               ? lodash.cloneDeep(options?.babelLoaderOptions)
               : options?.babelLoaderOptions,
             {
