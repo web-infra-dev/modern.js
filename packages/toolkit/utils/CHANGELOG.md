@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.67.8
+
+### Patch Changes
+
+- 23c8201: fix(deploy): avoid issues caused by the module-sync field
+  fix(deploy): 避免因为 module-sync 字段导致的问题
+
 ## 2.67.7
 
 ## 2.67.6
