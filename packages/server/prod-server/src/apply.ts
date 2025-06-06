@@ -9,6 +9,7 @@ import {
   injectConfigMiddlewarePlugin,
   onError,
   renderPlugin,
+  routerRewritePlugin,
 } from '@modern-js/server-core';
 import {
   injectNodeSeverPlugin,
@@ -59,6 +60,7 @@ export async function applyPlugins(
   const { middlewares, renderMiddlewares } = options.serverConfig || {};
 
   const plugins = [
+    routerRewritePlugin(),
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
     ...createDefaultPlugins({
       cacheConfig,
