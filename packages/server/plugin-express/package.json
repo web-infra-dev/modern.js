@@ -58,7 +58,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "cookie-parser": "^1.4.5",
+    "cookie-parser": "^1.4.7",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "reflect-metadata": "^0.1.13",
