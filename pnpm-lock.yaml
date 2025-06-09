@@ -5038,7 +5038,7 @@ importers:
   tests/e2e/builder/cases/import-antd-v4:
     dependencies:
       antd:
-        specifier: ^4
+        specifier: ^4.24.16
         version: 4.24.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
@@ -32376,7 +32376,7 @@ snapshots:
       '@ant-design/colors': 6.0.0
       '@ant-design/icons': 4.8.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ant-design/react-slick': 1.0.2(react@18.3.1)
-      '@babel/runtime': 7.26.10
+      '@babel/runtime': 7.27.0
       '@ctrl/tinycolor': 3.6.1
       classnames: 2.5.1
       copy-to-clipboard: 3.3.3
