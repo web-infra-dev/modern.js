@@ -3961,7 +3961,7 @@ importers:
         specifier: ^3.66.1
         version: 3.66.1(@types/node@14.18.35)
       '@rushstack/package-deps-hash':
-        specifier: ^3.0.54
+        specifier: ^3.2.67
         version: 3.2.67
       '@swc/helpers':
         specifier: ^0.5.17
