@@ -134,6 +134,7 @@
     "@vercel/nft",
     "vitest",
     "@types/react",
-    "@types/react-dom"
+    "@types/react-dom",
+    "@rsbuild-image/react"
   ]
 }
