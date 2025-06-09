@@ -51,7 +51,7 @@ export async function generateBuilder<B extends Bundler>(
   return builder;
 }
 
-async function applyBuilderPlugins<B extends Bundler>(
+export async function applyBuilderPlugins<B extends Bundler>(
   builder: UniBuilderInstance,
   options: BuilderOptions<B>,
 ) {
