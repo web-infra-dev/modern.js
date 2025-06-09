@@ -49,7 +49,7 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rushstack/node-core-library": "^3.66.1",
-    "@rushstack/package-deps-hash": "^3.0.54",
+    "@rushstack/package-deps-hash": "^3.2.67",
     "@swc/helpers": "^0.5.17",
     "anymatch": "^3.1.3",
     "md5": "^2.3.0",
