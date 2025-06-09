@@ -81,7 +81,13 @@ export const createHonoHandler = (handler: Handler) => {
           throw error;
         }
       } else {
-        const args = Object.values(input.params).concat(input);
+        const routePath = c.req.routePath;
+        const paramNames = routePath.match(/:\w+/g)?.map(s => s.slice(1)) || [];
+        const params = Object.fromEntries(
+          paramNames.map(name => [name, input.params[name]]),
+        );
+        const args = Object.values(params).concat(input);
+
         try {
           const body = await handler(...args);
           if (c.finalized) {
