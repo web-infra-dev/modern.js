@@ -3785,7 +3785,7 @@ importers:
         specifier: 0.17.19
         version: 0.17.19
       esbuild-register:
-        specifier: ^3.5.0
+        specifier: ^3.6.0
         version: 3.6.0(esbuild@0.17.19)
       flatted:
         specifier: ^3.2.9
@@ -44141,7 +44141,7 @@ snapshots:
   vite-node@3.0.5(@types/node@20.5.1)(less@4.3.0)(sass-embedded@1.89.0)(sass@1.86.3)(terser@5.39.0):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0
+      debug: 4.4.1
       es-module-lexer: 1.6.0
       pathe: 2.0.3
       vite: 5.4.14(@types/node@20.5.1)(less@4.3.0)(sass-embedded@1.89.0)(sass@1.86.3)(terser@5.39.0)
