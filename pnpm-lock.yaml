@@ -3179,7 +3179,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       cookie-parser:
-        specifier: ^1.4.5
+        specifier: ^1.4.7
         version: 1.4.7
       finalhandler:
         specifier: ^1.1.2
