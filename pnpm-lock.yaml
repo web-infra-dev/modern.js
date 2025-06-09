@@ -3115,7 +3115,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       encoding:
-        specifier: ^0.1.0
+        specifier: ^0.1.13
         version: 0.1.13
       node-fetch:
         specifier: ^2.6.1
