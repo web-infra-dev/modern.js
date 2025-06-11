@@ -20,26 +20,90 @@ export type CacheStatus = 'hit' | 'stale' | 'miss';
 
 export interface CacheStatsInfo {
   status: CacheStatus;
-  key: string | symbol;
+  key: string;
   params: any[];
   result: any;
+  /**
+   * Cache miss reason:
+   * 1: Caching is disabled for the current request
+   * 2: Item not found in cache
+   * 3: Item found in cache but has expired
+   * 4: Failed to parse data from cache
+   */
+  reason?: number;
 }
 
-interface CacheOptions {
+export interface Container {
+  get: (key: string) => Promise<string | undefined | null>;
+  set: (key: string, value: string, options?: { ttl?: number }) => Promise<any>;
+  has: (key: string) => Promise<boolean>;
+  delete: (key: string) => Promise<boolean>;
+  clear: () => Promise<void>;
+}
+
+class MemoryContainer implements Container {
+  private lru: LRUCache<string, string>;
+
+  constructor(options?: { maxSize?: number }) {
+    this.lru = new LRUCache<string, string>({
+      maxSize: options?.maxSize ?? CacheSize.GB,
+      sizeCalculation: (value: string): number => {
+        return value.length * 2;
+      },
+      updateAgeOnGet: true,
+      updateAgeOnHas: true,
+    });
+  }
+
+  async get(key: string): Promise<string | undefined> {
+    return this.lru.get(key);
+  }
+
+  async set(
+    key: string,
+    value: string,
+    options?: { ttl?: number },
+  ): Promise<void> {
+    if (options?.ttl) {
+      this.lru.set(key, value, { ttl: options.ttl * 1000 });
+    } else {
+      this.lru.set(key, value);
+    }
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.lru.has(key);
+  }
+
+  async delete(key: string): Promise<boolean> {
+    return this.lru.delete(key);
+  }
+
+  async clear(): Promise<void> {
+    this.lru.clear();
+  }
+}
+
+interface CacheOptions<T extends (...args: any[]) => any> {
   tag?: string | string[];
   maxAge?: number;
   revalidate?: number;
-  getKey?: <Args extends any[]>(...args: Args) => string;
-  customKey?: <Args extends any[]>(options: {
-    params: Args;
-    fn: (...args: Args) => any;
+  getKey?: (...args: Parameters<T>) => string;
+  customKey?: (options: {
+    params: Parameters<T>;
+    fn: T;
     generatedKey: string;
-  }) => string | symbol;
+  }) => string;
   onCache?: (info: CacheStatsInfo) => void;
+  unstable_shouldCache?: (info: {
+    params: Parameters<T>;
+    result: Awaited<ReturnType<T>>;
+  }) => boolean | Promise<boolean>;
 }
 
 interface CacheConfig {
   maxSize?: number;
+  container?: Container;
   unstable_shouldDisable?: ({
     request,
   }: {
@@ -50,28 +114,36 @@ interface CacheConfig {
 interface CacheItem<T> {
   data: T;
   timestamp: number;
-  isRevalidating?: boolean;
+  tags?: string[];
 }
 
 const isServer = typeof window === 'undefined';
 const requestCacheMap = new WeakMap<Request, Map<any, any>>();
 
-let lruCache:
-  | LRUCache<Function | string | symbol, Map<string, CacheItem<any>>>
-  | undefined;
+const TAG_PREFIX = 'tag:';
+const CACHE_PREFIX = 'cache:';
+
+const ongoingRevalidations = new Map<string, Promise<any>>();
+
+let storage: Container | undefined;
 let cacheConfig: CacheConfig = {
   maxSize: CacheSize.GB,
 };
 
-const tagKeyMap = new Map<string, Set<Function | string | symbol>>();
-
-function addTagKeyRelation(tag: string, key: Function | string | symbol) {
-  let keys = tagKeyMap.get(tag);
-  if (!keys) {
-    keys = new Set();
-    tagKeyMap.set(tag, keys);
+function getStorage(): Container {
+  if (storage) {
+    return storage;
   }
-  keys.add(key);
+
+  if (cacheConfig.container) {
+    storage = cacheConfig.container;
+  } else {
+    storage = new MemoryContainer({
+      maxSize: cacheConfig.maxSize,
+    });
+  }
+
+  return storage;
 }
 
 export function configureCache(config: CacheConfig): void {
@@ -79,73 +151,7 @@ export function configureCache(config: CacheConfig): void {
     ...cacheConfig,
     ...config,
   };
-}
-
-function getLRUCache() {
-  if (!lruCache) {
-    lruCache = new LRUCache<
-      Function | string | symbol,
-      Map<string, CacheItem<any>>
-    >({
-      maxSize: cacheConfig.maxSize ?? CacheSize.GB,
-      sizeCalculation: (value: Map<string, CacheItem<any>>): number => {
-        if (!value.size) {
-          return 1;
-        }
-
-        let size = 0;
-        for (const [k, item] of value.entries()) {
-          size += k.length * 2;
-          size += estimateObjectSize(item.data);
-          size += 8;
-        }
-        return size;
-      },
-      updateAgeOnGet: true,
-      updateAgeOnHas: true,
-    });
-  }
-  return lruCache;
-}
-
-function estimateObjectSize(data: unknown): number {
-  const type = typeof data;
-
-  if (type === 'number') return 8;
-  if (type === 'boolean') return 4;
-  if (type === 'string') return Math.max((data as string).length * 2, 1);
-  if (data === null || data === undefined) return 1;
-
-  if (ArrayBuffer.isView(data)) {
-    return Math.max(data.byteLength, 1);
-  }
-
-  if (Array.isArray(data)) {
-    return Math.max(
-      data.reduce((acc, item) => acc + estimateObjectSize(item), 0),
-      1,
-    );
-  }
-
-  if (data instanceof Map || data instanceof Set) {
-    return 1024;
-  }
-
-  if (data instanceof Date) {
-    return 8;
-  }
-
-  if (type === 'object') {
-    return Math.max(
-      Object.entries(data).reduce(
-        (acc, [key, value]) => acc + key.length * 2 + estimateObjectSize(value),
-        0,
-      ),
-      1,
-    );
-  }
-
-  return 1;
+  storage = undefined;
 }
 
 export function generateKey(args: unknown[]): string {
@@ -162,26 +168,22 @@ export function generateKey(args: unknown[]): string {
   });
 }
 
+function generateStableFunctionId(fn: Function): string {
+  const fnString = fn.toString();
+  let hash = 0;
+  for (let i = 0; i < fnString.length; i++) {
+    const char = fnString.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+
+  return `fn_${fn.name || 'anonymous'}_${Math.abs(hash).toString(36)}`;
+}
+
 export function cache<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  options?: CacheOptions,
+  options?: CacheOptions<T>,
 ): T {
-  const {
-    tag = 'default',
-    maxAge = CacheTime.MINUTE * 5,
-    revalidate = 0,
-    customKey,
-    onCache,
-    getKey,
-  } = options || {};
-  const store = getLRUCache();
-
-  const tags = Array.isArray(tag) ? tag : [tag];
-
-  const getCacheKey = (args: Parameters<T>, generatedKey: string) => {
-    return customKey ? customKey({ params: args, fn, generatedKey }) : fn;
-  };
-
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
       const storage = getAsyncLocalStorage();
@@ -227,26 +229,41 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      const genKey = getKey ? getKey(...args) : generateKey(args);
+      const {
+        tag,
+        maxAge = CacheTime.MINUTE * 5,
+        revalidate = 0,
+        customKey,
+        onCache,
+        getKey,
+        unstable_shouldCache,
+      } = options;
+
+      let missReason: number | undefined;
+
+      const currentStorage = getStorage();
       const now = Date.now();
+      const tags = tag ? (Array.isArray(tag) ? tag : [tag]) : [];
 
-      const cacheKey = getCacheKey(args, genKey);
-      const finalKey = typeof cacheKey === 'function' ? genKey : cacheKey;
-
-      tags.forEach(t => addTagKeyRelation(t, cacheKey));
-
-      let cacheStore = store.get(cacheKey);
-      if (!cacheStore) {
-        cacheStore = new Map();
+      const genKey = getKey ? getKey(...args) : generateKey(args);
+      let finalKey: string;
+      if (customKey) {
+        finalKey = customKey({
+          params: args,
+          fn,
+          generatedKey: genKey,
+        });
+      } else {
+        const functionId = generateStableFunctionId(fn);
+        finalKey = `${functionId}:${genKey}`;
       }
 
-      const storeKey =
-        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : genKey;
+      const storageKey = `${CACHE_PREFIX}${finalKey}`;
 
       let shouldDisableCaching = false;
       if (isServer && cacheConfig.unstable_shouldDisable) {
-        const storage = getAsyncLocalStorage();
-        const request = storage?.useContext()?.request;
+        const asyncStorage = getAsyncLocalStorage();
+        const request = asyncStorage?.useContext()?.request;
         if (request) {
           shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
             request,
@@ -254,81 +271,120 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
 
-      const cached = cacheStore.get(storeKey);
-      if (cached && !shouldDisableCaching) {
-        const age = now - cached.timestamp;
+      if (!shouldDisableCaching) {
+        const cachedRaw = await currentStorage.get(storageKey);
+        if (cachedRaw) {
+          try {
+            const cached = JSON.parse(cachedRaw) as CacheItem<any>;
+            const age = now - cached.timestamp;
 
-        if (age < maxAge) {
-          if (onCache) {
-            onCache({
-              status: 'hit',
-              key: finalKey,
-              params: args,
-              result: cached.data,
-            });
-          }
-          return cached.data;
-        }
+            if (age < maxAge) {
+              onCache?.({
+                status: 'hit',
+                key: finalKey,
+                params: args,
+                result: cached.data,
+              });
+              return cached.data;
+            }
 
-        if (revalidate > 0 && age < maxAge + revalidate) {
-          if (onCache) {
-            onCache({
-              status: 'stale',
-              key: finalKey,
-              params: args,
-              result: cached.data,
-            });
-          }
+            if (revalidate > 0 && age < maxAge + revalidate) {
+              onCache?.({
+                status: 'stale',
+                key: finalKey,
+                params: args,
+                result: cached.data,
+              });
 
-          if (!cached.isRevalidating) {
-            cached.isRevalidating = true;
-            Promise.resolve().then(async () => {
-              try {
-                const newData = await fn(...args);
-                cacheStore!.set(storeKey, {
-                  data: newData,
-                  timestamp: Date.now(),
-                  isRevalidating: false,
-                });
+              if (!ongoingRevalidations.has(storageKey)) {
+                const revalidationPromise = (async () => {
+                  try {
+                    const newData = await fn(...args);
+                    const newItem: CacheItem<any> = {
+                      data: newData,
+                      timestamp: Date.now(),
+                      tags: tags.length > 0 ? tags : undefined,
+                    };
 
-                store.set(cacheKey, cacheStore!);
-              } catch (error) {
-                cached.isRevalidating = false;
-                if (isServer) {
-                  const storage = getAsyncLocalStorage();
-                  storage
-                    ?.useContext()
-                    ?.monitors?.error((error as Error).message);
-                } else {
-                  console.error('Background revalidation failed:', error);
-                }
+                    const ttl = (maxAge + revalidate) / 1000;
+                    await currentStorage.set(
+                      storageKey,
+                      JSON.stringify(newItem),
+                      {
+                        ttl: ttl > 0 ? ttl : undefined,
+                      },
+                    );
+
+                    await updateTagRelationships(
+                      currentStorage,
+                      storageKey,
+                      tags,
+                    );
+                  } catch (error) {
+                    if (isServer) {
+                      const asyncStorage = getAsyncLocalStorage();
+                      asyncStorage
+                        ?.useContext()
+                        ?.monitors?.error((error as Error).message);
+                    } else {
+                      console.error('Background revalidation failed:', error);
+                    }
+                  } finally {
+                    ongoingRevalidations.delete(storageKey);
+                  }
+                })();
+
+                ongoingRevalidations.set(storageKey, revalidationPromise);
               }
-            });
+
+              return cached.data;
+            }
+            missReason = 3; // cache-expired
+          } catch (error) {
+            console.warn('Failed to parse cached data:', error);
+            missReason = 4; // cache-parse-error
           }
-          return cached.data;
+        } else {
+          missReason = 2; // cache-not-found
         }
+      } else {
+        missReason = 1; // cache-disabled
       }
 
       const data = await fn(...args);
 
       if (!shouldDisableCaching) {
-        cacheStore.set(storeKey, {
-          data,
-          timestamp: now,
-          isRevalidating: false,
-        });
+        let shouldCache = true;
+        if (unstable_shouldCache) {
+          shouldCache = await unstable_shouldCache({
+            params: args,
+            result: data,
+          });
+        }
 
-        store.set(cacheKey, cacheStore);
+        if (shouldCache) {
+          const newItem: CacheItem<any> = {
+            data,
+            timestamp: now,
+            tags: tags.length > 0 ? tags : undefined,
+          };
+
+          const ttl = (maxAge + revalidate) / 1000;
+          await currentStorage.set(storageKey, JSON.stringify(newItem), {
+            ttl: ttl > 0 ? ttl : undefined,
+          });
+
+          await updateTagRelationships(currentStorage, storageKey, tags);
+        }
       }
 
-      if (onCache) {
-        onCache({
-          status: 'miss',
-          key: finalKey,
-          params: args,
-          result: data,
-        });
-      }
+      onCache?.({
+        status: 'miss',
+        key: finalKey,
+        params: args,
+        result: data,
+        reason: missReason,
+      });
 
       return data;
     } else {
@@ -338,6 +394,46 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       return fn(...args);
     }
   }) as T;
+}
+
+async function updateTagRelationships(
+  storage: Container,
+  storageKey: string,
+  tags: string[],
+): Promise<void> {
+  for (const tag of tags) {
+    const tagStoreKey = `${TAG_PREFIX}${tag}`;
+    const keyListJson = await storage.get(tagStoreKey);
+    const keyList: string[] = keyListJson ? JSON.parse(keyListJson) : [];
+    if (!keyList.includes(storageKey)) {
+      keyList.push(storageKey);
+    }
+    await storage.set(tagStoreKey, JSON.stringify(keyList));
+  }
+}
+
+async function removeKeyFromTags(
+  storage: Container,
+  storageKey: string,
+  tags: string[],
+): Promise<void> {
+  for (const tag of tags) {
+    const tagStoreKey = `${TAG_PREFIX}${tag}`;
+    const keyListJson = await storage.get(tagStoreKey);
+    if (keyListJson) {
+      try {
+        const keyList: string[] = JSON.parse(keyListJson);
+        const updatedKeyList = keyList.filter(key => key !== storageKey);
+        if (updatedKeyList.length > 0) {
+          await storage.set(tagStoreKey, JSON.stringify(updatedKeyList));
+        } else {
+          await storage.delete(tagStoreKey);
+        }
+      } catch (error) {
+        console.warn(`Failed to parse tag key list for tag ${tag}:`, error);
+      }
+    }
+  }
 }
 
 export function withRequestCache<
@@ -353,17 +449,52 @@ export function withRequestCache<
   }) as T;
 }
 
-export function revalidateTag(tag: string): void {
-  const keys = tagKeyMap.get(tag);
-  if (keys) {
-    keys.forEach(key => {
-      lruCache?.delete(key);
-    });
+export async function revalidateTag(tag: string): Promise<void> {
+  const currentStorage = getStorage();
+  const tagStoreKey = `${TAG_PREFIX}${tag}`;
+
+  const keyListJson = await currentStorage.get(tagStoreKey);
+  if (keyListJson) {
+    try {
+      const keyList: string[] = JSON.parse(keyListJson);
+
+      // For each cache key, we need to:
+      // 1. Get the cache item to find its associated tags
+      // 2. Remove this key from all other tag relationships
+      // 3. Delete the cache item itself
+      for (const cacheKey of keyList) {
+        const cachedRaw = await currentStorage.get(cacheKey);
+        if (cachedRaw) {
+          try {
+            const cached = JSON.parse(cachedRaw) as CacheItem<any>;
+            if (cached.tags) {
+              // Remove this cache key from all its associated tags (except the current one being revalidated)
+              const otherTags = cached.tags.filter(t => t !== tag);
+              await removeKeyFromTags(currentStorage, cacheKey, otherTags);
+            }
+          } catch (error) {
+            console.warn(
+              'Failed to parse cached data while revalidating:',
+              error,
+            );
+          }
+        }
+
+        // Delete the cache item itself
+        await currentStorage.delete(cacheKey);
+      }
+
+      // Delete the tag relationship record
+      await currentStorage.delete(tagStoreKey);
+    } catch (error) {
+      console.warn('Failed to parse tag key list:', error);
+    }
   }
 }
 
-export function clearStore(): void {
-  lruCache?.clear();
-  lruCache = undefined;
-  tagKeyMap.clear();
+export async function clearStore(): Promise<void> {
+  const currentStorage = getStorage();
+  await currentStorage.clear();
+  storage = undefined;
+  ongoingRevalidations.clear();
 }

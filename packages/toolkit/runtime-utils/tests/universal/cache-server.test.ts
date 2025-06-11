@@ -101,7 +101,7 @@ describe('cache function', () => {
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    revalidateTag('testTag');
+    await revalidateTag('testTag');
 
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(2);
@@ -115,14 +115,14 @@ describe('cache function', () => {
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    revalidateTag('tag1');
+    await revalidateTag('tag1');
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(2);
 
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(2);
 
-    revalidateTag('tag2');
+    await revalidateTag('tag2');
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(3);
   });
@@ -138,14 +138,14 @@ describe('cache function', () => {
     expect(mockFn1).toHaveBeenCalledTimes(1);
     expect(mockFn2).toHaveBeenCalledTimes(1);
 
-    revalidateTag('shared');
+    await revalidateTag('shared');
 
     await cachedFn1('param1');
     await cachedFn2('param2');
     expect(mockFn1).toHaveBeenCalledTimes(2);
     expect(mockFn2).toHaveBeenCalledTimes(2);
 
-    revalidateTag('other');
+    await revalidateTag('other');
     await cachedFn1('param1');
     await cachedFn2('param2');
     expect(mockFn1).toHaveBeenCalledTimes(2);
@@ -356,7 +356,8 @@ describe('cache function', () => {
       await cachedFn(1024);
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      await cachedFn(3 * CacheSize.KB);
+      await cachedFn(1025);
+      expect(mockFn).toHaveBeenCalledTimes(2);
 
       await cachedFn(1024);
       expect(mockFn).toHaveBeenCalledTimes(3);
@@ -492,23 +493,6 @@ describe('cache function', () => {
       expect(mockFn2).toHaveBeenCalledTimes(0);
     });
 
-    it('should support Symbol as customKey return value', async () => {
-      const SYMBOL_KEY = Symbol('test-symbol');
-      const mockFn = jest.fn().mockResolvedValue('symbol data');
-
-      const cachedFn = cache(mockFn, {
-        customKey: () => SYMBOL_KEY,
-      });
-
-      const result1 = await cachedFn('param1');
-      expect(result1).toBe('symbol data');
-      expect(mockFn).toHaveBeenCalledTimes(1);
-
-      const result2 = await cachedFn('param2');
-      expect(result2).toBe('symbol data');
-      expect(mockFn).toHaveBeenCalledTimes(1);
-    });
-
     it('should support customKey that depends on function arguments', async () => {
       const mockFn = jest
         .fn()
@@ -542,7 +526,7 @@ describe('cache function', () => {
       await cachedFn('param');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      revalidateTag('custom-tag');
+      await revalidateTag('custom-tag');
       await cachedFn('param');
       expect(mockFn).toHaveBeenCalledTimes(2);
 
@@ -598,7 +582,7 @@ describe('cache function', () => {
       expect(onCacheMock).toHaveBeenLastCalledWith(
         expect.objectContaining({
           status: 'hit',
-          key: 'constant-key',
+          key: expect.stringMatching(/^fn_.*:constant-key$/),
         }),
       );
     });
@@ -615,7 +599,7 @@ describe('cache function', () => {
       await cachedFn('a');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      revalidateTag('getKey-test');
+      await revalidateTag('getKey-test');
 
       await cachedFn('a');
       expect(mockFn).toHaveBeenCalledTimes(2);
@@ -695,7 +679,6 @@ describe('cache function', () => {
       const mockFn = jest.fn().mockResolvedValue('test data');
       const onCacheMock = jest.fn();
 
-      // Case 1: Default key (function reference)
       const cachedFn1 = cache(mockFn, {
         onCache: onCacheMock,
       });
@@ -704,7 +687,7 @@ describe('cache function', () => {
       expect(onCacheMock).toHaveBeenLastCalledWith(
         expect.objectContaining({
           status: 'miss',
-          key: JSON.stringify(['param1']),
+          key: expect.stringContaining(JSON.stringify(['param1'])),
         }),
       );
 
@@ -722,23 +705,6 @@ describe('cache function', () => {
         expect.objectContaining({
           status: 'miss',
           key: CUSTOM_KEY,
-        }),
-      );
-
-      onCacheMock.mockClear();
-
-      // Case 3: Custom symbol key
-      const SYMBOL_KEY = Symbol('test-key');
-      const cachedFn3 = cache(mockFn, {
-        customKey: () => SYMBOL_KEY,
-        onCache: onCacheMock,
-      });
-
-      await cachedFn3('param1');
-      expect(onCacheMock).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          status: 'miss',
-          key: SYMBOL_KEY,
         }),
       );
     });
@@ -915,6 +881,119 @@ describe('cache function', () => {
           status: 'miss',
         }),
       );
+    });
+  });
+
+  describe('unstable_shouldCache', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      clearStore();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should not cache when unstable_shouldCache returns false', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        unstable_shouldCache: () => false,
+      });
+
+      const handler = withRequestCache(async () => {
+        await cachedFn('param1');
+        await cachedFn('param1');
+      });
+
+      await handler();
+
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should cache when unstable_shouldCache returns true', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        unstable_shouldCache: () => true,
+      });
+
+      const handler = withRequestCache(async () => {
+        await cachedFn('param1');
+        await cachedFn('param1');
+      });
+
+      await handler();
+
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should receive correct parameters in unstable_shouldCache', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const shouldCacheMock = jest.fn().mockReturnValue(true);
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        unstable_shouldCache: shouldCacheMock,
+      });
+
+      const handler = withRequestCache(async () => {
+        await cachedFn('param1', { value: 42 });
+      });
+
+      await handler();
+
+      expect(shouldCacheMock).toHaveBeenCalledTimes(1);
+      expect(shouldCacheMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          params: ['param1', { value: 42 }],
+          result: 'test data',
+        }),
+      );
+    });
+
+    it('should support async unstable_shouldCache function', async () => {
+      const mockFn = jest.fn().mockResolvedValue('test data');
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        unstable_shouldCache: async () => Promise.resolve(false),
+      });
+
+      const handler = withRequestCache(async () => {
+        await cachedFn('param1');
+        await cachedFn('param1');
+      });
+
+      await handler();
+
+      expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should only cache if result meets the condition', async () => {
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce({ status: 'error', data: 'bad' })
+        .mockResolvedValueOnce({ status: 'ok', data: 'good' });
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.MINUTE,
+        unstable_shouldCache: ({ result }) => result.status === 'ok',
+      });
+
+      const handler = withRequestCache(async () => {
+        const result1 = await cachedFn('param');
+        expect(result1).toEqual({ status: 'error', data: 'bad' });
+
+        const result2 = await cachedFn('param');
+        expect(result2).toEqual({ status: 'ok', data: 'good' });
+
+        const result3 = await cachedFn('param');
+        expect(result3).toEqual({ status: 'ok', data: 'good' });
+      });
+
+      await handler();
+
+      expect(mockFn).toHaveBeenCalledTimes(2);
     });
   });
 });
