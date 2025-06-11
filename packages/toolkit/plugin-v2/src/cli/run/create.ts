@@ -181,7 +181,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
 // for storybook get config
 type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
-export const resolveStorybookOptions = async <Extends extends CLIPluginExtends>(
+export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
   options: Omit<CLIRunOptions<Extends>, UselessOptions>,
 ) => {
   const pluginManager = createPluginManager();
