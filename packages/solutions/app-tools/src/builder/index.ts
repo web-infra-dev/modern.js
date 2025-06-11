@@ -11,3 +11,10 @@ export async function createBuilderGenerator(bundler: 'webpack' | 'rspack') {
   );
   return createWebpackBuilderForModern;
 }
+
+export { parseRspackConfig } from '@modern-js/uni-builder';
+
+export {
+  builderPluginAdapterBasic,
+  builderPluginAdapterHooks,
+} from './shared/builderPlugins';

@@ -29,6 +29,11 @@
       },
       "default": "./dist/cjs/index.js"
     },
+    "./builder": {
+      "types": "./dist/types/builder/index.d.ts",
+      "jsnext:source": "./src/builder/index.ts",
+      "default": "./dist/cjs/builder/index.js"
+    },
     "./cli": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",

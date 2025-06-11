@@ -4303,9 +4303,15 @@ importers:
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../runtime-utils
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../types
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../utils
+      '@rsbuild/core':
+        specifier: 1.3.22
+        version: 1.3.22
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -4313,15 +4319,9 @@ importers:
         specifier: 1.21.7
         version: 1.21.7
     devDependencies:
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../types
       '@modern-js/uni-builder':
         specifier: workspace:*
         version: link:../../cli/uni-builder
-      '@rsbuild/core':
-        specifier: 1.3.22
-        version: 1.3.22
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build

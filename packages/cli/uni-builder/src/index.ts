@@ -52,3 +52,5 @@ export {
   isHtmlDisabled,
   castArray,
 } from './shared/utils';
+
+export { parseConfig as parseRspackConfig } from './rspack';

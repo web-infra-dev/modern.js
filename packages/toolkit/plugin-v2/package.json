@@ -88,13 +88,13 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "jiti": "1.21.7"
+    "jiti": "1.21.7",
+    "@rsbuild/core": "1.3.22"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.3.22",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

@@ -34,3 +34,4 @@ export {
   type ServerPluginConfig,
 } from './hooks';
 export { cli, createLoadedConfig, initAppDir, createCli, loadEnv } from './run';
+export { createStorybookOptions } from './run/create';

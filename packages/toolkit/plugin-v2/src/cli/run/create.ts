@@ -178,3 +178,63 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     getPrevInitOptions: () => initOptions,
   };
 };
+
+// for storybook get config
+type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
+export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
+  options: Omit<CLIRunOptions<Extends>, UselessOptions>,
+) => {
+  const pluginManager = createPluginManager();
+  pluginManager.clear();
+
+  const { configFile, cwd, metaName = 'modern-js' } = options;
+  const appDirectory = await initAppDir(cwd);
+
+  const loaded = await createLoadedConfig<Extends['config']>(
+    appDirectory,
+    configFile,
+  );
+
+  pluginManager.addPlugins(
+    (loaded.config as unknown as { plugins: Plugin[] }).plugins || [],
+  );
+  const plugins = (await pluginManager.getPlugins()) as CLIPlugin<Extends>[];
+
+  const context = await createContext<Extends>({
+    appContext: initAppContext<Extends>({
+      packageName: loaded.packageName,
+      configFile: loaded.configFile,
+      command: 'storybook',
+      appDirectory,
+      plugins,
+      metaName,
+    }),
+    config: loaded.config,
+    normalizedConfig: {},
+  });
+
+  const pluginAPI = initPluginAPI<Extends>({
+    context,
+    pluginManager,
+  });
+  context.pluginAPI = pluginAPI;
+  // In storybook scenario, we don't need to support old modernjs plugin apis
+  for (const plugin of plugins) {
+    await plugin.setup?.(pluginAPI);
+  }
+
+  const extraConfigs = await context.hooks.config.call();
+
+  const normalizedConfig = await createResolveConfig<
+    Extends['config'],
+    Extends['normalizedConfig']
+  >(loaded, extraConfigs as DeepPartial<Extends['config']>[]);
+
+  const resolved =
+    await context.hooks.modifyResolvedConfig.call(normalizedConfig);
+
+  return {
+    config: resolved || normalizedConfig,
+    getAppContext: () => pluginAPI.getAppContext(),
+  };
+};
