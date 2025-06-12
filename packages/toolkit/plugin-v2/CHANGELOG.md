@@ -1,5 +1,15 @@
 # @modern-js/plugin-v2
 
+## 2.67.9
+
+### Patch Changes
+
+- 474aa1e: feat: export APIs to support modern.js rsbuild storybook addon
+  feat: 暴露 createStorybookOptions 和 resolveStorybookOptions API 支持 storybook 插件
+  - @modern-js/runtime-utils@2.67.9
+  - @modern-js/types@2.67.9
+  - @modern-js/utils@2.67.9
+
 ## 2.67.8
 
 ### Patch Changes

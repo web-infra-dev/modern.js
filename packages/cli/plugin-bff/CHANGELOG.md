@@ -1,5 +1,17 @@
 # @modern-js/plugin-bff
 
+## 2.67.9
+
+### Patch Changes
+
+- 8a07b69: fix: hono bff params order
+  fix: 修复 hono 运行是框架获取 params 顺序问题
+  - @modern-js/server-core@2.67.9
+  - @modern-js/server-utils@2.67.9
+  - @modern-js/bff-core@2.67.9
+  - @modern-js/create-request@2.67.9
+  - @modern-js/utils@2.67.9
+
 ## 2.67.8
 
 ### Patch Changes
