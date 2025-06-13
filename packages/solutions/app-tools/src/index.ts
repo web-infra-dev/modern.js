@@ -28,6 +28,7 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
+import serverRuntimePlugin from './plugins/serverRuntime';
 import type { AppTools, AppToolsOptions, CliPluginFuture } from './types';
 import type {
   AddRuntimeExportsFn,
@@ -56,6 +57,7 @@ export const appTools = (
 ): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
+    serverRuntimePlugin(),
     compatPlugin(),
     initializePlugin({
       bundler:
