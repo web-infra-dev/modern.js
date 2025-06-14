@@ -57,7 +57,7 @@
     "birpc": "0.2.19",
     "clipboardy": "^4.0.0",
     "cookie-es": "^1.0.0",
-    "flatted": "^3.2.9",
+    "flatted": "^3.3.3",
     "hono": "4.5.8",
     "hookable": "^5.5.3",
     "open": "^10.1.0",
