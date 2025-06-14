@@ -112,7 +112,7 @@
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",
     "esbuild-register": "^3.6.0",
-    "flatted": "^3.2.9",
+    "flatted": "^3.3.3",
     "mlly": "^1.6.1",
     "ndepe": "^0.1.11",
     "pkg-types": "^1.1.0",
