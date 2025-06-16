@@ -3005,7 +3005,7 @@ importers:
         specifier: ^1.10.6
         version: 1.12.0
       farrow-schema:
-        specifier: ^1.10.8
+        specifier: ^1.12.1
         version: 1.12.1
     devDependencies:
       '@scripts/build':
