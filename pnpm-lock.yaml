@@ -3234,7 +3234,7 @@ importers:
         specifier: ^1.6.3
         version: 1.6.7
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       jest:
         specifier: ^29
@@ -5568,7 +5568,7 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -5623,7 +5623,7 @@ importers:
         specifier: workspace:*
         version: link:../bff-api-app
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -5681,7 +5681,7 @@ importers:
         specifier: workspace:*
         version: link:../bff-api-app
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -5733,7 +5733,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -5834,7 +5834,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       lodash-es:
         specifier: ^4.17.21
@@ -7589,7 +7589,7 @@ importers:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -7654,7 +7654,7 @@ importers:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
@@ -7685,7 +7685,7 @@ importers:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)
       express:
-        specifier: ^4.17.2
+        specifier: ^4.21.2
         version: 4.21.2
       react:
         specifier: ^18.3.1
