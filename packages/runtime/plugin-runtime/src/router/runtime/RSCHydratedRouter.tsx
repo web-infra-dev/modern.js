@@ -1,5 +1,6 @@
 import { createFromReadableStream } from '@modern-js/render/client';
 import { createBrowserRouter } from '@modern-js/runtime-utils/router';
+// @ts-ignore
 import { use } from 'react';
 import type { PayloadRoute, ServerPayload } from '../../core/context';
 
