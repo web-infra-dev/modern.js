@@ -18,7 +18,7 @@ export const getRequestUrl = ({
   request: Request;
   routeId: string;
 }) => {
-  const url = new URL(request.url);
+  const url = new URL(request.url.replace('.html', ''));
   const toPath = compile(url.pathname, {
     encode: encodeURIComponent,
   });
