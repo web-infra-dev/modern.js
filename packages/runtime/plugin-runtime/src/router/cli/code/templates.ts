@@ -229,7 +229,7 @@ export const fileSystemRoutes = async ({
         ? `/* webpackMode: "eager" */ `
         : '';
 
-    return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
+    return `() => import(${importOptions}'${componentPath}')`;
   };
 
   const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
@@ -345,7 +345,7 @@ export const fileSystemRoutes = async ({
       route._component &&
       (route.loader || route.data)
     ) {
-      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}")`;
+      // finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}")`;
     }
     return finalRoute;
   };
@@ -543,6 +543,7 @@ export const runtimeGlobalContext = async ({
   nestedRoutesEntry,
   internalSrcAlias,
   globalApp,
+  rscType = false,
 }: {
   entryName: string;
   metaName: string;
@@ -550,6 +551,7 @@ export const runtimeGlobalContext = async ({
   nestedRoutesEntry?: string;
   internalSrcAlias: string;
   globalApp?: string | false;
+  rscType?: 'server' | 'client' | false;
 }) => {
   const imports = [
     `import { setGlobalContext } from '@${metaName}/runtime/context';`,
@@ -601,16 +603,37 @@ export const runtimeGlobalContext = async ({
   } else {
     imports.push(`let layoutApp;`);
   }
-  return `${imports.join('\n')}
 
-import { routes } from './routes';
+  const isClient = rscType === 'client';
+  const enableRsc = Boolean(rscType);
 
-const entryName = '${entryName}';
-setGlobalContext({
-  entryName,
-  layoutApp,
-  routes,
-  appInit,
-  appConfig,
-});`;
+  if (isClient) {
+    return `${imports.join('\n')}
+
+    const entryName = '${entryName}';
+      setGlobalContext({
+        entryName,
+        layoutApp,
+        appInit,
+        appConfig,
+        isRscClient: true,
+        enableRsc: true,
+      });
+    `;
+  } else {
+    return `${imports.join('\n')}
+
+    import { routes } from './routes';
+
+    const entryName = '${entryName}';
+      setGlobalContext({
+        entryName,
+        layoutApp,
+        routes,
+        appInit,
+        appConfig,
+        enableRsc: ${enableRsc},
+      });
+    `;
+  }
 };

@@ -5,15 +5,6 @@ import type { RouterConfig, SingleRouteConfig } from './types';
 export * from '@modern-js/runtime-utils/router';
 
 export type { SingleRouteConfig, RouterConfig };
-export { renderRoutes } from './utils';
-
-export { routerPlugin };
-export default routerPlugin;
-
-export { modifyRoutes } from './plugin';
-export type { RouterExtendsHooks } from './hooks';
-
-export * from './withRouter';
 
 export { Link, NavLink } from './PrefetchLink';
 export type { LinkProps, NavLinkProps } from './PrefetchLink';
@@ -28,5 +19,14 @@ export {
   handleRouteModule,
   handleRouteModuleError,
 } from './routeModule';
+export { renderRoutes } from './utils';
+
+export { routerPlugin };
+export default routerPlugin;
+
+export { modifyRoutes } from './plugin';
+export type { RouterExtendsHooks } from './hooks';
+
+export * from './withRouter';
 
 export type { LoaderFunction, LoaderFunctionArgs } from './types';

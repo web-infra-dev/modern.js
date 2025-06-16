@@ -2,6 +2,7 @@ import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '@modern-js/app-tools';
+import { renderRsc } from '@modern-js/render/rsc';
 import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import { storage } from '@modern-js/runtime-utils/node';
 import {
@@ -11,11 +12,14 @@ import {
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
+import { Fragment } from 'react';
 import {
   type RuntimeContext,
+  getGlobalApp,
   getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
+  getGlobalServerPayload,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -31,7 +35,7 @@ export type HandleRequestOptions = Exclude<
   RequestHandlerOptions,
   'staticGenerate'
 > & {
-  runtimeContext: RuntimeContext;
+  runtimeContext?: RuntimeContext;
 };
 
 export type HandleRequest = (
@@ -43,7 +47,7 @@ export type HandleRequest = (
 export type CreateRequestHandler = (
   handleRequest: HandleRequest,
   options?: {
-    enableRsc: boolean;
+    enableRsc?: boolean;
   },
 ) => Promise<RequestHandler>;
 
@@ -240,6 +244,27 @@ export const createRequestHandler: CreateRequestHandler = async (
         };
 
         const initialData = await runBeforeRender(context);
+
+        if (createRequestOptions?.enableRsc) {
+          const serverPayload = getGlobalServerPayload();
+          if (typeof serverPayload !== 'undefined') {
+            const res = await handleRequest(request, Root, {
+              ...options,
+              runtimeContext: context,
+              rscRoot: getGlobalServerPayload(),
+            });
+            return res;
+          } else {
+            const App = getGlobalRSCRoot();
+            if (App) {
+              return handleRequest(request, Fragment, {
+                ...options,
+                runtimeContext: context,
+                rscRoot: <App />,
+              });
+            }
+          }
+        }
 
         // Support data loader to return `new Response` and set status code
         if (

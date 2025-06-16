@@ -17,6 +17,7 @@ import {
   fs,
   getEntryOptions,
   isSSGEntry,
+  isUseRsc,
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
@@ -160,7 +161,10 @@ export const generateCode = async (
         });
 
         // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry && isUseSSRBundle(config)) {
+        if (
+          entrypoint.nestedRoutesEntry &&
+          (isUseSSRBundle(config) || isUseRsc(config))
+        ) {
           const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,
@@ -234,6 +238,21 @@ export function generatorRegisterCode(
     path.resolve(
       internalDirectory,
       `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
+    ),
+    code,
+    'utf8',
+  );
+}
+
+export function generatorServerRegisterCode(
+  internalDirectory: string,
+  entryName: string,
+  code: string,
+) {
+  fs.outputFileSync(
+    path.resolve(
+      internalDirectory,
+      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.server.js`,
     ),
     code,
     'utf8',

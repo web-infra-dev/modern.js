@@ -122,7 +122,16 @@ export const rsbuildRscPlugin = ({
 
           chain.module
             .rule('server-module')
-            .resource([/render[/\\].*[/\\]server[/\\]rsc/, /AppProxy/])
+            .resource([
+              /render[/\\].*[/\\]server[/\\]rsc/,
+              /AppProxy/,
+              // TODO: 适配所有入口
+              /main\/routes/,
+              // /main\/routes\.js/,
+              // /layout\.data\.[tj]s$/,
+              // /page\.data\.[tj]s$/,
+              // /\$\.data\.[tj]s$/,
+            ])
             .layer(webpackRscLayerName)
             .end();
 

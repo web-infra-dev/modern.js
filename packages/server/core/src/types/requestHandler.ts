@@ -50,6 +50,8 @@ export type RequestHandlerOptions = {
   RSCRoot?: any;
   rscRoot?: any;
 
+  serverPayload?: any;
+
   /** @deprecated  */
   locals?: Record<string, any>;
 

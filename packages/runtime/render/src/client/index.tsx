@@ -14,19 +14,17 @@ declare global {
   }
 }
 
-interface RootProps {
-  data: Promise<React.ReactNode>;
-}
-
-export function RscClientRoot({ data }: RootProps) {
-  const elements = use(data);
+export function RscClientRoot({
+  rscPayload,
+}: { rscPayload: Promise<React.ReactNode> }) {
+  const elements = use(rscPayload);
   const [root, setRoot] = useState<React.ReactNode>(elements);
   return <>{root}</>;
 }
 
 type Elements = Promise<ReactNode[]>;
 
-const ElementsContext = createContext<Elements | null>(null);
+export const ElementsContext = createContext<Elements | null>(null);
 
 // For users to pass an element, not a Component.
 const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';

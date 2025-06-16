@@ -59,6 +59,7 @@ export default async function rscServerLoader(
         ],
       },
     },
+    isModule: true,
   });
 
   const { code, map } = result;
