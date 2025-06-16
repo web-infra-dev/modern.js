@@ -908,7 +908,7 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       flatted:
-        specifier: ^3.2.9
+        specifier: ^3.3.3
         version: 3.3.3
       hookable:
         specifier: ^5.5.3
@@ -1004,7 +1004,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       flatted:
-        specifier: ^3.2.9
+        specifier: ^3.3.3
         version: 3.3.3
       hookable:
         specifier: ^5.5.3
@@ -1095,7 +1095,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       flatted:
-        specifier: ^3.2.9
+        specifier: ^3.3.3
         version: 3.3.3
       hono:
         specifier: 4.5.8
@@ -3060,7 +3060,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       flatted:
-        specifier: ^3.2.9
+        specifier: ^3.3.3
         version: 3.3.3
       hono:
         specifier: ^3.12.2
@@ -3788,7 +3788,7 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0(esbuild@0.17.19)
       flatted:
-        specifier: ^3.2.9
+        specifier: ^3.3.3
         version: 3.3.3
       mlly:
         specifier: ^1.6.1
