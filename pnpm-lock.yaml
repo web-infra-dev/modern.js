@@ -2999,7 +2999,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       farrow-api:
-        specifier: ^1.10.8
+        specifier: ^1.12.1
         version: 1.12.1
       farrow-pipeline:
         specifier: ^1.12.0
