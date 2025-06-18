@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 2.67.10
+
+### Patch Changes
+
+- f9d2cd2: fix: support useHonoContext in the loader
+  fix: 支持在 loader 中使用 useHonoContext
+  - @modern-js/core@2.67.10
+  - @modern-js/plugin-data-loader@2.67.10
+  - @modern-js/plugin-i18n@2.67.10
+  - @modern-js/rsbuild-plugin-esbuild@2.67.10
+  - @modern-js/uni-builder@2.67.10
+  - @modern-js/server-core@2.67.10
+  - @modern-js/prod-server@2.67.10
+  - @modern-js/server@2.67.10
+  - @modern-js/server-utils@2.67.10
+  - @modern-js/node-bundle-require@2.67.10
+  - @modern-js/plugin@2.67.10
+  - @modern-js/plugin-v2@2.67.10
+  - @modern-js/types@2.67.10
+  - @modern-js/utils@2.67.10
+
 ## 2.67.9
 
 ### Patch Changes
