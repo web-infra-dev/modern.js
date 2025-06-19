@@ -14,3 +14,4 @@ export {
 } from './default';
 export { compatPlugin, handleSetupResult } from './compat';
 export { injectConfigMiddlewarePlugin } from './middlewares';
+export { routerRewritePlugin } from './rewrite';
