@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-vue",
-  "version": "2.67.9",
+  "version": "2.67.10",
   "description": "The vue plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -41,7 +41,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.67.9"
+    "@modern-js/module-tools": "workspace:^2.67.10"
   },
   "publishConfig": {
     "access": "public",
