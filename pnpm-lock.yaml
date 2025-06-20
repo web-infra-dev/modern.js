@@ -651,8 +651,8 @@ importers:
         specifier: 1.3.22
         version: 1.3.22
       '@rsbuild/plugin-assets-retry':
-        specifier: 1.2.1
-        version: 1.2.1(@rsbuild/core@1.3.22)
+        specifier: 1.2.3
+        version: 1.2.3(@rsbuild/core@1.3.22)
       '@rsbuild/plugin-babel':
         specifier: 1.0.5
         version: 1.0.5(@rsbuild/core@1.3.22)
@@ -666,8 +666,8 @@ importers:
         specifier: 1.2.4
         version: 1.2.4(@rsbuild/core@1.3.22)
       '@rsbuild/plugin-pug':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.3.22)
+        specifier: 1.3.1
+        version: 1.3.1(@rsbuild/core@1.3.22)
       '@rsbuild/plugin-react':
         specifier: 1.3.2
         version: 1.3.2(@rsbuild/core@1.3.22)
@@ -681,8 +681,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.3.22)
       '@rsbuild/plugin-styled-components':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.3.22)
+        specifier: 1.4.0
+        version: 1.4.0(@rsbuild/core@1.3.22)
       '@rsbuild/plugin-svgr':
         specifier: 1.2.0
         version: 1.2.0(@rsbuild/core@1.3.22)(typescript@5.6.3)
@@ -12875,8 +12875,8 @@ packages:
     engines: {node: '>=16.10.0'}
     hasBin: true
 
-  '@rsbuild/plugin-assets-retry@1.2.1':
-    resolution: {integrity: sha512-VJ4h8hw5Pdrx5h6O0ffdUNxcOYTHQ9to6oxGTdMFXJh/HRcIUy8+5mNoAYHkk5sqTQtyli8QOesJXhqGbrENfw==}
+  '@rsbuild/plugin-assets-retry@1.2.3':
+    resolution: {integrity: sha512-Z/jE+cnaO0eNF/XUfTXkh4GwSiKmJ91aIJrpLX00891E02tRCL+RvEJFiKGknQ7C9OgIOpD+0eq5LkO4dkVPGw==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -12917,8 +12917,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-pug@1.3.0':
-    resolution: {integrity: sha512-8McU7idBZb0ixt05D8BWmf+w9CESs9MGLgpvgmMJn6DV6yfH78ghLGa37l82IusgKtV0YN/L/LQhwFDvFMqvwA==}
+  '@rsbuild/plugin-pug@1.3.1':
+    resolution: {integrity: sha512-Z9pfjRuKNrQFa8HYFNtxnxv64ZX0ZbyuHTYkGHK3IMvv7l2OH+q9LRLlQLLTq6KAThL0nczvSpI3hHkj6ZsJzg==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -12951,10 +12951,10 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-styled-components@1.3.0':
-    resolution: {integrity: sha512-dnLnGCBjKLmyrGCWQW/W3CiDHuCaS9GtkHlouiUOVlqz1D6mC35HClyTBT38F6mWeTOBpd3eQ/bsb89dcgz8qw==}
+  '@rsbuild/plugin-styled-components@1.4.0':
+    resolution: {integrity: sha512-1G7IYz3eLKPfRAye9zjlPDzIgdtk+4ECB9Op9thVDWd2q/qs3BGb+tt+nn+J7Vsb/jA4k3OLMnt6AYEIdYwxlw==}
     peerDependencies:
-      '@rsbuild/core': ^1.2.0
+      '@rsbuild/core': ^1.4.0-beta.4 || ^1.4.0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13701,8 +13701,8 @@ packages:
     peerDependencies:
       '@swc/core': '*'
 
-  '@swc/plugin-styled-components@7.1.0':
-    resolution: {integrity: sha512-4xOWM1+bqNkZXjJuHSAbg3Wyje+IxOiX9I9lTjuBXxQNHmGcT5oEDIOlC+WzwhptbPU7UF9B571V7ETnMb6l5w==}
+  '@swc/plugin-styled-components@8.0.1':
+    resolution: {integrity: sha512-agTRoF5VL8SgU20VtsEMfml/7832LePKfdiCejfyBslBfOVequGFJ8Hu5mYA/owGUepf3NXRvbY5yHqfSpaDeA==}
 
   '@swc/types@0.1.17':
     resolution: {integrity: sha512-V5gRru+aD8YVyCOMAjMpWR1Ui577DD5KSJsHP8RAxopAH22jFz6GZd/qxqjO6MJHQhcsjvjOFXyDhyLQUnMveQ==}
@@ -24165,7 +24165,7 @@ snapshots:
 
   '@babel/generator@7.27.0':
     dependencies:
-      '@babel/parser': 7.27.0
+      '@babel/parser': 7.27.5
       '@babel/types': 7.27.3
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
@@ -25112,7 +25112,7 @@ snapshots:
   '@babel/template@7.27.0':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/parser': 7.27.0
+      '@babel/parser': 7.27.5
       '@babel/types': 7.27.3
 
   '@babel/template@7.27.2':
@@ -29238,7 +29238,7 @@ snapshots:
       core-js: 3.42.0
       jiti: 2.4.2
 
-  '@rsbuild/plugin-assets-retry@1.2.1(@rsbuild/core@1.3.22)':
+  '@rsbuild/plugin-assets-retry@1.2.3(@rsbuild/core@1.3.22)':
     optionalDependencies:
       '@rsbuild/core': 1.3.22
 
@@ -29315,7 +29315,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.3.22
 
-  '@rsbuild/plugin-pug@1.3.0(@rsbuild/core@1.3.22)':
+  '@rsbuild/plugin-pug@1.3.1(@rsbuild/core@1.3.22)':
     dependencies:
       '@types/pug': 2.0.10
       lodash: 4.17.21
@@ -29356,9 +29356,9 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.3.22
 
-  '@rsbuild/plugin-styled-components@1.3.0(@rsbuild/core@1.3.22)':
+  '@rsbuild/plugin-styled-components@1.4.0(@rsbuild/core@1.3.22)':
     dependencies:
-      '@swc/plugin-styled-components': 7.1.0
+      '@swc/plugin-styled-components': 8.0.1
       reduce-configs: 1.1.0
     optionalDependencies:
       '@rsbuild/core': 1.3.22
@@ -30724,7 +30724,7 @@ snapshots:
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
 
-  '@swc/plugin-styled-components@7.1.0':
+  '@swc/plugin-styled-components@8.0.1':
     dependencies:
       '@swc/counter': 0.1.3
 
@@ -33098,7 +33098,7 @@ snapshots:
 
   constantinople@4.0.1:
     dependencies:
-      '@babel/parser': 7.27.0
+      '@babel/parser': 7.27.5
       '@babel/types': 7.27.3
 
   constants-browserify@1.0.0: {}
@@ -44039,7 +44039,7 @@ snapshots:
 
   with@7.0.2:
     dependencies:
-      '@babel/parser': 7.27.0
+      '@babel/parser': 7.27.5
       '@babel/types': 7.27.3
       assert-never: 1.2.1
       babel-walk: 3.0.0-canary-5
