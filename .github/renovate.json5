@@ -135,6 +135,7 @@
     "vitest",
     "@types/react",
     "@types/react-dom",
-    "@rsbuild-image/react"
+    "@rsbuild-image/react",
+    "@rsbuild/plugin-styled-components"
   ]
 }
