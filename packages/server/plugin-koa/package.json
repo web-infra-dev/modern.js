@@ -78,7 +78,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "koa-body": "^4.2.0",
-    "koa-router": "^10.0.0",
+    "koa-router": "^10.1.1",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
