@@ -2904,7 +2904,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       glob:
-        specifier: ^8.0.3
+        specifier: ^8.1.0
         version: 8.1.0
       pkg-up:
         specifier: 3.1.0
