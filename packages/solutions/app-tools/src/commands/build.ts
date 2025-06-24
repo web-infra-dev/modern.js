@@ -30,7 +30,7 @@ export const build = async (
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
       alias: {
-        ...resolvedConfig.resolve.alias,
+        ...resolvedConfig.resolve?.alias,
         ...resolvedConfig.source?.alias,
       },
     });

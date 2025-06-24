@@ -112,6 +112,8 @@ export const runtimePlugin = (params?: {
             ),
             '@meta/runtime$': require.resolve('@modern-js/runtime'),
           },
+        },
+        source: {
           globalVars: {
             'process.env.IS_REACT18': process.env.IS_REACT18,
           },

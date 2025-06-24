@@ -42,7 +42,7 @@ export const dev = async (
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
       alias: {
-        ...normalizedConfig.resolve.alias,
+        ...normalizedConfig.resolve?.alias,
         ...normalizedConfig.source?.alias,
       },
     });
