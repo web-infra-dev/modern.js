@@ -3,11 +3,13 @@ import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { applyPlugins } from '@modern-js/prod-server';
 import { type ApplyPlugins, createDevServer } from '@modern-js/server';
 import {
+  type Alias,
   DEFAULT_DEV_HOST,
   SERVER_DIR,
   getMeta,
   logger,
 } from '@modern-js/utils';
+import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
 import { setServer } from '../utils/createServer';
@@ -46,11 +48,10 @@ export const dev = async (
     });
   }
 
-  await registerCompiler(
-    appContext.appDirectory,
-    appContext.distDirectory,
-    normalizedConfig?.source?.alias,
-  );
+  await registerCompiler(appContext.appDirectory, appContext.distDirectory, {
+    ...normalizedConfig?.source?.alias,
+    ...normalizedConfig?.resolve?.alias,
+  } as ConfigChain<Alias>);
 
   const {
     appDirectory,

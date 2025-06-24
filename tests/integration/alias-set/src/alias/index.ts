@@ -1,1 +1,1 @@
-console.log('my-alias');
+console.log('resolve-alias success');
