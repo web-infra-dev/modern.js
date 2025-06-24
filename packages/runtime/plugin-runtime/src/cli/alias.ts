@@ -35,7 +35,7 @@ export const builderPluginAlias = ({
         }
       });
       return mergeRsbuildConfig(userConfig, {
-        source: {
+        resolve: {
           alias: { ...entrypointsAlias, ...mainEntrypointsAlias },
         },
       });

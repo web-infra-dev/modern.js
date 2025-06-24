@@ -31,6 +31,9 @@ export function createBuilderProviderConfig<B extends Bundler>(
   const config = {
     ...resolveConfig,
     plugins: [],
+    resolve: {
+      ...resolveConfig.resolve,
+    },
     dev: {
       ...resolveConfig.dev,
       port: appContext.port,

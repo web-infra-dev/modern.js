@@ -92,7 +92,7 @@ export const testingPlugin = (): CliPlugin<{
           );
 
           return {
-            source: {
+            resolve: {
               alias: {
                 // The module-tools alias configuration is different and more specific than app-tools.
                 // So for the time being, the @ alias is configured here.

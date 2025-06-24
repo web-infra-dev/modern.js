@@ -118,7 +118,7 @@ export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         output: {
           disableCssExtract,
         },
-        source: {
+        resolve: {
           alias: {
             [`@${metaName}/runtime/garfish`]: `@${metaName}/plugin-garfish/runtime`,
           },

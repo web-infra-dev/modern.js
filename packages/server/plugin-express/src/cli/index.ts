@@ -34,7 +34,7 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
             : '@modern-js/plugin-express/runtime';
 
         return {
-          source: {
+          resolve: {
             alias: {
               '@modern-js/runtime/server': runtimePath,
               '@modern-js/runtime/express': runtimePath,

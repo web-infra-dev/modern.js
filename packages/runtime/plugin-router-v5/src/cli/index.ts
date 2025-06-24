@@ -44,7 +44,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       );
 
       return {
-        source: {
+        resolve: {
           alias: {
             [`@${metaName}/runtime/router-v5`]: routerExportsUtils.getPath(),
           },

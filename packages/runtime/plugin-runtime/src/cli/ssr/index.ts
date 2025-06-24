@@ -133,7 +133,7 @@ export const ssrPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
 
       return {
         builderPlugins: [ssrBuilderPlugin(api)],
-        source: {
+        resolve: {
           alias: {
             // ensure that all packages use the same storage in @modern-js/runtime-utils/node
             '@modern-js/runtime-utils/node$': require

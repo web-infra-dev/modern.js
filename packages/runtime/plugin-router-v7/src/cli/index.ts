@@ -18,7 +18,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
         });
       }
       return {
-        source: {
+        resolve: {
           alias: {
             'react-router-dom$': require
               .resolve('../runtime')

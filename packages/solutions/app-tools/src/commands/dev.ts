@@ -39,7 +39,10 @@ export const dev = async (
     await registerEsm({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
-      alias: normalizedConfig.source?.alias,
+      alias: {
+        ...normalizedConfig.resolve.alias,
+        ...normalizedConfig.source?.alias,
+      },
     });
   }
 

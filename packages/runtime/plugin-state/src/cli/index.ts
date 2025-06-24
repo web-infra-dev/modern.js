@@ -32,7 +32,7 @@ export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
     api.config(() => {
       const { metaName } = api.getAppContext();
       return {
-        source: {
+        resolve: {
           alias: {
             [`@${metaName}/runtime/model`]: `@${metaName}/plugin-state/runtime`,
           },
