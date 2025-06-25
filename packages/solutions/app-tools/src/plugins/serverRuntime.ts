@@ -12,5 +12,11 @@ export default (): CliPluginFuture<AppTools<'shared'>> => ({
         ],
       },
     }));
+    api._internalServerPlugins(({ plugins }) => {
+      plugins.push({
+        name: '@modern-js/app-tools/server/plugin',
+      });
+      return { plugins };
+    });
   },
 });

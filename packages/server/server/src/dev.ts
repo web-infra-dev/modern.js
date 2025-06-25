@@ -32,6 +32,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
     const closeCb: Array<(...args: []) => any> = [];
 
     const dev = getDevOptions(options);
+    let previousCleanup: (() => void) | undefined;
 
     return {
       async prepare() {
@@ -59,11 +60,23 @@ export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
         // TODO: remove any
         const hooks = (api as any).getHooks();
 
+        let currentClosed = false;
+        const currentCleanup = () => {
+          if (!currentClosed) {
+            currentClosed = true;
+          }
+        };
+
+        previousCleanup = currentCleanup;
+
         builder?.onDevCompileDone(({ stats }) => {
+          if (currentClosed) return;
+
           if (stats.toJson({ all: false }).name !== 'server') {
             onRepack(distDirectory, hooks);
           }
         });
+        builder?.onCloseDevServer(currentCleanup);
 
         if (dev.watch) {
           const { watchOptions } = config.server;
