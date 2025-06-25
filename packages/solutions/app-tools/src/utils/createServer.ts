@@ -28,40 +28,50 @@ export const closeServer = (timeout = 5000): Promise<void> => {
       return;
     }
 
-    for (const socket of activeSockets) {
-      try {
-        socket.destroy();
-      } catch (e) {
-        console.error('Error destroying socket:', e);
+    const cleanupSockets = () => {
+      for (const socket of activeSockets) {
+        try {
+          socket.destroy();
+        } catch (e) {
+          console.error('Error destroying socket:', e);
+        }
       }
-    }
-    activeSockets.clear();
+      activeSockets.clear();
+    };
+
+    let isClosed = false;
+    cleanupSockets();
 
     const timer = setTimeout(() => {
-      reject(new Error(`Server close timed out after ${timeout}ms`));
+      if (isClosed) return;
+      isClosed = true;
+
+      cleanupSockets();
       server?.removeAllListeners();
-      server = null;
+      reject(new Error(`Server close timed out after ${timeout}ms`));
     }, timeout);
 
     server.close(err => {
+      if (isClosed) return;
+      isClosed = true;
+
       clearTimeout(timer);
+      cleanupSockets();
       server?.removeAllListeners();
       server = null;
 
-      setTimeout(() => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      }, 100);
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
     });
   });
 };
 
 export const createServer = async (
   options: ModernDevServerOptions,
-  applyPluginsFn: ApplyPlugins,
+  applyPluginsFn?: ApplyPlugins,
 ) => {
   if (server) {
     try {
@@ -86,6 +96,8 @@ export const createServer = async (
     });
   });
 
+  setServerOptions(options);
+  setServer(newServer);
   return { server, afterListen };
 };
 

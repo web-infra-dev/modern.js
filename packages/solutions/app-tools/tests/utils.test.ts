@@ -1,9 +1,11 @@
 import { Server } from 'http';
+import net from 'net';
 import { chalk } from '@modern-js/utils';
 import {
   closeServer,
   createServer,
   getServer,
+  restart,
 } from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 
@@ -78,11 +80,35 @@ describe('test app-tools utils', () => {
         security: {},
       },
       appContext: {},
-      dev: {},
+      dev: {
+        port: 3000,
+        host: 'localhost',
+      },
     });
+    app.server.listen(3000);
 
-    expect(app instanceof Server).toBe(true);
-    expect(getServer()).toBe(app);
+    expect(app.server instanceof Server).toBe(true);
+    const originalServer = getServer();
+    expect(originalServer).toBe(app.server);
+
+    await restart();
+    const restartedServer = getServer();
+    expect(restartedServer).not.toBeNull();
+    expect(restartedServer).not.toBe(originalServer);
+
+    const address = restartedServer!.address();
+    expect(address).not.toBeNull();
+    expect((address as any).port).toBe(3000);
+
+    const isPortListening = await new Promise(resolve => {
+      const socket = net
+        .connect({ port: 3000 }, () => {
+          socket.end();
+          resolve(true);
+        })
+        .on('error', () => resolve(false));
+    });
+    expect(isPortListening).toBe(true);
 
     await closeServer();
     expect(getServer()).toBeNull();

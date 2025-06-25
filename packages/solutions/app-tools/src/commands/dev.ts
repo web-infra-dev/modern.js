@@ -150,8 +150,6 @@ export const dev = async (
         );
       },
     );
-    setServer(server);
-    setServerOptions(options);
   } else {
     const options = {
       ...serverOptions,
@@ -177,7 +175,5 @@ export const dev = async (
         await afterListen();
       },
     );
-    setServerOptions(options);
-    setServer(server);
   }
 };
