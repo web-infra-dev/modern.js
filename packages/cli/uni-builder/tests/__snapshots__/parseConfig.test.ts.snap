@@ -45,6 +45,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       "cert": "xxx",
       "key": "xxxx",
     },
+    "middlewareMode": true,
     "port": 8081,
     "printUrls": false,
     "publicDir": false,
@@ -149,6 +150,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -203,6 +205,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -260,6 +263,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -314,6 +318,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -375,6 +380,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -429,6 +435,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -486,6 +493,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -540,6 +548,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -599,6 +608,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -655,6 +665,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -711,6 +722,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -767,6 +779,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
@@ -823,6 +836,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "middlewareMode": true,
     "port": 8080,
     "printUrls": false,
     "publicDir": false,
