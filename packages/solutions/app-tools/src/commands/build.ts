@@ -1,5 +1,6 @@
 import type { CLIPluginAPI } from '@modern-js/plugin-v2';
-import { logger } from '@modern-js/utils';
+import { type Alias, logger } from '@modern-js/utils';
+import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
 import { loadServerPlugins } from '../utils/loadPlugins';
@@ -28,15 +29,17 @@ export const build = async (
     await registerEsm({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
-      alias: resolvedConfig.source?.alias,
+      alias: {
+        ...resolvedConfig.resolve?.alias,
+        ...resolvedConfig.source?.alias,
+      },
     });
   }
 
-  await registerCompiler(
-    appContext.appDirectory,
-    appContext.distDirectory,
-    resolvedConfig?.source?.alias,
-  );
+  await registerCompiler(appContext.appDirectory, appContext.distDirectory, {
+    ...resolvedConfig?.resolve?.alias,
+    ...resolvedConfig?.source?.alias,
+  } as ConfigChain<Alias>);
 
   const { apiOnly } = appContext;
 

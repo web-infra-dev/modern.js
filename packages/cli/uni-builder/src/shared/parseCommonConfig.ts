@@ -136,6 +136,7 @@ export async function parseCommonConfig(
       ...toolsConfig
     } = {},
     environments = {},
+    resolve = {},
   } = uniBuilderConfig;
 
   const rsbuildConfig: RsbuildConfig = {
@@ -146,6 +147,7 @@ export async function parseCommonConfig(
       sourceMap,
       ...outputConfig,
     },
+    resolve,
     source: {
       alias: alias as unknown as SourceConfig['alias'],
       ...sourceConfig,
@@ -156,6 +158,14 @@ export async function parseCommonConfig(
     security: securityConfig,
     environments,
   };
+
+  /**
+   * 在老版本中，默认 source.alias 为空对象。Rsbuild 新版本推荐使用 resolve.alias 代替 source.alias
+   * 因此如果 alias 为空对象，则删除 source.alias，避免在默认情况下出现警告
+   */
+  if (typeof alias === 'object' && Object.keys(alias).length === 0) {
+    delete rsbuildConfig.source?.alias;
+  }
 
   rsbuildConfig.tools!.htmlPlugin = htmlPlugin as ToolsConfig['htmlPlugin'];
 

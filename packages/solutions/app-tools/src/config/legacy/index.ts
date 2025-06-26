@@ -29,6 +29,7 @@ export function transformNormalizedConfig(
     autoLoadPlugins,
   } = config;
   return {
+    resolve: {},
     source,
     html,
     output,

@@ -91,7 +91,7 @@ export const runtimePlugin = (params?: {
       return {
         runtime: {},
         runtimeByEntries: {},
-        source: {
+        resolve: {
           alias: {
             /**
              * twin.macro inserts styled-components into the code during the compilation process
@@ -112,6 +112,8 @@ export const runtimePlugin = (params?: {
             ),
             '@meta/runtime$': require.resolve('@modern-js/runtime'),
           },
+        },
+        source: {
           globalVars: {
             'process.env.IS_REACT18': process.env.IS_REACT18,
           },

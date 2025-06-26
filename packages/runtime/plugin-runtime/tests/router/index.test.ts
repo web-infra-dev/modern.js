@@ -30,7 +30,7 @@ describe('cli-router', () => {
     const config = await runner.config();
     expect(
       config.find(
-        (item: any) => item.source.alias['@modern-js/runtime/plugins'],
+        (item: any) => item.resolve.alias['@modern-js/runtime/plugins'],
       ),
     ).toBeTruthy();
   });

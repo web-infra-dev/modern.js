@@ -45,6 +45,10 @@ export function createDefaultConfig(
     entriesDir: './src',
     configDir: './config',
     globalVars: getAutoInjectEnv(appContext),
+    alias: {},
+  };
+
+  const resolve: AppUserConfig['resolve'] = {
     alias: {
       [appContext.internalDirAlias]: appContext.internalDirectory,
       [appContext.internalSrcAlias]: appContext.srcDirectory!,
@@ -80,6 +84,7 @@ export function createDefaultConfig(
 
   return {
     source,
+    resolve,
     output,
     server,
     dev,

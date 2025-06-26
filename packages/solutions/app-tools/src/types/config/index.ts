@@ -11,6 +11,7 @@ import type { ExperimentsUserConfig } from './experiments';
 import type { HtmlUserConfig } from './html';
 import type { OutputUserConfig } from './output';
 import type { PerformanceUserConfig } from './performance';
+import type { ResolveUserConfig } from './resolve';
 import type { SecurityUserConfig } from './security';
 import type { SourceUserConfig } from './source';
 import type { TestingUserConfig } from './testing';
@@ -26,6 +27,7 @@ export interface RuntimeByEntriesUserConfig {
 }
 
 export interface AppToolsUserConfig<B extends Bundler> {
+  resolve?: ResolveUserConfig;
   server?: ServerUserConfig;
   source?: SourceUserConfig;
   output?: OutputUserConfig;

@@ -25,6 +25,9 @@ export type UserConfig = {
   source?: {
     alias?: AliasOption;
   };
+  resolve?: {
+    alias?: AliasOption;
+  };
   testing?: TestConfig;
   tools?: {
     jest: JestConfig | ((config: JestConfig) => JestConfig);
