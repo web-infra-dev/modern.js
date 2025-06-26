@@ -104,6 +104,7 @@ export const transformToRsbuildServerOptions = (
         port,
         host,
         https: https ? (https as ServerConfig['https']) : undefined,
+        middlewareMode: true,
       };
 
   if (!isProd() && startUrl) {
