@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.67.11
+
+### Patch Changes
+
+- d49c4de: docs: add new storybook docs
+
+  docs: 添加新的 storybook 文档
+
+  - @modern-js/sandpack-react@2.67.11
+
 ## 2.67.10
 
 ### Patch Changes

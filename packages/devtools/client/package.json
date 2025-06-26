@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.67.10",
+  "version": "2.67.11",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
