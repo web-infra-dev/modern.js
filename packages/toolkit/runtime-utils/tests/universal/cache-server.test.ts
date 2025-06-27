@@ -160,7 +160,6 @@ describe('cache function', () => {
     });
 
     await expect(cachedFn('param1')).rejects.toThrow(error);
-    await expect(cachedFn('param1')).rejects.toThrow(error);
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
@@ -994,6 +993,34 @@ describe('cache function', () => {
       await handler();
 
       expect(mockFn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should respect unstable_shouldCache false in stale revalidation', async () => {
+      const mockFn = jest
+        .fn()
+        .mockResolvedValueOnce('cached')
+        .mockResolvedValueOnce('rejected')
+        .mockResolvedValueOnce('new');
+
+      const cachedFn = cache(mockFn, {
+        maxAge: CacheTime.SECOND,
+        revalidate: CacheTime.SECOND,
+        unstable_shouldCache: ({ result }) => result !== 'rejected',
+      });
+
+      const handler = withRequestCache(async () => {
+        await cachedFn('test');
+
+        jest.advanceTimersByTime(CacheTime.SECOND + 10);
+        await cachedFn('test');
+        await jest.runAllTimersAsync();
+
+        jest.advanceTimersByTime(CacheTime.SECOND + 10);
+        await cachedFn('test');
+      });
+
+      await handler();
+      expect(mockFn).toHaveBeenCalledTimes(3);
     });
   });
 });

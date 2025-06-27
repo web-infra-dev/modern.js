@@ -29,6 +29,7 @@ export interface CacheStatsInfo {
    * 2: Item not found in cache
    * 3: Item found in cache but has expired
    * 4: Failed to parse data from cache
+   * 5: Execution error
    */
   reason?: number;
 }
@@ -121,7 +122,7 @@ const isServer = typeof window === 'undefined';
 const requestCacheMap = new WeakMap<Request, Map<any, any>>();
 
 const TAG_PREFIX = 'tag:';
-const CACHE_PREFIX = 'cache:';
+const CACHE_PREFIX = 'modernjs_cache:';
 
 const ongoingRevalidations = new Map<string, Promise<any>>();
 
@@ -229,164 +230,181 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      const {
-        tag,
-        maxAge = CacheTime.MINUTE * 5,
-        revalidate = 0,
-        customKey,
-        onCache,
-        getKey,
-        unstable_shouldCache,
-      } = options;
+      try {
+        const {
+          tag,
+          maxAge = CacheTime.MINUTE * 5,
+          revalidate = 0,
+          customKey,
+          onCache,
+          getKey,
+          unstable_shouldCache,
+        } = options;
 
-      let missReason: number | undefined;
+        let missReason: number | undefined;
 
-      const currentStorage = getStorage();
-      const now = Date.now();
-      const tags = tag ? (Array.isArray(tag) ? tag : [tag]) : [];
+        const currentStorage = getStorage();
+        const now = Date.now();
+        const tags = tag ? (Array.isArray(tag) ? tag : [tag]) : [];
 
-      const genKey = getKey ? getKey(...args) : generateKey(args);
-      let finalKey: string;
-      if (customKey) {
-        finalKey = customKey({
-          params: args,
-          fn,
-          generatedKey: genKey,
-        });
-      } else {
-        const functionId = generateStableFunctionId(fn);
-        finalKey = `${functionId}:${genKey}`;
-      }
-
-      const storageKey = `${CACHE_PREFIX}${finalKey}`;
-
-      let shouldDisableCaching = false;
-      if (isServer && cacheConfig.unstable_shouldDisable) {
-        const asyncStorage = getAsyncLocalStorage();
-        const request = asyncStorage?.useContext()?.request;
-        if (request) {
-          shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
-            request,
+        const genKey = getKey ? getKey(...args) : generateKey(args);
+        let finalKey: string;
+        if (customKey) {
+          finalKey = customKey({
+            params: args,
+            fn,
+            generatedKey: genKey,
           });
+        } else {
+          const functionId = generateStableFunctionId(fn);
+          finalKey = `${functionId}:${genKey}`;
         }
-      }
 
-      if (!shouldDisableCaching) {
-        const cachedRaw = await currentStorage.get(storageKey);
-        if (cachedRaw) {
-          try {
-            const cached = JSON.parse(cachedRaw) as CacheItem<any>;
-            const age = now - cached.timestamp;
+        const storageKey = `${CACHE_PREFIX}${finalKey}`;
 
-            if (age < maxAge) {
-              onCache?.({
-                status: 'hit',
-                key: finalKey,
-                params: args,
-                result: cached.data,
-              });
-              return cached.data;
-            }
+        let shouldDisableCaching = false;
+        if (isServer && cacheConfig.unstable_shouldDisable) {
+          const asyncStorage = getAsyncLocalStorage();
+          const request = asyncStorage?.useContext()?.request;
+          if (request) {
+            shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
+              request,
+            });
+          }
+        }
 
-            if (revalidate > 0 && age < maxAge + revalidate) {
-              onCache?.({
-                status: 'stale',
-                key: finalKey,
-                params: args,
-                result: cached.data,
-              });
+        if (!shouldDisableCaching) {
+          const cachedRaw = await currentStorage.get(storageKey);
+          if (cachedRaw) {
+            try {
+              const cached = JSON.parse(cachedRaw) as CacheItem<any>;
+              const age = now - cached.timestamp;
 
-              if (!ongoingRevalidations.has(storageKey)) {
-                const revalidationPromise = (async () => {
-                  try {
-                    const newData = await fn(...args);
-                    const newItem: CacheItem<any> = {
-                      data: newData,
-                      timestamp: Date.now(),
-                      tags: tags.length > 0 ? tags : undefined,
-                    };
-
-                    const ttl = (maxAge + revalidate) / 1000;
-                    await currentStorage.set(
-                      storageKey,
-                      JSON.stringify(newItem),
-                      {
-                        ttl: ttl > 0 ? ttl : undefined,
-                      },
-                    );
-
-                    await updateTagRelationships(
-                      currentStorage,
-                      storageKey,
-                      tags,
-                    );
-                  } catch (error) {
-                    if (isServer) {
-                      const asyncStorage = getAsyncLocalStorage();
-                      asyncStorage
-                        ?.useContext()
-                        ?.monitors?.error((error as Error).message);
-                    } else {
-                      console.error('Background revalidation failed:', error);
-                    }
-                  } finally {
-                    ongoingRevalidations.delete(storageKey);
-                  }
-                })();
-
-                ongoingRevalidations.set(storageKey, revalidationPromise);
+              if (age < maxAge) {
+                onCache?.({
+                  status: 'hit',
+                  key: finalKey,
+                  params: args,
+                  result: cached.data,
+                });
+                return cached.data;
               }
 
-              return cached.data;
+              if (revalidate > 0 && age < maxAge + revalidate) {
+                onCache?.({
+                  status: 'stale',
+                  key: finalKey,
+                  params: args,
+                  result: cached.data,
+                });
+
+                if (!ongoingRevalidations.has(storageKey)) {
+                  const revalidationPromise = (async () => {
+                    try {
+                      const newData = await fn(...args);
+
+                      let shouldCache = true;
+                      if (unstable_shouldCache) {
+                        shouldCache = await unstable_shouldCache({
+                          params: args,
+                          result: newData,
+                        });
+                      }
+
+                      if (shouldCache) {
+                        await setCacheItem(
+                          currentStorage,
+                          storageKey,
+                          newData,
+                          tags,
+                          maxAge,
+                          revalidate,
+                        );
+                      }
+                    } catch (error) {
+                      if (isServer) {
+                        const asyncStorage = getAsyncLocalStorage();
+                        asyncStorage
+                          ?.useContext()
+                          ?.monitors?.error((error as Error).message);
+                      } else {
+                        console.error('Background revalidation failed:', error);
+                      }
+                    } finally {
+                      ongoingRevalidations.delete(storageKey);
+                    }
+                  })();
+
+                  ongoingRevalidations.set(storageKey, revalidationPromise);
+                }
+
+                return cached.data;
+              }
+              missReason = 3; // cache-expired
+            } catch (error) {
+              console.warn('Failed to parse cached data:', error);
+              missReason = 4; // cache-parse-error
             }
-            missReason = 3; // cache-expired
-          } catch (error) {
-            console.warn('Failed to parse cached data:', error);
-            missReason = 4; // cache-parse-error
+          } else {
+            missReason = 2; // cache-not-found
           }
         } else {
-          missReason = 2; // cache-not-found
+          missReason = 1; // cache-disabled
         }
-      } else {
-        missReason = 1; // cache-disabled
-      }
 
-      const data = await fn(...args);
+        const data = await fn(...args);
 
-      if (!shouldDisableCaching) {
-        let shouldCache = true;
-        if (unstable_shouldCache) {
-          shouldCache = await unstable_shouldCache({
+        if (!shouldDisableCaching) {
+          let shouldCache = true;
+          if (unstable_shouldCache) {
+            shouldCache = await unstable_shouldCache({
+              params: args,
+              result: data,
+            });
+          }
+
+          if (shouldCache) {
+            await setCacheItem(
+              currentStorage,
+              storageKey,
+              data,
+              tags,
+              maxAge,
+              revalidate,
+            );
+          }
+        }
+
+        onCache?.({
+          status: 'miss',
+          key: finalKey,
+          params: args,
+          result: data,
+          reason: missReason,
+        });
+
+        return data;
+      } catch (error) {
+        console.warn(
+          'Cache operation failed, falling back to direct execution:',
+          error,
+        );
+        const data = await fn(...args);
+
+        try {
+          onCache?.({
+            status: 'miss',
+            key: 'cache_failed',
             params: args,
             result: data,
+            reason: 5,
           });
+        } catch (callbackError) {
+          console.warn('Failed to call onCache callback:', callbackError);
         }
 
-        if (shouldCache) {
-          const newItem: CacheItem<any> = {
-            data,
-            timestamp: now,
-            tags: tags.length > 0 ? tags : undefined,
-          };
-
-          const ttl = (maxAge + revalidate) / 1000;
-          await currentStorage.set(storageKey, JSON.stringify(newItem), {
-            ttl: ttl > 0 ? ttl : undefined,
-          });
-
-          await updateTagRelationships(currentStorage, storageKey, tags);
-        }
+        return data;
       }
-
-      onCache?.({
-        status: 'miss',
-        key: finalKey,
-        params: args,
-        result: data,
-        reason: missReason,
-      });
-
-      return data;
     } else {
       console.warn(
         'The cache function will not work because it runs on the browser and there are no options are provided.',
@@ -394,6 +412,28 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       return fn(...args);
     }
   }) as T;
+}
+
+async function setCacheItem(
+  storage: Container,
+  storageKey: string,
+  data: any,
+  tags: string[],
+  maxAge: number,
+  revalidate: number,
+): Promise<void> {
+  const newItem: CacheItem<any> = {
+    data,
+    timestamp: Date.now(),
+    tags: tags.length > 0 ? tags : undefined,
+  };
+
+  const ttl = (maxAge + revalidate) / 1000;
+  await storage.set(storageKey, JSON.stringify(newItem), {
+    ttl: ttl > 0 ? ttl : undefined,
+  });
+
+  await updateTagRelationships(storage, storageKey, tags);
 }
 
 async function updateTagRelationships(
