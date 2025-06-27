@@ -113,8 +113,12 @@ describe('Custom Container Integration', () => {
       expect(mockFn).toHaveBeenCalledTimes(2);
 
       const operations = redisContainer.getOperations();
-      expect(operations.some(op => op.startsWith('get:cache:'))).toBe(true);
-      expect(operations.some(op => op.startsWith('set:cache:'))).toBe(true);
+      expect(operations.some(op => op.startsWith('get:modernjs_cache:'))).toBe(
+        true,
+      );
+      expect(operations.some(op => op.startsWith('set:modernjs_cache:'))).toBe(
+        true,
+      );
     });
 
     it('should handle TTL and expiration correctly', async () => {
@@ -131,7 +135,9 @@ describe('Custom Container Integration', () => {
       expect(mockFn).toHaveBeenCalledTimes(1);
 
       const operations = redisContainer.getOperations();
-      const setOperation = operations.find(op => op.startsWith('set:cache:'));
+      const setOperation = operations.find(op =>
+        op.startsWith('set:modernjs_cache:'),
+      );
       expect(setOperation).toContain('ttl=2');
 
       jest.advanceTimersByTime(CacheTime.SECOND / 2);
@@ -157,7 +163,9 @@ describe('Custom Container Integration', () => {
       expect(mockFn).toHaveBeenCalledTimes(2);
 
       const operations = redisContainer.getOperations();
-      expect(operations.some(op => op.startsWith('get:cache:'))).toBe(true);
+      expect(operations.some(op => op.startsWith('get:modernjs_cache:'))).toBe(
+        true,
+      );
     });
   });
 
@@ -381,7 +389,9 @@ describe('Custom Container Integration', () => {
       expect(mockFn).toHaveBeenCalledTimes(2);
 
       const operations = redisContainer.getOperations();
-      expect(operations.some(op => op.startsWith('get:cache:'))).toBe(true);
+      expect(operations.some(op => op.startsWith('get:modernjs_cache:'))).toBe(
+        true,
+      );
     });
   });
 

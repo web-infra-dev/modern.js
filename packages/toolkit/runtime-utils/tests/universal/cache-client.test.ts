@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { CacheTime, cache, clearStore } from '../../src/universal/cache';
 
 describe('client-side behavior', () => {
