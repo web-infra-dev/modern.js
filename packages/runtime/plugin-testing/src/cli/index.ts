@@ -121,7 +121,7 @@ export const testingPlugin = (): CliPlugin<{
             return next(utils);
           }
 
-          const alias = mergeAlias(userConfig.source.alias);
+          const alias = mergeAlias(userConfig.resolve?.alias || {});
 
           if (testingExportsUtils) {
             alias['@modern-js/runtime/testing'] = [
