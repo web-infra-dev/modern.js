@@ -12,7 +12,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "incremental": true,
+    "rspackFuture": {
+      "bundlerInfo": {
+        "force": false,
+      },
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -217,12 +221,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -232,6 +231,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
           },
         },
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -239,7 +241,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.42",
+                "coreJs": "3.43",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -265,6 +267,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -301,6 +306,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
+      },
+      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -318,7 +328,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.42",
+                "coreJs": "3.43",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -344,6 +354,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -942,7 +955,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.42",
+                    "coreJs": "3.43",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -968,6 +981,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -1034,7 +1050,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.42",
+                    "coreJs": "3.43",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1060,6 +1076,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -1385,7 +1404,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "incremental": true,
+    "rspackFuture": {
+      "bundlerInfo": {
+        "force": false,
+      },
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1474,15 +1497,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1512,6 +1533,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -1546,6 +1570,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
             },
           },
         ],
+      },
+      {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
       },
       {
         "mimetype": {
@@ -1584,6 +1613,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -1981,6 +2013,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -2069,6 +2104,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -2301,7 +2339,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "incremental": true,
+    "rspackFuture": {
+      "bundlerInfo": {
+        "force": false,
+      },
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2506,12 +2548,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
@@ -2520,6 +2557,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
           },
         },
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -2527,7 +2567,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.42",
+                "coreJs": "3.43",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2553,6 +2593,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -2589,6 +2632,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
+      },
+      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -2606,7 +2654,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.42",
+                "coreJs": "3.43",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2632,6 +2680,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -3230,7 +3281,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.42",
+                    "coreJs": "3.43",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3256,6 +3307,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -3322,7 +3376,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.42",
+                    "coreJs": "3.43",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3348,6 +3402,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -3662,7 +3719,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "incremental": true,
+    "rspackFuture": {
+      "bundlerInfo": {
+        "force": false,
+      },
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -3747,15 +3808,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -3786,6 +3845,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -3820,6 +3882,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             },
           },
         ],
+      },
+      {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
       },
       {
         "mimetype": {
@@ -3859,6 +3926,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   ],
                 },
                 "externalHelpers": true,
+                "output": {
+                  "charset": "ascii",
+                },
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
@@ -4238,6 +4308,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -4327,6 +4400,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                       ],
                     },
                     "externalHelpers": true,
+                    "output": {
+                      "charset": "ascii",
+                    },
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
@@ -4776,16 +4852,14 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -4904,6 +4978,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
         ],
+      },
+      {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
       },
       {
         "mimetype": {
@@ -6339,15 +6418,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         },
         "include": [
           {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
+        "resourceQuery": {
+          "not": /raw\\|inline/,
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -6466,6 +6543,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
         ],
+      },
+      {
+        "resourceQuery": /raw/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "asset/source",
       },
       {
         "mimetype": {

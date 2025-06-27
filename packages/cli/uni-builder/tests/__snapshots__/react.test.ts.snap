@@ -14,15 +14,13 @@ exports[`plugins/react > should work with babel-loader 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -141,6 +139,11 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         },
       },
     ],
+  },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
   },
 ]
 `;

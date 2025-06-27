@@ -14,12 +14,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -28,6 +23,9 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -35,7 +33,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -61,6 +59,9 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -141,6 +142,11 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -158,12 +164,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -172,6 +173,9 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -179,7 +183,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -205,6 +209,9 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -277,6 +284,11 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -294,12 +306,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -308,6 +315,9 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -315,7 +325,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -341,6 +351,9 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -376,6 +389,11 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -393,12 +411,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -407,6 +420,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -414,7 +430,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -440,6 +456,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -512,6 +531,11 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -529,12 +553,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -543,6 +562,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -550,7 +572,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -576,6 +598,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -648,6 +673,11 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -665,12 +695,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -679,6 +704,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -686,7 +714,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -712,6 +740,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -747,6 +778,11 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -764,15 +800,13 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -892,6 +926,11 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -909,15 +948,13 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1016,6 +1053,11 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -1036,15 +1078,13 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
     ],
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1164,6 +1204,11 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -1181,15 +1226,13 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1325,6 +1368,11 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -1342,15 +1390,13 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1478,6 +1524,11 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -1495,15 +1546,13 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1623,6 +1672,11 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -1634,15 +1688,13 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1856,15 +1908,13 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2122,15 +2172,13 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2248,6 +2296,11 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -2265,15 +2318,13 @@ exports[`plugin-babel > should set babel-loader 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2393,6 +2444,11 @@ exports[`plugin-babel > should set babel-loader 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -2410,15 +2466,13 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2546,6 +2600,11 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -2563,15 +2622,13 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2690,6 +2747,11 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
         },
       },
     ],
+  },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
   },
 ]
 `;
@@ -2711,16 +2773,14 @@ exports[`plugin-babel > should set include/exclude 1`] = `
     ],
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       "src/**/*.ts",
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -2840,6 +2900,11 @@ exports[`plugin-babel > should set include/exclude 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -2851,15 +2916,13 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
+    "resourceQuery": {
+      "not": /raw\\|inline/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
