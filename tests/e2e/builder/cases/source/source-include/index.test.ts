@@ -9,6 +9,9 @@ test('should not compile file which outside of project by default', async () => 
       cwd: __dirname,
       entry: { index: path.resolve(__dirname, './src/index.js') },
       builderConfig: {
+        source: {
+          exclude: [path.resolve(__dirname, '../test.js')],
+        },
         security: {
           checkSyntax: true,
         },
