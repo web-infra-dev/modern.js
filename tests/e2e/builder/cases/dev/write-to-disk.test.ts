@@ -19,9 +19,6 @@ test('writeToDisk default', async ({ page }) => {
           },
         },
       },
-      server: {
-        middlewareMode: true,
-      } as any,
     },
   });
 

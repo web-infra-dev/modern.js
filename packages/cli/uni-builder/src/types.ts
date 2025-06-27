@@ -457,7 +457,6 @@ export type UniBuilderConfig = {
   };
   server?: {
     rsc?: boolean;
-    middlewareMode?: boolean;
   };
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
