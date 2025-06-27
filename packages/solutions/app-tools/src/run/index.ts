@@ -40,7 +40,7 @@ export async function run({
   ${chalk.bgRed.white.bold(' ⚠️ CRITICAL NODE.JS VERSION ALERT ⚠️ ')}
 
   ${chalk.red.bold('Node.js 16 End-of-Life Notice:')}
-  ${chalk.red.bold.underline('June 26, 2025')} ${chalk.red('- Security updates and support have ended')}
+  ${chalk.red('- Security updates and support have ended for Node.js 16')}
 
   ${chalk.yellow('▸ Detected Runtime:')}  ${chalk.yellow.bold(`Node.js v${nodeVersion}`)}
   ${chalk.green('▸ Required Minimum:')} ${chalk.green.bold('Node.js LTS (v18.x or higher)')}
@@ -54,7 +54,7 @@ export async function run({
      ${chalk.gray('└──')} ${chalk.yellow('Environment Verification')}
        ${chalk.bold('node -v && npm -v')}
 
-  ${chalk.hex('#AAAAAA').italic('[Security Advisory] Node.js 16 is no longer supported as of 2025-06-26. Upgrade immediately for security and compatibility.')}
+  ${chalk.hex('#AAAAAA').italic('[Security Advisory] Node.js 16 is no longer supported. Upgrade immediately for security and compatibility.')}
       `);
   }
   const command = process.argv[2];
