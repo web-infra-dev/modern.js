@@ -681,8 +681,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.4.0)
       '@rsbuild/plugin-styled-components':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.4.0)
+        specifier: 1.4.0
+        version: 1.4.0(@rsbuild/core@1.4.0)
       '@rsbuild/plugin-svgr':
         specifier: 1.2.0
         version: 1.2.0(@rsbuild/core@1.4.0)(typescript@5.6.3)
@@ -12986,10 +12986,10 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-styled-components@1.3.0':
-    resolution: {integrity: sha512-dnLnGCBjKLmyrGCWQW/W3CiDHuCaS9GtkHlouiUOVlqz1D6mC35HClyTBT38F6mWeTOBpd3eQ/bsb89dcgz8qw==}
+  '@rsbuild/plugin-styled-components@1.4.0':
+    resolution: {integrity: sha512-1G7IYz3eLKPfRAye9zjlPDzIgdtk+4ECB9Op9thVDWd2q/qs3BGb+tt+nn+J7Vsb/jA4k3OLMnt6AYEIdYwxlw==}
     peerDependencies:
-      '@rsbuild/core': ^1.2.0
+      '@rsbuild/core': ^1.4.0-beta.4 || ^1.4.0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13797,8 +13797,8 @@ packages:
     peerDependencies:
       '@swc/core': '*'
 
-  '@swc/plugin-styled-components@7.1.5':
-    resolution: {integrity: sha512-7egPoZG24nwMXp042Taux58dEdto6fLsUSW0IPPbJ0/HNVW+TLjosndGggHs68zoTR+ddWjGEW7H0u10/Y6GYw==}
+  '@swc/plugin-styled-components@8.0.2':
+    resolution: {integrity: sha512-JNDeeSZd8EQFCO013QNY+WXdeu/Gwu2vG0uJssEqVSzoz+HoHhNaPz5yvN4psor/6VXAY6LKCTqDfrsrfA6pXA==}
 
   '@swc/types@0.1.23':
     resolution: {integrity: sha512-u1iIVZV9Q0jxY+yM2vw/hZGDNudsN85bBpTqzAQ9rzkxW9D+e3aEM4Han+ow518gSewkXgjmEK0BD79ZcNVgPw==}
@@ -29537,9 +29537,9 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.4.0
 
-  '@rsbuild/plugin-styled-components@1.3.0(@rsbuild/core@1.4.0)':
+  '@rsbuild/plugin-styled-components@1.4.0(@rsbuild/core@1.4.0)':
     dependencies:
-      '@swc/plugin-styled-components': 7.1.5
+      '@swc/plugin-styled-components': 8.0.2
       reduce-configs: 1.1.0
     optionalDependencies:
       '@rsbuild/core': 1.4.0
@@ -30958,7 +30958,7 @@ snapshots:
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
 
-  '@swc/plugin-styled-components@7.1.5':
+  '@swc/plugin-styled-components@8.0.2':
     dependencies:
       '@swc/counter': 0.1.3
 

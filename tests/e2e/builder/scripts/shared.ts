@@ -6,7 +6,12 @@ import type {
   UniBuilderConfig,
 } from '@modern-js/uni-builder';
 import fs from '@modern-js/utils/fs-extra';
-import { type ConsoleType, logger } from '@rsbuild/core';
+import {
+  type ConsoleType,
+  type RsbuildPlugin,
+  logger,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
 
 logger.level = 'error';
 
@@ -111,7 +116,19 @@ export async function dev({
   updateConfigForTest(builderConfig, entry);
 
   const builder = await createUniBuilder(options, builderConfig);
-
+  builder.addPlugins([
+    {
+      setup(api) {
+        api.modifyRsbuildConfig((config: any) => {
+          return mergeRsbuildConfig(config, {
+            server: {
+              middlewareMode: false,
+            },
+          });
+        });
+      },
+    } as RsbuildPlugin,
+  ]);
   return builder.startDevServer();
 }
 
