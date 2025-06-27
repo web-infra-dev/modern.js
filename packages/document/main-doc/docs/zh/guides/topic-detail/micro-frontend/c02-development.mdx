@@ -304,11 +304,11 @@ export default (props: { basename: string }) => {
 使用纯 `Garfish` API 开发微前端应用时
 
 - 主应用：
-  - 安装 Garfish 依赖并使用 `Garfish.run` 注册子应用 [参考](https://www.garfishjs.org/api/run)
-  - 提供一个常驻的 `DOM` 节点供子应用挂载 [参考](https://www.garfishjs.org/api/registerApp#domgetter)
+  - 安装 Garfish 依赖并使用 `Garfish.run` 注册子应用 [参考](https://www.garfishjs.org/api/run.html)
+  - 提供一个常驻的 `DOM` 节点供子应用挂载 [参考](https://www.garfishjs.org/api/registerApp.html)
 - 子应用：
-  - 导出 `provider` [参考](https://www.garfishjs.org/guide/start#2%E5%AF%BC%E5%87%BA-provider-%E5%87%BD%E6%95%B0)
-  - 设置应用的 `basename` [参考](https://www.garfishjs.org/guide/start#3-%E8%AE%BE%E7%BD%AE%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1-basename)
+  - 导出 `provider` [参考](https://www.garfishjs.org/guide/quick-start/start.html#2%E5%AF%BC%E5%87%BA-provider-%E5%87%BD%E6%95%B0)
+  - 设置应用的 `basename` [参考](https://www.garfishjs.org/guide/quick-start/start.html#3-%E8%AE%BE%E7%BD%AE%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1-basename)
 
 区别于直接使用 `Garfish` 运行时 API 开发微前端项目，`Modern.js` 的微前端方案更加开箱即用。
 使用 `pnpm new` 启用微前端模式后会自动在 `Modern.js` 应用中集成 `Garfish` 插件，在 `Garfish`
