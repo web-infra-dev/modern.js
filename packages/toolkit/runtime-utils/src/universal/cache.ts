@@ -391,6 +391,8 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         );
         const data = await fn(...args);
 
+        const { onCache } = options;
+
         try {
           onCache?.({
             status: 'miss',
