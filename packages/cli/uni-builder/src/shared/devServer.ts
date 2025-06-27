@@ -9,20 +9,35 @@ const transformDevSetupMiddlewares = (
   seuptMiddlewares: DevConfig['setupMiddlewares'],
 ): DevConfig['setupMiddlewares'] => {
   if (seuptMiddlewares) {
-    const newSetupMiddlewares: DevConfig['setupMiddlewares'] =
-      seuptMiddlewares.map(handler => (_, server) => {
-        handler(
-          {
-            unshift() {
-              // ignore
+    const newSetupMiddlewares: DevConfig['setupMiddlewares'] = Array.isArray(
+      seuptMiddlewares,
+    )
+      ? seuptMiddlewares.map(handler => (_, server) => {
+          handler(
+            {
+              unshift() {
+                // ignore
+              },
+              push() {
+                // ignore
+              },
             },
-            push() {
-              // ignore
+            server,
+          );
+        })
+      : (_, server) => {
+          seuptMiddlewares(
+            {
+              unshift() {
+                // ignore
+              },
+              push() {
+                // ignore
+              },
             },
-          },
-          server,
-        );
-      });
+            server,
+          );
+        };
     return newSetupMiddlewares;
   }
   return undefined;
