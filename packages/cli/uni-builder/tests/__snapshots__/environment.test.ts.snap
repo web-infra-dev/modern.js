@@ -233,7 +233,7 @@ exports[`uni-builder environment compat > should generator environment config co
             },
           },
           "resourceQuery": {
-            "not": /raw\\|inline/,
+            "not": /raw/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -1455,7 +1455,7 @@ exports[`uni-builder environment compat > should generator environment config co
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /raw\\|inline/,
+            "not": /raw/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -2347,7 +2347,7 @@ exports[`uni-builder environment compat > should generator environment config co
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /raw\\|inline/,
+            "not": /raw/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",

@@ -232,7 +232,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -1502,7 +1502,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -2558,7 +2558,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -3813,7 +3813,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -4858,7 +4858,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -6423,7 +6423,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": /raw/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",

@@ -19,7 +19,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw\\|inline/,
+      "not": /raw/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
