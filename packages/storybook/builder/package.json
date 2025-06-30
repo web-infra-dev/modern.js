@@ -74,7 +74,7 @@
     "@storybook/router": "~7.6.12",
     "@storybook/theming": "~7.6.12",
     "ast-types": "^0.14.2",
-    "minimatch": "^9.0.3",
+    "minimatch": "^9.0.5",
     "react-docgen": "6.0.0-alpha.3",
     "remark-external-links": "^9.0.1",
     "remark-slug": "^7.0.1",
