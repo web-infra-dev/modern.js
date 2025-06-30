@@ -114,7 +114,7 @@
     "esbuild-register": "^3.6.0",
     "flatted": "^3.3.3",
     "mlly": "^1.6.1",
-    "ndepe": "^0.1.11",
+    "ndepe": "^0.1.12",
     "pkg-types": "^1.1.0",
     "std-env": "^3.7.0"
   },
