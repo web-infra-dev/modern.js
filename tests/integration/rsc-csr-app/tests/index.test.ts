@@ -102,7 +102,7 @@ async function renderServerRootPageCorrectly({
   appPort,
   page,
 }: TestOptions) {
-  await page.goto(`http://localhost:${appPort}/${baseUrl}`, {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
 
@@ -115,15 +115,19 @@ async function renderServerRootPageCorrectly({
   ];
 
   for (const { name, selector } of elementsToCheck) {
-    const elementExists = await page.$eval(selector, el =>
-      el.textContent?.includes(name),
+    const elementExists = await page.$eval(
+      selector,
+      (el, name) => {
+        return el.textContent?.includes(name);
+      },
+      name,
     );
     expect(elementExists).toBe(true);
   }
 }
 
 async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
-  await page.goto(`http://localhost:${appPort}/${baseUrl}`, {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
 
