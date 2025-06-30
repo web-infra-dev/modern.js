@@ -28,6 +28,10 @@
     "./utils": {
       "jsnext:source": "./src/utils/index.ts",
       "default": "./dist/utils/assert.js"
+    },
+    "./config/*": {
+      "jsnext:source": "./src/config/*.ts",
+      "default": "./dist/config/*.js"
     }
   },
   "main": "./src/index.ts",
