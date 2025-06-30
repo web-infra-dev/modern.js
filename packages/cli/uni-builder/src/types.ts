@@ -461,6 +461,7 @@ export type UniBuilderConfig = {
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
   tools?: Omit<ToolsConfig, 'htmlPlugin'>;
+  resolve?: RsbuildConfig['resolve'];
   source?: Omit<SourceConfig, 'alias' | 'transformImport'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildPlugins;

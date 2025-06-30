@@ -61,7 +61,7 @@ describe('cli-router-legacy', () => {
     const config = await api.getHooks().config.call();
     expect(
       config.find(
-        (item: any) => item.source.alias['@modern-js/runtime/plugins'],
+        (item: any) => item.resolve.alias['@modern-js/runtime/plugins'],
       ),
     ).toBeTruthy();
   });

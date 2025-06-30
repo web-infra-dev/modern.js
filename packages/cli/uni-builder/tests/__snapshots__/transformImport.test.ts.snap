@@ -14,12 +14,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -29,6 +24,9 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -36,7 +34,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -62,6 +60,9 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -97,6 +98,11 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -114,12 +120,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -129,6 +130,9 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -136,7 +140,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -162,6 +166,9 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -182,6 +189,11 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -199,12 +211,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -214,6 +221,9 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -221,7 +231,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -247,6 +257,9 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -282,6 +295,11 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -299,12 +317,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -314,6 +327,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -321,7 +337,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -347,6 +363,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -367,6 +386,11 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -384,12 +408,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -399,6 +418,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
         "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       },
     },
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -406,7 +428,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.42",
+            "coreJs": "3.43",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -432,6 +454,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
               ],
             },
             "externalHelpers": true,
+            "output": {
+              "charset": "ascii",
+            },
             "parser": {
               "decorators": true,
               "syntax": "typescript",
@@ -459,6 +484,11 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -476,16 +506,14 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -605,6 +633,11 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -622,16 +655,14 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -751,6 +782,11 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -768,16 +804,14 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -878,6 +912,11 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
       },
     ],
   },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
+  },
 ]
 `;
 
@@ -895,16 +934,14 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
     },
     "include": [
       {
-        "and": [
-          "",
-          {
-            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          },
-        ],
+        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
+    "resourceQuery": {
+      "not": /raw/,
+    },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
     "use": [
@@ -1011,6 +1048,11 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
         },
       },
     ],
+  },
+  {
+    "resourceQuery": /raw/,
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "asset/source",
   },
 ]
 `;

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.9",
+  "version": "2.67.11",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -53,7 +53,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@changesets/cli": "^2.29.4",
+    "@changesets/cli": "^2.29.5",
     "@changesets/git": "^2.0.0",
     "@changesets/read": "^0.6.5",
     "@modern-js/plugin-i18n": "workspace:*",

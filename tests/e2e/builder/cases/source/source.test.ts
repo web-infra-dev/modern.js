@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path, { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 

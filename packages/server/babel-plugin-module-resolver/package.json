@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.9",
+  "version": "2.67.11",
   "jsnext:source": "./src/index.js",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
-    "glob": "^8.0.3",
+    "glob": "^8.1.0",
     "pkg-up": "3.1.0",
     "reselect": "^4.1.7",
     "resolve": "^1.22.1"
