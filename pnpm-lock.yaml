@@ -3791,7 +3791,7 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       mlly:
-        specifier: ^1.6.1
+        specifier: ^1.7.4
         version: 1.7.4
       ndepe:
         specifier: ^0.1.12
