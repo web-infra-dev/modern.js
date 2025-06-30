@@ -112,7 +112,7 @@ async function renderClientRootPageCorrectly({
   baseUrl,
   appPort,
 }: TestOptions) {
-  const res = await fetch(`http://127.0.0.1:${appPort}/${baseUrl}`);
+  const res = await fetch(`http://127.0.0.1:${appPort}${baseUrl}`);
   const pageText = await res.text();
   expect(pageText?.trim()).toContain('Get started by editing');
 }
@@ -121,7 +121,7 @@ async function renderServerRootPageCorrectly({
   baseUrl,
   appPort,
 }: TestOptions) {
-  const res = await fetch(`http://127.0.0.1:${appPort}/${baseUrl}`);
+  const res = await fetch(`http://127.0.0.1:${appPort}${baseUrl}`);
   const pageText = await res.text();
   expect(pageText).toContain('Client State');
   expect(pageText).toContain('Server State');
@@ -130,7 +130,7 @@ async function renderServerRootPageCorrectly({
 }
 
 async function renderPageWithContext({ baseUrl, appPort, page }: TestOptions) {
-  await page.goto(`http://localhost:${appPort}/${baseUrl}`, {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
     waitUntil: ['networkidle0'],
   });
 
@@ -140,7 +140,7 @@ async function renderPageWithContext({ baseUrl, appPort, page }: TestOptions) {
 }
 
 async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
-  await page.goto(`http://localhost:${appPort}/${baseUrl}`);
+  await page.goto(`http://localhost:${appPort}${baseUrl}`);
 
   let clientCount = await page.$eval('.client-count', el => el.textContent);
   let serverCount = await page.$eval('.server-count', el => el.textContent);
@@ -165,24 +165,24 @@ async function supportResponseAPIForServerRoot({
   appPort,
 }: TestOptions) {
   const headersRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=headers`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=headers`,
   );
   expect(headersRes.headers.get('x-test')).toBe('test-value');
 
   const statusRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=status`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=status`,
   );
   expect(statusRes.status).toBe(418);
 
   const redirectRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=redirect`,
     { redirect: 'manual' },
   );
   expect(redirectRes.status).toBe(307);
   expect(redirectRes.headers.get('location')).toBe('/client-component-root');
 
   const redirectWithHeadersRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect-with-headers`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=redirect-with-headers`,
     { redirect: 'manual' },
   );
   expect(redirectWithHeadersRes.status).toBe(301);
@@ -197,24 +197,24 @@ async function supportResponseAPIForClientRoot({
   appPort,
 }: TestOptions) {
   const headersRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=headers`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=headers`,
   );
   expect(headersRes.headers.get('x-test')).toBe('test-value');
 
   const statusRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=status`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=status`,
   );
   expect(statusRes.status).toBe(418);
 
   const redirectRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=redirect`,
     { redirect: 'manual' },
   );
   expect(redirectRes.status).toBe(307);
   expect(redirectRes.headers.get('location')).toBe('/server-component-root');
 
   const redirectWithHeadersRes = await fetch(
-    `http://127.0.0.1:${appPort}/${baseUrl}?type=redirect-with-headers`,
+    `http://127.0.0.1:${appPort}${baseUrl}?type=redirect-with-headers`,
     { redirect: 'manual' },
   );
   expect(redirectWithHeadersRes.status).toBe(301);
