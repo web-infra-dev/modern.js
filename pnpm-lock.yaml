@@ -3118,7 +3118,7 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       node-fetch:
-        specifier: ^2.6.1
+        specifier: ^2.7.0
         version: 2.7.0(encoding@0.1.13)
       path-to-regexp:
         specifier: ^6.2.0
