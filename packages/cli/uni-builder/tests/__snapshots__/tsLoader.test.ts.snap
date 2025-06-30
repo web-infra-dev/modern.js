@@ -19,7 +19,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw\\|inline/,
+      "not": /raw/,
     },
     "test": /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
     "type": "javascript/auto",
