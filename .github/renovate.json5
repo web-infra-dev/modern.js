@@ -136,6 +136,9 @@
     "@types/react",
     "@types/react-dom",
     "@rsbuild-image/react",
-    "@rsbuild/plugin-styled-components"
+    "@rsbuild/plugin-styled-components",
+    "@rspress/shared",
+    "@rspress/plugin-llms",
+    "rspress"
   ]
 }
