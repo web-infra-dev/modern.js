@@ -4055,7 +4055,7 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       minimatch:
-        specifier: ^9.0.3
+        specifier: ^9.0.5
         version: 9.0.5
       react-docgen:
         specifier: 6.0.0-alpha.3
