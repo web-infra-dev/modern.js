@@ -5074,7 +5074,7 @@ importers:
   tests/e2e/builder/cases/moment:
     dependencies:
       moment:
-        specifier: ^2
+        specifier: ^2.30.1
         version: 2.30.1
 
   tests/e2e/builder/cases/react/remove-prop-types:
