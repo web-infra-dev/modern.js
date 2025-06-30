@@ -86,7 +86,7 @@ function runTests({ bundler, mode }: TestConfig) {
     });
 
     describe('client component root', () => {
-      const baseUrl = `client-component-root`;
+      const baseUrl = `/client-component-root`;
 
       it('should render page correctly', () =>
         renderClientRootPageCorrectly({ baseUrl, appPort, page }));
@@ -97,7 +97,7 @@ function runTests({ bundler, mode }: TestConfig) {
     });
 
     describe('server component root', () => {
-      const baseUrl = `server-component-root`;
+      const baseUrl = `/server-component-root`;
       it('should render page correctly', () =>
         renderServerRootPageCorrectly({ baseUrl, appPort, page }));
       it(`should support ${mode === 'dev' ? 'client and ' : ''}server actions`, () =>
