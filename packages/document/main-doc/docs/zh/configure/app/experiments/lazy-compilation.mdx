@@ -25,6 +25,16 @@ type LazyCompilationOptions =
 
 延迟编译只在开发环境下生效。
 
+## Rspack
+
+import RsbuildLink from '@site/src/components/RsbuildLink';
+
+:::info
+该配置项的使用方式与 Rsbuild 完全一致，详细信息可参考 <RsbuildLink configName="dev.lazyCompilation"/>。
+:::
+
+## Webpack
+
 ### 延迟编译异步模块
 
 延迟编译 [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) 引入的异步模块：
