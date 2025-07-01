@@ -24,7 +24,9 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
       return {
         resolve: {
           alias: {
-            'react-router-dom$': require.resolve('../runtime'),
+            'react-router-dom$': require
+              .resolve('../runtime')
+              .replace(cjsRegex, esm),
             '@remix-run/router': require
               .resolve('../runtime')
               .replace(cjsRegex, esm),
