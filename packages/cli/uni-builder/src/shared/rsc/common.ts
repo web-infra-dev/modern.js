@@ -45,7 +45,9 @@ export function setBuildInfo(
   mod: WebpackModule,
   property: Record<string, any>,
 ) {
-  mod.buildInfo = mod.buildInfo || {};
+  if (!mod.buildInfo) {
+    mod.buildInfo = {};
+  }
 
   Object.assign(mod.buildInfo, property);
 }
@@ -54,7 +56,9 @@ export function setRscBuildInfo(
   mod: WebpackModule,
   property: Record<string, any>,
 ) {
-  mod.buildInfo = mod.buildInfo || {};
+  if (!mod.buildInfo) {
+    mod.buildInfo = {};
+  }
   const rscBuildInfo = mod.buildInfo[MODERN_RSC_INFO] || {};
 
   Object.assign(rscBuildInfo, property);

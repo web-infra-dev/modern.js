@@ -86,6 +86,8 @@ export const rsbuildRscPlugin = ({
               .rule(CHAIN_ID.RULE.JS)
               .oneOf('rsc-server')
               .issuerLayer(webpackRscLayerName)
+              .exclude.add(/universal[/\\]async_storage/)
+              .end()
               .use('rsc-server-loader')
               .loader(require.resolve('../rsc-server-loader'))
               .options({
@@ -100,6 +102,8 @@ export const rsbuildRscPlugin = ({
               .end()
               .end()
               .oneOf('rsc-ssr')
+              .exclude.add(/universal[/\\]async_storage/)
+              .end()
               .use('rsc-ssr-loader')
               .loader(require.resolve('../rsc-ssr-loader'))
               .options({
