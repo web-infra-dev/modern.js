@@ -1,5 +1,7 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
 
+// Preserve the default behavior of compilation scope to the current directory when using webpack.
+// TODO: Remove this plugin in next major version.
 export const pluginInclude = (): RsbuildPlugin => ({
   name: 'uni-builder:babel-include',
 
