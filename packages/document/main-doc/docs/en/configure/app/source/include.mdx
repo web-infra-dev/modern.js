@@ -5,21 +5,48 @@ title: include
 # source.include
 
 - **Type:** [RuleSetCondition[]](https://rspack.rs/config/module#condition)
-- **Default:**
+- **Default value:**
 
 ```ts
 const defaultInclude = [
   [
-    /node_modules\/react-router/,
-    /node_modules\/react-router-dom/,
-    /node_modules\/@remix-run\/router/,
-    '/node_modules/.modern-js',
+    { not: /[\\/]node_modules[\\/]/ },
+    /\.(?:ts|tsx|jsx|mts|cts)$/,
   ],
 ];
 ```
 
-The `source.include` is used to specify additional JavaScript files that need to be compiled.
+`source.include` is used to specify additional JavaScript files that need to be compiled. By default, the following files will be compiled:
 
-import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+- TypeScript and JSX files in any directory, with file extensions matching `.ts`, `.tsx`, `.jsx`, `.mts`, `.cts`.
+- JavaScript files not in the `node_modules` directory, with file extensions matching `.js`, `.mjs`, `.cjs`.
+
+:::tip
+Before Rsbuild version 1.4, the default value of `source.include` was:
+
+```ts
+const defaultInclude = [
+  [
+    {
+      and: [
+        APP_ROOT,
+        { not: /[\\/]node_modules[\\/]/ }
+      ]
+    },
+    /\.(?:ts|tsx|jsx|mts|cts)$/,
+  ],
+];
+```
+
+The difference from the new version is that `.js`, `.mjs`, `.cjs` files only in the current directory will be compiled.
+:::
+
+## Rspack
+
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConfig configName="source.include" />
+
+## Webpack
+
+To ensure legacy projects can run properly, when using Webpack, the default value of `source.include` is the same as before Rsbuild version 1.4.

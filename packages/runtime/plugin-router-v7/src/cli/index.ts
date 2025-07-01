@@ -19,20 +19,15 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
         });
       }
 
-      const cjsRegex = new RegExp(`${sep}cjs${sep}`);
+      const cjs = `${sep}cjs${sep}`;
       const esm = `${sep}esm${sep}`;
+      const runtimeAlias = require.resolve('../runtime').replace(cjs, esm);
       return {
         resolve: {
           alias: {
-            'react-router-dom$': require
-              .resolve('../runtime')
-              .replace(cjsRegex, esm),
-            '@remix-run/router': require
-              .resolve('../runtime')
-              .replace(cjsRegex, esm),
-            'react-router-dom/server': require
-              .resolve('../runtime')
-              .replace(cjsRegex, esm),
+            'react-router-dom$': runtimeAlias,
+            '@remix-run/router': runtimeAlias,
+            'react-router-dom/server': runtimeAlias,
           },
         },
         source: {
