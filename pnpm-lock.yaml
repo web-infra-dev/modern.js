@@ -3486,9 +3486,6 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
-      source-map-support:
-        specifier: 0.5.21
-        version: 0.5.21
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -3508,9 +3505,6 @@ importers:
       '@types/node':
         specifier: ~16.11.7
         version: 16.11.68
-      '@types/source-map-support':
-        specifier: 0.5.10
-        version: 0.5.10
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4))
@@ -14370,9 +14364,6 @@ packages:
 
   '@types/source-list-map@0.1.6':
     resolution: {integrity: sha512-5JcVt1u5HDmlXkwOD2nslZVllBBc7HDuOICfiZah2Z0is8M8g+ddAEawbmd3VjedfDHBzxCaXLs07QEmb7y54g==}
-
-  '@types/source-map-support@0.5.10':
-    resolution: {integrity: sha512-tgVP2H469x9zq34Z0m/fgPewGhg/MLClalNOiPIzQlXrSS2YrKu/xCdSCKnEDwkFha51VKEKB6A9wW26/ZNwzA==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -31636,10 +31627,6 @@ snapshots:
       '@types/node': 18.19.74
 
   '@types/source-list-map@0.1.6': {}
-
-  '@types/source-map-support@0.5.10':
-    dependencies:
-      source-map: 0.6.1
 
   '@types/stack-utils@2.0.3': {}
 
