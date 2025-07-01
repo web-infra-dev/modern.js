@@ -4,21 +4,14 @@ title: Middleware
 
 # Middleware
 
-Used to extend the built-in Web Server of Modern.js, unlike [Hook](/apis/app/runtime/web-server/hook), Middleware can directly operate Node's origin request and response, and can be extended using the framework plugin.
-
 :::warning
 
-Middleware will be removed in the next major version.
-
-It is recommended to use [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware) to handle page requests.
+Middleware has been deprecated. Please use the [new Custom Web Server](/guides/advanced-features/web-server) to handle page requests.
 
 :::
 
-:::note
+Used to extend the built-in Web Server of Modern.js, unlike [Hook](/apis/app/runtime/web-server/hook), Middleware can directly operate Node's origin request and response, and can be extended using the framework plugin.
 
-For more detail, see [Extend Web Server](/guides/advanced-features/web-server).
-
-:::
 
 ## Usage
 
