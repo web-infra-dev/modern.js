@@ -800,7 +800,12 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -948,7 +953,12 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1078,7 +1088,12 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
     ],
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1226,7 +1241,12 @@ exports[`plugin-babel > should merge environment and shared babel config 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1390,7 +1410,12 @@ exports[`plugin-babel > should merge environment and shared babel config 2`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1546,7 +1571,12 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1688,7 +1718,12 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -1908,7 +1943,12 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -2172,7 +2212,12 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -2318,7 +2363,12 @@ exports[`plugin-babel > should set babel-loader 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -2466,7 +2516,12 @@ exports[`plugin-babel > should set babel-loader separate by environment 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -2622,7 +2677,12 @@ exports[`plugin-babel > should set babel-loader separate by environment 2`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
@@ -2773,7 +2833,12 @@ exports[`plugin-babel > should set include/exclude 1`] = `
     ],
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       "src/**/*.ts",
@@ -2916,7 +2981,12 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],

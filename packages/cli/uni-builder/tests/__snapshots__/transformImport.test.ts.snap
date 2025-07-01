@@ -506,7 +506,12 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -655,7 +660,12 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -804,7 +814,12 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
@@ -934,7 +949,12 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,

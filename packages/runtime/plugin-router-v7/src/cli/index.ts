@@ -1,3 +1,4 @@
+import { sep } from 'path';
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import { logger } from '@modern-js/utils';
 
@@ -17,18 +18,16 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
           }
         });
       }
+
+      const cjs = `${sep}cjs${sep}`;
+      const esm = `${sep}esm${sep}`;
+      const runtimeAlias = require.resolve('../runtime').replace(cjs, esm);
       return {
         resolve: {
           alias: {
-            'react-router-dom$': require
-              .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
-            '@remix-run/router': require
-              .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
-            'react-router-dom/server': require
-              .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
+            'react-router-dom$': runtimeAlias,
+            '@remix-run/router': runtimeAlias,
+            'react-router-dom/server': runtimeAlias,
           },
         },
         source: {
