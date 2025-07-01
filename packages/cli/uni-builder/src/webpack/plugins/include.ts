@@ -16,7 +16,10 @@ export const pluginInclude = (): RsbuildPlugin => ({
           include.not &&
           include.not.toString() === /[\\/]node_modules[\\/]/.toString()
         ) {
-          include.and = [api.context.rootPath, { not: include.not }];
+          include.and = [
+            api.context.rootPath || process.cwd(),
+            { not: include.not },
+          ];
           delete include.not;
         }
       });

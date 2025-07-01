@@ -14,7 +14,12 @@ exports[`plugins/react > should work with babel-loader 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
