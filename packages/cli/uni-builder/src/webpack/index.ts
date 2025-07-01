@@ -17,6 +17,7 @@ import type {
   UniBuilderConfig,
 } from '../types';
 import { pluginBabel } from './plugins/babel';
+import { pluginInclude } from './plugins/include';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginReact } from './plugins/react';
 
@@ -157,6 +158,8 @@ export async function parseConfig(
   rsbuildPlugins.push(
     pluginModuleScopes(uniBuilderConfig.source?.moduleScopes),
   );
+
+  rsbuildPlugins.push(pluginInclude());
 
   return {
     rsbuildConfig,

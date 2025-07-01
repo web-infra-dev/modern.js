@@ -1,3 +1,4 @@
+import { sep } from 'path';
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import { logger } from '@modern-js/utils';
 
@@ -17,18 +18,19 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
           }
         });
       }
+
+      const cjsRegex = new RegExp(`${sep}cjs${sep}`);
+      const esm = `${sep}esm${sep}`;
       return {
         resolve: {
           alias: {
-            'react-router-dom$': require
-              .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
+            'react-router-dom$': require.resolve('../runtime'),
             '@remix-run/router': require
               .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
+              .replace(cjsRegex, esm),
             'react-router-dom/server': require
               .resolve('../runtime')
-              .replace(/\/cjs\//, '/esm/'),
+              .replace(cjsRegex, esm),
           },
         },
         source: {
