@@ -17,6 +17,7 @@ import {
   fs,
   getEntryOptions,
   isSSGEntry,
+  isUseRsc,
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
@@ -151,16 +152,20 @@ export const generateCode = async (
           code: await templates.fileSystemRoutes({
             metaName,
             routes,
-            ssrMode: useSSG ? 'string' : mode,
+            ssrMode: useSSG ? 'string' : isUseRsc(config) ? 'stream' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
             splitRouteChunks: config?.output?.splitRouteChunks,
+            isRscClient: isUseRsc(config),
           }),
         });
 
         // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry && isUseSSRBundle(config)) {
+        if (
+          entrypoint.nestedRoutesEntry &&
+          (isUseSSRBundle(config) || isUseRsc(config))
+        ) {
           const routesServerFile = getServerLoadersFile(
             internalDirectory,
             entryName,
@@ -188,6 +193,7 @@ export const generateCode = async (
             entryName: entrypoint.entryName,
             internalDirectory,
             splitRouteChunks: config?.output?.splitRouteChunks,
+            isRscClient: false,
           });
 
           await fs.outputFile(
@@ -234,6 +240,21 @@ export function generatorRegisterCode(
     path.resolve(
       internalDirectory,
       `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
+    ),
+    code,
+    'utf8',
+  );
+}
+
+export function generatorServerRegisterCode(
+  internalDirectory: string,
+  entryName: string,
+  code: string,
+) {
+  fs.outputFileSync(
+    path.resolve(
+      internalDirectory,
+      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.server.js`,
     ),
     code,
     'utf8',

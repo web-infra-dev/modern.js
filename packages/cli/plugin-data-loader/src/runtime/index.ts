@@ -5,7 +5,7 @@ import {
 } from '@modern-js/runtime-utils/node';
 import { storage } from '@modern-js/runtime-utils/node';
 import {
-  UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
+  DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
   createStaticHandler,
   isRouteErrorResponse,

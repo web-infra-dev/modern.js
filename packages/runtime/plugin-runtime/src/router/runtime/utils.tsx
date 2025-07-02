@@ -4,7 +4,11 @@ import {
   type Router,
   type StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
-import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
+import {
+  Route,
+  type RouteObject,
+  isRouteErrorResponse,
+} from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
 import type React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
@@ -53,6 +57,106 @@ export function getRouteComponents(
   }
   routeElements.push(<Route key="*" path="*" element={<DefaultNotFound />} />);
   return routeElements;
+}
+
+export function getRouteObjects(
+  routes: (NestedRoute | PageRoute)[],
+  {
+    globalApp,
+    ssrMode,
+    props,
+  }: {
+    globalApp?: React.ComponentType<any>;
+    ssrMode?: SSRMode;
+    props?: Record<string, any>;
+  },
+) {
+  const createLayoutElement = (Component: React.ComponentType<any>) => {
+    const GlobalLayout = globalApp;
+    if (!GlobalLayout) {
+      return Component;
+    }
+
+    const LayoutWrapper = (props: any) => {
+      const LayoutComponent = GlobalLayout;
+      return <LayoutComponent Component={Component} {...props} />;
+    };
+
+    return LayoutWrapper;
+  };
+
+  const routeObjects: any[] = [];
+
+  for (const route of routes) {
+    if (route.type === 'nested') {
+      const nestedRouteObject = {
+        path: route.path,
+        id: route.id,
+        loader: route.loader,
+        action: route.action,
+        hasErrorBoundary: route.hasErrorBoundary,
+        shouldRevalidate: route.shouldRevalidate,
+        handle: route.handle,
+        index: route.index,
+        hasClientLoader: !!route.clientData,
+        Component: route.component ? route.component : undefined,
+        // element: route.component ? <route.component /> : undefined,
+        errorElement: route.error ? <route.error /> : undefined,
+        children: route.children
+          ? route.children.map(
+              child =>
+                getRouteObjects([child], { globalApp, ssrMode, props })[0],
+            )
+          : undefined,
+      };
+
+      routeObjects.push(nestedRouteObject);
+    } else {
+      if (
+        typeof route.component === 'function' ||
+        typeof route.component === 'object'
+      ) {
+        const routeObject = {
+          path: route.path,
+          element: createLayoutElement(
+            route.component as React.ComponentType<any>,
+          ),
+        };
+
+        routeObjects.push(routeObject);
+      }
+    }
+  }
+
+  routeObjects.push({
+    path: '*',
+    element: <DefaultNotFound />,
+  });
+
+  return routeObjects;
+}
+
+export function createRouteObjectsFromConfig({
+  routesConfig,
+  props,
+  ssrMode,
+}: {
+  routesConfig: RouterConfig['routesConfig'];
+  props?: Record<string, any>;
+  ssrMode?: SSRMode;
+}): RouteObject[] | null {
+  if (!routesConfig) {
+    return null;
+  }
+  const { routes, globalApp } = routesConfig;
+  if (!routes) {
+    return null;
+  }
+  return getRouteObjects(routes, {
+    globalApp,
+    ssrMode,
+    props,
+  });
 }
 
 export function renderRoutes({

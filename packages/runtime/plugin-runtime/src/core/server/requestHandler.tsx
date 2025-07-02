@@ -2,6 +2,7 @@ import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '@modern-js/app-tools';
+import { renderRsc } from '@modern-js/render/rsc';
 import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import { storage } from '@modern-js/runtime-utils/node';
 import {
@@ -11,11 +12,14 @@ import {
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
+import { Fragment } from 'react';
 import {
   type RuntimeContext,
+  getGlobalApp,
   getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
+  getGlobalServerPayload,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -43,7 +47,7 @@ export type HandleRequest = (
 export type CreateRequestHandler = (
   handleRequest: HandleRequest,
   options?: {
-    enableRsc: boolean;
+    enableRsc?: boolean;
   },
 ) => Promise<RequestHandler>;
 
@@ -241,6 +245,7 @@ export const createRequestHandler: CreateRequestHandler = async (
 
         const initialData = await runBeforeRender(context);
 
+
         // Support data loader to return `new Response` and set status code
         if (
           context.routerContext?.statusCode &&
@@ -264,21 +269,55 @@ export const createRequestHandler: CreateRequestHandler = async (
         const redirectResponse = getRedirectResponse(initialData);
 
         if (redirectResponse) {
-          return redirectResponse;
+          if(createRequestOptions?.enableRsc){
+            return initialData;
+          } else {
+            return redirectResponse;
+          }
         }
 
-        const { htmlTemplate } = options.resource;
+        const htmlTemplate = options.resource?.htmlTemplate;
 
-        options.resource.htmlTemplate = htmlTemplate.replace(
-          '</head>',
-          `${CHUNK_CSS_PLACEHOLDER}</head>`,
-        );
+        if (htmlTemplate) {
+          options.resource.htmlTemplate = htmlTemplate.replace(
+            '</head>',
+            `${CHUNK_CSS_PLACEHOLDER}</head>`,
+          );
+        }
 
-        const response = await handleRequest(request, Root, {
-          ...options,
-          runtimeContext: context,
-          RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
-        });
+        let response: Response;
+
+        if (createRequestOptions?.enableRsc) {
+          const serverPayload = getGlobalServerPayload();
+          if (typeof serverPayload !== 'undefined') {
+            response = await handleRequest(request, Root, {
+              ...options,
+              runtimeContext: context,
+              rscRoot: getGlobalServerPayload(),
+            });
+          } else {
+            const App = getGlobalRSCRoot();
+            if (App) {
+              response = await handleRequest(request, Fragment, {
+                ...options,
+                runtimeContext: context,
+                rscRoot: <App />,
+              });
+            } else {
+              // Fallback when no RSC root is available
+              response = await handleRequest(request, Root, {
+                ...options,
+                runtimeContext: context,
+              });
+            }
+          }
+        } else {
+          response = await handleRequest(request, Root, {
+            ...options,
+            runtimeContext: context,
+            RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
+          });
+        }
 
         Object.entries(responseProxy.headers).forEach(([key, value]) => {
           response.headers.set(key, value);

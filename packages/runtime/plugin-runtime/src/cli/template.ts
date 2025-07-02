@@ -6,6 +6,35 @@ import {
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
 } from './constants';
 
+const genRenderStatement = ({
+  customBootstrap,
+  enableRsc,
+  mountId,
+  isNestedRouter,
+}: {
+  customBootstrap?: string | false;
+  enableRsc?: boolean;
+  mountId?: string;
+  isNestedRouter?: boolean;
+}) => {
+  if (customBootstrap) {
+    return `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
+      mountId || 'root'
+    }'));`;
+  }
+
+  if (enableRsc) {
+    if (!isNestedRouter) {
+      return `render(<ModernRoot>
+                  <RscClientRoot rscPayload={data} />
+                </ModernRoot>, '${mountId || 'root'}');`;
+    }
+    return `render(<ModernRoot rscPayload={data} />, '${mountId || 'root'}');`;
+  }
+
+  return `render(<ModernRoot />, '${mountId || 'root'}');`;
+};
+
 const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
@@ -15,6 +44,7 @@ const genRenderCode = ({
   customBootstrap,
   mountId,
   enableRsc,
+  isNestedRouter,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -24,6 +54,7 @@ const genRenderCode = ({
   customBootstrap?: string | false;
   mountId?: string;
   enableRsc?: boolean;
+  isNestedRouter?: boolean;
 }) => {
   if (customEntry) {
     return `import '${formatImportPath(
@@ -59,17 +90,12 @@ ${
 
 const ModernRoot = createRoot();
 
-${
-  customBootstrap
-    ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
-        mountId || 'root'
-      }'));`
-    : enableRsc
-      ? `render(<ModernRoot>
-                  <RscClientRoot data={data} />
-                </ModernRoot>, '${mountId || 'root'}');`
-      : `render(<ModernRoot />, '${mountId || 'root'}');`
-}`;
+${genRenderStatement({
+  customBootstrap,
+  enableRsc,
+  mountId,
+  isNestedRouter,
+})}`;
 };
 
 export const entryForCSRWithRSC = ({
@@ -77,11 +103,13 @@ export const entryForCSRWithRSC = ({
   entryName,
   urlPath = '/',
   mountId = 'root',
+  isNestedRouter,
 }: {
   metaName: string;
   entryName: string;
   urlPath?: string;
   mountId?: string;
+  isNestedRouter?: string;
 }) => {
   return `
   import '@${metaName}/runtime/registry/${entryName}';
@@ -90,25 +118,54 @@ export const entryForCSRWithRSC = ({
 
   import {
     RscClientRoot,
-    createFromFetch
+    createFromFetch,
+    isRedirectResponse
   } from '@${metaName}/runtime/rsc/client';
 
-  const content = createFromFetch(
-    fetch('${urlPath}', {
+  const handleRedirectResponse = (res: Response) => {
+    const { headers } = res;
+    const location = headers.get('X-Modernjs-Redirect');
+    const baseUrl = headers.get('X-Modernjs-BaseUrl');
+    if (location) {
+      if (baseUrl !== '/') {
+        window.location.replace(baseUrl + location);
+      } else {
+        window.location.replace(location);
+      }
+      return;
+    }
+    return res;
+  };
+
+  createFromFetch(
+    fetch(location.pathname, {
       headers: {
         'x-rsc-tree': 'true',
       },
-    }),
-  );
+    }).then(handleRedirectResponse),
+  ).then((content) => {
+    const ModernRoot = createRoot();
 
-  const ModernRoot = createRoot();
+    ${
+      isNestedRouter
+        ? `
+        render(
+          <ModernRoot rscPayload={Promise.resolve(content)}>
+          </ModernRoot>,
+          '${mountId}',
+        );
+      `
+        : `
+        render(
+          <ModernRoot>
+            <RscClientRoot rscPayload={Promise.resolve(content)} />
+          </ModernRoot>,
+          '${mountId}',
+        );
+      `
+    }
 
-  render(
-    <ModernRoot>
-      <RscClientRoot data={content} />
-    </ModernRoot>,
-    '${mountId}',
-  );
+  })
   `;
 };
 
@@ -122,6 +179,7 @@ export const index = ({
   customBootstrap,
   mountId,
   enableRsc,
+  isNestedRouter,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -132,6 +190,7 @@ export const index = ({
   customBootstrap?: string | false;
   mountId?: string;
   enableRsc?: boolean;
+  isNestedRouter?: boolean;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
 ${genRenderCode({
@@ -143,6 +202,7 @@ ${genRenderCode({
   customBootstrap,
   mountId,
   enableRsc,
+  isNestedRouter,
 })}
 `;
 

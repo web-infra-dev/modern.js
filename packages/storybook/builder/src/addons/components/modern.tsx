@@ -5,7 +5,7 @@ import type {
   RouterConfig,
   RuntimePluginFuture,
 } from '@modern-js/runtime';
-import router from '@modern-js/runtime/router';
+import router from '@modern-js/runtime/router/internal';
 import React from 'react';
 import type { IConfig } from '../type';
 

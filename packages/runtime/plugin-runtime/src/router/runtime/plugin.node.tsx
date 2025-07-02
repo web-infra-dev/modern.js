@@ -7,27 +7,75 @@ import {
   StaticRouterProvider,
   createStaticRouter,
 } from '@modern-js/runtime-utils/node/router';
-import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
 import {
+  AgnosticDataRouteMatch,
+  // StaticRouterProvider,
+  createStaticHandler,
+  // createStaticRouter,
+} from '@modern-js/runtime-utils/remix-router';
+import {
+  type DataRouteObject,
   type RouteObject,
   createRoutesFromElements,
+  useActionData,
+  useLoaderData,
+  useMatches,
+  useParams,
 } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
-import type React from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { RuntimePluginFuture } from '../../core';
-import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
+import {
+  type PayloadRoute,
+  type ServerPayload,
+  getGlobalEnableRsc,
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+  setGlobalServerPayload,
+} from '../../core/context';
 import DeferredDataScripts from './DeferredDataScripts.node';
+import { RSCStaticRouter } from './RSCHydratedRouter';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
 import type { RouterConfig } from './types';
-import { renderRoutes, urlJoin } from './utils';
+import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
+
+function cloneRoutesWithoutComponentAndElement(routes: any[]): any[] {
+  return routes.map(route => {
+    const {
+      Component,
+      element,
+      children,
+      lazyImport,
+      loader,
+      error,
+      loading,
+      action,
+      config,
+      ...rest
+    } = route;
+    const newRoute: any = { ...rest };
+    if (children && Array.isArray(children)) {
+      newRoute.children = cloneRoutesWithoutComponentAndElement(children);
+    }
+    return newRoute;
+  });
+}
+
+function isLazyComponent(component: any) {
+  return (
+    component &&
+    typeof component === 'object' &&
+    component._init !== undefined &&
+    component._payload !== undefined
+  );
+}
 
 function createRemixReuqest(request: Request) {
   const method = 'GET';
@@ -38,6 +86,24 @@ function createRemixReuqest(request: Request) {
     method,
     headers,
     signal: controller.signal,
+  });
+}
+
+function convertModernRedirectResponse(headers: Headers, basename: string) {
+  const newHeaders = new Headers(headers);
+  let redirectUrl = headers.get('Location')!;
+
+  if (basename !== '/') {
+    redirectUrl = redirectUrl.replace(basename, '');
+  }
+
+  newHeaders.set('X-Modernjs-Redirect', redirectUrl);
+  newHeaders.set('X-Modernjs-BaseUrl', basename);
+  newHeaders.delete('Location');
+
+  return new Response(null, {
+    status: 302,
+    headers: newHeaders,
   });
 }
 
@@ -73,6 +139,28 @@ export const routerPlugin = (
           return;
         }
 
+        const enableRsc = getGlobalEnableRsc();
+
+        if (enableRsc) {
+          const processRoutes = async (
+            routes: RouteObject[],
+          ): Promise<void> => {
+            await Promise.all(
+              routes.map(async (route: any) => {
+                if ('lazyImport' in route && isLazyComponent(route.component)) {
+                  route.component = (await route.lazyImport()).default;
+                }
+
+                if (route.children && Array.isArray(route.children)) {
+                  await processRoutes(route.children);
+                }
+              }),
+            );
+          };
+
+          await processRoutes(finalRouteConfig.routes);
+        }
+
         const {
           request,
           mode: ssrMode,
@@ -92,17 +180,26 @@ export const routerPlugin = (
 
         await hooks.onBeforeCreateRoutes.call(context);
 
-        let routes: RouteObject[] = createRoutes
-          ? createRoutes()
-          : createRoutesFromElements(
-              renderRoutes({
+        let routes: RouteObject[] = [];
+        if (enableRsc) {
+          routes = createRoutes
+            ? createRoutes()
+            : createRouteObjectsFromConfig({
                 routesConfig: finalRouteConfig,
-                ssrMode,
-                props: {
-                  nonce,
-                },
-              }),
-            );
+              });
+        } else {
+          routes = createRoutes
+            ? createRoutes()
+            : createRoutesFromElements(
+                renderRoutes({
+                  routesConfig: finalRouteConfig,
+                  ssrMode,
+                  props: {
+                    nonce,
+                  },
+                }),
+              );
+        }
 
         routes = hooks.modifyRoutes.call(routes);
 
@@ -120,14 +217,21 @@ export const routerPlugin = (
         const routerContext = await query(remixRequest, {
           requestContext,
         });
-
         const cost = end();
         context.ssrContext?.onTiming?.(LOADER_REPORTER_NAME, cost);
 
+        const isRSNavigation =
+          remixRequest.headers.get('x-rsc-tree') === 'true';
         if (routerContext instanceof Response) {
           // React Router would return a Response when redirects occur in loader.
           // Throw the Response to bail out and let the server handle it with an HTTP redirect
-          return interrupt(routerContext);
+          if (isRSNavigation) {
+            return interrupt(
+              convertModernRedirectResponse(routerContext.headers, _basename),
+            );
+          } else {
+            return interrupt(routerContext);
+          }
         }
 
         // Now `throw new Response` or `throw new Error` is same, both will be caught by errorBoundary by default
@@ -143,17 +247,72 @@ export const routerPlugin = (
           routerContext.statusCode = 200;
           throw errors[0];
         }
-
-        const router = createStaticRouter(routes, routerContext);
-        // routerContext is used in in css collector、handle status code、inject loader data in html
+        // routerContext is used in in css colletor、handle status code、inject loader data in html
         context.routerContext = routerContext;
 
-        // private api, pass to React Component in `wrapRoot`
-        // in the browser, we not need to pass router, cause we create Router in `wrapRoot`
-        // but in node, we need to pass router, cause we need run async function, it can only run in `beforeRender`
-        // when we deprecated React 17, we can use Suspense to handle this async function
-        // so the `remixRouter` has no type declare in RuntimeContext
-        context.remixRouter = router;
+        let payload: ServerPayload;
+        if (enableRsc) {
+          // Refer to the implementation of react-router's ServerRouter
+          if (isRSNavigation) {
+            for (const match of routerContext.matches) {
+              if ((match.route as any).hasClientLoader) {
+                delete routerContext.loaderData[match.route.id];
+              }
+            }
+          }
+
+          payload = {
+            type: 'render' as const,
+            actionData: routerContext.actionData,
+            errors: routerContext.errors,
+            loaderData: routerContext.loaderData,
+            location: routerContext.location,
+            routes: routerContext.matches.map((match, index, matches) => {
+              const element = (match.route as any).element;
+              const parentMatch = index > 0 ? matches[index - 1] : undefined;
+
+              let processedElement;
+
+              if (element) {
+                const ElementComponent = element.type;
+                processedElement = React.createElement(ElementComponent, {
+                  loaderData: routerContext?.loaderData?.[match.route.id],
+                  actionData: routerContext?.actionData?.[match.route.id],
+                  params: match.params,
+                  matches: routerContext.matches.map(m => {
+                    const { route, pathname, params } = m;
+                    return {
+                      id: route.id,
+                      pathname,
+                      params,
+                      data: routerContext?.loaderData?.[route.id],
+                      handle: route.handle,
+                    };
+                  }),
+                });
+              }
+
+              return {
+                element: processedElement,
+                errorElement: (match.route as any).errorElement,
+                handle: (match.route as any).handle,
+                hasAction: !!(match.route as any).action,
+                hasErrorBoundary: !!(match.route as any).hasErrorBoundary,
+                hasLoader: !!(match.route as any).loader,
+                hasClientLoader: !!(match.route as any).hasClientLoader,
+                id: match.route.id,
+                index: (match.route as any).index,
+                params: match.params,
+                parentId:
+                  parentMatch?.route.id || (match.route as any).parentId,
+                path: match.route.path,
+                pathname: match.pathname,
+                pathnameBase: match.pathnameBase,
+              } as PayloadRoute;
+            }),
+          };
+          setGlobalServerPayload(payload);
+        }
 
         // private api, pass to React Component in `wrapRoot`
         Object.defineProperty(context, 'routes', {
@@ -172,34 +331,51 @@ export const routerPlugin = (
         }
 
         const getRouteApp = () => {
-          return (() => {
+          const enableRsc = getGlobalEnableRsc();
+          return (props => {
             const context = useContext(RuntimeReactContext);
-            const { remixRouter, routerContext, ssrContext } = context;
-
+            const { routerContext, ssrContext, routes } = context;
             const { nonce, mode, useJsonScript } = ssrContext!;
+            const { basename } = routerContext!;
 
-            const routerWrapper = (
-              <>
-                <StaticRouterProvider
-                  router={remixRouter!}
-                  context={routerContext!}
-                  hydrate={false}
-                />
-
-                {mode === 'stream' && (
-                  // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
-                  // So we can inject it only when streaming ssr
-                  <DeferredDataScripts
-                    nonce={nonce}
+            const remixRouter = createStaticRouter(routes, routerContext!);
+            if (!enableRsc) {
+              const routerWrapper = (
+                <>
+                  <StaticRouterProvider
+                    router={remixRouter!}
                     context={routerContext!}
+                    hydrate={false}
+                  />
+
+                  {mode === 'stream' && (
+                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                    // So we can inject it only when streaming ssr
+                    <DeferredDataScripts
+                      nonce={nonce}
+                      context={routerContext!}
+                      useJsonScript={useJsonScript}
+                    />
+                  )}
+                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
+                </>
+              );
+              return App ? <App>{routerWrapper}</App> : routerWrapper;
+            } else {
+              return App ? (
+                <App>
+                  <RSCStaticRouter
+                    basename={basename}
                     useJsonScript={useJsonScript}
                   />
-                )}
-                {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
-              </>
-            );
-
-            return App ? <App>{routerWrapper}</App> : routerWrapper;
+                </App>
+              ) : (
+                <RSCStaticRouter
+                  basename={basename}
+                  useJsonScript={useJsonScript}
+                />
+              );
+            }
           }) as React.FC<any>;
         };
 

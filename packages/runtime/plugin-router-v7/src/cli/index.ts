@@ -1,6 +1,6 @@
 import { sep } from 'path';
 import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
-import { logger } from '@modern-js/utils';
+import { isDepExists, logger } from '@modern-js/utils';
 
 export const routerPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-router-v7',
@@ -8,6 +8,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
   setup: api => {
     api.config(() => {
       const config = api.getNormalizedConfig();
+      const appContext = api.getAppContext();
       const alias = config?.source?.alias;
       if (typeof alias !== 'undefined') {
         Object.keys(alias).forEach(key => {
@@ -19,15 +20,27 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
         });
       }
 
+      const hasReactRouterDep = isDepExists(
+        appContext.appDirectory,
+        'react-router',
+      );
+
       const cjs = `${sep}cjs${sep}`;
       const esm = `${sep}esm${sep}`;
-      const runtimeAlias = require.resolve('../runtime').replace(cjs, esm);
+      const runtimeAlias = hasReactRouterDep
+        ? 'react-router'
+        : require.resolve('../runtime').replace(cjs, esm);
+
       return {
         resolve: {
           alias: {
             'react-router-dom$': runtimeAlias,
             '@remix-run/router': runtimeAlias,
-            'react-router-dom/server': runtimeAlias,
+            'react-router-dom/server$': runtimeAlias,
+            // TODO: try remove this
+            [`@${appContext.metaName}/runtime/router/server`]: require
+              .resolve('../runtime/rsc')
+              .replace(/\/cjs\//, '/esm/'),
           },
         },
         source: {

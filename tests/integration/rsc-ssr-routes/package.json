@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "name": "rsc-ssr-routes",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "cross-env BUNDLER=rspack modern dev",
+    "dev:webpack": "cross-env BUNDLER=webpack modern dev",
+    "build": "cross-env BUNDLER=rspack modern build",
+    "build:webpack": "cross-env BUNDLER=webpack modern build",
+    "serve": "modern serve",
+    "new": "modern new"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "client-only": "^0.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "0.0.0-experimental-3f68c7c20",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
+    "typescript": "^5"
+  }
+}
