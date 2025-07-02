@@ -1,5 +1,7 @@
 # @modern-js/packages-generator
 
+## 3.7.37
+
 ## 3.7.36
 
 ## 3.7.35

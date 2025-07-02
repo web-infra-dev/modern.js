@@ -1,5 +1,22 @@
 # @modern-js/module-tools
 
+## 2.68.0
+
+### Minor Changes
+
+- 292d91c: feat: update esbuild version to 0.25.5
+
+  feat: 更新 esbuild 版本到 0.25.5
+
+### Patch Changes
+
+- @modern-js/core@2.68.0
+- @modern-js/plugin-changeset@2.68.0
+- @modern-js/plugin-i18n@2.68.0
+- @modern-js/plugin@2.68.0
+- @modern-js/types@2.68.0
+- @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

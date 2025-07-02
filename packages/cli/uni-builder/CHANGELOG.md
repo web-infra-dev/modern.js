@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.68.0
+
+### Patch Changes
+
+- d68f93c: fix: keep the default behavior of scope for compiling JS when use webpack after upgrade to Rsbuild 1.4
+  fix: 升级到 Rsbuild 1.4 后，如果使用 Webpack 构建，保持默认的 JS 编译范围
+- 4cc0a22: feat: support resolve configuration in rsbuild.
+  feat: 支持 rsbuild 的 resolve 配置。
+  - @modern-js/utils@2.68.0
+  - @modern-js/babel-preset@2.68.0
+  - @modern-js/flight-server-transform-plugin@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes
