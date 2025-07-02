@@ -9,7 +9,7 @@
     "@types/jest": "^29",
     "@types/node": "^14",
     "enhanced-resolve": "5.17.1",
-    "esbuild": "0.17.19",
+    "esbuild": "0.25.5",
     "jest": "^29"
   }
 }

@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
-    "esbuild": "0.17.19",
+    "esbuild": "0.25.5",
     "webpack": "^5.99.8"
   },
   "devDependencies": {
