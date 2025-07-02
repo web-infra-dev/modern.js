@@ -219,7 +219,7 @@
     "@types/styled-components": "^5.1.14",
     "cookie": "0.7.2",
     "es-module-lexer": "^1.1.0",
-    "esbuild": "0.17.19",
+    "esbuild": "0.25.5",
     "invariant": "^2.2.4",
     "isbot": "3.7.1",
     "react-helmet": "^6.1.0",
