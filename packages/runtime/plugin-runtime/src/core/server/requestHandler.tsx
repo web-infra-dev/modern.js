@@ -11,11 +11,14 @@ import {
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
+import { Fragment } from 'react';
 import {
   type RuntimeContext,
+  getGlobalApp,
   getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
+  getGlobalServerPayload,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -24,6 +27,39 @@ import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
 import { SSRErrors } from './tracer';
 import { getSSRConfigByEntry, getSSRMode } from './utils';
+
+async function handleRSCRequest(
+  request: Request,
+  Root: React.ComponentType,
+  context: RuntimeContext,
+  options: RequestHandlerOptions,
+  handleRequest: HandleRequest,
+): Promise<Response> {
+  const serverPayload = getGlobalServerPayload();
+
+  if (typeof serverPayload !== 'undefined') {
+    return await handleRequest(request, Root, {
+      ...options,
+      runtimeContext: context,
+      rscRoot: getGlobalServerPayload(),
+    });
+  }
+
+  const App = getGlobalRSCRoot();
+  if (App) {
+    return await handleRequest(request, Fragment, {
+      ...options,
+      runtimeContext: context,
+      rscRoot: <App />,
+    });
+  }
+
+  // Fallback when no RSC root is available
+  return await handleRequest(request, Root, {
+    ...options,
+    runtimeContext: context,
+  });
+}
 
 export type { RequestHandlerConfig as HandleRequestConfig } from '@modern-js/app-tools';
 
@@ -43,7 +79,7 @@ export type HandleRequest = (
 export type CreateRequestHandler = (
   handleRequest: HandleRequest,
   options?: {
-    enableRsc: boolean;
+    enableRsc?: boolean;
   },
 ) => Promise<RequestHandler>;
 
@@ -264,21 +300,39 @@ export const createRequestHandler: CreateRequestHandler = async (
         const redirectResponse = getRedirectResponse(initialData);
 
         if (redirectResponse) {
-          return redirectResponse;
+          if (createRequestOptions?.enableRsc) {
+            return initialData;
+          } else {
+            return redirectResponse;
+          }
         }
 
-        const { htmlTemplate } = options.resource;
+        const htmlTemplate = options.resource?.htmlTemplate;
 
-        options.resource.htmlTemplate = htmlTemplate.replace(
-          '</head>',
-          `${CHUNK_CSS_PLACEHOLDER}</head>`,
-        );
+        if (htmlTemplate) {
+          options.resource.htmlTemplate = htmlTemplate.replace(
+            '</head>',
+            `${CHUNK_CSS_PLACEHOLDER}</head>`,
+          );
+        }
 
-        const response = await handleRequest(request, Root, {
-          ...options,
-          runtimeContext: context,
-          RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
-        });
+        let response: Response;
+
+        if (createRequestOptions?.enableRsc) {
+          response = await handleRSCRequest(
+            request,
+            Root,
+            context,
+            options,
+            handleRequest,
+          );
+        } else {
+          response = await handleRequest(request, Root, {
+            ...options,
+            runtimeContext: context,
+            RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
+          });
+        }
 
         Object.entries(responseProxy.headers).forEach(([key, value]) => {
           response.headers.set(key, value);

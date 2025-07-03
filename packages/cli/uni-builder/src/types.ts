@@ -72,6 +72,7 @@ export type CreateBuilderCommonOptions = {
   cwd: string;
   rscClientRuntimePath?: string;
   rscServerRuntimePath?: string;
+  internalDirectory?: string;
 };
 
 export type BundlerType = 'rspack' | 'webpack';

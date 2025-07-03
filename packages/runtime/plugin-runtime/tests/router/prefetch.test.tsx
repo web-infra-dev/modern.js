@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import {
   type LoaderFunctionArgs,
   RouterProvider,

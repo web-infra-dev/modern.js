@@ -1,5 +1,7 @@
 import type { InternalRuntimeContext } from '@modern-js/plugin-v2';
+import type { RouterState } from '@modern-js/runtime-utils/remix-router';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
+import type React from 'react';
 import type { AppConfig } from '../../common';
 import type { RuntimeExtends } from '../plugin/types';
 
@@ -8,6 +10,35 @@ export {
   RuntimeReactContext,
   getInitialContext,
 } from './runtime';
+
+export type PayloadRoute = {
+  clientAction?: any;
+  clientLoader?: any;
+  element?: React.ReactNode;
+  errorElement?: React.ReactNode;
+  handle?: any;
+  hasAction: boolean;
+  hasErrorBoundary: boolean;
+  hasLoader: boolean;
+  id: string;
+  index?: boolean;
+  params: Record<string, string>;
+  parentId?: string;
+  path?: string;
+  pathname: string;
+  pathnameBase: string;
+  shouldRevalidate?: any;
+};
+
+export type ServerPayload = {
+  type: 'render';
+  actionData: RouterState['actionData'];
+  errors: RouterState['errors'];
+  loaderData: RouterState['loaderData'];
+  location: RouterState['location'];
+  routes: PayloadRoute[];
+  originalRoutes?: PayloadRoute[];
+};
 
 interface GlobalContext {
   entryName?: string;
@@ -37,9 +68,30 @@ interface GlobalContext {
    * RSCRoot
    */
   RSCRoot?: React.ComponentType;
+  isRscClient?: boolean;
+  serverPayload?: ServerPayload;
+  enableRsc?: boolean;
 }
 
 const globalContext: GlobalContext = {};
+
+export function setGlobalServerPayload(
+  payload: GlobalContext['serverPayload'],
+) {
+  globalContext.serverPayload = payload;
+}
+
+export function getGlobalServerPayload() {
+  return globalContext.serverPayload;
+}
+
+export function getGlobalIsRscClient() {
+  return globalContext.isRscClient;
+}
+
+export function getGlobalEnableRsc() {
+  return globalContext.enableRsc;
+}
 
 export function setGlobalContext(
   context: Omit<GlobalContext, 'appConfig' | 'internalRuntimeContext'> & {
@@ -56,6 +108,8 @@ export function setGlobalContext(
       : context.appConfig;
   globalContext.layoutApp = context.layoutApp;
   globalContext.RSCRoot = context.RSCRoot;
+  globalContext.isRscClient = context.isRscClient;
+  globalContext.enableRsc = context.enableRsc;
 }
 
 export function getCurrentEntryName() {

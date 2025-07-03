@@ -26,6 +26,7 @@ import {
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 import { RSCServerSlot } from '@#metaName/runtime/rsc/client';
+import { renderRsc } from '@#metaName/runtime/rsc/server';
 export { handleAction } from '@#metaName/runtime/rsc/server';
 
 const handleRequest = async (request, ServerRoot, options) => {
@@ -36,7 +37,7 @@ const handleRequest = async (request, ServerRoot, options) => {
     </ServerRoot>,
     {
       ...options,
-      rscRoot: <options.RSCRoot />,
+      rscRoot: options.rscRoot || <options.RSCRoot />,
     },
   );
 
@@ -48,7 +49,22 @@ const handleRequest = async (request, ServerRoot, options) => {
 };
 
 export const requestHandler = createRequestHandler(handleRequest, {
-  enableRsc: true,
+  enableRsc: true
+});
+
+const handleRSCRequest = async (request, ServerRoot, options) => {
+  const { serverPayload } = options;
+  const stream = renderRsc({
+    element: options.rscRoot,
+    clientManifest: options.rscClientManifest!,
+  });
+
+  return new Response(stream);
+}
+
+
+export const rscRequestHandler = createRequestHandler(handleRSCRequest, {
+  enableRsc: true
 });
 `;
 
@@ -67,26 +83,31 @@ export const serverIndex = (options: ServerIndexOptinos) => {
 
 export const entryForCSRWithRSC = ({
   metaName,
+  entryName,
 }: {
   metaName: string;
+  entryName: string;
 }) => {
   return `
-  import App from './AppProxy';
+  import '@${metaName}/runtime/registry/${entryName}';
+  import {
+    createRequestHandler,
+  } from '@${metaName}/runtime/ssr/server';
   import { renderRsc } from '@${metaName}/runtime/rsc/server'
   export { handleAction } from '@${metaName}/runtime/rsc/server';
 
-
-  export const rscRequestHandler = ({
-    clientManifest
-  }) => {
+  const handleRequest = async (request, ServerRoot, options) => {
     const stream = renderRsc({
-      element: <App/>,
-      clientManifest,
-    })
+            element: options.rscRoot || <options.RSCRoot/>,
+      clientManifest: options.rscClientManifest!,
+    });
 
-    const response = new Response(stream);
-    return response
+    return new Response(stream);
   }
+
+  export const rscRequestHandler = createRequestHandler(handleRequest, {
+    enableRsc: true
+  });
 `;
 };
 

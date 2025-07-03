@@ -1,3 +1,4 @@
+'use client';
 import {
   type Path,
   type RouteObject,
@@ -31,9 +32,7 @@ declare const __webpack_chunk_load__:
   | ((chunkId: string | number) => Promise<void>)
   | undefined;
 
-export function composeEventHandlers<
-  EventType extends React.SyntheticEvent | Event,
->(
+function composeEventHandlers<EventType extends React.SyntheticEvent | Event>(
   theirHandler: ((event: EventType) => any) | undefined,
   ourHandler: (event: EventType) => any,
 ): (event: EventType) => any {

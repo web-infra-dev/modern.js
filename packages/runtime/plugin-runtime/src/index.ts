@@ -1,4 +1,4 @@
-import type { RouterConfig } from './router';
+import type { RouterConfig } from './router/internal';
 
 export type { Plugin, RuntimePluginFuture } from './core';
 export type { AppConfig, RuntimeConfig } from './common';

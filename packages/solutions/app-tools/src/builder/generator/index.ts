@@ -41,6 +41,7 @@ export async function generateBuilder<B extends Bundler>(
     cwd: appContext.appDirectory,
     rscClientRuntimePath: `@${appContext.metaName}/runtime/rsc/client`,
     rscServerRuntimePath: `@${appContext.metaName}/runtime/rsc/server`,
+    internalDirectory: appContext.internalDirectory,
     frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
     config: builderConfig,

@@ -4,7 +4,7 @@ import {
   SERVICE_WORKER_ENVIRONMENT_NAME,
   isHtmlDisabled,
 } from '@modern-js/uni-builder';
-import { fs, isUseSSRBundle } from '@modern-js/utils';
+import { fs, isUseRsc, isUseSSRBundle } from '@modern-js/utils';
 import {
   type RsbuildPlugin,
   type RspackChain,
@@ -72,7 +72,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           });
         }
 
-        if (isUseSSRBundle(normalizedConfig)) {
+        if (isUseSSRBundle(normalizedConfig) || isUseRsc(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
           applySSRDataLoader(chain, options);
         }
