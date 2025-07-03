@@ -1,5 +1,17 @@
 # @modern-js/node-bundle-require
 
+## 2.68.0
+
+### Minor Changes
+
+- 292d91c: feat: update esbuild version to 0.25.5
+
+  feat: 更新 esbuild 版本到 0.25.5
+
+### Patch Changes
+
+- @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

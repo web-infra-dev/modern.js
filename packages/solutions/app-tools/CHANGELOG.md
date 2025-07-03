@@ -1,5 +1,40 @@
 # @modern-js/app-tools
 
+## 2.68.0
+
+### Minor Changes
+
+- 292d91c: feat: update esbuild version to 0.25.5
+
+  feat: 更新 esbuild 版本到 0.25.5
+
+- e7f8170: feat: Drop support for Node.js 16 **BREAKING CHANGE: Node.js 16 is no longer supported. Please upgrade to Node.js 18 or higher.**
+
+  feat: 不再支持 Node.js 16 **重大变更：Node.js 16 已不再支持，请升级至 Node.js 18 或更高版本**。
+
+### Patch Changes
+
+- 4cc0a22: feat: support resolve configuration in rsbuild.
+  feat: 支持 rsbuild 的 resolve 配置。
+- Updated dependencies [292d91c]
+- Updated dependencies [992194b]
+- Updated dependencies [d68f93c]
+- Updated dependencies [4cc0a22]
+  - @modern-js/node-bundle-require@2.68.0
+  - @modern-js/rsbuild-plugin-esbuild@2.68.0
+  - @modern-js/prod-server@2.68.0
+  - @modern-js/uni-builder@2.68.0
+  - @modern-js/core@2.68.0
+  - @modern-js/plugin-data-loader@2.68.0
+  - @modern-js/plugin-i18n@2.68.0
+  - @modern-js/server-core@2.68.0
+  - @modern-js/server@2.68.0
+  - @modern-js/server-utils@2.68.0
+  - @modern-js/plugin@2.68.0
+  - @modern-js/plugin-v2@2.68.0
+  - @modern-js/types@2.68.0
+  - @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

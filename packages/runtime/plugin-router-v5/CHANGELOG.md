@@ -1,5 +1,20 @@
 # @modern-js/plugin-router-v5
 
+## 2.68.0
+
+### Patch Changes
+
+- 4cc0a22: feat: support resolve configuration in rsbuild.
+  feat: 支持 rsbuild 的 resolve 配置。
+- Updated dependencies [292d91c]
+- Updated dependencies [4cc0a22]
+  - @modern-js/runtime@2.68.0
+  - @modern-js/plugin@2.68.0
+  - @modern-js/plugin-v2@2.68.0
+  - @modern-js/runtime-utils@2.68.0
+  - @modern-js/types@2.68.0
+  - @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

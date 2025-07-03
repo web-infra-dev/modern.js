@@ -1,5 +1,12 @@
 # @modern-js/render
 
+## 2.68.0
+
+### Patch Changes
+
+- @modern-js/types@2.68.0
+- @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes
