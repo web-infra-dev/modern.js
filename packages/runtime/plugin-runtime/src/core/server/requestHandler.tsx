@@ -18,9 +18,9 @@ import {
   getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
-  getGlobalServerPayload,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
+import { getServerPayload } from '../context/serverPayload.server';
 import { createLoaderManager } from '../loader/loaderManager';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
@@ -35,13 +35,13 @@ async function handleRSCRequest(
   options: RequestHandlerOptions,
   handleRequest: HandleRequest,
 ): Promise<Response> {
-  const serverPayload = getGlobalServerPayload();
+  const serverPayload = getServerPayload();
 
   if (typeof serverPayload !== 'undefined') {
     return await handleRequest(request, Root, {
       ...options,
       runtimeContext: context,
-      rscRoot: getGlobalServerPayload(),
+      rscRoot: serverPayload,
     });
   }
 
@@ -208,6 +208,7 @@ export const createRequestHandler: CreateRequestHandler = async (
         monitors: options.monitors,
         responseProxy,
         activeDeferreds,
+        serverPayload: undefined,
       },
       async () => {
         const Root = createRoot();

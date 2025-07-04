@@ -75,15 +75,7 @@ interface GlobalContext {
 
 const globalContext: GlobalContext = {};
 
-export function setGlobalServerPayload(
-  payload: GlobalContext['serverPayload'],
-) {
-  globalContext.serverPayload = payload;
-}
-
-export function getGlobalServerPayload() {
-  return globalContext.serverPayload;
-}
+export { getServerPayload, setServerPayload } from './serverPayload.server';
 
 export function getGlobalIsRscClient() {
   return globalContext.isRscClient;

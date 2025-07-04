@@ -106,6 +106,7 @@ export const handleRSCRedirect = (
   newHeaders.delete('Location');
 
   return new Response(null, {
+    // TODO: status code should not be hardcoded
     status: 302,
     headers: newHeaders,
   });

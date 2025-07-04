@@ -20,13 +20,12 @@ import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { RuntimePluginFuture } from '../../core';
 import {
-  type PayloadRoute,
   type ServerPayload,
   getGlobalEnableRsc,
   getGlobalLayoutApp,
   getGlobalRoutes,
-  setGlobalServerPayload,
 } from '../../core/context';
+import { setServerPayload } from '../../core/context/serverPayload.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
   type RouterExtendsHooks,
@@ -193,8 +192,7 @@ export const routerPlugin = (
           }
 
           payload = createServerPayload(routerContext, routes);
-          // TODO: 不能在这里存储，并行多个请求会有问题
-          setGlobalServerPayload(payload);
+          setServerPayload(payload);
         }
 
         // private api, pass to React Component in `wrapRoot`
