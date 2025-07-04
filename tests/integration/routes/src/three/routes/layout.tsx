@@ -9,7 +9,7 @@ export default function Layout() {
     <div>
       {data?.message}
       <Link to="/" className="root-btn" prefetch="intent">
-        /user
+        /home
       </Link>
       <Link to="user" className="user-btn" prefetch="intent">
         /user

@@ -19,6 +19,7 @@ import type {
 } from '../../types/requestHandler';
 import { getPathname, parseHeaders } from '../../utils';
 import { getCacheResult, matchCacheControl } from './ssrCache';
+import { createRequestHandlerConfig } from './utils';
 
 // TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
 export interface SSRRenderOptions {
@@ -168,22 +169,4 @@ class IncomingMessgeProxy {
 
     this.url = getPathname(req);
   }
-}
-
-function createRequestHandlerConfig(
-  userConfig: UserConfig,
-): RequestHandlerConfig {
-  const { output, server, security, html, source } = userConfig;
-
-  return {
-    ssr: server?.ssr,
-    ssrByEntries: server?.ssrByEntries,
-    nonce: security?.nonce,
-    enableInlineScripts: output?.enableInlineScripts,
-    enableInlineStyles: output?.enableInlineStyles,
-    crossorigin: html?.crossorigin,
-    scriptLoading: html?.scriptLoading,
-    useJsonScript: server?.useJsonScript,
-    enableAsyncEntry: source?.enableAsyncEntry,
-  };
 }

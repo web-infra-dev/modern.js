@@ -1,5 +1,5 @@
 import type Webpack from 'webpack';
-import { type Compilation, NormalModule } from 'webpack';
+import { type Compilation, type ModuleGraph, NormalModule } from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,
@@ -11,6 +11,7 @@ import {
   webpackRscLayerName,
 } from '../common';
 import type { ClientReferencesMap } from '../common';
+import type { EntryInfo } from './rspack-rsc-server-plugin';
 
 export interface RscServerPluginOptions {
   readonly serverManifestFilename?: string;
@@ -37,6 +38,7 @@ export class RscServerPlugin {
   private serverManifestFilename: string;
   private entryPath2Name = new Map<string, string>();
   private styles: Set<string>;
+  private moduleToEntries = new Map<string, Set<string>>();
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
 
@@ -46,23 +48,71 @@ export class RscServerPlugin {
     this.entryPath2Name = options?.entryPath2Name || new Map();
   }
 
+  private isValidModule(module: NormalModule): boolean {
+    return Boolean(module?.resource);
+  }
+
+  private hasValidEntries(
+    entries: EntryInfo[] | undefined,
+  ): entries is EntryInfo[] {
+    return Boolean(entries && entries.length > 0);
+  }
+
+  private traverseModulesFromEntry(
+    module: NormalModule,
+    entryName: string,
+    moduleGraph: ModuleGraph,
+    visited: Set<string>,
+  ): void {
+    if (!module?.resource || visited.has(module.resource)) {
+      return;
+    }
+    visited.add(module.resource);
+
+    if (!this.moduleToEntries.has(module.resource)) {
+      this.moduleToEntries.set(module.resource, new Set());
+    }
+    this.moduleToEntries.get(module.resource)!.add(entryName);
+
+    for (const connection of moduleGraph.getOutgoingConnections(module)) {
+      if (connection.module && 'resource' in connection.module) {
+        this.traverseModulesFromEntry(
+          connection.module as NormalModule,
+          entryName,
+          moduleGraph,
+          visited,
+        );
+      }
+    }
+  }
+
   private findModuleEntries(
     module: NormalModule,
     compilation: Compilation,
-    resourcePath2Entries: Map<
-      string,
-      Array<{ entryName: string; entryPath: string }>
-    >,
+    resourcePath2Entries: Map<string, EntryInfo[]>,
     visited = new Set<string>(),
-  ): Array<{ entryName: string; entryPath: string }> {
-    if (!module?.resource || visited.has(module.resource)) {
+  ): EntryInfo[] {
+    if (!this.isValidModule(module) || visited.has(module.resource)) {
       return [];
     }
     visited.add(module.resource);
 
     const currentEntries = resourcePath2Entries.get(module.resource);
-    if (currentEntries && currentEntries?.length > 0) {
+    if (this.hasValidEntries(currentEntries)) {
       return currentEntries;
+    }
+
+    const entryNames = this.moduleToEntries.get(module.resource);
+    if (entryNames && entryNames.size > 0) {
+      const entries: EntryInfo[] = [];
+      for (const entryName of entryNames) {
+        const entryPath = this.getEntryPathByName(entryName, compilation);
+        if (entryPath) {
+          entries.push({ entryName, entryPath });
+        }
+      }
+
+      return entries;
     }
 
     const issuer = findRootIssuer(compilation.moduleGraph, module);
@@ -70,24 +120,69 @@ export class RscServerPlugin {
       return [];
     }
 
+    // Recursively find entries for the issuer
     const issuerEntries = this.findModuleEntries(
       issuer,
       compilation,
       resourcePath2Entries,
       visited,
     );
+
     if (issuerEntries.length > 0) {
       return issuerEntries;
     }
 
-    if (issuer.resource) {
-      const entryName = this.entryPath2Name.get(issuer.resource);
-      if (entryName) {
-        return [{ entryName, entryPath: issuer.resource }];
-      }
+    const entryName = this.getEntryNameFromIssuer(issuer);
+    if (entryName) {
+      return [this.createEntryFromIssuer(issuer, entryName)];
     }
 
     return [];
+  }
+
+  private getEntryNameFromIssuer(issuer: NormalModule): string | undefined {
+    return issuer.resource
+      ? this.entryPath2Name.get(issuer.resource)
+      : undefined;
+  }
+
+  private createEntryFromIssuer(
+    issuer: NormalModule,
+    entryName: string,
+  ): EntryInfo {
+    return { entryName, entryPath: issuer.resource };
+  }
+
+  private buildModuleToEntriesMapping(compilation: Compilation): void {
+    this.moduleToEntries.clear();
+
+    for (const [entryName, entryDependency] of compilation.entries.entries()) {
+      const entryModule = compilation.moduleGraph.getModule(
+        entryDependency.dependencies[0],
+      );
+      if (!entryModule) continue;
+
+      this.traverseModulesFromEntry(
+        entryModule as NormalModule,
+        entryName,
+        compilation.moduleGraph,
+        new Set(),
+      );
+    }
+  }
+
+  private getEntryPathByName(
+    entryName: string,
+    compilation: Compilation,
+  ): string | undefined {
+    const entryDependency = compilation.entries.get(entryName);
+    if (entryDependency && entryDependency.dependencies.length > 0) {
+      const firstDep = entryDependency.dependencies[0];
+      if ('request' in firstDep && typeof firstDep.request === 'string') {
+        return firstDep.request;
+      }
+    }
+    return undefined;
   }
 
   apply(compiler: Webpack.Compiler): void {
@@ -187,6 +282,8 @@ export class RscServerPlugin {
     compiler.hooks.finishMake.tapPromise(
       RscServerPlugin.name,
       async compilation => {
+        this.buildModuleToEntriesMapping(compilation);
+
         const processModules = (modules: Webpack.Compilation['modules']) => {
           let hasChangeReference = false;
 

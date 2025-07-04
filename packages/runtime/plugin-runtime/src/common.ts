@@ -1,5 +1,5 @@
 import type { Plugin, RuntimePluginFuture } from './core/plugin';
-import type { RouterConfig } from './router';
+import type { RouterConfig } from './router/internal';
 
 export const isBrowser = () =>
   typeof window !== 'undefined' && window.name !== 'nodejs';

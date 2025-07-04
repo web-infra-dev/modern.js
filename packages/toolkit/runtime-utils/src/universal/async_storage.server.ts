@@ -56,6 +56,7 @@ const storage = createStorage<{
     status: number;
   };
   activeDeferreds?: Map<string, unknown>;
+  serverPayload?: unknown;
 }>();
 
 type Storage = typeof storage;

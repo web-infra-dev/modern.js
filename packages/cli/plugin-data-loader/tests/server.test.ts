@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import type { IncomingMessage, ServerResponse } from 'http';
 import path from 'path';
 import qs from 'querystring';

@@ -142,6 +142,7 @@ export const fileSystemRoutes = async ({
   entryName,
   internalDirectory,
   splitRouteChunks = true,
+  isRscClient = false,
 }: {
   metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
@@ -150,6 +151,7 @@ export const fileSystemRoutes = async ({
   entryName: string;
   internalDirectory: string;
   splitRouteChunks?: boolean;
+  isRscClient?: boolean;
 }) => {
   const components: string[] = [];
   const loadings: string[] = [];
@@ -224,18 +226,23 @@ export const fileSystemRoutes = async ({
     eager?: boolean;
   }) => {
     const importOptions = webpackChunkName
-      ? `/* webpackChunkName: "${routeId}" */ `
+      ? `/* webpackChunkName: "${routeId}" */  `
       : eager
-        ? `/* webpackMode: "eager" */ `
+        ? `/* webpackMode: "eager" */  `
         : '';
 
     return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
   };
 
-  const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
+  const traverseRouteTree = (
+    route: NestedRouteForCli | PageRoute,
+    isRscClient: boolean,
+  ): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
-      children = route?.children?.map(traverseRouteTree);
+      children = route?.children?.map(child =>
+        traverseRouteTree(child, isRscClient),
+      );
     }
     let loading: string | undefined;
     let error: string | undefined;
@@ -322,9 +329,8 @@ export const fileSystemRoutes = async ({
       }
     }
 
-    const finalRoute = {
+    const finalRoute: any = {
       ...route,
-      lazyImport,
       loading,
       loader,
       action,
@@ -332,7 +338,10 @@ export const fileSystemRoutes = async ({
       error,
       children,
     };
-    if (route._component) {
+    if (!isRscClient) {
+      finalRoute.lazyImport = lazyImport;
+    }
+    if (route._component && !isRscClient) {
       finalRoute.component = component;
     }
     /**
@@ -355,7 +364,7 @@ export const fileSystemRoutes = async ({
   `;
   for (const route of routes) {
     if ('type' in route) {
-      const newRoute = traverseRouteTree(route);
+      const newRoute = traverseRouteTree(route, isRscClient);
       const routeStr = JSON.stringify(newRoute, null, 2);
       const keywords = [
         'component',
@@ -470,9 +479,9 @@ export const fileSystemRoutes = async ({
 
   return `
     ${importLazyCode}
-    ${importComponentsCode}
+    ${!isRscClient ? importComponentsCode : ''}
     ${importRuntimeRouterCode}
-    ${rootLayoutCode}
+    ${!isRscClient ? rootLayoutCode : ''}
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${importLoadersCode}
@@ -543,6 +552,7 @@ export const runtimeGlobalContext = async ({
   nestedRoutesEntry,
   internalSrcAlias,
   globalApp,
+  rscType = false,
 }: {
   entryName: string;
   metaName: string;
@@ -550,6 +560,7 @@ export const runtimeGlobalContext = async ({
   nestedRoutesEntry?: string;
   internalSrcAlias: string;
   globalApp?: string | false;
+  rscType?: 'server' | 'client' | false;
 }) => {
   const imports = [
     `import { setGlobalContext } from '@${metaName}/runtime/context';`,
@@ -601,16 +612,40 @@ export const runtimeGlobalContext = async ({
   } else {
     imports.push(`let layoutApp;`);
   }
-  return `${imports.join('\n')}
 
-import { routes } from './routes';
+  const isClient = rscType === 'client';
+  const enableRsc = Boolean(rscType);
 
-const entryName = '${entryName}';
-setGlobalContext({
-  entryName,
-  layoutApp,
-  routes,
-  appInit,
-  appConfig,
-});`;
+  if (isClient) {
+    return `${imports.join('\n')}
+
+    import { routes } from './routes';
+
+    const entryName = '${entryName}';
+      setGlobalContext({
+        entryName,
+        layoutApp,
+        routes,
+        appInit,
+        appConfig,
+        isRscClient: true,
+        enableRsc: true,
+      });
+    `;
+  } else {
+    return `${imports.join('\n')}
+
+    import { routes } from './routes';
+
+    const entryName = '${entryName}';
+      setGlobalContext({
+        entryName,
+        layoutApp,
+        routes,
+        appInit,
+        appConfig,
+        enableRsc: ${enableRsc},
+      });
+    `;
+  }
 };

@@ -24,8 +24,10 @@ export async function handleGeneratorEntryCode(
   const appContext = api.getAppContext();
   const { internalDirectory } = appContext;
   const resolvedConfig = api.getNormalizedConfig();
-  const { generatorRegisterCode, generateCode } = await import('./code');
+  const { generatorRegisterCode, generateCode, generatorServerRegisterCode } =
+    await import('./code');
   originEntrypoints = cloneDeep(entrypoints);
+  const enableRsc = resolvedConfig?.server?.rsc;
   await generateCode(
     appContext,
     resolvedConfig as AppNormalizedConfig<'shared'>,
@@ -46,8 +48,24 @@ export async function handleGeneratorEntryCode(
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             internalSrcAlias: appContext.internalSrcAlias,
             globalApp: entrypoint.fileSystemRoutes?.globalApp,
+            rscType: enableRsc ? 'client' : undefined,
           }),
         );
+        if (enableRsc) {
+          generatorServerRegisterCode(
+            internalDirectory,
+            entrypoint.entryName,
+            await templates.runtimeGlobalContext({
+              entryName: entrypoint.entryName,
+              metaName: appContext.metaName,
+              srcDirectory: appContext.srcDirectory,
+              nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+              internalSrcAlias: appContext.internalSrcAlias,
+              globalApp: entrypoint.fileSystemRoutes?.globalApp,
+              rscType: 'server',
+            }),
+          );
+        }
       }
     }),
   );

@@ -45,11 +45,13 @@ export const rsbuildRscPlugin = ({
   isRspack = true,
   rscClientRuntimePath,
   rscServerRuntimePath,
+  internalDirectory,
 }: {
   appDir: string;
   isRspack?: boolean;
   rscClientRuntimePath?: string;
   rscServerRuntimePath?: string;
+  internalDirectory?: string;
 }): RsbuildPlugin => ({
   name: 'uni-builder:rsc-rsbuild-plugin',
 
@@ -94,6 +96,7 @@ export const rsbuildRscPlugin = ({
                 entryPath2Name,
                 appDir,
                 runtimePath: rscServerRuntimePath,
+                internalDirectory,
               })
               .end()
               .use(JSRule)
@@ -108,6 +111,7 @@ export const rsbuildRscPlugin = ({
               .loader(require.resolve('../rsc-ssr-loader'))
               .options({
                 entryPath2Name,
+                internalDirectory,
               })
               .end()
               .use(JSRule)
@@ -124,9 +128,17 @@ export const rsbuildRscPlugin = ({
             layers: true,
           });
 
+          const routesFileReg = new RegExp(
+            `${internalDirectory}${path.sep}[^/]*${path.sep}routes`,
+          );
+
           chain.module
             .rule('server-module')
-            .resource([/render[/\\].*[/\\]server[/\\]rsc/, /AppProxy/])
+            .resource([
+              /render[/\\].*[/\\]server[/\\]rsc/,
+              /AppProxy/,
+              routesFileReg,
+            ])
             .layer(webpackRscLayerName)
             .end();
 
@@ -186,12 +198,6 @@ export const rsbuildRscPlugin = ({
           chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 
-        const configureRuntimeChunk = () => {
-          chain.optimization.runtimeChunk({
-            name: entrypoint => `runtime-${entrypoint.name}`,
-          });
-        };
-
         if (isServer) {
           chain.name('server');
           layerHandler();
@@ -203,7 +209,6 @@ export const rsbuildRscPlugin = ({
           chain.dependencies(['server']);
           addRscClientLoader();
           addRscClientPlugin();
-          configureRuntimeChunk();
         }
       },
       order: 'post',

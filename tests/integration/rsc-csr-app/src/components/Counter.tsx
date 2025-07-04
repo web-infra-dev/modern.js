@@ -44,7 +44,7 @@ export const Counter = () => {
         </form>
       </div>
 
-      <Suspense fallback={<div>加载中...</div>}>
+      <Suspense fallback={<div>loading...</div>}>
         <DynamicMessage />
       </Suspense>
     </>

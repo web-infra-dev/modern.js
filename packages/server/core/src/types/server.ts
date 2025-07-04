@@ -11,10 +11,13 @@ import type {
   SSRManifest as RscSSRManifest,
   ServerManifest as RscServerManifest,
 } from '@modern-js/types/server';
+import type { SSRRenderOptions } from '../plugins/render/ssrRender';
 import type {
   RequestHandler as BundleRequestHandler,
   OnError,
   OnTiming,
+  RequestHandlerOptions,
+  Resource,
 } from './requestHandler';
 
 export type RequestHandler = (
@@ -39,15 +42,23 @@ export type ServerLoaderBundle = {
   }) => Promise<any>;
 };
 
+export type RscPayloadHandlerOptions = Omit<
+  RequestHandlerOptions,
+  'resource'
+> & {
+  resource: Omit<Resource, 'htmlTemplate'>;
+};
+
 type ServerRenderBundle = {
   requestHandler?: Promise<BundleRequestHandler>;
   handleAction?: (
     req: Request,
     options: { clientManifest: RscClientManifest },
   ) => Promise<Response>;
-  rscRequestHandler?: (options: {
-    clientManifest: RscClientManifest;
-  }) => Promise<Response>;
+  rscRequestHandler?: (
+    req: Request,
+    options: RscPayloadHandlerOptions,
+  ) => Promise<Response>;
 };
 
 export type ServerManifest = {

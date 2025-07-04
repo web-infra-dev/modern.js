@@ -47,6 +47,9 @@
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
+      ],
+      "rsc": [
+        "./dist/types/runtime/rsc.d.ts"
       ]
     }
   },
@@ -61,7 +64,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "react-router": "^7.5.0"
+    "react-router": "7.6.0"
   },
   "peerDependencies": {
     "react": ">=17",
