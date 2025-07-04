@@ -137,35 +137,34 @@ export const entryForCSRWithRSC = ({
     return res;
   };
 
-  createFromFetch(
+  const res = createFromFetch(
     fetch(location.pathname, {
       headers: {
         'x-rsc-tree': 'true',
       },
     }).then(handleRedirectResponse),
-  ).then((content) => {
-    const ModernRoot = createRoot();
+  )
 
-    ${
-      isNestedRouter
-        ? `
-        render(
-          <ModernRoot rscPayload={Promise.resolve(content)}>
-          </ModernRoot>,
-          '${mountId}',
-        );
-      `
-        : `
-        render(
-          <ModernRoot>
-            <RscClientRoot rscPayload={Promise.resolve(content)} />
-          </ModernRoot>,
-          '${mountId}',
-        );
-      `
-    }
+  const ModernRoot = createRoot();
 
-  })
+  ${
+    isNestedRouter
+      ? `
+      render(
+        <ModernRoot rscPayload={res}>
+        </ModernRoot>,
+        '${mountId}',
+      );
+      `
+      : `
+      render(
+        <ModernRoot>
+          <RscClientRoot rscPayload={res} />
+        </ModernRoot>,
+        '${mountId}',
+      );
+      `
+  }
   `;
 };
 

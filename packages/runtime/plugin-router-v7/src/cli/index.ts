@@ -37,8 +37,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
             'react-router-dom$': runtimeAlias,
             '@remix-run/router': runtimeAlias,
             'react-router-dom/server$': runtimeAlias,
-            // TODO: try remove this
-            [`@${appContext.metaName}/runtime/router/server`]: require
+            [`@${appContext.metaName}/runtime/router/rsc`]: require
               .resolve('../runtime/rsc')
               .replace(/\/cjs\//, '/esm/'),
           },

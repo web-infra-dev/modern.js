@@ -8,10 +8,6 @@ const fetchUserData = async (): Promise<string> => {
   );
 };
 
-const SubPage = () => {
-  return <div>sub page</div>;
-};
-
 export default function UserPage() {
   const userDataPromise = fetchUserData();
   return (

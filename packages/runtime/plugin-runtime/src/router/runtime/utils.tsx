@@ -10,7 +10,7 @@ import {
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
-import type React from 'react';
+import React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
 import type { RouterConfig } from './types';
@@ -22,18 +22,23 @@ export function getRouteComponents(
     ssrMode,
     props,
   }: {
-    globalApp?: React.ComponentType<any>;
+    globalApp?: React.ComponentType<GlobalAppProps>;
     ssrMode?: SSRMode;
-    props?: Record<string, any>;
+    props?: Record<string, unknown>;
   },
 ) {
-  const Layout = ({ Component, ...props }: any) => {
+  const Layout = ({
+    Component,
+    ...props
+  }: { Component: React.ComponentType | string; [key: string]: unknown }) => {
     const GlobalLayout = globalApp;
     if (!GlobalLayout) {
-      return <Component {...props} />;
+      return typeof Component === 'function' ? <Component {...props} /> : null;
     }
 
-    return <GlobalLayout Component={Component} {...props} />;
+    return typeof Component === 'function' ? (
+      <GlobalLayout Component={Component} {...props} />
+    ) : null;
   };
   const routeElements: React.ReactElement[] = [];
   for (const route of routes) {
@@ -59,6 +64,15 @@ export function getRouteComponents(
   return routeElements;
 }
 
+interface LayoutWrapperProps {
+  [key: string]: unknown;
+}
+
+interface GlobalAppProps {
+  Component: React.ComponentType;
+  [key: string]: unknown;
+}
+
 export function getRouteObjects(
   routes: (NestedRoute | PageRoute)[],
   {
@@ -66,18 +80,20 @@ export function getRouteObjects(
     ssrMode,
     props,
   }: {
-    globalApp?: React.ComponentType<any>;
+    globalApp?: React.ComponentType<GlobalAppProps>;
     ssrMode?: SSRMode;
-    props?: Record<string, any>;
+    props?: Record<string, unknown>;
   },
 ) {
-  const createLayoutElement = (Component: React.ComponentType<any>) => {
+  const createLayoutElement = (
+    Component: React.ComponentType,
+  ): React.ComponentType => {
     const GlobalLayout = globalApp;
     if (!GlobalLayout) {
       return Component;
     }
 
-    const LayoutWrapper = (props: any) => {
+    const LayoutWrapper = (props: LayoutWrapperProps) => {
       const LayoutComponent = GlobalLayout;
       return <LayoutComponent Component={Component} {...props} />;
     };
@@ -85,7 +101,7 @@ export function getRouteObjects(
     return LayoutWrapper;
   };
 
-  const routeObjects: any[] = [];
+  const routeObjects: RouteObject[] = [];
 
   for (const route of routes) {
     if (route.type === 'nested') {
@@ -100,7 +116,6 @@ export function getRouteObjects(
         index: route.index,
         hasClientLoader: !!route.clientData,
         Component: route.component ? route.component : undefined,
-        // element: route.component ? <route.component /> : undefined,
         errorElement: route.error ? <route.error /> : undefined,
         children: route.children
           ? route.children.map(
@@ -108,7 +123,7 @@ export function getRouteObjects(
                 getRouteObjects([child], { globalApp, ssrMode, props })[0],
             )
           : undefined,
-      };
+      } as RouteObject;
 
       routeObjects.push(nestedRouteObject);
     } else {
@@ -116,11 +131,12 @@ export function getRouteObjects(
         typeof route.component === 'function' ||
         typeof route.component === 'object'
       ) {
-        const routeObject = {
+        const LayoutComponent = createLayoutElement(
+          route.component as React.ComponentType,
+        );
+        const routeObject: RouteObject = {
           path: route.path,
-          element: createLayoutElement(
-            route.component as React.ComponentType<any>,
-          ),
+          element: React.createElement(LayoutComponent),
         };
 
         routeObjects.push(routeObject);
@@ -142,7 +158,7 @@ export function createRouteObjectsFromConfig({
   ssrMode,
 }: {
   routesConfig: RouterConfig['routesConfig'];
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
   ssrMode?: SSRMode;
 }): RouteObject[] | null {
   if (!routesConfig) {
@@ -165,7 +181,7 @@ export function renderRoutes({
   ssrMode,
 }: {
   routesConfig: RouterConfig['routesConfig'];
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
   ssrMode?: SSRMode;
 }) {
   if (!routesConfig) {
@@ -183,9 +199,10 @@ export function renderRoutes({
   return routeElements;
 }
 
-export function getLocation(serverContext: any): string {
-  const { pathname, url }: { [p: string]: string } =
-    serverContext?.request || {};
+export function getLocation(
+  serverContext: { request?: { pathname?: string; url?: string } } | undefined,
+): string {
+  const { pathname = '', url = '' } = serverContext?.request || {};
 
   const cleanUrl = url?.replace('http://', '')?.replace('https://', '');
 

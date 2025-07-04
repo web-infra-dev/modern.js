@@ -289,7 +289,7 @@ export const createClientRouterFromPayload = (
 
       const payload = await createFromReadableStream(res.body);
 
-      if (payload.type !== 'render') {
+      if (typeof payload.type === 'undefined' || payload.type !== 'render') {
         throw new Error('Unexpected payload type');
       }
 

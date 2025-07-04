@@ -193,6 +193,7 @@ export const routerPlugin = (
           }
 
           payload = createServerPayload(routerContext, routes);
+          // TODO: 不能在这里存储，并行多个请求会有问题
           setGlobalServerPayload(payload);
         }
 
