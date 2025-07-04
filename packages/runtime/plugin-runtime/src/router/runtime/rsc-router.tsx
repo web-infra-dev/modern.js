@@ -93,6 +93,7 @@ export const isRSCNavigation = (request: Request): boolean => {
 export const handleRSCRedirect = (
   headers: Headers,
   basename: string,
+  status: number,
 ): Response => {
   const newHeaders = new Headers(headers);
   let redirectUrl = headers.get('Location')!;
@@ -106,8 +107,7 @@ export const handleRSCRedirect = (
   newHeaders.delete('Location');
 
   return new Response(null, {
-    // TODO: status code should not be hardcoded
-    status: 302,
+    status: status,
     headers: newHeaders,
   });
 };

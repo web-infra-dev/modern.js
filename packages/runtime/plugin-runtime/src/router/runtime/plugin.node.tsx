@@ -158,7 +158,11 @@ export const routerPlugin = (
           // Throw the Response to bail out and let the server handle it with an HTTP redirect
           if (enableRsc && isRSNavigation) {
             return interrupt(
-              handleRSCRedirect(routerContext.headers, _basename),
+              handleRSCRedirect(
+                routerContext.headers,
+                _basename,
+                routerContext.status,
+              ),
             );
           } else {
             return interrupt(routerContext);
