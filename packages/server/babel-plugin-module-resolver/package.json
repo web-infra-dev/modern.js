@@ -42,7 +42,7 @@
     "glob": "^8.1.0",
     "pkg-up": "3.1.0",
     "reselect": "^4.1.7",
-    "resolve": "^1.22.1"
+    "resolve": "^1.22.10"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
