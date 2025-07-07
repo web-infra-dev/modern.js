@@ -57,7 +57,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "path-to-regexp": "^6.2.0"
+    "path-to-regexp": "^6.3.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
