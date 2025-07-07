@@ -13,10 +13,16 @@ export const inspect = async (
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
+  const metaName =
+    appContext.metaName === 'modern-js' ? 'modern.js' : appContext.metaName;
+
   return appContext.builder.inspectConfig({
     mode: options.env as RsbuildMode,
     verbose: options.verbose,
     outputPath: options.output,
     writeToDisk: true,
+    extraConfigs: {
+      [metaName]: api.getNormalizedConfig(),
+    },
   });
 };
