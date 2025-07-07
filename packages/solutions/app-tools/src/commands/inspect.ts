@@ -18,5 +18,8 @@ export const inspect = async (
     verbose: options.verbose,
     outputPath: options.output,
     writeToDisk: true,
+    extraConfigs: {
+      [appContext.metaName]: api.getNormalizedConfig(),
+    },
   });
 };
