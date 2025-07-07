@@ -44,6 +44,8 @@ export type RequestHandlerOptions = {
 
   loaderContext: LoaderContext;
 
+  html?: string;
+
   rscServerManifest?: RscServerManifest;
   rscClientManifest?: RscClientManifest;
   rscSSRManifest?: RscSSRManifest;

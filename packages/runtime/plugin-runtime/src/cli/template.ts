@@ -119,7 +119,10 @@ export const entryForCSRWithRSC = ({
   import {
     RscClientRoot,
     createFromFetch,
-    isRedirectResponse
+    isRedirectResponse,
+    rscStream,
+    callServer,
+    createFromReadableStream
   } from '@${metaName}/runtime/rsc/client';
 
   const handleRedirectResponse = (res: Response) => {
@@ -137,13 +140,23 @@ export const entryForCSRWithRSC = ({
     return res;
   };
 
-  const res = createFromFetch(
-    fetch(location.pathname, {
-      headers: {
-        'x-rsc-tree': 'true',
-      },
-    }).then(handleRedirectResponse),
-  )
+  ${
+    process.env.MODERN_DISABLE_INJECT_RSC_DATA
+      ? `
+      const data = createFromFetch(
+        fetch(location.pathname, {
+          headers: {
+            'x-rsc-tree': 'true',
+          },
+        }).then(handleRedirectResponse),
+      )
+      `
+      : `
+      const data = createFromReadableStream(rscStream, {
+        callServer: callServer,
+      });
+      `
+  }
 
   const ModernRoot = createRoot();
 
@@ -151,7 +164,7 @@ export const entryForCSRWithRSC = ({
     isNestedRouter
       ? `
       render(
-        <ModernRoot rscPayload={res}>
+        <ModernRoot rscPayload={data}>
         </ModernRoot>,
         '${mountId}',
       );
@@ -159,7 +172,7 @@ export const entryForCSRWithRSC = ({
       : `
       render(
         <ModernRoot>
-          <RscClientRoot rscPayload={res} />
+          <RscClientRoot rscPayload={data} />
         </ModernRoot>,
         '${mountId}',
       );

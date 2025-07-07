@@ -147,7 +147,7 @@ async function suppportRouteAsClientComponentAndNavigation({
 
   const elementsToCheck = [
     { name: 'root layout', selector: 'body' },
-    { name: 'root page from client', selector: '.root-page' },
+    { name: 'root page from server', selector: '.root-page' },
   ];
 
   for (const { name, selector } of elementsToCheck) {
@@ -175,6 +175,14 @@ async function suppportRouteAsClientComponentAndNavigation({
 
   await page.waitForSelector('.user-page-data-container');
   await verifyUserPageElements(page);
+
+  await page.click('.home-link');
+
+  await page.waitForSelector('.root-page');
+  const rootPageExists = await page.$eval('.root-page', el =>
+    el.textContent?.includes('root page from client'),
+  );
+  expect(rootPageExists).toBe(true);
 }
 
 async function supportRouteAsServerComponent({
@@ -199,7 +207,7 @@ async function supportDirectRedirectNavigation({
   });
 
   const rootPageExists = await page.$eval('.root-page', el =>
-    el.textContent?.includes('root page from client'),
+    el.textContent?.includes('root page from server'),
   );
   expect(rootPageExists).toBe(true);
 

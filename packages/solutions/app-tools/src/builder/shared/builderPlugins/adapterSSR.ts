@@ -35,7 +35,10 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         server: {
           // the http-compression can't handler stream http.
           // so we disable compress when user use stream ssr temporarily.
-          compress: isStreamingSSR(normalizedConfig) ? false : undefined,
+          compress:
+            isStreamingSSR(normalizedConfig) || isUseRsc(normalizedConfig)
+              ? false
+              : undefined,
         },
       });
     });
@@ -121,7 +124,7 @@ function applyAsyncChunkHtmlPlugin({
   modernConfig: AppNormalizedConfig<'shared'>;
   HtmlBundlerPlugin: any;
 }) {
-  if (isStreamingSSR(modernConfig)) {
+  if (isStreamingSSR(modernConfig) || isUseRsc(modernConfig)) {
     chain
       .plugin('html-async-chunk')
       .use(HtmlAsyncChunkPlugin, [HtmlBundlerPlugin]);

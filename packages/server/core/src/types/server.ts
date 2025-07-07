@@ -59,6 +59,10 @@ type ServerRenderBundle = {
     req: Request,
     options: RscPayloadHandlerOptions,
   ) => Promise<Response>;
+  renderRscStreamHandler?: (
+    req: Request,
+    options: RscPayloadHandlerOptions,
+  ) => Promise<Response>;
 };
 
 export type ServerManifest = {
