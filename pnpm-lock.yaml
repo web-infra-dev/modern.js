@@ -2913,7 +2913,7 @@ importers:
         specifier: ^4.1.7
         version: 4.1.8
       resolve:
-        specifier: ^1.22.1
+        specifier: ^1.22.10
         version: 1.22.10
     devDependencies:
       '@babel/core':
