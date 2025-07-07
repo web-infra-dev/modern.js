@@ -43,7 +43,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -133,7 +136,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -211,7 +214,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -232,7 +235,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
         },
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -306,7 +309,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -398,15 +401,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -429,15 +432,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -460,15 +463,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -522,7 +525,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -629,7 +635,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -726,7 +732,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -738,7 +744,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -837,7 +846,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -926,7 +935,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -936,15 +945,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -1324,7 +1333,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "injectLoader": true,
         "overlay": false,
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
       },
     },
@@ -1440,7 +1449,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -1470,7 +1482,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -1487,7 +1499,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -1502,7 +1514,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -1572,7 +1584,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -1658,15 +1670,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "emit": false,
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -1691,15 +1703,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "emit": false,
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -1724,15 +1736,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "emit": false,
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -1799,7 +1811,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -1846,7 +1861,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -1882,7 +1897,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -1894,7 +1909,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -1933,7 +1951,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -1961,7 +1979,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -1972,15 +1990,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "emit": false,
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -2370,7 +2388,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -2460,7 +2481,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -2538,7 +2559,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -2558,7 +2579,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
         },
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -2632,7 +2653,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -2724,15 +2745,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -2755,15 +2776,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -2786,15 +2807,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -2848,7 +2869,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -2955,7 +2979,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -3052,7 +3076,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -3064,7 +3088,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -3163,7 +3190,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -3252,7 +3279,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -3262,15 +3289,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -3751,7 +3778,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -3781,7 +3811,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -3798,7 +3828,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -3813,7 +3843,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -3884,7 +3914,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -3970,15 +4000,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -4001,15 +4031,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -4032,15 +4062,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -4094,7 +4124,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -4141,7 +4174,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -4177,7 +4210,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -4189,7 +4222,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -4228,7 +4264,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -4256,7 +4292,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -4266,15 +4302,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -4674,7 +4710,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -4764,7 +4803,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -4842,7 +4881,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -4863,7 +4902,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -4985,7 +5024,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -5116,15 +5155,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -5147,15 +5186,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -5178,15 +5217,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -5240,7 +5279,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -5347,7 +5389,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -5444,7 +5486,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -5456,7 +5498,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -5555,7 +5600,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -5644,7 +5689,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -5654,15 +5699,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -6245,7 +6290,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
@@ -6335,7 +6383,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -6413,7 +6461,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -6433,7 +6481,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /raw/,
+          "not": /\\^\\\\\\?raw\\$/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -6555,7 +6603,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -6692,15 +6740,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -6723,15 +6771,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -6754,15 +6802,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
@@ -6816,7 +6864,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -6923,7 +6974,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -7020,7 +7071,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -7032,7 +7083,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "preferRelative": true,
         },
         "resourceQuery": {
-          "not": /raw\\|inline/,
+          "not": [
+            /\\^\\\\\\?raw\\$/,
+            /\\^\\\\\\?inline\\$/,
+          ],
         },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -7131,7 +7185,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /inline/,
+        "resourceQuery": /\\^\\\\\\?inline\\$/,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -7220,7 +7274,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /raw/,
+        "resourceQuery": /\\^\\\\\\?raw\\$/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -7230,15 +7284,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /inline/,
+            "resourceQuery": /\\^\\\\\\?inline\\$/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /raw/,
+            "resourceQuery": /\\^\\\\\\?raw\\$/,
             "type": "asset/source",
           },
           {
