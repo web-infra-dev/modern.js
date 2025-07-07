@@ -11,7 +11,6 @@ import {
   useHonoContext,
 } from '@modern-js/plugin-bff/hono';
 import { z } from 'zod';
-
 export default async () => {
   return {
     message: 'Hello Modern.js',
@@ -93,3 +92,23 @@ export const getHello = Api(
     };
   },
 );
+
+export const getImage = Api(Get('/hello/image'), async () => {
+  const validBase64 =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+  const base64Data = validBase64.split(',')[1];
+  const binaryString = atob(base64Data);
+  const uint8Array = new Uint8Array(binaryString.length);
+
+  for (let i = 0; i < binaryString.length; i++) {
+    uint8Array[i] = binaryString.charCodeAt(i);
+  }
+
+  return new Response(uint8Array.buffer, {
+    status: 200,
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'no-store',
+    },
+  });
+});

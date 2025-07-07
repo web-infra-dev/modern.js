@@ -1,24 +1,21 @@
-import hello, { post, postHello, getHello } from '@api/index';
-import { configure } from '@modern-js/runtime/bff';
+import hello, { post, postHello, getHello, getImage } from '@api/index';
 import { useEffect, useState } from 'react';
-
-configure({
-  interceptor(request) {
-    return async (url, params) => {
-      const res = await request(url, params);
-      return res.json();
-    };
-  },
-});
 
 const Page = () => {
   const [message, setMessage] = useState('bff-hono');
   const [username, setUsername] = useState('username');
+  const [imageUrl, setImageUrl] = useState('');
+
+  const fetchImage = async () => {
+    const response = await getImage();
+    const blob = await (response as any).blob();
+    const url = URL.createObjectURL(blob);
+    setImageUrl(url);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await hello();
-      // 加一个延时，帮助集测取第一次的 message 值
       await new Promise(resolve => setTimeout(resolve, 50));
       setMessage(res.message);
     };
@@ -44,6 +41,7 @@ const Page = () => {
         user: 'modern@email.com',
       },
     });
+    fetchImage();
   }, []);
 
   useEffect(() => {
@@ -65,6 +63,14 @@ const Page = () => {
     <div>
       <div className="hello">{message}</div>
       <div className="username">{username}</div>
+      <img
+        src={imageUrl}
+        alt=""
+        className="captcha-img"
+        onError={e => {
+          console.error('error', e);
+        }}
+      />
     </div>
   );
 };
