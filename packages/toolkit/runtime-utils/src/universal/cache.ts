@@ -35,34 +35,72 @@ export interface CacheStatsInfo {
 }
 
 export interface Container {
-  get: (key: string) => Promise<string | undefined | null>;
-  set: (key: string, value: string, options?: { ttl?: number }) => Promise<any>;
+  get: (key: string) => Promise<any | undefined | null>;
+  set: (key: string, value: any, options?: { ttl?: number }) => Promise<any>;
   has: (key: string) => Promise<boolean>;
   delete: (key: string) => Promise<boolean>;
   clear: () => Promise<void>;
 }
 
+function estimateObjectSize(data: unknown): number {
+  const type = typeof data;
+
+  if (type === 'number') return 8;
+  if (type === 'boolean') return 4;
+  if (type === 'string') return Math.max((data as string).length * 2, 1);
+  if (data === null || data === undefined) return 1;
+
+  if (ArrayBuffer.isView(data)) {
+    return Math.max(data.byteLength, 1);
+  }
+
+  if (Array.isArray(data)) {
+    return Math.max(
+      data.reduce((acc, item) => acc + estimateObjectSize(item), 0),
+      1,
+    );
+  }
+
+  if (data instanceof Map || data instanceof Set) {
+    return 1024;
+  }
+
+  if (data instanceof Date) {
+    return 8;
+  }
+
+  if (type === 'object') {
+    return Math.max(
+      Object.entries(data).reduce(
+        (acc, [key, value]) => acc + key.length * 2 + estimateObjectSize(value),
+        0,
+      ),
+      1,
+    );
+  }
+
+  return 1;
+}
+
 class MemoryContainer implements Container {
-  private lru: LRUCache<string, string>;
+  private lru: LRUCache<string, any>;
 
   constructor(options?: { maxSize?: number }) {
-    this.lru = new LRUCache<string, string>({
+    this.lru = new LRUCache<string, any>({
       maxSize: options?.maxSize ?? CacheSize.GB,
-      sizeCalculation: (value: string): number => {
-        return value.length * 2;
-      },
+      sizeCalculation: estimateObjectSize,
       updateAgeOnGet: true,
       updateAgeOnHas: true,
     });
   }
 
-  async get(key: string): Promise<string | undefined> {
+  async get(key: string): Promise<any | undefined> {
     return this.lru.get(key);
   }
 
   async set(
     key: string,
-    value: string,
+    value: any,
     options?: { ttl?: number },
   ): Promise<void> {
     if (options?.ttl) {
@@ -274,20 +312,20 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
 
         if (!shouldDisableCaching) {
-          const cachedRaw = await currentStorage.get(storageKey);
-          if (cachedRaw) {
+          const cached = await currentStorage.get(storageKey);
+          if (cached) {
             try {
-              const cached = JSON.parse(cachedRaw) as CacheItem<any>;
-              const age = now - cached.timestamp;
+              const cacheItem = cached as CacheItem<any>;
+              const age = now - cacheItem.timestamp;
 
               if (age < maxAge) {
                 onCache?.({
                   status: 'hit',
                   key: finalKey,
                   params: args,
-                  result: cached.data,
+                  result: cacheItem.data,
                 });
-                return cached.data;
+                return cacheItem.data;
               }
 
               if (revalidate > 0 && age < maxAge + revalidate) {
@@ -295,7 +333,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
                   status: 'stale',
                   key: finalKey,
                   params: args,
-                  result: cached.data,
+                  result: cacheItem.data,
                 });
 
                 if (!ongoingRevalidations.has(storageKey)) {
@@ -338,7 +376,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
                   ongoingRevalidations.set(storageKey, revalidationPromise);
                 }
 
-                return cached.data;
+                return cacheItem.data;
               }
               missReason = 3; // cache-expired
             } catch (error) {
@@ -431,7 +469,7 @@ async function setCacheItem(
   };
 
   const ttl = (maxAge + revalidate) / 1000;
-  await storage.set(storageKey, JSON.stringify(newItem), {
+  await storage.set(storageKey, newItem, {
     ttl: ttl > 0 ? ttl : undefined,
   });
 
@@ -445,12 +483,12 @@ async function updateTagRelationships(
 ): Promise<void> {
   for (const tag of tags) {
     const tagStoreKey = `${TAG_PREFIX}${tag}`;
-    const keyListJson = await storage.get(tagStoreKey);
-    const keyList: string[] = keyListJson ? JSON.parse(keyListJson) : [];
-    if (!keyList.includes(storageKey)) {
-      keyList.push(storageKey);
+    const keyList = await storage.get(tagStoreKey);
+    const keyArray: string[] = keyList || [];
+    if (!keyArray.includes(storageKey)) {
+      keyArray.push(storageKey);
     }
-    await storage.set(tagStoreKey, JSON.stringify(keyList));
+    await storage.set(tagStoreKey, keyArray);
   }
 }
 
@@ -461,18 +499,18 @@ async function removeKeyFromTags(
 ): Promise<void> {
   for (const tag of tags) {
     const tagStoreKey = `${TAG_PREFIX}${tag}`;
-    const keyListJson = await storage.get(tagStoreKey);
-    if (keyListJson) {
+    const keyList = await storage.get(tagStoreKey);
+    if (keyList) {
       try {
-        const keyList: string[] = JSON.parse(keyListJson);
-        const updatedKeyList = keyList.filter(key => key !== storageKey);
+        const keyArray: string[] = Array.isArray(keyList) ? keyList : [];
+        const updatedKeyList = keyArray.filter(key => key !== storageKey);
         if (updatedKeyList.length > 0) {
-          await storage.set(tagStoreKey, JSON.stringify(updatedKeyList));
+          await storage.set(tagStoreKey, updatedKeyList);
         } else {
           await storage.delete(tagStoreKey);
         }
       } catch (error) {
-        console.warn(`Failed to parse tag key list for tag ${tag}:`, error);
+        console.warn(`Failed to process tag key list for tag ${tag}:`, error);
       }
     }
   }
@@ -495,23 +533,21 @@ export async function revalidateTag(tag: string): Promise<void> {
   const currentStorage = getStorage();
   const tagStoreKey = `${TAG_PREFIX}${tag}`;
 
-  const keyListJson = await currentStorage.get(tagStoreKey);
-  if (keyListJson) {
+  const keyList = await currentStorage.get(tagStoreKey);
+  if (keyList) {
     try {
-      const keyList: string[] = JSON.parse(keyListJson);
-
+      const keyArray: string[] = Array.isArray(keyList) ? keyList : [];
       // For each cache key, we need to:
       // 1. Get the cache item to find its associated tags
       // 2. Remove this key from all other tag relationships
       // 3. Delete the cache item itself
-      for (const cacheKey of keyList) {
-        const cachedRaw = await currentStorage.get(cacheKey);
-        if (cachedRaw) {
+      for (const cacheKey of keyArray) {
+        const cached = await currentStorage.get(cacheKey);
+        if (cached) {
           try {
-            const cached = JSON.parse(cachedRaw) as CacheItem<any>;
-            if (cached.tags) {
-              // Remove this cache key from all its associated tags (except the current one being revalidated)
-              const otherTags = cached.tags.filter(t => t !== tag);
+            const cacheItem = cached as CacheItem<any>;
+            if (cacheItem.tags) {
+              const otherTags = cacheItem.tags.filter(t => t !== tag);
               await removeKeyFromTags(currentStorage, cacheKey, otherTags);
             }
           } catch (error) {
@@ -522,14 +558,12 @@ export async function revalidateTag(tag: string): Promise<void> {
           }
         }
 
-        // Delete the cache item itself
         await currentStorage.delete(cacheKey);
       }
 
-      // Delete the tag relationship record
       await currentStorage.delete(tagStoreKey);
     } catch (error) {
-      console.warn('Failed to parse tag key list:', error);
+      console.warn('Failed to process tag key list:', error);
     }
   }
 }

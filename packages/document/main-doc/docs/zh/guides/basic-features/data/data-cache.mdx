@@ -451,7 +451,8 @@ class RedisContainer implements Container {
   }
 
   async get(key: string): Promise<string | null> {
-    return this.client.get(key);
+    const value = await this.redis.get(key);
+    return value ? JSON.parse(value) : null;
   }
 
   async set(
@@ -460,9 +461,9 @@ class RedisContainer implements Container {
     options?: { ttl?: number },
   ): Promise<'OK'> {
     if (options?.ttl) {
-      return this.client.set(key, value, 'EX', options.ttl);
+      return this.client.set(key, JSON.stringify(value), 'EX', options.ttl);
     }
-    return this.client.set(key, value);
+    return this.client.set(key, JSON.stringify(value));
   }
 
   async has(key: string): Promise<boolean> {

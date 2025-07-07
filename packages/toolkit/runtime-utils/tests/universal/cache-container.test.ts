@@ -32,7 +32,8 @@ class RedisContainer implements Container {
 
   async get(key: string): Promise<string | null> {
     this.operations.push(`get:${key}`);
-    return this.redis.get(key);
+    const value = await this.redis.get(key);
+    return value ? JSON.parse(value) : null;
   }
 
   async set(
@@ -44,9 +45,9 @@ class RedisContainer implements Container {
       `set:${key}${options?.ttl ? `:ttl=${options.ttl}` : ''}`,
     );
     if (options?.ttl && options.ttl > 0) {
-      await this.redis.set(key, value, 'EX', options.ttl);
+      await this.redis.set(key, JSON.stringify(value), 'EX', options.ttl);
     } else {
-      await this.redis.set(key, value);
+      await this.redis.set(key, JSON.stringify(value));
     }
   }
 
