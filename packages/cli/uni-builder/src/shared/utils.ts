@@ -128,6 +128,7 @@ export const getHash = (config: NormalizedEnvironmentConfig) => {
   return filenameHash ? '.[contenthash:8]' : '';
 };
 
+// TODO(@vegerot): update this to `['defaults']` for next breaking change release
 const DEFAULT_WEB_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
 
 const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
