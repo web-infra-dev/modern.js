@@ -2870,8 +2870,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       rsc-html-stream:
-        specifier: 0.0.5
-        version: 0.0.5
+        specifier: 0.0.6
+        version: 0.0.6
     devDependencies:
       '@modern-js/server-core':
         specifier: workspace:*
@@ -21980,8 +21980,8 @@ packages:
       typescript:
         optional: true
 
-  rsc-html-stream@0.0.5:
-    resolution: {integrity: sha512-UhLsi8XLAu1NIBcFZjykoPiSLEAxfkGxkmr/Tnv4KnqhG18A65dVTCWovRvFdpzng6IyVW2f6nTAKz7lw+QhgQ==}
+  rsc-html-stream@0.0.6:
+    resolution: {integrity: sha512-oZUJ5AH0oDo9QywxD9yMY6N5Z3VwX2YfQg0FanNdCmvXmO0itTfv7BMkbMSwxg7JmBjYmefU8DTW0EcLsePPgQ==}
 
   rslog@1.2.3:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
@@ -42198,7 +42198,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  rsc-html-stream@0.0.5: {}
+  rsc-html-stream@0.0.6: {}
 
   rslog@1.2.3: {}
 
