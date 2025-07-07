@@ -190,7 +190,7 @@ Options:
 
 After executing the command `npx modern inspect` in the project root directory, the following files will be generated in the `dist` directory of the project:
 
-- `modern-js.config.mjs`:The Modern.js configuration currently used.
+- `modern.js.config.mjs`:The Modern.js configuration currently used.
 - `rsbuild.config.mjs`: The Rsbuild config to use at build time.
 - `webpack.config.web.mjs`: The webpack config used by to use at build time.
 
@@ -201,6 +201,7 @@ Inspect config succeed, open following files to view the content:
 
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
   - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
+  - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 
 ### Configuration Env
@@ -231,7 +232,7 @@ Inspect config succeed, open following files to view the content:
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
   - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
   - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
-  - Modern-js Config: /root/my-project/dist/modern-js.config.mjs
+  - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 
 import DeployCommand from '@site-docs-en/components/deploy-command';
