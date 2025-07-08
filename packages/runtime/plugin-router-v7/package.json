@@ -47,9 +47,6 @@
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
-      ],
-      "rsc": [
-        "./dist/types/runtime/rsc.d.ts"
       ]
     }
   },
