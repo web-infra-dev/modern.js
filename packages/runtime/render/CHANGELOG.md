@@ -1,5 +1,14 @@
 # @modern-js/render
 
+## 2.68.1
+
+### Patch Changes
+
+- 0d98723: feat: support rsc for spa projects
+  feat: 为 SPA 项目支持 RSC
+  - @modern-js/types@2.68.1
+  - @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Patch Changes

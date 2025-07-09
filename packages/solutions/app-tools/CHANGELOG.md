@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 2.68.1
+
+### Patch Changes
+
+- 2740b74: feat: support output Modern.js config when calling `modern inspect`
+
+  feat: 当 `modern inspect` 命令调用时，支持输出 Modern.js 配置
+
+- 0d98723: feat: support rsc for spa projects
+  feat: 为 SPA 项目支持 RSC
+- 0d98723: feat: inject the rsc payload into the html for csr
+  feat: 为 CSR 项目，注入 rsc payload 到 html 中
+- Updated dependencies [0d98723]
+- Updated dependencies [0d98723]
+  - @modern-js/uni-builder@2.68.1
+  - @modern-js/server-core@2.68.1
+  - @modern-js/core@2.68.1
+  - @modern-js/server@2.68.1
+  - @modern-js/plugin-v2@2.68.1
+  - @modern-js/plugin-data-loader@2.68.1
+  - @modern-js/prod-server@2.68.1
+  - @modern-js/server-utils@2.68.1
+  - @modern-js/plugin-i18n@2.68.1
+  - @modern-js/rsbuild-plugin-esbuild@2.68.1
+  - @modern-js/node-bundle-require@2.68.1
+  - @modern-js/plugin@2.68.1
+  - @modern-js/types@2.68.1
+  - @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Minor Changes

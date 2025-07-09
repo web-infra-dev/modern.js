@@ -1,5 +1,14 @@
 # @modern-js/create-request
 
+## 2.68.1
+
+### Patch Changes
+
+- e64d5f9: feat: hono bff supports return custom res
+  feat: hono bff 支持返回自定义响应
+  - @modern-js/runtime-utils@2.68.1
+  - @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Patch Changes

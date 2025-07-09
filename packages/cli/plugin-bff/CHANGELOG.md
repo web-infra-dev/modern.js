@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 2.68.1
+
+### Patch Changes
+
+- e64d5f9: feat: hono bff supports return custom res
+  feat: hono bff 支持返回自定义响应
+- Updated dependencies [e64d5f9]
+- Updated dependencies [0d98723]
+- Updated dependencies [0d98723]
+  - @modern-js/create-request@2.68.1
+  - @modern-js/server-core@2.68.1
+  - @modern-js/server-utils@2.68.1
+  - @modern-js/bff-core@2.68.1
+  - @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Patch Changes

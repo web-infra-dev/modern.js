@@ -1,5 +1,12 @@
 # @modern-js/flight-server-transform-plugin
 
+## 2.68.1
+
+### Patch Changes
+
+- 0d98723: feat: support rsc for spa projects
+  feat: 为 SPA 项目支持 RSC
+
 ## 2.68.0
 
 ## 2.67.11
