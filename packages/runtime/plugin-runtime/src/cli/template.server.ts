@@ -37,7 +37,7 @@ const handleRequest = async (request, ServerRoot, options) => {
     </ServerRoot>,
     {
       ...options,
-      rscRoot: options.rscRoot || <options.RSCRoot />,
+      rscRoot: options.rscRoot,
     },
   );
 
@@ -63,7 +63,7 @@ const handleRSCRequest = async (request, ServerRoot, options) => {
 }
 
 
-export const rscRequestHandler = createRequestHandler(handleRSCRequest, {
+export const rscPayloadHandler = createRequestHandler(handleRSCRequest, {
   enableRsc: true
 });
 `;
@@ -98,7 +98,7 @@ export const entryForCSRWithRSC = ({
 
   const handleCSRRender = async (request, ServerRoot, options) => {
     const rscPayloadStream = renderRsc({
-      element: options.rscRoot || <options.RSCRoot/>,
+      element: options.rscRoot,
       clientManifest: options.rscClientManifest!,
     });
     const stream = new ReadableStream({
@@ -128,14 +128,14 @@ export const entryForCSRWithRSC = ({
 
   const handleRequest = async (request, ServerRoot, options) => {
     const stream = renderRsc({
-            element: options.rscRoot || <options.RSCRoot/>,
+            element: options.rscRoot,
       clientManifest: options.rscClientManifest!,
     });
 
     return new Response(stream);
   }
 
-  export const rscRequestHandler = createRequestHandler(handleRequest, {
+  export const rscPayloadHandler = createRequestHandler(handleRequest, {
     enableRsc: true
   });
 `;

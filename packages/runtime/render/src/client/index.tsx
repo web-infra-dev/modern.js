@@ -4,7 +4,7 @@ import {
 } from '@modern-js/utils/react-server-dom-webpack/client.browser';
 import React from 'react';
 import { type ReactNode, createContext, useState } from 'react';
-export { rscStream } from 'rsc-html-stream/client';
+export { rscStream } from '../rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 export { callServer } from './callServer';
 export { createFromFetch } from '@modern-js/utils/react-server-dom-webpack/client.browser';

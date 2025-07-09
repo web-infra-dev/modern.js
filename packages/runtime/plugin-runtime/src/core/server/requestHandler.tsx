@@ -308,9 +308,8 @@ export const createRequestHandler: CreateRequestHandler = async (
           }
         }
 
-        const htmlTemplate = options.resource?.htmlTemplate;
-
-        if (htmlTemplate) {
+        if (!createRequestOptions?.enableRsc) {
+          const { htmlTemplate } = options.resource;
           options.resource.htmlTemplate = htmlTemplate.replace(
             '</head>',
             `${CHUNK_CSS_PLACEHOLDER}</head>`,

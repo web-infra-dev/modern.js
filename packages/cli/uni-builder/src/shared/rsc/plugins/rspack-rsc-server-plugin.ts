@@ -172,6 +172,7 @@ export class RscServerPlugin {
   ): string | undefined {
     const entryDependency = compilation.entries.get(entryName);
     if (entryDependency && entryDependency.dependencies.length > 0) {
+      // The first dependency is the entry point of the entry
       const firstDep = entryDependency.dependencies[0];
       if ('request' in firstDep && typeof firstDep.request === 'string') {
         return firstDep.request;

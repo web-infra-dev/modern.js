@@ -55,7 +55,7 @@ type ServerRenderBundle = {
     req: Request,
     options: { clientManifest: RscClientManifest },
   ) => Promise<Response>;
-  rscRequestHandler?: (
+  rscPayloadHandler?: (
     req: Request,
     options: RscPayloadHandlerOptions,
   ) => Promise<Response>;
