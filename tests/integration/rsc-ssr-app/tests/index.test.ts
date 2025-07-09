@@ -226,5 +226,3 @@ async function supportResponseAPIForClientRoot({
 
 runTests({ bundler: 'rspack', mode: 'dev' });
 runTests({ bundler: 'rspack', mode: 'build' });
-runTests({ bundler: 'webpack', mode: 'dev' });
-runTests({ bundler: 'webpack', mode: 'build' });

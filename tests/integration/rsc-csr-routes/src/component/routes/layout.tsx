@@ -1,0 +1,16 @@
+import 'server-only';
+import { Link, Outlet } from '@modern-js/runtime/router';
+export default function Layout() {
+  return (
+    <div className="root-layout">
+      root layout
+      <Link className="home-link" to="/">
+        home
+      </Link>
+      <Link className="user-link" to="user">
+        user
+      </Link>
+      <Outlet />
+    </div>
+  );
+}

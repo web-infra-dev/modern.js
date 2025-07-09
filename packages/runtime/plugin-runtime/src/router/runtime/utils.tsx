@@ -4,9 +4,13 @@ import {
   type Router,
   type StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
-import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
+import {
+  Route,
+  type RouteObject,
+  isRouteErrorResponse,
+} from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
-import type React from 'react';
+import React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
 import type { RouterConfig } from './types';
@@ -18,9 +22,9 @@ export function getRouteComponents(
     ssrMode,
     props,
   }: {
-    globalApp?: React.ComponentType<any>;
+    globalApp?: React.ComponentType<GlobalAppProps>;
     ssrMode?: SSRMode;
-    props?: Record<string, any>;
+    props?: Record<string, unknown>;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -55,13 +59,124 @@ export function getRouteComponents(
   return routeElements;
 }
 
+interface LayoutWrapperProps {
+  [key: string]: unknown;
+}
+
+interface GlobalAppProps {
+  Component: React.ComponentType;
+  [key: string]: unknown;
+}
+
+export function getRouteObjects(
+  routes: (NestedRoute | PageRoute)[],
+  {
+    globalApp,
+    ssrMode,
+    props,
+  }: {
+    globalApp?: React.ComponentType<GlobalAppProps>;
+    ssrMode?: SSRMode;
+    props?: Record<string, unknown>;
+  },
+) {
+  const createLayoutElement = (
+    Component: React.ComponentType,
+  ): React.ComponentType => {
+    const GlobalLayout = globalApp;
+    if (!GlobalLayout) {
+      return Component;
+    }
+
+    const LayoutWrapper = (props: LayoutWrapperProps) => {
+      const LayoutComponent = GlobalLayout;
+      return <LayoutComponent Component={Component} {...props} />;
+    };
+
+    return LayoutWrapper;
+  };
+
+  const routeObjects: RouteObject[] = [];
+
+  for (const route of routes) {
+    if (route.type === 'nested') {
+      const nestedRouteObject = {
+        path: route.path,
+        id: route.id,
+        loader: route.loader,
+        action: route.action,
+        hasErrorBoundary: route.hasErrorBoundary,
+        shouldRevalidate: route.shouldRevalidate,
+        handle: route.handle,
+        index: route.index,
+        hasClientLoader: !!route.clientData,
+        Component: route.component ? route.component : undefined,
+        errorElement: route.error ? <route.error /> : undefined,
+        children: route.children
+          ? route.children.map(
+              child =>
+                getRouteObjects([child], { globalApp, ssrMode, props })[0],
+            )
+          : undefined,
+      } as RouteObject;
+
+      routeObjects.push(nestedRouteObject);
+    } else {
+      if (
+        typeof route.component === 'function' ||
+        typeof route.component === 'object'
+      ) {
+        const LayoutComponent = createLayoutElement(
+          route.component as React.ComponentType,
+        );
+        const routeObject: RouteObject = {
+          path: route.path,
+          element: React.createElement(LayoutComponent),
+        };
+
+        routeObjects.push(routeObject);
+      }
+    }
+  }
+
+  routeObjects.push({
+    path: '*',
+    element: <DefaultNotFound />,
+  });
+
+  return routeObjects;
+}
+
+export function createRouteObjectsFromConfig({
+  routesConfig,
+  props,
+  ssrMode,
+}: {
+  routesConfig: RouterConfig['routesConfig'];
+  props?: Record<string, unknown>;
+  ssrMode?: SSRMode;
+}): RouteObject[] | null {
+  if (!routesConfig) {
+    return null;
+  }
+  const { routes, globalApp } = routesConfig;
+  if (!routes) {
+    return null;
+  }
+  return getRouteObjects(routes, {
+    globalApp,
+    ssrMode,
+    props,
+  });
+}
+
 export function renderRoutes({
   routesConfig,
   props,
   ssrMode,
 }: {
   routesConfig: RouterConfig['routesConfig'];
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
   ssrMode?: SSRMode;
 }) {
   if (!routesConfig) {
@@ -79,9 +194,10 @@ export function renderRoutes({
   return routeElements;
 }
 
-export function getLocation(serverContext: any): string {
-  const { pathname, url }: { [p: string]: string } =
-    serverContext?.request || {};
+export function getLocation(
+  serverContext: { request?: { pathname?: string; url?: string } } | undefined,
+): string {
+  const { pathname = '', url = '' } = serverContext?.request || {};
 
   const cleanUrl = url?.replace('http://', '')?.replace('https://', '');
 

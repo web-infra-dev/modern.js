@@ -54,7 +54,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       if ((nestedRoutesEntry || pageRoutesEntry) && !isRouterV5) {
         plugins.push({
           name: 'router',
-          path: `@${metaName}/runtime/router`,
+          path: `@${metaName}/runtime/router/internal`,
           config:
             typeof routerConfig === 'boolean'
               ? { serverBase }
@@ -77,6 +77,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
             /node_modules\/react-router/,
             /node_modules\/react-router-dom/,
             /node_modules\/@remix-run\/router/,
+            path.resolve(__dirname, '../runtime').replace('cjs', 'esm'),
           ],
           globalVars: {
             'process.env._MODERN_ROUTER_VERSION': 'v6',
@@ -103,7 +104,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
       );
       if (!isRouterV5) {
         pluginsExportsUtils.addExport(
-          `export { default as router } from '@${metaName}/runtime/router'`,
+          `export { default as router } from '@${metaName}/runtime/router/internal'`,
         );
       }
     });

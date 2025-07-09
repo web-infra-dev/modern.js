@@ -1,4 +1,4 @@
-import type { RouterConfig } from './router';
+import type { RouterConfig } from './router/internal';
 
 export interface RuntimeUserConfig {
   runtime?: {

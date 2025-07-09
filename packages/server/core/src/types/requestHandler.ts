@@ -44,11 +44,15 @@ export type RequestHandlerOptions = {
 
   loaderContext: LoaderContext;
 
+  html?: string;
+
   rscServerManifest?: RscServerManifest;
   rscClientManifest?: RscClientManifest;
   rscSSRManifest?: RscSSRManifest;
   RSCRoot?: any;
   rscRoot?: any;
+
+  serverPayload?: any;
 
   /** @deprecated  */
   locals?: Record<string, any>;

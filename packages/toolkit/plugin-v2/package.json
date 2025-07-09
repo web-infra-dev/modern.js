@@ -42,7 +42,7 @@
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
+      "jsnext:source": "./src/runtime/index.tsx",
       "node": {
         "import": "./dist/esm/runtime/index.js",
         "require": "./dist/cjs/runtime/index.js"
