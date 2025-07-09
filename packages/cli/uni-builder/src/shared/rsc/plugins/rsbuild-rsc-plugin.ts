@@ -129,7 +129,7 @@ export const rsbuildRscPlugin = ({
           });
 
           const routesFileReg = new RegExp(
-            `${internalDirectory}${path.sep}[^/]*${path.sep}routes`,
+            `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );
 
           chain.module
