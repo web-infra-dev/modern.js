@@ -75,6 +75,21 @@ describe('bff hono in dev', () => {
     expect(text).toBe('mock_image.png');
   });
 
+  test('custom res', async () => {
+    await page.goto(`${host}:${port}/${BASE_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const imgElement = await page.$('.captcha-img');
+    expect(imgElement).not.toBeNull();
+
+    const isLoaded = await imgElement!.evaluate(
+      img =>
+        (img as HTMLImageElement).complete &&
+        (img as HTMLImageElement).naturalWidth > 0,
+    );
+    expect(isLoaded).toBe(true);
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
@@ -139,6 +154,21 @@ describe('bff hono in prod', () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('.mock_file', el => el?.textContent);
     expect(text).toBe('mock_image.png');
+  });
+
+  test('custom res', async () => {
+    await page.goto(`${host}:${port}/${BASE_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const imgElement = await page.$('.captcha-img');
+    expect(imgElement).not.toBeNull();
+
+    const isLoaded = await imgElement!.evaluate(
+      img =>
+        (img as HTMLImageElement).complete &&
+        (img as HTMLImageElement).naturalWidth > 0,
+    );
+    expect(isLoaded).toBe(true);
   });
 
   afterAll(async () => {

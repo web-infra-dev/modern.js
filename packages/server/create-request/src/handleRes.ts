@@ -36,6 +36,10 @@ const handleRes = async (res: Response | NodeResponse) => {
     return res.arrayBuffer();
   }
 
+  if (contentType?.includes('image/png')) {
+    return res;
+  }
+
   return res.text();
 };
 

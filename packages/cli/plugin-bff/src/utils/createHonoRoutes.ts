@@ -67,6 +67,9 @@ export const createHonoHandler = (handler: Handler) => {
           if (c.finalized) return;
 
           const result = await handler(input);
+          if (result instanceof Response) {
+            return result;
+          }
           return result && typeof result === 'object'
             ? c.json(result)
             : c.body(result);
@@ -95,6 +98,9 @@ export const createHonoHandler = (handler: Handler) => {
           }
 
           if (typeof body !== 'undefined') {
+            if (body instanceof Response) {
+              return body;
+            }
             return c.json(body);
           }
         } catch {
