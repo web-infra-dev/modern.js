@@ -331,7 +331,6 @@ export const createRequestHandler: CreateRequestHandler = async (
           response = await handleRequest(request, Root, {
             ...options,
             runtimeContext: context,
-            RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
           });
         }
 

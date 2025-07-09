@@ -27,18 +27,13 @@ export function getRouteComponents(
     props?: Record<string, unknown>;
   },
 ) {
-  const Layout = ({
-    Component,
-    ...props
-  }: { Component: React.ComponentType | string; [key: string]: unknown }) => {
+  const Layout = ({ Component, ...props }: any) => {
     const GlobalLayout = globalApp;
     if (!GlobalLayout) {
-      return typeof Component === 'function' ? <Component {...props} /> : null;
+      return <Component {...props} />;
     }
 
-    return typeof Component === 'function' ? (
-      <GlobalLayout Component={Component} {...props} />
-    ) : null;
+    return <GlobalLayout Component={Component} {...props} />;
   };
   const routeElements: React.ReactElement[] = [];
   for (const route of routes) {

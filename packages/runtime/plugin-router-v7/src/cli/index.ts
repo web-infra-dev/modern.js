@@ -37,7 +37,7 @@ export const routerPlugin = (): CliPluginFuture<AppTools> => ({
         'react-router-dom/server$': runtimeAlias,
         [`@${appContext.metaName}/runtime/router/rsc`]: require
           .resolve('../runtime/rsc')
-          .replace(/\/cjs\//, '/esm/'),
+          .replace(cjs, esm),
       };
 
       if (hasReactRouterDep) {

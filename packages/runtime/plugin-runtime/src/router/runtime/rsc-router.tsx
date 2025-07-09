@@ -86,10 +86,6 @@ export const createServerPayload = (
   };
 };
 
-export const isRSCNavigation = (request: Request): boolean => {
-  return request.headers.get('x-rsc-tree') === 'true';
-};
-
 export const handleRSCRedirect = (
   headers: Headers,
   basename: string,
@@ -141,7 +137,7 @@ export const prepareRSCRoutes = async (
   await processRoutes(routes);
 };
 
-export const mergeRoutes = (
+const mergeRoutes = (
   routes: PayloadRoute[],
   originalRoutes: any[] | undefined,
 ): any[] => {
@@ -192,7 +188,7 @@ export const mergeRoutes = (
   return mergeRoutesRecursive(originalRoutes);
 };
 
-export const findRouteInTree = (
+const findRouteInTree = (
   routes: RouteObject[],
   routeId: string,
 ): RouteObject | null => {
@@ -317,12 +313,12 @@ export const createClientRouterFromPayload = (
   return router;
 };
 
-export interface RSCStaticRouterProps {
+interface RSCStaticRouterProps {
   basename?: string;
   useJsonScript?: boolean;
 }
 
-export const createRSCStaticRouterComponent = (
+const createRSCStaticRouterComponent = (
   payload: ServerPayload,
   basename?: string,
 ) => {

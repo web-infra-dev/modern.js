@@ -12,10 +12,7 @@ import type {
   ErrorResponse,
   StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
-import {
-  isRouteErrorResponse,
-  json,
-} from '@modern-js/runtime-utils/remix-router';
+import { isRouteErrorResponse } from '@modern-js/runtime-utils/remix-router';
 
 /**
  * This thing probably warrants some explanation.

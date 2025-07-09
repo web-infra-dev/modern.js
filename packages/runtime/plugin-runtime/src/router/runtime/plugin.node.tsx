@@ -151,12 +151,12 @@ export const routerPlugin = (
         const cost = end();
         context.ssrContext?.onTiming?.(LOADER_REPORTER_NAME, cost);
 
-        const isRSNavigation =
+        const isRSCNavigation =
           remixRequest.headers.get('x-rsc-tree') === 'true';
         if (routerContext instanceof Response) {
           // React Router would return a Response when redirects occur in loader.
           // Throw the Response to bail out and let the server handle it with an HTTP redirect
-          if (enableRsc && isRSNavigation) {
+          if (enableRsc && isRSCNavigation) {
             return interrupt(
               handleRSCRedirect(
                 routerContext.headers,
@@ -187,7 +187,7 @@ export const routerPlugin = (
         let payload: ServerPayload;
         if (enableRsc) {
           // In order to execute the client loader, refer to the ServerRouter implementation of react-router.
-          if (isRSNavigation) {
+          if (isRSCNavigation) {
             for (const match of routerContext.matches) {
               if ((match.route as any).hasClientLoader) {
                 delete routerContext.loaderData[match.route.id];
