@@ -33,7 +33,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -183,7 +183,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -325,7 +325,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -430,7 +430,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -572,7 +572,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -714,7 +714,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.43",
+            "coreJs": "3.44",
             "mode": "entry",
             "targets": [
               "> 0.01%",
