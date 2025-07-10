@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.68.2
+
+### Patch Changes
+
+- 6562f76: feat: support configure storage container and unstable_shouldCache for cache
+  feat: 为 cache 函数支持自定义存储 container 和 unstable_shouldCache
+  - @modern-js/types@2.68.2
+  - @modern-js/utils@2.68.2
+
 ## 2.68.1
 
 ### Patch Changes
