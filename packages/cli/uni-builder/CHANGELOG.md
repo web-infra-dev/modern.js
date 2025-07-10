@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.68.1
+
+### Patch Changes
+
+- 0d98723: feat: support rsc for spa projects
+  feat: 为 SPA 项目支持 RSC
+- Updated dependencies [0d98723]
+  - @modern-js/flight-server-transform-plugin@2.68.1
+  - @modern-js/babel-preset@2.68.1
+  - @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Patch Changes

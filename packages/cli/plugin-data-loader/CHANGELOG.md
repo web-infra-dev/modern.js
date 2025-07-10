@@ -1,5 +1,12 @@
 # @modern-js/plugin-data-loader
 
+## 2.68.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.68.1
+- @modern-js/utils@2.68.1
+
 ## 2.68.0
 
 ### Patch Changes
