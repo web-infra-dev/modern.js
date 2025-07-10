@@ -25,10 +25,16 @@ export const mergeConfig = <Config, NormalizedConfig>(
       return source ?? target;
     }
 
-    if (isArray(source)) {
+    if (Array.isArray(target) || Array.isArray(source)) {
+      if (target === undefined) {
+        return source;
+      }
+      if (source === undefined) {
+        return target;
+      }
       // If target is not an array (it may be undefined or cleared to false by previous config),
       // use source directly as the new starting point.
-      const targetArray = isArray(target) ? target : [];
+      const targetArray = Array.isArray(target) ? target : [];
 
       // Use unionWith to merge and deduplicate
       return unionWith(targetArray, source, isEqual);
