@@ -74,7 +74,7 @@ EdenX's `cache` function can be used in any frontend or server-side code.
 
 ## Detailed Usage
 
-### Without `options` Parameter
+### Without options Parameter
 
 When no `options` parameter is provided, it's primarily useful in SSR projects, the cache lifecycle is limited to a single SSR rendering request. For example, when the same cachedFn is called in multiple data loaders, the cachedFn function won't be executed repeatedly. This allows data sharing between different data loaders while avoiding duplicate requests. EdenX will re-execute the `fn` function with each server request.
 
@@ -97,7 +97,7 @@ const loader = async () => {
 ```
 
 
-### With `options` Parameter
+### With options Parameter
 
 #### `maxAge` Parameter
 
@@ -166,13 +166,15 @@ const getComplexStatistics = cache(
   }
 );
 
-revalidateTag('dashboard'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
+await revalidateTag('dashboard-stats'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
 ```
 
 
 #### `getKey` Parameter
 
-The `getKey` parameter simplifies cache key generation, especially useful when you only need to rely on part of the function parameters to differentiate caches. It's a function that receives the same parameters as the original function and returns a string or number as the cache key:
+The `getKey` parameter simplifies cache key generation, especially useful when you only need to rely on part of the function parameters to differentiate caches. It's a function that receives the same parameters as the original function and returns a string.
+
+Its return value becomes part of the final cache key, but the key is still combined with a unique function identifier, making the cache **function-scoped**.
 
 ```ts
 import { cache, CacheTime } from '@modern-js/runtime/cache';
@@ -238,7 +240,9 @@ await getUserById(42); // Uses 42 as the cache key
 
 #### `customKey` parameter
 
-The `customKey` parameter is used to customize the cache key. It is a function that receives an object with the following properties and returns a string or Symbol type as the cache key:
+The `customKey` parameter is used to **fully customize** the cache key. It is a function that receives an object with the following properties and returns a string as the cache key.
+
+Its return value **directly becomes** the final cache key, **overriding** the default combination of a function identifier and parameter-based key. This allows you to create **globally unique** keys and share cache across different functions.
 
 - `params`: Array of arguments passed to the cached function
 - `fn`: Reference to the original function being cached
@@ -247,16 +251,15 @@ The `customKey` parameter is used to customize the cache key. It is a function t
 :::info
 
 Generally, the cache will be invalidated in the following scenarios:
-1. The referenced cached function changes
-2. The function's input parameters change
-3. The maxAge condition is no longer satisfied
-4. The `revalidateTag` method has been called
+1. The function's input parameters change
+2. The maxAge condition is no longer satisfied
+3. The `revalidateTag` method has been called
 
-`customKey` can be used in scenarios where function references are different but shared caching is desired. If it's just for customizing the cache key, it is recommended to use `getKey`.
+By default, the framework generates a stable function ID based on the function's string representation and combines it with the generated parameter key. `customKey` can be used when you need complete control over the cache key generation, especially useful for sharing cache across different function instances. If you just need to customize how parameters are converted to cache keys, it is recommended to use `getKey`.
 
 :::
 
-This is very useful in some scenarios, such as when the function reference changes , but you want to still return the cached data.
+This is very useful in some scenarios, such as when you want to share cache across different function instances or when you need predictable cache keys for external cache management.
 
 ```ts
 import { cache } from '@modern-js/runtime/cache';
@@ -287,21 +290,26 @@ const getUserB = cache(
   }
 );
 
-// You can also use Symbol as a cache key (usually used to share cache within the same application)
-const USER_CACHE_KEY = Symbol('user-cache');
+// Now you can share cache across different function implementations
+await getUserA(123); // Fetches data and caches with key "user-123"
+await getUserB(123); // Cache hit, returns cached data
+
+// You can utilize the generatedKey parameter to modify the default key
 const getUserC = cache(
   fetchUserData,
   {
-    maxAge: CacheTime.MINUTE * 5,
-    customKey: () => USER_CACHE_KEY,
+    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
   }
 );
 
-// You can utilize the generatedKey parameter to modify the default key
+// For predictable cache keys that can be managed externally
 const getUserD = cache(
-  fetchUserData,
+  async (userId: string) => {
+    return await fetchUserData(userId);
+  },
   {
-    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
+    maxAge: CacheTime.MINUTE * 5,
+    customKey: ({ params }) => `app:user:${params[0]}`,
   }
 );
 ```
@@ -370,6 +378,8 @@ The `onCache` callback is useful for:
 
 ### Storage
 
+#### Default Storage
+
 Currently, both client and server caches are stored in memory.
 The default storage limit for all cached functions is 1GB. When this limit is reached, the oldest cache is removed using an LRU algorithm.
 
@@ -386,3 +396,132 @@ configureCache({
   maxSize: CacheSize.MB * 10, // 10MB
 });
 ```
+
+#### Custom Storage Container
+
+In addition to the default memory storage, you can use custom storage containers such as Redis, file systems, databases, etc. This enables cache sharing across processes and servers.
+
+##### Container Interface
+
+Custom storage containers need to implement the `Container` interface:
+
+```ts
+interface Container {
+  get: (key: string) => Promise<string | undefined | null>;
+  set: (key: string, value: string, options?: { ttl?: number }) => Promise<any>;
+  has: (key: string) => Promise<boolean>;
+  delete: (key: string) => Promise<boolean>;
+  clear: () => Promise<void>;
+}
+```
+
+##### Basic Usage
+
+```ts
+import { configureCache } from '@modern-js/runtime/cache';
+
+// Use custom storage container
+configureCache({
+  container: customContainer,
+});
+```
+
+##### Using `customKey` to Ensure Cache Key Stability
+
+:::note
+
+When using custom storage containers (such as Redis), **it's recommended to configure `customKey`** to ensure cache key stability. This ensures:
+
+1. **Cross-process sharing**: Different server instances can share the same cache
+2. **Cache validity after application restart**: Cache remains valid after restarting the application
+3. **Cache persistence after code deployment**: Cache for the same logic remains effective after code updates
+
+:::
+
+The default cache key generation mechanism is based on function references, which may not be stable enough in distributed environments. It's recommended to use `customKey` to provide stable cache keys:
+
+```ts
+import { cache, configureCache } from '@modern-js/runtime/cache';
+
+// Configure Redis container
+configureCache({
+  container: redisContainer,
+});
+
+// Recommended: Use customKey to ensure key stability
+const getUser = cache(
+  async (userId: string) => {
+    return await fetchUserData(userId);
+  },
+  {
+    maxAge: CacheTime.MINUTE * 5,
+    // Use stable identifiers related to the cached function as cache keys
+    customKey: () => `fetchUserData`,
+  }
+);
+```
+
+##### Redis Storage Example
+
+Here's an example of using Redis as a storage backend:
+
+```ts
+import { Redis } from 'ioredis';
+import { Container, configureCache } from '@modern-js/runtime/cache';
+
+class RedisContainer implements Container {
+  private client: Redis;
+
+  constructor(client: Redis) {
+    this.client = client;
+  }
+
+  async get(key: string): Promise<string | null> {
+    const value = await this.redis.get(key);
+    return value ? JSON.parse(value) : null;
+  }
+
+  async set(
+    key: string,
+    value: string,
+    options?: { ttl?: number },
+  ): Promise<'OK'> {
+    if (options?.ttl) {
+      return this.client.set(key, JSON.stringify(value), 'EX', options.ttl);
+    }
+    return this.client.set(key, JSON.stringify(value));
+  }
+
+  async has(key: string): Promise<boolean> {
+    const result = await this.client.exists(key);
+    return result === 1;
+  }
+
+  async delete(key: string): Promise<boolean> {
+    const result = await this.client.del(key);
+    return result > 0;
+  }
+
+  async clear(): Promise<void> {
+    // Be cautious with this in production. It will clear the entire Redis database.
+    // A more robust implementation might use a key prefix and delete keys matching that prefix.
+    await this.client.flushdb();
+  }
+}
+
+// Configure Redis storage
+const redisClient = new Redis({
+  host: 'localhost',
+  port: 6379,
+});
+
+configureCache({
+  container: new RedisContainer(redisClient),
+});
+```
+
+##### Important Notes
+
+1. **Serialization**: All cached data will be serialized to strings for storage. The container only needs to handle string get/set operations.
+
+2. **TTL Support**: If your storage backend supports TTL (Time To Live), you can use the `options.ttl` parameter in the `set` method (in seconds).

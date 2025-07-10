@@ -20,92 +20,26 @@ export type CacheStatus = 'hit' | 'stale' | 'miss';
 
 export interface CacheStatsInfo {
   status: CacheStatus;
-  key: string | symbol;
+  key: string;
   params: any[];
   result: any;
+  /**
+   * Cache miss reason:
+   * 1: Caching is disabled for the current request
+   * 2: Item not found in cache
+   * 3: Item found in cache but has expired
+   * 4: Failed to parse data from cache
+   * 5: Execution error
+   */
+  reason?: number;
 }
 
-interface CacheOptions {
-  tag?: string | string[];
-  maxAge?: number;
-  revalidate?: number;
-  getKey?: <Args extends any[]>(...args: Args) => string;
-  customKey?: <Args extends any[]>(options: {
-    params: Args;
-    fn: (...args: Args) => any;
-    generatedKey: string;
-  }) => string | symbol;
-  onCache?: (info: CacheStatsInfo) => void;
-}
-
-interface CacheConfig {
-  maxSize?: number;
-  unstable_shouldDisable?: ({
-    request,
-  }: {
-    request: Request;
-  }) => boolean | Promise<boolean>;
-}
-
-interface CacheItem<T> {
-  data: T;
-  timestamp: number;
-  isRevalidating?: boolean;
-}
-
-const isServer = typeof window === 'undefined';
-const requestCacheMap = new WeakMap<Request, Map<any, any>>();
-
-let lruCache:
-  | LRUCache<Function | string | symbol, Map<string, CacheItem<any>>>
-  | undefined;
-let cacheConfig: CacheConfig = {
-  maxSize: CacheSize.GB,
-};
-
-const tagKeyMap = new Map<string, Set<Function | string | symbol>>();
-
-function addTagKeyRelation(tag: string, key: Function | string | symbol) {
-  let keys = tagKeyMap.get(tag);
-  if (!keys) {
-    keys = new Set();
-    tagKeyMap.set(tag, keys);
-  }
-  keys.add(key);
-}
-
-export function configureCache(config: CacheConfig): void {
-  cacheConfig = {
-    ...cacheConfig,
-    ...config,
-  };
-}
-
-function getLRUCache() {
-  if (!lruCache) {
-    lruCache = new LRUCache<
-      Function | string | symbol,
-      Map<string, CacheItem<any>>
-    >({
-      maxSize: cacheConfig.maxSize ?? CacheSize.GB,
-      sizeCalculation: (value: Map<string, CacheItem<any>>): number => {
-        if (!value.size) {
-          return 1;
-        }
-
-        let size = 0;
-        for (const [k, item] of value.entries()) {
-          size += k.length * 2;
-          size += estimateObjectSize(item.data);
-          size += 8;
-        }
-        return size;
-      },
-      updateAgeOnGet: true,
-      updateAgeOnHas: true,
-    });
-  }
-  return lruCache;
+export interface Container {
+  get: (key: string) => Promise<any | undefined | null>;
+  set: (key: string, value: any, options?: { ttl?: number }) => Promise<any>;
+  has: (key: string) => Promise<boolean>;
+  delete: (key: string) => Promise<boolean>;
+  clear: () => Promise<void>;
 }
 
 function estimateObjectSize(data: unknown): number {
@@ -148,6 +82,117 @@ function estimateObjectSize(data: unknown): number {
   return 1;
 }
 
+class MemoryContainer implements Container {
+  private lru: LRUCache<string, any>;
+
+  constructor(options?: { maxSize?: number }) {
+    this.lru = new LRUCache<string, any>({
+      maxSize: options?.maxSize ?? CacheSize.GB,
+      sizeCalculation: estimateObjectSize,
+      updateAgeOnGet: true,
+      updateAgeOnHas: true,
+    });
+  }
+
+  async get(key: string): Promise<any | undefined> {
+    return this.lru.get(key);
+  }
+
+  async set(
+    key: string,
+    value: any,
+    options?: { ttl?: number },
+  ): Promise<void> {
+    if (options?.ttl) {
+      this.lru.set(key, value, { ttl: options.ttl * 1000 });
+    } else {
+      this.lru.set(key, value);
+    }
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.lru.has(key);
+  }
+
+  async delete(key: string): Promise<boolean> {
+    return this.lru.delete(key);
+  }
+
+  async clear(): Promise<void> {
+    this.lru.clear();
+  }
+}
+
+interface CacheOptions<T extends (...args: any[]) => any> {
+  tag?: string | string[];
+  maxAge?: number;
+  revalidate?: number;
+  getKey?: (...args: Parameters<T>) => string;
+  customKey?: (options: {
+    params: Parameters<T>;
+    fn: T;
+    generatedKey: string;
+  }) => string;
+  onCache?: (info: CacheStatsInfo) => void;
+  unstable_shouldCache?: (info: {
+    params: Parameters<T>;
+    result: Awaited<ReturnType<T>>;
+  }) => boolean | Promise<boolean>;
+}
+
+interface CacheConfig {
+  maxSize?: number;
+  container?: Container;
+  unstable_shouldDisable?: ({
+    request,
+  }: {
+    request: Request;
+  }) => boolean | Promise<boolean>;
+}
+
+interface CacheItem<T> {
+  data: T;
+  timestamp: number;
+  tags?: string[];
+}
+
+const isServer = typeof window === 'undefined';
+const requestCacheMap = new WeakMap<Request, Map<any, any>>();
+
+const TAG_PREFIX = 'tag:';
+const CACHE_PREFIX = 'modernjs_cache:';
+
+const ongoingRevalidations = new Map<string, Promise<any>>();
+
+let storage: Container | undefined;
+let cacheConfig: CacheConfig = {
+  maxSize: CacheSize.GB,
+};
+
+function getStorage(): Container {
+  if (storage) {
+    return storage;
+  }
+
+  if (cacheConfig.container) {
+    storage = cacheConfig.container;
+  } else {
+    storage = new MemoryContainer({
+      maxSize: cacheConfig.maxSize,
+    });
+  }
+
+  return storage;
+}
+
+export function configureCache(config: CacheConfig): void {
+  cacheConfig = {
+    ...cacheConfig,
+    ...config,
+  };
+  storage = undefined;
+}
+
 export function generateKey(args: unknown[]): string {
   return JSON.stringify(args, (_, value) => {
     if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -162,26 +207,22 @@ export function generateKey(args: unknown[]): string {
   });
 }
 
+function generateStableFunctionId(fn: Function): string {
+  const fnString = fn.toString();
+  let hash = 0;
+  for (let i = 0; i < fnString.length; i++) {
+    const char = fnString.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+
+  return `fn_${fn.name || 'anonymous'}_${Math.abs(hash).toString(36)}`;
+}
+
 export function cache<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  options?: CacheOptions,
+  options?: CacheOptions<T>,
 ): T {
-  const {
-    tag = 'default',
-    maxAge = CacheTime.MINUTE * 5,
-    revalidate = 0,
-    customKey,
-    onCache,
-    getKey,
-  } = options || {};
-  const store = getLRUCache();
-
-  const tags = Array.isArray(tag) ? tag : [tag];
-
-  const getCacheKey = (args: Parameters<T>, generatedKey: string) => {
-    return customKey ? customKey({ params: args, fn, generatedKey }) : fn;
-  };
-
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
       const storage = getAsyncLocalStorage();
@@ -227,110 +268,183 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
         }
       }
     } else if (typeof options !== 'undefined') {
-      const genKey = getKey ? getKey(...args) : generateKey(args);
-      const now = Date.now();
+      try {
+        const {
+          tag,
+          maxAge = CacheTime.MINUTE * 5,
+          revalidate = 0,
+          customKey,
+          onCache,
+          getKey,
+          unstable_shouldCache,
+        } = options;
 
-      const cacheKey = getCacheKey(args, genKey);
-      const finalKey = typeof cacheKey === 'function' ? genKey : cacheKey;
+        let missReason: number | undefined;
 
-      tags.forEach(t => addTagKeyRelation(t, cacheKey));
+        const currentStorage = getStorage();
+        const now = Date.now();
+        const tags = tag ? (Array.isArray(tag) ? tag : [tag]) : [];
 
-      let cacheStore = store.get(cacheKey);
-      if (!cacheStore) {
-        cacheStore = new Map();
-      }
-
-      const storeKey =
-        customKey && typeof cacheKey === 'symbol' ? 'symbol-key' : genKey;
-
-      let shouldDisableCaching = false;
-      if (isServer && cacheConfig.unstable_shouldDisable) {
-        const storage = getAsyncLocalStorage();
-        const request = storage?.useContext()?.request;
-        if (request) {
-          shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
-            request,
+        const genKey = getKey ? getKey(...args) : generateKey(args);
+        let finalKey: string;
+        if (customKey) {
+          finalKey = customKey({
+            params: args,
+            fn,
+            generatedKey: genKey,
           });
-        }
-      }
-
-      const cached = cacheStore.get(storeKey);
-      if (cached && !shouldDisableCaching) {
-        const age = now - cached.timestamp;
-
-        if (age < maxAge) {
-          if (onCache) {
-            onCache({
-              status: 'hit',
-              key: finalKey,
-              params: args,
-              result: cached.data,
-            });
-          }
-          return cached.data;
+        } else {
+          const functionId = generateStableFunctionId(fn);
+          finalKey = `${functionId}:${genKey}`;
         }
 
-        if (revalidate > 0 && age < maxAge + revalidate) {
-          if (onCache) {
-            onCache({
-              status: 'stale',
-              key: finalKey,
-              params: args,
-              result: cached.data,
+        const storageKey = `${CACHE_PREFIX}${finalKey}`;
+
+        let shouldDisableCaching = false;
+        if (isServer && cacheConfig.unstable_shouldDisable) {
+          const asyncStorage = getAsyncLocalStorage();
+          const request = asyncStorage?.useContext()?.request;
+          if (request) {
+            shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
+              request,
             });
           }
+        }
 
-          if (!cached.isRevalidating) {
-            cached.isRevalidating = true;
-            Promise.resolve().then(async () => {
-              try {
-                const newData = await fn(...args);
-                cacheStore!.set(storeKey, {
-                  data: newData,
-                  timestamp: Date.now(),
-                  isRevalidating: false,
+        if (!shouldDisableCaching) {
+          const cached = await currentStorage.get(storageKey);
+          if (cached) {
+            try {
+              const cacheItem = cached as CacheItem<any>;
+              const age = now - cacheItem.timestamp;
+
+              if (age < maxAge) {
+                onCache?.({
+                  status: 'hit',
+                  key: finalKey,
+                  params: args,
+                  result: cacheItem.data,
+                });
+                return cacheItem.data;
+              }
+
+              if (revalidate > 0 && age < maxAge + revalidate) {
+                onCache?.({
+                  status: 'stale',
+                  key: finalKey,
+                  params: args,
+                  result: cacheItem.data,
                 });
 
-                store.set(cacheKey, cacheStore!);
-              } catch (error) {
-                cached.isRevalidating = false;
-                if (isServer) {
-                  const storage = getAsyncLocalStorage();
-                  storage
-                    ?.useContext()
-                    ?.monitors?.error((error as Error).message);
-                } else {
-                  console.error('Background revalidation failed:', error);
+                if (!ongoingRevalidations.has(storageKey)) {
+                  const revalidationPromise = (async () => {
+                    try {
+                      const newData = await fn(...args);
+
+                      let shouldCache = true;
+                      if (unstable_shouldCache) {
+                        shouldCache = await unstable_shouldCache({
+                          params: args,
+                          result: newData,
+                        });
+                      }
+
+                      if (shouldCache) {
+                        await setCacheItem(
+                          currentStorage,
+                          storageKey,
+                          newData,
+                          tags,
+                          maxAge,
+                          revalidate,
+                        );
+                      }
+                    } catch (error) {
+                      if (isServer) {
+                        const asyncStorage = getAsyncLocalStorage();
+                        asyncStorage
+                          ?.useContext()
+                          ?.monitors?.error((error as Error).message);
+                      } else {
+                        console.error('Background revalidation failed:', error);
+                      }
+                    } finally {
+                      ongoingRevalidations.delete(storageKey);
+                    }
+                  })();
+
+                  ongoingRevalidations.set(storageKey, revalidationPromise);
                 }
+
+                return cacheItem.data;
               }
+              missReason = 3; // cache-expired
+            } catch (error) {
+              console.warn('Failed to parse cached data:', error);
+              missReason = 4; // cache-parse-error
+            }
+          } else {
+            missReason = 2; // cache-not-found
+          }
+        } else {
+          missReason = 1; // cache-disabled
+        }
+
+        const data = await fn(...args);
+
+        if (!shouldDisableCaching) {
+          let shouldCache = true;
+          if (unstable_shouldCache) {
+            shouldCache = await unstable_shouldCache({
+              params: args,
+              result: data,
             });
           }
-          return cached.data;
+
+          if (shouldCache) {
+            await setCacheItem(
+              currentStorage,
+              storageKey,
+              data,
+              tags,
+              maxAge,
+              revalidate,
+            );
+          }
         }
-      }
 
-      const data = await fn(...args);
-
-      if (!shouldDisableCaching) {
-        cacheStore.set(storeKey, {
-          data,
-          timestamp: now,
-          isRevalidating: false,
-        });
-
-        store.set(cacheKey, cacheStore);
-      }
-
-      if (onCache) {
-        onCache({
+        onCache?.({
           status: 'miss',
           key: finalKey,
           params: args,
           result: data,
+          reason: missReason,
         });
-      }
 
-      return data;
+        return data;
+      } catch (error) {
+        console.warn(
+          'Cache operation failed, falling back to direct execution:',
+          error,
+        );
+        const data = await fn(...args);
+
+        const { onCache } = options;
+
+        try {
+          onCache?.({
+            status: 'miss',
+            key: 'cache_failed',
+            params: args,
+            result: data,
+            reason: 5,
+          });
+        } catch (callbackError) {
+          console.warn('Failed to call onCache callback:', callbackError);
+        }
+
+        return data;
+      }
     } else {
       console.warn(
         'The cache function will not work because it runs on the browser and there are no options are provided.',
@@ -338,6 +452,68 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
       return fn(...args);
     }
   }) as T;
+}
+
+async function setCacheItem(
+  storage: Container,
+  storageKey: string,
+  data: any,
+  tags: string[],
+  maxAge: number,
+  revalidate: number,
+): Promise<void> {
+  const newItem: CacheItem<any> = {
+    data,
+    timestamp: Date.now(),
+    tags: tags.length > 0 ? tags : undefined,
+  };
+
+  const ttl = (maxAge + revalidate) / 1000;
+  await storage.set(storageKey, newItem, {
+    ttl: ttl > 0 ? ttl : undefined,
+  });
+
+  await updateTagRelationships(storage, storageKey, tags);
+}
+
+async function updateTagRelationships(
+  storage: Container,
+  storageKey: string,
+  tags: string[],
+): Promise<void> {
+  for (const tag of tags) {
+    const tagStoreKey = `${TAG_PREFIX}${tag}`;
+    const keyList = await storage.get(tagStoreKey);
+    const keyArray: string[] = keyList || [];
+    if (!keyArray.includes(storageKey)) {
+      keyArray.push(storageKey);
+    }
+    await storage.set(tagStoreKey, keyArray);
+  }
+}
+
+async function removeKeyFromTags(
+  storage: Container,
+  storageKey: string,
+  tags: string[],
+): Promise<void> {
+  for (const tag of tags) {
+    const tagStoreKey = `${TAG_PREFIX}${tag}`;
+    const keyList = await storage.get(tagStoreKey);
+    if (keyList) {
+      try {
+        const keyArray: string[] = Array.isArray(keyList) ? keyList : [];
+        const updatedKeyList = keyArray.filter(key => key !== storageKey);
+        if (updatedKeyList.length > 0) {
+          await storage.set(tagStoreKey, updatedKeyList);
+        } else {
+          await storage.delete(tagStoreKey);
+        }
+      } catch (error) {
+        console.warn(`Failed to process tag key list for tag ${tag}:`, error);
+      }
+    }
+  }
 }
 
 export function withRequestCache<
@@ -353,17 +529,48 @@ export function withRequestCache<
   }) as T;
 }
 
-export function revalidateTag(tag: string): void {
-  const keys = tagKeyMap.get(tag);
-  if (keys) {
-    keys.forEach(key => {
-      lruCache?.delete(key);
-    });
+export async function revalidateTag(tag: string): Promise<void> {
+  const currentStorage = getStorage();
+  const tagStoreKey = `${TAG_PREFIX}${tag}`;
+
+  const keyList = await currentStorage.get(tagStoreKey);
+  if (keyList) {
+    try {
+      const keyArray: string[] = Array.isArray(keyList) ? keyList : [];
+      // For each cache key, we need to:
+      // 1. Get the cache item to find its associated tags
+      // 2. Remove this key from all other tag relationships
+      // 3. Delete the cache item itself
+      for (const cacheKey of keyArray) {
+        const cached = await currentStorage.get(cacheKey);
+        if (cached) {
+          try {
+            const cacheItem = cached as CacheItem<any>;
+            if (cacheItem.tags) {
+              const otherTags = cacheItem.tags.filter(t => t !== tag);
+              await removeKeyFromTags(currentStorage, cacheKey, otherTags);
+            }
+          } catch (error) {
+            console.warn(
+              'Failed to parse cached data while revalidating:',
+              error,
+            );
+          }
+        }
+
+        await currentStorage.delete(cacheKey);
+      }
+
+      await currentStorage.delete(tagStoreKey);
+    } catch (error) {
+      console.warn('Failed to process tag key list:', error);
+    }
   }
 }
 
-export function clearStore(): void {
-  lruCache?.clear();
-  lruCache = undefined;
-  tagKeyMap.clear();
+export async function clearStore(): Promise<void> {
+  const currentStorage = getStorage();
+  await currentStorage.clear();
+  storage = undefined;
+  ongoingRevalidations.clear();
 }

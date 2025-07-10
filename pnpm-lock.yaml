@@ -2352,13 +2352,13 @@ importers:
     dependencies:
       '@rsbuild-image/core':
         specifier: 0.0.1-next.16
-        version: 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        version: 0.0.1-next.16(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@rsbuild-image/react':
         specifier: 0.0.1-next.16
-        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+        version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       ipx:
         specifier: ^3.0.3
-        version: 3.0.3
+        version: 3.0.3(ioredis@5.6.1)
       sharp:
         specifier: ^0.34.1
         version: 0.34.1
@@ -4368,6 +4368,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@types/ioredis-mock':
+        specifier: ^8.2.6
+        version: 8.2.6(ioredis@5.6.1)
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -4377,6 +4380,9 @@ importers:
       '@types/serialize-javascript':
         specifier: ^5.0.1
         version: 5.0.4
+      ioredis-mock:
+        specifier: ^8.9.0
+        version: 8.9.0(@types/ioredis-mock@8.2.6(ioredis@5.6.1))(ioredis@5.6.1)
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
@@ -10984,6 +10990,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@ioredis/as-callback@3.0.0':
+    resolution: {integrity: sha512-Kqv1rZ3WbgOrS+hgzJ5xG5WQuhvzzSTRYvNeyPMLOAM78MHSnuKI20JeJGbpuAt//LCuP0vsexZcorqW7kWhJg==}
+
+  '@ioredis/commands@1.2.0':
+    resolution: {integrity: sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==}
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -14375,6 +14387,11 @@ packages:
   '@types/invariant@2.2.37':
     resolution: {integrity: sha512-IwpIMieE55oGWiXkQPSBY1nw1nFs6bsKXTFskNY8sdS17K24vyEBRQZEwlRS7ZmXCWnJcQtbxWzly+cODWGs2A==}
 
+  '@types/ioredis-mock@8.2.6':
+    resolution: {integrity: sha512-5heqtZMvQ4nXARY0o8rc8cjkJjct2ScM12yCJ/h731S9He93a2cv+kAhwPCNwTKDfNH9gjRfLG4VpAEYJU0/gQ==}
+    peerDependencies:
+      ioredis: '>=5'
+
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
 
@@ -15778,6 +15795,10 @@ packages:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
     engines: {node: '>=6'}
 
+  cluster-key-slot@1.1.2:
+    resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
+    engines: {node: '>=0.10.0'}
+
   co-body@5.2.0:
     resolution: {integrity: sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ==}
 
@@ -16637,6 +16658,10 @@ packages:
   delegates@1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
 
+  denque@2.1.0:
+    resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
+    engines: {node: '>=0.10'}
+
   depd@1.1.2:
     resolution: {integrity: sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==}
     engines: {node: '>= 0.6'}
@@ -17430,6 +17455,14 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  fengari-interop@0.1.3:
+    resolution: {integrity: sha512-EtZ+oTu3kEwVJnoymFPBVLIbQcCoy9uWCVnMA6h3M/RqHkUBsLYp29+RRHf9rKr6GwjubWREU1O7RretFIXjHw==}
+    peerDependencies:
+      fengari: ^0.1.0
+
+  fengari@0.1.4:
+    resolution: {integrity: sha512-6ujqUuiIYmcgkGz8MGAdERU57EIluGGPSUgGPTsco657EHa+srq0S3/YUl/r9kx1+D+d4rGfYObd+m8K22gB1g==}
 
   fetch-retry@5.0.6:
     resolution: {integrity: sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==}
@@ -18310,6 +18343,17 @@ packages:
   invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
 
+  ioredis-mock@8.9.0:
+    resolution: {integrity: sha512-yIglcCkI1lvhwJVoMsR51fotZVsPsSk07ecTCgRTRlicG0Vq3lke6aAaHklyjmRNRsdYAgswqC2A0bPtQK4LSw==}
+    engines: {node: '>=12.22'}
+    peerDependencies:
+      '@types/ioredis-mock': ^8
+      ioredis: ^5
+
+  ioredis@5.6.1:
+    resolution: {integrity: sha512-UxC0Yv1Y4WRJiGQxQkP0hfdL0/5/6YvdfOOClRgJ0qppSarkhneSa6UvkMkms0AkdGimSH3Ikqm+6mkMmX7vGA==}
+    engines: {node: '>=12.22.0'}
+
   ip-address@9.0.5:
     resolution: {integrity: sha512-zHtQzGojZXTwZTHQqra+ETKd4Sn3vgi7uBmlPoXVWZqYvuKmtI0l/VZTjqGmJY9x88GGOaZ9+G9ES8hC4T4X8g==}
     engines: {node: '>= 12'}
@@ -19105,6 +19149,9 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
+  lodash.defaults@4.2.0:
+    resolution: {integrity: sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==}
+
   lodash.flatmap@4.5.0:
     resolution: {integrity: sha512-/OcpcAGWlrZyoHGeHh3cAoa6nGdX6QYtmzNP84Jqol6UEQQ2gIaU3H+0eICcjcKGl0/XF8LWOujNn9lffsnaOg==}
 
@@ -19117,6 +19164,9 @@ packages:
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
     deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
+
+  lodash.isarguments@3.1.0:
+    resolution: {integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==}
 
   lodash.isequal@4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
@@ -21768,6 +21818,10 @@ packages:
     resolution: {integrity: sha512-yDMz9g+VaZkqBYS/ozoBJwaBhTbZo3UNYQHNRw1D3UFQB8oHB4uS/tAODO+ZLjGWmUbKnIlOWO+aaIiAxrUWHA==}
     engines: {node: '>= 14.16.0'}
 
+  readline-sync@1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
+
   recast@0.23.9:
     resolution: {integrity: sha512-Hx/BGIbwj+Des3+xy5uAtAbdCyqK9y9wbBcDFDYanLS9JnMqf7OeF87HQwUimE87OEc72mr6tkKUKMBBL+hF9Q==}
     engines: {node: '>= 4'}
@@ -21791,6 +21845,14 @@ packages:
   redent@3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
+
+  redis-errors@1.2.0:
+    resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
+    engines: {node: '>=4'}
+
+  redis-parser@3.0.0:
+    resolution: {integrity: sha512-DJnGAeenTdpMEH6uAJRK/uiyEIH9WVsUmoLwzudwGJUwZPp80PDBWPHXSAGNPwNvIXAbe7MSUB1zQFugFml66A==}
+    engines: {node: '>=4'}
 
   reduce-configs@1.1.0:
     resolution: {integrity: sha512-DQxy6liNadHfrLahZR7lMdc227NYVaQZhY5FMsxLEjX8X0SCuH+ESHSLCoz2yDZFq1/CLMDOAHdsEHwOEXKtvg==}
@@ -22596,6 +22658,9 @@ packages:
 
   stacktrace-js@2.0.2:
     resolution: {integrity: sha512-Je5vBeY4S1r/RnLydLl0TBTi3F2qdfWmYsGvtfZgEI+SCprPppaIhQf5nGcal4gI4cGpCV/duLcAzT1np6sQqg==}
+
+  standard-as-callback@2.1.0:
+    resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
 
   starting@8.0.3:
     resolution: {integrity: sha512-kk2co1LglBnwEEprHUI96khhi4vWhgQlloeGF5XNF+z+Mo6x4fof3kcf2t0iWgDuw+5Z12B/Y1WqgfTQUsawow==}
@@ -26655,6 +26720,10 @@ snapshots:
   '@img/sharp-win32-x64@0.34.1':
     optional: true
 
+  '@ioredis/as-callback@3.0.0': {}
+
+  '@ioredis/commands@1.2.0': {}
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -29631,7 +29700,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.8':
     optional: true
 
-  '@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
       '@sindresorhus/is': 7.0.1
       image-size: 2.0.2
@@ -29641,19 +29710,19 @@ snapshots:
       type-fest: 4.40.0
       ufo: 1.5.4
     optionalDependencies:
-      ipx: 3.0.3
+      ipx: 3.0.3(ioredis@5.6.1)
       sharp: 0.34.1
 
-  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
+  '@rsbuild-image/react@0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)':
     dependencies:
-      '@rsbuild-image/core': 0.0.1-next.16(ipx@3.0.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
+      '@rsbuild-image/core': 0.0.1-next.16(ipx@3.0.3(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       '@sindresorhus/is': 7.0.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       type-fest: 4.40.0
       ufo: 1.5.4
     optionalDependencies:
-      ipx: 3.0.3
+      ipx: 3.0.3(ioredis@5.6.1)
       sharp: 0.34.1
 
   '@rsbuild/core@1.3.14':
@@ -31664,6 +31733,10 @@ snapshots:
 
   '@types/invariant@2.2.37': {}
 
+  '@types/ioredis-mock@8.2.6(ioredis@5.6.1)':
+    dependencies:
+      ioredis: 5.6.1
+
   '@types/istanbul-lib-coverage@2.0.6': {}
 
   '@types/istanbul-lib-report@3.0.3':
@@ -33453,6 +33526,8 @@ snapshots:
 
   clsx@1.2.1: {}
 
+  cluster-key-slot@1.1.2: {}
+
   co-body@5.2.0:
     dependencies:
       inflation: 2.0.0
@@ -34325,6 +34400,8 @@ snapshots:
   delayed-stream@1.0.0: {}
 
   delegates@1.0.0: {}
+
+  denque@2.1.0: {}
 
   depd@1.1.2: {}
 
@@ -35284,6 +35361,16 @@ snapshots:
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
+
+  fengari-interop@0.1.3(fengari@0.1.4):
+    dependencies:
+      fengari: 0.1.4
+
+  fengari@0.1.4:
+    dependencies:
+      readline-sync: 1.4.10
+      sprintf-js: 1.1.3
+      tmp: 0.0.33
 
   fetch-retry@5.0.6: {}
 
@@ -36421,6 +36508,30 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
+  ioredis-mock@8.9.0(@types/ioredis-mock@8.2.6(ioredis@5.6.1))(ioredis@5.6.1):
+    dependencies:
+      '@ioredis/as-callback': 3.0.0
+      '@ioredis/commands': 1.2.0
+      '@types/ioredis-mock': 8.2.6(ioredis@5.6.1)
+      fengari: 0.1.4
+      fengari-interop: 0.1.3(fengari@0.1.4)
+      ioredis: 5.6.1
+      semver: 7.7.2
+
+  ioredis@5.6.1:
+    dependencies:
+      '@ioredis/commands': 1.2.0
+      cluster-key-slot: 1.1.2
+      debug: 4.3.7(supports-color@5.5.0)
+      denque: 2.1.0
+      lodash.defaults: 4.2.0
+      lodash.isarguments: 3.1.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+      standard-as-callback: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+
   ip-address@9.0.5:
     dependencies:
       jsbn: 1.1.0
@@ -36430,7 +36541,7 @@ snapshots:
 
   ipaddr.js@1.9.1: {}
 
-  ipx@3.0.3:
+  ipx@3.0.3(ioredis@5.6.1):
     dependencies:
       '@fastify/accept-negotiator': 2.0.1
       citty: 0.1.6
@@ -36446,7 +36557,7 @@ snapshots:
       sharp: 0.33.5
       svgo: 3.3.2
       ufo: 1.5.4
-      unstorage: 1.15.0
+      unstorage: 1.15.0(ioredis@5.6.1)
       xss: 1.0.15
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -37806,6 +37917,8 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
+  lodash.defaults@4.2.0: {}
+
   lodash.flatmap@4.5.0: {}
 
   lodash.flattendeep@4.4.0: {}
@@ -37813,6 +37926,8 @@ snapshots:
   lodash.flow@3.5.0: {}
 
   lodash.get@4.4.2: {}
+
+  lodash.isarguments@3.1.0: {}
 
   lodash.isequal@4.5.0: {}
 
@@ -41758,6 +41873,8 @@ snapshots:
 
   readdirp@4.0.2: {}
 
+  readline-sync@1.4.10: {}
+
   recast@0.23.9:
     dependencies:
       ast-types: 0.16.1
@@ -41804,6 +41921,12 @@ snapshots:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
+
+  redis-errors@1.2.0: {}
+
+  redis-parser@3.0.0:
+    dependencies:
+      redis-errors: 1.2.0
 
   reduce-configs@1.1.0: {}
 
@@ -42825,6 +42948,8 @@ snapshots:
       error-stack-parser: 2.1.4
       stack-generator: 2.0.10
       stacktrace-gps: 3.1.2
+
+  standard-as-callback@2.1.0: {}
 
   starting@8.0.3:
     dependencies:
@@ -43929,7 +44054,7 @@ snapshots:
     optionalDependencies:
       webpack-sources: 3.2.3
 
-  unstorage@1.15.0:
+  unstorage@1.15.0(ioredis@5.6.1):
     dependencies:
       anymatch: 3.1.3
       chokidar: 4.0.3
@@ -43939,6 +44064,8 @@ snapshots:
       node-fetch-native: 1.6.6
       ofetch: 1.4.1
       ufo: 1.5.4
+    optionalDependencies:
+      ioredis: 5.6.1
 
   untildify@4.0.0: {}
 
