@@ -26,11 +26,11 @@ export const mergeConfig = <Config, NormalizedConfig>(
     }
 
     if (isArray(source)) {
-      // 如果 target 不是数组 (可能是 undefined 或被之前的配置清空为 false)，
-      // 则直接使用 source 作为新起点。
+      // If target is not an array (it may be undefined or cleared to false by previous config),
+      // use source directly as the new starting point.
       const targetArray = isArray(target) ? target : [];
 
-      // 使用 unionWith 进行去重合并
+      // Use unionWith to merge and deduplicate
       return unionWith(targetArray, source, isEqual);
     }
 
