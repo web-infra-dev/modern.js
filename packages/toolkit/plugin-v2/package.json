@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.11",
+  "version": "2.68.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -42,7 +42,7 @@
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
+      "jsnext:source": "./src/runtime/index.tsx",
       "node": {
         "import": "./dist/esm/runtime/index.js",
         "require": "./dist/cjs/runtime/index.js"
@@ -91,7 +91,7 @@
     "@modern-js/types": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "jiti": "1.21.7",
-    "@rsbuild/core": "1.4.2"
+    "@rsbuild/core": "1.4.4"
   },
   "devDependencies": {
     "@modern-js/uni-builder": "workspace:*",

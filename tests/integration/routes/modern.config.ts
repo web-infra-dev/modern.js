@@ -6,7 +6,7 @@ const bundler = process.env.BUNDLER;
 export default defineConfig({
   plugins: [
     appTools({
-      bundler: bundler === 'rspack' ? 'rspack' : 'webpack',
+      bundler: bundler === 'webpack' ? 'webpack' : 'rspack',
     }),
     routerPlugin(),
   ],

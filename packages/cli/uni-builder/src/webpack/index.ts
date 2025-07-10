@@ -17,6 +17,7 @@ import type {
   UniBuilderConfig,
 } from '../types';
 import { pluginBabel } from './plugins/babel';
+import { pluginInclude } from './plugins/include';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginReact } from './plugins/react';
 
@@ -104,13 +105,15 @@ export async function parseConfig(
 
   const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
-    const { rscClientRuntimePath, rscServerRuntimePath } = options;
+    const { rscClientRuntimePath, rscServerRuntimePath, internalDirectory } =
+      options;
     rsbuildPlugins.push(
       rsbuildRscPlugin({
         appDir: options.cwd,
         isRspack: false,
         rscClientRuntimePath,
         rscServerRuntimePath,
+        internalDirectory,
       }),
     );
   }
@@ -157,6 +160,8 @@ export async function parseConfig(
   rsbuildPlugins.push(
     pluginModuleScopes(uniBuilderConfig.source?.moduleScopes),
   );
+
+  rsbuildPlugins.push(pluginInclude());
 
   return {
     rsbuildConfig,

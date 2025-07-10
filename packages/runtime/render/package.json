@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.11",
+  "version": "2.68.0",
   "files": [
     "dist",
     "hook.d.ts"
@@ -30,8 +30,7 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "^0.5.17",
-    "rsc-html-stream": "0.0.5"
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",

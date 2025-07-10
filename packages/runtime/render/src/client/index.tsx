@@ -2,8 +2,9 @@ import {
   createFromReadableStream,
   createServerReference,
 } from '@modern-js/utils/react-server-dom-webpack/client.browser';
-import { type ReactNode, createContext, use, useState } from 'react';
-export { rscStream } from 'rsc-html-stream/client';
+import React from 'react';
+import { type ReactNode, createContext, useState } from 'react';
+export { rscStream } from '../rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 export { callServer } from './callServer';
 export { createFromFetch } from '@modern-js/utils/react-server-dom-webpack/client.browser';
@@ -14,19 +15,17 @@ declare global {
   }
 }
 
-interface RootProps {
-  data: Promise<React.ReactNode>;
-}
-
-export function RscClientRoot({ data }: RootProps) {
-  const elements = use(data);
+export function RscClientRoot({
+  rscPayload,
+}: { rscPayload: Promise<React.ReactNode> }) {
+  const elements = React.use(rscPayload);
   const [root, setRoot] = useState<React.ReactNode>(elements);
   return <>{root}</>;
 }
 
 type Elements = Promise<ReactNode[]>;
 
-const ElementsContext = createContext<Elements | null>(null);
+export const ElementsContext = createContext<Elements | null>(null);
 
 // For users to pass an element, not a Component.
 const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
@@ -48,6 +47,6 @@ export const ServerElementsProvider = ({
 };
 
 export const RSCServerSlot = () => {
-  const elements = use(ElementsContext);
+  const elements = React.use(ElementsContext);
   return elements;
 };

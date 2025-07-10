@@ -1,5 +1,17 @@
 # @modern-js/plugin-express
 
+## 2.68.0
+
+### Patch Changes
+
+- 4cc0a22: feat: support resolve configuration in rsbuild.
+  feat: 支持 rsbuild 的 resolve 配置。
+  - @modern-js/bff-core@2.68.0
+  - @modern-js/bff-runtime@2.68.0
+  - @modern-js/server-core@2.68.0
+  - @modern-js/types@2.68.0
+  - @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

@@ -23,6 +23,7 @@ import {
   parseQuery,
   sortRoutes,
 } from '../../utils';
+import { csrRscRender } from './csrRscRender';
 import { dataHandler } from './dataHandler';
 import { renderRscHandler } from './renderRscHandler';
 import { serverActionHandler } from './serverActionHandler';
@@ -315,14 +316,14 @@ async function renderHandler(
       );
 
       if (!matchedRoutes) {
-        response = csrRender(options.html);
+        response = await csrRender(request, options);
       } else {
         const lastMatch = matchedRoutes[matchedRoutes.length - 1];
         if (
           !lastMatch?.route?.id ||
           !ssrByRouteIds.includes(lastMatch.route.id)
         ) {
-          response = csrRender(options.html);
+          response = await csrRender(request, options);
         }
       }
     }
@@ -335,16 +336,17 @@ async function renderHandler(
       options.onError(e as Error, ErrorDigest.ERENDER);
       await fallbackWrapper('error', e);
 
-      response = csrRender(
-        injectFallbackReasonToHtml({
+      response = await csrRender(request, {
+        ...options,
+        html: injectFallbackReasonToHtml({
           html: options.html,
           reason: 'error',
           framework,
         }),
-      );
+      });
     }
   } else {
-    response = csrRender(options.html);
+    response = await csrRender(request, options);
   }
 
   const { routeInfo } = options;
@@ -411,12 +413,20 @@ function injectFallbackReasonToHtml({
   return html.replace(/<\/head>/, `${tag}</head>`);
 }
 
-function csrRender(html: string): Response {
-  return new Response(html, {
-    status: 200,
-    headers: new Headers({
-      'content-type': 'text/html; charset=UTF-8',
-      [X_MODERNJS_RENDER]: 'client',
-    }),
-  });
+async function csrRender(
+  request: Request,
+  options: SSRRenderOptions,
+): Promise<Response> {
+  const { html, rscClientManifest } = options;
+  if (!rscClientManifest || process.env.MODERN_DISABLE_INJECT_RSC_DATA) {
+    return new Response(html, {
+      status: 200,
+      headers: new Headers({
+        'content-type': 'text/html; charset=UTF-8',
+        [X_MODERNJS_RENDER]: 'client',
+      }),
+    });
+  } else {
+    return csrRscRender(request, options);
+  }
 }

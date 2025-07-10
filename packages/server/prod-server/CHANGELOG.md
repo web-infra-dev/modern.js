@@ -1,5 +1,15 @@
 # @modern-js/prod-server
 
+## 2.68.0
+
+### Patch Changes
+
+- 992194b: chore: remove `source-map-support` in prod-server for code start performance
+  chore: 移除 prod-server 中的 `source-map-support` 以提升冷启动性能
+  - @modern-js/server-core@2.68.0
+  - @modern-js/runtime-utils@2.68.0
+  - @modern-js/utils@2.68.0
+
 ## 2.67.11
 
 ### Patch Changes

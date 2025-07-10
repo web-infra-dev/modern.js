@@ -87,6 +87,7 @@ export const generateCode = async (
             mountId,
             urlPath: serverRoutes.find(route => route.entryName === entryName)
               ?.urlPath,
+            isNestedRouter: entrypoint.nestedRoutesEntry,
           });
         } else {
           indexCode = template.index({
@@ -99,6 +100,7 @@ export const generateCode = async (
             customBootstrap,
             mountId,
             enableRsc: config.server.rsc,
+            isNestedRouter: !!entrypoint.nestedRoutesEntry,
           });
         }
 
@@ -161,6 +163,7 @@ export const generateCode = async (
           );
 
           const indexServerCode = serverTemplate.entryForCSRWithRSC({
+            entryName,
             metaName,
           });
           await fs.outputFile(indexServerFile, indexServerCode, 'utf8');
@@ -191,7 +194,7 @@ export const generateCode = async (
 
         // runtime-global-context.js
         let contextCode = '';
-        if (!config.server.rsc) {
+        if (!config.server.rsc || entrypoint.nestedRoutesEntry) {
           contextCode = template.runtimeGlobalContext({
             entryName,
             srcDirectory,

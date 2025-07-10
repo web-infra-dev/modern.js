@@ -5,11 +5,8 @@ import {
   loadServerEnv,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import sourceMapSupport from 'source-map-support';
 import { applyPlugins } from './apply';
 import type { BaseEnv, ProdServerOptions } from './types';
-
-sourceMapSupport.install();
 
 export { applyPlugins, type ApplyPlugins } from './apply';
 

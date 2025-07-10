@@ -81,5 +81,8 @@
   },
   "rust-analyzer.linkedProjects": [
     "./packages/cli/flight-server-transform-plugin/Cargo.toml"
-  ]
+  ],
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  }
 }

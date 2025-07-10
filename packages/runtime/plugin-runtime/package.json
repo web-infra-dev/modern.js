@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.11",
+  "version": "2.68.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -106,6 +106,11 @@
       "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
     },
+    "./router/internal": {
+      "types": "./dist/types/router/internal.d.ts",
+      "jsnext:source": "./src/router/internal.ts",
+      "default": "./dist/esm/router/internal.js"
+    },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/cli/ssr/loadable-bundler-plugin.ts",
@@ -178,6 +183,9 @@
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
       ],
+      "router/internal": [
+        "./dist/types/router/internal.d.ts"
+      ],
       "loadable-bundler-plugin": [
         "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
       ],
@@ -219,12 +227,12 @@
     "@types/styled-components": "^5.1.14",
     "cookie": "0.7.2",
     "es-module-lexer": "^1.1.0",
-    "esbuild": "0.17.19",
+    "esbuild": "0.25.5",
     "invariant": "^2.2.4",
     "isbot": "3.7.1",
     "react-helmet": "^6.1.0",
     "react-is": "^18",
-    "react-side-effect": "^2.1.1",
+    "react-side-effect": "^2.1.2",
     "styled-components": "^5.3.1"
   },
   "peerDependencies": {
@@ -234,7 +242,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@remix-run/web-fetch": "^4.1.3",
-    "@rsbuild/core": "1.4.2",
+    "@rsbuild/core": "1.4.4",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
@@ -251,7 +259,8 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5",
-    "webpack": "^5.99.8"
+    "webpack": "^5.99.8",
+    "@modern-js/core": "workspace:*"
   },
   "sideEffects": false,
   "publishConfig": {

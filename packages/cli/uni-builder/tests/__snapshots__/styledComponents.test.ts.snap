@@ -14,12 +14,17 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -141,7 +146,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     ],
   },
   {
-    "resourceQuery": /raw/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -162,12 +167,17 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -268,7 +278,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     ],
   },
   {
-    "resourceQuery": /raw/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -289,12 +299,17 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -416,7 +431,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
     ],
   },
   {
-    "resourceQuery": /raw/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -437,12 +452,17 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
     },
     "include": [
       {
-        "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        "and": [
+          "<ROOT>",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /raw/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -514,7 +534,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
     ],
   },
   {
-    "resourceQuery": /raw/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.67.11",
+  "version": "2.68.0",
   "jsnext:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -82,8 +82,8 @@
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
     "node-fetch": "^2.7.0",
-    "path-to-regexp": "^6.2.0",
-    "query-string": "^7.1.1"
+    "path-to-regexp": "^6.3.0",
+    "query-string": "^7.1.3"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
