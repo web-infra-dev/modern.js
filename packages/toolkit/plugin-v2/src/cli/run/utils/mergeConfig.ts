@@ -1,5 +1,11 @@
-import { ensureArray, isOverriddenConfigKey } from '@modern-js/utils';
-import { isFunction, mergeWith } from '@modern-js/utils/lodash';
+import { isOverriddenConfigKey } from '@modern-js/utils';
+import {
+  isArray,
+  isEqual,
+  isFunction,
+  mergeWith,
+  unionWith,
+} from '@modern-js/utils/lodash';
 import type { DeepPartial } from '../../../types/utils';
 
 export const mergeConfig = <Config, NormalizedConfig>(
@@ -19,14 +25,13 @@ export const mergeConfig = <Config, NormalizedConfig>(
       return source ?? target;
     }
 
-    if (Array.isArray(target) || Array.isArray(source)) {
-      if (target === undefined) {
-        return source;
-      }
-      if (source === undefined) {
-        return target;
-      }
-      return [...ensureArray(target), ...ensureArray(source)];
+    if (isArray(source)) {
+      // 如果 target 不是数组 (可能是 undefined 或被之前的配置清空为 false)，
+      // 则直接使用 source 作为新起点。
+      const targetArray = isArray(target) ? target : [];
+
+      // 使用 unionWith 进行去重合并
+      return unionWith(targetArray, source, isEqual);
     }
 
     if (isFunction(target) || isFunction(source)) {
