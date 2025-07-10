@@ -1,5 +1,5 @@
 import { ensureArray, isOverriddenConfigKey } from '@modern-js/utils';
-import { isFunction, mergeWith } from '@modern-js/utils/lodash';
+import { isEqual, isFunction, mergeWith } from '@modern-js/utils/lodash';
 import type { DeepPartial } from '../../../types/utils';
 
 export const mergeConfig = <Config, NormalizedConfig>(
@@ -26,7 +26,25 @@ export const mergeConfig = <Config, NormalizedConfig>(
       if (source === undefined) {
         return target;
       }
-      return [...ensureArray(target), ...ensureArray(source)];
+      const targetArray = ensureArray(target);
+      const sourceArray = ensureArray(source);
+      const allItems = [...targetArray, ...sourceArray];
+
+      const seenNonFunc: any[] = [];
+      const result: any[] = [];
+
+      for (const item of allItems) {
+        if (isFunction(item)) {
+          result.push(item);
+        } else {
+          if (!seenNonFunc.some(seen => isEqual(seen, item))) {
+            seenNonFunc.push(item);
+            result.push(item);
+          }
+        }
+      }
+
+      return result;
     }
 
     if (isFunction(target) || isFunction(source)) {
