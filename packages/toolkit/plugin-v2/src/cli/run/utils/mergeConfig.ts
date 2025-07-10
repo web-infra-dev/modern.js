@@ -1,5 +1,11 @@
-import { ensureArray, isOverriddenConfigKey } from '@modern-js/utils';
-import { isFunction, mergeWith } from '@modern-js/utils/lodash';
+import { isOverriddenConfigKey } from '@modern-js/utils';
+import {
+  isArray,
+  isEqual,
+  isFunction,
+  mergeWith,
+  unionWith,
+} from '@modern-js/utils/lodash';
 import type { DeepPartial } from '../../../types/utils';
 
 export const mergeConfig = <Config, NormalizedConfig>(
@@ -26,7 +32,12 @@ export const mergeConfig = <Config, NormalizedConfig>(
       if (source === undefined) {
         return target;
       }
-      return [...ensureArray(target), ...ensureArray(source)];
+      // If target is not an array (it may be undefined or cleared to false by previous config),
+      // use source directly as the new starting point.
+      const targetArray = Array.isArray(target) ? target : [];
+
+      // Use unionWith to merge and deduplicate
+      return unionWith(targetArray, source, isEqual);
     }
 
     if (isFunction(target) || isFunction(source)) {
