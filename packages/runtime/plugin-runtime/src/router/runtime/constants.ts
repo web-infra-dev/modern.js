@@ -114,7 +114,7 @@ export const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.rejec
       Object.assign(_ROUTER_DATA.loaderData[routeIdJsonStr], source);
     };
  */
-export const mergeLoaderDataStr = `function mergeLoaderData(e,n){const r=n.reduce((function(e,{key:n,routerDataFnName:r,routerDataFnArgs:a}){const t=a.map((e=>{if("undefined"!==e&&null!==e)return JSON.parse(e)}));return console.info("args",t),{...e,[n]:_ROUTER_DATA[r](...t)}}),{});Object.assign(_ROUTER_DATA.loaderData[e],r)}`;
+export const mergeLoaderDataStr = `function mergeLoaderData(e,n){var r=n.reduce((function(e,{key:n,routerDataFnName:r,routerDataFnArgs:a}){var t=a.map((e=>{if("undefined"!==e&&null!==e)return JSON.parse(e)}));return console.info("args",t),{...e,[n]:_ROUTER_DATA[r](...t)}}),{});Object.assign(_ROUTER_DATA.loaderData[e],r)}`;
 
 /**
    * This original string is: ${setupFnStr};${resolveFnStr};${preResolvedFnStr};
@@ -148,7 +148,7 @@ export const initRouterDataAttrs = `_ROUTER_DATA.s = ${setupFnStr}_ROUTER_DATA.r
   initRouterData();
   ${initRouterDataAttrs}
 */
-export const modernInline = `function runWindowFn(){window[document.currentScript.getAttribute("data-fn-name")](...JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function runRouterDataFn(){_ROUTER_DATA[document.currentScript.getAttribute("data-fn-name")](...JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function initRouterData(e){var r=document.getElementById(e);if(r)try{_ROUTER_DATA=JSON.parse(r.textContent)}catch(r){console.error("parse ".concat(e," error"),t),_ROUTER_DATA={}}};initRouterData('${ROUTER_DATA_JSON_ID}');${initRouterDataAttrs}`;
+export const modernInline = `function runWindowFn(){window[document.currentScript.getAttribute("data-fn-name")].apply(window,JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function runRouterDataFn(){_ROUTER_DATA[document.currentScript.getAttribute("data-fn-name")].apply(_ROUTER_DATA,JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function initRouterData(e){var r=document.getElementById(e);if(r)try{_ROUTER_DATA=JSON.parse(r.textContent)}catch(r){console.error("parse ".concat(e," error"),t),_ROUTER_DATA={}}};initRouterData('${ROUTER_DATA_JSON_ID}');${initRouterDataAttrs}`;
 
 export const runRouterDataFnStr = `runRouterDataFn();`;
 
