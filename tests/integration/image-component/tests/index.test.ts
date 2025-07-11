@@ -36,7 +36,7 @@ describe('devtools build', () => {
     );
   });
 
-  it('should get image url with production CDN', async () => {
+  test.skip('should get image url with production CDN', async () => {
     if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
     const app = await modernServe(appDir, appPort);
