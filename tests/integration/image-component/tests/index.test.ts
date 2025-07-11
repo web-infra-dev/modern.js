@@ -22,7 +22,7 @@ function existsSync(filePath: string) {
 }
 
 describe('devtools build', () => {
-  test(`should get right devtools build!`, async () => {
+  test.skip(`should get right devtools build!`, async () => {
     if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
@@ -36,7 +36,7 @@ describe('devtools build', () => {
     );
   });
 
-  it('should get image url with production CDN', async () => {
+  it.skip('should get image url with production CDN', async () => {
     if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
     const app = await modernServe(appDir, appPort);

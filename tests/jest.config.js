@@ -7,12 +7,7 @@ module.exports = {
     '<rootDir>/integration/**/*.(spec|test).[tj]s?(x)',
     '!**/module/**/*.(spec|test).[tj]s?(x)',
   ],
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/api-service-koa/api/',
-    '/api-service-koa/dist',
-    '/api/tests',
-  ],
+  testPathIgnorePatterns: ['/node_modules/', '/api/tests'],
   transform: {
     '^.+.tsx?$': 'ts-jest',
   },
