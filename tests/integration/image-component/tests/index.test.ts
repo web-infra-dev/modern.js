@@ -21,8 +21,8 @@ function existsSync(filePath: string) {
   return fs.existsSync(resolveDist(filePath));
 }
 
-describe('devtools build', () => {
-  test.skip(`should get right devtools build!`, async () => {
+describe.skip('devtools build', () => {
+  test(`should get right devtools build!`, async () => {
     if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
