@@ -1,5 +1,18 @@
 # @modern-js/plugin-v2
 
+## 2.68.2
+
+### Patch Changes
+
+- 477f567: fix: plugin merge config for array type
+
+  fix: 修复对于数组类型的配置，合并配置之后出现重复问题
+
+- Updated dependencies [6562f76]
+  - @modern-js/runtime-utils@2.68.2
+  - @modern-js/types@2.68.2
+  - @modern-js/utils@2.68.2
+
 ## 2.68.1
 
 ### Patch Changes
