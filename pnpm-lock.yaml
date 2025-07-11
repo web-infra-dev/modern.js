@@ -5346,61 +5346,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/api-service-koa:
-    dependencies:
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-koa':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-koa
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      koa:
-        specifier: 2.16.1
-        version: 2.16.1
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-testing':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-testing
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/koa':
-        specifier: 2.15.0
-        version: 2.15.0
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18.3.11
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.5(@types/react@18.3.18)
-      isomorphic-fetch:
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   tests/integration/app-document:
     dependencies:
       '@modern-js/runtime':
@@ -5721,58 +5666,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/bff-express:
-    dependencies:
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-express
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18.3.11
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.5(@types/react@18.3.18)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   tests/integration/bff-hono:
     dependencies:
       '@modern-js/plugin-bff':
@@ -5809,64 +5702,6 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18.3.11
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.5(@types/react@18.3.18)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/bff-koa:
-    dependencies:
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-koa':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-koa
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6230,43 +6065,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/devtools:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-devtools':
-        specifier: workspace:*
-        version: link:../../../packages/devtools/plugin
-      '@rsdoctor/rspack-plugin':
-        specifier: ^0.4.9
-        version: 0.4.13(@rspack/core@1.4.2(@swc/helpers@0.5.17))(bufferutil@4.0.8)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18.3.11
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.5(@types/react@18.3.18)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   tests/integration/disable-html:
     dependencies:
       '@modern-js/runtime':
@@ -6429,31 +6227,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-
-  tests/integration/esbuild:
-    dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/esbuild/fixtures/transform-and-minify:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
 
   tests/integration/garfish/app-dashboard:
     dependencies:
