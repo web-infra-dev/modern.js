@@ -19,7 +19,7 @@ const Page = () => {
   const params = useLoaderData() as {
     id: string;
   };
-  return <div>item page, param is {params.id}</div>;
+  return <div className="item-page">item page, param is {params.id}</div>;
 };
 
 export default Page;
