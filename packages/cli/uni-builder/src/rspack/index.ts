@@ -154,13 +154,7 @@ export type UniBuilderInstance = Omit<
 export async function createRspackBuilder(
   options: CreateUniBuilderOptions,
 ): Promise<UniBuilderInstance> {
-  const {
-    cwd = process.cwd(),
-    config,
-    rscClientRuntimePath,
-    rscServerRuntimePath,
-    ...rest
-  } = options;
+  const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
     ...rest,
