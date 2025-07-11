@@ -1,4 +1,3 @@
-import type { PluginEsbuildOptions } from '@modern-js/rsbuild-plugin-esbuild';
 import type { JestConfig } from '@modern-js/types';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
 import type { PluginSwcOptions } from '@rsbuild/plugin-webpack-swc';
@@ -39,12 +38,4 @@ export interface ToolsUserConfig<B extends Bundler = 'webpack'>
     : B extends 'webpack'
       ? PluginSwcOptions<'outer'>
       : BuilderToolsConfig['swc'];
-
-  /**
-   * Used to custom Esbuild configurations.
-   * @requires `esbuild` plugin.
-   * The configuration of `esbuild` is provided by `esbuild` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   */
-  esbuild?: PluginEsbuildOptions;
 }
