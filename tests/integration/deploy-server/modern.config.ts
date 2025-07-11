@@ -7,8 +7,5 @@ export default defineConfig({
   runtime: {
     router: true,
   },
-  source: {
-    moduleScopes: [/plugin-data-loader/],
-  },
   plugins: [AppToolsPlugin({}), bff(), koa()],
 });

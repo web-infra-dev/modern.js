@@ -94,8 +94,6 @@ export type ChainedGlobalVars = ConfigChainWithContext<
   }
 >;
 
-export type ModuleScopes = Array<string | RegExp>;
-
 export type MainFields = (string | string[])[];
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
@@ -217,11 +215,6 @@ export type UniBuilderExtraConfig = {
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
     globalVars?: ChainedGlobalVars;
-    /**
-     * Restrict importing paths. After configuring this option, all source files can only import code from
-     * the specific paths, and import code from other paths is not allowed.
-     */
-    moduleScopes?: ConfigChain<ModuleScopes>;
     /**
      * This configuration will determine which field of `package.json` you use to import the `npm` module.
      * Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
