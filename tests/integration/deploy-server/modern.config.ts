@@ -10,5 +10,11 @@ export default defineConfig({
   source: {
     moduleScopes: [/plugin-data-loader/],
   },
-  plugins: [AppToolsPlugin({}), bff(), koa()],
+  plugins: [
+    AppToolsPlugin({
+      bundler: 'rspack',
+    }),
+    bff(),
+    koa(),
+  ],
 });

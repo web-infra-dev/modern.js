@@ -15,5 +15,10 @@ export default defineConfig({
       strategy: 'all-in-one',
     },
   },
-  plugins: [appTools(), ssgPlugin()],
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    ssgPlugin(),
+  ],
 });
