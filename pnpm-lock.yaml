@@ -550,31 +550,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/cli/rsbuild-plugin-esbuild:
-    dependencies:
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      esbuild:
-        specifier: 0.25.5
-        version: 0.25.5
-      webpack:
-        specifier: ^5.99.8
-        version: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
-    devDependencies:
-      '@rsbuild/core':
-        specifier: 1.4.4
-        version: 1.4.4
-      '@rsbuild/webpack':
-        specifier: 1.3.2
-        version: 1.3.2(@rsbuild/core@1.4.4)(@rspack/core@1.4.2(@swc/helpers@0.5.17))(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      typescript:
-        specifier: ^5.4.2
-        version: 5.6.3
-
   packages/cli/uni-builder:
     dependencies:
       '@babel/core':
@@ -3405,9 +3380,6 @@ importers:
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../../server/prod-server
-      '@modern-js/rsbuild-plugin-esbuild':
-        specifier: workspace:*
-        version: link:../../cli/rsbuild-plugin-esbuild
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
@@ -5947,31 +5919,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-
-  tests/integration/esbuild:
-    dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/esbuild/fixtures/transform-and-minify:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
 
   tests/integration/garfish/app-dashboard:
     dependencies:

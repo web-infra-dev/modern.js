@@ -8,23 +8,15 @@ import { applyBuilderSwcConfig } from '../src';
 describe('plugin config', () => {
   it('should enable loadableComponents', () => {
     {
-      const config = applyBuilderSwcConfig(
-        {},
-        undefined,
-        true,
-      ) as ObjPluginSwcOptions;
+      const config = applyBuilderSwcConfig({}, true) as ObjPluginSwcOptions;
 
       expect(config.extensions!.loadableComponents).toBeTruthy();
     }
 
     {
-      const config = applyBuilderSwcConfig(
-        config => {
-          expect(config.extensions!.loadableComponents).toBeTruthy();
-        },
-        undefined,
-        true,
-      ) as FnPluginSwcOptions;
+      const config = applyBuilderSwcConfig(config => {
+        expect(config.extensions!.loadableComponents).toBeTruthy();
+      }, true) as FnPluginSwcOptions;
 
       config({}, null as any);
     }
@@ -37,11 +29,10 @@ describe('plugin config', () => {
       count++;
     };
 
-    applyBuilderSwcConfig({}, { minimize: {} }, true) as ObjPluginSwcOptions;
+    applyBuilderSwcConfig({}, true) as ObjPluginSwcOptions;
 
     const config = applyBuilderSwcConfig(
       _config => _config,
-      undefined,
       true,
     ) as FnPluginSwcOptions;
 
@@ -51,14 +42,10 @@ describe('plugin config', () => {
   });
 
   it('should not override user extensions config', () => {
-    const config = applyBuilderSwcConfig(
-      config => {
-        config.extensions ??= {};
-        config.extensions.emotion = true;
-      },
-      undefined,
-      true,
-    ) as FnPluginSwcOptions;
+    const config = applyBuilderSwcConfig(config => {
+      config.extensions ??= {};
+      config.extensions.emotion = true;
+    }, true) as FnPluginSwcOptions;
 
     const finalConfig = config(
       {
