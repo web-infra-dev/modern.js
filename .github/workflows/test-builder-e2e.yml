@@ -2,7 +2,7 @@ name: E2E Test (Builder)
 
 on:
   push:
-    branches: [main, feat-update-rsbuild-*]
+    branches: [main, renovate/main-rsbuild]
 
   workflow_dispatch:
 
