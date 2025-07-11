@@ -1,7 +1,0 @@
-{
-  "extends": "@modern-js/tsconfig/base",
-  "compilerOptions": {
-    "target": "ES2015",
-    "emitDecoratorMetadata": true
-  }
-}

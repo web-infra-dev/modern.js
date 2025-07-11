@@ -1,8 +1,0 @@
-{
-  "name": "build-preset-function-test",
-  "version": "2.66.0",
-  "dependencies": {
-    "@swc/helpers": "^0.5.17"
-  },
-  "private": true
-}

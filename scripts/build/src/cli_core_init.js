@@ -2,7 +2,7 @@ const path = require('path');
 
 const kModuleToolsCliPath = path.resolve(
   __dirname,
-  './node_modules/@modern-js/module-tools-npm/dist/index.js',
+  './node_modules/@modern-js/module-tools/dist/index.js',
 );
 
 module.exports = {
