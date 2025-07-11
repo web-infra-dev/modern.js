@@ -18,8 +18,8 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
     "hono": "^3.12.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "3.14.1",
     "zod": "^3.22.3"
@@ -27,9 +27,9 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/jest": "^29",
-    "@types/node": "^14",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "tsconfig-paths": "~3.14.1",
     "typescript": "^5"
   },

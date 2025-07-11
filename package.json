@@ -47,10 +47,10 @@
     "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs"
   },
   "engines": {
-    "node": ">=14.17.6",
-    "pnpm": ">=9.0.0"
+    "node": ">=20",
+    "pnpm": ">=10.0.0"
   },
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@10.13.1",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -73,8 +73,8 @@
     "@commitlint/config-conventional": "^17.8.1",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@vitest/ui": "^3.1.4",
     "antd": "^5",
     "check-dependency-version-consistency": "4.1.1",

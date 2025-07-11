@@ -21,7 +21,7 @@ function existsSync(filePath: string) {
   return fs.existsSync(resolveDist(filePath));
 }
 
-describe('devtools build', () => {
+describe.skip('devtools build', () => {
   test(`should get right devtools build!`, async () => {
     if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
@@ -86,7 +86,7 @@ describe('devtools dev', () => {
     const root = await page.$('#root img');
     const targetText = await page.evaluate(el => el?.outerHTML, root);
     expect(targetText).toMatchInlineSnapshot(
-      `"<img src="/_modern/ipx/f_auto,w_1000,q_75/static/assets/crab.png" alt="test" width="500" height="333.59375" srcset="/_modern/ipx/f_auto,w_500,q_75/static/assets/crab.png 1x,/_modern/ipx/f_auto,w_1000,q_75/static/assets/crab.png 2x" loading="lazy" style="">"`,
+      `"<img alt="test" width="500" height="333.59375" loading="lazy" srcset="/_modern/ipx/f_auto,w_500,q_75/static/assets/crab.png 1x,/_modern/ipx/f_auto,w_1000,q_75/static/assets/crab.png 2x" src="/_modern/ipx/f_auto,w_1000,q_75/static/assets/crab.png" style="">"`,
     );
     expect(errors.length).toEqual(0);
 

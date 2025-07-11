@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "9.0.13",
-    "@types/node": "^18.0.1",
+    "@types/node": "^20",
     "tsx": "^3.12.7"
   }
 }

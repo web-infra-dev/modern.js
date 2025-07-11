@@ -1,6 +1,6 @@
 import { type RenderFunc, render } from '@meta/runtime/browser';
 import { createRoot } from '@meta/runtime/react';
-import { createPortal, unmountComponentAtNode } from 'react-dom';
+import { createPortal } from 'react-dom';
 import type { Root } from 'react-dom/client';
 
 function generateRootDom(dom: HTMLElement, id: string) {
@@ -65,6 +65,7 @@ export function createProvider(
           if (process.env.IS_REACT18 === 'true') {
             (root as any).unmount();
           } else {
+            const { unmountComponentAtNode } = require('react-dom');
             unmountComponentAtNode(node);
           }
         }

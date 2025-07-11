@@ -5,7 +5,7 @@ import type {
   TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
-import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { type JSX, Suspense, useEffect, useMemo, useRef } from 'react';
 import { ROUTER_DATA_JSON_ID } from '../../core/constants';
 import { modernInline, runRouterDataFnStr, runWindowFnStr } from './constants';
 import { serializeErrors } from './utils';

@@ -16,8 +16,8 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "client-only": "^0.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-router": "0.0.0-experimental-3f68c7c20",
     "server-only": "^0.0.1"
   },
@@ -25,9 +25,9 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-swc": "workspace:*",
     "@types/jest": "^29",
-    "@types/node": "^14",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "cross-env": "^7.0.3",
     "typescript": "^5"
   }

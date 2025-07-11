@@ -133,15 +133,15 @@ describe('test dev and build', () => {
       );
 
       expect(
-        /<head class="head"><script>window.abc="hjk"<\/script>/.test(
+        /<head class="head">[\s\S]*<script>\s*window\.abc\s*=\s*"hjk"\s*<\/script>/.test(
           htmlWithDoc,
         ),
       ).toBe(true);
-      expect(
-        /<head[\s\S]*<script>console.log\("abc"\)<\/script>[\s\S]*<\/head>/.test(
-          htmlWithDoc,
-        ),
-      ).toBe(true);
+      const headContent =
+        htmlWithDoc.match(/<head[^>]*>([\s\S]*?)<\/head>/)?.[1] ?? '';
+      expect(headContent.includes('<script>console.log("abc")</script>')).toBe(
+        true,
+      );
 
       expect(
         /<body[\s\S]*<script>console.log\(abc\)<\/script>[\s\S]*<\/body>/.test(

@@ -12,7 +12,7 @@
     "@changesets/read": "^0.6.5"
   },
   "devDependencies": {
-    "@types/node": "^18.0.1",
+    "@types/node": "^20",
     "tsx": "^3.12.7"
   }
 }

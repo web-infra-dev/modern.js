@@ -8,16 +8,16 @@
     "test:rspack": "PROVIDE_TYPE=rspack playwright test --workers 1"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.33.0",
-    "@types/node": "^14",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "typescript": "^5"
   }
 }

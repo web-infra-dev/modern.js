@@ -2,7 +2,6 @@ import type { RuntimePlugin } from '@modern-js/plugin-v2';
 import type { Monitors } from '@modern-js/types';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
-import type { Renderer } from 'react-dom';
 import type { createRoot, hydrateRoot } from 'react-dom/client';
 import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
 import { getGlobalAppInit, getGlobalInternalRuntimeContext } from './context';
@@ -83,8 +82,8 @@ type BootStrap<T = unknown> = (
   id: string | HTMLElement | RuntimeContext,
   root?: any,
   ReactDOM?: {
-    render?: Renderer;
-    hydrate?: Renderer;
+    render?: any;
+    hydrate?: any;
     createRoot?: typeof createRoot;
     hydrateRoot?: typeof hydrateRoot;
   },

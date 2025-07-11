@@ -57,7 +57,7 @@ const useLoader = <TData = any, Params = any, E = any>(
   const isSSRRender = Boolean(context.ssr);
 
   const { loaderManager } = context;
-  const loaderRef = useRef<Loader>();
+  const loaderRef = useRef<Loader>(null);
   const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
 
   // SSR render should ignore `_cache` prop

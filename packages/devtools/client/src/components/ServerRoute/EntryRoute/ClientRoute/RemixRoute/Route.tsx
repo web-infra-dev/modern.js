@@ -30,7 +30,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     : false;
 
   const ref = useRef<HTMLDivElement>(null);
-  const hovered = useHoverDirty(ref);
+  const hovered = useHoverDirty(ref as any);
 
   return (
     <Box ref={ref}>

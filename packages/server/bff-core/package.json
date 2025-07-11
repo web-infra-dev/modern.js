@@ -47,7 +47,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/koa-compose": "^3.2.5",
-    "@types/node": "^14",
+    "@types/node": "^20",
     "jest": "^29",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
