@@ -1,0 +1,18 @@
+{
+  "name": "@scripts/release-node",
+  "version": "2.66.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "start": "tsx ./src/index.ts"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "@changesets/read": "^0.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.1",
+    "tsx": "^3.12.7"
+  }
+}

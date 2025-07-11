@@ -112,13 +112,6 @@ export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
 };
 
 /**
- * Internal monorepo-tools plugins that work as soon as they are installed.
- */
-export const INTERNAL_MONOREPO_TOOLS_PLUGINS: InternalPlugins = {
-  '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
-};
-
-/**
  * Internal doc-tools plugins that work as soon as they are installed.
  */
 export const INTERNAL_DOC_TOOLS_PLUGINS: InternalPlugins = {
@@ -131,7 +124,6 @@ export const INTERNAL_DOC_TOOLS_PLUGINS: InternalPlugins = {
  */
 export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/app-tools': '@modern-js/app-tools/cli',
-  '@modern-js/monorepo-tools': '@modern-js/monorepo-tools/cli',
   '@modern-js/module-tools': '@modern-js/module-tools',
   '@modern-js/doc-tools': '@modern-js/doc-tools',
   '@modern-js/runtime': '@modern-js/runtime/cli',
