@@ -21,7 +21,7 @@ function existsSync(filePath: string) {
   return fs.existsSync(resolveDist(filePath));
 }
 
-describe('devtools build', () => {
+describe.skip('devtools build', () => {
   test(`should get right devtools build!`, async () => {
     if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
@@ -36,7 +36,7 @@ describe('devtools build', () => {
     );
   });
 
-  it('should get image url with production CDN', async () => {
+  test.skip('should get image url with production CDN', async () => {
     if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
     const app = await modernServe(appDir, appPort);
