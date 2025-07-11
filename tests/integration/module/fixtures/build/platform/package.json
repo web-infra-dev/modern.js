@@ -1,8 +1,0 @@
-{
-  "name": "platform-test",
-  "version": "2.66.0",
-  "browser": {
-    "path": "path-browserify"
-  },
-  "private": true
-}

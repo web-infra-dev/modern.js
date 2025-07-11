@@ -1,8 +1,0 @@
-{
-  "name": "plugin-vue",
-  "version": "2.66.0",
-  "dependencies": {
-    "vue": "^3.3.4"
-  },
-  "private": true
-}

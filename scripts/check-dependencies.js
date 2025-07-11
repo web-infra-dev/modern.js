@@ -1,7 +1,6 @@
 const ignoreDeps = [
   '@types/node',
   'antd',
-  'esbuild',
   'fs-extra',
   'glob',
   'minimatch',
@@ -18,8 +17,6 @@ const ignoreDeps = [
   '@types/react-dom',
   'lru-cache',
   'react-router',
-  '@rspress/shared',
-  'rspress',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps

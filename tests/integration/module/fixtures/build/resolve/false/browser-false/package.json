@@ -1,8 +1,0 @@
-{
-  "name": "browser-false",
-  "version": "2.66.0",
-  "browser": {
-    "./util": false
-  },
-  "private": true
-}

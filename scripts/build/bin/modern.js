@@ -6,7 +6,7 @@ const kProjectRoot = path.resolve(__dirname, '..');
 
 const kModuleToolsCliPath = path.resolve(
   kProjectRoot,
-  'node_modules/@modern-js/module-tools-npm/dist/index.js',
+  'node_modules/@modern-js/module-tools/dist/index.js',
 );
 
 process.env.NODE_ENV = 'production';

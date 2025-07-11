@@ -1,8 +1,0 @@
-{
-  "name": "plugin-babel",
-  "version": "2.66.0",
-  "devDependencies": {
-    "@babel/preset-env": "^7.26.0"
-  },
-  "private": true
-}

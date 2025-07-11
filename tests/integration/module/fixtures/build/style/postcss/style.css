@@ -1,9 +1,0 @@
-@alias {
-  fs: font-size;
-  bg: background;
-}
-
-.aliased {
-  fs: 16px;
-  bg: white;
-}

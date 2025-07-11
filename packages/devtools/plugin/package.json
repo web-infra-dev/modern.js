@@ -70,7 +70,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/module-tools": "2.68.1",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
