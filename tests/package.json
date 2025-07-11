@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:rspack": "pnpm test:builder:rspack && pnpm test:framework && pnpm test:garfish:rspack",
+    "test:rspack": "pnpm test:builder:rspack && pnpm test:framework:rspack && pnpm test:garfish:rspack",
     "test:framework:rspack": "cross-env MODERN_SERVER_LOG_LEVEL=info jest --testPathIgnorePatterns=\"swc|transform-import\"",
     "test:framework": "cross-env MODERN_SERVER_LOG_LEVEL=info jest",
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
