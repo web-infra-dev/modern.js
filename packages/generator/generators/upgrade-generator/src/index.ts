@@ -31,7 +31,6 @@ const SpecialModernDeps = [
 const DeprecatedModernBuilderDeps = [
   '@modern-js/builder-plugin-image-compress',
   '@modern-js/builder-plugin-swc',
-  '@modern-js/builder-plugin-esbuild',
   '@modern-js/builder-plugin-node-polyfill',
   '@modern-js/builder-plugin-stylus',
 ];

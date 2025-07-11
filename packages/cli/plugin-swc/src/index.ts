@@ -22,13 +22,9 @@ export function factory(
         }
 
         const config = api.useResolvedConfigContext();
-        const { esbuild, swc = {} } = config.tools;
+        const { swc = {} } = config.tools;
         const swcOptions = modifySwcOptions(swc);
-        const finalConfig = applyBuilderSwcConfig(
-          swcOptions,
-          esbuild,
-          isSSR(config),
-        );
+        const finalConfig = applyBuilderSwcConfig(swcOptions, isSSR(config));
 
         context.builder.addPlugins([
           pluginSwc(
@@ -45,7 +41,6 @@ export function factory(
 
 export function applyBuilderSwcConfig(
   swc: PluginSwcOptions,
-  esbuild: ToolsUserConfig['esbuild'] | undefined,
   isSSR: boolean,
 ): PluginSwcOptions {
   // common configuration
@@ -57,20 +52,7 @@ export function applyBuilderSwcConfig(
     });
   }
 
-  return applyConfig(swcConfig, config => {
-    if (esbuild) {
-      if (config.jsMinify !== false && esbuild.minimize !== false) {
-        logger.warn(
-          'You have enabled both esbuild minimizer and SWC minimizer, which will cause conflicts. Please remove `tools.esbuild` config and only use SWC to minimize your code.',
-        );
-      }
-      if (esbuild.loader !== false) {
-        logger.warn(
-          'You have enabled both esbuild loader and SWC loader, which will cause conflicts. Please remove `tools.esbuild` config and only use SWC to transform your code.',
-        );
-      }
-    }
-  });
+  return applyConfig(swcConfig, () => {});
 }
 
 const PLUGIN_NAME = '@modern-js/plugin-swc';
