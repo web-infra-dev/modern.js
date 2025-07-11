@@ -10,7 +10,6 @@ const sourceDefaults = {
   apiDir: './api',
   envVars: [],
   alias: undefined,
-  moduleScopes: undefined,
   include: [],
 };
 

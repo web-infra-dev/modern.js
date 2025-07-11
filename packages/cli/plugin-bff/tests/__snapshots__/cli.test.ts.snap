@@ -6,12 +6,6 @@ exports[`bff cli plugin config 1`] = `
     "output": {
       "externals": undefined,
     },
-    "source": {
-      "moduleScopes": [
-        "api",
-        /create-request/,
-      ],
-    },
     "tools": {
       "bundlerChain": [Function],
     },

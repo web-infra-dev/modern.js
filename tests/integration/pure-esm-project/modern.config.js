@@ -11,9 +11,6 @@ export default applyBaseConfig({
   runtime: {
     router: true,
   },
-  source: {
-    moduleScopes: [/plugin-data-loader/],
-  },
   server: {
     ssr: {
       mode: 'stream',

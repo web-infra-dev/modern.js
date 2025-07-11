@@ -18,7 +18,6 @@ import type {
 } from '../types';
 import { pluginBabel } from './plugins/babel';
 import { pluginInclude } from './plugins/include';
-import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginReact } from './plugins/react';
 
 export async function parseConfig(
@@ -156,10 +155,6 @@ export async function parseConfig(
 
     rsbuildPlugins.push(pluginStyledComponents(options));
   }
-
-  rsbuildPlugins.push(
-    pluginModuleScopes(uniBuilderConfig.source?.moduleScopes),
-  );
 
   rsbuildPlugins.push(pluginInclude());
 

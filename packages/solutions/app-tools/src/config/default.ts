@@ -127,7 +127,6 @@ export function createLegacyDefaultConfig(
     envVars: [],
     globalVars: getAutoInjectEnv(appContext),
     alias: defaultAlias,
-    moduleScopes: undefined,
     include: [],
   };
 

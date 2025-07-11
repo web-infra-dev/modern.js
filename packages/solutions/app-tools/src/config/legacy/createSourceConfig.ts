@@ -11,7 +11,6 @@ export function createSourceConfig(
     envVars,
     globalVars,
     include,
-    moduleScopes,
     preEntry,
     entries,
     mainEntryName,
@@ -31,7 +30,6 @@ export function createSourceConfig(
 
   return {
     alias,
-    moduleScopes,
     globalVars: builderGlobalVars,
     include,
     preEntry,

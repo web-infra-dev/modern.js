@@ -10,9 +10,6 @@ export default defineConfig({
   runtime: {
     router: true,
   },
-  source: {
-    moduleScopes: [/plugin-data-loader/],
-  },
   server: {
     ssr: {
       mode: 'stream',
