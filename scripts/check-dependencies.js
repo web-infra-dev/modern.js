@@ -1,5 +1,4 @@
 const ignoreDeps = [
-  '@types/node',
   'antd',
   'fs-extra',
   'glob',
@@ -11,10 +10,6 @@ const ignoreDeps = [
   'hono',
   'type-fest',
   'typescript',
-  'react',
-  '@types/react',
-  'react-dom',
-  '@types/react-dom',
   'lru-cache',
   'react-router',
 ];

@@ -27,12 +27,12 @@ function getEleType(ele: ReactElement) {
  */
 function findTargetElement(
   tag: string,
-  children: ReactElement[],
-): ReactElement | null {
+  children: ReactElement<any>[],
+): ReactElement<{ children?: ReactElement<any> }> | null {
   if (children.length === 0) {
     return null;
   }
-  let nextChildren: ReactElement[] = [];
+  let nextChildren: ReactElement<{ children: ReactElement<any> }>[] = [];
   for (const item of children) {
     if (tag === getEleType(item)) {
       return item;

@@ -39,8 +39,8 @@ export function Loadable(WrapComponent: any) {
       const { loadable = defaultLoadable ?? DEFAULT_LOADABLE, ...otherProps } =
         props;
 
-      let delayTimer: NodeJS.Timer | null = null;
-      let timeoutTimer: NodeJS.Timer | null = null;
+      let delayTimer: ReturnType<typeof setTimeout> | null = null;
+      let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
 
       const [state, setState] = useState<LoadableState>(() => {
         const { delay, timeout } = loadable;

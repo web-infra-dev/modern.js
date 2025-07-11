@@ -4,7 +4,7 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
  * runtime utils for nested routes generating
  */
 import type React from 'react';
-import { Suspense } from 'react';
+import { type JSX, Suspense } from 'react';
 import {
   type LoaderFunction,
   type LoaderFunctionArgs,

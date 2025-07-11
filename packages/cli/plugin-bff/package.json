@@ -100,7 +100,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29",
-    "@types/node": "^14",
+    "@types/node": "^20",
     "@types/type-is": "^1.6.3",
     "jest": "^29",
     "memfs": "^3.5.3",

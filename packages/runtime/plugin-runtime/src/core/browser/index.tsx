@@ -78,7 +78,7 @@ function isClientArgs(id: unknown): id is HTMLElement | string {
 export type RenderFunc = typeof render;
 
 export async function render(
-  App: React.ReactElement,
+  App: React.ReactElement<{ basename: string }>,
   id?: HTMLElement | string,
 ) {
   const context: RuntimeContext = getInitialContext();
@@ -168,7 +168,7 @@ export async function renderWithReact17(
   App: React.ReactElement,
   rootElement: HTMLElement,
 ) {
-  const ReactDOM = await import('react-dom');
+  const ReactDOM: any = await import('react-dom');
   ReactDOM.render(App, rootElement);
   return rootElement;
 }
@@ -187,7 +187,7 @@ export async function hydrateWithReact17(
   rootElement: HTMLElement,
   callback?: () => void,
 ) {
-  const ReactDOM = await import('react-dom');
+  const ReactDOM: any = await import('react-dom');
   const root = ReactDOM.hydrate(App, rootElement, callback);
   return root as any;
 }

@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-router-dom": "6.22.0",
     "vue": "^3.3.4"
   },
@@ -23,9 +23,9 @@
     "@rsbuild/core": "1.4.4",
     "@rsbuild/plugin-webpack-swc": "1.1.1",
     "@types/lodash": "^4.14.202",
-    "@types/node": "^14",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "typescript": "^5"
   }
 }

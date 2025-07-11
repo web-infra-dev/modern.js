@@ -48,7 +48,7 @@ export const configure = (options: IOptions) => {
       }),
     );
   }
-  realRequest.set(requestId, configuredRequest);
+  realRequest.set(requestId, configuredRequest as any);
 };
 
 export const createRequest: RequestCreator = ({
