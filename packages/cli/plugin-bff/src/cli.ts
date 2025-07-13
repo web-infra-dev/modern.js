@@ -198,9 +198,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
               );
             },
           },
-          source: {
-            moduleScopes: [`./${API_DIR}`, /create-request/],
-          },
           output: {
             externals: honoRuntimePath,
           },

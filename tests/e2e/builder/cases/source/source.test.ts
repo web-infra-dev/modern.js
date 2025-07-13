@@ -43,50 +43,6 @@ test.describe('source configure multi', () => {
   });
 });
 
-// todo: moduleScopes not work when buildCache is false ???
-test.skip('module-scopes', async ({ page }) => {
-  const buildOpts = {
-    cwd: join(fixtures, 'module-scopes'),
-    entry: {
-      main: join(fixtures, 'module-scopes/src/index.js'),
-    },
-  };
-
-  await expect(
-    build({
-      ...buildOpts,
-      builderConfig: {
-        source: {
-          moduleScopes: ['./src'],
-        },
-      },
-    }),
-  ).rejects.toThrowError('webpack build failed!');
-
-  let builder = await build({
-    ...buildOpts,
-    runServer: true,
-  });
-
-  await page.goto(getHrefByEntryName('main', builder.port));
-
-  await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
-
-  builder.close();
-
-  // should not throw
-  builder = await build({
-    ...buildOpts,
-    builderConfig: {
-      source: {
-        moduleScopes: ['./src', './common'],
-      },
-    },
-  });
-
-  builder.close();
-});
-
 test('global-vars', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'global-vars'),

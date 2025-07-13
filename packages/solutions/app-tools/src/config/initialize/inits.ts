@@ -57,10 +57,6 @@ export function initSourceConfig(
   bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
-
-  if (bundler === 'webpack') {
-    config.source.moduleScopes = createBuilderModuleScope(config);
-  }
 }
 
 function createBuilderInclude(
@@ -82,42 +78,4 @@ function createBuilderInclude(
     .concat(defaultInclude); // concat default Include
 
   return transformInclude;
-}
-
-export function createBuilderModuleScope(
-  config: AppNormalizedConfig<'webpack'>,
-) {
-  type ModuleScopes = Array<string | RegExp>;
-
-  const { moduleScopes } = config.source;
-  if (moduleScopes) {
-    const DEFAULT_SCOPES: ModuleScopes = ['./src', './shared', /node_modules/];
-
-    const builderModuleScope = applyScopeOptions(DEFAULT_SCOPES, moduleScopes);
-    return builderModuleScope;
-  } else {
-    return undefined;
-  }
-
-  function isPrimitiveScope(items: unknown[]): items is ModuleScopes {
-    return items.every(
-      item =>
-        typeof item === 'string' ||
-        Object.prototype.toString.call(item) === '[object RegExp]',
-    );
-  }
-
-  type ScopesOptions = NonNullable<
-    AppNormalizedConfig<'webpack'>['source']['moduleScopes']
-  >;
-
-  function applyScopeOptions(defaults: ModuleScopes, options: ScopesOptions) {
-    if (Array.isArray(options)) {
-      if (isPrimitiveScope(options)) {
-        return defaults.concat(options);
-      }
-      return options.reduce<ModuleScopes>(applyScopeOptions, defaults);
-    }
-    return options(defaults) || defaults;
-  }
 }
