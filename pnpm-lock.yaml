@@ -3945,8 +3945,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       rslog:
-        specifier: ^1.1.0
-        version: 1.2.3
+        specifier: ^1.2.9
+        version: 1.2.9
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -4560,16 +4560,6 @@ importers:
       moment:
         specifier: ^2.30.1
         version: 2.30.1
-
-  tests/e2e/builder/cases/react/remove-prop-types:
-    dependencies:
-      prop-types:
-        specifier: ^15.8.1
-        version: 15.8.1
-    devDependencies:
-      '@types/prop-types':
-        specifier: ^15
-        version: 15.7.14
 
   tests/e2e/builder/cases/source-map:
     dependencies:
@@ -20659,6 +20649,9 @@ packages:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
     engines: {node: '>=14.17.6'}
 
+  rslog@1.2.9:
+    resolution: {integrity: sha512-KSjM8jJKYYaKgI4jUGZZ4kdTBTM/EIGH1JnoB0ptMkzcyWaHeXW9w6JVLCYs37gh8sFZkLLqAyBb2sT02bqpcQ==}
+
   rspack-manifest-plugin@5.0.3:
     resolution: {integrity: sha512-DCLSu5KE/ReIOhK2JTCQSI0JIgJ40E2i+2noqINtfhu12+UsK29dgMITEHIpYNR0JggcmmgZIDxPxm9dOV/2vQ==}
     engines: {node: '>=14'}
@@ -25898,14 +25891,14 @@ snapshots:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001718
       lodash: 4.17.21
-      rslog: 1.2.3
+      rslog: 1.2.9
 
   '@modern-js/utils@2.68.1':
     dependencies:
       '@swc/helpers': 0.5.17
       caniuse-lite: 1.0.30001718
       lodash: 4.17.21
-      rslog: 1.2.3
+      rslog: 1.2.9
 
   '@module-federation/error-codes@0.13.0': {}
 
@@ -29958,7 +29951,8 @@ snapshots:
 
   '@types/pretty-hrtime@1.0.3': {}
 
-  '@types/prop-types@15.7.14': {}
+  '@types/prop-types@15.7.14':
+    optional: true
 
   '@types/qs@6.9.16': {}
 
@@ -38974,6 +38968,8 @@ snapshots:
       typescript: 5.6.3
 
   rslog@1.2.3: {}
+
+  rslog@1.2.9: {}
 
   rspack-manifest-plugin@5.0.3(@rspack/core@1.4.2(@swc/helpers@0.5.17)):
     dependencies:
