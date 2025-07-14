@@ -78,7 +78,7 @@
     "react-docgen": "6.0.0-alpha.3",
     "remark-external-links": "^9.0.1",
     "remark-slug": "^7.0.1",
-    "serve-static": "^1.14.1",
+    "serve-static": "^1.16.2",
     "tinypool": "^0.8.0"
   },
   "devDependencies": {
