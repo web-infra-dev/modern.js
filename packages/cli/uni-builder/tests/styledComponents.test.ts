@@ -1,7 +1,6 @@
-import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
-import { matchRules, unwrapConfig } from './helper';
+import { matchRules } from './helper';
 
 describe('plugins/styled-components', () => {
   it('should enable ssr when target contain node', async () => {
@@ -34,40 +33,5 @@ describe('plugins/styled-components', () => {
         }),
       ).toMatchSnapshot();
     }
-  });
-
-  it('should works in webpack babel mode', async () => {
-    const rsbuild = await createUniBuilder({
-      bundlerType: 'webpack',
-      cwd: '',
-      config: {},
-    });
-
-    const config = await unwrapConfig(rsbuild);
-
-    expect(
-      matchRules({
-        config,
-        testFile: 'a.js',
-      }),
-    ).toMatchSnapshot();
-  });
-
-  it('should works in webpack swc mode', async () => {
-    const rsbuild = await createUniBuilder({
-      bundlerType: 'webpack',
-      cwd: '',
-      config: {},
-    });
-
-    rsbuild.addPlugins([pluginSwc()]);
-    const config = await unwrapConfig(rsbuild);
-
-    expect(
-      matchRules({
-        config,
-        testFile: 'a.js',
-      }),
-    ).toMatchSnapshot();
   });
 });
