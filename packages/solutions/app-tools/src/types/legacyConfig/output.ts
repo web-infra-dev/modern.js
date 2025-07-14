@@ -11,14 +11,10 @@ export type OutputLegacyUserConfig = {
   mediaPath?: string;
   path?: string;
   title?: string;
-  titleByEntries?: Record<string, string>;
   meta?: MetaOptions;
-  metaByEntries?: Record<string, MetaOptions>;
   inject?: 'body' | 'head' | boolean;
-  injectByEntries?: Record<string, 'body' | 'head' | boolean>;
   mountId?: string;
   favicon?: string;
-  faviconByEntries?: Record<string, string | undefined>;
   copy?: Array<Record<string, unknown> & { from: string }>;
   disableTsChecker?: boolean;
   disableHtmlFolder?: boolean;
@@ -35,7 +31,6 @@ export type OutputLegacyUserConfig = {
   polyfill?: 'off' | 'usage' | 'entry' | 'ua';
   dataUriLimit?: number;
   templateParameters?: Record<string, unknown>;
-  templateParametersByEntries?: Record<string, Record<string, unknown>>;
   crossorigin?: boolean | CrossOrigin;
   cssModuleLocalIdentName?: string;
   disableNodePolyfill?: boolean;

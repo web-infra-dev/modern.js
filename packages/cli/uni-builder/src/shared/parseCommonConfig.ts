@@ -102,13 +102,6 @@ export async function parseCommonConfig(
     } = {},
     html: {
       disableHtmlFolder,
-      metaByEntries,
-      titleByEntries,
-      faviconByEntries,
-      injectByEntries,
-      templateByEntries,
-      templateParametersByEntries,
-      tagsByEntries,
       outputStructure,
       appIcon,
       tags,
@@ -236,72 +229,10 @@ export async function parseCommonConfig(
   extraConfig.html.outputStructure =
     outputStructure ?? (disableHtmlFolder ? 'flat' : 'nested');
 
-  if (metaByEntries) {
-    extraConfig.html.meta = ({ entryName }) => metaByEntries[entryName];
-  }
-
-  html.title ??= '';
-
-  if (titleByEntries) {
-    extraConfig.html.title = ({ entryName }) => titleByEntries[entryName];
-  }
-
-  if (faviconByEntries) {
-    extraConfig.html.favicon = ({ entryName }) => faviconByEntries[entryName];
-  }
-
-  if (injectByEntries) {
-    extraConfig.html.inject = ({ entryName }) => injectByEntries[entryName];
-  }
-
-  if (templateByEntries) {
-    extraConfig.html.template = ({ entryName }) => templateByEntries[entryName];
-  }
-
-  if (templateParametersByEntries) {
-    extraConfig.html.templateParameters = (defaultValue, { entryName }) => ({
-      ...defaultValue,
-      ...(templateParametersByEntries[entryName] || {}),
-    });
-  }
-
   html.appIcon =
     typeof appIcon === 'string'
       ? { icons: [{ src: appIcon, size: 180 }] }
       : appIcon;
-
-  if (tags) {
-    // The function will be executed at the end of the HTML processing flow
-    html.tags = Array.isArray(tags)
-      ? (tags.filter(t => typeof t !== 'function') as typeof tags).concat(
-          tags.filter(t => typeof t === 'function'),
-        )
-      : tags;
-  }
-
-  if (tagsByEntries) {
-    extraConfig.html.tags = [
-      (tags, utils) => {
-        const entryTags = castArray(tagsByEntries[utils.entryName]);
-
-        const handlers: HtmlTagHandler[] = [];
-
-        for (const tag of entryTags) {
-          if (isFunction(tag)) {
-            // The function will be executed at the end of the HTML processing flow
-            handlers.push(tag);
-          } else {
-            tags.push(tag);
-          }
-        }
-
-        return handlers.reduce(
-          (currentTags, handler) => handler(currentTags, utils) || currentTags,
-          tags,
-        );
-      },
-    ];
-  }
 
   extraConfig.tools ??= {};
 

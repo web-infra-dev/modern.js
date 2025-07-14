@@ -21,7 +21,6 @@ const outputDefaults = {
   mediaPath: 'static/media',
   path: 'dist',
   title: '',
-  titleByEntries: undefined,
   meta: {
     charset: { charset: 'utf-8' },
     viewport:
@@ -33,12 +32,9 @@ const outputDefaults = {
     'wap-font-scale': 'no',
     'format-detection': 'telephone=no',
   },
-  metaByEntries: undefined,
   inject: 'head',
-  injectByEntries: undefined,
   mountId: 'root',
   favicon: '',
-  faviconByEntries: undefined,
   copy: undefined,
   scriptExt: undefined,
   disableHtmlFolder: false,
@@ -55,7 +51,6 @@ const outputDefaults = {
   polyfill: 'entry',
   dataUriLimit: 10000,
   templateParameters: {},
-  templateParametersByEntries: undefined,
   cssModuleLocalIdentName: '[name]__[local]--[hash:base64:5]',
   federation: undefined,
   disableNodePolyfill: false,

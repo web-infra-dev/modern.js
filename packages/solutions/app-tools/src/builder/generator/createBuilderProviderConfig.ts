@@ -23,9 +23,8 @@ export function createBuilderProviderConfig<B extends Bundler>(
 ): Omit<AppNormalizedConfig<B>, 'plugins'> {
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
-    htmlConfig.templateByEntries = {
-      ...appContext.htmlTemplates,
-      ...htmlConfig.templateByEntries,
+    htmlConfig.template = ({ entryName }) => {
+      return appContext.htmlTemplates[entryName];
     };
   }
   const config = {
