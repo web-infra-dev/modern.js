@@ -17,6 +17,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",
@@ -81,6 +82,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",
@@ -131,6 +133,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",
@@ -188,6 +191,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",
@@ -245,6 +249,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",
@@ -296,6 +301,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   "html": {
     "appIcon": undefined,
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "charset": "ascii",

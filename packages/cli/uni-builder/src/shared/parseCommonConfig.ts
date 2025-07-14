@@ -100,13 +100,7 @@ export async function parseCommonConfig(
       distPath = {},
       ...outputConfig
     } = {},
-    html: {
-      disableHtmlFolder,
-      outputStructure,
-      appIcon,
-      tags,
-      ...htmlConfig
-    } = {},
+    html: { disableHtmlFolder, outputStructure, appIcon, ...htmlConfig } = {},
     source: {
       alias,
       globalVars,
@@ -228,6 +222,8 @@ export async function parseCommonConfig(
 
   extraConfig.html.outputStructure =
     outputStructure ?? (disableHtmlFolder ? 'flat' : 'nested');
+
+  html.title ??= '';
 
   html.appIcon =
     typeof appIcon === 'string'

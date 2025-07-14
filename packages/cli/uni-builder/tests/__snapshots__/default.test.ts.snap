@@ -244,7 +244,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.43",
+                "coreJs": "3.44",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -331,7 +331,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.43",
+                "coreJs": "3.44",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -964,7 +964,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.43",
+                    "coreJs": "3.44",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1059,7 +1059,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.43",
+                    "coreJs": "3.44",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1266,7 +1266,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         "xhtml": false,
         Symbol(entryName): "index",
       },
@@ -2588,7 +2588,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.43",
+                "coreJs": "3.44",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2675,7 +2675,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.43",
+                "coreJs": "3.44",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -3308,7 +3308,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.43",
+                    "coreJs": "3.44",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3403,7 +3403,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.43",
+                    "coreJs": "3.44",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3642,7 +3642,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         "xhtml": false,
         Symbol(entryName): "index",
       },
@@ -6093,7 +6093,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         "xhtml": false,
         Symbol(entryName): "index",
       },
@@ -6115,7 +6115,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         Symbol(entryName): "index",
       },
       "version": 5,
@@ -7767,7 +7767,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         "xhtml": false,
         Symbol(entryName): "index",
       },
@@ -7808,7 +7808,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
-        "title": "Rsbuild App",
+        "title": "",
         Symbol(entryName): "index",
       },
       "version": 5,

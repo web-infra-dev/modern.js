@@ -34,5 +34,3 @@ export const getPort = (appName: AppName) => {
   }
   return exampleInfo[appName].port;
 };
-
-export { webpackOnlyTest, rspackOnlyTest } from '../builder/scripts/helper';
