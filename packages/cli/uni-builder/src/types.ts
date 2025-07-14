@@ -27,7 +27,6 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
-import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
@@ -149,10 +148,6 @@ export type UniBuilderExtraConfig = {
         >;
     styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
-    /**
-     * Configure the [Pug](https://pugjs.org/) template engine.
-     */
-    pug?: true | PluginPugOptions['pugOptions'];
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
      */

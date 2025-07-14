@@ -423,20 +423,6 @@ export async function parseCommonConfig(
     );
   }
 
-  const pugOptions = uniBuilderConfig.tools?.pug;
-  if (pugOptions) {
-    const { pluginPug } = await import('@rsbuild/plugin-pug');
-    rsbuildPlugins.push(
-      pluginPug(
-        typeof pugOptions === 'boolean'
-          ? {}
-          : {
-              pugOptions,
-            },
-      ),
-    );
-  }
-
   // assetsRetry inject should be later
   if (assetsRetry) {
     const { pluginAssetsRetry } = await import('@rsbuild/plugin-assets-retry');
