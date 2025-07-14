@@ -90,7 +90,6 @@ export async function parseCommonConfig(
       disableSvgr,
       svgDefaultExport,
       assetsRetry,
-      enableAssetFallback,
       enableAssetManifest,
       disableSourceMap,
       sourceMap,
@@ -442,12 +441,6 @@ export async function parseCommonConfig(
   if (assetsRetry) {
     const { pluginAssetsRetry } = await import('@rsbuild/plugin-assets-retry');
     rsbuildPlugins.push(pluginAssetsRetry(assetsRetry));
-  }
-
-  // Note: fallback should be the last plugin
-  if (enableAssetFallback) {
-    const { pluginFallback } = await import('./plugins/fallback');
-    rsbuildPlugins.push(pluginFallback());
   }
 
   if (frameworkConfigPath && performanceConfig.buildCache !== false) {

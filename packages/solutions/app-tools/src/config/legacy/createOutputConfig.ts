@@ -67,8 +67,6 @@ export function createOutputConfig(
     disableFilenameHash: disableAssetsCache,
     enableLatestDecorators,
     ssg,
-    // set `true`, only in legacy config
-    enableAssetFallback: true,
     enableAssetManifest: true,
     disableNodePolyfill,
   };
