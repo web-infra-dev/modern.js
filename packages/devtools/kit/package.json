@@ -80,7 +80,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/module-tools": "2.68.1",
+    "@modern-js/module-tools": "2.68.2",
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@scripts/build": "workspace:*",
