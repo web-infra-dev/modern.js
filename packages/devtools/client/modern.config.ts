@@ -73,6 +73,9 @@ export default defineConfig<'rspack'>({
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
       react: path.resolve('./node_modules/react-exp'),
       'react-dom': path.resolve('./node_modules/react-dom-exp'),
+      '@radix-ui/themes': path.resolve(
+        './node_modules/@radix-ui/themes/dist/esm/index.js',
+      ),
     },
   },
   output: {
@@ -116,27 +119,6 @@ export default defineConfig<'rspack'>({
       chain
         .plugin('ServiceWorkerCompilerPlugin')
         .use(ServiceWorkerCompilerPlugin);
-    },
-    rspack: (config, { rspack }) => {
-      if (!config.resolve) {
-        config.resolve = {};
-      }
-
-      // This configuration is to fix an issue where the bundler, in Windows + React 19 environments,
-      // cannot correctly read and interpret entry files containing standard syntax like 'export * as ...' and 'export { ... }'.
-      // By explicitly specifying the resolve conditions, it guides the bundler to locate the correct client ESM file.
-      const originalConditions = config.resolve.conditionNames || [];
-      config.resolve.conditionNames = [
-        'import',
-        'react',
-        ...originalConditions,
-      ];
-
-      config.resolve.conditionNames = [
-        ...new Set(config.resolve.conditionNames),
-      ];
-
-      return config;
     },
   },
   plugins: [appTools({ bundler: 'rspack' })],
