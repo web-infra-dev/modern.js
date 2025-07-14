@@ -118,7 +118,7 @@ exports[`create builder provider config should add default config 1`] = `
     "port": undefined,
   },
   "html": {
-    "templateByEntries": {},
+    "template": [Function],
   },
   "output": {
     "assetPrefix": "/x",

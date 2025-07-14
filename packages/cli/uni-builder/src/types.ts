@@ -298,36 +298,8 @@ export type UniBuilderExtraConfig = {
      * When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
      */
     disableHtmlFolder?: boolean;
-    /**
-     *  @deprecated use `html.tags` instead
-     */
-    tagsByEntries?: Record<string, ArrayOrNot<HtmlTagDescriptor>>;
-    /**
-     * @deprecated use `html.meta` instead
-     */
-    metaByEntries?: Record<string, MetaOptions>;
-    /**
-     * @deprecated use `html.title` instead
-     */
-    titleByEntries?: Record<string, string>;
     // TODO: need support rsbuild favicon type in server/utils
     favicon?: string;
-    /**
-     * @deprecated use `html.favicon` instead
-     */
-    faviconByEntries?: Record<string, string | undefined>;
-    /**
-     * @deprecated use `html.inject` instead
-     */
-    injectByEntries?: Record<string, ScriptInject>;
-    /**
-     * @deprecated use `html.template` instead
-     */
-    templateByEntries?: Partial<Record<string, string>>;
-    /**
-     * @deprecated use `html.templateParameters` instead
-     */
-    templateParametersByEntries?: Record<string, Record<string, unknown>>;
   };
   performance?: {
     /**

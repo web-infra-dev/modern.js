@@ -130,8 +130,8 @@ export function createStaticMiddleware(
   const {
     distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
   } = options.output;
-  const { favicon, faviconByEntries } = options.html;
-  const favicons = prepareFavicons(favicon, faviconByEntries);
+  const { favicon } = options.html;
+  const favicons = prepareFavicons(favicon);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
 
   // TODO: If possible, we should not use `...staticFiles` here, file should only be read in static and upload dir.
@@ -195,23 +195,12 @@ export function createStaticMiddleware(
 
 const prepareFavicons = (
   favicon?: string | ((o: { entryName: string; value: string }) => string),
-  faviconByEntries?: Record<string, string | undefined>,
 ) => {
   const faviconNames = [];
 
   // TODO: handle favicon as function.
   if (favicon && typeof favicon === 'string') {
     faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
-  }
-  if (faviconByEntries) {
-    Object.keys(faviconByEntries).forEach(f => {
-      const curFavicon = faviconByEntries[f];
-      if (curFavicon) {
-        faviconNames.push(
-          curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
-        );
-      }
-    });
   }
   return faviconNames;
 };

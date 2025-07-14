@@ -5,8 +5,10 @@ export default applyBaseConfig({
     mainEntryName: 'index',
   },
   html: {
-    titleByEntries: {
-      index: 'TikTok',
+    title({ entryName }) {
+      if (entryName === 'index') {
+        return 'TikTok';
+      }
     },
   },
 });

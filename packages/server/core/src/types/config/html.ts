@@ -4,7 +4,6 @@ export type ScriptLoading = 'defer' | 'module' | 'blocking';
 
 export interface HtmlUserConfig {
   favicon?: string;
-  faviconByEntries?: Record<string, string | undefined>;
   /**
    * Set the [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin) attribute
    * of the `<script>` tag.
