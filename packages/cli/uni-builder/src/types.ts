@@ -267,11 +267,6 @@ export type UniBuilderExtraConfig = {
      */
     disableCssModuleExtension?: boolean;
     /**
-     * If this option is enabled, all unrecognized files will be emitted to the dist directory.
-     * Otherwise, an exception will be thrown.
-     */
-    enableAssetFallback?: boolean;
-    /**
      * Whether to disable TypeScript Type Checker.
      */
     disableTsChecker?: boolean;

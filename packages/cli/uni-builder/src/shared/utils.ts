@@ -119,15 +119,6 @@ export const isHtmlDisabled = (
   );
 };
 
-export const getHash = (config: NormalizedEnvironmentConfig) => {
-  const { filenameHash } = config.output;
-
-  if (typeof filenameHash === 'string') {
-    return filenameHash ? `.[${filenameHash}]` : '';
-  }
-  return filenameHash ? '.[contenthash:8]' : '';
-};
-
 const DEFAULT_WEB_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
 
 const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
