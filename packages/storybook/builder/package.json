@@ -70,7 +70,7 @@
     "@storybook/mdx2-csf": "~1.1.0",
     "@storybook/preview": "~7.6.12",
     "@storybook/preview-api": "~7.6.12",
-    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.f9c48c0.0",
     "@storybook/router": "~7.6.12",
     "@storybook/theming": "~7.6.12",
     "ast-types": "^0.14.2",

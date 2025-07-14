@@ -3508,8 +3508,8 @@ importers:
         specifier: ~7.6.12
         version: 7.6.20
       '@storybook/react-docgen-typescript-plugin':
-        specifier: 1.0.6--canary.9.0c3f3b7.0
-        version: 1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.18.20))
+        specifier: 1.0.6--canary.9.f9c48c0.0
+        version: 1.0.6--canary.9.f9c48c0.0(typescript@5.6.3)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.18.20))
       '@storybook/router':
         specifier: ~7.6.12
         version: 7.6.20
@@ -12928,11 +12928,16 @@ packages:
   '@storybook/preview@7.6.20':
     resolution: {integrity: sha512-cxYlZ5uKbCYMHoFpgleZqqGWEnqHrk5m5fT8bYSsDsdQ+X5wPcwI/V+v8dxYAdQcMphZVIlTjo6Dno9WG8qmVA==}
 
-  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0':
-    resolution: {integrity: sha512-KUqXC3oa9JuQ0kZJLBhVdS4lOneKTOopnNBK4tUAgoxWQ3u/IjzdueZjFr7gyBrXMoU6duutk3RQR9u8ZpYJ4Q==}
+  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.f9c48c0.0':
+    resolution: {integrity: sha512-Pvj3kFXdJDPRSRbbyDF2SuHes/5Gm2890vohdWU/vW/x1RR4Z0Fznk/V1wuUrNV1adHOqeug5I1W0fRWxcU0iQ==}
     peerDependencies:
       typescript: '>= 4.x'
       webpack: '>= 4'
+
+  '@storybook/react-docgen-typescript@2.2.4-next.1':
+    resolution: {integrity: sha512-zLESd0HGH/6WbLX675TjDz1Ol+eae9e0mD39aLg6eCRB0MF64OV2POsuMqm3VYtrHrTmKyakuvrxtDOftZqxSg==}
+    peerDependencies:
+      typescript: '>= 4.3.x'
 
   '@storybook/react-dom-shim@7.6.20':
     resolution: {integrity: sha512-SRvPDr9VWcS24ByQOVmbfZ655y5LvjXRlsF1I6Pr9YZybLfYbu3L5IicfEHT4A8lMdghzgbPFVQaJez46DTrkg==}
@@ -20072,11 +20077,6 @@ packages:
 
   react-devtools-inline@4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
-
-  react-docgen-typescript@2.2.2:
-    resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
-    peerDependencies:
-      typescript: '>= 4.3.x'
 
   react-docgen@6.0.0-alpha.3:
     resolution: {integrity: sha512-DDLvB5EV9As1/zoUsct6Iz2Cupw9FObEGD3DMcIs3EDFIoSKyz8FZtoWj3Wj+oodrU4/NfidN0BL5yrapIcTSA==}
@@ -29162,19 +29162,23 @@ snapshots:
 
   '@storybook/preview@7.6.20': {}
 
-  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.18.20))':
+  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.f9c48c0.0(typescript@5.6.3)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.18.20))':
     dependencies:
+      '@storybook/react-docgen-typescript': 2.2.4-next.1(typescript@5.6.3)
       debug: 4.3.7(supports-color@5.5.0)
       endent: 2.1.0
       find-cache-dir: 3.3.2
       flat-cache: 3.0.4
       micromatch: 4.0.8
-      react-docgen-typescript: 2.2.2(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       webpack: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.18.20)
     transitivePeerDependencies:
       - supports-color
+
+  '@storybook/react-docgen-typescript@2.2.4-next.1(typescript@5.6.3)':
+    dependencies:
+      typescript: 5.6.3
 
   '@storybook/react-dom-shim@7.6.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -38186,10 +38190,6 @@ snapshots:
   react-devtools-inline@4.4.0:
     dependencies:
       es6-symbol: 3.1.4
-
-  react-docgen-typescript@2.2.2(typescript@5.6.3):
-    dependencies:
-      typescript: 5.6.3
 
   react-docgen@6.0.0-alpha.3:
     dependencies:
