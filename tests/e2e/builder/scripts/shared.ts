@@ -38,7 +38,7 @@ export const createUniBuilder = async (
 
   const builder = await createUniBuilder({
     ...builderOptions,
-    bundlerType: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+    bundlerType: 'rspack',
     config: builderConfig,
   });
 
@@ -199,7 +199,6 @@ export async function build({
     close,
     unwrapOutputJSON,
     getIndexFile,
-    providerType: process.env.PROVIDE_TYPE || 'webpack',
     instance: builder,
   };
 }

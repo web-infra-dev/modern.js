@@ -17,11 +17,11 @@ const builderNodeConfig = path.resolve(
 );
 const bundlerConfig = path.resolve(
   __dirname,
-  `./dist/.rsbuild/${process.env.PROVIDE_TYPE || 'webpack'}.config.web.mjs`,
+  `./dist/.rsbuild/rspack.config.web.mjs`,
 );
 const bundlerNodeConfig = path.resolve(
   __dirname,
-  `./dist/.rsbuild/${process.env.PROVIDE_TYPE || 'webpack'}.config.node.mjs`,
+  `./dist/.rsbuild/rspack.config.node.mjs`,
 );
 
 test('should generate config files when writeToDisk is true', async () => {

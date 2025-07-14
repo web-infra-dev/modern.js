@@ -3,10 +3,7 @@
   "name": "@e2e/builder",
   "version": "2.66.0",
   "scripts": {
-    "test": "pnpm run test:webpack && pnpm run test:rspack",
-    "test:webpack": "playwright test",
-    "test:rspack": "PROVIDE_TYPE=rspack playwright test",
-    "test:webpack-swc": "playwright test swc"
+    "test": "playwright test"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -21,7 +18,6 @@
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.33.0",
     "@rsbuild/core": "1.4.4",
-    "@rsbuild/plugin-webpack-swc": "1.1.1",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20",
     "@types/react": "^19.1.8",

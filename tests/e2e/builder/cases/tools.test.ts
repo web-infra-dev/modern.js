@@ -1,6 +1,5 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { webpackOnlyTest } from '@scripts/helper';
 import { build, getHrefByEntryName } from '../scripts/shared';
 
 const fixtures = __dirname;
@@ -53,37 +52,4 @@ test('bundlerChain - set alias config', async ({ page }) => {
   await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
 
   builder.close();
-});
-
-// Rspack do not support publicPath function yet
-webpackOnlyTest('bundlerChain - custom publicPath function', async () => {
-  const builder = await build({
-    cwd: join(fixtures, 'output/rem'),
-    entry: {
-      main: join(fixtures, 'output/rem/src/index.ts'),
-    },
-    builderConfig: {
-      output: {
-        disableFilenameHash: true,
-      },
-      tools: {
-        bundlerChain: chain => {
-          chain.output.publicPath(() => 'https://www.foo.com/');
-        },
-      },
-    },
-  });
-
-  const files = await builder.unwrapOutputJSON();
-
-  const htmlFile = Object.keys(files).find(file => file.endsWith('.html'));
-  expect(htmlFile).toBeTruthy();
-
-  const htmlContent = files[htmlFile!];
-  expect(htmlContent).toContain(
-    `script defer="defer" src="https://www.foo.com/static/js/main.js"></script>`,
-  );
-  expect(htmlContent).toContain(
-    `<link href="https://www.foo.com/static/css/main.css" rel="stylesheet">`,
-  );
 });
