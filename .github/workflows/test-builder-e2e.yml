@@ -18,16 +18,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Nx Cache
-        id: nx-cache
-        uses: actions/cache@v3
-        with:
-          path: .nx/cache
-          key: nx-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ github.ref_name }}-
-            nx-
-
       - name: Install Pnpm
         run: npm i -g --force corepack && corepack enable
 
@@ -41,7 +31,7 @@ jobs:
         run: pnpm install
 
       - name: Install playwright
-        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install
+        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install chrome
 
       - name: Test
         run: cd ./tests/e2e/builder && pnpm run test
