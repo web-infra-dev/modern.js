@@ -41,7 +41,7 @@ jobs:
         run: pnpm install
 
       - name: Install playwright
-        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install chrome
+        run: node packages/toolkit/e2e/node_modules/@playwright/test/cli.js install
 
       - name: Test
         run: cd ./tests/e2e/builder && pnpm run test
