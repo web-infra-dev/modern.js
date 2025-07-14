@@ -240,7 +240,7 @@
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
     "react-router-dom": "6.27.0",
-    "serialize-javascript": "^6.0.0"
+    "serialize-javascript": "^6.0.2"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
