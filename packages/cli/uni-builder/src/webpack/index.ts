@@ -127,11 +127,6 @@ export async function parseConfig(
     );
   }
 
-  if (!uniBuilderConfig.output?.disableMinimize) {
-    const { pluginMinimize } = await import('./plugins/minimize');
-    rsbuildPlugins.push(pluginMinimize(uniBuilderConfig.tools?.terser));
-  }
-
   if (uniBuilderConfig.security?.sri) {
     const { pluginSRI } = await import('./plugins/sri');
     rsbuildPlugins.push(pluginSRI(uniBuilderConfig.security?.sri));

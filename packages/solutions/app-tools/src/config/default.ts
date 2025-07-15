@@ -191,7 +191,6 @@ export function createLegacyDefaultConfig(
     lodash: undefined,
     devServer: undefined,
     tsLoader: undefined,
-    terser: undefined,
     minifyCss: undefined,
   };
 

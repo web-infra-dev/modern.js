@@ -10,7 +10,6 @@ export function createToolsConfig(
     autoprefixer,
     babel,
     minifyCss,
-    terser,
     webpack,
     webpackChain,
     tsLoader,
@@ -22,7 +21,6 @@ export function createToolsConfig(
     devServer,
     tailwindcss,
     jest,
-    esbuild,
   } = config.tools;
   const { enableTsLoader } = config.output;
 
@@ -31,7 +29,6 @@ export function createToolsConfig(
     autoprefixer,
     babel,
     minifyCss,
-    terser,
     webpack,
     webpackChain,
     styledComponents,

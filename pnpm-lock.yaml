@@ -705,9 +705,6 @@ importers:
       rspack-manifest-plugin:
         specifier: 5.0.3
         version: 5.0.3(@rspack/core@1.4.6(@swc/helpers@0.5.17))
-      terser-webpack-plugin:
-        specifier: 5.3.14
-        version: 5.3.14(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
       ts-deepmerge:
         specifier: 7.0.2
         version: 7.0.2
