@@ -1,8 +1,10 @@
 name: E2E Test (Builder)
 
 on:
-  push:
-    branches: [main, renovate/main-rsbuild]
+  pull_request:
+    branches: [main]
+
+  merge_group:
 
   workflow_dispatch:
 
