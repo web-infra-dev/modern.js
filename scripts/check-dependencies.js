@@ -2,7 +2,6 @@ const ignoreDeps = [
   'antd',
   'fs-extra',
   'glob',
-  'minimatch',
   'react-router-dom',
   'tailwindcss',
   'tsconfig-paths',

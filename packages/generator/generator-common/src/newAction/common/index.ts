@@ -16,7 +16,6 @@ export enum ActionFunction {
   BFF = 'bff',
   MicroFrontend = 'micro_frontend',
   I18n = 'i18n',
-  StorybookV7 = 'storybookV7',
   RuntimeApi = 'runtimeApi',
   SSG = 'ssg',
   Polyfill = 'polyfill',
@@ -53,8 +52,6 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.MicroFrontend]: () =>
     i18n.t(localeKeys.action.function.micro_frontend),
   [ActionFunction.I18n]: () => i18n.t(localeKeys.action.function.i18n),
-  [ActionFunction.StorybookV7]: () =>
-    i18n.t(localeKeys.action.function.storybookV7),
   [ActionFunction.RuntimeApi]: () =>
     i18n.t(localeKeys.action.function.runtime_api),
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),

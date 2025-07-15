@@ -27,7 +27,6 @@ export const MWAActionFunctions = [
   ActionFunction.MicroFrontend,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
-  ActionFunction.StorybookV7,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -114,7 +113,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
-  [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
   [ActionFunction.SWC]: '@modern-js/plugin-swc',
@@ -159,7 +157,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',

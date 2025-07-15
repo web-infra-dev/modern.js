@@ -84,7 +84,6 @@ export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
   '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
-  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
   '@modern-js/plugin-express': '@modern-js/plugin-express/cli',
   '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
   '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
@@ -105,7 +104,6 @@ export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
 export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/module-tools': '@modern-js/module-tools',
   '@modern-js/runtime': '@modern-js/runtime/cli',
-  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   // legacy router (inner react-router-dom v5)
   '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
@@ -131,7 +129,6 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-proxy': '@modern-js/plugin-proxy/cli',
   '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
   '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
-  '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
   '@modern-js/plugin-express': '@modern-js/plugin-express/cli',
   '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
   '@modern-js/plugin-server': '@modern-js/plugin-server/cli',

@@ -82,7 +82,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     `@modern-js/server-generator@${distTag || 'latest'}`,
     `@modern-js/entry-generator@${distTag || 'latest'}`,
     `@modern-js/ssg-generator@${distTag || 'latest'}`,
-    `@modern-js/storybook-next-generator@${distTag || 'latest'}`,
     `@modern-js/tailwindcss-generator@${distTag || 'latest'}`,
   ]);
 
