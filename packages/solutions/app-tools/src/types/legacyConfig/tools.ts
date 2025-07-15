@@ -4,7 +4,6 @@ import type { UniBuilderConfig } from '@modern-js/uni-builder';
 // FIXME: need definition by itself.
 type BuilderToolsConfig = Required<UniBuilderConfig>['tools'];
 export type ToolsLegacyUserConfig = BuilderToolsConfig & {
-  esbuild?: Record<string, unknown>;
   devServer?: DevServerOptions;
   /**
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.

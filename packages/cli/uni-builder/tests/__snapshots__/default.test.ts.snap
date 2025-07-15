@@ -7625,26 +7625,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "warningsFilter": [Function],
         },
       },
-      TerserPlugin {
-        "options": {
-          "exclude": undefined,
-          "extractComments": true,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "format": {
-                "ascii_only": true,
-              },
-              "mangle": {
-                "safari10": true,
-              },
-            },
-          },
-          "parallel": true,
-          "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-        },
-      },
     ],
     "runtimeChunk": {
       "name": "builder-runtime",

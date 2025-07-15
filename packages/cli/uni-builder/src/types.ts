@@ -35,7 +35,6 @@ import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
 import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { Options as AutoprefixerOptions } from 'autoprefixer';
 import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
-import type TerserPlugin from 'terser-webpack-plugin';
 import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 type ArrayOrNot<T> = T | T[];
@@ -121,13 +120,6 @@ export type ToolsDevServerConfig = ConfigChain<{
   proxy?: ServerConfig['proxy'];
 }>;
 
-export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
-  TerserPlugin.DefinedDefaultMinimizerAndOptions<
-    import('terser').MinifyOptions
-  >;
-
-export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
-
 export type ToolsAutoprefixerConfig = ConfigChain<AutoprefixerOptions>;
 
 export type UniBuilderExtraConfig = {
@@ -170,11 +162,6 @@ export type UniBuilderExtraConfig = {
      * Tips: this configuration is not yet supported in rspack
      */
     tsLoader?: PluginTsLoaderOptions;
-    /**
-     * Modify the options of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin).
-     * @requires webpack
-     */
-    terser?: ToolsTerserConfig;
     /**
      * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
      */

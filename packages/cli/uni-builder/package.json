@@ -83,7 +83,6 @@
     "postcss-page-break": "3.0.4",
     "react-refresh": "^0.14.0",
     "rspack-manifest-plugin": "5.0.3",
-    "terser-webpack-plugin": "5.3.14",
     "ts-deepmerge": "7.0.2",
     "ts-loader": "9.4.4",
     "webpack": "^5.99.8",

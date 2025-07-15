@@ -82,7 +82,6 @@ const toolsDefaults = {
   lodash: undefined,
   devServer: undefined,
   tsLoader: undefined,
-  terser: undefined,
   minifyCss: undefined,
 };
 
