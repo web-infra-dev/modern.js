@@ -4814,6 +4814,25 @@ importers:
         specifier: ^5
         version: 5.6.3
 
+  tests/integration/asset-prefix:
+    dependencies:
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+
   tests/integration/async-entry:
     dependencies:
       '@modern-js/runtime':
