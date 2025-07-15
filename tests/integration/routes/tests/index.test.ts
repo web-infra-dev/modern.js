@@ -265,6 +265,20 @@ const supportLoaderForSSRAndCSR = async (
   expect(errors.length).toBe(0);
 };
 
+const supportLoaderForCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/four/user/123`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('user layout')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 const supportRedirectForSSR = async (
   page: Page,
   errors: string[],
@@ -595,6 +609,8 @@ describe('dev with rspack', () => {
     test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
     test('support redirect for ssr', () =>
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
@@ -723,6 +739,8 @@ describe('build with rspack', () => {
     test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
     test('support redirect for ssr', () =>
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
