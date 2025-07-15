@@ -6,8 +6,8 @@ import {
   RouterProvider,
   createMemoryRouter,
 } from '@modern-js/runtime-utils/router';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import React from 'react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import React, { act } from 'react';
 import { RuntimeReactContext } from '../../src';
 import { Link } from '../../src/router';
 
@@ -87,7 +87,7 @@ describe('prefetch', () => {
       });
 
       expect(global.__webpack_chunk_load__).toBeCalledTimes(1);
-      const dataHref = container
+      const dataHref = document.head
         .querySelector('link[rel="prefetch"][as="fetch"]')
         ?.getAttribute('href');
       expect(
@@ -143,7 +143,7 @@ describe('prefetch', () => {
 
     await waitFor(() => {
       expect(global.__webpack_chunk_load__).toBeCalledTimes(1);
-      const dataHref = container
+      const dataHref = document.head
         .querySelector('link[rel="prefetch"][as="fetch"]')
         ?.getAttribute('href');
       expect(

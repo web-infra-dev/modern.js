@@ -11,17 +11,11 @@ const MyPlugin = (): CliPluginFuture<AppTools> => ({
     api.config(() => {
       return {
         tools: {
-          webpack: () => {
-            console.log('tools.webpack');
-          },
           rspack: () => {
             console.log('tools.rspack');
           },
           bundlerChain: () => {
             console.log('tools.bundlerChain');
-          },
-          webpackChain: () => {
-            console.log('tools.webpackChain');
           },
         },
       };
@@ -35,12 +29,6 @@ const MyPlugin = (): CliPluginFuture<AppTools> => ({
     api.modifyRspackConfig(async (config, utils) => {
       console.log('modifyRspackConfig');
     });
-    api.modifyWebpackChain(async (chain, utils) => {
-      console.log('modifyWebpackChain');
-    });
-    api.modifyWebpackConfig(async (config, utils) => {
-      console.log('modifyWebpackConfig');
-    });
   },
 });
 export default defineConfig({
@@ -49,7 +37,7 @@ export default defineConfig({
   },
   plugins: [
     appTools({
-      bundler: process.env.BUNDLER === 'webpack' ? 'webpack' : 'rspack',
+      bundler: 'rspack',
     }),
     MyPlugin(),
   ],

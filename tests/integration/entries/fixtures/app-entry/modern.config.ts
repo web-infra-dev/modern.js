@@ -6,7 +6,7 @@ export default defineConfig({
   },
   plugins: [
     appTools({
-      bundler: process.env.BUNDLER === 'webpack' ? 'webpack' : 'rspack',
+      bundler: 'rspack',
     }),
   ],
 });

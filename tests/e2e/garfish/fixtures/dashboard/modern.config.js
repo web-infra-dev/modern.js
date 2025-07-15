@@ -26,25 +26,9 @@ module.exports = defineConfig({
   server: {
     port: getPort('@e2e/garfish-dashboard'),
   },
-  tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
-      const { ModuleFederationPlugin } = webpack.container;
-      appendPlugins([
-        new ModuleFederationPlugin({
-          filename: 'remoteEntry.js',
-          name: 'dashboard',
-          exposes: {
-            './share-button': './src/ShareButton.tsx',
-          },
-        }),
-      ]);
-      delete config.optimization?.runtimeChunk;
-      delete config.optimization?.splitChunks;
-    },
-  },
   plugins: [
     appTools({
-      bundler: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+      bundler: 'rspack',
     }),
     routerPlugin(),
     garfishPlugin(),

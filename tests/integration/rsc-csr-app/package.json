@@ -3,10 +3,8 @@
   "name": "rsc-csr-app",
   "version": "2.66.0",
   "scripts": {
-    "dev": "cross-env BUNDLER=rspack modern dev",
-    "dev:webpack": "cross-env BUNDLER=webpack modern dev",
-    "build": "cross-env BUNDLER=rspack modern build",
-    "build:webpack": "cross-env BUNDLER=webpack modern build",
+    "dev": "cross-env modern dev",
+    "build": "cross-env modern build",
     "serve": "modern serve",
     "new": "modern new"
   },

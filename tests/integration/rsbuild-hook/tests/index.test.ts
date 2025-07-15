@@ -27,13 +27,9 @@ function verifyOrder(output: string, expectedOrder: string[]): boolean {
 
   return false;
 }
-describe('build with rspack', () => {
-  test('rspack hooks', async () => {
-    const buildResult = await modernBuild(appDir, [], {
-      env: {
-        BUNDLER: 'rspack',
-      },
-    });
+describe('build', () => {
+  test('hooks', async () => {
+    const buildResult = await modernBuild(appDir);
 
     expect(buildResult.code).toEqual(0);
 
@@ -43,30 +39,6 @@ describe('build with rspack', () => {
       'tools.bundlerChain',
       'modifyRspackConfig',
       'tools.rspack',
-    ];
-
-    expect(verifyOrder(cleanOutput, expectedOrder)).toBeTruthy();
-  });
-});
-
-describe('build with webpack', () => {
-  test('webpack hooks', async () => {
-    const buildResult = await modernBuild(appDir, [], {
-      env: {
-        BUNDLER: 'webpack',
-      },
-    });
-
-    expect(buildResult.code).toEqual(0);
-
-    const cleanOutput = processStdout(buildResult.stdout);
-    const expectedOrder = [
-      'modifyBundlerChain',
-      'tools.bundlerChain',
-      'modifyWebpackChain',
-      'tools.webpackChain',
-      'modifyWebpackConfig',
-      'tools.webpack',
     ];
 
     expect(verifyOrder(cleanOutput, expectedOrder)).toBeTruthy();
