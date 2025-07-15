@@ -721,6 +721,9 @@ importers:
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.17.14
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
       terser:
         specifier: ^5.31.1
         version: 5.39.0
