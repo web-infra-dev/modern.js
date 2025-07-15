@@ -26,7 +26,7 @@ module.exports = defineConfig({
   },
   plugins: [
     appTools({
-      bundler: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+      bundler: 'rspack',
     }),
     garfishPlugin(),
     swcPlugin(),

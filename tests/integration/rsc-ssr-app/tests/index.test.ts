@@ -14,7 +14,6 @@ import {
 const appDir = path.resolve(__dirname, '../');
 
 interface TestConfig {
-  bundler: 'webpack' | 'rspack';
   mode: 'dev' | 'build';
 }
 
@@ -34,8 +33,8 @@ function skipForLowerNodeVersion() {
   return false;
 }
 
-function runTests({ bundler, mode }: TestConfig) {
-  describe(`${mode} with ${bundler}`, () => {
+function runTests({ mode }: TestConfig) {
+  describe(`${mode}`, () => {
     let app: any;
     let appPort: number;
     let page: Page;
@@ -50,20 +49,9 @@ function runTests({ bundler, mode }: TestConfig) {
       appPort = await getPort();
 
       if (mode === 'dev') {
-        app = await launchApp(
-          appDir,
-          appPort,
-          {},
-          {
-            BUNDLER: bundler,
-          },
-        );
+        app = await launchApp(appDir, appPort);
       } else {
-        await modernBuild(appDir, [], {
-          env: {
-            BUNDLER: bundler,
-          },
-        });
+        await modernBuild(appDir);
         app = await modernServe(appDir, appPort, {
           cwd: appDir,
         });
@@ -224,5 +212,5 @@ async function supportResponseAPIForClientRoot({
   expect(redirectWithHeadersRes.headers.get('x-redirect-test')).toBe('test');
 }
 
-runTests({ bundler: 'rspack', mode: 'dev' });
-runTests({ bundler: 'rspack', mode: 'build' });
+runTests({ mode: 'dev' });
+runTests({ mode: 'build' });

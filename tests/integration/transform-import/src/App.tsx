@@ -1,20 +1,6 @@
 import './App.css';
 import type { AppUserConfig } from '@modern-js/app-tools';
 
-const webpackConfig: AppUserConfig<'webpack'> = {
-  source: {
-    transformImport: [
-      {
-        libraryName: '',
-        customName: () => '',
-        customStyleName: () => '',
-      },
-    ],
-  },
-};
-
-console.log(webpackConfig);
-
 const rspackConfig: AppUserConfig<'rspack'> = {
   source: {
     transformImport: [

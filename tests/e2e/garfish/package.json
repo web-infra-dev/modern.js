@@ -3,7 +3,7 @@
   "name": "@e2e/garfish",
   "version": "2.66.0",
   "scripts": {
-    "test": "PROVIDE_TYPE=rspack playwright test --workers 1"
+    "test": "playwright test --workers 1"
   },
   "dependencies": {
     "react": "^19.1.0",

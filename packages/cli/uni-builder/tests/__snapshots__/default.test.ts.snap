@@ -4658,6 +4658,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
 }
 `;
+<<<<<<< HEAD
 
 exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
 {
@@ -7902,3 +7903,5 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   },
 }
 `;
+=======
+>>>>>>> 4857f468740 (feat: remove webpack test case)

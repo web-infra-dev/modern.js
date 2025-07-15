@@ -37,19 +37,6 @@ module.exports = defineConfig({
       '@modern-js/runtime/garfish': '@modern-js/plugin-garfish/runtime',
     },
   },
-  tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
-      const { ModuleFederationPlugin } = webpack.container;
-      appendPlugins([
-        new ModuleFederationPlugin({
-          name: 'main',
-          remotes: {
-            dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
-          },
-        }),
-      ]);
-    },
-  },
   output: {
     disableTsChecker: true,
     polyfill: 'off',
@@ -59,7 +46,7 @@ module.exports = defineConfig({
   },
   plugins: [
     appTools({
-      bundler: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+      bundler: 'rspack',
     }),
     routerPlugin(),
     garfishPlugin(),
