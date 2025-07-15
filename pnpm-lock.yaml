@@ -2226,9 +2226,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@remix-run/web-fetch':
         specifier: ^4.1.3
         version: 4.4.2

@@ -295,6 +295,20 @@ const supportRedirectForCSR = async (
   expect(errors.length).toBe(0);
 };
 
+const supportDefineInit = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://127.0.0.1:${appPort}/four/user`, {
+    waitUntil: ['networkidle0'],
+  });
+  const isBrowser = await page.evaluate(() => (window as any).__isBrowser);
+
+  expect(isBrowser).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 const supportClientLoader = async (
   page: Page,
   errors: string[],
@@ -316,6 +330,21 @@ const supportClientLoader = async (
   const text1 = await page.evaluate(el => el?.textContent, clientLoaderPage);
   expect(text1?.includes('page from server loader')).toBeTruthy();
   expect(errors.length).toBe(0);
+};
+
+const supportCatchAll = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/four/user/1234/1234`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('catch all')).toBeTruthy();
+  expect(errors.length).toEqual(0);
 };
 
 const getStaticJSDir = (appDir: string) =>
@@ -358,6 +387,22 @@ const hasHashCorrectly = async (appDir: string) => {
   expect(threeHtml.includes(hash)).toBe(true);
 };
 
+const supportActionInCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/four/user/profile`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  await page.click('.action-btn');
+  await page.waitForSelector('.data-wrapper');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('profile page')).toBeTruthy();
+  expect(text?.includes('modern_four_action')).toBeTruthy();
+};
+
 const supportActionInSSR = async (
   page: Page,
   errors: string[],
@@ -390,6 +435,24 @@ const supportShouldRevalidateInSSR = async (
   expect(text?.includes('param is 111')).toBeTruthy();
   await page.click('.should-not-revalidate');
   await page.waitForSelector('.item-page', { timeout: 5000 });
+  const text1 = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text1?.includes('param is 111')).toBeTruthy();
+};
+
+const supportShouldRevalidateInCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/four/user/111`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('param is 111')).toBeTruthy();
+  await page.click('.should-not-revalidate');
+  await new Promise(resolve => setTimeout(resolve, 400));
   const text1 = await page.evaluate(el => el?.textContent, rootElm);
   expect(text1?.includes('param is 111')).toBeTruthy();
 };
@@ -506,6 +569,9 @@ describe('dev with rspack', () => {
     test('dynamic path', async () =>
       supportDynamaicPaths(page, errors, appPort));
 
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
+
     test('no layout dir', async () =>
       supportNoLayoutDir(page, errors, appPort));
 
@@ -545,6 +611,11 @@ describe('dev with rspack', () => {
     });
   });
 
+  describe('global configuration', () => {
+    test('support app init', async () =>
+      await supportDefineInit(page, errors, appPort));
+  });
+
   describe('router plugin', () => {
     test('basic usage', async () => {
       await testRouterPlugin(appDir);
@@ -558,6 +629,9 @@ describe('dev with rspack', () => {
   });
 
   describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
     test('support action in SSR', async () => {
       await supportActionInSSR(page, errors, appPort);
     });
@@ -575,6 +649,9 @@ describe('dev with rspack', () => {
   describe('support shouldRevalidate', () => {
     test('support shouldRevalidate in ssr', async () => {
       await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
     });
   });
 
@@ -625,6 +702,9 @@ describe('build with rspack', () => {
     test('dynamic path', async () =>
       supportDynamaicPaths(page, errors, appPort));
 
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
+
     test('no layout dir', async () =>
       supportNoLayoutDir(page, errors, appPort));
 
@@ -659,6 +739,11 @@ describe('build with rspack', () => {
     });
   });
 
+  describe('global configuration', () => {
+    test('support app init', async () =>
+      await supportDefineInit(page, errors, appPort));
+  });
+
   describe('router plugin', () => {
     test('basic usage', async () => {
       await testRouterPlugin(appDir);
@@ -674,6 +759,9 @@ describe('build with rspack', () => {
   });
 
   describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
     test('support action in SSR', async () => {
       await supportActionInSSR(page, errors, appPort);
     });
@@ -691,6 +779,9 @@ describe('build with rspack', () => {
   describe('support shouldRevalidate', () => {
     test('support shouldRevalidate in ssr', async () => {
       await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
     });
   });
 

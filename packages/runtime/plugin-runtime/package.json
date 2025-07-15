@@ -259,8 +259,7 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5",
-    "webpack": "^5.99.8",
-    "@modern-js/core": "workspace:*"
+    "webpack": "^5.99.8"
   },
   "sideEffects": false,
   "publishConfig": {

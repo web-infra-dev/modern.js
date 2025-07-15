@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nested routes walk 1`] = `
+[
+  {
+    "_component": "@_modern_js_src/layout",
+    "children": [
+      {
+        "_component": "@_modern_js_src/__auth/layout",
+        "children": [
+          {
+            "_component": "@_modern_js_src/__auth/__shop/layout",
+            "children": [
+              {
+                "_component": "@_modern_js_src/__auth/__shop/item/page",
+                "children": undefined,
+                "id": "__auth/__shop/item/page",
+                "path": "item",
+                "type": "nested",
+              },
+            ],
+            "id": "__auth/__shop/layout",
+            "isRoot": false,
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/__auth/login/page",
+            "children": undefined,
+            "id": "__auth/login/page",
+            "path": "login",
+            "type": "nested",
+          },
+        ],
+        "config": "@_modern_js_src/__auth/layout.config",
+        "id": "__auth/layout",
+        "isRoot": false,
+        "loader": "@_modern_js_src/__auth/layout.loader",
+        "type": "nested",
+      },
+      {
+        "_component": "@_modern_js_src/user/layout",
+        "children": [
+          {
+            "_component": "@_modern_js_src/user/page",
+            "children": undefined,
+            "config": "@_modern_js_src/user/page.config",
+            "id": "user/page",
+            "index": true,
+            "loader": "@_modern_js_src/user/page.loader",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/$",
+            "action": "@_modern_js_src/user/$.data",
+            "clientData": "@_modern_js_src/user/$.data.client",
+            "config": "@_modern_js_src/user/$.config.ts",
+            "data": "@_modern_js_src/user/$.data",
+            "id": "user/$",
+            "path": "*",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/[id]/page",
+            "children": undefined,
+            "data": "@_modern_js_src/user/[id]/page.data",
+            "id": "user/(id)/page",
+            "path": ":id",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/profile/layout",
+            "children": [
+              {
+                "_component": "@_modern_js_src/user/profile/page",
+                "children": undefined,
+                "id": "user/profile/page",
+                "index": true,
+                "loader": "@_modern_js_src/user/profile/page.loader",
+                "type": "nested",
+              },
+            ],
+            "id": "user/profile/layout",
+            "isRoot": false,
+            "path": "profile",
+            "type": "nested",
+          },
+        ],
+        "config": "@_modern_js_src/user/layout.config",
+        "id": "user/layout",
+        "isRoot": false,
+        "loader": "@_modern_js_src/user/layout.loader",
+        "path": "user",
+        "type": "nested",
+      },
+      {
+        "_component": "@_modern_js_src/user.profile.name/layout",
+        "children": [
+          {
+            "_component": "@_modern_js_src/user.profile.name/page",
+            "children": undefined,
+            "config": "@_modern_js_src/user.profile.name/page.config",
+            "id": "user.profile.name/page",
+            "index": true,
+            "type": "nested",
+          },
+        ],
+        "config": "@_modern_js_src/user.profile.name/layout.config",
+        "id": "user.profile.name/layout",
+        "isRoot": false,
+        "path": "user/profile/name",
+        "type": "nested",
+      },
+    ],
+    "config": "@_modern_js_src/layout.config",
+    "id": "layout",
+    "isRoot": true,
+    "loader": "@_modern_js_src/layout.loader",
+    "path": "/",
+    "type": "nested",
+  },
+]
+`;
