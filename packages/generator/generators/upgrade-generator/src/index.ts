@@ -22,7 +22,6 @@ import { i18n, localeKeys } from './locale';
 
 // Special modern.js dependencies, the plugin version maybe not same with other modern.js plugin
 const SpecialModernDeps = [
-  '@modern-js/plugin-storybook',
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
   '@modern-js/eslint-config',
   '@modern-js-app/eslint-config',

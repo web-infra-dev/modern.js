@@ -8,7 +8,6 @@ export const EN_LOCALE = {
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
       i18n: 'Enable Internationalization (i18n)',
-      storybookV7: 'Enable Storybook V7',
       runtime_api: 'Enable Runtime API',
       ssg: 'Enable SSG',
       polyfill: 'Enable UA-based Polyfill Feature',
