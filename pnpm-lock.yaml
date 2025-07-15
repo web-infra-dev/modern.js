@@ -3333,8 +3333,8 @@ importers:
         specifier: 1.4.6
         version: 1.4.6
       '@rsbuild/plugin-node-polyfill':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.4.6)
+        specifier: 1.3.1
+        version: 1.3.1(@rsbuild/core@1.4.6)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -11344,8 +11344,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-node-polyfill@1.3.0':
-    resolution: {integrity: sha512-KvckyUg9wq3F1Iv/y4+mlcnO/E7vDklvMY7kF6CxnUYImroQVw/EDS0zDezkPvcm7aKTH5b0Jaa0iIcTNFzhVw==}
+  '@rsbuild/plugin-node-polyfill@1.3.1':
+    resolution: {integrity: sha512-FhEMjaFr5X3ojTJgSOG5XbtySLDtfkX0sgXTs0ymQj1ETzPj4pVoVCwDrYHCmKahgEz/0PoeBDX380RAkcnneQ==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -17920,10 +17920,6 @@ packages:
   punycode@1.4.1:
     resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
 
-  punycode@2.1.1:
-    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
-    engines: {node: '>=6'}
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -18695,6 +18691,10 @@ packages:
 
   readable-stream@4.5.2:
     resolution: {integrity: sha512-yjavECdqeZ3GLXNgRXgeQEdz9fvDDkNKyHnbHRFtOr7/LcfgBcmct7t/ET+HaCTqfh06OzoAxrkN/IfjJBVe+g==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  readable-stream@4.7.0:
+    resolution: {integrity: sha512-oIGGmcpTLwPga8Bn6/Z75SVaH1z5dUut2ibSyAMVhmUggWpmDn2dapB0n7f8nwaSiRtepAsfJyfXIO5DCVAODg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   readdirp@3.6.0:
@@ -25333,7 +25333,7 @@ snapshots:
       deepmerge: 4.3.1
       reduce-configs: 1.1.0
 
-  '@rsbuild/plugin-node-polyfill@1.3.0(@rsbuild/core@1.4.6)':
+  '@rsbuild/plugin-node-polyfill@1.3.1(@rsbuild/core@1.4.6)':
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
@@ -25349,7 +25349,7 @@ snapshots:
       process: 0.11.10
       punycode: 2.3.1
       querystring-es3: 0.2.1
-      readable-stream: 4.5.2
+      readable-stream: 4.7.0
       stream-browserify: 3.0.0
       stream-http: 3.2.0
       string_decoder: 1.3.0
@@ -30783,7 +30783,7 @@ snapshots:
 
   is-valid-domain@0.1.6:
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   is-what@3.14.1: {}
 
@@ -33523,8 +33523,6 @@ snapshots:
 
   punycode@1.4.1: {}
 
-  punycode@2.1.1: {}
-
   punycode@2.3.1: {}
 
   puppeteer-core@24.10.2(bufferutil@4.0.8)(utf-8-validate@5.0.10):
@@ -34597,6 +34595,14 @@ snapshots:
       util-deprecate: 1.0.2
 
   readable-stream@4.5.2:
+    dependencies:
+      abort-controller: 3.0.0
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      string_decoder: 1.3.0
+
+  readable-stream@4.7.0:
     dependencies:
       abort-controller: 3.0.0
       buffer: 6.0.3
@@ -36051,7 +36057,7 @@ snapshots:
   tough-cookie@4.1.2:
     dependencies:
       psl: 1.8.0
-      punycode: 2.1.1
+      punycode: 2.3.1
       universalify: 0.2.0
       url-parse: 1.5.10
 
@@ -36059,7 +36065,7 @@ snapshots:
 
   tr46@3.0.0:
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.3.1
 
   tree-dump@1.0.2(tslib@2.8.1):
     dependencies:
