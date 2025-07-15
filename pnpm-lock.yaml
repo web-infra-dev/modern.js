@@ -651,12 +651,6 @@ importers:
       cssnano:
         specifier: 6.1.2
         version: 6.1.2(postcss@8.5.6)
-      es-module-lexer:
-        specifier: ^1.1.0
-        version: 1.6.0
-      glob:
-        specifier: ^9.3.5
-        version: 9.3.5
       html-minifier-terser:
         specifier: ^7.2.0
         version: 7.2.0
@@ -669,12 +663,6 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
-      magic-string:
-        specifier: 0.30.17
-        version: 0.30.17
-      picocolors:
-        specifier: ^1.1.1
-        version: 1.1.1
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -730,9 +718,6 @@ importers:
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
-      '@types/es-module-lexer':
-        specifier: ^0.4.3
-        version: 0.4.3
       '@types/html-minifier-terser':
         specifier: ^7.0.2
         version: 7.0.2
@@ -742,9 +727,6 @@ importers:
       react:
         specifier: ^19.1.0
         version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
       terser:
         specifier: ^5.31.1
         version: 5.39.0
@@ -13025,10 +13007,6 @@ packages:
   '@types/emscripten@1.39.13':
     resolution: {integrity: sha512-cFq+fO/isvhvmuP/+Sl4K4jtU6E23DoivtbO4r50e3odaxAiVdbfSYRDdJ4gCdxx+3aRjhphS5ZMwIH4hFy/Cw==}
 
-  '@types/es-module-lexer@0.4.3':
-    resolution: {integrity: sha512-F98XmC3BADajV4M9i5Edt5m/mC0MIIWTTrSECG9ySp2h9qoo1a74H28Di2CmltpEV9AsM1HMwXLVIVO+XaeTyw==}
-    deprecated: This is a stub types definition. es-module-lexer provides its own type definitions, so you do not need this installed.
-
   '@types/escodegen@0.0.6':
     resolution: {integrity: sha512-AjwI4MvWx3HAOaZqYsjKWyEObT9lcVV0Y0V8nXo6cXzN8ZiMxVhf6F3d/UNvXVGKrEzL/Dluc5p+y9GkzlTWig==}
 
@@ -16312,10 +16290,6 @@ packages:
     engines: {node: '>=12'}
     deprecated: Glob versions prior to v9 are no longer supported
 
-  glob@9.3.5:
-    resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
-    engines: {node: '>=16 || 14 >=14.17'}
-
   global-dirs@0.1.1:
     resolution: {integrity: sha512-NknMLn7F2J7aflwFOlGdNIuCDpN3VGoSoB+aap3KABFWbHVn1TCgFC+np23J8W2BiZbjfEw3BFBycSMv1AFblg==}
     engines: {node: '>=4'}
@@ -18068,10 +18042,6 @@ packages:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
 
-  minimatch@8.0.4:
-    resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
-    engines: {node: '>=16 || 14 >=14.17'}
-
   minimatch@9.0.3:
     resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -18089,10 +18059,6 @@ packages:
 
   minipass@3.3.3:
     resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
-    engines: {node: '>=8'}
-
-  minipass@4.2.8:
-    resolution: {integrity: sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ==}
     engines: {node: '>=8'}
 
   minipass@5.0.0:
@@ -29298,10 +29264,6 @@ snapshots:
 
   '@types/emscripten@1.39.13': {}
 
-  '@types/es-module-lexer@0.4.3':
-    dependencies:
-      es-module-lexer: 1.6.0
-
   '@types/escodegen@0.0.6': {}
 
   '@types/eslint-scope@3.7.7':
@@ -33191,13 +33153,6 @@ snapshots:
       minimatch: 5.1.6
       once: 1.4.0
 
-  glob@9.3.5:
-    dependencies:
-      fs.realpath: 1.0.0
-      minimatch: 8.0.4
-      minipass: 4.2.8
-      path-scurry: 1.11.1
-
   global-dirs@0.1.1:
     dependencies:
       ini: 1.3.8
@@ -35829,10 +35784,6 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.1
 
-  minimatch@8.0.4:
-    dependencies:
-      brace-expansion: 2.0.1
-
   minimatch@9.0.3:
     dependencies:
       brace-expansion: 2.0.1
@@ -35852,8 +35803,6 @@ snapshots:
   minipass@3.3.3:
     dependencies:
       yallist: 4.0.0
-
-  minipass@4.2.8: {}
 
   minipass@5.0.0: {}
 
