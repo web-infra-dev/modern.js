@@ -54,7 +54,6 @@ export function initHtmlConfig(
 export function initSourceConfig(
   config: AppNormalizedConfig,
   appContext: AppToolsContext,
-  bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
 }

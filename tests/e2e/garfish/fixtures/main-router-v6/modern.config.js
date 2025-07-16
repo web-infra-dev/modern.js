@@ -35,10 +35,5 @@ module.exports = defineConfig({
   server: {
     port,
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-    garfishPlugin(),
-  ],
+  plugins: [appTools(), garfishPlugin()],
 });

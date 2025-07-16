@@ -5,10 +5,9 @@ import { initHtmlConfig, initSourceConfig } from './inits';
 export function initialNormalizedConfig(
   config: AppNormalizedConfig,
   appContext: AppToolsContext,
-  bundler: 'webpack' | 'rspack',
 ): AppNormalizedConfig {
   initHtmlConfig(config, appContext);
-  initSourceConfig(config, appContext, bundler);
+  initSourceConfig(config, appContext);
 
   return config;
 }

@@ -23,11 +23,7 @@ import { checkIsBuildCommands, checkIsServeCommand } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
-export default ({
-  bundler,
-}: {
-  bundler: 'webpack' | 'rspack';
-}): CliPluginFuture<AppTools> => ({
+export default (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-analyze',
   post: ['@modern-js/runtime'],
   setup: api => {
@@ -167,7 +163,7 @@ export default ({
 
         const normalizedConfig =
           api.getNormalizedConfig() as AppNormalizedConfig;
-        const createBuilderForModern = await createBuilderGenerator(bundler);
+        const createBuilderForModern = await createBuilderGenerator();
         const builder = await createBuilderForModern({
           normalizedConfig: normalizedConfig as any,
           appContext: appContext as any,
@@ -251,7 +247,6 @@ export default ({
       const config = initialNormalizedConfig(
         resolved as AppNormalizedConfig,
         appContext,
-        bundler,
       );
       return config;
     });

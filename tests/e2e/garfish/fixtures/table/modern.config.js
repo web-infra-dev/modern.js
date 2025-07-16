@@ -29,11 +29,5 @@ module.exports = defineConfig({
   server: {
     port: getPort('@e2e/garfish-table'),
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-    garfishPlugin(),
-    routerPlugin(),
-  ],
+  plugins: [appTools(), garfishPlugin(), routerPlugin()],
 });

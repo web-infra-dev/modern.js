@@ -55,9 +55,7 @@ export const appTools = (): CliPluginFuture<AppTools> => ({
     serverRuntimePlugin(),
     compatPlugin(),
     initializePlugin(),
-    analyzePlugin({
-      bundler: 'rspack',
-    }),
+    analyzePlugin(),
     serverBuildPlugin(),
     deployPlugin(),
   ],

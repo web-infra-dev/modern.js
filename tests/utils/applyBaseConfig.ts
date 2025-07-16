@@ -13,11 +13,7 @@ export const applyBaseConfig = (config: UserConfig<AppTools> = {}) => {
         polyfill: 'off',
         disableTsChecker: true,
       },
-      plugins: [
-        appTools({
-          bundler: 'rspack',
-        }),
-      ],
+      plugins: [appTools()],
     },
     config,
   ]);

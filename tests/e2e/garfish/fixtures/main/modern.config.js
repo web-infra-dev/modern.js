@@ -43,11 +43,5 @@ module.exports = defineConfig({
   server: {
     port: getPort('@e2e/garfish-main'),
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-    routerPlugin(),
-    garfishPlugin(),
-  ],
+  plugins: [appTools(), routerPlugin(), garfishPlugin()],
 });

@@ -2,12 +2,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import routerPlugin from '@modern-js/plugin-router-v7';
 
 export default defineConfig({
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-    routerPlugin(),
-  ],
+  plugins: [appTools(), routerPlugin()],
   runtime: {
     router: true,
     state: false,

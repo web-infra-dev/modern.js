@@ -22,26 +22,6 @@ import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
 After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
 
-## Enable Rspack build
-
-Since Modern.js MAJOR_VERSION.59.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
-
-```diff title=modern.config.ts
-import { appTools, defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  plugins: [
-    appTools({
-+     bundler: 'rspack',
-    }),
-  ],
-});
-```
-
-:::tip
-If your current version is lower than MAJOR_VERSION.59.0, you can upgrade by executing `npx modern upgrade`.
-:::
-
 import RspackPrecautions from '@site-docs-en/components/rspackPrecautions.mdx';
 
 <RspackPrecautions />
