@@ -8,10 +8,6 @@ import type {
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
-  AppToolsLegacyNormalizedConfig,
-  AppToolsLegacyUserConfig,
-} from './legacyConfig';
-import type {
   AppToolsExtendAPI,
   AppToolsExtendContext,
   AppToolsExtendHooks,
@@ -21,7 +17,6 @@ import type { Bundler } from './utils';
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 export * from './hooks';
 export * from './config';
-export * from './legacyConfig';
 export type { webpack, Rspack } from '@modern-js/uni-builder';
 export type { Bundler } from './utils';
 export type {
@@ -64,19 +59,12 @@ export type AppTools<B extends Bundler = 'webpack'> = Required<
   hooks: AppToolsHooks<B>;
 };
 
-export type LegacyAppTools = {
-  hooks: AppToolsHooks;
-  userConfig: AppToolsLegacyUserConfig;
-  normalizedConfig: AppToolsLegacyNormalizedConfig;
-};
-
 // plugin v2
 export type CliPluginFuture<Extends extends CLIPluginExtends> =
   CLIPlugin<Extends>;
 
 export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
   NormalizedConfig<AppTools<B>>;
-export type AppLegacyNormalizedConfig = NormalizedConfig<LegacyAppTools>;
 
 export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
   AppTools<B>
