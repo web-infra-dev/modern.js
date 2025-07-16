@@ -70,9 +70,7 @@ module.exports = {
       ],
     },
     {
-      setupFiles: [
-        '<rootDir>/tests/setEnvVars.js',
-      ],
+      setupFiles: ['<rootDir>/tests/setEnvVars.js'],
       transform: {
         '\\.[jt]sx?$': [
           require.resolve('@swc/jest'),
