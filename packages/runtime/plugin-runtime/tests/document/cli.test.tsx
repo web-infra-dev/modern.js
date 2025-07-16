@@ -103,7 +103,7 @@ describe('plugin runtime cli', () => {
       {
         internalDirectory: path.join(__dirname, './feature'),
         appDirectory: path.join(__dirname, './feature'),
-      } as AppToolsContext<'shared'>,
+      } as AppToolsContext,
       {
         source: {
           disableDefaultEntries: true,

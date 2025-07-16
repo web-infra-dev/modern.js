@@ -5,9 +5,7 @@ import {
   mergeConfig,
 } from '@modern-js/app-tools';
 
-export const applyBaseConfig = (
-  config: UserConfig<AppTools<'rspack'>> = {},
-) => {
+export const applyBaseConfig = (config: UserConfig<AppTools> = {}) => {
   return mergeConfig([
     {
       output: {

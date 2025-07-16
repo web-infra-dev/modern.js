@@ -494,8 +494,8 @@ export const fileSystemRoutes = async ({
 export function ssrLoaderCombinedModule(
   entrypoints: Entrypoint[],
   entrypoint: Entrypoint,
-  config: AppNormalizedConfig<'shared'>,
-  appContext: AppToolsContext<'shared'>,
+  config: AppNormalizedConfig,
+  appContext: AppToolsContext,
 ) {
   const { entryName, isMainEntry } = entrypoint;
   const { packageName, internalDirectory } = appContext;

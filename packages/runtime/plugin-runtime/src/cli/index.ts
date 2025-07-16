@@ -16,8 +16,8 @@ import { ssrPlugin } from './ssr';
 export { isRuntimeEntry } from './entry';
 export { ssrPlugin, routerPlugin, documentPlugin };
 export const runtimePlugin = (params?: {
-  plugins?: CliPluginFuture<AppTools<'shared'>>[];
-}): CliPluginFuture<AppTools<'shared'>> => ({
+  plugins?: CliPluginFuture<AppTools>[];
+}): CliPluginFuture<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',

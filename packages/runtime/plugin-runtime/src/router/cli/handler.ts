@@ -17,7 +17,7 @@ export async function handleModifyEntrypoints(
 }
 
 export async function handleGeneratorEntryCode(
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   entrypoints: Entrypoint[],
   isRouterV5: boolean,
 ) {
@@ -30,7 +30,7 @@ export async function handleGeneratorEntryCode(
   const enableRsc = resolvedConfig?.server?.rsc;
   await generateCode(
     appContext,
-    resolvedConfig as AppNormalizedConfig<'shared'>,
+    resolvedConfig as AppNormalizedConfig,
     entrypoints,
     api,
     isRouterV5,
@@ -73,7 +73,7 @@ export async function handleGeneratorEntryCode(
 }
 
 export async function handleFileChange(
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   isRouterV5: boolean,
   e: any,
 ) {
@@ -101,7 +101,7 @@ export async function handleFileChange(
     const entrypoints = cloneDeep(originEntrypoints);
     await generateCode(
       appContext,
-      resolvedConfig as AppNormalizedConfig<'shared'>,
+      resolvedConfig as AppNormalizedConfig,
       entrypoints,
       api,
       isRouterV5,

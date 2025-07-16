@@ -1,7 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import type { ToolsUserConfig } from '@modern-js/app-tools/src/types/config/tools';
 import { isSSR } from '@modern-js/utils';
-import { logger } from '@modern-js/utils/logger';
 import {
   type ObjPluginSwcOptions,
   type PluginSwcOptions,
@@ -23,7 +21,7 @@ export function factory(
 
         const config = api.useResolvedConfigContext();
         const { swc = {} } = config.tools;
-        const swcOptions = modifySwcOptions(swc);
+        const swcOptions = modifySwcOptions(swc as any);
         const finalConfig = applyBuilderSwcConfig(swcOptions, isSSR(config));
 
         context.builder.addPlugins([

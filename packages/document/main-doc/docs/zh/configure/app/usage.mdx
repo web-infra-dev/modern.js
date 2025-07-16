@@ -43,11 +43,11 @@ export default defineConfig({
 });
 ```
 
-当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `defineConfig` 指定 `<'rspack'>` 泛型：
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `defineConfig` 指定 `` 泛型：
 
 ```diff title=modern.config.ts
 - export default defineConfig({
-+ export default defineConfig<'rspack'>({
++ export default defineConfig({
   // ...
 });
 ```
@@ -263,12 +263,12 @@ const config: AppUserConfig = {
 };
 ```
 
-当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `AppUserConfig` 指定 `<'rspack'>` 泛型：
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `AppUserConfig` 指定 `` 泛型：
 
 ```ts title="modern.config.ts"
 import type { AppUserConfig } from '@modern-js/app-tools';
 
-const config: AppUserConfig<'rspack'> = {
+const config: AppUserConfig = {
   tools: {
     rspack: {},
   },

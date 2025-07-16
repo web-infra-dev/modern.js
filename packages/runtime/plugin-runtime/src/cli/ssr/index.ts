@@ -43,7 +43,7 @@ const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
 };
 
 const ssrBuilderPlugin = (
-  modernAPI: CLIPluginAPI<AppTools<'shared'>>,
+  modernAPI: CLIPluginAPI<AppTools>,
 ): RsbuildPlugin => ({
   name: '@modern-js/builder-plugin-ssr',
 
@@ -90,7 +90,7 @@ const ssrBuilderPlugin = (
   },
 });
 
-export const ssrPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const ssrPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-ssr',
 
   required: ['@modern-js/runtime'],

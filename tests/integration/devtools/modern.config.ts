@@ -35,5 +35,5 @@ export default defineConfig({
       );
     },
   },
-  plugins: [appTools({ bundler: 'rspack' }), devtoolsPlugin()],
+  plugins: [appTools(), devtoolsPlugin()],
 });

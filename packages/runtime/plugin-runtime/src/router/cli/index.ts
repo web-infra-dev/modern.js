@@ -23,7 +23,7 @@ import {
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
 
-export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const routerPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {

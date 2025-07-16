@@ -1,4 +1,4 @@
-import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
+import type { AppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { getTailwindConfig, loadConfigFile } from './config';
 import { designTokenPlugin } from './design-token/cli';
@@ -9,7 +9,7 @@ export const tailwindcssPlugin = (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
-): CliPlugin<LegacyAppTools & ModuleTools> => ({
+): CliPlugin<AppTools & ModuleTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents
