@@ -1,6 +1,6 @@
 import path from 'path';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
+import { createAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import {
   cleanRequireCache,
@@ -186,3 +186,6 @@ export * from './types';
 export { initAppContext };
 
 export default appTools;
+
+// TODO: check mergeConfig is equal to @modern-js/core
+export { mergeConfig } from '@modern-js/plugin-v2/cli';
