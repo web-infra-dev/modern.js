@@ -1,6 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../../locale';
-import type { Framework } from '../../mwa/common';
 import {
   ActionElement,
   ActionElementText,
