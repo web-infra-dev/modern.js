@@ -139,18 +139,6 @@ export async function parseConfig(
     );
   }
 
-  if (uniBuilderConfig.tools?.styledComponents !== false) {
-    const { pluginStyledComponents } = await import(
-      './plugins/styledComponents'
-    );
-    const options = uniBuilderConfig.tools?.styledComponents || {};
-    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
-      options.ssr = true;
-    }
-
-    rsbuildPlugins.push(pluginStyledComponents(options));
-  }
-
   rsbuildPlugins.push(pluginInclude());
 
   return {

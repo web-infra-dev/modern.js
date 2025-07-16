@@ -16,7 +16,6 @@ import type {
   RsbuildPlugins,
   RsbuildTarget,
   Rspack,
-  ScriptInject,
   SecurityConfig,
   ServerConfig,
   SourceConfig,
@@ -30,14 +29,11 @@ import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
-import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
 import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
 import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { Options as AutoprefixerOptions } from 'autoprefixer';
 import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
-
-type ArrayOrNot<T> = T | T[];
 
 export type CacheGroup = Rspack.OptimizationSplitChunksCacheGroup;
 
@@ -138,7 +134,6 @@ export type UniBuilderExtraConfig = {
             entryValue: (string | string[] | Rspack.EntryDescription)[];
           }
         >;
-    styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).

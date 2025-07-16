@@ -258,17 +258,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -345,17 +334,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -978,17 +956,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {
@@ -1073,17 +1040,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {
@@ -1485,17 +1441,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -1565,17 +1510,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -1971,17 +1905,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {
@@ -2062,17 +1985,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {
@@ -2387,17 +2299,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -2468,17 +2369,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "experimental": {
                     "cacheRoot": "node_modules/.cache/.swc",
                     "keepImportAttributes": true,
-                    "plugins": [
-                      [
-                        "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                        {
-                          "displayName": true,
-                          "pure": false,
-                          "ssr": true,
-                          "transpileTemplateLiterals": true,
-                        },
-                      ],
-                    ],
                   },
                   "externalHelpers": true,
                   "output": {
@@ -2856,17 +2746,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {
@@ -2948,17 +2827,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "experimental": {
                         "cacheRoot": "node_modules/.cache/.swc",
                         "keepImportAttributes": true,
-                        "plugins": [
-                          [
-                            "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                            {
-                              "displayName": true,
-                              "pure": false,
-                              "ssr": true,
-                              "transpileTemplateLiterals": true,
-                            },
-                          ],
-                        ],
                       },
                       "externalHelpers": true,
                       "output": {

@@ -113,17 +113,6 @@ export async function parseConfig(
     );
   }
 
-  if (uniBuilderConfig.tools?.styledComponents !== false) {
-    const { pluginStyledComponents } = await import(
-      '@rsbuild/plugin-styled-components'
-    );
-    const options = uniBuilderConfig.tools?.styledComponents || {};
-    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
-      options.ssr = true;
-    }
-    rsbuildPlugins.push(pluginStyledComponents(options));
-  }
-
   const enableRsc = uniBuilderConfig.server?.rsc ?? false;
   if (enableRsc) {
     const { rscClientRuntimePath, rscServerRuntimePath, internalDirectory } =
