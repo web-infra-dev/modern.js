@@ -9,7 +9,6 @@ export {
   createNodeServer,
   sendResponse,
   createWebRequest,
-  writeReadableStreamToWritable,
 } from './node';
 
 export {
