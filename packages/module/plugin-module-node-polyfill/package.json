@@ -54,7 +54,7 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/node": "^14",
+    "@types/node": "^18",
     "typescript": "^5"
   },
   "peerDependencies": {

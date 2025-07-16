@@ -166,11 +166,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       tsm:
         specifier: 2.3.0
         version: 2.3.0
@@ -238,20 +238,20 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/type-is':
         specifier: ^1.6.3
         version: 1.6.7
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       memfs:
         specifier: ^3.5.3
         version: 3.5.3
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -302,11 +302,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -351,8 +351,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/supertest':
         specifier: ^2.0.11
         version: 2.0.16
@@ -361,7 +361,7 @@ importers:
         version: 3.0.0(encoding@0.1.13)
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       memfs:
         specifier: ^3.5.3
         version: 3.5.3
@@ -376,7 +376,7 @@ importers:
         version: 6.2.3
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -403,11 +403,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -437,11 +437,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -483,11 +483,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -532,8 +532,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -581,11 +581,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -594,7 +594,7 @@ importers:
         version: 18.3.1
       tailwindcss:
         specifier: ^3.3.3
-        version: 3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1050,14 +1050,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.14
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       nanoid:
         specifier: 3.3.11
         version: 3.3.11
@@ -1153,8 +1153,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react-devtools-inline':
         specifier: ^4.24.8
         version: 4.24.8
@@ -1260,11 +1260,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1300,11 +1300,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1352,11 +1352,11 @@ importers:
         specifier: 4.0.9
         version: 4.0.9
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1388,11 +1388,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1430,11 +1430,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1472,11 +1472,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1514,11 +1514,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1565,11 +1565,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1604,11 +1604,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1646,11 +1646,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1688,11 +1688,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1730,11 +1730,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1772,11 +1772,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1814,11 +1814,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1856,11 +1856,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1902,14 +1902,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1960,8 +1960,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -1973,13 +1973,13 @@ importers:
         version: 2.2.4
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       recursive-readdir:
         specifier: ^2.2.3
         version: 2.2.3
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2009,11 +2009,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2037,11 +2037,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2068,11 +2068,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2162,8 +2162,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/build
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2205,11 +2205,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2245,11 +2245,11 @@ importers:
         specifier: ^7.20.5
         version: 7.20.5
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2321,14 +2321,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/testing-library__jest-dom':
         specifier: ^5.14.3
         version: 5.14.5
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       jest-fetch-mock:
         specifier: ^3.0.3
         version: 3.0.3(encoding@0.1.13)
@@ -2440,11 +2440,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2453,7 +2453,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2495,11 +2495,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2508,7 +2508,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2628,14 +2628,14 @@ importers:
         specifier: ^5.7.3
         version: 5.15.0
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react-side-effect':
         specifier: ^1.1.1
         version: 1.1.4
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2644,10 +2644,10 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2710,14 +2710,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2726,7 +2726,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2804,7 +2804,7 @@ importers:
         version: 3.0.0
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       jest-environment-jsdom:
         specifier: ^29.5.0
         version: 29.5.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -2816,7 +2816,7 @@ importers:
         version: 6.2.3
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       yargs:
         specifier: ^17.0.1
         version: 17.7.2
@@ -2837,8 +2837,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -2975,14 +2975,14 @@ importers:
         specifier: ^3.2.5
         version: 3.2.8
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: ^4.1.2
         version: 4.2.0
@@ -3018,14 +3018,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3088,17 +3088,17 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       http-proxy-middleware:
         specifier: ^2.0.9
         version: 2.0.9(@types/express@4.17.21)
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3140,8 +3140,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/node-fetch':
         specifier: ^2.6.1
         version: 2.6.12
@@ -3150,7 +3150,7 @@ importers:
         version: 3.0.0(encoding@0.1.13)
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       nock:
         specifier: ^13.5.6
         version: 13.5.6
@@ -3225,8 +3225,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/supertest':
         specifier: ^2.0.11
         version: 2.0.16
@@ -3238,7 +3238,7 @@ importers:
         version: 4.21.2
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       supertest:
         specifier: ^6.1.6
         version: 6.2.3
@@ -3304,8 +3304,8 @@ importers:
         specifier: ^7.4.4
         version: 7.4.8
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/supertest':
         specifier: ^2.0.11
         version: 2.0.16
@@ -3314,7 +3314,7 @@ importers:
         version: 1.6.7
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       koa:
         specifier: 2.16.1
         version: 2.16.1
@@ -3371,14 +3371,14 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/ua-parser-js':
         specifier: ^0.7.36
         version: 0.7.39
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3420,11 +3420,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3463,11 +3463,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3585,20 +3585,20 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.14
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       node-mocks-http:
         specifier: ^1.11.0
         version: 1.11.0
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 4.2.0
         version: 4.2.0
@@ -3634,14 +3634,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3698,14 +3698,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3928,8 +3928,8 @@ importers:
         specifier: 1.5.2
         version: 1.5.2
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -3953,7 +3953,7 @@ importers:
         version: link:../../toolkit/utils
       '@rushstack/node-core-library':
         specifier: ^3.66.1
-        version: 3.66.1(@types/node@14.18.35)
+        version: 3.66.1(@types/node@18.19.74)
       '@rushstack/package-deps-hash':
         specifier: ^3.2.67
         version: 3.2.67
@@ -3983,11 +3983,11 @@ importers:
         specifier: ^2.3.1
         version: 2.3.5
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4142,11 +4142,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4175,17 +4175,17 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       commander:
         specifier: 10.0.1
         version: 10.0.1
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4221,8 +4221,8 @@ importers:
         specifier: ^3.4.35
         version: 3.4.38
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/serve-static':
         specifier: ^1.13.10
         version: 1.15.7
@@ -4255,11 +4255,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4283,11 +4283,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4326,14 +4326,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4375,8 +4375,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/serialize-javascript':
         specifier: ^5.0.1
         version: 5.0.4
@@ -4385,7 +4385,7 @@ importers:
         version: 8.9.0(@types/ioredis-mock@8.2.6(ioredis@5.6.1))(ioredis@5.6.1)
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -4411,14 +4411,14 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       http-proxy-middleware:
         specifier: ^2.0.9
         version: 2.0.9(@types/express@4.17.21)
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       type-fest:
         specifier: 2.15.0
         version: 2.15.0
@@ -4447,17 +4447,17 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       commander:
         specifier: 10.0.1
         version: 10.0.1
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4490,11 +4490,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4516,8 +4516,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -4550,8 +4550,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       enhanced-resolve:
         specifier: 5.17.1
         version: 5.17.1
@@ -4560,7 +4560,7 @@ importers:
         version: 0.25.5
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
 
   scripts/lint-package-json:
     dependencies:
@@ -4596,8 +4596,8 @@ importers:
         specifier: workspace:*
         version: link:../build
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@vercel/ncc':
         specifier: 0.38.3
         version: 0.38.3
@@ -4884,8 +4884,8 @@ importers:
         specifier: ^4.14.202
         version: 4.17.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       execa:
         specifier: 5.1.1
         version: 5.1.1
@@ -4935,8 +4935,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       cross-spawn:
         specifier: ^7.0.6
         version: 7.0.6
@@ -4951,7 +4951,7 @@ importers:
         version: 5.1.1
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       jest-environment-jsdom:
         specifier: ^29.5.0
         version: 29.5.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -4975,7 +4975,7 @@ importers:
         version: 1.2.2
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsm:
         specifier: 2.3.0
         version: 2.3.0
@@ -5023,8 +5023,8 @@ importers:
         specifier: ^4.14.202
         version: 4.17.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5118,8 +5118,8 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5155,8 +5155,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5192,8 +5192,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5229,8 +5229,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5266,8 +5266,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5303,8 +5303,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5334,8 +5334,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5371,8 +5371,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5399,8 +5399,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/async-entry:
     dependencies:
@@ -5421,8 +5421,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5455,8 +5455,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5489,8 +5489,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5523,7 +5523,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 3.14.1
         version: 3.14.1
@@ -5541,8 +5541,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5578,7 +5578,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 3.14.1
         version: 3.14.1
@@ -5596,8 +5596,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5636,7 +5636,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 3.14.1
         version: 3.14.1
@@ -5654,8 +5654,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5688,7 +5688,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 3.14.1
         version: 3.14.1
@@ -5703,8 +5703,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5731,8 +5731,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/clean-dist-path:
     dependencies:
@@ -5753,8 +5753,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5784,8 +5784,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5812,8 +5812,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/custom-dist-path:
     dependencies:
@@ -5834,8 +5834,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5865,8 +5865,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5896,8 +5896,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5927,8 +5927,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5958,8 +5958,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -5992,7 +5992,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
       tsconfig-paths:
         specifier: 3.14.1
         version: 3.14.1
@@ -6010,8 +6010,8 @@ importers:
         specifier: 2.15.0
         version: 2.15.0
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6053,8 +6053,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6084,8 +6084,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6102,8 +6102,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       axios:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)
@@ -6307,8 +6307,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6325,8 +6325,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/load-config/fixtures/async-config-function:
     dependencies:
@@ -6402,8 +6402,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6679,8 +6679,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6725,8 +6725,8 @@ importers:
         specifier: ^4.17.12
         version: 4.17.12
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6762,8 +6762,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6799,8 +6799,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -6854,8 +6854,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18
         version: 18.3.18
@@ -6900,8 +6900,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18
         version: 18.3.18
@@ -6949,8 +6949,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18
         version: 18.3.18
@@ -6998,8 +6998,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18
         version: 18.3.18
@@ -7084,8 +7084,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/select-entry/fixtures/select-mul-entry:
     dependencies:
@@ -7106,8 +7106,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7137,8 +7137,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7180,8 +7180,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7226,8 +7226,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7470,11 +7470,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
 
   tests/integration/server-monitors:
     dependencies:
@@ -7535,11 +7535,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
 
   tests/integration/server-routes:
     dependencies:
@@ -7566,11 +7566,11 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       jest:
         specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+        version: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
 
   tests/integration/source-code-build/app:
     dependencies:
@@ -7597,8 +7597,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7634,8 +7634,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-swc
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -7666,8 +7666,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/ssg/fixtures/mega-list-routes:
     dependencies:
@@ -7750,8 +7750,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       axios:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)
@@ -8040,8 +8040,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/swc/fixtures/config-function:
     dependencies:
@@ -8143,8 +8143,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
 
   tests/integration/tailwindcss/fixtures/tailwindcss-v2:
     dependencies:
@@ -8387,8 +8387,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -8421,8 +8421,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -8458,8 +8458,8 @@ importers:
         specifier: ^4.14.202
         version: 4.17.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -8495,8 +8495,8 @@ importers:
         specifier: ^29
         version: 29.5.14
       '@types/node':
-        specifier: ^14
-        version: 14.18.35
+        specifier: ^18
+        version: 18.19.74
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.18
@@ -14278,9 +14278,6 @@ packages:
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-
-  '@types/node@14.18.35':
-    resolution: {integrity: sha512-2ATO8pfhG1kDvw4Lc4C0GXIMSQFFJBCo/R1fSgTwmUlq5oy95LXyjDQinsRVgQY6gp6ghh3H91wk9ES5/5C+Tw==}
 
   '@types/node@16.11.68':
     resolution: {integrity: sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==}
@@ -26532,40 +26529,6 @@ snapshots:
       jest-util: 29.7.0
       slash: 3.0.0
 
-  '@jest/core@29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))':
-    dependencies:
-      '@jest/console': 29.5.0
-      '@jest/reporters': 29.5.0
-      '@jest/test-result': 29.5.0
-      '@jest/transform': 29.7.0
-      '@jest/types': 29.6.3
-      '@types/node': 18.19.74
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      jest-changed-files: 29.5.0
-      jest-config: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
-      jest-haste-map: 29.7.0
-      jest-message-util: 29.7.0
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.5.0
-      jest-resolve-dependencies: 29.5.0
-      jest-runner: 29.5.0
-      jest-runtime: 29.5.0
-      jest-snapshot: 29.5.0
-      jest-util: 29.7.0
-      jest-validate: 29.5.0
-      jest-watcher: 29.5.0
-      micromatch: 4.0.8
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-ansi: 6.0.1
-    transitivePeerDependencies:
-      - supports-color
-      - ts-node
-
   '@jest/core@29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4))':
     dependencies:
       '@jest/console': 29.5.0
@@ -26615,6 +26578,40 @@ snapshots:
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
       jest-config: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.6.3))
+      jest-haste-map: 29.7.0
+      jest-message-util: 29.7.0
+      jest-regex-util: 29.6.3
+      jest-resolve: 29.5.0
+      jest-resolve-dependencies: 29.5.0
+      jest-runner: 29.5.0
+      jest-runtime: 29.5.0
+      jest-snapshot: 29.5.0
+      jest-util: 29.7.0
+      jest-validate: 29.5.0
+      jest-watcher: 29.5.0
+      micromatch: 4.0.8
+      pretty-format: 29.7.0
+      slash: 3.0.0
+      strip-ansi: 6.0.1
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+
+  '@jest/core@29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))':
+    dependencies:
+      '@jest/console': 29.5.0
+      '@jest/reporters': 29.5.0
+      '@jest/test-result': 29.5.0
+      '@jest/transform': 29.7.0
+      '@jest/types': 29.6.3
+      '@types/node': 18.19.74
+      ansi-escapes: 4.3.2
+      chalk: 4.1.2
+      ci-info: 3.9.0
+      exit: 0.1.2
+      graceful-fs: 4.2.11
+      jest-changed-files: 29.5.0
+      jest-config: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -30274,7 +30271,7 @@ snapshots:
       semver: 7.3.8
       z-schema: 5.0.5
 
-  '@rushstack/node-core-library@3.66.1(@types/node@14.18.35)':
+  '@rushstack/node-core-library@3.66.1(@types/node@18.19.74)':
     dependencies:
       colors: 1.2.5
       fs-extra: 7.0.1
@@ -30284,7 +30281,7 @@ snapshots:
       semver: 7.5.4
       z-schema: 5.0.5
     optionalDependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.19.74
 
   '@rushstack/package-deps-hash@3.2.67':
     dependencies:
@@ -31635,8 +31632,6 @@ snapshots:
   '@types/node@12.20.24': {}
 
   '@types/node@12.20.55': {}
-
-  '@types/node@14.18.35': {}
 
   '@types/node@16.11.68': {}
 
@@ -36655,25 +36650,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jest-cli@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
-    dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
-      '@jest/test-result': 29.5.0
-      '@jest/types': 29.6.3
-      chalk: 4.1.2
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      import-local: 3.1.0
-      jest-config: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
-      jest-util: 29.7.0
-      jest-validate: 29.5.0
-      prompts: 2.4.2
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-
   jest-cli@29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4)):
     dependencies:
       '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4))
@@ -36712,6 +36688,25 @@ snapshots:
       - supports-color
       - ts-node
 
+  jest-cli@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)):
+    dependencies:
+      '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
+      '@jest/test-result': 29.5.0
+      '@jest/types': 29.6.3
+      chalk: 4.1.2
+      exit: 0.1.2
+      graceful-fs: 4.2.11
+      import-local: 3.1.0
+      jest-config: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
+      jest-util: 29.7.0
+      jest-validate: 29.5.0
+      prompts: 2.4.2
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+      - ts-node
+
   jest-cli@29.5.0(@types/node@22.14.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@22.14.1)(typescript@5.6.3)):
     dependencies:
       '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@22.14.1)(typescript@5.6.3))
@@ -36730,36 +36725,6 @@ snapshots:
       - '@types/node'
       - supports-color
       - ts-node
-
-  jest-config@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
-    dependencies:
-      '@babel/core': 7.26.10
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.6.3
-      babel-jest: 29.5.0(@babel/core@7.26.10)
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.7.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.8
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    optionalDependencies:
-      '@types/node': 14.18.35
-      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   jest-config@29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4)):
     dependencies:
@@ -36821,36 +36786,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jest-config@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
-    dependencies:
-      '@babel/core': 7.26.10
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.6.3
-      babel-jest: 29.5.0(@babel/core@7.26.10)
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.7.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.8
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    optionalDependencies:
-      '@types/node': 18.19.74
-      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
-
   jest-config@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4)):
     dependencies:
       '@babel/core': 7.26.10
@@ -36908,6 +36843,36 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.74
       ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
+
+  jest-config@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)):
+    dependencies:
+      '@babel/core': 7.26.10
+      '@jest/test-sequencer': 29.5.0
+      '@jest/types': 29.6.3
+      babel-jest: 29.5.0(@babel/core@7.26.10)
+      chalk: 4.1.2
+      ci-info: 3.9.0
+      deepmerge: 4.3.1
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      jest-circus: 29.5.0
+      jest-environment-node: 29.5.0
+      jest-get-type: 29.6.3
+      jest-regex-util: 29.6.3
+      jest-resolve: 29.5.0
+      jest-runner: 29.5.0
+      jest-util: 29.7.0
+      jest-validate: 29.5.0
+      micromatch: 4.0.8
+      parse-json: 5.2.0
+      pretty-format: 29.7.0
+      slash: 3.0.0
+      strip-json-comments: 3.1.1
+    optionalDependencies:
+      '@types/node': 18.19.74
+      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -37272,17 +37237,6 @@ snapshots:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
-    dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
-      '@jest/types': 29.6.3
-      import-local: 3.1.0
-      jest-cli: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-
   jest@29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4)):
     dependencies:
       '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4))
@@ -37300,6 +37254,17 @@ snapshots:
       '@jest/types': 29.6.3
       import-local: 3.1.0
       jest-cli: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.6.3))
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+      - ts-node
+
+  jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)):
+    dependencies:
+      '@jest/core': 29.5.0(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
+      '@jest/types': 29.6.3
+      import-local: 3.1.0
+      jest-cli: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -39681,13 +39646,13 @@ snapshots:
       postcss: 8.5.6
       ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@22.14.1)(typescript@5.6.3)
 
-  postcss-load-config@4.0.1(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
+  postcss-load-config@4.0.1(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)):
     dependencies:
       lilconfig: 2.1.0
       yaml: 2.6.1
     optionalDependencies:
       postcss: 8.5.6
-      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)
+      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)
 
   postcss-load-config@4.0.1(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@22.14.1)(typescript@5.6.3)):
     dependencies:
@@ -43089,7 +43054,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tailwindcss@3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)):
+  tailwindcss@3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -43108,7 +43073,7 @@ snapshots:
       postcss: 8.5.6
       postcss-import: 15.1.0(postcss@8.5.6)
       postcss-js: 4.0.1(postcss@8.5.6)
-      postcss-load-config: 4.0.1(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+      postcss-load-config: 4.0.1(postcss@8.5.6)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       postcss-nested: 6.0.1(postcss@8.5.6)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.10
@@ -43385,11 +43350,11 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3))
+      jest: 29.5.0(@types/node@18.19.74)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3))
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -43411,26 +43376,6 @@ snapshots:
       semver: 7.7.1
       typescript: 5.6.3
       webpack: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
-
-  ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@14.18.35)(typescript@5.6.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 14.18.35
-      acorn: 8.14.1
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.6.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    optionalDependencies:
-      '@swc/core': 1.11.31(@swc/helpers@0.5.17)
 
   ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@16.11.68)(typescript@5.0.4):
     dependencies:
@@ -43461,6 +43406,26 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 16.11.68
+      acorn: 8.14.1
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optionalDependencies:
+      '@swc/core': 1.11.31(@swc/helpers@0.5.17)
+
+  ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@18.19.74)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.74
       acorn: 8.14.1
       acorn-walk: 8.3.4
       arg: 4.1.3

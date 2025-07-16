@@ -5,6 +5,5 @@ const sharedConfig = require('@scripts/jest-config');
 module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
-  setupFiles: [path.resolve(__dirname, 'tests/setup.ts')],
   testEnvironment: 'node',
 };

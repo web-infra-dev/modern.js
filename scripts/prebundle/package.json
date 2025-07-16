@@ -12,7 +12,7 @@
     "@babel/core": "^7.26.0",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/node": "^14",
+    "@types/node": "^18",
     "@vercel/ncc": "0.38.3",
     "dts-packer": "0.0.3",
     "postcss": "^8.5.6",
