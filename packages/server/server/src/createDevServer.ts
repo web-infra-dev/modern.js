@@ -44,7 +44,7 @@ export async function createDevServer(
   const server = createServerBase(prodServerOptions);
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
-  const isHttp2 = devHttpsOption && typeof dev.proxy === 'undefined';
+  const isHttp2 = !!devHttpsOption;
   let nodeServer;
   if (devHttpsOption) {
     const { genHttpsOptions } = await import('./dev-tools/https');
