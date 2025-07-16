@@ -43,15 +43,6 @@ export default defineConfig({
 });
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `` generic for `defineConfig`:
-
-```diff title=modern.config.ts
-- export default defineConfig({
-+ export default defineConfig({
-  // ...
-});
-```
-
 #### modern.config.js
 
 If you are developing a non-TypeScript project, you can use the `.js` format for the configuration file:

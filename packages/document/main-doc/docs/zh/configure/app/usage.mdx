@@ -43,15 +43,6 @@ export default defineConfig({
 });
 ```
 
-当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `defineConfig` 指定 `` 泛型：
-
-```diff title=modern.config.ts
-- export default defineConfig({
-+ export default defineConfig({
-  // ...
-});
-```
-
 #### modern.config.js
 
 如果你在开发一个非 TypeScript 项目，可以使用 `.js` 格式的配置文件：
