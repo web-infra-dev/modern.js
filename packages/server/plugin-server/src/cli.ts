@@ -25,7 +25,7 @@ export const serverPlugin = (): CliPluginFuture<AppTools> => ({
       return { plugins: plugins };
     });
 
-    api.afterBuild(async () => {
+    api.onAfterBuild(async () => {
       const { appDirectory, distDirectory, moduleType } = api.useAppContext();
 
       if (checkHasCache(appDirectory)) {

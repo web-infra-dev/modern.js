@@ -34,7 +34,7 @@ export const ssgPlugin = (): CliPluginFuture<AppTools> => ({
       return { entrypoint, routes };
     });
 
-    api.afterBuild(async () => {
+    api.onAfterBuild(async () => {
       const resolvedConfig = api.getNormalizedConfig();
       const appContext = api.getAppContext();
 

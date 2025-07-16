@@ -247,16 +247,16 @@ export const bffPlugin = (): CliPluginFuture<AppTools> => ({
       return { plugins };
     });
 
-    api.beforeDev(async () => {
+    api.onBeforeDev(async () => {
       await handleCrossProjectInvocation();
     });
 
-    api.afterBuild(async () => {
+    api.onAfterBuild(async () => {
       await compileApi();
       await handleCrossProjectInvocation(true);
     });
 
-    api.watchFiles(async () => {
+    api.addWatchFiles(async () => {
       const appContext = api.useAppContext();
       const config = api.useResolvedConfigContext();
 
@@ -267,7 +267,7 @@ export const bffPlugin = (): CliPluginFuture<AppTools> => ({
       }
     });
 
-    api.fileChange(async e => {
+    api.onFileChanged(async e => {
       const { filename, eventType, isPrivate } = e;
       const { appDirectory, apiDirectory } = api.useAppContext();
       const relativeApiPath = path.relative(appDirectory, apiDirectory);

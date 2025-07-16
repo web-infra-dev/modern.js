@@ -27,7 +27,7 @@ export const tailwindcssPlugin = (
     const { content: userTailwindConfig, path: userTailwindConfigPath } =
       await loadConfigFile(appDirectory);
 
-    api.prepare(async () => {
+    api.onPrepare(async () => {
       if (haveTwinMacro) {
         // twin.macro >= v3.0.0 support config object
         // twin.macro < v3.0.0 only support config path

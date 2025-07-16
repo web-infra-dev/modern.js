@@ -18,8 +18,12 @@ export default defineConfig(params => {
         );
       };
 
-      api.afterDev(() => write);
-      api.afterBuild(() => write);
+      api.onAfterDev(() => {
+        write();
+      });
+      api.onAfterBuild(() => {
+        write();
+      });
     },
   };
 

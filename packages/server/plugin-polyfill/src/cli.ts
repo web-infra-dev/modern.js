@@ -5,14 +5,13 @@ export const polyfillPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-polyfill',
 
   setup: api => {
-    api.htmlPartials(async ({ entrypoint, partials }) => {
+    api.modifyHtmlPartials(async ({ entrypoint, partials }) => {
       const resolvedConfig = api.useResolvedConfigContext();
       if (resolvedConfig.output.polyfill === 'ua') {
-        partials.top.push(
+        partials.top.append(
           `<script src="${defaultPolyfill}" crossorigin></script>`,
         );
       }
-      return { partials, entrypoint };
     });
 
     api._internalServerPlugins(async ({ plugins }) => {
