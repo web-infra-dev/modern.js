@@ -36,7 +36,6 @@ Modern.js 生态提供了以下解决方案和底层库：
 - 🦄 [Rslib](https://github.com/web-infra-dev/rslib)：基于 Rspack 的 Library 开发工具。
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish)：一站式微前端解决方案。
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck)：基于 Redux 的状态管理库。
-- 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins)：Modern.js 的 SWC 插件。
 
 ## Benchmark
 

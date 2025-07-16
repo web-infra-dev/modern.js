@@ -1,6 +1,5 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
-import { swcPlugin } from '@modern-js/plugin-swc';
 import { getPort } from '../../testUtils';
 
 module.exports = defineConfig({
@@ -29,6 +28,5 @@ module.exports = defineConfig({
       bundler: 'rspack',
     }),
     garfishPlugin(),
-    swcPlugin(),
   ],
 });

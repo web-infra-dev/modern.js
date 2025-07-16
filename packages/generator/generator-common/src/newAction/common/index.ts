@@ -20,7 +20,6 @@ export enum ActionFunction {
   SSG = 'ssg',
   Polyfill = 'polyfill',
   Proxy = 'proxy',
-  SWC = 'swc',
   ModuleDoc = 'module_doc',
 }
 
@@ -57,7 +56,6 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),
   [ActionFunction.Polyfill]: () => i18n.t(localeKeys.action.function.polyfill),
   [ActionFunction.Proxy]: () => i18n.t(localeKeys.action.function.proxy),
-  [ActionFunction.SWC]: () => i18n.t(localeKeys.action.function.swc),
   [ActionFunction.ModuleDoc]: () =>
     i18n.t(localeKeys.action.function.module_doc),
 };

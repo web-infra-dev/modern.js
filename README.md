@@ -36,7 +36,6 @@ The following solutions and libraries are available within the Modern.js ecosyst
 - 🦄 [Rslib](https://github.com/web-infra-dev/rslib): An Rspack-based library development tool.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): An redux-based state management library.
-- 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins): Built-in SWC plugins for Modern.js.
 
 ## Benchmark
 
