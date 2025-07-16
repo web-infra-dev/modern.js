@@ -6,7 +6,6 @@ const ignoreDeps = [
   'tailwindcss',
   'tsconfig-paths',
   'twin.macro',
-  'type-fest',
   'typescript',
   'lru-cache',
   'react-router',
