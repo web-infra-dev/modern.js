@@ -1,5 +1,13 @@
-import type { UserConfigExport } from '@modern-js/core';
 import type { AppUserConfig } from './types';
+
+export type ConfigParams = {
+  env: string;
+  command: string;
+};
+
+export type UserConfigExport<Config> =
+  | Config
+  | ((env: ConfigParams) => Config | Promise<Config>);
 
 /**
  * This function helps you to autocomplete configuration types.

@@ -1,9 +1,15 @@
+import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin-v2';
 import type { BffUserConfig, ServerUserConfig } from '@modern-js/server-core';
 import type {
   LooseRsbuildPlugin,
   UniBuilderPlugin,
 } from '@modern-js/uni-builder';
 import type { RsbuildConfig } from '@rsbuild/core';
+import type {
+  AppToolsExtendAPI,
+  AppToolsExtendContext,
+  AppToolsExtendHooks,
+} from '../new';
 import type { DeployUserConfig } from './deploy';
 import type { DevUserConfig } from './dev';
 import type { ExperimentsUserConfig } from './experiments';
@@ -48,6 +54,7 @@ export interface AppToolsUserConfig {
   builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>;
   performance?: PerformanceUserConfig;
   environments?: RsbuildConfig['environments'];
+  plugins?: CliPluginFuture<AppTools>[];
 }
 
 interface SharedNormalizedConfig<RawConfig> {
@@ -57,3 +64,16 @@ interface SharedNormalizedConfig<RawConfig> {
 
 export type AppToolsNormalizedConfig<Config = AppToolsUserConfig> =
   Required<Config> & SharedNormalizedConfig<Config>;
+
+export type AppTools = Required<
+  CLIPluginExtends<
+    AppToolsUserConfig,
+    AppToolsNormalizedConfig,
+    AppToolsExtendContext,
+    AppToolsExtendAPI,
+    AppToolsExtendHooks
+  >
+>;
+
+export type CliPluginFuture<Extends extends CLIPluginExtends> =
+  CLIPlugin<Extends>;

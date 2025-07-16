@@ -2,7 +2,7 @@ import path from 'path';
 import type {
   AppTools,
   CliPluginFuture,
-  NormalizedConfig,
+  AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types/cli';
 import { fs, createDebugger, findExists } from '@modern-js/utils';
@@ -71,7 +71,7 @@ export const documentPlugin = (): CliPluginFuture<AppTools> => ({
   setup: async api => {
     // get params for document.tsx
     function getDocParams(params: {
-      config: NormalizedConfig<AppTools>;
+      config: NormalizedConfig;
       entryName: string;
       templateParameters: Record<string, unknown>;
     }) {
@@ -108,7 +108,7 @@ export const documentPlugin = (): CliPluginFuture<AppTools> => ({
         const config = api.getNormalizedConfig();
 
         const documentParams = getDocParams({
-          config: config as NormalizedConfig<AppTools>,
+          config: config as NormalizedConfig,
           entryName,
           templateParameters,
         });

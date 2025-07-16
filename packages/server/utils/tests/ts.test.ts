@@ -20,7 +20,6 @@ describe('typescript', () => {
               sharedDir,
               './runtime/server',
             ),
-            '@modern-js/runtime': '@modern-js/core',
           },
         } as any,
         {

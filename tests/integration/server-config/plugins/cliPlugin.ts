@@ -1,22 +1,19 @@
-import type { AppTools } from '@modern-js/app-tools';
-import type { CliPlugin } from '@modern-js/core';
+import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 
-export const cliPlugin1 = (): CliPlugin<AppTools> => ({
+export const cliPlugin1 = (): CliPluginFuture<AppTools> => ({
   name: 'cliPlugin1',
 
-  setup: () => {
-    return {
-      modifyServerRoutes({ routes }: { routes: any[] }) {
-        return {
-          routes: routes.concat({
-            urlPath: '/api',
-            isApi: true,
-            entryPath: '',
-            isSPA: false,
-            isSSR: false,
-          }),
-        };
-      },
-    };
+  setup: api => {
+    api.modifyServerRoutes(({ routes }: { routes: any[] }) => {
+      return {
+        routes: routes.concat({
+          urlPath: '/api',
+          isApi: true,
+          entryPath: '',
+          isSPA: false,
+          isSSR: false,
+        }),
+      };
+    });
   },
 });

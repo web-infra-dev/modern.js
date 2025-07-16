@@ -14,10 +14,7 @@ export const devCommand = async (
   program: Command,
   api: CLIPluginAPI<AppTools>,
 ) => {
-  const hooks = api.getHooks();
-  const devToolMetas = await hooks.registerDev.call();
-
-  const devProgram = program
+  program
     .command('dev')
     .alias('start')
     .usage('[options]')
@@ -31,33 +28,13 @@ export const devCommand = async (
       const { dev } = await import('./dev.js');
       await dev(api, options);
     });
-
-  for (const meta of devToolMetas) {
-    if (!meta.subCommands) {
-      continue;
-    }
-
-    for (const subCmd of meta.subCommands) {
-      devProgram.command(subCmd).action(async (options: DevOptions = {}) => {
-        const { appDirectory } = api.getAppContext();
-        const { isTypescript } = await import('@modern-js/utils');
-
-        await meta.action(options, {
-          isTsProject: isTypescript(appDirectory),
-        });
-      });
-    }
-  }
 };
 
 export const buildCommand = async (
   program: Command,
   api: CLIPluginAPI<AppTools>,
 ) => {
-  const hooks = api.getHooks();
-  const platformBuilders = await hooks.registerBuildPlatform.call();
-
-  const buildProgram = program
+  program
     .command('build')
     .usage('[options]')
     .description(i18n.t(localeKeys.command.build.describe))
@@ -68,20 +45,6 @@ export const buildCommand = async (
       const { build } = await import('./build.js');
       await build(api, options);
     });
-
-  for (const platformBuilder of platformBuilders) {
-    const platforms = castArray(platformBuilder.platform);
-    for (const platform of platforms) {
-      buildProgram.command(platform).action(async () => {
-        const { appDirectory } = api.getAppContext();
-        const { isTypescript } = await import('@modern-js/utils');
-
-        await platformBuilder.build(platform, {
-          isTsProject: isTypescript(appDirectory),
-        });
-      });
-    }
-  }
 };
 
 export const serverCommand = (

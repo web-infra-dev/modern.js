@@ -1,9 +1,8 @@
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { Entrypoint } from '../../src/plugins/analyze/getFileSystemEntry';
 import { getServerRoutes } from '../../src/plugins/analyze/getServerRoutes';
-import type { AppNormalizedConfig } from '../../src/types';
+import type { AppNormalizedConfig, AppToolsContext } from '../../src/types';
 
 describe('get server routes', () => {
   const appContext: any = {
@@ -251,7 +250,7 @@ describe('get server routes', () => {
     );
 
     const routes = getServerRoutes([{ entryName: 'page-a' }] as Entrypoint[], {
-      appContext: { appDirectory: fixture } as IAppContext,
+      appContext: { appDirectory: fixture } as AppToolsContext,
       config: {
         source: sourceConfig,
         output: outputConfig,

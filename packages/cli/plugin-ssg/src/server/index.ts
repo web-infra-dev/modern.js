@@ -2,8 +2,7 @@ import childProcess from 'child_process';
 import path from 'path';
 import type {
   AppNormalizedConfig,
-  AppTools,
-  PluginAPI,
+  AppToolsExtendAPI,
 } from '@modern-js/app-tools';
 import type { ServerRoute as ModernRoute } from '@modern-js/types';
 import { logger } from '@modern-js/utils';
@@ -12,7 +11,7 @@ import type { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
-  api: PluginAPI<AppTools>,
+  api: AppToolsExtendAPI,
   ssgRoutes: SsgRoute[],
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],

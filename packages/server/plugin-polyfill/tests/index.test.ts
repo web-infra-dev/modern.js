@@ -1,4 +1,4 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import type { AppNormalizedConfig as NormalizedConfig } from '@modern-js/app-tools';
 import { createServerBase } from '@modern-js/server-core';
 import serverPlugin from '../src';
 import cliPlugin from '../src/cli';

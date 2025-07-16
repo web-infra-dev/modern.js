@@ -1,9 +1,8 @@
 import path from 'path';
 import type {
-  AppTools,
   AppToolsContext,
   AppToolsFeatureHooks,
-  NormalizedConfig,
+  AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { CollectAsyncHook } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
@@ -18,7 +17,7 @@ export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 export const generateCode = async (
   entrypoints: Entrypoint[],
   appContext: AppToolsContext,
-  config: NormalizedConfig<AppTools>,
+  config: NormalizedConfig,
   hooks: AppToolsFeatureHooks,
 ) => {
   const { mountId } = config.html;

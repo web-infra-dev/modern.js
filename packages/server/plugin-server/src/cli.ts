@@ -1,6 +1,5 @@
 import path from 'path';
-import type { AppTools } from '@modern-js/app-tools';
-import type { CliPlugin } from '@modern-js/core';
+import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import { compile } from '@modern-js/server-utils';
 import { SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
 import fs from '@modern-js/utils/fs-extra';
@@ -14,19 +13,19 @@ function checkHasCache(appDir: string) {
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export const serverPlugin = (): CliPlugin<AppTools> => ({
+export const serverPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-server',
 
-  setup: api => ({
-    _internalServerPlugins({ plugins }) {
+  setup: async api => {
+    api._internalServerPlugins(async ({ plugins }) => {
       plugins.push({
         name: '@modern-js/plugin-server/server',
       });
 
-      return { plugins };
-    },
+      return { plugins: plugins };
+    });
 
-    async afterBuild() {
+    api.afterBuild(async () => {
       const { appDirectory, distDirectory, moduleType } = api.useAppContext();
 
       if (checkHasCache(appDirectory)) {
@@ -72,8 +71,8 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
           },
         );
       }
-    },
-  }),
+    });
+  },
 });
 
 export default serverPlugin;

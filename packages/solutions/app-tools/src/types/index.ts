@@ -1,4 +1,3 @@
-import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type {
   CLIPlugin,
   CLIPluginExtends,
@@ -6,12 +5,6 @@ import type {
   ServerPluginConfig,
 } from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
-import type { AppToolsHooks } from './hooks';
-import type {
-  AppToolsExtendAPI,
-  AppToolsExtendContext,
-  AppToolsExtendHooks,
-} from './new';
 
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 export * from './hooks';
@@ -34,36 +27,10 @@ export type {
   RequestHandlerOptions,
   RequestHandler,
 } from '@modern-js/server-core';
-export type {
-  IAppContext,
-  PluginAPI,
-  CliPlugin,
-  NormalizedConfig,
-  UserConfig,
-} from '@modern-js/core';
 
-// 同时支持 plugin and plugin v2
-export type AppTools = Required<
-  CLIPluginExtends<
-    AppToolsUserConfig,
-    AppToolsNormalizedConfig,
-    AppToolsExtendContext,
-    AppToolsExtendAPI,
-    AppToolsExtendHooks
-  >
-> & {
-  // v1 params
-  userConfig: AppToolsUserConfig;
-  hooks: AppToolsHooks;
-};
+export type AppUserConfig = AppToolsUserConfig;
 
-// plugin v2
-export type CliPluginFuture<Extends extends CLIPluginExtends> =
-  CLIPlugin<Extends>;
-
-export type AppNormalizedConfig = NormalizedConfig<AppTools>;
-
-export type AppUserConfig = UserConfig<AppTools>;
+export type AppNormalizedConfig = AppToolsNormalizedConfig;
 
 export type {
   AppToolsExtendAPI,

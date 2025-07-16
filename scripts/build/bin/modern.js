@@ -16,7 +16,7 @@ process.env.CORE_INIT_OPTION_FILE = path.resolve(
 );
 
 const { cli } = require(
-  `${kProjectRoot}/node_modules/@modern-js/core-npm/dist/index.js`,
+  `${kProjectRoot}/node_modules/@modern-js/core/dist/index.js`,
 );
 
 cli.run({

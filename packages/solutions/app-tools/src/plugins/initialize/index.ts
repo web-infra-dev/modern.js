@@ -6,7 +6,6 @@ import {
 } from '@modern-js/utils';
 import { createDefaultConfig } from '../../config';
 import type {
-  AppNormalizedConfig,
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
@@ -55,9 +54,6 @@ export default (): CliPluginFuture<AppTools> => ({
         ...(normalizedConfig.server || {}),
         port,
       };
-      (resolved as unknown as AppNormalizedConfig).autoLoadPlugins =
-        (normalizedConfig as unknown as AppNormalizedConfig).autoLoadPlugins ??
-        false;
       stabilizeConfig(
         resolved,
         normalizedConfig as AppToolsNormalizedConfig & { plugins: any },

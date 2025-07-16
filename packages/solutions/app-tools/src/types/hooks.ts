@@ -1,9 +1,4 @@
-import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
-import type {
-  AsyncWaterfall,
-  AsyncWorkflow,
-  ParallelWorkflow,
-} from '@modern-js/plugin';
+import type { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
 import type {
   RuntimePluginConfig,
   ServerPluginConfig,
@@ -87,8 +82,4 @@ export type AppToolsHooks = {
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 
   beforeRestart: AsyncWorkflow<void, void>;
-
-  registerDev: ParallelWorkflow<void, DevToolData>;
-
-  registerBuildPlatform: ParallelWorkflow<void, RegisterBuildPlatformResult>;
 };

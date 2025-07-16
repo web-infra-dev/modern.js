@@ -2,13 +2,13 @@ import { writeFileSync } from 'fs';
 import path from 'path';
 import {
   type AppTools,
-  type CliPlugin,
+  type CliPluginFuture,
   defineConfig,
 } from '@modern-js/app-tools';
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default defineConfig(params => {
-  const testPlugin: CliPlugin<AppTools> = {
+  const testPlugin: CliPluginFuture<AppTools> = {
     name: 'test-plugin',
     setup: api => {
       const write = () => {
@@ -17,10 +17,9 @@ export default defineConfig(params => {
           JSON.stringify(params),
         );
       };
-      return {
-        afterDev: write,
-        afterBuild: write,
-      };
+
+      api.afterDev(() => write);
+      api.afterBuild(() => write);
     },
   };
 

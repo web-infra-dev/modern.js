@@ -1,11 +1,8 @@
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
 import { fs, MAIN_ENTRY_NAME, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import type { AppToolsContext } from '../types/new';
 
-export const generateRoutes = async (
-  appContext: AppToolsContext | IAppContext,
-) => {
+export const generateRoutes = async (appContext: AppToolsContext) => {
   const { serverRoutes, distDirectory } = appContext;
   const output = JSON.stringify({ routes: serverRoutes }, null, 2);
   await fs.outputFile(path.join(distDirectory, ROUTE_SPEC_FILE), output);

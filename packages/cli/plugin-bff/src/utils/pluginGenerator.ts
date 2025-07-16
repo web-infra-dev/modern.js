@@ -68,8 +68,8 @@ async function pluginGenerator({
     await fs.ensureFile(pluginPath);
     await fs.writeFile(pluginPath, updatedPlugin);
 
-    const typeContent = `import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-      export declare const crossProjectApiPlugin: () => CliPlugin<AppTools>`;
+    const typeContent = `import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+      export declare const crossProjectApiPlugin: () => CliPluginFuture<AppTools>`;
 
     const pluginTypePath = path.join(pluginDir, 'index.d.ts');
     await fs.ensureFile(pluginTypePath);
