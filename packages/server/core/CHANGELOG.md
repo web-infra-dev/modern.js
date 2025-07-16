@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.68.3
+
+### Patch Changes
+
+- 0749a8b: chore: remove node polyfills
+  chore: 移除 node polyfills
+  - @modern-js/plugin@2.68.3
+  - @modern-js/plugin-v2@2.68.3
+  - @modern-js/runtime-utils@2.68.3
+  - @modern-js/utils@2.68.3
+
 ## 2.68.2
 
 ### Patch Changes
