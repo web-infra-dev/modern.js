@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { applyPlugins } from '@modern-js/prod-server';
-import { type ApplyPlugins, createDevServer } from '@modern-js/server';
+import type { ApplyPlugins } from '@modern-js/server';
 import {
   type Alias,
   DEFAULT_DEV_HOST,
@@ -12,7 +12,11 @@ import {
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
-import { setServer } from '../utils/createServer';
+import {
+  createServer,
+  setServer,
+  setServerOptions,
+} from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 import { registerCompiler } from '../utils/register';
@@ -128,11 +132,12 @@ export const dev = async (
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
   if (apiOnly) {
-    const { server } = await createDevServer(
-      {
-        ...serverOptions,
-        runCompile: false,
-      },
+    const options = {
+      ...serverOptions,
+      runCompile: false,
+    };
+    const { server } = await createServer(
+      options,
       devServerOptions?.applyPlugins || applyPlugins,
     );
 
@@ -149,13 +154,13 @@ export const dev = async (
         );
       },
     );
-    setServer(server);
   } else {
-    const { server, afterListen } = await createDevServer(
-      {
-        ...serverOptions,
-        builder: appContext.builder,
-      },
+    const options = {
+      ...serverOptions,
+      builder: appContext.builder,
+    };
+    const { server, afterListen } = await createServer(
+      options,
       devServerOptions?.applyPlugins || applyPlugins,
     );
 
@@ -174,7 +179,5 @@ export const dev = async (
         await afterListen();
       },
     );
-
-    setServer(server);
   }
 };
