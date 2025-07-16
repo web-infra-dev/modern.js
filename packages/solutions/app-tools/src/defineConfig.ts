@@ -1,5 +1,5 @@
 import type { UserConfigExport } from '@modern-js/core';
-import type { AppLegacyUserConfig, AppUserConfig } from './types';
+import type { AppUserConfig } from './types';
 
 /**
  * This function helps you to autocomplete configuration types.
@@ -8,15 +8,3 @@ import type { AppLegacyUserConfig, AppUserConfig } from './types';
 export const defineConfig = <B extends 'rspack' | 'webpack' = 'webpack'>(
   config: UserConfigExport<AppUserConfig<B>>,
 ) => config;
-
-/**
- * @deprecated Please use `defineConfig` instead.
- * `defineLegacyConfig` will be removed in the future major version.
- */
-export const defineLegacyConfig = (
-  config: AppLegacyUserConfig,
-): AppLegacyUserConfig => ({
-  ...config,
-  legacy: true,
-  autoLoadPlugins: config.autoLoadPlugins ?? true,
-});

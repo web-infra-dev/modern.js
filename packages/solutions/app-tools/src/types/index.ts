@@ -81,7 +81,6 @@ export type AppLegacyNormalizedConfig = NormalizedConfig<LegacyAppTools>;
 export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
   AppTools<B>
 >;
-export type AppLegacyUserConfig = UserConfig<LegacyAppTools>;
 
 export type AppToolsOptions = {
   /**

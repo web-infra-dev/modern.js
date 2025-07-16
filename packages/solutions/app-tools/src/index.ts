@@ -194,7 +194,7 @@ export const appTools = (
   },
 });
 
-export { defineConfig, defineLegacyConfig } from './defineConfig';
+export { defineConfig } from './defineConfig';
 export { mergeConfig } from '@modern-js/core';
 export type { RuntimeUserConfig } from './types/config';
 
