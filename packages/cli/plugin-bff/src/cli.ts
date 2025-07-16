@@ -1,5 +1,5 @@
 import path from 'path';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
@@ -19,7 +19,7 @@ const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
 const RUNTIME_HONO = '@modern-js/plugin-bff/hono';
 
-export const bffPlugin = (): CliPlugin<AppTools> => ({
+export const bffPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     const compileApi = async () => {
@@ -138,151 +138,148 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       return bffRuntimeFramework === 'hono';
     };
 
-    return {
-      config() {
-        const honoRuntimePath = isHono()
-          ? { [RUNTIME_HONO]: RUNTIME_HONO }
-          : undefined;
+    api.config(async () => {
+      const honoRuntimePath = isHono()
+        ? { [RUNTIME_HONO]: RUNTIME_HONO }
+        : undefined;
 
-        return {
-          tools: {
-            bundlerChain: (chain, { CHAIN_ID, isServer }) => {
-              const { port, appDirectory, apiDirectory, lambdaDirectory } =
-                api.useAppContext();
-              const modernConfig = api.useResolvedConfigContext();
-              const { bff } = modernConfig || {};
-              const prefix = bff?.prefix || DEFAULT_API_PREFIX;
-              const httpMethodDecider = bff?.httpMethodDecider;
+      return {
+        tools: {
+          bundlerChain: (chain, { CHAIN_ID, isServer }) => {
+            const { port, appDirectory, apiDirectory, lambdaDirectory } =
+              api.useAppContext();
+            const modernConfig = api.useResolvedConfigContext();
+            const { bff } = modernConfig || {};
+            const prefix = bff?.prefix || DEFAULT_API_PREFIX;
+            const httpMethodDecider = bff?.httpMethodDecider;
 
-              const apiRouter = new ApiRouter({
-                apiDir: apiDirectory,
-                appDir: appDirectory,
-                lambdaDir: lambdaDirectory,
+            const apiRouter = new ApiRouter({
+              apiDir: apiDirectory,
+              appDir: appDirectory,
+              lambdaDir: lambdaDirectory,
+              prefix,
+              httpMethodDecider,
+              isBuild: true,
+            });
+
+            const lambdaDir = apiRouter.getLambdaDir();
+            const existLambda = apiRouter.isExistLambda();
+
+            const apiRegexp = new RegExp(
+              normalizeOutputPath(`${apiDirectory}${path.sep}.*(.[tj]s)$`),
+            );
+
+            const name = isServer ? 'server' : 'client';
+            chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
+            chain.module
+              .rule('js-bff-api')
+              .test(apiRegexp)
+              .use('custom-loader')
+              .loader(require.resolve('./loader').replace(/\\/g, '/'))
+              .options({
                 prefix,
+                appDir: appDirectory,
+                apiDir: apiDirectory,
+                lambdaDir,
+                existLambda,
+                port,
+                target: name,
+                // Internal field
+                requestCreator: (bff as any)?.requestCreator,
                 httpMethodDecider,
-                isBuild: true,
               });
 
-              const lambdaDir = apiRouter.getLambdaDir();
-              const existLambda = apiRouter.isExistLambda();
+            chain.resolve.alias.set('@api', apiDirectory);
 
-              const apiRegexp = new RegExp(
-                normalizeOutputPath(`${apiDirectory}${path.sep}.*(.[tj]s)$`),
-              );
-
-              const name = isServer ? 'server' : 'client';
-              chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
-              chain.module
-                .rule('js-bff-api')
-                .test(apiRegexp)
-                .use('custom-loader')
-                .loader(require.resolve('./loader').replace(/\\/g, '/'))
-                .options({
-                  prefix,
-                  appDir: appDirectory,
-                  apiDir: apiDirectory,
-                  lambdaDir,
-                  existLambda,
-                  port,
-                  target: name,
-                  // Internal field
-                  requestCreator: (bff as any)?.requestCreator,
-                  httpMethodDecider,
-                });
-
-              chain.resolve.alias.set('@api', apiDirectory);
-
-              chain.resolve.alias.set(
-                '@modern-js/runtime/bff',
-                RUNTIME_CREATE_REQUEST,
-              );
-            },
+            chain.resolve.alias.set(
+              '@modern-js/runtime/bff',
+              RUNTIME_CREATE_REQUEST,
+            );
           },
-          output: {
-            externals: honoRuntimePath,
-          },
+        },
+        output: {
+          externals: honoRuntimePath,
+        },
+      };
+    });
+
+    api.modifyServerRoutes(({ routes }) => {
+      const modernConfig = api.useResolvedConfigContext();
+
+      const { bff } = modernConfig || {};
+      const prefix = bff?.prefix || '/api';
+
+      const prefixList: string[] = [];
+
+      if (Array.isArray(prefix)) {
+        prefixList.push(...prefix);
+      } else {
+        prefixList.push(prefix);
+      }
+      const apiServerRoutes = prefixList.map(pre => ({
+        urlPath: pre,
+        isApi: true,
+        entryPath: '',
+        isSPA: false,
+        isSSR: false,
+      })) as ServerRoute[];
+
+      if (!isHono() && bff?.enableHandleWeb) {
+        return {
+          routes: (
+            routes.map(route => {
+              return {
+                ...route,
+                isApi: true,
+              };
+            }) as ServerRoute[]
+          ).concat(apiServerRoutes),
         };
-      },
-      modifyServerRoutes({ routes }) {
-        const modernConfig = api.useResolvedConfigContext();
+      }
 
-        const { bff } = modernConfig || {};
-        const prefix = bff?.prefix || '/api';
+      return { routes: routes.concat(apiServerRoutes) };
+    });
 
-        const prefixList: string[] = [];
+    api._internalServerPlugins(({ plugins }) => {
+      plugins.push({
+        name: '@modern-js/plugin-bff/server',
+      });
+      return { plugins };
+    });
 
-        if (Array.isArray(prefix)) {
-          prefixList.push(...prefix);
-        } else {
-          prefixList.push(prefix);
-        }
-        const apiServerRoutes = prefixList.map(pre => ({
-          urlPath: pre,
-          isApi: true,
-          entryPath: '',
-          isSPA: false,
-          isSSR: false,
-        })) as ServerRoute[];
+    api.onBeforeDev(async () => {
+      await handleCrossProjectInvocation();
+    });
 
-        if (!isHono() && bff?.enableHandleWeb) {
-          return {
-            routes: (
-              routes.map(route => {
-                return {
-                  ...route,
-                  isApi: true,
-                };
-              }) as ServerRoute[]
-            ).concat(apiServerRoutes),
-          };
-        }
+    api.onAfterBuild(async () => {
+      await compileApi();
+      await handleCrossProjectInvocation(true);
+    });
 
-        return { routes: routes.concat(apiServerRoutes) };
-      },
+    api.addWatchFiles(async () => {
+      const appContext = api.useAppContext();
+      const config = api.useResolvedConfigContext();
 
-      _internalServerPlugins({ plugins }) {
-        plugins.push({
-          name: '@modern-js/plugin-bff/server',
-        });
-        return { plugins };
-      },
-      async beforeDev() {
+      if (config?.bff?.crossProject) {
+        return [appContext.apiDirectory];
+      } else {
+        return [];
+      }
+    });
+
+    api.onFileChanged(async e => {
+      const { filename, eventType, isPrivate } = e;
+      const { appDirectory, apiDirectory } = api.useAppContext();
+      const relativeApiPath = path.relative(appDirectory, apiDirectory);
+      if (
+        !isPrivate &&
+        (eventType === 'change' || eventType === 'unlink') &&
+        filename.startsWith(`${relativeApiPath}/`) &&
+        (filename.endsWith('.ts') || filename.endsWith('.js'))
+      ) {
         await handleCrossProjectInvocation();
-      },
-
-      async afterBuild() {
-        await compileApi();
-        await handleCrossProjectInvocation(true);
-      },
-      async watchFiles() {
-        const appContext = api.useAppContext();
-        const config = api.useResolvedConfigContext();
-
-        if (config?.bff?.crossProject) {
-          return [appContext.apiDirectory];
-        } else {
-          return [];
-        }
-      },
-
-      async fileChange(e: {
-        filename: string;
-        eventType: string;
-        isPrivate: boolean;
-      }) {
-        const { filename, eventType, isPrivate } = e;
-        const { appDirectory, apiDirectory } = api.useAppContext();
-        const relativeApiPath = path.relative(appDirectory, apiDirectory);
-        if (
-          !isPrivate &&
-          (eventType === 'change' || eventType === 'unlink') &&
-          filename.startsWith(`${relativeApiPath}/`) &&
-          (filename.endsWith('.ts') || filename.endsWith('.js'))
-        ) {
-          await handleCrossProjectInvocation();
-        }
-      },
-    };
+      }
+    });
   },
 });
 

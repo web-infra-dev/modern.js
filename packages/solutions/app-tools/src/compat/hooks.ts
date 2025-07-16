@@ -10,7 +10,7 @@ import type {
   PageRoute,
   ServerRoute,
 } from '@modern-js/types';
-import type { Command } from '@modern-js/utils';
+import type { Command } from '@modern-js/utils/commander';
 import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
 import type { AppTools, AppToolsNormalizedConfig } from '../types';
 import {
@@ -169,19 +169,6 @@ export function getHookRunners(
     },
     beforeRestart: async () => {
       return hooks.onBeforeRestart.call();
-    },
-
-    /**
-     * @deprecated
-     */
-    registerDev: async () => {
-      return hooks.registerDev.call();
-    },
-    /**
-     * @deprecated
-     */
-    registerBuildPlatform: async () => {
-      return hooks.registerBuildPlatform.call();
     },
     /**
      * @deprecated

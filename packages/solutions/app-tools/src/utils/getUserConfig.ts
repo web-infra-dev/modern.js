@@ -1,5 +1,5 @@
 import { createLoadedConfig, loadEnv } from '@modern-js/plugin-v2/cli';
-import type { AppTools, CliPlugin, CliPluginFuture } from '../types';
+import type { AppTools, CliPluginFuture } from '../types';
 export async function getUserConfig(
   appDirectory: string,
   configFile: string,
@@ -11,7 +11,7 @@ export async function getUserConfig(
   const loaded = await createLoadedConfig<{
     autoLoadPlugins: boolean;
     runtime: boolean | Record<string, any>;
-    plugins: (CliPlugin<AppTools> | CliPluginFuture<AppTools>)[];
+    plugins: CliPluginFuture<AppTools>[];
   }>(appDirectory, configFile, packageJsonConfig);
   return loaded.config || {};
 }

@@ -1,4 +1,3 @@
-import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AppContext,
   AsyncHook,
@@ -46,10 +45,6 @@ export type BeforeGenerateRoutesFn = TransformFunction<{
 export type BeforePrintInstructionsFn = TransformFunction<{
   instructions: string;
 }>;
-export type RegisterDevFn = () => Promise<DevToolData> | DevToolData;
-export type RegisterBuildPlatformFn = () =>
-  | Promise<RegisterBuildPlatformResult>
-  | RegisterBuildPlatformResult;
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
 export interface AppToolsExtendAPI {
@@ -66,14 +61,6 @@ export interface AppToolsExtendAPI {
    * @deprecated
    */
   onBeforePrintInstructions: PluginHookTap<BeforePrintInstructionsFn>;
-  /**
-   * @deprecated
-   */
-  registerDev: PluginHookTap<RegisterDevFn>;
-  /**
-   * @deprecated
-   */
-  registerBuildPlatform: PluginHookTap<RegisterBuildPlatformFn>;
   /**
    * @deprecated
    */
@@ -110,14 +97,6 @@ export interface AppToolsExtendHooks
    * @deprecated
    */
   onBeforePrintInstructions: AsyncHook<BeforePrintInstructionsFn>;
-  /**
-   * @deprecated
-   */
-  registerDev: CollectAsyncHook<RegisterDevFn>;
-  /**
-   * @deprecated
-   */
-  registerBuildPlatform: CollectAsyncHook<RegisterBuildPlatformFn>;
   /**
    * @deprecated
    */

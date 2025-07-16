@@ -135,49 +135,6 @@ importers:
         specifier: ^5.3.0
         version: 5.6.3
 
-  packages/cli/core:
-    dependencies:
-      '@modern-js/node-bundle-require':
-        specifier: workspace:*
-        version: link:../../toolkit/node-bundle-require
-      '@modern-js/plugin':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@modern-js/uni-builder':
-        specifier: workspace:*
-        version: link:../uni-builder
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      tsm:
-        specifier: 2.3.0
-        version: 2.3.0
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/cli/flight-server-transform-plugin: {}
 
   packages/cli/plugin-bff:
@@ -213,9 +170,6 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../../server/bff-runtime
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../core
       '@modern-js/plugin-v2':
         specifier: workspace:*
         version: link:../../toolkit/plugin-v2
@@ -280,9 +234,6 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
     devDependencies:
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../core
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../../server/core
@@ -439,9 +390,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../core
       '@modern-js/module-tools':
         specifier: 2.68.2
         version: 2.68.2(typescript@5.6.3)
@@ -1446,9 +1394,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../plugin-router-v5
@@ -1577,9 +1522,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
@@ -1635,9 +1577,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
@@ -2205,9 +2144,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
@@ -2257,9 +2193,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
@@ -2303,9 +2236,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -2577,9 +2507,6 @@ importers:
       '@babel/types':
         specifier: ^7.26.0
         version: 7.26.10
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
@@ -3082,9 +3009,9 @@ importers:
 
   scripts/build:
     devDependencies:
-      '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.68.2
-        version: '@modern-js/core@2.68.2'
+      '@modern-js/core':
+        specifier: 2.68.2
+        version: 2.68.2
       '@modern-js/module-tools':
         specifier: 2.68.2
         version: 2.68.2(typescript@5.6.3)
@@ -3502,9 +3429,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../packages/solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../packages/cli/core
       '@modern-js/generator-cases':
         specifier: workspace:*
         version: link:../packages/generator/generator-cases

@@ -1,9 +1,9 @@
 import type {
   AppNormalizedConfig,
   AppTools,
+  AppUserConfig,
   CliPluginFuture,
 } from '@modern-js/app-tools';
-import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import { logger } from '../util';
@@ -11,17 +11,13 @@ import { generateCode } from './code';
 import type { AppendEntryCodeFn } from './hooks';
 import { getRuntimeConfig, setRuntimeConfig } from './utils';
 
-export type UseConfig = ReturnType<typeof useConfigContext>;
-
 export const externals = { 'react-dom': 'react-dom', react: 'react' };
-
-export type LifeCycle = CliHookCallbacks;
 
 type NonInValidAble<T> = T extends null | undefined | false ? never : T;
 
 export function getDefaultMicroFrontedConfig(
   microFrontend: NonInValidAble<
-    NonNullable<UseConfig['deploy']>['microFrontend']
+    NonNullable<AppUserConfig['deploy']>['microFrontend']
   >,
 ) {
   if (microFrontend === true) {

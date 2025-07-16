@@ -35,3 +35,4 @@ export {
 } from './hooks';
 export { cli, createLoadedConfig, initAppDir, createCli, loadEnv } from './run';
 export { createStorybookOptions } from './run/create';
+export { mergeConfig } from './run/utils/mergeConfig';

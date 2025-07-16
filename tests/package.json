@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/core": "workspace:*",
     "@modern-js/generator-cases": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",

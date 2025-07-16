@@ -1,6 +1,6 @@
 import path from 'path';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
+import { createAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import {
   cleanRequireCache,
@@ -40,8 +40,6 @@ import type {
   GenerateEntryCodeFn,
   ModifyEntrypointsFn,
   ModifyFileSystemRoutesFn,
-  RegisterBuildPlatformFn,
-  RegisterDevFn,
 } from './types/new';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 import { initAppContext } from './utils/initAppContext';
@@ -78,8 +76,6 @@ export const appTools = (): CliPluginFuture<AppTools> => ({
     generateEntryCode: createAsyncHook<GenerateEntryCodeFn>(),
     onBeforeGenerateRoutes: createAsyncHook<BeforeGenerateRoutesFn>(),
     onBeforePrintInstructions: createAsyncHook<BeforePrintInstructionsFn>(),
-    registerDev: createCollectAsyncHook<RegisterDevFn>(),
-    registerBuildPlatform: createCollectAsyncHook<RegisterBuildPlatformFn>(),
     addRuntimeExports: createAsyncHook<AddRuntimeExportsFn>(),
   },
   setup: api => {
@@ -178,7 +174,6 @@ export const appTools = (): CliPluginFuture<AppTools> => ({
 });
 
 export { defineConfig } from './defineConfig';
-export { mergeConfig } from '@modern-js/core';
 export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
@@ -191,3 +186,6 @@ export * from './types';
 export { initAppContext };
 
 export default appTools;
+
+// TODO: check mergeConfig is equal to @modern-js/core
+export { mergeConfig } from '@modern-js/plugin-v2/cli';

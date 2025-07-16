@@ -68,7 +68,7 @@ describe('bff hono in dev', () => {
     expect(text).toBe('Hello Custom SDK');
   });
 
-  test('support uoload', async () => {
+  test('support upload', async () => {
     await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
     await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('.mock_file', el => el?.textContent);
@@ -149,7 +149,7 @@ describe('bff hono in prod', () => {
     expect(text).toBe('Hello Custom SDK');
   });
 
-  test('support uoload', async () => {
+  test('support upload', async () => {
     await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
     await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('.mock_file', el => el?.textContent);

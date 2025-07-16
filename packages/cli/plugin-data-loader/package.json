@@ -60,7 +60,6 @@
     "path-to-regexp": "^6.3.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",

@@ -1,4 +1,3 @@
-import type { IAppContext } from '@modern-js/core';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 import {
   isProd,
