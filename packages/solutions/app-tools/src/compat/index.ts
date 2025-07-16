@@ -8,7 +8,7 @@ type JestConfigFn = (
 ) => void | Promise<void>;
 type AfterTestFn = () => void | Promise<void>;
 
-export const compatPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const compatPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/app-tools-compat',
   _registryApi: (getAppContext, updateAppContext) => {
     const getInternalContext = () => {

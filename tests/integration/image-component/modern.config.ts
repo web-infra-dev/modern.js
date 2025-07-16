@@ -21,8 +21,5 @@ export default defineConfig({
   tools: {
     devServer: {},
   },
-  plugins: [
-    appTools({ bundler: 'rspack' }),
-    imagePlugin({ loader: './src/image-loader' }),
-  ],
+  plugins: [appTools(), imagePlugin({ loader: './src/image-loader' })],
 });

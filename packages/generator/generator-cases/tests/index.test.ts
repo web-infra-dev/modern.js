@@ -7,6 +7,6 @@ describe('test generator cases', () => {
   });
   test('test getMWANewCases', async () => {
     const mwaNewCases = getMWANewCases();
-    expect(mwaNewCases.length).toBe(10);
+    expect(mwaNewCases.length).toBe(9);
   });
 });

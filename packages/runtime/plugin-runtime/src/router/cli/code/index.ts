@@ -35,10 +35,10 @@ import * as templates from './templates';
 import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 
 export const generateCode = async (
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
   entrypoints: Entrypoint[],
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   isRouterV5: boolean,
 ) => {
   const {
@@ -206,7 +206,7 @@ export const generateCode = async (
         const serverLoaderCombined = templates.ssrLoaderCombinedModule(
           entrypoints,
           entrypoint,
-          config as AppNormalizedConfig<'shared'>,
+          config as AppNormalizedConfig,
           appContext,
         );
         if (serverLoaderCombined) {

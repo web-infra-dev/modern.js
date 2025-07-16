@@ -17,9 +17,9 @@ export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 
 export const generateCode = async (
   entrypoints: Entrypoint[],
-  appContext: AppToolsContext<'shared'>,
+  appContext: AppToolsContext,
   config: NormalizedConfig<AppTools>,
-  hooks: AppToolsFeatureHooks<'shared'>,
+  hooks: AppToolsFeatureHooks,
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;

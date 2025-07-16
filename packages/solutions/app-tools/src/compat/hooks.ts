@@ -23,7 +23,7 @@ import {
  * old plugin useHookRunners function result
  */
 export function getHookRunners(
-  context: InternalContext<AppTools<'shared'>>,
+  context: InternalContext<AppTools>,
 ): Record<string, any> {
   const { hooks } = context;
   return {

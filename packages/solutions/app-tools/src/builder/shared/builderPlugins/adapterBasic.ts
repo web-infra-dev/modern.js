@@ -1,11 +1,10 @@
 import path from 'path';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
-import type { Bundler } from '../../../types';
 import type { BuilderOptions } from '../types';
 
-export const builderPluginAdapterBasic = <B extends Bundler>(
-  options: BuilderOptions<B>,
+export const builderPluginAdapterBasic = (
+  options: BuilderOptions,
 ): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',
 

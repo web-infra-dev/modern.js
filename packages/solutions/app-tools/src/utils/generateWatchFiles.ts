@@ -32,7 +32,7 @@ export const addServerConfigToDeps = async (
 };
 
 export async function generateWatchFiles(
-  appContext: AppToolsContext<'shared'>,
+  appContext: AppToolsContext,
   configDir?: string,
 ): Promise<string[]> {
   const { appDirectory, configFile } = appContext;

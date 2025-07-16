@@ -8,7 +8,7 @@ export interface ImagePluginOptions extends BuilderPluginImageOptions {}
 
 export const imagePlugin = (
   options: ImagePluginOptions = {},
-): CliPluginFuture<AppTools<'shared'>> => ({
+): CliPluginFuture<AppTools> => ({
   name: '@modern-js/image',
   setup: api => {
     const { ...builderPluginOptions } = options;

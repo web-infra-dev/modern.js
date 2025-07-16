@@ -8,13 +8,13 @@ import {
   isUseSSRBundle,
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
-import type { AppNormalizedConfig, Bundler } from '../../types';
+import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/new';
 
-export function getBuilderEnvironments<B extends Bundler>(
-  normalizedConfig: AppNormalizedConfig<B>,
-  appContext: AppToolsContext<B>,
-  tempBuilderConfig: Omit<AppNormalizedConfig<B>, 'plugins'>,
+export function getBuilderEnvironments(
+  normalizedConfig: AppNormalizedConfig,
+  appContext: AppToolsContext,
+  tempBuilderConfig: Omit<AppNormalizedConfig, 'plugins'>,
 ) {
   // create entries
   type Entries = Record<string, string[]>;

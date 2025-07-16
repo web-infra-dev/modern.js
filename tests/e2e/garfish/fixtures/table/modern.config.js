@@ -1,7 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
 import { routerPlugin } from '@modern-js/plugin-router-v5';
-import { swcPlugin } from '@modern-js/plugin-swc';
 import { getPort } from '../../testUtils';
 
 module.exports = defineConfig({
@@ -30,12 +29,5 @@ module.exports = defineConfig({
   server: {
     port: getPort('@e2e/garfish-table'),
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-    garfishPlugin(),
-    routerPlugin(),
-    swcPlugin(),
-  ],
+  plugins: [appTools(), garfishPlugin(), routerPlugin()],
 });

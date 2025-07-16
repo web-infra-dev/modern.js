@@ -29,7 +29,7 @@ import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
 import serverRuntimePlugin from './plugins/serverRuntime';
-import type { AppTools, AppToolsOptions, CliPluginFuture } from './types';
+import type { AppTools, CliPluginFuture } from './types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
@@ -49,30 +49,13 @@ import { restart } from './utils/restart';
 
 export * from './defineConfig';
 
-export const appTools = (
-  options: AppToolsOptions = {
-    // default webpack to be compatible with original projects
-    bundler: 'webpack',
-  },
-): CliPluginFuture<AppTools<'shared'>> => ({
+export const appTools = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
     serverRuntimePlugin(),
     compatPlugin(),
-    initializePlugin({
-      bundler:
-        options?.bundler &&
-        ['rspack', 'experimental-rspack'].includes(options.bundler)
-          ? 'rspack'
-          : 'webpack',
-    }),
-    analyzePlugin({
-      bundler:
-        options?.bundler &&
-        ['rspack', 'experimental-rspack'].includes(options.bundler)
-          ? 'rspack'
-          : 'webpack',
-    }),
+    initializePlugin(),
+    analyzePlugin(),
     serverBuildPlugin(),
     deployPlugin(),
   ],
@@ -194,7 +177,7 @@ export const appTools = (
   },
 });
 
-export { defineConfig, defineLegacyConfig } from './defineConfig';
+export { defineConfig } from './defineConfig';
 export { mergeConfig } from '@modern-js/core';
 export type { RuntimeUserConfig } from './types/config';
 

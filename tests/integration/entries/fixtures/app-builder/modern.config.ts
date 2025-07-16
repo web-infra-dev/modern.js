@@ -4,9 +4,5 @@ export default defineConfig({
   source: {
     enableCustomEntry: true,
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-  ],
+  plugins: [appTools()],
 });

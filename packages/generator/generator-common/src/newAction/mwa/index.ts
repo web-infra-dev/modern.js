@@ -23,7 +23,6 @@ export const MWAActionFunctions = [
   ActionFunction.TailwindCSS,
   ActionFunction.BFF,
   ActionFunction.SSG,
-  ActionFunction.SWC,
   ActionFunction.MicroFrontend,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
@@ -115,7 +114,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
-  [ActionFunction.SWC]: '@modern-js/plugin-swc',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
@@ -160,7 +158,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
-    [ActionFunction.SWC]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',
@@ -181,7 +178,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
     [ActionFunction.Proxy]: 'proxyPlugin',
-    [ActionFunction.SWC]: 'swcPlugin',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: 'routerPlugin',
@@ -202,7 +198,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
-    [ActionFunction.SWC]: '@modern-js/plugin-swc',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',

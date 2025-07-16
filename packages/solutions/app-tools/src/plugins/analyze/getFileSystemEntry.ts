@@ -33,7 +33,7 @@ const hasServerEntry = (dir: string) =>
   );
 
 const isBundleEntry = async (
-  hooks: AppToolsHooks<'shared'>,
+  hooks: AppToolsHooks,
   dir: string,
   enableCustomEntry?: boolean,
 ) => {
@@ -52,7 +52,7 @@ const isBundleEntry = async (
 };
 
 const scanDir = async (
-  hooks: AppToolsHooks<'shared'>,
+  hooks: AppToolsHooks,
   dirs: string[],
   enableCustomEntry?: boolean,
 ): Promise<Entrypoint[]> => {
@@ -120,9 +120,9 @@ const scanDir = async (
 };
 
 export const getFileSystemEntry = async (
-  hooks: AppToolsHooks<'shared'>,
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  hooks: AppToolsHooks,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ): Promise<Entrypoint[]> => {
   const { appDirectory } = appContext;
 

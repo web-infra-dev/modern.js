@@ -6,7 +6,6 @@ import type {
   RsbuildPlugin,
   RspackChain,
 } from '@rsbuild/core';
-import type { Bundler } from '../../../types';
 import type { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
@@ -14,8 +13,8 @@ import type { BuilderOptions } from '../types';
 const createVirtualModule = (content: string) =>
   `data:text/javascript,${content}`;
 
-export const builderPluginAdapterHtml = <B extends Bundler>(
-  options: BuilderOptions<B>,
+export const builderPluginAdapterHtml = (
+  options: BuilderOptions,
 ): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-html',
   setup(api) {
@@ -56,7 +55,7 @@ async function injectAssetPrefix({ chain }: { chain: RspackChain }) {
 }
 
 /** inject bottom template */
-function applyBottomHtmlPlugin<B extends Bundler>({
+function applyBottomHtmlPlugin({
   chain,
   options,
   CHAIN_ID,
@@ -64,7 +63,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
   htmlPaths,
 }: {
   chain: RspackChain;
-  options: BuilderOptions<B>;
+  options: BuilderOptions;
   CHAIN_ID: ChainIdentifier;
   HtmlBundlerPlugin: any;
   htmlPaths: Record<string, string>;

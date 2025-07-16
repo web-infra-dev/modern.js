@@ -64,7 +64,7 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const documentPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-document',
 
   pre: ['@modern-js/plugin-analyze'],

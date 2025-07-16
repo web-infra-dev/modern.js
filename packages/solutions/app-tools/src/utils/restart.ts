@@ -3,10 +3,7 @@ import { chalk, clearConsole, getFullArgv, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import type { AppToolsHooks } from '../types/new';
 
-export async function restart(
-  hooks: AppToolsHooks<'shared'>,
-  filename: string,
-) {
+export async function restart(hooks: AppToolsHooks, filename: string) {
   clearConsole();
   logger.info(`Restart because ${chalk.yellow(filename)} is changed...\n`);
 

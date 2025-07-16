@@ -22,7 +22,6 @@ import type {
 import type { AppTools } from '.';
 import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
-import type { Bundler } from './utils';
 
 export type AfterPrepareFn = () => Promise<void> | void;
 export type CheckEntryPointFn = TransformFunction<{
@@ -53,7 +52,7 @@ export type RegisterBuildPlatformFn = () =>
   | RegisterBuildPlatformResult;
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
-export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
+export interface AppToolsExtendAPI {
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
 
@@ -83,17 +82,15 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   /**
    * @deprecated use getAppContext instead
    */
-  useAppContext: () => AppToolsContext<B>;
+  useAppContext: () => AppToolsContext;
   /**
    * @deprecated use getConfig instead
    */
-  useConfigContext: () => AppToolsUserConfig<B>;
+  useConfigContext: () => AppToolsUserConfig;
   /**
    * @deprecated use getNormalizedConfig instead
    */
-  useResolvedConfigContext: () => AppToolsNormalizedConfig<
-    AppToolsUserConfig<B>
-  >;
+  useResolvedConfigContext: () => AppToolsNormalizedConfig<AppToolsUserConfig>;
   /**
    * @deprecated use api.xx instead
    */
@@ -127,7 +124,7 @@ export interface AppToolsExtendHooks
   addRuntimeExports: AsyncHook<AddRuntimeExportsFn>;
 }
 
-export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
+export interface AppToolsExtendContext {
   metaName: string;
   internalDirectory: string;
   sharedDirectory: string;
@@ -147,7 +144,7 @@ export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
   serverRoutes: ServerRoute[];
   /** Whether to use api only mode */
   apiOnly: boolean;
-  _internalContext: InternalContext<AppTools<B>>;
+  _internalContext: InternalContext<AppTools>;
   /**
    * Information for HTML templates by entry
    * @private
@@ -169,13 +166,10 @@ export interface AppToolsExtendContext<B extends Bundler = 'webpack'> {
   bffRuntimeFramework?: string;
 }
 
-export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
-  AppTools<B>
-> &
-  AppToolsExtendContext<B>;
+export type AppToolsContext = AppContext<AppTools> & AppToolsExtendContext;
 
-export type AppToolsHooks<B extends Bundler = 'webpack'> = Hooks<
-  AppToolsUserConfig<B>,
+export type AppToolsHooks = Hooks<
+  AppToolsUserConfig,
   AppToolsNormalizedConfig,
   {},
   {}

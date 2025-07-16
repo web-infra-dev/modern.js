@@ -3,7 +3,8 @@
   "name": "app-rsbuild-hooks",
   "version": "2.66.0",
   "scripts": {
-    "dev": "modern dev"
+    "dev": "modern dev",
+    "build": "modern build"
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",

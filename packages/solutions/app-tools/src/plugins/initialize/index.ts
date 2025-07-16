@@ -4,12 +4,7 @@ import {
   isDev,
   isDevCommand,
 } from '@modern-js/utils';
-import {
-  checkIsLegacyConfig,
-  createDefaultConfig,
-  createLegacyDefaultConfig,
-  transformNormalizedConfig,
-} from '../../config';
+import { createDefaultConfig } from '../../config';
 import type {
   AppNormalizedConfig,
   AppTools,
@@ -18,11 +13,7 @@ import type {
   CliPluginFuture,
 } from '../../types';
 
-export default ({
-  bundler,
-}: {
-  bundler: 'rspack' | 'webpack';
-}): CliPluginFuture<AppTools<'shared'>> => ({
+export default (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-initialize',
 
   post: [
@@ -37,18 +28,8 @@ export default ({
   setup(api) {
     api.config(() => {
       const appContext = api.getAppContext();
-      const userConfig = api.getConfig();
 
-      // set bundlerType to appContext
-      api.updateAppContext({
-        bundlerType: bundler,
-      });
-
-      return (checkIsLegacyConfig(userConfig)
-        ? createLegacyDefaultConfig(appContext)
-        : createDefaultConfig(
-            appContext,
-          )) as unknown as AppUserConfig<'shared'>;
+      return createDefaultConfig(appContext) as unknown as AppUserConfig;
     });
 
     api.modifyResolvedConfig(async resolved => {
@@ -67,9 +48,7 @@ export default ({
 
       api.updateAppContext(appContext);
 
-      const normalizedConfig = checkIsLegacyConfig(resolved)
-        ? transformNormalizedConfig(resolved as any)
-        : resolved;
+      const normalizedConfig = resolved;
 
       resolved._raw = userConfig;
       resolved.server = {
@@ -98,11 +77,6 @@ export default ({
           'performance',
         ],
       );
-
-      if (bundler === 'webpack') {
-        resolved.security = normalizedConfig.security || {};
-        resolved.experiments = normalizedConfig.experiments;
-      }
 
       return resolved;
     });

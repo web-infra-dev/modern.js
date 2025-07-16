@@ -1,7 +1,7 @@
 import './App.css';
 import type { AppUserConfig } from '@modern-js/app-tools';
 
-const rspackConfig: AppUserConfig<'rspack'> = {
+const rspackConfig: AppUserConfig = {
   source: {
     transformImport: [
       {

@@ -20,12 +20,12 @@ Modern.js 插件系统在不断演进，为了提供更清晰的 API 和更强�
 // 旧版写法
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-const plugin: CliPlugin<AppTools<'shared'>> = { ... };
+const plugin: CliPlugin<AppTools> = { ... };
 
 // 新版写法
 import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
 
-const plugin: CliPluginFuture<AppTools<'shared'>> = { ... };
+const plugin: CliPluginFuture<AppTools> = { ... };
 ```
 
 **说明：** `CliPluginFuture` 类型是新版插件的标准定义，它带来了更好的类型推断和更清晰的 API 结构。

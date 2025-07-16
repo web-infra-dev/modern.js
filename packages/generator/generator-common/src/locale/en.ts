@@ -12,7 +12,6 @@ export const EN_LOCALE = {
       ssg: 'Enable SSG',
       polyfill: 'Enable UA-based Polyfill Feature',
       proxy: 'Enable Global Proxy',
-      swc: 'Enable SWC Compile',
       module_doc: 'Enable Module Doc',
     },
     element: {

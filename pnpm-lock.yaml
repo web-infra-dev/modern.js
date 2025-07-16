@@ -452,43 +452,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/cli/plugin-swc:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@rsbuild/core':
-        specifier: 1.4.6
-        version: 1.4.6
-      '@rsbuild/plugin-webpack-swc':
-        specifier: 1.1.1
-        version: 1.1.1(@rsbuild/core@1.4.6)
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/cli/plugin-tailwind:
     dependencies:
       '@modern-js/node-bundle-require':
@@ -4443,9 +4406,6 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4480,9 +4440,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4517,9 +4474,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4554,9 +4508,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4591,9 +4542,6 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4703,9 +4651,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5651,9 +5596,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5857,9 +5799,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5903,9 +5842,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5949,9 +5885,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@modern-js/uni-builder':
         specifier: workspace:*
         version: link:../../../packages/cli/uni-builder
@@ -6001,9 +5934,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -6585,9 +6515,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -6946,109 +6873,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/swc:
-    dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-
-  tests/integration/swc/fixtures/config-function:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
-
-  tests/integration/swc/fixtures/decorator/legacy:
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../../packages/cli/plugin-swc
-
-  tests/integration/swc/fixtures/decorator/new:
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../../packages/cli/plugin-swc
-
-  tests/integration/swc/fixtures/minify-css:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
-
-  tests/integration/swc/fixtures/minify-js:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
-
-  tests/integration/swc/fixtures/transform-fail:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-swc
-
   tests/integration/tailwindcss:
     dependencies:
       '@types/jest':
@@ -7292,9 +7116,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -7323,9 +7144,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
@@ -7360,9 +7178,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
       '@types/jest':
         specifier: ^29
         version: 29.5.14

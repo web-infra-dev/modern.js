@@ -43,7 +43,7 @@ export type CleanHooks<T> = {
 
 export type $FrameworkHooks = CleanHooks<
   Pick<
-    ToThreads<BaseHooks<any> & AppToolsHooks<any>>,
+    ToThreads<BaseHooks<any> & AppToolsHooks>,
     | 'prepare'
     | 'modifyFileSystemRoutes'
     | 'modifyServerRoutes'

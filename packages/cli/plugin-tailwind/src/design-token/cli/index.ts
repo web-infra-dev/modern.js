@@ -1,10 +1,10 @@
-import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { DesignSystem } from '../../types';
 
 export const designTokenPlugin = (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
-): CliPlugin<LegacyAppTools> => ({
+): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-design-token',
 
   setup(api) {

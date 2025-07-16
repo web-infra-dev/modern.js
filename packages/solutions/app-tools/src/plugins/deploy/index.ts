@@ -27,7 +27,7 @@ const deployPresets: DeployPresetCreators = {
 };
 
 async function getDeployPreset(
-  appContext: AppToolsContext<'shared'>,
+  appContext: AppToolsContext,
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
 ) {
@@ -50,7 +50,7 @@ async function getDeployPreset(
   return createPreset(appContext, modernConfig, needModernServer);
 }
 
-export default (): CliPluginFuture<AppTools<'shared'>> => ({
+export default (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-deploy',
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';

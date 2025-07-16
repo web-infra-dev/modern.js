@@ -12,7 +12,7 @@ import type {
 
 export const devCommand = async (
   program: Command,
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
 ) => {
   const hooks = api.getHooks();
   const devToolMetas = await hooks.registerDev.call();
@@ -52,7 +52,7 @@ export const devCommand = async (
 
 export const buildCommand = async (
   program: Command,
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
 ) => {
   const hooks = api.getHooks();
   const platformBuilders = await hooks.registerBuildPlatform.call();
@@ -86,7 +86,7 @@ export const buildCommand = async (
 
 export const serverCommand = (
   program: Command,
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
 ) => {
   program
     .command('serve')
@@ -102,7 +102,7 @@ export const serverCommand = (
 
 export const deployCommand = (
   program: Command,
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
 ) => {
   program
     .command('deploy')
@@ -153,7 +153,7 @@ export const newCommand = (program: Command, locale: string) => {
 
 export const inspectCommand = (
   program: Command,
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
 ) => {
   program
     .command('inspect')

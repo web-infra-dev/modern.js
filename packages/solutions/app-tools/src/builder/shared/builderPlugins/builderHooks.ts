@@ -1,9 +1,8 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import type { Bundler } from '../../../types';
 import type { BuilderOptions } from '../types';
 
-export const builderPluginAdapterHooks = <B extends Bundler>(
-  options: BuilderOptions<B>,
+export const builderPluginAdapterHooks = (
+  options: BuilderOptions,
 ): RsbuildPlugin => ({
   name: 'builder-plugin-support-modern-hooks',
   setup(api) {

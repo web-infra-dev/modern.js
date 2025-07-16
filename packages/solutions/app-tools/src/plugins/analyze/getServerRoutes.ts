@@ -117,8 +117,8 @@ const applyRouteOptions = (
  */
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const {
     source: { mainEntryName },
@@ -206,8 +206,8 @@ const collectHtmlRoutes = (
  * @returns Static public file routes.
  */
 const collectStaticRoutes = (
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
   const {
@@ -247,8 +247,8 @@ export const getServerRoutes = (
     appContext,
     config,
   }: {
-    appContext: AppToolsContext<'shared'>;
-    config: AppNormalizedConfig<'shared'>;
+    appContext: AppToolsContext;
+    config: AppNormalizedConfig;
   },
 ): ServerRoute[] => [
   ...collectHtmlRoutes(entrypoints, appContext, config),

@@ -44,7 +44,7 @@ console.log(
 );
 
 // https://modernjs.dev/en/configure/app/usage
-export default defineConfig<'rspack'>({
+export default defineConfig({
   runtime: {
     router: {
       supportHtml5History: false,
@@ -118,5 +118,5 @@ export default defineConfig<'rspack'>({
         .use(ServiceWorkerCompilerPlugin);
     },
   },
-  plugins: [appTools({ bundler: 'rspack' })],
+  plugins: [appTools()],
 });

@@ -132,7 +132,6 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-express': '@modern-js/plugin-express/cli',
   '@modern-js/plugin-koa': '@modern-js/plugin-koa/cli',
   '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
-  '@modern-js/plugin-swc': '@modern-js/plugin-swc',
   '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',

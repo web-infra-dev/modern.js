@@ -25,9 +25,7 @@ export default defineConfig({
     router: true,
   },
   plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
+    appTools(),
     moduleFederationPlugin(),
   ],
 });
@@ -86,9 +84,7 @@ export default defineConfig({
     router: true,
   },
   plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
+    appTools(),
     moduleFederationPlugin(),
   ],
 });
@@ -205,9 +201,7 @@ export default defineConfig({
     assetPrefix: 'http://127.0.0.1:3051',
   },
   plugins: [
-    appTools({
-      bundler: 'rspack', // Set to 'webpack' to enable webpack
-    }),
+    appTools(),
     moduleFederationPlugin(),
   ],
 });

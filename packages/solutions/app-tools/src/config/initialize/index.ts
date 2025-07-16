@@ -3,12 +3,11 @@ import type { AppToolsContext } from '../../types/new';
 import { initHtmlConfig, initSourceConfig } from './inits';
 
 export function initialNormalizedConfig(
-  config: AppNormalizedConfig<'shared'>,
-  appContext: AppToolsContext<'shared'>,
-  bundler: 'webpack' | 'rspack',
-): AppNormalizedConfig<'shared'> {
+  config: AppNormalizedConfig,
+  appContext: AppToolsContext,
+): AppNormalizedConfig {
   initHtmlConfig(config, appContext);
-  initSourceConfig(config, appContext, bundler);
+  initSourceConfig(config, appContext);
 
   return config;
 }

@@ -20,12 +20,12 @@ This is the first and most crucial step of the migration. It ensures that your p
 // Old Syntax
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-const plugin: CliPlugin<AppTools<'shared'>> = { ... };
+const plugin: CliPlugin<AppTools> = { ... };
 
 // New Syntax
 import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
 
-const plugin: CliPluginFuture<AppTools<'shared'>> = { ... };
+const plugin: CliPluginFuture<AppTools> = { ... };
 ```
 
 **Explanation:** The `CliPluginFuture` type is the standard definition for new plugins, providing better type inference and a clearer API structure.

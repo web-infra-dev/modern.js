@@ -47,9 +47,9 @@ function getSSRMode(
 
 export const generateCode = async (
   entrypoints: Entrypoint[],
-  appContext: AppToolsContext<'shared'>,
+  appContext: AppToolsContext,
   config: AppToolsNormalizedConfig,
-  hooks: AppToolsFeatureHooks<'shared'>,
+  hooks: AppToolsFeatureHooks,
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;

@@ -17,9 +17,7 @@ export type ServerAppContext = {
   bffRuntimeFramework: string;
 };
 
-export const serverAppContenxtTemplate = (
-  appContext: AppToolsContext<'shared'>,
-) => {
+export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
   const {
     appDirectory,
     sharedDirectory,

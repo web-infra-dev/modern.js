@@ -4,7 +4,6 @@ import {
   createUniBuilder,
 } from '@modern-js/uni-builder';
 import { mergeRsbuildConfig } from '@rsbuild/core';
-import type { Bundler } from '../../types';
 import type { BuilderOptions } from '../shared';
 import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
@@ -15,14 +14,14 @@ import { getBuilderEnvironments } from './getBuilderEnvironments';
  * @param bundlerType BundlerType
  * @returns BuilderInstance
  */
-export async function generateBuilder<B extends Bundler>(
-  options: BuilderOptions<B>,
+export async function generateBuilder(
+  options: BuilderOptions,
   bundlerType: BundlerType,
 ) {
   const { normalizedConfig, appContext } = options;
 
   // create provider
-  const tempBuilderConfig = createBuilderProviderConfig<B>(
+  const tempBuilderConfig = createBuilderProviderConfig(
     normalizedConfig,
     appContext,
   );
@@ -52,9 +51,9 @@ export async function generateBuilder<B extends Bundler>(
   return builder;
 }
 
-async function applyBuilderPlugins<B extends Bundler>(
+async function applyBuilderPlugins(
   builder: UniBuilderInstance,
-  options: BuilderOptions<B>,
+  options: BuilderOptions,
 ) {
   const {
     builderPluginAdapterBasic,

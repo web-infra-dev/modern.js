@@ -39,7 +39,7 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export const garfishPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const garfishPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   pre: ['@modern-js/runtime'],
   registryHooks: {

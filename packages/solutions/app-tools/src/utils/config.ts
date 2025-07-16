@@ -75,7 +75,7 @@ export const buildServerConfig = async ({
 
 export const emitResolvedConfig = async (
   appDirectory: string,
-  resolvedConfig: AppNormalizedConfig<'shared'>,
+  resolvedConfig: AppNormalizedConfig,
 ) => {
   const outputPath = ensureAbsolutePath(
     appDirectory,

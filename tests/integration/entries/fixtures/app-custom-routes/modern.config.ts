@@ -7,9 +7,5 @@ export default defineConfig({
   runtime: {
     router: true,
   },
-  plugins: [
-    appTools({
-      bundler: 'rspack',
-    }),
-  ],
+  plugins: [appTools()],
 });

@@ -43,15 +43,6 @@ export default defineConfig({
 });
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `<'rspack'>` generic for `defineConfig`:
-
-```diff title=modern.config.ts
-- export default defineConfig({
-+ export default defineConfig<'rspack'>({
-  // ...
-});
-```
-
 #### modern.config.js
 
 If you are developing a non-TypeScript project, you can use the `.js` format for the configuration file:
@@ -263,12 +254,12 @@ const config: AppUserConfig = {
 };
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `<'rspack'>` generic for `AppUserConfig`:
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `` generic for `AppUserConfig`:
 
 ```ts title="modern.config.ts"
 import type { AppUserConfig } from '@modern-js/app-tools';
 
-const config: AppUserConfig<'rspack'> = {
+const config: AppUserConfig = {
   tools: {
     rspack: {},
   },

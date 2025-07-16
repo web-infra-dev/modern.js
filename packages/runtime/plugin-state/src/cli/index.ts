@@ -4,7 +4,7 @@ import './types';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const statePlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-state',
 
   required: ['@modern-js/runtime'],

@@ -15,7 +15,7 @@ import type { AppTools } from '../types';
 const debug = createDebugger('load-plugins');
 
 export async function getServerPlugins(
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   metaName = 'modern-js',
 ): Promise<ServerPlugin[]> {
   const hooks = api.getHooks();
@@ -34,7 +34,7 @@ export async function getServerPlugins(
 }
 
 export async function loadServerPlugins(
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   appDirectory: string,
   metaName: string,
 ): Promise<ServerPluginInstance[]> {

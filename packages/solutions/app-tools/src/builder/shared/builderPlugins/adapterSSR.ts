@@ -13,15 +13,14 @@ import {
 import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 import type {
   AppNormalizedConfig,
-  Bundler,
   SSGMultiEntryOptions,
   ServerUserConfig,
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
 
-export const builderPluginAdapterSSR = <B extends Bundler>(
-  options: BuilderOptions<B>,
+export const builderPluginAdapterSSR = (
+  options: BuilderOptions,
 ): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-ssr',
 
@@ -92,7 +91,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
   },
 });
 
-const isStreamingSSR = (userConfig: AppNormalizedConfig<'shared'>): boolean => {
+const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -121,7 +120,7 @@ function applyAsyncChunkHtmlPlugin({
   HtmlBundlerPlugin,
 }: {
   chain: RspackChain;
-  modernConfig: AppNormalizedConfig<'shared'>;
+  modernConfig: AppNormalizedConfig;
   HtmlBundlerPlugin: any;
 }) {
   if (isStreamingSSR(modernConfig) || isUseRsc(modernConfig)) {
@@ -131,10 +130,10 @@ function applyAsyncChunkHtmlPlugin({
   }
 }
 
-function applyRouterPlugin<B extends Bundler>(
+function applyRouterPlugin(
   chain: RspackChain,
   pluginName: string,
-  options: Readonly<BuilderOptions<B>>,
+  options: Readonly<BuilderOptions>,
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin,
 ) {
   const { appContext, normalizedConfig } = options;
@@ -174,7 +173,7 @@ function applyFilterEntriesBySSRConfig({
 }: {
   isProd: boolean;
   chain: RspackChain;
-  appNormalizedConfig: AppNormalizedConfig<'shared'>;
+  appNormalizedConfig: AppNormalizedConfig;
 }) {
   const { server: serverConfig, output: outputConfig } = appNormalizedConfig;
 
@@ -226,9 +225,9 @@ function applyFilterEntriesBySSRConfig({
   });
 }
 
-async function applySSRLoaderEntry<B extends Bundler>(
+async function applySSRLoaderEntry(
   chain: RspackChain,
-  optinos: BuilderOptions<B>,
+  optinos: BuilderOptions,
   isServer: boolean,
 ) {
   const { appContext } = optinos;
@@ -265,10 +264,7 @@ async function applySSRLoaderEntry<B extends Bundler>(
   );
 }
 
-function applySSRDataLoader<B extends Bundler>(
-  chain: RspackChain,
-  options: BuilderOptions<B>,
-) {
+function applySSRDataLoader(chain: RspackChain, options: BuilderOptions) {
   const { normalizedConfig, appContext } = options;
   const { appDirectory } = appContext;
 
