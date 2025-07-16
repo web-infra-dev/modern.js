@@ -68,12 +68,12 @@ export type ProxyDetail = ProxyOptions & {
   bypass?: (
     req: IncomingMessage,
     res: ServerResponse,
-    proxyOptions: BffProxyOptions,
+    proxyOptions: DevProxyOptions,
   ) => string | undefined | null | false;
   context?: ProxyFilter;
 };
 
-export type BffProxyOptions =
+export type DevProxyOptions =
   | Record<string, string>
   | Record<string, ProxyDetail>
   | ProxyDetail[]

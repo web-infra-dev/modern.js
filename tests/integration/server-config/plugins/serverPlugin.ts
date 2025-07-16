@@ -29,16 +29,6 @@ export default (): ServerPluginLegacy => ({
         const apiAppPath = path.resolve(apiPath, API_APP_NAME);
         await requireExistModule(apiAppPath);
       },
-      config(serverConfig) {
-        if (serverConfig.bff?.proxy) {
-          serverConfig.bff.proxy['/api/bar'] = {
-            target: `http://127.0.0.1:${process.env.PORT}`,
-            pathRewrite: { '/api/bar': '/api/foo' },
-            changeOrigin: true,
-          };
-        }
-        return serverConfig;
-      },
 
       async prepareApiServer() {
         return async c => {

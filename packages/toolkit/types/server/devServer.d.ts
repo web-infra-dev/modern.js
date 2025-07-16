@@ -1,5 +1,5 @@
 import type { NodeRequest, NodeResponse } from '@modern-js/server-core/node';
-import type { BffProxyOptions, NextFunction } from './utils';
+import type { DevProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
@@ -30,7 +30,7 @@ export type DevServerOptions = {
     writeToDisk?: boolean | ((filename: string) => boolean);
     outputFileSystem?: Record<string, any>;
   };
-  proxy?: BffProxyOptions;
+  proxy?: DevProxyOptions;
   headers?: Record<string, string | string[]>;
   before?: RequestHandler[];
   after?: RequestHandler[];
