@@ -11,10 +11,7 @@ export async function getUserConfig(
   const loaded = await createLoadedConfig<{
     autoLoadPlugins: boolean;
     runtime: boolean | Record<string, any>;
-    plugins: (
-      | CliPlugin<AppTools<'shared'>>
-      | CliPluginFuture<AppTools<'shared'>>
-    )[];
+    plugins: (CliPlugin<AppTools> | CliPluginFuture<AppTools>)[];
   }>(appDirectory, configFile, packageJsonConfig);
   return loaded.config || {};
 }

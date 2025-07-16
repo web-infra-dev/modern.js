@@ -3,9 +3,9 @@ import type { AppNormalizedConfig } from '../types';
 import type { AppToolsContext, AppToolsHooks } from '../types/new';
 
 export const printInstructions = async (
-  hooks: AppToolsHooks<'shared'>,
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  hooks: AppToolsHooks,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ) => {
   const message = prettyInstructions(appContext, config);
 

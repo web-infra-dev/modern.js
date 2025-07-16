@@ -47,8 +47,8 @@ describe('get entrypoints from file system', () => {
     expect(
       await getFileSystemEntry(
         await pluginAPI.getHooks(),
-        appContext as AppToolsContext<'shared'>,
-        config as AppNormalizedConfig<'shared'>,
+        appContext as AppToolsContext,
+        config as AppNormalizedConfig,
       ),
     ).toMatchObject([
       {
@@ -69,8 +69,8 @@ describe('get entrypoints from file system', () => {
     expect(
       await getFileSystemEntry(
         await pluginAPI.getHooks(),
-        appContext as AppToolsContext<'shared'>,
-        config as AppNormalizedConfig<'shared'>,
+        appContext as AppToolsContext,
+        config as AppNormalizedConfig,
       ),
     ).toMatchObject([
       {
@@ -90,8 +90,8 @@ describe('get entrypoints from file system', () => {
     expect(
       await getFileSystemEntry(
         await pluginAPI.getHooks(),
-        appContext as AppToolsContext<'shared'>,
-        config as AppNormalizedConfig<'shared'>,
+        appContext as AppToolsContext,
+        config as AppNormalizedConfig,
       ),
     ).toMatchObject([
       {
@@ -112,8 +112,8 @@ describe('get entrypoints from file system', () => {
     expect(
       getFileSystemEntry(
         await pluginAPI.getHooks(),
-        appContext as AppToolsContext<'shared'>,
-        config as AppNormalizedConfig<'shared'>,
+        appContext as AppToolsContext,
+        config as AppNormalizedConfig,
       ),
     ).rejects.toThrow('There is no valid entry point in the current project!');
   });

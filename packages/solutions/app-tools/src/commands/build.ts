@@ -9,7 +9,7 @@ import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
 export const build = async (
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   options?: BuildOptions,
 ) => {
   if (options?.analyze) {

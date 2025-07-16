@@ -4,7 +4,6 @@ import type {
   UniBuilderPlugin,
 } from '@modern-js/uni-builder';
 import type { RsbuildConfig } from '@rsbuild/core';
-import type { Bundler } from '../utils';
 import type { DeployUserConfig } from './deploy';
 import type { DevUserConfig } from './dev';
 import type { ExperimentsUserConfig } from './experiments';
@@ -26,7 +25,7 @@ export interface RuntimeByEntriesUserConfig {
   [name: string]: RuntimeUserConfig;
 }
 
-export interface AppToolsUserConfig<B extends Bundler> {
+export interface AppToolsUserConfig {
   resolve?: ResolveUserConfig;
   server?: ServerUserConfig;
   source?: SourceUserConfig;
@@ -43,7 +42,7 @@ export interface AppToolsUserConfig<B extends Bundler> {
   runtime?: RuntimeUserConfig;
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: HtmlUserConfig;
-  tools?: ToolsUserConfig<B>;
+  tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
   builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>;
@@ -56,5 +55,5 @@ interface SharedNormalizedConfig<RawConfig> {
   _raw: RawConfig;
 }
 
-export type AppToolsNormalizedConfig<Config = AppToolsUserConfig<'shared'>> =
+export type AppToolsNormalizedConfig<Config = AppToolsUserConfig> =
   Required<Config> & SharedNormalizedConfig<Config>;

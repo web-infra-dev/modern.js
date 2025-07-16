@@ -22,14 +22,13 @@ import type {
   Stats,
   webpack,
 } from '@modern-js/uni-builder';
-import type { Bundler } from './utils';
 
 export interface ImportSpecifier {
   local?: string;
   imported?: string;
 }
 
-export type AppToolsHooks<B extends Bundler = 'webpack'> = {
+export type AppToolsHooks = {
   _internalRuntimePlugins: AsyncWaterfall<{
     entrypoint: Entrypoint;
     plugins: RuntimePluginConfig[];
@@ -65,26 +64,20 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   afterDev: AsyncWorkflow<{ isFirstCompile: boolean }, unknown>;
   beforeCreateCompiler: AsyncWorkflow<
     {
-      bundlerConfigs?: B extends 'rspack'
-        ? Rspack.Configuration[]
-        : webpack.Configuration[];
+      bundlerConfigs?: Rspack.Configuration[];
     },
     unknown
   >;
   afterCreateCompiler: AsyncWorkflow<
     {
-      compiler?: B extends 'rspack'
-        ? Rspack.Compiler
-        : webpack.Compiler | webpack.MultiCompiler;
+      compiler?: Rspack.Compiler;
     },
     unknown
   >;
   beforePrintInstructions: AsyncWaterfall<{ instructions: string }>;
   beforeBuild: AsyncWorkflow<
     {
-      bundlerConfigs?: B extends 'rspack'
-        ? Rspack.Configuration[]
-        : webpack.Configuration[];
+      bundlerConfigs?: Rspack.Configuration[];
     },
     unknown
   >;

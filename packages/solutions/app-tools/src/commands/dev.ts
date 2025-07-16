@@ -24,7 +24,7 @@ interface ExtraServerOptions {
 }
 
 export const dev = async (
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   options: DevOptions,
   devServerOptions?: ExtraServerOptions,
 ) => {
@@ -145,7 +145,7 @@ export const dev = async (
         printInstructions(
           hooks,
           appContext,
-          normalizedConfig as AppNormalizedConfig<'shared'>,
+          normalizedConfig as AppNormalizedConfig,
         );
       },
     );

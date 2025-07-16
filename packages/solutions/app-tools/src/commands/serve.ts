@@ -17,7 +17,7 @@ type ExtraServerOptions = {
 };
 
 export const serve = async (
-  api: CLIPluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools>,
   serverOptions?: ExtraServerOptions,
 ) => {
   const appContext = api.getAppContext();
@@ -104,7 +104,7 @@ export const serve = async (
     await printInstructions(
       hooks,
       appContext,
-      userConfig as AppNormalizedConfig<'shared'>,
+      userConfig as AppNormalizedConfig,
     );
   });
 };

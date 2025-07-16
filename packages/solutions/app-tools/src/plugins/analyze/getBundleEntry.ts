@@ -51,9 +51,9 @@ const ifAlreadyExists = (
   });
 
 export const getBundleEntry = async (
-  hooks: AppToolsHooks<'shared'>,
-  appContext: AppToolsContext<'shared'>,
-  config: AppNormalizedConfig<'shared'>,
+  hooks: AppToolsHooks,
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ) => {
   const { appDirectory, packageName } = appContext;
   const { disableDefaultEntries, entries, entriesDir, mainEntryName } =

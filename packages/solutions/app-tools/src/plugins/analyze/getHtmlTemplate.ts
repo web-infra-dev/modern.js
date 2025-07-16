@@ -76,13 +76,13 @@ export const getModifyHtmlPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
-  hooks: AppToolsHooks<'shared'>,
+  hooks: AppToolsHooks,
   {
     appContext,
     config,
   }: {
-    appContext: AppToolsContext<'shared'>;
-    config: AppNormalizedConfig<'shared'>;
+    appContext: AppToolsContext;
+    config: AppNormalizedConfig;
   },
 ) => {
   const { appDirectory, internalDirectory } = appContext;

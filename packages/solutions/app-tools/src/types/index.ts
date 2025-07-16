@@ -12,13 +12,11 @@ import type {
   AppToolsExtendContext,
   AppToolsExtendHooks,
 } from './new';
-import type { Bundler } from './utils';
 
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 export * from './hooks';
 export * from './config';
 export type { webpack, Rspack } from '@modern-js/uni-builder';
-export type { Bundler } from './utils';
 export type {
   ServerUserConfig,
   ServerNormalizedConfig,
@@ -45,38 +43,27 @@ export type {
 } from '@modern-js/core';
 
 // 同时支持 plugin and plugin v2
-export type AppTools<B extends Bundler = 'webpack'> = Required<
+export type AppTools = Required<
   CLIPluginExtends<
-    AppToolsUserConfig<B>,
+    AppToolsUserConfig,
     AppToolsNormalizedConfig,
-    AppToolsExtendContext<B>,
-    AppToolsExtendAPI<B>,
+    AppToolsExtendContext,
+    AppToolsExtendAPI,
     AppToolsExtendHooks
   >
 > & {
   // v1 params
-  userConfig: AppToolsUserConfig<B>;
-  hooks: AppToolsHooks<B>;
+  userConfig: AppToolsUserConfig;
+  hooks: AppToolsHooks;
 };
 
 // plugin v2
 export type CliPluginFuture<Extends extends CLIPluginExtends> =
   CLIPlugin<Extends>;
 
-export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
-  NormalizedConfig<AppTools<B>>;
+export type AppNormalizedConfig = NormalizedConfig<AppTools>;
 
-export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
-  AppTools<B>
->;
-
-export type AppToolsOptions = {
-  /**
-   * Specify which bundler to use for the build.
-   * @default `webpack`
-   * */
-  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
-};
+export type AppUserConfig = UserConfig<AppTools>;
 
 export type {
   AppToolsExtendAPI,

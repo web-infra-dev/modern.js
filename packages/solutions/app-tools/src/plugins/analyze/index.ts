@@ -27,7 +27,7 @@ export default ({
   bundler,
 }: {
   bundler: 'webpack' | 'rspack';
-}): CliPluginFuture<AppTools<'shared'>> => ({
+}): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-analyze',
   post: ['@modern-js/runtime'],
   setup: api => {
@@ -36,8 +36,7 @@ export default ({
 
     api.onPrepare(async () => {
       let appContext = api.getAppContext();
-      const resolvedConfig =
-        api.getNormalizedConfig() as AppNormalizedConfig<'shared'>;
+      const resolvedConfig = api.getNormalizedConfig() as AppNormalizedConfig;
       const hooks = api.getHooks();
 
       try {
@@ -167,7 +166,7 @@ export default ({
         await hooks.generateEntryCode.call({ entrypoints });
 
         const normalizedConfig =
-          api.getNormalizedConfig() as AppNormalizedConfig<'shared'>;
+          api.getNormalizedConfig() as AppNormalizedConfig;
         const createBuilderForModern = await createBuilderGenerator(bundler);
         const builder = await createBuilderForModern({
           normalizedConfig: normalizedConfig as any,
@@ -250,7 +249,7 @@ export default ({
     api.modifyResolvedConfig((resolved: any) => {
       const appContext = api.getAppContext();
       const config = initialNormalizedConfig(
-        resolved as AppNormalizedConfig<'shared'>,
+        resolved as AppNormalizedConfig,
         appContext,
         bundler,
       );

@@ -13,11 +13,7 @@ import type {
   CliPluginFuture,
 } from '../../types';
 
-export default ({
-  bundler,
-}: {
-  bundler: 'rspack' | 'webpack';
-}): CliPluginFuture<AppTools<'shared'>> => ({
+export default (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/plugin-initialize',
 
   post: [
@@ -33,14 +29,7 @@ export default ({
     api.config(() => {
       const appContext = api.getAppContext();
 
-      // set bundlerType to appContext
-      api.updateAppContext({
-        bundlerType: bundler,
-      });
-
-      return createDefaultConfig(
-        appContext,
-      ) as unknown as AppUserConfig<'shared'>;
+      return createDefaultConfig(appContext) as unknown as AppUserConfig;
     });
 
     api.modifyResolvedConfig(async resolved => {
@@ -88,11 +77,6 @@ export default ({
           'performance',
         ],
       );
-
-      if (bundler === 'webpack') {
-        resolved.security = normalizedConfig.security || {};
-        resolved.experiments = normalizedConfig.experiments;
-      }
 
       return resolved;
     });

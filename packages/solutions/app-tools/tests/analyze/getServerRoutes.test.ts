@@ -33,7 +33,7 @@ describe('get server routes', () => {
           output: outputConfig,
           server: serverConfig,
           html: {},
-        } as AppNormalizedConfig<'shared'>,
+        } as AppNormalizedConfig,
       },
     );
 

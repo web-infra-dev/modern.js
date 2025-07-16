@@ -2,7 +2,7 @@ import type { AppToolsNormalizedConfig } from '../../../types';
 import type { AppToolsContext } from '../../../types/new';
 
 export type CreatePreset = (
-  appContext: AppToolsContext<'shared'>,
+  appContext: AppToolsContext,
   config: AppToolsNormalizedConfig,
   needModernServer?: boolean,
 ) => DeployPreset;

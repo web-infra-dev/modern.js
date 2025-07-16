@@ -5,8 +5,8 @@ import { getAutoInjectEnv } from '../utils/env';
 
 // Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(
-  appContext: AppToolsContext<'shared'>,
-): AppUserConfig<'webpack'> | AppUserConfig<'rspack'> {
+  appContext: AppToolsContext,
+): AppUserConfig {
   const dev: AppUserConfig['dev'] = {
     // `dev.port` should not have a default value
     // because we will use `server.port` by default

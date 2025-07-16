@@ -1,6 +1,6 @@
 import { removeTailSlash } from '@modern-js/utils';
 import type { Rspack, RspackChain } from '@rsbuild/core';
-import type { AppNormalizedConfig, Bundler } from '../../types';
+import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/new';
 import { createCopyInfo } from '../shared';
 
@@ -12,8 +12,8 @@ const info = (file: { sourceFilename: string }) => ({
   minimized: minifiedJsRexExp.test(file.sourceFilename),
 });
 
-export function createPublicPattern<B extends Bundler>(
-  appContext: AppToolsContext<B>,
+export function createPublicPattern(
+  appContext: AppToolsContext,
   config: AppNormalizedConfig,
   chain: RspackChain,
 ) {
@@ -39,11 +39,11 @@ export function createPublicPattern<B extends Bundler>(
   };
 }
 
-export function createUploadPattern<B extends Bundler>(
-  appContext: AppToolsContext<B>,
-  config: AppNormalizedConfig<B>,
+export function createUploadPattern(
+  appContext: AppToolsContext,
+  config: AppNormalizedConfig,
 ): Rspack.CopyRspackPluginOptions['patterns']['0'] {
-  const { uploadDir } = createCopyInfo<B>(appContext, config);
+  const { uploadDir } = createCopyInfo(appContext, config);
   return {
     // rspack copy info structure is inconsistent with webpack, it only used in webpack mode
     // @ts-expect-error
