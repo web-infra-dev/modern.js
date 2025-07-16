@@ -1,4 +1,4 @@
-import { useContext } from '@modern-js/runtime/koa';
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
 import { add } from 'lodash-es';
 
 export const get = () => {

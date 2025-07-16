@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "lodash-es": "^4.17.21",
     "react": "^19.1.0",

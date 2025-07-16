@@ -2190,176 +2190,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/server/plugin-express:
-    dependencies:
-      '@modern-js/bff-core':
-        specifier: workspace:*
-        version: link:../bff-core
-      '@modern-js/bff-runtime':
-        specifier: workspace:*
-        version: link:../bff-runtime
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      cookie-parser:
-        specifier: ^1.4.7
-        version: 1.4.7
-      finalhandler:
-        specifier: ^1.3.1
-        version: 1.3.1
-      formidable:
-        specifier: ^1.2.6
-        version: 1.2.6
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.13
-      type-is:
-        specifier: ^1.6.18
-        version: 1.6.18
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
-      '@modern-js/plugin-v2':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/cookie-parser':
-        specifier: ^1.4.2
-        version: 1.4.8(@types/express@4.17.21)
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/finalhandler':
-        specifier: ^1.1.1
-        version: 1.2.3
-      '@types/formidable':
-        specifier: ^1.2.3
-        version: 1.2.8
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/supertest':
-        specifier: ^2.0.11
-        version: 2.0.16
-      '@types/type-is':
-        specifier: ^1.6.3
-        version: 1.6.7
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      supertest:
-        specifier: ^6.1.6
-        version: 6.2.3
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-
-  packages/server/plugin-koa:
-    dependencies:
-      '@modern-js/bff-core':
-        specifier: workspace:*
-        version: link:../bff-core
-      '@modern-js/bff-runtime':
-        specifier: workspace:*
-        version: link:../bff-runtime
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      koa-body:
-        specifier: ^4.2.0
-        version: 4.2.0
-      koa-router:
-        specifier: ^10.1.1
-        version: 10.1.1
-      type-is:
-        specifier: ^1.6.18
-        version: 1.6.18
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
-      '@modern-js/plugin-v2':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/koa':
-        specifier: 2.15.0
-        version: 2.15.0
-      '@types/koa-router':
-        specifier: ^7.4.4
-        version: 7.4.8
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/supertest':
-        specifier: ^2.0.11
-        version: 2.0.16
-      '@types/type-is':
-        specifier: ^1.6.3
-        version: 1.6.7
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      koa:
-        specifier: 2.16.1
-        version: 2.16.1
-      supertest:
-        specifier: ^6.1.6
-        version: 6.2.3
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-
   packages/server/plugin-polyfill:
     dependencies:
       '@modern-js/polyfill-lib':
@@ -4173,8 +4003,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-express
+        specifier: 2.68.2
+        version: 2.68.2(express@4.21.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -4225,8 +4055,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-express
+        specifier: 2.68.2
+        version: 2.68.2(express@4.21.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -4280,8 +4110,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-express
+        specifier: 2.68.2
+        version: 2.68.2(express@4.21.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -4313,58 +4143,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../packages/solutions/app-tools
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/bff-express:
-    dependencies:
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-express':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-express
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.21
@@ -4420,64 +4198,6 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/bff-koa:
-    dependencies:
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-koa':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-koa
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
-      tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
-      zod:
-        specifier: ^3.22.3
-        version: 3.22.3
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -4720,9 +4440,6 @@ importers:
       '@modern-js/plugin-bff':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-koa':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-koa
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
@@ -5111,9 +4828,6 @@ importers:
       '@modern-js/plugin-bff':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-bff
-      '@modern-js/plugin-koa':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-koa
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
@@ -8921,6 +8635,19 @@ packages:
   '@modern-js-reduck/store@1.1.13':
     resolution: {integrity: sha512-3yh4bABxN0Umnkx/w4s1EpfHBZfpeHPuKP0na28xlQOlYy4Y/DWNOYxkHA1Xh7CWZBD7el/AnKTKlZeNHfHC1g==}
 
+  '@modern-js/bff-core@2.68.2':
+    resolution: {integrity: sha512-z8bG9S0UTtXDQt9PlLBRK4RL4bU4qj5bEgAUZ8u/rSvgVjZwNyYaUkBwaa9buFFhNrZgKjIlq4ON+UIz0+UBuA==}
+    peerDependencies:
+      ts-node: ^10.9.1
+      tsconfig-paths: ^4.1.2
+      zod: ^3.22.3
+    peerDependenciesMeta:
+      zod:
+        optional: true
+
+  '@modern-js/bff-runtime@2.68.2':
+    resolution: {integrity: sha512-UMh36lrNRQRDHW/0Iqff813IZR9tWgaCgxREL5jafZctlZQrsAGfyyRl0FP9IRzKk7472b0F51V1d2pytSAU9Q==}
+
   '@modern-js/codesmith-api-app@2.6.8':
     resolution: {integrity: sha512-+5Ztl3hIcJlJclyBo2A/Ikf6DknP3q1/2iuWmT0kHVQ9zljZTxZ3pWErt1JGhtkZz+5jxnIF3JLb1TMhhO+nHw==}
     peerDependencies:
@@ -8984,11 +8711,19 @@ packages:
   '@modern-js/plugin-changeset@2.68.2':
     resolution: {integrity: sha512-SJAX6csCCIi8vTuEVangLI+ZFTfjnlAFjrtLwnXqj52fCJVvHn0QGULMGX4I51L3i3+Dasxhh1eFSHmFvxwGog==}
 
+  '@modern-js/plugin-express@2.68.2':
+    resolution: {integrity: sha512-jj1VaMk9pD2uGYDqajfpJqjUufiAUlwgIVXDLLg7fEWZ1F4th7jU7IzqbMjfGyUxeSrYA9uneMs/FZJ3HROujQ==}
+    peerDependencies:
+      express: ^4.21.2
+
   '@modern-js/plugin-i18n@2.60.3':
     resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
 
   '@modern-js/plugin-i18n@2.68.2':
     resolution: {integrity: sha512-kcJp1wPQitvnk6AsYIGGnzZzlihgltAmEmwWTILCu+v327/w3tGHLd0d5DkmGYQD3l6tzHRy/EJCf8noEvYSuQ==}
+
+  '@modern-js/plugin-v2@2.68.2':
+    resolution: {integrity: sha512-FWwC3RC6Vt/CkXGNP3SQp7S1lhd5r50kSby20usBF+oITxmm1NohETC3ojiJ3jp6JAmVqDvZvRkC0R8eW55vQg==}
 
   '@modern-js/plugin@2.68.2':
     resolution: {integrity: sha512-mfPSCBV9JUXatDdePrLMHMi+NR7YQNfmGLGM0eypdn88yAef3R3ToMLEslnWlTjApA9Y+PMfZPur2WyQ5Bj2WQ==}
@@ -8996,6 +8731,21 @@ packages:
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
     engines: {node: '>=8'}
+
+  '@modern-js/runtime-utils@2.68.2':
+    resolution: {integrity: sha512-IYUW5J3XvKfqUuDY3MSZ0Q8zTKZ2yW2XJttXXAHQSd9NQ9gamyRPI8ysR7jTy1bHjbRY6TB86t8kw2zvwW1E0A==}
+    peerDependencies:
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
+  '@modern-js/server-core@2.68.2':
+    resolution: {integrity: sha512-K7pqbHgbRfyX7M7jr+Gp2/5p2ovySz1w8nmtqORnE7PXbkXZ4zglxrKqq+3x7BIjZNcSJ0ZpELv7L8w6BavG3g==}
+    engines: {node: '>=16.2.0'}
 
   '@modern-js/swc-plugins-darwin-arm64@0.6.11':
     resolution: {integrity: sha512-UMH0bo20vcD10//F7KaINLfuHawQBVcWCCyJvkYOiBt7e1tUjeybKu+y6eNq1USyFVElEMul8ytnYdwAS9sY+w==}
@@ -9069,6 +8819,9 @@ packages:
   '@module-federation/error-codes@0.14.0':
     resolution: {integrity: sha512-GGk+EoeSACJikZZyShnLshtq9E2eCrDWbRiB4QAFXCX4oYmGgFfzXlx59vMNwqTKPJWxkEGnPYacJMcr2YYjag==}
 
+  '@module-federation/error-codes@0.15.0':
+    resolution: {integrity: sha512-CFJSF+XKwTcy0PFZ2l/fSUpR4z247+Uwzp1sXVkdIfJ/ATsnqf0Q01f51qqSEA6MYdQi6FKos9FIcu3dCpQNdg==}
+
   '@module-federation/error-codes@0.16.0':
     resolution: {integrity: sha512-TfmA45b8vvISniGudMg8jjIy1q3tLPon0QN/JdFp5f8AJ8/peICN5b+dkEQnWsAVg2fEusYhk9dO7z3nUeJM8A==}
 
@@ -9077,6 +8830,9 @@ packages:
 
   '@module-federation/runtime-core@0.14.0':
     resolution: {integrity: sha512-fGE1Ro55zIFDp/CxQuRhKQ1pJvG7P0qvRm2N+4i8z++2bgDjcxnCKUqDJ8lLD+JfJQvUJf0tuSsJPgevzueD4g==}
+
+  '@module-federation/runtime-core@0.15.0':
+    resolution: {integrity: sha512-RYzI61fRDrhyhaEOXH3AgIGlHiot0wPFXu7F43cr+ZnTi+VlSYWLdlZ4NBuT9uV6JSmH54/c+tEZm5SXgKR2sQ==}
 
   '@module-federation/runtime-core@0.16.0':
     resolution: {integrity: sha512-5SECQowG4hlUVBRk/y6bnYLfxbsl5NcMmqn043WPe7NDOhGQWbTuYibJ3Bk+ZBv5U4uYLEmXipBGDc1FKsHklQ==}
@@ -9087,6 +8843,9 @@ packages:
   '@module-federation/runtime-tools@0.14.0':
     resolution: {integrity: sha512-y/YN0c2DKsLETE+4EEbmYWjqF9G6ZwgZoDIPkaQ9p0pQu0V4YxzWfQagFFxR0RigYGuhJKmSU/rtNoHq+qF8jg==}
 
+  '@module-federation/runtime-tools@0.15.0':
+    resolution: {integrity: sha512-kzFn3ObUeBp5vaEtN1WMxhTYBuYEErxugu1RzFUERD21X3BZ+b4cWwdFJuBDlsmVjctIg/QSOoZoPXRKAO0foA==}
+
   '@module-federation/runtime-tools@0.16.0':
     resolution: {integrity: sha512-OzmXNluXBQ2E6znzX4m9CJt1MFHVGmbN8c8MSKcYIDcLzLSKBQAiaz9ZUMhkyWx2YrPgD134glyPEqJrc+fY8A==}
 
@@ -9095,6 +8854,9 @@ packages:
 
   '@module-federation/runtime@0.14.0':
     resolution: {integrity: sha512-kR3cyHw/Y64SEa7mh4CHXOEQYY32LKLK75kJOmBroLNLO7/W01hMNAvGBYTedS7hWpVuefPk1aFZioy3q2VLdQ==}
+
+  '@module-federation/runtime@0.15.0':
+    resolution: {integrity: sha512-dTPsCNum9Bhu3yPOcrPYq0YnM9eCMMMNB1wuiqf1+sFbQlNApF0vfZxooqz3ln0/MpgE0jerVvFsLVGfqvC9Ug==}
 
   '@module-federation/runtime@0.16.0':
     resolution: {integrity: sha512-6o84WI8Qhc9O3HwPLx89kTvOSkyUOHQr73R/zr0I04sYhlMJgw5xTwXeGE7bQAmNgbJclzW9Kh7JTP7+3o3CHg==}
@@ -9105,6 +8867,9 @@ packages:
   '@module-federation/sdk@0.14.0':
     resolution: {integrity: sha512-lg/OWRsh18hsyTCamOOhEX546vbDiA2O4OggTxxH2wTGr156N6DdELGQlYIKfRdU/0StgtQS81Goc0BgDZlx9A==}
 
+  '@module-federation/sdk@0.15.0':
+    resolution: {integrity: sha512-PWiYbGcJrKUD6JZiEPihrXhV3bgXdll4bV7rU+opV7tHaun+Z0CdcawjZ82Xnpb8MCPGmqHwa1MPFeUs66zksw==}
+
   '@module-federation/sdk@0.16.0':
     resolution: {integrity: sha512-UXJW1WWuDoDmScX0tpISjl4xIRPzAiN62vg9etuBdAEUM+ja9rz/zwNZaByiUPFS2aqlj2RHenCRvIapE8mYEg==}
 
@@ -9113,6 +8878,9 @@ packages:
 
   '@module-federation/webpack-bundler-runtime@0.14.0':
     resolution: {integrity: sha512-POWS6cKBicAAQ3DNY5X7XEUSfOfUsRaBNxbuwEfSGlrkTE9UcWheO06QP2ndHi8tHQuUKcIHi2navhPkJ+k5xg==}
+
+  '@module-federation/webpack-bundler-runtime@0.15.0':
+    resolution: {integrity: sha512-i+3wu2Ljh2TmuUpsnjwZVupOVqV50jP0ndA8PSP4gwMKlgdGeaZ4VH5KkHAXGr2eiYUxYLMrJXz1+eILJqeGDg==}
 
   '@module-federation/webpack-bundler-runtime@0.16.0':
     resolution: {integrity: sha512-yqIDQTelJZP0Rxml0OXv4Er8Kbdxy7NFh6PCzPwDFWI1SkiokJ3uXQJBvtlxZ3lOnCDYOzdHstqa8sJG4JP02Q==}
@@ -9583,6 +9351,11 @@ packages:
     engines: {node: '>=16.10.0'}
     hasBin: true
 
+  '@rsbuild/core@1.4.4':
+    resolution: {integrity: sha512-JN/AUT9yN4JkbVLAPnrWu9q5Q0EQVrzDzlK5jHT/nbWWA4z1HYWFSdI1iuK8+nwfQ4zEOQalVv1+Jlk+qV7HoQ==}
+    engines: {node: '>=16.10.0'}
+    hasBin: true
+
   '@rsbuild/core@1.4.7':
     resolution: {integrity: sha512-mYvMYlCKUQAfz7x7GJnD6lBsVBfUSEAfrZLxkDQ0F3w7If9cQpHWLWZWdRmcFFy3Pzns1Edxn0st1nAmcFhRJQ==}
     engines: {node: '>=16.10.0'}
@@ -9763,6 +9536,11 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@rspack/binding-darwin-arm64@1.4.2':
+    resolution: {integrity: sha512-0fPOew7D0l/x6qFZYdyUqutbw15K98VLvES2/7x2LPssTgypE4rVmnQSmVBnge3Nr8Qs/9qASPRpMWXBaqMfOA==}
+    cpu: [arm64]
+    os: [darwin]
+
   '@rspack/binding-darwin-arm64@1.4.8':
     resolution: {integrity: sha512-PQRNjC3Fc0avpx8Gk+sT5P+HAXxTSzmBA8lU7QLlmbW5GGXO2taVhNstbZ4oxyIX5uDVZpQ2yQ2E0zXirK6/UQ==}
     cpu: [arm64]
@@ -9775,6 +9553,11 @@ packages:
 
   '@rspack/binding-darwin-x64@1.3.8':
     resolution: {integrity: sha512-IGXDKHDHiL7WxE/OZMaeIuHzqOzDam3k8WrseHAdl5upKvCp/snwwGdulB/rqGxwkQIXIsv105vIFbGOAe2g0A==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@rspack/binding-darwin-x64@1.4.2':
+    resolution: {integrity: sha512-0Dh6ssGgwnd9G+IO8SwQaJ0RJ8NkQbk4hwoJH/u52Mnfl0EvhmNvuhkbSEoKn1U3kElOA2cxH/3gbYzuYExn3g==}
     cpu: [x64]
     os: [darwin]
 
@@ -9793,6 +9576,11 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  '@rspack/binding-linux-arm64-gnu@1.4.2':
+    resolution: {integrity: sha512-UHAzggS8Mc7b3Xguhj82HwujLqBZquCeo8qJj5XreNaMKGb6YRw/91dJOVmkNiLCB0bj71CRE1Cocd+Peq3N9A==}
+    cpu: [arm64]
+    os: [linux]
+
   '@rspack/binding-linux-arm64-gnu@1.4.8':
     resolution: {integrity: sha512-mJK9diM4Gd8RIGO90AZnl27WwUuAOoRplPQv9G+Vxu2baCt1xE1ccf8PntIJ70/rMgsUdnmkR5qQBaGxhAMJvA==}
     cpu: [arm64]
@@ -9805,6 +9593,11 @@ packages:
 
   '@rspack/binding-linux-arm64-musl@1.3.8':
     resolution: {integrity: sha512-UMZBuTw5iXeA6gmtZYQvAb7g56odfoIkU6YvfqV67AMU0EY2y52sc7ABFloDzURJ1xd2om01Nlru8y48S2lMPw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@rspack/binding-linux-arm64-musl@1.4.2':
+    resolution: {integrity: sha512-QybZ0VxlFih+upLoE7Le5cN3LpxJwk6EnEQTigmzpfc4c4SOC889ftBoIAO3IeBk+mF3H2C9xD+/NolTdwoeiw==}
     cpu: [arm64]
     os: [linux]
 
@@ -9823,6 +9616,11 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@rspack/binding-linux-x64-gnu@1.4.2':
+    resolution: {integrity: sha512-ucCCWdtH1tekZadrsYj6GNJ8EP21BM2uSE7MootbwLw8aBtgVTKUuRDQEps1h/rtrdthzd9XBX6Lc2N926gM+g==}
+    cpu: [x64]
+    os: [linux]
+
   '@rspack/binding-linux-x64-gnu@1.4.8':
     resolution: {integrity: sha512-rEypDlbIfv9B/DcZ2vYVWs56wo5VWE5oj/TvM9JT+xuqwvVWsN/A2TPMiU6QBgOKGXat3EM/MEgx8NhNZUpkXg==}
     cpu: [x64]
@@ -9838,10 +9636,19 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@rspack/binding-linux-x64-musl@1.4.2':
+    resolution: {integrity: sha512-+Y2LS6Qyk2AZor8DqlA8yKCqElYr0Urjc3M66O4ZzlxDT5xXX0J2vp04AtFp0g81q/+UgV3cbC//dqDvO0SiBA==}
+    cpu: [x64]
+    os: [linux]
+
   '@rspack/binding-linux-x64-musl@1.4.8':
     resolution: {integrity: sha512-o9OsvJ7olH0JPU9exyIaYTNQ+aaR5CNAiinkxr+LkV2i3DMIi/+pDVveDiodYjVhzZjWfsP/z8QPO4c6Z06bEw==}
     cpu: [x64]
     os: [linux]
+
+  '@rspack/binding-wasm32-wasi@1.4.2':
+    resolution: {integrity: sha512-3WvfHY7NvzORek3FcQWLI/B8wQ7NZe0e0Bub9GyLNVxe5Bi+dxnSzEg6E7VsjbUzKnYufJA0hDKbEJ2qCMvpdw==}
+    cpu: [wasm32]
 
   '@rspack/binding-wasm32-wasi@1.4.8':
     resolution: {integrity: sha512-hF5gqT0aQ66VUclM2A9MSB6zVdEJqzp++TAXaShBK/eVBI0R4vWrMfJ2TOdzEsSbg4gXgeG4swURpHva3PKbcA==}
@@ -9854,6 +9661,11 @@ packages:
 
   '@rspack/binding-win32-arm64-msvc@1.3.8':
     resolution: {integrity: sha512-84tifCsYhir/p5GH0knBOXtLpfRzIFDxF4nF4bHsuwaA1uqwyk0WlWGt4ZwRUtyzh0TN4cJdnqJl/f5209BdLw==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@rspack/binding-win32-arm64-msvc@1.4.2':
+    resolution: {integrity: sha512-Y6L9DrLFRW6qBBCY3xBt7townStN5mlcbBTuG1zeXl0KcORPv1G1Cq6HXP6f1em+YsHE1iwnNqLvv4svg5KsnQ==}
     cpu: [arm64]
     os: [win32]
 
@@ -9872,6 +9684,11 @@ packages:
     cpu: [ia32]
     os: [win32]
 
+  '@rspack/binding-win32-ia32-msvc@1.4.2':
+    resolution: {integrity: sha512-FyTJrL7GcYXPWKUB9Oj2X29kfma6MUgM9PyXGy8gDMti21kMMhpHp/bGVqfurRbazDyklDuLLtbHuawpa6toeA==}
+    cpu: [ia32]
+    os: [win32]
+
   '@rspack/binding-win32-ia32-msvc@1.4.8':
     resolution: {integrity: sha512-Uu+F/sxz7GgIMbuCCZVOD1HPjoHQdyrFHi/TE2EmuZzs9Ji9a9mtNJNrKc8+h9YFpaLeade7cbMDjRu4MHxiVA==}
     cpu: [ia32]
@@ -9887,6 +9704,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rspack/binding-win32-x64-msvc@1.4.2':
+    resolution: {integrity: sha512-ODSU26tmG8MfMFDHCaMLCORB64EVdEtDvPP5zJs0Mgh7vQaqweJtqgG0ukZCQy4ApUatOrMaZrLk557jp9Biyw==}
+    cpu: [x64]
+    os: [win32]
+
   '@rspack/binding-win32-x64-msvc@1.4.8':
     resolution: {integrity: sha512-BVkOfJDZnexHNpGgc/sWENyGrsle1jUQTeUEdSyNYsu4Elsgk/T9gnGK8xyLRd2c6k20M5FN38t0TumCp4DscQ==}
     cpu: [x64]
@@ -9897,6 +9719,9 @@ packages:
 
   '@rspack/binding@1.3.8':
     resolution: {integrity: sha512-0oGrPgnwDsrDN7Swk7OZGvee8y/AdvDXF3f1QewkueJ5uyDaGszDxipEpf644HWIcj11fgNJQEphGEhaAVjofw==}
+
+  '@rspack/binding@1.4.2':
+    resolution: {integrity: sha512-NdTLlA20ufD0thFvDIwwPk+bX9yo3TDE4XjfvZYbwFyYvBgqJOWQflnbwLgvSTck0MSTiOqWIqpR88ymAvWTqg==}
 
   '@rspack/binding@1.4.8':
     resolution: {integrity: sha512-VKE+2InUdudBUOn3xMZfK9a6KlOwmSifA0Nupjsh7N9/brcBfJtJGSDCnfrIKCq54FF+QAUCgcNAS0DB4/tZmw==}
@@ -9912,6 +9737,15 @@ packages:
 
   '@rspack/core@1.3.8':
     resolution: {integrity: sha512-1zefymDypUROYzGGNa553JR1Ah8En25npwSRIZCuZvfjo6nME6XvjkMxQwhjzMStoqRmFD9+nKUHSiN5jVWWyw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@swc/helpers': '>=0.5.1'
+    peerDependenciesMeta:
+      '@swc/helpers':
+        optional: true
+
+  '@rspack/core@1.4.2':
+    resolution: {integrity: sha512-Mmk3X3fbOLtRq4jX8Ebp3rfjr75YgupvNksQb0WbaGEVr5l1b6woPH/LaXF2v9U9DP83wmpZJXJ8vclB5JfL/w==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@swc/helpers': '>=0.5.1'
@@ -10360,11 +10194,6 @@ packages:
   '@types/content-disposition@0.5.5':
     resolution: {integrity: sha512-v6LCdKfK6BwcqMo+wYW05rLS12S0ZO0Fl4w1h4aaZMD7bqT3gVUns6FvLJKGZHQmYn3SX55JWGpziwJRwVgutA==}
 
-  '@types/cookie-parser@1.4.8':
-    resolution: {integrity: sha512-l37JqFrOJ9yQfRQkljb41l0xVphc7kg5JTjjr+pLRZ0IyZ49V4BQ8vbF4Ut2C2e+WH4al3xD3ZwYwIUfnbT4NQ==}
-    peerDependencies:
-      '@types/express': '*'
-
   '@types/cookie@0.4.1':
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
 
@@ -10506,12 +10335,6 @@ packages:
   '@types/express@4.17.21':
     resolution: {integrity: sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==}
 
-  '@types/finalhandler@1.2.3':
-    resolution: {integrity: sha512-I+Ba0JZEiuSr8LLjVmBhvLBEN8KG9GSITNXWwPCLeAvZj/k5pXEdOBEvnEEIgA038eeaauJ3BPxbuxeFBsqqUw==}
-
-  '@types/formidable@1.2.8':
-    resolution: {integrity: sha512-6psvrUy5VDYb+yaPJReF1WrRsz+FBwyJutK9Twz1Efa27tm07bARNIkK2B8ZPWq80dXqpKfrxTO96xrtPp+AuA==}
-
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
 
@@ -10606,9 +10429,6 @@ packages:
 
   '@types/koa-compose@3.2.8':
     resolution: {integrity: sha512-4Olc63RY+MKvxMwVknCUDhRQX1pFQoBZ/lXcRLP69PQkEpze/0cr8LNqJQe5NFb/b19DWi2a5bTi2VAlQzhJuA==}
-
-  '@types/koa-router@7.4.8':
-    resolution: {integrity: sha512-SkWlv4F9f+l3WqYNQHnWjYnyTxYthqt8W9az2RTdQW7Ay8bc00iRZcrb8MC75iEfPqnGcg2csEl8tTG1NQPD4A==}
 
   '@types/koa@2.15.0':
     resolution: {integrity: sha512-7QFsywoE5URbuVnG3loe03QXuGajrnotr3gQkXcEBShORai23MePfFYdhz90FEtBBpkyIYQbVD+evKtloCgX3g==}
@@ -11762,9 +11582,6 @@ packages:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
 
-  co-body@5.2.0:
-    resolution: {integrity: sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ==}
-
   co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
@@ -11993,6 +11810,9 @@ packages:
 
   core-js@3.42.0:
     resolution: {integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==}
+
+  core-js@3.43.0:
+    resolution: {integrity: sha512-N6wEbTTZSYOY2rYAn85CuvWWkCK6QweMn7/4Nr3w+gDBeBhk/x4EJeY6FPo4QzDoJZxVTv8U7CMvgWk6pOHHqA==}
 
   core-js@3.44.0:
     resolution: {integrity: sha512-aFCtd4l6GvAXwVEh3XbbVqJGHDJt0OZRa+5ePGx3LLwi12WfexqQxcsohb2wgsa/92xtl19Hd66G/L+TaAxDMw==}
@@ -13811,10 +13631,6 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
-  inflation@2.0.0:
-    resolution: {integrity: sha512-m3xv4hJYR2oXw4o4Y5l6P5P16WYmazYof+el6Al3f+YlggGj6qT9kImBAnzDelRALnP5d3h4jGBPKzYCizjZZw==}
-    engines: {node: '>= 0.8.0'}
-
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
@@ -14428,20 +14244,12 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
 
-  koa-body@4.2.0:
-    resolution: {integrity: sha512-wdGu7b9amk4Fnk/ytH8GuWwfs4fsB5iNkY8kZPpgQVb04QZSv85T0M8reb+cJmvLE8cjPYvBzRikD3s6qz8OoA==}
-
   koa-compose@4.1.0:
     resolution: {integrity: sha512-8ODW8TrDuMYvXRwra/Kh7/rJo9BtOfPc6qO8eAfC80CnCvSjSl0bkRM24X6/XBBEyj0v1nRUQ1LyOy3dbqOWXw==}
 
   koa-convert@2.0.0:
     resolution: {integrity: sha512-asOvN6bFlSnxewce2e/DK3p4tltyfC4VM7ZwuTuepI7dEQVcvpyFuBcEARu1+Hxg8DIwytce2n7jrZtRlPrARA==}
     engines: {node: '>= 10'}
-
-  koa-router@10.1.1:
-    resolution: {integrity: sha512-z/OzxVjf5NyuNO3t9nJpx7e1oR3FSBAauiwXtMQu4ppcnuNZzTaQ4p21P8A6r2Es8uJJM339oc4oVW+qX7SqnQ==}
-    engines: {node: '>= 8.0.0'}
-    deprecated: Please use @koa/router instead of koa-router. This is the same package maintained by the same people, but under the Koa team's control on GitHub. Versioning is identical and it is a drop-in replacement. Maintenance is supported by Forward Email @ https://forwardemail.net
 
   koa@2.16.1:
     resolution: {integrity: sha512-umfX9d3iuSxTQP4pnzLOz0HKnPg0FaUUIKcye2lOiz3KPu1Y3M3xlz76dISdFPQs37P9eJz1wUpcTS6KDPn9fA==}
@@ -21333,6 +21141,25 @@ snapshots:
       '@swc/helpers': 0.5.1
       redux: 4.2.1
 
+  '@modern-js/bff-core@2.68.2(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)':
+    dependencies:
+      '@modern-js/utils': 2.68.2
+      '@swc/helpers': 0.5.17
+      koa-compose: 4.1.0
+      reflect-metadata: 0.1.13
+      ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
+      tsconfig-paths: 3.14.1
+      type-fest: 2.15.0
+    optionalDependencies:
+      zod: 3.22.3
+
+  '@modern-js/bff-runtime@2.68.2':
+    dependencies:
+      '@swc/helpers': 0.5.17
+      farrow-api: 1.12.1
+      farrow-pipeline: 1.12.0
+      farrow-schema: 1.12.1
+
   '@modern-js/codesmith-api-app@2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)':
     dependencies:
       '@modern-js/codesmith': 2.6.8
@@ -21487,6 +21314,28 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@modern-js/plugin-express@2.68.2(express@4.21.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)':
+    dependencies:
+      '@modern-js/bff-core': 2.68.2(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
+      '@modern-js/bff-runtime': 2.68.2
+      '@modern-js/server-core': 2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@modern-js/types': 2.68.2
+      '@modern-js/utils': 2.68.2
+      '@swc/helpers': 0.5.17
+      cookie-parser: 1.4.7
+      express: 4.21.2
+      finalhandler: 1.3.1
+      formidable: 1.2.6
+      reflect-metadata: 0.1.13
+      type-is: 1.6.18
+    transitivePeerDependencies:
+      - react
+      - react-dom
+      - supports-color
+      - ts-node
+      - tsconfig-paths
+      - zod
+
   '@modern-js/plugin-i18n@2.60.3':
     dependencies:
       '@modern-js/utils': 2.60.3
@@ -21496,6 +21345,18 @@ snapshots:
     dependencies:
       '@modern-js/utils': 2.68.2
       '@swc/helpers': 0.5.17
+
+  '@modern-js/plugin-v2@2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@modern-js/runtime-utils': 2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@modern-js/types': 2.68.2
+      '@modern-js/utils': 2.68.2
+      '@rsbuild/core': 1.4.4
+      '@swc/helpers': 0.5.17
+      jiti: 1.21.7
+    transitivePeerDependencies:
+      - react
+      - react-dom
 
   '@modern-js/plugin@2.68.2':
     dependencies:
@@ -21549,6 +21410,37 @@ snapshots:
       yaku: 0.19.3
     transitivePeerDependencies:
       - supports-color
+
+  '@modern-js/runtime-utils@2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@modern-js/types': 2.68.2
+      '@modern-js/utils': 2.68.2
+      '@remix-run/router': 1.20.0
+      '@swc/helpers': 0.5.17
+      lru-cache: 10.4.3
+      react-router-dom: 6.27.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      serialize-javascript: 6.0.2
+    optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  '@modern-js/server-core@2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@modern-js/plugin': 2.68.2
+      '@modern-js/plugin-v2': 2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@modern-js/runtime-utils': 2.68.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@modern-js/utils': 2.68.2
+      '@swc/helpers': 0.5.17
+      '@web-std/fetch': 4.2.1
+      '@web-std/file': 3.0.3
+      '@web-std/stream': 1.0.3
+      cloneable-readable: 3.0.0
+      flatted: 3.3.3
+      hono: 3.12.12
+      ts-deepmerge: 7.0.2
+    transitivePeerDependencies:
+      - react
+      - react-dom
 
   '@modern-js/swc-plugins-darwin-arm64@0.6.11':
     optional: true
@@ -21606,6 +21498,8 @@ snapshots:
 
   '@module-federation/error-codes@0.14.0': {}
 
+  '@module-federation/error-codes@0.15.0': {}
+
   '@module-federation/error-codes@0.16.0': {}
 
   '@module-federation/runtime-core@0.13.0':
@@ -21617,6 +21511,11 @@ snapshots:
     dependencies:
       '@module-federation/error-codes': 0.14.0
       '@module-federation/sdk': 0.14.0
+
+  '@module-federation/runtime-core@0.15.0':
+    dependencies:
+      '@module-federation/error-codes': 0.15.0
+      '@module-federation/sdk': 0.15.0
 
   '@module-federation/runtime-core@0.16.0':
     dependencies:
@@ -21632,6 +21531,11 @@ snapshots:
     dependencies:
       '@module-federation/runtime': 0.14.0
       '@module-federation/webpack-bundler-runtime': 0.14.0
+
+  '@module-federation/runtime-tools@0.15.0':
+    dependencies:
+      '@module-federation/runtime': 0.15.0
+      '@module-federation/webpack-bundler-runtime': 0.15.0
 
   '@module-federation/runtime-tools@0.16.0':
     dependencies:
@@ -21650,6 +21554,12 @@ snapshots:
       '@module-federation/runtime-core': 0.14.0
       '@module-federation/sdk': 0.14.0
 
+  '@module-federation/runtime@0.15.0':
+    dependencies:
+      '@module-federation/error-codes': 0.15.0
+      '@module-federation/runtime-core': 0.15.0
+      '@module-federation/sdk': 0.15.0
+
   '@module-federation/runtime@0.16.0':
     dependencies:
       '@module-federation/error-codes': 0.16.0
@@ -21659,6 +21569,8 @@ snapshots:
   '@module-federation/sdk@0.13.0': {}
 
   '@module-federation/sdk@0.14.0': {}
+
+  '@module-federation/sdk@0.15.0': {}
 
   '@module-federation/sdk@0.16.0': {}
 
@@ -21671,6 +21583,11 @@ snapshots:
     dependencies:
       '@module-federation/runtime': 0.14.0
       '@module-federation/sdk': 0.14.0
+
+  '@module-federation/webpack-bundler-runtime@0.15.0':
+    dependencies:
+      '@module-federation/runtime': 0.15.0
+      '@module-federation/sdk': 0.15.0
 
   '@module-federation/webpack-bundler-runtime@0.16.0':
     dependencies:
@@ -22078,6 +21995,14 @@ snapshots:
       core-js: 3.42.0
       jiti: 2.4.2
 
+  '@rsbuild/core@1.4.4':
+    dependencies:
+      '@rspack/core': 1.4.2(@swc/helpers@0.5.17)
+      '@rspack/lite-tapable': 1.0.1
+      '@swc/helpers': 0.5.17
+      core-js: 3.43.0
+      jiti: 2.4.2
+
   '@rsbuild/core@1.4.7':
     dependencies:
       '@rspack/core': 1.4.8(@swc/helpers@0.5.17)
@@ -22415,6 +22340,9 @@ snapshots:
   '@rspack/binding-darwin-arm64@1.3.8':
     optional: true
 
+  '@rspack/binding-darwin-arm64@1.4.2':
+    optional: true
+
   '@rspack/binding-darwin-arm64@1.4.8':
     optional: true
 
@@ -22422,6 +22350,9 @@ snapshots:
     optional: true
 
   '@rspack/binding-darwin-x64@1.3.8':
+    optional: true
+
+  '@rspack/binding-darwin-x64@1.4.2':
     optional: true
 
   '@rspack/binding-darwin-x64@1.4.8':
@@ -22433,6 +22364,9 @@ snapshots:
   '@rspack/binding-linux-arm64-gnu@1.3.8':
     optional: true
 
+  '@rspack/binding-linux-arm64-gnu@1.4.2':
+    optional: true
+
   '@rspack/binding-linux-arm64-gnu@1.4.8':
     optional: true
 
@@ -22440,6 +22374,9 @@ snapshots:
     optional: true
 
   '@rspack/binding-linux-arm64-musl@1.3.8':
+    optional: true
+
+  '@rspack/binding-linux-arm64-musl@1.4.2':
     optional: true
 
   '@rspack/binding-linux-arm64-musl@1.4.8':
@@ -22451,6 +22388,9 @@ snapshots:
   '@rspack/binding-linux-x64-gnu@1.3.8':
     optional: true
 
+  '@rspack/binding-linux-x64-gnu@1.4.2':
+    optional: true
+
   '@rspack/binding-linux-x64-gnu@1.4.8':
     optional: true
 
@@ -22460,7 +22400,15 @@ snapshots:
   '@rspack/binding-linux-x64-musl@1.3.8':
     optional: true
 
+  '@rspack/binding-linux-x64-musl@1.4.2':
+    optional: true
+
   '@rspack/binding-linux-x64-musl@1.4.8':
+    optional: true
+
+  '@rspack/binding-wasm32-wasi@1.4.2':
+    dependencies:
+      '@napi-rs/wasm-runtime': 0.2.12
     optional: true
 
   '@rspack/binding-wasm32-wasi@1.4.8':
@@ -22474,6 +22422,9 @@ snapshots:
   '@rspack/binding-win32-arm64-msvc@1.3.8':
     optional: true
 
+  '@rspack/binding-win32-arm64-msvc@1.4.2':
+    optional: true
+
   '@rspack/binding-win32-arm64-msvc@1.4.8':
     optional: true
 
@@ -22483,6 +22434,9 @@ snapshots:
   '@rspack/binding-win32-ia32-msvc@1.3.8':
     optional: true
 
+  '@rspack/binding-win32-ia32-msvc@1.4.2':
+    optional: true
+
   '@rspack/binding-win32-ia32-msvc@1.4.8':
     optional: true
 
@@ -22490,6 +22444,9 @@ snapshots:
     optional: true
 
   '@rspack/binding-win32-x64-msvc@1.3.8':
+    optional: true
+
+  '@rspack/binding-win32-x64-msvc@1.4.2':
     optional: true
 
   '@rspack/binding-win32-x64-msvc@1.4.8':
@@ -22519,6 +22476,19 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': 1.3.8
       '@rspack/binding-win32-x64-msvc': 1.3.8
 
+  '@rspack/binding@1.4.2':
+    optionalDependencies:
+      '@rspack/binding-darwin-arm64': 1.4.2
+      '@rspack/binding-darwin-x64': 1.4.2
+      '@rspack/binding-linux-arm64-gnu': 1.4.2
+      '@rspack/binding-linux-arm64-musl': 1.4.2
+      '@rspack/binding-linux-x64-gnu': 1.4.2
+      '@rspack/binding-linux-x64-musl': 1.4.2
+      '@rspack/binding-wasm32-wasi': 1.4.2
+      '@rspack/binding-win32-arm64-msvc': 1.4.2
+      '@rspack/binding-win32-ia32-msvc': 1.4.2
+      '@rspack/binding-win32-x64-msvc': 1.4.2
+
   '@rspack/binding@1.4.8':
     optionalDependencies:
       '@rspack/binding-darwin-arm64': 1.4.8
@@ -22547,6 +22517,14 @@ snapshots:
       '@rspack/binding': 1.3.8
       '@rspack/lite-tapable': 1.0.1
       caniuse-lite: 1.0.30001718
+    optionalDependencies:
+      '@swc/helpers': 0.5.17
+
+  '@rspack/core@1.4.2(@swc/helpers@0.5.17)':
+    dependencies:
+      '@module-federation/runtime-tools': 0.15.0
+      '@rspack/binding': 1.4.2
+      '@rspack/lite-tapable': 1.0.1
     optionalDependencies:
       '@swc/helpers': 0.5.17
 
@@ -23078,10 +23056,6 @@ snapshots:
 
   '@types/content-disposition@0.5.5': {}
 
-  '@types/cookie-parser@1.4.8(@types/express@4.17.21)':
-    dependencies:
-      '@types/express': 4.17.21
-
   '@types/cookie@0.4.1': {}
 
   '@types/cookie@0.6.0': {}
@@ -23263,14 +23237,6 @@ snapshots:
       '@types/qs': 6.9.16
       '@types/serve-static': 1.15.7
 
-  '@types/finalhandler@1.2.3':
-    dependencies:
-      '@types/node': 20.8.8
-
-  '@types/formidable@1.2.8':
-    dependencies:
-      '@types/node': 20.8.8
-
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
@@ -23372,10 +23338,6 @@ snapshots:
       '@types/node': 20.8.8
 
   '@types/koa-compose@3.2.8':
-    dependencies:
-      '@types/koa': 2.15.0
-
-  '@types/koa-router@7.4.8':
     dependencies:
       '@types/koa': 2.15.0
 
@@ -24816,13 +24778,6 @@ snapshots:
 
   cluster-key-slot@1.1.2: {}
 
-  co-body@5.2.0:
-    dependencies:
-      inflation: 2.0.0
-      qs: 6.13.0
-      raw-body: 2.5.2
-      type-is: 1.6.18
-
   co@4.6.0: {}
 
   collapse-white-space@2.1.0: {}
@@ -25016,6 +24971,8 @@ snapshots:
   core-js@3.41.0: {}
 
   core-js@3.42.0: {}
+
+  core-js@3.43.0: {}
 
   core-js@3.44.0: {}
 
@@ -27197,8 +27154,6 @@ snapshots:
 
   indent-string@4.0.0: {}
 
-  inflation@2.0.0: {}
-
   inflight@1.0.6:
     dependencies:
       once: 1.4.0
@@ -28219,28 +28174,12 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  koa-body@4.2.0:
-    dependencies:
-      '@types/formidable': 1.2.8
-      co-body: 5.2.0
-      formidable: 1.2.6
-
   koa-compose@4.1.0: {}
 
   koa-convert@2.0.0:
     dependencies:
       co: 4.6.0
       koa-compose: 4.1.0
-
-  koa-router@10.1.1:
-    dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
-      http-errors: 1.8.1
-      koa-compose: 4.1.0
-      methods: 1.1.2
-      path-to-regexp: 6.3.0
-    transitivePeerDependencies:
-      - supports-color
 
   koa@2.16.1:
     dependencies:
