@@ -259,7 +259,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/ioredis-mock": "^8.2.6",
     "@types/jest": "^29",
-    "@types/node": "^14",
+    "@types/node": "^18",
     "@types/serialize-javascript": "^5.0.1",
     "ioredis-mock": "^8.9.0",
     "jest": "^29",

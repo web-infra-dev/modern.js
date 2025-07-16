@@ -6,7 +6,6 @@ import type {
 } from '@modern-js/types';
 import { isArray, isFunction } from '@modern-js/utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
-import type * as streamModule from '../../adapters/node/polyfills/stream';
 import { ServerTimings } from '../../constants';
 import { getLoaderCtx } from '../../helper';
 import type {
@@ -245,9 +244,7 @@ async function createMiddlewareContextFromHono(
     // Otherwise the esbuild will build the node api into bundle.
     const streamModulePath = '../../adapters/node/polyfills/stream.js';
 
-    const { createReadableStreamFromReadable } = (await import(
-      streamModulePath
-    )) as typeof streamModule;
+    const { createReadableStreamFromReadable } = await import(streamModulePath);
 
     const init: RequestInit = {
       body: createReadableStreamFromReadable(c.env.node.req),

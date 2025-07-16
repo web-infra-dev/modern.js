@@ -95,7 +95,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/convert-source-map": "1.5.2",
-    "@types/node": "^14",
+    "@types/node": "^18",
     "typescript": "^5"
   },
   "peerDependencies": {

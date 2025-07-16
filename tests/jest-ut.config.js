@@ -72,7 +72,6 @@ module.exports = {
     {
       setupFiles: [
         '<rootDir>/tests/setEnvVars.js',
-        '<rootDir>/packages/server/core/tests/setup.ts',
         '<rootDir>/packages/server/plugin-koa/tests/setup.ts',
       ],
       transform: {

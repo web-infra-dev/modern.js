@@ -5,19 +5,11 @@ import type {
   Http2ServerResponse,
 } from 'node:http2';
 import type { Server as NodeHttpsServer } from 'node:https';
+import { Readable, Writable } from 'node:stream';
 import type { NodeRequest, NodeResponse } from '@modern-js/types/server';
 import cloneable from 'cloneable-readable';
 import type { RequestHandler } from '../../types';
 import { isResFinalized } from './helper';
-import { installGlobals } from './polyfills/install';
-import {
-  createReadableStreamFromReadable,
-  writeReadableStreamToWritable,
-} from './polyfills/stream';
-
-export { writeReadableStreamToWritable } from './polyfills';
-
-installGlobals();
 
 export const createWebRequest = (
   req: NodeRequest,
@@ -64,7 +56,8 @@ export const createWebRequest = (
       init.body = body;
     } else {
       const stream = cloneableReq!.clone();
-      init.body = createReadableStreamFromReadable(stream);
+
+      init.body = Readable.toWeb(stream) as unknown as BodyInit;
     }
     (init as { duplex: 'half' }).duplex = 'half';
   }
@@ -114,7 +107,8 @@ export const sendResponse = async (response: Response, res: NodeResponse) => {
   }
 
   if (response.body) {
-    await writeReadableStreamToWritable(response.body, res);
+    const writable = Writable.toWeb(res);
+    await response.body.pipeTo(writable);
   } else {
     res.end();
   }
