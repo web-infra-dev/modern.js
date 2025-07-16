@@ -4,8 +4,6 @@ sidebar_position: 6
 
 # Network Proxy
 
-## Local Proxy
-
 Modern.js provides a way to configure the development proxy in [`tools.devServer`](/configure/app/tools/dev-server). For example, to proxy the local interface to an online address:
 
 ```ts title="modern.config.ts"
@@ -30,9 +28,3 @@ When access `http://localhost:8080/go/api`, the response content will be returne
 :::info
 For more detail, see [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware).
 :::
-
-## Global Proxy
-
-import GlobalProxy from "@site-docs-en/components/global-proxy"
-
-<GlobalProxy />

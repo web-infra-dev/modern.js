@@ -11,7 +11,6 @@ export const EN_LOCALE = {
       runtime_api: 'Enable Runtime API',
       ssg: 'Enable SSG',
       polyfill: 'Enable UA-based Polyfill Feature',
-      proxy: 'Enable Global Proxy',
       module_doc: 'Enable Module Doc',
     },
     element: {
