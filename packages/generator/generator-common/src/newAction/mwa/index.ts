@@ -1,6 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../../locale';
-import { Framework } from '../../mwa/common';
 import {
   ActionElement,
   ActionElementText,
@@ -197,14 +196,4 @@ export const MWANewActionPluginDependence: Record<
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
   },
-};
-
-export const BFFPluginName: Record<Framework, string> = {
-  [Framework.Express]: 'expressPlugin',
-  [Framework.Koa]: 'koaPlugin',
-};
-
-export const BFFPluginDependence: Record<Framework, string> = {
-  [Framework.Express]: '@modern-js/plugin-express',
-  [Framework.Koa]: '@modern-js/plugin-koa',
 };

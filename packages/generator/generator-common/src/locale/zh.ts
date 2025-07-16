@@ -53,10 +53,6 @@ export const ZH_LOCALE = {
   },
   framework: {
     self: '请选择运行时框架',
-    egg: 'Egg',
-    express: 'Express',
-    koa: 'Koa',
-    nest: 'Nest',
   },
   bff: {
     bffType: {

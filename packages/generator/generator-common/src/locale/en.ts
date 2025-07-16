@@ -53,10 +53,6 @@ export const EN_LOCALE = {
   },
   framework: {
     self: 'Please select the framework:',
-    egg: 'Egg',
-    express: 'Express',
-    koa: 'Koa',
-    nest: 'Nest',
   },
   bff: {
     bffType: {

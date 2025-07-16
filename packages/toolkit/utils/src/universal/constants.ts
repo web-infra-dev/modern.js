@@ -49,7 +49,5 @@ export const SERVER_BUNDLE_DIRECTORY = 'bundles';
 export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
 
 export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
-export const SERVER_PLUGIN_EXPRESS = '@modern-js/plugin-express';
-export const SERVER_PLUGIN_KOA = '@modern-js/plugin-koa';
 export const SERVER_PLUGIN_SERVER = '@modern-js/plugin-server';
 export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
