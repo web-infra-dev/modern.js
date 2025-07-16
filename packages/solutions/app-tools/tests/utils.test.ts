@@ -4,6 +4,7 @@ import {
   closeServer,
   createServer,
   getServer,
+  reloadServer,
 } from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 
@@ -81,8 +82,11 @@ describe('test app-tools utils', () => {
       dev: {},
     });
 
-    expect(app instanceof Server).toBe(true);
-    expect(getServer()).toBe(app);
+    expect(app.server instanceof Server).toBe(true);
+    expect(getServer()).toBe(app.server);
+
+    await reloadServer?.();
+    expect(getServer()).toBe(app.server);
 
     await closeServer();
     expect(getServer()).toBeNull();

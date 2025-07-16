@@ -12,7 +12,7 @@ import {
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppNormalizedConfig, AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
-import { setServer } from '../utils/createServer';
+import { createServer, setServer } from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 import { registerCompiler } from '../utils/register';
@@ -128,7 +128,7 @@ export const dev = async (
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
   if (apiOnly) {
-    const { server } = await createDevServer(
+    const { server } = await createServer(
       {
         ...serverOptions,
         runCompile: false,
@@ -151,7 +151,7 @@ export const dev = async (
     );
     setServer(server);
   } else {
-    const { server, afterListen } = await createDevServer(
+    const { server, afterListen } = await createServer(
       {
         ...serverOptions,
         builder: appContext.builder,
