@@ -1,9 +1,7 @@
 import {
   ActionElement,
   ActionFunction,
-  BFFType,
   BooleanConfig,
-  Framework,
   Language,
   MWAActionTypes,
   MWAActionTypesMap,
@@ -15,8 +13,6 @@ import make from 'covertable';
 export const LanguageValues = Object.values(Language);
 export const PackageManagerValues = Object.values(PackageManager);
 export const BooleanConfigValues = Object.values(BooleanConfig);
-export const FrameworkValues = Object.values(Framework);
-export const BFFTypeValues = Object.values(BFFType);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
@@ -41,25 +37,6 @@ const getMWAEntryCases = (_length?: number) => {
   ];
 };
 
-export const MWAServerValueMap: Record<string, string[]> = {
-  framework: FrameworkValues,
-};
-
-const getMWAServerCases = () =>
-  make(MWAServerValueMap, {
-    length: Object.keys(MWAServerValueMap).length,
-  });
-
-export const MWABFFValueMap: Record<string, string[]> = {
-  bffType: BFFTypeValues,
-  framework: FrameworkValues,
-};
-
-const getMWABFFCases = (length?: number) =>
-  make(MWABFFValueMap, {
-    length: length || Object.keys(MWABFFValueMap).length,
-  });
-
 export const getMWANewCases = (length?: number) => {
   const cases: Array<Record<string, string>> = [];
   MWAActionTypes.forEach(action => {
@@ -74,17 +51,13 @@ export const getMWANewCases = (length?: number) => {
         });
       } else if (option === ActionElement.Server) {
         // server only can enable once
-        const serverCases = getMWAServerCases();
         cases.push({
           ...currentConfig,
-          ...serverCases[Math.round(Math.random() * serverCases.length)],
         });
       } else if (option === ActionFunction.BFF) {
         // bff only can enable once
-        const bffCases = getMWABFFCases(length);
         cases.push({
           ...currentConfig,
-          ...bffCases[Math.round(Math.random() * bffCases.length)],
         });
       } else {
         cases.push(currentConfig);

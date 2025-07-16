@@ -1,6 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../../locale';
-import { Framework } from '../../mwa/common';
 import {
   ActionElement,
   ActionElementText,
@@ -25,7 +24,6 @@ export const MWAActionFunctions = [
   ActionFunction.SSG,
   ActionFunction.MicroFrontend,
   ActionFunction.Polyfill,
-  ActionFunction.Proxy,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -112,7 +110,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
-  [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
@@ -157,7 +154,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
-    [ActionFunction.Proxy]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',
@@ -177,7 +173,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
-    [ActionFunction.Proxy]: 'proxyPlugin',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: 'routerPlugin',
@@ -197,19 +192,8 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
-    [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
   },
-};
-
-export const BFFPluginName: Record<Framework, string> = {
-  [Framework.Express]: 'expressPlugin',
-  [Framework.Koa]: 'koaPlugin',
-};
-
-export const BFFPluginDependence: Record<Framework, string> = {
-  [Framework.Express]: '@modern-js/plugin-express',
-  [Framework.Koa]: '@modern-js/plugin-koa',
 };
