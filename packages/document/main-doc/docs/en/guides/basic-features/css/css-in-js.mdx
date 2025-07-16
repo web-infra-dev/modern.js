@@ -2,7 +2,39 @@
 
 CSS-in-JS is a technique that allows you to write CSS styles in JS files.
 
-Modern.js integrates the popular CSS-in-JS implementation library [styled-components](https://styled-components.com/), which uses the new JavaScript feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles. You can directly import the API of [styled-components](https://styled-components.com/) from `@modern-js/runtime/styled` for use.
+Modern.js supports the popular CSS-in-JS implementation library [styled-components](https://styled-components.com/), which uses the new JavaScript feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles. You can directly import the API of [styled-components](https://styled-components.com/) from `@modern-js/runtime/styled` for use.
+
+## Using styled-components in Modern.js
+First, you need to install the `styled-components` dependency:
+
+```bash
+# npm
+npm add @rsbuild/plugin-styled-components -D
+
+# yarn
+yarn add @rsbuild/plugin-styled-components -D
+
+# pnpm
+pnpm add @rsbuild/plugin-styled-components -D
+```
+Then, configure the `styled-components` plugin in `modern.config.ts`:
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+
+export default defineConfig({
+  builderPlugins: [
+    pluginStyledComponents({
+      // ...
+      displayName: true,
+      minify: process.env.NODE_ENV === 'production',
+    }),
+  ],
+});
+```
+
+## Writing Styles with styled-components
 
 When you need to write a `div` component with an internal font color of red, you can implement it as follows:
 

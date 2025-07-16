@@ -47,15 +47,6 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "style": true,
               },
             ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
-              {
-                "displayName": true,
-                "pure": true,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-            ],
           ],
           "presets": [
             [

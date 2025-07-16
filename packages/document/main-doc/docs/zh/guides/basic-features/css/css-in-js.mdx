@@ -2,7 +2,40 @@
 
 CSS-in-JS 是一种可以将 CSS 样式写在 JS 文件里的技术。
 
-Modern.js 集成了社区常用的 CSS-in-JS 实现库 [styled-components](https://styled-components.com/)，它使用 JavaScript 的新特性 [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) 编写组件的 CSS 样式。可以直接从 `@modern-js/runtime/styled` 引入 [styled-components](https://styled-components.com/) 的 API 进行使用。
+Modern.js 支持社区常用的 CSS-in-JS 实现库 [styled-components](https://styled-components.com/)，它使用 JavaScript 的新特性 [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) 编写组件的 CSS 样式。可以直接从 `@modern-js/runtime/styled` 引入 [styled-components](https://styled-components.com/) 的 API 进行使用。
+
+## 在 Modern.js 中使用 styled-components
+
+首先，你需要安装 `styled-components` 依赖：
+
+```bash
+# npm
+npm add @rsbuild/plugin-styled-components -D
+
+# yarn
+yarn add @rsbuild/plugin-styled-components -D
+
+# pnpm
+pnpm add @rsbuild/plugin-styled-components -D
+```
+然后在 `modern.config.ts` 中配置 `styled-components` 插件：
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+
+export default defineConfig({
+  builderPlugins: [
+    pluginStyledComponents({
+      // ...
+      displayName: true,
+      minify: process.env.NODE_ENV === 'production',
+    }),
+  ],
+});
+```
+
+## 使用 styled-components 编写样式
 
 当需要编写一个内部字体为红色的 `div` 组件时，可以如下实现：
 

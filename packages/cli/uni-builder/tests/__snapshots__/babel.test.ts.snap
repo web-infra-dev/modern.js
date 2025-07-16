@@ -46,17 +46,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -196,17 +185,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -338,17 +316,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -443,17 +410,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -585,17 +541,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -727,17 +672,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {

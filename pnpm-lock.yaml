@@ -532,9 +532,6 @@ importers:
       '@rsbuild/plugin-source-build':
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.4.7)
-      '@rsbuild/plugin-styled-components':
-        specifier: 1.4.0
-        version: 1.4.0(@rsbuild/core@1.4.7)
       '@rsbuild/plugin-svgr':
         specifier: 1.2.1
         version: 1.2.1(@rsbuild/core@1.4.7)(typescript@5.6.3)
@@ -568,9 +565,6 @@ importers:
       babel-plugin-import:
         specifier: 1.13.8
         version: 1.13.8
-      babel-plugin-styled-components:
-        specifier: 1.13.3
-        version: 1.13.3(styled-components@5.3.5(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0))(supports-color@5.5.0)
       babel-plugin-transform-react-remove-prop-types:
         specifier: 0.4.24
         version: 0.4.24
@@ -9429,14 +9423,6 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-styled-components@1.4.0':
-    resolution: {integrity: sha512-1G7IYz3eLKPfRAye9zjlPDzIgdtk+4ECB9Op9thVDWd2q/qs3BGb+tt+nn+J7Vsb/jA4k3OLMnt6AYEIdYwxlw==}
-    peerDependencies:
-      '@rsbuild/core': ^1.4.0-beta.4 || ^1.4.0
-    peerDependenciesMeta:
-      '@rsbuild/core':
-        optional: true
-
   '@rsbuild/plugin-svgr@1.2.1':
     resolution: {integrity: sha512-UERUQmyGHx0B2mvSvdyuGyUFG2U94ogwpDRF+d6BRw4Yzm+OAktSjREoqvi/snwQZwZkRdHfdOkqI/jhPnPA/Q==}
     peerDependencies:
@@ -10094,9 +10080,6 @@ packages:
     engines: {npm: '>= 7.0.0'}
     peerDependencies:
       '@swc/core': '*'
-
-  '@swc/plugin-styled-components@8.0.2':
-    resolution: {integrity: sha512-JNDeeSZd8EQFCO013QNY+WXdeu/Gwu2vG0uJssEqVSzoz+HoHhNaPz5yvN4psor/6VXAY6LKCTqDfrsrfA6pXA==}
 
   '@swc/types@0.1.23':
     resolution: {integrity: sha512-u1iIVZV9Q0jxY+yM2vw/hZGDNudsN85bBpTqzAQ9rzkxW9D+e3aEM4Han+ow518gSewkXgjmEK0BD79ZcNVgPw==}
@@ -22137,13 +22120,6 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.4.7
 
-  '@rsbuild/plugin-styled-components@1.4.0(@rsbuild/core@1.4.7)':
-    dependencies:
-      '@swc/plugin-styled-components': 8.0.2
-      reduce-configs: 1.1.0
-    optionalDependencies:
-      '@rsbuild/core': 1.4.7
-
   '@rsbuild/plugin-svgr@1.2.1(@rsbuild/core@1.4.7)(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.4.7
@@ -22927,10 +22903,6 @@ snapshots:
       '@swc/core': 1.11.31(@swc/helpers@0.5.17)
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
-
-  '@swc/plugin-styled-components@8.0.2':
-    dependencies:
-      '@swc/counter': 0.1.3
 
   '@swc/types@0.1.23':
     dependencies:

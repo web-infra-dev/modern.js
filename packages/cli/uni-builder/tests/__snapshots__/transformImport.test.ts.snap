@@ -47,17 +47,6 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -153,17 +142,6 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -244,17 +222,6 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -350,17 +317,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {
@@ -441,17 +397,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
               "keepImportAttributes": true,
-              "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                  {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
-                  },
-                ],
-              ],
             },
             "externalHelpers": true,
             "output": {

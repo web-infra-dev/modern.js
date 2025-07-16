@@ -257,17 +257,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": false,
-                        "ssr": false,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -344,17 +333,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": false,
-                        "ssr": false,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -977,17 +955,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": false,
-                            "ssr": false,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -1072,17 +1039,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": false,
-                            "ssr": false,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -1397,7 +1353,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:svgr",
   "rsbuild:css-minimizer",
   "uni-builder:postcss-plugins",
-  "rsbuild:styled-components",
   "user-plugin",
 ]
 `;
@@ -1532,17 +1487,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": true,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -1612,17 +1556,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": true,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -2018,17 +1951,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": true,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -2109,17 +2031,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": true,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -2601,17 +2512,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": false,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -2688,17 +2588,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": false,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -3321,17 +3210,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": false,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -3416,17 +3294,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": false,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -3862,17 +3729,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": true,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -3943,17 +3799,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
                   "keepImportAttributes": true,
-                  "plugins": [
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                      {
-                        "displayName": true,
-                        "pure": true,
-                        "ssr": true,
-                        "transpileTemplateLiterals": true,
-                      },
-                    ],
-                  ],
                 },
                 "externalHelpers": true,
                 "output": {
@@ -4331,17 +4176,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": true,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
@@ -4423,17 +4257,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
                       "keepImportAttributes": true,
-                      "plugins": [
-                        [
-                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
-                          {
-                            "displayName": true,
-                            "pure": true,
-                            "ssr": true,
-                            "transpileTemplateLiterals": true,
-                          },
-                        ],
-                      ],
                     },
                     "externalHelpers": true,
                     "output": {
