@@ -158,7 +158,6 @@ class StreamPump {
 
         const available = (this.controller.desiredSize || 0) - bytes.byteLength;
 
-        // FIXME: @modern-js/devtools-client would compiled failed.
         (this.controller as any).enqueue(bytes);
 
         if (available <= 0) {

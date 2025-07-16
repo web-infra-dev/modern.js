@@ -21,8 +21,8 @@ function existsSync(filePath: string) {
   return fs.existsSync(resolveDist(filePath));
 }
 
-describe.skip('devtools build', () => {
-  test(`should get right devtools build!`, async () => {
+describe.skip('build', () => {
+  test(`should build success`, async () => {
     if (!isVersionAtLeast18()) return;
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
@@ -61,7 +61,7 @@ describe.skip('devtools build', () => {
   });
 });
 
-describe('devtools dev', () => {
+describe('dev', () => {
   test(`should render page correctly`, async () => {
     if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
