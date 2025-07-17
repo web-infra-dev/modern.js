@@ -1,6 +1,5 @@
 import path from 'path';
-import type Webpack from 'webpack';
-import type { Module } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 import {
   type ClientManifest,
   type ClientReferencesMap,
@@ -32,14 +31,14 @@ export class RspackRscClientPlugin {
       options?.ssrManifestFilename || `react-ssr-manifest.json`;
   }
 
-  apply(compiler: Webpack.Compiler): void {
+  apply(compiler: Rspack.Compiler): void {
     const {
       EntryPlugin,
       RuntimeGlobals,
       RuntimeModule,
       WebpackError,
       sources: { RawSource },
-    } = compiler.webpack;
+    } = compiler.rspack;
 
     const ssrManifest: SSRManifest = {
       moduleMap: {},
@@ -47,8 +46,10 @@ export class RspackRscClientPlugin {
       styles: [],
     };
 
-    const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
-      const entryModules: Webpack.Module[] = [];
+    const getEntryModule = (
+      compilation: Rspack.Compilation,
+    ): Rspack.Module[] => {
+      const entryModules: Rspack.Module[] = [];
 
       for (const [, entryValue] of compilation.entries.entries()) {
         const entryDependency = entryValue.dependencies[0];
@@ -79,8 +80,8 @@ export class RspackRscClientPlugin {
     };
 
     const addClientReferencesChunks = (
-      compilation: Webpack.Compilation,
-      entryModule: Webpack.Module,
+      compilation: Rspack.Compilation,
+      entryModule: Rspack.Module,
       callback: (err: any | null) => void,
     ) => {
       const promises = [];
@@ -93,9 +94,7 @@ export class RspackRscClientPlugin {
             continue;
           }
 
-          const dependency = EntryPlugin.createDependency(resourcePath, {
-            name: resourcePath,
-          });
+          const dependency = EntryPlugin.createDependency(resourcePath);
 
           promises.push(
             new Promise((resolve, reject) => {
@@ -124,9 +123,7 @@ export class RspackRscClientPlugin {
 
       if (this.styles && this.styles.size > 0) {
         for (const style of this.styles) {
-          const dependency = EntryPlugin.createDependency(style, {
-            name: style,
-          });
+          const dependency = EntryPlugin.createDependency(style);
           promises.push(
             new Promise((resolve, reject) => {
               compilation.addInclude(
@@ -243,9 +240,9 @@ export class RspackRscClientPlugin {
                 const clientExportName = exportName;
                 const ssrExportName = exportName;
 
-                const chunksSet = new Set<Webpack.Chunk>();
+                const chunksSet = new Set<Rspack.Chunk>();
 
-                for (const chunk of chunkGraph.getModuleChunksIterable(
+                for (const chunk of (chunkGraph as any).getModuleChunksIterable(
                   module,
                 )) {
                   chunksSet.add(chunk);
@@ -254,9 +251,9 @@ export class RspackRscClientPlugin {
                 for (const connection of moduleGraph.getOutgoingConnections(
                   module,
                 )) {
-                  for (const chunk of chunkGraph.getModuleChunksIterable(
-                    connection.module,
-                  )) {
+                  for (const chunk of (
+                    chunkGraph as any
+                  ).getModuleChunksIterable(connection.module)) {
                     chunksSet.add(chunk);
                   }
                 }
@@ -304,7 +301,7 @@ export class RspackRscClientPlugin {
 
           ssrManifest.moduleLoading = {
             // https://github.com/webpack/webpack/blob/87660921808566ef3b8796f8df61bd79fc026108/lib/runtime/PublicPathRuntimeModule.js#L30-L32
-            prefix: compilation.getPath(publicPath, {
+            prefix: compilation.getPath(publicPath as string, {
               hash: compilation.hash ?? `XXXX`,
             }),
             crossOrigin: crossOriginLoading

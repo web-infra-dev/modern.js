@@ -1,11 +1,7 @@
-import type {
-  HtmlWebpackPlugin,
-  Rspack,
-  webpack,
-} from '@modern-js/uni-builder';
+import type { Rspack } from '@modern-js/uni-builder';
 
 export class BottomTemplatePlugin {
-  htmlWebpackPlugin: typeof HtmlWebpackPlugin;
+  htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin;
 
   bottomTemplateReg: RegExp = /<!--<\?-\s*bottomTemplate\s*\?>-->/;
 
@@ -13,12 +9,12 @@ export class BottomTemplatePlugin {
 
   name: string;
 
-  constructor(htmlWebpackPlugin: typeof HtmlWebpackPlugin) {
+  constructor(htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin) {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
     this.name = 'bottom-template';
   }
 
-  apply(compiler: Rspack.Compiler | webpack.Compiler) {
+  apply(compiler: Rspack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       this.htmlWebpackPlugin
         .getHooks(compilation as any)

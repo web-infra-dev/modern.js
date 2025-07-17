@@ -75,7 +75,6 @@ const deployDefaults = {
 };
 
 const toolsDefaults = {
-  webpack: undefined,
   babel: undefined,
   postcss: undefined,
   autoprefixer: undefined,

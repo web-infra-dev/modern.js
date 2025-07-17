@@ -1,6 +1,6 @@
 import * as path from 'path';
 import {
-  type HtmlWebpackPlugin,
+  type Rspack,
   SERVICE_WORKER_ENVIRONMENT_NAME,
   isHtmlDisabled,
 } from '@modern-js/uni-builder';
@@ -60,7 +60,7 @@ export const builderPluginAdapterSSR = (
           chain,
           'route-plugin',
           options,
-          HtmlBundlerPlugin as unknown as typeof HtmlWebpackPlugin,
+          HtmlBundlerPlugin as unknown as typeof Rspack.HtmlRspackPlugin,
         );
 
         const isServiceWorker =
@@ -134,7 +134,7 @@ function applyRouterPlugin(
   chain: RspackChain,
   pluginName: string,
   options: Readonly<BuilderOptions>,
-  HtmlBundlerPlugin: typeof HtmlWebpackPlugin,
+  HtmlBundlerPlugin: typeof Rspack.HtmlRspackPlugin,
 ) {
   const { appContext, normalizedConfig } = options;
   const { entrypoints } = appContext;

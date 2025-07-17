@@ -6,7 +6,6 @@ import type {
   DistPathConfig,
   EnvironmentConfig,
   HtmlConfig,
-  HtmlTagDescriptor,
   OutputConfig,
   Polyfill,
   RequestHandler,
@@ -32,8 +31,6 @@ import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
 import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { Options as AutoprefixerOptions } from 'autoprefixer';
-import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
-import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 export type CacheGroup = Rspack.OptimizationSplitChunksCacheGroup;
 
@@ -69,7 +66,7 @@ export type CreateBuilderCommonOptions = {
   internalDirectory?: string;
 };
 
-export type BundlerType = 'rspack' | 'webpack';
+export type BundlerType = 'rspack';
 
 export type CreateUniBuilderOptions = {
   rscClientRuntimePath?: string;
@@ -125,15 +122,7 @@ export type UniBuilderExtraConfig = {
      */
     autoprefixer?: ToolsAutoprefixerConfig;
     // tools.htmlPlugin minify option should works
-    htmlPlugin?:
-      | boolean
-      | ConfigChainWithContext<
-          HTMLPluginOptions,
-          {
-            entryName: string;
-            entryValue: (string | string[] | Rspack.EntryDescription)[];
-          }
-        >;
+    htmlPlugin?: ToolsConfig['htmlPlugin'];
     devServer?: ToolsDevServerConfig;
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
@@ -150,13 +139,6 @@ export type UniBuilderExtraConfig = {
      * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
      */
     babel?: PluginBabelOptions['babelLoaderOptions'];
-    /**
-     * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
-     * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
-     *
-     * Tips: this configuration is not yet supported in rspack
-     */
-    tsLoader?: PluginTsLoaderOptions;
     /**
      * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
      */

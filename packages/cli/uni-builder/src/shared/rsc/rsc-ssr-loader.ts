@@ -1,12 +1,10 @@
-import type { LoaderContext } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 import {
   type SourceMap,
-  findRootIssuer,
   getExportNames,
   isServerModule,
   parseSource,
   setRscBuildInfo,
-  sharedData,
 } from './common';
 
 export type RscSsrLoaderOptions = {
@@ -14,7 +12,7 @@ export type RscSsrLoaderOptions = {
 };
 
 export default async function rscSsrLoader(
-  this: LoaderContext<RscSsrLoaderOptions>,
+  this: Rspack.LoaderContext<RscSsrLoaderOptions>,
   source: string,
   sourceMap: SourceMap,
 ) {

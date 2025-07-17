@@ -135,16 +135,6 @@ export const runtimePlugin = (params?: {
           /**
            * Add IgnorePlugin to fix react-dom/client import error when use react17
            */
-          webpackChain: (chain, { webpack }) => {
-            if (!isReact18) {
-              chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
-                {
-                  resourceRegExp: /^react-dom\/client$/,
-                  contextRegExp: /@modern-js\/runtime/,
-                },
-              ]);
-            }
-          },
           rspack: (_config, { appendPlugins, rspack }) => {
             if (!isReact18) {
               appendPlugins([

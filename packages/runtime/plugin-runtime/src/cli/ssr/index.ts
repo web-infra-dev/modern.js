@@ -99,36 +99,20 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     const appContext = api.getAppContext();
 
     api.config(() => {
-      const { bundlerType = 'webpack' } = api.getAppContext();
       const babelHandler = (() => {
-        // In webpack build, we should let `useLoader` support CSR & SSR both.
-        if (bundlerType === 'webpack') {
-          return (config: any) => {
-            const userConfig = api.getNormalizedConfig();
-            // Add id for useLoader method,
-            // The useLoader can be used even if the SSR is not enabled
+        // TODO: webpack remove it when remove useLoader API
+        // In Rspack build, we need transform the babel-loader again.
+        // It would increase performance overhead,
+        // so we only use useLoader in CSR on Rspack build temporarily.
+        return (config: any) => {
+          const userConfig = api.useResolvedConfigContext();
+          if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
             config.plugins?.push(
               path.join(__dirname, './babel-plugin-ssr-loader-id'),
             );
-
-            if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-              config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-            }
-          };
-        } else if (bundlerType === 'rspack') {
-          // In Rspack build, we need transform the babel-loader again.
-          // It would increase performance overhead,
-          // so we only use useLoader in CSR on Rspack build temporarily.
-          return (config: any) => {
-            const userConfig = api.useResolvedConfigContext();
-            if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-              config.plugins?.push(
-                path.join(__dirname, './babel-plugin-ssr-loader-id'),
-              );
-              config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-            }
-          };
-        }
+            config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+          }
+        };
       })();
 
       return {

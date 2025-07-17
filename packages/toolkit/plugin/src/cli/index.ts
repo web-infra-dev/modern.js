@@ -17,8 +17,6 @@ export {
   type ModifyResolvedConfigFn,
   type ModifyRsbuildConfigFn,
   type ModifyRspackConfigFn,
-  type ModifyWebpackChainFn,
-  type ModifyWebpackConfigFn,
   type OnAfterDeployFn,
   type OnBeforeDeployFn,
   type OnBeforeDevFn,

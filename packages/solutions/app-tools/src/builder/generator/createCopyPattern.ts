@@ -45,9 +45,6 @@ export function createUploadPattern(
 ): Rspack.CopyRspackPluginOptions['patterns']['0'] {
   const { uploadDir } = createCopyInfo(appContext, config);
   return {
-    // rspack copy info structure is inconsistent with webpack, it only used in webpack mode
-    // @ts-expect-error
-    info,
     from: '**/*',
     to: 'upload',
     context: uploadDir,

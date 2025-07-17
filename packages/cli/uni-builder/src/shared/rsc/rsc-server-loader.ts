@@ -1,6 +1,6 @@
 import path from 'path';
+import type { Rspack } from '@rsbuild/core';
 import { transform } from '@swc/core';
-import type { LoaderContext } from 'webpack';
 import { setRscBuildInfo } from './common';
 
 export type RscServerLoaderOptions = {
@@ -34,7 +34,7 @@ function extractMetadata(code: string): SWCMetadata | null {
 }
 
 export default async function rscServerLoader(
-  this: LoaderContext<RscServerLoaderOptions>,
+  this: Rspack.LoaderContext<RscServerLoaderOptions>,
   source: string,
 ) {
   this.cacheable(true);

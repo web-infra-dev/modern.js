@@ -1,13 +1,8 @@
 import { createHash } from 'crypto';
-import type {
-  HtmlWebpackPlugin,
-  Rspack,
-  webpack,
-} from '@modern-js/uni-builder';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { merge, mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
-import type { ScriptLoading } from '@rsbuild/core';
+import type { Rspack, ScriptLoading } from '@rsbuild/core';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -19,12 +14,12 @@ export interface RouteAssets {
   };
 }
 
-type Compiler = webpack.Compiler | Rspack.Compiler;
-type Compilation = webpack.Compilation | Rspack.Compilation;
-type Chunks = webpack.StatsChunk[];
+type Compiler = Rspack.Compiler;
+type Compilation = Rspack.Compilation;
+type Chunks = Rspack.StatsChunk[];
 
 type Options = {
-  HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
+  HtmlBundlerPlugin: typeof Rspack.HtmlRspackPlugin;
   staticJsDir?: string;
   enableInlineRouteManifests: boolean;
   disableFilenameHash?: boolean;
@@ -39,7 +34,7 @@ const generateContentHash = (content: string) => {
 export class RouterPlugin {
   readonly name: string = 'RouterPlugin';
 
-  private HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
+  private HtmlBundlerPlugin: typeof Rspack.HtmlRspackPlugin;
 
   private enableInlineRouteManifests: boolean;
 
@@ -107,9 +102,8 @@ export class RouterPlugin {
       return;
     }
 
-    const { webpack } = compiler;
-    const isRspack = 'rspackVersion' in webpack;
-    const { Compilation, sources } = webpack;
+    const { rspack } = compiler;
+    const { Compilation, sources } = rspack;
     const { RawSource } = sources;
 
     const normalizePath = (path: string): string => {
@@ -125,16 +119,17 @@ export class RouterPlugin {
     const placeholder = `<!--<?- ${ROUTE_MANIFEST_HOLDER} ?>-->`;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      this.HtmlBundlerPlugin.getHooks(
-        compilation as webpack.Compilation,
-      ).beforeEmit.tapAsync('RouterManifestPlugin', (data, callback) => {
-        const { outputName } = data;
-        const { chunks } = data.plugin.options!;
-        chunksToHtmlName.set(chunks, outputName);
+      this.HtmlBundlerPlugin.getHooks(compilation).beforeEmit.tapAsync(
+        'RouterManifestPlugin',
+        (data, callback) => {
+          const { outputName } = data;
+          const { chunks } = data.plugin.options!;
+          chunksToHtmlName.set(chunks, outputName);
 
-        data.html = data.html.replace('</script>', `</script>${placeholder}`);
-        callback(null, data);
-      });
+          data.html = data.html.replace('</script>', `</script>${placeholder}`);
+          callback(null, data);
+        },
+      );
 
       compilation.hooks.processAssets.tapPromise(
         {
@@ -154,7 +149,7 @@ export class RouterPlugin {
             publicPath,
             chunks = [],
             namedChunkGroups,
-          } = stats as webpack.StatsCompilation;
+          } = stats as Rspack.StatsCompilation;
           const routeAssets: RouteAssets = {};
 
           if (!namedChunkGroups) {
@@ -224,25 +219,7 @@ export class RouterPlugin {
 
           const entryNames = Array.from(compilation.entrypoints.keys());
           let entryChunks = [];
-          if (isRspack) {
-            entryChunks = this.getEntryChunks(compilation, chunks);
-          } else {
-            const orignalEntryIds = Object.keys(compilation.options.entry).map(
-              entryName => {
-                const chunk = compilation.namedChunks.get(
-                  entryName,
-                ) as webpack.Chunk;
-                if (chunk) {
-                  return chunk.id;
-                }
-                return entryName;
-              },
-            );
-
-            entryChunks = this.getEntryChunks(compilation, chunks).filter(
-              chunk => orignalEntryIds.includes(chunk.id as string),
-            );
-          }
+          entryChunks = this.getEntryChunks(compilation, chunks);
 
           const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
@@ -323,9 +300,8 @@ export class RouterPlugin {
                         placeholder,
                         `<script ${nonceAttr}>${injectedContent}</script>`,
                       ),
-                  ) as any,
-                  // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                  undefined as any,
+                  ),
+                  undefined,
                 );
               } else {
                 const scriptPath = `${staticJsDir}/${ROUTE_MANIFEST_HOLDER}-${entryName}${
@@ -349,13 +325,12 @@ export class RouterPlugin {
                   htmlName,
                   new RawSource(
                     oldHtml.source().toString().replace(placeholder, script),
-                  ) as any,
-                  // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                  undefined as any,
+                  ),
+                  undefined,
                 );
                 compilation.emitAsset(
                   scriptPath,
-                  new RawSource(injectedContent) as any,
+                  new RawSource(injectedContent),
                 );
               }
             }
@@ -364,14 +339,13 @@ export class RouterPlugin {
           if (prevManifestAsset) {
             compilation.updateAsset(
               ROUTE_MANIFEST_FILE,
-              new RawSource(JSON.stringify(manifest, null, 2)) as any,
-              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-              undefined as any,
+              new RawSource(JSON.stringify(manifest, null, 2)),
+              undefined,
             );
           } else {
             compilation.emitAsset(
               ROUTE_MANIFEST_FILE,
-              new RawSource(JSON.stringify(manifest, null, 2)) as any,
+              new RawSource(JSON.stringify(manifest, null, 2)),
             );
           }
         },

@@ -22,8 +22,6 @@ import type {
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
   ModifyServerRoutesFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
   OnAfterDeployFn,
   OnAfterDevFn,
   OnBeforeDeployFn,
@@ -82,14 +80,6 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<
     /** Only works when bundler is Rspack */
     modifyRspackConfig: PluginHookTap<
       ModifyRspackConfigFn<Extends['extendBuildUtils']>
-    >;
-    /** Only works when bundler is Webpack */
-    modifyWebpackChain: PluginHookTap<
-      ModifyWebpackChainFn<Extends['extendBuildUtils']>
-    >;
-    /** Only works when bundler is Webpack */
-    modifyWebpackConfig: PluginHookTap<
-      ModifyWebpackConfigFn<Extends['extendBuildUtils']>
     >;
     modifyHtmlPartials: PluginHookTap<ModifyHtmlPartialsFn>;
 

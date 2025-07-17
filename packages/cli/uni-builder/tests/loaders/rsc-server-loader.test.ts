@@ -1,7 +1,7 @@
 import path from 'node:path';
+import type { Rspack } from '@rsbuild/core';
 import fs from 'fs/promises';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { LoaderContext } from 'webpack';
 import { MODERN_RSC_INFO, sharedData } from '../../src/shared/rsc/common';
 import rscServerLoader, {
   type RscServerLoaderOptions,
@@ -14,7 +14,7 @@ async function callLoader(
   const input = await fs.readFile(resourcePath);
 
   return new Promise((resolve, reject) => {
-    const context: Partial<LoaderContext<RscServerLoaderOptions>> = {
+    const context: Partial<Rspack.LoaderContext<RscServerLoaderOptions>> = {
       getOptions: () => ({
         appDir: __dirname,
       }),
@@ -38,7 +38,7 @@ async function callLoader(
     };
 
     rscServerLoader.call(
-      context as LoaderContext<RscServerLoaderOptions>,
+      context as Rspack.LoaderContext<RscServerLoaderOptions>,
       input.toString(`utf-8`),
     );
   });

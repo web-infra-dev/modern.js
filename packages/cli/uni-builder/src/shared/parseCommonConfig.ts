@@ -1,6 +1,4 @@
-import { isFunction } from '@modern-js/utils';
 import {
-  type HtmlTagHandler,
   type RsbuildConfig,
   type RsbuildPlugin,
   type SourceConfig,

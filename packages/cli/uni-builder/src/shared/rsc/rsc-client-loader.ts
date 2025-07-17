@@ -1,4 +1,4 @@
-import type { LoaderContext } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 import {
   type ServerReferencesModuleInfo,
   type SourceMap,
@@ -13,7 +13,7 @@ export type ClientLoaderOptions = {
 };
 
 export default async function rscClientLoader(
-  this: LoaderContext<ClientLoaderOptions>,
+  this: Rspack.LoaderContext<ClientLoaderOptions>,
   source: string,
   sourceMap: SourceMap,
 ) {

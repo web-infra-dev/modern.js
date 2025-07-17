@@ -94,8 +94,6 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     modifyRsbuildConfig: hooks.modifyRsbuildConfig.tap,
     modifyBundlerChain: hooks.modifyBundlerChain.tap,
     modifyRspackConfig: hooks.modifyRspackConfig.tap,
-    modifyWebpackChain: hooks.modifyWebpackChain.tap,
-    modifyWebpackConfig: hooks.modifyWebpackConfig.tap,
     modifyHtmlPartials: hooks.modifyHtmlPartials.tap,
 
     addCommand: hooks.addCommand.tap,

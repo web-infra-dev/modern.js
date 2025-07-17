@@ -11,17 +11,12 @@ export type {
   ClientManifest,
 } from '@modern-js/types/server';
 import { logger } from '@modern-js/utils';
+import type { Rspack } from '@rsbuild/core';
 import { type ExportNamedDeclaration, type Module, parse } from '@swc/core';
-import type {
-  LoaderDefinitionFunction,
-  ModuleGraph,
-  NormalModule,
-  Module as WebpackModule,
-} from 'webpack';
 
-export const webpackRscLayerName = `react-server`;
+export const rspackRscLayerName = `react-server`;
 
-export type SourceMap = Parameters<LoaderDefinitionFunction>[1];
+export type SourceMap = Parameters<Rspack.LoaderDefinitionFunction>[1];
 
 export const MODERN_RSC_INFO = 'modernRscInfo';
 
@@ -42,22 +37,22 @@ export const sharedData = {
 };
 
 export function setBuildInfo(
-  mod: WebpackModule,
+  mod: Rspack.Module,
   property: Record<string, any>,
 ) {
   if (!mod.buildInfo) {
-    mod.buildInfo = {};
+    mod.buildInfo = {} as Rspack.Module['buildInfo'];
   }
 
   Object.assign(mod.buildInfo, property);
 }
 
 export function setRscBuildInfo(
-  mod: WebpackModule,
+  mod: Rspack.Module,
   property: Record<string, any>,
 ) {
   if (!mod.buildInfo) {
-    mod.buildInfo = {};
+    mod.buildInfo = {} as Rspack.Module['buildInfo'];
   }
   const rscBuildInfo = mod.buildInfo[MODERN_RSC_INFO] || {};
 
@@ -65,15 +60,15 @@ export function setRscBuildInfo(
   setBuildInfo(mod, { [MODERN_RSC_INFO]: rscBuildInfo });
 }
 
-export function removeRscBuildInfo(mod: WebpackModule) {
+export function removeRscBuildInfo(mod: Rspack.Module) {
   delete mod.buildInfo?.[MODERN_RSC_INFO];
 }
 
-export function getRscBuildInfo(mod: WebpackModule) {
+export function getRscBuildInfo(mod: Rspack.Module) {
   return mod.buildInfo?.[MODERN_RSC_INFO];
 }
 
-export function isCssModule(mod: WebpackModule) {
+export function isCssModule(mod: Rspack.Module) {
   if (!mod) return false;
   return getRscBuildInfo(mod)?.isCssModule;
 }
@@ -167,9 +162,9 @@ export const isClientModule = async (ast: Module) => {
 };
 
 export function findRootIssuer(
-  modulegraph: ModuleGraph,
-  module: NormalModule,
-): NormalModule {
+  modulegraph: Rspack.ModuleGraph,
+  module: Rspack.NormalModule,
+): Rspack.NormalModule {
   const currentModule = module;
   const issuer = modulegraph.getIssuer(currentModule);
 
@@ -177,5 +172,5 @@ export function findRootIssuer(
     return currentModule;
   }
 
-  return findRootIssuer(modulegraph, issuer as NormalModule);
+  return findRootIssuer(modulegraph, issuer as Rspack.NormalModule);
 }
