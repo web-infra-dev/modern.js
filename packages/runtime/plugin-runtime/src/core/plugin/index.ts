@@ -12,7 +12,6 @@ import type {
   RuntimePluginFuture,
 } from './types';
 
-// new type
 export type { RuntimePluginFuture };
 
 export function registerPlugin(

@@ -7,7 +7,7 @@ import {
   findExists,
 } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext, AppToolsHooks } from '../../types/new';
+import type { AppToolsContext, AppToolsHooks } from '../../types/plugin';
 import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 

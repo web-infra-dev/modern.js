@@ -1,6 +1,6 @@
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
-import type { AppToolsContext } from '../types/new';
+import type { AppToolsContext } from '../types/plugin';
 import { getAutoInjectEnv } from '../utils/env';
 
 // Define some default values that are different from rsbuild default config or used in useResolvedConfigContext

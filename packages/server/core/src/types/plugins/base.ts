@@ -11,7 +11,7 @@ import type {
 import type { MiddlewareHandler } from 'hono';
 import type { UserConfig } from '../config';
 import type { Render } from '../render';
-import type { ServerPlugin } from './new';
+import type { ServerPlugin } from './plugin';
 
 export type { FileChangeEvent, ResetEvent } from '@modern-js/plugin-v2';
 export type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;

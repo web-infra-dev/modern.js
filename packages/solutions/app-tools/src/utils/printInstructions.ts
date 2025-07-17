@@ -1,6 +1,6 @@
 import { logger, prettyInstructions } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../types';
-import type { AppToolsContext, AppToolsHooks } from '../types/new';
+import type { AppToolsContext, AppToolsHooks } from '../types/plugin';
 
 export const printInstructions = async (
   hooks: AppToolsHooks,

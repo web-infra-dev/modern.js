@@ -7,7 +7,7 @@ import {
   getMeta,
   isDepExists,
 } from '@modern-js/utils';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 
 export type ServerAppContext = {
   sharedDirectory: string;

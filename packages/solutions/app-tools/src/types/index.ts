@@ -1,5 +1,4 @@
 import type {
-  CLIPlugin,
   CLIPluginExtends,
   RuntimePluginConfig,
   ServerPluginConfig,
@@ -38,4 +37,4 @@ export type {
   AppToolsExtendHooks,
   AppToolsContext,
   AppToolsHooks as AppToolsFeatureHooks,
-} from './new';
+} from './plugin';

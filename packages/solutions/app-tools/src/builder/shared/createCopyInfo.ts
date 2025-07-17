@@ -1,6 +1,6 @@
 import path from 'path';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 
 export function createCopyInfo(
   appContext: AppToolsContext,

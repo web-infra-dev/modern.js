@@ -12,7 +12,7 @@ import {
   urlJoin,
 } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 import { isMainEntry } from '../../utils/routes';
 import { walkDirectory } from './utils';
 

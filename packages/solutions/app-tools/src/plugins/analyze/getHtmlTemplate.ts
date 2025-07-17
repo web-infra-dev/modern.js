@@ -2,7 +2,7 @@ import path from 'path';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import { fs, findExists } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext, AppToolsHooks } from '../../types/new';
+import type { AppToolsContext, AppToolsHooks } from '../../types/plugin';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 

@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, getServerConfig } from '@modern-js/utils';
 import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
-import type { AppToolsContext } from '../types/new';
+import type { AppToolsContext } from '../types/plugin';
 
 /**
  * Get user config from package.json.

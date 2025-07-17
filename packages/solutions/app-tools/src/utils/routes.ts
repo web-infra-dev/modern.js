@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, MAIN_ENTRY_NAME, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import type { AppToolsContext } from '../types/new';
+import type { AppToolsContext } from '../types/plugin';
 
 export const generateRoutes = async (appContext: AppToolsContext) => {
   const { serverRoutes, distDirectory } = appContext;
