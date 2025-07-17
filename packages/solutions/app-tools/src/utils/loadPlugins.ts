@@ -78,15 +78,8 @@ const resolveCliPlugin = async (
 export const loadInternalPlugins = async (
   appDirectory: string,
   internalPlugins?: InternalPlugins,
-  autoLoad?: InternalPlugins,
-  autoLoadPlugins?: boolean, // user config auto load plugins
 ) => {
-  const plugins = [
-    ...(autoLoadPlugins
-      ? getInternalPlugins(appDirectory, internalPlugins)
-      : []),
-    ...(autoLoad ? getInternalPlugins(appDirectory, autoLoad) : []),
-  ];
+  const plugins = getInternalPlugins(appDirectory, internalPlugins);
 
   const loadedPlugins = await Promise.all(
     plugins.map(plugin => {

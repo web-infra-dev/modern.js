@@ -73,59 +73,6 @@ export const LOADER_ROUTES_DIR = `loader-routes`;
  */
 export const DEFAULT_DEV_HOST = '0.0.0.0';
 
-/**
- * Internal app-tools plugins that work as soon as they are installed.
- */
-
-export const INTERNAL_APP_TOOLS_PLUGINS: InternalPlugins = {
-  '@modern-js/app-tools': '@modern-js/app-tools/cli',
-  '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
-  '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
-  '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
-  '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
-  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
-  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
-  // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
-};
-
 export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
   '@modern-js/runtime': '@modern-js/runtime/cli',
-};
-
-/**
- * Internal module-tools plugins that work as soon as they are installed.
- */
-export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
-  '@modern-js/module-tools': '@modern-js/module-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
-  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
-  // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
-};
-
-/**
- * Internal doc-tools plugins that work as soon as they are installed.
- */
-export const INTERNAL_DOC_TOOLS_PLUGINS: InternalPlugins = {
-  '@modern-js/doc-tools': '@modern-js/doc-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
-};
-
-/**
- * Internal plugins that work as soon as they are installed.
- */
-export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
-  '@modern-js/app-tools': '@modern-js/app-tools/cli',
-  '@modern-js/module-tools': '@modern-js/module-tools',
-  '@modern-js/doc-tools': '@modern-js/doc-tools',
-  '@modern-js/runtime': '@modern-js/runtime/cli',
-  '@modern-js/plugin-ssg': '@modern-js/plugin-ssg/cli',
-  '@modern-js/plugin-bff': '@modern-js/plugin-bff/cli',
-  '@modern-js/plugin-server': '@modern-js/plugin-server/cli',
-  '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
-  '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
-  '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
-  // legacy router (inner react-router-dom v5)
-  '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };

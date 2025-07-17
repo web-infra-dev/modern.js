@@ -1,8 +1,7 @@
 import os from 'os';
 import path from 'path';
-import type { InternalPlugins } from '@modern-js/types';
+import type { InternalPlugins } from '@modern-js/types/common';
 import { fs, browserslist, json5 } from '../../compiled';
-import { INTERNAL_CLI_PLUGINS } from '../constants';
 import { isDepExists } from '../is';
 import { canUsePnpm, canUseYarn } from '../package';
 
@@ -62,7 +61,7 @@ export const getBrowserslist = (appDirectory: string) =>
 
 export function getInternalPlugins(
   appDirectory: string,
-  internalPlugins: InternalPlugins = INTERNAL_CLI_PLUGINS,
+  internalPlugins: InternalPlugins = {},
 ) {
   return [
     ...Object.keys(internalPlugins)

@@ -85,11 +85,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
       ...(internalPlugins || []),
       ...((loaded.config as unknown as { plugins: Plugin[] }).plugins || []),
     ];
-    checkIsDuplicationPlugin(
-      allPlugins.map(plugin => plugin.name),
-      (loaded.config as unknown as { autoLoadPlugins?: boolean })
-        .autoLoadPlugins,
-    );
+    checkIsDuplicationPlugin(allPlugins.map(plugin => plugin.name));
 
     pluginManager.addPlugins(allPlugins);
 
