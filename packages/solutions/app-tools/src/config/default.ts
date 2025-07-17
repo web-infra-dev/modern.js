@@ -40,7 +40,6 @@ export function createDefaultConfig(
     entries: undefined,
     mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
-    enableCustomEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',

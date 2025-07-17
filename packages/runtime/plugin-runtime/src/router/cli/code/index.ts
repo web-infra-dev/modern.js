@@ -29,7 +29,7 @@ import {
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
-import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
+import { getClientRoutes } from './getClientRoutes';
 import { walk } from './nestedRoutes';
 import * as templates from './templates';
 import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
@@ -51,7 +51,7 @@ export const generateCode = async (
 
   const hooks = api.getHooks();
 
-  const getRoutes = isRouterV5 ? getClientRoutesLegacy : getClientRoutes;
+  const getRoutes = getClientRoutes;
   const oldVersion =
     typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)

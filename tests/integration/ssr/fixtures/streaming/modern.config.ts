@@ -6,9 +6,6 @@ export default applyBaseConfig({
     router: true,
   },
   plugins: [routerPlugin()],
-  source: {
-    enableCustomEntry: true,
-  },
   server: {
     ssr: {
       mode: 'stream',

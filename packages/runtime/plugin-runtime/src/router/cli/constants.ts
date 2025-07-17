@@ -1,5 +1,3 @@
-export const PAGES_DIR_NAME = 'pages';
-
 export const NESTED_ROUTES_DIR = 'routes';
 
 export const FILE_SYSTEM_ROUTES_FILE_NAME = 'routes.js';
@@ -9,10 +7,6 @@ export const LOADER_EXPORT_NAME = 'loader';
 export const ACTION_EXPORT_NAME = 'action';
 
 export const TEMP_LOADERS_DIR = '__loaders__';
-
-export const FILE_SYSTEM_ROUTES_LAYOUT = '_layout';
-
-export const FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT = '_app';
 
 export const FILE_SYSTEM_ROUTES_INDEX = 'index';
 

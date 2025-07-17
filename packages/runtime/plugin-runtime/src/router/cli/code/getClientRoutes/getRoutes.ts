@@ -9,11 +9,10 @@ import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
   FILE_SYSTEM_ROUTES_INDEX,
-  FILE_SYSTEM_ROUTES_LAYOUT,
 } from '../../constants';
 import { makeLegalIdentifier } from '../makeLegalIdentifier';
 import { replaceWithAlias } from '../utils';
-import { debug, findLayout, getRouteWeight, shouldSkip } from './utils';
+import { debug, getRouteWeight, shouldSkip } from './utils';
 
 const compName = (srcDirectory: string, filePath: string) => {
   const legalCompName = makeLegalIdentifier(
@@ -44,32 +43,8 @@ const recursiveReadDir = ({
   srcAlias: string;
 }) => {
   let hasDynamicRoute = false;
-  let resetParent = false;
-  let parent = parents[parents.length - 1];
-
-  const layout = findLayout(dir);
-
-  if (layout) {
-    if (basePath === '/') {
-      throw new Error(`should use _app instead of _layout in ${dir}`);
-    } else {
-      const alias = replaceWithAlias(srcDirectory, layout, srcAlias);
-      const componentName = compName(srcDirectory, layout);
-      const route: PageRoute = {
-        path: `${basePath.substring(0, basePath.length - 1)}`,
-        children: [],
-        _component: alias,
-        component: componentName,
-        parent,
-        type: 'page',
-      };
-      parent = route;
-      resetParent = true;
-      routes.push(route);
-      parents.push(route);
-      routes = route.children as PageRoute[];
-    }
-  }
+  const resetParent = false;
+  const parent = parents[parents.length - 1];
 
   for (const relative of fs.readdirSync(dir)) {
     const filePath = path.join(dir, relative);
@@ -113,10 +88,6 @@ const recursiveReadDir = ({
           srcDirectory,
           srcAlias,
         });
-        continue;
-      }
-
-      if (filename === FILE_SYSTEM_ROUTES_LAYOUT) {
         continue;
       }
 
