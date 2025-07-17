@@ -13,9 +13,9 @@ CLI 插件需要通过 `modern.config.ts` 中的 [`plugins`](/configure/app/plug
 一个典型的 CLI 插件结构如下：
 
 ```typescript
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-const myCliPlugin = (): CliPluginFuture<AppTools> => ({
+const myCliPlugin = (): CliPlugin<AppTools> => ({
   name: '@my-org/my-plugin', // 插件名称，确保唯一性
   setup: api => {
     // 在这里使用 API 注册钩子、添加命令等

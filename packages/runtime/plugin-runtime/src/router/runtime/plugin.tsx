@@ -15,7 +15,7 @@ import {
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
-import { type RuntimePluginFuture, RuntimeReactContext } from '../../core';
+import { type RuntimePlugin, RuntimeReactContext } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { getGlobalIsRscClient } from '../../core/context';
 import type { RuntimeContext } from '../../core/context/runtime';
@@ -66,7 +66,7 @@ interface UseRouterCreationOptions {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-): RuntimePluginFuture<{
+): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {

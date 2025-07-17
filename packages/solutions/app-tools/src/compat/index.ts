@@ -1,5 +1,5 @@
 import { createAsyncHook } from '@modern-js/plugin';
-import type { AppTools, CliPluginFuture } from '../types';
+import type { AppTools, CliPlugin } from '../types';
 import { getHookRunners } from './hooks';
 
 type JestConfigFn = (
@@ -8,7 +8,7 @@ type JestConfigFn = (
 ) => void | Promise<void>;
 type AfterTestFn = () => void | Promise<void>;
 
-export const compatPlugin = (): CliPluginFuture<AppTools> => ({
+export const compatPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools-compat',
   _registryApi: (getAppContext, updateAppContext) => {
     const getInternalContext = () => {

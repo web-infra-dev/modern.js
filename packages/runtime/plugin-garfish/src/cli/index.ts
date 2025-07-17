@@ -2,7 +2,7 @@ import type {
   AppNormalizedConfig,
   AppTools,
   AppUserConfig,
-  CliPluginFuture,
+  CliPlugin,
 } from '@modern-js/app-tools';
 import { createCollectAsyncHook } from '@modern-js/plugin';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
@@ -35,7 +35,7 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export const garfishPlugin = (): CliPluginFuture<AppTools> => ({
+export const garfishPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   pre: ['@modern-js/runtime'],
   registryHooks: {

@@ -1,5 +1,5 @@
 import path from 'path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
 import { filterRoutesForServer, logger } from '@modern-js/utils';
 import { generatePath } from 'react-router-dom';
@@ -17,7 +17,7 @@ import {
 import { createServer } from './server';
 import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 
-export const ssgPlugin = (): CliPluginFuture<AppTools> => ({
+export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
 
   pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],

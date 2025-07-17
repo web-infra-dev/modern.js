@@ -6,29 +6,10 @@ Modern.js 插件系统在不断演进，为了提供更清晰的 API 和更强�
 
 ### 迁移步骤总览
 
-1. **更新插件类型定义**：将 `CliPlugin` 类型替换为 `CliPluginFuture`。
-2. **调整 Hooks 调用方式**：从 `return hooks` 模式迁移到 `api.xxx` 直接调用。
-3. **替换已变更的 API**：参照详细的 API 映射表，更新您的代码。
+1. **调整 Hooks 调用方式**：从 `return hooks` 模式迁移到 `api.xxx` 直接调用。
+2. **替换已变更的 API**：参照详细的 API 映射表，更新您的代码。
 
 ### 详细迁移步骤
-
-#### 更新插件类型定义
-
-这是迁移的第一步，也是最关键的一步。它确保您的插件能够与新版插件系统正确交互。
-
-```typescript
-// 旧版写法
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-const plugin: CliPlugin<AppTools> = { ... };
-
-// 新版写法
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
-
-const plugin: CliPluginFuture<AppTools> = { ... };
-```
-
-**说明：** `CliPluginFuture` 类型是新版插件的标准定义，它带来了更好的类型推断和更清晰的 API 结构。
 
 #### 调整 Hooks 调用方式
 
@@ -38,15 +19,19 @@ const plugin: CliPluginFuture<AppTools> = { ... };
 // 旧版写法 (return hooks)
 {
   setup: () => ({
-    commands({ program }) { /*...*/ }
-  })
+    commands({ program }) {
+      /*...*/
+    },
+  });
 }
 
 // 新版写法 (api.xxx)
 {
   setup: api => {
-    api.addCommand(({ program }) => { /*...*/ })
-  }
+    api.addCommand(({ program }) => {
+      /*...*/
+    });
+  };
 }
 ```
 
@@ -56,26 +41,26 @@ const plugin: CliPluginFuture<AppTools> = { ... };
 
 为了保持 API 的一致性和清晰性，我们对部分 API 的名称进行了调整。下表列出了所有变更的 API 及其新旧对应关系：
 
-| 旧版 API                 | 新版 API                      | 说明                                                                                                                                                                                                                                                                                                                                                      |
-| :----------------------- | :---------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `useAppContext`          | `getAppContext`               | 获取应用上下文信息。                                                                                                                                                                                                                                                                                                                                       |
-| `useConfigContext`       | `getConfig`                  | 获取用户配置文件中的配置。                                                                                                                                                                                                                                                                                                                                    |
-| `useResolvedConfigContext` | `getNormalizedConfig`        | 获取经过插件处理后的最终配置。                                                                                                                                                                                                                                                                                                                                 |
-| `beforeConfig`           | (直接在 `setup` 中定义)     | 不再需要单独的 `beforeConfig` Hook，直接在 `setup` 函数中编写相关逻辑即可。                                                                                                                                                                                                                                                                                        |
-| `prepare`                | `onPrepare`                   | 运行主流程的前置准备阶段。                                                                                                                                                                                                                                                                                                                                    |
-| `afterPrepare`           | `onAfterPrepare` (不推荐)   | 在 `onPrepare` 之后执行，但可能在未来版本中废弃。建议将逻辑合并到 `onPrepare` 中。                                                                                                                                                                                                                                                                              |
-| `beforePrintInstructions`| `onBeforePrintInstructions`   | 在打印日志信息前执行。                                                                                                                                                                                                                                                                                                                                    |
-| `commands`               | `addCommand`                  | 添加新的 CLI 命令。                                                                                                                                                                                                                                                                                                                                       |
-| `watchFiles`             | `addWatchFiles`               | 添加需要监听的文件。                                                                                                                                                                                                                                                                                                                                       |
-| `fileChange`             | `onFileChanged`               | 监听文件变化事件。                                                                                                                                                                                                                                                                                                                                       |
-| `beforeCreateCompiler`   | `onBeforeCreateCompiler`      | 创建编译器前执行。                                                                                                                                                                                                                                                                                                                                       |
-| `afterCreateCompiler`    | `onAfterCreateCompiler`       | 创建编译器后执行。                                                                                                                                                                                                                                                                                                                                       |
-| `beforeBuild`            | `onBeforeBuild`               | 构建前执行。                                                                                                                                                                                                                                                                                                                                       |
-| `afterBuild`             | `onAfterBuild`                | 构建后执行。                                                                                                                                                                                                                                                                                                                                       |
-| `beforeDev`              | `onBeforeDev`                 | 运行 `dev` 命令前执行。                                                                                                                                                                                                                                                                                                                                   |
-| `afterDev`               | `onDevCompileDone`            | `dev` 命令编译完成后执行。                                                                                                                                                                                                                                                                                                                                 |
-| `beforeExit`             | `onBeforeExit`                | 进程退出前执行。                                                                                                                                                                                                                                                                                                                                       |
-| `htmlPartials`           | `modifyHtmlPartials`          | 修改 HTML 模板片段。                                                                                                                                                                                                                                                                                                                                      |
+| 旧版 API                   | 新版 API                    | 说明                                                                               |
+| :------------------------- | :-------------------------- | :--------------------------------------------------------------------------------- |
+| `useAppContext`            | `getAppContext`             | 获取应用上下文信息。                                                               |
+| `useConfigContext`         | `getConfig`                 | 获取用户配置文件中的配置。                                                         |
+| `useResolvedConfigContext` | `getNormalizedConfig`       | 获取经过插件处理后的最终配置。                                                     |
+| `beforeConfig`             | (直接在 `setup` 中定义)     | 不再需要单独的 `beforeConfig` Hook，直接在 `setup` 函数中编写相关逻辑即可。        |
+| `prepare`                  | `onPrepare`                 | 运行主流程的前置准备阶段。                                                         |
+| `afterPrepare`             | `onAfterPrepare` (不推荐)   | 在 `onPrepare` 之后执行，但可能在未来版本中废弃。建议将逻辑合并到 `onPrepare` 中。 |
+| `beforePrintInstructions`  | `onBeforePrintInstructions` | 在打印日志信息前执行。                                                             |
+| `commands`                 | `addCommand`                | 添加新的 CLI 命令。                                                                |
+| `watchFiles`               | `addWatchFiles`             | 添加需要监听的文件。                                                               |
+| `fileChange`               | `onFileChanged`             | 监听文件变化事件。                                                                 |
+| `beforeCreateCompiler`     | `onBeforeCreateCompiler`    | 创建编译器前执行。                                                                 |
+| `afterCreateCompiler`      | `onAfterCreateCompiler`     | 创建编译器后执行。                                                                 |
+| `beforeBuild`              | `onBeforeBuild`             | 构建前执行。                                                                       |
+| `afterBuild`               | `onAfterBuild`              | 构建后执行。                                                                       |
+| `beforeDev`                | `onBeforeDev`               | 运行 `dev` 命令前执行。                                                            |
+| `afterDev`                 | `onDevCompileDone`          | `dev` 命令编译完成后执行。                                                         |
+| `beforeExit`               | `onBeforeExit`              | 进程退出前执行。                                                                   |
+| `htmlPartials`             | `modifyHtmlPartials`        | 修改 HTML 模板片段。                                                               |
 
 **说明：** 请务必仔细检查您的代码，确保所有旧版 API 都已替换为新版 API。
 

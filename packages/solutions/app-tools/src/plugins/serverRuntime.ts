@@ -1,6 +1,6 @@
-import type { AppTools, CliPluginFuture } from '../types';
+import type { AppTools, CliPlugin } from '../types';
 
-export default (): CliPluginFuture<AppTools> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-server-runtime',
   setup(api) {
     api.config(() => ({

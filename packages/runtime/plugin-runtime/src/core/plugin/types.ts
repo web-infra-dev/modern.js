@@ -12,8 +12,8 @@ export type RuntimeExtends = Required<
   RuntimePluginExtends<RuntimeConfig, RuntimeContext, {}, {}>
 >;
 
-export type RuntimePluginFuture<Extends extends RuntimePluginExtends = {}> =
+export type RuntimePlugin<Extends extends RuntimePluginExtends = {}> =
   BaseRuntimePlugin<RuntimeExtends & Extends>;
 export interface RuntimeConfig extends AppConfig {
-  plugins?: RuntimePluginFuture[];
+  plugins?: RuntimePlugin[];
 }

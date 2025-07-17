@@ -1,7 +1,7 @@
-import type { RuntimePluginFuture } from '../plugin/types';
+import type { RuntimePlugin } from '../plugin/types';
 import { getHookRunners } from './hooks';
 
-export const compatPlugin = (): RuntimePluginFuture => ({
+export const compatPlugin = (): RuntimePlugin => ({
   name: '@modern-js/runtime-plugin-compat',
   _registryApi: getRuntimeContext => {
     return {

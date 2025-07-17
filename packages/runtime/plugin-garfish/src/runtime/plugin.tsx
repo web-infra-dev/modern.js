@@ -1,4 +1,4 @@
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import GarfishInstance from 'garfish';
 import React from 'react';
@@ -51,9 +51,7 @@ async function initOptions(manifest: Manifest = {}, options: Options = {}) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (
-  userConfig: Config = {},
-): RuntimePluginFuture => ({
+export const garfishPlugin = (userConfig: Config = {}): RuntimePlugin => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
     setExternal();

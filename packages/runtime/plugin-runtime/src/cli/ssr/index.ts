@@ -2,7 +2,7 @@ import path from 'path';
 import type {
   AppTools,
   AppToolsNormalizedConfig,
-  CliPluginFuture,
+  CliPlugin,
   ServerUserConfig,
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
@@ -90,7 +90,7 @@ const ssrBuilderPlugin = (
   },
 });
 
-export const ssrPlugin = (): CliPluginFuture<AppTools> => ({
+export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
 
   required: ['@modern-js/runtime'],

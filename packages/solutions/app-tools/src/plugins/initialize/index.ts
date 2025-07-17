@@ -9,10 +9,10 @@ import type {
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
-  CliPluginFuture,
+  CliPlugin,
 } from '../../types';
 
-export default (): CliPluginFuture<AppTools> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-initialize',
 
   post: [

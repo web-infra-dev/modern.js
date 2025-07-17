@@ -5,12 +5,12 @@
 ## 定义 Runtime 插件
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const myRuntimePlugin = (): RuntimePluginFuture => ({
+const myRuntimePlugin = (): RuntimePlugin => ({
   name: 'my-runtime-plugin',
-  setup: (api) => {
-    api.onBeforeRender((context) => {
+  setup: api => {
+    api.onBeforeRender(context => {
       // 在渲染前执行的逻辑
       console.log('Before rendering:', context);
     });
@@ -40,18 +40,19 @@ export default defineRuntimeConfig({
 :::info
 
 此功能在以下场景中特别有用：
-* 需要页面级前置数据的应用
-* 自定义数据注入流程
-* 框架迁移场景（例如从 Next.js 迁移）
+
+- 需要页面级前置数据的应用
+- 自定义数据注入流程
+- 框架迁移场景（例如从 Next.js 迁移）
 
 :::
 
 **定义数据注入插件**
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const dataInjectionPlugin = (): RuntimePluginFuture => ({
+const dataInjectionPlugin = (): RuntimePlugin => ({
   name: 'data-injection-plugin',
   setup: api => {
     api.onBeforeRender(context => {
@@ -82,9 +83,9 @@ export default function MyComponent() {
 在 SSR 场景下，浏览器端可以获取服务端渲染期间通过 `onBeforeRender` 注入的数据。开发者可以根据需求决定是否在浏览器端重新获取数据来覆盖服务端数据。
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const dataInjectionPlugin = (): RuntimePluginFuture => ({
+const dataInjectionPlugin = (): RuntimePlugin => ({
   name: 'data-injection-plugin',
   setup: api => {
     api.onBeforeRender(context => {

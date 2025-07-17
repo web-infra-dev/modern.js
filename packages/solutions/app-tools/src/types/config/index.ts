@@ -54,7 +54,7 @@ export interface AppToolsUserConfig {
   builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>;
   performance?: PerformanceUserConfig;
   environments?: RsbuildConfig['environments'];
-  plugins?: CliPluginFuture<AppTools>[];
+  plugins?: CliPlugin<AppTools>[];
 }
 
 interface SharedNormalizedConfig<RawConfig> {
@@ -75,5 +75,4 @@ export type AppTools = Required<
   >
 >;
 
-export type CliPluginFuture<Extends extends CLIPluginExtends> =
-  CLIPlugin<Extends>;
+export type CliPlugin<Extends extends CLIPluginExtends> = CLIPlugin<Extends>;

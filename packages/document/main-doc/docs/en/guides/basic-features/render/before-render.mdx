@@ -5,12 +5,12 @@ In certain scenarios, applications need to perform preprocessing operations befo
 ## Defining a Runtime Plugin
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const myRuntimePlugin = (): RuntimePluginFuture => ({
+const myRuntimePlugin = (): RuntimePlugin => ({
   name: 'my-runtime-plugin',
-  setup: (api) => {
-    api.onBeforeRender((context) => {
+  setup: api => {
+    api.onBeforeRender(context => {
       // Logic to execute before rendering
       console.log('Before rendering:', context);
     });
@@ -40,18 +40,19 @@ Through the `context` parameter of the `onBeforeRender` hook, you can inject glo
 :::info
 
 This feature is particularly useful in the following scenarios:
-* Applications requiring page-level preliminary data
-* Custom data injection workflows
-* Framework migration scenarios (e.g., migrating from Next.js)
+
+- Applications requiring page-level preliminary data
+- Custom data injection workflows
+- Framework migration scenarios (e.g., migrating from Next.js)
 
 :::
 
 **Defining a Data Injection Plugin**
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const dataInjectionPlugin = (): RuntimePluginFuture => ({
+const dataInjectionPlugin = (): RuntimePlugin => ({
   name: 'data-injection-plugin',
   setup: api => {
     api.onBeforeRender(context => {
@@ -82,9 +83,9 @@ export default function MyComponent() {
 In SSR scenarios, the browser can access data injected via `onBeforeRender` during server-side rendering. Developers can decide whether to re-fetch data on the browser side to override server data based on their requirements.
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const dataInjectionPlugin = (): RuntimePluginFuture => ({
+const dataInjectionPlugin = (): RuntimePlugin => ({
   name: 'data-injection-plugin',
   setup: api => {
     api.onBeforeRender(context => {

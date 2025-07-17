@@ -1,6 +1,6 @@
 // this plugin is use to provide request context to runtime context
 import type { RuntimeContext } from '../context';
-import type { RuntimePluginFuture } from '../plugin/types';
+import type { RuntimePlugin } from '../plugin/types';
 import type { TSSRContext } from '../types';
 
 export const makeRequestContext = (context: RuntimeContext) => {
@@ -17,7 +17,7 @@ export const makeRequestContext = (context: RuntimeContext) => {
   return requestContext;
 };
 
-export const requestContextPlugin = (): RuntimePluginFuture => ({
+export const requestContextPlugin = (): RuntimePlugin => ({
   name: '@modern-js/runtime-plugin-request-context',
 
   setup(api) {

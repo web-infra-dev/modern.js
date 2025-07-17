@@ -1,5 +1,5 @@
 import path from 'node:path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -23,7 +23,7 @@ import {
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
 
-export const routerPlugin = (): CliPluginFuture<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {

@@ -29,7 +29,7 @@ import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
 import serverRuntimePlugin from './plugins/serverRuntime';
-import type { AppTools, CliPluginFuture } from './types';
+import type { AppTools, CliPlugin } from './types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
@@ -47,7 +47,7 @@ import { restart } from './utils/restart';
 
 export * from './defineConfig';
 
-export const appTools = (): CliPluginFuture<AppTools> => ({
+export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
     serverRuntimePlugin(),
