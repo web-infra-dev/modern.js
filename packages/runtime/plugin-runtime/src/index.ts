@@ -1,6 +1,6 @@
 import type { RouterConfig } from './router/internal';
 
-export type { Plugin, RuntimePluginFuture } from './core';
+export type { RuntimePluginFuture } from './core';
 export type { AppConfig, RuntimeConfig } from './common';
 export { isBrowser } from './common';
 

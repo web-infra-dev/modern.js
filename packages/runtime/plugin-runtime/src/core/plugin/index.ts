@@ -6,20 +6,17 @@ import { compatPlugin } from '../compat';
 import { handleSetupResult } from '../compat/hooks';
 import { requestContextPlugin } from '../compat/requestContext';
 import { setGlobalInternalRuntimeContext } from '../context';
-import type { Plugin as RuntimePlugin } from './base';
 import type {
   RuntimeConfig,
   RuntimeExtends,
   RuntimePluginFuture,
 } from './types';
 
-// old type
-export type { Plugin } from './base';
 // new type
 export type { RuntimePluginFuture };
 
 export function registerPlugin(
-  internalPlugins: (RuntimePlugin | RuntimePluginFuture)[],
+  internalPlugins: RuntimePluginFuture[],
   runtimeConfig?: RuntimeConfig,
 ) {
   const { plugins = [] } = runtimeConfig || {};

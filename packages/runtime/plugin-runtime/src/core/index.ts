@@ -1,4 +1,4 @@
-export type { Plugin, RuntimePluginFuture } from './plugin';
+export type { RuntimePluginFuture } from './plugin';
 export { defineConfig, getConfig, defineRuntimeConfig } from './config';
 
 // compatible
@@ -9,5 +9,3 @@ export { RuntimeReactContext, ServerRouterContext } from './context/runtime';
 export * from './loader';
 
 export type { SSRData, SSRContainer } from './types';
-
-export * from '@modern-js/plugin';

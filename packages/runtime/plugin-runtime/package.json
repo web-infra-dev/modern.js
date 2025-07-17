@@ -214,7 +214,6 @@
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",
-    "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/render": "workspace:*",
