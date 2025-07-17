@@ -73,6 +73,5 @@
     "label": "experiments",
     "collapsed": true
   },
-  "app/builder-plugins",
-  "app/auto-load-plugin"
+  "app/builder-plugins"
 ]

@@ -1,4 +1,3 @@
-
 # 添加状态管理
 
 上一章节中，我们把硬编码的 `mockData` 改成从 Data Loader 中加载。
@@ -8,7 +7,7 @@
 因此会开始编写一些跟 UI 完全无关的业务逻辑，如果继续写在组件代码中，会产生越来越多的面条式代码。为此，我们引入了一种叫做 **业务模型（Model）** 的代码模块，将这些业务逻辑和 UI 解耦。
 
 :::info 注意
-使用状态管理相关 API，需要先启用配置项 [runtime.state](/configure/app/runtime/state)：
+使用状态管理相关 API，需要先启用配置项 runtime.state：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -138,7 +137,7 @@ export default model<State>('contacts').define({
 });
 ```
 
-我们把一个包含 state，action 等要素的 plain object 称作 **Model Spec**，Modern.js 提供了 [Model API](/apis/app/runtime/model/model_)，可以根据 Model Spec 生成 **Model**。
+我们把一个包含 state，action 等要素的 plain object 称作 **Model Spec**，Modern.js 提供了 Model API，可以根据 Model Spec 生成 **Model**。
 
 ## 使用 Model
 
