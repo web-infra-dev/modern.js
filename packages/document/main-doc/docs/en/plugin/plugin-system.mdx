@@ -15,11 +15,33 @@ Modern.js adheres to the design philosophy of "everything is a plugin," modulari
 
 Modern.js provides three main plugin types, corresponding to different stages of application development:
 
-**CLI Plugins:** - **Active Stage:** Build time (when executing the `modern` command). - **Typical Scenarios:** - Extending command-line tools. - Modifying build configurations. - Listening for file changes. - Controlling the build process. - **Configuration Method:** The `plugins` field in `modern.config.ts`.
 
-**Runtime Plugins:** - **Active Stage:** Application runtime (browser/Node.js environment). - **Typical Scenarios:** - Initializing global state or services. - Encapsulating React Higher-Order Components (HOCs). - Intercepting or modifying routing behavior. - Controlling the rendering process. - **Configuration Method:** The `plugins` field in `src/modern.runtime.ts`.
+**CLI Plugins:**
+    -   **Active Stage:** Build time (when executing the `modern` command).
+    -   **Typical Scenarios:**
+        -   Extending command-line tools.
+        -   Modifying build configurations.
+        -   Listening for file changes.
+        -   Controlling the build process.
+    -   **Configuration Method:** The `plugins` field in `modern.config.ts`.
 
-{/_ **Server Plugins:** - **Active Stage:** Server request processing stage. - **Typical Scenarios:** - Adding custom middleware. - Extending server-side APIs. - Customizing SSR logic. - Integrating with backend frameworks. - **Configuration Method:** The `plugins` field in `server/modern.server.ts`. _/}
+**Runtime Plugins:**
+    -   **Active Stage:** Application runtime (browser/Node.js environment).
+    -   **Typical Scenarios:**
+        -   Initializing global state or services.
+        -   Encapsulating React Higher-Order Components (HOCs).
+        -   Intercepting or modifying routing behavior.
+        -   Controlling the rendering process.
+    -   **Configuration Method:** The `plugins` field in `src/modern.runtime.ts`.
+
+{/* **Server Plugins:**
+    -   **Active Stage:** Server request processing stage.
+    -   **Typical Scenarios:**
+        -   Adding custom middleware.
+        -   Extending server-side APIs.
+        -   Customizing SSR logic.
+        -   Integrating with backend frameworks.
+    -   **Configuration Method:** The `plugins` field in `server/modern.server.ts`. */}
 
 ## Plugin Structure
 
