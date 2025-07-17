@@ -275,11 +275,11 @@ If the current Runtime configuration needs to be used both at compile time and r
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import { statePlugin } from '@modern-js/plugin-state';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   plugins: [
-    statePlugin({
+    garfishPlugin({
       /** Add parameters here */
     }),
   ],

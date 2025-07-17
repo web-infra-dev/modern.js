@@ -19,9 +19,7 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: [
-    '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
-  ],
+  transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
   coveragePathIgnorePatterns: ['<rootDir>/tests/'],
   moduleNameMapper: {},
   globals: {},

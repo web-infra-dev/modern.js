@@ -1750,82 +1750,6 @@ importers:
         specifier: ^5.99.8
         version: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
 
-  packages/runtime/plugin-state:
-    dependencies:
-      '@modern-js-reduck/plugin-auto-actions':
-        specifier: ^1.1.10
-        version: 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-devtools':
-        specifier: ^1.1.10
-        version: 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-effects':
-        specifier: ^1.1.10
-        version: 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-immutable':
-        specifier: ^1.1.10
-        version: 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/react':
-        specifier: ^1.1.10
-        version: 1.1.13(@types/react-dom@18.3.5(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@modern-js-reduck/store':
-        specifier: ^1.1.10
-        version: 1.1.13
-      '@modern-js/runtime-utils':
-        specifier: workspace:*
-        version: link:../../toolkit/runtime-utils
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../plugin-runtime
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@testing-library/react':
-        specifier: ^13.4.0
-        version: 13.4.0(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@types/invariant':
-        specifier: ^2.2.30
-        version: 2.2.37
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      ts-jest:
-        specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/runtime/render:
     dependencies:
       '@modern-js/types':
@@ -4550,9 +4474,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-state':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-state
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
@@ -8517,42 +8438,6 @@ packages:
   '@mermaid-js/parser@0.3.0':
     resolution: {integrity: sha512-HsvL6zgE5sUPGgkIDlmAWR1HTNHz2Iy11BAWPTa4Jjabkpguy4Ze2gzfLrg6pdRuBvFwgUYyxiaNqZwrEEXepA==}
 
-  '@modern-js-reduck/plugin-auto-actions@1.1.13':
-    resolution: {integrity: sha512-Vf4eBojdsqSZR9i7iVtgXCSFvtWFDnXISx2AMtTqf+EieUIw9aC+G46KdJBlFTSrLzXnKa7XvrKjpbjPgz4q7g==}
-    peerDependencies:
-      '@modern-js-reduck/store': ^1.1.13
-
-  '@modern-js-reduck/plugin-devtools@1.1.13':
-    resolution: {integrity: sha512-AWkTgcTC6L6pKO3vxf/LzNlHvQQan7qm63N+4MbaVaLXcuwjqUcc4BhkYnGRL/kzE8BAsL1kQBOT2AL+kO0ejQ==}
-    peerDependencies:
-      '@modern-js-reduck/store': ^1.1.13
-
-  '@modern-js-reduck/plugin-effects@1.1.13':
-    resolution: {integrity: sha512-0VymQNkGd7CNFKXlKWCDDz6Z7wJLnxuRa2c0IRxfnUWrfLCUTJC/ktTL67XJi5VHJJBm1qYusa+NI6GDKh8lfw==}
-    peerDependencies:
-      '@modern-js-reduck/store': ^1.1.13
-
-  '@modern-js-reduck/plugin-immutable@1.1.13':
-    resolution: {integrity: sha512-2nu3wGwvzsR6sc6NNJIIZjIaal+bFIcDB1siw+W29mhbY70PMv5oSL+r33YadfIWsiiNrNSmr/rm3Yf9KyI1ZA==}
-    peerDependencies:
-      '@modern-js-reduck/store': ^1.1.13
-
-  '@modern-js-reduck/react@1.1.13':
-    resolution: {integrity: sha512-Avttu/LqxkdrNMkv2i6yqz9SSIBOAFfXehEp18Oaw0YN3Uojgkfv77PWsAu+XRe9b3fYIZRuL4LqpRMknpIovg==}
-    peerDependencies:
-      '@types/react': ^16.8 || ^17.0 || ^18.0
-      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-  '@modern-js-reduck/store@1.1.13':
-    resolution: {integrity: sha512-3yh4bABxN0Umnkx/w4s1EpfHBZfpeHPuKP0na28xlQOlYy4Y/DWNOYxkHA1Xh7CWZBD7el/AnKTKlZeNHfHC1g==}
-
   '@modern-js/bff-core@2.68.2':
     resolution: {integrity: sha512-z8bG9S0UTtXDQt9PlLBRK4RL4bU4qj5bEgAUZ8u/rSvgVjZwNyYaUkBwaa9buFFhNrZgKjIlq4ON+UIz0+UBuA==}
     peerDependencies:
@@ -9081,11 +8966,6 @@ packages:
     resolution: {integrity: sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==}
     peerDependencies:
       react: '>=16.8'
-
-  '@redux-devtools/extension@3.3.0':
-    resolution: {integrity: sha512-X34S/rC8S/M1BIrkYD1mJ5f8vlH0BDqxXrs96cvxSBo4FhMdbhU+GUGsmNYov1xjSyLMHgo8NYrUG8bNX7525g==}
-    peerDependencies:
-      redux: ^3.1.0 || ^4.0.0 || ^5.0.0
 
   '@remix-run/router@1.15.0':
     resolution: {integrity: sha512-HOil5aFtme37dVQTB6M34G95kPM3MMuqSmIRVCC52eKV+Y/tGSqw9P3rWhlAx6A+mz+MoX+XxsGsNJbaI5qCgQ==}
@@ -13508,12 +13388,6 @@ packages:
     engines: {node: '>=16.x'}
     hasBin: true
 
-  immer@9.0.21:
-    resolution: {integrity: sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==}
-
-  immutable@4.3.7:
-    resolution: {integrity: sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==}
-
   immutable@5.0.2:
     resolution: {integrity: sha512-1NU7hWZDkV7hJ4PJ9dur9gTNQ4ePNPN4k9/0YhwjzykTi/+3Q5pF93YU5QoVj8BuOnhLgaY8gs0U2pj4kSYVcw==}
 
@@ -16433,14 +16307,6 @@ packages:
 
   reduce-css-calc@2.1.8:
     resolution: {integrity: sha512-8liAVezDmUcH+tdzoEGrhfbGcP7nOV4NkGE3a74+qqvE7nt9i4sKLGBuZNOnpI4WiGksiNPklZxva80061QiPg==}
-
-  redux-promise-middleware@6.2.0:
-    resolution: {integrity: sha512-TEzfMeLX63gju2WqkdFQlQMvUGYzFvJNePIJJsBlbPHs3Txsbc/5Rjhmtha1XdMU6lkeiIlp1Qx7AR3Zo9he9g==}
-    peerDependencies:
-      redux: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
-
-  redux@4.2.1:
-    resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
 
   reflect-metadata@0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
@@ -21002,52 +20868,6 @@ snapshots:
     dependencies:
       langium: 3.0.0
 
-  '@modern-js-reduck/plugin-auto-actions@1.1.13(@modern-js-reduck/store@1.1.13)':
-    dependencies:
-      '@modern-js-reduck/store': 1.1.13
-      '@swc/helpers': 0.5.1
-
-  '@modern-js-reduck/plugin-devtools@1.1.13(@modern-js-reduck/store@1.1.13)':
-    dependencies:
-      '@modern-js-reduck/store': 1.1.13
-      '@redux-devtools/extension': 3.3.0(redux@4.2.1)
-      '@swc/helpers': 0.5.1
-      redux: 4.2.1
-
-  '@modern-js-reduck/plugin-effects@1.1.13(@modern-js-reduck/store@1.1.13)':
-    dependencies:
-      '@modern-js-reduck/store': 1.1.13
-      '@swc/helpers': 0.5.1
-      redux: 4.2.1
-      redux-promise-middleware: 6.2.0(redux@4.2.1)
-
-  '@modern-js-reduck/plugin-immutable@1.1.13(@modern-js-reduck/store@1.1.13)':
-    dependencies:
-      '@modern-js-reduck/store': 1.1.13
-      '@swc/helpers': 0.5.1
-      immer: 9.0.21
-
-  '@modern-js-reduck/react@1.1.13(@types/react-dom@18.3.5(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@modern-js-reduck/plugin-auto-actions': 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-devtools': 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-effects': 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/plugin-immutable': 1.1.13(@modern-js-reduck/store@1.1.13)
-      '@modern-js-reduck/store': 1.1.13
-      '@swc/helpers': 0.5.1
-      hoist-non-react-statics: 3.3.2
-      invariant: 2.2.4
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 19.1.8
-      '@types/react-dom': 18.3.5(@types/react@19.1.8)
-
-  '@modern-js-reduck/store@1.1.13':
-    dependencies:
-      '@swc/helpers': 0.5.1
-      redux: 4.2.1
-
   '@modern-js/bff-core@2.68.2(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)':
     dependencies:
       '@modern-js/utils': 2.68.2
@@ -21744,12 +21564,6 @@ snapshots:
   '@react-hook/passive-layout-effect@1.2.1(react@19.1.0)':
     dependencies:
       react: 19.1.0
-
-  '@redux-devtools/extension@3.3.0(redux@4.2.1)':
-    dependencies:
-      '@babel/runtime': 7.27.0
-      immutable: 4.3.7
-      redux: 4.2.1
 
   '@remix-run/router@1.15.0': {}
 
@@ -27028,10 +26842,6 @@ snapshots:
 
   image-size@2.0.2: {}
 
-  immer@9.0.21: {}
-
-  immutable@4.3.7: {}
-
   immutable@5.0.2: {}
 
   import-fresh@3.3.0:
@@ -30917,14 +30727,6 @@ snapshots:
     dependencies:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
-
-  redux-promise-middleware@6.2.0(redux@4.2.1):
-    dependencies:
-      redux: 4.2.1
-
-  redux@4.2.1:
-    dependencies:
-      '@babel/runtime': 7.27.0
 
   reflect-metadata@0.1.13: {}
 

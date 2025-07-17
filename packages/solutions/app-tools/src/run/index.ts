@@ -1,10 +1,9 @@
-import path from 'path';
 import { initAppDir } from '@modern-js/plugin-v2/cli';
 import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';
-import { PACKAGE_JSON_CONFIG_NAME, STATE_PLUGIN_NAME } from '../constants';
+import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
 import { getConfigFile } from '../utils/getConfigFile';
 import { getUserConfig } from '../utils/getUserConfig';
 import { loadInternalPlugins } from '../utils/loadPlugins';
@@ -29,7 +28,6 @@ export async function run({
   version,
   internalPlugins,
   packageJsonConfig = PACKAGE_JSON_CONFIG_NAME,
-  statePluginName = STATE_PLUGIN_NAME,
   configFile,
 }: RunOptions) {
   const nodeVersion = process.versions.node;
@@ -112,32 +110,6 @@ export async function run({
     internalPlugins?.autoLoad,
     userConfig.autoLoadPlugins,
   );
-
-  // We need exclude warning when use legacy state plugin, it's a inhouse logic.
-  if (
-    !userConfig.autoLoadPlugins &&
-    userConfig.runtime &&
-    typeof userConfig.runtime !== 'boolean' &&
-    (userConfig.runtime?.state === true ||
-      (typeof userConfig.runtime?.state === 'object' &&
-        !userConfig.runtime?.state?.legacy))
-  ) {
-    if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
-      console.warn(
-        `${chalk.red('\n[Warning]')} We will no longer support built-in \`runtime.state\`. If you want to use Reduck, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. After install state plugin, please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
-
-${chalk.yellow.bold(`import { statePlugin } from '${statePluginName}';
-
-export default defineConfig({
-  plugins: [
-    ...,
-    statePlugin(),
-  ],
-});
-        `)}`,
-      );
-    }
-  }
 
   await CLIPluginRun({
     cwd,

@@ -21,7 +21,6 @@ export const runtimePlugin = (params?: {
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',
-    '@modern-js/plugin-state',
     '@modern-js/plugin-router',
     '@modern-js/plugin-document',
     '@modern-js/plugin-design-token',

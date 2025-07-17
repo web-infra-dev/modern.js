@@ -46,13 +46,6 @@
     },
     {
       "matchPackageNames": [
-        "@modern-js-reduck/**",
-      ],
-      "groupName": "reduck monorepo",
-      "groupSlug": "reduck",
-    },
-    {
-      "matchPackageNames": [
         "@modern-js/codesmith",
         "@modern-js/codesmith-**",
       ],

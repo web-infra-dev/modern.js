@@ -40,9 +40,7 @@ module.exports = {
       },
       globals: {},
       resolver: '<rootDir>/tests/jest.resolver.js',
-      transformIgnorePatterns: [
-        '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
-      ],
+      transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/uni-builder/',
         '<rootDir>/packages/cli/babel-preset/',
@@ -92,9 +90,7 @@ module.exports = {
       moduleNameMapper: {},
       globals: {},
       resolver: '<rootDir>/tests/jest.resolver.js',
-      transformIgnorePatterns: [
-        '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
-      ],
+      transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',

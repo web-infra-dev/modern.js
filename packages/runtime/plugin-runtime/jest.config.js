@@ -16,7 +16,5 @@ module.exports = {
     ),
     '^@modern-js/runtime$': require.resolve('@modern-js/runtime'),
   },
-  transformIgnorePatterns: [
-    '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
-  ],
+  transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
 };

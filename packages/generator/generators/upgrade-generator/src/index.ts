@@ -83,7 +83,6 @@ export const handleTemplateFile = async (
       )
       .filter(dep => !dep.includes('electron'))
       .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
-      .filter(dep => !dep.startsWith('@modern-js-reduck'))
       .filter(dep => !dep.includes('eslint-config'))
       .every(dep => deps[dep] === modernVersion)
   ) {
