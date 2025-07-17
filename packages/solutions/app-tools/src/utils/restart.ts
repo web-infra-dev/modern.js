@@ -1,4 +1,4 @@
-import { cli } from '@modern-js/plugin-v2/cli';
+import { cli } from '@modern-js/plugin/cli';
 import { chalk, clearConsole, getFullArgv, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import type { AppToolsHooks } from '../types/plugin';

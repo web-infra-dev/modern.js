@@ -4,8 +4,8 @@ import {
   type CLIPluginAPI,
   type Plugin,
   createPluginManager,
-} from '@modern-js/plugin-v2';
-import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
+} from '@modern-js/plugin';
+import { createContext, initPluginAPI } from '@modern-js/plugin/cli';
 
 import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';

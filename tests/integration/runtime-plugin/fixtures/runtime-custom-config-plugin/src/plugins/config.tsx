@@ -1,6 +1,6 @@
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-export const configPlugin = (): RuntimePluginFuture => {
+export const configPlugin = (): RuntimePlugin => {
   return {
     name: 'app-custom-config-plugin',
     post: ['@modern-js/plugin-router'],

@@ -1,7 +1,7 @@
 import path from 'path';
 import type {
   AppTools,
-  CliPluginFuture,
+  CliPlugin,
   AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types/cli';
@@ -64,7 +64,7 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export const documentPlugin = (): CliPluginFuture<AppTools> => ({
+export const documentPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-document',
 
   pre: ['@modern-js/plugin-analyze'],

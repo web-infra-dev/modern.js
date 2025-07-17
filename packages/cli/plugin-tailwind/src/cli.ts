@@ -1,4 +1,4 @@
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { getTailwindConfig, loadConfigFile } from './config';
 import { designTokenPlugin } from './design-token/cli';
 import { checkTwinMacroExist, getTwinMacroMajorVersion } from './macro';
@@ -8,7 +8,7 @@ export const tailwindcssPlugin = (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
-): CliPluginFuture<AppTools> => ({
+): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents

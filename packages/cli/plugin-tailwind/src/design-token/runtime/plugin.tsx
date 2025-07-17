@@ -1,4 +1,4 @@
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import React, { useContext } from 'react';
 
@@ -16,7 +16,7 @@ interface DesignTokenConfig {
 }
 export const designTokenPlugin = (
   userConfig: DesignTokenConfig = {},
-): RuntimePluginFuture => ({
+): RuntimePlugin => ({
   name: '@modern-js/plugin-design-token',
 
   setup: api => {

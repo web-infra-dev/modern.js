@@ -1,4 +1,4 @@
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { RsbuildMode } from '@rsbuild/core';
 import type { AppTools } from '../types';
 import type { InspectOptions } from '../utils/types';

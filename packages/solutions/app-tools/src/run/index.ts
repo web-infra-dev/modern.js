@@ -1,5 +1,5 @@
-import { initAppDir } from '@modern-js/plugin-v2/cli';
-import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
+import { initAppDir } from '@modern-js/plugin/cli';
+import { run as CLIPluginRun } from '@modern-js/plugin/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';

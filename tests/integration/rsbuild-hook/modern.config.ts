@@ -1,11 +1,11 @@
 import {
   type AppTools,
-  type CliPluginFuture,
+  type CliPlugin,
   appTools,
   defineConfig,
 } from '@modern-js/app-tools';
 
-const MyPlugin = (): CliPluginFuture<AppTools> => ({
+const MyPlugin = (): CliPlugin<AppTools> => ({
   name: 'test',
   setup(api) {
     api.config(() => {

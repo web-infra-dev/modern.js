@@ -1,4 +1,4 @@
-import { type Plugin, createPluginManager } from '@modern-js/plugin-v2';
+import { type Plugin, createPluginManager } from '@modern-js/plugin';
 import { build } from '../../src/commands/build';
 
 const mockGenerateRoutes = jest.fn();

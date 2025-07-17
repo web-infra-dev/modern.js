@@ -1,5 +1,5 @@
 import path from 'path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   isReact18 as checkIsReact18,
   cleanRequireCache,
@@ -16,8 +16,8 @@ import { ssrPlugin } from './ssr';
 export { isRuntimeEntry } from './entry';
 export { ssrPlugin, routerPlugin, documentPlugin };
 export const runtimePlugin = (params?: {
-  plugins?: CliPluginFuture<AppTools>[];
-}): CliPluginFuture<AppTools> => ({
+  plugins?: CliPlugin<AppTools>[];
+}): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',

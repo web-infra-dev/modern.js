@@ -13,9 +13,9 @@ CLI plugins need to be configured via the [`plugins`](/configure/app/plugins) fi
 A typical CLI plugin structure is as follows:
 
 ```typescript
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-const myCliPlugin = (): CliPluginFuture<AppTools> => ({
+const myCliPlugin = (): CliPlugin<AppTools> => ({
   name: '@my-org/my-plugin', // Plugin name, ensure uniqueness
   setup: api => {
     // Use the API here to register hooks, add commands, etc.

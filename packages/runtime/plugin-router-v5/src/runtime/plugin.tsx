@@ -1,6 +1,6 @@
 import { RuntimeReactContext, isBrowser } from '@meta/runtime';
 import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
   type BrowserHistoryBuildOptions,
@@ -67,7 +67,7 @@ let routes: SingleRouteConfig[] = [];
 
 export const routerPlugin = (
   userConfig: RouterConfig = {},
-): RuntimePluginFuture<{
+): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {

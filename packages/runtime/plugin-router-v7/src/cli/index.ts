@@ -1,8 +1,8 @@
 import path, { sep } from 'path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { isDepExists, logger } from '@modern-js/utils';
 
-export const routerPlugin = (): CliPluginFuture<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v7',
   required: ['@modern-js/runtime'],
   setup: api => {

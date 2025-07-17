@@ -1,5 +1,5 @@
 import { createApp } from '@modern-js/runtime';
-import type { RuntimePluginFuture } from '@modern-js/runtime/plugin';
+import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { useHistory } from '../src';
@@ -9,7 +9,7 @@ import createRouterPlugin, {
 } from '../src/runtime';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
-const testPlugin: RuntimePluginFuture = {
+const testPlugin: RuntimePlugin = {
   name: 'test',
   setup: api => {
     api.wrapRoot(App1 => App1);

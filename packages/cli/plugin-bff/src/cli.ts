@@ -1,5 +1,5 @@
 import path from 'path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
@@ -19,7 +19,7 @@ const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
 const RUNTIME_HONO = '@modern-js/plugin-bff/hono';
 
-export const bffPlugin = (): CliPluginFuture<AppTools> => ({
+export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     const compileApi = async () => {

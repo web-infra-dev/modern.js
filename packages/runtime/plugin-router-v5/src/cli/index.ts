@@ -1,9 +1,9 @@
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import './types';
 import type { ServerRoute } from '@modern-js/types';
 
-export const routerPlugin = (): CliPluginFuture<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',
   required: ['@modern-js/runtime'],
   setup: api => {

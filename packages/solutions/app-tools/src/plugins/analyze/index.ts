@@ -10,11 +10,7 @@ import {
 } from '@modern-js/utils';
 import { createBuilderGenerator } from '../../builder';
 import { initialNormalizedConfig } from '../../config';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  CliPluginFuture,
-} from '../../types';
+import type { AppNormalizedConfig, AppTools, CliPlugin } from '../../types';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
 import { printInstructions } from '../../utils/printInstructions';
@@ -23,7 +19,7 @@ import { checkIsBuildCommands, checkIsServeCommand } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
-export default (): CliPluginFuture<AppTools> => ({
+export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-analyze',
   post: ['@modern-js/runtime'],
   setup: api => {

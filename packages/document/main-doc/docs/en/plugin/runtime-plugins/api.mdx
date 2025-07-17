@@ -1,6 +1,6 @@
 # Plugin API
 
-Modern.js's Runtime Plugins allow you to extend and modify the behavior of your application during its React code execution.  With Runtime Plugins, you can easily perform initialization tasks, implement React Higher-Order Component (HOC) wrapping, and more.
+Modern.js's Runtime Plugins allow you to extend and modify the behavior of your application during its React code execution. With Runtime Plugins, you can easily perform initialization tasks, implement React Higher-Order Component (HOC) wrapping, and more.
 
 :::info
 
@@ -13,18 +13,18 @@ Runtime plugins need to be configured via the [`plugins`](/configure/app/runtime
 A typical Runtime Plugin looks like this:
 
 ```ts
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const myRuntimePlugin = (): RuntimePluginFuture => ({
+const myRuntimePlugin = (): RuntimePlugin => ({
   name: 'my-runtime-plugin',
-  setup: (api) => {
+  setup: api => {
     // Use the api to register hooks
-    api.onBeforeRender((context) => {
+    api.onBeforeRender(context => {
       console.log('Before rendering:', context);
     });
 
-    api.wrapRoot((App) => {
-      return (props) => (
+    api.wrapRoot(App => {
+      return props => (
         <MyContextProvider>
           <App {...props} />
         </MyContextProvider>
@@ -34,18 +34,17 @@ const myRuntimePlugin = (): RuntimePluginFuture => ({
 });
 
 export default myRuntimePlugin;
-
 ```
 
--   `name`:  A unique identifier for the plugin.
--   `setup`: The main logic of the plugin, which receives an `api` object as a parameter.  This `api` object is used to register hooks.
+- `name`: A unique identifier for the plugin.
+- `setup`: The main logic of the plugin, which receives an `api` object as a parameter. This `api` object is used to register hooks.
 
 ## API Overview
 
 The Runtime Plugin API is primarily divided into the following categories:
 
--   **Information Retrieval**:  Getting runtime configuration and hook functions.
--   **Lifecycle Hooks**:  Executing custom logic at different stages of the application's rendering process.
+- **Information Retrieval**: Getting runtime configuration and hook functions.
+- **Lifecycle Hooks**: Executing custom logic at different stages of the application's rendering process.
 
 ### Information Retrieval
 
@@ -53,7 +52,7 @@ The Runtime Plugin API is primarily divided into the following categories:
 
 Gets the runtime configuration defined by the user in the `modern.runtime.ts` file.
 
--   **Usage**:
+- **Usage**:
 
 ```ts
 const config = api.getRuntimeConfig();
@@ -62,23 +61,25 @@ console.log(config.myCustomSetting);
 
 :::warning
 
-This method returns a *copy* of the user's configuration. Modifying the returned value will not affect the original configuration.
+This method returns a _copy_ of the user's configuration. Modifying the returned value will not affect the original configuration.
 :::
 
 #### `api.getHooks`
 
 Gets the hook functions that can be triggered manually.
 
--   **Type:**
+- **Type:**
 
 ```ts
 () => {
-  onBeforeRender: { call: (context: any) => Promise<void> };
+  onBeforeRender: {
+    call: (context: any) => Promise<void>;
+  }
   // Other hooks...
 };
 ```
 
--   **Usage:**
+- **Usage:**
 
 ```ts
 const hooks = api.getHooks();
@@ -89,63 +90,65 @@ await hooks.onBeforeRender.call(myContext);
 
 #### `api.onBeforeRender`
 
-Executes before the application renders (including both server-side rendering and client-side rendering).  You can use this hook to perform data prefetching, modify the rendering context, etc.
+Executes before the application renders (including both server-side rendering and client-side rendering). You can use this hook to perform data prefetching, modify the rendering context, etc.
 
--   **Type:**
+- **Type:**
 
-    ```ts
-    type OnBeforeRenderFn<RuntimeContext> = (context: RuntimeContext) => Promise<void> | void;
-    ```
-    `RuntimeContext` contains contextual information about the current request, such as the request object, response object, etc.
+  ```ts
+  type OnBeforeRenderFn<RuntimeContext> = (
+    context: RuntimeContext,
+  ) => Promise<void> | void;
+  ```
 
--   **Usage:**
+  `RuntimeContext` contains contextual information about the current request, such as the request object, response object, etc.
 
-    ```ts
-    api.onBeforeRender(async (context) => {
-      const data = await fetchData(context.req);
-      context.data = data; // Add the data to the context
-    });
-    ```
+- **Usage:**
+
+  ```ts
+  api.onBeforeRender(async context => {
+    const data = await fetchData(context.req);
+    context.data = data; // Add the data to the context
+  });
+  ```
 
 :::warning
 
-- This hook executes before *every* render, so avoid performing long-running operations.
+- This hook executes before **every** render, so avoid performing long-running operations.
 - You can modify the `context` object in this hook, and the modified `context` will be passed to subsequent rendering processes.
 
 :::
 
 #### `api.wrapRoot`
 
-Allows you to wrap the application's root component with a custom React component.  This is commonly used to add global Providers, layout components, etc.
+Allows you to wrap the application's root component with a custom React component. This is commonly used to add global Providers, layout components, etc.
 
--   **Type:**
+- **Type:**
 
-    ```ts
-    type WrapRootFn = (
-      App: React.ComponentType<any>
-    ) => React.ComponentType<any>;
-    ```
+  ```ts
+  type WrapRootFn = (App: React.ComponentType<any>) => React.ComponentType<any>;
+  ```
 
--   **Usage:**
+- **Usage:**
 
-    ```ts
-    api.wrapRoot((App) => {
-      const AppWrapper = (props) => {
-        return (
-          <MyGlobalProvider>
-            <Layout>
-              <App {...props} /> {/* Make sure to pass props */}
-            </Layout>
-          </MyGlobalProvider>
-        );
-      };
-      return AppWrapper;
-    });
-    ```
-:::warning
+      ```ts
+      api.wrapRoot((App) => {
+        const AppWrapper = (props) => {
+          return (
+            <MyGlobalProvider>
+              <Layout>
+                <App {...props} /> {/* Make sure to pass props */}
+              </Layout>
+            </MyGlobalProvider>
+          );
+        };
+        return AppWrapper;
+      });
+      ```
 
--   **It is crucial to pass the `props` to the original `App` component**, otherwise, the application may not function correctly.
--   The component returned by `wrapRoot` is recreated on every render, so avoid defining complex logic or state within it.
+  :::warning
+
+- **It is crucial to pass the `props` to the original `App` component**, otherwise, the application may not function correctly.
+- The component returned by `wrapRoot` is recreated on every render, so avoid defining complex logic or state within it.
 
 :::
 
@@ -156,12 +159,12 @@ Allows you to wrap the application's root component with a custom React componen
 You can combine multiple hooks to implement more complex functionality. For example, you can use `onBeforeRender` to fetch data and then use `wrapRoot` to pass the data to the entire application via Context:
 
 ```ts
-import { RuntimePluginFuture, RuntimeReactContext } from '@modern-js/runtime';
+import { RuntimePlugin, RuntimeReactContext } from '@modern-js/runtime';
 import { useContext, createContext } from 'react';
 
 export const ThemeContext = createContext<{ theme: string } | null>(null);
 
-export const themePlugin = (): RuntimePluginFuture => {
+export const themePlugin = (): RuntimePlugin => {
   return {
     name: 'theme-plugin',
     setup: api => {

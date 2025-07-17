@@ -95,7 +95,7 @@
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-v2": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/server-core": "workspace:*",

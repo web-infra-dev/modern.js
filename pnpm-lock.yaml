@@ -170,9 +170,9 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../../server/bff-runtime
-      '@modern-js/plugin-v2':
+      '@modern-js/plugin':
         specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
+        version: link:../../toolkit/plugin
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
@@ -1363,9 +1363,9 @@ importers:
 
   packages/runtime/plugin-garfish:
     dependencies:
-      '@modern-js/plugin-v2':
+      '@modern-js/plugin':
         specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
+        version: link:../../toolkit/plugin
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
@@ -1488,9 +1488,9 @@ importers:
 
   packages/runtime/plugin-router-v5:
     dependencies:
-      '@modern-js/plugin-v2':
+      '@modern-js/plugin':
         specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
+        version: link:../../toolkit/plugin
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
@@ -1625,12 +1625,12 @@ importers:
       '@loadable/server':
         specifier: 5.15.3
         version: 5.15.3(@loadable/component@5.15.3(react@19.1.0))(react@19.1.0)
+      '@modern-js/plugin':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin
       '@modern-js/plugin-data-loader':
         specifier: workspace:*
         version: link:../../cli/plugin-data-loader
-      '@modern-js/plugin-v2':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
       '@modern-js/render':
         specifier: workspace:*
         version: link:../render
@@ -1915,9 +1915,9 @@ importers:
 
   packages/server/core:
     dependencies:
-      '@modern-js/plugin-v2':
+      '@modern-js/plugin':
         specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
+        version: link:../../toolkit/plugin
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
@@ -2425,15 +2425,15 @@ importers:
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
+      '@modern-js/plugin':
+        specifier: workspace:*
+        version: link:../../toolkit/plugin
       '@modern-js/plugin-data-loader':
         specifier: workspace:*
         version: link:../../cli/plugin-data-loader
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
-      '@modern-js/plugin-v2':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin-v2
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../../server/prod-server
@@ -2679,7 +2679,7 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/toolkit/plugin-v2:
+  packages/toolkit/plugin:
     dependencies:
       '@modern-js/runtime-utils':
         specifier: workspace:*

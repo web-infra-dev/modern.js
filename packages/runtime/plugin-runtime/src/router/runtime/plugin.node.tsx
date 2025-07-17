@@ -18,7 +18,7 @@ import type React from 'react';
 import { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
-import type { RuntimePluginFuture } from '../../core';
+import type { RuntimePlugin } from '../../core';
 import {
   type ServerPayload,
   getGlobalEnableRsc,
@@ -55,7 +55,7 @@ function createRemixReuqest(request: Request) {
 
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
-): RuntimePluginFuture<{
+): RuntimePlugin<{
   extendHooks: RouterExtendsHooks;
 }> => {
   return {

@@ -2,11 +2,11 @@
 
 ### Migration Background
 
-The Modern.js plugin system is constantly evolving.  To provide a clearer API and more powerful features, we've optimized the definition and usage of Runtime plugins. While the old plugin syntax is still partially compatible, we strongly recommend migrating according to this guide to take full advantage of the new plugin system.
+The Modern.js plugin system is constantly evolving. To provide a clearer API and more powerful features, we've optimized the definition and usage of Runtime plugins. While the old plugin syntax is still partially compatible, we strongly recommend migrating according to this guide to take full advantage of the new plugin system.
 
 ### Migration Steps Overview
 
-1.  **Update Plugin Type Definition:** Replace the `Plugin` type with `RuntimePluginFuture`.
+1.  **Update Plugin Type Definition:** Replace the `Plugin` type with `RuntimePlugin`.
 2.  **Adjust Hook Invocation:** Migrate from the `return hooks` pattern to direct `api.xxx` calls.
 3.  **Replace Changed APIs:** Refer to the detailed API mapping table and update your code.
 
@@ -23,12 +23,12 @@ import type { Plugin } from '@modern-js/runtime';
 const plugin: Plugin = { ... };
 
 // New Syntax
-import type { RuntimePluginFuture } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
 
-const plugin: RuntimePluginFuture = { ... };
+const plugin: RuntimePlugin = { ... };
 ```
 
-**Explanation:** The `RuntimePluginFuture` type is the standard definition for new plugins. It provides better type inference and a clearer API structure.
+**Explanation:** The `RuntimePlugin` type is the standard definition for new plugins. It provides better type inference and a clearer API structure.
 
 #### Adjust Hook Invocation
 
@@ -38,15 +38,19 @@ The new plugin system recommends using the `api` object to directly call Hooks. 
 // Old Syntax (return hooks)
 {
   setup: () => ({
-    beforeRender({ req, res }) { /*...*/ }
-  })
+    beforeRender({ req, res }) {
+      /*...*/
+    },
+  });
 }
 
 // New Syntax (api.xxx)
 {
   setup: api => {
-    api.onBeforeRender(({ req, res }) => { /*...*/ })
-  }
+    api.onBeforeRender(({ req, res }) => {
+      /*...*/
+    });
+  };
 }
 ```
 
@@ -54,31 +58,36 @@ The new plugin system recommends using the `api` object to directly call Hooks. 
 
 #### Replace Changed APIs
 
-To maintain API consistency and clarity, we've adjusted the names of some APIs.  Additionally, the `hoc` and `init` Hooks have been removed. Please use the new Hooks as replacements. The table below lists all changed APIs and their old and new counterparts:
+To maintain API consistency and clarity, we've adjusted the names of some APIs. Additionally, the `hoc` and `init` Hooks have been removed. Please use the new Hooks as replacements. The table below lists all changed APIs and their old and new counterparts:
 
-| Old API       | New API           | Description                                                                                                                                                                                                                                                                                                 |
-| :------------ | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `beforeRender` | `onBeforeRender`  | Executed before application rendering.                                                                                                                                                                                                                                                                        |
-| `hoc`         | `wrapRoot`        | **Important Change:** Used to wrap the root component, achieving the functionality of a Higher-Order Component (HOC).  Make sure to pass props to the original component.                                                                                                                                    |
-| `init`        | `onBeforeRender`  | **Important Change:**  Execute initialization logic before application rendering. This replaces the previous `init` hook. Use `onBeforeRender` to perform any setup or initialization tasks that were previously done in `init`.  This provides a single, consistent point for pre-rendering logic. |
+| Old API        | New API          | Description                                                                                                                                                                                                                                                                                       |
+| :------------- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `beforeRender` | `onBeforeRender` | Executed before application rendering.                                                                                                                                                                                                                                                            |
+| `hoc`          | `wrapRoot`       | **Important Change:** Used to wrap the root component, achieving the functionality of a Higher-Order Component (HOC). Make sure to pass props to the original component.                                                                                                                          |
+| `init`         | `onBeforeRender` | **Important Change:** Execute initialization logic before application rendering. This replaces the previous `init` hook. Use `onBeforeRender` to perform any setup or initialization tasks that were previously done in `init`. This provides a single, consistent point for pre-rendering logic. |
 
 **Explanation:**
+
 - `onBeforeRender` replaces both the original `beforeRender` and `init`, used for pre-rendering logic and initialization, respectively.
-- `wrapRoot` replaces `hoc` and is used to implement higher-order component functionality.  It's crucial to pass props correctly when using `wrapRoot`.
+- `wrapRoot` replaces `hoc` and is used to implement higher-order component functionality. It's crucial to pass props correctly when using `wrapRoot`.
 
 **`wrapRoot` Usage Example:**
 
 ```typescript
 {
   setup: api => {
-    api.wrapRoot((App) => {
-      const AppWrapper = (props) => {
+    api.wrapRoot(App => {
+      const AppWrapper = props => {
         // Ensure props are passed to the original component
-        return <Provider value={xx}><App {...props}/></Provider>;
+        return (
+          <Provider value={xx}>
+            <App {...props} />
+          </Provider>
+        );
       };
       return AppWrapper;
     });
-  }
+  };
 }
 ```
 

@@ -5,8 +5,8 @@ import type {
   ServerPlugin as BaseServerPlugin,
   ServerPluginAPI as BaseServerPluginAPI,
   ServerPluginExtends as BaseServerPluginExtends,
-} from '@modern-js/plugin-v2';
-import type { Hooks } from '@modern-js/plugin-v2/server';
+} from '@modern-js/plugin';
+import type { Hooks } from '@modern-js/plugin/server';
 import type {
   AfterMatchContext,
   AfterRenderContext,

@@ -1,5 +1,5 @@
 import path from 'path';
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 
 export const PACKAGE_NAME = '{packageName}';
 export const PREFIX = '{prefix}';
@@ -9,7 +9,7 @@ export const DIST_DIR = '{distDirectory}';
 
 const NODE_MODULES = 'node_modules';
 
-export const crossProjectApiPlugin = (): CliPluginFuture<AppTools> => ({
+export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-independent-bff',
   post: ['@modern-js/plugin-bff'],
   setup: api => {

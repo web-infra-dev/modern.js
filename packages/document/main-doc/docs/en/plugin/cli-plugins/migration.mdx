@@ -2,33 +2,14 @@
 
 ### Migration Background
 
-The Modern.js plugin system is constantly evolving.  To provide a clearer API and more powerful features, we've optimized the definition and usage of CLI plugins.  While the old plugin syntax is still supported for compatibility, we strongly recommend migrating according to this guide to take full advantage of the new plugin system.
+The Modern.js plugin system is constantly evolving. To provide a clearer API and more powerful features, we've optimized the definition and usage of CLI plugins. While the old plugin syntax is still supported for compatibility, we strongly recommend migrating according to this guide to take full advantage of the new plugin system.
 
 ### Migration Steps Overview
 
-1.  **Update Plugin Type Definition:** Replace the `CliPlugin` type with `CliPluginFuture`.
-2.  **Adjust Hook Invocation:** Migrate from the `return hooks` pattern to direct `api.xxx` calls.
-3.  **Replace Changed APIs:** Refer to the detailed API mapping table and update your code.
+1.  **Adjust Hook Invocation:** Migrate from the `return hooks` pattern to direct `api.xxx` calls.
+2.  **Replace Changed APIs:** Refer to the detailed API mapping table and update your code.
 
 ### Detailed Migration Steps
-
-#### Update Plugin Type Definition
-
-This is the first and most crucial step of the migration. It ensures that your plugin interacts correctly with the new plugin system.
-
-```typescript
-// Old Syntax
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-const plugin: CliPlugin<AppTools> = { ... };
-
-// New Syntax
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
-
-const plugin: CliPluginFuture<AppTools> = { ... };
-```
-
-**Explanation:** The `CliPluginFuture` type is the standard definition for new plugins, providing better type inference and a clearer API structure.
 
 #### Adjust Hook Invocation
 
@@ -38,15 +19,19 @@ The new plugin system recommends using the `api` object to directly call Hooks. 
 // Old Syntax (return hooks)
 {
   setup: () => ({
-    commands({ program }) { /*...*/ }
-  })
+    commands({ program }) {
+      /*...*/
+    },
+  });
 }
 
 // New Syntax (api.xxx)
 {
   setup: api => {
-    api.addCommand(({ program }) => { /*...*/ })
-  }
+    api.addCommand(({ program }) => {
+      /*...*/
+    });
+  };
 }
 ```
 
@@ -56,26 +41,26 @@ The new plugin system recommends using the `api` object to directly call Hooks. 
 
 To maintain API consistency and clarity, we've adjusted the names of some APIs. The following table lists all changed APIs and their old and new counterparts:
 
-| Old API                 | New API                      | Description                                                                                                                                                                                                                                                                                                                                                          |
-| :----------------------- | :---------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `useAppContext`          | `getAppContext`               | Gets the application context information.                                                                                                                                                                                                                                                                                                                                       |
-| `useConfigContext`       | `getConfig`                  | Gets the configuration defined in the user's configuration file.                                                                                                                                                                                                                                                                                                                                    |
-| `useResolvedConfigContext` | `getNormalizedConfig`        | Gets the final configuration after processing by plugins.                                                                                                                                                                                                                                                                                                                                 |
-| `beforeConfig`           | (Defined directly in `setup`) | The `beforeConfig` Hook is no longer needed.  Write related logic directly in the `setup` function.                                                                                                                                                                                                                                                                                        |
-| `prepare`                | `onPrepare`                   | The preparation stage before running the main process.                                                                                                                                                                                                                                                                                                                                    |
-| `afterPrepare`           | `onAfterPrepare` (Deprecated)   | Executes after `onPrepare`, but may be deprecated in future versions.  It's recommended to merge the logic into `onPrepare`.                                                                                                                                                                                                                                                                              |
-| `beforePrintInstructions`| `onBeforePrintInstructions`   | Executes before printing log messages.                                                                                                                                                                                                                                                                                                                                    |
-| `commands`               | `addCommand`                  | Adds a new CLI command.                                                                                                                                                                                                                                                                                                                                       |
-| `watchFiles`             | `addWatchFiles`               | Adds files to be watched.                                                                                                                                                                                                                                                                                                                                       |
-| `fileChange`             | `onFileChanged`               | Listens for file change events.                                                                                                                                                                                                                                                                                                                                       |
-| `beforeCreateCompiler`   | `onBeforeCreateCompiler`      | Executes before creating the compiler.                                                                                                                                                                                                                                                                                                                                       |
-| `afterCreateCompiler`    | `onAfterCreateCompiler`       | Executes after creating the compiler.                                                                                                                                                                                                                                                                                                                                       |
-| `beforeBuild`            | `onBeforeBuild`               | Executes before building.                                                                                                                                                                                                                                                                                                                                       |
-| `afterBuild`             | `onAfterBuild`                | Executes after building.                                                                                                                                                                                                                                                                                                                                       |
-| `beforeDev`              | `onBeforeDev`                 | Executes before running the `dev` command.                                                                                                                                                                                                                                                                                                                                   |
-| `afterDev`               | `onDevCompileDone`            | Executes after the `dev` command compilation is complete.                                                                                                                                                                                                                                                                                                                                 |
-| `beforeExit`             | `onBeforeExit`                | Executes before the process exits.                                                                                                                                                                                                                                                                                                                                       |
-| `htmlPartials`           | `modifyHtmlPartials`          | Modifies HTML template partials.                                                                                                                                                                                                                                                                                                                                      |
+| Old API                    | New API                       | Description                                                                                                                 |
+| :------------------------- | :---------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| `useAppContext`            | `getAppContext`               | Gets the application context information.                                                                                   |
+| `useConfigContext`         | `getConfig`                   | Gets the configuration defined in the user's configuration file.                                                            |
+| `useResolvedConfigContext` | `getNormalizedConfig`         | Gets the final configuration after processing by plugins.                                                                   |
+| `beforeConfig`             | (Defined directly in `setup`) | The `beforeConfig` Hook is no longer needed. Write related logic directly in the `setup` function.                          |
+| `prepare`                  | `onPrepare`                   | The preparation stage before running the main process.                                                                      |
+| `afterPrepare`             | `onAfterPrepare` (Deprecated) | Executes after `onPrepare`, but may be deprecated in future versions. It's recommended to merge the logic into `onPrepare`. |
+| `beforePrintInstructions`  | `onBeforePrintInstructions`   | Executes before printing log messages.                                                                                      |
+| `commands`                 | `addCommand`                  | Adds a new CLI command.                                                                                                     |
+| `watchFiles`               | `addWatchFiles`               | Adds files to be watched.                                                                                                   |
+| `fileChange`               | `onFileChanged`               | Listens for file change events.                                                                                             |
+| `beforeCreateCompiler`     | `onBeforeCreateCompiler`      | Executes before creating the compiler.                                                                                      |
+| `afterCreateCompiler`      | `onAfterCreateCompiler`       | Executes after creating the compiler.                                                                                       |
+| `beforeBuild`              | `onBeforeBuild`               | Executes before building.                                                                                                   |
+| `afterBuild`               | `onAfterBuild`                | Executes after building.                                                                                                    |
+| `beforeDev`                | `onBeforeDev`                 | Executes before running the `dev` command.                                                                                  |
+| `afterDev`                 | `onDevCompileDone`            | Executes after the `dev` command compilation is complete.                                                                   |
+| `beforeExit`               | `onBeforeExit`                | Executes before the process exits.                                                                                          |
+| `htmlPartials`             | `modifyHtmlPartials`          | Modifies HTML template partials.                                                                                            |
 
 **Explanation:** Please carefully review your code and ensure that all old APIs have been replaced with the new APIs.
 
@@ -83,7 +68,7 @@ To maintain API consistency and clarity, we've adjusted the names of some APIs. 
 
 **Q: Will my plugin still work after the migration?**
 
-A: As long as you have correctly completed all the steps in this guide, your plugin should work normally.  If you encounter any problems, please refer to the official Modern.js documentation or seek community support.
+A: As long as you have correctly completed all the steps in this guide, your plugin should work normally. If you encounter any problems, please refer to the official Modern.js documentation or seek community support.
 
 **Q: Do I have to migrate my plugin immediately?**
 
@@ -95,4 +80,4 @@ A: Please refer to the official Modern.js documentation, especially the section 
 
 ### Summary
 
-With this detailed migration guide, we hope to help you smoothly migrate your CLI plugins to the new Modern.js plugin system.  If you encounter any problems during the migration, please feel free to ask us for help.
+With this detailed migration guide, we hope to help you smoothly migrate your CLI plugins to the new Modern.js plugin system. If you encounter any problems during the migration, please feel free to ask us for help.

@@ -5,8 +5,8 @@ import type {
   PluginHook,
   PluginHookTap,
   TransformFunction,
-} from '@modern-js/plugin-v2';
-import type { Hooks } from '@modern-js/plugin-v2/cli';
+} from '@modern-js/plugin';
+import type { Hooks } from '@modern-js/plugin/cli';
 import type {
   Entrypoint,
   HtmlPartials,

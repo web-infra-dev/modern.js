@@ -11,7 +11,7 @@ In this chapter, we will further implement the functions of the project, such as
 Therefore, we will start to write some business logic that has nothing to do with the UI at all. If we continue to write in the component code, more and more noodle code will be generated. To this end, we introduced a code module called **Model** to decoupling these business logic and UI.
 
 :::info note
-To use the Model API, you need to opt in [runtime.state](/configure/app/runtime/state):
+To use the Model API, you need to opt in runtime.state:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -141,7 +141,7 @@ export default model<State>('contacts').define({
 });
 ```
 
-We call a plain object containing elements such as state, action, etc. as **Model Spec**, Modern.js provides [Model API](/apis/app/runtime/model/model_), which can generate **Model** from Model Spec.
+We call a plain object containing elements such as state, action, etc. as **Model Spec**, Modern.js provides Model API, which can generate **Model** from Model Spec.
 
 ## Use Model
 

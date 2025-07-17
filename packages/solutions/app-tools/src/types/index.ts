@@ -2,7 +2,7 @@ import type {
   CLIPluginExtends,
   RuntimePluginConfig,
   ServerPluginConfig,
-} from '@modern-js/plugin-v2';
+} from '@modern-js/plugin';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };

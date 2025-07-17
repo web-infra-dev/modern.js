@@ -1,4 +1,4 @@
-import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   type PluginImageOptions as BuilderPluginImageOptions,
   pluginImage as builderPluginImage,
@@ -8,7 +8,7 @@ export interface ImagePluginOptions extends BuilderPluginImageOptions {}
 
 export const imagePlugin = (
   options: ImagePluginOptions = {},
-): CliPluginFuture<AppTools> => ({
+): CliPlugin<AppTools> => ({
   name: '@modern-js/image',
   setup: api => {
     const { ...builderPluginOptions } = options;

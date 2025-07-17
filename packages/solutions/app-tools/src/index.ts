@@ -1,6 +1,6 @@
 import path from 'path';
+import { createAsyncHook } from '@modern-js/plugin';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { createAsyncHook } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import {
   cleanRequireCache,
@@ -29,7 +29,7 @@ import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
 import serverRuntimePlugin from './plugins/serverRuntime';
-import type { AppTools, CliPluginFuture } from './types';
+import type { AppTools, CliPlugin } from './types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
@@ -47,7 +47,7 @@ import { restart } from './utils/restart';
 
 export * from './defineConfig';
 
-export const appTools = (): CliPluginFuture<AppTools> => ({
+export const appTools = (): CliPlugin<AppTools> => ({
   name: '@modern-js/app-tools',
   usePlugins: [
     serverRuntimePlugin(),
@@ -187,4 +187,4 @@ export { initAppContext };
 export default appTools;
 
 // TODO: check mergeConfig is equal to @modern-js/core
-export { mergeConfig } from '@modern-js/plugin-v2/cli';
+export { mergeConfig } from '@modern-js/plugin/cli';

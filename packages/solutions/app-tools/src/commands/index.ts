@@ -1,4 +1,4 @@
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import { castArray } from '@modern-js/uni-builder';
 import { type Command, newAction, upgradeAction } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
