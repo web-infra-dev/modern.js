@@ -71,10 +71,6 @@ export default function Footer() {
           to: useUrl('/guides/topic-detail/micro-frontend/c01-introduction'),
         },
         {
-          label: t('stateManagement'),
-          to: useUrl('/guides/topic-detail/model/quick-start'),
-        },
-        {
           label: t('pluginSystem'),
           to: useUrl('/plugin/plugin-system'),
         },
