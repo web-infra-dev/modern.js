@@ -1,5 +1,5 @@
 import * as path from 'path';
-import type { ServerPluginLegacy } from '@modern-js/server-core';
+import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
 import { requireExistModule } from '@modern-js/utils';
 
 export const isDev = (): boolean => process.env.NODE_ENV === 'development';
@@ -16,30 +16,27 @@ export const SHARED_DIR = 'shared';
 
 export const API_APP_NAME = '_app';
 
-export default (): ServerPluginLegacy => ({
+export default (): ServerPlugin => ({
   name: 'serverPlugin1',
   setup: api => {
-    return {
-      async prepare() {
-        const { appDirectory, distDirectory } = api.useAppContext();
+    api.onPrepare(async () => {
+      const { appDirectory, distDirectory } = api.getServerContext();
 
-        const root = isProd() ? distDirectory : appDirectory;
+      const root = isProd() ? distDirectory : appDirectory;
 
-        const apiPath = path.resolve(root || process.cwd(), API_DIR);
-        const apiAppPath = path.resolve(apiPath, API_APP_NAME);
-        await requireExistModule(apiAppPath);
-      },
-
-      async prepareApiServer() {
-        return async c => {
-          const pathname = c.req.path;
-          if (pathname === '/api/foo') {
-            return c.text('foo');
-          } else {
-            return c.text('Hello Modernjs');
-          }
-        };
-      },
-    };
+      const apiPath = path.resolve(root || process.cwd(), API_DIR);
+      const apiAppPath = path.resolve(apiPath, API_APP_NAME);
+      await requireExistModule(apiAppPath);
+    });
+    api.prepareApiServer(() => {
+      return (async (c: any) => {
+        const pathname = c.req.path;
+        if (pathname === '/api/foo') {
+          return c.text('foo');
+        } else {
+          return c.text('Hello Modernjs');
+        }
+      }) as unknown as Promise<MiddlewareHandler>;
+    });
   },
 });

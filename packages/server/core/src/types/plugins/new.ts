@@ -3,6 +3,7 @@ import type {
   AsyncPipelineHook,
   ServerContext as BaseServerContext,
   ServerPlugin as BaseServerPlugin,
+  ServerPluginAPI as BaseServerPluginAPI,
   ServerPluginExtends as BaseServerPluginExtends,
 } from '@modern-js/plugin-v2';
 import type { Hooks } from '@modern-js/plugin-v2/server';
@@ -40,6 +41,7 @@ export interface ServerPluginExtends extends BaseServerPluginExtends {
   extendContext: {
     middlewares: MiddlewareObj[];
     renderMiddlewares: MiddlewareObj[];
+    [key: string]: any;
   };
   extendHooks: {
     prepareWebServer: AsyncPipelineHook<PrepareWebServerFn>;
@@ -57,3 +59,6 @@ export type ServerContext = BaseServerContext<ServerPluginExtends> &
 
 export type ServerPluginHooks = Hooks<ServerPluginExtends> &
   ServerPluginExtends['extendHooks'];
+
+export type ServerPluginAPI = BaseServerPluginAPI<ServerPluginExtends> &
+  ServerPluginExtends['extendApi'];

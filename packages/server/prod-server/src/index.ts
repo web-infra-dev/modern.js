@@ -15,7 +15,7 @@ export {
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
 
-export type { ServerPluginLegacy, ServerPlugin } from '@modern-js/server-core';
+export type { ServerPlugin } from '@modern-js/server-core';
 
 export type { ProdServerOptions, BaseEnv } from './types';
 

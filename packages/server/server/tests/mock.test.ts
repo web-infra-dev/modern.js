@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  type ServerPluginLegacy,
+  type ServerPlugin,
   compatPlugin,
   createServerBase,
 } from '@modern-js/server-core';
@@ -27,22 +27,19 @@ function getDefaultAppContext() {
   };
 }
 
-function createMockPlugin(pwd: string): ServerPluginLegacy {
+function createMockPlugin(pwd: string): ServerPlugin {
   return {
     name: 'mock-plugin',
     setup(api) {
-      return {
-        async prepare() {
-          const mockMiddleware = await getMockMiddleware(pwd);
-          const { middlewares } = api.useAppContext();
+      api.onPrepare(async () => {
+        const mockMiddleware = await getMockMiddleware(pwd);
+        const { middlewares } = api.getServerContext();
 
-          middlewares.push({
-            name: 'mock',
-
-            handler: mockMiddleware,
-          });
-        },
-      };
+        middlewares.push({
+          name: 'mock',
+          handler: mockMiddleware,
+        });
+      });
     },
   };
 }

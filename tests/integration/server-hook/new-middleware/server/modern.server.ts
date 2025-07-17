@@ -1,8 +1,8 @@
 import { defineConfig } from '@modern-js/app-tools/server';
 import type {
   MiddlewareHandler,
-  ServerPluginLegacy,
-} from '@modern-js/runtime/server';
+  ServerPlugin,
+} from '@modern-js/server-runtime';
 
 const requestTiming: MiddlewareHandler = async (c, next) => {
   c.res.headers.set('x-render-middleware-config', 'ok');
@@ -21,23 +21,19 @@ export default defineConfig({
     {
       name: 'custom-plugin-in-config',
       setup: api => {
-        return {
-          prepare(serverConfig) {
-            const { middlewares } = api.useAppContext();
+        api.onPrepare(() => {
+          const { middlewares } = api.getServerContext();
 
-            middlewares?.push({
-              name: 'server-plugin-middleware',
-              handler: async (c, next) => {
-                c.res.headers.set('x-render-middleware-plugin', 'ok');
+          middlewares?.push({
+            name: 'server-plugin-middleware',
+            handler: (async (c, next) => {
+              c.res.headers.set('x-render-middleware-plugin', 'ok');
 
-                await next();
-              },
-            });
-
-            return serverConfig;
-          },
-        };
+              await next();
+            }) as MiddlewareHandler,
+          });
+        });
       },
-    } as ServerPluginLegacy,
+    } as ServerPlugin,
   ],
 });

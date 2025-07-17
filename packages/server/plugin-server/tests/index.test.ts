@@ -13,18 +13,37 @@ describe('plugin-server', () => {
     const plugin = serverPlugin();
     expect(plugin.name).toBe('@modern-js/plugin-server');
 
-    const hooks: any = plugin.setup!({
-      useAppContext: () => ({
+    const hooks: Record<string, any> = {
+      onPrepare: undefined,
+      afterMatch: undefined,
+      afterRender: undefined,
+      onReset: undefined,
+    };
+    plugin.setup!({
+      getServerContext: () => ({
         appDirectory: path.join(__dirname, './fixtures/new'),
       }),
+      onPrepare: (fn: any) => {
+        hooks.onPrepare = fn;
+      },
+      onReset: (fn: any) => {
+        hooks.onReset = fn;
+      },
+      afterMatch: (fn: any) => {
+        hooks.afterMatch = fn;
+      },
+      afterRender: (fn: any) => {
+        hooks.afterRender = fn;
+      },
+      prepareWebServer: (fn: any) => {},
     } as any);
 
-    await hooks.prepare();
+    await hooks.onPrepare();
     const sign = { status: 0 };
 
     await hooks.afterMatch(sign);
     await hooks.afterRender(sign);
-    await hooks.reset();
+    await hooks.onReset();
     expect(sign.status).toBe(4);
   });
 });

@@ -1,22 +1,20 @@
-import type { ServerPluginLegacy } from '../types';
+import type { MiddlewareHandler, ServerPlugin } from '../types';
 
-export const processedByPlugin = (): ServerPluginLegacy => ({
+export const processedByPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-processed',
 
   setup(api) {
-    return {
-      prepare() {
-        const { middlewares } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
 
-        middlewares.push({
-          name: 'processed-by',
-          handler: async (c, next) => {
-            await next();
+      middlewares.push({
+        name: 'processed-by',
+        handler: (async (c, next) => {
+          await next();
 
-            c.header('X-Processed-By', 'Modern.js');
-          },
-        });
-      },
-    };
+          c.header('X-Processed-By', 'Modern.js');
+        }) as MiddlewareHandler,
+      });
+    });
   },
 });

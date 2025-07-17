@@ -5215,6 +5215,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/server/server-runtime
       axios:
         specifier: ^1.7.4
         version: 1.8.4(debug@4.3.7)

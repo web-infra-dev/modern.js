@@ -1,57 +1,53 @@
-import type { ServerPluginLegacy } from '@modern-js/server-runtime';
+import type {
+  MiddlewareHandler,
+  ServerPlugin,
+} from '@modern-js/server-runtime';
 
-export default (): ServerPluginLegacy => ({
+export default (): ServerPlugin => ({
   name: 'serverPluginV2',
   setup(api) {
-    return {
-      prepare(serverConfig) {
-        const { middlewares, renderMiddlewares } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares, renderMiddlewares } = api.getServerContext();
 
-        middlewares?.push({
-          name: 'server-plugin-middleware',
-          handler: async (c, next) => {
-            const start = Date.now();
+      middlewares?.push({
+        name: 'server-plugin-middleware',
+        handler: (async (c, next) => {
+          const start = Date.now();
 
-            await next();
+          await next();
 
-            const end = Date.now();
+          const end = Date.now();
 
-            c.res.headers.set(
-              'x-plugin-middleware',
-              `request; dur=${end - start}`,
-            );
-          },
-        });
+          c.res.headers.set(
+            'x-plugin-middleware',
+            `request; dur=${end - start}`,
+          );
+        }) as MiddlewareHandler,
+      });
 
-        renderMiddlewares?.push({
-          name: 'server-plugin-render-middleware',
-          handler: async (c, next) => {
-            const start = Date.now();
+      renderMiddlewares?.push({
+        name: 'server-plugin-render-middleware',
+        handler: async (c, next) => {
+          const start = Date.now();
 
-            await next();
+          await next();
 
-            const end = Date.now();
+          const end = Date.now();
 
-            c.res.headers.set(
-              'x-plugin-render-middleware',
-              `dur=${end - start}`,
-            );
+          c.res.headers.set('x-plugin-render-middleware', `dur=${end - start}`);
 
-            const { res } = c;
+          const { res } = c;
 
-            const text = await res.text();
+          const text = await res.text();
 
-            const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
+          const newText = text.replace('<body>', '<body> <h3>bytedance</h3>');
 
-            c.res = c.body(newText, {
-              status: res.status,
-              headers: res.headers,
-            });
-          },
-        });
-
-        return serverConfig;
-      },
-    };
+          c.res = c.body(newText, {
+            status: res.status,
+            headers: res.headers,
+          });
+        },
+      });
+    });
   },
 });

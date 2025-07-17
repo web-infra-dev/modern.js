@@ -1,7 +1,4 @@
-import type {
-  ServerBaseOptions,
-  ServerPluginLegacy,
-} from '@modern-js/server-core';
+import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
 import type { UniBuilderInstance } from '@modern-js/uni-builder';
@@ -23,7 +20,7 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;
 };
 
-export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
+export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
@@ -33,120 +30,118 @@ export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
 
     const dev = getDevOptions(options);
 
-    return {
-      async prepare() {
-        // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-        const {
-          middlewares: builderMiddlewares,
-          close,
-          connectWebSocket,
-        } = builderDevServer || {};
+    api.onPrepare(async () => {
+      // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
+      const {
+        middlewares: builderMiddlewares,
+        close,
+        connectWebSocket,
+      } = builderDevServer || {};
 
-        close && closeCb.push(close);
+      close && closeCb.push(close);
 
-        const {
-          middlewares,
-          distDirectory,
-          nodeServer,
-          apiDirectory,
-          sharedDirectory,
-          serverBase,
-        } = api.useAppContext();
+      const {
+        middlewares,
+        distDirectory,
+        nodeServer,
+        apiDirectory,
+        sharedDirectory,
+        serverBase,
+      } = api.getServerContext();
 
-        connectWebSocket &&
-          nodeServer &&
-          connectWebSocket({ server: nodeServer });
-        // TODO: remove any
-        const hooks = (api as any).getHooks();
+      connectWebSocket &&
+        nodeServer &&
+        connectWebSocket({ server: nodeServer });
+      // TODO: remove any
+      const hooks = (api as any).getHooks();
 
-        builder?.onDevCompileDone(({ stats }) => {
-          if (stats.toJson({ all: false }).name !== 'server') {
-            onRepack(distDirectory, hooks);
-          }
-        });
-
-        if (dev.watch) {
-          const { watchOptions } = config.server;
-          const watcher = startWatcher({
-            pwd,
-            distDir: distDirectory,
-            apiDir: apiDirectory || API_DIR,
-            sharedDir: sharedDirectory || SHARED_DIR,
-            watchOptions,
-            server: serverBase!,
-          });
-          closeCb.push(watcher.close.bind(watcher));
+      builder?.onDevCompileDone(({ stats }) => {
+        if (stats.toJson({ all: false }).name !== 'server') {
+          onRepack(distDirectory!, hooks);
         }
+      });
 
-        closeCb.length > 0 &&
-          nodeServer?.on('close', () => {
-            closeCb.forEach(cb => {
-              cb();
-            });
+      if (dev.watch) {
+        const { watchOptions } = config.server;
+        const watcher = startWatcher({
+          pwd,
+          distDir: distDirectory!,
+          apiDir: apiDirectory || API_DIR,
+          sharedDir: sharedDirectory || SHARED_DIR,
+          watchOptions,
+          server: serverBase!,
+        });
+        closeCb.push(watcher.close.bind(watcher));
+      }
+
+      closeCb.length > 0 &&
+        nodeServer?.on('close', () => {
+          closeCb.forEach(cb => {
+            cb();
           });
+        });
 
-        const before: RequestHandler[] = [];
+      const before: RequestHandler[] = [];
 
-        const after: RequestHandler[] = [];
+      const after: RequestHandler[] = [];
 
-        const { setupMiddlewares = [] } = dev;
+      const { setupMiddlewares = [] } = dev;
 
-        if (dev.after?.length || dev.before?.length) {
-          setupMiddlewares.push(middlewares => {
-            // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-            middlewares.unshift(...(dev.before || []));
+      if (dev.after?.length || dev.before?.length) {
+        setupMiddlewares.push(middlewares => {
+          // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
+          middlewares.unshift(...(dev.before || []));
 
-            middlewares.push(...(dev.after || []));
-          });
-        }
+          middlewares.push(...(dev.after || []));
+        });
+      }
 
-        setupMiddlewares.forEach(handler => {
-          handler(
-            {
-              unshift: (...handlers) => before.unshift(...handlers),
-              push: (...handlers) => after.push(...handlers),
+      setupMiddlewares.forEach(handler => {
+        handler(
+          {
+            unshift: (...handlers) => before.unshift(...handlers),
+            push: (...handlers) => after.push(...handlers),
+          },
+          {
+            sockWrite: () => {
+              // ignore
             },
-            {
-              sockWrite: () => {
-                // ignore
-              },
-            },
-          );
-        });
+          },
+        );
+      });
 
-        before.forEach((middleware, index) => {
-          middlewares.push({
-            name: `before-dev-server-${index}`,
-            handler: connectMid2HonoMid(middleware),
-          });
-        });
-
-        const mockMiddleware = await getMockMiddleware(pwd);
-
+      before.forEach((middleware, index) => {
         middlewares.push({
-          name: 'mock-dev',
-
-          handler: mockMiddleware,
+          name: `before-dev-server-${index}`,
+          handler: connectMid2HonoMid(middleware),
         });
+      });
 
-        builderMiddlewares &&
-          middlewares.push({
-            name: 'rsbuild-dev',
-            handler: connectMid2HonoMid(builderMiddlewares as any),
-          });
+      const mockMiddleware = await getMockMiddleware(pwd);
 
-        after.forEach((middleware, index) => {
-          middlewares.push({
-            name: `after-dev-server-${index}`,
-            handler: connectMid2HonoMid(middleware),
-          });
-        });
+      middlewares.push({
+        name: 'mock-dev',
 
+        handler: mockMiddleware,
+      });
+
+      builderMiddlewares &&
         middlewares.push({
-          name: 'init-file-reader',
-          handler: initFileReader(),
+          name: 'rsbuild-dev',
+          handler: connectMid2HonoMid(builderMiddlewares as any),
         });
-      },
-    };
+
+      after.forEach((middleware, index) => {
+        middlewares.push({
+          name: `after-dev-server-${index}`,
+          handler: connectMid2HonoMid(middleware),
+        });
+      });
+
+      middlewares.push({
+        name: 'init-file-reader',
+        handler: initFileReader(),
+      });
+    });
   },
 });

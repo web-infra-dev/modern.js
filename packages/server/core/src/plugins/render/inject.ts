@@ -3,7 +3,7 @@ import type {
   GetRenderHandlerOptions,
   OnFallback,
   Render,
-  ServerPluginLegacy,
+  ServerPlugin,
 } from '../../types';
 import { createRender } from './render';
 
@@ -15,50 +15,47 @@ export interface InjectRenderHandlerOptions {
 export const injectRenderHandlerPlugin = ({
   staticGenerate,
   cacheConfig,
-}: InjectRenderHandlerOptions): ServerPluginLegacy => ({
+}: InjectRenderHandlerOptions): ServerPlugin => ({
   name: '@modern-js/plugin-inject-render',
   setup(api) {
-    return {
-      async prepare() {
-        const { distDirectory: pwd, routes, metaName } = api.useAppContext();
+    api.onPrepare(async () => {
+      const { distDirectory: pwd, routes, metaName } = api.getServerContext();
 
-        const config = api.useConfigContext();
+      const config = api.getServerConfig();
 
-        const hookRunner = api.useHookRunners();
+      const hooks = api.getHooks();
 
-        if (!routes) {
-          return;
-        }
+      if (!routes) {
+        return;
+      }
 
-        const onFallback: OnFallback = async (reason, utils, error) => {
-          // For other framework can report ssr fallback reason & error.
-          await hookRunner.fallback({
-            reason,
-            ...utils,
-            error,
-          });
-        };
-
-        const getRenderHandlerOptions: GetRenderHandlerOptions = {
-          pwd,
-          routes,
-          config,
-          metaName,
-          // TODO: support modern.server.ts cache config
-          cacheConfig: cacheConfig,
-          staticGenerate,
-          onFallback,
-        };
-
-        const render = await getRenderHandler(getRenderHandlerOptions);
-
-        api.setAppContext({
-          ...api.useAppContext(),
-          render,
-          getRenderOptions: getRenderHandlerOptions,
+      const onFallback: OnFallback = async (reason, utils, error) => {
+        // For other framework can report ssr fallback reason & error.
+        await hooks.fallback.call({
+          reason,
+          ...utils,
+          error,
         });
-      },
-    };
+      };
+
+      const getRenderHandlerOptions: GetRenderHandlerOptions = {
+        pwd: pwd!,
+        routes,
+        config,
+        metaName,
+        // TODO: support modern.server.ts cache config
+        cacheConfig: cacheConfig,
+        staticGenerate,
+        onFallback,
+      };
+
+      const render = await getRenderHandler(getRenderHandlerOptions);
+
+      api.updateServerContext({
+        render,
+        getRenderOptions: getRenderHandlerOptions,
+      });
+    });
   },
 });
 

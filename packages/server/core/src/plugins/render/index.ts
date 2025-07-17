@@ -7,94 +7,91 @@ import type {
   Middleware,
   Render,
   ServerEnv,
-  ServerPluginLegacy,
+  ServerPlugin,
+  ServerPluginHooks,
 } from '../../types';
 import { sortRoutes } from '../../utils';
-import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import { CustomServer } from '../customServer';
 import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
-export const renderPlugin = (): ServerPluginLegacy => ({
+export const renderPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
-    return {
-      async prepare() {
-        const {
-          middlewares,
-          routes,
-          render,
-          distDirectory: pwd,
-          renderMiddlewares,
-        } = api.useAppContext();
-        // TODO: remove any
-        const hooks = (api as any).getHooks();
-        const config = api.useConfigContext();
+    api.onPrepare(async () => {
+      const {
+        middlewares,
+        routes,
+        render,
+        distDirectory: pwd,
+        renderMiddlewares,
+      } = api.getServerContext();
+      const hooks = api.getHooks();
+      const config = api.getServerConfig();
 
-        if (!routes) {
-          return;
+      if (!routes) {
+        return;
+      }
+
+      const customServer = new CustomServer(hooks as ServerPluginHooks, pwd!);
+
+      const pageRoutes = getPageRoutes(routes);
+
+      middlewares.push({
+        name: 'page-latency',
+        handler: requestLatencyMiddleware(),
+      });
+
+      for (const route of pageRoutes) {
+        const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
+        const urlPath = originUrlPath.endsWith('/')
+          ? `${originUrlPath}*`
+          : `${originUrlPath}/*`;
+
+        // Hook middleware will handle stream as string and then handle it as stream, which will cause the performance problem
+        // TODO: Hook middleware will be deprecated in next version
+        if (config.server?.disableHook !== true) {
+          const customServerHookMiddleware = customServer.getHookMiddleware(
+            entryName,
+            routes,
+          );
+
+          middlewares.push({
+            name: 'custom-server-hook',
+            path: urlPath,
+            handler: customServerHookMiddleware,
+          });
         }
 
-        const customServer = new CustomServer(hooks, pwd);
-
-        const pageRoutes = getPageRoutes(routes);
-
-        middlewares.push({
-          name: 'page-latency',
-          handler: requestLatencyMiddleware(),
+        // config.renderMiddlewares can register by server config and prepare hook
+        renderMiddlewares?.forEach(m => {
+          middlewares.push({
+            name: m.name,
+            path: urlPath,
+            handler: m.handler,
+          });
         });
 
-        for (const route of pageRoutes) {
-          const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
-          const urlPath = originUrlPath.endsWith('/')
-            ? `${originUrlPath}*`
-            : `${originUrlPath}/*`;
+        // TODO: Unstable middleware should be deprecated
+        const customServerMiddleware = await customServer.getServerMiddleware();
 
-          // Hook middleware will handle stream as string and then handle it as stream, which will cause the performance problem
-          // TODO: Hook middleware will be deprecated in next version
-          if (config.server?.disableHook !== true) {
-            const customServerHookMiddleware = customServer.getHookMiddleware(
-              entryName,
-              routes,
-            );
-
-            middlewares.push({
-              name: 'custom-server-hook',
-              path: urlPath,
-              handler: customServerHookMiddleware,
-            });
-          }
-
-          // config.renderMiddlewares can register by server config and prepare hook
-          renderMiddlewares?.forEach(m => {
-            middlewares.push({
-              name: m.name,
-              path: urlPath,
-              handler: m.handler,
-            });
+        customServerMiddleware &&
+          middlewares.push({
+            name: 'custom-server-middleware',
+            path: urlPath,
+            handler: customServerMiddleware,
           });
 
-          // TODO: Unstable middleware should be deprecated
-          const customServerMiddleware =
-            await customServer.getServerMiddleware();
-
-          customServerMiddleware &&
-            middlewares.push({
-              name: 'custom-server-middleware',
-              path: urlPath,
-              handler: customServerMiddleware,
-            });
-
-          render &&
-            middlewares.push({
-              name: `render`,
-              path: urlPath,
-              handler: createRenderHandler(render),
-            });
-        }
-      },
-    };
+        render &&
+          middlewares.push({
+            name: `render`,
+            path: urlPath,
+            handler: createRenderHandler(render),
+          });
+      }
+    });
   },
 });
 

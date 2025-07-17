@@ -1,6 +1,6 @@
 import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import type { Middleware, ServerEnv, ServerPluginLegacy } from '../types';
+import type { Middleware, ServerEnv, ServerPlugin } from '../types';
 import { sortRoutes } from '../utils';
 
 function injectRoute(route: {
@@ -24,33 +24,31 @@ function getPageRoutes(routes: ServerRoute[]): ServerRoute[] {
   );
 }
 
-export const injectRoutePlugin = (): ServerPluginLegacy => ({
+export const injectRoutePlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-inject-route',
 
   setup(api) {
-    return {
-      async prepare() {
-        const { middlewares, routes } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares, routes } = api.getServerContext();
 
-        if (!routes) {
-          return;
-        }
+      if (!routes) {
+        return;
+      }
 
-        const pageRoutes = getPageRoutes(routes);
-        // inject current route info into hono context
-        for (const route of pageRoutes) {
-          const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
-          const urlPath = originUrlPath.endsWith('/')
-            ? `${originUrlPath}*`
-            : `${originUrlPath}/*`;
+      const pageRoutes = getPageRoutes(routes);
+      // inject current route info into hono context
+      for (const route of pageRoutes) {
+        const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
+        const urlPath = originUrlPath.endsWith('/')
+          ? `${originUrlPath}*`
+          : `${originUrlPath}/*`;
 
-          middlewares.push({
-            name: 'inject-route-info',
-            path: urlPath,
-            handler: injectRoute({ entryName }),
-          });
-        }
-      },
-    };
+        middlewares.push({
+          name: 'inject-route-info',
+          path: urlPath,
+          handler: injectRoute({ entryName }),
+        });
+      }
+    });
   },
 });

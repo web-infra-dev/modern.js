@@ -8,34 +8,36 @@ import type {
   HtmlNormalizedConfig,
   Middleware,
   OutputNormalizedConfig,
-  ServerPluginLegacy,
+  ServerPlugin,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
 
-export const serverStaticPlugin = (): ServerPluginLegacy => ({
+export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
 
   setup(api) {
-    return {
-      prepare() {
-        const { middlewares, distDirectory: pwd, routes } = api.useAppContext();
+    api.onPrepare(() => {
+      const {
+        middlewares,
+        distDirectory: pwd,
+        routes,
+      } = api.getServerContext();
 
-        const config = api.useConfigContext();
+      const config = api.getServerConfig();
 
-        const serverStaticMiddleware = createStaticMiddleware({
-          pwd,
-          routes,
-          output: config.output || {},
-          html: config.html || {},
-        });
+      const serverStaticMiddleware = createStaticMiddleware({
+        pwd: pwd!,
+        routes,
+        output: config.output || {},
+        html: config.html || {},
+      });
 
-        middlewares.push({
-          name: 'server-static',
+      middlewares.push({
+        name: 'server-static',
 
-          handler: serverStaticMiddleware,
-        });
-      },
-    };
+        handler: serverStaticMiddleware,
+      });
+    });
   },
 });
 

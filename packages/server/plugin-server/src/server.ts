@@ -1,4 +1,4 @@
-import type { ServerPluginLegacy } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import type {
   MiddlewareContext,
   NextFunction,
@@ -80,11 +80,11 @@ function getFactory(storage: Storage) {
   return factory;
 }
 
-export default (): ServerPluginLegacy => ({
+export default (): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {
-    const { appDirectory, distDirectory } = api.useAppContext();
+    const { appDirectory, distDirectory } = api.getServerContext();
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
     const pwd = isProd() ? distDirectory : appDirectory;
@@ -122,82 +122,78 @@ export default (): ServerPluginLegacy => ({
 
     let factory: ReturnType<typeof compose>;
 
-    return {
-      async prepare() {
-        const { metaName } = api.useAppContext();
-        await checkServerMod(metaName, pwd);
-        await loadMod();
-      },
-      async reset() {
-        storage.reset();
-        await loadMod();
-        factory = getFactory(storage);
-      },
-      afterMatch(context, next) {
-        if (!storage.hooks.afterMatch) {
-          return next();
-        }
-        return storage.hooks.afterMatch(context, next);
-      },
-      afterRender(context, next) {
-        if (!storage.hooks.afterRender) {
-          return next();
-        }
-        return storage.hooks.afterRender(context, next);
-      },
-      prepareWebServer() {
-        const { unstableMiddlewares } = storage;
+    api.onPrepare(async () => {
+      const { metaName } = api.getServerContext();
+      await checkServerMod(metaName, pwd);
+      await loadMod();
+    });
+    api.onReset(async () => {
+      storage.reset();
+      await loadMod();
+      factory = getFactory(storage);
+    });
+    api.afterMatch(((context: any, next: any) => {
+      if (!storage.hooks.afterMatch) {
+        return next();
+      }
+      return storage.hooks.afterMatch(context, next);
+    }) as any);
+    api.afterRender(((context: any, next: any) => {
+      if (!storage.hooks.afterRender) {
+        return next();
+      }
+      return storage.hooks.afterRender(context, next);
+    }) as any);
+    api.prepareWebServer((() => {
+      const { unstableMiddlewares } = storage;
 
-        if (unstableMiddlewares.length > 0) {
-          /**
-           * In prod mode, we just return unstableMiddlewares directly.
-           * In dev mode, we will return a new array with length of maxLen in the first time,
-           * The new Array will execute the storage.unstableMiddlewares[index] by index, when the middleware is not exist, we will execute next().
-           * It's the logic for hot reload, when unstableMiddlewares is changed, it will execute the new middleware.
-           */
-          if (isProd()) {
-            return unstableMiddlewares;
-          } else {
-            const gap = 10;
-            const baseLen =
-              unstableMiddlewares.length < gap
-                ? gap
-                : unstableMiddlewares.length;
-            const maxLen = baseLen + gap;
-            return new Array(maxLen).fill(0).map((_, index) => {
-              return (ctx, next) => {
-                const unstableMiddleware = storage.unstableMiddlewares[index];
-                if (unstableMiddleware) {
-                  return unstableMiddleware(ctx, next);
-                } else {
-                  return next();
-                }
-              };
-            });
-          }
-        }
-
-        factory = getFactory(storage);
-
-        return ctx => {
-          const {
-            source: { res },
-          } = ctx;
-
-          return new Promise<void>((resolve, reject) => {
-            // res is not exist in other js runtime.
-            res?.on('finish', (err: Error) => {
-              if (err) {
-                return reject(err);
+      if (unstableMiddlewares.length > 0) {
+        /**
+         * In prod mode, we just return unstableMiddlewares directly.
+         * In dev mode, we will return a new array with length of maxLen in the first time,
+         * The new Array will execute the storage.unstableMiddlewares[index] by index, when the middleware is not exist, we will execute next().
+         * It's the logic for hot reload, when unstableMiddlewares is changed, it will execute the new middleware.
+         */
+        if (isProd()) {
+          return unstableMiddlewares;
+        } else {
+          const gap = 10;
+          const baseLen =
+            unstableMiddlewares.length < gap ? gap : unstableMiddlewares.length;
+          const maxLen = baseLen + gap;
+          return new Array(maxLen).fill(0).map((_, index) => {
+            return (ctx: any, next: any) => {
+              const unstableMiddleware = storage.unstableMiddlewares[index];
+              if (unstableMiddleware) {
+                return unstableMiddleware(ctx, next);
+              } else {
+                return next();
               }
-              return resolve();
-            });
-
-            const dispatch = factory(ctx, resolve, reject);
-            dispatch();
+            };
           });
-        };
-      },
-    };
+        }
+      }
+
+      factory = getFactory(storage);
+
+      return (ctx: any) => {
+        const {
+          source: { res },
+        } = ctx;
+
+        return new Promise<void>((resolve, reject) => {
+          // res is not exist in other js runtime.
+          res?.on('finish', (err: Error) => {
+            if (err) {
+              return reject(err);
+            }
+            return resolve();
+          });
+
+          const dispatch = factory(ctx, resolve, reject);
+          dispatch();
+        });
+      };
+    }) as any);
   },
 });

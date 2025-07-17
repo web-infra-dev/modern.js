@@ -1,21 +1,16 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
-import type { ServerPluginLegacy } from '../../../types';
+import type { ServerPlugin } from '../../../types';
 export const injectNodeSeverPlugin = ({
   nodeServer,
 }: {
   nodeServer: NodeServer | Http2SecureServer;
-}): ServerPluginLegacy => ({
+}): ServerPlugin => ({
   name: '@modern-js/plugin-inject-node-server',
 
   setup(api) {
-    const appContext = api.useAppContext();
-
-    api.setAppContext({
-      ...appContext,
+    api.updateServerContext({
       nodeServer,
     });
-
-    return {};
   },
 });

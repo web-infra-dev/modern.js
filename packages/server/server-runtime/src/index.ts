@@ -3,7 +3,6 @@ import type { ServerConfig } from '@modern-js/server-core';
 export {
   useHonoContext,
   type ServerPlugin,
-  type ServerPluginLegacy,
   type MiddlewareObj,
   type Context,
   type Next,
