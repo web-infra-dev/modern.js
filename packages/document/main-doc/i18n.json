@@ -111,10 +111,6 @@
     "zh": "Rsbuild 插件",
     "en": "Rsbuild Plugins"
   },
-  "reduck": {
-    "zh": "Reduck 状态管理",
-    "en": "Reduck State Manager"
-  },
   "module-federation": {
     "zh": "模块联邦",
     "en": "Module Federation"

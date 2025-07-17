@@ -35,7 +35,6 @@ The following solutions and libraries are available within the Modern.js ecosyst
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress): A fast Rspack-based static site generator.
 - 🦄 [Rslib](https://github.com/web-infra-dev/rslib): An Rspack-based library development tool.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
-- 🦆 [Reduck](https://github.com/web-infra-dev/reduck): An redux-based state management library.
 
 ## Benchmark
 

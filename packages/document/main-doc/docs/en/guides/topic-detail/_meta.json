@@ -10,11 +10,5 @@
     "name": "micro-frontend",
     "label": "micro-frontend",
     "collapsed": true
-  },
-  {
-    "type": "dir",
-    "name": "model",
-    "label": "reduck",
-    "collapsed": true
   }
 ]

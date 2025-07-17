@@ -19,12 +19,6 @@
   },
   {
     "type": "dir",
-    "name": "model",
-    "label": "Model",
-    "collapsed": true
-  },
-  {
-    "type": "dir",
     "name": "ssr",
     "label": "SSR",
     "collapsed": true
