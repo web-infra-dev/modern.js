@@ -17,11 +17,5 @@ export const builderPluginAdapterHooks = (
     api.modifyRspackConfig(async (config, utils) => {
       await hooks?.modifyRspackConfig.call(config, utils);
     });
-    api.modifyWebpackChain(async (chain, utils) => {
-      await hooks?.modifyWebpackChain.call(chain, utils);
-    });
-    api.modifyWebpackConfig(async (config, utils) => {
-      await hooks?.modifyWebpackConfig.call(config, utils);
-    });
   },
 });

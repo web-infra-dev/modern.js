@@ -2,13 +2,10 @@ import type {
   ServerPlugin as ServerPluginConfig,
   ServerRoute,
 } from '@modern-js/types';
-import type { WebpackConfig } from '@modern-js/uni-builder';
 import type { Command } from '@modern-js/utils/commander';
 import type {
   ModifyBundlerChainUtils,
   ModifyRspackConfigUtils,
-  ModifyWebpackChainUtils,
-  ModifyWebpackConfigUtils,
   RsbuildConfig,
   Rspack,
   RspackChain,
@@ -110,16 +107,6 @@ export type ModifyRspackConfigFn<ExtendsUtils> = (
   config: Rspack.Configuration,
   utils: ModifyRspackConfigUtils & ExtendsUtils,
 ) => MaybePromise<Rspack.Configuration | void>;
-
-export type ModifyWebpackChainFn<ExtendsUtils> = (
-  chain: RspackChain,
-  utils: ModifyWebpackChainUtils & ExtendsUtils,
-) => Promise<void> | void;
-
-export type ModifyWebpackConfigFn<ExtendsUtils> = (
-  config: WebpackConfig,
-  utils: ModifyWebpackConfigUtils & ExtendsUtils,
-) => Promise<WebpackConfig | void> | WebpackConfig | void;
 
 export type InternalRuntimePluginsFn = TransformFunction<{
   entrypoint: Entrypoint;

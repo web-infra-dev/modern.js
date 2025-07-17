@@ -96,6 +96,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@rsbuild/core": "1.4.7",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29",
@@ -105,7 +106,6 @@
     "memfs": "^3.5.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.99.8",
     "zod": "^3.22.3"
   },
   "sideEffects": false,

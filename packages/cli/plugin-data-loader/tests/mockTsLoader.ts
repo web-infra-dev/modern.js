@@ -1,6 +1,6 @@
-import type { LoaderContext } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 
-export default async function loader(this: LoaderContext<void>) {
+export default async function loader(this: Rspack.LoaderContext<void>) {
   this.cacheable();
   return `
     export const createRequest = () => {}

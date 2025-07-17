@@ -1,14 +1,13 @@
-import type Webpack from 'webpack';
-import type { Compilation, ModuleGraph, NormalModule } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 import {
   type ServerManifest,
   type ServerReferencesMap,
   findRootIssuer,
   getRscBuildInfo,
   isCssModule,
+  rspackRscLayerName,
   setRscBuildInfo,
   sharedData,
-  webpackRscLayerName,
 } from '../common';
 import type { ClientReferencesMap } from '../common';
 
@@ -43,7 +42,7 @@ export class RscServerPlugin {
     this.entryPath2Name = options?.entryPath2Name || new Map();
   }
 
-  private isValidModule(module: NormalModule): boolean {
+  private isValidModule(module: Rspack.NormalModule): boolean {
     return Boolean(module?.resource);
   }
 
@@ -53,20 +52,22 @@ export class RscServerPlugin {
     return Boolean(entries && entries.length > 0);
   }
 
-  private getEntryNameFromIssuer(issuer: NormalModule): string | undefined {
+  private getEntryNameFromIssuer(
+    issuer: Rspack.NormalModule,
+  ): string | undefined {
     return issuer.resource
       ? this.entryPath2Name.get(issuer.resource)
       : undefined;
   }
 
   private createEntryFromIssuer(
-    issuer: NormalModule,
+    issuer: Rspack.NormalModule,
     entryName: string,
   ): EntryInfo {
     return { entryName, entryPath: issuer.resource };
   }
 
-  private buildModuleToEntriesMapping(compilation: Compilation): void {
+  private buildModuleToEntriesMapping(compilation: Rspack.Compilation): void {
     this.moduleToEntries.clear();
 
     for (const [entryName, entryDependency] of compilation.entries.entries()) {
@@ -76,7 +77,7 @@ export class RscServerPlugin {
       if (!entryModule) continue;
 
       this.traverseModulesFromEntry(
-        entryModule as NormalModule,
+        entryModule as Rspack.NormalModule,
         entryName,
         compilation.moduleGraph,
         new Set(),
@@ -85,9 +86,9 @@ export class RscServerPlugin {
   }
 
   private traverseModulesFromEntry(
-    module: NormalModule,
+    module: Rspack.NormalModule,
     entryName: string,
-    moduleGraph: ModuleGraph,
+    moduleGraph: Rspack.ModuleGraph,
     visited: Set<string>,
   ): void {
     if (!module?.resource || visited.has(module.resource)) {
@@ -103,7 +104,7 @@ export class RscServerPlugin {
     for (const connection of moduleGraph.getOutgoingConnections(module)) {
       if (connection.module && 'resource' in connection.module) {
         this.traverseModulesFromEntry(
-          connection.module as NormalModule,
+          connection.module as Rspack.NormalModule,
           entryName,
           moduleGraph,
           visited,
@@ -113,8 +114,8 @@ export class RscServerPlugin {
   }
 
   private findModuleEntries(
-    module: NormalModule,
-    compilation: Compilation,
+    module: Rspack.NormalModule,
+    compilation: Rspack.Compilation,
     resourcePath2Entries: Map<string, EntryInfo[]>,
     visited = new Set<string>(),
   ): EntryInfo[] {
@@ -168,7 +169,7 @@ export class RscServerPlugin {
 
   private getEntryPathByName(
     entryName: string,
-    compilation: Compilation,
+    compilation: Rspack.Compilation,
   ): string | undefined {
     const entryDependency = compilation.entries.get(entryName);
     if (entryDependency && entryDependency.dependencies.length > 0) {
@@ -181,15 +182,15 @@ export class RscServerPlugin {
     return undefined;
   }
 
-  apply(compiler: Webpack.Compiler): void {
+  apply(compiler: Rspack.Compiler): void {
     const {
       EntryPlugin,
       WebpackError,
       sources: { RawSource },
-    } = compiler.webpack;
+    } = compiler.rspack;
 
     const includeModule = async (
-      compilation: Webpack.Compilation,
+      compilation: Rspack.Compilation,
       resource: string,
       resourceEntryNames?: string[],
       layer?: string,
@@ -207,9 +208,7 @@ export class RscServerPlugin {
       const includePromises = entries
         .filter(([entryName]) => resourceEntryNames?.includes(entryName))
         .map(([entryName]) => {
-          const dependency = EntryPlugin.createDependency(resource, {
-            name: resource,
-          });
+          const dependency = EntryPlugin.createDependency(resource);
 
           return new Promise<void>((resolve, reject) => {
             compilation.addInclude(
@@ -224,7 +223,8 @@ export class RscServerPlugin {
 
                 if (!module) {
                   const noModuleError = new WebpackError(`Module not added`);
-                  noModuleError.file = resource;
+                  // TODO: rspack type error
+                  (noModuleError as any).file = resource;
                   compilation.errors.push(noModuleError);
 
                   return reject(noModuleError);
@@ -254,7 +254,7 @@ export class RscServerPlugin {
       async compilation => {
         this.buildModuleToEntriesMapping(compilation);
 
-        const processModules = (modules: Webpack.Compilation['modules']) => {
+        const processModules = (modules: Rspack.Compilation['modules']) => {
           let hasChangeReference = false;
 
           for (const module of modules) {
@@ -297,13 +297,13 @@ export class RscServerPlugin {
 
             // server component -> client -component(react-server layer) -> client component(default layer) -> server action(default layer) -> server action(react-server layer)
             const entries = this.findModuleEntries(
-              module as NormalModule,
+              module as Rspack.NormalModule,
               compilation,
               resourcePath2Entries,
             );
             if (entries.length > 0) {
               resourcePath2Entries.set(
-                (module as NormalModule).resource,
+                (module as Rspack.NormalModule).resource,
                 entries,
               );
             }
@@ -343,7 +343,7 @@ export class RscServerPlugin {
                 resourcePath2Entries
                   .get(resource)
                   ?.map(entry => entry.entryName) || [],
-                webpackRscLayerName,
+                rspackRscLayerName,
               );
             } catch (error) {
               console.error(error);
@@ -392,7 +392,7 @@ export class RscServerPlugin {
         }
 
         if (
-          module.layer !== webpackRscLayerName &&
+          module.layer !== rspackRscLayerName &&
           this.clientReferencesMap.has(resource)
         ) {
           const clientReferences = this.clientReferencesMap.get(resource);
@@ -408,7 +408,7 @@ export class RscServerPlugin {
             );
           }
         } else if (
-          module.layer === webpackRscLayerName &&
+          module.layer === rspackRscLayerName &&
           getRscBuildInfo(module)?.type === 'server'
         ) {
           const serverReferencesModuleInfo = getRscBuildInfo(module);

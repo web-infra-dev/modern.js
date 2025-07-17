@@ -1,7 +1,7 @@
 import { type GenClientOptions, generateClient } from '@modern-js/bff-core';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { logger } from '@modern-js/utils';
-import type { LoaderContext } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 
 export type APILoaderOptions = {
   prefix: string;
@@ -16,7 +16,10 @@ export type APILoaderOptions = {
   httpMethodDecider?: HttpMethodDecider;
 };
 
-async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
+async function loader(
+  this: Rspack.LoaderContext<APILoaderOptions>,
+  source: string,
+) {
   this.cacheable();
 
   const { resourcePath } = this;

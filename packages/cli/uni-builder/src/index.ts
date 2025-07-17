@@ -1,18 +1,7 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { type UniBuilderInstance, createRspackBuilder } from './rspack';
 import type { CreateUniBuilderOptions } from './types';
-import {
-  type UniBuilderWebpackInstance,
-  createWebpackBuilder,
-} from './webpack';
 
-export { HtmlWebpackPlugin };
-
-export type {
-  CreateUniBuilderOptions,
-  UniBuilderInstance,
-  UniBuilderWebpackInstance,
-};
+export type { CreateUniBuilderOptions, UniBuilderInstance };
 
 export type {
   UniBuilderConfig,
@@ -27,9 +16,7 @@ export type {
 } from './types';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
-  return options.bundlerType === 'rspack'
-    ? createRspackBuilder(options)
-    : createWebpackBuilder(options);
+  return createRspackBuilder(options);
 }
 
 export {
@@ -45,7 +32,6 @@ export {
   type NormalizedConfig,
 } from '@rsbuild/core';
 
-export type { webpack, WebpackConfig } from '@rsbuild/webpack';
 export {
   RUNTIME_CHUNK_NAME,
   SERVICE_WORKER_ENVIRONMENT_NAME,

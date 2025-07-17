@@ -2,9 +2,7 @@ import path from 'node:path';
 import fse from '@modern-js/utils/fs-extra';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { logger } from '@rsbuild/core';
-import { webpackRscLayerName } from '../common';
-import { RscClientPlugin } from './rsc-client-plugin';
-import { RscServerPlugin } from './rsc-server-plugin';
+import { rspackRscLayerName } from '../common';
 import { RspackRscClientPlugin } from './rspack-rsc-client-plugin';
 import { RscServerPlugin as RspackRscServerPlugin } from './rspack-rsc-server-plugin';
 
@@ -87,7 +85,7 @@ export const rsbuildRscPlugin = ({
             chain.module
               .rule(CHAIN_ID.RULE.JS)
               .oneOf('rsc-server')
-              .issuerLayer(webpackRscLayerName)
+              .issuerLayer(rspackRscLayerName)
               .exclude.add(/universal[/\\]async_storage/)
               .end()
               .use('rsc-server-loader')
@@ -139,13 +137,13 @@ export const rsbuildRscPlugin = ({
               /AppProxy/,
               routesFileReg,
             ])
-            .layer(webpackRscLayerName)
+            .layer(rspackRscLayerName)
             .end();
 
           chain.module
-            .rule(webpackRscLayerName)
-            .issuerLayer(webpackRscLayerName)
-            .resolve.conditionNames.add(webpackRscLayerName)
+            .rule(rspackRscLayerName)
+            .issuerLayer(rspackRscLayerName)
+            .resolve.conditionNames.add(rspackRscLayerName)
             .add('...');
 
           chain.module
@@ -168,9 +166,7 @@ export const rsbuildRscPlugin = ({
         };
 
         const addServerRscPlugin = () => {
-          const ServerPlugin = isRspack
-            ? RspackRscServerPlugin
-            : RscServerPlugin;
+          const ServerPlugin = RspackRscServerPlugin;
           chain.plugin('rsc-server-plugin').use(ServerPlugin, [
             {
               entryPath2Name,
@@ -192,9 +188,7 @@ export const rsbuildRscPlugin = ({
         };
 
         const addRscClientPlugin = () => {
-          const ClientPlugin = isRspack
-            ? RspackRscClientPlugin
-            : RscClientPlugin;
+          const ClientPlugin = RspackRscClientPlugin;
           chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 

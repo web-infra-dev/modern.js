@@ -19,8 +19,6 @@ import type {
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
   ModifyServerRoutesFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
   OnAfterDeployFn,
   OnAfterDevFn,
   OnBeforeDeployFn,
@@ -49,8 +47,6 @@ export type {
   ModifyResolvedConfigFn,
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
   OnAfterDeployFn,
   OnBeforeDeployFn,
   OnBeforeDevFn,
@@ -96,10 +92,6 @@ export function initHooks<
       createAsyncHook<ModifyBundlerChainFn<ExtendBuildUtils>>(),
     modifyRspackConfig:
       createAsyncHook<ModifyRspackConfigFn<ExtendBuildUtils>>(),
-    modifyWebpackChain:
-      createAsyncHook<ModifyWebpackChainFn<ExtendBuildUtils>>(),
-    modifyWebpackConfig:
-      createAsyncHook<ModifyWebpackConfigFn<ExtendBuildUtils>>(),
     modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),

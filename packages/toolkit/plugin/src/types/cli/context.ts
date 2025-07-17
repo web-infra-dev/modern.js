@@ -1,8 +1,5 @@
 import type { ServerRoute } from '@modern-js/types';
-import type {
-  UniBuilderInstance,
-  UniBuilderWebpackInstance,
-} from '@modern-js/uni-builder';
+import type { UniBuilderInstance } from '@modern-js/uni-builder';
 import type { Hooks } from '../../cli/hooks';
 import type { CLIPluginAPI } from './api';
 import type { CLIPlugin, CLIPluginExtends } from './plugin';
@@ -36,9 +33,9 @@ export type AppContext<Extends extends CLIPluginExtends> = {
   // cli plugins list
   plugins: CLIPlugin<Extends>[];
   // bundler type
-  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
+  bundlerType?: 'rspack';
   // bundler instance
-  builder?: UniBuilderInstance | UniBuilderWebpackInstance;
+  builder?: UniBuilderInstance;
   // current server port
   port?: number;
   // current server host name

@@ -1,6 +1,6 @@
 import { promisify } from 'util';
 import { logger } from '@modern-js/utils/logger';
-import type { LoaderContext } from 'webpack';
+import type { Rspack } from '@rsbuild/core';
 import { generateClient } from './generateClient';
 
 type Context = {
@@ -14,7 +14,7 @@ type Context = {
 };
 
 export default async function loader(
-  this: LoaderContext<Context>,
+  this: Rspack.LoaderContext<Context>,
   source: string,
 ) {
   this.cacheable();
@@ -23,7 +23,7 @@ export default async function loader(
   const shouldSkip = (compileTarget: string) => {
     return (
       target === compileTarget ||
-      (Array.isArray(target) && target.includes(compileTarget))
+      (Array.isArray(target) && (target as string[]).includes(compileTarget))
     );
   };
 

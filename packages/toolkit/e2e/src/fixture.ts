@@ -33,28 +33,3 @@ export interface UseFixtureOptions {
    */
   copy?: boolean;
 }
-
-/**
- * Use fixture package as the current working directory.
- * It will try to read `builder.fixture.js` as builder options in the fixture package.
- * By default it will enable `webpack` option so that dist files will be output to a temporary directory.
- * @param id Relative path or a resolvable package name.
- * @returns
- */
-export const useFixture = async (id: string, options?: UseFixtureOptions) => {
-  const pkgRoot = resolveFixturePackage(id);
-  let cwd = pkgRoot;
-  if (options?.copy) {
-    cwd = getTemplatePath('modern-js/stub-builder/e2e');
-    await fs.copy(pkgRoot, cwd, {
-      filter: isNonSymbolicLink,
-    });
-  }
-  const userOptions = resolveFixtureBuilderOptions(cwd);
-  const ret: Record<any, any> = {
-    cwd,
-    webpack: true,
-    ...userOptions,
-  };
-  return ret;
-};

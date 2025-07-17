@@ -118,30 +118,6 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
           });
           continue;
         }
-
-        // compatible with `html-webpack-plugin`
-        const isHtmlWebpackPlugin = values.some(item => {
-          const name = item?.name || item.constructor?.name;
-          return name === 'HtmlWebpackPlugin';
-        });
-        if (isHtmlWebpackPlugin) {
-          chain.plugin(id).tap(options => {
-            if (!options.length) {
-              return options;
-            }
-
-            if (disableHtmlMinify || options[0].minify === false) {
-              options[0].minify = false;
-              return options;
-            }
-            const userMinifyOption = options[0].minify;
-
-            options[0].minify = userMinifyOption
-              ? merge(minifyOptions, userMinifyOption)
-              : minifyOptions;
-            return options;
-          });
-        }
       }
     });
   },

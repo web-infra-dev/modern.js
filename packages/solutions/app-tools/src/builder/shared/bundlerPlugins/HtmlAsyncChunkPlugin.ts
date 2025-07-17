@@ -1,20 +1,16 @@
-import type {
-  HtmlWebpackPlugin,
-  Rspack,
-  webpack,
-} from '@modern-js/uni-builder';
+import type { Rspack } from '@modern-js/uni-builder';
 
 export class HtmlAsyncChunkPlugin {
   name: string;
 
-  htmlWebpackPlugin: typeof HtmlWebpackPlugin;
+  htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin;
 
-  constructor(htmlWebpackPlugin: typeof HtmlWebpackPlugin) {
+  constructor(htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin) {
     this.name = 'HtmlAsyncChunkPlugin';
     this.htmlWebpackPlugin = htmlWebpackPlugin;
   }
 
-  apply(compiler: webpack.Compiler | Rspack.Compiler) {
+  apply(compiler: Rspack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
       const hooks = this.htmlWebpackPlugin.getHooks(compilation as any);
 

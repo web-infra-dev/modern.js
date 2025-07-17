@@ -8,7 +8,7 @@ import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 // TODO 导出有限内容
 export * from './config';
-export type { webpack, Rspack } from '@modern-js/uni-builder';
+export type { Rspack } from '@modern-js/uni-builder';
 export type {
   ServerUserConfig,
   ServerNormalizedConfig,

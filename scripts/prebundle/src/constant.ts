@@ -77,7 +77,6 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       'glob',
       'chalk',
-      'webpack-chain',
       {
         name: 'signale',
         externals: {
@@ -133,26 +132,6 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/uni-builder',
     dependencies: [
       {
-        name: 'babel-plugin-lodash',
-        ignoreDts: true,
-        externals: {
-          // should keep glob v7 (windowsPathsNoEscape by default)
-          glob: '@modern-js/utils/glob',
-        },
-        // Fix the deprecated babel API
-        // https://github.com/lodash/babel-plugin-lodash/issues/259
-        // https://github.com/lodash/babel-plugin-lodash/pull/261
-        beforeBundle(task) {
-          const mainFile = join(task.depPath, 'lib/index.js');
-          replaceFileContent(mainFile, content => {
-            return content.replace(
-              '(0, _types.isModuleDeclaration)(node)',
-              '(0, _types.isImportDeclaration)(node) || (0, _types.isExportDeclaration)(node)',
-            );
-          });
-        },
-      },
-      {
         name: 'postcss-load-config',
         externals: {
           yaml: 'yaml',
@@ -173,90 +152,6 @@ export const TASKS: TaskConfig[] = [
               `${content.replaceAll('await __import', 'await import')}`,
           );
         },
-      },
-    ],
-  },
-  {
-    // Todo: rename
-    packageDir: 'solutions/module-tools',
-    packageName: '@modern-js/module-tools',
-    dependencies: [
-      '@rollup/plugin-json',
-      'normalize-path',
-      'signal-exit',
-      'p-map',
-      'rollup',
-      'find-up',
-      '@svgr/core',
-      '@svgr/plugin-jsx',
-      '@svgr/plugin-svgo',
-      {
-        name: 'rollup-plugin-dts',
-        externals: {
-          typescript: 'typescript',
-        },
-        ignoreDts: true,
-        emitDts: false,
-        clear: false,
-      },
-      {
-        name: 'less',
-        externals: {
-          // needle is an optional dependency and no need to bundle it.
-          needle: 'needle',
-        },
-        afterBundle(task) {
-          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
-            content.replace(
-              `declare module "less" {\n    export = less;\n}`,
-              `export = Less;`,
-            ),
-          );
-        },
-      },
-      {
-        name: 'sass',
-        externals: {
-          chokidar: '@modern-js/utils/chokidar',
-        },
-        afterBundle(task) {
-          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
-        },
-      },
-      {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
       },
     ],
   },
