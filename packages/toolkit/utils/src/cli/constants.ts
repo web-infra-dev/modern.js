@@ -73,6 +73,6 @@ export const LOADER_ROUTES_DIR = `loader-routes`;
  */
 export const DEFAULT_DEV_HOST = '0.0.0.0';
 
-export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
+export const INTERNAL_RUNTIME_PLUGINS: InternalPlugins = {
   '@modern-js/runtime': '@modern-js/runtime/cli',
 };
