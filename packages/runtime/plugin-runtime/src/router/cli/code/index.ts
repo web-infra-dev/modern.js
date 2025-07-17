@@ -4,7 +4,7 @@ import type {
   AppTools,
   AppToolsContext,
 } from '@modern-js/app-tools';
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import type {
   Entrypoint,
   NestedRouteForCli,

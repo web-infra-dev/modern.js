@@ -1,61 +1,40 @@
 # Plugin System
 
-Modern.js adopts a highly extensible, plugin-based architecture, where its core functionalities and extended capabilities are implemented through plugins.  The plugin system not only ensures the framework's flexibility but also provides developers with powerful customization options. This document focuses on how to write Modern.js plugins, helping you quickly get started with plugin development.
+Modern.js adopts a highly extensible, plugin-based architecture, where its core functionalities and extended capabilities are implemented through plugins. The plugin system not only ensures the framework's flexibility but also provides developers with powerful customization options. This document focuses on how to write Modern.js plugins, helping you quickly get started with plugin development.
 
 ## Core Concept: Everything is a Plugin
 
 Modern.js adheres to the design philosophy of "everything is a plugin," modularizing the framework's various functional components and assembling and extending them through plugins. This design brings several advantages, including:
 
--   **High Cohesion, Low Coupling:** Each functional module is independently developed, tested, and maintained, reducing system complexity.
--   **Flexible and Extensible:** Users can easily customize the framework's behavior by writing or combining plugins without modifying the core code.
--   **Easy to Reuse:** Plugins can be shared across projects, improving development efficiency.
--   **Progressive Enhancement:** Plugins are introduced on demand, without the complexity of carrying all functionalities from the start.
+- **High Cohesion, Low Coupling:** Each functional module is independently developed, tested, and maintained, reducing system complexity.
+- **Flexible and Extensible:** Users can easily customize the framework's behavior by writing or combining plugins without modifying the core code.
+- **Easy to Reuse:** Plugins can be shared across projects, improving development efficiency.
+- **Progressive Enhancement:** Plugins are introduced on demand, without the complexity of carrying all functionalities from the start.
 
 ## Plugin Types and Use Cases
 
 Modern.js provides three main plugin types, corresponding to different stages of application development:
 
-**CLI Plugins:**
-    -   **Active Stage:** Build time (when executing the `modern` command).
-    -   **Typical Scenarios:**
-        -   Extending command-line tools.
-        -   Modifying build configurations.
-        -   Listening for file changes.
-        -   Controlling the build process.
-    -   **Configuration Method:** The `plugins` field in `modern.config.ts`.
+**CLI Plugins:** - **Active Stage:** Build time (when executing the `modern` command). - **Typical Scenarios:** - Extending command-line tools. - Modifying build configurations. - Listening for file changes. - Controlling the build process. - **Configuration Method:** The `plugins` field in `modern.config.ts`.
 
-**Runtime Plugins:**
-    -   **Active Stage:** Application runtime (browser/Node.js environment).
-    -   **Typical Scenarios:**
-        -   Initializing global state or services.
-        -   Encapsulating React Higher-Order Components (HOCs).
-        -   Intercepting or modifying routing behavior.
-        -   Controlling the rendering process.
-    -   **Configuration Method:** The `plugins` field in `src/modern.runtime.ts`.
+**Runtime Plugins:** - **Active Stage:** Application runtime (browser/Node.js environment). - **Typical Scenarios:** - Initializing global state or services. - Encapsulating React Higher-Order Components (HOCs). - Intercepting or modifying routing behavior. - Controlling the rendering process. - **Configuration Method:** The `plugins` field in `src/modern.runtime.ts`.
 
-{/* **Server Plugins:**
-    -   **Active Stage:** Server request processing stage.
-    -   **Typical Scenarios:**
-        -   Adding custom middleware.
-        -   Extending server-side APIs.
-        -   Customizing SSR logic.
-        -   Integrating with backend frameworks.
-    -   **Configuration Method:** The `plugins` field in `server/modern.server.ts`. */}
+{/_ **Server Plugins:** - **Active Stage:** Server request processing stage. - **Typical Scenarios:** - Adding custom middleware. - Extending server-side APIs. - Customizing SSR logic. - Integrating with backend frameworks. - **Configuration Method:** The `plugins` field in `server/modern.server.ts`. _/}
 
 ## Plugin Structure
 
 A typical Modern.js plugin consists of the following key parts:
 
 ```ts
-import type { Plugin } from '@modern-js/plugin-v2';
+import type { Plugin } from '@modern-js/plugin';
 
 const myPlugin: Plugin = {
   name: 'my-awesome-plugin', // The unique identifier of the plugin (required)
 
   // Plugin dependencies and execution order (optional)
-  pre: [],    // List of plugin names to execute before this plugin, defaults to an empty array
-  post: [],   // List of plugin names to execute after this plugin, defaults to an empty array
-  required: [],// List of required plugins; if a dependent plugin is not registered, an error will be thrown, defaults to an empty array
+  pre: [], // List of plugin names to execute before this plugin, defaults to an empty array
+  post: [], // List of plugin names to execute after this plugin, defaults to an empty array
+  required: [], // List of required plugins; if a dependent plugin is not registered, an error will be thrown, defaults to an empty array
   usePlugins: [], // List of plugin instances used internally, defaults to an empty array
 
   // Register new Hooks (optional)
@@ -64,8 +43,12 @@ const myPlugin: Plugin = {
   // The entry function of the plugin (required)
   setup(api) {
     // The core logic of the plugin, calling plugin APIs through the api object
-    api.modifyWebpackConfig(config => { /* ... */ });
-    api.onPrepare(() => { /* ... */ });
+    api.modifyWebpackConfig(config => {
+      /* ... */
+    });
+    api.onPrepare(() => {
+      /* ... */
+    });
     // ... Other API calls
   },
 };
@@ -77,8 +60,8 @@ export default myPlugin;
 
 ##### `name`
 
--   Type: `string`
--   Description:  Identifies the name of the plugin.  This name must be unique within the plugin system; otherwise, the plugin will fail to load.
+- Type: `string`
+- Description: Identifies the name of the plugin. This name must be unique within the plugin system; otherwise, the plugin will fail to load.
 
 :::info
 The plugin names declared in `pre`, `post`, and `required` refer to this `name` field.
@@ -86,28 +69,28 @@ The plugin names declared in `pre`, `post`, and `required` refer to this `name` 
 
 ##### `setup`
 
--   Type: `(api: PluginAPI) => MaybePromise<void>`
--   Description: The main entry point for the plugin's logic.
+- Type: `(api: PluginAPI) => MaybePromise<void>`
+- Description: The main entry point for the plugin's logic.
 
 ###### `api`
 
--   Type: `PluginAPI`
--   Description: The plugin's API, containing the Hooks and utility functions supported by the plugin.
+- Type: `PluginAPI`
+- Description: The plugin's API, containing the Hooks and utility functions supported by the plugin.
 
 ##### `pre`
 
--   Type: `string[]`
--   Description: Used to insert the plugin execution order. Plugins declared in `pre` will be executed before this plugin.
+- Type: `string[]`
+- Description: Used to insert the plugin execution order. Plugins declared in `pre` will be executed before this plugin.
 
 ##### `post`
 
--   Type: `string[]`
--   Description: Used to determine the plugin execution order. Plugins declared in `post` will be executed after this plugin.
+- Type: `string[]`
+- Description: Used to determine the plugin execution order. Plugins declared in `post` will be executed after this plugin.
 
 ##### `required`
 
--   Type: `string[]`
--   Description: Other plugins that this plugin depends on. Before running, it will check if the dependent plugins are registered.
+- Type: `string[]`
+- Description: Other plugins that this plugin depends on. Before running, it will check if the dependent plugins are registered.
 
 :::info
 If unregistered plugin names are configured in `pre` or `post`, these plugin names will be **automatically ignored** and will not affect the execution of other plugins.
@@ -123,6 +106,7 @@ If you need to explicitly declare that the plugins that the current plugin depen
 :::info
 Plugins declared in `usePlugins` are executed before the current plugin by default. To execute them after, use the `post` declaration.
 :::
+
 ##### `registryHooks`
 
 - Type: `Record<string, PluginHook<(...args: any[]) => any>>`
@@ -134,104 +118,106 @@ The core of the Modern.js plugin system is its Hook model, which defines the com
 
 ### Async Hook
 
--   **Characteristics:**
-    -   Hook functions are executed asynchronously, supporting `async/await`.
-    -   The return value of the previous Hook function is passed as the first argument to the next Hook function.
-    -   Finally returns the return value of the last Hook function.
--   **Use Cases:** Scenarios involving asynchronous operations (such as network requests, file reading/writing, etc.).
--   **Creation Method:** Created using `createAsyncHook`.
+- **Characteristics:**
+  - Hook functions are executed asynchronously, supporting `async/await`.
+  - The return value of the previous Hook function is passed as the first argument to the next Hook function.
+  - Finally returns the return value of the last Hook function.
+- **Use Cases:** Scenarios involving asynchronous operations (such as network requests, file reading/writing, etc.).
+- **Creation Method:** Created using `createAsyncHook`.
 
 Example:
 
 ```ts
 // Define Hooks
-import { createAsyncHook } from '@modern-js/plugin-v2';
+import { createAsyncHook } from '@modern-js/plugin';
 
 export type AfterPrepareFn = () => Promise<void> | void;
 export const onAfterPrepare = createAsyncHook<AfterPrepareFn>();
 
 // Register Hooks in the plugin
 const myPlugin = () => ({
-  name: "my-plugin",
+  name: 'my-plugin',
   registryHooks: {
     onAfterPrepare,
   },
-  setup: (api) => {
+  setup: api => {
     api.onPrepare(async () => {
       // Use the registered Hooks in the plugin
       const hooks = api.getHooks();
       await hooks.onAfterPrepare.call();
     });
-  }
+  },
 });
 
 // Use Hook in other plugins
 const myPlugin2 = () => ({
-  name: "my-plugin-2",
-  setup: (api) => {
+  name: 'my-plugin-2',
+  setup: api => {
     api.onAfterPrepare(async () => {
       // TODO
     });
-  }
-})
+  },
+});
 ```
 
 ### Sync Hook (Synchronous Hook)
 
--   **Characteristics:**
-    -   Hook functions are executed synchronously.
-    -   The return value of the previous Hook function is passed as the first argument to the next Hook function.
-    -   Finally returns the return value of the last Hook function.
--   **Use Cases:** Scenarios where data needs to be modified synchronously (such as modifying configurations, routes, etc.).
--   **Creation Method:** Created using `createSyncHook`.
+- **Characteristics:**
+  - Hook functions are executed synchronously.
+  - The return value of the previous Hook function is passed as the first argument to the next Hook function.
+  - Finally returns the return value of the last Hook function.
+- **Use Cases:** Scenarios where data needs to be modified synchronously (such as modifying configurations, routes, etc.).
+- **Creation Method:** Created using `createSyncHook`.
 
 Example:
 
 ```ts
 // Define Hooks
-import { createSyncHook } from '@modern-js/plugin-v2';
+import { createSyncHook } from '@modern-js/plugin';
 
-type RouteObject = {/** TODO **/};
+type RouteObject = {
+  /** TODO **/
+};
 const modifyRoutes = createSyncHook<(routes: RouteObject[]) => RouteObject[]>();
 
 // Register Hooks in the plugin
 const myPlugin = () => ({
-  name: "my-plugin",
+  name: 'my-plugin',
   registryHooks: {
     modifyRoutes,
   },
-  setup: (api) => {
+  setup: api => {
     api.onPrepare(async () => {
       const routes = {};
       // Use registered Hooks in the plugin
       const hooks = api.getHooks();
       const routesResult = hooks.modifyRoutes.call(routes);
     });
-  }
+  },
 });
 
 // Other plugins use Hooks
 const myPlugin2 = () => ({
-  name: "my-plugin",
-  setup: (api) => {
-    api.modifyRoutes(async (routes) => {
+  name: 'my-plugin',
+  setup: api => {
+    api.modifyRoutes(async routes => {
       // Modify routes
       return routes;
     });
-  }
+  },
 });
 ```
 
 ## Plugin Development Best Practices
 
--   **Single Responsibility:** Each plugin should focus on implementing a specific, cohesive function. Avoid creating plugins with complex functionalities and unclear responsibilities.
--   **Naming Conventions:** Plugin names should be clear, concise, and follow certain naming conventions (such as `plugin-xxx` or `@scope/plugin-xxx`).
--   **Type Safety:** Make full use of TypeScript's type system to ensure the type safety of the plugin API and reduce runtime errors.
--   **Comprehensive Documentation:** Write clear documentation for the plugin, including API descriptions, usage examples, configuration explanations, and change logs.
--   **Thorough Testing:** Conduct unit tests and integration tests on the plugin to ensure its stability, reliability, and compatibility in various scenarios.
--   **Minimize Side Effects:** Plugins should minimize modifications to the external environment (such as global variables, file systems, etc.) to maintain the plugin's independence and portability.
--   **Error Handling:** Plugins should properly handle potential errors to prevent the entire application from crashing due to plugin exceptions.
--   **Performance Optimization:** Pay attention to the performance impact of the plugin, avoid unnecessary calculations and resource consumption, especially in loops or frequently called Hooks.
--   **Version Control:** Follow Semantic Versioning (SemVer) to ensure the backward compatibility of the plugin and facilitate user upgrades.
+- **Single Responsibility:** Each plugin should focus on implementing a specific, cohesive function. Avoid creating plugins with complex functionalities and unclear responsibilities.
+- **Naming Conventions:** Plugin names should be clear, concise, and follow certain naming conventions (such as `plugin-xxx` or `@scope/plugin-xxx`).
+- **Type Safety:** Make full use of TypeScript's type system to ensure the type safety of the plugin API and reduce runtime errors.
+- **Comprehensive Documentation:** Write clear documentation for the plugin, including API descriptions, usage examples, configuration explanations, and change logs.
+- **Thorough Testing:** Conduct unit tests and integration tests on the plugin to ensure its stability, reliability, and compatibility in various scenarios.
+- **Minimize Side Effects:** Plugins should minimize modifications to the external environment (such as global variables, file systems, etc.) to maintain the plugin's independence and portability.
+- **Error Handling:** Plugins should properly handle potential errors to prevent the entire application from crashing due to plugin exceptions.
+- **Performance Optimization:** Pay attention to the performance impact of the plugin, avoid unnecessary calculations and resource consumption, especially in loops or frequently called Hooks.
+- **Version Control:** Follow Semantic Versioning (SemVer) to ensure the backward compatibility of the plugin and facilitate user upgrades.
 
 Following these best practices can help you develop high-quality, easy-to-maintain, and easy-to-use Modern.js plugins.

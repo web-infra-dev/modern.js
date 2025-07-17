@@ -1,6 +1,6 @@
-import type { Plugin } from '@modern-js/plugin-v2';
-import type { InternalRuntimeContext } from '@modern-js/plugin-v2/runtime';
-import { runtime } from '@modern-js/plugin-v2/runtime';
+import type { Plugin } from '@modern-js/plugin';
+import type { InternalRuntimeContext } from '@modern-js/plugin/runtime';
+import { runtime } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { compatPlugin } from '../compat';
 import { handleSetupResult } from '../compat/hooks';

@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-v2': patch
+'@modern-js/plugin': patch
 ---
 
 fix: plugin merge config for array type

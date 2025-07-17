@@ -1,4 +1,4 @@
-import type { InternalServerContext, ResetEvent } from '@modern-js/plugin-v2';
+import type { InternalServerContext, ResetEvent } from '@modern-js/plugin';
 import type {
   AfterMatchContext,
   AfterRenderContext,

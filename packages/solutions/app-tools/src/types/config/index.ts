@@ -1,4 +1,4 @@
-import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin-v2';
+import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin';
 import type { BffUserConfig, ServerUserConfig } from '@modern-js/server-core';
 import type {
   LooseRsbuildPlugin,

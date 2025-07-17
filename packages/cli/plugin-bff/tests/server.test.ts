@@ -1,6 +1,6 @@
 import path from 'path';
-import type { Plugin as BasePlugin } from '@modern-js/plugin-v2';
-import { server } from '@modern-js/plugin-v2/server';
+import type { Plugin as BasePlugin } from '@modern-js/plugin';
+import { server } from '@modern-js/plugin/server';
 import {
   type ServerConfig,
   type ServerPlugin,

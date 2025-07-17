@@ -1,6 +1,6 @@
 import path from 'path';
 import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import * as templates from './code/templates';

@@ -4,7 +4,7 @@ import type {
   AppToolsFeatureHooks,
   AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
-import type { CollectAsyncHook } from '@modern-js/plugin-v2';
+import type { CollectAsyncHook } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import type { AppendEntryCodeFn } from './hooks';

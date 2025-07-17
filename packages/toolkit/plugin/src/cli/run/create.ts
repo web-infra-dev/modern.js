@@ -16,7 +16,7 @@ import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
-const debug = createDebugger('plugin-v2');
+const debug = createDebugger('plugin');
 
 export const createCli = <Extends extends CLIPluginExtends>() => {
   let initOptions: CLIRunOptions<Extends>;

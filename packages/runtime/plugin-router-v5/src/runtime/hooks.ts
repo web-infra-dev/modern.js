@@ -1,4 +1,4 @@
-import { createSyncHook } from '@modern-js/plugin-v2';
+import { createSyncHook } from '@modern-js/plugin';
 import type { RouteProps } from 'react-router-dom';
 import type { SingleRouteConfig } from './plugin';
 

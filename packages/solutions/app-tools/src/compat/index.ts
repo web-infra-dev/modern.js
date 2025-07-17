@@ -1,4 +1,4 @@
-import { createAsyncHook } from '@modern-js/plugin-v2';
+import { createAsyncHook } from '@modern-js/plugin';
 import type { AppTools, CliPluginFuture } from '../types';
 import { getHookRunners } from './hooks';
 

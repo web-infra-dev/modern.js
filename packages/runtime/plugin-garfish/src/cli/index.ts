@@ -4,7 +4,7 @@ import type {
   AppUserConfig,
   CliPluginFuture,
 } from '@modern-js/app-tools';
-import { createCollectAsyncHook } from '@modern-js/plugin-v2';
+import { createCollectAsyncHook } from '@modern-js/plugin';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import { logger } from '../util';
 import { generateCode } from './code';

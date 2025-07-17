@@ -215,7 +215,7 @@
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",
     "@modern-js/plugin-data-loader": "workspace:*",
-    "@modern-js/plugin-v2": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
     "@modern-js/render": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",

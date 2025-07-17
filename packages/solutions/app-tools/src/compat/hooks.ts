@@ -2,7 +2,7 @@ import type {
   InternalContext,
   RuntimePluginConfig,
   ServerPluginConfig,
-} from '@modern-js/plugin-v2';
+} from '@modern-js/plugin';
 import type {
   Entrypoint,
   HtmlPartials,

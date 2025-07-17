@@ -1,4 +1,4 @@
-import { createAsyncHook, createAsyncPipelineHook } from '@modern-js/plugin-v2';
+import { createAsyncHook, createAsyncPipelineHook } from '@modern-js/plugin';
 import type {
   AfterMatchFn,
   AfterRenderFn,

@@ -1,5 +1,5 @@
 import path from 'path';
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import { createProdServer } from '@modern-js/prod-server';
 import {
   SERVER_DIR,

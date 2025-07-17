@@ -1,6 +1,6 @@
 import type { AppTools } from '@modern-js/app-tools';
-import { createPluginManager } from '@modern-js/plugin-v2';
-import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
+import { createPluginManager } from '@modern-js/plugin';
+import { createContext, initPluginAPI } from '@modern-js/plugin/cli';
 import runtimePlugin from '@modern-js/runtime/cli';
 import plugin, { useHistory, useParams } from '../src';
 import cliPlugin from '../src/cli';

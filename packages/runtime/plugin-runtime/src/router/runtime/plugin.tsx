@@ -1,4 +1,4 @@
-import type { RuntimePluginAPI } from '@modern-js/plugin-v2/runtime';
+import type { RuntimePluginAPI } from '@modern-js/plugin/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import {

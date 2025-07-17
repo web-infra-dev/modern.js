@@ -3,9 +3,9 @@ import { type AppTools } from '@modern-js/app-tools';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import { garfishPlugin, externals } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
-import { createPluginManager, Plugin } from '@modern-js/plugin-v2';
+import { createPluginManager, Plugin } from '@modern-js/plugin';
 import runtimePlugin from '@modern-js/runtime/cli';
-import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
+import { createContext, initPluginAPI } from '@modern-js/plugin/cli';
 import path from 'path';
 
 const CHAIN_ID = {

@@ -5,7 +5,7 @@ import type {
   CliPluginFuture,
   ServerUserConfig,
 } from '@modern-js/app-tools';
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 

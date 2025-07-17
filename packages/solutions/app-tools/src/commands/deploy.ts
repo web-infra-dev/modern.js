@@ -1,4 +1,4 @@
-import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { AppTools } from '../types';
 import { getServerPlugins } from '../utils/loadPlugins';
 

@@ -1,4 +1,4 @@
-import { createAsyncInterruptHook, createSyncHook } from '@modern-js/plugin-v2';
+import { createAsyncInterruptHook, createSyncHook } from '@modern-js/plugin';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import type { RuntimeContext } from '../../core';
 
