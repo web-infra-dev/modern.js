@@ -32,9 +32,6 @@ async function createAllMWAProject(
       const pkgJSON = fs.readJSONSync(
         path.join(cwd, projectName, 'package.json'),
       );
-      pkgJSON.modernConfig = {
-        autoLoadPlugins: true,
-      };
       pkgJSON.engines = {
         node: process.env.NODE_VERSION,
       };
@@ -92,7 +89,7 @@ async function runNewMWAProject(
       hasSSG = true;
       const pkgJSONPath = path.join(tmpDir, project, 'package.json');
       const pkgJSON = fs.readJSONSync(pkgJSONPath, 'utf-8');
-      pkgJSON.modernConfig = { autoLoadPlugins: true, output: { ssg: true } };
+      pkgJSON.modernConfig = { output: { ssg: true } };
       fs.writeJSONSync(pkgJSONPath, pkgJSON, { spaces: 2 });
     }
     if (

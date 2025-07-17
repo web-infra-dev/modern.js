@@ -1,9 +1,6 @@
 import { logger } from '@modern-js/utils';
 
-export function checkIsDuplicationPlugin(
-  plugins: (string | undefined)[],
-  autoLoadPlugin = false,
-) {
+export function checkIsDuplicationPlugin(plugins: (string | undefined)[]) {
   const set = new Set();
   const duplicationPlugins: string[] = [];
   plugins
@@ -20,10 +17,5 @@ export function checkIsDuplicationPlugin(
     logger.warn(
       `Duplicate registration plugins: ${duplicationPlugins.join(',')}.`,
     );
-    if (autoLoadPlugin) {
-      logger.warn(
-        'This is probably because you enabled `autoLoadPlugin` configuration and also registered these plugins manually',
-      );
-    }
   }
 }
