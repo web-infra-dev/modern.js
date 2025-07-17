@@ -12,12 +12,6 @@ export type Entry =
        */
       disableMount?: boolean;
       /**
-       * @deprecated
-       * Using customEntry instead.
-       * Specify the file path of custom bootstrap.
-       */
-      customBootstrap?: string;
-      /**
        * use src/{entryName}/entry.tsx to custom entry
        */
       customEntry?: boolean;

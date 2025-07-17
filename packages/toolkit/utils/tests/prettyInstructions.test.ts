@@ -49,7 +49,6 @@ const mockEntrypoints = [
     entryName: 'main',
     entry: '/example/node_modules/.modern-js/main/index.js',
     isAutoMount: true,
-    customBootstrap: false,
   },
 ];
 

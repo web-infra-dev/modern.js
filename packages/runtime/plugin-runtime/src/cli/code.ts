@@ -63,14 +63,8 @@ export const generateCode = async (
   } = appContext;
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const {
-        entryName,
-        isAutoMount,
-        entry,
-        customEntry,
-        customBootstrap,
-        customServerEntry,
-      } = entrypoint;
+      const { entryName, isAutoMount, entry, customEntry, customServerEntry } =
+        entrypoint;
       const { plugins: runtimePlugins } =
         await hooks._internalRuntimePlugins.call({
           entrypoint,
@@ -97,7 +91,6 @@ export const generateCode = async (
             entry,
             entryName,
             customEntry,
-            customBootstrap,
             mountId,
             enableRsc: config.server.rsc,
             isNestedRouter: !!entrypoint.nestedRoutesEntry,

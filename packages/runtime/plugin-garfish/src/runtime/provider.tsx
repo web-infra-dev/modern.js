@@ -13,13 +13,8 @@ function generateRootDom(dom: HTMLElement, id: string) {
 export function createProvider(
   id?: string,
   {
-    customBootstrap,
     beforeRender,
   }: {
-    customBootstrap?: (
-      App: React.ComponentType,
-      render: RenderFunc,
-    ) => Promise<HTMLElement | Root>;
     beforeRender?: (
       App: React.ComponentType,
       props?: Record<string, any>,
@@ -42,22 +37,14 @@ export function createProvider(
       }) {
         const ModernRoot = createRoot(null);
         const mountNode = generateRootDom(dom, id || 'root');
-        if (customBootstrap) {
-          root = await customBootstrap(ModernRoot, () =>
-            render(
-              <ModernRoot basename={basename} appName={appName} {...props} />,
-              mountNode,
-            ),
-          );
-        } else {
-          if (beforeRender) {
-            await beforeRender(ModernRoot, { basename, appName, ...props });
-          }
-          root = await render(
-            <ModernRoot basename={basename} appName={appName} {...props} />,
-            mountNode,
-          );
+
+        if (beforeRender) {
+          await beforeRender(ModernRoot, { basename, appName, ...props });
         }
+        root = await render(
+          <ModernRoot basename={basename} appName={appName} {...props} />,
+          mountNode,
+        );
       },
       destroy({ dom }: { dom: HTMLElement }) {
         const node = dom.querySelector(`#${id || 'root'}`) || dom;

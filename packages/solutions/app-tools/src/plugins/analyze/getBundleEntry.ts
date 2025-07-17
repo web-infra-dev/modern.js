@@ -80,11 +80,6 @@ export const getBundleEntry = async (
           ? ensureAbsolutePath(appDirectory, entryName)
           : path.dirname(ensureAbsolutePath(appDirectory, entryName)),
         isAutoMount,
-        customBootstrap:
-          typeof value === 'string'
-            ? false
-            : value.customBootstrap &&
-              ensureAbsolutePath(appDirectory, value.customBootstrap),
         fileSystemRoutes: fs
           .statSync(ensureAbsolutePath(appDirectory, entryName))
           .isDirectory()
