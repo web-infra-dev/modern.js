@@ -1,5 +1,4 @@
-import type { MaybeAsync } from '@modern-js/plugin';
-
+type MaybeAsync<I> = I | Promise<I>;
 type TransformCb = (tempalte: string) => MaybeAsync<string>;
 
 export function createTransformStream(fn?: TransformCb) {

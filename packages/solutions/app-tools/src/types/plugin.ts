@@ -1,7 +1,6 @@
 import type {
   AppContext,
   AsyncHook,
-  CollectAsyncHook,
   InternalContext,
   PluginHook,
   PluginHookTap,

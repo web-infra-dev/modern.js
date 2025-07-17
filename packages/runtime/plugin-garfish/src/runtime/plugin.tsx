@@ -1,4 +1,4 @@
-import type { Plugin } from '@modern-js/runtime';
+import type { RuntimePluginFuture } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import GarfishInstance from 'garfish';
 import React from 'react';
@@ -51,80 +51,77 @@ async function initOptions(manifest: Manifest = {}, options: Options = {}) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
+export const garfishPlugin = (
+  userConfig: Config = {},
+): RuntimePluginFuture => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
     setExternal();
-    return {
-      wrapRoot(App) {
-        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
-        const config = merge(pluginConfig.masterApp || {}, userConfig);
-        const { manifest, ...options } = config;
-        logger('createPlugin', config);
-        const promise = initOptions(manifest, options);
-        class GetMicroFrontendApp extends React.Component {
-          state: {
-            MApp: React.FC<MicroComponentProps>;
-            apps: AppMap;
-            appInfoList: ModulesInfo;
-          } = {
-            MApp: () => {
-              logger('MApp init Component Render');
-              return React.createElement('div');
-            },
-            apps: new Proxy(
-              {},
-              {
-                get() {
-                  return () => React.createElement('div');
-                },
+    api.wrapRoot(App => {
+      const pluginConfig: Record<string, any> = api.getRuntimeConfig();
+      const config = merge(pluginConfig.masterApp || {}, userConfig);
+      const { manifest, ...options } = config;
+      logger('createPlugin', config);
+      const promise = initOptions(manifest, options);
+      class GetMicroFrontendApp extends React.Component {
+        state: {
+          MApp: React.FC<MicroComponentProps>;
+          apps: AppMap;
+          appInfoList: ModulesInfo;
+        } = {
+          MApp: () => {
+            logger('MApp init Component Render');
+            return React.createElement('div');
+          },
+          apps: new Proxy(
+            {},
+            {
+              get() {
+                return () => React.createElement('div');
               },
-            ),
-            appInfoList: [],
+            },
+          ),
+          appInfoList: [],
+        };
+
+        constructor(props: any) {
+          super(props);
+          const load = async () => {
+            GarfishInstance.setOptions({
+              ...options,
+              insulationVariable: [
+                ...(options.insulationVariable || []),
+                '_SERVER_DATA',
+              ],
+              apps: [],
+            });
+            const GarfishConfig = await promise;
+            const { appInfoList, apps } = generateApps(GarfishConfig, manifest);
+            GarfishInstance.registerApp(appInfoList);
+            const MApp = generateMApp(GarfishConfig, manifest);
+            logger('initOptions result', { manifest, GarfishConfig });
+            logger('generateApps', { MApp, apps, appInfoList });
+            this.setState({
+              MApp,
+              apps,
+              appInfoList,
+            });
           };
-
-          constructor(props: any) {
-            super(props);
-            const load = async () => {
-              GarfishInstance.setOptions({
-                ...options,
-                insulationVariable: [
-                  ...(options.insulationVariable || []),
-                  '_SERVER_DATA',
-                ],
-                apps: [],
-              });
-              const GarfishConfig = await promise;
-              const { appInfoList, apps } = generateApps(
-                GarfishConfig,
-                manifest,
-              );
-              GarfishInstance.registerApp(appInfoList);
-              const MApp = generateMApp(GarfishConfig, manifest);
-              logger('initOptions result', { manifest, GarfishConfig });
-              logger('generateApps', { MApp, apps, appInfoList });
-              this.setState({
-                MApp,
-                apps,
-                appInfoList,
-              });
-            };
-            load();
-          }
-
-          render() {
-            logger('GarfishProvider state', this.state);
-            return (
-              <GarfishProvider value={this.state}>
-                <App {...this.props} />
-              </GarfishProvider>
-            );
-          }
+          load();
         }
 
-        return GetMicroFrontendApp;
-      },
-    };
+        render() {
+          logger('GarfishProvider state', this.state);
+          return (
+            <GarfishProvider value={this.state}>
+              <App {...this.props} />
+            </GarfishProvider>
+          );
+        }
+      }
+
+      return GetMicroFrontendApp;
+    });
   },
 });
 

@@ -1,5 +1,5 @@
 import type { AppToolsNormalizedConfig } from '../../../types';
-import type { AppToolsContext } from '../../../types/new';
+import type { AppToolsContext } from '../../../types/plugin';
 
 export type CreatePreset = (
   appContext: AppToolsContext,

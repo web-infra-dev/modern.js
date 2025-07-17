@@ -1488,9 +1488,6 @@ importers:
 
   packages/runtime/plugin-router-v5:
     dependencies:
-      '@modern-js/plugin':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin
       '@modern-js/plugin-v2':
         specifier: workspace:*
         version: link:../../toolkit/plugin-v2
@@ -1628,9 +1625,6 @@ importers:
       '@loadable/server':
         specifier: 5.15.3
         version: 5.15.3(@loadable/component@5.15.3(react@19.1.0))(react@19.1.0)
-      '@modern-js/plugin':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin
       '@modern-js/plugin-data-loader':
         specifier: workspace:*
         version: link:../../cli/plugin-data-loader
@@ -1921,9 +1915,6 @@ importers:
 
   packages/server/core:
     dependencies:
-      '@modern-js/plugin':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin
       '@modern-js/plugin-v2':
         specifier: workspace:*
         version: link:../../toolkit/plugin-v2
@@ -2434,9 +2425,6 @@ importers:
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
-      '@modern-js/plugin':
-        specifier: workspace:*
-        version: link:../../toolkit/plugin
       '@modern-js/plugin-data-loader':
         specifier: workspace:*
         version: link:../../cli/plugin-data-loader
@@ -2671,34 +2659,6 @@ importers:
       esbuild:
         specifier: 0.25.5
         version: 0.25.5
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  packages/toolkit/plugin:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
     devDependencies:
       '@scripts/build':
         specifier: workspace:*

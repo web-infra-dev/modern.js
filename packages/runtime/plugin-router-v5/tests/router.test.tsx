@@ -1,5 +1,5 @@
 import { createApp } from '@modern-js/runtime';
-import type { RuntimePlugin } from '@modern-js/runtime/plugin';
+import type { RuntimePluginFuture } from '@modern-js/runtime/plugin';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type React from 'react';
 import { useHistory } from '../src';
@@ -9,7 +9,7 @@ import createRouterPlugin, {
 } from '../src/runtime';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
-const testPlugin: RuntimePlugin = {
+const testPlugin: RuntimePluginFuture = {
   name: 'test',
   setup: api => {
     api.wrapRoot(App1 => App1);
@@ -18,7 +18,7 @@ const testPlugin: RuntimePlugin = {
 describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
     const AppWrapper = createApp({
-      plugins: [testPlugin, createRouterPlugin({})],
+      plugins: [testPlugin, createRouterPlugin({}) as any],
     })(App);
 
     interface Props {
@@ -42,7 +42,7 @@ describe('@modern-js/plugin-router-v5', () => {
             routes: [{ path: '/', component: App as any }],
             globalApp: App,
           },
-        }),
+        }) as any,
       ],
     })();
 
@@ -94,7 +94,7 @@ describe('@modern-js/plugin-router-v5', () => {
             ],
           },
           supportHtml5History: false, // use hash router
-        }),
+        }) as any,
       ],
     })(App);
 
@@ -136,7 +136,7 @@ describe('@modern-js/plugin-router-v5', () => {
               return modifyFn?.(routes);
             });
           },
-        } as RuntimePlugin,
+        } as any,
         createRouterPlugin({
           routesConfig: { routes: [{ path: '/' }] },
         }),

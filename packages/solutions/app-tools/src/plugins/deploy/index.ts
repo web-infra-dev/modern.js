@@ -4,7 +4,7 @@ import type {
   AppToolsNormalizedConfig,
   CliPluginFuture,
 } from '../../types';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';

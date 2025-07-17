@@ -1,4 +1,4 @@
-import type { Plugin, RuntimePluginFuture } from './core/plugin';
+import type { RuntimePluginFuture } from './core/plugin';
 import type { RouterConfig } from './router/internal';
 
 export const isBrowser = () =>
@@ -10,7 +10,7 @@ export interface AppConfig {
 }
 
 export interface RuntimeConfig {
-  plugins?: (Plugin | RuntimePluginFuture)[];
+  plugins?: RuntimePluginFuture[];
   [key: string]: any;
 }
 

@@ -9,7 +9,7 @@ import type {
   AppToolsExtendAPI,
   AppToolsExtendContext,
   AppToolsExtendHooks,
-} from '../new';
+} from '../plugin';
 import type { DeployUserConfig } from './deploy';
 import type { DevUserConfig } from './dev';
 import type { ExperimentsUserConfig } from './experiments';

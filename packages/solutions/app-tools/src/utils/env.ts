@@ -1,5 +1,5 @@
 import { cutNameByHyphen } from '@modern-js/utils/universal';
-import type { AppToolsContext } from '../types/new';
+import type { AppToolsContext } from '../types/plugin';
 
 export function getAutoInjectEnv(appContext: AppToolsContext) {
   const { metaName } = appContext;

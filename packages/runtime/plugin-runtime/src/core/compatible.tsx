@@ -11,7 +11,7 @@ import {
   type TRuntimeContext,
 } from './context/runtime';
 import { createLoaderManager } from './loader/loaderManager';
-import { type Plugin, registerPlugin } from './plugin';
+import { registerPlugin } from './plugin';
 import type { RuntimeExtends } from './plugin/types';
 import { wrapRuntimeContextProvider } from './react/wrapper';
 import type { TSSRContext } from './types';
@@ -19,7 +19,7 @@ import type { TSSRContext } from './types';
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
-  plugins: (Plugin | RuntimePlugin<RuntimeExtends>)[];
+  plugins: RuntimePlugin<RuntimeExtends>[];
   /**
    * In the test cases, we need to execute multiple createApp instances simultaneously, and they must not share the runtime.
    */

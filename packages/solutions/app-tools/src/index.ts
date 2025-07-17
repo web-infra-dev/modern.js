@@ -40,7 +40,7 @@ import type {
   GenerateEntryCodeFn,
   ModifyEntrypointsFn,
   ModifyFileSystemRoutesFn,
-} from './types/new';
+} from './types/plugin';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 import { initAppContext } from './utils/initAppContext';
 import { restart } from './utils/restart';

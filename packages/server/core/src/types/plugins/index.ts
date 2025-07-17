@@ -1,4 +1,4 @@
-export * from './new';
+export * from './plugin';
 export type {
   ServerConfig,
   CacheConfig,

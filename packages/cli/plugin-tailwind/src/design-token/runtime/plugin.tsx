@@ -1,4 +1,4 @@
-import type { Plugin } from '@modern-js/runtime';
+import type { RuntimePluginFuture } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import React, { useContext } from 'react';
 
@@ -16,12 +16,12 @@ interface DesignTokenConfig {
 }
 export const designTokenPlugin = (
   userConfig: DesignTokenConfig = {},
-): Plugin => ({
+): RuntimePluginFuture => ({
   name: '@modern-js/plugin-design-token',
 
-  setup: api => ({
-    wrapRoot(App) {
-      const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+  setup: api => {
+    api.wrapRoot(App => {
+      const pluginConfig: Record<string, any> = api.getRuntimeConfig();
       const { options } = merge(pluginConfig.designToken || {}, userConfig);
       const DesignTokenAppWrapper = (props: any) => {
         const {
@@ -57,8 +57,8 @@ export const designTokenPlugin = (
       };
 
       return DesignTokenAppWrapper;
-    },
-  }),
+    });
+  },
 });
 
 export default designTokenPlugin;

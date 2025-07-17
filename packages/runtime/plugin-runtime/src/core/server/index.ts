@@ -1,11 +1,11 @@
-import type { Plugin } from '../plugin';
+import type { RuntimePluginFuture } from '../plugin';
 
 // react component
 export { PreRender, NoSSR, NoSSRCache } from './react';
 
-export const ssr = (_config: any): Plugin => ({
+export const ssr = (_config: any): RuntimePluginFuture => ({
   name: '@modern-js/plugin-ssr',
-  setup: () => ({}),
+  setup: _api => {},
 });
 
 export default ssr;

@@ -8,7 +8,7 @@ import {
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 
 export function getBuilderEnvironments(
   normalizedConfig: AppNormalizedConfig,
