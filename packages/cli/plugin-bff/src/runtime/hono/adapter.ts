@@ -3,8 +3,8 @@ import type {
   Context,
   MiddlewareHandler,
   Next,
-  PluginAPI,
   ServerMiddleware,
+  ServerPluginAPI,
 } from '@modern-js/server-core';
 import { Hono } from '@modern-js/server-core';
 
@@ -21,9 +21,9 @@ interface MiddlewareOptions {
 export class HonoAdapter {
   apiMiddleware: ServerMiddleware[] = [];
   apiServer: Hono | null = null;
-  api: PluginAPI;
+  api: ServerPluginAPI;
   isHono = true;
-  constructor(api: PluginAPI) {
+  constructor(api: ServerPluginAPI) {
     this.api = api;
   }
 
@@ -31,7 +31,7 @@ export class HonoAdapter {
     if (!this.isHono) {
       return;
     }
-    const { apiHandlerInfos } = this.api.useAppContext();
+    const { apiHandlerInfos } = this.api.getServerContext();
 
     const honoHandlers = createHonoRoutes(apiHandlerInfos as APIHandlerInfo[]);
     this.apiMiddleware = honoHandlers.map(({ path, method, handler }) => ({
@@ -58,14 +58,14 @@ export class HonoAdapter {
   registerMiddleware = async (options: MiddlewareOptions) => {
     const { prefix } = options;
 
-    const { bffRuntimeFramework } = this.api.useAppContext();
+    const { bffRuntimeFramework } = this.api.getServerContext();
 
     if (bffRuntimeFramework !== 'hono') {
       this.isHono = false;
       return;
     }
 
-    const { middlewares: globalMiddlewares } = this.api.useAppContext();
+    const { middlewares: globalMiddlewares } = this.api.getServerContext();
 
     await this.setHandlers();
 

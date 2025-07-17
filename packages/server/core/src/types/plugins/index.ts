@@ -1,5 +1,4 @@
 export * from './new';
-export * from './old';
 export type {
   ServerConfig,
   CacheConfig,

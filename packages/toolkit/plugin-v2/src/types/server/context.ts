@@ -1,4 +1,4 @@
-import type { ISAppContext, ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import type { ServerPluginAPI } from './api';
 import type { Hooks } from './hooks';
 import type { ServerPlugin, ServerPluginExtends } from './plugin';
@@ -7,10 +7,7 @@ export interface Middleware {
   name: string;
 }
 
-export type ServerContext<Extends extends ServerPluginExtends> = Omit<
-  ISAppContext,
-  'plugins'
-> & {
+export type ServerContext<Extends extends ServerPluginExtends> = {
   middlewares: Middleware[];
   routes: ServerRoute[];
   appDirectory: string;

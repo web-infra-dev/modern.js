@@ -9,7 +9,13 @@ import type {
   TimingEvent,
 } from '@modern-js/types';
 import { SERVER_TIMING, ServerTimings } from '../constants';
-import type { Context, Next, ServerEnv, ServerPluginLegacy } from '../types';
+import type {
+  Context,
+  MiddlewareHandler,
+  Next,
+  ServerEnv,
+  ServerPlugin,
+} from '../types';
 
 function createMonitors(): Monitors {
   const coreMonitors: CoreMonitor[] = [];
@@ -80,98 +86,92 @@ function createMonitors(): Monitors {
   return mointors;
 }
 
-export const initMonitorsPlugin = (): ServerPluginLegacy => ({
+export const initMonitorsPlugin = (): ServerPlugin => ({
   name: '@modern-js/init-mointor',
 
   setup(api) {
-    return {
-      prepare() {
-        const { middlewares } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
 
-        middlewares.push({
-          name: 'init-monitor',
-          handler: async (c: Context<ServerEnv>, next) => {
-            if (!c.get('monitors')) {
-              const monitors = createMonitors();
-              c.set('monitors', monitors);
-            }
+      middlewares.push({
+        name: 'init-monitor',
+        handler: (async (c: Context<ServerEnv>, next) => {
+          if (!c.get('monitors')) {
+            const monitors = createMonitors();
+            c.set('monitors', monitors);
+          }
 
-            return next();
-          },
+          return next();
+        }) as MiddlewareHandler,
 
-          order: 'pre',
-        });
-      },
-    };
+        order: 'pre',
+      });
+    });
   },
 });
 
-export const injectloggerPlugin = (
-  inputLogger: Logger,
-): ServerPluginLegacy => ({
+export const injectloggerPlugin = (inputLogger: Logger): ServerPlugin => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
     const logger = inputLogger;
-    return {
-      prepare() {
-        const { middlewares } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
 
-        middlewares.push({
-          name: 'inject-logger',
+      middlewares.push({
+        name: 'inject-logger',
 
-          handler: async (c: Context<ServerEnv>, next) => {
-            // TODO: remove in next version
-            if (!c.get('logger')) {
-              c.set('logger', logger);
+        handler: (async (c: Context<ServerEnv>, next) => {
+          // TODO: remove in next version
+          if (!c.get('logger')) {
+            c.set('logger', logger);
+          }
+
+          const pathname = c.req.path;
+
+          const loggerMonitor: CoreMonitor = event => {
+            if (event.type === 'log') {
+              const { level, message, args } = event.payload;
+
+              if (level === 'trace') {
+                logger.info(message, ...(args || []));
+              } else {
+                logger[level](message, ...(args || []));
+              }
             }
 
-            const pathname = c.req.path;
+            if (event.type === 'timing') {
+              const { name, dur, desc } = event.payload;
 
-            const loggerMonitor: CoreMonitor = event => {
-              if (event.type === 'log') {
-                const { level, message, args } = event.payload;
-
-                if (level === 'trace') {
-                  logger.info(message, ...(args || []));
-                } else {
-                  logger[level](message, ...(args || []));
-                }
+              if (desc) {
+                logger.debug(
+                  `%s Debug - ${name}, cost: %s, req.url = %s `,
+                  desc,
+                  dur,
+                  pathname,
+                );
+              } else {
+                logger.debug(
+                  `Debug - ${name}, cost: %s, req.url = %s`,
+                  dur,
+                  pathname,
+                );
               }
+            }
+          };
 
-              if (event.type === 'timing') {
-                const { name, dur, desc } = event.payload;
+          const monitors = c.get('monitors');
 
-                if (desc) {
-                  logger.debug(
-                    `%s Debug - ${name}, cost: %s, req.url = %s `,
-                    desc,
-                    dur,
-                    pathname,
-                  );
-                } else {
-                  logger.debug(
-                    `Debug - ${name}, cost: %s, req.url = %s`,
-                    dur,
-                    pathname,
-                  );
-                }
-              }
-            };
+          monitors?.push(loggerMonitor);
 
-            const monitors = c.get('monitors');
-
-            monitors?.push(loggerMonitor);
-
-            return next();
-          },
-        });
-      },
-    };
+          return next();
+        }) as MiddlewareHandler,
+      });
+    });
   },
 });
 
-export const injectServerTiming = (): ServerPluginLegacy => ({
+export const injectServerTiming = (): ServerPlugin => ({
   name: '@modern-js/inject-server-timing',
 
   setup(api) {
@@ -181,47 +181,45 @@ export const injectServerTiming = (): ServerPluginLegacy => ({
       desc?: string;
     }
 
-    return {
-      prepare() {
-        const { middlewares, metaName } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares, metaName } = api.getServerContext();
 
-        middlewares.push({
-          name: 'inject-server-timing',
+      middlewares.push({
+        name: 'inject-server-timing',
 
-          handler: async (c: Context<ServerEnv>, next) => {
-            const serverTimings: ServerTiming[] = [];
+        handler: (async (c: Context<ServerEnv>, next) => {
+          const serverTimings: ServerTiming[] = [];
 
-            const timingMonitor: CoreMonitor = event => {
-              if (event.type === 'timing') {
-                serverTimings.push(event.payload);
-              }
-            };
+          const timingMonitor: CoreMonitor = event => {
+            if (event.type === 'timing') {
+              serverTimings.push(event.payload);
+            }
+          };
 
-            const monitors = c.get('monitors');
+          const monitors = c.get('monitors');
 
-            monitors?.push(timingMonitor);
+          monitors?.push(timingMonitor);
 
-            await next();
+          await next();
 
-            serverTimings.forEach(serverTiming => {
-              const { name, desc, dur } = serverTiming;
+          serverTimings.forEach(serverTiming => {
+            const { name, desc, dur } = serverTiming;
 
-              // TODO: Modern.js should't export anything about bytedance.
+            // TODO: Modern.js should't export anything about bytedance.
 
-              const _name = `bd-${metaName}-${name}`;
+            const _name = `bd-${metaName}-${name}`;
 
-              const value = `${_name};${
-                desc ? `decs="${desc}";` : ''
-              } dur=${dur}`;
+            const value = `${_name};${
+              desc ? `decs="${desc}";` : ''
+            } dur=${dur}`;
 
-              c.header(SERVER_TIMING, value, {
-                append: true,
-              });
+            c.header(SERVER_TIMING, value, {
+              append: true,
             });
-          },
-        });
-      },
-    };
+          });
+        }) as MiddlewareHandler,
+      });
+    });
   },
 });
 

@@ -10,16 +10,9 @@ import type {
   ServerContext,
   ServerPlugin,
   ServerPluginHooks,
-  ServerPluginLegacy,
 } from './types';
 import type { CliConfig } from './types/config';
 import { loadConfig } from './utils';
-
-declare module '@modern-js/types' {
-  interface ISAppContext {
-    serverBase?: ServerBase;
-  }
-}
 
 export interface ServerBaseOptions extends ServerCreateOptions {
   /** server working directory, and then also dist directory */
@@ -33,7 +26,7 @@ export class ServerBase<E extends Env = any> {
 
   private app: Hono<E>;
 
-  private plugins: (ServerPlugin | ServerPluginLegacy)[] = [];
+  private plugins: ServerPlugin[] = [];
 
   private serverContext: ServerContext | null = null;
 
@@ -62,7 +55,7 @@ export class ServerBase<E extends Env = any> {
       config: mergedConfig,
       handleSetupResult,
     });
-    serverContext.serverBase = this;
+    (serverContext as Record<string, any>).serverBase = this;
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
     this.serverContext = serverContext as unknown as ServerContext;
@@ -71,7 +64,7 @@ export class ServerBase<E extends Env = any> {
     return this;
   }
 
-  addPlugins(plugins: (ServerPlugin | ServerPluginLegacy)[]) {
+  addPlugins(plugins: ServerPlugin[]) {
     this.plugins.push(...plugins);
   }
 
@@ -141,7 +134,7 @@ export class ServerBase<E extends Env = any> {
   }
 
   get hooks() {
-    return this.serverContext!.hooks as ServerPluginHooks;
+    return (this.serverContext as any).hooks as ServerPluginHooks;
   }
 
   get all() {

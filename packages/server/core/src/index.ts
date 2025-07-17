@@ -22,6 +22,5 @@ export { getLoaderCtx } from './helper';
 export * from './plugins';
 export * from './types/plugins';
 export * from './types/render';
-export * from '@modern-js/plugin';
 export * from './types/config';
 export * from './types/requestHandler';

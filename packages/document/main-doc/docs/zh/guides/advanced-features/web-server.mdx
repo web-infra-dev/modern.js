@@ -21,10 +21,10 @@ Modern.js 将大部分项目需要的服务端能力都进行了封装，通常�
 
 执行命令后，项目目录下会自动创建 `server/modern.server.ts` 文件，可以在这个文件中编写自定义逻辑。
 
-
 ## 自定义 Web Server 能力
 
 `server/modern.server.ts` 文件中添加如下配置来扩展 Server：
+
 - **中间件（Middleware）**
 - **渲染中间件（RenderMiddleware）**
 - **服务端插件（Plugin）**
@@ -48,7 +48,6 @@ export default defineServerConfig({
 });
 ```
 
-
 ### 类型定义
 
 `defineServerConfig` 类型定义如下:
@@ -57,18 +56,17 @@ export default defineServerConfig({
 import type { MiddlewareHandler } from 'hono';
 
 type MiddlewareObj = {
-    name: string;
-    path?: string;
-    method?: 'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
-    handler: MiddlewareHandler | MiddlewareHandler[];
+  name: string;
+  path?: string;
+  method?: 'options' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'all';
+  handler: MiddlewareHandler | MiddlewareHandler[];
 };
 type ServerConfig = {
-    middlewares?: MiddlewareObj[];
-    renderMiddlewares?: MiddlewareObj[];
-    plugins?: (ServerPlugin | ServerPluginLegacy)[];
-}
+  middlewares?: MiddlewareObj[];
+  renderMiddlewares?: MiddlewareObj[];
+  plugins?: ServerPlugin[];
+};
 ```
-
 
 ### Middleware
 
@@ -82,7 +80,10 @@ Middleware 支持在 Modern.js 服务的**请求处理**与**页面路由**的�
 使用姿势如下：
 
 ```ts title="server/modern.server.ts"
-import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
 export const handler: MiddlewareHandler = async (c, next) => {
   const monitors = c.get('monitors');
@@ -109,13 +110,15 @@ export default defineServerConfig({
 必须执行 `next` 函数才会执行后续的 Middleware。
 :::
 
-
 ### RenderMiddleware
 
 如果只需要处理页面渲染的前后执行逻辑，modern.js 也提供了渲染中间件，使用姿势如下：
 
 ```ts title="server/modern.server.ts"
-import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
 // 注入 render 性能指标
 const renderTiming: MiddlewareHandler = async (c, next) => {
@@ -155,51 +158,45 @@ export default defineServerConfig({
 });
 ```
 
-
 ### Plugin
 
 Modern.js 支持在自定义插件中为 Server 添加上述 Middleware 及 RenderMiddleware，使用姿势如下：
 
-
 ```ts title="server/plugins/server.ts"
-import type { ServerPluginLegacy } from '@modern-js/server-runtime';
+import type { ServerPlugin } from '@modern-js/server-runtime';
 
-export default (): ServerPluginLegacy => ({
+export default (): ServerPlugin => ({
   name: 'serverPlugin',
   setup(api) {
-    return {
-      prepare(serverConfig) {
-        const { middlewares, renderMiddlewares } = api.useAppContext();
+    api.onPrepare(() => {
+      const { middlewares, renderMiddlewares } = api.getServerContext();
 
-        // 注入服务端数据，供页面 dataLoader 消费
-        middlewares?.push({
-          name: 'server-plugin-middleware',
-          handler: async (c, next) => {
-            c.set('message', 'hi modern.js');
-            await next();
-            // ...
-          },
-        });
+      // 注入服务端数据，供页面 dataLoader 消费
+      middlewares?.push({
+        name: 'server-plugin-middleware',
+        handler: async (c, next) => {
+          c.set('message', 'hi modern.js');
+          await next();
+          // ...
+        },
+      });
 
-        // 重定向
-        renderMiddlewares?.push({
-          name: 'server-plugin-render-middleware',
-          handler: async (c, next) => {
-            const user = getUser(c.req);
-            if (!user) {
-              return c.redirect('/login');
-            }
+      // 重定向
+      renderMiddlewares?.push({
+        name: 'server-plugin-render-middleware',
+        handler: async (c, next) => {
+          const user = getUser(c.req);
+          if (!user) {
+            return c.redirect('/login');
+          }
 
-            await next();
-          },
-        });
-        return serverConfig;
-      },
-    };
+          await next();
+        },
+      });
+    });
   },
 });
 ```
-
 
 ```ts title="server/modern.server.ts"
 import { defineServerConfig } from '@modern-js/server-runtime';
@@ -209,7 +206,6 @@ export default defineServerConfig({
   plugins: [serverPlugin()],
 });
 ```
-
 
 ```ts title="src/routes/page.data.ts"
 import { useHonoContext } from '@modern-js/server-runtime';
@@ -222,9 +218,7 @@ export default () => {
 
   // ...
 };
-
 ```
-
 
 ## 旧版 API（废弃）
 
@@ -233,12 +227,13 @@ export default () => {
 :::
 
 ### 开启
+
 开启自定义 Web Server 功能，需要执行以下步骤：
+
 1. devDependencies 增加 `@modern-js/plugin-server`、`tsconfig-paths` 及 `ts-node`依赖并安装。
 2. `tsconfig` 的 `include` 中添加 `server`。
 3. `modern.config.ts` 中注册 `@modern-js/plugin-server` 插件。
 4. 项目目录下创建 `server/index.ts` 文件，可以在这个文件中编写自定义逻辑。
-
 
 ### Unstable Middleware
 
@@ -298,7 +293,6 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 详细 API 和更多用法可以查看 [Hook](/apis/app/runtime/web-server/hook)。
 :::
 
-
 ## 迁移至新版自定义 Web Server
 
 ### 迁移背景
@@ -317,7 +311,6 @@ Modern.js Server 在不断演进，为了提供更强大的功能，我们对中
 新版中间件 handler 类型为 Hono 的 `MiddlewareHandler`，即 `Context` 类型为 `Hono Context`。对比旧版自定义 Web Server 中 `Context` 差异如下：
 
 #### UnstableMiddleware
-
 
 ```ts
 type Body = ReadableStream | ArrayBuffer | string | null;
@@ -344,12 +337,12 @@ type UnstableMiddlewareContext<
 
 UnstableMiddleware `Context` 和 Hono `Context` 的具体差异：
 
-| UnstableMiddleware       | Hono                          | 说明                                                                      |
-| :----------------------- | :---------------------------- | :------------------------------------------------------------------------ |
-| `c.request`              | `c.req.raw`                   | 参考 [HonoRequest raw](https://hono.dev/docs/api/request#raw) 文档         |
-| `c.response`             | `c.res`                       | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档       |
-| `c.route`                | `c.get('route')`              | 获取应用上下文信息                                                          |
-| `loaderContext.get`      | `honoContext.get`             | 通过 `c.set` 注入数据后 dataLoader 中消费：旧版通过 `loaderContext.get` 获取，新版参考 [Plugin](/guides/advanced-features/web-server.html#使用姿势-2) 示例    |
+| UnstableMiddleware  | Hono              | 说明                                                                                                                                                       |
+| :------------------ | :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `c.request`         | `c.req.raw`       | 参考 [HonoRequest raw](https://hono.dev/docs/api/request#raw) 文档                                                                                         |
+| `c.response`        | `c.res`           | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档                                                                                        |
+| `c.route`           | `c.get('route')`  | 获取应用上下文信息                                                                                                                                         |
+| `loaderContext.get` | `honoContext.get` | 通过 `c.set` 注入数据后 dataLoader 中消费：旧版通过 `loaderContext.get` 获取，新版参考 [Plugin](/guides/advanced-features/web-server.html#使用姿势-2) 示例 |
 
 #### Middleware
 
@@ -385,24 +378,22 @@ type MiddlewareContext = {
     res: ServerResponse;
   };
 };
-
 ```
 
 Middleware `Context` 和 Hono `Context` 的具体差异：
 
-| UnstableMiddleware       | Hono                          | 说明                                                                         |
-| :----------------------- | :---------------------------- | :--------------------------------------------------------------------------- |
-| `c.request.cookie`         | `c.req.cookie()`              | 参考 [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) 文档        |
-| `c.request.pathname`       | `c.req.path`                  | 参考 [HonoRequest path](https://hono.dev/docs/api/request#path) 文档        |
-| `c.request.url`            | -                             | Hono `c.req.url` 为完整请求路径，自行通过 url 计算                             |
-| `c.request.host`           | `c.req.header('Host')`        | 通过 header 获取 host                                                       |
-| `c.request.query`          | `c.req.query()`               | 参考 [HonoRequest query](https://hono.dev/docs/api/request#query) 文档      |
-| `c.request.headers`        | `c.req.header()`              | 参考 [HonoRequest header](https://hono.dev/docs/api/request#header) 文档     |
-| `c.response.set`           | `c.res.headers.set`           | 例：`c.res.headers.set('custom-header', '1')`                               |
-| `c.response.status`        | `c.status`                    | 例：`c.status(201)`                                                         |
-| `c.response.cookies`       | `c.header`                    | 例：`c.header('Set-Cookie', 'user_id=123')`                                 |
-| `c.response.raw`           | `c.res`                       | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档          |
-
+| UnstableMiddleware   | Hono                   | 说明                                                                     |
+| :------------------- | :--------------------- | :----------------------------------------------------------------------- |
+| `c.request.cookie`   | `c.req.cookie()`       | 参考 [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) 文档     |
+| `c.request.pathname` | `c.req.path`           | 参考 [HonoRequest path](https://hono.dev/docs/api/request#path) 文档     |
+| `c.request.url`      | -                      | Hono `c.req.url` 为完整请求路径，自行通过 url 计算                       |
+| `c.request.host`     | `c.req.header('Host')` | 通过 header 获取 host                                                    |
+| `c.request.query`    | `c.req.query()`        | 参考 [HonoRequest query](https://hono.dev/docs/api/request#query) 文档   |
+| `c.request.headers`  | `c.req.header()`       | 参考 [HonoRequest header](https://hono.dev/docs/api/request#header) 文档 |
+| `c.response.set`     | `c.res.headers.set`    | 例：`c.res.headers.set('custom-header', '1')`                            |
+| `c.response.status`  | `c.status`             | 例：`c.status(201)`                                                      |
+| `c.response.cookies` | `c.header`             | 例：`c.header('Set-Cookie', 'user_id=123')`                              |
+| `c.response.raw`     | `c.res`                | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档      |
 
 #### Hook
 
@@ -455,12 +446,11 @@ type AfterRenderContext = {
 
 Hook Context 大部分和 Middleware Context 一致，因此我们要额外关注不同 Hook 多余的部分。
 
-| UnstableMiddleware       | Hono                          | 说明                           |
-| :----------------------- | :---------------------------- | :----------------------------- |
-| `router.redirect`        | `c.redirect`                  | 参考 [Hono Context redirect](https://hono.dev/docs/api/context#redirect) 文档      |
-| `router.rewrite`         | -                             | 暂时没有提供对应的能力                                                               |
-| template API             | `c.res`                       | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档               |
-
+| UnstableMiddleware | Hono         | 说明                                                                          |
+| :----------------- | :----------- | :---------------------------------------------------------------------------- |
+| `router.redirect`  | `c.redirect` | 参考 [Hono Context redirect](https://hono.dev/docs/api/context#redirect) 文档 |
+| `router.rewrite`   | -            | 暂时没有提供对应的能力                                                        |
+| template API       | `c.res`      | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档           |
 
 ### Next API 差异
 
