@@ -14,7 +14,7 @@ export async function createDevServer(
 ) {
   const { config, pwd, serverConfigFile, serverConfigPath, builder, metaName } =
     options;
-  const dev = getDevOptions(options);
+  const dev = getDevOptions(options.dev);
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 

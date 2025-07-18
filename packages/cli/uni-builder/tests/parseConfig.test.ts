@@ -92,14 +92,14 @@ describe('parseCommonConfig', () => {
             },
             port: 8081,
             host: 'xxx.xxx',
+            client: {
+              path: '/aaaa',
+            },
+            hmr: false,
           },
           tools: {
             devServer: {
-              client: {
-                path: '/aaaa',
-              },
               compress: false,
-              hot: false,
               headers: {
                 'X-Custom-Foo': 'bar',
               },

@@ -28,7 +28,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
 
     const closeCb: Array<(...args: []) => any> = [];
 
-    const dev = getDevOptions(options);
+    const dev = getDevOptions(options.dev);
 
     api.onPrepare(async () => {
       // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
@@ -55,25 +55,24 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
       // TODO: remove any
       const hooks = (api as any).getHooks();
 
+      // Handle webpack rebuild
       builder?.onDevCompileDone(({ stats }) => {
         if (stats.toJson({ all: false }).name !== 'server') {
           onRepack(distDirectory!, hooks);
         }
       });
 
-      if (dev.watch) {
-        const { watchOptions } = config.server;
-        const watcher = startWatcher({
-          pwd,
-          distDir: distDirectory!,
-          apiDir: apiDirectory || API_DIR,
-          sharedDir: sharedDirectory || SHARED_DIR,
-          watchOptions,
-          server: serverBase!,
-        });
-        closeCb.push(watcher.close.bind(watcher));
-      }
-
+      // Handle watch
+      const { watchOptions } = config.server;
+      const watcher = startWatcher({
+        pwd,
+        distDir: distDirectory!,
+        apiDir: apiDirectory || API_DIR,
+        sharedDir: sharedDirectory || SHARED_DIR,
+        watchOptions,
+        server: serverBase!,
+      });
+      closeCb.push(watcher.close.bind(watcher));
       closeCb.length > 0 &&
         nodeServer?.on('close', () => {
           closeCb.forEach(cb => {
@@ -81,21 +80,10 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
           });
         });
 
+      // Handle setupMiddlewares
       const before: RequestHandler[] = [];
-
       const after: RequestHandler[] = [];
-
       const { setupMiddlewares = [] } = dev;
-
-      if (dev.after?.length || dev.before?.length) {
-        setupMiddlewares.push(middlewares => {
-          // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-          middlewares.unshift(...(dev.before || []));
-
-          middlewares.push(...(dev.after || []));
-        });
-      }
-
       setupMiddlewares.forEach(handler => {
         handler(
           {

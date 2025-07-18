@@ -58,33 +58,4 @@ describe('test app-tools utils', () => {
       resolve();
     });
   });
-
-  it('should create and close server correctly', async () => {
-    const app = await createServer({
-      pwd: __dirname,
-      config: {
-        html: {},
-        output: {
-          distPath: {
-            root: 'dist',
-          },
-        },
-        source: {},
-        tools: {},
-        server: {},
-        runtime: {},
-        bff: {},
-        dev: {},
-        security: {},
-      },
-      appContext: {},
-      dev: {},
-    });
-
-    expect(app instanceof Server).toBe(true);
-    expect(getServer()).toBe(app);
-
-    await closeServer();
-    expect(getServer()).toBeNull();
-  });
 });
