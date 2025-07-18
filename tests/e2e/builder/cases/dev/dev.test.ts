@@ -14,12 +14,10 @@ test.skip('default & hmr (default true)', async ({ page }) => {
       main: join(fixtures, 'hmr', 'test-src/index.ts'),
     },
     builderConfig: {
-      tools: {
-        devServer: {
-          client: {
-            host: '',
-            port: '',
-          },
+      dev: {
+        client: {
+          host: '',
+          port: '',
         },
       },
     },
@@ -112,10 +110,6 @@ test.skip('hmr should work when setting dev.port & serverOptions.dev.client', as
     builderConfig: {
       dev: {
         port: 3001,
-      },
-    },
-    serverOptions: {
-      dev: {
         client: {
           host: '',
         },

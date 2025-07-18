@@ -248,13 +248,12 @@ export async function parseCommonConfig(
     };
   }
 
-  const { dev: rsbuildDev, server } = transformToRsbuildServerOptions(
+  const { rsbuildDev, rsbuildServer } = transformToRsbuildServerOptions(
     dev || {},
     devServer || {},
   );
 
-  rsbuildConfig.server = removeUndefinedKey(server);
-
+  rsbuildConfig.server = removeUndefinedKey(rsbuildServer);
   rsbuildConfig.dev = removeUndefinedKey(rsbuildDev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;

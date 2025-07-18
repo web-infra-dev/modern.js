@@ -5,50 +5,24 @@ import type { DevConfig, ServerConfig } from '@rsbuild/core';
 
 import type { ToolsDevServerConfig, UniBuilderConfig } from '../types';
 
-const transformDevSetupMiddlewares = (
-  seuptMiddlewares: DevConfig['setupMiddlewares'],
-): DevConfig['setupMiddlewares'] => {
-  if (seuptMiddlewares) {
-    const newSetupMiddlewares: DevConfig['setupMiddlewares'] = Array.isArray(
-      seuptMiddlewares,
-    )
-      ? seuptMiddlewares.map(handler => (_, server) => {
-          handler(
-            {
-              unshift() {
-                // ignore
-              },
-              push() {
-                // ignore
-              },
-            },
-            server,
-          );
-        })
-      : (_, server) => {
-          seuptMiddlewares(
-            {
-              unshift() {
-                // ignore
-              },
-              push() {
-                // ignore
-              },
-            },
-            server,
-          );
-        };
-    return newSetupMiddlewares;
-  }
-  return undefined;
+const defaultDevConfig = {
+  writeToDisk: (file: string) => !file.includes('.hot-update.'),
+  hmr: true,
+  liveReload: true,
+  progressBar: true,
+  client: {
+    path: '/webpack-hmr',
+    overlay: false,
+    port: '<port>',
+  },
 };
 
 export const transformToRsbuildServerOptions = (
   dev: NonNullable<UniBuilderConfig['dev']>,
   devServer: ToolsDevServerConfig,
 ): {
-  dev: DevConfig;
-  server: ServerConfig;
+  rsbuildDev: DevConfig;
+  rsbuildServer: ServerConfig;
 } => {
   const {
     port = 8080,
@@ -56,53 +30,16 @@ export const transformToRsbuildServerOptions = (
     https,
     startUrl,
     beforeStartUrl,
-    setupMiddlewares,
     ...devConfig
   } = dev;
 
-  const newDevServerConfig = applyOptionsChain(
-    {
-      devMiddleware: {
-        writeToDisk: (file: string) => !file.includes('.hot-update.'),
-      },
-      hot: dev?.hmr ?? true,
-      liveReload: dev?.liveReload ?? true,
-      client: {
-        path: '/webpack-hmr',
-        overlay: false,
-        port: '<port>',
-        ...(devConfig.client || {}),
-      },
-      setupMiddlewares,
-    },
-    devServer,
-    {},
-    merge,
-  );
-
-  const rsbuildDev: DevConfig = {
-    writeToDisk: newDevServerConfig.devMiddleware?.writeToDisk,
-    hmr: newDevServerConfig.hot,
-    liveReload: newDevServerConfig.liveReload,
-    ...devConfig,
-    client: {
-      ...newDevServerConfig.client,
-      ...(devConfig.client || {}),
-    },
-  };
-
-  // enable progress bar by default
-  if (dev.progressBar === undefined) {
-    rsbuildDev.progressBar = true;
-  }
-
-  // devConfig.setupMiddlewares, devConfig.after, devConfig.before  apply by @modern-js/server
+  const rsbuildDev: DevConfig = merge(defaultDevConfig, devConfig);
   // setupMiddlewares apply by @modern-js/server
-  rsbuildDev.setupMiddlewares = transformDevSetupMiddlewares(
-    newDevServerConfig.setupMiddlewares,
-  );
+  delete rsbuildDev.setupMiddlewares;
 
-  const server: ServerConfig = isProd()
+  // TODO: why devServer type is config chain?
+  const serverCofig = applyOptionsChain({}, devServer, {}, merge);
+  const rsbuildServer: ServerConfig = isProd()
     ? {
         publicDir: false,
         htmlFallback: false,
@@ -112,10 +49,10 @@ export const transformToRsbuildServerOptions = (
         publicDir: false,
         htmlFallback: false,
         printUrls: false,
-        compress: newDevServerConfig.compress,
-        headers: newDevServerConfig.headers,
-        historyApiFallback: newDevServerConfig.historyApiFallback,
-        proxy: newDevServerConfig.proxy,
+        compress: serverCofig.compress,
+        headers: serverCofig.headers,
+        historyApiFallback: serverCofig.historyApiFallback,
+        proxy: serverCofig.proxy,
         port,
         host,
         https: https ? (https as ServerConfig['https']) : undefined,
@@ -123,7 +60,7 @@ export const transformToRsbuildServerOptions = (
       };
 
   if (!isProd() && startUrl) {
-    server.open = beforeStartUrl
+    rsbuildServer.open = beforeStartUrl
       ? {
           target: startUrl === true ? '//localhost:<port>' : startUrl,
           before: beforeStartUrl,
@@ -131,5 +68,5 @@ export const transformToRsbuildServerOptions = (
       : startUrl;
   }
 
-  return { dev: rsbuildDev, server };
+  return { rsbuildDev, rsbuildServer };
 };

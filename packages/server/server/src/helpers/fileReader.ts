@@ -16,7 +16,7 @@ export const initFileReader = (): Middleware => {
       return next();
     }
 
-    // When devServer.devMiddleware.writeToDisk is configured as false,
+    // When dev.writeToDisk is configured as false,
     // the renderHandler needs to read the html file in memory through the fileReader
     const { devMiddleware: webpackDevMid } = res.locals.webpack;
     const { outputFileSystem } = webpackDevMid;

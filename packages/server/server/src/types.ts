@@ -1,6 +1,10 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
-import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
+import type {
+  DevServerHttpsOptions,
+  ExposeServerApis,
+  RequestHandler,
+} from '@modern-js/types';
 import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 
 import type {
@@ -9,13 +13,28 @@ import type {
   ServerPlugin,
 } from '@modern-js/server-core';
 
-export type { DevServerOptions, DevServerHttpsOptions };
+export type { DevServerHttpsOptions };
+
+export type DevServerOptions = {
+  /** Provides the ability to execute a custom function and apply custom middlewares */
+  setupMiddlewares?: Array<
+    (
+      /** Order: `devServer.before` => `unshift` => internal middlewares => `push` => `devServer.after` */
+      middlewares: {
+        /** Use the `unshift` method if you want to run a middleware before all other middlewares */
+        unshift: (...handlers: RequestHandler[]) => void;
+        /** Use the `push` method if you want to run a middleware after all other middlewares */
+        push: (...handlers: RequestHandler[]) => void;
+      },
+      server: ExposeServerApis,
+    ) => void
+  >;
+  /** Whether to enable hot reload. */
+  https?: DevServerHttpsOptions;
+};
 
 export type ExtraOptions = {
-  dev: Pick<DevServerOptions, 'watch' | 'https'> & {
-    port?: number;
-    host?: string;
-  };
+  dev: DevServerOptions;
 
   runCompile?: boolean;
 

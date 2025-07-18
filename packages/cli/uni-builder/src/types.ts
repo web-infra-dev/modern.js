@@ -97,19 +97,9 @@ export type DisableSourceMapOption =
     };
 
 export type ToolsDevServerConfig = ConfigChain<{
-  before?: RequestHandler[];
-  after?: RequestHandler[];
-  client?: DevConfig['client'];
   compress?: ServerConfig['compress'];
-  devMiddleware?: {
-    writeToDisk?: DevConfig['writeToDisk'];
-  };
-  liveReload?: boolean;
   headers?: ServerConfig['headers'];
   historyApiFallback?: ServerConfig['historyApiFallback'];
-  hot?: boolean;
-  https?: DevServerHttpsOptions;
-  setupMiddlewares?: DevConfig['setupMiddlewares'];
   proxy?: ServerConfig['proxy'];
 }>;
 
