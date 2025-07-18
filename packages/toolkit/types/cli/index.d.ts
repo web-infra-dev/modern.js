@@ -28,11 +28,6 @@ export interface Entrypoint {
   pageRoutesEntry?: string;
   isAutoMount?: boolean;
   /**
-   * @deprecated
-   * Using customEntry instead.
-   */
-  customBootstrap?: string | false;
-  /**
    * use src/{entryName}/entry.tsx to custom entry
    */
   customEntry?: boolean;

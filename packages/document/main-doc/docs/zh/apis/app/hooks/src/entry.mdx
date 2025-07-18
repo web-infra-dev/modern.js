@@ -5,10 +5,6 @@ sidebar_position: 4
 
 # entry.[tj]sx
 
-:::info
-使用该文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
-:::
-
 通常情况下[`routes/`](/apis/app/hooks/src/routes.html) 和 [`App.[tj]sx`](/apis/app/hooks/src/app) 钩子文件已经能满足我们的需求，当我们需要在组件渲染之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `entry.[tj]s`。下面分两种情况进行讨论。
 
 ## 在组件渲染前添加自定义行为
@@ -22,7 +18,7 @@ import { render } from '@modern-js/runtime/browser';
 const ModernRoot = createRoot();
 
 async function beforeRender() {
-   // todo
+  // todo
 }
 
 beforeRender().then(() => {

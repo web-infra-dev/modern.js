@@ -7,22 +7,14 @@ import {
 } from './constants';
 
 const genRenderStatement = ({
-  customBootstrap,
   enableRsc,
   mountId,
   isNestedRouter,
 }: {
-  customBootstrap?: string | false;
   enableRsc?: boolean;
   mountId?: string;
   isNestedRouter?: boolean;
 }) => {
-  if (customBootstrap) {
-    return `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
-      mountId || 'root'
-    }'));`;
-  }
-
   if (enableRsc) {
     if (!isNestedRouter) {
       return `render(<ModernRoot>
@@ -41,7 +33,6 @@ const genRenderCode = ({
   metaName,
   entry,
   customEntry,
-  customBootstrap,
   mountId,
   enableRsc,
   isNestedRouter,
@@ -51,7 +42,6 @@ const genRenderCode = ({
   metaName: string;
   entry: string;
   customEntry?: boolean;
-  customBootstrap?: string | false;
   mountId?: string;
   enableRsc?: boolean;
   isNestedRouter?: boolean;
@@ -78,20 +68,9 @@ ${
     : ''
 }
 
-${
-  customBootstrap
-    ? `import customBootstrap from '${formatImportPath(
-        customBootstrap.replace(srcDirectory, internalSrcAlias),
-      )}';`
-    : ''
-}
-
-
-
 const ModernRoot = createRoot();
 
 ${genRenderStatement({
-  customBootstrap,
   enableRsc,
   mountId,
   isNestedRouter,
@@ -188,7 +167,6 @@ export const index = ({
   entry,
   entryName,
   customEntry,
-  customBootstrap,
   mountId,
   enableRsc,
   isNestedRouter,
@@ -199,7 +177,6 @@ export const index = ({
   entry: string;
   entryName: string;
   customEntry?: boolean;
-  customBootstrap?: string | false;
   mountId?: string;
   enableRsc?: boolean;
   isNestedRouter?: boolean;
@@ -211,7 +188,6 @@ ${genRenderCode({
   metaName,
   entry,
   customEntry,
-  customBootstrap,
   mountId,
   enableRsc,
   isNestedRouter,

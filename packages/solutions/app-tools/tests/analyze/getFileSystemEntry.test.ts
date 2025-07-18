@@ -5,8 +5,11 @@ import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { appTools } from '../../src';
 import { handleSetupResult } from '../../src/compat/hooks';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
-import type { AppNormalizedConfig, AppTools } from '../../src/types';
-import type { AppToolsContext } from '../../src/types/new';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  AppToolsContext,
+} from '../../src/types';
 
 describe('get entrypoints from file system', () => {
   let pluginAPI: any;
@@ -55,14 +58,13 @@ describe('get entrypoints from file system', () => {
         entryName: 'src',
         entry: path.resolve(fixtures, './single-entry/src/App.tsx'),
         isAutoMount: true,
-        customBootstrap: false,
       },
     ]);
   });
 
-  test(`should have one index entry with isAutoMount false`, async () => {
+  test(`should have one build entry with isAutoMount false`, async () => {
     const appContext = {
-      appDirectory: path.resolve(fixtures, './index-entry'),
+      appDirectory: path.resolve(fixtures, './build-entry'),
     };
     await setup(appContext);
 
@@ -75,33 +77,8 @@ describe('get entrypoints from file system', () => {
     ).toMatchObject([
       {
         entryName: 'src',
-        entry: path.resolve(appContext.appDirectory, './src/index.jsx'),
+        entry: path.resolve(appContext.appDirectory, './src/entry.jsx'),
         isAutoMount: false,
-      },
-    ]);
-  });
-
-  test(`should have one entry with custom bootstrap function`, async () => {
-    const appContext = {
-      appDirectory: path.resolve(fixtures, './custom-bootstrap'),
-    };
-    await setup(appContext);
-
-    expect(
-      await getFileSystemEntry(
-        await pluginAPI.getHooks(),
-        appContext as AppToolsContext,
-        config as AppNormalizedConfig,
-      ),
-    ).toMatchObject([
-      {
-        entryName: 'src',
-        entry: path.resolve(appContext.appDirectory, './src/App.tsx'),
-        isAutoMount: true,
-        customBootstrap: path.resolve(
-          appContext.appDirectory,
-          './src/index.tsx',
-        ),
       },
     ]);
   });

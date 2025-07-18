@@ -12,12 +12,6 @@ export type Entry =
        */
       disableMount?: boolean;
       /**
-       * @deprecated
-       * Using customEntry instead.
-       * Specify the file path of custom bootstrap.
-       */
-      customBootstrap?: string;
-      /**
        * use src/{entryName}/entry.tsx to custom entry
        */
       customEntry?: boolean;
@@ -42,11 +36,6 @@ export interface SourceUserConfig
    * @default false
    */
   enableAsyncEntry?: boolean;
-  /**
-   * Enable use entry.tsx to custom entry
-   * @default false
-   */
-  enableCustomEntry?: boolean;
   /**
    * Used to disable the functionality of automatically identifying page entry points based on directory structure.
    * @default false

@@ -6,6 +6,5 @@ export default applyBaseConfig({
   },
   source: {
     enableAsyncEntry: true,
-    enableCustomEntry: true,
   },
 });

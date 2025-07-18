@@ -26,8 +26,7 @@ export const generateCode = async (
     appContext;
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, entry, customEntry, customBootstrap } =
-        entrypoint;
+      const { entryName, isAutoMount, entry, customEntry } = entrypoint;
       const appendCode = await (
         hooks.appendEntryCode as CollectAsyncHook<AppendEntryCodeFn>
       ).call({
@@ -44,7 +43,6 @@ export const generateCode = async (
           entry,
           entryName,
           customEntry,
-          customBootstrap,
           mountId,
           appendCode,
         });

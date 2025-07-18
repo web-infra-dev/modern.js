@@ -6,7 +6,6 @@ const genRenderCode = ({
   metaName,
   entry,
   customEntry,
-  customBootstrap,
   mountId,
 }: {
   srcDirectory: string;
@@ -14,7 +13,6 @@ const genRenderCode = ({
   metaName: string;
   entry: string;
   customEntry?: boolean;
-  customBootstrap?: string | false;
   mountId?: string;
 }) =>
   customEntry
@@ -23,25 +21,12 @@ export * from '${formatImportPath(entry.replace(srcDirectory, internalSrcAlias))
     : `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
 import { isRenderGarfish, createProvider } from '@${metaName}/plugin-garfish/tools';
-${
-  customBootstrap
-    ? `import customBootstrap from '${formatImportPath(
-        customBootstrap.replace(srcDirectory, internalSrcAlias),
-      )}';`
-    : 'let customBootstrap;'
-}
 if (!isRenderGarfish()) {
   const ModernRoot = createRoot();
-  ${
-    customBootstrap
-      ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
-          mountId || 'root'
-        }'));`
-      : `render(<ModernRoot />, '${mountId || 'root'}');`
-  };
+  render(<ModernRoot />, '${mountId || 'root'}');
 }
 
-export const provider = createProvider('${mountId || 'root'}', { customBootstrap });
+export const provider = createProvider('${mountId || 'root'}');
 `;
 export const index = ({
   srcDirectory,
@@ -50,7 +35,6 @@ export const index = ({
   entry,
   entryName,
   customEntry,
-  customBootstrap,
   mountId,
   appendCode = [],
 }: {
@@ -60,7 +44,6 @@ export const index = ({
   entry: string;
   entryName: string;
   customEntry?: boolean;
-  customBootstrap?: string | false;
   mountId?: string;
   appendCode?: string[];
 }) =>
@@ -71,7 +54,6 @@ export const index = ({
     metaName,
     entry,
     customEntry,
-    customBootstrap,
     mountId,
   })}
   ${appendCode.join('\n')}

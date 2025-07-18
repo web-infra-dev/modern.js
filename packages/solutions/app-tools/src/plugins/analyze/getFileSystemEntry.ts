@@ -8,18 +8,10 @@ import {
 } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext, AppToolsHooks } from '../../types/plugin';
-import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
-import { isDefaultExportFunction } from './isDefaultExportFunction';
+import { ENTRY_FILE_NAME } from './constants';
 
 export type { Entrypoint };
 
-// compatible index entry
-const hasIndex = (dir: string) =>
-  findExists(
-    JS_EXTENSIONS.map(ext => path.resolve(dir, `${INDEX_FILE_NAME}${ext}`)),
-  );
-
-// new entry
 const hasEntry = (dir: string) =>
   findExists(
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
@@ -32,11 +24,7 @@ const hasServerEntry = (dir: string) =>
     ),
   );
 
-const isBundleEntry = async (
-  hooks: AppToolsHooks,
-  dir: string,
-  enableCustomEntry?: boolean,
-) => {
+const isBundleEntry = async (hooks: AppToolsHooks, dir: string) => {
   const { entry } = await hooks.checkEntryPoint.call({
     path: dir,
     entry: false,
@@ -45,38 +33,21 @@ const isBundleEntry = async (
     return entry;
   }
   const customEntry = hasEntry(dir);
-  if (enableCustomEntry && customEntry) {
+  if (customEntry) {
     return customEntry;
   }
-  return hasIndex(dir);
+  return false;
 };
 
 const scanDir = async (
   hooks: AppToolsHooks,
   dirs: string[],
-  enableCustomEntry?: boolean,
 ): Promise<Entrypoint[]> => {
   const entries = await Promise.all(
     dirs.map(async (dir: string) => {
-      const indexFile = hasIndex(dir);
-      const customBootstrap = isDefaultExportFunction(indexFile)
-        ? indexFile
-        : false;
-
       const entryName = path.basename(dir);
       const customEntryFile = hasEntry(dir);
       const customServerEntry = hasServerEntry(dir);
-
-      if (!enableCustomEntry && indexFile && !customBootstrap) {
-        return {
-          entryName,
-          isMainEntry: false,
-          entry: indexFile,
-          absoluteEntryDir: path.resolve(dir),
-          isAutoMount: false,
-          customBootstrap,
-        };
-      }
 
       const entryFile = (
         await hooks.checkEntryPoint.call({
@@ -89,21 +60,20 @@ const scanDir = async (
         return {
           entryName,
           isMainEntry: false,
-          entry: enableCustomEntry ? customEntryFile || entryFile : entryFile,
-          customServerEntry: enableCustomEntry ? customServerEntry : false,
+          entry: customEntryFile || entryFile,
+          customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
-          customBootstrap,
-          customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
+          customEntry: Boolean(customEntryFile),
         };
       }
 
-      if (enableCustomEntry && customEntryFile) {
+      if (customEntryFile) {
         return {
           entryName,
           isMainEntry: false,
           entry: customEntryFile,
-          customServerEntry: enableCustomEntry ? customServerEntry : false,
+          customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: false,
           customEntry: Boolean(customEntryFile),
@@ -127,7 +97,7 @@ export const getFileSystemEntry = async (
   const { appDirectory } = appContext;
 
   const {
-    source: { entriesDir, disableEntryDirs, enableCustomEntry },
+    source: { entriesDir, disableEntryDirs },
   } = config;
 
   let disabledDirs: string[] = [];
@@ -140,8 +110,8 @@ export const getFileSystemEntry = async (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      if (await isBundleEntry(hooks, src, enableCustomEntry)) {
-        return scanDir(hooks, [src], enableCustomEntry);
+      if (await isBundleEntry(hooks, src)) {
+        return scanDir(hooks, [src]);
       }
       const dirs: string[] = [];
       await Promise.all(
@@ -149,14 +119,14 @@ export const getFileSystemEntry = async (
           const file = path.join(src, filename);
           if (
             fs.statSync(file).isDirectory() &&
-            (await isBundleEntry(hooks, file, enableCustomEntry)) &&
+            (await isBundleEntry(hooks, file)) &&
             !disabledDirs.includes(file)
           ) {
             dirs.push(file);
           }
         }),
       );
-      return scanDir(hooks, dirs, enableCustomEntry);
+      return scanDir(hooks, dirs);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }
