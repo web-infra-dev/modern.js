@@ -51,7 +51,6 @@ const outputDefaults = {
   polyfill: 'entry',
   dataUriLimit: 10000,
   templateParameters: {},
-  cssModuleLocalIdentName: '[name]__[local]--[hash:base64:5]',
   federation: undefined,
   disableNodePolyfill: false,
   enableTsLoader: false,

@@ -116,64 +116,6 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
 }
 `;
 
-exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
-{
-  "dev": {
-    "client": {
-      "overlay": false,
-      "path": "/webpack-hmr",
-      "port": "<port>",
-    },
-    "hmr": true,
-    "liveReload": true,
-    "progressBar": true,
-    "writeToDisk": [Function],
-  },
-  "environments": {},
-  "html": {
-    "appIcon": undefined,
-    "outputStructure": "nested",
-    "title": "",
-  },
-  "output": {
-    "charset": "ascii",
-    "cssModules": {
-      "localIdentName": "[local]-[hash:base64:6]",
-    },
-    "dataUriLimit": 10000,
-    "distPath": {
-      "html": "html",
-    },
-    "polyfill": "entry",
-    "sourceMap": {
-      "css": true,
-    },
-  },
-  "performance": {},
-  "plugins": [],
-  "resolve": {},
-  "security": {},
-  "server": {
-    "htmlFallback": false,
-    "middlewareMode": true,
-    "port": 8080,
-    "printUrls": false,
-    "publicDir": false,
-  },
-  "source": {
-    "alias": undefined,
-    "decorators": {
-      "version": "legacy",
-    },
-    "transformImport": undefined,
-  },
-  "tools": {
-    "htmlPlugin": [Function],
-    "lightningcssLoader": false,
-  },
-}
-`;
-
 exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 {
   "dev": {

@@ -192,10 +192,6 @@ export type UniBuilderExtraConfig = {
      */
     enableLatestDecorators?: boolean;
     /**
-     * @deprecated use `output.cssModules.localIdentName` instead
-     */
-    cssModuleLocalIdentName?: string;
-    /**
      * Whether to generate a manifest file that contains information of all assets.
      */
     enableAssetManifest?: boolean;
