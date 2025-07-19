@@ -37,7 +37,7 @@
     "puppeteer": "^24.10.2",
     "rimraf": "^6.0.1",
     "tree-kill": "^1.2.2",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "tsm": "2.3.0",
     "typescript": "^5"
   },
