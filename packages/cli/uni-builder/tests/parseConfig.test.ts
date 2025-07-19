@@ -38,18 +38,6 @@ describe('parseCommonConfig', () => {
     expect(plugin instanceof A).toBeTruthy();
   });
 
-  test('output.cssModuleLocalIdentName', async () => {
-    expect(
-      (
-        await parseCommonConfig({
-          output: {
-            cssModuleLocalIdentName: '[local]-[hash:base64:6]',
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
-  });
-
   test('output.disableCssModuleExtension', async () => {
     expect(
       (

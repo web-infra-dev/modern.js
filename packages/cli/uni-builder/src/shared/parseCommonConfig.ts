@@ -78,7 +78,6 @@ export async function parseCommonConfig(
     output: {
       disableFilenameHash,
       enableLatestDecorators,
-      cssModuleLocalIdentName,
       enableInlineScripts,
       disableCssExtract,
       enableInlineStyles,
@@ -174,11 +173,6 @@ export async function parseCommonConfig(
 
   if (disableMinimize) {
     output.minify ||= false;
-  }
-
-  if (cssModuleLocalIdentName) {
-    output.cssModules ||= {};
-    output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
   if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
