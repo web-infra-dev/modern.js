@@ -53,7 +53,7 @@
     "@types/node": "^20",
     "commander": "10.0.1",
     "jest": "^29",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "publishConfig": {
