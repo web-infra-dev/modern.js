@@ -31,11 +31,6 @@ export async function parseConfig(
     options,
   );
 
-  if (uniBuilderConfig.experiments?.lazyCompilation) {
-    rsbuildConfig.dev!.lazyCompilation =
-      uniBuilderConfig.experiments.lazyCompilation;
-  }
-
   const { sri } = uniBuilderConfig.security || {};
   if (sri) {
     if (sri === true) {
