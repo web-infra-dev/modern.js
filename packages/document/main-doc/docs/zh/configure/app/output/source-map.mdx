@@ -15,17 +15,24 @@ type SourceMap =
     };
 ```
 
+用于设置是否生成 source map 文件，以及生成哪一种格式的 source map。
+
 - **默认值：**
 
 ```ts
 const defaultSourceMap = {
-  js: isDev ? 'cheap-module-source-map' : false,
-  css: false,
+  js: isDev ? 'cheap-module-source-map' : 'hidden-source-map',
+  css: isDev,
 };
 ```
 
-用于设置是否生成 source map 文件，以及生成哪一种格式的 source map。
+在不配置 `output.sourceMap` 时，Modern.js 的 source map 生成规则与 Rsbuild 配置有差异：
+
+- 在开发模式构建时，会生成 JS 文件和 CSS 的 source map，便于进行开发调试。
+- 在生产模式构建时，会生成 JS 的 source map 用于堆栈回溯，不生成 CSS 文件的 source map，以提供最佳的构建性能。
 
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConfig configName="output.sourceMap" />
+
+

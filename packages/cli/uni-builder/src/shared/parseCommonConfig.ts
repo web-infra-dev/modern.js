@@ -11,11 +11,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
-import type {
-  CreateBuilderCommonOptions,
-  DisableSourceMapOption,
-  UniBuilderConfig,
-} from '../types';
+import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
@@ -49,20 +45,6 @@ function removeUndefinedKey(obj: { [key: string]: any }) {
   return obj;
 }
 
-const isUseCssSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
-  if (typeof disableSourceMap === 'boolean') {
-    return !disableSourceMap;
-  }
-
-  // If the disableSourceMap.css option is not specified, we will enable it in development mode.
-  // We do not need CSS Source Map in production mode.
-  if (disableSourceMap.css === undefined) {
-    return process.env.NODE_ENV !== 'production';
-  }
-
-  return !disableSourceMap.css;
-};
-
 export async function parseCommonConfig(
   uniBuilderConfig: UniBuilderConfig,
   options?: CreateBuilderCommonOptions,
@@ -83,7 +65,6 @@ export async function parseCommonConfig(
       svgDefaultExport,
       assetsRetry,
       enableAssetManifest,
-      disableSourceMap,
       sourceMap,
       convertToRem,
       disableMinimize,
@@ -166,9 +147,13 @@ export async function parseCommonConfig(
     output.minify ||= false;
   }
 
-  if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
+  /**
+   * The default value in Rsbuild of `sourceMap.css` is `false` in development mode
+   * In Modern.js, we need to set it to `true` if user not set it
+   */
+  if (typeof output.sourceMap !== 'boolean') {
     output.sourceMap ||= {};
-    output.sourceMap.css = true;
+    output.sourceMap.css ??= process.env.NODE_ENV !== 'production';
   }
 
   const { server: _server, worker, ...rsbuildDistPath } = distPath;
@@ -230,7 +215,6 @@ export async function parseCommonConfig(
     pluginSplitChunks(),
     pluginGlobalVars(globalVars),
     pluginDevtool({
-      disableSourceMap,
       sourceMap,
     }),
     pluginEmitRouteFile(),

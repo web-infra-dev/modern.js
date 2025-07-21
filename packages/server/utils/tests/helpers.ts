@@ -40,7 +40,6 @@ const outputDefaults = {
   disableCssModuleExtension: false,
   enableCssModuleTSDeclaration: false,
   disableMinimize: false,
-  disableSourceMap: false,
   disableInlineRuntimeChunk: false,
   disableAssetsCache: false,
   polyfill: 'entry',

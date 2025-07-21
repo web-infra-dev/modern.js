@@ -103,7 +103,7 @@ test('cleanDistPath disable', async () => {
   builder.clean();
 });
 
-test('disableSourcemap', async () => {
+test('sourceMap', async () => {
   const builder = await build({
     cwd: join(fixtures, 'rem'),
     entry: {
@@ -114,7 +114,7 @@ test('disableSourcemap', async () => {
         distPath: {
           root: 'dist-3',
         },
-        disableSourceMap: true,
+        sourceMap: false,
       },
     },
   });

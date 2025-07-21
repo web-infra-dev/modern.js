@@ -91,7 +91,9 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
       "html": "html",
     },
     "polyfill": "entry",
-    "sourceMap": undefined,
+    "sourceMap": {
+      "css": false,
+    },
   },
   "performance": {},
   "plugins": [],

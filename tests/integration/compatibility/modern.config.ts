@@ -5,7 +5,7 @@ export default applyBaseConfig({
     router: true,
   },
   output: {
-    disableSourceMap: true,
+    sourceMap: false,
     filenameHash: false,
   },
   security: {
