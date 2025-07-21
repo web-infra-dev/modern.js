@@ -47,7 +47,6 @@ const outputDefaults = {
   disableSourceMap: false,
   disableInlineRuntimeChunk: false,
   disableAssetsCache: false,
-  enableLatestDecorators: false,
   polyfill: 'entry',
   dataUriLimit: 10000,
   templateParameters: {},
