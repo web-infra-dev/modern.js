@@ -39,7 +39,6 @@ const outputDefaults = {
   scriptExt: undefined,
   disableHtmlFolder: false,
   disableCssModuleExtension: false,
-  disableCssExtract: false,
   enableCssModuleTSDeclaration: false,
   disableMinimize: false,
   enableInlineStyles: false,

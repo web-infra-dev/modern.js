@@ -143,35 +143,4 @@ describe('parseCommonConfig', () => {
       ).rsbuildConfig,
     ).toMatchSnapshot();
   });
-
-  const injectStylesCases: [UniBuilderConfig['output'], OutputConfig][] = [
-    [{}, { injectStyles: undefined }],
-    [{ injectStyles: true }, { injectStyles: true }],
-    [{ injectStyles: false }, { injectStyles: false }],
-    [{ disableCssExtract: true }, { injectStyles: true }],
-    [{ disableCssExtract: false }, { injectStyles: undefined }],
-    [{ disableCssExtract: true, injectStyles: true }, { injectStyles: true }],
-    [{ disableCssExtract: false, injectStyles: true }, { injectStyles: true }],
-    [{ disableCssExtract: true, injectStyles: false }, { injectStyles: false }],
-    [
-      { disableCssExtract: false, injectStyles: false },
-      { injectStyles: false },
-    ],
-    [
-      { disableCssExtract: false, injectStyles: false },
-      { injectStyles: false },
-    ],
-  ];
-  describe('output.injectStyles', () => {
-    for (const [config, output] of injectStylesCases) {
-      test(`${JSON.stringify(config)} => ${JSON.stringify(
-        output,
-      )}`, async () => {
-        expect(
-          (await parseCommonConfig({ output: config })).rsbuildConfig.output
-            ?.injectStyles,
-        ).toEqual(output.injectStyles);
-      });
-    }
-  });
 });

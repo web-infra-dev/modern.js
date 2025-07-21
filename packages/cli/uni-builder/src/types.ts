@@ -232,10 +232,6 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `output.sourceMap` instead
      */
     disableSourceMap?: DisableSourceMapOption;
-    /**
-     * @deprecated use `output.injectStyles` instead
-     */
-    disableCssExtract?: boolean;
   };
   html?: {
     appIcon?: string | HtmlConfig['appIcon'];
