@@ -78,7 +78,6 @@ export async function parseCommonConfig(
     output: {
       disableFilenameHash,
       enableInlineScripts,
-      disableCssExtract,
       enableInlineStyles,
       enableCssModuleTSDeclaration,
       disableCssModuleExtension,
@@ -190,10 +189,6 @@ export async function parseCommonConfig(
 
   if (enableInlineScripts) {
     output.inlineScripts = enableInlineScripts;
-  }
-
-  if (disableCssExtract) {
-    output.injectStyles ??= disableCssExtract;
   }
 
   if (enableInlineStyles) {

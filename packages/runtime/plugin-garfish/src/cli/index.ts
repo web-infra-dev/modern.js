@@ -98,7 +98,7 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
       const { metaName, packageName } = api.getAppContext();
       logger('useConfig', useConfig);
 
-      let disableCssExtract = useConfig.output?.disableCssExtract || false;
+      let injectStyles = useConfig.output?.injectStyles || false;
 
       // When the micro-frontend application js entry, there is no need to extract css, close cssExtract
       if (useConfig.deploy?.microFrontend) {
@@ -106,13 +106,13 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
           useConfig.deploy?.microFrontend,
         );
         if (!enableHtmlEntry) {
-          disableCssExtract = true;
+          injectStyles = true;
         }
       }
 
       return {
         output: {
-          disableCssExtract,
+          injectStyles,
         },
         resolve: {
           alias: {
