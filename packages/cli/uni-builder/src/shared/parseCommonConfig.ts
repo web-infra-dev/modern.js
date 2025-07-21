@@ -77,8 +77,6 @@ export async function parseCommonConfig(
     performance: { ...performanceConfig } = {},
     output: {
       disableFilenameHash,
-      enableInlineScripts,
-      enableInlineStyles,
       enableCssModuleTSDeclaration,
       disableCssModuleExtension,
       disableTsChecker,
@@ -185,14 +183,6 @@ export async function parseCommonConfig(
     output.cssModules ||= {};
     // priority: output.cssModules.auto -> disableCssModuleExtension
     output.cssModules.auto ??= isLooseCssModules;
-  }
-
-  if (enableInlineScripts) {
-    output.inlineScripts = enableInlineScripts;
-  }
-
-  if (enableInlineStyles) {
-    output.inlineStyles = enableInlineStyles;
   }
 
   if (disableFilenameHash !== undefined) {

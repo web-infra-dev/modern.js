@@ -14,16 +14,8 @@ export interface OutputUserConfig {
   disableInlineRouteManifests?: boolean;
   assetPrefix?: string;
   polyfill?: 'entry' | 'usage' | 'ua' | 'off';
-
-  /**
-   * @deprecated use `output.inlineScripts` instead
-   */
-  enableInlineScripts?: boolean;
-
-  /**
-   * @deprecated use `output.inlineStyles` instead
-   */
-  enableInlineStyles?: boolean;
+  inlineScripts?: boolean;
+  inlineStyles?: boolean;
 }
 
 export type OutputNormalizedConfig = OutputUserConfig;

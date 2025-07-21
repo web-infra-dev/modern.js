@@ -217,7 +217,7 @@ test('using RegExp to inline styles', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineStyles: /\/index\.\w+\.css$/,
+        inlineStyles: /\/index\.\w+\.css$/,
       },
       tools: toolsConfig,
     },
@@ -240,7 +240,7 @@ test('inline styles by filename and file size', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineStyles({ size, name }) {
+        inlineStyles({ size, name }) {
           return name.includes('index') && size < 1000;
         },
       },

@@ -115,12 +115,12 @@ export async function buildShellBeforeTemplate(
           }, [] as string[])
         : [];
 
-      const { enableInlineStyles } = config;
+      const { inlineStyles } = config;
 
       const styles = await Promise.all(
         cssChunks.map(async chunk => {
           const link = `<link href="${chunk}" rel="stylesheet" />`;
-          if (checkIsNode() && checkIsInline(chunk, enableInlineStyles)) {
+          if (checkIsNode() && checkIsInline(chunk, inlineStyles)) {
             return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {

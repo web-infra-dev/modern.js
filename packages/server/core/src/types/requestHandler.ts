@@ -21,8 +21,8 @@ export type RequestHandlerConfig = {
   nonce?: string;
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
   scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
-  enableInlineStyles?: boolean | RegExp;
-  enableInlineScripts?: boolean | RegExp;
+  inlineStyles?: boolean | RegExp;
+  inlineScripts?: boolean | RegExp;
   ssr?: ServerUserConfig['ssr'];
   ssrByEntries?: ServerUserConfig['ssrByEntries'];
   useJsonScript?: ServerUserConfig['useJsonScript'];

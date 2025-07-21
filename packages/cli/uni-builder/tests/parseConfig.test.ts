@@ -120,27 +120,21 @@ describe('parseCommonConfig', () => {
     ).toMatchSnapshot();
   });
 
-  test('output.enableInlineScripts', async () => {
-    expect(
-      (
-        await parseCommonConfig({
-          output: {
-            enableInlineScripts: true,
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
-  });
-
-  test('output.enableInlineStyles', async () => {
-    expect(
-      (
-        await parseCommonConfig({
-          output: {
-            enableInlineStyles: true,
-          },
-        })
-      ).rsbuildConfig,
-    ).toMatchSnapshot();
+  const injectStylesCases: [UniBuilderConfig['output'], OutputConfig][] = [
+    [{}, { injectStyles: undefined }],
+    [{ injectStyles: true }, { injectStyles: true }],
+    [{ injectStyles: false }, { injectStyles: false }],
+  ];
+  describe('output.injectStyles', () => {
+    for (const [config, output] of injectStylesCases) {
+      test(`${JSON.stringify(config)} => ${JSON.stringify(
+        output,
+      )}`, async () => {
+        expect(
+          (await parseCommonConfig({ output: config })).rsbuildConfig.output
+            ?.injectStyles,
+        ).toEqual(output.injectStyles);
+      });
+    }
   });
 });

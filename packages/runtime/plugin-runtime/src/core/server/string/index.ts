@@ -1,7 +1,5 @@
-import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
-import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
