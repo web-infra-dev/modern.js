@@ -67,7 +67,6 @@ export async function parseCommonConfig(
       enableAssetManifest,
       sourceMap,
       convertToRem,
-      disableMinimize,
       polyfill,
       dataUriLimit = 10000,
       distPath = {},
@@ -142,10 +141,6 @@ export async function parseCommonConfig(
   }
 
   output.charset ??= 'ascii';
-
-  if (disableMinimize) {
-    output.minify ||= false;
-  }
 
   /**
    * The default value in Rsbuild of `sourceMap.css` is `false` in development mode

@@ -39,7 +39,6 @@ const outputDefaults = {
   scriptExt: undefined,
   disableCssModuleExtension: false,
   enableCssModuleTSDeclaration: false,
-  disableMinimize: false,
   disableInlineRuntimeChunk: false,
   disableAssetsCache: false,
   polyfill: 'entry',
