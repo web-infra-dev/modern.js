@@ -54,7 +54,7 @@ describe('test ssg request', () => {
     await killApp(app);
   });
 
-  test('should support enableInlineScripts', async () => {
+  test('should visit page correctly', async () => {
     const host = `http://localhost`;
     expect(buildRes.code === 0).toBe(true);
     const browser = await puppeteer.launch(launchOptions as any);
