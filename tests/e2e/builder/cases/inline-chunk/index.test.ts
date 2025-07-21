@@ -159,7 +159,7 @@ test('using RegExp to inline scripts', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineScripts: /\/index\.\w+\.js$/,
+        inlineScripts: /\/index\.\w+\.js$/,
       },
       tools: toolsConfig,
     },
@@ -187,7 +187,7 @@ test('inline scripts by filename and file size', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineScripts({ size, name }) {
+        inlineScripts({ size, name }) {
           return name.includes('index') && size < 1000;
         },
       },

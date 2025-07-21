@@ -87,7 +87,7 @@ describe('test build', () => {
   //   expect(configContent.includes('babel-loader')).toBeFalsy();
   // });
 
-  test('should support enableInlineScripts', async () => {
+  test('should visit page correctly', async () => {
     const host = `http://localhost`;
     expect(buildRes.code === 0).toBe(true);
     const browser = await puppeteer.launch(launchOptions as any);
