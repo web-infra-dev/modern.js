@@ -144,8 +144,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         ? { [RUNTIME_HONO]: RUNTIME_HONO }
         : undefined;
 
-      const devServer = api.useConfigContext()?.tools?.devServer;
-      const prefix = api.useConfigContext()?.bff?.prefix || DEFAULT_API_PREFIX;
+      const devServer = api.getConfig()?.tools?.devServer;
+      const prefix = api.getConfig()?.bff?.prefix || DEFAULT_API_PREFIX;
 
       if (
         typeof devServer === 'object' &&
