@@ -11,23 +11,23 @@ type LazyCompilationOptions =
   | boolean
   | {
       /**
-       * 为 entries 启用 lazy compilation
+       * Enable lazy compilation for entries.
        */
       entries?: boolean;
       /**
-       * 为 dynamic imports 启用 lazy compilation
+       * Enable lazy compilation for dynamic imports.
        */
       imports?: boolean;
       /**
-       * 指定哪些导入的模块应该被延迟编译
+       * Specify which imported modules should be lazily compiled.
        */
       test?: RegExp | ((m: Module) => boolean);
       /**
-       * 指定一个自定义的运行时代码路径，用于覆盖默认的 lazy compilation client
+       * The path to a custom runtime code that overrides the default lazy compilation client.
        */
       client?: string;
       /**
-       * 指定 client 需要请求的 server URL
+       * Tells the client the server URL that needs to be requested.
        */
       serverUrl?: string;
     };
