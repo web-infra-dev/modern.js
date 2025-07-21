@@ -5,7 +5,7 @@ export default applyBaseConfig({
     template: './src/index.html',
   },
   output: {
-    disableFilenameHash: true,
+    filenameHash: false,
     disableInlineRuntimeChunk: true,
   },
   performance: { chunkSplit: { strategy: 'all-in-one' } },

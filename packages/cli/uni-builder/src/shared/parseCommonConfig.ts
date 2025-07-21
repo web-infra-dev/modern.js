@@ -76,7 +76,6 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
-      disableFilenameHash,
       enableCssModuleTSDeclaration,
       disableCssModuleExtension,
       disableTsChecker,
@@ -183,10 +182,6 @@ export async function parseCommonConfig(
     output.cssModules ||= {};
     // priority: output.cssModules.auto -> disableCssModuleExtension
     output.cssModules.auto ??= isLooseCssModules;
-  }
-
-  if (disableFilenameHash !== undefined) {
-    output.filenameHash = !disableFilenameHash;
   }
 
   const extraConfig: RsbuildConfig = {};

@@ -158,7 +158,7 @@ function applyRouterPlugin(
         HtmlBundlerPlugin,
         enableInlineRouteManifests: inlineRouteManifests!,
         staticJsDir: normalizedConfig.output?.distPath?.js,
-        disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
+        disableFilenameHash: normalizedConfig.output?.filenameHash === false,
         scriptLoading: normalizedConfig.html?.scriptLoading,
         nonce: normalizedConfig.security?.nonce,
       },
