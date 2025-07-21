@@ -128,14 +128,14 @@ The following are strategies for improve build performance in production environ
 
 ### Disable Source Map
 
-If your project does not need Source Map in the production, you can turn it off through the `disableSourceMap` config to improve the build speed.
+If your project does not need Source Map in the production, you can turn it off through the `sourcemap` config to improve the build speed.
 
 ```js
 export default {
   output: {
-    disableSourceMap: true,
+    sourceMap: false,
   },
 };
 ```
 
-See [output.disableSourceMap](/en/configure/app/output/disable-source-map.html) for details.
+See [output.sourceMap](/en/configure/app/output/source-map.html) for details.

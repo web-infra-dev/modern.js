@@ -89,13 +89,6 @@ export type MainFields = (string | string[])[];
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
-export type DisableSourceMapOption =
-  | boolean
-  | {
-      js?: boolean;
-      css?: boolean;
-    };
-
 export type ToolsDevServerConfig = ConfigChain<{
   compress?: ServerConfig['compress'];
   headers?: ServerConfig['headers'];
@@ -215,11 +208,6 @@ export type UniBuilderExtraConfig = {
      * Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
      */
     disableSvgr?: boolean;
-    /**
-     * Whether to disable source map.
-     * @deprecated use `output.sourceMap` instead
-     */
-    disableSourceMap?: DisableSourceMapOption;
   };
   html?: {
     appIcon?: string | HtmlConfig['appIcon'];

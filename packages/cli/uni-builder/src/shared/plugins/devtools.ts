@@ -1,45 +1,28 @@
-import { logger } from '@modern-js/utils';
 import type { RsbuildPlugin, SourceMap } from '@rsbuild/core';
-import type { DisableSourceMapOption } from '../../types';
-
-const isUseJsSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
-  if (typeof disableSourceMap === 'boolean') {
-    return !disableSourceMap;
-  }
-  return !disableSourceMap.js;
-};
 
 export const pluginDevtool = (options: {
-  disableSourceMap?: DisableSourceMapOption;
   sourceMap?: SourceMap | boolean;
 }): RsbuildPlugin => ({
   name: 'uni-builder:devtool',
 
   setup(api) {
-    // priority order
-    // 1. output.sourceMap.js, if this value is set, we won't apply this plugin and let rsbuild handles it
+    /**
+     * If `output.sourceMap` is a boolean(means user specify the value) or `output.sourceMap.js` is setting
+     * We won't apply this plugin and let Rsbuild handles JS sourceMap
+     */
     const devtoolJs =
       typeof options.sourceMap === 'boolean' ||
       options.sourceMap?.js !== undefined;
     if (devtoolJs) {
-      if (
-        typeof options.disableSourceMap === 'boolean' ||
-        options.disableSourceMap?.js !== undefined
-      ) {
-        logger.warn(
-          'Detected that `output.sourceMap` and `output.disableSourceMap` are used together, use the value of `output.sourceMap`',
-        );
-      }
       return;
     }
-    api.modifyBundlerChain((chain, { isProd, isServer }) => {
-      // 2. output.disableSourceMap
-      if (!isUseJsSourceMap(options.disableSourceMap)) {
-        chain.devtool(false);
-        return;
-      }
 
-      // 3. default behavior
+    api.modifyBundlerChain((chain, { isProd, isServer }) => {
+      /**
+       * The default value in Rsbuild of `devtool` is 'cheap-module-source-map' in development and `false` in production.
+       * In Modern.js, we need to set it to 'cheap-module-source-map' in development and 'hidden-source-map' in production.
+       * And in SSR Bundle, we need to set it to 'source-map' in production.
+       */
       const prodDevTool = isServer ? 'source-map' : 'hidden-source-map';
       const devtool = isProd
         ? // hide the source map URL in production to avoid Chrome warning
