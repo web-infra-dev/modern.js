@@ -1,0 +1,45 @@
+---
+title: lazyCompilation
+---
+
+# dev.lazyCompilation
+
+- **Type:**
+
+```ts
+type LazyCompilationOptions =
+  | boolean
+  | {
+      /**
+       * 为 entries 启用 lazy compilation
+       */
+      entries?: boolean;
+      /**
+       * 为 dynamic imports 启用 lazy compilation
+       */
+      imports?: boolean;
+      /**
+       * 指定哪些导入的模块应该被延迟编译
+       */
+      test?: RegExp | ((m: Module) => boolean);
+      /**
+       * 指定一个自定义的运行时代码路径，用于覆盖默认的 lazy compilation client
+       */
+      client?: string;
+      /**
+       * 指定 client 需要请求的 server URL
+       */
+      serverUrl?: string;
+    };
+```
+
+- **Default:** `false`
+
+Enable lazy compilation (compilation on demand), implemented based on Rspack's [lazy compilation](https://rspack.rs/guide/features/lazy-compilation) feature.
+
+import RsbuildLink from '@site/src/components/RsbuildLink';
+
+:::info
+The usage of this configuration item is exactly the same as that of Rsbuild. For detailed information, please refer to <RsbuildLink configName="dev.lazyCompilation"/>。
+In Rspack build mode,
+:::

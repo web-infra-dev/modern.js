@@ -240,7 +240,6 @@ export type UniBuilderExtraConfig = {
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
-    lazyCompilation?: DevConfig['lazyCompilation'];
     /**
      * Enable the ability for source code building
      */
