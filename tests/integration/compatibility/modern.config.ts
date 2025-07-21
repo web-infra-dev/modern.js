@@ -6,7 +6,7 @@ export default applyBaseConfig({
   },
   output: {
     disableSourceMap: true,
-    disableFilenameHash: true,
+    filenameHash: false,
   },
   security: {
     checkSyntax: {

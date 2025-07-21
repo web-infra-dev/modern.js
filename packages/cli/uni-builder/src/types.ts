@@ -180,10 +180,6 @@ export type UniBuilderExtraConfig = {
      */
     disableMinimize?: boolean;
     /**
-     * @deprecated use `output.filenameHash` instead
-     */
-    disableFilenameHash?: boolean;
-    /**
      * Whether to generate a TypeScript declaration file for CSS Modules.
      */
     enableCssModuleTSDeclaration?: boolean;
