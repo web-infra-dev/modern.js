@@ -212,14 +212,6 @@ export type UniBuilderExtraConfig = {
      */
     disableTsChecker?: boolean;
     /**
-     * @deprecated use `output.inlineScripts` instead
-     */
-    enableInlineScripts?: OutputConfig['inlineScripts'];
-    /**
-     * @deprecated use `output.inlineStyles` instead
-     */
-    enableInlineStyles?: OutputConfig['injectStyles'];
-    /**
      * Configure the default export type of SVG files.
      */
     svgDefaultExport?: SvgDefaultExport;

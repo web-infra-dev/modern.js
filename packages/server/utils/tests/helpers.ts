@@ -41,8 +41,6 @@ const outputDefaults = {
   disableCssModuleExtension: false,
   enableCssModuleTSDeclaration: false,
   disableMinimize: false,
-  enableInlineStyles: false,
-  enableInlineScripts: false,
   disableSourceMap: false,
   disableInlineRuntimeChunk: false,
   disableAssetsCache: false,

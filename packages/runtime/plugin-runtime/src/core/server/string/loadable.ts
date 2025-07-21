@@ -63,8 +63,8 @@ export interface LoadableCollectorOptions {
 
 export interface LoadableCollectorConfig {
   scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
-  enableInlineStyles?: boolean | RegExp;
-  enableInlineScripts?: boolean | RegExp;
+  inlineStyles?: boolean | RegExp;
+  inlineScripts?: boolean | RegExp;
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
   enableAsyncEntry?: boolean;
 }
@@ -148,7 +148,7 @@ export class LoadableCollector implements Collector {
 
   private async emitScriptAssets(chunks: Chunk[]) {
     const { template, nonce, chunkSet, config } = this.options;
-    const { scriptLoading = 'defer', enableInlineScripts } = config;
+    const { scriptLoading = 'defer', inlineStyles } = config;
 
     const scriptLoadingAtr = {
       defer: scriptLoading === 'defer' ? true : undefined,
@@ -186,7 +186,7 @@ export class LoadableCollector implements Collector {
           const script = `<script${attributes} src="${chunk.url}"></script>`;
 
           // only in node read assets
-          if (checkIsNode() && checkIsInline(chunk, enableInlineScripts)) {
+          if (checkIsNode() && checkIsInline(chunk, inlineStyles)) {
             return readAsset(chunk)
               .then(content => `<script>${content}</script>`)
               .catch(_ => {
@@ -205,7 +205,7 @@ export class LoadableCollector implements Collector {
   private async emitStyleAssets(chunks: Chunk[]) {
     const { template, chunkSet, config, entryName } = this.options;
 
-    const { enableInlineStyles } = config;
+    const { inlineStyles } = config;
 
     const atrributes = attributesToString(this.generateAttributes());
 
@@ -231,7 +231,7 @@ export class LoadableCollector implements Collector {
           const link = `<link${atrributes} href="${chunk.url}" rel="stylesheet" />`;
 
           // only in node read asserts
-          if (checkIsNode() && checkIsInline(chunk, enableInlineStyles)) {
+          if (checkIsNode() && checkIsInline(chunk, inlineStyles)) {
             return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {
