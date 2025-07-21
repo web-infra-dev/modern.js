@@ -17,7 +17,7 @@ describe('get server routes', () => {
     },
   };
   const htmlConfig = {
-    disableHtmlFolder: false,
+    outputStructure: 'nested',
   };
 
   const serverConfig = { baseUrl: '/' };
@@ -104,7 +104,7 @@ describe('get server routes', () => {
             ...outputConfig,
           },
           html: {
-            disableHtmlFolder: true,
+            outputStructure: 'flat',
           },
           server: {
             ...serverConfig,

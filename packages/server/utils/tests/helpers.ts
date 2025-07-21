@@ -37,7 +37,6 @@ const outputDefaults = {
   favicon: '',
   copy: undefined,
   scriptExt: undefined,
-  disableHtmlFolder: false,
   disableCssModuleExtension: false,
   enableCssModuleTSDeclaration: false,
   disableMinimize: false,

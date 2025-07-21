@@ -196,29 +196,6 @@ test('template & templateParameters', async ({ page }) => {
   builder.close();
 });
 
-test('disableHtmlFolder', async ({ page }) => {
-  const builder = await build({
-    cwd: join(fixtures, 'template'),
-    entry: {
-      main: join(join(fixtures, 'template'), 'src/index.ts'),
-    },
-    runServer: true,
-    builderConfig: {
-      html: {
-        disableHtmlFolder: true,
-      },
-    },
-  });
-
-  await page.goto(getHrefByEntryName('main', builder.port));
-
-  const pagePath = join(builder.distPath, 'html/main.html');
-
-  expect(fs.existsSync(pagePath)).toBeTruthy();
-
-  builder.close();
-});
-
 test('outputStructrue flat', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'template'),
@@ -259,30 +236,6 @@ test('outputStructrue nested', async ({ page }) => {
   await page.goto(getHrefByEntryName('main', builder.port));
 
   const pagePath = join(builder.distPath, 'html/main/index.html');
-
-  expect(fs.existsSync(pagePath)).toBeTruthy();
-
-  builder.close();
-});
-
-test('outputStructrue and disableHtmlFolder', async ({ page }) => {
-  const builder = await build({
-    cwd: join(fixtures, 'template'),
-    entry: {
-      main: join(join(fixtures, 'template'), 'src/index.ts'),
-    },
-    runServer: true,
-    builderConfig: {
-      html: {
-        outputStructure: 'flat',
-        disableHtmlFolder: false,
-      },
-    },
-  });
-
-  await page.goto(getHrefByEntryName('main', builder.port));
-
-  const pagePath = join(builder.distPath, 'html/main.html');
 
   expect(fs.existsSync(pagePath)).toBeTruthy();
 
