@@ -188,10 +188,6 @@ export type UniBuilderExtraConfig = {
      */
     enableCssModuleTSDeclaration?: boolean;
     /**
-     * @deprecated use `source.decorators` instead
-     */
-    enableLatestDecorators?: boolean;
-    /**
      * Whether to generate a manifest file that contains information of all assets.
      */
     enableAssetManifest?: boolean;

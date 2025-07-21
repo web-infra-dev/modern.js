@@ -77,7 +77,6 @@ export async function parseCommonConfig(
     performance: { ...performanceConfig } = {},
     output: {
       disableFilenameHash,
-      enableLatestDecorators,
       enableInlineScripts,
       disableCssExtract,
       enableInlineStyles,
@@ -159,12 +158,8 @@ export async function parseCommonConfig(
   source.transformImport =
     transformImport === false ? () => [] : transformImport;
 
-  if (enableLatestDecorators) {
+  if (!source.decorators) {
     source.decorators = {
-      version: '2022-03',
-    };
-  } else {
-    source.decorators ??= {
       version: 'legacy',
     };
   }
