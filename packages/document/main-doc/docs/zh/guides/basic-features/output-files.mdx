@@ -48,7 +48,7 @@ Modern.js 提供了多个配置项来修改产物目录和产物名称，你可�
 - 通过 [output.distPath](/configure/app/output/dist-path) 来修改产物的输出路径。
 - 通过 [output.legalComments](/configure/app/output/legal-comments) 来修改 License 文件的生成方式。
 - 通过 [output.disableSourceMap](/configure/app/output/disable-source-map) 来移除 Source Map 文件。
-- 通过 [html.disableHtmlFolder](/configure/app/html/disable-html-folder) 移除 HTML 产物对应的文件夹。
+- 通过 [html.outputStructure](/configure/app/html/output-structure) 移除 HTML 产物对应的文件夹。
 
 ## 静态资源
 
@@ -112,7 +112,7 @@ export default {
     },
   },
   html: {
-    disableHtmlFolder: true,
+    outputStructure: 'flat',
   },
 };
 ```

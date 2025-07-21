@@ -92,7 +92,7 @@ export async function parseCommonConfig(
       distPath = {},
       ...outputConfig
     } = {},
-    html: { disableHtmlFolder, outputStructure, appIcon, ...htmlConfig } = {},
+    html: { outputStructure, appIcon, ...htmlConfig } = {},
     source: {
       alias,
       globalVars,
@@ -187,8 +187,7 @@ export async function parseCommonConfig(
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
 
-  extraConfig.html.outputStructure =
-    outputStructure ?? (disableHtmlFolder ? 'flat' : 'nested');
+  extraConfig.html.outputStructure = outputStructure ?? 'nested';
 
   html.title ??= '';
 
