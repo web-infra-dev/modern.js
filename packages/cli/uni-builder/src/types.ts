@@ -231,15 +231,6 @@ export type UniBuilderExtraConfig = {
     // TODO: need support rsbuild favicon type in server/utils
     favicon?: string;
   };
-  performance?: {
-    /**
-     * Specifies whether to modularize the import of [lodash](https://npmjs.com/package/lodash)
-     * and remove unused lodash modules to reduce the code size of lodash.
-     *
-     * Tips: this configuration is not yet supported in rspack
-     */
-    transformLodash?: boolean;
-  };
   security?: {
     /**
      * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
