@@ -83,7 +83,7 @@ export const pluginPostcss = (
             /**
              * normalizeUrl will transform relative url from `./assets/img.svg` to `assets/img.svg`.
              * It may break the behavior of webpack resolver while using style-loader.
-             * So disable it while `output.injectStyles = true` or `output.disableCssExtract = true`.
+             * So disable it while `output.injectStyles = true`
              */
             normalizeUrl: false,
           },
