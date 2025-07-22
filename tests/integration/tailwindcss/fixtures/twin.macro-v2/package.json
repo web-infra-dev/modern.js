@@ -9,6 +9,6 @@
     "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "twin.macro": "^2"
+    "twin.macro": "^2.8.2"
   }
 }
