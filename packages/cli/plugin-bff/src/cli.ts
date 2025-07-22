@@ -1,3 +1,4 @@
+import type { IncomingMessage } from 'http';
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
@@ -142,6 +143,24 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const honoRuntimePath = isHono()
         ? { [RUNTIME_HONO]: RUNTIME_HONO }
         : undefined;
+
+      const devServer = api.getConfig()?.tools?.devServer;
+      const prefix = api.getConfig()?.bff?.prefix || DEFAULT_API_PREFIX;
+
+      if (
+        typeof devServer === 'object' &&
+        devServer !== null &&
+        !Array.isArray(devServer)
+      ) {
+        const compress = devServer.compress;
+        if (typeof compress === 'undefined' || compress === true) {
+          devServer.compress = {
+            filter: (req: IncomingMessage) => {
+              return !req.url?.includes(prefix);
+            },
+          };
+        }
+      }
 
       return {
         tools: {
