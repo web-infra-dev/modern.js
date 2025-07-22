@@ -532,8 +532,8 @@ importers:
         specifier: 5.0.3
         version: 5.0.3(@rspack/core@1.4.8(@swc/helpers@0.5.17))
       ts-deepmerge:
-        specifier: 7.0.2
-        version: 7.0.2
+        specifier: 7.0.3
+        version: 7.0.3
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -1895,8 +1895,8 @@ importers:
         specifier: ^3.12.2
         version: 3.12.12
       ts-deepmerge:
-        specifier: 7.0.2
-        version: 7.0.2
+        specifier: 7.0.3
+        version: 7.0.3
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -17017,6 +17017,10 @@ packages:
     resolution: {integrity: sha512-akcpDTPuez4xzULo5NwuoKwYRtjQJ9eoNfBACiBMaXwNAx7B1PKfe5wqUFJuW5uKzQ68YjDFwPaWHDG1KnFGsA==}
     engines: {node: '>=14.13.1'}
 
+  ts-deepmerge@7.0.3:
+    resolution: {integrity: sha512-Du/ZW2RfwV/D4cmA5rXafYjBQVuvu4qGiEEla4EmEHVHgRdx68Gftx7i66jn2bzHPwSVZY36Ae6OuDn9el4ZKA==}
+    engines: {node: '>=14.13.1'}
+
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
@@ -31339,6 +31343,8 @@ snapshots:
   ts-dedent@2.2.0: {}
 
   ts-deepmerge@7.0.2: {}
+
+  ts-deepmerge@7.0.3: {}
 
   ts-interface-checker@0.1.13: {}
 

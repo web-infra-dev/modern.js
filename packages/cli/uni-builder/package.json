@@ -62,7 +62,7 @@
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
     "rspack-manifest-plugin": "5.0.3",
-    "ts-deepmerge": "7.0.2"
+    "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
