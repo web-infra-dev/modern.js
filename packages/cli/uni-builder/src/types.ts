@@ -169,10 +169,6 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
-     * @deprecated use `output.minify` instead
-     */
-    disableMinimize?: boolean;
-    /**
      * Whether to generate a TypeScript declaration file for CSS Modules.
      */
     enableCssModuleTSDeclaration?: boolean;
