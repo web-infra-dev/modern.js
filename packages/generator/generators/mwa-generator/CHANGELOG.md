@@ -1,5 +1,7 @@
 # @modern-js/mwa-generator
 
+## 3.7.41
+
 ## 3.7.40
 
 ## 3.7.39

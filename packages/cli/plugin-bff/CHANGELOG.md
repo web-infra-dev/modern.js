@@ -1,5 +1,17 @@
 # @modern-js/plugin-bff
 
+## 2.68.4
+
+### Patch Changes
+
+- 698edef: feat(bff):should not compress the api response
+  feat(bff): 不应该压缩 bff 的响应
+  - @modern-js/bff-core@2.68.4
+  - @modern-js/server-core@2.68.4
+  - @modern-js/create-request@2.68.4
+  - @modern-js/server-utils@2.68.4
+  - @modern-js/utils@2.68.4
+
 ## 2.68.3
 
 ### Patch Changes
