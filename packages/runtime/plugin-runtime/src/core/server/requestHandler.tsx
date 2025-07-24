@@ -227,7 +227,7 @@ export const createRequestHandler: CreateRequestHandler = async (
           if (typeof Response !== 'undefined' && result instanceof Response) {
             return result;
           }
-          return context;
+          return context.initialData;
         };
 
         const ssrContext = createSSRContext(request, {
@@ -293,7 +293,7 @@ export const createRequestHandler: CreateRequestHandler = async (
           options.onError(errors[0], SSRErrors.LOADER_ERROR);
         }
 
-        context.initialData = initialData as RuntimeContext;
+        context.initialData = initialData as Record<string, any>;
 
         const redirectResponse = getRedirectResponse(initialData);
 
