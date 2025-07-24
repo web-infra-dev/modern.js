@@ -180,7 +180,7 @@ export const MWANewActionPluginDependence: Record<
   Record<string, string>
 > = {
   [ActionType.Element]: {
-    [ActionElement.Server]: '@modern-js/plugin-server',
+    [ActionElement.Server]: '',
   },
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',

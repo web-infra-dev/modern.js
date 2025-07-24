@@ -20,17 +20,6 @@ const getPackageConfig = <T>(
   return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
 };
 
-export const addServerConfigToDeps = async (
-  dependencies: string[],
-  appDirectory: string,
-  serverConfigFile: string,
-) => {
-  const serverConfig = await getServerConfig(appDirectory, serverConfigFile);
-  if (serverConfig) {
-    dependencies.push(serverConfig);
-  }
-};
-
 export async function generateWatchFiles(
   appContext: AppToolsContext,
   configDir?: string,
@@ -45,10 +34,5 @@ export async function generateWatchFiles(
     ? [path.resolve(appDirectory, './package.json')]
     : [];
 
-  await addServerConfigToDeps(
-    dependencies,
-    appContext.appDirectory,
-    appContext.serverConfigFile,
-  );
   return [`${configPath}/html`, configFile || './config', ...dependencies];
 }

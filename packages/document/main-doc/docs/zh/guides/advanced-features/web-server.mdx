@@ -223,17 +223,8 @@ export default () => {
 ## 旧版 API（废弃）
 
 :::warning
-旧版 API 兼容但不再推荐使用，扩展 Server 能力请移步 [自定义 Web Server](/guides/advanced-features/web-server.html)，迁移指南参考 [迁移至新版自定义 Web Server](/guides/advanced-features/web-server.html#迁移至新版自定义-web-server)。
+旧版 API 已不再兼容，扩展 Server 能力请移步 [自定义 Web Server](/guides/advanced-features/web-server.html)，迁移指南参考 [迁移至新版自定义 Web Server](/guides/advanced-features/web-server.html#迁移至新版自定义-web-server)。
 :::
-
-### 开启
-
-开启自定义 Web Server 功能，需要执行以下步骤：
-
-1. devDependencies 增加 `@modern-js/plugin-server`、`tsconfig-paths` 及 `ts-node`依赖并安装。
-2. `tsconfig` 的 `include` 中添加 `server`。
-3. `modern.config.ts` 中注册 `@modern-js/plugin-server` 插件。
-4. 项目目录下创建 `server/index.ts` 文件，可以在这个文件中编写自定义逻辑。
 
 ### Unstable Middleware
 
@@ -257,10 +248,6 @@ const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
 
 export const unstableMiddleware: UnstableMiddleware[] = [time];
 ```
-
-:::info
-详细 API 和更多用法查看 [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware)。
-:::
 
 ### Hook
 
@@ -288,10 +275,6 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 1. 在 afterMatch 中做权限校验。
 2. 在 afterMatch 做 Rewrite 和 Redirect。
 3. 在 afterRender 中做 HTML 内容注入。
-
-:::info
-详细 API 和更多用法可以查看 [Hook](/apis/app/runtime/web-server/hook)。
-:::
 
 ## 迁移至新版自定义 Web Server
 

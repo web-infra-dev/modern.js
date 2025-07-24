@@ -56,11 +56,11 @@ export interface Monitors {
   warn(message: string, ...args: any[]): void;
   debug(message: string, ...args: any[]): void;
   info(message: string, ...args: any[]): void;
-  trace(message: string,...args: any[]): void;
+  trace(message: string, ...args: any[]): void;
 
   // 指标事件
   timing(name: string, dur: number, ...args: any[]): void;
-  counter(name: string, ...args: any[]): void
+  counter(name: string, ...args: any[]): void;
 }
 ```
 
@@ -70,7 +70,6 @@ Modern.js 内置了默认的 Monitor，不同的事件会触发内置 Monitor �
 
 - [日志事件](/guides/advanced-features/server-monitor/logger)
 - [指标事件](/guides/advanced-features/server-monitor/metrics)
-
 
 ## 注册 Monitors
 
@@ -82,20 +81,20 @@ Modern.js 内置了默认的 Monitor，不同的事件会触发内置 Monitor �
 
 ```ts title="server/index.ts"
 import type { CoreMonitors } from '@modern-js/types';
-const injectMonitorMiddleware = (c) => {
-    const monitors = c.get('monitors');
-    const myMonitor = (event: MonitorEvent) => {
-        if (event.type === 'log') {
-          // some code
-        } else {
-          // some other code
-        }
+const injectMonitorMiddleware = c => {
+  const monitors = c.get('monitors');
+  const myMonitor = (event: MonitorEvent) => {
+    if (event.type === 'log') {
+      // some code
+    } else {
+      // some other code
     }
-    monitors.push(myMonitor);
-    return next();
-}
+  };
+  monitors.push(myMonitor);
+  return next();
+};
 
-export const middlewares = [injectMonitorMiddleware]
+export const middlewares = [injectMonitorMiddleware];
 ```
 
 ## 调用 Monitors
@@ -128,30 +127,41 @@ const loader = async ({ context }: LoaderFunctionArgs) => {
 ```tsx title="routes/page.tsx"
 import { getMonitors } from '@modern-js/runtime';
 const Page = () => {
-    const { context } = useRuntimeContext();
-    if (process.env.MODERN_TARGET === 'node') {
-        const monitors = getMonitors();
-        monitors.info();
-    }
-    return <div>Hello World</div>
-}
+  const { context } = useRuntimeContext();
+  if (process.env.MODERN_TARGET === 'node') {
+    const monitors = getMonitors();
+    monitors.info();
+  }
+  return <div>Hello World</div>;
+};
 export default Page;
 ```
 
 在中间件中，我们也可以调用 Monitors，但方式与在运行时代码中不同，需要通过 `context` 来获取：
 
-```ts title="server/index.ts"
-import { UnstableMiddleware } from '@modern-js/runtime/server';
+```ts title="server/modern.server.ts"
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
 
-const time: UnstableMiddleware = async (c, next) => {
-  const start = Date.now();
-  await next();
-  const end = Date.now();
+export const handler: MiddlewareHandler = async (c, next) => {
   const monitors = c.get('monitors');
-  monitors.info(`${end - start}`);
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // 上报耗时
+  monitors.timing('request_timing', end - start);
 };
 
-export const unstableMiddleware: UnstableMiddleware[] = [time];
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
 ```
-
-

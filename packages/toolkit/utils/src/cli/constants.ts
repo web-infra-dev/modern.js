@@ -7,7 +7,6 @@ export {
   SERVER_BUNDLE_DIRECTORY,
   SERVER_RENDER_FUNCTION_NAME,
   SERVER_PLUGIN_BFF,
-  SERVER_PLUGIN_SERVER,
   SERVER_PLUGIN_POLYFILL,
 } from '../universal/constants';
 
@@ -53,11 +52,6 @@ export const OUTPUT_CONFIG_FILE = 'modern.config.json';
  * Default runtime config filename
  */
 export const DEFAULT_RUNTIME_CONFIG = 'modern.runtime';
-
-/**
- * Default server config basename
- */
-export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 
 /**
  * Routes manifest filename

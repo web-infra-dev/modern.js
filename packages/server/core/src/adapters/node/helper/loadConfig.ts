@@ -1,13 +1,10 @@
 import path from 'path';
 import {
   fs,
-  DEFAULT_SERVER_CONFIG,
   OUTPUT_CONFIG_FILE,
   lodash as _,
-  chalk,
   compatibleRequire,
   ensureAbsolutePath,
-  getMeta,
   requireExistModule,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
@@ -42,27 +39,9 @@ async function loadServerConfigOld(
   return serverConfig;
 }
 
-export async function loadServerRuntimeConfig(
-  pwd: string,
-  oldServerFile: string = DEFAULT_SERVER_CONFIG,
-  newServerConfigPath?: string,
-  metaName?: string,
-) {
-  const newServerConfig =
-    newServerConfigPath && (await loadServerConfigNew(newServerConfigPath));
-
-  if (newServerConfig) {
-    return newServerConfig;
-  }
-
-  const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
-  if (oldServerConfig) {
-    const meta = getMeta(metaName);
-    console.warn(
-      `${chalk.red('\n[Warning]')} ${chalk.yellow.bold(`\`${oldServerFile}\``)} is no longer maintained. To extend the server, please migrate to ${chalk.yellow.bold(`\`server/${meta}.server.ts\``)};`,
-    );
-  }
-  return oldServerConfig;
+export async function loadServerRuntimeConfig(serverConfigPath: string) {
+  const newServerConfig = await loadServerConfigNew(serverConfigPath);
+  return newServerConfig;
 }
 
 export function loadServerCliConfig(

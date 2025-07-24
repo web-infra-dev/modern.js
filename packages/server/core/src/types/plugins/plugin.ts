@@ -11,7 +11,6 @@ import type {
   AfterMatchContext,
   AfterRenderContext,
   AfterStreamingRenderContext,
-  UnstableMiddleware,
 } from '@modern-js/types';
 import type { MiddlewareHandler } from 'hono';
 import type { MiddlewareObj } from './base';
@@ -26,7 +25,7 @@ import type {
 export type FallbackFn = (input: FallbackInput) => Promise<FallbackInput>;
 export type PrepareWebServerFn = (
   input: WebServerStartInput,
-) => Promise<WebAdapter | Array<UnstableMiddleware> | null>;
+) => Promise<WebAdapter | null>;
 export type PrepareApiServerFn = (
   input: APIServerStartInput,
 ) => Promise<MiddlewareHandler>;

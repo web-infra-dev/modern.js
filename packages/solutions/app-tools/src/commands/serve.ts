@@ -31,7 +31,6 @@ export const serve = async (
     port,
     metaName,
     serverRoutes,
-    serverConfigFile,
   } = appContext;
 
   const { isCrossProjectServer } = (userConfig?.bff as any) || {};
@@ -71,7 +70,6 @@ export const serve = async (
     },
     routes: serverRoutes,
     plugins: pluginInstances,
-    serverConfigFile,
     serverConfigPath,
     appContext: {
       appDirectory,

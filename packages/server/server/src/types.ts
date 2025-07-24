@@ -43,9 +43,6 @@ export type ExtraOptions = {
    */
   compiler?: Rspack.Compiler | Rspack.MultiCompiler;
 
-  /** compat, the default value is modern.server-runtime.config.ts  */
-  serverConfigFile?: string;
-
   serverConfigPath: string;
 
   builder?: BuilderInstance;

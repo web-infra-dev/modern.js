@@ -110,6 +110,7 @@ type ServerVariables = {
    * The current matched route, now only expose entryName field.
    */
   route: Required<Pick<ServerRoute, 'entryName'>>;
+  forceCSR?: string;
 };
 
 export type ServerEnv = {

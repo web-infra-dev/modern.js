@@ -3,13 +3,14 @@
   "name": "ssg-fixtures-web-server",
   "version": "2.66.0",
   "scripts": {
-    "build": "modern build"
+    "build": "modern build",
+    "dev": "modern dev"
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-server": "workspace:*",
     "@modern-js/plugin-ssg": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }

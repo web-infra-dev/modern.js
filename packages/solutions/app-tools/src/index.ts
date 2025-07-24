@@ -19,10 +19,7 @@ import {
   upgradeCommand,
 } from './commands';
 import { compatPlugin } from './compat';
-import {
-  DEFAULT_RUNTIME_CONFIG_FILE,
-  DEFAULT_SERVER_CONFIG_FILE,
-} from './constants';
+import { DEFAULT_RUNTIME_CONFIG_FILE } from './constants';
 import { i18n } from './locale';
 import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
@@ -86,7 +83,6 @@ export const appTools = (): CliPlugin<AppTools> => ({
       initAppContext({
         metaName: context.metaName,
         appDirectory: context.appDirectory,
-        serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
         runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
         tempDir: userConfig.output?.tempDir,
       }),

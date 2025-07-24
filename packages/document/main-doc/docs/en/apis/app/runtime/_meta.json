@@ -31,12 +31,6 @@
   },
   {
     "type": "dir",
-    "name": "web-server",
-    "label": "Web Server",
-    "collapsed": true
-  },
-  {
-    "type": "dir",
     "name": "utility",
     "label": "Utility",
     "collapsed": true

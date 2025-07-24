@@ -6,7 +6,6 @@ export const initAppContext = ({
   appDirectory,
   runtimeConfigFile,
   options,
-  serverConfigFile,
   tempDir,
 }: {
   metaName: string;
@@ -18,14 +17,12 @@ export const initAppContext = ({
     distDir?: string;
     sharedDir?: string;
   };
-  serverConfigFile: string;
   tempDir?: string;
 }) => {
   const { apiDir = 'api', sharedDir = 'shared' } = options || {};
   const pkgPath = path.resolve(appDirectory, './package.json');
   return {
     runtimeConfigFile,
-    serverConfigFile,
     ip: address.ip(),
     port: 0,
     moduleType: fs.existsSync(pkgPath)

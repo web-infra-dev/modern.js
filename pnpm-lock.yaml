@@ -1948,49 +1948,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/server/plugin-server:
-    dependencies:
-      '@modern-js/runtime-utils':
-        specifier: workspace:*
-        version: link:../../toolkit/runtime-utils
-      '@modern-js/server-utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/server/plugin-worker:
     dependencies:
       '@modern-js/prod-server':
@@ -4688,52 +4645,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-bff':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-bff
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../../packages/server/core
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../../packages/toolkit/utils
-      '@types/express':
-        specifier: ^4.17.13
-        version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-config-v2:
-    dependencies:
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-server
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
       '@modern-js/server-runtime':
         specifier: workspace:*
         version: link:../../../packages/server/server-runtime
@@ -4756,216 +4667,6 @@ importers:
       '@types/express':
         specifier: ^4.17.13
         version: 4.17.21
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/middleware:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/new-middleware:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      '@modern-js/server-runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/server/server-runtime
-      axios:
-        specifier: ^1.7.4
-        version: 1.8.4(debug@4.3.7)
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/request:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/response:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/router:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  tests/integration/server-hook/template:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../packages/server/plugin-server
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5028,9 +4729,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../packages/server/plugin-server
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -5225,15 +4923,15 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/plugin-server
       '@modern-js/plugin-ssg':
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-ssg
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/server/server-runtime
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -5342,6 +5040,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/server/server-runtime
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -5352,9 +5053,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-server':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/plugin-server
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
