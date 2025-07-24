@@ -1,7 +1,8 @@
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
-import { createContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
+import { getGlobalInternalRuntimeContext } from '.';
 import type { RouteManifest } from '../../router/runtime/types';
 import { createLoaderManager } from '../loader/loaderManager';
 import type { SSRServerContext, TSSRContext } from '../types';
@@ -53,3 +54,24 @@ export const getInitialContext = (
     routeManifest ||
     (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
 });
+
+export const useRuntimeContext = () => {
+  const context = useContext(RuntimeReactContext);
+
+  // TODO: Here we should not provide all the RuntimeReactContext to the user
+  const pickedContext: TRuntimeContext = {
+    ...context,
+    context: context.context || ({} as TSSRContext),
+    request: context.ssrContext?.request,
+    response: context.ssrContext?.response,
+  };
+
+  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const hooks = internalRuntimeContext.hooks;
+  const memoizedContext = useMemo(
+    () => hooks.pickContext.call(pickedContext as RuntimeContext),
+    [context],
+  );
+
+  return memoizedContext as TRuntimeContext;
+};

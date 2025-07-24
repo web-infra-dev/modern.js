@@ -12,9 +12,7 @@ export { getRequest } from './core/context/request';
 export { setHeaders, setStatus, redirect } from './core/context/response';
 
 export {
-  createApp,
   useLoader,
-  bootstrap,
   RuntimeReactContext,
   defineConfig,
   defineRuntimeConfig,
