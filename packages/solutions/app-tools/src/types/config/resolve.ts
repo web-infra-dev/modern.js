@@ -1,3 +1,3 @@
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { BuilderConfig } from '@modern-js/builder';
 
-export type ResolveUserConfig = UniBuilderConfig['resolve'];
+export type ResolveUserConfig = BuilderConfig['resolve'];

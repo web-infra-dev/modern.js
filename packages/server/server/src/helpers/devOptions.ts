@@ -1,4 +1,4 @@
-import type { UniBuilderInstance } from '@modern-js/uni-builder';
+import type { BuilderInstance } from '@modern-js/builder';
 import type { DevServerOptions } from '../types';
 
 export const getDevOptions = (devOptions: DevServerOptions) => {
@@ -11,7 +11,7 @@ export const getDevOptions = (devOptions: DevServerOptions) => {
   };
 };
 
-export const getDevAssetPrefix = (builder?: UniBuilderInstance) => {
+export const getDevAssetPrefix = (builder?: BuilderInstance) => {
   return new Promise<string>(resolve => {
     if (!builder) {
       return resolve('');

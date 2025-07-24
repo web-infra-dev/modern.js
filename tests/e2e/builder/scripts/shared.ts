@@ -2,9 +2,9 @@ import assert from 'assert';
 import { join } from 'path';
 import { URL } from 'url';
 import type {
-  CreateUniBuilderOptions,
-  UniBuilderConfig,
-} from '@modern-js/uni-builder';
+  BuilderConfig,
+  CreateBuilderOptions as _CreateBuilderOptions,
+} from '@modern-js/builder';
 import fs from '@modern-js/utils/fs-extra';
 import {
   type ConsoleType,
@@ -16,7 +16,7 @@ import {
 logger.level = 'error';
 
 type CreateBuilderOptions = Omit<
-  CreateUniBuilderOptions,
+  _CreateBuilderOptions,
   'bundlerType' | 'config'
 >;
 
@@ -30,13 +30,13 @@ export const getHrefByEntryName = (entryName: string, port: number) => {
 
 const noop = () => {};
 
-export const createUniBuilder = async (
+export const createBuilder = async (
   builderOptions: CreateBuilderOptions,
-  builderConfig: UniBuilderConfig = {},
+  builderConfig: BuilderConfig = {},
 ) => {
-  const { createUniBuilder } = await import('@modern-js/uni-builder');
+  const { createBuilder } = await import('@modern-js/builder');
 
-  const builder = await createUniBuilder({
+  const builder = await createBuilder({
     ...builderOptions,
     bundlerType: 'rspack',
     config: builderConfig,
@@ -63,7 +63,7 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 30000) + 15000) {
 }
 
 const updateConfigForTest = (
-  config: UniBuilderConfig,
+  config: BuilderConfig,
   entry?: Record<string, string>,
 ) => {
   // make devPort random to avoid port conflict
@@ -109,13 +109,13 @@ export async function dev({
   ...options
 }: CreateBuilderOptions & {
   entry: Record<string, string>;
-  builderConfig?: UniBuilderConfig;
+  builderConfig?: BuilderConfig;
 }) {
   process.env.NODE_ENV = 'development';
 
   updateConfigForTest(builderConfig, entry);
 
-  const builder = await createUniBuilder(options, builderConfig);
+  const builder = await createBuilder(options, builderConfig);
   builder.addPlugins([
     {
       setup(api) {
@@ -142,13 +142,13 @@ export async function build({
   entry?: Record<string, string>;
   plugins?: any[];
   runServer?: boolean;
-  builderConfig?: UniBuilderConfig;
+  builderConfig?: BuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
   updateConfigForTest(builderConfig, entry);
 
-  const builder = await createUniBuilder(options, builderConfig);
+  const builder = await createBuilder(options, builderConfig);
 
   if (plugins) {
     builder.addPlugins(plugins);

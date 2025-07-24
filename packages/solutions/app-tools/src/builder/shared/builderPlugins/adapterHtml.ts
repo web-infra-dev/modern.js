@@ -1,4 +1,4 @@
-import { isHtmlDisabled } from '@modern-js/uni-builder';
+import { isHtmlDisabled } from '@modern-js/builder';
 import { removeTailSlash } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import type {

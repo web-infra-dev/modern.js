@@ -1,4 +1,4 @@
-import type { Rspack } from '@modern-js/uni-builder';
+import type { Rspack } from '@modern-js/builder';
 
 export class HtmlAsyncChunkPlugin {
   name: string;

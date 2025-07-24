@@ -128,8 +128,8 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'cli/uni-builder',
-    packageName: '@modern-js/uni-builder',
+    packageDir: 'cli/builder',
+    packageName: '@modern-js/builder',
     dependencies: [
       {
         name: 'postcss-load-config',

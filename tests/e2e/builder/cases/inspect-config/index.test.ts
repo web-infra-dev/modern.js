@@ -1,7 +1,7 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
-import { createUniBuilder } from '@scripts/shared';
+import { createBuilder } from '@scripts/shared';
 
 const builderConfig = path.resolve(
   __dirname,
@@ -25,7 +25,7 @@ const bundlerNodeConfig = path.resolve(
 );
 
 test('should generate config files when writeToDisk is true', async () => {
-  const builder = await createUniBuilder(
+  const builder = await createBuilder(
     {
       cwd: __dirname,
     },
@@ -49,7 +49,7 @@ test('should generate config files when writeToDisk is true', async () => {
 });
 
 test('should generate bundler config for node when target contains node', async () => {
-  const builder = await createUniBuilder(
+  const builder = await createBuilder(
     {
       cwd: __dirname,
     },
@@ -86,7 +86,7 @@ test('should generate bundler config for node when target contains node', async 
 });
 
 test('should not generate config files when writeToDisk is false', async () => {
-  const builder = await createUniBuilder(
+  const builder = await createBuilder(
     {
       cwd: __dirname,
     },

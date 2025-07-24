@@ -42,7 +42,7 @@ module.exports = {
       resolver: '<rootDir>/tests/jest.resolver.js',
       transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
       modulePathIgnorePatterns: [
-        '<rootDir>/packages/cli/uni-builder/',
+        '<rootDir>/packages/cli/builder/',
         '<rootDir>/packages/cli/babel-preset/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
@@ -51,7 +51,7 @@ module.exports = {
         '<rootDir>/.nx',
       ],
       testPathIgnorePatterns: [
-        '<rootDir>/packages/uni-builder/',
+        '<rootDir>/packages/builder/',
         '<rootDir>/packages/babel-preset/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/(server|solutions)/',
@@ -91,7 +91,7 @@ module.exports = {
       resolver: '<rootDir>/tests/jest.resolver.js',
       transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
       modulePathIgnorePatterns: [
-        '<rootDir>/packages/cli/uni-builder/',
+        '<rootDir>/packages/cli/builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',
@@ -99,7 +99,7 @@ module.exports = {
         '<rootDir>/.nx',
       ],
       testPathIgnorePatterns: [
-        '<rootDir>/packages/uni-builder/',
+        '<rootDir>/packages/builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/generator/',
       ],
@@ -143,7 +143,7 @@ module.exports = {
       globals: {},
       transformIgnorePatterns: [],
       modulePathIgnorePatterns: [
-        '<rootDir>/packages/cli/uni-builder/',
+        '<rootDir>/packages/cli/builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',

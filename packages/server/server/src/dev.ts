@@ -1,7 +1,7 @@
+import type { BuilderInstance } from '@modern-js/builder';
 import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
-import type { UniBuilderInstance } from '@modern-js/uni-builder';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import {
   getDevOptions,
@@ -12,9 +12,7 @@ import {
 } from './helpers';
 import type { ModernDevServerOptions } from './types';
 
-type BuilderDevServer = Awaited<
-  ReturnType<UniBuilderInstance['createDevServer']>
->;
+type BuilderDevServer = Awaited<ReturnType<BuilderInstance['createDevServer']>>;
 
 export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;

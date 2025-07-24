@@ -1,9 +1,6 @@
+import type { BuilderPlugin, LooseRsbuildPlugin } from '@modern-js/builder';
 import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin';
 import type { BffUserConfig, ServerUserConfig } from '@modern-js/server-core';
-import type {
-  LooseRsbuildPlugin,
-  UniBuilderPlugin,
-} from '@modern-js/uni-builder';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type {
   AppToolsExtendAPI,
@@ -51,7 +48,7 @@ export interface AppToolsUserConfig {
   tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
-  builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>;
+  builderPlugins?: Array<LooseRsbuildPlugin | BuilderPlugin>;
   performance?: PerformanceUserConfig;
   environments?: RsbuildConfig['environments'];
   plugins?: CliPlugin<AppTools>[];

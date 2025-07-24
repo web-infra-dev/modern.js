@@ -1,5 +1,5 @@
 import path from 'path';
-import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/builder';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 import type { BuilderOptions } from '../types';
 

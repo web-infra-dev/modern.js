@@ -1,5 +1,5 @@
+import { castArray } from '@modern-js/builder';
 import type { CLIPluginAPI } from '@modern-js/plugin';
-import { castArray } from '@modern-js/uni-builder';
 import { type Command, newAction, upgradeAction } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
 import type { AppTools } from '../types';

@@ -3,7 +3,7 @@ import {
   type Rspack,
   SERVICE_WORKER_ENVIRONMENT_NAME,
   isHtmlDisabled,
-} from '@modern-js/uni-builder';
+} from '@modern-js/builder';
 import { fs, isUseRsc, isUseSSRBundle } from '@modern-js/utils';
 import {
   type RsbuildPlugin,

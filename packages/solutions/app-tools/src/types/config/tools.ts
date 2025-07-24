@@ -1,12 +1,12 @@
+import type { BuilderConfig } from '@modern-js/builder';
 import type { JestConfig } from '@modern-js/types';
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
 import type { UnwrapBuilderConfig } from '../utils';
 
 export type Tailwindcss =
   | Record<string, any>
   | ((options: Record<string, any>) => Record<string, any> | void);
 
-type BuilderToolsConfig = UnwrapBuilderConfig<UniBuilderConfig, 'tools'>;
+type BuilderToolsConfig = UnwrapBuilderConfig<BuilderConfig, 'tools'>;
 
 export interface ToolsUserConfig extends Omit<BuilderToolsConfig, 'swc'> {
   /**

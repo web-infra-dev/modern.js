@@ -1,7 +1,7 @@
+import type { BuilderConfig } from '@modern-js/builder';
 import type { SetupMiddlewares } from '@modern-js/server';
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
-type BuilderDevConfig = Required<UniBuilderConfig>['dev'];
+type BuilderDevConfig = Required<BuilderConfig>['dev'];
 
 export type DevProxyOptions = string | Record<string, string>;
 
