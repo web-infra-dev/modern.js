@@ -16,9 +16,8 @@ import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
 import { type RuntimePlugin, RuntimeReactContext } from '../../core';
-import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
+import { getGlobalRoutes } from '../../core/context';
 import { getGlobalIsRscClient } from '../../core/context';
-import type { RuntimeContext } from '../../core/context/runtime';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
@@ -128,7 +127,6 @@ export const routerPlugin = (
 
         finalRouteConfig = {
           routes: getGlobalRoutes(),
-          globalApp: getGlobalLayoutApp(),
           ...routesConfig,
         };
 

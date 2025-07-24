@@ -14,8 +14,6 @@ import type React from 'react';
 import { Fragment } from 'react';
 import {
   type RuntimeContext,
-  getGlobalApp,
-  getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
 } from '../context';
@@ -229,8 +227,7 @@ export const createRequestHandler: CreateRequestHandler = async (
           if (typeof Response !== 'undefined' && result instanceof Response) {
             return result;
           }
-          const init = getGlobalAppInit();
-          return init?.(context);
+          return context;
         };
 
         const ssrContext = createSSRContext(request, {
@@ -296,13 +293,13 @@ export const createRequestHandler: CreateRequestHandler = async (
           options.onError(errors[0], SSRErrors.LOADER_ERROR);
         }
 
-        context.initialData = initialData;
+        context.initialData = initialData as RuntimeContext;
 
         const redirectResponse = getRedirectResponse(initialData);
 
         if (redirectResponse) {
           if (createRequestOptions?.enableRsc) {
-            return initialData;
+            return initialData as Response;
           } else {
             return redirectResponse;
           }

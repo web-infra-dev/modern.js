@@ -11,26 +11,10 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import {
-  fs,
-  findExists,
-  formatImportPath,
-  getEntryOptions,
-  isSSGEntry,
-  slash,
-} from '@modern-js/utils';
+import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import {
-  APP_CONFIG_NAME,
-  APP_INIT_EXPORTED,
-  TEMP_LOADERS_DIR,
-} from '../constants';
-import {
-  getPathWithoutExt,
-  getServerLoadersFile,
-  parseModule,
-  replaceWithAlias,
-} from './utils';
+import { TEMP_LOADERS_DIR } from '../constants';
+import { getServerLoadersFile } from './utils';
 
 export const routesForServer = ({
   routesForServerLoaderMatches,
@@ -548,10 +532,6 @@ export function ssrLoaderCombinedModule(
 export const runtimeGlobalContext = async ({
   entryName,
   metaName,
-  srcDirectory,
-  nestedRoutesEntry,
-  internalSrcAlias,
-  globalApp,
   rscType = false,
 }: {
   entryName: string;
@@ -565,53 +545,6 @@ export const runtimeGlobalContext = async ({
   const imports = [
     `import { setGlobalContext } from '@${metaName}/runtime/context';`,
   ];
-  if (nestedRoutesEntry) {
-    const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
-    const rootLayoutFile = findExists(
-      ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
-    );
-    if (rootLayoutFile) {
-      const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
-      const rootLayout = rootLayoutBuffer.toString();
-      const [, moduleExports] = await parseModule({
-        source: rootLayout.toString(),
-        filename: rootLayoutFile,
-      });
-      const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
-      const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
-      const layoutPath = formatImportPath(
-        getPathWithoutExt(
-          replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
-        ),
-      );
-      if (hasAppConfig) {
-        imports.push(`import { config as appConfig } from '${layoutPath}';`);
-      } else {
-        imports.push(`let appConfig;`);
-      }
-      if (hasAppInit) {
-        imports.push(`import { init as appInit } from '${layoutPath}';`);
-      } else {
-        imports.push(`let appInit;`);
-      }
-    } else {
-      imports.push(`let appConfig;`);
-      imports.push(`let appInit;`);
-    }
-  } else {
-    imports.push(`let appConfig;`);
-    imports.push(`let appInit;`);
-  }
-
-  if (globalApp) {
-    imports.push(
-      `import layoutApp from '${formatImportPath(
-        globalApp.replace(srcDirectory, internalSrcAlias),
-      )}';`,
-    );
-  } else {
-    imports.push(`let layoutApp;`);
-  }
 
   const isClient = rscType === 'client';
   const enableRsc = Boolean(rscType);
@@ -624,10 +557,7 @@ export const runtimeGlobalContext = async ({
     const entryName = '${entryName}';
       setGlobalContext({
         entryName,
-        layoutApp,
         routes,
-        appInit,
-        appConfig,
         isRscClient: true,
         enableRsc: true,
       });
@@ -640,10 +570,7 @@ export const runtimeGlobalContext = async ({
     const entryName = '${entryName}';
       setGlobalContext({
         entryName,
-        layoutApp,
         routes,
-        appInit,
-        appConfig,
         enableRsc: ${enableRsc},
       });
     `;

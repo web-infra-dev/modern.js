@@ -65,45 +65,6 @@ export default defineRuntimeConfig(entryName => {
 使用 `src/modern.runtime.ts` 配置方式不支持导出异步函数，这与 Modern.js 的渲染方式有关。如果需要添加异步逻辑，请使用 **[Runtime 插件 (Runtime Plugin)](/plugin/introduction.html#runtime-插件)**。
 :::
 
-
-
 import RuntimeCliConfig from '@site-docs/components/runtime-cli-config';
 
 <RuntimeCliConfig />
-
-## 配置方式演进
-
-在 MAJOR_VERSION.66.0 之前，运行时配置分散在多个位置：
-
-1. `modern.config.ts` 中的 `runtime` 和 `runtimeByEntries` 字段
-2. 各入口的 `App.config` 或 `layout` 文件导出的 `config` 函数
-
-为提升可维护性，Modern.js 引入了统一的 `src/modern.runtime.ts` 配置入口。
-
-### 旧配置方式（兼容但不推荐）
-
-```ts
-// modern.config.ts
-export default {
-  runtime: {
-    /* ... */
-  },
-  runtimeByEntries: {
-    /* ... */
-  },
-};
-
-// App.config
-App.config = {
-  /* ... */
-};
-
-// layout 文件
-export const config = () => {
-  /* 动态配置逻辑 */
-};
-```
-
-### 迁移建议
-
-强烈建议将所有运行时配置迁移至 `src/modern.runtime.ts`。虽然旧配置方式目前仍兼容，但计划在未来版本中逐步废弃。统一配置入口可避免配置分散，显著提高项目可维护性。

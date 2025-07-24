@@ -50,18 +50,6 @@ interface GlobalContext {
    * nest router and page router config
    */
   routes?: (NestedRoute | PageRoute)[];
-  /**
-   * nest router init function
-   */
-  appInit?: () => Promise<unknown>;
-  /**
-   * nest router config function
-   */
-  appConfig?: AppConfig;
-  /**
-   * page router _app.tsx export layout app
-   */
-  layoutApp?: React.ComponentType;
 
   internalRuntimeContext?: InternalRuntimeContext<RuntimeExtends>;
   /**
@@ -93,12 +81,6 @@ export function setGlobalContext(
   globalContext.entryName = context.entryName;
   globalContext.App = context.App;
   globalContext.routes = context.routes;
-  globalContext.appInit = context.appInit;
-  globalContext.appConfig =
-    typeof context.appConfig === 'function'
-      ? context.appConfig()
-      : context.appConfig;
-  globalContext.layoutApp = context.layoutApp;
   globalContext.RSCRoot = context.RSCRoot;
   globalContext.isRscClient = context.isRscClient;
   globalContext.enableRsc = context.enableRsc;
@@ -128,24 +110,4 @@ export function getGlobalApp() {
 
 export function getGlobalRoutes(): undefined | (NestedRoute | PageRoute)[] {
   return globalContext.routes;
-}
-
-export function getGlobalAppInit() {
-  return (
-    globalContext.appInit ||
-    (getGlobalApp() as any)?.init ||
-    (getGlobalLayoutApp() as any)?.init
-  );
-}
-
-export function getGlobalAppConfig() {
-  return (
-    globalContext.appConfig ||
-    (getGlobalApp() as any)?.config ||
-    (getGlobalLayoutApp() as any)?.config
-  );
-}
-
-export function getGlobalLayoutApp() {
-  return globalContext.layoutApp;
 }

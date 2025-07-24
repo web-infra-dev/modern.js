@@ -7,12 +7,6 @@
   },
   {
     "type": "dir",
-    "name": "app",
-    "label": "App",
-    "collapsed": true
-  },
-  {
-    "type": "dir",
     "name": "router",
     "label": "Router",
     "collapsed": true

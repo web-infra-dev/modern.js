@@ -22,7 +22,6 @@ import type { RuntimePlugin } from '../../core';
 import {
   type ServerPayload,
   getGlobalEnableRsc,
-  getGlobalLayoutApp,
   getGlobalRoutes,
 } from '../../core/context';
 import { setServerPayload } from '../../core/context/serverPayload.server';
@@ -76,7 +75,6 @@ export const routerPlugin = (
         } = merge(pluginConfig.router || {}, userConfig);
         finalRouteConfig = {
           routes: getGlobalRoutes(),
-          globalApp: getGlobalLayoutApp(),
           ...routesConfig,
         };
         // can not get routes config, skip wrapping React Router.

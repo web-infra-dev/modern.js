@@ -1,6 +1,6 @@
 import cookieTool from 'cookie';
 import type React from 'react';
-import { getGlobalAppInit, getGlobalInternalRuntimeContext } from '../context';
+import { getGlobalInternalRuntimeContext } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
@@ -88,8 +88,7 @@ export async function render(
     api!.updateRuntimeContext(context);
     const hooks = internalRuntimeContext!.hooks;
     await hooks.onBeforeRender.call(context);
-    const init = getGlobalAppInit();
-    return init?.(context);
+    return context;
   };
 
   if (isClientArgs(id)) {
