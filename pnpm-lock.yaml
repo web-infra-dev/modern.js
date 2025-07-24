@@ -135,6 +135,139 @@ importers:
         specifier: ^5.3.0
         version: 5.6.3
 
+  packages/cli/builder:
+    dependencies:
+      '@modern-js/flight-server-transform-plugin':
+        specifier: workspace:*
+        version: link:../flight-server-transform-plugin
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
+      '@rsbuild/core':
+        specifier: 1.4.9
+        version: 1.4.9
+      '@rsbuild/plugin-assets-retry':
+        specifier: 1.4.0
+        version: 1.4.0(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-babel':
+        specifier: 1.0.5
+        version: 1.0.5(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-check-syntax':
+        specifier: 1.3.0
+        version: 1.3.0(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-css-minimizer':
+        specifier: 1.0.2
+        version: 1.0.2(@rsbuild/core@1.4.9)(esbuild@0.25.5)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
+      '@rsbuild/plugin-less':
+        specifier: 1.3.0
+        version: 1.3.0(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-react':
+        specifier: 1.3.4
+        version: 1.3.4(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-rem':
+        specifier: 1.0.2
+        version: 1.0.2(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-sass':
+        specifier: 1.3.3
+        version: 1.3.3(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-source-build':
+        specifier: 1.0.2
+        version: 1.0.2(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-svgr':
+        specifier: 1.2.1
+        version: 1.2.1(@rsbuild/core@1.4.9)(typescript@5.6.3)
+      '@rsbuild/plugin-toml':
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-type-check':
+        specifier: 1.2.3
+        version: 1.2.3(@rsbuild/core@1.4.9)(@rspack/core@1.4.9(@swc/helpers@0.5.17))(typescript@5.6.3)
+      '@rsbuild/plugin-typed-css-modules':
+        specifier: 1.0.2
+        version: 1.0.2(@rsbuild/core@1.4.9)
+      '@rsbuild/plugin-yaml':
+        specifier: 1.0.2
+        version: 1.0.2(@rsbuild/core@1.4.9)
+      '@swc/core':
+        specifier: 1.11.31
+        version: 1.11.31(@swc/helpers@0.5.17)
+      '@swc/helpers':
+        specifier: ^0.5.17
+        version: 0.5.17
+      autoprefixer:
+        specifier: 10.4.21
+        version: 10.4.21(postcss@8.5.6)
+      browserslist:
+        specifier: 4.24.4
+        version: 4.24.4
+      cssnano:
+        specifier: 6.1.2
+        version: 6.1.2(postcss@8.5.6)
+      html-minifier-terser:
+        specifier: ^7.2.0
+        version: 7.2.0
+      jiti:
+        specifier: 1.21.7
+        version: 1.21.7
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
+      postcss-custom-properties:
+        specifier: 13.3.12
+        version: 13.3.12(postcss@8.5.6)
+      postcss-flexbugs-fixes:
+        specifier: 5.0.2
+        version: 5.0.2(postcss@8.5.6)
+      postcss-font-variant:
+        specifier: 5.0.0
+        version: 5.0.0(postcss@8.5.6)
+      postcss-initial:
+        specifier: 4.0.1
+        version: 4.0.1(postcss@8.5.6)
+      postcss-media-minmax:
+        specifier: 5.0.0
+        version: 5.0.0(postcss@8.5.6)
+      postcss-nesting:
+        specifier: 12.1.5
+        version: 12.1.5(postcss@8.5.6)
+      postcss-page-break:
+        specifier: 3.0.4
+        version: 3.0.4(postcss@8.5.6)
+      rspack-manifest-plugin:
+        specifier: 5.0.3
+        version: 5.0.3(@rspack/core@1.4.9(@swc/helpers@0.5.17))
+      ts-deepmerge:
+        specifier: 7.0.3
+        version: 7.0.3
+    devDependencies:
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../../toolkit/types
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@scripts/vitest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/vitest-config
+      '@types/html-minifier-terser':
+        specifier: ^7.0.2
+        version: 7.0.2
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.17.14
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      terser:
+        specifier: ^5.31.1
+        version: 5.39.0
+      typescript:
+        specifier: ^5.3.0
+        version: 5.6.3
+
   packages/cli/flight-server-transform-plugin: {}
 
   packages/cli/plugin-bff:
@@ -425,139 +558,6 @@ importers:
         version: 3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       typescript:
         specifier: ^5
-        version: 5.6.3
-
-  packages/cli/uni-builder:
-    dependencies:
-      '@modern-js/flight-server-transform-plugin':
-        specifier: workspace:*
-        version: link:../flight-server-transform-plugin
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@rsbuild/core':
-        specifier: 1.4.9
-        version: 1.4.9
-      '@rsbuild/plugin-assets-retry':
-        specifier: 1.4.0
-        version: 1.4.0(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-babel':
-        specifier: 1.0.5
-        version: 1.0.5(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-check-syntax':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-css-minimizer':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.9)(esbuild@0.25.5)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
-      '@rsbuild/plugin-less':
-        specifier: 1.3.0
-        version: 1.3.0(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-react':
-        specifier: 1.3.4
-        version: 1.3.4(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-rem':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-sass':
-        specifier: 1.3.3
-        version: 1.3.3(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-source-build':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-svgr':
-        specifier: 1.2.1
-        version: 1.2.1(@rsbuild/core@1.4.9)(typescript@5.6.3)
-      '@rsbuild/plugin-toml':
-        specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-type-check':
-        specifier: 1.2.3
-        version: 1.2.3(@rsbuild/core@1.4.9)(@rspack/core@1.4.9(@swc/helpers@0.5.17))(typescript@5.6.3)
-      '@rsbuild/plugin-typed-css-modules':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.9)
-      '@rsbuild/plugin-yaml':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.9)
-      '@swc/core':
-        specifier: 1.11.31
-        version: 1.11.31(@swc/helpers@0.5.17)
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      autoprefixer:
-        specifier: 10.4.21
-        version: 10.4.21(postcss@8.5.6)
-      browserslist:
-        specifier: 4.24.4
-        version: 4.24.4
-      cssnano:
-        specifier: 6.1.2
-        version: 6.1.2(postcss@8.5.6)
-      html-minifier-terser:
-        specifier: ^7.2.0
-        version: 7.2.0
-      jiti:
-        specifier: 1.21.7
-        version: 1.21.7
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      postcss:
-        specifier: ^8.5.6
-        version: 8.5.6
-      postcss-custom-properties:
-        specifier: 13.3.12
-        version: 13.3.12(postcss@8.5.6)
-      postcss-flexbugs-fixes:
-        specifier: 5.0.2
-        version: 5.0.2(postcss@8.5.6)
-      postcss-font-variant:
-        specifier: 5.0.0
-        version: 5.0.0(postcss@8.5.6)
-      postcss-initial:
-        specifier: 4.0.1
-        version: 4.0.1(postcss@8.5.6)
-      postcss-media-minmax:
-        specifier: 5.0.0
-        version: 5.0.0(postcss@8.5.6)
-      postcss-nesting:
-        specifier: 12.1.5
-        version: 12.1.5(postcss@8.5.6)
-      postcss-page-break:
-        specifier: 3.0.4
-        version: 3.0.4(postcss@8.5.6)
-      rspack-manifest-plugin:
-        specifier: 5.0.3
-        version: 5.0.3(@rspack/core@1.4.9(@swc/helpers@0.5.17))
-      ts-deepmerge:
-        specifier: 7.0.3
-        version: 7.0.3
-    devDependencies:
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/vitest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/vitest-config
-      '@types/html-minifier-terser':
-        specifier: ^7.0.2
-        version: 7.0.2
-      '@types/lodash':
-        specifier: ^4.14.202
-        version: 4.17.14
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      terser:
-        specifier: ^5.31.1
-        version: 5.39.0
-      typescript:
-        specifier: ^5.3.0
         version: 5.6.3
 
   packages/document/main-doc:
@@ -2216,9 +2216,9 @@ importers:
         specifier: ^8.18.3
         version: 8.18.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     devDependencies:
-      '@modern-js/uni-builder':
+      '@modern-js/builder':
         specifier: workspace:*
-        version: link:../../cli/uni-builder
+        version: link:../../cli/builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2368,6 +2368,9 @@ importers:
       '@babel/types':
         specifier: ^7.26.0
         version: 7.26.10
+      '@modern-js/builder':
+        specifier: workspace:*
+        version: link:../../cli/builder
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
@@ -2395,9 +2398,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@modern-js/uni-builder':
-        specifier: workspace:*
-        version: link:../../cli/uni-builder
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -2640,9 +2640,9 @@ importers:
         specifier: 1.21.7
         version: 1.21.7
     devDependencies:
-      '@modern-js/uni-builder':
+      '@modern-js/builder':
         specifier: workspace:*
-        version: link:../../cli/uni-builder
+        version: link:../../cli/builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3329,12 +3329,12 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
     devDependencies:
+      '@modern-js/builder':
+        specifier: workspace:*
+        version: link:../../../packages/cli/builder
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../../packages/toolkit/e2e
-      '@modern-js/uni-builder':
-        specifier: workspace:*
-        version: link:../../../packages/cli/uni-builder
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../../packages/toolkit/utils
@@ -4789,9 +4789,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
-      '@modern-js/uni-builder':
+      '@modern-js/builder':
         specifier: workspace:*
-        version: link:../../../packages/cli/uni-builder
+        version: link:../../../packages/cli/builder
       '@types/jest':
         specifier: ^29
         version: 29.5.14
@@ -16402,10 +16402,6 @@ packages:
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
 
-  schema-utils@4.3.0:
-    resolution: {integrity: sha512-Gf9qqc58SpCA/xdziiHz35F4GNIWYWZrEshUc/G/r5BnLph6xpKuLeoJoQuj5WfBIx/eQLf+hmVPYHaxJu7V2g==}
-    engines: {node: '>= 10.13.0'}
-
   schema-utils@4.3.2:
     resolution: {integrity: sha512-Gn/JaSk/Mt9gYubxTtSn/QCV4em9mpAPiR1rqy/Ocu19u/G9J5WWdNoUT4SiV6mFC3y6cxyFcFwdzPM3FgxGAQ==}
     engines: {node: '>= 10.13.0'}
@@ -23521,7 +23517,7 @@ snapshots:
   autoprefixer@10.4.21(postcss@8.5.6):
     dependencies:
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001703
+      caniuse-lite: 1.0.30001718
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -23798,7 +23794,7 @@ snapshots:
 
   browserslist@4.24.4:
     dependencies:
-      caniuse-lite: 1.0.30001703
+      caniuse-lite: 1.0.30001718
       electron-to-chromium: 1.5.73
       node-releases: 2.0.19
       update-browserslist-db: 1.1.1(browserslist@4.24.4)
@@ -24413,7 +24409,7 @@ snapshots:
       cssnano: 6.1.2(postcss@8.5.6)
       jest-worker: 29.7.0
       postcss: 8.5.6
-      schema-utils: 4.3.0
+      schema-utils: 4.3.2
       serialize-javascript: 6.0.2
       webpack: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
     optionalDependencies:
@@ -30605,13 +30601,6 @@ snapshots:
       xmlchars: 2.2.0
 
   scheduler@0.26.0: {}
-
-  schema-utils@4.3.0:
-    dependencies:
-      '@types/json-schema': 7.0.15
-      ajv: 8.17.1
-      ajv-formats: 2.1.1(ajv@8.17.1)
-      ajv-keywords: 5.1.0(ajv@8.17.1)
 
   schema-utils@4.3.2:
     dependencies:
