@@ -1,4 +1,4 @@
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { BuilderConfig } from '@modern-js/builder';
 
 export type Entry =
   | string
@@ -19,8 +19,7 @@ export type Entry =
 
 export type Entries = Record<string, Entry>;
 
-export interface SourceUserConfig
-  extends NonNullable<UniBuilderConfig['source']> {
+export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
   /**
    * Used to configure custom page entries.
    */

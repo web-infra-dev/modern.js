@@ -94,7 +94,7 @@
     "@rsbuild/core": "1.4.9"
   },
   "devDependencies": {
-    "@modern-js/uni-builder": "workspace:*",
+    "@modern-js/builder": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

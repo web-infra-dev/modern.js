@@ -1,4 +1,4 @@
-import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/builder';
 import {
   isProd,
   isSSR,

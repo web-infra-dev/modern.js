@@ -101,7 +101,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/uni-builder": "workspace:*",
+    "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "1.4.9",
     "@rsbuild/plugin-node-polyfill": "1.3.2",

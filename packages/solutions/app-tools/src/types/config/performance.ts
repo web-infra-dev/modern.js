@@ -1,7 +1,7 @@
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { BuilderConfig } from '@modern-js/builder';
 import type { UnwrapBuilderConfig } from '../utils';
 
 export type PerformanceUserConfig = UnwrapBuilderConfig<
-  UniBuilderConfig,
+  BuilderConfig,
   'performance'
 >;

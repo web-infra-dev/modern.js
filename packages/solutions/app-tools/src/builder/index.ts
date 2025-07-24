@@ -5,7 +5,7 @@ export async function createBuilderGenerator() {
   return createRspackBuilderForModern;
 }
 
-export { parseRspackConfig } from '@modern-js/uni-builder';
+export { parseRspackConfig } from '@modern-js/builder';
 
 export {
   builderPluginAdapterBasic,

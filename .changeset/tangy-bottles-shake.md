@@ -1,5 +1,5 @@
 ---
-'@modern-js/uni-builder': minor
+'@modern-js/builder': minor
 ---
 
 refactor: remove styledComponent plugin from uni-builder, recommend using `@rsbuild/plugin-styled-components` to implement styled-component compile

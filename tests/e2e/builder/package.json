@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
-    "@modern-js/uni-builder": "workspace:*",
+    "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.33.0",
     "@rsbuild/core": "1.4.9",

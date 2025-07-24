@@ -1,8 +1,8 @@
 import {
+  type BuilderInstance,
   type BundlerType,
-  type UniBuilderInstance,
-  createUniBuilder,
-} from '@modern-js/uni-builder';
+  createBuilder,
+} from '@modern-js/builder';
 import { mergeRsbuildConfig } from '@rsbuild/core';
 import type { BuilderOptions } from '../shared';
 import { builderPluginAdapterCopy } from './adapterCopy';
@@ -36,7 +36,7 @@ export async function generateBuilder(
     ? mergeRsbuildConfig(environments, builderConfig.environments)
     : environments;
 
-  const builder = await createUniBuilder({
+  const builder = await createBuilder({
     cwd: appContext.appDirectory,
     rscClientRuntimePath: `@${appContext.metaName}/runtime/rsc/client`,
     rscServerRuntimePath: `@${appContext.metaName}/runtime/rsc/server`,
@@ -52,7 +52,7 @@ export async function generateBuilder(
 }
 
 async function applyBuilderPlugins(
-  builder: UniBuilderInstance,
+  builder: BuilderInstance,
   options: BuilderOptions,
 ) {
   const {

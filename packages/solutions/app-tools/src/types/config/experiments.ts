@@ -1,6 +1,5 @@
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { BuilderConfig } from '@modern-js/builder';
 
-export type BuilderExperimentsConfig =
-  Required<UniBuilderConfig>['experiments'];
+export type BuilderExperimentsConfig = Required<BuilderConfig>['experiments'];
 
 export type ExperimentsUserConfig = BuilderExperimentsConfig;

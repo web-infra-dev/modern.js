@@ -1,11 +1,11 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
+import type { BuilderInstance, Rspack } from '@modern-js/builder';
 import type {
   DevServerHttpsOptions,
   ExposeServerApis,
   RequestHandler,
 } from '@modern-js/types';
-import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 
 import type {
   ServerBase,
@@ -48,7 +48,7 @@ export type ExtraOptions = {
 
   serverConfigPath: string;
 
-  builder?: UniBuilderInstance;
+  builder?: BuilderInstance;
 
   plugins?: ServerPlugin[];
 };
