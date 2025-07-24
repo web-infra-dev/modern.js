@@ -88,7 +88,7 @@ export async function render(
     api!.updateRuntimeContext(context);
     const hooks = internalRuntimeContext!.hooks;
     await hooks.onBeforeRender.call(context);
-    return context;
+    return context.initialData;
   };
 
   if (isClientArgs(id)) {
