@@ -536,10 +536,6 @@ export const runtimeGlobalContext = async ({
 }: {
   entryName: string;
   metaName: string;
-  srcDirectory: string;
-  nestedRoutesEntry?: string;
-  internalSrcAlias: string;
-  globalApp?: string | false;
   rscType?: 'server' | 'client' | false;
 }) => {
   const imports = [

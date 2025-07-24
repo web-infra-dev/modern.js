@@ -39,10 +39,6 @@ export async function handleGeneratorEntryCode(
           await templates.runtimeGlobalContext({
             entryName: entrypoint.entryName,
             metaName: appContext.metaName,
-            srcDirectory: appContext.srcDirectory,
-            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
-            internalSrcAlias: appContext.internalSrcAlias,
-            globalApp: entrypoint.fileSystemRoutes?.globalApp,
             rscType: enableRsc ? 'client' : undefined,
           }),
         );
@@ -53,10 +49,6 @@ export async function handleGeneratorEntryCode(
             await templates.runtimeGlobalContext({
               entryName: entrypoint.entryName,
               metaName: appContext.metaName,
-              srcDirectory: appContext.srcDirectory,
-              nestedRoutesEntry: entrypoint.nestedRoutesEntry,
-              internalSrcAlias: appContext.internalSrcAlias,
-              globalApp: entrypoint.fileSystemRoutes?.globalApp,
               rscType: 'server',
             }),
           );
