@@ -254,7 +254,7 @@ const config: AppUserConfig = {
 };
 ```
 
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the `` generic for `AppUserConfig`:
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the ``generic for`AppUserConfig`:
 
 ```ts title="modern.config.ts"
 import type { AppUserConfig } from '@modern-js/app-tools';
@@ -275,11 +275,11 @@ If the current Runtime configuration needs to be used both at compile time and r
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import { garfishPlugin } from '@modern-js/plugin-garfish';
+import { xxPlugin } from '@modern-js/plugin-xx';
 
 export default defineConfig({
   plugins: [
-    garfishPlugin({
+    xxPlugin({
       /** Add parameters here */
     }),
   ],

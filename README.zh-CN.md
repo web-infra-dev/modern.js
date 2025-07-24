@@ -34,7 +34,6 @@ Modern.js 生态提供了以下解决方案和底层库：
 - 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：基于 Rspack 的 Web 构建工具。
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress)：基于 Rspack 的静态站点生成器。
 - 🦄 [Rslib](https://github.com/web-infra-dev/rslib)：基于 Rspack 的 Library 开发工具。
-- 🐟 [Garfish](https://github.com/web-infra-dev/garfish)：一站式微前端解决方案。
 
 ## Benchmark
 
