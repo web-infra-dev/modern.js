@@ -117,16 +117,13 @@ export const MWAActionFunctionsDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
-  [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
   [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
-> = {
-  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
-};
+> = {};
 
 export const MWAActionRefactorDependencies: Partial<
   Record<ActionRefactor, string>
@@ -170,7 +167,6 @@ export const MWANewActionPluginName: Record<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
-    [ActionFunction.MicroFrontend]: 'garfishPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
   },
@@ -189,7 +185,6 @@ export const MWANewActionPluginDependence: Record<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.BFF]: '@modern-js/plugin-bff',
-    [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
   },

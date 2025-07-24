@@ -42,12 +42,6 @@
     "label": "output",
     "collapsed": true
   },
-  {
-    "type": "dir",
-    "name": "app/deploy",
-    "label": "deploy",
-    "collapsed": true
-  },
   "app/plugins",
   {
     "type": "dir",

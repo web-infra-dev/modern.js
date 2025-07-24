@@ -220,11 +220,10 @@ const runtimeConfig = typeof modernRuntime === 'function' ? modernRuntime(getCur
 
 const getRegisterRuntimePluginCode = (
   entryName: string,
-  name: string,
+  configName: string,
   config: Record<string, any>,
 ) => {
-  const configName = name === 'garfish' ? 'masterApp' : name;
-  return `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
+  return `plugins.push(${configName}Plugin(mergeConfig(${JSON.stringify(
     config,
   )}, (runtimeConfig || {})['${configName}'], ((runtimeConfig || {})['${configName}ByEntries'] || {})['${entryName}'], (getGlobalAppConfig() || {})['${configName}'])));`;
 };
