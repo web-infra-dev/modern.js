@@ -68,10 +68,10 @@ import {
 } from '@modern-js/server-runtime';
 
 export const handler: MiddlewareHandler = async (c, next) => {
-  await next();
   if (condition) {
     c.set('forceCSR', '1');
   }
+  await next();
 };
 
 export default defineServerConfig({
