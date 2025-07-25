@@ -239,16 +239,6 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type OverridesBuilderInstance = {
-  addPlugins: (
-    plugins: Array<BuilderPlugin | LooseRsbuildPlugin>,
-    options?: {
-      before?: string;
-      environment?: string;
-    },
-  ) => void;
-};
-
 export type BuilderContext = RsbuildPluginAPI['context'] & {
   target: RsbuildTarget[];
   framework: string;
