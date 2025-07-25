@@ -7,6 +7,7 @@ import type {
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
+import { castArray } from '../shared/utils';
 import type {
   BuilderConfig,
   CreateBuilderCommonOptions,

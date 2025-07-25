@@ -272,22 +272,6 @@ export type BuilderPluginAPI = {
   ) => void;
 };
 
-/**
- * compat legacy modern.js builder plugin
- */
-export type BuilderPlugin = {
-  name: string;
-  setup: (api: BuilderPluginAPI) => void | Promise<void>;
-  pre?: string[];
-  post?: string[];
-  remove?: string[];
-};
-
-// Support for registering any version Rsbuild plugins
-export type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
-  setup: (api: any) => Promise<void> | void;
-};
-
 export type DistPath = DistPathConfig & {
   server?: string;
   worker?: string;
