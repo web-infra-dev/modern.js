@@ -47,6 +47,7 @@ export interface RenderOptions {
   rscSSRManifest?: RscSSRManifest;
 
   nodeReq?: NodeRequest;
+  contextForceCSR?: string;
 }
 
 export type Render = (

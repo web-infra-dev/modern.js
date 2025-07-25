@@ -1,6 +1,5 @@
 import path from 'node:path';
 import {
-  DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
   SERVER_DIR,
   fs as fse,
@@ -128,7 +127,6 @@ export const createNetlifyPreset: CreatePreset = (
       const pluginImportCode = genPluginImportsCode(plugins || []);
       const dynamicProdOptions = {
         config: serverConfig,
-        serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
       const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;

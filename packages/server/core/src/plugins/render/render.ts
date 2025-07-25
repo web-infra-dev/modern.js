@@ -139,6 +139,7 @@ export async function createRender({
       matchEntryName,
       matchPathname,
       loaderContext,
+      contextForceCSR,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -182,6 +183,7 @@ export async function createRender({
       forceCSR,
       nodeReq,
       fallbackWrapper,
+      contextForceCSR,
     );
 
     const headerData = parseHeaders(req);
@@ -367,6 +369,7 @@ async function getRenderMode(
   forceCSR?: boolean,
   nodeReq?: NodeRequest,
   onFallback?: FallbackWrapper,
+  contextForceCSR?: string,
 ): Promise<'ssr' | 'csr' | 'data' | 'rsc-action' | 'rsc-tree'> {
   const query = parseQuery(req);
   if (req.headers.get('x-rsc-action')) {
@@ -384,7 +387,8 @@ async function getRenderMode(
     const fallbackHeaderValue: string | null =
       (req.headers.get(fallbackHeader) as string) ||
       (nodeReq?.headers[fallbackHeader] as string);
-    if (forceCSR && (query.csr || fallbackHeaderValue)) {
+
+    if (forceCSR && (query.csr || fallbackHeaderValue || contextForceCSR)) {
       if (query.csr) {
         await onFallback?.('query');
       } else {

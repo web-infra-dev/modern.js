@@ -1,6 +1,5 @@
 import path from 'node:path';
 import {
-  DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
   SERVER_DIR,
   fs as fse,
@@ -135,7 +134,6 @@ export const createVercelPreset: CreatePreset = (
       const pluginImportCode = genPluginImportsCode(plugins || []);
       const dynamicProdOptions = {
         config: serverConfig,
-        serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
       const meta = getMeta(metaName);

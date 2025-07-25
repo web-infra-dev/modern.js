@@ -52,6 +52,7 @@ export const createServer = (
             path.relative(appContext.appDirectory, appContext.lambdaDirectory),
           ),
           appDirectory: appContext.appDirectory,
+          metaName: appContext.metaName,
         },
         plugins,
         distDirectory: appContext.distDirectory,

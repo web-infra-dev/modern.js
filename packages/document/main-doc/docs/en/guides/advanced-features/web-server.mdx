@@ -226,17 +226,8 @@ export default () => {
 ## Legacy API (Deprecated)
 
 :::warning
-The legacy API is compatible but no longer recommended. For extending server capabilities, please refer to [Custom Web Server](/guides/advanced-features/web-server.html#custom-web-server). For migration guidelines, see [Migrating to the New Version of Custom Web Server](/guides/advanced-features/web-server.html#migrate-to-the-new-version-of-custom-web-server).
+The legacy API no longer compatible. For extending server capabilities, please refer to [Custom Web Server](/guides/advanced-features/web-server.html#custom-web-server). For migration guidelines, see [Migrating to the New Version of Custom Web Server](/guides/advanced-features/web-server.html#migrate-to-the-new-version-of-custom-web-server).
 :::
-
-### Enable
-
-To enable the custom Web Server feature, follow these steps:
-
-1. Add `@modern-js/plugin-server`、`tsconfig-paths` and `ts-node` to `devDependencies` and install them.
-2. Add `server` to the `include` section of `tsconfig`.
-3. Register the `@modern-js/plugin-server` plugin in `modern.config.ts`.
-4. Create a `server/index.ts` file in the project directory, where you can write custom logic.
 
 ### Unstable Middleware
 

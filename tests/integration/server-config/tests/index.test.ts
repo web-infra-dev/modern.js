@@ -1,6 +1,5 @@
 import dns from 'node:dns';
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import {
   getPort,
   killApp,
@@ -12,75 +11,161 @@ import 'isomorphic-fetch';
 
 dns.setDefaultResultOrder('ipv4first');
 
-const supportServerPlugins = async ({
+const supportServerRenderMiddleware = async ({
   host,
   port,
 }: {
   host: string;
   port: number;
 }) => {
-  const expectedText = 'Hello Modernjs';
-  const res = await fetch(`${host}:${port}/api`);
+  const res = await fetch(`${host}:${port}/`);
   expect(res.status).toBe(200);
-  const text = await res.text();
-  expect(text).toBe(expectedText);
+
+  const { headers } = res;
+  expect(headers.get('Server-Timing')).toMatch('render');
 };
 
-describe('server config in dev', () => {
-  let port = 8080;
-  const host = `http://localhost`;
-  const appPath = path.resolve(__dirname, '../');
-  let app: any;
+const supportServerRedirect = async ({
+  host,
+  port,
+}: {
+  host: string;
+  port: number;
+}) => {
+  const res = await fetch(`${host}:${port}/?auth=1`, {
+    redirect: 'manual',
+  });
+  expect(res.status).toBe(302);
+  expect(res.headers.get('Location')).toBe('/login');
+};
 
-  beforeAll(async () => {
-    jest.setTimeout(1000 * 60 * 2);
-    port = await getPort();
-    app = await launchApp(appPath, port, {
-      cwd: appPath,
+const supportServerMiddleware = async ({
+  host,
+  port,
+}: {
+  host: string;
+  port: number;
+}) => {
+  const res = await fetch(`${host}:${port}/`);
+  expect(res.status).toBe(200);
+
+  const { headers } = res;
+  expect(headers.get('X-Middleware')).toMatch('request');
+  expect(headers.get('x-message')).toMatch('hi');
+};
+
+const supportServerPlugin = async ({
+  host,
+  port,
+}: {
+  host: string;
+  port: number;
+}) => {
+  const res = await fetch(`${host}:${port}/`);
+  expect(res.status).toBe(200);
+
+  const { headers } = res;
+  const text = await res.text();
+  expect(text).toMatch('<body> <h3>bytedance</h3>');
+  expect(headers.get('x-plugin-render-middleware')).toMatch('plugin');
+};
+
+describe('server config', () => {
+  describe('dev', () => {
+    let port = 8080;
+    const host = `http://localhost`;
+    const appPath = path.resolve(__dirname, '../');
+    let app: any;
+
+    beforeAll(async () => {
+      jest.setTimeout(1000 * 60 * 2);
+      port = await getPort();
+      app = await launchApp(appPath, port, {
+        cwd: appPath,
+      });
+    });
+
+    test('renderMiddleware should works', async () => {
+      await supportServerRenderMiddleware({
+        host,
+        port,
+      });
+    });
+
+    test('redirect should works', async () => {
+      await supportServerRedirect({
+        host,
+        port,
+      });
+    });
+
+    test('middleware should works', async () => {
+      await supportServerMiddleware({
+        host,
+        port,
+      });
+    });
+
+    test('plugin should works', async () => {
+      await supportServerPlugin({
+        host,
+        port,
+      });
+    });
+
+    afterAll(async () => {
+      await killApp(app);
     });
   });
 
-  test('plugins should works', async () => {
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-    await supportServerPlugins({
-      host,
-      port,
-    });
-  });
+  describe('prod', () => {
+    let port = 8080;
+    const host = `http://localhost`;
+    const appPath = path.resolve(__dirname, '../');
+    let app: any;
 
-  afterAll(async () => {
-    await killApp(app);
-  });
-});
+    beforeAll(async () => {
+      port = await getPort();
 
-describe('server config in prod', () => {
-  let port = 8080;
-  const host = `http://localhost`;
-  const appPath = path.resolve(__dirname, '../');
-  let app: any;
+      await modernBuild(appPath, [], {
+        cwd: appPath,
+      });
 
-  beforeAll(async () => {
-    port = await getPort();
-
-    await modernBuild(appPath, [], {
-      cwd: appPath,
+      app = await modernServe(appPath, port, {
+        cwd: appPath,
+      });
     });
 
-    await fs.ensureDir(path.resolve(__dirname, '../dist/api'));
-
-    app = await modernServe(appPath, port, {
-      cwd: appPath,
+    test('renderMiddleware should works', async () => {
+      await supportServerRenderMiddleware({
+        host,
+        port,
+      });
     });
-  });
 
-  test('plugins should works', async () => {
-    await supportServerPlugins({
-      host,
-      port,
+    test('redirect should works', async () => {
+      await supportServerRedirect({
+        host,
+        port,
+      });
     });
-  });
 
-  afterAll(async () => {
-    await killApp(app);
+    test('middleware should works', async () => {
+      await supportServerMiddleware({
+        host,
+        port,
+      });
+    });
+
+    test('plugin should works', async () => {
+      await supportServerPlugin({
+        host,
+        port,
+      });
+    });
+
+    afterAll(async () => {
+      await killApp(app);
+    });
   });
 });

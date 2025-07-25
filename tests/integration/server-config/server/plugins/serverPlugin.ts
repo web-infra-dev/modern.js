@@ -4,7 +4,7 @@ import type {
 } from '@modern-js/server-runtime';
 
 export default (): ServerPlugin => ({
-  name: 'serverPluginV2',
+  name: 'serverPlugin',
   setup(api) {
     api.onPrepare(() => {
       const { middlewares, renderMiddlewares } = api.getServerContext();
@@ -34,7 +34,10 @@ export default (): ServerPlugin => ({
 
           const end = Date.now();
 
-          c.res.headers.set('x-plugin-render-middleware', `dur=${end - start}`);
+          c.res.headers.set(
+            'x-plugin-render-middleware',
+            `plugin; dur=${end - start}`,
+          );
 
           const { res } = c;
 

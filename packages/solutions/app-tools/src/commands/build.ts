@@ -44,19 +44,12 @@ export const build = async (
   const { apiOnly } = appContext;
 
   if (apiOnly) {
-    const { appDirectory, distDirectory, serverConfigFile } = appContext;
     await hooks.onBeforeBuild.call({
       environments: {},
       // "null" bundlerConfigs
       bundlerConfigs: undefined,
       isFirstCompile: false,
       isWatch: false,
-    });
-
-    await buildServerConfig({
-      appDirectory,
-      distDirectory,
-      configFile: serverConfigFile,
     });
 
     await generateRoutes(appContext);
@@ -71,14 +64,6 @@ export const build = async (
 
     return;
   }
-
-  const { distDirectory, appDirectory, serverConfigFile } = appContext;
-
-  await buildServerConfig({
-    appDirectory,
-    distDirectory,
-    configFile: serverConfigFile,
-  });
 
   logger.info('Starting production build...');
   if (!appContext.builder) {

@@ -110,7 +110,6 @@ export interface AppToolsExtendContext {
   internalSrcAlias: string;
   apiDirectory: string;
   lambdaDirectory: string;
-  serverConfigFile: string;
   runtimeConfigFile: string;
   serverPlugins: ServerPlugin[];
   moduleType: 'module' | 'commonjs';

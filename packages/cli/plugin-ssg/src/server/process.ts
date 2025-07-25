@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import { type Server, request } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
+import path from 'path';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
   type ProdServerOptions,
@@ -11,7 +12,7 @@ import type {
   ServerRoute as ModernRoute,
   ServerPlugin,
 } from '@modern-js/types';
-import { createLogger } from '@modern-js/utils';
+import { SERVER_DIR, createLogger, getMeta } from '@modern-js/utils';
 import portfinder from 'portfinder';
 import { chunkArray } from '../libs/util';
 import { CLOSE_SIGN } from './consts';
@@ -55,6 +56,7 @@ process.on('message', async (chunk: string) => {
       apiDirectory: string;
       /** Directory for lambda modules */
       lambdaDirectory: string;
+      metaName: string;
     };
     plugins: ServerPlugin[];
   } = context;
@@ -62,7 +64,13 @@ process.on('message', async (chunk: string) => {
   let nodeServer: Server | Http2SecureServer | null = null;
   try {
     const { server: serverConfig } = options;
+    const meta = getMeta(appContext.metaName);
 
+    const serverConfigPath = path.resolve(
+      distDirectory,
+      SERVER_DIR,
+      `${meta}.server`,
+    );
     // start server in default port
     const defaultPort = Number(process.env.PORT) || serverConfig.port;
     portfinder.basePort = defaultPort!;
@@ -72,8 +80,7 @@ process.on('message', async (chunk: string) => {
       pwd: distDirectory,
       config: options as any,
       appContext,
-      // TODO
-      serverConfigPath: '',
+      serverConfigPath,
       routes,
       plugins: await loadServerPlugins(
         plugins,

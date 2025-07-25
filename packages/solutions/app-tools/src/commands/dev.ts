@@ -57,22 +57,7 @@ export const dev = async (
     ...normalizedConfig?.resolve?.alias,
   } as ConfigChain<Alias>);
 
-  const {
-    appDirectory,
-    distDirectory,
-    port,
-    apiOnly,
-    serverConfigFile,
-    metaName,
-    serverRoutes,
-  } = appContext;
-
-  await buildServerConfig({
-    appDirectory,
-    distDirectory,
-    configFile: serverConfigFile,
-    watch: true,
-  });
+  const { appDirectory, port, apiOnly, metaName, serverRoutes } = appContext;
 
   const meta = getMeta(metaName);
   const serverConfigPath = path.resolve(
@@ -111,7 +96,6 @@ export const dev = async (
     routes: serverRoutes,
     pwd: appDirectory,
     config: normalizedConfig as any,
-    serverConfigFile,
     plugins: pluginInstances,
     ...devServerOptions,
   };
