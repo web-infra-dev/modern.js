@@ -1,4 +1,5 @@
 export * from 'react-router';
+export const DEFERRED_SYMBOL = Symbol('deferred');
 /** @deprecated Please use Response.json instead. */
 export const json = (data: any, init?: number | ResponseInit): Response => {
   const responseInit = init

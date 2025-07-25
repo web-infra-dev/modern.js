@@ -9,7 +9,7 @@ import {
   DEFERRED_SYMBOL,
   createStaticHandler,
   isRouteErrorResponse,
-} from '@modern-js/runtime-utils/remix-router';
+} from '@modern-js/runtime-utils/router';
 import { matchEntry } from '@modern-js/runtime-utils/server';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';

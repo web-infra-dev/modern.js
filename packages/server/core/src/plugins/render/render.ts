@@ -1,4 +1,3 @@
-import type { IncomingMessage } from 'http';
 import type { ServerRoute } from '@modern-js/types';
 import type { NodeRequest } from '@modern-js/types/server';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
@@ -303,11 +302,7 @@ async function renderHandler(
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
 
     if (routes) {
-      const urlPath = 'node:url';
-      const { pathToFileURL } = await import(urlPath);
-      const { matchRoutes } = await import(
-        pathToFileURL(require.resolve('@modern-js/runtime-utils/router')).href
-      );
+      const { matchRoutes } = require('@modern-js/runtime-utils/router');
 
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(

@@ -30,12 +30,6 @@
       "require": "./dist/cjs/rsc.js",
       "default": "./dist/esm/rsc.js"
     },
-    "./remix-router": {
-      "types": "./dist/types/remixRouter.d.ts",
-      "jsnext:source": "./src/remixRouter.ts",
-      "require": "./dist/cjs/remixRouter.js",
-      "default": "./dist/esm/remixRouter.js"
-    },
     "./browser": {
       "types": "./dist/types/browser/index.d.ts",
       "jsnext:source": "./src/browser/index.ts",
@@ -118,11 +112,6 @@
         "require": "./dist/cjs/rsc.js",
         "default": "./dist/esm/rsc.js"
       },
-      "./remix-router": {
-        "types": "./dist/types/remixRouter.d.ts",
-        "require": "./dist/cjs/remixRouter.js",
-        "default": "./dist/esm/remixRouter.js"
-      },
       "./browser": {
         "types": "./dist/types/browser/index.d.ts",
         "require": "./dist/cjs/browser/index.js",
@@ -187,9 +176,6 @@
       ],
       "router/rsc": [
         "./dist/types/rsc.d.ts"
-      ],
-      "remix-router": [
-        "./dist/types/remixRouter.d.ts"
       ],
       "browser": [
         "./dist/types/browser/index.d.ts"
