@@ -5,10 +5,8 @@ import {
   getCommand,
   getNodeEnv,
   isDevCommand,
-  isPlainObject,
   logger,
 } from '@modern-js/utils';
-import { mergeWith } from '@modern-js/utils/lodash';
 import type { LoadedConfig } from '../types';
 import { mergeConfig } from '../utils/mergeConfig';
 import { getConfigFilePath, loadConfig } from './loadConfig';
@@ -49,34 +47,14 @@ async function loadLocalConfig<T>(
   return null;
 }
 
-/**
- * Assign the pkg config into the user config.
- */
-export function assignPkgConfig<T>(userConfig: T, pkgConfig: T) {
-  return mergeWith({}, userConfig, pkgConfig, (objValue, srcValue) => {
-    // mergeWith can not merge object with symbol, but plugins object contains symbol,
-    // so we need to handle it manually.
-    if (objValue === undefined && isPlainObject(srcValue)) {
-      return { ...srcValue };
-    }
-    // return undefined to use the default behavior of mergeWith
-    return undefined;
-  });
-}
-
 export async function createLoadedConfig<T>(
   appDirectory: string,
   configFilePath: string,
-  packageJsonConfig?: string,
   otherConfig?: T,
 ): Promise<LoadedConfig<T>> {
   const configFile = getConfigFilePath(appDirectory, configFilePath);
 
-  const loaded = await loadConfig<T>(
-    appDirectory,
-    configFile,
-    packageJsonConfig,
-  );
+  const loaded = await loadConfig<T>(appDirectory, configFile);
 
   if (!loaded.config && !loaded.pkgConfig) {
     logger.warn(
@@ -87,10 +65,6 @@ export async function createLoadedConfig<T>(
 
   const config = await getConfigObject(loaded.config);
   let mergedConfig = config;
-
-  if (loaded.pkgConfig) {
-    mergedConfig = assignPkgConfig(config, loaded?.pkgConfig);
-  }
 
   // Only load local config when running dev command
   if (isDevCommand()) {

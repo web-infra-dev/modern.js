@@ -13,11 +13,6 @@ export interface CLIOptions<Extends extends CLIPluginExtends = { config: {} }> {
    */
   config?: Extends['config'];
   configFile: string;
-  /**
-   * @deprecated
-   * `package.json` config field, will be removed in the future, expect use configFile instead
-   */
-  packageJsonConfig?: string;
   internalPlugins?: Plugin[];
   handleSetupResult?: (
     params: any,

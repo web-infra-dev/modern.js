@@ -60,7 +60,6 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
       config,
       command,
       version,
-      packageJsonConfig,
       internalPlugins,
       handleSetupResult,
     } = options;
@@ -77,7 +76,6 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     const loaded = await createLoadedConfig<Extends['config']>(
       appDirectory,
       configFile,
-      packageJsonConfig,
       config,
     );
 
