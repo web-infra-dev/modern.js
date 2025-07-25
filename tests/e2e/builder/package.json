@@ -9,7 +9,7 @@
     "lodash": "^4.17.21",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "6.22.0",
+    "react-router-dom": "7.6.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
