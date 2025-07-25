@@ -39,20 +39,5 @@
     "ts-node": "^10.9.2",
     "tsm": "2.3.0",
     "typescript": "^5"
-  },
-  "modernConfig": {
-    "tools": {
-      "jest": {
-        "collectCoverage": false,
-        "preset": "jest-puppeteer",
-        "setupFilesAfterEnv": [
-          "./utils/jest.setup.js"
-        ],
-        "testMatch": [
-          "**/*.(spec|test).[tj]s?(x)"
-        ],
-        "transform": {}
-      }
-    }
   }
 }
