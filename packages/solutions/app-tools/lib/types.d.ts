@@ -239,21 +239,6 @@ declare module '*.hbs' {
   export default src;
 }
 
-declare module '*.yaml' {
-  const src: Record<string, any>;
-  export default src;
-}
-
-declare module '*.yml' {
-  const content: Record<string, any>;
-  export default content;
-}
-
-declare module '*.toml' {
-  const src: Record<string, any>;
-  export default src;
-}
-
 declare module '*.xml' {
   const src: string;
   export default src;

@@ -475,27 +475,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "type": "asset/resource",
       },
       {
-        "test": /\\\\\\.toml\\$/,
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
-            "options": {
-              "getEnvironment": [Function],
-              "id": "rsbuild-transform-1",
-            },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
-          },
-        ],
-      },
-      {
         "dependency": {
           "not": "url",
         },
@@ -1339,8 +1318,6 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "builder:global-vars",
   "builder:devtool",
   "builder:emit-route-file",
-  "rsbuild:toml",
-  "rsbuild:yaml",
   "builder:antd",
   "builder:arco",
   "rsbuild:sass",
@@ -1712,27 +1689,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "getEnvironment": [Function],
               "id": "rsbuild-transform-0",
             },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
-            "options": {
-              "getEnvironment": [Function],
-              "id": "rsbuild-transform-1",
-            },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -2728,27 +2684,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
-            "options": {
-              "getEnvironment": [Function],
-              "id": "rsbuild-transform-1",
-            },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
-          },
-        ],
       },
       {
         "dependency": {
@@ -3939,27 +3874,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
-            "options": {
-              "getEnvironment": [Function],
-              "id": "rsbuild-transform-1",
-            },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
-          },
-        ],
       },
       {
         "dependency": {

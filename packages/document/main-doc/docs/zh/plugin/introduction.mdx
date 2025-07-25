@@ -149,8 +149,6 @@ Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](h
 | [Check Syntax 插件](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)           | 用于分析产物的语法兼容性，判断是否存在导致兼容性问题的高级语法                         | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
 | [CSS Minimizer 插件](https://github.com/rspack-contrib/rsbuild-plugin-css-minimizer)         | 用于自定义 CSS 压缩工具，切换到 [cssnano](https://cssnano.co/) 或其他工具进行 CSS 压缩 | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
 | [Rem 插件](https://github.com/rspack-contrib/rsbuild-plugin-rem)                             | 用于实现移动端页面的 rem 自适应布局                                                    | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
-| [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | 用于引用 YAML 文件，并将其转换为 JavaScript 对象                                       | [YAML 文件](/guides/basic-features/static-assets/json-files.html#yaml-文件)                                                           |
-| [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | 用于引用 TOML 文件，并将其转换为 JavaScript 对象                                       | [TOML 文件](/guides/basic-features/static-assets/json-files.html#toml-文件)                                                           |
 
 #### 未内置的插件
 
@@ -159,6 +157,8 @@ Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](h
 - [Image Compress 插件](https://github.com/rspack-contrib/rsbuild-plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
 - [Stylus 插件](https://rsbuild.rs/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
 - [UMD 插件](https://github.com/rspack-contrib/rsbuild-plugin-umd)：用于构建 UMD 格式的产物。
+- [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml)：用于引用 YAML 文件，并将其转换为 JavaScript 对象。
+- [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml)：用于引用 TOML 文件，并将其转换为 JavaScript 对象。
 
 import OtherPlugins from '@site-docs/components/other-plugins.mdx';
 
