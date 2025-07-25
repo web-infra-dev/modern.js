@@ -3,7 +3,7 @@ import {
   createRequestContext,
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
-import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
+import { createStaticHandler } from '@modern-js/runtime-utils/router';
 import {
   StaticRouterProvider,
   createStaticRouter,

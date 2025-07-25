@@ -1,5 +1,5 @@
 import type { InternalRuntimeContext } from '@modern-js/plugin';
-import type { RouterState } from '@modern-js/runtime-utils/remix-router';
+import type { RouterState } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type React from 'react';
 import type { AppConfig } from '../../common';

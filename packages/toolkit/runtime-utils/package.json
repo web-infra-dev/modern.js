@@ -30,12 +30,6 @@
       "require": "./dist/cjs/rsc.js",
       "default": "./dist/esm/rsc.js"
     },
-    "./remix-router": {
-      "types": "./dist/types/remixRouter.d.ts",
-      "jsnext:source": "./src/remixRouter.ts",
-      "require": "./dist/cjs/remixRouter.js",
-      "default": "./dist/esm/remixRouter.js"
-    },
     "./browser": {
       "types": "./dist/types/browser/index.d.ts",
       "jsnext:source": "./src/browser/index.ts",

@@ -1,4 +1,4 @@
-import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
+import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';

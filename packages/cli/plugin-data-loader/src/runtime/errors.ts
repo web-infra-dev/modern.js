@@ -11,8 +11,8 @@
 import type {
   ErrorResponse,
   StaticHandlerContext,
-} from '@modern-js/runtime-utils/remix-router';
-import { isRouteErrorResponse } from '@modern-js/runtime-utils/remix-router';
+} from '@modern-js/runtime-utils/router';
+import { isRouteErrorResponse } from '@modern-js/runtime-utils/router';
 
 /**
  * This thing probably warrants some explanation.

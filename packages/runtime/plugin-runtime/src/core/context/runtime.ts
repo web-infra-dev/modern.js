@@ -1,4 +1,4 @@
-import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
+import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext, useMemo } from 'react';

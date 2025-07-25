@@ -1,7 +1,7 @@
 import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import type { TrackedPromise } from '@modern-js/runtime-utils/browser';
 import { serializeJson, storage } from '@modern-js/runtime-utils/node';
-import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
+import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { type JSX, Suspense, useEffect, useMemo, useRef } from 'react';
 import { ROUTER_DATA_JSON_ID } from '../../core/constants';

@@ -2,7 +2,7 @@ import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
 import {
   UNSAFE_ErrorResponseImpl as ErrorResponseImpl,
   type StaticHandlerContext,
-} from '@modern-js/runtime-utils/remix-router';
+} from '@modern-js/runtime-utils/router';
 import type { DataRouter } from '@modern-js/runtime-utils/router';
 import {
   Route,
