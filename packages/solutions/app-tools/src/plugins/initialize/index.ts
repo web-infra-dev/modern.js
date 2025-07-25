@@ -19,7 +19,6 @@ export default (): CliPlugin<AppTools> => ({
     '@modern-js/plugin-ssr',
     '@modern-js/plugin-document',
     '@modern-js/plugin-router',
-    '@modern-js/plugin-router-v5',
     '@modern-js/plugin-polyfill',
   ],
 

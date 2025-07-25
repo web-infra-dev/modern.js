@@ -9,17 +9,13 @@ import { modifyEntrypoints } from './entry';
 
 let originEntrypoints: any[] = [];
 
-export async function handleModifyEntrypoints(
-  isRouterV5: boolean,
-  entrypoints: Entrypoint[],
-) {
-  return modifyEntrypoints(entrypoints, isRouterV5);
+export async function handleModifyEntrypoints(entrypoints: Entrypoint[]) {
+  return modifyEntrypoints(entrypoints);
 }
 
 export async function handleGeneratorEntryCode(
   api: CLIPluginAPI<AppTools>,
   entrypoints: Entrypoint[],
-  isRouterV5: boolean,
 ) {
   const appContext = api.getAppContext();
   const { internalDirectory } = appContext;
@@ -33,7 +29,6 @@ export async function handleGeneratorEntryCode(
     resolvedConfig as AppNormalizedConfig,
     entrypoints,
     api,
-    isRouterV5,
   );
   await Promise.all(
     entrypoints.map(async entrypoint => {
@@ -72,11 +67,7 @@ export async function handleGeneratorEntryCode(
   return entrypoints;
 }
 
-export async function handleFileChange(
-  api: CLIPluginAPI<AppTools>,
-  isRouterV5: boolean,
-  e: any,
-) {
+export async function handleFileChange(api: CLIPluginAPI<AppTools>, e: any) {
   const appContext = api.getAppContext();
   const { appDirectory, entrypoints } = appContext;
   const { filename, eventType } = e;
@@ -104,7 +95,6 @@ export async function handleFileChange(
       resolvedConfig as AppNormalizedConfig,
       entrypoints,
       api,
-      isRouterV5,
     );
   }
 }

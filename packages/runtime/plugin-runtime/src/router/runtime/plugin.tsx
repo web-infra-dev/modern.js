@@ -61,7 +61,6 @@ interface UseRouterCreationOptions {
   supportHtml5History: boolean;
   selectBasePath: (pathname: string) => string;
   basename: string;
-  future?: RouterProviderProps['future'];
 }
 
 export const routerPlugin = (
@@ -125,7 +124,6 @@ export const routerPlugin = (
           basename = '',
           routesConfig,
           createRoutes,
-          future,
         } = mergedConfig;
 
         finalRouteConfig = {
@@ -153,7 +151,6 @@ export const routerPlugin = (
               supportHtml5History,
               selectBasePath,
               basename,
-              future,
             },
           );
 
@@ -168,7 +165,7 @@ export const routerPlugin = (
           // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
           const RouterContent = () => (
             <>
-              <RouterProvider router={router} future={future} />
+              <RouterProvider router={router} />
               <EmptyComponent />
               <EmptyComponent />
             </>

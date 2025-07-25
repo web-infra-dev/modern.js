@@ -304,8 +304,7 @@ async function renderHandler(
       const urlPath = 'node:url';
       const { pathToFileURL } = await import(urlPath);
       const { matchRoutes } = await import(
-        pathToFileURL(require.resolve('@modern-js/runtime-utils/remix-router'))
-          .href
+        pathToFileURL(require.resolve('@modern-js/runtime-utils/router')).href
       );
 
       const url = new URL(request.url);

@@ -3,7 +3,7 @@ import {
   StaticRouterProvider,
   createStaticHandler,
   createStaticRouter,
-} from '@modern-js/runtime-utils/node/router';
+} from '@modern-js/runtime-utils/router';
 import { routes } from './routes';
 
 function createFetchRequest(request: Request) {

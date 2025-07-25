@@ -24,6 +24,12 @@
       "require": "./dist/cjs/router.js",
       "default": "./dist/esm/router.js"
     },
+    "./router/rsc": {
+      "types": "./dist/types/rsc.d.ts",
+      "jsnext:source": "./src/rsc.ts",
+      "require": "./dist/cjs/rsc.js",
+      "default": "./dist/esm/rsc.js"
+    },
     "./remix-router": {
       "types": "./dist/types/remixRouter.d.ts",
       "jsnext:source": "./src/remixRouter.ts",
@@ -41,12 +47,6 @@
       "jsnext:source": "./src/node/index.ts",
       "require": "./dist/cjs/node/index.js",
       "default": "./dist/esm/node/index.js"
-    },
-    "./node/router": {
-      "types": "./dist/types/node/router.d.ts",
-      "jsnext:source": "./src/node/router.ts",
-      "require": "./dist/cjs/node/router.js",
-      "default": "./dist/esm/node/router.js"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
@@ -113,6 +113,11 @@
         "require": "./dist/cjs/router.js",
         "default": "./dist/esm/router.js"
       },
+      "./router/rsc": {
+        "types": "./dist/types/rsc.d.ts",
+        "require": "./dist/cjs/rsc.js",
+        "default": "./dist/esm/rsc.js"
+      },
       "./remix-router": {
         "types": "./dist/types/remixRouter.d.ts",
         "require": "./dist/cjs/remixRouter.js",
@@ -132,11 +137,6 @@
         "types": "./dist/types/server/index.d.ts",
         "require": "./dist/cjs/server/index.js",
         "default": "./dist/esm/server/index.js"
-      },
-      "./node/router": {
-        "types": "./dist/types/node/router.d.ts",
-        "require": "./dist/cjs/node/router.js",
-        "default": "./dist/esm/node/router.js"
       },
       "./universal/request": {
         "types": "./dist/universal/request.d.ts",
@@ -185,6 +185,9 @@
       "router": [
         "./dist/types/router.d.ts"
       ],
+      "router/rsc": [
+        "./dist/types/rsc.d.ts"
+      ],
       "remix-router": [
         "./dist/types/remixRouter.d.ts"
       ],
@@ -196,9 +199,6 @@
       ],
       "server": [
         "./dist/types/server/index.d.ts"
-      ],
-      "node/router": [
-        "./dist/types/node/router.d.ts"
       ],
       "universal/request": [
         "./dist/types/universal/request.d.ts"
@@ -236,10 +236,9 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@remix-run/router": "1.20.0",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
-    "react-router-dom": "6.27.0",
+    "react-router": "0.0.0-experimental-3f68c7c20",
     "serialize-javascript": "^6.0.2"
   },
   "peerDependencies": {

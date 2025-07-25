@@ -14,10 +14,7 @@ export const isRouteEntry = (dir: string) => {
   return false;
 };
 
-export const modifyEntrypoints = (
-  entrypoints: Entrypoint[],
-  isRouterV5: boolean,
-) => {
+export const modifyEntrypoints = (entrypoints: Entrypoint[]) => {
   return entrypoints.map(entrypoint => {
     if (!entrypoint.isAutoMount) {
       return entrypoint;
@@ -26,11 +23,6 @@ export const modifyEntrypoints = (
       if (entrypoint.fileSystemRoutes) {
         // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.
         // At this time, the `routes` will be used by default, and react router v5 is not supported.
-        if (isRouterV5) {
-          throw Error(
-            'Custom entries with conventional routing not support use react router v5!',
-          );
-        }
         entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
       return entrypoint;

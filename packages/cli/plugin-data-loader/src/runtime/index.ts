@@ -1,4 +1,5 @@
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
+import type { DeferredData } from '@modern-js/runtime-utils/browser';
 import {
   createRequestContext,
   reporterCtx,
@@ -6,7 +7,6 @@ import {
 import { storage } from '@modern-js/runtime-utils/node';
 import {
   DEFERRED_SYMBOL,
-  type UNSAFE_DeferredData as DeferredData,
   createStaticHandler,
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';

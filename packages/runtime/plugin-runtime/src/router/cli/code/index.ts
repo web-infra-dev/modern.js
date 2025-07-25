@@ -39,7 +39,6 @@ export const generateCode = async (
   config: AppNormalizedConfig,
   entrypoints: Entrypoint[],
   api: CLIPluginAPI<AppTools>,
-  isRouterV5: boolean,
 ) => {
   const {
     internalDirectory,
@@ -83,7 +82,7 @@ export const generateCode = async (
             internalDirAlias,
           });
         }
-        if (!isRouterV5 && entrypoint.nestedRoutesEntry) {
+        if (entrypoint.nestedRoutesEntry) {
           nestedRoutes = await walk(
             entrypoint.nestedRoutesEntry,
             entrypoint.nestedRoutesEntry,
