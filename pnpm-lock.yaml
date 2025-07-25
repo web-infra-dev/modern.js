@@ -176,16 +176,10 @@ importers:
       '@rsbuild/plugin-svgr':
         specifier: 1.2.1
         version: 1.2.1(@rsbuild/core@1.4.10)(typescript@5.6.3)
-      '@rsbuild/plugin-toml':
-        specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@1.4.10)
       '@rsbuild/plugin-type-check':
         specifier: 1.2.3
         version: 1.2.3(@rsbuild/core@1.4.10)(@rspack/core@1.4.10(@swc/helpers@0.5.17))(typescript@5.6.3)
       '@rsbuild/plugin-typed-css-modules':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.10)
-      '@rsbuild/plugin-yaml':
         specifier: 1.0.2
         version: 1.0.2(@rsbuild/core@1.4.10)
       '@swc/core':
@@ -8330,14 +8324,6 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-toml@1.1.0':
-    resolution: {integrity: sha512-kzmgwXthLO1Co3KY0cGZ/3+jRY0u00Wh59+C5whTekpR0Ww3IXB6f/l/mKel6sk5s+3r8GRwhSbi0erv2AN+bg==}
-    peerDependencies:
-      '@rsbuild/core': 1.x
-    peerDependenciesMeta:
-      '@rsbuild/core':
-        optional: true
-
   '@rsbuild/plugin-type-check@1.2.3':
     resolution: {integrity: sha512-1yILSPgQFQCtY82f7CSbicIS/BqquoHgnDdAgPeYF3/k/RIwSAnclh0R2wXn+2EBormpFK82wz/TXuXl+k+evw==}
     peerDependencies:
@@ -8348,14 +8334,6 @@ packages:
 
   '@rsbuild/plugin-typed-css-modules@1.0.2':
     resolution: {integrity: sha512-QX376pBXWeBrZBvYLP2HGGrHiWA5O0SDHwRoBNto5BqYDXhi6y+Eol2Hb/cY+h2ARKZVanMfUiJRABULOJ/FCQ==}
-    peerDependencies:
-      '@rsbuild/core': 1.x || ^1.0.1-beta.0
-    peerDependenciesMeta:
-      '@rsbuild/core':
-        optional: true
-
-  '@rsbuild/plugin-yaml@1.0.2':
-    resolution: {integrity: sha512-M7POrqJAYS8IoY4trdLe9DUhDC01MvA0ge4ZKHoVQzlNLWVj2QHHXdz55/bfpkNYhoNGdCntoDmE/dn1zIpcAw==}
     peerDependencies:
       '@rsbuild/core': 1.x || ^1.0.1-beta.0
     peerDependenciesMeta:
@@ -16003,9 +15981,6 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
 
-  toml@3.0.0:
-    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
-
   toposort@2.0.2:
     resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
 
@@ -20386,12 +20361,6 @@ snapshots:
       - typescript
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-toml@1.1.0(@rsbuild/core@1.4.10)':
-    dependencies:
-      toml: 3.0.0
-    optionalDependencies:
-      '@rsbuild/core': 1.4.10
-
   '@rsbuild/plugin-type-check@1.2.3(@rsbuild/core@1.4.10)(@rspack/core@1.4.10(@swc/helpers@0.5.17))(typescript@5.6.3)':
     dependencies:
       deepmerge: 4.3.1
@@ -20405,10 +20374,6 @@ snapshots:
       - typescript
 
   '@rsbuild/plugin-typed-css-modules@1.0.2(@rsbuild/core@1.4.10)':
-    optionalDependencies:
-      '@rsbuild/core': 1.4.10
-
-  '@rsbuild/plugin-yaml@1.0.2(@rsbuild/core@1.4.10)':
     optionalDependencies:
       '@rsbuild/core': 1.4.10
 
@@ -29902,8 +29867,6 @@ snapshots:
   toggle-selection@1.0.6: {}
 
   toidentifier@1.0.1: {}
-
-  toml@3.0.0: {}
 
   toposort@2.0.2: {}
 

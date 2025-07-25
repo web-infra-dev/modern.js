@@ -4,7 +4,7 @@ sidebar_position: 12
 
 # Import JSON Files
 
-Modern.js supports import JSON files in code, and also supports import [YAML](https://yaml.org/) and [Toml](https://toml.io/en/) files and converting them to JSON format.
+Modern.js supports import JSON files in code by default. You can use Rsbuild plugins to support importing [YAML](https://yaml.org/) and [Toml](https://toml.io/en/) files and converting them to JSON format.
 
 ## JSON file
 
@@ -38,7 +38,16 @@ import { name } from './example.json';
 
 YAML is a data serialization language commonly used for writing configuration files.
 
-You can directly import `.yaml` or `.yml` files in JavaScript and they will be automatically converted to JSON format.
+You can configure the [YAML plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml) in `modern.config.ts` to support importing `.yaml` or `.yml` files, they will be automatically converted to JSON format.
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginYaml } from '@rsbuild/plugin-yaml';
+
+export default defineConfig({
+  plugins: [pluginYaml()],
+});
+```
 
 ### Example
 
@@ -76,7 +85,16 @@ declare module '*.yml' {
 
 Toml is a semantically explicit, easy-to-read configuration file format.
 
-You can directly import `.toml` files in JavaScript and it will be automatically converted to JSON format.
+You can configure the [TOML plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml) in `modern.config.ts` to support importing `.toml` files, it will be automatically converted to JSON format.
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginToml } from '@rsbuild/plugin-toml';
+
+export default defineConfig({
+  plugins: [pluginToml()],
+});
+```
 
 ### Example
 

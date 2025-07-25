@@ -4,7 +4,7 @@ sidebar_position: 12
 
 # 引用 JSON 文件
 
-Modern.js 支持在代码中引用 JSON 文件，也支持引用 [YAML](https://yaml.org/) 和 [TOML](https://toml.io/en/) 文件并将其转换为 JSON 格式。
+Modern.js 默认支持在代码中引用 JSON 文件。可以通过 Rsbuild 插件来支持引用 [YAML](https://yaml.org/) 和 [TOML](https://toml.io/en/) 文件并将其转换为 JSON 格式。
 
 ## JSON 文件
 
@@ -38,7 +38,16 @@ import { name } from './example.json';
 
 YAML 是一种数据序列化语言，通常用于编写配置文件。
 
-你可以直接在 JavaScript 中引用 `.yaml` 或 `.yml` 文件，它们会被自动转换为 JSON 格式。
+你可以 `modern.config.ts` 中配置 [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml) 来支持引用 `.yaml` 或 `.yml` 文件，它们会被自动转换为 JSON 格式。
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginYaml } from '@rsbuild/plugin-yaml';
+
+export default defineConfig({
+  plugins: [pluginYaml()],
+});
+```
 
 ### 示例
 
@@ -76,7 +85,16 @@ declare module '*.yml' {
 
 TOML 是一种语义明显、易于阅读的配置文件格式。
 
-你可以直接在 JavaScript 中引用 `.toml` 文件，它会被自动转换为 JSON 格式。
+你可以 `modern.config.ts` 中配置 [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml) 来支持引用 `.toml` 文件，它会被自动转换为 JSON 格式。
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+import { pluginToml } from '@rsbuild/plugin-toml';
+
+export default defineConfig({
+  plugins: [pluginToml()],
+});
+```
 
 ### 示例
 

@@ -9,8 +9,6 @@ import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
-import { pluginToml } from '@rsbuild/plugin-toml';
-import { pluginYaml } from '@rsbuild/plugin-yaml';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
 import { pluginAntd } from './plugins/antd';
@@ -213,8 +211,6 @@ export async function parseCommonConfig(
       sourceMap,
     }),
     pluginEmitRouteFile(),
-    pluginToml(),
-    pluginYaml(),
     pluginAntd(transformImport),
     pluginArco(transformImport),
     pluginSass({
