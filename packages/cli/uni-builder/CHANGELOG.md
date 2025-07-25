@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.68.5
+
+### Patch Changes
+
+- 17cbc3b: fix(rsbuild): 升级 Rsbuild 版本修复 MF 问题
+
+  fix(rsbuild): upgrade Rsbuild version to fix MF problem
+
+  - @modern-js/babel-preset@2.68.5
+  - @modern-js/flight-server-transform-plugin@2.68.5
+  - @modern-js/utils@2.68.5
+
 ## 2.68.4
 
 ### Patch Changes
