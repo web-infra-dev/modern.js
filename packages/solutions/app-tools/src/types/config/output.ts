@@ -16,11 +16,6 @@ export interface OutputUserConfig
    */
   splitRouteChunks?: boolean;
   /**
-   * Used to control whether to inject the polyfill of the Node module into the code.
-   * @default true
-   */
-  disableNodePolyfill?: boolean;
-  /**
    * Used to control whether to inject convention-based routing information into the HTML.
    * @default true
    */

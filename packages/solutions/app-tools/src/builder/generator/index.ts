@@ -74,11 +74,4 @@ async function applyBuilderPlugins(
   });
 
   const { normalizedConfig } = options;
-  if (!normalizedConfig.output.disableNodePolyfill) {
-    const { pluginNodePolyfill } = await import(
-      '@rsbuild/plugin-node-polyfill'
-    );
-
-    builder.addPlugins([pluginNodePolyfill()]);
-  }
 }

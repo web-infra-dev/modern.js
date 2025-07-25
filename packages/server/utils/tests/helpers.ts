@@ -45,7 +45,6 @@ const outputDefaults = {
   dataUriLimit: 10000,
   templateParameters: {},
   federation: undefined,
-  disableNodePolyfill: false,
   enableTsLoader: false,
 };
 
