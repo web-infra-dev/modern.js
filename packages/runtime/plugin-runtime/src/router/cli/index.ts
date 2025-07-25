@@ -70,7 +70,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
       return {
         source: {
           include: [
-            // react-router v6 is no longer support ie 11
+            // react-router v6 and v7 is no longer support ie 11
             // so we need to compile these packages to ensure the compatibility
             // https://github.com/remix-run/react-router/commit/f6df0697e1b2064a2b3a12e8b39577326fdd945b
             /[\\/]node_modules[\\/]react-router[\\/]/,

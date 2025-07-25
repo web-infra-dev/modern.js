@@ -21,8 +21,6 @@ export const modifyEntrypoints = (entrypoints: Entrypoint[]) => {
     }
     if (entrypoint?.isCustomSourceEntry) {
       if (entrypoint.fileSystemRoutes) {
-        // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.
-        // At this time, the `routes` will be used by default, and react router v5 is not supported.
         entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
       return entrypoint;
