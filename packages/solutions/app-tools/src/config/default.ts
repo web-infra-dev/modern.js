@@ -29,7 +29,6 @@ export function createDefaultConfig(
       worker: 'worker',
     },
     cleanDistPath: true,
-    disableNodePolyfill: true,
     enableInlineRouteManifests: true,
     disableInlineRouteManifests: false,
   };
