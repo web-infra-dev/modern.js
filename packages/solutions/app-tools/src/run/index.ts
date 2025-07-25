@@ -3,7 +3,6 @@ import { run as CLIPluginRun } from '@modern-js/plugin/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { chalk, minimist } from '@modern-js/utils';
 import { handleSetupResult } from '../compat/hooks';
-import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
 import { getConfigFile } from '../utils/getConfigFile';
 import { loadInternalPlugins } from '../utils/loadPlugins';
 
@@ -11,7 +10,6 @@ export interface RunOptions {
   cwd?: string;
   configFile?: string;
   metaName?: string;
-  packageJsonConfig?: string;
   statePluginName?: string;
   internalPlugins?: InternalPlugins;
   initialLog?: string;
@@ -23,7 +21,6 @@ export async function run({
   metaName = 'modern-js',
   version,
   internalPlugins,
-  packageJsonConfig = PACKAGE_JSON_CONFIG_NAME,
   configFile,
 }: RunOptions) {
   const nodeVersion = process.versions.node;
@@ -91,7 +88,6 @@ export async function run({
     initialLog: initialLog || `Modern.js Framework v${version}`,
     configFile: finalConfigFile,
     metaName,
-    packageJsonConfig: packageJsonConfig,
     internalPlugins: plugins,
     handleSetupResult,
   });
