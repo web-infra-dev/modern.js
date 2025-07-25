@@ -1,9 +1,9 @@
 import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
 import {
   UNSAFE_ErrorResponseImpl as ErrorResponseImpl,
-  type Router,
   type StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
+import type { DataRouter } from '@modern-js/runtime-utils/router';
 import {
   Route,
   type RouteObject,
@@ -269,13 +269,13 @@ export function serializeErrors(
  * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
  */
 export function deserializeErrors(
-  errors: Router['state']['errors'],
-): Router['state']['errors'] {
+  errors: DataRouter['state']['errors'],
+): DataRouter['state']['errors'] {
   if (!errors) {
     return null;
   }
   const entries = Object.entries(errors);
-  const serialized: Router['state']['errors'] = {};
+  const serialized: DataRouter['state']['errors'] = {};
   for (const [key, val] of entries) {
     // Hey you!  If you change this, please change the corresponding logic in
     // serializeErrors

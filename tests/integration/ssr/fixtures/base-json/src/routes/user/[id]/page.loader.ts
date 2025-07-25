@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, json } from '@modern-js/runtime/router';
+import type { LoaderFunctionArgs } from '@modern-js/runtime/router';
 import type { User } from './page';
 
 export default async ({ params }: LoaderFunctionArgs) => {
@@ -13,5 +13,5 @@ export default async ({ params }: LoaderFunctionArgs) => {
     }, 200);
   });
 
-  return json(await user);
+  return Response.json(await user);
 };

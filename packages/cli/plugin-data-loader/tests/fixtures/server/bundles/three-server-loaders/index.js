@@ -1,7 +1,7 @@
 const loader0 = async () => {
-  return {
+  return Response.json({
     message: 'loader0',
-  };
+  });
 };
 
 const loader1 = async () => {

@@ -80,7 +80,6 @@ const handleNetworkErrorResponse = async (res: Response) => {
 };
 
 export const createRequest = (routeId: string, method = 'get') => {
-  const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
   return async ({
     params,
     request,
@@ -111,7 +110,7 @@ export const createRequest = (routeId: string, method = 'get') => {
 
     if (isDeferredResponse(res)) {
       const deferredData = await parseDeferredReadableStream(res.body!);
-      return isRouterV7 ? deferredData.data : deferredData;
+      return deferredData.data;
     }
 
     // some response error not from modern.js

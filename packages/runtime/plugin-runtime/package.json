@@ -101,6 +101,11 @@
       "jsnext:source": "./src/router/index.ts",
       "default": "./dist/esm/router/index.js"
     },
+    "./router/rsc": {
+      "types": "./dist/types/router/runtime/rsc.d.ts",
+      "jsnext:source": "./src/router/runtime/rsc.ts",
+      "default": "./dist/esm/router/runtime/rsc.js"
+    },
     "./router/server": {
       "types": "./dist/types/router/runtime/server.d.ts",
       "jsnext:source": "./src/router/runtime/server.ts",
@@ -179,6 +184,9 @@
       ],
       "router": [
         "./dist/types/router/index.d.ts"
+      ],
+      "router/rsc": [
+        "./dist/types/router/runtime/rsc.d.ts"
       ],
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"

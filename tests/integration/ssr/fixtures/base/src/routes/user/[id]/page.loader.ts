@@ -13,5 +13,5 @@ export default async ({ params }: LoaderFunctionArgs) => {
     }, 200);
   });
 
-  return json(await user);
+  return user;
 };

@@ -1,1 +1,1 @@
-export * from '@modern-js/runtime-utils/node/router';
+export * from '@modern-js/runtime-utils/router';

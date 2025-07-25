@@ -12,7 +12,7 @@ import {
   Route,
   type RouteProps,
   createRoutesFromElements,
-} from 'react-router-dom';
+} from 'react-router';
 import { time } from '../time';
 import { getAsyncLocalStorage } from '../universal/async_storage';
 import {
@@ -147,19 +147,16 @@ function createLoader(route: NestedRoute): LoaderFunction {
       }
       const end = time();
       const res = await loader(args);
-      const isRouterV7 = process.env._MODERN_ROUTER_VERSION === 'v7';
-      if (isRouterV7) {
-        let activeDeferreds = null;
-        if (typeof document === 'undefined') {
-          activeDeferreds = getAsyncLocalStorage()?.useContext()
-            ?.activeDeferreds as Map<string, DeferredData>;
-        } else {
-          activeDeferreds = originalActiveDeferreds;
-        }
-        if (isPlainObject(res)) {
-          const deferredData = privateDefer(res);
-          activeDeferreds.set(route.id!, deferredData);
-        }
+      let activeDeferreds = null;
+      if (typeof document === 'undefined') {
+        activeDeferreds = getAsyncLocalStorage()?.useContext()
+          ?.activeDeferreds as Map<string, DeferredData>;
+      } else {
+        activeDeferreds = originalActiveDeferreds;
+      }
+      if (isPlainObject(res)) {
+        const deferredData = privateDefer(res);
+        activeDeferreds.set(route.id!, deferredData);
       }
 
       const cost = end();

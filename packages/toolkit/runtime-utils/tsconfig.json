@@ -3,6 +3,8 @@
   "compilerOptions": {
     "target": "ES2019",
     "declaration": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "baseUrl": "./",
     "isolatedModules": true,

@@ -18,7 +18,6 @@
     "@modern-js/tsconfig": "workspace:*",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@modern-js/plugin-router-v7": "workspace:*",
     "typescript": "^5"
   }
 }

@@ -1,8 +1,7 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import routerPlugin from '@modern-js/plugin-router-v7';
 
 export default defineConfig({
-  plugins: [appTools(), routerPlugin()],
+  plugins: [appTools()],
   runtime: {
     router: true,
     state: false,
@@ -15,6 +14,7 @@ export default defineConfig({
   output: {
     polyfill: 'off',
     disableTsChecker: true,
+    minify: false,
   },
   server: {
     ssrByEntries: {
