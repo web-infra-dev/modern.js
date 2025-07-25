@@ -5,15 +5,13 @@ import type {
   RsbuildPlugin,
 } from '@rsbuild/core';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
-import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
-import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
+import { castArray } from '../shared/utils';
 import type {
   BuilderConfig,
   CreateBuilderCommonOptions,
   CreateBuilderOptions,
-  OverridesBuilderInstance,
 } from '../types';
 
 export async function parseConfig(
@@ -129,11 +127,7 @@ export async function parseConfig(
   };
 }
 
-export type BuilderInstance = Omit<
-  RsbuildInstance,
-  keyof OverridesBuilderInstance
-> &
-  OverridesBuilderInstance;
+export type BuilderInstance = RsbuildInstance;
 
 export async function createRspackBuilder(
   options: CreateBuilderOptions,
@@ -161,11 +155,5 @@ export async function createRspackBuilder(
 
   return {
     ...rsbuild,
-    addPlugins: (plugins, options) => {
-      const warpedPlugins = plugins.map(plugin => {
-        return compatLegacyPlugin(plugin, { cwd });
-      });
-      rsbuild.addPlugins(warpedPlugins, options);
-    },
   };
 }

@@ -239,16 +239,6 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type OverridesBuilderInstance = {
-  addPlugins: (
-    plugins: Array<BuilderPlugin | LooseRsbuildPlugin>,
-    options?: {
-      before?: string;
-      environment?: string;
-    },
-  ) => void;
-};
-
 export type BuilderContext = RsbuildPluginAPI['context'] & {
   target: RsbuildTarget[];
   framework: string;
@@ -280,22 +270,6 @@ export type BuilderPluginAPI = {
       },
     ) => any | Promise<any>,
   ) => void;
-};
-
-/**
- * compat legacy modern.js builder plugin
- */
-export type BuilderPlugin = {
-  name: string;
-  setup: (api: BuilderPluginAPI) => void | Promise<void>;
-  pre?: string[];
-  post?: string[];
-  remove?: string[];
-};
-
-// Support for registering any version Rsbuild plugins
-export type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
-  setup: (api: any) => Promise<void> | void;
 };
 
 export type DistPath = DistPathConfig & {

@@ -31,8 +31,7 @@ export const builderPluginAdapterBasic = (
       const { appContext } = options;
       const { metaName } = appContext;
 
-      // compat modern-js v1
-      // this helps symlinked packages to resolve packages correctly, such as `react/jsx-runtime`.
+      // This helps symlinked packages to resolve packages correctly, such as `react/jsx-runtime`, typically for monorepo.
       chain.resolve.modules
         .add('node_modules')
         .add(path.join(api.context.rootPath, 'node_modules'));

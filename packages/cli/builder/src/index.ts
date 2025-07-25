@@ -5,8 +5,6 @@ export type { CreateBuilderOptions, BuilderInstance };
 
 export type {
   BuilderConfig,
-  BuilderPlugin,
-  LooseRsbuildPlugin,
   BundlerType,
   MetaOptions,
   Stats,
