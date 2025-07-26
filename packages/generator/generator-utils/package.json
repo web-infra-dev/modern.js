@@ -49,7 +49,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/glob": "7.2.0",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/js-yaml": "4.0.9",
     "@types/node": "^20",
     "jest": "^29",

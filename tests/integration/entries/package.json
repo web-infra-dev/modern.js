@@ -3,7 +3,7 @@
   "name": "entries-integration",
   "version": "2.66.0",
   "dependencies": {
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "axios": "^1.7.4"
   }

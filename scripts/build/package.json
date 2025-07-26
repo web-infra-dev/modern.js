@@ -12,7 +12,7 @@
   "devDependencies": {
     "@modern-js/core": "2.68.3",
     "@modern-js/module-tools": "2.68.3",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "typescript": "^5"
   }
