@@ -49,7 +49,7 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "commander": "10.0.1",
     "jest": "^29",
