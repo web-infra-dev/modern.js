@@ -12,21 +12,6 @@ export const init = (context: RuntimeContext) => {
   return context;
 };
 
-// export const config = (): AppConfig => {
-//   return {
-//     router: {
-//       createRoutes() {
-//         return [
-//           {
-//             path: 'yyy/xxx',
-//             element: <div>yyy/xxx</div>,
-//           },
-//         ];
-//       },
-//     },
-//   }
-// };
-
 export default function Layout() {
   return (
     <div>

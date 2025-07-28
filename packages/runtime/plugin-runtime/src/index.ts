@@ -1,7 +1,7 @@
 import type { RouterConfig } from './router/internal';
 
 export type { RuntimePlugin } from './core';
-export type { AppConfig, RuntimeConfig } from './common';
+export type { RuntimeConfig } from './common';
 export { isBrowser } from './common';
 
 export type { RuntimeContext } from './core/context/runtime';
@@ -14,7 +14,6 @@ export { setHeaders, setStatus, redirect } from './core/context/response';
 export {
   useLoader,
   RuntimeReactContext,
-  defineConfig,
   defineRuntimeConfig,
   useRuntimeContext,
 } from './core';

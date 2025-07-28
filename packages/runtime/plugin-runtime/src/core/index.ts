@@ -1,5 +1,5 @@
 export type { RuntimePlugin } from './plugin';
-export { defineConfig, getConfig, defineRuntimeConfig } from './config';
+export { defineRuntimeConfig } from './config';
 
 export type { RuntimeContext } from './context/runtime';
 export {

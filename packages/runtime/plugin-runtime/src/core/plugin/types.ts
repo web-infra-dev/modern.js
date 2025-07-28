@@ -3,7 +3,7 @@ import type {
   RuntimePluginExtends,
 } from '@modern-js/plugin';
 import type { Hooks } from '@modern-js/plugin/runtime';
-import type { AppConfig } from '../../common';
+import type { RuntimeConfig as BaseRuntimeConfig } from '../../common';
 import type { RuntimeContext } from '../context/runtime';
 
 export type RuntimeHooks = Hooks<RuntimeConfig, RuntimeContext>;
@@ -14,6 +14,6 @@ export type RuntimeExtends = Required<
 
 export type RuntimePlugin<Extends extends RuntimePluginExtends = {}> =
   BaseRuntimePlugin<RuntimeExtends & Extends>;
-export interface RuntimeConfig extends AppConfig {
+export interface RuntimeConfig extends BaseRuntimeConfig {
   plugins?: RuntimePlugin[];
 }

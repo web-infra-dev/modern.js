@@ -577,29 +577,21 @@ export const runtimeGlobalContext = async ({
         source: rootLayout.toString(),
         filename: rootLayoutFile,
       });
-      const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
       const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
       const layoutPath = formatImportPath(
         getPathWithoutExt(
           replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
         ),
       );
-      if (hasAppConfig) {
-        imports.push(`import { config as appConfig } from '${layoutPath}';`);
-      } else {
-        imports.push(`let appConfig;`);
-      }
       if (hasAppInit) {
         imports.push(`import { init as appInit } from '${layoutPath}';`);
       } else {
         imports.push(`let appInit;`);
       }
     } else {
-      imports.push(`let appConfig;`);
       imports.push(`let appInit;`);
     }
   } else {
-    imports.push(`let appConfig;`);
     imports.push(`let appInit;`);
   }
 
@@ -627,7 +619,6 @@ export const runtimeGlobalContext = async ({
         layoutApp,
         routes,
         appInit,
-        appConfig,
         isRscClient: true,
         enableRsc: true,
       });
@@ -643,7 +634,6 @@ export const runtimeGlobalContext = async ({
         layoutApp,
         routes,
         appInit,
-        appConfig,
         enableRsc: ${enableRsc},
       });
     `;
