@@ -18,6 +18,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "force": false,
         },
       },
+      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -27,6 +28,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "parser": {
         "javascript": {
           "exportsPresence": "error",
+          "typeReexportsPresence": "tolerant",
         },
       },
       "rules": [
@@ -291,6 +293,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -378,6 +384,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -1011,6 +1021,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -1106,6 +1120,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -1371,6 +1389,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "force": false,
         },
       },
+      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -1385,6 +1404,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "parser": {
         "javascript": {
           "exportsPresence": "error",
+          "typeReexportsPresence": "tolerant",
         },
       },
       "rules": [
@@ -1518,6 +1538,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -1598,6 +1622,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2004,6 +2032,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -2095,6 +2127,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -2276,6 +2312,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "force": false,
         },
       },
+      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -2286,6 +2323,7 @@ exports[`uni-builder environment compat > should generator environment config co
         "javascript": {
           "dynamicImportMode": "eager",
           "exportsPresence": "error",
+          "typeReexportsPresence": "tolerant",
         },
       },
       "rules": [
@@ -2420,6 +2458,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2501,6 +2543,10 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2889,6 +2935,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -2981,6 +3031,10 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
+                      "collectTypeScriptInfo": {
+                        "exportedEnum": false,
+                        "typeExports": true,
+                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,

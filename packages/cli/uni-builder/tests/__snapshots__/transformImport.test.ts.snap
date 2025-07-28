@@ -80,6 +80,10 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -185,6 +189,12 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
               "useDefineForClassFields": false,
             },
           },
+          "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
+          },
         },
       },
     ],
@@ -277,6 +287,10 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -382,6 +396,12 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
               "useDefineForClassFields": false,
             },
           },
+          "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
+          },
         },
       },
     ],
@@ -474,6 +494,10 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "libraryName": "foo",
