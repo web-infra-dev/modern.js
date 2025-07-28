@@ -3143,8 +3143,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       source-map:
-        specifier: 0.7.4
-        version: 0.7.4
+        specifier: 0.7.6
+        version: 0.7.6
 
   tests/integration/alias-set:
     dependencies:
@@ -15405,6 +15405,10 @@ packages:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
 
+  source-map@0.7.6:
+    resolution: {integrity: sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ==}
+    engines: {node: '>= 12'}
+
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
 
@@ -19166,7 +19170,7 @@ snapshots:
   '@mdx-js/loader@3.1.0(acorn@8.14.1)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))':
     dependencies:
       '@mdx-js/mdx': 3.1.0(acorn@8.14.1)
-      source-map: 0.7.4
+      source-map: 0.7.6
     optionalDependencies:
       webpack: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
     transitivePeerDependencies:
@@ -19193,7 +19197,7 @@ snapshots:
       remark-mdx: 3.1.0
       remark-parse: 11.0.0
       remark-rehype: 11.1.2
-      source-map: 0.7.4
+      source-map: 0.7.6
       unified: 11.0.5
       unist-util-position-from-estree: 2.0.0
       unist-util-stringify-position: 4.0.0
@@ -20143,7 +20147,7 @@ snapshots:
       lodash: 4.17.21
       path-browserify: 1.0.1
       semver: 7.7.2
-      source-map: 0.7.4
+      source-map: 0.7.6
       webpack-bundle-analyzer: 4.10.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@rspack/core'
@@ -20159,7 +20163,7 @@ snapshots:
       '@rsdoctor/utils': 0.4.13(@rspack/core@1.4.10(@swc/helpers@0.5.17))(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
       lodash.unionby: 4.8.0
       socket.io: 4.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      source-map: 0.7.4
+      source-map: 0.7.6
     transitivePeerDependencies:
       - '@rspack/core'
       - bufferutil
@@ -20199,7 +20203,7 @@ snapshots:
       open: 8.4.2
       serve-static: 1.16.2
       socket.io: 4.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      source-map: 0.7.4
+      source-map: 0.7.6
       tapable: 2.2.1
     transitivePeerDependencies:
       - '@rspack/core'
@@ -20213,7 +20217,7 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/estree': 1.0.5
       '@types/tapable': 2.2.7
-      source-map: 0.7.4
+      source-map: 0.7.6
       webpack: 5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5)
     optionalDependencies:
       '@rspack/core': 1.4.10(@swc/helpers@0.5.17)
@@ -23563,7 +23567,7 @@ snapshots:
     dependencies:
       '@types/estree-jsx': 1.0.0
       astring: 1.8.3
-      source-map: 0.7.4
+      source-map: 0.7.6
 
   estree-util-visit@2.0.0:
     dependencies:
@@ -28976,6 +28980,8 @@ snapshots:
   source-map@0.6.1: {}
 
   source-map@0.7.4: {}
+
+  source-map@0.7.6: {}
 
   space-separated-tokens@2.0.2: {}
 
