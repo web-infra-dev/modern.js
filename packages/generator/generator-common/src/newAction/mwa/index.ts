@@ -5,7 +5,7 @@ import {
   ActionElementText,
   ActionFunction,
   ActionFunctionText,
-  ActionRefactor,
+  type ActionRefactor,
   ActionRefactorText,
   ActionType,
   ActionTypeQuestionText,
@@ -27,7 +27,7 @@ export const MWAActionFunctions = [
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
-export const MWAActionReactors = [ActionRefactor.ReactRouter5];
+export const MWAActionReactors = [];
 
 export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Element]: MWAActionElements,
@@ -127,15 +127,11 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
 
 export const MWAActionRefactorDependencies: Partial<
   Record<ActionRefactor, string>
-> = {
-  [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
-};
+> = {};
 
 export const MWAActionReactorAppendTypeContent: Partial<
   Record<ActionRefactor, string>
-> = {
-  [ActionRefactor.ReactRouter5]: `/// <reference types='@modern-js/plugin-router-v5/types' />`,
-};
+> = {};
 
 export const MWANewActionGenerators: Record<
   ActionType,
@@ -152,9 +148,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
   },
-  [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',
-  },
+  [ActionType.Refactor]: {},
 };
 
 export const MWANewActionPluginName: Record<
@@ -170,9 +164,7 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
   },
-  [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: 'routerPlugin',
-  },
+  [ActionType.Refactor]: {},
 };
 
 export const MWANewActionPluginDependence: Record<
@@ -188,7 +180,5 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
   },
-  [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: '@modern-js/plugin-router-v5',
-  },
+  [ActionType.Refactor]: {},
 };

@@ -22,7 +22,6 @@ export const ZH_LOCALE = {
     refactor: {
       self: '自动重构',
       question: '请选择重构类型',
-      react_router_5: '使用 React Router v5',
     },
   },
   boolean: {
