@@ -22,7 +22,6 @@ export const EN_LOCALE = {
     refactor: {
       self: 'Automatic Refactor',
       question: 'Please select the type of refactoring:',
-      react_router_5: 'Use React Router v5',
     },
   },
   boolean: {
