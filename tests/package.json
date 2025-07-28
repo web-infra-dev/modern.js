@@ -22,7 +22,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/core": "1.11.31",
     "@swc/jest": "^0.2.22",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "cross-spawn": "^7.0.6",
     "enhanced-resolve": "5.18.2",
