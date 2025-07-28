@@ -17,6 +17,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "force": false,
       },
     },
+    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -26,6 +27,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
@@ -279,6 +281,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -355,6 +361,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -956,6 +966,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -1040,6 +1054,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -1350,6 +1368,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         "force": false,
       },
     },
+    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1364,6 +1383,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
@@ -1486,6 +1506,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -1555,6 +1579,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -1929,6 +1957,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -2009,6 +2041,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -2229,6 +2265,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "force": false,
       },
     },
+    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2238,6 +2275,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
@@ -2490,6 +2528,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -2566,6 +2608,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -3167,6 +3213,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -3251,6 +3301,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -3553,6 +3607,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         "force": false,
       },
     },
+    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -3563,6 +3618,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
+        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
@@ -3686,6 +3742,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -3756,6 +3816,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 },
               },
               "rspackExperiments": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -4112,6 +4176,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -4193,6 +4261,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     },
                   },
                   "rspackExperiments": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
