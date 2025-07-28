@@ -124,7 +124,7 @@ export const rsbuildRscPlugin = ({
 
         const layerHandler = () => {
           chain.experiments({
-            ...chain.experiments,
+            ...chain.get('experiments'),
             layers: true,
           });
 
