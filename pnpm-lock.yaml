@@ -3177,6 +3177,40 @@ importers:
         specifier: ^5
         version: 5.6.3
 
+  tests/integration/app-document:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../packages/tsconfig
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
   tests/integration/asset-prefix:
     dependencies:
       react:
