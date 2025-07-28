@@ -3,15 +3,11 @@ import { FormilyAPI } from '@modern-js/codesmith-formily';
 import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   type ActionFunction,
-  type ActionRefactor,
   ActionType,
   MWAActionFunctions,
   MWAActionFunctionsAppendTypeContent,
   MWAActionFunctionsDependencies,
   MWAActionFunctionsDevDependencies,
-  MWAActionReactorAppendTypeContent,
-  MWAActionReactors,
-  MWAActionRefactorDependencies,
   MWANewActionGenerators,
   MWANewActionPluginDependence,
   MWANewActionPluginName,
@@ -104,19 +100,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     funcMap[func] = enable;
   });
 
-  const refactorMap: Partial<Record<ActionRefactor, boolean>> = {};
-
-  MWAActionReactors.forEach(refactor => {
-    const enable = hasEnabledFunction(
-      refactor,
-      MWAActionRefactorDependencies,
-      {},
-      {},
-      cwd,
-    );
-    refactorMap[refactor] = enable;
-  });
-
   const ans = await formilyAPI.getInputBySchemaFunc(getMWANewActionSchema, {
     ...UserConfig,
   });
@@ -125,11 +108,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const action = ans[actionType] as string;
 
-  if (
-    (actionType === ActionType.Function && funcMap[action as ActionFunction]) ||
-    (actionType === ActionType.Refactor &&
-      refactorMap[action as ActionRefactor])
-  ) {
+  if (actionType === ActionType.Function && funcMap[action as ActionFunction]) {
     smith.logger.error(enableAlreadyText[language]);
     return;
   }
@@ -153,9 +132,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const devDependency =
     MWAActionFunctionsDevDependencies[action as ActionFunction];
-  const dependency =
-    MWAActionFunctionsDependencies[action as ActionFunction] ||
-    MWAActionRefactorDependencies[action as ActionRefactor];
+  const dependency = MWAActionFunctionsDependencies[action as ActionFunction];
 
   const shouldUsePluginNameExport = await usePluginNameExport(Solution.MWA, {
     registry,
@@ -183,8 +160,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
           }
         : {},
       appendTypeContent:
-        MWAActionFunctionsAppendTypeContent[action as ActionFunction] ||
-        MWAActionReactorAppendTypeContent[action as ActionRefactor],
+        MWAActionFunctionsAppendTypeContent[action as ActionFunction],
       pluginName: MWANewActionPluginName[actionType][action],
       pluginDependence: MWANewActionPluginDependence[actionType][action],
       shouldUsePluginNameExport,

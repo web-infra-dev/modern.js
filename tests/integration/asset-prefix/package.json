@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@types/jest": "^29",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20"
   }
 }

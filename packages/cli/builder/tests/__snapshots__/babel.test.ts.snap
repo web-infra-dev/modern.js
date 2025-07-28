@@ -68,6 +68,10 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -207,6 +211,10 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -338,6 +346,10 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -432,6 +444,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -563,6 +579,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -694,6 +714,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,

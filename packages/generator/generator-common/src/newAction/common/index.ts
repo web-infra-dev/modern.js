@@ -22,9 +22,7 @@ export enum ActionFunction {
   ModuleDoc = 'module_doc',
 }
 
-export enum ActionRefactor {
-  ReactRouter5 = 'react_router_5',
-}
+export enum ActionRefactor {}
 
 export const ActionTypeText: Record<ActionType, () => string> = {
   [ActionType.Function]: () => i18n.t(localeKeys.action.function.self),
@@ -58,10 +56,7 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
     i18n.t(localeKeys.action.function.module_doc),
 };
 
-export const ActionRefactorText: Record<ActionRefactor, () => string> = {
-  [ActionRefactor.ReactRouter5]: () =>
-    i18n.t(localeKeys.action.refactor.react_router_5),
-};
+export const ActionRefactorText: Record<ActionRefactor, () => string> = {};
 
 export const ActionTypeTextMap: Record<
   ActionType,
