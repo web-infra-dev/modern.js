@@ -54,17 +54,5 @@ export const designTokenPlugin = (
       }
       return { entrypoint, plugins };
     });
-
-    api.addRuntimeExports(async () => {
-      const appContext = api.useAppContext();
-
-      const pluginsExportsUtils = createRuntimeExportsUtils(
-        appContext.internalDirectory,
-        'plugins',
-      );
-      pluginsExportsUtils.addExport(
-        `export { default as designToken } from '${pluginName}/runtime-design-token'`,
-      );
-    });
   },
 });

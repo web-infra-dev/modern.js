@@ -71,7 +71,6 @@ export const appTools = (): CliPlugin<AppTools> => ({
     generateEntryCode: createAsyncHook<GenerateEntryCodeFn>(),
     onBeforeGenerateRoutes: createAsyncHook<BeforeGenerateRoutesFn>(),
     onBeforePrintInstructions: createAsyncHook<BeforePrintInstructionsFn>(),
-    addRuntimeExports: createAsyncHook<AddRuntimeExportsFn>(),
   },
   setup: api => {
     const context = api.getAppContext();

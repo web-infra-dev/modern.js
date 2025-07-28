@@ -87,17 +87,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     api.generateEntryCode(async ({ entrypoints }) => {
       await handleGeneratorEntryCode(api, entrypoints);
     });
-    api.addRuntimeExports(() => {
-      const { internalDirectory, metaName } = api.useAppContext();
-
-      const pluginsExportsUtils = createRuntimeExportsUtils(
-        internalDirectory,
-        'plugins',
-      );
-      pluginsExportsUtils.addExport(
-        `export { default as router } from '@${metaName}/runtime/router/internal'`,
-      );
-    });
     api.onFileChanged(async e => {
       await handleFileChange(api, e);
     });
