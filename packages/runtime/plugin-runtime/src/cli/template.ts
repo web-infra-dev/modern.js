@@ -225,7 +225,7 @@ const getRegisterRuntimePluginCode = (
 ) => {
   return `plugins.push(${configName}Plugin(mergeConfig(${JSON.stringify(
     config,
-  )}, (runtimeConfig || {})['${configName}'], ((runtimeConfig || {})['${configName}ByEntries'] || {})['${entryName}'], (getGlobalAppConfig() || {})['${configName}'])));`;
+  )}, (runtimeConfig || {})['${configName}'], ((runtimeConfig || {})['${configName}ByEntries'] || {})['${entryName}'])));`;
 };
 
 export const runtimeRegister = ({
@@ -243,7 +243,7 @@ export const runtimeRegister = ({
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePluginConfig[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalAppConfig, getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
+import { getGlobalLayoutApp, getCurrentEntryName } from '@${metaName}/runtime/context';
 
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
