@@ -1,22 +1,7 @@
 import type { Stats } from 'fs';
 import path from 'path';
-import { fs, CONFIG_CACHE_DIR, globby } from '@modern-js/utils';
+import { fs, globby } from '@modern-js/utils';
 import jiti from 'jiti';
-/**
- * Get user config from package.json.
- * @param appDirectory - App root directory.
- * @returns modernConfig or undefined
- */
-export const getPackageConfig = <T>(
-  appDirectory: string,
-  packageJsonConfig: string,
-) => {
-  const json = JSON.parse(
-    fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
-  );
-
-  return json[packageJsonConfig] as T | undefined;
-};
 
 export const getConfigFilePath = (
   appDirectory: string,
@@ -99,18 +84,12 @@ function loadConfigContent<T>(configFile: string): T {
 export const loadConfig = async <T>(
   appDirectory: string,
   configFile: string,
-  packageJsonConfig?: string,
 ): Promise<{
   packageName: string;
   configFile: string;
   config?: T;
   pkgConfig?: T;
 }> => {
-  let pkgConfig: T | undefined;
-  if (packageJsonConfig) {
-    pkgConfig = getPackageConfig<T>(appDirectory, packageJsonConfig);
-  }
-
   const packageName = require(
     path.resolve(appDirectory, './package.json'),
   ).name;
@@ -125,6 +104,5 @@ export const loadConfig = async <T>(
     packageName,
     configFile,
     config,
-    pkgConfig,
   };
 };

@@ -87,10 +87,6 @@ async function runNewMWAProject(
         continue;
       }
       hasSSG = true;
-      const pkgJSONPath = path.join(tmpDir, project, 'package.json');
-      const pkgJSON = fs.readJSONSync(pkgJSONPath, 'utf-8');
-      pkgJSON.modernConfig = { output: { ssg: true } };
-      fs.writeJSONSync(pkgJSONPath, pkgJSON, { spaces: 2 });
     }
     if (
       config.actionType === 'element' &&
