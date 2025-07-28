@@ -3,15 +3,11 @@ import { FormilyAPI } from '@modern-js/codesmith-formily';
 import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   type ActionFunction,
-  type ActionRefactor,
   ActionType,
   MWAActionFunctions,
   MWAActionFunctionsAppendTypeContent,
   MWAActionFunctionsDependencies,
   MWAActionFunctionsDevDependencies,
-  MWAActionReactorAppendTypeContent,
-  MWAActionReactors,
-  MWAActionRefactorDependencies,
   MWANewActionGenerators,
   MWANewActionPluginDependence,
   MWANewActionPluginName,
@@ -102,13 +98,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       cwd,
     );
     funcMap[func] = enable;
-  });
-
-  const refactorMap: Partial<Record<ActionRefactor, boolean>> = {};
-
-  MWAActionReactors.forEach(refactor => {
-    const enable = hasEnabledFunction(refactor, {}, {}, {}, cwd);
-    refactorMap[refactor] = enable;
   });
 
   const ans = await formilyAPI.getInputBySchemaFunc(getMWANewActionSchema, {
