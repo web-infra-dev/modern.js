@@ -69,6 +69,10 @@ exports[`builder rspack > should allow custom arco import config 1`] = `
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -163,6 +167,12 @@ exports[`builder rspack > should allow filter arco import config 1`] = `
               "useDefineForClassFields": false,
             },
           },
+          "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
+          },
         },
       },
     ],
@@ -244,6 +254,10 @@ exports[`builder rspack > should apply arco correctly 1`] = `
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -338,6 +352,12 @@ exports[`builder rspack > should not apply arco when transformImport false 1`] =
               "useDefineForClassFields": false,
             },
           },
+          "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
+          },
         },
       },
     ],
@@ -419,6 +439,10 @@ exports[`builder rspack > should not apply arco when transformImport return cust
             },
           },
           "rspackExperiments": {
+            "collectTypeScriptInfo": {
+              "exportedEnum": false,
+              "typeExports": true,
+            },
             "import": [
               {
                 "libraryName": "foo",
