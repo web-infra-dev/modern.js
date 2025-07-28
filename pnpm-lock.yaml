@@ -2609,8 +2609,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       enhanced-resolve:
-        specifier: 5.17.1
-        version: 5.17.1
+        specifier: 5.18.2
+        version: 5.18.2
       esbuild:
         specifier: 0.25.5
         version: 0.25.5
@@ -3001,8 +3001,8 @@ importers:
         specifier: ^7.0.6
         version: 7.0.6
       enhanced-resolve:
-        specifier: 5.17.1
-        version: 5.17.1
+        specifier: 5.18.2
+        version: 5.18.2
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -11260,6 +11260,10 @@ packages:
 
   enhanced-resolve@5.18.1:
     resolution: {integrity: sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg==}
+    engines: {node: '>=10.13.0'}
+
+  enhanced-resolve@5.18.2:
+    resolution: {integrity: sha512-6Jw4sE1maoRJo3q8MsSIn2onJFbLTOjY9hlx4DZXmOKvLRd1Ok2kXmAGXaafL2+ijsJZ1ClYbl/pmqr9+k4iUQ==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.3.6:
@@ -23682,6 +23686,11 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.2.1
 
+  enhanced-resolve@5.18.2:
+    dependencies:
+      graceful-fs: 4.2.11
+      tapable: 2.2.1
+
   enquirer@2.3.6:
     dependencies:
       ansi-colors: 4.1.3
@@ -30021,7 +30030,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.17.1
+      enhanced-resolve: 5.18.2
       tsconfig-paths: 4.2.0
 
   tsconfig-paths@3.14.1:
@@ -30491,7 +30500,7 @@ snapshots:
       acorn: 8.14.1
       browserslist: 4.24.4
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.17.1
+      enhanced-resolve: 5.18.2
       es-module-lexer: 1.6.0
       eslint-scope: 5.1.1
       events: 3.3.0
