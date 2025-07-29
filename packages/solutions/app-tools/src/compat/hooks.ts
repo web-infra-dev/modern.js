@@ -170,12 +170,6 @@ export function getHookRunners(
     beforeRestart: async () => {
       return hooks.onBeforeRestart.call();
     },
-    /**
-     * @deprecated
-     */
-    addRuntimeExports: async () => {
-      return hooks.addRuntimeExports.call();
-    },
   };
 }
 

@@ -44,7 +44,6 @@ export default (): CliPlugin<AppTools> => ({
         resolvedConfig.source?.entriesDir,
         appContext.apiDirectory,
       );
-      await hooks.addRuntimeExports.call();
 
       const [{ getProdServerRoutes }] = await Promise.all([
         import('./getServerRoutes.js'),

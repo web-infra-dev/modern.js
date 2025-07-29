@@ -17,6 +17,5 @@ describe('test temp-dir', () => {
   test(`should get right alias build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('node_modules/.temp-dir/main')).toBe(true);
-    expect(existsSync('node_modules/.temp-dir/.runtime-exports')).toBe(true);
   });
 });

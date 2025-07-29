@@ -61,11 +61,6 @@ export interface AppToolsExtendAPI {
    */
   onBeforePrintInstructions: PluginHookTap<BeforePrintInstructionsFn>;
   /**
-   * @deprecated
-   */
-  addRuntimeExports: PluginHookTap<AddRuntimeExportsFn>;
-
-  /**
    * @deprecated use getAppContext instead
    */
   useAppContext: () => AppToolsContext;
@@ -96,10 +91,6 @@ export interface AppToolsExtendHooks
    * @deprecated
    */
   onBeforePrintInstructions: AsyncHook<BeforePrintInstructionsFn>;
-  /**
-   * @deprecated
-   */
-  addRuntimeExports: AsyncHook<AddRuntimeExportsFn>;
 }
 
 export interface AppToolsExtendContext {
