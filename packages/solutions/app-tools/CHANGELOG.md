@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.68.6
+
+### Patch Changes
+
+- 2ca26a4: chore(app-tools): export createRunOptions
+- Updated dependencies [ee61047]
+- Updated dependencies [ffaab92]
+- Updated dependencies [73ad77c]
+  - @modern-js/server-core@2.68.6
+  - @modern-js/prod-server@2.68.6
+  - @modern-js/plugin-data-loader@2.68.6
+  - @modern-js/server@2.68.6
+  - @modern-js/server-utils@2.68.6
+  - @modern-js/core@2.68.6
+  - @modern-js/plugin-i18n@2.68.6
+  - @modern-js/rsbuild-plugin-esbuild@2.68.6
+  - @modern-js/uni-builder@2.68.6
+  - @modern-js/node-bundle-require@2.68.6
+  - @modern-js/plugin@2.68.6
+  - @modern-js/plugin-v2@2.68.6
+  - @modern-js/types@2.68.6
+  - @modern-js/utils@2.68.6
+
 ## 2.68.5
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 2.68.6
+
+### Patch Changes
+
+- 73ad77c: fix: netlify deployment missed the latest Hono middleware capabilities
+  fix: 修复 netlify 部署时丢失了最新的 Hono 中间件能力的问题
+- Updated dependencies [ee61047]
+- Updated dependencies [ffaab92]
+  - @modern-js/server-core@2.68.6
+  - @modern-js/runtime-utils@2.68.6
+  - @modern-js/utils@2.68.6
+
 ## 2.68.5
 
 ### Patch Changes

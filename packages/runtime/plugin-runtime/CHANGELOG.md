@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.68.6
+
+### Patch Changes
+
+- 08508f1: fix: replace should use function as second param in case not be a pattern replace
+  fix: replace 应该使用函数，防止成为模式替换
+- ee61047: feat: support enableHandleWeb for csr + rsc projects
+  feat: 为 CSR 和 RSC 项目支持 enableHandleWeb
+  - @modern-js/plugin-data-loader@2.68.6
+  - @modern-js/render@2.68.6
+  - @modern-js/plugin@2.68.6
+  - @modern-js/plugin-v2@2.68.6
+  - @modern-js/runtime-utils@2.68.6
+  - @modern-js/types@2.68.6
+  - @modern-js/utils@2.68.6
+
 ## 2.68.5
 
 ### Patch Changes
