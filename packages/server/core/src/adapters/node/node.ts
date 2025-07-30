@@ -65,16 +65,38 @@ export const createWebRequest = (
   const originalRequest = new Request(url, init);
 
   if (needsRequestBody) {
+    const interceptedMethods: Array<keyof Request> = [
+      'json',
+      'text',
+      'blob',
+      'arrayBuffer',
+      'formData',
+      'body',
+    ] as const;
+
+    const methodWrappers = new Map<keyof Request, Function>();
+
     return new Proxy(originalRequest, {
-      get(target, prop) {
-        if (
-          ['json', 'text', 'blob', 'arrayBuffer', 'formData', 'body'].includes(
-            prop as string,
-          )
-        ) {
-          cloneableReq!.resume();
+      get(target: Request, prop: keyof Request) {
+        if (interceptedMethods.includes(prop)) {
+          if (!methodWrappers.has(prop)) {
+            methodWrappers.set(prop, (...args: any[]) => {
+              cloneableReq!.resume();
+
+              return (target[prop] as Function).call(
+                target,
+                ...(args as [any]),
+              );
+            });
+          }
+          return methodWrappers.get(prop);
         }
-        return target[prop as keyof Request];
+
+        const value = target[prop];
+        if (typeof value === 'function') {
+          return (...args: any[]) => (value as any).apply(target, args);
+        }
+        return value;
       },
     });
   }
