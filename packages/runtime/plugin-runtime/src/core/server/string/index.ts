@@ -18,7 +18,6 @@ import { getSSRConfigByEntry, safeReplace } from '../utils';
 import { LoadableCollector } from './loadable';
 import { prefetch } from './prefetch';
 import { SSRDataCollector } from './ssrData';
-import { StyledCollector } from './styledComponent';
 import type { ChunkSet, Collector } from './types';
 
 export const renderString: RenderString = async (
@@ -64,7 +63,6 @@ export const renderString: RenderString = async (
   }
 
   const collectors = [
-    new StyledCollector(chunkSet),
     new LoadableCollector({
       stats: loadableStats,
       nonce: config.nonce,

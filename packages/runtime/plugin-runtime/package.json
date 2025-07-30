@@ -64,11 +64,6 @@
       "jsnext:source": "./src/exports/head.ts",
       "default": "./dist/esm/exports/head.js"
     },
-    "./styled": {
-      "types": "./dist/types/exports/styled.d.ts",
-      "jsnext:source": "./src/exports/styled.ts",
-      "default": "./dist/esm/exports/styled.js"
-    },
     "./server": {
       "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
@@ -167,9 +162,6 @@
       "head": [
         "./dist/types/exports/head.d.ts"
       ],
-      "styled": [
-        "./dist/types/exports/styled.d.ts"
-      ],
       "server": [
         "./dist/types/exports/server.d.ts"
       ],
@@ -231,7 +223,6 @@
     "@swc/helpers": "^0.5.17",
     "@types/loadable__component": "^5.13.10",
     "@types/react-helmet": "^6.1.11",
-    "@types/styled-components": "^5.1.34",
     "cookie": "0.7.2",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.25.5",
@@ -239,8 +230,7 @@
     "isbot": "3.7.1",
     "react-helmet": "^6.1.0",
     "react-is": "^18",
-    "react-side-effect": "^2.1.2",
-    "styled-components": "^5.3.1"
+    "react-side-effect": "^2.1.2"
   },
   "peerDependencies": {
     "react": ">=17",
