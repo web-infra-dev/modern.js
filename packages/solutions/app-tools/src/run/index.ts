@@ -125,7 +125,7 @@ export async function createRunOptions({
   ) {
     if (!userConfig.plugins.find(plugin => plugin.name === statePluginName)) {
       console.warn(
-        `${chalk.red('\n[Warning]')} We 1 will no longer support built-in \`runtime.state\`. If you want to use Reduck, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. After install state plugin, please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
+        `${chalk.red('\n[Warning]')} We will no longer support built-in \`runtime.state\`. If you want to use Reduck, you must run ${chalk.yellow.bold(`\`pnpm add ${statePluginName}@${version}\``)} to install the state plugin dependency and manually register the plugin. After install state plugin, please add the following code to ${chalk.yellow.bold(`\`${path.basename(finalConfigFile)}\``)}:
 
 ${chalk.yellow.bold(`import { statePlugin } from '${statePluginName}';
 
