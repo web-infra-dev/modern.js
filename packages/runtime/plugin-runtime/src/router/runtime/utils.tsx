@@ -107,7 +107,10 @@ export function getRouteObjects(
         action: route.action,
         hasErrorBoundary: route.hasErrorBoundary,
         shouldRevalidate: route.shouldRevalidate,
-        handle: route.handle,
+        handle: {
+          ...route.handle,
+          ...(typeof route.config === 'object' ? route.config?.handle : {}),
+        },
         index: route.index,
         hasClientLoader: !!route.clientData,
         Component: route.component ? route.component : undefined,
