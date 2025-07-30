@@ -37,7 +37,7 @@ import {
   TOP_PARTICALS_SEPARATOR,
 } from '../constants';
 
-const debug = createDebugger('html_genarate');
+const debug = createDebugger('html_generate');
 
 // get the entry document file,
 // if not exist, fallback to src/
@@ -209,9 +209,12 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         }
 
         html = html
-          .replace(TOP_PARTICALS_SEPARATOR, partialsContent.partialsTop)
-          .replace(HEAD_PARTICALS_SEPARATOR, partialsContent.partialsHead)
-          .replace(BODY_PARTICALS_SEPARATOR, partialsContent.partialsBody);
+          .replace(TOP_PARTICALS_SEPARATOR, () => partialsContent.partialsTop)
+          .replace(HEAD_PARTICALS_SEPARATOR, () => partialsContent.partialsHead)
+          .replace(
+            BODY_PARTICALS_SEPARATOR,
+            () => partialsContent.partialsBody,
+          );
 
         const links = [
           htmlWebpackPlugin.tags.headTags
@@ -284,19 +287,19 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
 
         // replace the html placeholder while transfer string to jsx component is not a easy way
         const finalHtml = `<!DOCTYPE html>${html}`
-          .replace(DOCUMENT_META_PLACEHOLDER, metas)
-          .replace(DOCUMENT_SSR_PLACEHOLDER, HTML_SEPARATOR)
-          .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, scripts)
-          .replace(DOCUMENT_LINKS_PLACEHOLDER, links)
+          .replace(DOCUMENT_META_PLACEHOLDER, () => metas)
+          .replace(DOCUMENT_SSR_PLACEHOLDER, () => HTML_SEPARATOR)
+          .replace(DOCUMENT_SCRIPTS_PLACEHOLDER, () => scripts)
+          .replace(DOCUMENT_LINKS_PLACEHOLDER, () => links)
           .replace(
             DOCUMENT_CHUNKSMAP_PLACEHOLDER,
-            PLACEHOLDER_REPLACER_MAP[DOCUMENT_CHUNKSMAP_PLACEHOLDER],
+            () => PLACEHOLDER_REPLACER_MAP[DOCUMENT_CHUNKSMAP_PLACEHOLDER],
           )
           .replace(
             DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
-            PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
+            () => PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
           )
-          .replace(DOCUMENT_TITLE_PLACEHOLDER, titles);
+          .replace(DOCUMENT_TITLE_PLACEHOLDER, () => titles);
         return finalHtml;
       };
     };
