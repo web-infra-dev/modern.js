@@ -81,9 +81,9 @@ export const optimizeRoute = (
     !routeTree.clientData
   ) {
     const newRoutes = children.map(child => {
-      const routePath = `${routeTree.path ? routeTree.path : ''}${
-        child.path ? `/${child.path}` : ''
-      }`;
+      const routePath = routeTree.path
+        ? `${routeTree.path}${child.path ? `/${child.path}` : ''}`
+        : child.path || '';
 
       const newRoute: NestedRouteForCli = {
         ...child,
