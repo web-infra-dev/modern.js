@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.68.6
+
+### Patch Changes
+
+- ee61047: feat: support enableHandleWeb for csr + rsc projects
+  feat: 为 CSR 和 RSC 项目支持 enableHandleWeb
+- ffaab92: feat: hono bff req support node 24
+  feat: hono bff req 支持 node 24
+  - @modern-js/plugin@2.68.6
+  - @modern-js/plugin-v2@2.68.6
+  - @modern-js/runtime-utils@2.68.6
+  - @modern-js/utils@2.68.6
+
 ## 2.68.5
 
 ### Patch Changes
