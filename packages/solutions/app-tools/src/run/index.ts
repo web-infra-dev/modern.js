@@ -15,7 +15,7 @@ export interface RunOptions {
   initialLog?: string;
   version: string;
 }
-export async function run({
+export async function createRunOptions({
   cwd,
   initialLog,
   metaName = 'modern-js',
@@ -83,12 +83,17 @@ export async function run({
 
   const plugins = await loadInternalPlugins(appDirectory, internalPlugins);
 
-  await CLIPluginRun({
+  return {
     cwd,
     initialLog: initialLog || `Modern.js Framework v${version}`,
     configFile: finalConfigFile,
     metaName,
     internalPlugins: plugins,
     handleSetupResult,
-  });
+  };
+}
+
+export async function run(options: RunOptions) {
+  const runOptions = await createRunOptions(options);
+  await CLIPluginRun(runOptions);
 }
