@@ -1,7 +1,6 @@
-import { PassThrough, Transform } from 'stream';
+import { Transform } from 'stream';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
-import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import {
@@ -26,19 +25,13 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     const isbot = checkIsBot(request.headers.get('user-agent'));
     const onReady = isbot || forceStream2String ? 'onAllReady' : 'onShellReady';
 
-    const sheet = new ServerStyleSheet();
-
     const chunkVec: string[] = [];
 
-    const root = sheet.collectStyles(rootElement);
-
     return new Promise(resolve => {
-      const { pipe: reactStreamingPipe } = renderToPipeableStream(root, {
+      const { pipe: reactStreamingPipe } = renderToPipeableStream(rootElement, {
         nonce: config.nonce,
         [onReady]() {
-          const styledComponentsStyleTags = forceStream2String
-            ? sheet.getStyleTags()
-            : '';
+          const styledComponentsStyleTags = '';
           options[onReady]?.();
 
           getTemplates(htmlTemplate, {
@@ -90,16 +83,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             const stream = createReadableStreamFromReadable(body);
             resolve(stream);
 
-            // Transform the react pipe to a readable stream
-            // Actually it's for type check, we even can execute `sheet.interleaveWithNodeStream({ pipe })`
-            // Source code https://github.com/styled-components/styled-components/blob/main/packages/styled-components/src/models/ServerStyleSheet.tsx#L80
-            const passThrough = new PassThrough();
-            const styledStream = sheet.interleaveWithNodeStream(passThrough);
-            reactStreamingPipe(passThrough);
-
-            // pipe the styled stream to the body stream
-            // now only use styled stream, if there is multiple stream, we can abstract it to a function
-            styledStream.pipe(body);
+            reactStreamingPipe(body);
           });
         },
 
