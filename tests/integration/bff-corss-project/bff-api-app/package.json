@@ -19,7 +19,7 @@
     "@modern-js/runtime": "workspace:*",
     "express": "^4.21.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react-dom": "^19.1.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.14.1",
     "zod": "^3.22.3"

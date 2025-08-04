@@ -39,12 +39,12 @@
     "@types/react-dom": "^19.1.6",
     "jest": "^29",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react-dom": "^19.1.1",
     "typescript": "^5"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react-dom": ">=17.0.2"
   },
   "exports": {
     "./ssr": {
