@@ -165,8 +165,8 @@ importers:
         specifier: 1.3.4
         version: 1.3.4(@rsbuild/core@1.4.13)
       '@rsbuild/plugin-rem':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.4.13)
+        specifier: 1.0.3
+        version: 1.0.3(@rsbuild/core@1.4.13)
       '@rsbuild/plugin-sass':
         specifier: 1.3.3
         version: 1.3.3(@rsbuild/core@1.4.13)
@@ -8313,8 +8313,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-rem@1.0.2':
-    resolution: {integrity: sha512-YI/X4fM4UUmMoCPIukQ40KZ4fPsr9MGW6BRc/+SoLy5dxZVsRuRa568i4znn+X1c8hTihfNn2EtzrVbvNCPzrQ==}
+  '@rsbuild/plugin-rem@1.0.3':
+    resolution: {integrity: sha512-tzx7Ulp7dCVy2dortcNHRlLzfOhkcT6Aaghjr+Cr78dm1zxMtiJzUtdZyTLRWPLXSSZvLB2B8N8BA3jJ1046zw==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -20247,7 +20247,7 @@ snapshots:
     transitivePeerDependencies:
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-rem@1.0.2(@rsbuild/core@1.4.13)':
+  '@rsbuild/plugin-rem@1.0.3(@rsbuild/core@1.4.13)':
     dependencies:
       deepmerge: 4.3.1
       terser: 5.43.1
