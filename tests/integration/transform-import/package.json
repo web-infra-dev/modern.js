@@ -12,8 +12,8 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

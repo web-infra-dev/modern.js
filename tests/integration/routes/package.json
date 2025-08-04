@@ -14,8 +14,8 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "fs-extra": "^10.1.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

@@ -50,8 +50,8 @@
     "@modern-js/app-tools": "workspace:*",
     "@rslib/core": "^0.11.1",
     "@types/node": "^20",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "typescript": "^5"
   }
 }
