@@ -43,7 +43,7 @@ export async function generateBuilder(
     internalDirectory: appContext.internalDirectory,
     frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
-    config: builderConfig as any,
+    config: builderConfig,
   });
 
   await applyBuilderPlugins(builder, options);
