@@ -666,8 +666,8 @@ importers:
         specifier: 1.3.1
         version: 1.3.1(@rsbuild/core@1.4.13)
       '@rsbuild/plugin-pug':
-        specifier: 1.3.1
-        version: 1.3.1(@rsbuild/core@1.4.13)
+        specifier: 1.3.2
+        version: 1.3.2(@rsbuild/core@1.4.13)
       '@rsbuild/plugin-react':
         specifier: 1.3.4
         version: 1.3.4(@rsbuild/core@1.4.13)
@@ -12978,8 +12978,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-pug@1.3.1':
-    resolution: {integrity: sha512-Z9pfjRuKNrQFa8HYFNtxnxv64ZX0ZbyuHTYkGHK3IMvv7l2OH+q9LRLlQLLTq6KAThL0nczvSpI3hHkj6ZsJzg==}
+  '@rsbuild/plugin-pug@1.3.2':
+    resolution: {integrity: sha512-40u8k4Qczo7vjTRr6sVmJ4SBxGp5T4oP4GrnPBFJc36voqUdFX/6tnn7cR7nvRD2bnxFm0k1VksYaUBuvoCkOw==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -29643,7 +29643,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.4.13
 
-  '@rsbuild/plugin-pug@1.3.1(@rsbuild/core@1.4.13)':
+  '@rsbuild/plugin-pug@1.3.2(@rsbuild/core@1.4.13)':
     dependencies:
       '@types/pug': 2.0.10
       lodash: 4.17.21
@@ -32306,6 +32306,10 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
+  acorn-jsx@5.3.2(acorn@8.15.0):
+    dependencies:
+      acorn: 8.15.0
+
   acorn-node@1.8.2:
     dependencies:
       acorn: 7.4.1
@@ -34618,7 +34622,7 @@ snapshots:
   esast-util-from-js@2.0.1:
     dependencies:
       '@types/estree-jsx': 1.0.0
-      acorn: 8.14.1
+      acorn: 8.15.0
       esast-util-from-estree: 2.0.0
       vfile-message: 4.0.2
 
@@ -38493,8 +38497,8 @@ snapshots:
 
   micromark-extension-mdxjs@1.0.0:
     dependencies:
-      acorn: 8.14.1
-      acorn-jsx: 5.3.2(acorn@8.14.1)
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
       micromark-extension-mdx-expression: 1.0.3
       micromark-extension-mdx-jsx: 1.0.3
       micromark-extension-mdx-md: 1.0.0
