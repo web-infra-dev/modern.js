@@ -278,7 +278,7 @@ export type DistPath = DistPathConfig & {
 };
 
 export type BuilderConfig = {
-  dev?: RsbuildConfig['dev'];
+  dev?: Omit<DevConfig, 'setupMiddlewares'>;
   html?: Omit<HtmlConfig, 'appIcon'>;
   output?: Omit<OutputConfig, 'polyfill' | 'distPath'> & {
     polyfill?: Polyfill | 'ua';
