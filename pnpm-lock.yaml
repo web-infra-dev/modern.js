@@ -1329,8 +1329,8 @@ importers:
         specifier: workspace:*
         version: link:../../solutions/app-tools
       '@rslib/core':
-        specifier: ^0.11.0
-        version: 0.11.0(typescript@5.6.3)
+        specifier: ^0.11.1
+        version: 0.11.1(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -8384,8 +8384,8 @@ packages:
   '@rsdoctor/utils@0.4.13':
     resolution: {integrity: sha512-+Zj9gsJEWzZpr2mh+0KIGEfvAdiz756Gu2kP2a2yNilnWlwLqCPXzQWw0D8Z5ScNIq36PdKtojQbg6qzcv7wHg==}
 
-  '@rslib/core@0.11.0':
-    resolution: {integrity: sha512-ku5Qs3sSBZSmUVRQHM0JG2ZHXmw7aGvxmf0fseUjYWCAWzuBvTeXcthO2eCYKlYvYOIZBQH4QO1eVgz6fWfPkw==}
+  '@rslib/core@0.11.1':
+    resolution: {integrity: sha512-ETu44Vr/W6SAeoUIITLp56mocNkjgns88naURWQRB6fN8BOC0b48gbvEH1CLyqplhrhh3vG59uJu20dYaLDnRw==}
     engines: {node: '>=16.7.0'}
     hasBin: true
     peerDependencies:
@@ -15129,8 +15129,8 @@ packages:
   roughjs@4.6.6:
     resolution: {integrity: sha512-ZUz/69+SYpFN/g/lUlo2FXcIjRkSu3nDarreVdGGndHEBJ6cXPdKguS8JGxwj5HA5xIbVKSmLgr5b3AWxtRfvQ==}
 
-  rsbuild-plugin-dts@0.11.0:
-    resolution: {integrity: sha512-z2ltq3wgHL622Q0b2r/6QKRY6sAzkgP5xnyOtOuYfVyKyrlw/R/ES7x4/3dsYWPVt1rTuIebxX6zMfBwKQRIzw==}
+  rsbuild-plugin-dts@0.11.1:
+    resolution: {integrity: sha512-fWilGgsnlaCeenL0zQ+V8VslfK0WjLxlNzCdUYj7EjrxH/7nFmPAu7xip6BVDrFuv9Fup6L3V1/cZruwx5HLPA==}
     engines: {node: '>=16.7.0'}
     peerDependencies:
       '@microsoft/api-extractor': ^7
@@ -20401,10 +20401,10 @@ snapshots:
       - supports-color
       - webpack
 
-  '@rslib/core@0.11.0(typescript@5.6.3)':
+  '@rslib/core@0.11.1(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.4.12
-      rsbuild-plugin-dts: 0.11.0(@rsbuild/core@1.4.12)(typescript@5.6.3)
+      rsbuild-plugin-dts: 0.11.1(@rsbuild/core@1.4.12)(typescript@5.6.3)
       tinyglobby: 0.2.14
     optionalDependencies:
       typescript: 5.6.3
@@ -28727,7 +28727,7 @@ snapshots:
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
 
-  rsbuild-plugin-dts@0.11.0(@rsbuild/core@1.4.12)(typescript@5.6.3):
+  rsbuild-plugin-dts@0.11.1(@rsbuild/core@1.4.12)(typescript@5.6.3):
     dependencies:
       '@ast-grep/napi': 0.37.0
       '@rsbuild/core': 1.4.12
