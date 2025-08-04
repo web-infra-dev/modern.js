@@ -73,7 +73,7 @@
     "memfs": "^3.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "supertest": "^6.1.6",
+    "supertest": "^6.3.4",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
     "@rsbuild/core": "1.4.12"
