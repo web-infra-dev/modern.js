@@ -1,8 +1,8 @@
 import type { InternalRuntimeContext } from '@modern-js/plugin';
-import type { RouterState } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type React from 'react';
 import type { RuntimeExtends } from '../plugin/types';
+import type { ServerPayload } from './serverPayload/index';
 
 export {
   type RuntimeContext,
@@ -10,34 +10,7 @@ export {
   getInitialContext,
 } from './runtime';
 
-export type PayloadRoute = {
-  clientAction?: any;
-  clientLoader?: any;
-  element?: React.ReactNode;
-  errorElement?: React.ReactNode;
-  handle?: any;
-  hasAction: boolean;
-  hasErrorBoundary: boolean;
-  hasLoader: boolean;
-  id: string;
-  index?: boolean;
-  params: Record<string, string>;
-  parentId?: string;
-  path?: string;
-  pathname: string;
-  pathnameBase: string;
-  shouldRevalidate?: any;
-};
-
-export type ServerPayload = {
-  type: 'render';
-  actionData: RouterState['actionData'];
-  errors: RouterState['errors'];
-  loaderData: RouterState['loaderData'];
-  location: RouterState['location'];
-  routes: PayloadRoute[];
-  originalRoutes?: PayloadRoute[];
-};
+export type { ServerPayload, PayloadRoute } from './serverPayload/index';
 
 interface GlobalContext {
   entryName?: string;
@@ -70,7 +43,10 @@ interface GlobalContext {
 
 const globalContext: GlobalContext = {};
 
-export { getServerPayload, setServerPayload } from './serverPayload.server';
+export {
+  getServerPayload,
+  setServerPayload,
+} from './serverPayload/index';
 
 export function getGlobalIsRscClient() {
   return globalContext.isRscClient;

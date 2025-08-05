@@ -25,7 +25,7 @@ import {
   getGlobalLayoutApp,
   getGlobalRoutes,
 } from '../../core/context';
-import { setServerPayload } from '../../core/context/serverPayload.server';
+import { setServerPayload } from '../../core/context/serverPayload/index.server';
 import DeferredDataScripts from './DeferredDataScripts.node';
 import {
   type RouterExtendsHooks,
