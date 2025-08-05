@@ -106,7 +106,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.4.13",
+    "@rsbuild/core": "1.4.14",
     "@rsbuild/plugin-node-polyfill": "1.4.1",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.1.0",
@@ -119,7 +119,7 @@
     "std-env": "^3.7.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "1.1.1",
+    "@rsbuild/plugin-webpack-swc": "1.1.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "7.20.7",
