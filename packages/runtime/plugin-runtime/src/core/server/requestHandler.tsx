@@ -20,7 +20,7 @@ import {
   getGlobalRSCRoot,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
-import { getServerPayload } from '../context/serverPayload.server';
+import { getServerPayload } from '../context/serverPayload/index';
 import { createLoaderManager } from '../loader/loaderManager';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
