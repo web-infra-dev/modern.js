@@ -1,5 +1,5 @@
 import { storage } from '@modern-js/runtime-utils/node';
-import type { ServerPayload } from './index';
+import type { ServerPayload } from '../index';
 
 export const getServerPayload = (): ServerPayload | undefined => {
   const context = storage.useContext() as any;
