@@ -69,7 +69,17 @@ export async function getRenderHandler({
   onFallback,
 }: GetRenderHandlerOptions): Promise<Render> {
   const ssrConfig = config.server?.ssr;
+  const ssrByEntries = config.server?.ssrByEntries;
   const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+  const forceCSRMap = new Map<string, boolean>();
+  if (ssrByEntries) {
+    Object.entries(ssrByEntries).forEach(([entryName, ssrConfig]) => {
+      forceCSRMap.set(
+        entryName,
+        typeof ssrConfig === 'object' ? (ssrConfig.forceCSR ?? false) : false,
+      );
+    });
+  }
 
   const render = createRender({
     routes,
@@ -78,6 +88,7 @@ export async function getRenderHandler({
     staticGenerate,
     cacheConfig,
     forceCSR,
+    forceCSRMap,
     nonce: config.security?.nonce,
     metaName: metaName || 'modern-js',
     onFallback,

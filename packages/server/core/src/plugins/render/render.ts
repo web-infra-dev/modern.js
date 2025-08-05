@@ -37,6 +37,7 @@ interface CreateRenderOptions {
   onFallback?: OnFallback;
   metaName?: string;
   forceCSR?: boolean;
+  forceCSRMap?: Map<string, boolean>;
   nonce?: string;
 }
 
@@ -116,6 +117,7 @@ export async function createRender({
   staticGenerate,
   cacheConfig,
   forceCSR,
+  forceCSRMap,
   config,
   onFallback,
 }: CreateRenderOptions): Promise<Render> {
@@ -175,11 +177,15 @@ export async function createRender({
       });
     }
 
+    const finalForceCSR = routeInfo.entryName
+      ? (forceCSRMap?.get(routeInfo.entryName) ?? forceCSR)
+      : forceCSR;
+
     const renderMode = await getRenderMode(
       req,
       fallbackHeader,
       routeInfo.isSSR,
-      forceCSR,
+      finalForceCSR,
       nodeReq,
       fallbackWrapper,
       contextForceCSR,
