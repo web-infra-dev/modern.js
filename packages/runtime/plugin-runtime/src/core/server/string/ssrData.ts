@@ -10,7 +10,6 @@ import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
   request: Request;
-  prefetchData: Record<string, any>;
   chunkSet: ChunkSet;
   ssrContext: SSRServerContext;
   ssrConfig?: SSRConfig;
@@ -43,7 +42,7 @@ export class SSRDataCollector implements Collector {
   }
 
   #getSSRData(): SSRContainer {
-    const { prefetchData, chunkSet, ssrConfig, ssrContext } = this.#options;
+    const { chunkSet, ssrConfig, ssrContext } = this.#options;
 
     const { reporter, request } = ssrContext;
 
@@ -61,7 +60,6 @@ export class SSRDataCollector implements Collector {
         : undefined;
 
     return {
-      data: prefetchData,
       context: {
         request: {
           params: request.params,

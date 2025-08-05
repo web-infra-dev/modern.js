@@ -16,7 +16,6 @@ import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
 import { LoadableCollector } from './loadable';
-import { prefetch } from './prefetch';
 import { SSRDataCollector } from './ssrData';
 import { StyledCollector } from './styledComponent';
 import type { ChunkSet, Collector } from './types';
@@ -47,22 +46,6 @@ export const renderString: RenderString = async (
     cssChunk: '',
   };
 
-  let prefetchData = {};
-
-  try {
-    prefetchData = await prefetch(
-      serverRoot,
-      request,
-      options,
-      ssrConfig,
-      tracer,
-    );
-    chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
-  } catch (e) {
-    chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-    tracer.onError(e, SSRErrors.PRERENDER);
-  }
-
   const collectors = [
     new StyledCollector(chunkSet),
     new LoadableCollector({
@@ -76,7 +59,6 @@ export const renderString: RenderString = async (
     }),
     new SSRDataCollector({
       request,
-      prefetchData,
       ssrConfig,
       ssrContext: runtimeContext.ssrContext!,
       chunkSet,

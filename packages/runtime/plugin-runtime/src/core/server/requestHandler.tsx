@@ -20,8 +20,7 @@ import {
   getGlobalRSCRoot,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
-import { getServerPayload } from '../context/serverPayload/index';
-import { createLoaderManager } from '../loader/loaderManager';
+import { getServerPayload } from '../context/serverPayload';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
@@ -241,16 +240,6 @@ export const createRequestHandler: CreateRequestHandler = async (
         Object.assign(context, {
           ssrContext,
           isBrowser: false,
-          loaderManager: createLoaderManager(
-            {},
-            {
-              skipNonStatic: options.staticGenerate,
-              // if not static generate, only non-static loader can exec on prod env
-              skipStatic:
-                process.env.NODE_ENV === 'production' &&
-                !options.staticGenerate,
-            },
-          ),
         });
 
         // Handle redirects from React Router with an HTTP redirect

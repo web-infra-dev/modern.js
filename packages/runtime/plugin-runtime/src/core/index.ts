@@ -7,6 +7,5 @@ export {
   ServerRouterContext,
   useRuntimeContext,
 } from './context/runtime';
-export * from './loader';
 
 export type { SSRData, SSRContainer } from './types';

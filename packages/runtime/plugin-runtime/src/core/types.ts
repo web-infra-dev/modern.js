@@ -1,7 +1,6 @@
 import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RenderLevel } from './constants';
-import type { LoaderResult } from './loader/loaderManager';
 
 declare global {
   interface Window {
@@ -11,11 +10,10 @@ declare global {
 }
 
 export interface SSRData {
-  loadersData?: Record<string, LoaderResult | undefined>;
   initialData?: Record<string, unknown>;
-  storeState?: any;
   [props: string]: any;
 }
+
 export interface RouteData {
   [routeId: string]: any;
 }

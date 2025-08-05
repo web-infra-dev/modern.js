@@ -12,7 +12,7 @@ const getMockImage = () => {
   return new File([blob], 'mock_image.png', { type: 'image/png' });
 };
 
-const Index = (): JSX.Element => {
+const Index = (): React.ReactElement => {
   const [file, setFile] = React.useState<FileList | null>();
   const [fileName, setFileName] = React.useState<string>('');
 

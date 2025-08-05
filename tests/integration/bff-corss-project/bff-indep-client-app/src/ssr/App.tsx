@@ -1,8 +1,8 @@
-import { useLoader } from '@modern-js/runtime';
 import hello from 'bff-api-app/api/index';
 import user from 'bff-api-app/api/user/index';
 import { configure } from 'bff-api-app/runtime';
 import { useEffect, useState } from 'react';
+import { useLoader } from '../useLoader';
 
 configure({
   setDomain() {

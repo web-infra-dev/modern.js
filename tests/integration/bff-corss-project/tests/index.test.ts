@@ -75,8 +75,13 @@ describe('corss project bff', () => {
       expect(text).toBe(expectedText);
     });
 
-    test('basic usage with ssr', async () => {
+    test('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
+      await page.waitForFunction(() => {
+        const loadingEl = document.querySelector('.loading');
+        const helloEl = document.querySelector('.hello');
+        return !loadingEl && helloEl;
+      });
       await new Promise(resolve => setTimeout(resolve, 3000));
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe(expectedText);
@@ -119,7 +124,7 @@ describe('corss project bff', () => {
     const BASE_PAGE = 'base';
     const CUSTOM_PAGE = 'custom-sdk';
     const UPLOAD_PAGE = 'upload';
-    const host = `http://localhost`;
+    const host = `http://127.0.0.1`;
     const prefix = '/api-app';
     let app: any;
     let apiApp: any;
@@ -135,6 +140,11 @@ describe('corss project bff', () => {
 
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
+
+      page.on('console', msg => {
+        // 打印所有类型的日志
+        console.log('[browser]', msg.type(), msg.text());
+      });
     });
 
     test('api-app should works', async () => {
@@ -154,8 +164,13 @@ describe('corss project bff', () => {
       expect(text).toBe(expectedText);
     });
 
-    test('basic usage with ssr', async () => {
+    test('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
+      await page.waitForFunction(() => {
+        const loadingEl = document.querySelector('.loading');
+        const helloEl = document.querySelector('.hello');
+        return !loadingEl && helloEl;
+      });
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe(expectedText);
     });
@@ -211,6 +226,11 @@ describe('corss project bff', () => {
       indepClientApp = await launchApp(indepAppDir, port, {});
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
+
+      page.on('console', msg => {
+        // 打印所有类型的日志
+        console.log('[browser]', msg.type(), msg.text());
+      });
     });
 
     test('basic usage', async () => {
@@ -222,7 +242,7 @@ describe('corss project bff', () => {
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
-    test('basic usage with ssr', async () => {
+    test('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
       await new Promise(resolve => setTimeout(resolve, 2000));
       const text1 = await page.$eval('.hello', el => el?.textContent);
@@ -231,7 +251,7 @@ describe('corss project bff', () => {
 
     test('support custom sdk', async () => {
       await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       const text = await page.$eval('.hello', el => el?.textContent);
       expect(text).toBe('interceptor return：Hello Custom SDK');
     });
@@ -285,7 +305,7 @@ describe('corss project bff', () => {
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
-    test('basic usage with ssr', async () => {
+    test('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe('node-fetch：Hello get bff-api-app');

@@ -107,9 +107,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
         return (config: any) => {
           const userConfig = api.useResolvedConfigContext();
           if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-            config.plugins?.push(
-              path.join(__dirname, './babel-plugin-ssr-loader-id'),
-            );
             config.plugins?.push(require.resolve('@loadable/babel-plugin'));
           }
         };

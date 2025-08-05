@@ -7,7 +7,7 @@ export default applyBaseConfig({
     prefix: '/indep-web-app',
   },
   server: {
-    ssr: true,
+    ssr: false,
   },
   plugins: [bffPlugin(), expressPlugin()],
 });

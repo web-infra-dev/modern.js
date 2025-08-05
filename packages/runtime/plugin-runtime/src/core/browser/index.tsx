@@ -2,7 +2,6 @@ import cookieTool from 'cookie';
 import type React from 'react';
 import { getGlobalAppInit, getGlobalInternalRuntimeContext } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
-import { createLoaderManager } from '../loader/loaderManager';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
@@ -95,32 +94,13 @@ export async function render(
   if (isClientArgs(id)) {
     // TODO: This field may suitable to be called `requestData`, because both SSR and CSR can get the context
     const ssrData = getSSRData();
-    const loadersData = ssrData.data?.loadersData || {};
-
-    const initialLoadersState = Object.keys(loadersData).reduce(
-      (res: any, key) => {
-        const loaderData = loadersData[key];
-
-        if (loaderData?.loading !== false) {
-          return res;
-        }
-
-        res[key] = loaderData;
-        return res;
-      },
-      {},
-    );
 
     Object.assign(context, {
-      loaderManager: createLoaderManager(initialLoadersState, {
-        skipStatic: true,
-      }),
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
       ssrContext: ssrData.context,
     });
 
-    context.initialData = ssrData.data?.initialData;
     const initialData = await runBeforeRender(context);
     if (initialData) {
       context.initialData = initialData;
