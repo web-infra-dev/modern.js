@@ -38,10 +38,10 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@playwright/test": "1.33.0",
+    "@playwright/test": "1.54.2",
     "@swc/helpers": "^0.5.17",
     "connect": "^3.7.0",
-    "playwright": "1.33.0",
+    "playwright": "1.54.2",
     "serve-static": "^1.16.2"
   },
   "devDependencies": {
