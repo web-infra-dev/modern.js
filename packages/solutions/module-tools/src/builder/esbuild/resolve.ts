@@ -12,7 +12,7 @@ function createEnhancedResolve(options: ResolverOptions): {
   resolveSync: (dir: string, id: string) => string | false;
   esmResolveSync: (dir: string, id: string) => string | false;
 } {
-  const plugins = [];
+  const plugins: any[] = [];
   const { tsConfig } = options;
 
   const tsConfigFilePath = tsConfig?.configFile;
