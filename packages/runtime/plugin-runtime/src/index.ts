@@ -12,7 +12,6 @@ export { getRequest } from './core/context/request';
 export { setHeaders, setStatus, redirect } from './core/context/response';
 
 export {
-  useLoader,
   RuntimeReactContext,
   defineRuntimeConfig,
   useRuntimeContext,

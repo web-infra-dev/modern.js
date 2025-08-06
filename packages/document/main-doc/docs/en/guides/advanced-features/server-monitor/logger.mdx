@@ -17,11 +17,7 @@ Modern.js also retains SSR logs from legacy versions using `useLoader`:
 | Stage         | Message                         | Level |
 | ------------- | ------------------------------- | ----- |
 | PRERENDER     | App Prerender                   | error |
-| USE_LOADER    | App run useLoader               | error |
 
-:::tip
-The `useLoader` API is now deprecated. We recommend migrating to convention-based routing and using Data Loaders for data fetching. Applications already using Data Loaders can enable [`ssr.disablePrerender`](/configure/app/server/ssr.html#object-type) to disable prerendering and improve SSR performance.
-:::
 
 ## Built-in Monitor
 

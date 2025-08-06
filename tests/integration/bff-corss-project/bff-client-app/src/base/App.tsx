@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react';
 configure({
   interceptor(request) {
     return async (url, params) => {
-      const res = await request(url, params);
+      const urlString = typeof url === 'string' ? url : url.toString();
+      const path = new URL(urlString, window.location.href);
+      const res = await request(path, params);
       return res.json();
     };
   },

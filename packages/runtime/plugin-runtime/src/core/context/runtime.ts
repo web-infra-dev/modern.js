@@ -4,12 +4,10 @@ import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext, useMemo } from 'react';
 import { getGlobalInternalRuntimeContext } from '.';
 import type { RouteManifest } from '../../router/runtime/types';
-import { createLoaderManager } from '../loader/loaderManager';
 import type { SSRServerContext, TSSRContext } from '../types';
 
 interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
-  loaderManager: ReturnType<typeof createLoaderManager>;
   isBrowser: boolean;
   // ssr type
   ssrContext?: SSRServerContext;
@@ -48,7 +46,6 @@ export const getInitialContext = (
   isBrowser = true,
   routeManifest?: RouteManifest,
 ): RuntimeContext => ({
-  loaderManager: createLoaderManager({}),
   isBrowser,
   routeManifest:
     routeManifest ||

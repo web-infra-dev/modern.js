@@ -8,7 +8,7 @@ export default applyBaseConfig({
     prefix: '/web-app',
   },
   server: {
-    ssr: true,
+    ssr: false,
     port: 3401,
   },
   plugins: [bffPlugin(), expressPlugin(), crossProjectApiPlugin()],
