@@ -1,5 +1,20 @@
 # @modern-js/server-plugin
 
+## 2.68.7
+
+### Patch Changes
+
+- 4ece2d4: fix: remove ssr.scriptLoading
+  fix: 移除 ssr.scriptLoading
+- 4ece2d4: feat: support forceCSR at the entry level
+  feat: 支持 forceCSR 在 entry 级别
+- 8b13982: fix: proxy request
+  fix: 修复 proxy request 问题
+  - @modern-js/plugin@2.68.7
+  - @modern-js/plugin-v2@2.68.7
+  - @modern-js/runtime-utils@2.68.7
+  - @modern-js/utils@2.68.7
+
 ## 2.68.6
 
 ### Patch Changes
