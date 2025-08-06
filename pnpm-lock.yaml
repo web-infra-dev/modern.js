@@ -1346,21 +1346,12 @@ importers:
 
   packages/runtime/plugin-runtime:
     dependencies:
-      '@babel/core':
-        specifier: ^7.26.0
-        version: 7.26.10
-      '@babel/types':
-        specifier: ^7.26.0
-        version: 7.26.10
-      '@loadable/babel-plugin':
-        specifier: 5.15.3
-        version: 5.15.3(@babel/core@7.26.10)
       '@loadable/component':
-        specifier: 5.15.3
-        version: 5.15.3(react@19.1.1)
+        specifier: 5.16.7
+        version: 5.16.7(react@19.1.1)
       '@loadable/server':
-        specifier: 5.15.3
-        version: 5.15.3(@loadable/component@5.15.3(react@19.1.1))(react@19.1.1)
+        specifier: 5.16.7
+        version: 5.16.7(@loadable/component@5.16.7(react@19.1.1))(react@19.1.1)
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
@@ -1382,6 +1373,9 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
+      '@swc/plugin-loadable-components':
+        specifier: ^8.0.2
+        version: 8.0.2
       '@types/loadable__component':
         specifier: ^5.13.10
         version: 5.13.10
@@ -1466,7 +1460,7 @@ importers:
         version: 19.1.1(react@19.1.1)
       ts-jest:
         specifier: ^29.1.0
-        version: 29.1.0(@babel/core@7.26.10)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.26.10))(esbuild@0.25.5)(jest@29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        version: 29.1.0(@babel/core@7.28.0)(@jest/types@29.6.3)(babel-jest@29.5.0(@babel/core@7.28.0))(esbuild@0.25.5)(jest@29.5.0(@types/node@20.8.8)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
@@ -4419,8 +4413,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  tests/integration/runtime: {}
-
   tests/integration/runtime-plugin/fixtures/custom-runtime-plugin:
     dependencies:
       '@modern-js/app-tools':
@@ -4437,21 +4429,6 @@ importers:
         version: 19.1.1(react@19.1.1)
 
   tests/integration/runtime-plugin/fixtures/runtime-custom-config-plugin:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^19.1.1
-        version: 19.1.1
-      react-dom:
-        specifier: ^19.1.1
-        version: 19.1.1(react@19.1.1)
-
-  tests/integration/runtime/fixtures/use-loader:
     dependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -4980,6 +4957,34 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+
+  tests/integration/ssr/fixtures/loadable:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.1.1(react@19.1.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
 
   tests/integration/ssr/fixtures/partial:
     dependencies:
@@ -7551,24 +7556,18 @@ packages:
   '@lezer/lr@1.4.2':
     resolution: {integrity: sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==}
 
-  '@loadable/babel-plugin@5.15.3':
-    resolution: {integrity: sha512-kwEsPxCk8vnwbTfbA4lHqT5t0u0czCQTnCcmOaTjxT5lCn7yZCBTBa9D7lHs+MLM2WyPsZlee3Qh0TTkMMi5jg==}
+  '@loadable/component@5.16.7':
+    resolution: {integrity: sha512-XvkFixLUOTEaj8lI7uwc4nf8Wmq3IulYG7SZHCWcPm/Li5gjJDFfIkgWOLPnD7jqPJVtAG9bEz4SCek+SpHYYg==}
     engines: {node: '>=8'}
     peerDependencies:
-      '@babel/core': ^7.0.0-0
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@loadable/component@5.15.3':
-    resolution: {integrity: sha512-VOgYgCABn6+/7aGIpg7m0Ruj34tGetaJzt4bQ345FwEovDQZ+dua+NWLmuJKv8rWZyxOUSfoJkmGnzyDXH2BAQ==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      react: ^16.3.0 || ^17.0.0 || ^18.0.0
-
-  '@loadable/server@5.15.3':
-    resolution: {integrity: sha512-Bm/BGe+RlChuHDKNNXpQOi4AJ0cKVuSLI+J8U0Q06zTIfT0S1RLoy85qs5RXm3cLIfefygL8+9bcYFgeWcoM8A==}
+  '@loadable/server@5.16.7':
+    resolution: {integrity: sha512-wdRmljftCjzyh75xeyc4+3UL2DGz25/YUrB7BT7VTgVRovHmDThl7feu/01w2C+vSxBqzpMkiuPjSftFPL/Fqw==}
     engines: {node: '>=8'}
     peerDependencies:
       '@loadable/component': ^5.0.1
-      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -8998,6 +8997,9 @@ packages:
     engines: {npm: '>= 7.0.0'}
     peerDependencies:
       '@swc/core': '*'
+
+  '@swc/plugin-loadable-components@8.0.2':
+    resolution: {integrity: sha512-fD04gidg7L35F4A9fPyp5D0V1uKN6vXo3HQUAwqxJ7XjXyUSOIzz01KNwVH8BDV9zuHk/lnvicANjj1EGGQSxw==}
 
   '@swc/types@0.1.23':
     resolution: {integrity: sha512-u1iIVZV9Q0jxY+yM2vw/hZGDNudsN85bBpTqzAQ9rzkxW9D+e3aEM4Han+ow518gSewkXgjmEK0BD79ZcNVgPw==}
@@ -19512,21 +19514,16 @@ snapshots:
     dependencies:
       '@lezer/common': 1.2.3
 
-  '@loadable/babel-plugin@5.15.3(@babel/core@7.26.10)':
+  '@loadable/component@5.16.7(react@19.1.1)':
     dependencies:
-      '@babel/core': 7.26.10
-      '@babel/plugin-syntax-dynamic-import': 7.8.3(@babel/core@7.26.10)
-
-  '@loadable/component@5.15.3(react@19.1.1)':
-    dependencies:
-      '@babel/runtime': 7.26.10
+      '@babel/runtime': 7.27.0
       hoist-non-react-statics: 3.3.2
       react: 19.1.1
       react-is: 16.13.1
 
-  '@loadable/server@5.15.3(@loadable/component@5.15.3(react@19.1.1))(react@19.1.1)':
+  '@loadable/server@5.16.7(@loadable/component@5.16.7(react@19.1.1))(react@19.1.1)':
     dependencies:
-      '@loadable/component': 5.15.3(react@19.1.1)
+      '@loadable/component': 5.16.7(react@19.1.1)
       lodash: 4.17.21
       react: 19.1.1
 
@@ -21292,6 +21289,10 @@ snapshots:
       '@swc/core': 1.11.31(@swc/helpers@0.5.17)
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
+
+  '@swc/plugin-loadable-components@8.0.2':
+    dependencies:
+      '@swc/counter': 0.1.3
 
   '@swc/types@0.1.23':
     dependencies:
