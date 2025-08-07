@@ -1,5 +1,5 @@
 import path from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { build } from '@scripts/shared';
 
 test('should compile Node addons correctly', async () => {

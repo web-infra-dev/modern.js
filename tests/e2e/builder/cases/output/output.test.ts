@@ -1,5 +1,5 @@
 import { join, dirname } from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
 

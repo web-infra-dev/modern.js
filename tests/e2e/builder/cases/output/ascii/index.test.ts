@@ -1,5 +1,5 @@
 import path from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
 test('output.charset default (ascii)', async ({ page }) => {
