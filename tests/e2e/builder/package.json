@@ -16,7 +16,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.54.2",
-    "@rsbuild/core": "1.4.14",
+    "@rsbuild/core": "1.4.15",
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.20",
     "@types/node": "^20",
