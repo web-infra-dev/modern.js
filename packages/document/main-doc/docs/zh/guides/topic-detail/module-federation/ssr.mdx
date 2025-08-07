@@ -13,9 +13,11 @@ export default defineConfig({
   server: {
     ssr: {
       mode: 'stream',
+      // 禁用预渲染，优化 SSR 性能
+      disablePrerender: true,
     },
   },
-}
+})
 ```
 
 为更好的性能体验，我们仅支持 Streaming SSR 情况使用这种能力组合。
@@ -26,6 +28,45 @@ export default defineConfig({
 
 ## 数据获取
 
-:::note
-敬请期待
+:::tip
+目前该功能为实验性功能，功能还未经过充分实践，请谨慎使用。
 :::
+
+Module Federation 在新版本中支持了[数据获取](https://module-federation.io/zh/guide/basic/data-fetch/index.html#%E7%AE%80%E4%BB%8B)的能力。每个生产者文件都可以有一个对应的数据获取文件，文件名格式为 `[name].data.ts`。
+
+在 Modern.js 中，数据获取可以配合 SSR 使用。我们以前面章节的 Demo 为例子，创建一个数据获取文件：
+
+```ts title="src/components/Button.data.ts"
+import type { DataFetchParams } from '@module-federation/modern-js/react';
+
+export type Data = {
+  data: string;
+};
+
+export const fetchData = async (params: DataFetchParams): Promise<Data> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        data: `data: ${new Date()}`,
+      });
+    }, 1000);
+  });
+};
+```
+
+在 Button 中，我们从 `Props` 中获取到数据：
+
+```ts title="src/components/Button.tsx"
+import React from 'react';
+import './index.css';
+import type { Data } from './Button.data';
+
+export const Button = (props: { mfData: Data }) => {
+  const { mfData } = props;
+  return (
+    <button type="button" className="test">
+      Remote Button {mfData?.data}
+    </button>
+  );
+};
+```
