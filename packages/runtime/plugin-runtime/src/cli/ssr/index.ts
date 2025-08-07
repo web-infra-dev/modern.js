@@ -97,21 +97,9 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
   setup: api => {
     const appContext = api.getAppContext();
+    const exportLoadablePath = `@${appContext.metaName}/runtime/loadable`;
 
     api.config(() => {
-      const babelHandler = (() => {
-        // TODO: webpack remove it when remove useLoader API
-        // In Rspack build, we need transform the babel-loader again.
-        // It would increase performance overhead,
-        // so we only use useLoader in CSR on Rspack build temporarily.
-        return (config: any) => {
-          const userConfig = api.useResolvedConfigContext();
-          if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-            config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-          }
-        };
-      })();
-
       return {
         builderPlugins: [ssrBuilderPlugin(api)],
         resolve: {
@@ -126,7 +114,31 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           },
         },
         tools: {
-          babel: babelHandler,
+          swc: {
+            jsc: {
+              experimental: {
+                plugins: [
+                  [
+                    require.resolve('@swc/plugin-loadable-components'),
+                    {
+                      signatures: [
+                        { name: 'default', from: '@loadable/component' },
+                        { name: 'lazy', from: '@loadable/component' },
+                        {
+                          name: 'default',
+                          from: exportLoadablePath,
+                        },
+                        {
+                          name: 'lazy',
+                          from: exportLoadablePath,
+                        },
+                      ],
+                    },
+                  ],
+                ],
+              },
+            },
+          },
           bundlerChain: (chain, { isServer }) => {
             if (isServer && appContext.moduleType === 'module') {
               chain.output.libraryTarget('module').set('chunkFormat', 'module');
