@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { dev, getHrefByEntryName } from '@scripts/shared';
 
 const fixtures = __dirname;

@@ -2274,49 +2274,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/toolkit/e2e:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@playwright/test':
-        specifier: 1.54.2
-        version: 1.54.2
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      connect:
-        specifier: ^3.7.0
-        version: 3.7.0
-      playwright:
-        specifier: 1.54.2
-        version: 1.54.2
-      serve-static:
-        specifier: ^1.16.2
-        version: 1.16.2
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/vitest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/vitest-config
-      '@types/connect':
-        specifier: ^3.4.38
-        version: 3.4.38
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/serve-static':
-        specifier: ^1.15.8
-        version: 1.15.8
-      got:
-        specifier: ^11.8.6
-        version: 11.8.6
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/toolkit/node-bundle-require:
     dependencies:
       '@modern-js/utils':
@@ -3058,9 +3015,6 @@ importers:
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../../../packages/cli/builder
-      '@modern-js/e2e':
-        specifier: workspace:*
-        version: link:../../../packages/toolkit/e2e
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../../packages/toolkit/utils
@@ -3070,6 +3024,9 @@ importers:
       '@rsbuild/core':
         specifier: 1.4.14
         version: 1.4.14
+      '@types/connect':
+        specifier: ^3.4.38
+        version: 3.4.38
       '@types/lodash':
         specifier: ^4.17.20
         version: 4.17.20
@@ -3082,6 +3039,15 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.6
         version: 19.1.6(@types/react@19.1.8)
+      '@types/serve-static':
+        specifier: ^1.15.8
+        version: 1.15.8
+      connect:
+        specifier: ^3.7.0
+        version: 3.7.0
+      serve-static:
+        specifier: ^1.16.2
+        version: 1.16.2
       typescript:
         specifier: ^5
         version: 5.6.3

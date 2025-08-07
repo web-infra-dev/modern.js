@@ -1,17 +1,23 @@
 import assert from 'assert';
+import type { PathLike } from 'node:fs';
 import { join } from 'path';
 import { URL } from 'url';
 import type {
   BuilderConfig,
   CreateBuilderOptions as _CreateBuilderOptions,
 } from '@modern-js/builder';
+import { getPort } from '@modern-js/utils';
+import { type GlobbyOptions, upath } from '@modern-js/utils';
 import fs from '@modern-js/utils/fs-extra';
+import _ from '@modern-js/utils/lodash';
 import {
   type ConsoleType,
   type RsbuildPlugin,
   logger,
   mergeRsbuildConfig,
 } from '@rsbuild/core';
+import createServer from 'connect';
+import serveStaticMiddle from './static.js';
 
 logger.level = 'error';
 
@@ -19,6 +25,57 @@ type CreateBuilderOptions = Omit<
   _CreateBuilderOptions,
   'bundlerType' | 'config'
 >;
+
+export interface GlobContentJSONOptions extends GlobbyOptions {
+  maxSize?: number;
+}
+
+export interface StaticServerOptions {
+  hostname?: string;
+  port?: number;
+}
+
+export async function runStaticServer(
+  root: string,
+  options?: StaticServerOptions,
+) {
+  const server = createServer();
+
+  server.use(serveStaticMiddle(root));
+
+  const port = await getPort(options?.port || '8080');
+  const hostname = options?.hostname ?? '127.0.0.1';
+  const listener = server.listen(port, hostname);
+
+  return { port, hostname, close: () => listener.close() };
+}
+
+const filenameToGlobExpr = (file: PathLike) => {
+  let _file = upath.normalizeSafe(file.toString());
+  fs.statSync(file).isDirectory() && (_file += '/**/*');
+  return _file;
+};
+
+export const globContentJSON = async (
+  paths: PathLike | PathLike[],
+  options?: GlobContentJSONOptions,
+) => {
+  const { globby, fs } = await import('@modern-js/utils');
+  const _paths = _.castArray(paths).map(filenameToGlobExpr);
+  const files = await globby(_paths, options);
+  let totalSize = 0;
+  const maxSize = 1024 * (options?.maxSize ?? 4096);
+  const ret: Record<string, string> = {};
+  for await (const file of files) {
+    const { size } = await fs.stat(file);
+    totalSize += size;
+    if (maxSize && totalSize > maxSize) {
+      throw new Error('too large');
+    }
+    ret[file] = await fs.readFile(file, 'utf-8');
+  }
+  return ret;
+};
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -154,10 +211,7 @@ export async function build({
     builder.addPlugins(plugins);
   }
 
-  const [{ runStaticServer, globContentJSON }] = await Promise.all([
-    import('@modern-js/e2e'),
-    builder.build(),
-  ]);
+  await builder.build();
 
   const { distPath } = builder.context;
 

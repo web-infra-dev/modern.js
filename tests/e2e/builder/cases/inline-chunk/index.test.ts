@@ -1,6 +1,6 @@
 import path from 'path';
 import { type BundlerChain, RUNTIME_CHUNK_NAME } from '@modern-js/builder';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
 // Rspack will not output builder runtime source map, but it not necessary

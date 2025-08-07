@@ -1,5 +1,5 @@
 import path, { join } from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect, test } from '@playwright/test';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
 test('should allow to import wasm file', async ({ page }) => {
