@@ -26,6 +26,45 @@ Currently, `@module-federation/bridge-react` is not compatible with the Node env
 
 ## Data Fetching
 
-:::note
-Stay tuned
+:::tip
+Currently, this feature is experimental and has not been fully practiced. Please use it with caution.
 :::
+
+Module Federation now supports [data fetching](https://module-federation.io/zh/guide/basic/data-fetch/index.html#%E7%AE%80%E4%BB%8B) capabilities. Each producer file can have a corresponding data fetching file, with the file name format of `[name].data.ts`.
+
+In Modern.js, data fetching can be used with SSR. Using the example in the previous chapter, create a data fetching file:
+
+```ts title="src/components/Button.data.ts"
+import type { DataFetchParams } from '@module-federation/modern-js/react';
+
+export type Data = {
+  data: string;
+};
+
+export const fetchData = async (params: DataFetchParams): Promise<Data> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        data: `data: ${new Date()}`,
+      });
+    }, 1000);
+  });
+};
+```
+
+In Button, we get the data from the `Props`:
+
+```ts title="src/components/Button.tsx"
+import React from 'react';
+import './index.css';
+import type { Data } from './Button.data';
+
+export const Button = (props: { mfData: Data }) => {
+  const { mfData } = props;
+  return (
+    <button type="button" className="test">
+      Remote Button {mfData?.data}
+    </button>
+  );
+};
+```
