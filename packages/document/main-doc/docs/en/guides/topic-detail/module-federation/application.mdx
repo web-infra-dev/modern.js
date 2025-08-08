@@ -75,7 +75,7 @@ If you are not familiar with the capabilities of `$.tsx`, please read [Wildcard 
 :::
 
 ```tsx title="src/routes/remote/$.tsx"
-import { createRemoteComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/bridge-react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 
 const ErrorBoundary = (info?: { error: { message: string } }) => {
@@ -87,7 +87,7 @@ const ErrorBoundary = (info?: { error: { message: string } }) => {
   );
 };
 const Loading = <div>loading...</div>;
-const RemoteApp = createRemoteComponent({
+const RemoteApp = createRemoteAppComponent({
   loader: () => loadRemote('remote/app'),
   fallback: ErrorBoundary,
   loading: Loading,
@@ -97,7 +97,7 @@ export default RemoteApp;
 ```
 
 :::info
-[`createRemoteComponent`](https://module-federation.io/zh/practice/bridge/react-bridge.html#createremotecomponent) is used to load application-level modules.
+[`createRemoteAppComponent`](https://module-federation.io/practice/bridge/react-bridge.html#createremoteappcomponent) is used to load application-level modules.
 :::
 
 ## Start the Application
