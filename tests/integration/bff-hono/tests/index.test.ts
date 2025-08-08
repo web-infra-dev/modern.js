@@ -10,6 +10,7 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
+import { fs } from '@modern-js/utils';
 
 dns.setDefaultResultOrder('ipv4first');
 
@@ -169,6 +170,14 @@ describe('bff hono in prod', () => {
         (img as HTMLImageElement).naturalWidth > 0,
     );
     expect(isLoaded).toBe(true);
+  });
+
+  test('should copy .env file to dist', async () => {
+    const distDir = path.resolve(appDir, 'dist');
+    const envFile = path.resolve(distDir, '.env');
+    const stagingEnvFile = path.resolve(distDir, '.env.staging');
+    expect(await fs.pathExists(envFile)).toBe(true);
+    expect(await fs.pathExists(stagingEnvFile)).toBe(true);
   });
 
   afterAll(async () => {
