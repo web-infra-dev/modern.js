@@ -11,8 +11,6 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
-import { pluginAntd } from './plugins/antd';
-import { pluginArco } from './plugins/arco';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
@@ -211,8 +209,6 @@ export async function parseCommonConfig(
       sourceMap,
     }),
     pluginEmitRouteFile(),
-    pluginAntd(transformImport),
-    pluginArco(transformImport),
     pluginSass({
       sassLoaderOptions: sass,
     }),

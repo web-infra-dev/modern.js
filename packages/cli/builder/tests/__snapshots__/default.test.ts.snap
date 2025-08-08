@@ -285,19 +285,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -365,19 +352,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -970,19 +944,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "es",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -1058,19 +1019,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "es",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -1127,18 +1075,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     },
     "splitChunks": {
       "cacheGroups": {
-        "lib-antd": {
-          "name": "lib-antd",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-arco": {
-          "name": "lib-arco",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
-        },
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
@@ -1336,8 +1272,6 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "builder:global-vars",
   "builder:devtool",
   "builder:emit-route-file",
-  "builder:antd",
-  "builder:arco",
   "rsbuild:sass",
   "rsbuild:less",
   "builder:environment-defaults-plugin",
@@ -1510,19 +1444,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "lib",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon-cjs",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -1583,19 +1504,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "lib",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon-cjs",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -1961,19 +1869,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "lib",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon-cjs",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -2045,19 +1940,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "lib",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon-cjs",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -2532,19 +2414,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -2612,19 +2481,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -3217,19 +3073,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "es",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -3305,19 +3148,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "es",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -3410,18 +3240,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     },
     "splitChunks": {
       "cacheGroups": {
-        "lib-antd": {
-          "name": "lib-antd",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-arco": {
-          "name": "lib-arco",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
-        },
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
@@ -3746,19 +3564,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "lib",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon-cjs",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -3820,19 +3625,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   "exportedEnum": false,
                   "typeExports": true,
                 },
-                "import": [
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "lib",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon-cjs",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
               },
             },
           },
@@ -4180,19 +3972,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "lib",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon-cjs",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
@@ -4265,19 +4044,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                       "exportedEnum": false,
                       "typeExports": true,
                     },
-                    "import": [
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "lib",
-                        "libraryName": "@arco-design/web-react",
-                        "style": true,
-                      },
-                      {
-                        "camelToDashComponentName": false,
-                        "libraryDirectory": "react-icon-cjs",
-                        "libraryName": "@arco-design/web-react/icon",
-                      },
-                    ],
                   },
                 },
               },
