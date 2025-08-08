@@ -1268,7 +1268,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
 
 exports[`builder rspack > should generator rspack config correctly 2`] = `
 [
-  "builder:split-chunks",
   "builder:global-vars",
   "builder:devtool",
   "builder:emit-route-file",

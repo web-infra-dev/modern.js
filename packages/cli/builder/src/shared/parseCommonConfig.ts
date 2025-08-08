@@ -17,7 +17,6 @@ import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
-import { pluginSplitChunks } from './plugins/splitChunk';
 import { NODE_MODULES_REGEX, castArray } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
@@ -203,7 +202,6 @@ export async function parseCommonConfig(
   rsbuildConfig.output = output;
 
   const rsbuildPlugins: RsbuildPlugin[] = [
-    pluginSplitChunks(),
     pluginGlobalVars(globalVars),
     pluginDevtool({
       sourceMap,
