@@ -21,7 +21,7 @@ export async function loadServerEnv(options: ServerBaseOptions) {
     (await fs.pathExists(serverEnvPath)) &&
     !(await fs.stat(serverEnvPath)).isDirectory()
   ) {
-    const envConfig = dotenv.config({ path: serverEnvPath, override: true });
+    const envConfig = dotenv.config({ path: serverEnvPath });
     if (envConfig.parsed) {
       Object.assign(process.env, envConfig.parsed);
     }
