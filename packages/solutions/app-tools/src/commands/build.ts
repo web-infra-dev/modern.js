@@ -1,12 +1,49 @@
+import path from 'node:path';
 import type { CLIPluginAPI } from '@modern-js/plugin';
-import { type Alias, logger } from '@modern-js/utils';
+import { fs, type Alias, logger } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
-import { buildServerConfig } from '../utils/config';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
+
+async function copyEnvFiles(
+  appDirectory: string,
+  distDirectory: string,
+): Promise<void> {
+  try {
+    const files = await fs.readdir(appDirectory);
+
+    const envFileRegex = /^\.env(\.[a-zA-Z0-9_-]+)*$/;
+    const envFiles = files.filter(file => envFileRegex.test(file));
+
+    if (envFiles.length === 0) {
+      logger.debug('No .env files found to copy');
+      return;
+    }
+
+    const copyPromises = envFiles.map(async envFile => {
+      const sourcePath = path.resolve(appDirectory, envFile);
+      const targetPath = path.resolve(distDirectory, envFile);
+
+      try {
+        const stat = await fs.stat(sourcePath);
+        if (stat.isDirectory()) {
+          return;
+        }
+
+        await fs.copy(sourcePath, targetPath);
+      } catch (error) {
+        logger.warn(`Failed to copy ${envFile}:`, error);
+      }
+    });
+
+    await Promise.all(copyPromises);
+  } catch (error) {
+    logger.warn('Failed to copy .env files:', error);
+  }
+}
 
 export const build = async (
   api: CLIPluginAPI<AppTools>,
@@ -71,6 +108,9 @@ export const build = async (
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
+  await appContext.builder.onAfterBuild(async () => {
+    return copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
+  });
   await appContext.builder.build({
     watch: options?.watch,
   });

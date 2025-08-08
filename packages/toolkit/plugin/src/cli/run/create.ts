@@ -1,5 +1,6 @@
 import { createDebugger, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
+import { loadEnv } from '@rsbuild/core';
 import { createPluginManager } from '../../manager';
 import type { InternalContext } from '../../types/cli/context';
 import type { CLIPlugin, CLIPluginExtends } from '../../types/cli/plugin';
@@ -14,7 +15,6 @@ import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
 import { initCommandsMap, setProgramVersion } from './utils/commander';
 import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
-import { loadEnv } from './utils/loadEnv';
 
 const debug = createDebugger('plugin');
 
@@ -71,7 +71,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     setProgramVersion(version);
 
     const envName = metaName === 'modern-js' ? 'MODERN' : metaName;
-    loadEnv(appDirectory, process.env[`${envName.toUpperCase()}_ENV`]);
+    loadEnv({
+      cwd: appDirectory,
+      mode: process.env[`${envName.toUpperCase()}_ENV`] || process.env.NODE_ENV,
+      prefixes: [`${envName.toUpperCase()}_`],
+    });
 
     const loaded = await createLoadedConfig<Extends['config']>(
       appDirectory,
