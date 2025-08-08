@@ -11,15 +11,12 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
-import { pluginAntd } from './plugins/antd';
-import { pluginArco } from './plugins/arco';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
-import { pluginSplitChunks } from './plugins/splitChunk';
 import { NODE_MODULES_REGEX, castArray } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
@@ -205,14 +202,11 @@ export async function parseCommonConfig(
   rsbuildConfig.output = output;
 
   const rsbuildPlugins: RsbuildPlugin[] = [
-    pluginSplitChunks(),
     pluginGlobalVars(globalVars),
     pluginDevtool({
       sourceMap,
     }),
     pluginEmitRouteFile(),
-    pluginAntd(transformImport),
-    pluginArco(transformImport),
     pluginSass({
       sassLoaderOptions: sass,
     }),

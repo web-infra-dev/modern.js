@@ -286,19 +286,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "es",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -366,19 +353,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "es",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -971,19 +945,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "es",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },
@@ -1059,19 +1020,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "es",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },
@@ -1128,18 +1076,6 @@ exports[`builder environment compat > should generator environment config correc
       },
       "splitChunks": {
         "cacheGroups": {
-          "lib-antd": {
-            "name": "lib-antd",
-            "priority": 0,
-            "reuseExistingChunk": true,
-            "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
-          },
-          "lib-arco": {
-            "name": "lib-arco",
-            "priority": 0,
-            "reuseExistingChunk": true,
-            "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
-          },
           "lib-axios": {
             "name": "lib-axios",
             "priority": 0,
@@ -1466,19 +1402,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "lib",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon-cjs",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -1539,19 +1462,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "lib",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon-cjs",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -1917,19 +1827,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "lib",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon-cjs",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },
@@ -2001,19 +1898,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "lib",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon-cjs",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },
@@ -2321,19 +2205,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "lib",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon-cjs",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -2395,19 +2266,6 @@ exports[`builder environment compat > should generator environment config correc
                     "exportedEnum": false,
                     "typeExports": true,
                   },
-                  "import": [
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "lib",
-                      "libraryName": "@arco-design/web-react",
-                      "style": true,
-                    },
-                    {
-                      "camelToDashComponentName": false,
-                      "libraryDirectory": "react-icon-cjs",
-                      "libraryName": "@arco-design/web-react/icon",
-                    },
-                  ],
                 },
               },
             },
@@ -2755,19 +2613,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "lib",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon-cjs",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },
@@ -2840,19 +2685,6 @@ exports[`builder environment compat > should generator environment config correc
                         "exportedEnum": false,
                         "typeExports": true,
                       },
-                      "import": [
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "lib",
-                          "libraryName": "@arco-design/web-react",
-                          "style": true,
-                        },
-                        {
-                          "camelToDashComponentName": false,
-                          "libraryDirectory": "react-icon-cjs",
-                          "libraryName": "@arco-design/web-react/icon",
-                        },
-                      ],
                     },
                   },
                 },

@@ -72,19 +72,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },
@@ -215,19 +202,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },
@@ -350,19 +324,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },
@@ -448,19 +409,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },
@@ -583,19 +531,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },
@@ -718,19 +653,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
               "exportedEnum": false,
               "typeExports": true,
             },
-            "import": [
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "es",
-                "libraryName": "@arco-design/web-react",
-                "style": true,
-              },
-              {
-                "camelToDashComponentName": false,
-                "libraryDirectory": "react-icon",
-                "libraryName": "@arco-design/web-react/icon",
-              },
-            ],
           },
         },
       },

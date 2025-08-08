@@ -24,66 +24,8 @@ type TransformImport =
   | Function;
 ```
 
-- **Default:**
-
-When the [Ant Design component library](https://www.npmjs.com/package/antd) &lt;= 4.x version is installed in the project, Modern.js will automatically add the following default configurations:
-
-```js
-const defaultAntdConfig = {
-  libraryName: 'antd',
-  libraryDirectory: isServer ? 'lib' : 'es',
-  style: true,
-};
-```
-
-When the [Arco Design component library](https://www.npmjs.com/package/@arco-design/web-react) is installed in the project, Modern.js will automatically add the following default configurations:
-
-```js
-const defaultArcoConfig = [
-  {
-    libraryName: '@arco-design/web-react',
-    libraryDirectory: isServer ? 'lib' : 'es',
-    camelToDashComponentName: false,
-    style: true,
-  },
-  {
-    libraryName: '@arco-design/web-react/icon',
-    libraryDirectory: isServer ? 'react-icon-cjs' : 'react-icon',
-    camelToDashComponentName: false,
-  },
-];
-```
-
-:::tip
-When you add configurations for `antd` or `@arco-design/web-react`, the priority will be higher than the default configurations mentioned above.
-:::
+- **Default:** `undefined`
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
 
 <RsbuildConfig configName="source.transformImport" />
-
-### Disable Default Config
-
-You can manually set `transformImport: false` to disable the default config.
-
-```js
-export default {
-  source: {
-    transformImport: false,
-  },
-};
-```
-
-You can also use the [function usage](https://rsbuild.rs/config/source/transform-import#function-type) of `transformImport` to modify the default configuration.
-
-```js
-export default {
-  source: {
-    transformImport: imports => {
-      return imports.filter(data => data.libraryName !== 'antd');
-    },
-  },
-};
-```
-
-For example, if you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can disable `transformImport` to avoid this problem.

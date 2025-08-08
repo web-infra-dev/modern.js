@@ -76,7 +76,6 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitest/ui": "^3.2.4",
-    "antd": "^5",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
     "esbuild": "0.25.5",

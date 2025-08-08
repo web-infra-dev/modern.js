@@ -1,5 +1,4 @@
 const ignoreDeps = [
-  'antd',
   'fs-extra',
   'glob',
   'react-router-dom',
