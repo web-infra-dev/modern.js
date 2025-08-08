@@ -108,8 +108,10 @@ export const build = async (
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
   }
+  await appContext.builder.onAfterBuild(async () => {
+    return copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
+  });
   await appContext.builder.build({
     watch: options?.watch,
   });
-  await copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
 };
