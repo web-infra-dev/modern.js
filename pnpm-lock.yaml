@@ -2481,8 +2481,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       rslog:
-        specifier: ^1.2.9
-        version: 1.2.9
+        specifier: ^1.2.11
+        version: 1.2.11
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -14754,12 +14754,12 @@ packages:
       typescript:
         optional: true
 
+  rslog@1.2.11:
+    resolution: {integrity: sha512-YgMMzQf6lL9q4rD9WS/lpPWxVNJ1ttY9+dOXJ0+7vJrKCAOT4GH0EiRnBi9mKOitcHiOwjqJPV1n/HRqqgZmOQ==}
+
   rslog@1.2.3:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
     engines: {node: '>=14.17.6'}
-
-  rslog@1.2.9:
-    resolution: {integrity: sha512-KSjM8jJKYYaKgI4jUGZZ4kdTBTM/EIGH1JnoB0ptMkzcyWaHeXW9w6JVLCYs37gh8sFZkLLqAyBb2sT02bqpcQ==}
 
   rspack-manifest-plugin@5.0.3:
     resolution: {integrity: sha512-DCLSu5KE/ReIOhK2JTCQSI0JIgJ40E2i+2noqINtfhu12+UsK29dgMITEHIpYNR0JggcmmgZIDxPxm9dOV/2vQ==}
@@ -19383,14 +19383,14 @@ snapshots:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001731
       lodash: 4.17.21
-      rslog: 1.2.9
+      rslog: 1.2.11
 
   '@modern-js/utils@2.68.7':
     dependencies:
       '@swc/helpers': 0.5.17
       caniuse-lite: 1.0.30001731
       lodash: 4.17.21
-      rslog: 1.2.9
+      rslog: 1.2.11
 
   '@module-federation/error-codes@0.14.0': {}
 
@@ -20066,7 +20066,7 @@ snapshots:
       get-port: 5.1.1
       json-stream-stringify: 3.0.1
       lines-and-columns: 2.0.4
-      rslog: 1.2.9
+      rslog: 1.2.11
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - '@rspack/core'
@@ -28050,9 +28050,9 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  rslog@1.2.3: {}
+  rslog@1.2.11: {}
 
-  rslog@1.2.9: {}
+  rslog@1.2.3: {}
 
   rspack-manifest-plugin@5.0.3(@rspack/core@1.4.11(@swc/helpers@0.5.17)):
     dependencies:
