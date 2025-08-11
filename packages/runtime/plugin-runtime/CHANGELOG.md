@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.68.8
+
+### Patch Changes
+
+- bb4c89e: fix: correct route path construction in optimizeRoute function
+  fix: 纠正路由路径约定
+  - @modern-js/plugin-data-loader@2.68.8
+  - @modern-js/render@2.68.8
+  - @modern-js/plugin@2.68.8
+  - @modern-js/plugin-v2@2.68.8
+  - @modern-js/runtime-utils@2.68.8
+  - @modern-js/types@2.68.8
+  - @modern-js/utils@2.68.8
+
 ## 2.68.7
 
 ### Patch Changes
