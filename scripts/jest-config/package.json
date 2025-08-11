@@ -8,7 +8,7 @@
     "@swc/jest": "^0.2.22",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "enhanced-resolve": "5.18.2",
+    "enhanced-resolve": "5.18.3",
     "esbuild": "0.25.5",
     "jest": "^29"
   }
