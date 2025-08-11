@@ -663,8 +663,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.4.15)(esbuild@0.25.5)(webpack@5.101.0(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
       '@rsbuild/plugin-less':
-        specifier: 1.3.2
-        version: 1.3.2(@rsbuild/core@1.4.15)
+        specifier: 1.4.0
+        version: 1.4.0(@rsbuild/core@1.4.15)
       '@rsbuild/plugin-pug':
         specifier: 1.3.2
         version: 1.3.2(@rsbuild/core@1.4.15)
@@ -13167,8 +13167,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-less@1.3.2':
-    resolution: {integrity: sha512-MmluLKJA0sFujCWUvB5fHIPe6PSRvrGWmlK9cOuRgOPfSPB8gQO8i2+auQXbHdG9u95LpTPoTcXEXnQ2v7tp7A==}
+  '@rsbuild/plugin-less@1.4.0':
+    resolution: {integrity: sha512-dyLW6FPMwXJ7GxMBCZXp1xhjgMF/4UDzj+SvHzfvrjcB9PH98IJbd1WfedS0Hx1S79UTFF401BxnW0o4kHETDQ==}
     peerDependencies:
       '@rsbuild/core': 1.x
 
@@ -30683,13 +30683,13 @@ snapshots:
     dependencies:
       '@rsbuild/core': 1.3.22
       deepmerge: 4.3.1
-      reduce-configs: 1.1.0
+      reduce-configs: 1.1.1
 
-  '@rsbuild/plugin-less@1.3.2(@rsbuild/core@1.4.15)':
+  '@rsbuild/plugin-less@1.4.0(@rsbuild/core@1.4.15)':
     dependencies:
       '@rsbuild/core': 1.4.15
       deepmerge: 4.3.1
-      reduce-configs: 1.1.0
+      reduce-configs: 1.1.1
 
   '@rsbuild/plugin-node-polyfill@1.4.1(@rsbuild/core@1.4.15)':
     dependencies:
