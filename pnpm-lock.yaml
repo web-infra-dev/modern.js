@@ -1316,7 +1316,7 @@ importers:
         specifier: 0.0.1-next.16
         version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.1.1(ioredis@5.6.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sharp@0.34.3))(ipx@3.1.1(ioredis@5.6.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sharp@0.34.3)
       ipx:
-        specifier: ^3.0.3
+        specifier: ^3.1.1
         version: 3.1.1(ioredis@5.6.1)
       sharp:
         specifier: ^0.34.3
@@ -22545,7 +22545,7 @@ snapshots:
   css-select@5.1.0:
     dependencies:
       boolbase: 1.0.0
-      css-what: 6.1.0
+      css-what: 6.2.2
       domhandler: 5.0.3
       domutils: 3.2.2
       nth-check: 2.1.1
