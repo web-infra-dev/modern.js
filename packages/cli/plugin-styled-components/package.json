@@ -1,0 +1,63 @@
+{
+  "name": "@modern-js/plugin-styled-components",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Modern.js plugin for styled-components.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "modern-lib build"
+  },
+  "dependencies": {
+    "@swc/helpers": "^0.5.17",
+        "styled-components": "^6.1.8",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@rsbuild/plugin-styled-components": "^1.0.0"
+  },
+ "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "@types/react": "^19.1.8",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "styled-components": "^6.1.8"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/cjs/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime.d.ts",
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/cjs/runtime.js"
+    },
+    "./styled": {
+      "types": "./dist/types/styled.d.ts",
+      "jsnext:source": "./src/styled.ts",
+      "default": "./dist/cjs/styled.js"
+    }
+},
+"typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime.d.ts"
+      ],
+      "styled": [
+        "./dist/types/styled.d.ts"
+      ]
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
