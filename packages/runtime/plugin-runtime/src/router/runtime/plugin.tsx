@@ -136,8 +136,12 @@ export const routerPlugin = (
           return App;
         }
 
-        const selectBasePath = (pathname: string) =>
-          serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+        const selectBasePath = (pathname: string) => {
+          const match = serverBase.find(baseUrl =>
+            isSegmentPrefix(pathname, baseUrl),
+          );
+          return match || '/';
+        };
 
         const RouterWrapper = (props: any) => {
           const { router, routes } = useRouterCreation(
@@ -196,6 +200,17 @@ const safeUse = (promise: Promise<unknown>) => {
   }
   return null;
 };
+
+function normalizeBase(b: string) {
+  if (b.length > 1 && b.endsWith('/')) return b.slice(0, -1);
+  return b || '/';
+}
+
+function isSegmentPrefix(pathname: string, base: string) {
+  const b = normalizeBase(base);
+  const p = pathname || '/';
+  return p === b || p.startsWith(`${b}/`);
+}
 
 function useRouterCreation(props: any, options: UseRouterCreationOptions) {
   const { api, createRoutes, supportHtml5History, selectBasePath, basename } =
