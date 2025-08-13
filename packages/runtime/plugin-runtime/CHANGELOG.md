@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.68.9
+
+### Patch Changes
+
+- 1453624: fix: should get basename correctly
+  fix: 应该获取到正确的 basename
+  - @modern-js/plugin-data-loader@2.68.9
+  - @modern-js/render@2.68.9
+  - @modern-js/plugin@2.68.9
+  - @modern-js/plugin-v2@2.68.9
+  - @modern-js/runtime-utils@2.68.9
+  - @modern-js/types@2.68.9
+  - @modern-js/utils@2.68.9
+
 ## 2.68.8
 
 ### Patch Changes
