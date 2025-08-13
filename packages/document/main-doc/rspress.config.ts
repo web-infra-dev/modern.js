@@ -77,6 +77,12 @@ export default defineConfig({
         mode: 'link',
         content: 'https://github.com/web-infra-dev/modern.js',
       },
+      {
+        icon: 'lark',
+        mode: 'link',
+        content:
+          'https://applink.larkoffice.com/client/chat/chatter/add_by_link?link_token=d21hc667-9403-48a9-ba32-bc1440a80279',
+      },
     ],
   },
   route: {
