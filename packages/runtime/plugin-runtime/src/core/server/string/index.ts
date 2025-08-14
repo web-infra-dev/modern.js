@@ -4,6 +4,7 @@ import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
 import { RenderLevel } from '../../constants';
+import { getGlobalInternalRuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
   CHUNK_CSS_PLACEHOLDER,
@@ -45,7 +46,7 @@ export const renderString: RenderString = async (
     cssChunk: '',
   };
 
-  const collectors = [
+  const collectors: Collector[] = [
     new LoadableCollector({
       stats: loadableStats,
       nonce: config.nonce,
@@ -65,6 +66,17 @@ export const renderString: RenderString = async (
       useJsonScript: config.useJsonScript,
     }),
   ];
+
+  const internalRuntimeContext = getGlobalInternalRuntimeContext();
+  const hooks = internalRuntimeContext.hooks;
+
+  const extraCollectors = hooks.extendStringSSRCollectors.call({
+    chunkSet,
+  });
+
+  for (const c of extraCollectors) {
+    if (c) collectors.unshift(c);
+  }
 
   const rootElement = wrapRuntimeContextProvider(
     serverRoot,
