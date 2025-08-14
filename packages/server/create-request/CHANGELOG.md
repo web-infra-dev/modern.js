@@ -1,5 +1,12 @@
 # @modern-js/create-request
 
+## 2.68.9
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.68.9
+- @modern-js/utils@2.68.9
+
 ## 2.68.8
 
 ### Patch Changes
