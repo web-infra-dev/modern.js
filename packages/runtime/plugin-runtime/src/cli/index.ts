@@ -93,12 +93,6 @@ export const runtimePlugin = (params?: {
         resolve: {
           alias: {
             /**
-             * twin.macro inserts styled-components into the code during the compilation process
-             * But it will not be installed under the user project.
-             * So need to add alias
-             */
-            'styled-components': require.resolve('styled-components'),
-            /**
              * Compatible with the reference path of the old version of the plugin.
              */
             [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
@@ -118,10 +112,6 @@ export const runtimePlugin = (params?: {
           },
         },
         tools: {
-          styledComponents: {
-            // https://github.com/styled-components/babel-plugin-styled-components/issues/287
-            topLevelImportPaths: ['@modern-js/runtime/styled'],
-          },
           bundlerChain: chain => {
             chain.module
               .rule('modern-entry')

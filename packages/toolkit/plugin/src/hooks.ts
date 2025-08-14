@@ -138,7 +138,7 @@ export function createCollectSyncHook<
   const call = (...params: Parameters<Callback>) => {
     const results: ReturnType<Callback>[] = [];
     for (const callback of callbacks) {
-      const result = callback(params);
+      const result = callback(...params);
 
       if (result !== undefined) {
         results.push(result);
