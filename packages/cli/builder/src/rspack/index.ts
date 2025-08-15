@@ -6,6 +6,7 @@ import type {
 } from '@rsbuild/core';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { pluginNativeWatcher } from '../shared/plugins/nativeWatcher';
 import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
 import { castArray } from '../shared/utils';
 import type {
@@ -121,6 +122,8 @@ export async function parseConfig(
     );
   }
 
+  rsbuildPlugins.push(pluginNativeWatcher());
+
   return {
     rsbuildConfig,
     rsbuildPlugins,
@@ -147,6 +150,8 @@ export async function createRspackBuilder(
 
   // builder plugins should be registered earlier than user plugins
   rsbuildConfig.plugins = [...rsbuildPlugins, ...(rsbuildConfig.plugins || [])];
+
+  // rsbuildPlugins.push
 
   const rsbuild = await createRsbuild({
     cwd,

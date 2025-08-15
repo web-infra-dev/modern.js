@@ -13,6 +13,7 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "nativeWatcher": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -1255,6 +1256,7 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "nativeWatcher": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -2061,6 +2063,7 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "nativeWatcher": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,

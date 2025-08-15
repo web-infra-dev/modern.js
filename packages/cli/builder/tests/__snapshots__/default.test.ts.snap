@@ -12,6 +12,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "nativeWatcher": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -1281,6 +1282,7 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:svgr",
   "rsbuild:css-minimizer",
   "builder:postcss-plugins",
+  "builder:native-watcher",
   "user-plugin",
 ]
 `;
@@ -1296,6 +1298,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "nativeWatcher": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -2141,6 +2144,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "nativeWatcher": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -3419,6 +3423,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "nativeWatcher": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
