@@ -33,7 +33,7 @@
     "jest-environment-node": "^29.5.0",
     "jest-puppeteer": "^11.0.0",
     "kill-port": "^2.0.1",
-    "puppeteer": "^24.16.0",
+    "puppeteer": "^24.16.2",
     "rimraf": "^6.0.1",
     "tree-kill": "^1.2.2",
     "ts-node": "^10.9.2",
