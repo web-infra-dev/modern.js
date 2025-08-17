@@ -2968,13 +2968,13 @@ importers:
         version: 29.7.0
       jest-puppeteer:
         specifier: ^11.0.0
-        version: 11.0.0(puppeteer@24.16.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(typescript@5.6.3)
+        version: 11.0.0(puppeteer@24.16.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(typescript@5.6.3)
       kill-port:
         specifier: ^2.0.1
         version: 2.0.1
       puppeteer:
-        specifier: ^24.16.0
-        version: 24.16.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+        specifier: ^24.16.2
+        version: 24.16.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -10008,8 +10008,8 @@ packages:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
     engines: {node: '>=6.0'}
 
-  chromium-bidi@7.2.0:
-    resolution: {integrity: sha512-gREyhyBstermK+0RbcJLbFhcQctg92AGgDe/h/taMJEOLRdtSswBAO9KmvltFSQWgM2LrwWu5SIuEUbdm3JsyQ==}
+  chromium-bidi@7.3.1:
+    resolution: {integrity: sha512-i+BMGluhZZc4Jic9L1aHJBTfaopxmCqQxGklyMcqFx4fvF3nI4BJ3bCe1ad474nvYRIo/ZN/VrdA4eOaRZua4Q==}
     peerDependencies:
       devtools-protocol: '*'
 
@@ -14088,12 +14088,12 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@24.16.0:
-    resolution: {integrity: sha512-tZ0tJiOYaDGTRzzr2giDpf8O/55JsoqkrafS1Xu4H6S8oP4eeL6RbZzY9OzjShSf5EQvx/zAc55QKpDqzXos/Q==}
+  puppeteer-core@24.16.2:
+    resolution: {integrity: sha512-areKSSQzpoHa5nCk3uD/o504yjrW5ws0N6jZfdFZ3a4H+Q7NBgvuDydjN5P87jN4Rj+eIpLcK3ELOThTtYuuxg==}
     engines: {node: '>=18'}
 
-  puppeteer@24.16.0:
-    resolution: {integrity: sha512-5qxFGOpdAzYexoPwKPEF4L/IYKYOFE1MxWsqcp7K33HySM8N8S/yZwSQCaV0rzmJsTLX5LxU4zt65+ceNiVDgQ==}
+  puppeteer@24.16.2:
+    resolution: {integrity: sha512-eNjKzwjITM4Lvho6iHb+VQamadUBgc8TsjAApsKi5N8DXipxAaAZWssBOFsrIOLo4eYWYj0Qk5gmr4wBSqzJWw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -22143,7 +22143,7 @@ snapshots:
 
   chrome-trace-event@1.0.4: {}
 
-  chromium-bidi@7.2.0(devtools-protocol@0.0.1475386):
+  chromium-bidi@7.3.1(devtools-protocol@0.0.1475386):
     dependencies:
       devtools-protocol: 0.0.1475386
       mitt: 3.0.1
@@ -25129,11 +25129,11 @@ snapshots:
     optionalDependencies:
       jest-resolve: 29.7.0
 
-  jest-puppeteer@11.0.0(puppeteer@24.16.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(typescript@5.6.3):
+  jest-puppeteer@11.0.0(puppeteer@24.16.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(typescript@5.6.3):
     dependencies:
       expect-puppeteer: 11.0.0
       jest-environment-puppeteer: 11.0.0(typescript@5.6.3)
-      puppeteer: 24.16.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+      puppeteer: 24.16.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -27253,10 +27253,10 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@24.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+  puppeteer-core@24.16.2(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       '@puppeteer/browsers': 2.10.6
-      chromium-bidi: 7.2.0(devtools-protocol@0.0.1475386)
+      chromium-bidi: 7.3.1(devtools-protocol@0.0.1475386)
       debug: 4.4.1
       devtools-protocol: 0.0.1475386
       typed-query-selector: 2.12.0
@@ -27267,13 +27267,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  puppeteer@24.16.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10):
+  puppeteer@24.16.2(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10):
     dependencies:
       '@puppeteer/browsers': 2.10.6
-      chromium-bidi: 7.2.0(devtools-protocol@0.0.1475386)
+      chromium-bidi: 7.3.1(devtools-protocol@0.0.1475386)
       cosmiconfig: 9.0.0(typescript@5.6.3)
       devtools-protocol: 0.0.1475386
-      puppeteer-core: 24.16.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      puppeteer-core: 24.16.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       typed-query-selector: 2.12.0
     transitivePeerDependencies:
       - bare-buffer
