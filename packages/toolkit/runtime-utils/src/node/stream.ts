@@ -63,10 +63,12 @@ class StreamPump {
       this.stream.destroy(reason);
     }
 
-    this.stream.off('data', this.enqueue);
-    this.stream.off('error', this.error);
-    this.stream.off('end', this.close);
-    this.stream.off('close', this.close);
+    process.nextTick(() => {
+      this.stream.off('data', this.enqueue);
+      this.stream.off('error', this.error);
+      this.stream.off('end', this.close);
+      this.stream.off('close', this.close);
+    });
   }
 
   enqueue(chunk: Uint8Array | string) {
