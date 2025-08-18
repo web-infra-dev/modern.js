@@ -16,7 +16,7 @@ export const imagePlugin = (
     builderPluginOptions.ipx.basename ||= '/_modern/ipx';
 
     api.config(() => ({
-      builderPlugins: [builderPluginImage(builderPluginOptions)],
+      builderPlugins: [builderPluginImage(builderPluginOptions) as any],
     }));
   },
 });
