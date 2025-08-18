@@ -145,7 +145,7 @@ const handleResponseError = (e: unknown, res: NodeResponse) => {
   ) as Error & {
     code: string;
   };
-  if (err.code === 'ABORT_ERR') {
+  if (err.code === 'ABORT_ERR' || err.code === 'ERR_STREAM_PREMATURE_CLOSE') {
     console.info('The user aborted a request.');
   } else {
     console.error(e);
