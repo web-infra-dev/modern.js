@@ -40,7 +40,7 @@ export const isDefaultExportFunction = (file: string | false): boolean => {
   });
 
   let isExportFunction = false;
-  traverse(ast, {
+  traverse(ast as any, {
     ExportDefaultDeclaration: path => {
       const { declaration } = path.node;
       if (isFunction(declaration as any)) {
