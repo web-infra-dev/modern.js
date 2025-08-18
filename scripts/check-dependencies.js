@@ -1,7 +1,6 @@
 const ignoreDeps = [
   '@types/node',
   'antd',
-  'esbuild',
   'fs-extra',
   'glob',
   'minimatch',

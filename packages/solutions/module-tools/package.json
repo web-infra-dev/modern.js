@@ -77,7 +77,7 @@
     "@swc/helpers": "^0.5.17",
     "convert-source-map": "1.9.0",
     "enhanced-resolve": "5.17.1",
-    "esbuild": "0.19.2",
+    "esbuild": "0.25.5",
     "magic-string": "0.30.17",
     "postcss": "^8.5.6",
     "postcss-modules": "4.3.1",
