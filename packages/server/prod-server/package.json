@@ -61,7 +61,7 @@
     "@types/node": "^20",
     "jest": "^29.7.0",
     "lint-staged": "~13.3.0",
-    "tsx": "^3.12.7",
+    "tsx": "^3.14.0",
     "typescript": "~5.0.4"
   },
   "sideEffects": [],
