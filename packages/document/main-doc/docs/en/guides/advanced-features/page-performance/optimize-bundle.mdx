@@ -96,9 +96,23 @@ See details in [plugin-image-compress](https://github.com/rspack-contrib/rsbuild
 
 ## Split Chunk
 
-A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
+A great code splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
 
-A variety of [chunk splitting strategies](https://rsbuild.rs/guide/optimization/split-chunk) are built into Modern.js, which can meet the needs of most applications. You can also customize the chunk splitting config according to your own business scenarios.
+Modern.js provides the same [Code Splitting](https://rsbuild.rs/zh/guide/optimization/code-splitting) as Rsbuild. But there are some differences in the default strategy `split-by-experience`.
+
+When the project installs `antd`, `@arco-design/web-react`, or `@douyinfe/semi-ui` packages, it will automatically add the corresponding group. The implementation reference is as follows:
+
+```ts
+if (isPackageInstalled('antd', rootPath)) {
+  groups.antd = ['antd'];
+}
+if (isPackageInstalled('@arco-design/web-react', rootPath)) {
+  groups.arco = [/@?arco-design/];
+}
+if (isPackageInstalled('@douyinfe/semi-ui', rootPath)) {
+  groups.semi = [/@(ies|douyinfe)[\\/]semi-.*/];
+}
+```
 
 For example, split the `axios` library under node_modules into `axios.js`:
 
