@@ -6,10 +6,10 @@ export default applyBaseConfig({
     router: true,
   },
   server: {
-    // ssr: {
-    //   mode: 'stream',
-    // },
-    ssr: true,
+    ssr: {
+      mode: 'stream',
+    },
+    // ssr: true,
   },
   plugins: [styledComponentsPlugin()],
 });

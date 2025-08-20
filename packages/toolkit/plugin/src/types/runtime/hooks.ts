@@ -25,6 +25,21 @@ export type StringSSRCollectorsInfo = {
   chunkSet: ChunkSet;
 };
 
+export interface StreamSSRExtender {
+  init?: (params: {
+    rootElement: React.ReactElement;
+    forceStream2String: boolean;
+  }) => void;
+
+  modifyRootElement?: (rootElement: React.ReactElement) => React.ReactElement;
+
+  getStyleTags?: () => string;
+
+  processStream?: (stream: NodeJS.ReadWriteStream) => NodeJS.ReadWriteStream;
+}
+
+export type ExtendStreamSSRFn = () => StreamSSRExtender;
+
 export type WrapRootFn = (
   root: React.ComponentType<any>,
 ) => React.ComponentType<any>;
@@ -43,4 +58,5 @@ export type Hooks<RuntimeConfig, RuntimeContext> = {
   extendStringSSRCollectors: CollectSyncHook<
     ExtendStringSSRCollectorsFn<StringSSRCollectorsInfo>
   >;
+  extendStreamSSR: CollectSyncHook<ExtendStreamSSRFn>;
 };

@@ -90,6 +90,7 @@ export function initPluginAPI<Extends extends RuntimePluginExtends>({
     wrapRoot: hooks.wrapRoot.tap,
     pickContext: hooks.pickContext.tap,
     extendStringSSRCollectors: hooks.extendStringSSRCollectors.tap,
+    extendStreamSSR: hooks.extendStreamSSR.tap,
     ...extendsPluginApi,
   };
 
