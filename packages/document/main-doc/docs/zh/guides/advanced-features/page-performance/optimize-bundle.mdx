@@ -98,9 +98,23 @@ export default {
 
 良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
 
-在 Modern.js 中内置了[多种拆包策略](https://rsbuild.rs/zh/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
+Modern.js 提供了与 Rsbuild 相同的[拆包策略](https://rsbuild.rs/zh/guide/optimization/code-splitting)，但在默认策略 `split-by-experience` 上有些许差异。
 
-比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
+当项目中安装了 `antd`、`@arco-design/web-react` 或 `@douyinfe/semi-ui` 包时，会自动添加对应的分组。具体实现参考：
+
+```ts
+if (isPackageInstalled('antd', rootPath)) {
+  groups.antd = ['antd'];
+}
+if (isPackageInstalled('@arco-design/web-react', rootPath)) {
+  groups.arco = [/@?arco-design/];
+}
+if (isPackageInstalled('@douyinfe/semi-ui', rootPath)) {
+  groups.semi = [/@(ies|douyinfe)[\\/]semi-.*/];
+}
+```
+
+内置的策略可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
 
 ```js
 export default {
