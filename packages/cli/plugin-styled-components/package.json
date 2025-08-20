@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
-        "styled-components": "^6.1.8",
+    "styled-components": "^6.1.8",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/plugin-styled-components": "^1.0.0"

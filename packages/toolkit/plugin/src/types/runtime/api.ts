@@ -4,6 +4,7 @@ import type { RuntimeContext } from './context';
 import type { Hooks } from './hooks';
 import type {
   ConfigFn,
+  ExtendStreamSSRFn,
   ExtendStringSSRCollectorsFn,
   OnBeforeRenderFn,
   PickContextFn,
@@ -27,6 +28,7 @@ export type RuntimePluginAPI<Extends extends RuntimePluginExtends> = Readonly<
     extendStringSSRCollectors: PluginHookTap<
       ExtendStringSSRCollectorsFn<StringSSRCollectorsInfo>
     >;
+    extendStreamSSR: PluginHookTap<ExtendStreamSSRFn>;
   } & RuntimePluginExtendsAPI<Extends>
 >;
 

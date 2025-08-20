@@ -5,6 +5,7 @@ import {
 } from '../hooks';
 import type {
   ConfigFn,
+  ExtendStreamSSRFn,
   ExtendStringSSRCollectorsFn,
   Hooks,
   OnBeforeRenderFn,
@@ -27,5 +28,6 @@ export function initHooks<RuntimeConfig, RuntimeContext>(): Hooks<
       createCollectSyncHook<
         ExtendStringSSRCollectorsFn<StringSSRCollectorsInfo>
       >(),
+    extendStreamSSR: createCollectSyncHook<ExtendStreamSSRFn>(),
   };
 }
