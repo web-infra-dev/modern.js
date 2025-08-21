@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 2.68.10
+
+### Patch Changes
+
+- @modern-js/utils@2.68.10
+
 ## 2.68.9
 
 ### Patch Changes

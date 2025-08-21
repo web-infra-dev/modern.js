@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 2.68.10
+
+### Patch Changes
+
+- 8da2e1a: fix: process should not exit caused when user abort the request in development
+  fix: 开发阶段，进程不应该因为用户中止请求而退出
+- Updated dependencies [8da2e1a]
+  - @modern-js/runtime-utils@2.68.10
+  - @modern-js/plugin-v2@2.68.10
+  - @modern-js/plugin@2.68.10
+  - @modern-js/utils@2.68.10
+
 ## 2.68.9
 
 ### Patch Changes
