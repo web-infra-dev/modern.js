@@ -25,6 +25,7 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
+import { serverHmrPlugin } from './plugins/serverHmr';
 import serverRuntimePlugin from './plugins/serverRuntime';
 import type { AppTools, CliPlugin } from './types';
 import type {
@@ -53,6 +54,7 @@ export const appTools = (): CliPlugin<AppTools> => ({
     analyzePlugin(),
     serverBuildPlugin(),
     deployPlugin(),
+    serverHmrPlugin(),
   ],
   post: [
     '@modern-js/plugin-initialize',

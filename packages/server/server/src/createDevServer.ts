@@ -4,8 +4,10 @@ import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import { devPlugin } from './dev';
+import { logger } from '@modern-js/utils';
+import { devPlugin, manager } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
+import { ResourceType } from './helpers/utils';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
 
 export async function createDevServer(
@@ -35,6 +37,7 @@ export async function createDevServer(
   };
 
   const server = createServerBase(prodServerOptions);
+  let currentServer = server;
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
   const isHttp2 = !!devHttpsOption;
@@ -43,12 +46,14 @@ export async function createDevServer(
     const { genHttpsOptions } = await import('./dev-tools/https');
     const httpsOptions = await genHttpsOptions(devHttpsOption, pwd);
     nodeServer = await createNodeServer(
-      server.handle.bind(server),
+      (req, res) => currentServer.handle(req, res),
       httpsOptions,
       isHttp2,
     );
   } else {
-    nodeServer = await createNodeServer(server.handle.bind(server));
+    nodeServer = await createNodeServer((req, res) =>
+      currentServer.handle(req, res),
+    );
   }
 
   const promise = getDevAssetPrefix(builder);
@@ -78,8 +83,48 @@ export async function createDevServer(
     await builderDevServer?.afterListen();
   };
 
+  const reload = async () => {
+    try {
+      const updatedServerConfig =
+        (await loadServerRuntimeConfig(serverConfigPath)) || {};
+
+      const updatedProdServerOptions = {
+        ...options,
+        pwd: distDir,
+        serverConfig: {
+          ...updatedServerConfig,
+          ...options.serverConfig,
+        },
+        plugins: [
+          ...(updatedServerConfig.plugins || []),
+          ...(options.plugins || []),
+        ],
+      };
+
+      const newServer = createServerBase(updatedProdServerOptions);
+
+      await manager.close(ResourceType.Watcher);
+
+      newServer.addPlugins([
+        devPlugin({
+          ...options,
+        }),
+      ]);
+
+      await applyPlugins(newServer, updatedProdServerOptions, nodeServer);
+
+      await newServer.init();
+
+      currentServer = newServer;
+      logger.info(`Custom Web Server HMR succeeded`);
+    } catch (e) {
+      logger.error('[Custom Web Server HMR failed]:', e);
+    }
+  };
+
   return {
     server: nodeServer,
     afterListen,
+    reload,
   };
 }
