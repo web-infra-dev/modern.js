@@ -1,5 +1,5 @@
 import { styledComponentsPlugin } from '@modern-js/plugin-styled-components';
-import { applyBaseConfig } from '../../utils/applyBaseConfig';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   runtime: {
@@ -9,7 +9,6 @@ export default applyBaseConfig({
     ssr: {
       mode: 'stream',
     },
-    // ssr: true,
   },
   plugins: [styledComponentsPlugin()],
 });

@@ -1,0 +1,24 @@
+{
+  "name": "styled-components-string",
+  "version": "2.66.0",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-styled-components": "workspace:*",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "^5"
+  }
+}

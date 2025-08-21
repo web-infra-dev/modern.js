@@ -1,8 +1,7 @@
-import type { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
 export interface Collector {
-  collect?: (comopnent: ReactElement) => ReactElement;
+  collect?: (comopnent: React.ReactElement) => React.ReactElement;
   effect: () => void | Promise<void>;
 }
 
@@ -28,7 +27,7 @@ export class StyledCollector implements Collector {
     this.#chunkSet = chunkSet;
   }
 
-  collect(comopnent: ReactElement) {
+  collect(comopnent: React.ReactElement) {
     return this.#sheet.collectStyles(comopnent);
   }
 

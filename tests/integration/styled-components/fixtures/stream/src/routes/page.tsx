@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <div>
       <h1>Hello, world!</h1>
-      <RedDiv>Hello Modern.js-----</RedDiv>
+      <RedDiv>styled-components is working</RedDiv>
     </div>
   );
 };

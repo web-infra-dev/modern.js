@@ -20,19 +20,17 @@
   "dependencies": {
     "@swc/helpers": "^0.5.17",
     "styled-components": "^6.1.8",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@rsbuild/plugin-styled-components": "^1.0.0"
   },
  "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@types/styled-components": "^5.1.34",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
     "styled-components": "^6.1.8"
   },
   "exports": {
