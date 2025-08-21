@@ -429,11 +429,11 @@ type AfterRenderContext = {
 
 Hook Context 大部分和 Middleware Context 一致，因此我们要额外关注不同 Hook 多余的部分。
 
-| UnstableMiddleware | Hono         | 说明                                                                          |
-| :----------------- | :----------- | :---------------------------------------------------------------------------- |
-| `router.redirect`  | `c.redirect` | 参考 [Hono Context redirect](https://hono.dev/docs/api/context#redirect) 文档 |
-| `router.rewrite`   | -            | 暂时没有提供对应的能力                                                        |
-| template API       | `c.res`      | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档           |
+| UnstableMiddleware | Hono               | 说明                                                                          |
+| :----------------- | :----------------- | :---------------------------------------------------------------------------- |
+| `router.redirect`  | `c.redirect`       | 参考 [Hono Context redirect](https://hono.dev/docs/api/context#redirect) 文档 |
+| `router.rewrite`   | `c.rewriteByEntry` | rewrite 到指定 entry，不支持路由或外部 url                                    |
+| template API       | `c.res`            | 参考 [Hono Context res](https://hono.dev/docs/api/context#res) 文档           |
 
 ### Next API 差异
 

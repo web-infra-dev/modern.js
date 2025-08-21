@@ -26,6 +26,7 @@ export default defineConfig({
         loaderFailureMode: 'clientRender',
       },
       four: false,
+      rewrite: false,
     },
   },
 });

@@ -4081,6 +4081,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../packages/server/server-runtime
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -4090,6 +4093,12 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
+      tsconfig-paths:
+        specifier: ~3.14.1
+        version: 3.14.1
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
