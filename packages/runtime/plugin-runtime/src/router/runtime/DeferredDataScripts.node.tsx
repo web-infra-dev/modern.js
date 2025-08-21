@@ -4,8 +4,8 @@ import type {
   StaticHandlerContext,
   TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
-import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
-import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { useAsyncError } from '@modern-js/runtime-utils/router';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { ROUTER_DATA_JSON_ID } from '../../core/constants';
 import { modernInline, runRouterDataFnStr, runWindowFnStr } from './constants';
 import { serializeErrors } from './utils';
@@ -192,6 +192,12 @@ const DeferredDataScripts = (props?: {
   );
 };
 
+function Fallback() {
+  // 每次渲染 fallback 都会打印
+  console.log('render fallback');
+  return <div>loading...</div>;
+}
+
 const DeferredDataScript = ({
   data,
   routeId,
@@ -204,34 +210,18 @@ const DeferredDataScript = ({
   nonce?: string;
 }) => {
   return (
-    <Suspense>
+    <>
       {typeof document === 'undefined' && data && dataKey && routeId ? (
-        <Await
-          resolve={data}
-          errorElement={
-            <ErrorDeferredDataScript
-              routeId={routeId}
-              dataKey={dataKey}
-              nonce={nonce}
-            />
-          }
-        >
-          {(data: any) => (
-            <script
-              async
-              nonce={nonce}
-              data-fn-name="r"
-              data-script-src="modern-run-router-data-fn"
-              data-fn-args={`${JSON.stringify([routeId, dataKey, data])}`}
-              suppressHydrationWarning
-              dangerouslySetInnerHTML={{
-                __html: runRouterDataFnStr,
-              }}
-            />
-          )}
-        </Await>
+        <script
+          async
+          nonce={nonce}
+          data-fn-name="r"
+          data-script-src="modern-run-router-data-fn"
+          data-fn-args={`${JSON.stringify([routeId, dataKey, null])}`}
+          suppressHydrationWarning
+        />
       ) : null}
-    </Suspense>
+    </>
   );
 };
 
