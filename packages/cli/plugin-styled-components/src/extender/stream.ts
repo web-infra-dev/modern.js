@@ -1,13 +1,12 @@
-import type { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
 export class StreamStyledExtender {
   private sheet: any | null = null;
-  private rootElement: ReactElement | null = null;
+  private rootElement: React.ReactElement | null = null;
   private forceStream2String = false;
 
   init(params: {
-    rootElement: ReactElement;
+    rootElement: React.ReactElement;
     forceStream2String: boolean;
   }) {
     this.sheet = new ServerStyleSheet();
@@ -15,7 +14,7 @@ export class StreamStyledExtender {
     this.forceStream2String = params.forceStream2String;
   }
 
-  modifyRootElement(rootElement: ReactElement) {
+  modifyRootElement(rootElement: React.ReactElement) {
     return this.rootElement || rootElement;
   }
 

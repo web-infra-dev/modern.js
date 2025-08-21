@@ -12,8 +12,5 @@ export const styledComponentsPlugin = (): RuntimePlugin => ({
     api.extendStreamSSR(() => {
       return new StreamStyledExtender();
     });
-    api.extendStreamSSR(() => {
-      return new StreamStyledExtender();
-    });
   },
 });

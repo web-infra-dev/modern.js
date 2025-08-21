@@ -6,38 +6,6 @@ export const styledComponentsPlugin = (): CliPlugin<AppTools> => ({
 
   setup(api) {
     api.config(() => {
-      const { appDirectory } = api.getAppContext();
-
-      const { createRequire } = require('module');
-      const appRequire = createRequire(
-        require('path').join(appDirectory, 'package.json'),
-      );
-
-      const resolveModule = (modulePath: string): string | undefined => {
-        try {
-          return appRequire.resolve(modulePath);
-        } catch {
-          return undefined;
-        }
-      };
-
-      const modulesToResolve = [
-        { module: 'react', key: 'react' },
-        { module: 'react-dom', key: 'react-dom' },
-        { module: 'react-dom/server', key: 'react-dom/server$' },
-      ];
-
-      const resolvedModules = modulesToResolve.reduce<Record<string, string>>(
-        (acc, { module, key }) => {
-          const resolvedPath = resolveModule(module);
-          if (resolvedPath) {
-            acc[key] = resolvedPath;
-          }
-          return acc;
-        },
-        {},
-      );
-
       return {
         builderPlugins: [
           pluginStyledComponents({
@@ -54,7 +22,6 @@ export const styledComponentsPlugin = (): CliPlugin<AppTools> => ({
         resolve: {
           alias: {
             'styled-components': require.resolve('styled-components'),
-            ...resolvedModules,
           },
         },
       };
