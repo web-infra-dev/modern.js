@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
-    "@modern-js/plugin-express": "2.68.9",
+    "@modern-js/plugin-express": "2.68.10",
     "@modern-js/runtime": "workspace:*",
     "bff-api-app": "workspace:*",
     "express": "^4.21.2",
