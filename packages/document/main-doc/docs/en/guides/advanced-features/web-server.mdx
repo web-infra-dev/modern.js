@@ -8,7 +8,7 @@ Modern.js encapsulates most server-side capabilities required by projects, typic
 
 ## Starting a Custom Web Server
 
-:::info
+:::tip
 You must ensure that the Modern.js version is x.67.5 or above.
 :::
 
@@ -23,6 +23,8 @@ After executing the command, a `server/modern.server.ts` file will be automatica
 
 
 ## Capabilities of the Custom Web Server
+
+Modern.js's Web Server is based on Hono, and in the latest version of the Custom Web Server, we expose Hono's middleware capabilities, you can refer to [Hono API](https://hono.dev/docs/api/context) for more usage.
 
 In the `server/modern.server.ts` file, you can add the following configurations to extend the Server:
 - **Middleware**
