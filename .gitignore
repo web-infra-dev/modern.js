@@ -53,3 +53,8 @@ playground/
 .netlify/
 
 .swc/
+
+.swe
+.cursor
+.claude
+AGENTS.md

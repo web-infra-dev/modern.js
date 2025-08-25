@@ -1,9 +1,15 @@
 import { PassThrough, Transform } from 'stream';
-import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
+import type { DeferredData } from '@modern-js/runtime-utils/browser';
+import {
+  createReadableStreamFromReadable,
+  storage,
+} from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { getMonitors } from '../../context/monitors';
+import { enqueueFromEntries } from './deferredScript';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -39,6 +45,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           const styledComponentsStyleTags = forceStream2String
             ? sheet.getStyleTags()
             : '';
+
           options[onReady]?.();
 
           getTemplates(htmlTemplate, {
@@ -100,6 +107,38 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             // pipe the styled stream to the body stream
             // now only use styled stream, if there is multiple stream, we can abstract it to a function
             styledStream.pipe(body);
+
+            // Server-side deferred data script injection using shared utils
+            try {
+              const storageContext = storage.useContext?.();
+              const v7Active = storageContext?.activeDeferreds;
+              const hasActiveDeferreds = (
+                v: unknown,
+              ): v is { activeDeferreds?: unknown } =>
+                typeof v === 'object' && v !== null && 'activeDeferreds' in v;
+              const routerContext = options.runtimeContext?.routerContext;
+              const v6Active = hasActiveDeferreds(routerContext)
+                ? routerContext.activeDeferreds
+                : undefined;
+
+              const entries: Array<[string, unknown]> =
+                v7Active instanceof Map
+                  ? Array.from(v7Active.entries())
+                  : v6Active
+                    ? v6Active instanceof Map
+                      ? Array.from(v6Active.entries())
+                      : Object.entries(v6Active)
+                    : [];
+
+              if (entries.length > 0) {
+                enqueueFromEntries(entries, config.nonce, (s: string) =>
+                  body.write(s),
+                );
+              }
+            } catch (err) {
+              const monitors = getMonitors();
+              monitors.error('cannot inject router data script', err);
+            }
           });
         },
 

@@ -1,7 +1,9 @@
 import { renderSSRStream } from '@modern-js/render/ssr';
+import { storage } from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { enqueueFromEntries } from './deferredScript';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -65,6 +67,42 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
       const stream = new ReadableStream({
         start(controller) {
+          const pendingScripts: string[] = [];
+          const enqueueScript = (script: string) => {
+            if (shellChunkStatus === ShellChunkStatus.FINISH) {
+              controller.enqueue(encodeForWebStream(script));
+            } else {
+              pendingScripts.push(script);
+            }
+          };
+
+          // Deferred script injection using shared utils
+          const storageContext = storage.useContext?.();
+          const v7Active = storageContext?.activeDeferreds;
+          const hasActiveDeferreds = (
+            v: unknown,
+          ): v is { activeDeferreds?: unknown } =>
+            typeof v === 'object' && v !== null && 'activeDeferreds' in v;
+          const routerContext = options.runtimeContext?.routerContext;
+          const v6Active = hasActiveDeferreds(routerContext)
+            ? routerContext.activeDeferreds
+            : undefined;
+
+          const entries: Array<[string, unknown]> =
+            v7Active instanceof Map
+              ? Array.from(v7Active.entries())
+              : v6Active
+                ? v6Active instanceof Map
+                  ? Array.from(v6Active.entries())
+                  : Object.entries(v6Active)
+                : [];
+
+          if (entries.length > 0) {
+            enqueueFromEntries(entries, config.nonce, (s: string) =>
+              enqueueScript(s),
+            );
+          }
+
           async function push() {
             const { done, value } = await reader.read();
             if (done) {
@@ -90,6 +128,13 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     `${shellBefore}${concatedChunk}${shellAfter}`,
                   ),
                 );
+                // Flush any pending <script> collected before shell finished
+                if (pendingScripts.length > 0) {
+                  for (const s of pendingScripts) {
+                    controller.enqueue(encodeForWebStream(s));
+                  }
+                  pendingScripts.length = 0;
+                }
               }
             } else {
               controller.enqueue(value);

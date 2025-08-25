@@ -4,10 +4,9 @@ import type {
   StaticHandlerContext,
   TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
-import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
-import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { ROUTER_DATA_JSON_ID } from '../../core/constants';
-import { modernInline, runRouterDataFnStr, runWindowFnStr } from './constants';
+import { modernInline, runWindowFnStr } from './constants';
 import { serializeErrors } from './utils';
 
 /**
@@ -80,16 +79,6 @@ const DeferredDataScripts = (props?: {
       const { deferredKeys } = deferredData;
       const deferredKeyPromiseManifests = deferredKeys.map((key: string) => {
         if (pendingKeys.has(key)) {
-          deferredDataScripts.push(
-            <DeferredDataScript
-              nonce={props?.nonce}
-              key={`${routeId} | ${key}`}
-              data={deferredData.data[key]}
-              dataKey={key}
-              routeId={routeId}
-            />,
-          );
-
           return {
             key,
             routerDataFnName: 's',
@@ -187,84 +176,7 @@ const DeferredDataScripts = (props?: {
           ))}
         </>
       )}
-      {!hydratedRef.current && deferredScripts[3]}
     </>
-  );
-};
-
-const DeferredDataScript = ({
-  data,
-  routeId,
-  dataKey,
-  nonce,
-}: {
-  data: any;
-  routeId: string;
-  dataKey: string;
-  nonce?: string;
-}) => {
-  return (
-    <Suspense>
-      {typeof document === 'undefined' && data && dataKey && routeId ? (
-        <Await
-          resolve={data}
-          errorElement={
-            <ErrorDeferredDataScript
-              routeId={routeId}
-              dataKey={dataKey}
-              nonce={nonce}
-            />
-          }
-        >
-          {(data: any) => (
-            <script
-              async
-              nonce={nonce}
-              data-fn-name="r"
-              data-script-src="modern-run-router-data-fn"
-              data-fn-args={`${JSON.stringify([routeId, dataKey, data])}`}
-              suppressHydrationWarning
-              dangerouslySetInnerHTML={{
-                __html: runRouterDataFnStr,
-              }}
-            />
-          )}
-        </Await>
-      ) : null}
-    </Suspense>
-  );
-};
-
-const ErrorDeferredDataScript = ({
-  routeId,
-  dataKey,
-  nonce,
-}: {
-  routeId: string;
-  dataKey: string;
-  nonce?: string;
-}) => {
-  const error = useAsyncError() as Error;
-
-  return (
-    <script
-      data-fn-name="r"
-      data-script-src="modern-run-router-data-fn"
-      data-fn-args={`${JSON.stringify([
-        routeId,
-        dataKey,
-        undefined,
-        {
-          message: error.message,
-          stack: error.stack,
-        },
-      ])}`}
-      nonce={nonce}
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: runRouterDataFnStr,
-      }}
-    />
   );
 };
 
