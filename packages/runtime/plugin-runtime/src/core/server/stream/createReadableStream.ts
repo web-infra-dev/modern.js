@@ -1,9 +1,14 @@
 import { PassThrough, Transform } from 'stream';
-import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
+import {
+  createReadableStreamFromReadable,
+  storage,
+} from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { getMonitors } from '../../context/monitors';
+import { enqueueFromEntries } from './deferredScript';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -39,6 +44,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           const styledComponentsStyleTags = forceStream2String
             ? sheet.getStyleTags()
             : '';
+
           options[onReady]?.();
 
           getTemplates(htmlTemplate, {
@@ -100,6 +106,26 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             // pipe the styled stream to the body stream
             // now only use styled stream, if there is multiple stream, we can abstract it to a function
             styledStream.pipe(body);
+
+            // Server-side deferred data script injection using shared utils
+            try {
+              const storageContext = storage.useContext?.();
+              const activeDeferreds = storageContext?.activeDeferreds;
+
+              const entries: Array<[string, unknown]> =
+                activeDeferreds instanceof Map
+                  ? Array.from(activeDeferreds.entries())
+                  : [];
+
+              if (entries.length > 0) {
+                enqueueFromEntries(entries, config.nonce, (s: string) =>
+                  body.write(s),
+                );
+              }
+            } catch (err) {
+              const monitors = getMonitors();
+              monitors.error('cannot inject router data script', err);
+            }
           });
         },
 
