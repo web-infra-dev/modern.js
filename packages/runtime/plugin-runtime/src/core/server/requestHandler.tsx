@@ -228,7 +228,6 @@ export const createRequestHandler: CreateRequestHandler = async (
           if (typeof Response !== 'undefined' && result instanceof Response) {
             return result;
           }
-          return undefined; // 明确返回 undefined
         };
 
         const ssrContext = createSSRContext(request, {
@@ -263,7 +262,6 @@ export const createRequestHandler: CreateRequestHandler = async (
               });
             }
           }
-          return undefined; // 当 result 为 undefined 或不是有效的重定向响应时返回 undefined
         };
 
         const beforeRenderResult = await runBeforeRender(context);
@@ -290,7 +288,6 @@ export const createRequestHandler: CreateRequestHandler = async (
 
         if (redirectResponse) {
           if (createRequestOptions?.enableRsc) {
-            // beforeRenderResult 可能是 undefined，需要确保返回 Response
             return beforeRenderResult || redirectResponse;
           } else {
             return redirectResponse;
