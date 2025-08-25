@@ -12,28 +12,7 @@ function readPackage(pkg, _context) {
     };
   }
 
-  // Some packages still depend on esbuild < 0.17, so we upgrade it manually.
-  // ref: https://github.com/lukeed/tsm/issues/48
-  if (pkg.name === 'tsm' || pkg.name === 'vite') {
-    pkg.dependencies.esbuild = '0.17.19';
-  }
-
-  // Fix peer dependencies warnings of legacy react libs
-  if (
-    pkg.name === 'flux' ||
-    pkg.name === 'react-inspector' ||
-    pkg.name === 'react-json-view' ||
-    pkg.name === '@mdx-js/react' ||
-    pkg.name === 'react-element-to-jsx-string'
-  ) {
-    if (pkg.peerDependencies.react) {
-      pkg.peerDependencies.react = '>= 17';
-    }
-    if (pkg.peerDependencies['react-dom']) {
-      pkg.peerDependencies['react-dom'] = '>= 17';
-    }
-  }
-
+  // Rspress workspace dependencies
   if (
     (pkg.name?.startsWith('@rspress/') || pkg.name?.startsWith('rspress')) &&
     pkg.dependencies

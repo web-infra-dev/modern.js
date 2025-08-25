@@ -43,10 +43,10 @@ jobs:
       - name: Log skip CI result
         run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
-      - name: Setup Node.js 18.x
+      - name: Setup Node.js 22.x
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 22.x
           cache: 'pnpm'
 
       - name: Nx Cache

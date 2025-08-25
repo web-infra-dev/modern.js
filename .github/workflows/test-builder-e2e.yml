@@ -31,10 +31,10 @@ jobs:
       - name: Install Pnpm
         run: npm i -g --force corepack && corepack enable
 
-      - name: Setup Node.js 18
+      - name: Setup Node.js 22
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install Dependencies
