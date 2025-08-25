@@ -105,12 +105,3 @@ const dataInjectionPlugin = (): RuntimePlugin => ({
 
 export default dataInjectionPlugin;
 ```
-
-## Compatibility Notes
-
-In earlier versions of Modern.js, it was possible to add render preprocessing logic through the `init` hook in `routes/layout.tsx` and the `App.init` method. These approaches are still **supported**, but we **strongly recommend** implementing with Runtime plugins instead.
-
-:::warning
-
-In future versions, the `init` hook in `routes/layout.tsx` and the `App.init` method will be gradually **deprecated**. We recommend migrating to the Runtime plugin approach as soon as possible.
-:::
