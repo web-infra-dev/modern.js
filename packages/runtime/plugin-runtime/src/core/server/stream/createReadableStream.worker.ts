@@ -76,7 +76,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             }
           };
 
-          // Deferred script injection using shared utils
           const storageContext = storage.useContext?.();
           const v7Active = storageContext?.activeDeferreds;
           const hasActiveDeferreds = (
