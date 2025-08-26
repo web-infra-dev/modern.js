@@ -107,7 +107,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             // now only use styled stream, if there is multiple stream, we can abstract it to a function
             styledStream.pipe(body);
 
-            // Server-side deferred data script injection using shared utils
             try {
               const storageContext = storage.useContext?.();
               const activeDeferreds = storageContext?.activeDeferreds;
