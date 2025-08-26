@@ -8,7 +8,7 @@ Modern.js 将大部分项目需要的服务端能力都进行了封装，通常�
 
 ## 开启自定义 Web Server
 
-:::info
+:::tip
 必须确保 Modern.js 版本是 x.67.5 及以上。
 :::
 
@@ -22,6 +22,8 @@ Modern.js 将大部分项目需要的服务端能力都进行了封装，通常�
 执行命令后，项目目录下会自动创建 `server/modern.server.ts` 文件，可以在这个文件中编写自定义逻辑。
 
 ## 自定义 Web Server 能力
+
+Modern.js 的服务器基于 Hono 实现，在最新版本的自定义 Web Server 中，我们向用户暴露了 Hono 的中间件能力，你可以参考 [Hono 文档](https://hono.dev/docs/api/context) 了解更多用法。
 
 `server/modern.server.ts` 文件中添加如下配置来扩展 Server：
 
