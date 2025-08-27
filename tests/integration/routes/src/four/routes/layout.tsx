@@ -7,11 +7,6 @@ declare global {
   }
 }
 
-export const init = (context: RuntimeContext) => {
-  window.__isBrowser = context.isBrowser;
-  return context;
-};
-
 export default function Layout() {
   return (
     <div>

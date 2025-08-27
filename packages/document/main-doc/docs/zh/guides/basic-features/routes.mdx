@@ -49,7 +49,7 @@ Modern.js 的路由基于 [React Router 7](https://reactrouter.com/en/main)，�
 
 ```tsx title=routes/page.tsx
 export default () => {
-  return <div>Hello world</div>
+  return <div>Hello world</div>;
 };
 ```
 
@@ -67,7 +67,6 @@ export default () => {
 
 - `/`
 - `/user`
-
 
 ### Layout
 
@@ -190,7 +189,6 @@ function Blog() {
 export default Blog;
 ```
 
-
 ## 通配路由
 
 如果在某个子目录下存在 `$.tsx` 文件，该文件会作为通配路由组件，当没有匹配的路由时，会渲染该路由组件。
@@ -239,9 +237,9 @@ import { useParams } from '@modern-js/runtime/router';
 function Blog() {
   // 当 path 是 `/blog/aaa/bbb` 时
   const params = useParams();
-  console.log(params) // ---> { '*': 'aaa/bbb' }
+  console.log(params); // ---> { '*': 'aaa/bbb' }
 
-  return <div>current blog URL is {params["*"]}</div>;
+  return <div>current blog URL is {params['*']}</div>;
 }
 export default Blog;
 ```
@@ -484,18 +482,16 @@ Modern.js 支持通过 `loading.tsx` 文件来解决这个问题，`routes/` 下
 - `render`，当 `<Link>` 组件渲染时，就会加载对应的分片和 Data Loader 中定义的数据。
 
 :::details 值为 render 和不做路由分片的区别
+
 - `render` 加载路由分片的时机是可控的，只有在 `<Link>` 组件进入视窗时才触发，可以通过控制 `<Link>` 组件的渲染位置来控制分片加载时机。
 - `render` 仅在空闲时对静态资源进行加载，不占用重要模块的加载时间。
 - 除了预加载路由分片，`render` 在 SSR 项目中还会发起数据预取。
 
 :::
 
-
 import Motivation from '@site-docs/components/convention-routing-motivation';
 
 <Motivation />
-
-
 
 ## 常见问题
 
@@ -512,35 +508,3 @@ import Motivation from '@site-docs/components/convention-routing-motivation';
 如果应用中必须直接使用 React Router 包的 API，例如部分路由行为被封装在统一的 npm 包中，那应用可以通过设置 [`source.alias`](/configure/app/source/alias)，将 `react-router` 和 `react-router-dom` 统一指向项目的依赖，避免两个版本的 React Router 同时存在的问题。
 
 :::
-
-2. 关于 `config` 函数和 `init` 函数的说明
-
-:::warning 不推荐使用
-
-Modern.js 早期版本支持在路由 layout 文件中通过导出 `config` 函数和 `init` 函数进行运行时配置和执行初始化操作。这些方式目前仍然**被支持**，但我们**强烈推荐**使用 [Runtime 配置文件](/configure/app/runtime/0-intro) 和 [Runtime 插件](/plugin/introduction.html#runtime-插件) 实现对应功能。
-
-:::
-
-**config**
-
-在路由组件中，你可以通过导出 `config` 函数来添加动态 Runtime 配置：
-
-```tsx
-// routes/layout.tsx
-export const config = () => {
-  return {
-    // 动态 Runtime 配置
-  };
-};
-```
-
-**init**
-
-在路由组件中，你可以通过导出 `init` 函数来执行预渲染逻辑：
-
-```tsx
-// routes/layout.tsx
-export const init = () => {
-  // 初始化逻辑
-};
-```

@@ -95,14 +95,6 @@ export function getGlobalRoutes(): undefined | (NestedRoute | PageRoute)[] {
   return globalContext.routes;
 }
 
-export function getGlobalAppInit() {
-  return (
-    globalContext.appInit ||
-    (getGlobalApp() as any)?.init ||
-    (getGlobalLayoutApp() as any)?.init
-  );
-}
-
 export function getGlobalLayoutApp() {
   return globalContext.layoutApp;
 }

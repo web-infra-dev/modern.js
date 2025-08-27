@@ -18,11 +18,4 @@ const App = () => {
   );
 };
 
-App.init = () => {
-  console.log('init');
-  return {
-    data: 'init data',
-  };
-};
-
 export default App;

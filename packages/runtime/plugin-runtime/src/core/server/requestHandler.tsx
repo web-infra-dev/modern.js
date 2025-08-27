@@ -14,8 +14,6 @@ import type React from 'react';
 import { Fragment } from 'react';
 import {
   type RuntimeContext,
-  getGlobalApp,
-  getGlobalAppInit,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
 } from '../context';
@@ -222,14 +220,14 @@ export const createRequestHandler: CreateRequestHandler = async (
           routeManifest as any,
         );
 
-        const runBeforeRender = async (context: RuntimeContext) => {
+        const runBeforeRender = async (
+          context: RuntimeContext,
+        ): Promise<Response | undefined> => {
           // when router is redirect, beforeRender will return a response
           const result = await hooks.onBeforeRender.call(context);
           if (typeof Response !== 'undefined' && result instanceof Response) {
             return result;
           }
-          const init = getGlobalAppInit();
-          return init?.(context);
         };
 
         const ssrContext = createSSRContext(request, {
@@ -243,7 +241,9 @@ export const createRequestHandler: CreateRequestHandler = async (
         });
 
         // Handle redirects from React Router with an HTTP redirect
-        const getRedirectResponse = (result: any) => {
+        const getRedirectResponse = (
+          result: Response | undefined,
+        ): Response | undefined => {
           if (
             typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
             result instanceof Response &&
@@ -262,10 +262,9 @@ export const createRequestHandler: CreateRequestHandler = async (
               });
             }
           }
-          return undefined;
         };
 
-        const initialData = await runBeforeRender(context);
+        const beforeRenderResult = await runBeforeRender(context);
 
         // Support data loader to return `new Response` and set status code
         if (
@@ -285,13 +284,11 @@ export const createRequestHandler: CreateRequestHandler = async (
           options.onError(errors[0], SSRErrors.LOADER_ERROR);
         }
 
-        context.initialData = initialData;
-
-        const redirectResponse = getRedirectResponse(initialData);
+        const redirectResponse = getRedirectResponse(beforeRenderResult);
 
         if (redirectResponse) {
           if (createRequestOptions?.enableRsc) {
-            return initialData;
+            return beforeRenderResult || redirectResponse;
           } else {
             return redirectResponse;
           }

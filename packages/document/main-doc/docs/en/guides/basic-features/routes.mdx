@@ -51,7 +51,7 @@ The `<Page>` component refers to all `page.tsx` files in the `routes/` directory
 
 ```tsx title=routes/page.tsx
 export default () => {
-  return <div>Hello world</div>
+  return <div>Hello world</div>;
 };
 ```
 
@@ -235,9 +235,9 @@ import { useParams } from '@modern-js/runtime/router';
 function Blog() {
   // When the path is `/blog/aaa/bbb`
   const params = useParams();
-  console.log(params) // ---> { '*': 'aaa/bbb' }
+  console.log(params); // ---> { '*': 'aaa/bbb' }
 
-  return <div>current blog URL is {params["*"]}</div>;
+  return <div>current blog URL is {params['*']}</div>;
 }
 export default Blog;
 ```
@@ -480,6 +480,7 @@ The `prefetch` attribute has three optional values:
 - `render`: When the `<Link>` component is rendered, it begins loading the corresponding chunk and data defined in the Data Loader.
 
 :::details Difference Between "render" and Not Using Route Splitting
+
 - `render` allows you to control the timing of route splitting, triggering only when the `<Link>` component enters the viewport. You can control the loading timing of the split by adjusting the rendering position of the `<Link>` component.
 - `render` loads static resources only during idle times, thus not occupying the loading time of critical modules.
 - Besides preloading route splits, `render` will also initiate data prefetching in SSR projects.
@@ -489,7 +490,6 @@ The `prefetch` attribute has three optional values:
 import Motivation from '@site-docs-en/components/convention-routing-motivation';
 
 <Motivation />
-
 
 ## FAQ
 
@@ -504,37 +504,3 @@ Additionally, when using conventional routing, make sure to use the API from `@m
 :::note
 If you must directly use the React Router package's API (e.g., route behavior wrapped in a unified npm package), you can set [`source.alias`](/configure/app/source/alias) to point `react-router` and `react-router-dom` to the project's dependencies, avoiding the issue of two versions of React Router.
 :::
-
-2. About `config` function and `init` function
-
-:::warning Not Recommended
-
-Modern.js early versions supported runtime configuration and initialization operations through `config` function and `init` function exported in route layout files. These methods are still **supported**, but we **strongly recommend** using the [Runtime Configuration File](/configure/app/runtime/0-intro) and [Runtime Plugin](/plugin/introduction.html#runtime-plugin) to implement the corresponding functions.
-
-:::
-
-**config**
-
-In route components, you can add dynamic Runtime configuration by exporting a `config` function:
-
-```tsx
-// routes/layout.tsx
-export const config = () => {
-  return {
-    // dynamic Runtime configuration
-  };
-};
-```
-
-**init**
-
-In route components, you can execute pre-rendering logic by exporting an `init` function:
-
-```tsx
-// routes/layout.tsx
-export const init = () => {
-  // initialization logic
-};
-```
-
-

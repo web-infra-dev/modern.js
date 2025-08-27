@@ -309,20 +309,6 @@ const supportRedirectForCSR = async (
   expect(errors.length).toBe(0);
 };
 
-const supportDefineInit = async (
-  page: Page,
-  errors: string[],
-  appPort: number,
-) => {
-  await page.goto(`http://127.0.0.1:${appPort}/four/user`, {
-    waitUntil: ['networkidle0'],
-  });
-  const isBrowser = await page.evaluate(() => (window as any).__isBrowser);
-
-  expect(isBrowser).toBeTruthy();
-  expect(errors.length).toBe(0);
-};
-
 const supportClientLoader = async (
   page: Page,
   errors: string[],
@@ -627,11 +613,6 @@ describe('dev with rspack', () => {
     });
   });
 
-  describe('global configuration', () => {
-    test('support app init', async () =>
-      await supportDefineInit(page, errors, appPort));
-  });
-
   describe('router plugin', () => {
     test('basic usage', async () => {
       await testRouterPlugin(appDir);
@@ -755,11 +736,6 @@ describe('build with rspack', () => {
       await supportReturnResponse(page, errors, appPort, 500);
       await supportReturnResponse(page, errors, appPort, 200);
     });
-  });
-
-  describe('global configuration', () => {
-    test('support app init', async () =>
-      await supportDefineInit(page, errors, appPort));
   });
 
   describe('router plugin', () => {

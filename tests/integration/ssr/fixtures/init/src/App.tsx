@@ -11,20 +11,4 @@ const App = () => {
   );
 };
 
-App.init = (context: RuntimeContext) => {
-  const { request } = context.context!;
-
-  if (context.isBrowser && !context?.initialData?.name) {
-    return {
-      name: 'client',
-    };
-  } else if (!request.query.browser) {
-    return {
-      name: 'server',
-    };
-  }
-
-  return {};
-};
-
 export default App;
