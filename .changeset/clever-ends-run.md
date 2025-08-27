@@ -2,5 +2,5 @@
 '@modern-js/app-tools': patch
 ---
 
-fix: not support alias to destruct
-fix: alias 不支持解构赋值
+fix: resolve tsconfig-path errors when using destructuring aliases
+fix: 修复解构 alias 导致 tsconfig-path 报错的问题

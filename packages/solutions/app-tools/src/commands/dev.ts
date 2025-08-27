@@ -36,9 +36,9 @@ export const dev = async (
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
 
-  const combinedAlias = []
-    .concat(normalizedConfig?.resolve?.alias)
-    .concat(normalizedConfig?.source?.alias) as ConfigChain<Alias>;
+  const combinedAlias = ([] as unknown[])
+    .concat(normalizedConfig?.resolve?.alias ?? [])
+    .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
   if (appContext.moduleType && appContext.moduleType === 'module') {
     const { registerEsm } = await import('../esm/register-esm.mjs');

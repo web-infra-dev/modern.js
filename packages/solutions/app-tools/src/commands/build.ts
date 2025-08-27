@@ -21,9 +21,9 @@ export const build = async (
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
 
-  const combinedAlias = []
-    .concat(resolvedConfig?.resolve?.alias)
-    .concat(resolvedConfig?.source?.alias) as ConfigChain<Alias>;
+  const combinedAlias = ([] as unknown[])
+    .concat(resolvedConfig?.resolve?.alias ?? [])
+    .concat(resolvedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
