@@ -12,6 +12,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineEnum": true,
+    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -46,8 +48,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -138,7 +140,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -216,7 +218,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -237,7 +239,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           },
         },
         "resourceQuery": {
-          "not": /\\^\\\\\\?raw\\$/,
+          "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -282,7 +284,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -291,7 +293,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -349,7 +351,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -367,11 +369,11 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -398,11 +400,11 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -429,11 +431,11 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -453,7 +455,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       {
         "dependency": "url",
         "generator": {
-          "filename": "static/wasm/[hash].module.wasm",
+          "filename": "static/wasm/[contenthash:8].module.wasm",
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
@@ -467,8 +469,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -576,7 +578,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -673,7 +676,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -686,8 +689,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -787,7 +790,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -876,7 +880,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -941,7 +945,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -1016,7 +1020,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -1108,7 +1112,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "path": "dist",
     "pathinfo": false,
     "publicPath": "/",
-    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+    "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
   "performance": {
     "hints": false,
@@ -1296,6 +1300,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineEnum": true,
+    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -1335,8 +1341,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -1367,7 +1373,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -1384,7 +1390,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -1399,7 +1405,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /\\^\\\\\\?raw\\$/,
+          "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -1440,7 +1446,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -1449,7 +1455,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -1500,7 +1506,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -1519,11 +1525,11 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -1552,11 +1558,11 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -1585,11 +1591,11 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -1610,7 +1616,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       {
         "dependency": "url",
         "generator": {
-          "filename": "static/wasm/[hash].module.wasm",
+          "filename": "static/wasm/[contenthash:8].module.wasm",
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
@@ -1636,8 +1642,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -1685,7 +1691,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -1721,7 +1728,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -1734,8 +1741,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -1775,7 +1782,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -1803,7 +1811,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -1865,7 +1873,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -1936,7 +1944,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -2040,7 +2048,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "path": "dist/bundles",
     "pathinfo": false,
     "publicPath": "/",
-    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+    "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
   "performance": {
     "hints": false,
@@ -2141,6 +2149,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineEnum": true,
+    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -2175,8 +2185,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -2267,7 +2277,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -2345,7 +2355,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -2365,7 +2375,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           },
         },
         "resourceQuery": {
-          "not": /\\^\\\\\\?raw\\$/,
+          "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -2410,7 +2420,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -2419,7 +2429,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -2477,7 +2487,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -2495,11 +2505,11 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -2526,11 +2536,11 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -2557,11 +2567,11 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -2581,7 +2591,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       {
         "dependency": "url",
         "generator": {
-          "filename": "static/wasm/[hash].module.wasm",
+          "filename": "static/wasm/[contenthash:8].module.wasm",
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
@@ -2595,8 +2605,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -2704,7 +2714,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -2801,7 +2812,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -2814,8 +2825,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -2915,7 +2926,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -3004,7 +3016,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -3069,7 +3081,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -3144,7 +3156,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -3271,7 +3283,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "path": "dist",
     "pathinfo": false,
     "publicPath": "/",
-    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+    "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
   "performance": {
     "hints": false,
@@ -3419,6 +3431,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineEnum": true,
+    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -3454,8 +3468,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -3486,7 +3500,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         "resolve": {
           "preferRelative": true,
         },
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "type": "javascript/auto",
@@ -3503,7 +3517,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.css\\$/,
         "type": "asset/source",
       },
@@ -3518,7 +3532,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
         "resourceQuery": {
-          "not": /\\^\\\\\\?raw\\$/,
+          "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -3560,7 +3574,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -3569,7 +3583,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "asset/source",
       },
@@ -3621,7 +3635,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
               },
@@ -3639,11 +3653,11 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -3670,11 +3684,11 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -3701,11 +3715,11 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/resource",
           },
           {
-            "resourceQuery": /\\^\\\\\\?inline\\$/,
+            "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/inline",
           },
           {
-            "resourceQuery": /\\^\\\\\\?raw\\$/,
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
             "type": "asset/source",
           },
           {
@@ -3725,7 +3739,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
       {
         "dependency": "url",
         "generator": {
-          "filename": "static/wasm/[hash].module.wasm",
+          "filename": "static/wasm/[contenthash:8].module.wasm",
         },
         "test": /\\\\\\.wasm\\$/,
         "type": "asset/resource",
@@ -3739,8 +3753,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -3788,7 +3802,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
@@ -3824,7 +3839,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "type": "asset/source",
       },
@@ -3837,8 +3852,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "resourceQuery": {
           "not": [
-            /\\^\\\\\\?raw\\$/,
-            /\\^\\\\\\?inline\\$/,
+            /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           ],
         },
         "sideEffects": true,
@@ -3878,7 +3893,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?inline\\$/,
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
           {
@@ -3906,7 +3922,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         ],
       },
       {
-        "resourceQuery": /\\^\\\\\\?raw\\$/,
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
         "test": /\\\\\\.less\\$/,
         "type": "asset/source",
       },
@@ -3968,7 +3984,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -4040,7 +4056,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                   },
@@ -4141,7 +4157,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
     "path": "dist/worker",
     "pathinfo": false,
     "publicPath": "/",
-    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+    "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
   "performance": {
     "hints": false,
