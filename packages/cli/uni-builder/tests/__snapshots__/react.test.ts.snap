@@ -24,7 +24,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -146,7 +146,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },

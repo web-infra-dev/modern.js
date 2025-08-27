@@ -11,8 +11,8 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -53,7 +53,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "sideEffects": true,
     "test": /\\\\\\.css\\$/,
     "type": "javascript/auto",
@@ -81,7 +81,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.css\\$/,
     "type": "asset/source",
   },
@@ -99,8 +99,8 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -157,7 +157,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "sideEffects": true,
     "test": /\\\\\\.css\\$/,
     "type": "javascript/auto",
@@ -201,7 +201,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.css\\$/,
     "type": "asset/source",
   },
@@ -219,8 +219,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -315,7 +315,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "sideEffects": true,
     "test": /\\\\\\.css\\$/,
     "type": "javascript/auto",
@@ -397,7 +397,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.css\\$/,
     "type": "asset/source",
   },
@@ -415,8 +415,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -528,8 +528,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "use": [
       {
@@ -630,7 +629,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "type": "asset/source",
   },
@@ -648,8 +647,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -753,8 +752,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "test": /\\\\\\.less\\$/,
     "use": [
       {
@@ -847,7 +845,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.less\\$/,
     "type": "asset/source",
   },
@@ -865,8 +863,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -937,7 +935,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "sideEffects": true,
     "test": /\\\\\\.css\\$/,
     "type": "javascript/auto",
@@ -995,7 +993,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.css\\$/,
     "type": "asset/source",
   },
@@ -1013,8 +1011,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -1102,8 +1100,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "use": [
       {
@@ -1180,7 +1177,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "type": "asset/source",
   },
@@ -1198,8 +1195,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     },
     "resourceQuery": {
       "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        /\\^\\\\\\?raw\\$/,
+        /\\^\\\\\\?inline\\$/,
       ],
     },
     "sideEffects": true,
@@ -1279,8 +1276,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
+    "resourceQuery": /\\^\\\\\\?inline\\$/,
     "test": /\\\\\\.less\\$/,
     "use": [
       {
@@ -1349,7 +1345,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.less\\$/,
     "type": "asset/source",
   },
