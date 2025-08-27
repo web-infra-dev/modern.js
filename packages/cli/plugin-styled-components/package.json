@@ -19,19 +19,24 @@
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
-    "styled-components": "^6.1.8",
     "@rsbuild/plugin-styled-components": "^1.0.0"
   },
  "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@types/styled-components": "^5.1.34",
+    "styled-components": "^6.1.8",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "styled-components": "^6.1.8"
+  },
+  "peerDependenciesMeta": {
+    "styled-components": {
+      "optional": true
+    }
   },
   "exports": {
     ".": {

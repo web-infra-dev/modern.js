@@ -110,7 +110,7 @@ export function createCollectAsyncHook<
   const call = async (...params: Parameters<Callback>) => {
     const results: UnwrapPromise<ReturnType<Callback>>[] = [];
     for (const callback of callbacks) {
-      const result = await callback(params);
+      const result = await callback(...params);
 
       if (result !== undefined) {
         results.push(result);
