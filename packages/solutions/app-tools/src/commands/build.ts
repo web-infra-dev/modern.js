@@ -21,6 +21,10 @@ export const build = async (
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
 
+  const combinedAlias = []
+    .concat(resolvedConfig?.resolve?.alias)
+    .concat(resolvedConfig?.source?.alias) as ConfigChain<Alias>;
+
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
@@ -29,17 +33,15 @@ export const build = async (
     await registerEsm({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
-      alias: {
-        ...resolvedConfig.resolve?.alias,
-        ...resolvedConfig.source?.alias,
-      },
+      alias: combinedAlias,
     });
   }
 
-  await registerCompiler(appContext.appDirectory, appContext.distDirectory, {
-    ...resolvedConfig?.resolve?.alias,
-    ...resolvedConfig?.source?.alias,
-  } as ConfigChain<Alias>);
+  await registerCompiler(
+    appContext.appDirectory,
+    appContext.distDirectory,
+    combinedAlias,
+  );
 
   const { apiOnly } = appContext;
 
