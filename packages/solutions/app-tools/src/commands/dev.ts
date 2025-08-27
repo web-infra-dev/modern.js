@@ -40,22 +40,24 @@ export const dev = async (
   const appContext = api.getAppContext();
   const hooks = api.getHooks();
 
+  const combinedAlias = ([] as unknown[])
+    .concat(normalizedConfig?.resolve?.alias ?? [])
+    .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
+
   if (appContext.moduleType && appContext.moduleType === 'module') {
     const { registerEsm } = await import('../esm/register-esm.mjs');
     await registerEsm({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
-      alias: {
-        ...normalizedConfig.resolve?.alias,
-        ...normalizedConfig.source?.alias,
-      },
+      alias: combinedAlias,
     });
   }
 
-  await registerCompiler(appContext.appDirectory, appContext.distDirectory, {
-    ...normalizedConfig?.source?.alias,
-    ...normalizedConfig?.resolve?.alias,
-  } as ConfigChain<Alias>);
+  await registerCompiler(
+    appContext.appDirectory,
+    appContext.distDirectory,
+    combinedAlias,
+  );
 
   const { appDirectory, port, apiOnly, metaName, serverRoutes } = appContext;
 
