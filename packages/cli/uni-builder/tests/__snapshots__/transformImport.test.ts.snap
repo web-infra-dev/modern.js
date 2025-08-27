@@ -25,7 +25,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
       },
     },
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -81,7 +81,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
             "import": [
@@ -103,7 +103,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -135,7 +135,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
       },
     },
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -191,7 +191,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -200,7 +200,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -232,7 +232,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
       },
     },
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -288,7 +288,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
             "import": [
@@ -310,7 +310,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -342,7 +342,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
       },
     },
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -398,7 +398,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -407,7 +407,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -439,7 +439,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
       },
     },
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -495,7 +495,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
             "import": [
@@ -509,7 +509,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -541,7 +541,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -663,7 +663,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -695,7 +695,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -817,7 +817,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -849,7 +849,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -952,7 +952,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -984,7 +984,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
       /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -1094,7 +1094,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },

@@ -24,7 +24,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "resourceQuery": {
-      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+      "not": /\\^\\\\\\?raw\\$/,
     },
     "test": /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
     "type": "javascript/auto",
@@ -106,7 +106,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
     ],
   },
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -116,7 +116,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
 exports[`plugin-ts-loader > should insert babel plugin correctly in some edge case 2`] = `
 [
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -212,7 +212,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
 exports[`plugin-ts-loader > should set include/exclude 1`] = `
 [
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -323,7 +323,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
 exports[`plugin-ts-loader > should set ts-loader 1`] = `
 [
   {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "resourceQuery": /\\^\\\\\\?raw\\$/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
