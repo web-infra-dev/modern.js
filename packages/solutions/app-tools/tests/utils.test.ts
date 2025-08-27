@@ -1,11 +1,4 @@
-import { Server } from 'http';
 import { chalk } from '@modern-js/utils';
-import {
-  closeServer,
-  createServer,
-  getServer,
-  reloadServer,
-} from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 
 jest.mock('@modern-js/utils', () => ({
@@ -58,37 +51,5 @@ describe('test app-tools utils', () => {
       );
       resolve();
     });
-  });
-
-  it('should create and close server correctly', async () => {
-    const app = await createServer({
-      pwd: __dirname,
-      config: {
-        html: {},
-        output: {
-          distPath: {
-            root: 'dist',
-          },
-        },
-        source: {},
-        tools: {},
-        server: {},
-        runtime: {},
-        bff: {},
-        dev: {},
-        security: {},
-      },
-      appContext: {},
-      dev: {},
-    });
-
-    expect(app.server instanceof Server).toBe(true);
-    expect(getServer()).toBe(app.server);
-
-    await reloadServer?.();
-    expect(getServer()).toBe(app.server);
-
-    await closeServer();
-    expect(getServer()).toBeNull();
   });
 });

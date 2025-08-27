@@ -53,11 +53,6 @@
       "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
       "default": "./dist/cjs/exports/server.js"
-    },
-    "./server/hmr": {
-      "types": "./dist/types/plugins/serverHmr.d.ts",
-      "jsnext:source": "./src/plugins/serverHmr.ts",
-      "default": "./dist/cjs/plugins/serverHmr.js"
     }
   },
   "engines": {

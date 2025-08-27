@@ -1,24 +1,7 @@
 import path from 'path';
 import type { ServerPlugin } from '@modern-js/server-core';
-import { reloadServer } from '../utils/createServer';
 
-import type { AppTools, CliPlugin } from '../types';
-
-export const serverHmrPlugin = (): CliPlugin<AppTools> => ({
-  name: '@modern-js/server-hmr-plugin',
-  setup(api) {
-    api._internalServerPlugins(({ plugins }) => {
-      if (process.env.NODE_ENV === 'development') {
-        plugins.push({
-          name: '@modern-js/app-tools/server/hmr',
-        });
-      }
-      return { plugins };
-    });
-  },
-});
-
-export default (): ServerPlugin => ({
+export default (reload: () => Promise<void>): ServerPlugin => ({
   name: '@modern-js/server-hmr-plugin',
   setup: api => {
     api.onReset(async ({ event }) => {
@@ -31,7 +14,7 @@ export default (): ServerPlugin => ({
             filename.startsWith(serverPath) && !filename.startsWith(indexPath),
         );
         if (isServerFileChanged) {
-          await reloadServer?.();
+          await reload();
         }
       }
     });

@@ -8,7 +8,6 @@ import {
 } from '@modern-js/server';
 
 let server: Server | Http2SecureServer | null = null;
-export let reloadServer: (() => Promise<void>) | null = null;
 
 export const getServer = () => server;
 
@@ -33,13 +32,11 @@ export const createServer = async (
   if (server) {
     server.close();
   }
-  const {
-    server: newServer,
-    afterListen,
-    reload: reloadDevServer,
-  } = await createDevServer(options, applyPluginsFn || applyPlugins);
+  const { server: newServer, afterListen } = await createDevServer(
+    options,
+    applyPluginsFn || applyPlugins,
+  );
 
-  reloadServer = reloadDevServer;
   setServer(newServer);
   return { server: newServer, afterListen };
 };

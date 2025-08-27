@@ -8,7 +8,26 @@ import { logger } from '@modern-js/utils';
 import { devPlugin, manager } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
 import { ResourceType } from './helpers/utils';
+import serverHmrPlugin from './plugins/serverHmr';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
+
+async function createServerOptions(
+  options: ModernDevServerOptions,
+  serverConfigPath: string,
+  distDir: string,
+) {
+  const serverConfig = (await loadServerRuntimeConfig(serverConfigPath)) || {};
+
+  return {
+    ...options,
+    pwd: distDir,
+    serverConfig: {
+      ...serverConfig,
+      ...options.serverConfig,
+    },
+    plugins: [...(serverConfig.plugins || []), ...(options.plugins || [])],
+  };
+}
 
 export async function createDevServer(
   options: ModernDevServerOptions,
@@ -19,25 +38,15 @@ export async function createDevServer(
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = (await loadServerRuntimeConfig(serverConfigPath)) || {};
-
-  const prodServerOptions = {
-    ...options,
-    pwd: distDir, // server base pwd must distDir,
-    serverConfig: {
-      ...serverConfig,
-      ...options.serverConfig,
-    },
-    /**
-     * 1. server plugins from modern.server.ts
-     * 2. server plugins register by cli use _internalServerPlugins
-     * Merge plugins, the plugins from modern.server.ts will run first
-     */
-    plugins: [...(serverConfig.plugins || []), ...(options.plugins || [])],
-  };
+  const prodServerOptions = await createServerOptions(
+    options,
+    serverConfigPath,
+    distDir,
+  );
 
   const server = createServerBase(prodServerOptions);
   let currentServer = server;
+  let isReloading = false;
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
   const isHttp2 = !!devHttpsOption;
@@ -62,7 +71,42 @@ export async function createDevServer(
     compiler: options.compiler,
   });
 
+  const reload = async () => {
+    if (isReloading) {
+      return;
+    }
+    try {
+      isReloading = true;
+
+      const updatedProdServerOptions = await createServerOptions(
+        options,
+        serverConfigPath,
+        distDir,
+      );
+      const newServer = createServerBase(updatedProdServerOptions);
+
+      await manager.close(ResourceType.Watcher);
+
+      newServer.addPlugins([
+        serverHmrPlugin(reload),
+        devPlugin({
+          ...options,
+        }),
+      ]);
+      await applyPlugins(newServer, updatedProdServerOptions, nodeServer);
+      await newServer.init();
+
+      currentServer = newServer;
+      logger.info(`Custom Web Server HMR succeeded`);
+    } catch (e) {
+      logger.error('[Custom Web Server HMR failed]:', e);
+    } finally {
+      isReloading = false;
+    }
+  };
+
   server.addPlugins([
+    serverHmrPlugin(reload),
     devPlugin({
       ...options,
       builderDevServer,
@@ -83,48 +127,8 @@ export async function createDevServer(
     await builderDevServer?.afterListen();
   };
 
-  const reload = async () => {
-    try {
-      const updatedServerConfig =
-        (await loadServerRuntimeConfig(serverConfigPath)) || {};
-
-      const updatedProdServerOptions = {
-        ...options,
-        pwd: distDir,
-        serverConfig: {
-          ...updatedServerConfig,
-          ...options.serverConfig,
-        },
-        plugins: [
-          ...(updatedServerConfig.plugins || []),
-          ...(options.plugins || []),
-        ],
-      };
-
-      const newServer = createServerBase(updatedProdServerOptions);
-
-      await manager.close(ResourceType.Watcher);
-
-      newServer.addPlugins([
-        devPlugin({
-          ...options,
-        }),
-      ]);
-
-      await applyPlugins(newServer, updatedProdServerOptions, nodeServer);
-
-      await newServer.init();
-
-      currentServer = newServer;
-      logger.info(`Custom Web Server HMR succeeded`);
-    } catch (e) {
-      logger.error('[Custom Web Server HMR failed]:', e);
-    }
-  };
-
   return {
     server: nodeServer,
     afterListen,
-    reload,
   };
 }
