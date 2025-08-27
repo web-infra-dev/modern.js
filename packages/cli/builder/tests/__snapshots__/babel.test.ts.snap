@@ -24,7 +24,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -69,7 +69,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -123,7 +123,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -154,7 +154,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -199,7 +199,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -245,7 +245,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -276,7 +276,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -321,7 +321,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -330,7 +330,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -361,7 +361,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -406,7 +406,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -452,7 +452,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -483,7 +483,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -528,7 +528,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -574,7 +574,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },
@@ -605,7 +605,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       },
     },
     "resourceQuery": {
-      "not": /\\^\\\\\\?raw\\$/,
+      "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     },
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "javascript/auto",
@@ -650,7 +650,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -659,7 +659,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
     ],
   },
   {
-    "resourceQuery": /\\^\\\\\\?raw\\$/,
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "type": "asset/source",
   },

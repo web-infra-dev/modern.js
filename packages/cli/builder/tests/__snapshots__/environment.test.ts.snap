@@ -13,6 +13,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": true,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -47,8 +49,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -139,7 +141,7 @@ exports[`builder environment compat > should generator environment config correc
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -217,7 +219,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -238,7 +240,7 @@ exports[`builder environment compat > should generator environment config correc
             },
           },
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -283,7 +285,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -292,7 +294,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -350,7 +352,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -368,11 +370,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -399,11 +401,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -430,11 +432,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -454,7 +456,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -468,8 +470,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -577,7 +579,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -674,7 +677,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -687,8 +690,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -788,7 +791,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -877,7 +881,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -942,7 +946,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -1017,7 +1021,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -1109,7 +1113,7 @@ exports[`builder environment compat > should generator environment config correc
       "path": "dist",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -1255,6 +1259,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": true,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -1294,8 +1300,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1326,7 +1332,7 @@ exports[`builder environment compat > should generator environment config correc
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -1343,7 +1349,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -1358,7 +1364,7 @@ exports[`builder environment compat > should generator environment config correc
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -1399,7 +1405,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -1408,7 +1414,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -1459,7 +1465,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -1478,11 +1484,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1511,11 +1517,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1544,11 +1550,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1569,7 +1575,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -1595,8 +1601,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1644,7 +1650,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -1680,7 +1687,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -1693,8 +1700,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1734,7 +1741,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -1762,7 +1770,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -1824,7 +1832,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -1895,7 +1903,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -1964,7 +1972,7 @@ exports[`builder environment compat > should generator environment config correc
       "path": "dist/bundles",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -2061,6 +2069,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": true,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -2096,8 +2106,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2128,7 +2138,7 @@ exports[`builder environment compat > should generator environment config correc
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -2145,7 +2155,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -2160,7 +2170,7 @@ exports[`builder environment compat > should generator environment config correc
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -2202,7 +2212,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -2211,7 +2221,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -2263,7 +2273,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": false,
+                    "exportedEnum": true,
                     "typeExports": true,
                   },
                 },
@@ -2281,11 +2291,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2312,11 +2322,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2343,11 +2353,11 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2367,7 +2377,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -2381,8 +2391,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2430,7 +2440,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -2466,7 +2477,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -2479,8 +2490,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2520,7 +2531,8 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -2548,7 +2560,7 @@ exports[`builder environment compat > should generator environment config correc
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -2610,7 +2622,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -2682,7 +2694,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": false,
+                        "exportedEnum": true,
                         "typeExports": true,
                       },
                     },
@@ -2748,7 +2760,7 @@ exports[`builder environment compat > should generator environment config correc
       "path": "dist/worker",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,
