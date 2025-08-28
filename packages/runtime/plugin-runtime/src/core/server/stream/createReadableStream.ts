@@ -56,6 +56,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             entryName,
             styledComponentsStyleTags,
           }).then(({ shellAfter, shellBefore }) => {
+            const pendingScripts: string[] = [];
             const body = new Transform({
               transform(chunk, _encoding, callback) {
                 try {
@@ -76,6 +77,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
                       shellChunkStatus = ShellChunkStatus.FINISH;
                       this.push(`${shellBefore}${concatedChunk}${shellAfter}`);
+                      // Flush any pending <script> collected before shell finished
+                      if (pendingScripts.length > 0) {
+                        for (const s of pendingScripts) {
+                          this.push(s);
+                        }
+                      }
                     }
                   } else {
                     this.push(chunk);
@@ -117,8 +124,16 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                   : [];
 
               if (entries.length > 0) {
+                const enqueueScript = (s: string) => {
+                  if (shellChunkStatus === ShellChunkStatus.FINISH) {
+                    body.write(s);
+                  } else {
+                    pendingScripts.push(s);
+                  }
+                };
+
                 enqueueFromEntries(entries, config.nonce, (s: string) =>
-                  body.write(s),
+                  enqueueScript(s),
                 );
               }
             } catch (err) {

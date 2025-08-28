@@ -56,8 +56,8 @@ export function buildDeferredDataScript(
 ): string {
   const payload = JSON.stringify(args);
   const escaped = escapeAttr(payload);
-  const nonceAttr = nonce ? ` nonce=\"${nonce}\"` : '';
-  return `<script async${nonceAttr} data-fn-name=\"r\" data-script-src=\"modern-run-router-data-fn\" data-fn-args='${escaped}' suppressHydrationWarning>${runRouterDataFnStr}</script>`;
+  const nonceAttr = nonce ? ` nonce="${nonce}"` : '';
+  return `<script async${nonceAttr} data-fn-name="r" data-script-src="modern-run-router-data-fn" data-fn-args='${escaped}' suppressHydrationWarning>${runRouterDataFnStr}</script>`;
 }
 
 export function enqueueFromEntries(
