@@ -27,6 +27,10 @@ type LazyCompilationOptions =
 
 ## Rspack
 
+在 Rsbuild 中，Lazy Compilation 默认是开启的。但在 Modern.js 中，部分功能特性存在冲突，因此默认是关闭的。
+
+如果项目中使用 SSR 或是[预加载路由](/guides/basic-features/routes.html#预加载)时，请不要开启 Lazy Compilation。
+
 import RsbuildLink from '@site/src/components/RsbuildLink';
 
 :::info
