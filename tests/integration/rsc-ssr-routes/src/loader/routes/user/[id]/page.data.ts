@@ -1,7 +1,7 @@
 import { type LoaderFunctionArgs, defer } from '@modern-js/runtime/router';
 import type { User } from './page';
 
-export default ({ params }: LoaderFunctionArgs) => {
+export const loader = ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
@@ -10,8 +10,8 @@ export default ({ params }: LoaderFunctionArgs) => {
         name: `user${userId}`,
         age: 18,
       });
-    }, 1000);
+    }, 2000);
   });
 
-  return defer({ data: user });
+  return { data: user };
 };
