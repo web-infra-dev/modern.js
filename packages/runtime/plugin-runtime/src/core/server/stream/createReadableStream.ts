@@ -118,6 +118,11 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               const storageContext = storage.useContext?.();
               const activeDeferreds = storageContext?.activeDeferreds;
 
+              /**
+               * When using react-router v6, activeDeferreds is injected into routerContext by react-router.
+               * When using react-router v7, activeDeferreds is injected into storageContext by @modern-js/runtime.
+               * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
+               */
               const entries: Array<[string, unknown]> =
                 activeDeferreds instanceof Map
                   ? Array.from(activeDeferreds.entries())
