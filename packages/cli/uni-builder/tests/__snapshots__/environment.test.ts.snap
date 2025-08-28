@@ -13,6 +13,8 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": false,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -47,8 +49,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -139,7 +141,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -217,7 +219,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -238,7 +240,7 @@ exports[`uni-builder environment compat > should generator environment config co
             },
           },
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -316,7 +318,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -416,11 +418,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -447,11 +449,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -478,11 +480,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -502,7 +504,7 @@ exports[`uni-builder environment compat > should generator environment config co
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -537,8 +539,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -646,7 +648,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -743,7 +746,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -756,8 +759,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -857,7 +860,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -946,7 +950,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -1238,7 +1242,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "path": "dist",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -1384,6 +1388,8 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": false,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -1423,8 +1429,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1455,7 +1461,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -1472,7 +1478,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -1487,7 +1493,7 @@ exports[`uni-builder environment compat > should generator environment config co
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -1561,7 +1567,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -1655,11 +1661,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1688,11 +1694,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1721,11 +1727,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -1746,7 +1752,7 @@ exports[`uni-builder environment compat > should generator environment config co
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -1793,8 +1799,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1842,7 +1848,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -1878,7 +1885,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -1891,8 +1898,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -1932,7 +1939,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -1960,7 +1968,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -2210,7 +2218,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "path": "dist/bundles",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -2307,6 +2315,8 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "inlineEnum": false,
+      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -2342,8 +2352,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2374,7 +2384,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
           "type": "javascript/auto",
@@ -2391,7 +2401,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
           "type": "asset/source",
         },
@@ -2406,7 +2416,7 @@ exports[`uni-builder environment compat > should generator environment config co
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
           "resourceQuery": {
-            "not": /\\^\\\\\\?raw\\$/,
+            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
@@ -2481,7 +2491,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "asset/source",
         },
@@ -2575,11 +2585,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2606,11 +2616,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2637,11 +2647,11 @@ exports[`uni-builder environment compat > should generator environment config co
               "type": "asset/resource",
             },
             {
-              "resourceQuery": /\\^\\\\\\?inline\\$/,
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/inline",
             },
             {
-              "resourceQuery": /\\^\\\\\\?raw\\$/,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
               "type": "asset/source",
             },
             {
@@ -2661,7 +2671,7 @@ exports[`uni-builder environment compat > should generator environment config co
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[hash].module.wasm",
+            "filename": "static/wasm/[contenthash:8].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -2696,8 +2706,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2745,7 +2755,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
@@ -2781,7 +2792,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "type": "asset/source",
         },
@@ -2794,8 +2805,8 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "resourceQuery": {
             "not": [
-              /\\^\\\\\\?raw\\$/,
-              /\\^\\\\\\?inline\\$/,
+              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             ],
           },
           "sideEffects": true,
@@ -2835,7 +2846,8 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?inline\\$/,
+          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
           "use": [
             {
@@ -2863,7 +2875,7 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\^\\\\\\?raw\\$/,
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.less\\$/,
           "type": "asset/source",
         },
@@ -3111,7 +3123,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "path": "dist/worker",
       "pathinfo": false,
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
     "performance": {
       "hints": false,

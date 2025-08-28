@@ -36,6 +36,11 @@ export async function parseConfig(
       uniBuilderConfig.experiments.lazyCompilation;
   }
 
+  // Rsbuild enable lazyCompilation by default, we need to disable it
+  if (!rsbuildConfig.dev!.lazyCompilation) {
+    rsbuildConfig.dev!.lazyCompilation = false;
+  }
+
   const { sri } = uniBuilderConfig.security || {};
   if (sri) {
     if (sri === true) {
