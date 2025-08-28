@@ -69,7 +69,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -199,7 +199,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -321,7 +321,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -406,7 +406,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -528,7 +528,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
@@ -650,7 +650,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": true,
+              "exportedEnum": false,
               "typeExports": true,
             },
           },
