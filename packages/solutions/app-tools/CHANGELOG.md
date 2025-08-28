@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 2.68.11
+
+### Patch Changes
+
+- 0c2653b: fix: resolve tsconfig-path errors when using destructuring aliases
+  fix: 修复解构 alias 导致 tsconfig-path 报错的问题
+  - @modern-js/core@2.68.11
+  - @modern-js/plugin-data-loader@2.68.11
+  - @modern-js/plugin-i18n@2.68.11
+  - @modern-js/rsbuild-plugin-esbuild@2.68.11
+  - @modern-js/uni-builder@2.68.11
+  - @modern-js/server-core@2.68.11
+  - @modern-js/prod-server@2.68.11
+  - @modern-js/server@2.68.11
+  - @modern-js/server-utils@2.68.11
+  - @modern-js/node-bundle-require@2.68.11
+  - @modern-js/plugin@2.68.11
+  - @modern-js/plugin-v2@2.68.11
+  - @modern-js/types@2.68.11
+  - @modern-js/utils@2.68.11
+
 ## 2.68.10
 
 ### Patch Changes
