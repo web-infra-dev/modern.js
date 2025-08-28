@@ -77,23 +77,19 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           };
 
           const storageContext = storage.useContext?.();
-          const v7Active = storageContext?.activeDeferreds;
-          const hasActiveDeferreds = (
-            v: unknown,
-          ): v is { activeDeferreds?: unknown } =>
-            typeof v === 'object' && v !== null && 'activeDeferreds' in v;
           const routerContext = options.runtimeContext?.routerContext;
-          const v6Active = hasActiveDeferreds(routerContext)
-            ? routerContext.activeDeferreds
-            : undefined;
 
+          /**
+           * When using react-router v6, activeDeferreds is injected into routerContext by react-router.
+           * When using react-router v7, activeDeferreds is injected into storageContext by @modern-js/runtime.
+           * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
+           */
           const entries: Array<[string, unknown]> =
-            v7Active instanceof Map
-              ? Array.from(v7Active.entries())
-              : v6Active
-                ? v6Active instanceof Map
-                  ? Array.from(v6Active.entries())
-                  : Object.entries(v6Active)
+            storageContext?.activeDeferreds instanceof Map &&
+            storageContext.activeDeferreds?.size > 0
+              ? Array.from(storageContext.activeDeferreds.entries())
+              : routerContext?.activeDeferreds
+                ? Object.entries(routerContext.activeDeferreds)
                 : [];
 
           if (entries.length > 0) {

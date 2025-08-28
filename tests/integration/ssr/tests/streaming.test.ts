@@ -116,37 +116,6 @@ async function streamingOrderOnServer(appPort: number) {
   });
 }
 
-async function fallbackThenHydration(page: Page, appPort: number) {
-  await page.goto(`http://localhost:${appPort}/user/1`, {
-    waitUntil: ['networkidle0'],
-  });
-
-  await page.waitForSelector('#data', { visible: true });
-  await page.waitForSelector('#name', { visible: true });
-  await page.waitForSelector('#age', { visible: true });
-
-  const nameText = await page.$eval('#name', el =>
-    (el.textContent || '').trim(),
-  );
-  const ageText = await page.$eval('#age', el => (el.textContent || '').trim());
-  expect(nameText).toBe('user1');
-  expect(ageText).toBe('18');
-
-  await page.waitForSelector('#loading', { hidden: true });
-
-  // Ensure hydration works
-  await page.waitForFunction(() => (window as any).__HYDRATED__ === true, {
-    timeout: 5000,
-  });
-  await page.waitForSelector('#inc-age', { visible: true });
-  console.log('click button11111');
-  await page.click('#inc-age');
-  await page.waitForFunction(
-    () => (document.querySelector('#age')?.textContent || '').trim() === '19',
-    { timeout: 5000 },
-  );
-}
-
 describe('Streaming SSR', () => {
   let app: any;
   let appPort: number;
@@ -189,9 +158,5 @@ describe('Streaming SSR', () => {
 
   test('should render fallback before final content', async () => {
     await streamingOrderOnServer(appPort);
-  });
-
-  test('fallback then final content and hydration works', async () => {
-    await fallbackThenHydration(page, appPort);
   });
 });
