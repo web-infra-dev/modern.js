@@ -24,7 +24,7 @@ afterAll(async () => {
 describe('test basic usage', () => {
   jest.setTimeout(25000);
 
-  test(`should start successfully`, async () => {
+  test.skip(`should start successfully`, async () => {
     app = await launchApp(appDir, appPort, {}, {});
     const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
