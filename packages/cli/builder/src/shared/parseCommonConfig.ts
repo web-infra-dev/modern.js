@@ -76,7 +76,7 @@ export async function parseCommonConfig(
       transformImport,
       ...sourceConfig
     } = {},
-    dev,
+    dev = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: {
       devServer,
@@ -189,6 +189,10 @@ export async function parseCommonConfig(
         };
       }
     };
+  }
+
+  if (!dev.lazyCompilation) {
+    dev.lazyCompilation = false;
   }
 
   const { rsbuildDev, rsbuildServer } = transformToRsbuildServerOptions(
