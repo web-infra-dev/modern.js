@@ -1215,12 +1215,14 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     },
     ReactRefreshRspackPlugin {
       "options": {
-        "exclude": [
-          /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-        ],
+        "exclude": [],
         "forceEnable": false,
         "include": [
-          /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "injectEntry": true,
         "injectLoader": true,
@@ -1228,6 +1230,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "resourceQuery": {
           "not": /\\^\\\\\\?raw\\$/,
         },
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
       },
     },
   ],
