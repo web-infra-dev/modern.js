@@ -1325,12 +1325,14 @@ exports[`uni-builder environment compat > should generator environment config co
       },
       ReactRefreshRspackPlugin {
         "options": {
-          "exclude": [
-            /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-          ],
+          "exclude": [],
           "forceEnable": false,
           "include": [
-            /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+            {
+              "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+            },
+            /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+            /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
           ],
           "injectEntry": true,
           "injectLoader": true,
@@ -1338,6 +1340,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "resourceQuery": {
             "not": /\\^\\\\\\?raw\\$/,
           },
+          "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         },
       },
     ],
