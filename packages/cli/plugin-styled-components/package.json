@@ -1,0 +1,75 @@
+{
+  "name": "@modern-js/plugin-styled-components",
+  "private": true,
+  "description": "A Modern.js plugin for styled-components.",
+ "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.68.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "scripts": {
+    "build": "modern-lib build"
+  },
+  "dependencies": {
+    "@swc/helpers": "^0.5.17",
+    "@rsbuild/plugin-styled-components": "^1.0.0"
+  },
+ "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@types/styled-components": "^5.1.34",
+    "styled-components": "^5.3.1",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "styled-components": "^5.3.1"
+  },
+  "peerDependenciesMeta": {
+    "styled-components": {
+      "optional": true
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/cjs/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime.d.ts",
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/cjs/runtime.js"
+    },
+    "./styled": {
+      "types": "./dist/types/styled.d.ts",
+      "jsnext:source": "./src/styled.ts",
+      "default": "./dist/cjs/styled.js"
+    }
+},
+"typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime.d.ts"
+      ],
+      "styled": [
+        "./dist/types/styled.d.ts"
+      ]
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

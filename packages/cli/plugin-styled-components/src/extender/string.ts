@@ -1,6 +1,22 @@
-import type { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
-import type { ChunkSet, Collector } from './types';
+
+export interface Collector {
+  collect?: (comopnent: React.ReactElement) => React.ReactElement;
+  effect: () => void | Promise<void>;
+}
+
+export enum RenderLevel {
+  CLIENT_RENDER = 0,
+  SERVER_PREFETCH = 1,
+  SERVER_RENDER = 2,
+}
+
+export type ChunkSet = {
+  renderLevel: RenderLevel;
+  ssrScripts: string;
+  jsChunk: string;
+  cssChunk: string;
+};
 
 export class StyledCollector implements Collector {
   #sheet: ServerStyleSheet = new ServerStyleSheet();
@@ -11,7 +27,7 @@ export class StyledCollector implements Collector {
     this.#chunkSet = chunkSet;
   }
 
-  collect(comopnent: ReactElement) {
+  collect(comopnent: React.ReactElement) {
     return this.#sheet.collectStyles(comopnent);
   }
 

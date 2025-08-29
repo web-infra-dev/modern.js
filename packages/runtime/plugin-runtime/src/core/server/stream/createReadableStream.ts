@@ -1,15 +1,22 @@
 import { PassThrough, Transform } from 'stream';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
-import { ServerStyleSheet } from 'styled-components';
+import type { ReactElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { getGlobalInternalRuntimeContext } from '../../context';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
   getReadableStreamFromString,
 } from './shared';
 import { getTemplates } from './template';
+
+const defaultExtender = {
+  modifyRootElement: (rootElement: ReactElement) => rootElement,
+  getStyleTags: () => '',
+  processStream: (stream: NodeJS.ReadWriteStream) => stream,
+};
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
@@ -26,105 +33,140 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     const isbot = checkIsBot(request.headers.get('user-agent'));
     const onReady = isbot || forceStream2String ? 'onAllReady' : 'onShellReady';
 
-    const sheet = new ServerStyleSheet();
+    const internalRuntimeContext = getGlobalInternalRuntimeContext();
+    const hooks = internalRuntimeContext.hooks;
+
+    const extenders = hooks.extendStreamSSR.call() || [];
+
+    if (extenders.length === 0) {
+      extenders.push(defaultExtender);
+    }
+
+    extenders.forEach(extender => {
+      if (extender.init) {
+        extender.init({
+          rootElement,
+          forceStream2String,
+        });
+      }
+    });
+
+    let processedRootElement = rootElement;
+    extenders.forEach(extender => {
+      if (extender.modifyRootElement) {
+        processedRootElement = extender.modifyRootElement(processedRootElement);
+      }
+    });
 
     const chunkVec: string[] = [];
 
-    const root = sheet.collectStyles(rootElement);
-
     return new Promise(resolve => {
-      const { pipe: reactStreamingPipe } = renderToPipeableStream(root, {
-        nonce: config.nonce,
-        [onReady]() {
-          const styledComponentsStyleTags = forceStream2String
-            ? sheet.getStyleTags()
-            : '';
-          options[onReady]?.();
-
-          getTemplates(htmlTemplate, {
-            request,
-            ssrConfig,
-            renderLevel,
-            runtimeContext,
-            config,
-            entryName,
-            styledComponentsStyleTags,
-          }).then(({ shellAfter, shellBefore }) => {
-            const body = new Transform({
-              transform(chunk, _encoding, callback) {
-                try {
-                  if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                    chunkVec.push(chunk.toString());
-                    /**
-                     * The shell content of App may be splitted by multiple chunks to transform,
-                     * when any node value's size is larger than the React limitation, refer to:
-                     * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
-                     * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
-                     */
-                    let concatedChunk = chunkVec.join('');
-                    if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
-                      concatedChunk = concatedChunk.replace(
-                        ESCAPED_SHELL_STREAM_END_MARK,
-                        '',
-                      );
-
-                      shellChunkStatus = ShellChunkStatus.FINISH;
-                      this.push(`${shellBefore}${concatedChunk}${shellAfter}`);
-                    }
-                  } else {
-                    this.push(chunk);
-                  }
-                  callback();
-                } catch (e) {
-                  if (e instanceof Error) {
-                    callback(e);
-                  } else {
-                    callback(new Error('Received unkown error when streaming'));
-                  }
-                }
-              },
+      const { pipe: reactStreamingPipe } = renderToPipeableStream(
+        processedRootElement,
+        {
+          nonce: config.nonce,
+          [onReady]() {
+            let styledComponentsStyleTags = '';
+            extenders.forEach(extender => {
+              if (extender.getStyleTags) {
+                styledComponentsStyleTags += extender.getStyleTags();
+              }
             });
 
-            // Transform the Node.js readable stream to a Web ReadableStream
-            // For modern.js depend on hono.js, and we use Web standard
-            const stream = createReadableStreamFromReadable(body);
-            resolve(stream);
+            options[onReady]?.();
 
-            // Transform the react pipe to a readable stream
-            // Actually it's for type check, we even can execute `sheet.interleaveWithNodeStream({ pipe })`
-            // Source code https://github.com/styled-components/styled-components/blob/main/packages/styled-components/src/models/ServerStyleSheet.tsx#L80
-            const passThrough = new PassThrough();
-            const styledStream = sheet.interleaveWithNodeStream(passThrough);
-            reactStreamingPipe(passThrough);
+            getTemplates(htmlTemplate, {
+              request,
+              ssrConfig,
+              renderLevel,
+              runtimeContext,
+              config,
+              entryName,
+              styledComponentsStyleTags,
+            }).then(({ shellAfter, shellBefore }) => {
+              const body = new Transform({
+                transform(chunk, _encoding, callback) {
+                  try {
+                    if (shellChunkStatus !== ShellChunkStatus.FINISH) {
+                      chunkVec.push(chunk.toString());
+                      /**
+                       * The shell content of App may be splitted by multiple chunks to transform,
+                       * when any node value's size is larger than the React limitation, refer to:
+                       * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
+                       * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
+                       */
+                      let concatedChunk = chunkVec.join('');
+                      if (
+                        concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)
+                      ) {
+                        concatedChunk = concatedChunk.replace(
+                          ESCAPED_SHELL_STREAM_END_MARK,
+                          '',
+                        );
 
-            // pipe the styled stream to the body stream
-            // now only use styled stream, if there is multiple stream, we can abstract it to a function
-            styledStream.pipe(body);
-          });
+                        shellChunkStatus = ShellChunkStatus.FINISH;
+                        this.push(
+                          `${shellBefore}${concatedChunk}${shellAfter}`,
+                        );
+                      }
+                    } else {
+                      this.push(chunk);
+                    }
+                    callback();
+                  } catch (e) {
+                    if (e instanceof Error) {
+                      callback(e);
+                    } else {
+                      callback(
+                        new Error('Received unkown error when streaming'),
+                      );
+                    }
+                  }
+                },
+              });
+
+              const passThrough = new PassThrough();
+
+              // Transform the Node.js readable stream to a Web ReadableStream
+              // For modern.js depend on hono.js, and we use Web standard
+              const stream = createReadableStreamFromReadable(body);
+              resolve(stream);
+
+              let processedStream: NodeJS.ReadWriteStream = passThrough;
+              extenders.forEach(extender => {
+                if (extender.processStream) {
+                  processedStream = extender.processStream(processedStream);
+                }
+              });
+              reactStreamingPipe(passThrough);
+
+              processedStream.pipe(body);
+            });
+          },
+
+          onShellError(error: unknown) {
+            renderLevel = RenderLevel.CLIENT_RENDER;
+            getTemplates(htmlTemplate, {
+              request,
+              ssrConfig,
+              renderLevel,
+              runtimeContext,
+              entryName,
+              config,
+            }).then(({ shellAfter, shellBefore }) => {
+              const fallbackHtml = `${shellBefore}${shellAfter}`;
+
+              const readableStream = getReadableStreamFromString(fallbackHtml);
+              resolve(readableStream);
+              options?.onShellError?.(error);
+            });
+          },
+          onError(error: unknown) {
+            renderLevel = RenderLevel.CLIENT_RENDER;
+
+            options?.onError?.(error);
+          },
         },
-
-        onShellError(error: unknown) {
-          renderLevel = RenderLevel.CLIENT_RENDER;
-          getTemplates(htmlTemplate, {
-            request,
-            ssrConfig,
-            renderLevel,
-            runtimeContext,
-            entryName,
-            config,
-          }).then(({ shellAfter, shellBefore }) => {
-            const fallbackHtml = `${shellBefore}${shellAfter}`;
-
-            const readableStream = getReadableStreamFromString(fallbackHtml);
-            resolve(readableStream);
-            options?.onShellError?.(error);
-          });
-        },
-        onError(error: unknown) {
-          renderLevel = RenderLevel.CLIENT_RENDER;
-
-          options?.onError?.(error);
-        },
-      });
+      );
     });
   };
