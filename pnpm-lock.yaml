@@ -493,6 +493,37 @@ importers:
         specifier: ^5
         version: 5.6.3
 
+  packages/cli/plugin-styled-components:
+    dependencies:
+      '@rsbuild/plugin-styled-components':
+        specifier: ^1.0.0
+        version: 1.4.1(@rsbuild/core@1.5.3)
+      '@swc/helpers':
+        specifier: ^0.5.17
+        version: 0.5.17
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../runtime/plugin-runtime
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+      '@types/styled-components':
+        specifier: ^5.1.34
+        version: 5.1.34
+      styled-components:
+        specifier: ^5.3.1
+        version: 5.3.5(react-dom@19.1.1(react@19.1.1))(react-is@18.3.1)(react@19.1.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.6.3
+
   packages/cli/plugin-tailwind:
     dependencies:
       '@modern-js/node-bundle-require':
@@ -1379,9 +1410,6 @@ importers:
       '@types/react-helmet':
         specifier: ^6.1.11
         version: 6.1.11
-      '@types/styled-components':
-        specifier: ^5.1.34
-        version: 5.1.34
       cookie:
         specifier: 0.7.2
         version: 0.7.2
@@ -1406,9 +1434,6 @@ importers:
       react-side-effect:
         specifier: ^2.1.2
         version: 2.1.2(react@19.1.1)
-      styled-components:
-        specifier: ^5.3.1
-        version: 5.3.5(react-dom@19.1.1(react@19.1.1))(react-is@18.3.1)(react@19.1.1)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -5012,6 +5037,77 @@ importers:
         specifier: ^5
         version: 5.6.3
 
+  tests/integration/styled-components:
+    dependencies:
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+
+  tests/integration/styled-components/fixtures/stream:
+    dependencies:
+      '@modern-js/plugin-styled-components':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-styled-components
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.1.1(react@19.1.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  tests/integration/styled-components/fixtures/string:
+    dependencies:
+      '@modern-js/plugin-styled-components':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-styled-components
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.1.1(react@19.1.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
   tests/integration/tailwindcss:
     dependencies:
       '@types/jest':
@@ -5233,6 +5329,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+      styled-components:
+        specifier: ^5.3.1
+        version: 5.3.5(react-dom@19.1.1(react@19.1.1))(react-is@18.3.1)(react@19.1.1)
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@24.3.0)(typescript@5.6.3))
@@ -8288,6 +8387,14 @@ packages:
       '@rsbuild/core':
         optional: true
 
+  '@rsbuild/plugin-styled-components@1.4.1':
+    resolution: {integrity: sha512-M3RRoQdDDy8l8lv323TrCst2/bdB2nd0GtAApJ6iOIwkGsWKuIlLI2l2TBgIrf3kHch9i4WvYFaVEA/j65tGCA==}
+    peerDependencies:
+      '@rsbuild/core': ^1.4.0-beta.4 || ^1.4.0
+    peerDependenciesMeta:
+      '@rsbuild/core':
+        optional: true
+
   '@rsbuild/plugin-svgr@1.2.2':
     resolution: {integrity: sha512-zd1efqsd0mDWe6B6dAKmubMvvaGrD4lPKXUZObynROvPZBSeaZxY2y2Ddrwc1yCyWL6X4WdBd1WIfShGGGKDxg==}
     peerDependencies:
@@ -8874,6 +8981,9 @@ packages:
 
   '@swc/plugin-loadable-components@8.0.2':
     resolution: {integrity: sha512-fD04gidg7L35F4A9fPyp5D0V1uKN6vXo3HQUAwqxJ7XjXyUSOIzz01KNwVH8BDV9zuHk/lnvicANjj1EGGQSxw==}
+
+  '@swc/plugin-styled-components@9.1.0':
+    resolution: {integrity: sha512-c0eVq3KLZq614zMRu3HcJ9BR/2ZFEn4j42Oyo3zsKxiMP2w33CQOAO4IqQ+BhK8EKnpIptbpGEGfBsIF7H2U4w==}
 
   '@swc/types@0.1.23':
     resolution: {integrity: sha512-u1iIVZV9Q0jxY+yM2vw/hZGDNudsN85bBpTqzAQ9rzkxW9D+e3aEM4Han+ow518gSewkXgjmEK0BD79ZcNVgPw==}
@@ -20148,6 +20258,13 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.5.3
 
+  '@rsbuild/plugin-styled-components@1.4.1(@rsbuild/core@1.5.3)':
+    dependencies:
+      '@swc/plugin-styled-components': 9.1.0
+      reduce-configs: 1.1.1
+    optionalDependencies:
+      '@rsbuild/core': 1.5.3
+
   '@rsbuild/plugin-svgr@1.2.2(@rsbuild/core@1.5.3)(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.5.3
@@ -20853,6 +20970,10 @@ snapshots:
       jsonc-parser: 3.3.1
 
   '@swc/plugin-loadable-components@8.0.2':
+    dependencies:
+      '@swc/counter': 0.1.3
+
+  '@swc/plugin-styled-components@9.1.0':
     dependencies:
       '@swc/counter': 0.1.3
 
