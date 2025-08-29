@@ -79,7 +79,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-babel/compiled/babel-loader/index.js",
         "options": {
           "babelrc": false,
-          "compact": true,
+          "compact": false,
           "configFile": false,
           "plugins": [
             [
@@ -209,7 +209,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-babel/compiled/babel-loader/index.js",
         "options": {
           "babelrc": false,
-          "compact": true,
+          "compact": false,
           "configFile": false,
           "plugins": [
             [
@@ -416,7 +416,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-babel/compiled/babel-loader/index.js",
         "options": {
           "babelrc": false,
-          "compact": true,
+          "compact": false,
           "configFile": false,
           "plugins": [
             [
@@ -538,7 +538,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-babel/compiled/babel-loader/index.js",
         "options": {
           "babelrc": false,
-          "compact": true,
+          "compact": false,
           "configFile": false,
           "plugins": [
             [
