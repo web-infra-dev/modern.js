@@ -180,6 +180,12 @@ export class ServerBase<E extends Env = any> {
   get onError() {
     return this.app.onError.bind(this.app);
   }
+
+  close() {
+    this.serverContext = null;
+    this.plugins = [];
+    (this.app as Hono<E> | null) = null;
+  }
 }
 
 export function createServerBase<E extends Env>(options: ServerBaseOptions) {
