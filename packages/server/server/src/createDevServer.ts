@@ -8,8 +8,10 @@ import { logger } from '@modern-js/utils';
 import { devPlugin, manager } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
 import { ResourceType } from './helpers/utils';
-import serverHmrPlugin from './plugins/serverHmr';
+import serverHmrPlugin from './plugins/serverReload';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
+
+export let serverReload: (() => Promise<void>) | null = null;
 
 async function createServerOptions(
   options: ModernDevServerOptions,
@@ -44,13 +46,14 @@ export async function createDevServer(
     distDir,
   );
 
-  const server = createServerBase(prodServerOptions);
-  let currentServer = server;
+  let currentServer = createServerBase(prodServerOptions);
+
   let isReloading = false;
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
   const isHttp2 = !!devHttpsOption;
-  let nodeServer;
+
+  let nodeServer: Awaited<ReturnType<typeof createNodeServer>>;
   if (devHttpsOption) {
     const { genHttpsOptions } = await import('./dev-tools/https');
     const httpsOptions = await genHttpsOptions(devHttpsOption, pwd);
@@ -75,8 +78,10 @@ export async function createDevServer(
     if (isReloading) {
       return;
     }
+    isReloading = true;
+
     try {
-      isReloading = true;
+      await currentServer.close();
 
       const updatedProdServerOptions = await createServerOptions(
         options,
@@ -87,26 +92,22 @@ export async function createDevServer(
 
       await manager.close(ResourceType.Watcher);
 
-      newServer.addPlugins([
-        serverHmrPlugin(reload),
-        devPlugin({
-          ...options,
-        }),
-      ]);
-      await applyPlugins(newServer, updatedProdServerOptions, nodeServer);
+      newServer.addPlugins([serverHmrPlugin(), devPlugin(options, true)]);
+      await applyPlugins(newServer, updatedProdServerOptions);
       await newServer.init();
 
       currentServer = newServer;
-      logger.info(`Custom Web Server HMR succeeded`);
+
+      logger.info(`Custom Web Server reload succeeded`);
     } catch (e) {
-      logger.error('[Custom Web Server HMR failed]:', e);
+      logger.error('[Custom Web Server reload failed]:', e);
     } finally {
       isReloading = false;
     }
   };
-
-  server.addPlugins([
-    serverHmrPlugin(reload),
+  serverReload = reload;
+  currentServer.addPlugins([
+    serverHmrPlugin(),
     devPlugin({
       ...options,
       builderDevServer,
@@ -119,9 +120,9 @@ export async function createDevServer(
     prodServerOptions.config.output.assetPrefix = assetPrefix;
   }
 
-  await applyPlugins(server, prodServerOptions, nodeServer);
+  await applyPlugins(currentServer, prodServerOptions, nodeServer);
 
-  await server.init();
+  await currentServer.init();
 
   const afterListen = async () => {
     await builderDevServer?.afterListen();

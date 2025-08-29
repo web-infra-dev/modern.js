@@ -1,20 +1,31 @@
 import path from 'path';
-import serverHmrPlugin from '../src/plugins/serverHmr';
 
-describe('serverHmrPlugin', () => {
-  let mockReload: jest.Mock;
+jest.mock('../src/createDevServer', () => ({
+  serverReload: jest.fn().mockResolvedValue(undefined),
+}));
+
+const { serverReload: mockReload } = require('../src/createDevServer');
+
+import serverReloadPlugin from '../src/plugins/serverReload';
+
+describe('serverReloadPlugin', () => {
   let mockApi: any;
   let plugin: any;
+  let onResetHandler: Function;
 
   beforeEach(() => {
-    mockReload = jest.fn().mockResolvedValue(undefined);
+    mockReload.mockClear();
+
     mockApi = {
-      onReset: jest.fn(),
       getServerContext: jest.fn().mockReturnValue({
         appDirectory: '/mock/app/directory',
       }),
+      onReset: jest.fn((callback: Function) => {
+        onResetHandler = callback;
+      }),
     };
-    plugin = serverHmrPlugin(mockReload);
+
+    plugin = serverReloadPlugin();
   });
 
   afterEach(() => {
@@ -23,7 +34,7 @@ describe('serverHmrPlugin', () => {
 
   describe('plugin setup', () => {
     it('should register onReset handler correctly', () => {
-      expect(plugin.name).toBe('@modern-js/server-hmr-plugin');
+      expect(plugin.name).toBe('@modern-js/server-reload-plugin');
       expect(typeof plugin.setup).toBe('function');
 
       plugin.setup(mockApi);

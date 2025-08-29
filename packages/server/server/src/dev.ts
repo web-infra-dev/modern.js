@@ -21,7 +21,10 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
 
 export const manager = new ResourceManager();
 
-export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
+export const devPlugin = (
+  options: DevPluginOptions,
+  isReload = false,
+): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
@@ -56,11 +59,12 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
       // TODO: remove any
       const hooks = (api as any).getHooks();
 
-      builder?.onDevCompileDone(({ stats }) => {
-        if (stats.toJson({ all: false }).name !== 'server') {
-          onRepack(distDirectory!, hooks);
-        }
-      });
+      !isReload &&
+        builder?.onDevCompileDone(({ stats }) => {
+          if (stats.toJson({ all: false }).name !== 'server') {
+            onRepack(distDirectory!, hooks);
+          }
+        });
 
       const { watchOptions } = config.server;
       const watcher = startWatcher({

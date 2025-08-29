@@ -1,8 +1,10 @@
 import path from 'path';
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (reload: () => Promise<void>): ServerPlugin => ({
-  name: '@modern-js/server-hmr-plugin',
+import { serverReload } from '../createDevServer';
+
+export default (): ServerPlugin => ({
+  name: '@modern-js/server-reload-plugin',
   setup: api => {
     api.onReset(async ({ event }) => {
       if (event.type === 'file-change') {
@@ -14,7 +16,7 @@ export default (reload: () => Promise<void>): ServerPlugin => ({
             filename.startsWith(serverPath) && !filename.startsWith(indexPath),
         );
         if (isServerFileChanged) {
-          await reload();
+          await serverReload?.();
         }
       }
     });
