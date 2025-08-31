@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -66,7 +64,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: ^3.0.0
-        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
+        version: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
 
   packages/cli/babel-preset:
     dependencies:
@@ -2796,8 +2794,8 @@ importers:
         specifier: 6.2.3
         version: 6.2.3(rollup@3.29.5)(typescript@5.6.3)
       sass:
-        specifier: 1.90.0
-        version: 1.90.0
+        specifier: 1.91.0
+        version: 1.91.0
       semver:
         specifier: 7.7.2
         version: 7.7.2
@@ -15266,6 +15264,11 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  sass@1.91.0:
+    resolution: {integrity: sha512-aFOZHGf+ur+bp1bCHZ+u8otKGh77ZtmFyXDo4tlYvT7PWql41Kwd8wdkPqhhT+h2879IVblcHFglIMofsFd1EA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
@@ -21595,13 +21598,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1))':
+  '@vitest/mocker@3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1))':
     dependencies:
       '@vitest/spy': 3.0.5
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
 
   '@vitest/pretty-format@3.0.5':
     dependencies:
@@ -21639,7 +21642,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 2.0.0
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
 
   '@vitest/utils@3.0.5':
     dependencies:
@@ -28741,6 +28744,15 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
+    optional: true
+
+  sass@1.91.0:
+    dependencies:
+      chokidar: 4.0.3
+      immutable: 5.0.2
+      source-map-js: 1.2.1
+    optionalDependencies:
+      '@parcel/watcher': 2.5.1
 
   sax@1.4.1: {}
 
@@ -30020,13 +30032,13 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite-node@3.0.5(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1):
+  vite-node@3.0.5(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1(supports-color@5.5.0)
       es-module-lexer: 1.6.0
       pathe: 2.0.3
-      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -30038,7 +30050,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1):
+  vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.6
@@ -30047,14 +30059,14 @@ snapshots:
       '@types/node': 20.5.1
       fsevents: 2.3.3
       less: 4.4.1
-      sass: 1.90.0
+      sass: 1.91.0
       sass-embedded: 1.90.0
       terser: 5.43.1
 
-  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1):
+  vitest@3.0.5(@types/debug@4.1.12)(@types/node@20.5.1)(@vitest/ui@3.2.4)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1):
     dependencies:
       '@vitest/expect': 3.0.5
-      '@vitest/mocker': 3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1))
+      '@vitest/mocker': 3.0.5(vite@5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1))
       '@vitest/pretty-format': 3.0.8
       '@vitest/runner': 3.0.5
       '@vitest/snapshot': 3.0.5
@@ -30070,8 +30082,8 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
-      vite-node: 3.0.5(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.90.0)(terser@5.43.1)
+      vite: 5.4.14(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
+      vite-node: 3.0.5(@types/node@20.5.1)(less@4.4.1)(sass-embedded@1.90.0)(sass@1.91.0)(terser@5.43.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
