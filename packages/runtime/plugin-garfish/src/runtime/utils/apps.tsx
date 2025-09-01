@@ -47,9 +47,12 @@ function getAppInstance(
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
     const domId = generateSubAppContainerKey(appInfo);
-    const [SubModuleComponent, setSubModuleComponent] = useState<
-      React.ComponentType<any> | undefined
-    >();
+    const [{ component: SubModuleComponent }, setSubModuleComponent] =
+      useState<{
+        component: React.ComponentType<any> | null;
+      }>({
+        component: null,
+      });
     const context = useContext(RuntimeReactContext);
     const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
     const useMatches = props.useMatches ?? context?.router?.useMatches;
@@ -156,13 +159,12 @@ or directly pass the "basename":
             SubModuleComponent,
             jupiter_submodule_app_key,
           } = provider;
-          const componetRenderMode =
-            manifest?.componentRender &&
-            (SubModuleComponent || jupiter_submodule_app_key);
+          const SubComponent = SubModuleComponent || jupiter_submodule_app_key;
+          const componetRenderMode = manifest?.componentRender;
           return {
             mount: (...props) => {
-              if (componetRenderMode) {
-                setSubModuleComponent(SubModuleComponent);
+              if (componetRenderMode && SubComponent) {
+                setSubModuleComponent({ component: SubComponent });
                 return undefined;
               } else {
                 logger('MicroApp customer render', props);
@@ -244,7 +246,9 @@ or directly pass the "basename":
 
     return (
       <>
-        <div id={domId}>{SubModuleComponent && <SubModuleComponent />}</div>
+        <div id={domId}>
+          {SubModuleComponent && <SubModuleComponent {...props} />}
+        </div>
       </>
     );
   }
