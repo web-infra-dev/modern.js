@@ -81,7 +81,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
             "import": [
@@ -191,7 +191,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -288,7 +288,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
             "import": [
@@ -398,7 +398,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
           },
@@ -495,7 +495,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
           },
           "rspackExperiments": {
             "collectTypeScriptInfo": {
-              "exportedEnum": false,
+              "exportedEnum": true,
               "typeExports": true,
             },
             "import": [
