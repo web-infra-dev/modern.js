@@ -4,11 +4,13 @@ exports[`plugin-global-vars > 'globalVars function' 1`] = `
 [
   DefinePlugin {
     "definitions": {
-      "import.meta.env.ASSET_PREFIX": """",
-      "import.meta.env.BASE_URL": "\\"/\\"",
-      "import.meta.env.DEV": false,
-      "import.meta.env.MODE": ""none"",
-      "import.meta.env.PROD": false,
+      "import.meta.env": {
+        "ASSET_PREFIX": """",
+        "BASE_URL": "\\"/\\"",
+        "DEV": false,
+        "MODE": ""none"",
+        "PROD": false,
+      },
       "process.env.ASSET_PREFIX": """",
       "process.env.BASE_URL": "\\"/\\"",
     },
@@ -26,11 +28,13 @@ exports[`plugin-global-vars > 'globalVars' 1`] = `
 [
   DefinePlugin {
     "definitions": {
-      "import.meta.env.ASSET_PREFIX": """",
-      "import.meta.env.BASE_URL": "\\"/\\"",
-      "import.meta.env.DEV": false,
-      "import.meta.env.MODE": ""none"",
-      "import.meta.env.PROD": false,
+      "import.meta.env": {
+        "ASSET_PREFIX": """",
+        "BASE_URL": "\\"/\\"",
+        "DEV": false,
+        "MODE": ""none"",
+        "PROD": false,
+      },
       "process.env.ASSET_PREFIX": """",
       "process.env.BASE_URL": "\\"/\\"",
     },
