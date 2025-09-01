@@ -14,7 +14,7 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "@source-code-build/components": "workspace:*",
-    "antd": "^5.26.7",
+    "antd": "^5.27.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
