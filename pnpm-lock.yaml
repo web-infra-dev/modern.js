@@ -225,6 +225,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rsbuild/core':
+        specifier: 1.5.1
+        version: 1.5.1
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
