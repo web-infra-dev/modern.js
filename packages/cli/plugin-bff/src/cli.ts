@@ -7,10 +7,11 @@ import type { ServerRoute } from '@modern-js/types';
 import {
   fs,
   API_DIR,
-  type AliasOption,
+  type Alias,
   SHARED_DIR,
   normalizeOutputPath,
 } from '@modern-js/utils';
+import type { ConfigChain } from '@rsbuild/core';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
@@ -54,11 +55,14 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const { babel } = modernConfig.tools;
 
       if (sourceDirs.length > 0) {
+        const combinedAlias = ([] as unknown[])
+          .concat(alias ?? [])
+          .concat(resolveAlias ?? []) as ConfigChain<Alias>;
         await compile(
           appDirectory,
           {
             server,
-            alias: { ...alias, ...(resolveAlias as AliasOption) },
+            alias: combinedAlias,
             babelConfig: babel,
           },
           {
