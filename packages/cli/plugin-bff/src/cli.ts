@@ -62,7 +62,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           appDirectory,
           {
             server,
-            alias: { ...alias, ...(resolveAlias as AliasOption) },
+            alias: combinedAlias,
             babelConfig: babel,
           },
           {
