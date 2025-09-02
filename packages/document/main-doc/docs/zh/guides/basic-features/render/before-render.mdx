@@ -105,12 +105,3 @@ const dataInjectionPlugin = (): RuntimePlugin => ({
 
 export default dataInjectionPlugin;
 ```
-
-## 兼容性说明
-
-在 Modern.js 的早期版本中，支持通过 `routes/layout.tsx` 中的 `init` 钩子以及 `App.init` 方法来添加渲染预处理逻辑。这些方式目前仍然**被支持**，但我们**强烈推荐**使用 Runtime 插件实现。
-
-:::warning
-
-未来版本中，`routes/layout.tsx` 的 `init` 钩子和 `App.init` 方法将逐步**废弃**。建议尽早迁移到 Runtime 插件方案。
-:::

@@ -6,8 +6,4 @@ const App = () => {
   return <RouterProvider router={router} />;
 };
 
-App.init = () => {
-  console.log('init');
-};
-
 export default App;

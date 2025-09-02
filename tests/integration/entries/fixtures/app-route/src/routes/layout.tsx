@@ -7,9 +7,3 @@ export default () => {
     </div>
   );
 };
-
-export const init = () => {
-  return {
-    data: 'init data',
-  };
-};

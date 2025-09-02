@@ -1,23 +1,12 @@
 import cookieTool from 'cookie';
 import type React from 'react';
-import { getGlobalAppInit, getGlobalInternalRuntimeContext } from '../context';
+import { getGlobalInternalRuntimeContext } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
-
-type ExtraSSRContainer = {
-  context?: {
-    request: {
-      cookieMap?: Record<string, string>;
-      cookie?: string;
-      userAgent?: string;
-      referer?: string;
-    };
-  };
-};
 
 const getQuery = () =>
   window.location.search
@@ -87,8 +76,6 @@ export async function render(
     api!.updateRuntimeContext(context);
     const hooks = internalRuntimeContext!.hooks;
     await hooks.onBeforeRender.call(context);
-    const init = getGlobalAppInit();
-    return init?.(context);
   };
 
   if (isClientArgs(id)) {
@@ -101,10 +88,7 @@ export async function render(
       ssrContext: ssrData.context,
     });
 
-    const initialData = await runBeforeRender(context);
-    if (initialData) {
-      context.initialData = initialData;
-    }
+    await runBeforeRender(context);
     const rootElement =
       id && typeof id !== 'string'
         ? id
