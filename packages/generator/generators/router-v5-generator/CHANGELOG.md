@@ -1,5 +1,7 @@
 # @modern-js/router-v5-generator
 
+## 3.7.49
+
 ## 3.7.48
 
 ## 3.7.47

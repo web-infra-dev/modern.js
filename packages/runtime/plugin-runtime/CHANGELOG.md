@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.68.12
+
+### Patch Changes
+
+- e753455: fix: solve the problem of react19 streaming rendering failure
+  fix: 解决 react19 下流式渲染失效的问题
+  - @modern-js/plugin-data-loader@2.68.12
+  - @modern-js/render@2.68.12
+  - @modern-js/plugin@2.68.12
+  - @modern-js/plugin-v2@2.68.12
+  - @modern-js/runtime-utils@2.68.12
+  - @modern-js/types@2.68.12
+  - @modern-js/utils@2.68.12
+
 ## 2.68.11
 
 ### Patch Changes
