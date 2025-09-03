@@ -17,7 +17,7 @@ import {
   loadCacheConfig,
   serverStaticPlugin,
 } from '@modern-js/server-core/node';
-import { createLogger, isProd } from '@modern-js/utils';
+import { createLogger, isProd, logger } from '@modern-js/utils';
 import type { ProdServerOptions } from './types';
 
 // Now we not use logger options, it can be implemented in the future
@@ -40,6 +40,7 @@ export async function applyPlugins(
 ) {
   const { pwd, appContext, config, logger: optLogger } = options;
 
+  const serverErrorHandler = options.serverConfig?.onError;
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
   const cacheConfig = await loadCacheConfig(loadCachePwd);
 
@@ -49,10 +50,33 @@ export async function applyPlugins(
     return c.html(createErrorHtml(404), 404);
   });
 
-  serverBase.onError((err, c) => {
+  serverBase.onError(async (err, c) => {
     const monitors = c.get('monitors');
     onError(ErrorDigest.EINTER, err, monitors, c.req.raw);
-    return c.html(createErrorHtml(500), 500);
+
+    if (serverErrorHandler) {
+      try {
+        const result = await serverErrorHandler(err, c);
+        if (result instanceof Response) {
+          return result;
+        }
+      } catch (configError) {
+        logger.error(`Error in serverConfig.onError handler: ${configError}`);
+      }
+    }
+    const bffPrefix = config.bff?.prefix || '/api';
+    const isApiPath = c.req.path.startsWith(bffPrefix);
+
+    if (isApiPath) {
+      return c.json(
+        {
+          message: (err as any)?.message || '[BFF] Internal Server Error',
+        },
+        (err as any)?.status || 500,
+      );
+    } else {
+      return c.html(createErrorHtml(500), 500);
+    }
   });
 
   const loggerOptions = config.server.logger;
