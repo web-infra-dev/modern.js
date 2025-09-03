@@ -54,61 +54,53 @@ const handleResponseMeta = (c: Context, handler: Handler) => {
 };
 
 export const createHonoHandler = (handler: Handler) => {
-  return async (c: Context, next: Next) => {
-    try {
-      const input = await getHonoInput(c);
+  return async (c: Context) => {
+    const input = await getHonoInput(c);
 
-      if (isWithMetaHandler(handler)) {
-        try {
-          const response = handleResponseMeta(c, handler);
-          if (response) {
-            return response;
-          }
-          if (c.finalized) return;
-
-          const result = await handler(input);
-          if (result instanceof Response) {
-            return result;
-          }
-          return result && typeof result === 'object'
-            ? c.json(result)
-            : c.body(result);
-        } catch (error) {
-          if (error instanceof ValidationError) {
-            c.status((error as any).status);
-
-            return c.json({
-              message: error.message,
-            });
-          }
-          throw error;
+    if (isWithMetaHandler(handler)) {
+      try {
+        const response = handleResponseMeta(c, handler);
+        if (response) {
+          return response;
         }
-      } else {
-        const routePath = c.req.routePath;
-        const paramNames = routePath.match(/:\w+/g)?.map(s => s.slice(1)) || [];
-        const params = Object.fromEntries(
-          paramNames.map(name => [name, input.params[name]]),
-        );
-        const args = Object.values(params).concat(input);
+        if (c.finalized) return;
 
-        try {
-          const body = await handler(...args);
-          if (c.finalized) {
-            return await Promise.resolve();
-          }
-
-          if (typeof body !== 'undefined') {
-            if (body instanceof Response) {
-              return body;
-            }
-            return c.json(body);
-          }
-        } catch {
-          return next();
+        const result = await handler(input);
+        if (result instanceof Response) {
+          return result;
         }
+        return result && typeof result === 'object'
+          ? c.json(result)
+          : c.body(result);
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          c.status((error as any).status);
+
+          return c.json({
+            message: error.message,
+          });
+        }
+        throw error;
       }
-    } catch (error) {
-      next();
+    } else {
+      const routePath = c.req.routePath;
+      const paramNames = routePath.match(/:\w+/g)?.map(s => s.slice(1)) || [];
+      const params = Object.fromEntries(
+        paramNames.map(name => [name, input.params[name]]),
+      );
+      const args = Object.values(params).concat(input);
+
+      const body = await handler(...args);
+      if (c.finalized) {
+        return await Promise.resolve();
+      }
+
+      if (typeof body !== 'undefined') {
+        if (body instanceof Response) {
+          return body;
+        }
+        return c.json(body);
+      }
     }
   };
 };

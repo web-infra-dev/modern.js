@@ -48,6 +48,7 @@ export default defineServerConfig({
   middlewares: [], // 中间件
   renderMiddlewares: [], // 渲染中间件
   plugins: [], // 插件
+  onError: () => {}, // 错误处理
 });
 ```
 
@@ -69,6 +70,7 @@ type ServerConfig = {
     middlewares?: MiddlewareObj[];
     renderMiddlewares?: MiddlewareObj[];
     plugins?: (ServerPlugin | ServerPluginLegacy)[];
+    onError?: (err: Error, c: Context) => Promise<any> | any;
 }
 ```
 
@@ -225,6 +227,36 @@ export default () => {
   // ...
 };
 
+```
+
+
+### onError
+
+`onError` 是一个全局错误处理函数，用于捕获和处理 Modern.js server 中的所有未捕获错误。通过自定义 `onError` 函数，开发者可以统一处理不同类型的错误，返回自定义的错误响应，实现错误日志记录、错误分类处理等功能。
+
+以下是一个基本的 `onError` 配置示例：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  onError: (err, c) => {
+    // 记录错误日志
+    console.error('Server error:', err);
+
+    // 根据不同的错误类型返回不同的响应
+    if (err instanceof SyntaxError) {
+      return c.json({ error: 'Invalid JSON' }, 400);
+    }
+
+    // 根据请求路径定制 bff 异常响应
+    if (c.req.path.includes('/api')) {
+      return c.json({ message: 'API error occurred' }, 500);
+    }
+
+    return c.text('Internal Server Error', 500);
+  },
+});
 ```
 
 
