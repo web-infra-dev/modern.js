@@ -24,7 +24,7 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
@@ -33,7 +33,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -45,10 +46,12 @@
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "^0.12.4",
     "@types/jest": "^29",
     "@types/node": "^18",
     "jest": "^29",
     "ts-jest": "^29.1.0",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "publishConfig": {

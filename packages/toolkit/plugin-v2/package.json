@@ -25,10 +25,10 @@
       "types": "./dist/types/index.d.ts",
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm/index.mjs"
     },
     "./run": {
       "types": "./dist/types/cli/run/run.d.ts",
@@ -44,19 +44,19 @@
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.tsx",
       "node": {
-        "import": "./dist/esm/runtime/index.js",
+        "import": "./dist/esm-node/runtime/index.mjs",
         "require": "./dist/cjs/runtime/index.js"
       },
-      "default": "./dist/esm/runtime/index.js"
+      "default": "./dist/esm-node/runtime/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
       "jsnext:source": "./src/server/index.ts",
       "node": {
-        "import": "./dist/esm-node/server/index.js",
+        "import": "./dist/esm-node/server/index.mjs",
         "require": "./dist/cjs/server/index.js"
       },
-      "default": "./dist/esm/server/index.js"
+      "default": "./dist/esm-node/server/index.mjs"
     }
   },
   "typesVersions": {
@@ -81,8 +81,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest"
   },
   "dependencies": {
@@ -101,6 +101,8 @@
     "@types/node": "^18",
     "@types/react": "^18.3.11",
     "jest": "^29",
+    "@rslib/core": "^0.12.4",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false,

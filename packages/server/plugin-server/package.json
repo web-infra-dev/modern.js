@@ -41,13 +41,13 @@
     },
     "./runtime/worker": {
       "types": "./dist/types/runtime/worker.d.ts",
-      "default": "./dist/esm-node/runtime/worker.js"
+      "default": "./dist/esm-node/runtime/worker.mjs"
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "new": "modern-lib new",
     "test": "jest --passWithNoTests"
   },
@@ -83,9 +83,11 @@
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "^0.12.4",
     "@types/jest": "^29",
     "@types/node": "^18",
     "jest": "^29",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": [
