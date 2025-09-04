@@ -44,6 +44,7 @@ const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
 
 const ssrBuilderPlugin = (
   modernAPI: CLIPluginAPI<AppTools>,
+  outputModule: boolean,
 ): RsbuildPlugin => ({
   name: '@modern-js/builder-plugin-ssr',
 
@@ -73,6 +74,9 @@ const ssrBuilderPlugin = (
             'process.env.MODERN_SSR_ENV': JSON.stringify(ssrEnv),
           },
         },
+        output: {
+          module: isServerEnvironment && outputModule,
+        },
         tools: {
           bundlerChain: useLoadablePlugin
             ? chain => {
@@ -101,7 +105,9 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
     api.config(() => {
       return {
-        builderPlugins: [ssrBuilderPlugin(api)],
+        builderPlugins: [
+          ssrBuilderPlugin(api, appContext.moduleType === 'module'),
+        ],
         resolve: {
           alias: {
             // ensure that all packages use the same storage in @modern-js/runtime-utils/node
@@ -138,18 +144,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 ],
               },
             },
-          },
-          bundlerChain: (chain, { isServer }) => {
-            if (isServer && appContext.moduleType === 'module') {
-              chain.output.libraryTarget('module').set('chunkFormat', 'module');
-              chain.output.library({
-                type: 'module',
-              });
-              chain.experiments({
-                ...chain.get('experiments'),
-                outputModule: true,
-              });
-            }
           },
         },
       };
