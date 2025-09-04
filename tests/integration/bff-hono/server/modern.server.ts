@@ -43,7 +43,7 @@ export default defineServerConfig({
     },
   ],
   onError: (err, c) => {
-    if (c.req.path.includes('/managed')) {
+    if (c.req.path.toLowerCase().includes('managed')) {
       return c.json({ error: 'customize Respons in config serverConfig' }, 501);
     }
   },
