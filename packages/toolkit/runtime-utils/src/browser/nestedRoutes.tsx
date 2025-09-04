@@ -1,8 +1,5 @@
 import type { NestedRoute } from '@modern-js/types';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
-/**
- * runtime utils for nested routes generating
- */
 import type React from 'react';
 import { Suspense } from 'react';
 import {
@@ -151,7 +148,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
       if (isRouterV7) {
         let activeDeferreds = null;
         if (typeof document === 'undefined') {
-          activeDeferreds = getAsyncLocalStorage()?.useContext()
+          activeDeferreds = (await getAsyncLocalStorage())?.useContext()
             ?.activeDeferreds as Map<string, DeferredData>;
         } else {
           activeDeferreds = originalActiveDeferreds;
@@ -164,7 +161,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
 
       const cost = end();
       if (typeof document === 'undefined') {
-        const storage = getAsyncLocalStorage();
+        const storage = await getAsyncLocalStorage();
         storage
           ?.useContext()
           .monitors?.timing(

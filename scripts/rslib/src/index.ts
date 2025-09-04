@@ -1,5 +1,6 @@
 import { pluginReact } from '@rsbuild/plugin-react';
 import type { RslibConfig } from '@rslib/core';
+
 export const rslibConfig: RslibConfig = {
   plugins: [pluginReact()],
   lib: [
@@ -46,7 +47,6 @@ export const rslibConfig: RslibConfig = {
         },
         target: 'node' as const,
       },
-      autoExtension: true,
     },
   ],
 };

@@ -92,9 +92,12 @@ export const requireExistModule = async (
   return compatibleRequire(exist, final.interop);
 };
 
+console.log('fffffffff', __filename);
 export const cleanRequireCache = (filelist: string[]) => {
   filelist.forEach(filepath => {
-    delete require.cache[filepath];
+    if (typeof require !== 'undefined' && require.cache) {
+      delete require.cache[filepath];
+    }
   });
 };
 

@@ -4,6 +4,8 @@ import type { Storage } from './async_storage.server';
 const isBrowser =
   typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
-export const getAsyncLocalStorage = (): Storage | null => {
+export const getAsyncLocalStorage = async (): Promise<
+  Storage | null | undefined
+> => {
   return null;
 };

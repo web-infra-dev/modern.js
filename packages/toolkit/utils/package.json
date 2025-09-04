@@ -25,6 +25,11 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "node": {
+        "require": "./dist/cjs/index.js",
+        "import": "./dist/esm-node/index.mjs"
+      },
+      "import": "./dist/esm-node/index.mjs",
       "default": "./dist/cjs/index.js"
     },
     "./logger": {
@@ -109,6 +114,7 @@
     "exports": {
       ".": {
         "types": "./dist/types/index.d.ts",
+        "import": "./dist/esm-node/index.mjs",
         "default": "./dist/cjs/index.js"
       },
       "./logger": {
