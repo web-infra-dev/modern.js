@@ -7,6 +7,7 @@
     "dev:bff": "modern dev --api-only",
     "build": "modern build",
     "serve": "modern serve",
+    "deploy": "modern deploy",
     "start:bff": "modern serve --api-only",
     "new": "modern new"
   },
@@ -14,6 +15,7 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
+    "@modern-js/plugin-bundle-server": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

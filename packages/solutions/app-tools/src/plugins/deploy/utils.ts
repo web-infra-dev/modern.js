@@ -26,15 +26,15 @@ export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
     bffRuntimeFramework,
   } = appContext;
   return {
-    sharedDirectory: `path.join(__dirname, "${path.relative(
+    sharedDirectory: `proxyPath.join(__dirname, "${path.relative(
       appDirectory,
       sharedDirectory,
     )}")`,
-    apiDirectory: `path.join(__dirname, "${path.relative(
+    apiDirectory: `proxyPath.join(__dirname, "${path.relative(
       appDirectory,
       apiDirectory,
     )}")`,
-    lambdaDirectory: `path.join(__dirname, "${path.relative(
+    lambdaDirectory: `proxyPath.join(__dirname, "${path.relative(
       appDirectory,
       lambdaDirectory,
     )}")`,

@@ -1,1 +1,2 @@
-export * from 'react-router/rsc';
+// TODO: fix this
+export * from 'react-router';

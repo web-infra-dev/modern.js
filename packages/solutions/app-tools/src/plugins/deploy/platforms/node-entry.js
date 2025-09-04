@@ -1,6 +1,8 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { createProdServer } = require('@modern-js/prod-server');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createProdServer } from '@modern-js/prod-server';
+
+const proxyPath = path;
 
 p_genPluginImportsCode;
 

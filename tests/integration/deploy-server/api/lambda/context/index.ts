@@ -1,9 +1,9 @@
-import { useContext } from '@modern-js/runtime/server';
+import { useHonoContext } from '@modern-js/plugin-bff/hono';
 
 export default async () => {
-  const ctx = useContext();
+  const ctx = useHonoContext();
   const { res } = ctx;
-  res.setHeader('x-id', '1');
+  res.headers.set('x-id', '1');
   return {
     message: 'Hello Modern.js',
   };

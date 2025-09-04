@@ -1,3 +1,4 @@
+import { matchRoutes } from '@modern-js/runtime-utils/router';
 import type { ServerRoute } from '@modern-js/types';
 import type { NodeRequest } from '@modern-js/types/server';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
@@ -308,7 +309,7 @@ async function renderHandler(
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
 
     if (routes) {
-      const { matchRoutes } = require('@modern-js/runtime-utils/router');
+      // const { matchRoutes } = require('@modern-js/runtime-utils/router');
 
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(

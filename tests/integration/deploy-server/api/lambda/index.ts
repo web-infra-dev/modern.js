@@ -5,8 +5,7 @@ import {
   Params,
   Post,
   Query,
-  useContext,
-} from '@modern-js/runtime/server';
+} from '@modern-js/plugin-bff/hono';
 import { z } from 'zod';
 
 export default async () => ({
@@ -40,7 +39,6 @@ export const postHello = Api(
   Data(DataSchema),
   Headers(HeadersSchema),
   async ({ query, data, params, headers }) => {
-    const ctx = useContext();
     return {
       params,
       query,

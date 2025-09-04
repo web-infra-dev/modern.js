@@ -59,7 +59,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
 
       const meta = getMeta(metaName);
 
-      const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
+      const serverConfigPath = `proxyPath.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
 
       const pluginsCode = getPluginsCode(plugins);
 

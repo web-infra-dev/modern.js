@@ -1,0 +1,40 @@
+{
+  "name": "@modern-js/plugin-bundle-server",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-bundle-server"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.68.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "rslib build",
+    "dev": "rslib build --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@modern-js/prod-server": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@rslib/core": "^0.12.4",
+    "@types/node": "^22.18.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/types/cli.d.ts"
+  }
+}
