@@ -23,7 +23,7 @@ const serializeError = (error: any): string => {
 };
 
 const ErrorDisplay = ({ title, error }: { title: string; error: any }) => (
-  <div className="hello">
+  <div className={title}>
     {title}: <pre>{serializeError(error)}</pre>
   </div>
 );

@@ -34,11 +34,17 @@ describe('error handling in dev', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.get pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const getErrorText = await page.$eval(
-      '.hello:nth-child(1) pre',
-      el => el?.textContent,
+      '.get pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(getErrorText).toContain('"status": 500');
@@ -49,11 +55,17 @@ describe('error handling in dev', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.exception pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const exceptionErrorText = await page.$eval(
-      '.hello:nth-child(2) pre',
-      el => el?.textContent,
+      '.exception pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(exceptionErrorText).toContain('"status": 401');
@@ -64,11 +76,17 @@ describe('error handling in dev', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.getManaged pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const getManagedErrorText = await page.$eval(
-      '.hello:nth-child(3) pre',
-      el => el?.textContent,
+      '.getManaged pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(getManagedErrorText).toContain('"status": 501');
@@ -79,11 +97,17 @@ describe('error handling in dev', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.exceptionManaged pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const exceptionManagedErrorText = await page.$eval(
-      '.hello:nth-child(4) pre',
-      el => el?.textContent,
+      '.exceptionManaged pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(exceptionManagedErrorText).toContain('"status": 501');
@@ -115,11 +139,17 @@ describe('error handling in prod', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.get pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const getErrorText = await page.$eval(
-      '.hello:nth-child(1) pre',
-      el => el?.textContent,
+      '.get pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(getErrorText).toContain('"status": 500');
@@ -130,11 +160,17 @@ describe('error handling in prod', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.exception pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const exceptionErrorText = await page.$eval(
-      '.hello:nth-child(2) pre',
-      el => el?.textContent,
+      '.exception pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(exceptionErrorText).toContain('"status": 401');
@@ -145,11 +181,17 @@ describe('error handling in prod', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.getManaged pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const getManagedErrorText = await page.$eval(
-      '.hello:nth-child(3) pre',
-      el => el?.textContent,
+      '.getManaged pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(getManagedErrorText).toContain('"status": 501');
@@ -160,11 +202,17 @@ describe('error handling in prod', () => {
     await page.goto(`${host}:${port}/${ERROR_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.exceptionManaged pre');
+        return el?.textContent !== 'null';
+      },
+      { timeout: 10000 },
+    );
 
     const exceptionManagedErrorText = await page.$eval(
-      '.hello:nth-child(4) pre',
-      el => el?.textContent,
+      '.exceptionManaged pre',
+      (el?: Element) => el?.textContent,
     );
 
     expect(exceptionManagedErrorText).toContain('"status": 501');
