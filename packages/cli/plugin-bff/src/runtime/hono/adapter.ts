@@ -8,7 +8,7 @@ import type {
 } from '@modern-js/server-core';
 import { Hono } from '@modern-js/server-core';
 
-import { isProd } from '@modern-js/utils';
+import { isProd, logger } from '@modern-js/utils';
 import createHonoRoutes from '../../utils/createHonoRoutes';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
@@ -52,6 +52,28 @@ export class HonoAdapter {
     this.apiMiddleware.forEach(({ path = '*', method = 'all', handler }) => {
       const handlers = this.wrapInArray(handler);
       this.apiServer?.[method](path, ...handlers);
+    });
+
+    this.apiServer.onError(async (err, c) => {
+      try {
+        const serverConfig = this.api.getServerConfig();
+        const onErrorHandler = serverConfig?.onError;
+
+        if (onErrorHandler) {
+          const result = await onErrorHandler(err, c);
+          if (result instanceof Response) {
+            return result;
+          }
+        }
+      } catch (configError) {
+        logger.error(`Error in serverConfig.onError handler: ${configError}`);
+      }
+      return c.json(
+        {
+          message: (err as any)?.message || '[BFF] Internal Server Error',
+        },
+        (err as any)?.status || 500,
+      );
     });
   };
 
