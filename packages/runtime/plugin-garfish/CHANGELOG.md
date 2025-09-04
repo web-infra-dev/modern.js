@@ -1,5 +1,19 @@
 # @modern-js/plugin-garfish
 
+## 2.68.12
+
+### Patch Changes
+
+- 1254fea: fix: garfish plugin custom component render error
+
+  fix: 修复 garfish 插件自定义组件渲染报错
+
+- Updated dependencies [e753455]
+  - @modern-js/runtime@2.68.12
+  - @modern-js/plugin-v2@2.68.12
+  - @modern-js/runtime-utils@2.68.12
+  - @modern-js/utils@2.68.12
+
 ## 2.68.11
 
 ### Patch Changes
