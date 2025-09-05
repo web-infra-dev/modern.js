@@ -1,6 +1,5 @@
 export enum RenderLevel {
   CLIENT_RENDER = 0,
-  SERVER_PREFETCH = 1,
   SERVER_RENDER = 2,
 }
 

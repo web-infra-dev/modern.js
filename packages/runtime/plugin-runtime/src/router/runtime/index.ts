@@ -10,12 +10,6 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
   return useRouteData(realRouteId);
 };
 
-export {
-  createShouldRevalidate,
-  handleRouteModule,
-  handleRouteModuleError,
-} from './routeModule';
-
 export * from './withRouter';
 
 export type { LoaderFunction, LoaderFunctionArgs } from './types';
