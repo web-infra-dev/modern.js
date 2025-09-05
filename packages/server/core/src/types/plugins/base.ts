@@ -19,7 +19,7 @@ import type {
   ServerRoute,
   UnstableMiddleware,
 } from '@modern-js/types';
-import type { MiddlewareHandler } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { UserConfig } from '../config';
 import type { Render } from '../render';
 import type { ServerPlugin } from './new';
@@ -110,9 +110,12 @@ export type CacheConfig = {
   container?: Container;
 };
 
+export type ServerErrorHandler = (err: Error, c: Context) => Promise<any> | any;
+
 export type ServerConfig = {
   // TODO: Middleware need more env
   renderMiddlewares?: MiddlewareObj[];
   middlewares?: MiddlewareObj[];
   plugins?: (ServerPlugin | ServerPluginLegacy)[];
+  onError?: ServerErrorHandler;
 } & UserConfig;

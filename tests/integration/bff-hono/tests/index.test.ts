@@ -39,7 +39,13 @@ describe('bff hono in dev', () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`, {
       timeout: 50000,
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.hello');
+        return el && el.textContent !== null && el.textContent !== 'bff-hono';
+      },
+      { timeout: 10000 },
+    );
     const text = await page.$eval('.hello', el => el?.textContent);
     const username = await page.$eval('.username', el => el?.textContent);
 
@@ -49,7 +55,7 @@ describe('bff hono in dev', () => {
 
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForSelector('.hello', { timeout: 10000 });
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });
@@ -63,21 +69,33 @@ describe('bff hono in dev', () => {
 
   test('support custom sdk', async () => {
     await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.hello');
+        return el && el.textContent !== null && el.textContent !== 'bff-hono';
+      },
+      { timeout: 10000 },
+    );
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Custom SDK');
   });
 
   test('support uoload', async () => {
     await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.mock_file');
+        return el && el.textContent !== null && el.textContent.trim() !== '';
+      },
+      { timeout: 10000 },
+    );
     const text = await page.$eval('.mock_file', el => el?.textContent);
     expect(text).toBe('mock_image.png');
   });
 
   test('custom res', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForSelector('.captcha-img', { timeout: 10000 });
 
     const imgElement = await page.$('.captcha-img');
     expect(imgElement).not.toBeNull();
@@ -124,13 +142,22 @@ describe('bff hono in prod', () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('bff-hono');
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.hello');
+        return (
+          el && el.textContent !== null && el.textContent === 'Hello Modern.js'
+        );
+      },
+      { timeout: 10000 },
+    );
     const text2 = await page.$eval('.hello', el => el?.textContent);
     expect(text2).toBe('Hello Modern.js');
   });
 
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
+    await page.waitForSelector('.hello', { timeout: 10000 });
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });
@@ -144,21 +171,33 @@ describe('bff hono in prod', () => {
 
   test('support custom sdk', async () => {
     await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.hello');
+        return el && el.textContent !== null && el.textContent !== 'bff-hono';
+      },
+      { timeout: 10000 },
+    );
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Custom SDK');
   });
 
   test('support uoload', async () => {
     await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.mock_file');
+        return el && el.textContent !== null && el.textContent.trim() !== '';
+      },
+      { timeout: 10000 },
+    );
     const text = await page.$eval('.mock_file', el => el?.textContent);
     expect(text).toBe('mock_image.png');
   });
 
   test('custom res', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.waitForSelector('.captcha-img', { timeout: 10000 });
 
     const imgElement = await page.$('.captcha-img');
     expect(imgElement).not.toBeNull();
