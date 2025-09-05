@@ -8,7 +8,6 @@ const ignoreDeps = [
   'twin.macro',
   'typescript',
   'lru-cache',
-  'react-router',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps

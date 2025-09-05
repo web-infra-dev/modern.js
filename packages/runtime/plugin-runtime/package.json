@@ -99,12 +99,12 @@
     "./router": {
       "types": "./dist/types/router/index.d.ts",
       "jsnext:source": "./src/router/index.ts",
+      "react-server": {
+        "types": "./dist/types/router/runtime/rsc.d.ts",
+        "jsnext:source": "./src/router/runtime/rsc.ts",
+        "default": "./dist/esm/router/runtime/rsc.js"
+      },
       "default": "./dist/esm/router/index.js"
-    },
-    "./router/rsc": {
-      "types": "./dist/types/router/runtime/rsc.d.ts",
-      "jsnext:source": "./src/router/runtime/rsc.ts",
-      "default": "./dist/esm/router/runtime/rsc.js"
     },
     "./router/server": {
       "types": "./dist/types/router/runtime/server.d.ts",
@@ -115,6 +115,11 @@
       "types": "./dist/types/router/internal.d.ts",
       "jsnext:source": "./src/router/internal.ts",
       "default": "./dist/esm/router/internal.js"
+    },
+    "./routerHelper": {
+      "types": "./dist/types/router/helper.d.ts",
+      "jsnext:source": "./src/router/runtime/routerHelper.ts",
+      "default": "./dist/esm/router/runtime/routerHelper.js"
     },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",

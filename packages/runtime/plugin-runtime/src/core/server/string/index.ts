@@ -103,10 +103,8 @@ async function generateHtml(
   try {
     const end = time();
     // react render to string
-    if (chunkSet.renderLevel >= RenderLevel.SERVER_PREFETCH) {
-      html = ReactDomServer.renderToString(finalApp);
-      chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
-    }
+    html = ReactDomServer.renderToString(finalApp);
+    chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     helmetData = ReactHelmet.renderStatic();
 
     const cost = end();
