@@ -59,10 +59,7 @@ export function hydrateRoot(
 
   function stringSSRHydrate() {
     // client render and server prefetch use same logic
-    if (
-      renderLevel === RenderLevel.CLIENT_RENDER ||
-      renderLevel === RenderLevel.SERVER_PREFETCH
-    ) {
+    if (renderLevel === RenderLevel.CLIENT_RENDER) {
       return ModernRender(wrapRuntimeContextProvider(App, context));
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
       return new Promise<Root | HTMLElement>(resolve => {
