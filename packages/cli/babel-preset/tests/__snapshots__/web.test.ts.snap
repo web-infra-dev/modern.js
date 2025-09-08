@@ -38,7 +38,7 @@ exports[`should allow to enable legacy decorator 1`] = `
         "include": [
           "@babel/plugin-transform-class-properties",
         ],
-        "modules": "commonjs",
+        "modules": false,
         "targets": [
           "Chrome >= 53",
         ],
@@ -95,7 +95,7 @@ exports[`should allow to enable specific version decorator 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": "commonjs",
+        "modules": false,
         "targets": [
           "Chrome >= 53",
         ],
@@ -145,7 +145,7 @@ exports[`should provide web preset as expected 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": "commonjs",
+        "modules": false,
         "targets": [
           "Chrome >= 53",
         ],
@@ -176,7 +176,7 @@ exports[`should provide web preset as expected when presetEnv is empty object 1`
       "exclude": [
         "transform-typeof-symbol",
       ],
-      "modules": "commonjs",
+      "modules": false,
     },
   ],
   [
@@ -239,7 +239,7 @@ exports[`should support inject core-js polyfills by entry 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": "commonjs",
+        "modules": false,
         "targets": [
           "Chrome >= 53",
         ],
@@ -292,7 +292,7 @@ exports[`should support inject core-js polyfills by usage 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": "commonjs",
+        "modules": false,
         "targets": [
           "Chrome >= 53",
         ],

@@ -13,7 +13,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "inlineEnum": true,
+      "inlineConst": false,
+      "inlineEnum": false,
       "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
@@ -30,6 +31,7 @@ exports[`builder environment compat > should generator environment config correc
       "parser": {
         "javascript": {
           "exportsPresence": "error",
+          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -285,7 +287,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -352,7 +354,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -946,7 +948,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
@@ -1021,7 +1023,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
@@ -1264,7 +1266,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "inlineEnum": true,
+      "inlineConst": false,
+      "inlineEnum": false,
       "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
@@ -1286,6 +1289,7 @@ exports[`builder environment compat > should generator environment config correc
       "parser": {
         "javascript": {
           "exportsPresence": "error",
+          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -1410,7 +1414,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -1470,7 +1474,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -1837,7 +1841,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
@@ -1908,7 +1912,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
@@ -2076,7 +2080,8 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "inlineEnum": true,
+      "inlineConst": false,
+      "inlineEnum": false,
       "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
@@ -2094,6 +2099,7 @@ exports[`builder environment compat > should generator environment config correc
         "javascript": {
           "dynamicImportMode": "eager",
           "exportsPresence": "error",
+          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -2219,7 +2225,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -2280,7 +2286,7 @@ exports[`builder environment compat > should generator environment config correc
                 },
                 "rspackExperiments": {
                   "collectTypeScriptInfo": {
-                    "exportedEnum": true,
+                    "exportedEnum": false,
                     "typeExports": true,
                   },
                 },
@@ -2629,7 +2635,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
@@ -2701,7 +2707,7 @@ exports[`builder environment compat > should generator environment config correc
                     },
                     "rspackExperiments": {
                       "collectTypeScriptInfo": {
-                        "exportedEnum": true,
+                        "exportedEnum": false,
                         "typeExports": true,
                       },
                     },
