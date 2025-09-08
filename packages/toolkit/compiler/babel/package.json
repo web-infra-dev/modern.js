@@ -37,12 +37,12 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.28.3",
+    "@babel/core": "^7.28.4",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@babel/plugin-transform-classes": "^7.28.3",
+    "@babel/plugin-transform-classes": "^7.28.4",
     "@babel/preset-typescript": "^7.27.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
