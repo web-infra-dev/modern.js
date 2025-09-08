@@ -12,7 +12,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineEnum": true,
+    "inlineConst": false,
+    "inlineEnum": false,
     "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
@@ -29,6 +30,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -284,7 +286,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": true,
+                  "exportedEnum": false,
                   "typeExports": true,
                 },
               },
@@ -351,7 +353,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": true,
+                  "exportedEnum": false,
                   "typeExports": true,
                 },
               },
@@ -945,7 +947,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": true,
+                      "exportedEnum": false,
                       "typeExports": true,
                     },
                   },
@@ -1020,7 +1022,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": true,
+                      "exportedEnum": false,
                       "typeExports": true,
                     },
                   },
@@ -1305,6 +1307,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -1327,6 +1330,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2156,6 +2160,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -2173,6 +2178,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -3440,6 +3446,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -3458,6 +3465,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
