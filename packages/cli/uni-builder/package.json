@@ -42,7 +42,7 @@
     "@rsbuild/core": "1.5.4",
     "@rsbuild/plugin-assets-retry": "1.4.2",
     "@rsbuild/plugin-babel": "1.0.6",
-    "@rsbuild/plugin-check-syntax": "1.3.2",
+    "@rsbuild/plugin-check-syntax": "1.4.0",
     "@rsbuild/plugin-css-minimizer": "1.0.3",
     "@rsbuild/plugin-less": "1.5.0",
     "@rsbuild/plugin-pug": "1.3.2",
