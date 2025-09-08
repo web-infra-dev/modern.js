@@ -12,7 +12,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineEnum": true,
+    "inlineConst": false,
+    "inlineEnum": false,
     "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
@@ -29,6 +30,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -295,7 +297,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": true,
+                  "exportedEnum": false,
                   "typeExports": true,
                 },
                 "import": [
@@ -386,7 +388,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": true,
+                  "exportedEnum": false,
                   "typeExports": true,
                 },
                 "import": [
@@ -1025,7 +1027,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": true,
+                      "exportedEnum": false,
                       "typeExports": true,
                     },
                     "import": [
@@ -1124,7 +1126,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": true,
+                      "exportedEnum": false,
                       "typeExports": true,
                     },
                     "import": [
@@ -1440,6 +1442,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -1462,6 +1465,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2408,6 +2412,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -2425,6 +2430,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -3821,6 +3827,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -3839,6 +3846,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -4792,6 +4800,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -6377,6 +6386,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "parser": {
       "javascript": {
         "exportsPresence": "error",
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
