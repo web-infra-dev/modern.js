@@ -660,8 +660,8 @@ importers:
         specifier: 1.0.6
         version: 1.0.6(@rsbuild/core@1.5.4)
       '@rsbuild/plugin-check-syntax':
-        specifier: 1.3.1
-        version: 1.3.1(@rsbuild/core@1.5.4)
+        specifier: 1.3.2
+        version: 1.3.2(@rsbuild/core@1.5.4)
       '@rsbuild/plugin-css-minimizer':
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.5.4)(esbuild@0.25.5)(webpack@5.101.3(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
@@ -13149,8 +13149,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-check-syntax@1.3.1':
-    resolution: {integrity: sha512-yP+9vK5tDur5YmqmOaKKdfNvsOmcq/Yh1r4/DHPJKSEHJW7A25b9EzhKoq5VCyldCfPnOOQ64grjCarVLiIw0w==}
+  '@rsbuild/plugin-check-syntax@1.3.2':
+    resolution: {integrity: sha512-B5I0us12NPkjueGCt/WrTaq1Ch01/5B0Th0JHI4UHHtUBRAJqWPpxQ8Oj8xNe7seoFQ3ksSHNwxVVyacZQdW6Q==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -30672,7 +30672,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-check-syntax@1.3.1(@rsbuild/core@1.5.4)':
+  '@rsbuild/plugin-check-syntax@1.3.2(@rsbuild/core@1.5.4)':
     dependencies:
       acorn: 8.15.0
       browserslist-to-es-version: 1.1.1
@@ -33025,8 +33025,8 @@ snapshots:
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11(encoding@0.1.13)
       '@rollup/pluginutils': 4.2.1
-      acorn: 8.14.1
-      acorn-import-attributes: 1.9.5(acorn@8.14.1)
+      acorn: 8.15.0
+      acorn-import-attributes: 1.9.5(acorn@8.15.0)
       async-sema: 3.1.1
       bindings: 1.5.0
       estree-walker: 2.0.2
@@ -33403,9 +33403,9 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
-  acorn-import-attributes@1.9.5(acorn@8.14.1):
+  acorn-import-attributes@1.9.5(acorn@8.15.0):
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
 
   acorn-import-phases@1.0.4(acorn@8.15.0):
     dependencies:
@@ -33429,7 +33429,7 @@ snapshots:
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
 
   acorn@7.4.1: {}
 
@@ -38586,7 +38586,7 @@ snapshots:
   jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
       abab: 2.0.6
-      acorn: 8.14.1
+      acorn: 8.15.0
       acorn-globals: 7.0.1
       cssom: 0.5.0
       cssstyle: 2.3.0
@@ -40084,7 +40084,7 @@ snapshots:
 
   mlly@1.6.1:
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
       pathe: 1.1.2
       pkg-types: 1.3.1
       ufo: 1.6.1
@@ -45109,7 +45109,7 @@ snapshots:
 
   unplugin@1.14.1(webpack-sources@3.3.3):
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
       webpack-virtual-modules: 0.6.2
     optionalDependencies:
       webpack-sources: 3.3.3
