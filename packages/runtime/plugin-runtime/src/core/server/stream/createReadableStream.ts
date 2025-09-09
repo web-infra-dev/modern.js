@@ -1,10 +1,15 @@
 import { PassThrough, Transform } from 'stream';
-import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
+import {
+  createReadableStreamFromReadable,
+  storage,
+} from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import type { ReactElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
+import { getMonitors } from '../../context/monitors';
+import { enqueueFromEntries } from './deferredScript';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -84,6 +89,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               entryName,
               styledComponentsStyleTags,
             }).then(({ shellAfter, shellBefore }) => {
+              const pendingScripts: string[] = [];
               const body = new Transform({
                 transform(chunk, _encoding, callback) {
                   try {
@@ -108,6 +114,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                         this.push(
                           `${shellBefore}${concatedChunk}${shellAfter}`,
                         );
+                        // Flush any pending <script> collected before shell finished
+                        if (pendingScripts.length > 0) {
+                          for (const s of pendingScripts) {
+                            this.push(s);
+                          }
+                        }
                       }
                     } else {
                       this.push(chunk);
@@ -141,6 +153,38 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               reactStreamingPipe(passThrough);
 
               processedStream.pipe(body);
+
+              // Inject router data scripts, enqueue until shell finished
+              try {
+                const storageContext = storage.useContext?.();
+                const activeDeferreds = storageContext?.activeDeferreds;
+
+                /**
+                 * activeDeferreds is injected into storageContext by @modern-js/runtime.
+                 * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
+                 */
+                const entries: Array<[string, unknown]> =
+                  activeDeferreds instanceof Map
+                    ? Array.from(activeDeferreds.entries())
+                    : [];
+
+                if (entries.length > 0) {
+                  const enqueueScript = (s: string) => {
+                    if (shellChunkStatus === ShellChunkStatus.FINISH) {
+                      body.write(s);
+                    } else {
+                      pendingScripts.push(s);
+                    }
+                  };
+
+                  enqueueFromEntries(entries, config.nonce, (s: string) =>
+                    enqueueScript(s),
+                  );
+                }
+              } catch (err) {
+                const monitors = getMonitors();
+                monitors.error('cannot inject router data script', err);
+              }
             });
           },
 

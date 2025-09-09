@@ -280,12 +280,6 @@ function useRouterCreation(props: any, options: UseRouterCreationOptions) {
     }
 
     const modifiedRoutes = hooks.modifyRoutes.call(routes);
-    console.log(
-      'modifiedRoutes111111',
-      modifiedRoutes,
-      _basename,
-      hydrationData,
-    );
 
     const router = supportHtml5History
       ? createBrowserRouter(modifiedRoutes, {

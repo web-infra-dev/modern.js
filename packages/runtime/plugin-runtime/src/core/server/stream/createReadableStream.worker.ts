@@ -1,7 +1,9 @@
 import { renderSSRStream } from '@modern-js/render/ssr';
+import { storage } from '@modern-js/runtime-utils/node';
 import checkIsBot from 'isbot';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
+import { enqueueFromEntries } from './deferredScript';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
@@ -65,6 +67,33 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
       const stream = new ReadableStream({
         start(controller) {
+          const pendingScripts: string[] = [];
+          const enqueueScript = (script: string) => {
+            if (shellChunkStatus === ShellChunkStatus.FINISH) {
+              controller.enqueue(encodeForWebStream(script));
+            } else {
+              pendingScripts.push(script);
+            }
+          };
+
+          const storageContext = storage.useContext?.();
+          const activeDeferreds = storageContext?.activeDeferreds;
+
+          /**
+           * activeDeferreds is injected into storageContext by @modern-js/runtime.
+           * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
+           */
+          const entries: Array<[string, unknown]> =
+            activeDeferreds instanceof Map
+              ? Array.from(activeDeferreds.entries())
+              : [];
+
+          if (entries.length > 0) {
+            enqueueFromEntries(entries, config.nonce, (s: string) =>
+              enqueueScript(s),
+            );
+          }
+
           async function push() {
             const { done, value } = await reader.read();
             if (done) {
@@ -90,6 +119,13 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                     `${shellBefore}${concatedChunk}${shellAfter}`,
                   ),
                 );
+                // Flush any pending <script> collected before shell finished
+                if (pendingScripts.length > 0) {
+                  for (const s of pendingScripts) {
+                    controller.enqueue(encodeForWebStream(s));
+                  }
+                  pendingScripts.length = 0;
+                }
               }
             } else {
               controller.enqueue(value);
