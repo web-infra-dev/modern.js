@@ -70,7 +70,7 @@ export class DependencyTree {
         }
       }
 
-      children.forEach(child => {
+      children?.forEach(child => {
         if (!this.shouldIgnore(child.filename)) {
           const childTreeNode = this.tree.get(child.filename)!;
           if (childTreeNode) {
