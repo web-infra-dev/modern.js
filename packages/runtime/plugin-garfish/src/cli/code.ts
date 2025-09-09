@@ -23,6 +23,10 @@ export const generateCode = async (
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;
+  const { disableComponentCompat } =
+    typeof config.deploy.microFrontend === 'object'
+      ? config.deploy.microFrontend
+      : {};
   const { internalDirectory, internalSrcAlias, metaName, srcDirectory } =
     appContext;
   await Promise.all(
@@ -48,6 +52,7 @@ export const generateCode = async (
           customBootstrap,
           mountId,
           appendCode,
+          disableComponentCompat,
         });
         const indexFile = path.resolve(
           internalDirectory,

@@ -8,6 +8,7 @@ const genRenderCode = ({
   customEntry,
   customBootstrap,
   mountId,
+  disableComponentCompat,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -16,6 +17,7 @@ const genRenderCode = ({
   customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
+  disableComponentCompat?: boolean;
 }) =>
   customEntry
     ? `import '${formatImportPath(entry.replace(srcDirectory, internalSrcAlias))}'
@@ -41,7 +43,7 @@ if (!isRenderGarfish()) {
   };
 }
 
-export const provider = createProvider('${mountId || 'root'}', { customBootstrap });
+export const provider = createProvider('${mountId || 'root'}', { customBootstrap, disableComponentCompat: ${disableComponentCompat} });
 `;
 export const index = ({
   srcDirectory,
@@ -53,6 +55,7 @@ export const index = ({
   customBootstrap,
   mountId,
   appendCode = [],
+  disableComponentCompat,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -63,6 +66,7 @@ export const index = ({
   customBootstrap?: string | false;
   mountId?: string;
   appendCode?: string[];
+  disableComponentCompat?: boolean;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
   ${genRenderCode({
@@ -73,6 +77,7 @@ export const index = ({
     customEntry,
     customBootstrap,
     mountId,
+    disableComponentCompat,
   })}
   ${appendCode.join('\n')}
   `;
