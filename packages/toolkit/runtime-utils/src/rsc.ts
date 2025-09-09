@@ -1,1 +1,2 @@
-export * from 'react-router/rsc';
+// Here import the server APIs for the react-router
+export * from 'react-router';
