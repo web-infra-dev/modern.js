@@ -47,6 +47,7 @@ export default defineServerConfig({
   middlewares: [],
   renderMiddlewares: [],
   plugins: [],
+  onError: () => {},
 });
 ```
 
@@ -71,6 +72,7 @@ type ServerConfig = {
     middlewares?: MiddlewareObj[];
     renderMiddlewares?: MiddlewareObj[];
     plugins?: (ServerPlugin | ServerPluginLegacy)[];
+    onError?: (err: Error, c: Context) => Promise<any> | any;
 }
 ```
 
@@ -231,6 +233,35 @@ export default () => {
 ```
 
 
+### onError
+
+`onError` is a global error handling function used to capture and handle all uncaught errors in the Modern.js server. By customizing the `onError` function, developers can uniformly handle different types of errors, return custom error responses, and implement features such as error logging and error classification.
+
+Below is a basic example of an `onError` configuration:
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  onError: (err, c) => {
+    // Log the error
+    console.error('Server error:', err);
+
+    // Return different responses based on the error type
+    if (err instanceof SyntaxError) {
+      return c.json({ error: 'Invalid JSON' }, 400);
+    }
+
+    // Customize BFF error response based on request path
+    if (c.req.path.includes('/api')) {
+      return c.json({ message: 'API error occurred' }, 500);
+    }
+
+    return c.text('Internal Server Error', 500);
+  },
+});
+```
+
 ## Legacy API (Deprecated)
 
 :::warning
@@ -267,9 +298,6 @@ const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
 export const unstableMiddleware: UnstableMiddleware[] = [time];
 ```
 
-:::info
-For detailed API and more usage, see [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware).
-:::
 
 ### Hooks
 
@@ -302,9 +330,6 @@ Best practices when using Hooks:
 2. Handle Rewrite and Redirect in afterMatch.
 3. Inject HTML content in afterRender.
 
-:::info
-For detailed API and more usage, see [Hook](/apis/app/runtime/web-server/hook).
-:::
 
 
 ## Migrate to the New Version of Custom Web Server
