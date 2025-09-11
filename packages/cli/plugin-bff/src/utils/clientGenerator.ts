@@ -157,6 +157,9 @@ async function setPackage(
           };
         },
         {
+          [`${API_DIR}/*`]: [
+            toPosixPath(`./${relativeDistPath}/${CLIENT_DIR}/*.d.ts`),
+          ],
           [RUNTIME_DIR]: [
             toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`),
           ],
@@ -181,12 +184,18 @@ async function setPackage(
         };
       },
       {
+        [toPosixPath(`./${API_DIR}/*`)]: {
+          import: toPosixPath(`./${relativeDistPath}/${CLIENT_DIR}/*.js`),
+          types: toPosixPath(`./${relativeDistPath}/${CLIENT_DIR}/*.d.ts`),
+        },
         [toPosixPath(`./${PLUGIN_DIR}`)]: {
+          import: toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.js`),
           require: toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.js`),
           types: toPosixPath(`./${relativeDistPath}/${PLUGIN_DIR}/index.d.ts`),
         },
         [toPosixPath(`./${RUNTIME_DIR}`)]: {
           import: toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.js`),
+          require: toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.js`),
           types: toPosixPath(`./${relativeDistPath}/${RUNTIME_DIR}/index.d.ts`),
         },
       },
