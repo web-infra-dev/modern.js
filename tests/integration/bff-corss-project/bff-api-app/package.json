@@ -35,12 +35,18 @@
   },
   "exports": {
     "./plugin": {
+      "import": "./dist-1/plugin/index.js",
       "require": "./dist-1/plugin/index.js",
       "types": "./dist-1/plugin/index.d.ts"
     },
     "./runtime": {
       "import": "./dist-1/runtime/index.js",
+      "require": "./dist-1/runtime/index.js",
       "types": "./dist-1/runtime/index.d.ts"
+    },
+    "./api/*": {
+      "import": "./dist-1/client/*.js",
+      "types": "./dist-1/client/*.d.ts"
     },
     "./api/context/index": {
       "import": "./dist-1/client/context/index.js",
@@ -70,6 +76,9 @@
       ],
       "plugin": [
         "./dist-1/plugin/index.d.ts"
+      ],
+      "api/*": [
+        "./dist-1/client/*.d.ts"
       ],
       "api/context/index": [
         "./dist-1/client/context/index.d.ts"
