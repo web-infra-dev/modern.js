@@ -9,7 +9,10 @@ import { merge, mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { ScriptLoading } from '@rsbuild/core';
 
-const PLUGIN_NAME = 'ModernjsRoutePlugin';
+const PLUGIN_NAME = 'ModernjsRouterPlugin';
+export const ROUTE_DEPS_COMPILATION_KEY = Symbol.for(
+  `${PLUGIN_NAME}RouteSources`,
+);
 
 export interface RouteAssets {
   [routeId: string]: {
@@ -22,6 +25,8 @@ export interface RouteAssets {
 type Compiler = webpack.Compiler | Rspack.Compiler;
 type Compilation = webpack.Compilation | Rspack.Compilation;
 type Chunks = webpack.StatsChunk[];
+type StatsChunk = webpack.StatsChunk;
+type StatsModule = webpack.StatsModule;
 
 type Options = {
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
@@ -149,6 +154,8 @@ export class RouterPlugin {
             chunkGroups: true,
             chunks: true,
             ids: true,
+            modules: true,
+            chunkModules: true,
           });
           const {
             publicPath,
@@ -156,6 +163,7 @@ export class RouterPlugin {
             namedChunkGroups,
           } = stats as webpack.StatsCompilation;
           const routeAssets: RouteAssets = {};
+          const route2Sources: Record<string, string[]> = {};
 
           if (!namedChunkGroups) {
             return;
@@ -221,6 +229,124 @@ export class RouterPlugin {
           const manifest = {
             routeAssets,
           };
+
+          // Build dependencies using compilation chunkGroups and modules for better coverage
+          try {
+            const getChunkModules = (chunk: StatsChunk): StatsModule[] => {
+              if (!chunk) return [];
+              if (typeof chunk.getModules === 'function') {
+                return chunk.getModules() || [];
+              }
+              const cg = (compilation as any).chunkGraph;
+              if (cg && typeof cg.getChunkModules === 'function') {
+                return cg.getChunkModules(chunk) || [];
+              }
+              return [];
+            };
+
+            const addModuleResources = (
+              mod: StatsModule,
+              bucket: Set<string>,
+            ) => {
+              if (!mod) return;
+              if (mod.resource) {
+                if (!/[\\/]node_modules[\\/]/.test(mod.resource)) {
+                  bucket.add(mod.resource);
+                }
+              }
+              if (Array.isArray(mod.modules)) {
+                mod.modules.forEach(m => addModuleResources(m, bucket));
+              }
+            };
+
+            const depsByName = new Map<string, Set<string>>();
+
+            const namedGroups = compilation.namedChunkGroups;
+            const groupNames =
+              namedGroups && typeof namedGroups.forEach === 'function'
+                ? (() => {
+                    const names: string[] = [];
+                    namedGroups.forEach((_: any, key: string) =>
+                      names.push(key),
+                    );
+                    return names;
+                  })()
+                : Object.keys(namedChunkGroups || {});
+
+            groupNames.forEach((name: string) => {
+              const resourceSet = new Set<string>();
+              const group =
+                namedGroups && typeof namedGroups.get === 'function'
+                  ? namedGroups.get(name)
+                  : undefined;
+
+              if (group && Array.isArray(group.chunks)) {
+                group.chunks.forEach((chunk: any) => {
+                  const modules = getChunkModules(chunk);
+                  modules.forEach(m => addModuleResources(m, resourceSet));
+                });
+              } else {
+                const matched: Chunks = Array.from(
+                  ((compilation as any).chunks as unknown as Iterable<any>) ||
+                    [],
+                ).filter(c => c?.name === name || c?.names?.includes?.(name));
+                matched.forEach(chunk => {
+                  const modules = getChunkModules(chunk);
+                  modules.forEach(m => addModuleResources(m, resourceSet));
+                });
+              }
+
+              depsByName.set(name, resourceSet);
+            });
+
+            // Map to routeIds (keys of routeAssets)
+            Object.keys(routeAssets).forEach(routeId => {
+              const set = depsByName.get(routeId);
+              if (set && set.size > 0) {
+                route2Sources[routeId] = Array.from(set);
+              }
+            });
+
+            // Merge async-* into sync route names similar to assets merging
+            if (asyncEntryNames.length > 0) {
+              for (const asyncEntryName of asyncEntryNames) {
+                const syncEntryName = asyncEntryName.replace('async-', '');
+                const asyncSet = depsByName.get(asyncEntryName);
+                if (asyncSet && asyncSet.size > 0) {
+                  const base = new Set<string>(
+                    route2Sources[syncEntryName] || [],
+                  );
+                  asyncSet.forEach(v => base.add(v));
+                  route2Sources[syncEntryName] = Array.from(base);
+                }
+              }
+            }
+
+            (compilation as any)[ROUTE_DEPS_COMPILATION_KEY] = route2Sources;
+
+            // Also emit to dist for external consumption
+            const ROUTE_SOURCE_MANIFEST_FILE = 'routes-source-manifest.json';
+            const routeSourceManifest = { route2Sources: route2Sources };
+            const existed = compilation.getAsset(ROUTE_SOURCE_MANIFEST_FILE);
+            if (existed) {
+              compilation.updateAsset(
+                ROUTE_SOURCE_MANIFEST_FILE,
+                new RawSource(
+                  JSON.stringify(routeSourceManifest, null, 2),
+                ) as any,
+                undefined as any,
+              );
+            } else {
+              compilation.emitAsset(
+                ROUTE_SOURCE_MANIFEST_FILE,
+                new RawSource(
+                  JSON.stringify(routeSourceManifest, null, 2),
+                ) as any,
+              );
+            }
+          } catch {
+            // swallow silently; do not block build if compilation shape is unexpected
+          }
 
           const entryNames = Array.from(compilation.entrypoints.keys());
           let entryChunks = [];
