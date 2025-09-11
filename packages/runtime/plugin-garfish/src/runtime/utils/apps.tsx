@@ -44,6 +44,16 @@ function getAppInstance(
   manifest?: Manifest,
 ) {
   let locationHref = '';
+
+  // Create a callback registry center
+  // This object is within the closure of getAppInstance and will only be created once for the same sub-app.
+  // It will be shared by all MicroApp component instances to store the state setter of the currently active component
+  const componentSetterRegistry = {
+    current: null as React.Dispatch<
+      React.SetStateAction<{ component: React.ComponentType<any> | null }>
+    > | null,
+  };
+
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
     const domId = generateSubAppContainerKey(appInfo);
@@ -137,6 +147,9 @@ or directly pass the "basename":
     }, [location]);
 
     useEffect(() => {
+      // [MODIFIED] Register the current instance's state setter when the component mounts
+      componentSetterRegistry.current = setSubModuleComponent;
+
       const { setLoadingState, ...userProps } = props;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
@@ -164,7 +177,15 @@ or directly pass the "basename":
           return {
             mount: (...props) => {
               if (componetRenderMode && SubComponent) {
-                setSubModuleComponent({ component: SubComponent });
+                // [MODIFIED] Get and call the current state setter from the registry center
+                // This way, even if the mount method is cached, it can still call the setter of the latest component instance
+                if (componentSetterRegistry.current) {
+                  componentSetterRegistry.current({ component: SubComponent });
+                } else {
+                  logger(
+                    `[Garfish] MicroApp for "${appInfo.name}" tried to mount, but no active component setter was found.`,
+                  );
+                }
                 return undefined;
               } else {
                 logger('MicroApp customer render', props);
@@ -230,7 +251,11 @@ or directly pass the "basename":
         }
       }
       renderApp();
+
       return () => {
+        // [MODIFIED] Unregister the state setter when the component unmounts to prevent memory leaks and calls to unmounted components
+        componentSetterRegistry.current = null;
+
         if (appRef.current) {
           const { appInfo } = appRef.current;
           if (appInfo.cache) {

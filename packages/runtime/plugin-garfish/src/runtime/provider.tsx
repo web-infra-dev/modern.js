@@ -15,6 +15,7 @@ export function createProvider(
   {
     customBootstrap,
     beforeRender,
+    disableComponentCompat,
   }: {
     customBootstrap?: (
       App: React.ComponentType,
@@ -24,10 +25,29 @@ export function createProvider(
       App: React.ComponentType,
       props?: Record<string, any>,
     ) => Promise<any>;
+    disableComponentCompat?: boolean;
   } = {},
 ) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
     let root: HTMLElement | Root | null = null;
+    const SubModuleComponent = disableComponentCompat
+      ? null
+      : (props: any) => {
+          const ModernRoot = createRoot(null);
+          return createPortal(
+            <ModernRoot basename={basename} {...props} />,
+            dom.querySelector(`#${id || 'root'}`) || dom,
+          );
+        };
+    const jupiter_submodule_app_key = disableComponentCompat
+      ? null
+      : (props: any) => {
+          const ModernRoot = createRoot(null);
+          return createPortal(
+            <ModernRoot basename={basename} {...props} />,
+            dom.querySelector(`#${id || 'root'}`) || dom,
+          );
+        };
     return {
       async render({
         basename,
@@ -70,21 +90,8 @@ export function createProvider(
         }
       },
       // 兼容旧版本
-      SubModuleComponent: (props: any) => {
-        const ModernRoot = createRoot(null);
-        return createPortal(
-          <ModernRoot basename={basename} {...props} />,
-          dom.querySelector(`#${id || 'root'}`) || dom,
-        );
-      },
-      jupiter_submodule_app_key: (props: any) => {
-        const ModernRoot = createRoot(null);
-
-        return createPortal(
-          <ModernRoot basename={basename} {...props} />,
-          dom.querySelector(`#${id || 'root'}`) || dom,
-        );
-      },
+      SubModuleComponent,
+      jupiter_submodule_app_key,
     };
   };
 }

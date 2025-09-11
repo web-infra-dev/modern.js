@@ -11,6 +11,8 @@ export interface MicroFrontend {
    */
   externalBasicLibrary?: boolean;
   moduleApp?: string;
+  // provider not generate SubModuleComponent and jupiter_submodule_app_key
+  disableComponentCompat?: boolean;
 }
 
 export interface DeployUserConfig {
