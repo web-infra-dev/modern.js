@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 2.68.13
+
+### Patch Changes
+
+- b76e90d: fix: update treeNode
+  fix: 修复依赖更新问题
+- Updated dependencies [e24d1f7]
+  - @modern-js/server-core@2.68.13
+  - @modern-js/server-utils@2.68.13
+  - @modern-js/runtime-utils@2.68.13
+  - @modern-js/types@2.68.13
+  - @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes

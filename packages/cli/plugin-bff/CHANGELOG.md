@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 2.68.13
+
+### Patch Changes
+
+- 0b57df5: fix: corss BFF type prompt
+  fix: 修复 跨项目 BFF 类型提示问题
+- e24d1f7: feat: server config support onError
+  feat: 自定义 server 支持错误处理
+- Updated dependencies [e24d1f7]
+  - @modern-js/server-core@2.68.13
+  - @modern-js/server-utils@2.68.13
+  - @modern-js/bff-core@2.68.13
+  - @modern-js/create-request@2.68.13
+  - @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes

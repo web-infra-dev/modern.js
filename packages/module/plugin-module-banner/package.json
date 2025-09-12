@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-banner",
-  "version": "2.68.12",
+  "version": "2.68.13",
   "description": "The banner plugin of Modern.js Module.",
   "keywords": [
     "react",
@@ -46,7 +46,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.68.12"
+    "@modern-js/module-tools": "workspace:^2.68.13"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

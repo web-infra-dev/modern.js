@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.68.13
+
+### Patch Changes
+
+- bab8b5f: feat: custom entries support entry.tsx and entry.server.tsx
+
+  feat: 自定义 entries 支持 entry.tsx 和 entry.server.tsx
+
+- Updated dependencies [e24d1f7]
+- Updated dependencies [b76e90d]
+  - @modern-js/prod-server@2.68.13
+  - @modern-js/server-core@2.68.13
+  - @modern-js/server@2.68.13
+  - @modern-js/plugin-data-loader@2.68.13
+  - @modern-js/server-utils@2.68.13
+  - @modern-js/core@2.68.13
+  - @modern-js/plugin-i18n@2.68.13
+  - @modern-js/rsbuild-plugin-esbuild@2.68.13
+  - @modern-js/uni-builder@2.68.13
+  - @modern-js/node-bundle-require@2.68.13
+  - @modern-js/plugin@2.68.13
+  - @modern-js/plugin-v2@2.68.13
+  - @modern-js/types@2.68.13
+  - @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes

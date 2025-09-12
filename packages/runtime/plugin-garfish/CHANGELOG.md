@@ -1,5 +1,18 @@
 # @modern-js/plugin-garfish
 
+## 2.68.13
+
+### Patch Changes
+
+- a906be7: fix: garfish component render error
+
+  fix: 修复 garfish 组件渲染失败问题
+
+  - @modern-js/runtime@2.68.13
+  - @modern-js/plugin-v2@2.68.13
+  - @modern-js/runtime-utils@2.68.13
+  - @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes

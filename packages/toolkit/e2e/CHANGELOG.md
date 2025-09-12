@@ -1,5 +1,11 @@
 # @modern-js/e2e
 
+## 2.68.13
+
+### Patch Changes
+
+- @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes
