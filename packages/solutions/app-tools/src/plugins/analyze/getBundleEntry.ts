@@ -9,7 +9,11 @@ import {
 } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext, AppToolsHooks } from '../../types/new';
-import { getFileSystemEntry } from './getFileSystemEntry';
+import {
+  getFileSystemEntry,
+  hasEntry,
+  hasServerEntry,
+} from './getFileSystemEntry';
 import { isSubDirOrEqual } from './utils';
 
 const ensureExtensions = (file: string) => {
@@ -68,29 +72,39 @@ export const getBundleEntry = async (
     Object.keys(entries).forEach(name => {
       const value = entries[name];
       const entryName = typeof value === 'string' ? value : value.entry;
+      const entryFile = ensureAbsolutePath(appDirectory, entryName);
+      const entryDir = path.dirname(entryFile);
+      const customEntryFile = hasEntry(entryDir);
+      const serverEntryFile = hasServerEntry(entryDir);
       const isAutoMount =
         typeof value === 'string' ? true : !value.disableMount;
       const entrypoint: Entrypoint = {
         entryName: name,
         isMainEntry: false,
-        entry: ensureAbsolutePath(appDirectory, entryName),
-        absoluteEntryDir: isDirectory(
-          ensureAbsolutePath(appDirectory, entryName),
-        )
-          ? ensureAbsolutePath(appDirectory, entryName)
-          : path.dirname(ensureAbsolutePath(appDirectory, entryName)),
+        entry:
+          typeof value === 'string'
+            ? entryFile
+            : value.customEntry
+              ? customEntryFile || entryFile
+              : entryFile,
+        absoluteEntryDir: isDirectory(entryFile)
+          ? entryFile
+          : path.dirname(entryFile),
         isAutoMount,
         customBootstrap:
           typeof value === 'string'
             ? false
             : value.customBootstrap &&
               ensureAbsolutePath(appDirectory, value.customBootstrap),
-        fileSystemRoutes: fs
-          .statSync(ensureAbsolutePath(appDirectory, entryName))
-          .isDirectory()
-          ? {}
-          : undefined,
+        fileSystemRoutes: fs.statSync(entryFile).isDirectory() ? {} : undefined,
         isCustomSourceEntry: true,
+        customEntry: typeof value === 'string' ? false : value.customEntry,
+        customServerEntry:
+          typeof value === 'string'
+            ? false
+            : value.customEntry
+              ? serverEntryFile
+              : false,
       };
 
       if (!ifAlreadyExists(defaults, entrypoint)) {

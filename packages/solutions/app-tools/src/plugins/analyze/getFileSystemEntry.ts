@@ -20,12 +20,12 @@ const hasIndex = (dir: string) =>
   );
 
 // new entry
-const hasEntry = (dir: string) =>
+export const hasEntry = (dir: string) =>
   findExists(
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
   );
 
-const hasServerEntry = (dir: string) =>
+export const hasServerEntry = (dir: string) =>
   findExists(
     JS_EXTENSIONS.map(ext =>
       path.resolve(dir, `${ENTRY_FILE_NAME}.server${ext}`),
