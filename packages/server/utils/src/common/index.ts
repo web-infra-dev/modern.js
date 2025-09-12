@@ -24,6 +24,7 @@ export interface CompileOptions {
   distDir: string;
   tsconfigPath?: string;
   moduleType?: 'module' | 'commonjs';
+  throwErrorInsteadOfExit?: boolean;
 }
 
 export type CompileFunc = (
