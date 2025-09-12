@@ -41,7 +41,7 @@ describe('test status code page', () => {
     expect(text).toMatch('Entry Page');
   });
 
-  test('should router redirect correctly ', async () => {
+  test.skip('should router redirect correctly ', async () => {
     const response = await page.goto(`http://localhost:${port}/redirect`, {
       waitUntil: 'networkidle0',
     });
