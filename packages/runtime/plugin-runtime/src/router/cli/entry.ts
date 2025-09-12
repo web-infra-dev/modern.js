@@ -21,7 +21,8 @@ export const modifyEntrypoints = (entrypoints: Entrypoint[]) => {
     }
     if (entrypoint?.isCustomSourceEntry) {
       if (entrypoint.fileSystemRoutes) {
-        entrypoint.nestedRoutesEntry = entrypoint.entry;
+        entrypoint.nestedRoutesEntry =
+          entrypoint.absoluteEntryDir || entrypoint.entry;
       }
       return entrypoint;
     }
