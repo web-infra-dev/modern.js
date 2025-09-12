@@ -31,8 +31,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         apiDirectory,
         sharedDirectory,
         moduleType,
-      } = api.useAppContext();
-      const modernConfig = api.useResolvedConfigContext();
+      } = api.getAppContext();
+      const modernConfig = api.getNormalizedConfig();
 
       const distDir = path.resolve(distDirectory);
       const apiDir = apiDirectory || path.resolve(appDirectory, API_DIR);
@@ -78,9 +78,9 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
     const generator = async () => {
       const { appDirectory, apiDirectory, lambdaDirectory, port } =
-        api.useAppContext();
+        api.getAppContext();
 
-      const modernConfig = api.useResolvedConfigContext();
+      const modernConfig = api.getNormalizedConfig();
       const relativeDistPath = modernConfig?.output?.distPath?.root || 'dist';
       const { bff } = modernConfig || {};
       const prefix = bff?.prefix || DEFAULT_API_PREFIX;
@@ -130,7 +130,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     };
 
     const handleCrossProjectInvocation = async (isBuild = false) => {
-      const { bff } = api.useResolvedConfigContext();
+      const { bff } = api.getNormalizedConfig();
       if (bff?.crossProject) {
         if (!isBuild) {
           await compileApi();
@@ -140,7 +140,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     };
 
     const isHono = () => {
-      const { bffRuntimeFramework } = api.useAppContext();
+      const { bffRuntimeFramework } = api.getAppContext();
       return bffRuntimeFramework === 'hono';
     };
 
@@ -171,8 +171,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         tools: {
           bundlerChain: (chain, { CHAIN_ID, isServer }) => {
             const { port, appDirectory, apiDirectory, lambdaDirectory } =
-              api.useAppContext();
-            const modernConfig = api.useResolvedConfigContext();
+              api.getAppContext();
+            const modernConfig = api.getNormalizedConfig();
             const { bff } = modernConfig || {};
             const prefix = bff?.prefix || DEFAULT_API_PREFIX;
             const httpMethodDecider = bff?.httpMethodDecider;
@@ -228,7 +228,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     });
 
     api.modifyServerRoutes(({ routes }) => {
-      const modernConfig = api.useResolvedConfigContext();
+      const modernConfig = api.getNormalizedConfig();
 
       const { bff } = modernConfig || {};
       const prefix = bff?.prefix || '/api';
@@ -281,8 +281,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     });
 
     api.addWatchFiles(async () => {
-      const appContext = api.useAppContext();
-      const config = api.useResolvedConfigContext();
+      const appContext = api.getAppContext();
+      const config = api.getNormalizedConfig();
 
       if (config?.bff?.crossProject) {
         return [appContext.apiDirectory];
@@ -293,7 +293,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
     api.onFileChanged(async e => {
       const { filename, eventType, isPrivate } = e;
-      const { appDirectory, apiDirectory } = api.useAppContext();
+      const { appDirectory, apiDirectory } = api.getAppContext();
       const relativeApiPath = path.relative(appDirectory, apiDirectory);
       if (
         !isPrivate &&

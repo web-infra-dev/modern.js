@@ -6,7 +6,7 @@ export const polyfillPlugin = (): CliPlugin<AppTools> => ({
 
   setup: api => {
     api.modifyHtmlPartials(async ({ entrypoint, partials }) => {
-      const resolvedConfig = api.useResolvedConfigContext();
+      const resolvedConfig = api.getNormalizedConfig();
       if (resolvedConfig.output.polyfill === 'ua') {
         partials.top.append(
           `<script src="${defaultPolyfill}" crossorigin></script>`,

@@ -13,7 +13,7 @@ export default defineConfig(params => {
     setup: api => {
       const write = () => {
         writeFileSync(
-          path.resolve(api.useAppContext().distDirectory, 'params.json'),
+          path.resolve(api.getAppContext().distDirectory, 'params.json'),
           JSON.stringify(params),
         );
       };
