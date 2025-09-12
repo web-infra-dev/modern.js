@@ -3838,6 +3838,21 @@ importers:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
 
+  tests/integration/entries/fixtures/app-custom-entries:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.1.1(react@19.1.1)
+
   tests/integration/entries/fixtures/app-custom-routes:
     dependencies:
       '@modern-js/app-tools':
