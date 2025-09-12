@@ -19,7 +19,7 @@ export const tailwindcssPlugin = (
   ],
 
   setup: async api => {
-    const { appDirectory, internalDirectory } = api.useAppContext();
+    const { appDirectory, internalDirectory } = api.getAppContext();
     // When reinstalling dependencies, most of the time the project will be restarted
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
@@ -47,7 +47,7 @@ export const tailwindcssPlugin = (
 
       const initTailwindConfig = () => {
         if (!tailwindConfig) {
-          const modernConfig = api.useResolvedConfigContext();
+          const modernConfig = api.getNormalizedConfig();
 
           if (
             tailwindVersion === '3' &&

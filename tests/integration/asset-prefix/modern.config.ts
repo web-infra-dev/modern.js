@@ -14,7 +14,7 @@ export default applyBaseConfig({
           writeFileSync(
             path.resolve(
               __dirname,
-              api.useAppContext().distDirectory,
+              api.getAppContext().distDirectory,
               'static',
               'test.js',
             ),

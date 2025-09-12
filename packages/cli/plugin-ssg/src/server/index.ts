@@ -1,9 +1,6 @@
 import childProcess from 'child_process';
 import path from 'path';
-import type {
-  AppNormalizedConfig,
-  AppToolsExtendAPI,
-} from '@modern-js/app-tools';
+import type { AppNormalizedConfig, AppToolsAPI } from '@modern-js/app-tools';
 import type { ServerRoute as ModernRoute } from '@modern-js/types';
 import { logger } from '@modern-js/utils';
 import { openRouteSSR } from '../libs/util';
@@ -11,7 +8,7 @@ import type { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
-  api: AppToolsExtendAPI,
+  api: AppToolsAPI,
   ssgRoutes: SsgRoute[],
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
@@ -31,7 +28,7 @@ export const createServer = (
       silent: true,
     });
 
-    const appContext = api.useAppContext();
+    const appContext = api.getAppContext();
     // Todo: need use collect server plugins
     // maybe build command need add collect, or just call collectServerPlugin hooks
     const plugins = appContext.serverPlugins;

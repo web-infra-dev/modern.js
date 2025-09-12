@@ -14,7 +14,7 @@ export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
   post: ['@modern-js/plugin-bff'],
   setup: api => {
     api.config(async () => {
-      const { appDirectory: originAppDirectory } = api.useAppContext();
+      const { appDirectory: originAppDirectory } = api.getAppContext();
 
       const sdkPath = path.join(originAppDirectory, NODE_MODULES, PACKAGE_NAME);
 
@@ -22,20 +22,19 @@ export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
       const apiDirectory = path.join(sdkDistPath, API_DIR);
       const lambdaDirectory = path.resolve(sdkDistPath, LAMBDA_DIR);
 
-      const appContext = api.useAppContext();
+      const appContext = api.getAppContext();
 
       api.updateAppContext({
         ...appContext,
         apiDirectory,
         lambdaDirectory,
       });
-      const config = api.useConfigContext();
-      config.bff = {
-        ...config.bff,
-        prefix: PREFIX,
-        isCrossProjectServer: true,
-      } as any;
-      return {};
+      return {
+        bff: {
+          prefix: PREFIX,
+          isCrossProjectServer: true,
+        },
+      };
     });
   },
 });

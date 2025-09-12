@@ -30,7 +30,7 @@ export const designTokenPlugin = (
     };
 
     api._internalRuntimePlugins(async ({ entrypoint, plugins }) => {
-      const userConfig = api.useResolvedConfigContext();
+      const userConfig = api.getNormalizedConfig();
       const designSystem = userConfig.source?.designSystem ?? {};
       let useSCThemeProvider = true;
       if (designSystem) {

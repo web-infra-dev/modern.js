@@ -1,9 +1,14 @@
 import type {
+  CLIPluginAPI,
   CLIPluginExtends,
   RuntimePluginConfig,
   ServerPluginConfig,
 } from '@modern-js/plugin';
-import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
+import type {
+  AppTools,
+  AppToolsNormalizedConfig,
+  AppToolsUserConfig,
+} from './config';
 
 export type { CLIPluginExtends, RuntimePluginConfig, ServerPluginConfig };
 // TODO 导出有限内容
@@ -30,6 +35,8 @@ export type {
 export type AppUserConfig = AppToolsUserConfig;
 
 export type AppNormalizedConfig = AppToolsNormalizedConfig;
+
+export type AppToolsAPI = CLIPluginAPI<AppTools>;
 
 export type {
   AppToolsExtendAPI,
