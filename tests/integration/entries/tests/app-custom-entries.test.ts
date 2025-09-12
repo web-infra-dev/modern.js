@@ -56,4 +56,21 @@ describe('app-custom-entries', () => {
     expect(targetTextWrapper?.trim()).toEqual('custom entry-1');
     expect(targetTextServer?.trim()).toEqual('custom entry-1-server');
   });
+  test('entry-2', async () => {
+    await page.goto(`http://localhost:${appPort}/entry-2`, {
+      waitUntil: ['networkidle0'],
+    });
+    const text = await page.$('#text');
+    const targetText = await page.evaluate(el => el?.textContent, text);
+    const wrapper = await page.$('#wrapper');
+    const targetTextWrapper = await page.evaluate(
+      el => el?.textContent,
+      wrapper,
+    );
+    const server = await page.$('#server');
+    const targetTextServer = await page.evaluate(el => el?.textContent, server);
+    expect(targetText?.trim()).toEqual('Modern APP-2');
+    expect(targetTextWrapper?.trim()).toEqual('custom entry-2');
+    expect(targetTextServer?.trim()).toEqual('custom entry-2-server');
+  });
 });

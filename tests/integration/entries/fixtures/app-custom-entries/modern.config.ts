@@ -9,6 +9,10 @@ export default defineConfig({
         entry: 'src/entry-1/App.tsx',
         customEntry: true,
       },
+      'entry-2': {
+        entry: 'src/entry-2/routes',
+        customEntry: true,
+      },
     },
   },
   server: {

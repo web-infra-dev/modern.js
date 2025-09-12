@@ -41,7 +41,8 @@ export const modifyEntrypoints = (
             'Custom entries with conventional routing not support use react router v5!',
           );
         }
-        entrypoint.nestedRoutesEntry = entrypoint.entry;
+        entrypoint.nestedRoutesEntry =
+          entrypoint.absoluteEntryDir || entrypoint.entry;
       }
       return entrypoint;
     }
