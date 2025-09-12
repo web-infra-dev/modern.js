@@ -1,5 +1,12 @@
 # @modern-js/devtools-kit
 
+## 2.68.13
+
+### Patch Changes
+
+- @modern-js/types@2.68.13
+- @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes

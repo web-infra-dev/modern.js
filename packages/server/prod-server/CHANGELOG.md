@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 2.68.13
+
+### Patch Changes
+
+- e24d1f7: feat: server config support onError
+  feat: 自定义 server 支持错误处理
+- Updated dependencies [e24d1f7]
+  - @modern-js/server-core@2.68.13
+  - @modern-js/runtime-utils@2.68.13
+  - @modern-js/utils@2.68.13
+
 ## 2.68.12
 
 ### Patch Changes
