@@ -103,7 +103,11 @@ export const compileByTs: CompileFunc = async (
       ),
     );
     if (typeof noEmitOnError === 'undefined' || noEmitOnError === true) {
-      process.exit(1);
+      if (compileOptions.throwErrorInsteadOfExit) {
+        logger.error('TypeScript compilation failed');
+      } else {
+        process.exit(1);
+      }
     }
   }
 

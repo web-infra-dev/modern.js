@@ -70,6 +70,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
             distDir,
             tsconfigPath,
             moduleType,
+            throwErrorInsteadOfExit: true,
           },
         );
       }
