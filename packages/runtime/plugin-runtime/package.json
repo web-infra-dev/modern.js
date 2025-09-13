@@ -227,7 +227,7 @@
     "@types/loadable__component": "^5.13.10",
     "@types/react-helmet": "^6.1.11",
     "cookie": "0.7.2",
-    "es-module-lexer": "^1.1.0",
+    "es-module-lexer": "^1.7.0",
     "esbuild": "0.25.5",
     "invariant": "^2.2.4",
     "isbot": "3.7.1",
