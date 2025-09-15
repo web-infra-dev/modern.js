@@ -105,7 +105,7 @@
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "1.5.6",
     "@swc/helpers": "^0.5.17",
-    "es-module-lexer": "^1.1.0",
+    "es-module-lexer": "^1.7.0",
     "esbuild": "0.25.5",
     "esbuild-register": "^3.6.0",
     "flatted": "^3.3.3",
