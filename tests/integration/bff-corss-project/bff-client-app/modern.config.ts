@@ -4,9 +4,6 @@ import { crossProjectApiPlugin } from 'bff-api-app/plugin';
 import { applyBaseConfig } from '../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
-  bff: {
-    // prefix: '/web-app',
-  },
   server: {
     ssr: false,
     port: 3401,

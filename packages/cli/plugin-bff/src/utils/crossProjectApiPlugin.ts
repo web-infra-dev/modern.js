@@ -13,7 +13,7 @@ export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-independent-bff',
   post: ['@modern-js/plugin-bff'],
   setup: api => {
-    api.config(async () => {
+    api.modifyResolvedConfig(resolvedConfig => {
       const { appDirectory: originAppDirectory } = api.getAppContext();
 
       const sdkPath = path.join(originAppDirectory, NODE_MODULES, PACKAGE_NAME);
@@ -26,12 +26,18 @@ export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
         apiDirectory,
         lambdaDirectory,
       });
-      return {
-        bff: {
-          prefix: PREFIX,
-          isCrossProjectServer: true,
-        },
-      };
+      const config = api.getConfig();
+      if (config?.bff?.prefix) {
+        console.warn(
+          // biome-ignore lint/style/useTemplate: <explanation>
+          `[WARNING] Detected bff.prefix configuration: "${config.bff.prefix}". ` +
+            `When using cross-project BFF, you should not configure bff.prefix as it may cause ` +
+            `API path conflicts or access issues. Please remove the bff.prefix configuration.`,
+        );
+      }
+      resolvedConfig.bff.prefix = PREFIX;
+      (resolvedConfig.bff as any).isCrossProjectServer = true;
+      return resolvedConfig;
     });
   },
 });
