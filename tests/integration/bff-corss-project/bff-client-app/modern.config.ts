@@ -5,11 +5,11 @@ import { applyBaseConfig } from '../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   bff: {
-    prefix: '/web-app',
+    // prefix: '/web-app',
   },
   server: {
     ssr: false,
     port: 3401,
   },
-  plugins: [bffPlugin(), expressPlugin(), crossProjectApiPlugin()],
+  plugins: [bffPlugin(), expressPlugin() as any, crossProjectApiPlugin()],
 });

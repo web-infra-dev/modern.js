@@ -22,10 +22,7 @@ export const crossProjectApiPlugin = (): CliPlugin<AppTools> => ({
       const apiDirectory = path.join(sdkDistPath, API_DIR);
       const lambdaDirectory = path.resolve(sdkDistPath, LAMBDA_DIR);
 
-      const appContext = api.getAppContext();
-
       api.updateAppContext({
-        ...appContext,
         apiDirectory,
         lambdaDirectory,
       });

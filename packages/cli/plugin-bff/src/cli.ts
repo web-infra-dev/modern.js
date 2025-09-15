@@ -12,6 +12,7 @@ import {
   normalizeOutputPath,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
+import type { ToolsDevServerConfig } from '../../builder/dist/types';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
@@ -144,6 +145,33 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       return bffRuntimeFramework === 'hono';
     };
 
+    const createCompressConfig = (
+      devServer: ToolsDevServerConfig | undefined,
+      prefix: string,
+    ) => {
+      if (
+        !devServer ||
+        typeof devServer !== 'object' ||
+        Array.isArray(devServer)
+      ) {
+        return undefined;
+      }
+
+      const { compress } = devServer;
+
+      if (compress === undefined || compress === true) {
+        return {
+          filter: (req: IncomingMessage) => !req.url?.includes(prefix),
+        };
+      }
+
+      if (compress === false) {
+        return false;
+      }
+
+      return compress;
+    };
+
     api.config(async () => {
       const honoRuntimePath = isHono()
         ? { [RUNTIME_HONO]: RUNTIME_HONO }
@@ -152,23 +180,13 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const devServer = api.getConfig()?.tools?.devServer;
       const prefix = api.getConfig()?.bff?.prefix || DEFAULT_API_PREFIX;
 
-      if (
-        typeof devServer === 'object' &&
-        devServer !== null &&
-        !Array.isArray(devServer)
-      ) {
-        const compress = devServer.compress;
-        if (typeof compress === 'undefined' || compress === true) {
-          devServer.compress = {
-            filter: (req: IncomingMessage) => {
-              return !req.url?.includes(prefix);
-            },
-          };
-        }
-      }
+      const compress = createCompressConfig(devServer, prefix);
 
       return {
         tools: {
+          devServer: {
+            compress,
+          },
           bundlerChain: (chain, { CHAIN_ID, isServer }) => {
             const { port, appDirectory, apiDirectory, lambdaDirectory } =
               api.getAppContext();

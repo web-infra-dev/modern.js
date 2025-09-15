@@ -7,7 +7,7 @@ export default applyBaseConfig({
     prefix: '/api-app',
     crossProject: true,
   },
-  plugins: [expressPlugin(), bffPlugin()],
+  plugins: [expressPlugin() as any, bffPlugin()],
   server: {
     port: 3399,
   },
