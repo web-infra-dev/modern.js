@@ -18,7 +18,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-express": "2.68.12",
     "@modern-js/runtime": "workspace:*",
-    "axios": "^1.11.0",
+    "axios": "^1.12.2",
     "bff-api-app": "workspace:*",
     "express": "^4.21.2",
     "react": "^19.1.1",
