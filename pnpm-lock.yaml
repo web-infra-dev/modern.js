@@ -643,8 +643,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       covertable:
-        specifier: ^2.2.2
-        version: 2.2.5
+        specifier: ^2.5.2
+        version: 2.5.2
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -10592,8 +10592,8 @@ packages:
       typescript:
         optional: true
 
-  covertable@2.2.5:
-    resolution: {integrity: sha512-xwHZSOMBDp7s/4i4j9opnvIeU029Smwe2EKr8sDPGQ3ClkpN0O5gDpon/YylbMpJ2x1EeFZKJFLKAksaaIwHGQ==}
+  covertable@2.5.2:
+    resolution: {integrity: sha512-OnJykDP9j3P4qvtx0A8icjczCjj6TOKzMcHH6y618oqhSgdkY54m9qRiZljpmAMYYWOMSYdtHqyiMhQDjmfvdw==}
 
   create-jest@29.7.0:
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==}
@@ -22797,7 +22797,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  covertable@2.2.5:
+  covertable@2.5.2:
     dependencies:
       js-md5: 0.7.3
 
