@@ -85,6 +85,7 @@
     "@modern-js/create-request": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
+    "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "type-is": "^1.6.18"

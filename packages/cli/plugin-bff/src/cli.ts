@@ -2,6 +2,7 @@ import type { IncomingMessage } from 'http';
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ApiRouter } from '@modern-js/bff-core';
+import type { ToolsDevServerConfig } from '@modern-js/builder';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
 import {
@@ -12,7 +13,6 @@ import {
   normalizeOutputPath,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
-import type { ToolsDevServerConfig } from '../../builder/dist/types';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
