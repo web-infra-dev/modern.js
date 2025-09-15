@@ -54,9 +54,4 @@ export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
    * Customize the directory of the framework configuration files.
    */
   configDir?: string;
-  /**
-   * @deprecated designSystem is no longer required.
-   * If you are using Tailwind CSS, you can now use the `theme` option of Tailwind CSS, they are the same.
-   */
-  designSystem?: Record<string, any>;
 }

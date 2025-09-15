@@ -1,6 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { getTailwindConfig, loadConfigFile } from './config';
-import { designTokenPlugin } from './design-token/cli';
 import { checkTwinMacroExist, getTwinMacroMajorVersion } from './macro';
 import { getTailwindPath, getTailwindVersion } from './utils';
 
@@ -11,15 +10,8 @@ export const tailwindcssPlugin = (
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-tailwindcss',
 
-  // support designSystem.supportStyledComponents
-  usePlugins: [
-    designTokenPlugin({
-      pluginName,
-    }),
-  ],
-
   setup: async api => {
-    const { appDirectory, internalDirectory } = api.getAppContext();
+    const { appDirectory } = api.getAppContext();
     // When reinstalling dependencies, most of the time the project will be restarted
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
@@ -52,8 +44,7 @@ export const tailwindcssPlugin = (
           if (
             tailwindVersion === '3' &&
             userTailwindConfig.content &&
-            !modernConfig?.tools?.tailwindcss &&
-            !modernConfig?.source?.designSystem
+            !modernConfig?.tools?.tailwindcss
           ) {
             // Prefer to use user's tailwind config file,
             // this is faster then passing the config object to `tailwindcss()`.
@@ -67,7 +58,6 @@ export const tailwindcssPlugin = (
               tailwindVersion,
               userConfig: userTailwindConfig,
               extraConfig: modernConfig?.tools?.tailwindcss,
-              designSystem: modernConfig?.source?.designSystem,
             });
           }
         }

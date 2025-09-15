@@ -1,12 +1,7 @@
 import path from 'path';
 import { bundleRequire } from '@modern-js/node-bundle-require';
 import { fs, applyOptionsChain, findExists } from '@modern-js/utils';
-import { cloneDeep } from '@modern-js/utils/lodash';
-import type {
-  DesignSystem,
-  ExtraTailwindConfig,
-  TailwindConfig,
-} from './types';
+import type { ExtraTailwindConfig, TailwindConfig } from './types';
 
 function getDefaultContent(appDirectory: string) {
   const defaultContent = ['./src/**/*.{js,jsx,ts,tsx}'];
@@ -22,12 +17,6 @@ function getDefaultContent(appDirectory: string) {
 
   return defaultContent;
 }
-
-const getPureDesignSystemConfig = (config: DesignSystem) => {
-  const pureConfig = cloneDeep(config);
-  delete pureConfig.supportStyledComponents;
-  return pureConfig;
-};
 
 const getV2PurgeConfig = (content: string[]) => ({
   enabled: process.env.NODE_ENV === 'production',
@@ -57,20 +46,18 @@ export async function loadConfigFile(appDirectory: string) {
 
 /**
  * Config priority:
- * `source.designSystem` > `tools.tailwindcss` (extraConfig) > `tailwind.config.*` (userConfig) > `defaultConfig`
+ * `tools.tailwindcss` (extraConfig) > `tailwind.config.*` (userConfig) > `defaultConfig`
  */
 const getTailwindConfig = ({
   tailwindVersion,
   appDirectory,
   userConfig,
   extraConfig,
-  designSystem,
 }: {
   tailwindVersion: '2' | '3';
   appDirectory: string;
   userConfig: TailwindConfig;
   extraConfig?: ExtraTailwindConfig;
-  designSystem?: DesignSystem;
 }) => {
   const content = getDefaultContent(appDirectory);
 
@@ -84,13 +71,6 @@ const getTailwindConfig = ({
   tailwindConfig = extraConfig
     ? applyOptionsChain(tailwindConfig, extraConfig)
     : tailwindConfig;
-
-  const designSystemConfig = getPureDesignSystemConfig(designSystem ?? {});
-
-  // if designSystem config is used, it will override the theme config of tailwind
-  if (designSystemConfig && Object.keys(designSystemConfig).length > 0) {
-    tailwindConfig.theme = designSystemConfig;
-  }
 
   return tailwindConfig;
 };
