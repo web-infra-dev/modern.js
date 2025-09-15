@@ -6,14 +6,6 @@ export const mergeConfig = <Config, NormalizedConfig>(
   configs: Array<DeepPartial<Config>>,
 ): NormalizedConfig =>
   mergeWith({}, ...configs, (target: any, source: any, key: string) => {
-    // Do not use the following merge logic for some keys
-    if (
-      key === 'designSystem' ||
-      (key === 'tailwindcss' && typeof source === 'object')
-    ) {
-      return mergeWith({}, target ?? {}, source ?? {});
-    }
-
     // Some keys should use source to override target
     if (isOverriddenConfigKey(key)) {
       return source ?? target;
