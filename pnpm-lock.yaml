@@ -269,6 +269,9 @@ importers:
       '@modern-js/bff-core':
         specifier: workspace:*
         version: link:../../server/bff-core
+      '@modern-js/builder':
+        specifier: workspace:*
+        version: link:../builder
       '@modern-js/create-request':
         specifier: workspace:*
         version: link:../../server/create-request

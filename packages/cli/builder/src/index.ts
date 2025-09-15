@@ -6,6 +6,7 @@ export type { CreateBuilderOptions, BuilderInstance };
 export type {
   BuilderConfig,
   BundlerType,
+  ToolsDevServerConfig,
   MetaOptions,
   Stats,
   MultiStats,
