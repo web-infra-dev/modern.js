@@ -1443,7 +1443,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "experiments": {
     "asyncWebAssembly": true,
     "inlineConst": true,
-    "inlineEnum": false,
+    "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
@@ -1601,7 +1601,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -1685,7 +1685,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -2097,7 +2097,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
@@ -2192,7 +2192,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
@@ -2413,7 +2413,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "experiments": {
     "asyncWebAssembly": true,
     "inlineConst": true,
-    "inlineEnum": false,
+    "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
@@ -2696,7 +2696,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -2787,7 +2787,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -3426,7 +3426,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
@@ -3525,7 +3525,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
@@ -3828,7 +3828,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "experiments": {
     "asyncWebAssembly": true,
     "inlineConst": true,
-    "inlineEnum": false,
+    "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
@@ -3983,7 +3983,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -4068,7 +4068,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               },
               "rspackExperiments": {
                 "collectTypeScriptInfo": {
-                  "exportedEnum": false,
+                  "exportedEnum": true,
                   "typeExports": true,
                 },
                 "import": [
@@ -4462,7 +4462,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
@@ -4558,7 +4558,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   },
                   "rspackExperiments": {
                     "collectTypeScriptInfo": {
-                      "exportedEnum": false,
+                      "exportedEnum": true,
                       "typeExports": true,
                     },
                     "import": [
