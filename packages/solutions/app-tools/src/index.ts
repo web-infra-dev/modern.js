@@ -28,7 +28,6 @@ import serverBuildPlugin from './plugins/serverBuild';
 import serverRuntimePlugin from './plugins/serverRuntime';
 import type { AppTools, CliPlugin } from './types';
 import type {
-  AddRuntimeExportsFn,
   AfterPrepareFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,

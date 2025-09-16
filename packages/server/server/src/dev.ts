@@ -10,6 +10,7 @@ import {
   onRepack,
   startWatcher,
 } from './helpers';
+import { ResourceManager, ResourceType } from './helpers/utils';
 import type { ModernDevServerOptions } from './types';
 
 type BuilderDevServer = Awaited<ReturnType<BuilderInstance['createDevServer']>>;
@@ -18,13 +19,16 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;
 };
 
-export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
+export const manager = new ResourceManager();
+
+export const devPlugin = (
+  options: DevPluginOptions,
+  isReload = false,
+): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
     const { config, pwd, builder, builderDevServer } = options;
-
-    const closeCb: Array<(...args: []) => any> = [];
 
     const dev = getDevOptions(options.dev);
 
@@ -36,7 +40,9 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
         connectWebSocket,
       } = builderDevServer || {};
 
-      close && closeCb.push(close);
+      if (close) {
+        manager.register(ResourceType.Builder, close);
+      }
 
       const {
         middlewares,
@@ -53,14 +59,13 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
       // TODO: remove any
       const hooks = (api as any).getHooks();
 
-      // Handle webpack rebuild
-      builder?.onDevCompileDone(({ stats }) => {
-        if (stats.toJson({ all: false }).name !== 'server') {
-          onRepack(distDirectory!, hooks);
-        }
-      });
+      !isReload &&
+        builder?.onDevCompileDone(({ stats }) => {
+          if (stats.toJson({ all: false }).name !== 'server') {
+            onRepack(distDirectory!, hooks);
+          }
+        });
 
-      // Handle watch
       const { watchOptions } = config.server;
       const watcher = startWatcher({
         pwd,
@@ -70,13 +75,11 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
         watchOptions,
         server: serverBase!,
       });
-      closeCb.push(watcher.close.bind(watcher));
-      closeCb.length > 0 &&
-        nodeServer?.on('close', () => {
-          closeCb.forEach(cb => {
-            cb();
-          });
-        });
+      manager.register(ResourceType.Watcher, watcher.close.bind(watcher));
+
+      nodeServer?.on('close', () => {
+        manager.closeAll();
+      });
 
       // Handle setupMiddlewares
       const before: RequestHandler[] = [];
