@@ -112,7 +112,7 @@
       "default": "./dist/esm/router/internal.js"
     },
     "./routerHelper": {
-      "types": "./dist/types/router/helper.d.ts",
+      "types": "./dist/types/router/runtime/routerHelper.d.ts",
       "jsnext:source": "./src/router/runtime/routerHelper.ts",
       "default": "./dist/esm/router/runtime/routerHelper.js"
     },
@@ -190,6 +190,9 @@
       ],
       "router/internal": [
         "./dist/types/router/internal.d.ts"
+      ],
+      "routerHelper": [
+        "./dist/types/router/runtime/routerHelper.d.ts"
       ],
       "loadable-bundler-plugin": [
         "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
