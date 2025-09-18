@@ -9,12 +9,12 @@ title: ssg
 
 Configuration to enable the application’s SSG (Static Site Generation) feature.
 
-:::tip
+:::tip Enabling SSG
 This configuration takes effect only when SSG is enabled. Please read the [Static Site Generation](/guides/basic-features/render/ssg) documentation to understand how to enable SSG and its use cases.
 
 :::
 
-:::info
+:::info Recommended Reading
 The SSG feature is closely related to routing. It is recommended to understand the [routing solution](/guides/basic-features/routes) before using SSG.
 
 :::
@@ -64,7 +64,7 @@ In the example configuration below, SSG will render the pages corresponding to t
 
 For the `/user/:id` route, `cookies` will be added to the request headers.
 
-```ts title="modern.config.ts (single entry)"
+```ts title="modern.config.ts"
 export default defineConfig({
   output: {
     ssg: {

@@ -56,7 +56,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       } = output;
 
       const ssgOptions: SSGConfig =
-        (Array.isArray(ssg) ? (ssg as any[]).pop() : (ssg as any)) ?? true;
+        (Array.isArray(ssg) ? ssg.pop() : ssg) ?? true;
 
       const buildDir = path.join(appDirectory, outputPath as string);
       const routes = readJSONSpec(buildDir);
@@ -115,13 +115,13 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
           }
 
           if (entryOptions === true) {
-            entryOptions = { routes: [], headers: {} } as any;
+            entryOptions = { routes: [], headers: {} };
           }
 
           const { routes: userRoutes = [], headers } =
             (entryOptions as {
               routes?: SSGRouteOptions[];
-              headers?: Record<string, any>;
+              headers?: Record<string, string>;
             }) || {};
           // if the user sets the routes, then only add them
           if (userRoutes.length > 0) {
