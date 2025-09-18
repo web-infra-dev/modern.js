@@ -2,7 +2,7 @@ import { RuntimeReactContext } from '@meta/runtime';
 import Garfish, { type interfaces } from 'garfish';
 // The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
 import type React from 'react';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { generateSubAppContainerKey, logger } from '../../util';
 import { Loadable, type MicroProps } from '../loadable';
 // import Loadable from 'react-loadable';
@@ -43,8 +43,6 @@ function getAppInstance(
   appInfo: ModulesInfo[number],
   manifest?: Manifest,
 ) {
-  let locationHref = '';
-
   // Create a callback registry center
   // This object is within the closure of getAppInstance and will only be created once for the same sub-app.
   // It will be shared by all MicroApp component instances to store the state setter of the currently active component
@@ -56,6 +54,8 @@ function getAppInstance(
 
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
+    const locationHrefRef = useRef('');
+
     const domId = generateSubAppContainerKey(appInfo);
     const [{ component: SubModuleComponent }, setSubModuleComponent] =
       useState<{
@@ -135,16 +135,27 @@ or directly pass the "basename":
       basename = props.basename;
     }
 
+    const locationPathname = useMemo(
+      function () {
+        return location ? location.pathname : '';
+      },
+      [location ? location.pathname : ''],
+    );
+
     // useLocation is NECESSARY in syncPopStateEvent
     useEffect(() => {
-      if (location && locationHref !== location.pathname && !Garfish.running) {
-        locationHref = location.pathname;
+      if (
+        location &&
+        locationHrefRef.current !== location.pathname &&
+        !Garfish.running
+      ) {
+        locationHrefRef.current = location.pathname;
         const popStateEvent = new PopStateEvent('popstate');
         (popStateEvent as any).garfish = true;
         dispatchEvent(popStateEvent);
         logger(`MicroApp Garfish.loadApp popstate`);
       }
-    }, [location]);
+    }, [locationPathname]);
 
     useEffect(() => {
       // [MODIFIED] Register the current instance's state setter when the component mounts
