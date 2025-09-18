@@ -18,6 +18,11 @@ export default applyBaseConfig({
   runtime: {
     router: true,
   },
+  source: {
+    alias: {
+      '@aliasTest': './src/utils/aliasModule',
+    },
+  },
   server: {
     ssrByEntries: {
       test: true,

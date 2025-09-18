@@ -5,10 +5,20 @@ import { DocumentStructureContext } from './DocumentStructureContext';
 import { Head } from './Head';
 
 /**
- * get the directly son element
+ * get the directly son element by name
  */
-function findTargetChild(tag: string, children: ReactElement[]) {
+function findTargetChildByName(tag: string, children: ReactElement[]) {
   return children.find(item => getEleType(item) === tag);
+}
+
+/**
+ * get the directly son element by component reference
+ */
+function findTargetChildByComponent(
+  component: unknown,
+  children: ReactElement[],
+) {
+  return children.find(item => item?.type === component);
 }
 
 /**
@@ -50,10 +60,16 @@ export function Html(
   const { children, ...rest } = props;
 
   // deal with the component with default
-  const hasSetHead = Boolean(findTargetChild('Head', children));
+  const hasSetHead = Boolean(
+    findTargetChildByComponent(Head, children) ||
+      findTargetChildByName('Head', children),
+  );
   const hasSetScripts = Boolean(findTargetElement('Scripts', children));
   const hasSetLinks = Boolean(findTargetElement('Links', children));
-  const hasSetBody = Boolean(findTargetChild('Body', children));
+  const hasSetBody = Boolean(
+    findTargetChildByComponent(Body, children) ||
+      findTargetChildByName('Body', children),
+  );
   const hasSetRoot = Boolean(findTargetElement('Root', children));
   const hasSetTitle = Boolean(findTargetElement('title', children));
   const notMissMustChild = [

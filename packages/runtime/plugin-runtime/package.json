@@ -236,7 +236,8 @@
     "isbot": "3.7.1",
     "react-helmet": "^6.1.0",
     "react-is": "^18.3.1",
-    "react-side-effect": "^2.1.2"
+    "react-side-effect": "^2.1.2",
+    "entities": "^7.0.0"
   },
   "peerDependencies": {
     "react": ">=17",

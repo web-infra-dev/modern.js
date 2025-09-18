@@ -1,8 +1,11 @@
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
+import type {
+  NestedRouteForCli,
+  PageRoute,
+  SSGSingleEntryOptions,
+} from '@modern-js/types';
 import { filterRoutesForServer, logger } from '@modern-js/utils';
-import { generatePath } from 'react-router-dom';
 import { makeRoute } from './libs/make';
 import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
@@ -15,7 +18,13 @@ import {
   writeJSONSpec,
 } from './libs/util';
 import { createServer } from './server';
-import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
+import type {
+  AgreedRoute,
+  AgreedRouteMap,
+  SSGConfig,
+  SSGRouteOptions,
+  SsgRoute,
+} from './types';
 
 export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
@@ -42,11 +51,12 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       const { output, server } = resolvedConfig;
       const {
         ssg,
+        ssgByEntries,
         distPath: { root: outputPath } = {},
       } = output;
 
       const ssgOptions: SSGConfig =
-        (Array.isArray(ssg) ? ssg.pop() : ssg) || true;
+        (Array.isArray(ssg) ? (ssg as any[]).pop() : (ssg as any)) ?? true;
 
       const buildDir = path.join(appDirectory, outputPath as string);
       const routes = readJSONSpec(buildDir);
@@ -65,6 +75,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         entrypoints,
         pageRoutes,
         server,
+        ssgByEntries,
       );
 
       if (!intermediateOptions) {
@@ -76,9 +87,8 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       pageRoutes.forEach(pageRoute => {
         const { entryName, entryPath } = pageRoute;
         const agreedRoutes = agreedRouteMap[entryName as string];
-        let entryOptions =
-          intermediateOptions[entryName as string] ||
-          intermediateOptions[pageRoute.urlPath];
+        let entryOptions = (intermediateOptions[entryName as string] ||
+          intermediateOptions[pageRoute.urlPath]) as SSGSingleEntryOptions;
 
         if (!agreedRoutes) {
           // default behavior for non-agreed route
@@ -93,7 +103,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
             // if entryOptions is object and has routes options
             // add every route in options
             const { routes: enrtyRoutes, headers } = entryOptions;
-            enrtyRoutes.forEach(route => {
+            enrtyRoutes.forEach((route: SSGRouteOptions) => {
               ssgRoutes.push(makeRoute(pageRoute, route, headers));
             });
           }
@@ -105,42 +115,32 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
           }
 
           if (entryOptions === true) {
-            entryOptions = { preventDefault: [], routes: [], headers: {} };
+            entryOptions = { routes: [], headers: {} } as any;
           }
 
-          const {
-            preventDefault = [],
-            routes: userRoutes = [],
-            headers,
-          } = entryOptions;
+          const { routes: userRoutes = [], headers } =
+            (entryOptions as {
+              routes?: SSGRouteOptions[];
+              headers?: Record<string, any>;
+            }) || {};
           // if the user sets the routes, then only add them
           if (userRoutes.length > 0) {
-            userRoutes.forEach(route => {
-              if (typeof route === 'string') {
-                ssgRoutes.push(makeRoute(pageRoute, route, headers));
-              } else if (Array.isArray(route.params)) {
-                route.params.forEach(param => {
-                  ssgRoutes.push(
-                    makeRoute(
-                      pageRoute,
-                      { ...route, url: generatePath(route.url, param) },
-                      headers,
-                    ),
-                  );
-                });
-              } else {
-                ssgRoutes.push(makeRoute(pageRoute, route, headers));
+            (userRoutes as SSGRouteOptions[]).forEach(
+              (route: SSGRouteOptions) => {
+                if (typeof route === 'string') {
+                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
+                } else {
+                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
+                }
+              },
+            );
+          } else {
+            // default: add all non-dynamic routes
+            agreedRoutes.forEach((route: AgreedRoute) => {
+              if (!isDynamicUrl(route.path!)) {
+                ssgRoutes.push(makeRoute(pageRoute, route.path!, headers));
               }
             });
-          } else {
-            // otherwith add all except dynamic routes
-            agreedRoutes
-              .filter(route => !preventDefault.includes(route.path!))
-              .forEach(route => {
-                if (!isDynamicUrl(route.path!)) {
-                  ssgRoutes.push(makeRoute(pageRoute, route.path!, headers));
-                }
-              });
           }
         }
       });
@@ -177,12 +177,11 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
       });
 
       const htmlAry = await createServer(
-        api,
+        appContext,
         ssgRoutes,
         pageRoutes,
         apiRoutes,
         resolvedConfig,
-        appDirectory,
       );
 
       // write to dist file

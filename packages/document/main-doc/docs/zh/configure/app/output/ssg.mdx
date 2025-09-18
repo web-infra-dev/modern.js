@@ -9,12 +9,21 @@ title: ssg
 
 开启应用 SSG 功能的配置
 
-:::tip 开启 SSG 功能
+:::tip
 此配置需要在开启 SSG 功能情况下才会生效。请阅读 [静态站点生成](/guides/basic-features/render/ssg) 文档了解如何开启 SSG 功能及使用场景。
+
 :::
 
-:::info 前置阅读
+:::info
 SSG 功能使用与路由关联性较大，建议使用前先了解[路由方案](/guides/basic-features/routes)。
+
+:::
+
+:::info
+- 单入口建议使用 `output.ssg`。
+- 多入口建议优先使用 `output.ssgByEntries`。
+- 当 `output.ssg` 为 `true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
+
 :::
 
 ## Boolean 类型
@@ -29,36 +38,6 @@ export default defineConfig({
 });
 ```
 
-`output.ssg` 也可以按照入口配置，配置生效的规则同样由入口路由方式决定。
-
-例如以下目录结构，分别存在约定式路由入口 `entryA` 和自控式路由入口 `entryB`：
-
-```bash
-.
-└── src
-    ├── entryA
-    │   └── routes
-    └── entryB
-        └── App.tsx
-```
-
-你可以指定 `entryA` 和 `entryB` 的不同 SSG 配置：
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      entryA: true,
-      entryB: false,
-    },
-  },
-});
-```
-
-:::info
-更多关于**约定式路由**和**自控式路由**在开启 SSG 后的默认行为，请阅读 [静态站点生成](/guides/basic-features/render/ssg) 。
-:::
-
 ## Object 类型
 
 当值类型为 `Object` 时，可以配置如下属性。
@@ -70,12 +49,10 @@ type SSGRouteOptions =
   | string
   | {
       url: string;
-      params?: Record<string, any>[];
       headers?: Record<string, any>;
     };
 
 type SSGOptions = {
-  preventDefault?: string[];
   headers?: Record<string, any>;
   routes?: SSGRouteOptions[];
 };
@@ -85,9 +62,9 @@ type SSGOptions = {
 
 下面的示例配置中，SSG 会渲染 `/`、`/about` 和 `/user/:id` 三条路由对应的页面。
 
-对于 `/user/:id` 路由，`cookies` 添加到请求头中，同时会将 `params` 中的 `id` 替换为 `modernjs`。
+对于 `/user/:id` 路由，会在请求头中添加 `cookies`，并指定具体的路径。
 
-```ts title="modern.config.ts"
+```ts title="modern.config.ts（单入口）"
 export default defineConfig({
   output: {
     ssg: {
@@ -95,22 +72,13 @@ export default defineConfig({
         '/',
         '/about',
         {
-          url: '/user/:id',
+          url: '/user/modernjs',
           headers: {
             cookies: 'name=modernjs',
           },
-          params: [
-            {
-              id: 'modernjs',
-            },
-          ],
         },
       ],
     },
   },
 });
 ```
-
-:::note
-多入口的情况和单入口的配置方式一致，这里不再额外介绍。
-:::
