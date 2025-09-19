@@ -6,7 +6,21 @@ export default defineConfig({
     router: true,
   },
   output: {
-    ssg: true,
+    ssgByEntries: {
+      main: {
+        routes: [
+          '/user',
+          {
+            url: '/',
+            headers: {
+              cookies: 'name=modernjs',
+            },
+          },
+          '/user/1',
+        ],
+      },
+    },
+    ssg: false,
     polyfill: 'off',
     disableTsChecker: true,
   },

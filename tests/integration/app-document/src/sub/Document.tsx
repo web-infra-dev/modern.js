@@ -1,3 +1,5 @@
+// @ts-ignore
+import { getAliasMessage } from '@aliasTest';
 import {
   Body,
   Comment,
@@ -12,14 +14,12 @@ import {
 import React, { useContext } from 'react';
 
 export default function Document(): React.ReactElement {
-  // props: Record<string, unknown>,
   const {
     config: { output: htmlConfig },
     entryName,
     templateParams,
   } = useContext(DocumentContext);
 
-  console.log('===htmlConfig', htmlConfig);
   return (
     <Html {...{ fromUserDoc: true, lang: 'cn' }}>
       <Head {...{ class: 'head' }}>
@@ -63,6 +63,7 @@ export default function Document(): React.ReactElement {
           <h2> title：{htmlConfig.title}</h2>
           <h2> rootId: {templateParams.mountId}</h2>
           <h2> props: {JSON.stringify(htmlConfig)}</h2>
+          <h2> alias message: {getAliasMessage()}</h2>
         </Root>
         <h1>bottom</h1>
       </Body>

@@ -27,6 +27,12 @@ export default defineConfig({
 });
 ```
 
+::::info Scope
+- Use `output.ssg` for single-entry apps.
+- Use `output.ssgByEntries` for multi-entry apps.
+- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
+::::
+
 ## Development Debugging
 
 Since SSG also renders pages in a Node.js environment, we can enable SSR during the **development phase** to expose code issues early and validate the SSG rendering effect:
@@ -147,33 +153,43 @@ After running `pnpm run serve` to start the project, inspect the returned docume
 The above example introduces single-entry scenarios. For more information, refer to the [API Documentation](/configure/app/output/ssg).
 :::
 
-## Adding Route Parameters
+## Adding Dynamic Routes
 
-In Modern.js, some routes can be dynamic, such as `/user/:id` in manual routing or `/user/[id]/page.tsx` in conventional routing.
-
- can configure specific parameters in `output.ssg` to render routes with specified parameters. For example:
+In manual routing or conventional routing with dynamic segments (e.g., `/user/[id]`), provide concrete paths directly in `routes`.
 
 ```js
 export default defineConfig({
   output: {
     ssg: {
       routes: [
-        {
-          url: '/user/:id',
-          params: [{
-            id: 'modernjs',
-          }],
-        },
+        '/',
+        '/about',
+        '/user/modernjs',
       ],
     },
   },
 });
 ```
 
-Here, the `/user/modernjs` route will be rendered, and the `id` parameter will be passed to the component during rendering. When multiple values are configured, multiple pages will be generated.
+## Multi-entry
 
-:::note
-The combination of dynamic routing and SSG is very useful for generating static pages in real-time based on data changes from a CMS system.
+For multi-entry apps, configure per entry via `output.ssgByEntries`:
+
+```js
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        routes: ['/', '/about', '/user/modernjs'],
+      },
+      admin: false,
+    },
+  },
+});
+```
+
+:::info
+See API details: [output.ssgByEntries](/configure/app/output/ssgByEntries)
 :::
 
 ## Configuring Request Headers for Rendering

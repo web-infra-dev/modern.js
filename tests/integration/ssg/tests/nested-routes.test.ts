@@ -35,6 +35,13 @@ describe('ssg', () => {
     const html = (await fs.readFile(htmlPath)).toString();
     expect(html.includes('Hello, User')).toBe(true);
   });
+
+  test('should nested-routes ssg access /user/1 work correctly with data loading', async () => {
+    const htmlPath = path.join(distDir, 'html/main/user/1/index.html');
+    const html = (await fs.readFile(htmlPath)).toString();
+    expect(html.includes('User 1: John Doe')).toBe(true);
+    expect(html.includes('User ID: <!-- -->1')).toBe(true);
+  });
 });
 
 describe('test ssg request', () => {
@@ -65,6 +72,30 @@ describe('test ssg request', () => {
     const targetText = await page.evaluate(el => el?.textContent, description);
     try {
       expect(targetText?.trim()).toEqual('Hello, User');
+    } finally {
+      await page.close();
+      await browser.close();
+    }
+  });
+
+  test('should visit dynamic route /user/1 correctly with data loading', async () => {
+    const host = `http://localhost`;
+    expect(buildRes.code === 0).toBe(true);
+    const browser = await puppeteer.launch(launchOptions as any);
+    const page = await browser.newPage();
+    await page.goto(`${host}:${port}/user/1`);
+
+    const dataElement = await page.$('#data');
+    const paramsElement = await page.$('#params');
+    const dataText = await page.evaluate(el => el?.textContent, dataElement);
+    const paramsText = await page.evaluate(
+      el => el?.textContent,
+      paramsElement,
+    );
+
+    try {
+      expect(dataText?.trim()).toEqual('User 1: John Doe');
+      expect(paramsText?.trim()).toEqual('User ID: 1');
     } finally {
       await page.close();
       await browser.close();

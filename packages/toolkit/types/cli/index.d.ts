@@ -118,27 +118,29 @@ export type SSGRouteOptions =
   | {
       url: string;
       output?: string;
-      params?: Record<string, any>[];
       headers?: Record<string, any>;
     };
 
 export type SSGSingleEntryOptions =
   | boolean
   | {
-      preventDefault?: string[];
       headers?: Record<string, any>;
       routes?: SSGRouteOptions[];
     };
 
-export type SSGMultiEntryOptions = Record<string, SSGSingleEntryOptions>;
+export type SSGSingleEntryOptionsFactory = (
+  entryName: string,
+  ctx: { baseUrl?: string | string[] },
+) => SSGSingleEntryOptions;
+
+export type SSGMultiEntryOptions = Record<
+  string,
+  SSGSingleEntryOptions | SSGSingleEntryOptionsFactory
+>;
 
 export type SSGConfig =
   | boolean
   | SSGSingleEntryOptions
-  | SSGMultiEntryOptions
-  | ((
-      entryName: string,
-      payload: { baseUrl?: string },
-    ) => SSGSingleEntryOptions);
+  | SSGSingleEntryOptionsFactory;
 
 export type { Merge } from 'type-fest';

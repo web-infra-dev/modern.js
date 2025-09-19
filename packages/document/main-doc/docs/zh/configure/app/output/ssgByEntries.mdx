@@ -1,0 +1,94 @@
+---
+title: ssgByEntries
+---
+
+# output.ssgByEntries
+
+- **类型：** `Record<string, boolean | object>`
+- **默认值：** `undefined`
+
+在多入口应用中，为每个入口分别配置 SSG。
+
+:::info
+- 单入口建议使用 `output.ssg`。
+- 多入口建议优先使用 `output.ssgByEntries`。
+- 当 `output.ssg` 为 `true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
+
+:::
+
+
+## 配置类型
+
+```ts
+type SSGRouteOptions =
+  | string
+  | {
+      url: string;
+      headers?: Record<string, any>;
+    };
+
+type SSGOptions = {
+  headers?: Record<string, any>;
+  routes?: SSGRouteOptions[];
+};
+
+// ssgByEntries 类型
+type SSGMultiEntryOptions = Record<string, boolean | SSGOptions>;
+```
+
+## 示例
+
+### 按入口启用/禁用 SSG
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: true,
+      admin: false,
+    },
+  },
+});
+```
+
+### 按入口配置具体路由
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        routes: ['/', '/about', '/user/modernjs'],
+      },
+      admin: {
+        routes: ['/', '/dashboard'],
+      },
+    },
+  },
+});
+```
+
+### 配置入口或路由请求头
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        headers: {
+          'x-tt-env': 'ppe_modernjs',
+        },
+        routes: [
+          '/',
+          {
+            url: '/about',
+            headers: {
+              from: 'modern-website',
+            },
+          },
+        ],
+      },
+    },
+  },
+});
+```

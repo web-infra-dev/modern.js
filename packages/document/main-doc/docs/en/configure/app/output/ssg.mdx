@@ -11,10 +11,19 @@ Configuration to enable the application’s SSG (Static Site Generation) feature
 
 :::tip Enabling SSG
 This configuration takes effect only when SSG is enabled. Please read the [Static Site Generation](/guides/basic-features/render/ssg) documentation to understand how to enable SSG and its use cases.
+
 :::
 
 :::info Recommended Reading
 The SSG feature is closely related to routing. It is recommended to understand the [routing solution](/guides/basic-features/routes) before using SSG.
+
+:::
+
+:::info
+- Use `output.ssg` for single-entry apps.
+- For multi-entry apps, prefer `output.ssgByEntries`.
+- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
+
 :::
 
 ## Boolean Type
@@ -29,36 +38,6 @@ export default defineConfig({
 });
 ```
 
-`output.ssg` can also be configured per entry, with the rules for effective configurations determined by the entry's routing method.
-
-For example, given the following directory structure, there are conventional routing entry `entryA` and manual routing entry `entryB`:
-
-```bash
-.
-└── src
-    ├── entryA
-    │   └── routes
-    └── entryB
-        └── App.tsx
-```
-
-You can specify different SSG configurations for `entryA` and `entryB`:
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      entryA: true,
-      entryB: false,
-    },
-  },
-});
-```
-
-:::info
-For more information on the default behavior of **conventional routing** and **manual routing** after enabling SSG, please read [Static Site Generation](/guides/basic-features/render/ssg).
-:::
-
 ## Object Type
 
 When the value type is `Object`, the following attributes can be configured.
@@ -70,12 +49,10 @@ type SSGRouteOptions =
   | string
   | {
       url: string;
-      params?: Record<string, any>[];
       headers?: Record<string, any>;
     };
 
 type SSGOptions = {
-  preventDefault?: string[];
   headers?: Record<string, any>;
   routes?: SSGRouteOptions[];
 };
@@ -85,7 +62,7 @@ type SSGOptions = {
 
 In the example configuration below, SSG will render the pages corresponding to the `/`, `/about`, and `/user/:id` routes.
 
-For the `/user/:id` route, `cookies` will be added to the request headers, and the `id` in `params` will be replaced with `modernjs`.
+For the `/user/:id` route, `cookies` will be added to the request headers.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -95,15 +72,10 @@ export default defineConfig({
         '/',
         '/about',
         {
-          url: '/user/:id',
+          url: '/user/modernjs',
           headers: {
             cookies: 'name=modernjs',
           },
-          params: [
-            {
-              id: 'modernjs',
-            },
-          ],
         },
       ],
     },
@@ -111,6 +83,3 @@ export default defineConfig({
 });
 ```
 
-:::note
-The configuration method for multiple entries is the same as for a single entry, so it will not be explained further here.
-:::

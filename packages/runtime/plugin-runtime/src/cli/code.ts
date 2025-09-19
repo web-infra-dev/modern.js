@@ -26,7 +26,7 @@ function getSSRMode(
 ): 'string' | 'stream' | false {
   const { ssr, ssrByEntries } = config.server;
 
-  if (config.output.ssg) {
+  if (config.output.ssg || config.output.ssgByEntries) {
     return 'string';
   }
 

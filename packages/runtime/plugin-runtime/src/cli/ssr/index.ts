@@ -16,7 +16,15 @@ const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   const { server, output } = userConfig;
 
   // ssg need use stringSSR.
-  if ((server?.ssr || output.ssg) && !isStreaming(server.ssr)) {
+  if (output?.ssg) {
+    return true;
+  }
+
+  if (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0) {
+    return true;
+  }
+
+  if (server?.ssr && !isStreaming(server.ssr)) {
     return true;
   }
 
@@ -37,9 +45,13 @@ const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
 const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
   const { output } = config;
 
-  // ssg is not support streaming ssr.
-  // so we assumes use String SSR when using ssg.
-  return Boolean(output?.ssg) || hasStringSSREntry(config);
+  if (output?.ssg) {
+    return true;
+  }
+  if (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0) {
+    return true;
+  }
+  return hasStringSSREntry(config);
 };
 
 const ssrBuilderPlugin = (

@@ -17,17 +17,10 @@ function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 describe('test dev and build', () => {
-  const curSequenceWait = new SequenceWait();
-  curSequenceWait.add('test-dev');
-  curSequenceWait.add('test-rem');
-
   describe('test build', () => {
     let buildRes: any;
     beforeAll(async () => {
       buildRes = await modernBuild(appDir);
-    });
-    afterAll(() => {
-      curSequenceWait.done('test-dev');
     });
 
     test(`should get right alias build!`, async () => {
@@ -172,16 +165,25 @@ describe('test dev and build', () => {
         htmlWithDoc.includes('console.log("this is a IIFE function")'),
       ).toBe(true);
     });
+
+    test('should render alias content in sub html', async () => {
+      const htmlWithDoc = fs.readFileSync(
+        path.join(appDir, 'dist', 'html', 'sub', 'index.html'),
+        'utf-8',
+      );
+      expect(htmlWithDoc.includes('alias message: Alias module works!')).toBe(
+        true,
+      );
+    });
   });
 
   describe('test dev', () => {
     let app: any;
     let appPort: number;
-    let errors;
+    let errors: unknown[];
     let browser: Browser;
     let page: Page;
     beforeAll(async () => {
-      await curSequenceWait.waitUntil('test-dev');
       appPort = await getPort();
       app = await launchApp(appDir, appPort, {}, {});
       errors = [];
@@ -195,7 +197,6 @@ describe('test dev and build', () => {
       await killApp(app);
       await page.close();
       await browser.close();
-      curSequenceWait.done('test-rem');
     });
 
     test(`should render page test correctly`, async () => {
@@ -236,7 +237,6 @@ describe('test dev and build', () => {
 
   describe('fix rem', () => {
     beforeAll(async () => {
-      await curSequenceWait.waitUntil('test-rem');
       await modernBuild(appDir, ['-c', 'modern-rem.config.ts']);
     });
 

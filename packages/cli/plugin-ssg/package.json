@@ -70,8 +70,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "node-mocks-http": "^1.11.0",
-    "normalize-path": "3.0.0",
-    "portfinder": "^1.0.38"
+    "normalize-path": "3.0.0"
   },
   "peerDependencies": {
     "react-router-dom": ">=7.0.0"

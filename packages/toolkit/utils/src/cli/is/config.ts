@@ -1,4 +1,3 @@
-import type { SSGMultiEntryOptions } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '../constants';
 import { isEmpty } from './type';
 
@@ -32,7 +31,10 @@ export const isSSR = (config: any): boolean => {
 
 export const isUseSSRBundle = (config: any): boolean => {
   const { output } = config;
-  if (output?.ssg) {
+  if (
+    output?.ssg ||
+    (output?.ssgByEntries && Object.keys(output?.ssgByEntries).length > 0)
+  ) {
     return true;
   }
 
@@ -64,14 +66,20 @@ export const isSSGEntry = (
   entryName: string,
   entrypoints: EntryPoint[],
 ) => {
-  const ssgConfig = config.output.ssg;
-  const useSSG = isSingleEntry(entrypoints, config.source?.mainEntryName)
-    ? Boolean(ssgConfig)
-    : ssgConfig === true ||
-      typeof (ssgConfig as Array<unknown>)?.[0] === 'function' ||
-      Boolean((ssgConfig as SSGMultiEntryOptions)?.[entryName]);
+  const { output, source } = config;
+  const single = isSingleEntry(entrypoints, source?.mainEntryName);
 
-  return useSSG;
+  if (single) {
+    const byEntries = output?.ssgByEntries;
+    return Boolean(output?.ssg) || (byEntries && !isEmpty(byEntries));
+  }
+
+  const byEntries = output?.ssgByEntries;
+  if (!byEntries || isEmpty(byEntries)) {
+    return false;
+  }
+
+  return Boolean(byEntries[entryName]);
 };
 
 export const isSingleEntry = (

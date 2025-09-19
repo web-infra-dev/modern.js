@@ -41,7 +41,7 @@ export function formatPath(str: string) {
 }
 
 export function isDynamicUrl(url: string): boolean {
-  return url.includes(':');
+  return url.includes(':') || url.endsWith('*');
 }
 
 export function getUrlPrefix(route: SsgRoute, baseUrl: string | string[]) {
@@ -112,7 +112,48 @@ export const standardOptions = (
   entrypoints: EntryPoint[],
   routes: ModernRoute[],
   server: ServerUserConfig,
+  ssgByEntries?: SSGMultiEntryOptions,
 ) => {
+  if (ssgByEntries && Object.keys(ssgByEntries).length > 0) {
+    const result: SSGMultiEntryOptions = {};
+
+    Object.keys(ssgByEntries).forEach(key => {
+      const val = ssgByEntries[key];
+      if (typeof val !== 'function') {
+        result[key] = val;
+      }
+    });
+
+    for (const entry of entrypoints) {
+      const { entryName } = entry;
+      const configured = ssgByEntries[entryName];
+      if (typeof configured === 'function') {
+        const routesForEntry = routes.filter(r => r.entryName === entryName);
+        if (Array.isArray(server?.baseUrl)) {
+          for (const url of server.baseUrl) {
+            routesForEntry
+              .filter(
+                r => typeof r.urlPath === 'string' && r.urlPath.startsWith(url),
+              )
+              .forEach(r => {
+                result[r.urlPath as string] = configured(entryName, {
+                  baseUrl: url,
+                });
+              });
+          }
+        } else {
+          result[entryName] = configured(entryName, {
+            baseUrl: server?.baseUrl,
+          });
+        }
+      } else if (typeof configured !== 'undefined') {
+        result[entryName] = configured;
+      }
+    }
+
+    return result;
+  }
+
   if (ssgOptions === false) {
     return false;
   }
@@ -125,24 +166,30 @@ export const standardOptions = (
   } else if (typeof ssgOptions === 'object') {
     const isSingle = isSingleEntry(entrypoints);
 
-    if (isSingle && typeof (ssgOptions as any).main === 'undefined') {
+    if (isSingle) {
       return { main: ssgOptions } as SSGMultiEntryOptions;
-    } else {
-      return ssgOptions as SSGMultiEntryOptions;
     }
+
+    return entrypoints.reduce((opt, entry) => {
+      opt[entry.entryName] = ssgOptions;
+      return opt;
+    }, {} as SSGMultiEntryOptions);
   } else if (typeof ssgOptions === 'function') {
     const intermediateOptions: SSGMultiEntryOptions = {};
     for (const entrypoint of entrypoints) {
       const { entryName } = entrypoint;
-      // TODO: may be async function
+      const routesForEntry = routes.filter(r => r.entryName === entryName);
       if (Array.isArray(server?.baseUrl)) {
         for (const url of server.baseUrl) {
-          const matchUrl = entryName === 'main' ? url : `${url}/${entryName}`;
-          const route = routes.find(route => route.urlPath === matchUrl);
-          intermediateOptions[route?.urlPath as string] = ssgOptions(
-            entryName,
-            { baseUrl: url },
-          );
+          routesForEntry
+            .filter(
+              r => typeof r.urlPath === 'string' && r.urlPath.startsWith(url),
+            )
+            .forEach(r => {
+              intermediateOptions[r.urlPath as string] = ssgOptions(entryName, {
+                baseUrl: url,
+              });
+            });
         }
       } else {
         intermediateOptions[entryName] = ssgOptions(entryName, {
