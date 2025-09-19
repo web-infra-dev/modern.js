@@ -1442,7 +1442,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": true,
+    "inlineConst": false,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -1465,7 +1465,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2412,7 +2412,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": true,
+    "inlineConst": false,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -2430,7 +2430,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -3827,7 +3827,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": true,
+    "inlineConst": false,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -3846,7 +3846,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
-        "inlineConst": true,
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -6386,7 +6386,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
+        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
