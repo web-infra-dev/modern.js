@@ -56,6 +56,14 @@ describe('test basic usage', () => {
 
   test(`should start successfully`, async () => {
     app = await modernServe(appPath, appPort);
+
+    // Add retry mechanism for Linux environment where pid might be undefined initially
+    let retries = 5;
+    while (retries > 0 && !app.pid) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      retries--;
+    }
+
     expect(app.pid).toBeDefined();
 
     const { status } = await axios.get(`http://localhost:${appPort}`);

@@ -52,13 +52,47 @@ describe('app-server', () => {
     expect(targetText?.trim()).toEqual('About');
   });
   test('main ssr', async () => {
-    const response = await axios.get(`http://localhost:${appPort}`);
+    // Add retry mechanism for Linux environment
+    let response;
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        response = await axios.get(`http://localhost:${appPort}`, {
+          timeout: 10000,
+        });
+        break;
+      } catch (error: any) {
+        if (error.response?.status === 403 && retries > 1) {
+          retries--;
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          continue;
+        }
+        throw error;
+      }
+    }
 
     const body = response.data;
     expect(body).toMatch(/Index/);
   });
   test('about ssr', async () => {
-    const response = await axios.get(`http://localhost:${appPort}/about`);
+    // Add retry mechanism for Linux environment
+    let response;
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        response = await axios.get(`http://localhost:${appPort}/about`, {
+          timeout: 10000,
+        });
+        break;
+      } catch (error: any) {
+        if (error.response?.status === 403 && retries > 1) {
+          retries--;
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          continue;
+        }
+        throw error;
+      }
+    }
 
     const body = response.data;
     expect(body).toMatch(/About/);

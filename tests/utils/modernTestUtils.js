@@ -115,7 +115,10 @@ function runModernCommandDev(argv, stdOut, options = {}) {
       if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {
           didResolve = true;
-          resolve(stdOut ? message : instance);
+          // Add a small delay to ensure the server is fully ready
+          setTimeout(() => {
+            resolve(stdOut ? message : instance);
+          }, 1000);
         }
       }
 
@@ -131,7 +134,10 @@ function runModernCommandDev(argv, stdOut, options = {}) {
     instance.stdout.on('data', handleStdout);
 
     instance.on('error', error => {
-      reject(error);
+      if (!didResolve) {
+        didResolve = true;
+        reject(error);
+      }
     });
 
     instance.on('close', () => {
