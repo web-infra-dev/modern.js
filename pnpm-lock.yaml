@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -4654,8 +4652,8 @@ importers:
         specifier: workspace:*
         version: link:../components
       antd:
-        specifier: ^5.27.3
-        version: 5.27.3(date-fns@2.30.0)(moment@2.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: ^5.27.4
+        version: 5.27.4(date-fns@2.30.0)(moment@2.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -9823,8 +9821,8 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
-  antd@5.27.3:
-    resolution: {integrity: sha512-Jewp1ek1iyqoAyjWyPgzc2kioZ+7S3jh39a+tld/j4ucnuf/cBk4omfyIdhLz49pVNsaEcRp5LtJOSQPFwPgpA==}
+  antd@5.27.4:
+    resolution: {integrity: sha512-rhArohoAUCxhkPjGI/BXthOrrjaElL4Fb7d4vEHnIR3DpxFXfegd4rN21IgGdiF+Iz4EFuUZu8MdS8NuJHLSVQ==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -14713,8 +14711,8 @@ packages:
       react: '*'
       react-dom: '*'
 
-  rc-slider@11.1.8:
-    resolution: {integrity: sha512-2gg/72YFSpKP+Ja5AjC5DPL1YnV8DEITDQrcc1eASrUYjl0esptaBVJBh5nLTXCCp15eD8EuGjwezVGSHhs9tQ==}
+  rc-slider@11.1.9:
+    resolution: {integrity: sha512-h8IknhzSh3FEM9u8ivkskh+Ef4Yo4JRIY2nj7MrH6GQmrwV6mcpJf5/4KgH5JaVI1H3E52yCdpOlVyGZIeph5A==}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -14733,8 +14731,8 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
-  rc-table@7.52.7:
-    resolution: {integrity: sha512-yuZfnTpuHwRa4JH+F28wQfGeDzqtgIDvLBBJk5sFncXQjTExhtBNc6dPfVo5pL5SjabJEoejefs6wsrAKfhDoQ==}
+  rc-table@7.53.1:
+    resolution: {integrity: sha512-firAd7Z+liqIDS5TubJ1qqcoBd6YcANLKWQDZhFf3rfoOTt/UNPj4n3O+2vhl+z4QMqwPEUVAil661WHA8H8Aw==}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -21999,7 +21997,7 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  antd@5.27.3(date-fns@2.30.0)(moment@2.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  antd@5.27.4(date-fns@2.30.0)(moment@2.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@ant-design/colors': 7.2.1
       '@ant-design/cssinjs': 1.24.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -22037,10 +22035,10 @@ snapshots:
       rc-resize-observer: 1.4.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-segmented: 2.7.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-select: 14.16.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      rc-slider: 11.1.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      rc-slider: 11.1.9(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-steps: 6.0.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-switch: 4.1.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      rc-table: 7.52.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      rc-table: 7.53.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-tabs: 15.7.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-textarea: 1.10.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       rc-tooltip: 6.4.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -28076,7 +28074,7 @@ snapshots:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
 
-  rc-slider@11.1.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  rc-slider@11.1.9(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@babel/runtime': 7.28.4
       classnames: 2.5.1
@@ -28100,7 +28098,7 @@ snapshots:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
 
-  rc-table@7.52.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  rc-table@7.53.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@babel/runtime': 7.28.4
       '@rc-component/context': 1.4.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
