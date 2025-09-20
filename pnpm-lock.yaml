@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -2631,8 +2629,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       '@vercel/ncc':
-        specifier: 0.38.3
-        version: 0.38.3
+        specifier: 0.38.4
+        version: 0.38.4
       dts-packer:
         specifier: 0.0.3
         version: 0.0.3
@@ -9503,8 +9501,8 @@ packages:
     peerDependencies:
       react: '>=18'
 
-  '@vercel/ncc@0.38.3':
-    resolution: {integrity: sha512-rnK6hJBS6mwc+Bkab+PGPs9OiS0i/3kdTO+CkI8V0/VrW3vmz7O2Pxjw/owOlmo6PKEIxRSeZKv/kuL9itnpYA==}
+  '@vercel/ncc@0.38.4':
+    resolution: {integrity: sha512-8LwjnlP39s08C08J5NstzriPvW1SP8Zfpp1BvC2sI35kPeZnHfxVkCwu4/+Wodgnd60UtT1n8K8zw+Mp7J9JmQ==}
     hasBin: true
 
   '@vercel/nft@0.27.3':
@@ -21601,7 +21599,7 @@ snapshots:
       react: 19.1.1
       unhead: 2.0.10
 
-  '@vercel/ncc@0.38.3': {}
+  '@vercel/ncc@0.38.4': {}
 
   '@vercel/nft@0.27.3(encoding@0.1.13)':
     dependencies:
