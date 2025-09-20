@@ -74,7 +74,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "supertest": "^6.3.4",
-    "ts-jest": "^29.4.1",
+    "ts-jest": "^29.4.4",
     "typescript": "^5",
     "@rsbuild/core": "1.5.9"
   },
