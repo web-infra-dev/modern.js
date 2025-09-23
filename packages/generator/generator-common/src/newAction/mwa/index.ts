@@ -5,34 +5,25 @@ import {
   ActionElementText,
   ActionFunction,
   ActionFunctionText,
-  type ActionRefactor,
-  ActionRefactorText,
   ActionType,
   ActionTypeQuestionText,
   ActionTypeText,
 } from '../common';
 
-export const MWAActionTypes = [
-  ActionType.Element,
-  ActionType.Function,
-  ActionType.Refactor,
-];
+export const MWAActionTypes = [ActionType.Element, ActionType.Function];
 
 export const MWAActionFunctions = [
   ActionFunction.TailwindCSS,
   ActionFunction.BFF,
   ActionFunction.SSG,
-  ActionFunction.MicroFrontend,
   ActionFunction.Polyfill,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
-export const MWAActionReactors = [];
 
 export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Element]: MWAActionElements,
   [ActionType.Function]: MWAActionFunctions,
-  [ActionType.Refactor]: MWAActionReactors,
 };
 
 export const getMWANewActionSchema = (): Schema => {
@@ -84,24 +75,6 @@ export const getMWANewActionSchema = (): Schema => {
           },
         ],
       },
-      [ActionType.Refactor]: {
-        type: 'string',
-        title: ActionTypeQuestionText[ActionType.Refactor](),
-        enum: MWAActionReactors.map(refactor => ({
-          value: refactor,
-          label: ActionRefactorText[refactor](),
-        })),
-        'x-reactions': [
-          {
-            dependencies: ['actionType'],
-            fulfill: {
-              state: {
-                visible: '{{$deps[0] === "refactor"}}',
-              },
-            },
-          },
-        ],
-      },
     },
   };
 };
@@ -125,14 +98,6 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {};
 
-export const MWAActionRefactorDependencies: Partial<
-  Record<ActionRefactor, string>
-> = {};
-
-export const MWAActionReactorAppendTypeContent: Partial<
-  Record<ActionRefactor, string>
-> = {};
-
 export const MWANewActionGenerators: Record<
   ActionType,
   Record<string, string>
@@ -144,11 +109,9 @@ export const MWANewActionGenerators: Record<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
-    [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
   },
-  [ActionType.Refactor]: {},
 };
 
 export const MWANewActionPluginName: Record<
@@ -164,7 +127,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
   },
-  [ActionType.Refactor]: {},
 };
 
 export const MWANewActionPluginDependence: Record<
@@ -180,5 +142,4 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
   },
-  [ActionType.Refactor]: {},
 };

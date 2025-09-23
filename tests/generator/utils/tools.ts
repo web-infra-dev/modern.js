@@ -28,15 +28,3 @@ export async function execaWithStreamLog(
     process.exit(1);
   }
 }
-
-export function getPackageManager(projectName: string) {
-  const isNode16 = semver.gte(process.versions.node, '16.0.0');
-  if (!isNode16) {
-    return 'pnpm';
-  }
-  return projectName.includes('pnpm')
-    ? 'pnpm'
-    : projectName.includes('yarn')
-      ? 'yarn'
-      : 'npm';
-}

@@ -1,10 +1,6 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import {
   BooleanConfig,
-  Language,
-  PackageManager,
-  getLanguageSchema,
-  getPackageManagerSchema,
   getPackageNameSchema,
   getPackagePathSchema,
 } from '../common';
@@ -15,8 +11,6 @@ export const getMWASchemaProperties = (
   return {
     packageName: getPackageNameSchema(extra),
     packagePath: getPackagePathSchema(extra),
-    language: getLanguageSchema(extra),
-    packageManager: getPackageManagerSchema(extra),
   };
 };
 
@@ -28,7 +22,5 @@ export const getMWASchema = (extra: Record<string, any> = {}): Schema => {
 };
 
 export const MWADefaultConfig = {
-  language: Language.TS,
-  packageManager: PackageManager.Pnpm,
   needModifyMWAConfig: BooleanConfig.NO,
 };

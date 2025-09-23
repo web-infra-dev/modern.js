@@ -6,12 +6,9 @@ export const ZH_LOCALE = {
       question: '请选择功能名称',
       tailwindcss: '启用「Tailwind CSS」 支持',
       bff: '启用「BFF」功能',
-      micro_frontend: '启用「微前端」模式',
       i18n: '启用「国际化（i18n）」功能',
-      runtime_api: '启用「Runtime API」',
       ssg: '启用「SSG」功能',
       polyfill: '启用「基于 UA 的 Polyfill」功能',
-      module_doc: '启动「模块文档」功能',
     },
     element: {
       self: '创建工程元素',
@@ -19,20 +16,10 @@ export const ZH_LOCALE = {
       entry: '新建「应用入口」',
       server: '新建「自定义 Web Server」源码目录',
     },
-    refactor: {
-      self: '自动重构',
-      question: '请选择重构类型',
-    },
   },
   boolean: {
     yes: '是',
     no: '否',
-  },
-  language: {
-    self: '请选择开发语言',
-  },
-  packageManager: {
-    self: '请选择包管理工具',
   },
   entry: {
     name: '请填写入口名称',

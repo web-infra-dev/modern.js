@@ -12,11 +12,10 @@
     "test": "pnpm test:framework",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "prepare": "node node_modules/puppeteer/install.mjs",
-    "test:mwa": "ts-node -T generator/mwa.ts"
+    "test:generator": "ts-node -T generator"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/generator-cases": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/utils": "workspace:*",

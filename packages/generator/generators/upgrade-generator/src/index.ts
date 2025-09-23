@@ -2,11 +2,7 @@ import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import {
-  PackageManager,
-  type Solution,
-  SolutionToolsMap,
-} from '@modern-js/generator-common';
+import { type Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import {
   fs,
   getAvailableVersion,
@@ -97,17 +93,15 @@ export const handleTemplateFile = async (
   const packageManager = await getPackageManager(appDir);
   context.config.packageManager = packageManager;
 
-  if (packageManager === PackageManager.Pnpm) {
-    const npmrcPath = path.join(generator.outputPath, '.npmrc');
-    if (fs.existsSync(npmrcPath)) {
-      const content = fs.readFileSync(npmrcPath, 'utf-8');
-      if (!content.includes('strict-peer-dependencies=false')) {
-        fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
-      }
-    } else {
-      fs.ensureFileSync(npmrcPath);
-      fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
+  const npmrcPath = path.join(generator.outputPath, '.npmrc');
+  if (fs.existsSync(npmrcPath)) {
+    const content = fs.readFileSync(npmrcPath, 'utf-8');
+    if (!content.includes('strict-peer-dependencies=false')) {
+      fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
     }
+  } else {
+    fs.ensureFileSync(npmrcPath);
+    fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
   }
 
   const modernDeps = Object.keys(pkgInfo.dependencies || {}).filter(

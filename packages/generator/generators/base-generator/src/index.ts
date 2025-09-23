@@ -1,35 +1,11 @@
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { PackageManager, getBaseSchema } from '@modern-js/generator-common';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
   _generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const { hasPlugin, generatorPlugin, ...extra } = context.config;
-  let ans: Record<string, unknown> = {};
-  if (hasPlugin) {
-    await generatorPlugin.installPlugins('custom', extra);
-    const schema = generatorPlugin.getInputSchema();
-    const inputValue = generatorPlugin.getInputValue();
-    const defaultConfig = generatorPlugin.getDefaultConfig();
-    ans = await appApi.getInputBySchema(
-      schema,
-      'formily',
-      {
-        ...context.config,
-        ...defaultConfig,
-      },
-      {},
-      { ...inputValue },
-    );
-  } else {
-    ans = await appApi.getInputBySchemaFunc(getBaseSchema, context.config);
-  }
-
-  const { packageManager } = ans;
-
   await appApi.forgeTemplate(
     'templates/base-template/**/*',
     undefined,
@@ -39,16 +15,14 @@ const handleTemplateFile = async (
         .replace('.handlebars', ''),
   );
 
-  if (packageManager === PackageManager.Pnpm) {
-    await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/pnpm-template/npmrc', '.npmrc')
-          .replace('.handlebars', ''),
-    );
-  }
+  await appApi.forgeTemplate(
+    'templates/pnpm-template/**/*',
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace('templates/pnpm-template/npmrc', '.npmrc')
+        .replace('.handlebars', ''),
+  );
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

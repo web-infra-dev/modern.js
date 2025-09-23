@@ -5,9 +5,7 @@ import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   BaseGenerator,
   EntryGenerator,
-  Language,
   MWADefaultConfig,
-  PackagesGenerator,
   Solution,
   i18n as commonI18n,
   getMWASchema,
@@ -17,7 +15,6 @@ import {
   getGeneratorPath,
   getMWAProjectPath,
   getModernVersion,
-  getPackageManagerText,
   i18n as utilsI18n,
   validatePackageName,
   validatePackagePath,
@@ -87,8 +84,7 @@ export const handleTemplateFile = async (
 
   generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
-  const { packageName, packagePath, language, packageManager } = ans;
-  const { packagesInfo } = context.config;
+  const { packageName, packagePath, packageManager } = ans;
 
   const bundler = `'rspack',`;
 
@@ -117,35 +113,21 @@ export const handleTemplateFile = async (
       isMonorepoSubProject,
       modernVersion,
       packageManager,
-      isTs: language === Language.TS,
+      isTs: true,
     },
   );
 
-  if (language === Language.TS) {
-    await appApi.forgeTemplate(
-      'templates/ts-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/ts-template/', projectPath)
-          .replace('.handlebars', ''),
-      {
-        bundler,
-      },
-    );
-  } else {
-    await appApi.forgeTemplate(
-      'templates/js-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/js-template/', projectPath)
-          .replace('.handlebars', ''),
-      {
-        bundler,
-      },
-    );
-  }
+  await appApi.forgeTemplate(
+    'templates/ts-template/**/*',
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace('templates/ts-template/', projectPath)
+        .replace('.handlebars', ''),
+    {
+      bundler,
+    },
+  );
 
   await appApi.runSubGenerator(
     getGeneratorPath(EntryGenerator, context.config.distTag, [__dirname]),
@@ -161,14 +143,6 @@ export const handleTemplateFile = async (
       name: packagePath as string,
       path: projectPath,
     });
-  }
-
-  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag, [__dirname]),
-      undefined,
-      context.config,
-    );
   }
 
   return { projectPath };
@@ -213,11 +187,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   if (successInfo) {
     appApi.showSuccessInfo(successInfo);
   } else {
-    appApi.showSuccessInfo(
-      i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
-      }),
-    );
+    appApi.showSuccessInfo(i18n.t(localeKeys.success));
   }
 
   generator.logger.debug(`🌟 [End Run MWA Generator]`);

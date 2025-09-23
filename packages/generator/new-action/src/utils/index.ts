@@ -2,7 +2,6 @@ import path from 'path';
 import { semver } from '@modern-js/codesmith-utils';
 import {
   type ActionFunction,
-  type ActionRefactor,
   Solution,
   SolutionToolsMap,
 } from '@modern-js/generator-common';
@@ -39,7 +38,7 @@ export const readJson = (jsonPath: string) => {
 };
 
 export function hasEnabledFunction(
-  action: ActionFunction | ActionRefactor,
+  action: ActionFunction,
   dependencies: Record<string, string>,
   devDependencies: Record<string, string>,
   peerDependencies: Record<string, string>,

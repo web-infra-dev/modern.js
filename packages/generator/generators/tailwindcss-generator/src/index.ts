@@ -2,14 +2,9 @@ import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import {
-  DependenceGenerator,
-  Language,
-  i18n,
-} from '@modern-js/generator-common';
+import { DependenceGenerator, i18n } from '@modern-js/generator-common';
 import {
   getGeneratorPath,
-  isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
 
@@ -20,34 +15,27 @@ export const handleTemplateFile = async (
 ) => {
   const appDir = context.materials.default.basePath;
   const jsonAPI = new JsonAPI(generator);
-  const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.TS) {
-    await appApi.forgeTemplate(
-      'templates/ts-template/**/*',
-      undefined,
-      resourceKey => resourceKey.replace('templates/ts-template/', ''),
-    );
+  await appApi.forgeTemplate(
+    'templates/ts-template/**/*',
+    undefined,
+    resourceKey => resourceKey.replace('templates/ts-template/', ''),
+  );
 
-    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
+  const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
-    if (!(tsconfigJSON.include || []).includes('tailwind.config.ts')) {
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              include: [...(tsconfigJSON.include || []), 'tailwind.config.ts'],
-            },
+  if (!(tsconfigJSON.include || []).includes('tailwind.config.ts')) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            include: [...(tsconfigJSON.include || []), 'tailwind.config.ts'],
           },
         },
-        true,
-      );
-    }
-  } else {
-    appApi.forgeTemplate('templates/js-template/**/*', undefined, resourceKey =>
-      resourceKey.replace('templates/js-template/', ''),
+      },
+      true,
     );
   }
 
