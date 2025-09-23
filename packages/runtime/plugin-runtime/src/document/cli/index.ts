@@ -471,7 +471,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       const cached = entryName2DocCode.get(entryName);
       if (!cached) {
         throw new Error(
-          `Document bundle for entry "${entryName}" not found. The document will not override html templateContent.`,
+          `Failed to load Document bundle for entry "${entryName}". This is likely because the Document component compilation failed or the bundle was not generated correctly. Please check your Document component implementation.`,
         );
       }
 
