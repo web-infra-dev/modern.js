@@ -37,7 +37,6 @@
     "@modern-js/entry-generator": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
-    "@modern-js/packages-generator": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

@@ -2,17 +2,12 @@ import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import {
-  Language,
-  Solution,
-  i18n as commonI18n,
-} from '@modern-js/generator-common';
+import { Solution, i18n as commonI18n } from '@modern-js/generator-common';
 import {
   fs,
   chalk,
   getModernConfigFile,
   getModernPluginVersion,
-  isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
@@ -49,8 +44,6 @@ export const handleTemplateFile = async (
     }
   }
 
-  const language = isTsProject(appDir) ? Language.TS : Language.JS;
-
   const getBffPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
@@ -76,48 +69,44 @@ export const handleTemplateFile = async (
     true,
   );
 
-  if (language === Language.TS) {
-    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
+  const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
-    if (!(tsconfigJSON.include || []).includes('api')) {
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              include: [...(tsconfigJSON.include || []), 'api'],
-            },
-          },
-        },
-        true,
-      );
-    }
-  }
-
-  if (language === Language.TS) {
+  if (!(tsconfigJSON.include || []).includes('api')) {
     await jsonAPI.update(
       context.materials.default.get(path.join(appDir, 'tsconfig.json')),
       {
         query: {},
         update: {
           $set: {
-            'compilerOptions.paths.@api/*': ['./api/lambda/*'],
+            include: [...(tsconfigJSON.include || []), 'api'],
           },
         },
       },
       true,
     );
-
-    await appApi.forgeTemplate(
-      `templates/framework/lambda/*`,
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace(`templates/framework/`, 'api/')
-          .replace('.handlebars', `.${language}`),
-    );
   }
+
+  await jsonAPI.update(
+    context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+    {
+      query: {},
+      update: {
+        $set: {
+          'compilerOptions.paths.@api/*': ['./api/lambda/*'],
+        },
+      },
+    },
+    true,
+  );
+
+  await appApi.forgeTemplate(
+    `templates/framework/lambda/*`,
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace(`templates/framework/`, 'api/')
+        .replace('.handlebars', `.ts`),
+  );
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

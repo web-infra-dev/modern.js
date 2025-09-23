@@ -1,6 +1,6 @@
 import path from 'path';
-import { fs, semver } from '@modern-js/utils';
-import { execaWithStreamLog, getPackageManager } from './tools';
+import { fs } from '@modern-js/utils';
+import { execaWithStreamLog } from './tools';
 
 export async function runCreteCommand(
   repoDir: string,
@@ -18,7 +18,6 @@ export async function runCreteCommand(
     process.env.DEBUG === 'true' || process.env.CUSTOM_DEBUG === 'true';
   const packages = process.env.PACKAGES;
   const distTag = process.env.CUSTOM_DIST_TAG || 'next';
-  const packageManager = getPackageManager(projectName);
   if (isLocal) {
     return execaWithStreamLog(
       'node',
@@ -29,7 +28,6 @@ export async function runCreteCommand(
         JSON.stringify({
           packageName: projectName,
           ...config,
-          packageManager,
         }),
         '--dist-tag',
         distTag,
@@ -60,7 +58,6 @@ export async function runCreteCommand(
       JSON.stringify({
         packageName: projectName,
         ...config,
-        packageManager,
       }),
       debug ? '--debug' : '',
       platform ? '--platform' : '',
@@ -85,28 +82,17 @@ export async function runInstallAndBuildProject(type: string, tmpDir: string) {
       .filter(project => project.includes(type))
       .map(async project => {
         console.info('install and build process', project);
-        // const packageManager = getPackageManager(project);
-        const packageManager = 'pnpm';
-        const isNode16 = semver.gte(process.versions.node, '16.0.0');
-        const params = ['install', '--ignore-scripts', '--force'];
-        if (isNode16 || project.includes('pnpm')) {
-          // if (packageManager === 'yarn') {
-          //   params.push('--cache-folder');
-          //   params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
-          // }
-          await execaWithStreamLog(packageManager, params, {
+        await execaWithStreamLog(
+          'pnpm',
+          ['install', '--ignore-scripts', '--force', '--shamefully-hoist'],
+          {
             cwd: path.join(tmpDir, project),
-          });
-        } else {
-          params.push('--shamefully-hoist');
-          await execaWithStreamLog(packageManager, params, {
-            cwd: path.join(tmpDir, project),
-          });
-        }
+          },
+        );
         if (project.includes('monorepo')) {
           return Promise.resolve();
         }
-        await execaWithStreamLog(packageManager, ['run', 'build'], {
+        await execaWithStreamLog('pnpm', ['run', 'build'], {
           cwd: path.join(tmpDir, project),
         });
         return Promise.resolve();
@@ -123,8 +109,7 @@ export async function runLintProject(type: string, tmpDir: string) {
       )
       .map(async project => {
         console.info('lint process', project);
-        const packageManager = getPackageManager(project);
-        await execaWithStreamLog(packageManager, ['run', 'lint'], {
+        await execaWithStreamLog('pnpm', ['run', 'lint'], {
           cwd: path.join(tmpDir, project),
         });
         return Promise.resolve();

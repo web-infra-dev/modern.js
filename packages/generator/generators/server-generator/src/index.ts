@@ -4,7 +4,6 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   DependenceGenerator,
-  Language,
   Solution,
   i18n,
 } from '@modern-js/generator-common';
@@ -49,7 +48,6 @@ const handleTemplateFile = async (
     }
   }
 
-  const language = isTsProject(appDir) ? Language.TS : Language.JS;
   const serverPlugin = '@modern-js/server-runtime';
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
@@ -74,31 +72,29 @@ const handleTemplateFile = async (
   );
 
   await appApi.forgeTemplate(
-    `templates/base-template/${language}/**/*`,
+    `templates/base-template/ts/**/*`,
     undefined,
     resourceKey =>
       resourceKey
-        .replace(`templates/base-template/${language}/`, '')
+        .replace(`templates/base-template/ts/`, '')
         .replace('.handlebars', ''),
   );
 
-  if (language === Language.TS) {
-    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
+  const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
-    if (!(tsconfigJSON.include || []).includes('server')) {
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              include: [...(tsconfigJSON.include || []), 'server'],
-            },
+  if (!(tsconfigJSON.include || []).includes('server')) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            include: [...(tsconfigJSON.include || []), 'server'],
           },
         },
-        true,
-      );
-    }
+      },
+      true,
+    );
   }
 };
 

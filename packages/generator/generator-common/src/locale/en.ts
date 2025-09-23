@@ -6,12 +6,9 @@ export const EN_LOCALE = {
       question: 'Please select the feature name:',
       tailwindcss: 'Enable Tailwind CSS',
       bff: 'Enable BFF',
-      micro_frontend: 'Enable Micro Frontend',
       i18n: 'Enable Internationalization (i18n)',
-      runtime_api: 'Enable Runtime API',
       ssg: 'Enable SSG',
       polyfill: 'Enable UA-based Polyfill Feature',
-      module_doc: 'Enable Module Doc',
     },
     element: {
       self: 'Create Element',
@@ -19,20 +16,10 @@ export const EN_LOCALE = {
       entry: 'New "entry"',
       server: 'New "Custom Web Server" source code directory',
     },
-    refactor: {
-      self: 'Automatic Refactor',
-      question: 'Please select the type of refactoring:',
-    },
   },
   boolean: {
     yes: 'Yes',
     no: 'No',
-  },
-  language: {
-    self: 'Please select the programming language:',
-  },
-  packageManager: {
-    self: 'Please select the package manager:',
   },
   entry: {
     name: 'Please fill in the entry name:',

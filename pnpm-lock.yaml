@@ -637,37 +637,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/generator/generator-cases:
-    dependencies:
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../generator-common
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      covertable:
-        specifier: ^2.5.2
-        version: 2.5.2
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/generator/generator-common:
     dependencies:
       '@modern-js/codesmith-formily':
@@ -942,90 +911,6 @@ importers:
       '@modern-js/entry-generator':
         specifier: workspace:*
         version: link:../entry-generator
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/packages-generator':
-        specifier: workspace:*
-        version: link:../packages-generator
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  packages/generator/generators/packages-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
-      '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  packages/generator/generators/router-v5-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/dependence-generator':
-        specifier: workspace:*
-        version: link:../dependence-generator
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2949,9 +2834,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../packages/solutions/app-tools
-      '@modern-js/generator-cases':
-        specifier: workspace:*
-        version: link:../packages/generator/generator-cases
       '@modern-js/new-action':
         specifier: workspace:*
         version: link:../packages/generator/new-action
@@ -10588,9 +10470,6 @@ packages:
       typescript:
         optional: true
 
-  covertable@2.5.2:
-    resolution: {integrity: sha512-OnJykDP9j3P4qvtx0A8icjczCjj6TOKzMcHH6y618oqhSgdkY54m9qRiZljpmAMYYWOMSYdtHqyiMhQDjmfvdw==}
-
   create-jest@29.7.0:
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -12849,9 +12728,6 @@ packages:
 
   joi@17.13.3:
     resolution: {integrity: sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==}
-
-  js-md5@0.7.3:
-    resolution: {integrity: sha512-ZC41vPSTLKGwIRjqDh8DfXoCrdQIyBgspJVPXHBGu4nZlAEvG3nf+jO9avM9RmLiGakg7vz974ms99nEV0tmTQ==}
 
   js-polyfills@0.1.43:
     resolution: {integrity: sha512-wWCJcw7uMA12uk7qcqZlIQy9nj+Evh1wVUmn5MOlJ7GPC8HT5PLjB9Uiqjw9ldAbbOuNOWJ6ENb7NwU6qqf48g==}
@@ -22781,10 +22657,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  covertable@2.5.2:
-    dependencies:
-      js-md5: 0.7.3
-
   create-jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.0.4)):
     dependencies:
       '@jest/types': 29.6.3
@@ -25777,8 +25649,6 @@ snapshots:
       '@sideway/address': 4.1.5
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
-
-  js-md5@0.7.3: {}
 
   js-polyfills@0.1.43: {}
 

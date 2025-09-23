@@ -3,7 +3,7 @@ import type { GeneratorContext } from '@modern-js/codesmith';
 import { getNpmVersion, getPackageInfo } from '@modern-js/codesmith';
 import { fs } from '@modern-js/codesmith-utils/fs-extra';
 import { ora } from '@modern-js/codesmith-utils/ora';
-import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
+import { type Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 import { fileExist } from './utils/fsExist';
 import { getMonorepoPackages } from './utils/monorepo';
@@ -77,18 +77,11 @@ export async function getModernPluginVersion(
     return getLatetPluginVersion('latest');
   }
   // get project solution version
-  let pkgPath = path.join(
+  const pkgPath = path.join(
     require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
     '../../..',
     'package.json',
   );
-  if (solution === Solution.Module) {
-    pkgPath = path.join(
-      require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
-      '../..',
-      'package.json',
-    );
-  }
 
   if (fs.existsSync(pkgPath)) {
     const pkgInfo = fs.readJSONSync(pkgPath);
@@ -108,10 +101,6 @@ export async function getModernPluginVersion(
     return version;
   }
   return getLatetPluginVersion();
-}
-
-export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {
-  return packageManager === 'yarn' ? 'yarn' : `${packageManager} run`;
 }
 
 export function isTsProject(appDir: string) {
