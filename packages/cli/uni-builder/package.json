@@ -39,7 +39,7 @@
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.16",
-    "@rsbuild/core": "1.5.11",
+    "@rsbuild/core": "1.5.9",
     "@rsbuild/plugin-assets-retry": "1.4.3",
     "@rsbuild/plugin-babel": "1.0.6",
     "@rsbuild/plugin-check-syntax": "1.4.0",
