@@ -133,12 +133,9 @@ describe('test ssg util function', () => {
       [],
       {},
     );
-    expect(opt5).toEqual(ssg2);
+    expect(opt5).toEqual({ main: ssg2, home: ssg2 });
 
-    const ssg3 = {
-      main: { routes: ['/foo', { url: '/baz' }] },
-      home: false,
-    };
+    const ssg3 = { routes: ['/foo', { url: '/baz' }] };
     const opt6 = standardOptions(
       ssg3,
       [
@@ -148,7 +145,10 @@ describe('test ssg util function', () => {
       [],
       {},
     );
-    expect(opt6).toEqual(ssg3);
+    expect(opt6).toEqual({
+      main: { routes: ['/foo', { url: '/baz' }] },
+      home: { routes: ['/foo', { url: '/baz' }] },
+    });
 
     const ssg4 = () => true;
     const opt7 = standardOptions(
@@ -197,10 +197,12 @@ describe('test ssg util function', () => {
         {
           urlPath: '/base1',
           entryPath: '',
+          entryName: 'main',
         },
         {
           urlPath: '/base2',
           entryPath: '',
+          entryName: 'main',
         },
       ],
       {
@@ -233,12 +235,13 @@ describe('test ssg util function', () => {
         {
           urlPath: '/base1/home',
           entryPath: '',
+          entryName: 'home',
         },
-        { urlPath: '/base1/about', entryPath: '' },
-        { urlPath: '/base1', entryPath: '' },
-        { urlPath: '/base2/home', entryPath: '' },
-        { urlPath: '/base2/about', entryPath: '' },
-        { urlPath: '/base2', entryPath: '' },
+        { urlPath: '/base1/about', entryPath: '', entryName: 'about' },
+        { urlPath: '/base1', entryPath: '', entryName: 'main' },
+        { urlPath: '/base2/home', entryPath: '', entryName: 'home' },
+        { urlPath: '/base2/about', entryPath: '', entryName: 'about' },
+        { urlPath: '/base2', entryPath: '', entryName: 'main' },
       ],
       {
         baseUrl: ['/base1', '/base2'],

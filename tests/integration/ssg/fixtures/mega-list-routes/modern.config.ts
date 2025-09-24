@@ -8,8 +8,7 @@ export default defineConfig({
   output: {
     ssg: {
       routes: Array.from(Array(10_000)).map((_, id) => ({
-        url: '/user/:id',
-        params: [{ id }],
+        url: `/user/${id}`,
       })),
     },
     polyfill: 'off',

@@ -72,14 +72,14 @@ describe('validate', () => {
     expect(useSSG1).toBeTruthy();
 
     const useSSG2 = isSSGEntry(
-      { output: { ssg: { home: false } } } as any,
+      { output: { ssgByEntries: { home: false } } } as any,
       'home',
       [{ entryName: 'main' }, { entryName: 'home' }],
     );
     expect(useSSG2).toBeFalsy();
 
     const useSSG3 = isSSGEntry(
-      { output: { ssg: { home: {} } } } as any,
+      { output: { ssgByEntries: { home: {} } } } as any,
       'home',
       [{ entryName: 'main' }, { entryName: 'home' }],
     );

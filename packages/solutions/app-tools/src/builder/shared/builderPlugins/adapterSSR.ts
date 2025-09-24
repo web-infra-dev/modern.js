@@ -181,8 +181,7 @@ function applyFilterEntriesBySSRConfig({
   // if prod and ssg config is true or function
   if (
     isProd &&
-    (outputConfig?.ssg === true ||
-      typeof (outputConfig?.ssg as Array<unknown>)?.[0] === 'function')
+    (outputConfig?.ssg === true || typeof outputConfig?.ssg === 'function')
   ) {
     return;
   }
@@ -202,10 +201,10 @@ function applyFilterEntriesBySSRConfig({
 
   // collect all ssg entries
   const ssgEntries: string[] = [];
-  if (isProd && outputConfig?.ssg) {
-    const { ssg } = outputConfig;
+  if (isProd && outputConfig?.ssgByEntries) {
+    const { ssgByEntries } = outputConfig;
     entryNames.forEach(name => {
-      if ((ssg as SSGMultiEntryOptions)[name]) {
+      if (ssgByEntries[name]) {
         ssgEntries.push(name);
       }
     });
