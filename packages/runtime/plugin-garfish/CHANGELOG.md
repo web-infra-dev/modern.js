@@ -1,5 +1,18 @@
 # @modern-js/plugin-garfish
 
+## 2.68.15
+
+### Patch Changes
+
+- 26abed5: fix: garfish plugin popstate not trigger
+
+  fix: 修复 garfish 插件 popstate 事件未触发问题
+
+  - @modern-js/runtime@2.68.15
+  - @modern-js/plugin-v2@2.68.15
+  - @modern-js/runtime-utils@2.68.15
+  - @modern-js/utils@2.68.15
+
 ## 2.68.14
 
 ### Patch Changes
