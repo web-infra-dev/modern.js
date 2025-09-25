@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.14",
+  "version": "2.68.15",
   "engines": {
     "node": ">=14.17.6"
   },
