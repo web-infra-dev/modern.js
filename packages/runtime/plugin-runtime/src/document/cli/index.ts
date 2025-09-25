@@ -256,7 +256,7 @@ const generateEntryCode = (docPath: string, _entryName: string): string => {
   return `var React = require('react');
 var ReactDomServer = require('react-dom/server');
 var exp = require(${JSON.stringify(docPath)});
-var DocumentContext = require('@modern-js/runtime/document').DocumentContext;
+var DocumentContext = require('@meta/runtime/document').DocumentContext;
 
 var Document = exp && exp.default;
 
@@ -433,6 +433,13 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     }
 
     api.config(() => ({
+      resolve: {
+        alias: {
+          '@meta/runtime/document$': require
+            .resolve('../')
+            .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`),
+        },
+      },
       tools: {
         bundlerChain: (chain: RspackChain) => {
           chain
