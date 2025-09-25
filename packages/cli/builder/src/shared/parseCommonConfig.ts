@@ -143,7 +143,12 @@ export async function parseCommonConfig(
    */
   if (typeof output.sourceMap !== 'boolean') {
     output.sourceMap ||= {};
-    output.sourceMap.css ??= process.env.NODE_ENV !== 'production';
+
+    // If output.sourceMap.css is explicitly set to true or false, keep it
+    // If not configured (undefined), set based on environment
+    if (!output.sourceMap.css && output.sourceMap.css !== false) {
+      output.sourceMap.css = process.env.NODE_ENV !== 'production';
+    }
   }
 
   const { server: _server, worker, ...rsbuildDistPath } = distPath;

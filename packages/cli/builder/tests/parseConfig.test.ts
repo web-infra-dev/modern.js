@@ -1,5 +1,5 @@
 import type { OutputConfig } from '@rsbuild/core';
-import { afterAll, describe, expect, test } from 'vitest';
+import { afterAll, afterEach, describe, expect, test } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 import type { BuilderConfig } from '../src/types';
 
@@ -136,5 +136,154 @@ describe('parseCommonConfig', () => {
         ).toEqual(output.injectStyles);
       });
     }
+  });
+
+  describe('CSS source map configuration', () => {
+    const originalEnv = process.env.NODE_ENV;
+
+    afterEach(() => {
+      process.env.NODE_ENV = originalEnv;
+    });
+
+    test('should not set css source map when output.sourceMap is true', async () => {
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: true,
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toBe(true);
+      expect(config.rsbuildConfig.output?.sourceMap).not.toHaveProperty('css');
+    });
+
+    test('should set css source map to false when output.sourceMap is false', async () => {
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: false,
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual(false);
+    });
+
+    test('should set css source map to true when output.sourceMap.css is explicitly true', async () => {
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            css: true,
+          },
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: true,
+      });
+    });
+
+    test('should set css source map to false when output.sourceMap.css is explicitly false', async () => {
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            css: false,
+          },
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: false,
+      });
+    });
+
+    test('should set css source map to true when output.sourceMap.css is undefined in development', async () => {
+      process.env.NODE_ENV = 'development';
+
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            js: true,
+          },
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        js: true,
+        css: true,
+      });
+    });
+
+    test('should set css source map to false when output.sourceMap.css is undefined in production', async () => {
+      process.env.NODE_ENV = 'production';
+
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            js: true,
+          },
+        },
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        js: true,
+        css: false,
+      });
+    });
+
+    test('should set css source map to true when output.sourceMap is undefined in development', async () => {
+      process.env.NODE_ENV = 'development';
+
+      const config = await parseCommonConfig({
+        output: {},
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: true,
+      });
+    });
+
+    test('should set css source map to false when output.sourceMap is undefined in production', async () => {
+      process.env.NODE_ENV = 'production';
+
+      const config = await parseCommonConfig({
+        output: {},
+      });
+
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: false,
+      });
+    });
+
+    test('should respect explicitly set css source map in development', async () => {
+      process.env.NODE_ENV = 'development';
+
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            css: false,
+          },
+        },
+      });
+
+      // Even in development, if explicitly set to false, it should remain false
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: false,
+      });
+    });
+
+    test('should respect explicitly set css source map in production', async () => {
+      process.env.NODE_ENV = 'production';
+
+      const config = await parseCommonConfig({
+        output: {
+          sourceMap: {
+            css: true,
+          },
+        },
+      });
+
+      // Even in production, if explicitly set to true, it should remain true
+      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
+        css: true,
+      });
+    });
   });
 });
