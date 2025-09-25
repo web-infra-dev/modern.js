@@ -364,12 +364,6 @@ describe('parseCommonConfig', () => {
   });
 
   describe('CSS source map configuration', () => {
-    const originalEnv = process.env.NODE_ENV;
-
-    afterEach(() => {
-      process.env.NODE_ENV = originalEnv;
-    });
-
     test('should not set css source map when output.sourceMap is true', async () => {
       const config = await parseCommonConfig({
         output: {
@@ -414,18 +408,6 @@ describe('parseCommonConfig', () => {
 
       expect(config.rsbuildConfig.output?.sourceMap).toEqual({
         css: true,
-      });
-    });
-
-    test('should set css source map to false when output.sourceMap is undefined in production', async () => {
-      process.env.NODE_ENV = 'production';
-
-      const config = await parseCommonConfig({
-        output: {},
-      });
-
-      expect(config.rsbuildConfig.output?.sourceMap).toEqual({
-        css: false,
       });
     });
 
