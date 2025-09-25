@@ -74,6 +74,9 @@
       ],
       "deploy": [
         "./dist/types/plugins/deploy/exports.d.ts"
+      ],
+      "builder": [
+        "./dist/types/builder/index.d.ts"
       ]
     }
   },
