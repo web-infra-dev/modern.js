@@ -83,7 +83,8 @@
     "./document": {
       "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/index.ts",
-      "node": "./dist/cjs/document/index.js",
+      "require": "./dist/cjs/document/index.js",
+      "import": "./dist/esm/document/index.js",
       "default": "./dist/esm/document/index.js"
     },
     "./cli": {
