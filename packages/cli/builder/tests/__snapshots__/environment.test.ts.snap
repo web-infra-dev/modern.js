@@ -1212,6 +1212,7 @@ exports[`builder environment compat > should generator environment config correc
           "injectEntry": true,
           "injectLoader": true,
           "overlay": false,
+          "reloadOnRuntimeErrors": false,
           "resourceQuery": {
             "not": /\\^\\\\\\?raw\\$/,
           },
