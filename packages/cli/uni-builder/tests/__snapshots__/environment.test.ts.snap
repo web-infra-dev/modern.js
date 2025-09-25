@@ -1341,6 +1341,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "injectEntry": true,
           "injectLoader": true,
           "overlay": false,
+          "reloadOnRuntimeErrors": false,
           "resourceQuery": {
             "not": /\\^\\\\\\?raw\\$/,
           },
