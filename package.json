@@ -51,7 +51,7 @@
     "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs"
   },
   "engines": {
-    "node": ">=14.17.6",
+    "node": ">=18",
     "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.15.1",
