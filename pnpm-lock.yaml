@@ -6887,6 +6887,49 @@ importers:
         specifier: ^5
         version: 5.6.3
 
+  tests/integration/rsc-csr-mf:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      client-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.1.0(react@19.1.0)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^18
+        version: 18.19.74
+      '@types/react':
+        specifier: ^18
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.5(@types/react@18.3.18)
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
   tests/integration/rsc-csr-routes:
     dependencies:
       '@modern-js/runtime':
@@ -6950,6 +6993,58 @@ importers:
       react-dom:
         specifier: ^19
         version: 19.0.0(react@19.0.0)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-swc
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../../packages/cli/uni-builder
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.14
+      '@types/node':
+        specifier: ^18
+        version: 18.19.74
+      '@types/react':
+        specifier: ^18
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.3.5(@types/react@18.3.18)
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  tests/integration/rsc-ssr-mf:
+    dependencies:
+      '@modern-js/render':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/render
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      client-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      react:
+        specifier: ^19
+        version: 19.1.0
+      react-dom:
+        specifier: ^19
+        version: 19.1.0(react@19.1.0)
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
