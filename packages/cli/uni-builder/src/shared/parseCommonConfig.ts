@@ -197,9 +197,12 @@ export async function parseCommonConfig(
     output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
-  if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
+  if (
+    isUseCssSourceMap(disableSourceMap) &&
+    typeof output.sourceMap !== 'boolean'
+  ) {
     output.sourceMap ||= {};
-    output.sourceMap.css = true;
+    output.sourceMap.css ??= true;
   }
 
   const { server: _server, worker, ...rsbuildDistPath } = distPath;
