@@ -46,7 +46,7 @@
     "@modern-js/codesmith": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
     "@modern-js/mwa-generator": "workspace:*",
-    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/i18n-utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29.5.14",

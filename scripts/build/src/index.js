@@ -204,7 +204,7 @@ const generatorBuildUmdConfig = {
     '@modern-js/codesmith-utils/npm': 'codesmithNpmUtils',
     '@modern-js/codesmith-utils/ora': 'codesmithOraUtils',
     '@modern-js/codesmith-utils/semver': 'codesmithSemverUtils',
-    '@modern-js/plugin-i18n': 'pluginI18N',
+    '@modern-js/i18n-utils': 'pluginI18N',
   },
 };
 

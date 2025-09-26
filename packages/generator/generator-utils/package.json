@@ -38,7 +38,7 @@
   "dependencies": {
     "@modern-js/codesmith-utils": "2.6.8",
     "@modern-js/generator-common": "workspace:*",
-    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/i18n-utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "glob": "7.2.3",
     "js-yaml": "4.1.0",

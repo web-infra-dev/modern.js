@@ -138,7 +138,7 @@ module.exports = {
           '<rootDir>/packages/generator/generator-common/src',
         '^@modern-js/generator-utils$':
           '<rootDir>/packages/generator/generator-utils/src',
-        '^@modern-js/plugin-i18n$': '<rootDir>/packages/cli/plugin-i18n/src',
+        '^@modern-js/i18n-utils$': '<rootDir>/packages/toolkit/i18n-utils/src',
       },
       globals: {},
       transformIgnorePatterns: [],

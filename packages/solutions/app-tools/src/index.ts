@@ -1,7 +1,7 @@
 import path from 'path';
 import { castArray } from '@modern-js/builder';
+import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { createAsyncHook } from '@modern-js/plugin';
-import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import {
   cleanRequireCache,
   deprecatedCommands,
