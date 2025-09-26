@@ -1,7 +1,7 @@
 import path from 'path';
 import { CodeSmith, type Logger } from '@modern-js/codesmith';
 import { ora } from '@modern-js/codesmith-utils/ora';
-import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
 import { createDir } from './utils';

@@ -413,34 +413,6 @@ importers:
         specifier: ^5
         version: 5.6.3
 
-  packages/cli/plugin-i18n:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
   packages/cli/plugin-ssg:
     dependencies:
       '@modern-js/prod-server':
@@ -639,9 +611,9 @@ importers:
       '@modern-js/codesmith-formily':
         specifier: 2.6.8
         version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../cli/plugin-i18n
+        version: link:../../toolkit/i18n-utils
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -682,9 +654,9 @@ importers:
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../cli/plugin-i18n
+        version: link:../../toolkit/i18n-utils
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -782,9 +754,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -824,9 +796,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -866,9 +838,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -914,9 +886,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -998,9 +970,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -1082,9 +1054,9 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
+        version: link:../../../toolkit/i18n-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -2013,6 +1985,9 @@ importers:
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../../cli/builder
+      '@modern-js/i18n-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/i18n-utils
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
@@ -2022,9 +1997,6 @@ importers:
       '@modern-js/plugin-data-loader':
         specifier: workspace:*
         version: link:../../cli/plugin-data-loader
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../cli/plugin-i18n
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../../server/prod-server
@@ -2153,12 +2125,12 @@ importers:
       '@modern-js/codesmith-utils':
         specifier: 2.6.8
         version: 2.6.8
+      '@modern-js/i18n-utils':
+        specifier: workspace:*
+        version: link:../i18n-utils
       '@modern-js/mwa-generator':
         specifier: workspace:*
         version: link:../../generator/generators/mwa-generator
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../cli/plugin-i18n
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2180,6 +2152,34 @@ importers:
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  packages/toolkit/i18n-utils:
+    dependencies:
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@swc/helpers':
+        specifier: ^0.5.17
+        version: 0.5.17
+    devDependencies:
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -2351,9 +2351,9 @@ importers:
       '@modern-js/codesmith-utils':
         specifier: 2.6.8
         version: 2.6.8
-      '@modern-js/plugin-i18n':
+      '@modern-js/i18n-utils':
         specifier: workspace:*
-        version: link:../../cli/plugin-i18n
+        version: link:../i18n-utils
       '@modern-js/upgrade-generator':
         specifier: workspace:*
         version: link:../../generator/generators/upgrade-generator

@@ -1,4 +1,4 @@
-import { I18n } from '@modern-js/plugin-i18n';
+import { I18n } from '@modern-js/i18n-utils';
 import { EN_LOCALE } from './en';
 import { ZH_LOCALE } from './zh';
 
