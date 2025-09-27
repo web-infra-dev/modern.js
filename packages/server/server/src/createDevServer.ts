@@ -4,9 +4,32 @@ import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import { devPlugin } from './dev';
+import { logger } from '@modern-js/utils';
+import { devPlugin, manager } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
+import { ResourceType } from './helpers/utils';
+import serverHmrPlugin from './plugins/serverReload';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
+
+export let serverReload: (() => Promise<void>) | null = null;
+
+async function createServerOptions(
+  options: ModernDevServerOptions,
+  serverConfigPath: string,
+  distDir: string,
+) {
+  const serverConfig = (await loadServerRuntimeConfig(serverConfigPath)) || {};
+
+  return {
+    ...options,
+    pwd: distDir,
+    serverConfig: {
+      ...serverConfig,
+      ...options.serverConfig,
+    },
+    plugins: [...(serverConfig.plugins || []), ...(options.plugins || [])],
+  };
+}
 
 export async function createDevServer(
   options: ModernDevServerOptions,
@@ -17,38 +40,32 @@ export async function createDevServer(
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = (await loadServerRuntimeConfig(serverConfigPath)) || {};
+  const prodServerOptions = await createServerOptions(
+    options,
+    serverConfigPath,
+    distDir,
+  );
 
-  const prodServerOptions = {
-    ...options,
-    pwd: distDir, // server base pwd must distDir,
-    serverConfig: {
-      ...serverConfig,
-      ...options.serverConfig,
-    },
-    /**
-     * 1. server plugins from modern.server.ts
-     * 2. server plugins register by cli use _internalServerPlugins
-     * Merge plugins, the plugins from modern.server.ts will run first
-     */
-    plugins: [...(serverConfig.plugins || []), ...(options.plugins || [])],
-  };
+  let currentServer = createServerBase(prodServerOptions);
 
-  const server = createServerBase(prodServerOptions);
+  let isReloading = false;
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
   const isHttp2 = !!devHttpsOption;
-  let nodeServer;
+
+  let nodeServer: Awaited<ReturnType<typeof createNodeServer>>;
   if (devHttpsOption) {
     const { genHttpsOptions } = await import('./dev-tools/https');
     const httpsOptions = await genHttpsOptions(devHttpsOption, pwd);
     nodeServer = await createNodeServer(
-      server.handle.bind(server),
+      (req, res) => currentServer.handle(req, res),
       httpsOptions,
       isHttp2,
     );
   } else {
-    nodeServer = await createNodeServer(server.handle.bind(server));
+    nodeServer = await createNodeServer((req, res) =>
+      currentServer.handle(req, res),
+    );
   }
 
   const promise = getDevAssetPrefix(builder);
@@ -57,7 +74,40 @@ export async function createDevServer(
     compiler: options.compiler,
   });
 
-  server.addPlugins([
+  const reload = async () => {
+    if (isReloading) {
+      return;
+    }
+    isReloading = true;
+
+    try {
+      await currentServer.close();
+
+      const updatedProdServerOptions = await createServerOptions(
+        options,
+        serverConfigPath,
+        distDir,
+      );
+      const newServer = createServerBase(updatedProdServerOptions);
+
+      await manager.close(ResourceType.Watcher);
+
+      newServer.addPlugins([serverHmrPlugin(), devPlugin(options, true)]);
+      await applyPlugins(newServer, updatedProdServerOptions);
+      await newServer.init();
+
+      currentServer = newServer;
+
+      logger.info(`Custom Web Server reload succeeded`);
+    } catch (e) {
+      logger.error('[Custom Web Server reload failed]:', e);
+    } finally {
+      isReloading = false;
+    }
+  };
+  serverReload = reload;
+  currentServer.addPlugins([
+    serverHmrPlugin(),
     devPlugin({
       ...options,
       builderDevServer,
@@ -70,9 +120,9 @@ export async function createDevServer(
     prodServerOptions.config.output.assetPrefix = assetPrefix;
   }
 
-  await applyPlugins(server, prodServerOptions, nodeServer);
+  await applyPlugins(currentServer, prodServerOptions, nodeServer);
 
-  await server.init();
+  await currentServer.init();
 
   const afterListen = async () => {
     await builderDevServer?.afterListen();

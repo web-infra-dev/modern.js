@@ -1,10 +1,4 @@
-import { Server } from 'http';
 import { chalk } from '@modern-js/utils';
-import {
-  closeServer,
-  createServer,
-  getServer,
-} from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 
 jest.mock('@modern-js/utils', () => ({
