@@ -58,7 +58,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^6.0.0",
-    "ua-parser-js": "^0.7.33"
+    "ua-parser-js": "^0.7.41"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
