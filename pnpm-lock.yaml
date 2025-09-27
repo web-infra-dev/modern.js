@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1659,8 +1657,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ua-parser-js:
-        specifier: ^0.7.33
-        version: 0.7.33
+        specifier: ^0.7.41
+        version: 0.7.41
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -16027,8 +16025,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  ua-parser-js@0.7.33:
-    resolution: {integrity: sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==}
+  ua-parser-js@0.7.41:
+    resolution: {integrity: sha512-O3oYyCMPYgNNHuO7Jjk3uacJWZF8loBgwrfd/5LE/HyZ3lUIOdniQ7DNXJcIgZbwioZxk0fLfI4EVnetdiX5jg==}
+    hasBin: true
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
@@ -29663,7 +29662,7 @@ snapshots:
 
   typescript@5.6.3: {}
 
-  ua-parser-js@0.7.33: {}
+  ua-parser-js@0.7.41: {}
 
   ufo@1.5.4: {}
 
