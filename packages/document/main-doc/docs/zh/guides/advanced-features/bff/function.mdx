@@ -193,7 +193,7 @@ Dynamic Path 之后的参数是包含 querystring、request body 的对象 `Requ
 在不存在动态路由的普通函数中，可以从第一个入参中获取传入的 `data` 和 `query`，例如：
 
 ```ts title="api/lambda/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server';
+import type { RequestOption } from '@modern-js/server-runtime';
 
 export async function post({
   query,
@@ -206,7 +206,7 @@ export async function post({
 这里你也可以使用自定义类型：
 
 ```ts title="api/lambda/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server';
+import type { RequestOption } from '@modern-js/server-runtime';
 
 type IQuery = {
   // some types

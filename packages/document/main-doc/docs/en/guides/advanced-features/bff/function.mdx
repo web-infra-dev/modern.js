@@ -191,7 +191,7 @@ Parameters following the dynamic path are an object called `RequestOption`, whic
 In a standard function without dynamic routes, `RequestOption` can be obtained from the first parameter, for example:
 
 ```ts title="api/lambda/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server';
+import type { RequestOption } from '@modern-js/plugin-bff/server';
 
 export async function post({
   query,
@@ -204,7 +204,7 @@ export async function post({
 Custom types can also be used here:
 
 ```ts title="api/lambda/hello.ts"
-import type { RequestOption } from '@modern-js/runtime/server';
+import type { RequestOption } from '@modern-js/plugin-bff/server';
 
 type IQuery = {
   // some types
