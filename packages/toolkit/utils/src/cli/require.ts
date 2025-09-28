@@ -104,10 +104,8 @@ export function deleteRequireCache(path: string) {
   if (require.cache[path]) {
     delete require.cache[path];
   }
-  if (globalThis.module.children) {
-    globalThis.module.children = globalThis.module.children.filter(
-      item => item.filename !== path,
-    );
+  if (module.children) {
+    module.children = module.children.filter(item => item.filename !== path);
   }
 }
 
