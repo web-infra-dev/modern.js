@@ -35,6 +35,16 @@
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
     },
+    "./require": {
+      "jsnext:source": "./src/cli/require.ts",
+      "import": "./dist/esm/cli/require.js",
+      "default": "./dist/cjs/cli/require.js"
+    },
+    "./env": {
+      "jsnext:source": "./src/cli/is/env.ts",
+      "import": "./dist/esm/cli/is/env.js",
+      "default": "./dist/cjs/cli/is/env.js"
+    },
     "./universal": {
       "jsnext:source": "./src/universal/index.ts",
       "import": "./dist/esm/universal/index.js",
@@ -115,6 +125,16 @@
         "types": "./dist/types/cli/logger.d.ts",
         "default": "./dist/cjs/cli/logger.js"
       },
+      "./require": {
+        "jsnext:source": "./src/cli/require.ts",
+        "import": "./dist/esm/cli/require.js",
+        "default": "./dist/cjs/cli/require.js"
+      },
+      "./env": {
+        "jsnext:source": "./src/cli/is/env.ts",
+        "import": "./dist/esm/cli/is/env.js",
+        "default": "./dist/cjs/cli/is/env.js"
+      },
       "./chain-id": {
         "types": "./dist/types/cli/constants/chainId.d.ts",
         "default": "./dist/cjs/cli/constants/chainId.js"
@@ -194,6 +214,12 @@
       ],
       "chain-id": [
         "./dist/types/cli/constants/chainId.d.ts"
+      ],
+      "require": [
+        "./dist/types/cli/require.d.ts"
+      ],
+      "env": [
+        "./dist/types/cli/is/env.d.ts"
       ],
       "universal": [
         "./dist/types/universal/index.d.ts"
