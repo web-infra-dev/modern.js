@@ -17,7 +17,6 @@ export type SSR =
       forceCSR?: boolean;
       mode?: SSRMode;
       inlineScript?: boolean;
-      disablePrerender?: boolean;
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
     };

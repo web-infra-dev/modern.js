@@ -6,7 +6,6 @@ export default applyBaseConfig({
   },
   server: {
     ssr: {
-      disablePrerender: true,
       unsafeHeaders: ['Host'],
     },
   },

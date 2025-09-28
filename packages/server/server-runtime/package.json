@@ -59,6 +59,7 @@
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {

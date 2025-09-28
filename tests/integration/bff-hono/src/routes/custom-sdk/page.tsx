@@ -1,5 +1,5 @@
 import hello from '@api/index';
-import { configure } from '@modern-js/runtime/bff';
+import { configure } from '@modern-js/plugin-bff/client';
 import { useEffect, useState } from 'react';
 
 configure({

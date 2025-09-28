@@ -22,7 +22,6 @@ export default defineConfig({
       two: false,
       three: {
         mode: 'stream',
-        disablePrerender: true,
         loaderFailureMode: 'clientRender',
       },
       four: false,

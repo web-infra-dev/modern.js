@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`client generateClient should support cross croject invocation 1`] = `
-"import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
+"import { createRequest } from '@modern-js/plugin-bff/client';
 
-export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
-      export default createRequest({path: '/normal/origin',method: 'GET',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
-      export var putRepo = createRequest({path: '/put-repo',method: 'PUT',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
+export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName', requestId: '@modern-js/bff-core'});
+      export default createRequest({path: '/normal/origin',method: 'GET',port: 3000,httpMethodDecider: 'functionName', requestId: '@modern-js/bff-core'});
+      export var putRepo = createRequest({path: '/put-repo',method: 'PUT',port: 3000,httpMethodDecider: 'functionName', requestId: '@modern-js/bff-core'});
       "
 `;
 
 exports[`client generateClient should support operator 1`] = `
-"import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
+"import { createRequest } from '@modern-js/plugin-bff/client';
 
 export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName'});
       export default createRequest({path: '/normal/origin',method: 'GET',port: 3000,httpMethodDecider: 'functionName'});
@@ -19,7 +19,7 @@ export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port:
 `;
 
 exports[`client generateClient should works correctly 1`] = `
-"import { createRequest } from '@modern-js/plugin-bff/runtime/create-request';
+"import { createRequest } from '@modern-js/plugin-bff/client';
 
 export var get = createRequest({path: '/api/:id/origin/foo',method: 'GET',port: 3000,httpMethodDecider: 'functionName'});
       export var post = createRequest({path: '/api/:id/origin/foo',method: 'POST',port: 3000,httpMethodDecider: 'functionName'});

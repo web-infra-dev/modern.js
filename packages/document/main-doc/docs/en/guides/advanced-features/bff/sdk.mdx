@@ -13,7 +13,7 @@ The `configure` function needs to be called before all BFF requests are sent to 
 :::
 
 ```tsx title="routes/page.tsx"
-import { configure } from '@modern-js/runtime/bff';
+import { configure } from '@modern-js/plugin-bff/client';
 
 configure({
   // ...
@@ -90,7 +90,7 @@ There are some conventions when configuring custom request functions:
 Below is an example of using axios to customize a request function:
 
 ```tsx title="App.tsx"
-import { configure } from '@modern-js/runtime/bff';
+import { configure } from '@modern-js/plugin-bff/client';
 import type { Method, AxiosRequestHeaders as Headers } from 'axios';
 
 configure({

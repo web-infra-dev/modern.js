@@ -15,10 +15,10 @@ BFF 函数的一体化调用在 CSR 和 SSR 是同构的。Modern.js 封装的�
 
 
 ```tsx title="routes/page.tsx"
-import { configure } from '@modern-js/runtime/bff';
+import { configure } from '@modern-js/plugin-bff/client';
 
-configure({ 
-  // ... 
+configure({
+  // ...
 })
 
 const Index = () => <div>Hello world</div>
@@ -92,7 +92,7 @@ configure({
 下面是使用 axios 定制自定义请求函数的示例：
 
 ```tsx title="App.tsx"
-import { configure } from '@modern-js/runtime/bff';
+import { configure } from '@modern-js/plugin-bff/client';
 import type { Method, AxiosRequestHeaders as Headers } from 'axios';
 
 configure({

@@ -12,7 +12,7 @@ Modern.js uses [Hono.js](https://hono.dev/) as the BFF and Server runtime framew
 Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
 
 ```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/hono'
+import { useHonoContext } from '@modern-js/plugin-bff/server'
 export const get = async () => {
   const c = useHonoContext();
   console.info(`access url: ${c.req.url}`);

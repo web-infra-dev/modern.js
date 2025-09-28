@@ -12,7 +12,7 @@ Modern.js 以 [Hono.js](https://hono.dev/) 作为 BFF 和 Server 运行时框架
 在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，你可以通过 `useHonoContext` 来获取：
 
 ```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/hono'
+import { useHonoContext } from '@modern-js/plugin-bff/server'
 export const get = async () => {
   const c = useHonoContext();
   console.info(`access url: ${c.req.url}`);
