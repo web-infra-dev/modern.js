@@ -26,7 +26,7 @@ describe('client', () => {
     const source = await fs.readFile(resourcePath, 'utf-8');
 
     const result = await generateClient({
-      appDir: PWD,
+      appDir: __dirname,
       prefix,
       port,
       resourcePath,
@@ -49,7 +49,7 @@ describe('client', () => {
     const source = await fs.readFile(resourcePath, 'utf-8');
 
     const result = await generateClient({
-      appDir: PWD,
+      appDir: __dirname,
       prefix,
       port,
       resourcePath,
@@ -72,7 +72,7 @@ describe('client', () => {
     const source = await fs.readFile(resourcePath, 'utf-8');
 
     const result = await generateClient({
-      appDir: PWD,
+      appDir: __dirname,
       prefix,
       port,
       resourcePath,

@@ -1,22 +1,50 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 
+/**
+ * Get package name from package.json file
+ * @param appDirectory - Application directory path
+ * @returns Package name or undefined if not found
+ */
+const getPackageName = (appDirectory: string): string | undefined => {
+  try {
+    const packageJsonPath = path.resolve(appDirectory, './package.json');
+    const packageJson = require(packageJsonPath);
+    return packageJson.name;
+  } catch (error) {
+    // If package.json doesn't exist or is invalid, return undefined
+    return undefined;
+  }
+};
+
 async function runtimeGenerator({
   runtime,
   appDirectory,
   relativeDistPath,
-}: { runtime: string; appDirectory: string; relativeDistPath: string }) {
+  packageName,
+}: {
+  runtime: string;
+  appDirectory: string;
+  relativeDistPath: string;
+  packageName?: string;
+}) {
   const pluginDir = path.resolve(
     appDirectory,
     `./${relativeDistPath}`,
     'runtime',
   );
 
+  const requestId =
+    packageName ||
+    getPackageName(appDirectory) ||
+    process.env.npm_package_name ||
+    'default';
+
   const source = `import { configure as _configure } from '${runtime}'
     const configure = (options) => {
       return _configure({
         ...options,
-        requestId: '${process.env.npm_package_name}',
+        requestId: '${requestId}',
       });
     }
     export { configure }
