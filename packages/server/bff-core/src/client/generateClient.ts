@@ -3,6 +3,22 @@ import type { HttpMethodDecider } from '@modern-js/types';
 import { ApiRouter } from '../router';
 import { Err, Ok, type Result } from './result';
 
+/**
+ * Get package name from package.json file
+ * @param appDir - Application directory path
+ * @returns Package name or undefined if not found
+ */
+const getPackageName = (appDir: string): string | undefined => {
+  try {
+    const packageJsonPath = path.resolve(appDir, './package.json');
+    const packageJson = require(packageJsonPath);
+    return packageJson.name;
+  } catch (error) {
+    // If package.json doesn't exist or is invalid, return undefined
+    return undefined;
+  }
+};
+
 export type GenClientResult = Result<string>;
 
 export type GenClientOptions = {
@@ -65,7 +81,9 @@ export const generateClient = async ({
     const routeName = routePath;
 
     const requestId =
-      target === 'bundle' ? process.env.npm_package_name : undefined;
+      target === 'bundle'
+        ? getPackageName(appDir) || process.env.npm_package_name
+        : undefined;
 
     if (action === 'upload') {
       const requestOptions = {
