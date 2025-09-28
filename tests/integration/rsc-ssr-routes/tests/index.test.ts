@@ -260,6 +260,9 @@ async function shouldRenderWithFetchCorrectly({
   const message = await page.$eval('.message', el => el.textContent);
   expect(message).toBe('root page from server');
 
+  const requestUrl = await page.$eval('.request-url', el => el.textContent);
+  expect(requestUrl?.length).toBeGreaterThan(0);
+
   await page.click('.user-link');
   await page.waitForSelector('.user-data', { timeout: 5000 });
   const userData = await page.$eval('.user-data', el => el.textContent);

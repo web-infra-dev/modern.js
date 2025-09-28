@@ -19,8 +19,8 @@ import runtimeGenerator from './utils/runtimeGenerator';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
-const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
-const RUNTIME_HONO = '@modern-js/plugin-bff/hono';
+const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/client';
+const RUNTIME_HONO = '@modern-js/plugin-bff/server';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
@@ -230,13 +230,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                 requestCreator: (bff as any)?.requestCreator,
                 httpMethodDecider,
               });
-
-            chain.resolve.alias.set('@api', apiDirectory);
-
-            chain.resolve.alias.set(
-              '@modern-js/runtime/bff',
-              RUNTIME_CREATE_REQUEST,
-            );
           },
         },
         output: {
@@ -284,7 +277,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
     api._internalServerPlugins(({ plugins }) => {
       plugins.push({
-        name: '@modern-js/plugin-bff/server',
+        name: '@modern-js/plugin-bff/server-plugin',
       });
       return { plugins };
     });

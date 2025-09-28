@@ -1,4 +1,4 @@
-import type { CacheOption, Container } from '@modern-js/runtime/server';
+import type { CacheOption, Container } from '@modern-js/server-runtime';
 
 class MyContainer implements Container {
   map: Map<string, string> = new Map();

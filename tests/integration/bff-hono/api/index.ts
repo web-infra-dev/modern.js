@@ -9,8 +9,9 @@ import {
   Post,
   Query,
   useHonoContext,
-} from '@modern-js/plugin-bff/hono';
+} from '@modern-js/plugin-bff/server';
 import { z } from 'zod';
+
 export default async () => {
   return {
     message: 'Hello Modern.js',

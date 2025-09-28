@@ -49,7 +49,7 @@ export const dev = async (
     await registerEsm({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
-      alias: combinedAlias,
+      alias: {},
     });
   }
 

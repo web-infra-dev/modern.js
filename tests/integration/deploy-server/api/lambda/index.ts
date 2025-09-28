@@ -1,51 +1,8 @@
-import {
-  Api,
-  Data,
-  Headers,
-  Params,
-  Post,
-  Query,
-  useContext,
-} from '@modern-js/runtime/server';
-import { z } from 'zod';
+import { useHonoContext } from '@modern-js/plugin-bff/server';
 
-export default async () => ({
-  message: 'Hello Modern.js',
-});
-
-export const post = async () => ({
-  message: 'Hello Modern.js',
-});
-
-const QuerySchema = z.object({
-  user: z.string().email(),
-});
-
-const DataSchema = z.object({
-  message: z.string(),
-});
-
-const ParamsSchema = z.object({
-  id: z.string(),
-});
-
-const HeadersSchema = z.object({
-  'x-header': z.string(),
-});
-
-export const postHello = Api(
-  Post('/hello/:id'),
-  Params(ParamsSchema),
-  Query(QuerySchema),
-  Data(DataSchema),
-  Headers(HeadersSchema),
-  async ({ query, data, params, headers }) => {
-    const ctx = useContext();
-    return {
-      params,
-      query,
-      data,
-      headers,
-    };
-  },
-);
+export const post = async () => {
+  const ctx = useHonoContext();
+  return {
+    message: 'Hello Modern.js',
+  };
+};

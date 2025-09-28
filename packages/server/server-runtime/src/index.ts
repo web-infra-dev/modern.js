@@ -10,5 +10,14 @@ export {
   type ServerConfig,
 } from '@modern-js/server-core';
 
+export type {
+  Container,
+  CacheControl,
+  CacheOptionProvider,
+  CacheOption,
+  MonitorEvent,
+  Monitors,
+} from '@modern-js/types';
+
 export const defineServerConfig = (config: ServerConfig): ServerConfig =>
   config;
