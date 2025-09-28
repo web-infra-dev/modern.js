@@ -267,7 +267,7 @@ Modern.js 支持为 Web Server 添加渲染中间件，支持在处理页面路�
 import {
   UnstableMiddleware,
   UnstableMiddlewareContext,
-} from '@modern-js/runtime/server';
+} from '@modern-js/server-runtime';
 
 const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
   const start = Date.now();
@@ -292,7 +292,7 @@ Modern.js 提供的 Hook 用于控制 Web Server 中的特定逻辑，所有的�
 import type {
   AfterMatchHook,
   AfterRenderHook,
-} from '@modern-js/runtime/server';
+} from '@modern-js/server-runtime';
 
 export const afterMatch: AfterMatchHook = (ctx, next) => {
   next();
