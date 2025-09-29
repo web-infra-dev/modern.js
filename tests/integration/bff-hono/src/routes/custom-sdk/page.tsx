@@ -1,4 +1,4 @@
-import hello from '@api/index';
+import hello from '@api/lambda/index';
 import { configure } from '@modern-js/plugin-bff/client';
 import { useEffect, useState } from 'react';
 

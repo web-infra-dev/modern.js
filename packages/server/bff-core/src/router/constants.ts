@@ -2,18 +2,6 @@ import { HttpMethod } from '../types';
 
 export const AllHttpMethods = Object.values(HttpMethod) as string[];
 
-export enum APIMode {
-  /**
-   * 框架模式
-   */
-  FARMEWORK = 'framework',
-
-  /**
-   * 函数模式
-   */
-  FUNCTION = 'function',
-}
-
 export const FRAMEWORK_MODE_LAMBDA_DIR = 'lambda';
 
 export const FRAMEWORK_MODE_APP_DIR = 'app';
