@@ -125,10 +125,8 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             // ensure that all packages use the same storage in @modern-js/runtime-utils/node
             '@modern-js/runtime-utils/node$': require
               .resolve('@modern-js/runtime-utils/node')
-              .replace(
-                `${path.sep}cjs${path.sep}`,
-                `${path.sep}esm${path.sep}`,
-              ),
+              .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
+              .replace(/\.js$/, '.mjs'),
           },
         },
         tools: {

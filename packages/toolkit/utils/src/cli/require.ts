@@ -94,7 +94,9 @@ export const requireExistModule = async (
 
 export const cleanRequireCache = (filelist: string[]) => {
   filelist.forEach(filepath => {
-    delete require.cache[filepath];
+    if (typeof require !== 'undefined' && require.cache) {
+      delete require.cache[filepath];
+    }
   });
 };
 
@@ -102,8 +104,10 @@ export function deleteRequireCache(path: string) {
   if (require.cache[path]) {
     delete require.cache[path];
   }
-  if (module.children) {
-    module.children = module.children.filter(item => item.filename !== path);
+  if (globalThis.module.children) {
+    globalThis.module.children = globalThis.module.children.filter(
+      item => item.filename !== path,
+    );
   }
 }
 

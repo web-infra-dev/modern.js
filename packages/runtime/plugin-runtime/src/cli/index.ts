@@ -2,7 +2,7 @@ import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   isReact18 as checkIsReact18,
-  cleanRequireCache,
+  // cleanRequireCache,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
@@ -139,12 +139,14 @@ export const runtimePlugin = (params?: {
       };
     });
 
-    api.onBeforeRestart(() => {
-      cleanRequireCache([
-        require.resolve('../router/cli'),
-        require.resolve('./ssr'),
-      ]);
-    });
+    // console.log('11111111', __filename, cleanRequireCache.toString());
+
+    // api.onBeforeRestart(() => {
+    //   cleanRequireCache([
+    //     require.resolve('../router/cli'),
+    //     require.resolve('./ssr'),
+    //   ]);
+    // });
   },
 });
 

@@ -63,6 +63,6 @@ type Storage = typeof storage;
 
 export { storage, type Storage };
 
-export const getAsyncLocalStorage = (): Storage => {
+export const getAsyncLocalStorage = async (): Promise<Storage> => {
   return storage;
 };

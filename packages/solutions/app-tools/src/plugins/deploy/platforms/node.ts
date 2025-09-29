@@ -103,7 +103,9 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       );
 
       const filter = (filePath: string) => {
-        return !filePath.startsWith(staticDirectory);
+        return (
+          !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
+        );
       };
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
       await handleDependencies({
