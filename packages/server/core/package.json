@@ -34,10 +34,10 @@
       "default": "./dist/cjs/adapters/node/index.js"
     },
     "./helper": {
-      "types": "./dist/types/helper/index.d.ts",
-      "jsnext:source": "./src/helper/index.ts",
-      "import": "./dist/esm-node/helper/index.js",
-      "default": "./dist/cjs/helper/index.js"
+      "types": "./dist/types/helper.d.ts",
+      "jsnext:source": "./src/helper.ts",
+      "import": "./dist/esm-node/helper.js",
+      "default": "./dist/cjs/helper.js"
     }
   },
   "typesVersions": {
@@ -49,7 +49,7 @@
         "./dist/types/adapters/node/index.d.ts"
       ],
       "helper": [
-        "./dist/types/helper/index.d.ts"
+        "./dist/types/helper.d.ts"
       ]
     }
   },
@@ -107,9 +107,9 @@
         "default": "./dist/cjs/adapters/node/index.js"
       },
       "./helper": {
-        "types": "./dist/types/helper/index.d.ts",
-        "import": "./dist/esm-node/helper/index.js",
-        "default": "./dist/cjs/helper/index.js"
+        "types": "./dist/types/helper.d.ts",
+        "import": "./dist/esm-node/helper.js",
+        "default": "./dist/cjs/helper.js"
       }
     }
   }
