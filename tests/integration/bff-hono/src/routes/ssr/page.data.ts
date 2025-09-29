@@ -1,4 +1,4 @@
-import hello from '@api/index';
+import hello from '@api/lambda/index';
 
 export type ProfileData = {
   message: string;

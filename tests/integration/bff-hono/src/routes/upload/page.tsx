@@ -1,4 +1,4 @@
-import { upload } from '@api/upload';
+import { upload } from '@api/lambda/upload';
 import React, { useEffect } from 'react';
 
 const getMockImage = () => {

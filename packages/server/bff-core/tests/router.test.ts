@@ -33,17 +33,18 @@ describe('test getPathFromFilename', () => {
 });
 
 describe('test api router', () => {
-  const mockApiDir = '/api';
+  const mockApiDir = path.join(__dirname, 'fixtures', 'function');
   let apiRouter: ApiRouter;
   beforeAll(() => {
     apiRouter = new ApiRouter({
       apiDir: mockApiDir,
+      lambdaDir: path.join(mockApiDir, 'lambda'),
       prefix: '/',
     });
   });
 
   test('support get http method from function name', () => {
-    const mockFileName = '/api/repo.ts';
+    const mockFileName = path.join(mockApiDir, 'lambda', 'repo.ts');
     const mockFuncName = 'del';
     const del = () => {};
 
@@ -92,9 +93,10 @@ describe('test api router', () => {
 
   test('getSingleModuleHandlers', async () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
-    const apiFile = path.join(apiDir, 'normal/origin/index');
+    const apiFile = path.join(apiDir, 'lambda/normal/origin/index');
     const apiRouter = new ApiRouter({
       apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
       prefix: '/',
     });
     const handlerInfos = await apiRouter.getSingleModuleHandlers(apiFile);
@@ -107,6 +109,7 @@ describe('test api router', () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiRouter = new ApiRouter({
       apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
       prefix: '/',
     });
     const filenames = apiRouter.getApiFiles();
@@ -130,10 +133,12 @@ describe('test api router', () => {
     const get = () => 'Hello Modernjs';
     const apiRouter1 = new ApiRouter({
       apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
       prefix: '',
     });
+
     const handlerInfo1 = apiRouter1.getHandlerInfo(
-      path.join(apiDir, 'normal/origin/index.ts'),
+      path.join(apiDir, 'lambda/normal/origin/index.ts'),
       'get',
       get,
     );
@@ -141,10 +146,11 @@ describe('test api router', () => {
 
     const apiRouter2 = new ApiRouter({
       apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
       prefix: '/',
     });
     const handlerInfo2 = apiRouter2.getHandlerInfo(
-      path.join(apiDir, 'normal/origin/index.ts'),
+      path.join(apiDir, 'lambda/normal/origin/index.ts'),
       'get',
       get,
     );
@@ -155,7 +161,7 @@ describe('test api router', () => {
       prefix: '',
     });
     const handlerInfo3 = apiRouter3.getHandlerInfo(
-      path.join(apiDir, 'index.ts'),
+      path.join(apiDir, 'lambda/index.ts'),
       'get',
       get,
     );
@@ -163,10 +169,11 @@ describe('test api router', () => {
 
     const apiRouter4 = new ApiRouter({
       apiDir,
+      lambdaDir: path.join(apiDir, 'lambda'),
       prefix: '/',
     });
     const handlerInfo4 = apiRouter4.getHandlerInfo(
-      path.join(apiDir, 'index.ts'),
+      path.join(apiDir, 'lambda/index.ts'),
       'get',
       get,
     );
@@ -176,7 +183,7 @@ describe('test api router', () => {
   test('getSafeRoutePath should throw error when file is not a api file', () => {
     const apiRouter = new ApiRouter({
       apiDir: PWD,
-      lambdaDir: PWD,
+      lambdaDir: path.join(PWD, 'lambda'),
       prefix: '/',
     });
     const resourcePath = path.resolve(
@@ -192,7 +199,7 @@ describe('test api router', () => {
     const resourcePath = './fixtures/function/_fail.ts';
     const apiRouter = new ApiRouter({
       apiDir: PWD,
-      lambdaDir: PWD,
+      lambdaDir: path.join(PWD, 'lambda'),
       prefix: '/',
     });
     expect(() => apiRouter.getSafeRoutePath(resourcePath)).toThrow(

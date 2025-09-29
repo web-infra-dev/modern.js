@@ -1,4 +1,4 @@
-import { Api, Put } from '../../../../../src';
+import { Api, Put } from '../../../../../../src';
 
 const getOrigin = ({ query: { id } }: { query: { id: string } }) => ({ id });
 

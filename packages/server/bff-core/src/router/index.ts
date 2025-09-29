@@ -5,7 +5,6 @@ import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';
 import {
-  APIMode,
   API_FILE_RULES,
   FRAMEWORK_MODE_APP_DIR,
   FRAMEWORK_MODE_LAMBDA_DIR,
@@ -22,8 +21,6 @@ export * from './types';
 export * from './constants';
 
 export class ApiRouter {
-  private apiMode: APIMode;
-
   private appDir?: string;
 
   private apiDir: string;
@@ -64,7 +61,6 @@ export class ApiRouter {
     this.apiDir = apiDir;
     this.httpMethodDecider = httpMethodDecider;
     this.isBuild = isBuild;
-    this.apiMode = this.getExactApiMode(apiDir, lambdaDir);
     this.lambdaDir = this.getExactLambdaDir(this.apiDir, lambdaDir);
     this.existLambdaDir = fs.existsSync(this.lambdaDir);
     debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
@@ -72,10 +68,6 @@ export class ApiRouter {
 
   public isExistLambda() {
     return this.existLambdaDir;
-  }
-
-  public getApiMode() {
-    return this.apiMode;
   }
 
   public getLambdaDir() {
@@ -261,32 +253,10 @@ export class ApiRouter {
     }
   }
 
-  private getExactApiMode = (apiDir: string, lambdaDir?: string): APIMode => {
-    const exist = this.createExistChecker(apiDir);
-    const existLambdaDir =
-      (lambdaDir && fs.pathExistsSync(lambdaDir)) ||
-      exist(FRAMEWORK_MODE_LAMBDA_DIR);
-    const existAppDir = exist(FRAMEWORK_MODE_APP_DIR);
-    const existAppFile = exist('app.ts') || exist('app.js');
-
-    if (existLambdaDir || existAppDir || existAppFile) {
-      return APIMode.FARMEWORK;
-    }
-
-    return APIMode.FUNCTION;
-  };
-
-  private createExistChecker = (base: string) => (target: string) =>
-    fs.pathExistsSync(path.resolve(base, target));
-
   private getExactLambdaDir = (
     apiDir: string,
     originLambdaDir?: string,
   ): string => {
-    if (this.apiMode === APIMode.FUNCTION) {
-      return apiDir;
-    }
-
     return originLambdaDir || path.join(apiDir, FRAMEWORK_MODE_LAMBDA_DIR);
   };
 

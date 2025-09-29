@@ -1,4 +1,4 @@
-import hello, { post, postHello, getHello, getImage } from '@api/index';
+import hello, { post, postHello, getHello, getImage } from '@api/lambda/index';
 import { useEffect, useState } from 'react';
 
 const Page = () => {
