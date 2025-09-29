@@ -21,7 +21,7 @@ describe('client', () => {
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,
-      '../fixtures/function/[id]/origin/foo.ts',
+      '../fixtures/function/lambda/[id]/origin/foo.ts',
     );
     const source = await fs.readFile(resourcePath, 'utf-8');
 
@@ -44,7 +44,7 @@ describe('client', () => {
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,
-      '../fixtures/function/normal/origin/index.ts',
+      '../fixtures/function/lambda/normal/origin/index.ts',
     );
     const source = await fs.readFile(resourcePath, 'utf-8');
 
@@ -67,7 +67,7 @@ describe('client', () => {
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,
-      '../fixtures/function/normal/origin/index.ts',
+      '../fixtures/function/lambda/normal/origin/index.ts',
     );
     const source = await fs.readFile(resourcePath, 'utf-8');
 
