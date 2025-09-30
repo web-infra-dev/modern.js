@@ -2,7 +2,7 @@ import type { IncomingHttpHeaders } from 'http';
 import { storage } from '@modern-js/runtime-utils/node';
 import nodeFetch from 'node-fetch';
 import { type Key, compile, pathToRegexp } from 'path-to-regexp';
-import { stringify } from 'query-string';
+import { stringify } from 'qs';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
