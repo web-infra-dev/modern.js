@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.68.17
+
+### Patch Changes
+
+- aac9de0: chore(@modern-js/utils): re-exports require, env module using sub-paths
+  chore(@modern-js/utils): 使用 sub-paths 导出 require, env 模块
+
 ## 2.68.16
 
 ## 2.68.15
