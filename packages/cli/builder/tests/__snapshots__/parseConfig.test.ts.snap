@@ -151,7 +151,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     },
     "polyfill": "entry",
     "sourceMap": {
-      "css": true,
+      "css": false,
     },
   },
   "performance": {},
@@ -160,8 +160,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
-    "middlewareMode": true,
-    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
