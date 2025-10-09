@@ -1443,7 +1443,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": false,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -1466,7 +1466,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2413,7 +2413,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": false,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -2431,7 +2431,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -3828,7 +3828,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "inlineConst": false,
+    "inlineConst": true,
     "inlineEnum": true,
     "lazyBarrel": true,
     "rspackFuture": {
@@ -3847,7 +3847,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
-        "inlineConst": false,
+        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -4801,8 +4801,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
-        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
@@ -6387,8 +6385,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
-        "typeReexportsPresence": "tolerant",
       },
     },
     "rules": [
