@@ -4,6 +4,7 @@ import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
+import type { Rspack } from '@modern-js/uni-builder';
 import { devPlugin } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';
@@ -59,16 +60,26 @@ export async function createDevServer(
   }
 
   const promise = getDevAssetPrefix(builder);
+
+  let compiler: Rspack.Compiler | Rspack.MultiCompiler | null = null;
+
+  builder?.onAfterCreateCompiler(context => {
+    compiler = context.compiler;
+  });
+
   const builderDevServer = await builder?.createDevServer({
     runCompile: options.runCompile,
     compiler: options.compiler,
   });
 
   server.addPlugins([
-    devPlugin({
-      ...options,
-      builderDevServer,
-    }),
+    devPlugin(
+      {
+        ...options,
+        builderDevServer,
+      },
+      compiler,
+    ),
   ]);
 
   // run after createDevServer, we can get assetPrefix from builder
