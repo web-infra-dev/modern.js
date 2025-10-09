@@ -29,7 +29,7 @@ exports[`should allow to enable legacy decorator 1`] = `
         "include": [
           "@babel/plugin-transform-class-properties",
         ],
-        "modules": false,
+        "modules": "commonjs",
         "targets": [
           "node >= 20",
         ],
@@ -69,7 +69,7 @@ exports[`should allow to override target node version 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": false,
+        "modules": "commonjs",
         "targets": [
           "node >= 20",
         ],
@@ -109,7 +109,7 @@ exports[`should provide node preset as expected 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
-        "modules": false,
+        "modules": "commonjs",
         "targets": [
           "node >= 16",
         ],
