@@ -12,6 +12,6 @@ exports[`builder rspack with cache > should generator rspack config correctly wi
     "type": "filesystem",
   },
   "type": "persistent",
-  "version": "web-production",
+  "version": "web-test",
 }
 `;
