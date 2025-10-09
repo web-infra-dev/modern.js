@@ -1,4 +1,4 @@
-import type { Rspack, BuilderInstance } from '@modern-js/builder';
+import type { BuilderInstance, Rspack } from '@modern-js/builder';
 import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';

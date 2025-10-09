@@ -1,10 +1,10 @@
 import path from 'node:path';
+import type { Rspack } from '@modern-js/builder';
 import { createServerBase } from '@modern-js/server-core';
 import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import type { Rspack } from '@modern-js/builder';
 import { devPlugin } from './dev';
 import { getDevAssetPrefix, getDevOptions } from './helpers';
 import type { ApplyPlugins, ModernDevServerOptions } from './types';

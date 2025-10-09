@@ -1,6 +1,6 @@
+import type { Rspack } from '@modern-js/builder';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Middleware } from '@modern-js/server-core';
-import type { Rspack } from '@modern-js/builder';
 import type fs from '@modern-js/utils/fs-extra';
 
 export const initFileReader = (
