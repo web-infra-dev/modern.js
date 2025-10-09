@@ -1,7 +1,11 @@
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Middleware } from '@modern-js/server-core';
+import type { Rspack } from '@modern-js/uni-builder';
+import type fs from '@modern-js/utils/fs-extra';
 
-export const initFileReader = (): Middleware => {
+export const initFileReader = (
+  compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
+): Middleware => {
   let isInit = false;
 
   return async (ctx, next) => {
@@ -10,18 +14,17 @@ export const initFileReader = (): Middleware => {
     }
     isInit = true;
 
-    const { res } = ctx.env.node;
-    if (!res.locals?.webpack) {
+    if (!compiler) {
       fileReader.reset();
       return next();
     }
 
     // When devServer.devMiddleware.writeToDisk is configured as false,
     // the renderHandler needs to read the html file in memory through the fileReader
-    const { devMiddleware: webpackDevMid } = res.locals.webpack;
-    const { outputFileSystem } = webpackDevMid;
+    const { outputFileSystem } =
+      'compilers' in compiler ? compiler.compilers[0] : compiler;
     if (outputFileSystem) {
-      fileReader.reset(outputFileSystem);
+      fileReader.reset(outputFileSystem as unknown as typeof fs);
     } else {
       fileReader.reset();
     }

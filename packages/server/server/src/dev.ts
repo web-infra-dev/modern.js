@@ -4,7 +4,7 @@ import type {
 } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import type { RequestHandler } from '@modern-js/types';
-import type { UniBuilderInstance } from '@modern-js/uni-builder';
+import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import {
   getDevOptions,
@@ -23,7 +23,10 @@ export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
   builderDevServer?: BuilderDevServer;
 };
 
-export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
+export const devPlugin = (
+  options: DevPluginOptions,
+  compiler: Rspack.Compiler | Rspack.MultiCompiler | null,
+): ServerPluginLegacy => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
@@ -144,7 +147,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPluginLegacy => ({
 
         middlewares.push({
           name: 'init-file-reader',
-          handler: initFileReader(),
+          handler: initFileReader(compiler),
         });
       },
     };
