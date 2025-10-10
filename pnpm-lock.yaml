@@ -1881,6 +1881,9 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../../toolkit/types
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -4439,6 +4442,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../packages/server/server-runtime
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -4676,6 +4682,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/server/server-runtime
       react:
         specifier: ^19.1.1
         version: 19.1.1
