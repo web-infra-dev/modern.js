@@ -1,5 +1,15 @@
 # @modern-js/prod-server
 
+## 2.68.17
+
+### Patch Changes
+
+- Updated dependencies [aac9de0]
+- Updated dependencies [3a773b1]
+  - @modern-js/utils@2.68.17
+  - @modern-js/server-core@2.68.17
+  - @modern-js/runtime-utils@2.68.17
+
 ## 2.68.16
 
 ### Patch Changes
