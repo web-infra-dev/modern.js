@@ -5,9 +5,7 @@ export default applyBaseConfig({
     router: true,
   },
   server: {
-    ssr: {
-      disablePrerender: true,
-    },
+    ssr: true,
   },
   source: {
     enableAsyncEntry: true,

@@ -1,5 +1,5 @@
 import innerHello from '@api/index';
-import { configure as innerConfigure } from '@modern-js/runtime/bff';
+import { configure as innerConfigure } from '@modern-js/plugin-bff/client';
 import type { AxiosRequestHeaders as Headers, Method } from 'axios';
 import axios from 'axios';
 import context from 'bff-api-app/api/context/index';

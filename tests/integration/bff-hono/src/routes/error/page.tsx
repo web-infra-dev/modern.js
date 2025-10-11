@@ -1,5 +1,5 @@
-import get, { exception } from '@api/error/index';
-import getManaged, { exceptionManaged } from '@api/error/managed';
+import get, { exception } from '@api/lambda/error/index';
+import getManaged, { exceptionManaged } from '@api/lambda/error/managed';
 
 import { useEffect, useState } from 'react';
 

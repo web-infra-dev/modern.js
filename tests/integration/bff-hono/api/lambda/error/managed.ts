@@ -1,4 +1,4 @@
-import { Api, Get } from '@modern-js/plugin-bff/hono';
+import { Api, Get } from '@modern-js/plugin-bff/server';
 import { HTTPException } from 'hono/http-exception';
 
 export default async () => {

@@ -142,14 +142,11 @@ export default (): ServerPlugin => ({
         prefix,
         httpMethodDecider,
       });
-      const apiMode = apiRouter.getApiMode();
-
       const apiHandlerInfos = await apiRouter.getApiHandlers();
       api.updateServerContext({
         ...appContext,
         apiRouter,
         apiHandlerInfos,
-        apiMode,
       });
       return next(input);
     }) as any);

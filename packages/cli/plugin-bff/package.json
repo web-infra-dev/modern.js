@@ -32,7 +32,7 @@
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/cjs/cli.js"
     },
-    "./server": {
+    "./server-plugin": {
       "types": "./dist/types/server.d.ts",
       "jsnext:source": "./src/server.ts",
       "default": "./dist/cjs/server.js"
@@ -42,12 +42,12 @@
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
     },
-    "./hono": {
+    "./server": {
       "types": "./dist/types/runtime/hono/index.d.ts",
       "jsnext:source": "./src/runtime/hono/index.ts",
       "default": "./dist/cjs/runtime/hono/index.js"
     },
-    "./runtime/create-request": {
+    "./client": {
       "types": "./dist/types/create-request/index.d.ts",
       "jsnext:source": "./src/runtime/create-request/index.ts",
       "default": "./dist/cjs/runtime/create-request/index.js"
@@ -61,13 +61,13 @@
       "cli": [
         "./dist/types/cli.d.ts"
       ],
-      "server": [
+      "server-plugin": [
         "./dist/types/server.d.ts"
       ],
-      "hono": [
+      "server": [
         "./dist/types/runtime/hono/index.d.ts"
       ],
-      "runtime/create-request": [
+      "client": [
         "./dist/types/runtime/create-request/index.d.ts"
       ]
     }

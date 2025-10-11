@@ -1,29 +1,41 @@
-import type { Middleware } from '@modern-js/runtime/server';
+import {
+  type MiddlewareHandler,
+  defineServerConfig,
+} from '@modern-js/server-runtime';
 
-export const middleware: Middleware[] = [
-  (ctx, next) => {
-    const { res } = ctx.source;
-    res.setHeader('x-index-middleware', 'true');
-    next();
-  },
+const headerMiddleware: MiddlewareHandler = async (c, next) => {
+  c.header('x-index-middleware', 'true');
+  await next();
+};
 
-  (ctx, next) => {
-    const { response, request } = ctx;
-    if (request.url.startsWith('/home')) {
-      response.set('x-index-name', 'home');
-    }
+const homeMiddleware: MiddlewareHandler = async (c, next) => {
+  if (c.req.url.startsWith('/home')) {
+    c.header('x-index-name', 'home');
+  }
+  await next();
+};
 
-    next();
-  },
+const redirectMiddleware: MiddlewareHandler = async (c, next) => {
+  if (c.req.url.startsWith('/redirect')) {
+    c.header('Location', '/');
+    c.status(302);
+  }
+  await next();
+};
 
-  (ctx, next) => {
-    const { response, request } = ctx;
-
-    if (request.url.startsWith('/redirect')) {
-      response.set('Location', '/');
-      response.status(302);
-    }
-
-    next();
-  },
-];
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'header-middleware',
+      handler: headerMiddleware,
+    },
+    {
+      name: 'home-middleware',
+      handler: homeMiddleware,
+    },
+    {
+      name: 'redirect-middleware',
+      handler: redirectMiddleware,
+    },
+  ],
+});
