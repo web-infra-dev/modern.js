@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -228,8 +226,8 @@ importers:
         specifier: 3.0.4
         version: 3.0.4(postcss@8.5.6)
       rspack-manifest-plugin:
-        specifier: 5.0.3
-        version: 5.0.3(@rspack/core@1.5.8(@swc/helpers@0.5.17))
+        specifier: 5.1.0
+        version: 5.1.0(@rspack/core@1.5.8(@swc/helpers@0.5.17))
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
@@ -14971,8 +14969,8 @@ packages:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
     engines: {node: '>=14.17.6'}
 
-  rspack-manifest-plugin@5.0.3:
-    resolution: {integrity: sha512-DCLSu5KE/ReIOhK2JTCQSI0JIgJ40E2i+2noqINtfhu12+UsK29dgMITEHIpYNR0JggcmmgZIDxPxm9dOV/2vQ==}
+  rspack-manifest-plugin@5.1.0:
+    resolution: {integrity: sha512-XAt1VOfRt6gcNlekB7rpiYK0MuC8VuWRrM2F33Eu83B/fmEVJUNVMDxZJhqJ0NMDJNxq80404j+NAfzlYQCjrw==}
     engines: {node: '>=14'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -28320,7 +28318,7 @@ snapshots:
 
   rslog@1.2.3: {}
 
-  rspack-manifest-plugin@5.0.3(@rspack/core@1.5.8(@swc/helpers@0.5.17)):
+  rspack-manifest-plugin@5.1.0(@rspack/core@1.5.8(@swc/helpers@0.5.17)):
     dependencies:
       '@rspack/lite-tapable': 1.0.1
     optionalDependencies:
