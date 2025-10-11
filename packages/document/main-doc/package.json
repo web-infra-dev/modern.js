@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*",
-    "mermaid": "^11.10.1"
+    "mermaid": "^11.12.0"
   },
   "devDependencies": {
     "@rsbuild/plugin-sass": "1.4.0",
