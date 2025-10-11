@@ -2601,8 +2601,8 @@ importers:
         specifier: 4.4.3
         version: 4.4.3(supports-color@5.5.0)
       dotenv:
-        specifier: 17.2.2
-        version: 17.2.2
+        specifier: 17.2.3
+        version: 17.2.3
       dotenv-expand:
         specifier: 11.0.7
         version: 11.0.7
@@ -11083,8 +11083,8 @@ packages:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
 
-  dotenv@17.2.2:
-    resolution: {integrity: sha512-Sf2LSQP+bOlhKWWyhFsn0UsfdK/kCWRv1iuA2gXAwt3dyNabr6QSj00I2V10pidqz69soatm9ZwZvpQMTIOd5Q==}
+  dotenv@17.2.3:
+    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
   dset@2.1.0:
@@ -23318,7 +23318,7 @@ snapshots:
 
   dotenv@16.4.7: {}
 
-  dotenv@17.2.2: {}
+  dotenv@17.2.3: {}
 
   dset@2.1.0: {}
 
