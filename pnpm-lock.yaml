@@ -2947,8 +2947,8 @@ importers:
         specifier: ^19.1.6
         version: 19.1.6(@types/react@19.1.8)
       '@types/serve-static':
-        specifier: ^1.15.8
-        version: 1.15.8
+        specifier: ^1.15.9
+        version: 1.15.9
       connect:
         specifier: ^3.7.0
         version: 3.7.0
@@ -9292,8 +9292,8 @@ packages:
   '@types/serialize-javascript@5.0.4':
     resolution: {integrity: sha512-Z2R7UKFuNWCP8eoa2o9e5rkD3hmWxx/1L0CYz0k2BZzGh0PhEVMp9kfGiqEml/0IglwNERXZ2hwNzIrSz/KHTA==}
 
-  '@types/serve-static@1.15.8':
-    resolution: {integrity: sha512-roei0UY3LhpOJvjbIP6ZZFngyLKl5dskOtDhxY5THRSpO+ZI+nzJ+m5yUMzGrp89YRa7lvknKkMYjqQFGwA7Sg==}
+  '@types/serve-static@1.15.9':
+    resolution: {integrity: sha512-dOTIuqpWLyl3BBXU3maNQsS4A3zuuoYRNIvYSxxhebPfXg2mzWQEPne/nlJ37yOse6uGgR386uTpdsx4D0QZWA==}
 
   '@types/signal-exit@3.0.4':
     resolution: {integrity: sha512-e7EUPfU9afHyWc5CXtlqbvVHEshrb05uPlDCenWIbMgtWoFrTuTDVYNLKk6o4X2/4oHTfNqrJX/vaJ3uBhtXTg==}
@@ -21093,7 +21093,7 @@ snapshots:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 4.19.6
       '@types/qs': 6.9.16
-      '@types/serve-static': 1.15.8
+      '@types/serve-static': 1.15.9
 
   '@types/fs-extra@11.0.4':
     dependencies:
@@ -21320,7 +21320,7 @@ snapshots:
 
   '@types/serialize-javascript@5.0.4': {}
 
-  '@types/serve-static@1.15.8':
+  '@types/serve-static@1.15.9':
     dependencies:
       '@types/http-errors': 2.0.4
       '@types/node': 20.8.8
