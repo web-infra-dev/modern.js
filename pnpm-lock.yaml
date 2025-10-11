@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -3133,7 +3131,7 @@ importers:
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
         specifier: 2.68.17
-        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
+        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -3150,8 +3148,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
+        specifier: 3.15.0
+        version: 3.15.0
       zod:
         specifier: ^3.22.3
         version: 3.22.3
@@ -3185,7 +3183,7 @@ importers:
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
         specifier: 2.68.17
-        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
+        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -3205,8 +3203,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
+        specifier: 3.15.0
+        version: 3.15.0
       zod:
         specifier: ^3.22.3
         version: 3.22.3
@@ -3240,7 +3238,7 @@ importers:
         version: link:../../../../packages/cli/plugin-bff
       '@modern-js/plugin-express':
         specifier: 2.68.17
-        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
+        version: 2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
@@ -3263,8 +3261,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
+        specifier: 3.15.0
+        version: 3.15.0
       zod:
         specifier: ^3.22.3
         version: 3.22.3
@@ -3315,8 +3313,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
+        specifier: 3.15.0
+        version: 3.15.0
       zod:
         specifier: ^3.22.3
         version: 3.22.3
@@ -3585,8 +3583,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       tsconfig-paths:
-        specifier: 3.14.1
-        version: 3.14.1
+        specifier: 3.15.0
+        version: 3.15.0
       zod:
         specifier: ^3.22.3
         version: 3.22.3
@@ -15877,8 +15875,8 @@ packages:
     resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
     engines: {node: '>=10.13.0'}
 
-  tsconfig-paths@3.14.1:
-    resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}
+  tsconfig-paths@3.15.0:
+    resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
 
   tsconfig-paths@4.2.0:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
@@ -19148,14 +19146,14 @@ snapshots:
     dependencies:
       langium: 3.3.1
 
-  '@modern-js/bff-core@2.68.17(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)':
+  '@modern-js/bff-core@2.68.17(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)':
     dependencies:
       '@modern-js/utils': 2.68.17
       '@swc/helpers': 0.5.17
       koa-compose: 4.1.0
       reflect-metadata: 0.1.13
       ts-node: 10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
-      tsconfig-paths: 3.14.1
+      tsconfig-paths: 3.15.0
       type-fest: 2.15.0
     optionalDependencies:
       zod: 3.22.3
@@ -19323,9 +19321,9 @@ snapshots:
       - '@types/node'
       - debug
 
-  '@modern-js/plugin-express@2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)':
+  '@modern-js/plugin-express@2.68.17(express@4.21.2)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)':
     dependencies:
-      '@modern-js/bff-core': 2.68.17(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.14.1)(zod@3.22.3)
+      '@modern-js/bff-core': 2.68.17(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))(tsconfig-paths@3.15.0)(zod@3.22.3)
       '@modern-js/bff-runtime': 2.68.17
       '@modern-js/server-core': 2.68.17(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@modern-js/types': 2.68.17
@@ -29466,7 +29464,7 @@ snapshots:
       enhanced-resolve: 5.18.3
       tsconfig-paths: 4.2.0
 
-  tsconfig-paths@3.14.1:
+  tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.2
