@@ -6,7 +6,7 @@
     "baseUrl": "./",
     "paths": {
       "@shared/*": ["./shared/*"],
-      "@api/*": ["./api/*"]
+      "@api/*": ["./api/lambda/*"]
     },
     "types": ["jest"]
   },

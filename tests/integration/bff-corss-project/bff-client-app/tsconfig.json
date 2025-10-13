@@ -9,7 +9,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"],
-      "@api/*": ["./api/*"]
+      "@api/*": ["./api/lambda/*"]
     },
     "types": ["jest"]
   },

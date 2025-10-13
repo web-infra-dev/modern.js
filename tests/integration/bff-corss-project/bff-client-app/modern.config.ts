@@ -8,5 +8,5 @@ export default applyBaseConfig({
     ssr: false,
     port: 3401,
   },
-  plugins: [bffPlugin(), expressPlugin() as any, crossProjectApiPlugin()],
+  plugins: [bffPlugin(), crossProjectApiPlugin()],
 });

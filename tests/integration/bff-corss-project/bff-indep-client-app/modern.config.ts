@@ -6,5 +6,5 @@ export default applyBaseConfig({
   server: {
     ssr: false,
   },
-  plugins: [bffPlugin(), expressPlugin() as any],
+  plugins: [bffPlugin()],
 });

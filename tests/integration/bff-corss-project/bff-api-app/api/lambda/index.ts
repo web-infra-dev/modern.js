@@ -5,24 +5,28 @@ import {
   Params,
   Post,
   Query,
-  useContext,
-} from '@modern-js/runtime/server';
+  useHonoContext,
+} from '@modern-js/plugin-bff/server';
 import { z } from 'zod';
 
-export default async () => ({
-  message: 'Hello Modern.js get client',
-});
+export default async () => {
+  return {
+    message: 'Hello get bff-api-app',
+  };
+};
 
-export const post = async () => ({
-  message: 'Hello Modern.js post client',
-});
+export const post = async () => {
+  return {
+    message: 'Hello post bff-api-app',
+  };
+};
 
 const QuerySchema = z.object({
   user: z.string().email(),
 });
 
 const DataSchema = z.object({
-  message: z.string(),
+  info: z.array(z.record(z.string(), z.union([z.string(), z.number()]))),
 });
 
 const ParamsSchema = z.object({
@@ -40,7 +44,7 @@ export const postHello = Api(
   Data(DataSchema),
   Headers(HeadersSchema),
   async ({ query, data, params, headers }) => {
-    const ctx = useContext();
+    const ctx = useHonoContext();
     return {
       params,
       query,
