@@ -27,6 +27,11 @@ export const post = async ({ formUrlencoded }: { formUrlencoded: any }) => {
 
 const QuerySchema = z.object({
   user: z.string().email(),
+  ext: z.array(z.object({ from: z.string() })),
+  arr: z.array(z.string()),
+  obj: z.object({
+    a: z.string(),
+  }),
 });
 
 const DataSchema = z.object({
@@ -76,9 +81,13 @@ export const postHello = Api(
   },
 );
 
+const GetQuerySchema = z.object({
+  user: z.string().email(),
+});
+
 export const getHello = Api(
   Get('/hello/get'),
-  Query(QuerySchema),
+  Query(GetQuerySchema),
   async ({ query }) => {
     try {
       const c = useHonoContext();

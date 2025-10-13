@@ -27,6 +27,11 @@ const Page = () => {
       },
       query: {
         user: 'modern@email.com',
+        ext: [{ from: '123' }],
+        arr: ['1', '2'],
+        obj: {
+          a: '1',
+        },
       },
       data: {
         message: '3333',
