@@ -69,7 +69,7 @@
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "node-mocks-http": "^1.11.0",
+    "node-mocks-http": "^1.17.2",
     "normalize-path": "3.0.0"
   },
   "peerDependencies": {
