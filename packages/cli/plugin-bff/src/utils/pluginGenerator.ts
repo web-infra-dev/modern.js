@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, logger } from '@modern-js/utils';
+import { fs, logger, normalizeToPosixPath } from '@modern-js/utils';
 import {
   API_DIR,
   DIST_DIR,
@@ -19,9 +19,12 @@ function replaceContent(
   const updatedSource = source
     .replace(new RegExp(PACKAGE_NAME, 'g'), packageName)
     .replace(new RegExp(PREFIX, 'g'), prefix)
-    .replace(new RegExp(DIST_DIR, 'g'), relativeDistPath)
-    .replace(new RegExp(API_DIR, 'g'), relativeApiPath)
-    .replace(new RegExp(LAMBDA_DIR, 'g'), relativeLambdaPath);
+    .replace(new RegExp(DIST_DIR, 'g'), normalizeToPosixPath(relativeDistPath))
+    .replace(new RegExp(API_DIR, 'g'), normalizeToPosixPath(relativeApiPath))
+    .replace(
+      new RegExp(LAMBDA_DIR, 'g'),
+      normalizeToPosixPath(relativeLambdaPath),
+    );
   return updatedSource;
 }
 
