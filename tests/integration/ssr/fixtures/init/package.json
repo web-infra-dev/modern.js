@@ -10,6 +10,6 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.2.0"
   }
 }
