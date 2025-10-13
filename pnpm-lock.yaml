@@ -1283,8 +1283,8 @@ importers:
         specifier: ^2.2.4
         version: 2.2.4
       isbot:
-        specifier: 3.7.1
-        version: 3.7.1
+        specifier: 3.8.0
+        version: 3.8.0
       react-helmet:
         specifier: ^6.1.0
         version: 6.1.0(react@19.2.0)
@@ -12404,8 +12404,8 @@ packages:
   isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
 
-  isbot@3.7.1:
-    resolution: {integrity: sha512-JfqOaY3O1lcWt2nc+D6Mq231CNpwZrBboLa59Go0J8hjGH+gY/Sy0CA/YLUSIScINmAVwTdJZIsOTk4PfBtRuw==}
+  isbot@3.8.0:
+    resolution: {integrity: sha512-vne1mzQUTR+qsMLeCBL9+/tgnDXRyc2pygLGl/WsgA+EZKIiB5Ehu0CiVTHIIk30zhJ24uGz4M5Ppse37aR0Hg==}
     engines: {node: '>=12'}
 
   isexe@2.0.0:
@@ -24794,7 +24794,7 @@ snapshots:
 
   isarray@1.0.0: {}
 
-  isbot@3.7.1: {}
+  isbot@3.8.0: {}
 
   isexe@2.0.0: {}
 
