@@ -55,7 +55,14 @@ export function getRouteComponents(
       routeElements.push(routeElement);
     }
   }
-  routeElements.push(<Route key="*" path="*" element={<DefaultNotFound />} />);
+  routeElements.push(
+    <Route
+      key="*"
+      path="*"
+      element={<DefaultNotFound />}
+      loader={() => new Response('404', { status: 404 })}
+    />,
+  );
   return routeElements;
 }
 
