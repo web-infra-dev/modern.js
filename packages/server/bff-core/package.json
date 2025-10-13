@@ -38,7 +38,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "koa-compose": "^4.1.0",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.2",
     "type-fest": "2.15.0"
   },
   "devDependencies": {
