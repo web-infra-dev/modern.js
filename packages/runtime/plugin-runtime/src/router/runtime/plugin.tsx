@@ -114,7 +114,6 @@ export const routerPlugin = (
         });
       });
       api.wrapRoot(App => {
-        console.log('rrrrrrrr', api.getRuntimeConfig(), userConfig);
         const mergedConfig = merge(
           api.getRuntimeConfig().router || {},
           userConfig,
