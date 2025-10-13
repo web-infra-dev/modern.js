@@ -1,7 +1,7 @@
-import { useContext } from '@modern-js/runtime/server';
+import { useHonoContext } from '@modern-js/plugin-bff/server';
 
 export default async () => {
-  const ctx = useContext();
+  const ctx = useHonoContext();
   const { res } = ctx;
   res.append('x-id', '1');
   return {

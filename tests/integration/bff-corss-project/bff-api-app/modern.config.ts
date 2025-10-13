@@ -1,5 +1,4 @@
 import { bffPlugin } from '@modern-js/plugin-bff';
-import { expressPlugin } from '@modern-js/plugin-express';
 import { applyBaseConfig } from '../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
@@ -7,7 +6,7 @@ export default applyBaseConfig({
     prefix: '/api-app',
     crossProject: true,
   },
-  plugins: [expressPlugin() as any, bffPlugin()],
+  plugins: [bffPlugin()],
   server: {
     port: 3399,
   },
