@@ -8,7 +8,7 @@
     "styled-components": "^5.3.1",
     "@modern-js/runtime": "workspace:*",
     "postcss": "^8.5.6",
-    "react": "^19.1.1",
+    "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^3.3.3",
     "twin.macro": "^3.4.1"
