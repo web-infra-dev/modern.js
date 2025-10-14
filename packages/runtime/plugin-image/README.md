@@ -1,23 +1,32 @@
-# Rslib project
+<p align="center">
+  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
+</p>
 
-## Setup
+<h1 align="center">Modern.js</h1>
 
-Install the dependencies:
+<p align="center">
+  A Progressive React Framework for modern web development.
+</p>
 
-```bash
-pnpm install
-```
+## Getting Started
 
-## Get started
+Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
 
-Build the library:
+## Documentation
 
-```bash
-pnpm build
-```
+- [English Documentation](https://modernjs.dev/en/)
+- [中文文档](https://modernjs.dev)
 
-Build the library in watch mode:
+## Contributing
 
-```bash
-pnpm dev
-```
+Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
+
+## License
+
+Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+## Credist
+
+Thanks to:
+
+- [@loadable/webpack-plugin](https://github.com/gregberge/loadable-components) to create a webpack plugin prepare for loadable usage in ssr.

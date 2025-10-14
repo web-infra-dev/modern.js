@@ -8,9 +8,6 @@
     "serve": "modern serve",
     "new": "modern new"
   },
-  "engines": {
-    "node": ">=14.17.6"
-  },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",

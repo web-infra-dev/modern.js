@@ -66,7 +66,7 @@
   },
   "sideEffects": [],
   "engines": {
-    "node": ">=16.2.0"
+    "node": ">=20"
   },
   "publishConfig": {
     "access": "public",

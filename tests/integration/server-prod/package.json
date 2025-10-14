@@ -12,9 +12,6 @@
     "preview": "modern deploy --mode preview",
     "deploy": "modern deploy"
   },
-  "engines": {
-    "node": ">=14.17.6"
-  },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "axios": "^1.12.2",

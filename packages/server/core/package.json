@@ -52,7 +52,7 @@
     "test": "jest --passWithNoTests"
   },
   "engines": {
-    "node": ">=16.2.0"
+    "node": ">=20"
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
