@@ -1,5 +1,7 @@
+import type { IncomingMessage } from 'node:http';
+import { DEFAULT_API_PREFIX } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext } from '../../types/plugin';
+import type { AppToolsContext } from '../../types/new';
 import { createUploadPattern } from './createCopyPattern';
 
 function modifyOutputConfig(
@@ -43,6 +45,24 @@ export function createBuilderProviderConfig(
       ...resolveConfig.output,
       // We need to do this in the app-tools prepare hook because some files will be generated into the dist directory in the analyze process
       cleanDistPath: false,
+    },
+    tools: {
+      ...resolveConfig.tools,
+      devServer: {
+        ...resolveConfig.tools?.devServer,
+        compress: {
+          filter: (req: IncomingMessage) => {
+            const bffPrefix = resolveConfig.bff?.prefix || DEFAULT_API_PREFIX;
+            const url = req.url;
+
+            if (url?.startsWith(bffPrefix)) {
+              return false;
+            }
+
+            return true;
+          },
+        },
+      },
     },
   };
 

@@ -32,6 +32,11 @@ export const LOADABLE_STATS_FILE = 'loadable-stats.json';
  */
 export const API_DIR = 'api';
 
+/**
+ * Default BFF API prefix
+ */
+export const DEFAULT_API_PREFIX = '/api';
+
 export const SERVER_DIR = 'server';
 
 export const SHARED_DIR = 'shared';
