@@ -26,7 +26,6 @@ MODERNJS_DEPLOY=netlify npx modern deploy
 在 Modern.js 官方支持的部署平台中部署时，无需指定环境变量。
 :::
 
-
 ## ModernJS 内置 Node.js 服务器
 
 ### 单仓库项目
@@ -54,8 +53,8 @@ You can preview this build by `node .output/index`
 ```
 PORT=3000 node .output/index
 ```
-:::
 
+:::
 
 ### Monorepo
 
@@ -67,7 +66,7 @@ PORT=3000 node .output/index
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
 ```
@@ -78,7 +77,7 @@ PORT=3000 node .output/index
 {
   "scripts": {
     "build:packages": "rush rebuild --to-except app",
-    "deploy": "rushx build:packages && modern deploy",
+    "deploy": "rushx build:packages && modern deploy"
   }
 }
 ```
@@ -102,6 +101,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```
 
 在 `netlify.toml` 中添加以下内容：
+
 ```toml
 [build]
   publish = "dist"
@@ -131,13 +131,11 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```
 
 :::info
+
 1. 目前 Modern.js 还不支持在 Netlify Edge Functions 进行部署，我们将在后续的版本中支持。
 2. 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
 
 :::
-
-
-
 
 ### Monorepo 项目
 
@@ -169,7 +167,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
 ```
@@ -231,7 +229,6 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 1. 当前，Modern.js 还不支持在 Vercel 平台上部署 BFF 项目，我们将在后续的版本中支持。
 2. 函数运行的 node.js 版本由项目在 Vercel 平台配置决定。
 
-
 :::info
 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
 
@@ -261,10 +258,11 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
 
-将 Node.js 运行时设置为 `18.x`：
+将 Node.js 运行时设置为 `20.x`：
+
 ```json title="package.json"
 "engines": {
-  "node": "18.x"
+  "node": "20.x"
 },
 ```
 
@@ -274,12 +272,13 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
 ```
 
 在 `packages/app/vercel.json` 文件中添加以下内容：
+
 ```json title="vercel.json"
 {
   "buildCommand": "npm run deploy",
@@ -293,21 +292,23 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 如果你要为一个仓库常见 Github 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加
 以下配置：
+
 ```ts
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   //...
-  server:{
-    baseUrl: "/<repository-name>"
+  server: {
+    baseUrl: '/<repository-name>',
   },
   output: {
-    assetPrefix: "/<repository-name>",
-  }
+    assetPrefix: '/<repository-name>',
+  },
 });
 ```
 
 Github Pages 支持两种部署方式，通过分支部署或通过 Github Actions 部署，如果通过分支部署，可以使用以下步骤：
+
 1. 在 github 仓库中，选择 `Settings > Pages > Source > Deploy from a branch`。
 2. 安装 `gh-pages` 依赖作为开发依赖。
 3. 在 package.json 的 `scripts` 中添加 `"deploy:gh-pages": "MODERNJS_DEPLOY=ghPages modern deploy && gh-pages -d .output"`。
@@ -321,7 +322,6 @@ Github Pages 支持两种部署方式，通过分支部署或通过 Github Actio
 :::
 
 如果通过 Github Actions 部署，可以选择 Settings > Pages > Source > GitHub Actions，并在项目中添加 workflow 文件，可参考[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
-
 
 ## 自建 Node.js 服务器
 
@@ -367,10 +367,14 @@ const app = new Koa();
 app.use(async (ctx, next) => {
   if (ctx.path.startsWith('/static')) {
     ctx.type = mime.lookup(ctx.path);
-    ctx.body = fs.createReadStream(path.resolve(__dirname, `.output${ctx.path}`));
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, `.output${ctx.path}`),
+    );
   } else if (ctx.path === '/') {
     ctx.type = 'html';
-    ctx.body = fs.createReadStream(path.resolve(__dirname, '.output/html/main/index.html'));
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, '.output/html/main/index.html'),
+    );
   }
 });
 app.listen(3000);

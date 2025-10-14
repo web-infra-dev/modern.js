@@ -11,9 +11,6 @@
     "start:bff": "modern serve --api-only",
     "new": "modern new"
   },
-  "engines": {
-    "node": ">=18.19.0"
-  },
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",

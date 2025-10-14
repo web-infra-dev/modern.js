@@ -17,7 +17,7 @@
   ],
   "version": "2.68.1",
   "engines": {
-    "node": ">=16.2.0"
+    "node": ">=20"
   },
   "jsnext:source": "./src/runtime/index.ts",
   "types": "./src/runtime/index.ts",

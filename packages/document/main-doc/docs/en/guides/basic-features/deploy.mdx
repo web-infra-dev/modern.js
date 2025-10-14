@@ -5,13 +5,13 @@ sidebar_position: 15
 # Deploy Application
 
 Currently, Modern.js offers two deployment way:
+
 - You can host your application in a container that includes a Node.js environment on your own, which provides flexibility for the deployment of the application.
 - You can also deploy your application through a platform. Currently, Modern.js officially supports deployment on [Netlify](https://www.netlify.com/), [Vercel](https://vercel.com/), and [Github pages](https://pages.github.com/).
 
 :::info
 Currently, Modern.js only supports running in a Node.js environment. Support for more runtime environments will be provided in the future.
 :::
-
 
 ## Build Deployment Products
 
@@ -50,11 +50,12 @@ At this point, you can run the entire server by `node .output/index`, and the st
 
 :::info
 By default, when running Modern.js Server, it listens on port 8080. If you want to change the listening port, you can specify the `PORT` environment variable:
+
 ```
 PORT=3000 node .output/index
 ```
-:::
 
+:::
 
 ### Monorepo
 
@@ -66,7 +67,7 @@ Assume that the name in the `package.json` of the current project is `app`. Taki
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
 ```
@@ -77,7 +78,7 @@ If you use Rush as your Monorepo management tool, you can add the following comm
 {
   "scripts": {
     "build:packages": "rush rebuild --to-except app",
-    "deploy": "rushx build:packages && modern deploy",
+    "deploy": "rushx build:packages && modern deploy"
   }
 }
 ```
@@ -134,11 +135,11 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 ```
 
 :::info
+
 1. Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
 2. You can refer to the [deployment project example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr).
 
 :::
-
 
 ### Monorepo
 
@@ -172,10 +173,9 @@ Add the following script in `packages/app/package.json`, before executing the de
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
-
 ```
 
 Configure the build command in `netlify.toml`:
@@ -200,6 +200,7 @@ Vercel is a deployment platform for modern web applications that provides a rich
 ### Pure Front-end Project
 
 Add the `vercel.json` file to the root directory of the current project:
+
 ```bash
 ./
 ├── src
@@ -209,6 +210,7 @@ Add the `vercel.json` file to the root directory of the current project:
 ```
 
 Add the following content to `vercel.json`:
+
 ```json title="vercel.json"
 {
   "buildCommand": "modern deploy",
@@ -265,13 +267,13 @@ First, you need to configure the **Root Directory** as `packages/app` on the Ver
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
 
-Specify Node.js runtime as `18.x`:
+Specify Node.js runtime as `20.x`:
 
 ```json title="package.json"
 "engines": {
-  "node": "18.x"
+  "node": "20.x"
 }
-````
+```
 
 Add the following script to `packages/app/package.json` to run `build` command of the other repositories in the workspace before run the `deploy` command for the `app` repository:
 
@@ -279,7 +281,7 @@ Add the following script to `packages/app/package.json` to run `build` command o
 {
   "scripts": {
     "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy",
+    "deploy": "pnpm run build:packages && modern deploy"
   }
 }
 ```
@@ -305,11 +307,11 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   //...
   server: {
-    baseUrl: "/<repository-name>"
+    baseUrl: '/<repository-name>',
   },
   output: {
-    assetPrefix: "/<repository-name>",
-  }
+    assetPrefix: '/<repository-name>',
+  },
 });
 ```
 
@@ -320,6 +322,7 @@ For branch deployment, follow these steps:
 1. In the GitHub repository, navigate to Settings > Pages > Source > Deploy from a branch
 2. Install the `gh-pages` as devDependency
 3. Add the following script to `package.json`
+
 ```
 "scripts": {
   //...
@@ -330,12 +333,12 @@ For branch deployment, follow these steps:
 4. Run `npm run deploy:gh-pages`
 
 :::info
+
 1. Running `MODERNJS_DEPLOY=ghPages modern deploy` will build the production output for GitHub in the .output directory.
 2. You can refer to the [project](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)
-:::
+   :::
 
 For GitHub Actions deployment, select Settings > Pages > Source > GitHub Actions, and add a workflow file to the project. You can refer to the [example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr).
-
 
 ## Using Self-Built Node.js Server
 
@@ -381,10 +384,14 @@ const app = new Koa();
 app.use(async (ctx, next) => {
   if (ctx.path.startsWith('/static')) {
     ctx.type = mime.lookup(ctx.path);
-    ctx.body = fs.createReadStream(path.resolve(__dirname, `.output${ctx.path}`));
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, `.output${ctx.path}`),
+    );
   } else if (ctx.path === '/') {
     ctx.type = 'html';
-    ctx.body = fs.createReadStream(path.resolve(__dirname, '.output/html/main/index.html'));
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, '.output/html/main/index.html'),
+    );
   }
 });
 app.listen(3000);

@@ -27,8 +27,5 @@
   },
   "dependencies": {
     "@source-code-build/utils": "workspace:*"
-  },
-  "engines": {
-    "node": ">=14.17.6"
   }
 }

@@ -30,8 +30,5 @@
       "source": "./src/common/index.ts",
       "default": "./dist/common/index.js"
     }
-  },
-  "engines": {
-    "node": ">=14.17.6"
   }
 }
