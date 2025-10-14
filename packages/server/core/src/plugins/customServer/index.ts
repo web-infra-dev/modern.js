@@ -1,5 +1,6 @@
 import { time } from '@modern-js/runtime-utils/time';
 import type {
+  AfterStreamingRenderContext,
   ServerRoute,
   UnstableMiddleware,
   UnstableMiddlewareContext,
@@ -122,9 +123,20 @@ export class CustomServer {
 
         c.res = transformResponse(c.res, async (chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
-          const { chunk: newChunk } =
-            await this.hooks.afterStreamingRender.call(context);
-          return newChunk;
+          // TODO: remove string return type
+          // Acording to the type definition of ServerPluginLegacy hooks afterStreamingRender,
+          // the legacy afterStreamingRender hook return type is string,
+          // for backward compatibility, we keep the string return type temporarily
+          // and remove it in the next major version
+          const result = (await this.hooks.afterStreamingRender.call(
+            context,
+          )) as unknown as AfterStreamingRenderContext | string;
+
+          if (typeof result === 'string') {
+            return result;
+          }
+
+          return result.chunk;
         });
       } else {
         // run afterRenderHook hook
