@@ -40,8 +40,8 @@
       "types": "./dist-1/plugin/index.d.ts"
     },
     "./runtime": {
-      "require": "./dist-1/runtime/index.js",
       "import": "./dist-1/runtime/index.js",
+      "require": "./dist-1/runtime/index.js",
       "types": "./dist-1/runtime/index.d.ts"
     },
     "./api/*": {

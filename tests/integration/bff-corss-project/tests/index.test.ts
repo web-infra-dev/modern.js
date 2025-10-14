@@ -197,6 +197,7 @@ describe('corss project bff', () => {
     const CUSTOM_PAGE = 'custom-sdk';
     const UPLOAD_PAGE = 'upload';
     const host = `http://localhost`;
+    const prefix = '/indep-web-app';
     let indepClientApp: any;
     let apiApp: any;
     let page: Page;
@@ -241,6 +242,13 @@ describe('corss project bff', () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       const text = await page.$eval('.mock_file', el => el?.textContent);
       expect(text).toBe('mock_image.png');
+    });
+
+    test('bff response should not be compressed', async () => {
+      const pageRes = await fetch(`${host}:${port}/${BASE_PAGE}`);
+      expect(pageRes.headers.get('content-encoding')).toBe('gzip');
+      const bffRes = await fetch(`${host}:${port}${prefix}`);
+      expect(bffRes.headers.get('content-encoding')).toBeNull();
     });
 
     afterAll(async () => {
