@@ -10,9 +10,6 @@
     "start:bff": "modern serve --api-only",
     "new": "modern new"
   },
-  "engines": {
-    "node": ">=14.17.6"
-  },
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",

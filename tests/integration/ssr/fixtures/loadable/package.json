@@ -5,9 +5,6 @@
   "scripts": {
     "dev": "modern dev"
   },
-  "engines": {
-    "node": ">=14.17.6"
-  },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "react": "^19.2.0",
