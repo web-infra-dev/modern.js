@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'node:http';
 import { DEFAULT_API_PREFIX } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
-import type { AppToolsContext } from '../../types/new';
+import type { AppToolsContext } from '../../types/plugin';
 import { createUploadPattern } from './createCopyPattern';
 
 function modifyOutputConfig(
