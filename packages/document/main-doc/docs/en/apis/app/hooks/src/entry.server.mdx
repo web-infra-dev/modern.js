@@ -1,9 +1,9 @@
 ---
-title: entry.server.[tj]sx
+title: entry.server.[tj]s
 sidebar_position: 5
 ---
 
-# entry.server.[tj]sx
+# entry.server.[tj]s
 
 :::info
 Using this file requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
@@ -11,7 +11,7 @@ Using this file requires enabling [source.enableCustomEntry](/configure/app/sour
 
 When the project initiates `server.ssr`, Modern.js generates a default Server-Side entry. The sample code is as follows:
 
-```tsx title="entry.server.tsx"
+```tsx title="entry.server.ts"
 import {
   renderString,
   createRequestHandler,
@@ -34,7 +34,7 @@ export default createRequestHandler(handleRequest);
 
 Users need to customize the Server-Side Rendering entry points, they can customize the server entry in `src/entry.server.ts` or `src/{entryName}/entry.server.ts`.
 
-```tsx title="src/entry.server.tsx"
+```tsx title="src/entry.server.ts"
 import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
 import type { HandleRequest } from '@modern-js/runtime/ssr/server';
 

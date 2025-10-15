@@ -1,9 +1,9 @@
 ---
-title: entry.server.[tj]sx
+title: entry.server.[tj]s
 sidebar_position: 5
 ---
 
-# entry.server.[tj]sx
+# entry.server.[tj]s
 
 :::info
 使用该文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
@@ -11,7 +11,7 @@ sidebar_position: 5
 
 当项目开启 `server.ssr` 时，Modern.js 生成一个默认的 Server-Side 入口。示例代码如下：
 
-```tsx title="entry.server.tsx"
+```tsx title="entry.server.ts"
 import {
   renderString,
   createRequestHandler,
@@ -34,7 +34,7 @@ export default createRequestHandler(handleRequest);
 
 如果用户需自定义 Server-Side Rendering 入口，可以在 `src/entry.server.ts`、`src/{entryName}/entry.server.ts` 中自定义 server 入口。
 
-```tsx title="src/entry.server.tsx"
+```tsx title="src/entry.server.ts"
 import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
 import type { HandleRequest } from '@modern-js/runtime/ssr/server';
 

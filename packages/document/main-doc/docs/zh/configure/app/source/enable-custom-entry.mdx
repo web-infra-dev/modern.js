@@ -7,7 +7,7 @@ title: enableCustomEntry
 - **类型：** `boolean`
 - **默认值：** `false`
 
-该选项用于使用 Modern.js 自定义入口场景。开启此选项后，Modern.js 将尝试使用 `src/entry.[jt]sx` 与 `src/entry.server.[jt]sx` 文件作为项目的入口。
+该选项用于使用 Modern.js 自定义入口场景。开启此选项后，Modern.js 将尝试使用 `src/entry.[jt]sx` 与 `src/entry.server.[jt]s` 文件作为项目的入口。
 
 ## 示例
 
@@ -42,7 +42,7 @@ beforeRender().then(() => {
 更多浏览器端入口相关内容可参考[页面入口](/guides/concept/entries.html)。
 :::
 
-创建 `src/entry.server.tsx` 文件，为渲染响应添加自定义行为：
+创建 `src/entry.server.ts` 文件，为渲染响应添加自定义行为：
 
 ```tsx
 import { renderString, createRequestHandler } from '@modern-js/runtime/ssr/server';
