@@ -212,7 +212,7 @@ describe('corss project bff', () => {
     const CUSTOM_PAGE = 'custom-sdk';
     const UPLOAD_PAGE = 'upload';
     const host = `http://localhost`;
-    const prefix = '/indep-web-app';
+    const prefix = '/api';
     let indepClientApp: any;
     let apiApp: any;
     let page: Page;
