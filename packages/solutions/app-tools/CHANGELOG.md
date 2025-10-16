@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.68.18
+
+### Patch Changes
+
+- 8b12c48: fix: should not emit routes-source-manifest.json
+  fix: 不应该生成 routes-source-manifest.json 到产物中
+- 8157051: feat: disable gzip for bff
+  feat: 为 bff 请求禁用 gzip
+- Updated dependencies [2294b02]
+- Updated dependencies [8157051]
+  - @modern-js/server-core@2.68.18
+  - @modern-js/utils@2.68.18
+  - @modern-js/plugin-data-loader@2.68.18
+  - @modern-js/prod-server@2.68.18
+  - @modern-js/server@2.68.18
+  - @modern-js/server-utils@2.68.18
+  - @modern-js/core@2.68.18
+  - @modern-js/plugin-i18n@2.68.18
+  - @modern-js/uni-builder@2.68.18
+  - @modern-js/node-bundle-require@2.68.18
+  - @modern-js/plugin@2.68.18
+  - @modern-js/plugin-v2@2.68.18
+  - @modern-js/rsbuild-plugin-esbuild@2.68.18
+  - @modern-js/types@2.68.18
+
 ## 2.68.17
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/storybook
 
+## 2.68.18
+
+### Patch Changes
+
+- Updated dependencies [8157051]
+  - @modern-js/utils@2.68.18
+  - @modern-js/storybook-builder@2.68.18
+
 ## 2.68.17
 
 ### Patch Changes
