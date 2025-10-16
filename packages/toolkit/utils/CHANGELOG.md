@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.68.18
+
+### Patch Changes
+
+- 8157051: feat: disable gzip for bff
+  feat: 为 bff 请求禁用 gzip
+
 ## 2.68.17
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.68.18
+
+### Patch Changes
+
+- Updated dependencies [8157051]
+  - @modern-js/utils@2.68.18
+  - @modern-js/plugin-data-loader@2.68.18
+  - @modern-js/render@2.68.18
+  - @modern-js/plugin@2.68.18
+  - @modern-js/plugin-v2@2.68.18
+  - @modern-js/runtime-utils@2.68.18
+  - @modern-js/types@2.68.18
+
 ## 2.68.17
 
 ### Patch Changes
