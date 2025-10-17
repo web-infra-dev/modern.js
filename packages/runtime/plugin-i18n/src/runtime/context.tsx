@@ -1,0 +1,247 @@
+import { isBrowser } from '@modern-js/runtime';
+import { createContext, useCallback, useContext } from 'react';
+import type { FC, ReactNode } from 'react';
+import type { I18nInstance } from './i18n';
+import { buildLocalizedUrl, getEntryPath } from './utils';
+
+export interface ModernI18nContextValue {
+  language: string;
+  i18nInstance: I18nInstance;
+  // Plugin configuration for useModernI18n hook
+  entryName?: string;
+  languages?: string[];
+  enableLocaleDetection?: boolean;
+  // Callback to update language in context
+  updateLanguage?: (newLang: string) => void;
+}
+
+const ModernI18nContext = createContext<ModernI18nContextValue | null>(null);
+
+export interface ModernI18nProviderProps {
+  children: ReactNode;
+  value: ModernI18nContextValue;
+}
+
+export const ModernI18nProvider: FC<ModernI18nProviderProps> = ({
+  children,
+  value,
+}) => {
+  return (
+    <ModernI18nContext.Provider value={value}>
+      {children}
+    </ModernI18nContext.Provider>
+  );
+};
+
+export interface UseModernI18nOptions {
+  entryName?: string;
+  languages?: string[];
+  enableLocaleDetection?: boolean;
+}
+
+export interface UseModernI18nReturn {
+  language: string;
+  changeLanguage: (newLang: string) => Promise<void>;
+  i18nInstance: I18nInstance;
+  supportedLanguages: string[];
+  isLanguageSupported: (lang: string) => boolean;
+}
+
+/**
+ * Hook for accessing i18n functionality in Modern.js applications.
+ *
+ * This hook provides:
+ * - Current language from URL params or i18n context
+ * - changeLanguage function that updates both i18n instance and URL
+ * - Direct access to the i18n instance
+ * - List of supported languages
+ * - Helper function to check if a language is supported
+ *
+ * @param options - Optional configuration to override context settings
+ * @returns Object containing i18n functionality and utilities
+ *
+ * @example
+ * ```tsx
+ * import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+ *
+ * function MyComponent() {
+ *   const {
+ *     language,
+ *     changeLanguage,
+ *     i18nInstance,
+ *     supportedLanguages,
+ *     isLanguageSupported
+ *   } = useModernI18n();
+ *
+ *   const handleLanguageChange = (newLang: string) => {
+ *     if (isLanguageSupported(newLang)) {
+ *       changeLanguage(newLang);
+ *     }
+ *   };
+ *
+ *   return (
+ *     <div>
+ *       <p>Current language: {language}</p>
+ *       <p>Supported languages: {supportedLanguages.join(', ')}</p>
+ *       {supportedLanguages.map(lang => (
+ *         <button
+ *           key={lang}
+ *           onClick={() => handleLanguageChange(lang)}
+ *           disabled={lang === language}
+ *         >
+ *           {lang}
+ *         </button>
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
+// Safe hook wrapper to handle cases where router context is not available
+const useRouterHooks = () => {
+  try {
+    // Dynamically import router hooks to avoid issues when router context is not available
+    const {
+      useLocation,
+      useNavigate,
+      useParams,
+    } = require('@modern-js/runtime/router');
+    return {
+      navigate: useNavigate(),
+      location: useLocation(),
+      params: useParams(),
+      hasRouter: true,
+    };
+  } catch (error) {
+    // Router context not available, return fallback values
+    return {
+      navigate: null,
+      location: null,
+      params: {},
+      hasRouter: false,
+    };
+  }
+};
+
+export const useModernI18n = (
+  options: UseModernI18nOptions = {},
+): UseModernI18nReturn => {
+  const context = useContext(ModernI18nContext);
+  if (!context) {
+    throw new Error('useModernI18n must be used within a ModernI18nProvider');
+  }
+
+  const {
+    language: contextLanguage,
+    i18nInstance,
+    entryName: contextEntryName,
+    languages: contextLanguages,
+    enableLocaleDetection: contextEnableLocaleDetection,
+    updateLanguage,
+  } = context;
+
+  // Merge context options with passed options (passed options take precedence)
+  const {
+    entryName = contextEntryName,
+    languages = contextLanguages || [],
+    enableLocaleDetection = contextEnableLocaleDetection || false,
+  } = options;
+
+  // Get router hooks safely
+  const { navigate, location, params, hasRouter } = useRouterHooks();
+
+  // Get current language from context (which reflects the actual current language)
+  // URL params might be stale after language changes, so we prioritize the context language
+  const currentLanguage = contextLanguage;
+
+  /**
+   * Changes the current language and updates the URL accordingly.
+   *
+   * This function:
+   * 1. Updates the i18n instance language
+   * 2. Updates the URL by replacing the language prefix in the current path
+   * 3. Triggers a navigation to the new URL
+   *
+   * @param newLang - The new language code to switch to
+   */
+  const changeLanguage = useCallback(
+    async (newLang: string) => {
+      try {
+        // Validate language
+        if (!newLang || typeof newLang !== 'string') {
+          throw new Error('Language must be a non-empty string');
+        }
+
+        // Update i18n instance
+        await i18nInstance.changeLanguage(newLang);
+
+        // Update context language state
+        if (updateLanguage) {
+          updateLanguage(newLang);
+        }
+
+        // Update URL if locale detection is enabled, we're in browser, and router is available
+        if (
+          enableLocaleDetection &&
+          isBrowser() &&
+          hasRouter &&
+          navigate &&
+          location
+        ) {
+          const currentPath = location.pathname;
+          const entryPath = getEntryPath(entryName);
+          const relativePath = currentPath.replace(entryPath, '');
+
+          // Build new path with updated language
+          const newPath = buildLocalizedUrl(relativePath, newLang, languages);
+          const newUrl = entryPath + newPath + location.search + location.hash;
+
+          // Navigate to new URL
+          navigate(newUrl, { replace: true });
+        } else if (enableLocaleDetection && isBrowser() && !hasRouter) {
+          // Fallback: use window.history API when router is not available
+          const currentPath = window.location.pathname;
+          const entryPath = getEntryPath(entryName);
+          const relativePath = currentPath.replace(entryPath, '');
+
+          // Build new path with updated language
+          const newPath = buildLocalizedUrl(relativePath, newLang, languages);
+          const newUrl =
+            entryPath + newPath + window.location.search + window.location.hash;
+
+          // Use history API to navigate without page reload
+          window.history.pushState(null, '', newUrl);
+        }
+      } catch (error) {
+        console.error('Failed to change language:', error);
+        throw error;
+      }
+    },
+    [
+      i18nInstance,
+      updateLanguage,
+      enableLocaleDetection,
+      entryName,
+      languages,
+      hasRouter,
+      navigate,
+      location,
+    ],
+  );
+
+  // Helper function to check if a language is supported
+  const isLanguageSupported = useCallback(
+    (lang: string) => {
+      return languages.includes(lang);
+    },
+    [languages],
+  );
+
+  return {
+    language: currentLanguage,
+    changeLanguage,
+    i18nInstance,
+    supportedLanguages: languages,
+    isLanguageSupported,
+  };
+};
