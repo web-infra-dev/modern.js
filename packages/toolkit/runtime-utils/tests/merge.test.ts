@@ -57,4 +57,51 @@ describe('merge function', () => {
     expect(merge({}, 1 as any, { a: 1 })).toEqual({ a: 1 });
     expect(merge({}, 'b' as any, { a: 1 })).toEqual({ a: 1 });
   });
+
+  test('should handle complex instances like i18next without deep merging', () => {
+    // Mock i18next-like instance
+    const i18nInstance = {
+      language: 'en',
+      isInitialized: true,
+      init: jest.fn(),
+      changeLanguage: jest.fn(),
+      t: jest.fn(),
+      store: {
+        data: { en: { translation: {} } },
+      },
+    };
+
+    const config1 = { a: 1, i18n: i18nInstance };
+    const config2 = { b: 2, i18n: { language: 'zh' } };
+
+    const result = merge({}, config1, config2);
+
+    // Should not deep merge the i18n instance, but replace it entirely
+    expect(result.i18n).toBe(config2.i18n);
+    expect(result.a).toBe(1);
+    expect(result.b).toBe(2);
+  });
+
+  test('should handle circular references in complex instances', () => {
+    // Create a circular reference
+    const circularObj = { name: 'test' };
+    circularObj.self = circularObj;
+
+    const i18nInstance = {
+      language: 'en',
+      isInitialized: true,
+      init: jest.fn(),
+      changeLanguage: jest.fn(),
+      circular: circularObj,
+    };
+
+    const config1 = { a: 1 };
+    const config2 = { i18n: i18nInstance };
+
+    // This should not throw a stack overflow error
+    expect(() => {
+      const result = merge({}, config1, config2);
+      expect(result.i18n).toBe(i18nInstance);
+    }).not.toThrow();
+  });
 });

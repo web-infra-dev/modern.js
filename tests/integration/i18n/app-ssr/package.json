@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "i18n-app-ssr",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build -c modern.ssg.config.ts"
+  },
+  "dependencies": {
+    "i18next":"25.2.1",
+    "react-i18next": "15.5.2",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "i18next-browser-languagedetector": "8.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-ssg": "workspace:*"
+  }
+}
