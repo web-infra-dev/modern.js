@@ -16,8 +16,8 @@ const getLanguageFromPath = (
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname;
 
-  // 移除 urlPath 前缀，获取剩余路径
-  // urlPath 格式为 /lang/*，需要移除 /lang 部分
+  // Remove urlPath prefix to get remaining path
+  // urlPath format is /lang/*, need to remove /lang part
   const basePath = urlPath.replace('/*', '');
   const remainingPath = pathname.startsWith(basePath)
     ? pathname.slice(basePath.length)
@@ -42,7 +42,7 @@ const buildLocalizedUrl = (
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname;
 
-  // 移除 urlPath 前缀，获取剩余路径
+  // Remove urlPath prefix to get remaining path
   const basePath = urlPath.replace('/*', '');
   const remainingPath = pathname.startsWith(basePath)
     ? pathname.slice(basePath.length)
@@ -51,15 +51,15 @@ const buildLocalizedUrl = (
   const segments = remainingPath.split('/').filter(Boolean);
 
   if (segments.length > 0 && languages.includes(segments[0])) {
-    // 替换现有的语言前缀
+    // Replace existing language prefix
     segments[0] = language;
   } else {
-    // 如果路径不以语言开头，添加语言前缀
+    // If path doesn't start with language, add language prefix
     segments.unshift(language);
   }
 
   const newPathname = `/${segments.join('/')}`;
-  // 处理根路径的情况，避免出现 //en 这样的双斜杠
+  // Handle root path case to avoid double slashes like //en
   const localizedUrl =
     basePath === '/'
       ? newPathname + url.search

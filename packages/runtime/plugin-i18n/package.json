@@ -7,7 +7,7 @@
     "repository": {
       "type": "git",
       "url": "https://github.com/web-infra-dev/modern.js",
-      "directory": "packages/runtime/plugin-runtime"
+      "directory": "packages/runtime/plugin-i18n"
     },
     "license": "MIT",
     "keywords": [
@@ -20,16 +20,15 @@
     "engines": {
       "node": ">=20"
     },
-    "jsnext:source": "./src/index.ts",
-    "types": "./src/index.ts",
-    "main": "./dist/cjs/index.js",
-    "module": "./dist/esm/index.js",
+    "jsnext:source": "./src/cli/index.ts",
+    "types": "./src/cli/index.ts",
+    "main": "./dist/cjs/cli/index.js",
+    "module": "./dist/esm/cli/index.js",
     "exports": {
       ".": {
-        "types": "./dist/types/index.d.ts",
-        "react-server": "./dist/esm/react-server.js",
-        "jsnext:source": "./src/index.ts",
-        "default": "./dist/esm/index.js"
+        "types": "./dist/types/cli/index.d.ts",
+        "jsnext:source": "./src/cli/index.ts",
+        "default": "./dist/cjs/cli/index.js"
       },
       "./package.json": "./package.json",
       "./cli": {
@@ -56,10 +55,7 @@
     "typesVersions": {
       "*": {
         ".": [
-          "./dist/types/index.d.ts"
-        ],
-        "types": [
-          "./dist/types/types.d.ts"
+          "./dist/types/cli/index.d.ts"
         ],
         "cli": [
           "./dist/types/cli/index.d.ts"
@@ -125,6 +121,6 @@
     "publishConfig": {
       "registry": "https://registry.npmjs.org/",
       "access": "public",
-      "types": "./dist/types/index"
+      "types": "./dist/types/cli/index.d.ts"
     }
   }

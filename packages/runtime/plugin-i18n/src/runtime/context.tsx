@@ -47,56 +47,6 @@ export interface UseModernI18nReturn {
   isLanguageSupported: (lang: string) => boolean;
 }
 
-/**
- * Hook for accessing i18n functionality in Modern.js applications.
- *
- * This hook provides:
- * - Current language from URL params or i18n context
- * - changeLanguage function that updates both i18n instance and URL
- * - Direct access to the i18n instance
- * - List of supported languages
- * - Helper function to check if a language is supported
- *
- * @param options - Optional configuration to override context settings
- * @returns Object containing i18n functionality and utilities
- *
- * @example
- * ```tsx
- * import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
- *
- * function MyComponent() {
- *   const {
- *     language,
- *     changeLanguage,
- *     i18nInstance,
- *     supportedLanguages,
- *     isLanguageSupported
- *   } = useModernI18n();
- *
- *   const handleLanguageChange = (newLang: string) => {
- *     if (isLanguageSupported(newLang)) {
- *       changeLanguage(newLang);
- *     }
- *   };
- *
- *   return (
- *     <div>
- *       <p>Current language: {language}</p>
- *       <p>Supported languages: {supportedLanguages.join(', ')}</p>
- *       {supportedLanguages.map(lang => (
- *         <button
- *           key={lang}
- *           onClick={() => handleLanguageChange(lang)}
- *           disabled={lang === language}
- *         >
- *           {lang}
- *         </button>
- *       ))}
- *     </div>
- *   );
- * }
- * ```
- */
 // Safe hook wrapper to handle cases where router context is not available
 const useRouterHooks = () => {
   try {
@@ -123,6 +73,19 @@ const useRouterHooks = () => {
   }
 };
 
+/**
+ * Hook for accessing i18n functionality in Modern.js applications.
+ *
+ * This hook provides:
+ * - Current language from URL params or i18n context
+ * - changeLanguage function that updates both i18n instance and URL
+ * - Direct access to the i18n instance
+ * - List of supported languages
+ * - Helper function to check if a language is supported
+ *
+ * @param options - Optional configuration to override context settings
+ * @returns Object containing i18n functionality and utilities
+ */
 export const useModernI18n = (
   options: UseModernI18nOptions = {},
 ): UseModernI18nReturn => {
@@ -148,7 +111,7 @@ export const useModernI18n = (
   } = options;
 
   // Get router hooks safely
-  const { navigate, location, params, hasRouter } = useRouterHooks();
+  const { navigate, location, hasRouter } = useRouterHooks();
 
   // Get current language from context (which reflects the actual current language)
   // URL params might be stale after language changes, so we prioritize the context language
