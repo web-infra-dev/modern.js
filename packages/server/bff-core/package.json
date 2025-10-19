@@ -39,7 +39,7 @@
     "@swc/helpers": "^0.5.17",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.2.2",
-    "type-fest": "2.15.0"
+    "type-fest": "2.19.0"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
