@@ -10,12 +10,12 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "7.8.2",
-    "vue": "^3.3.4"
+    "vue": "^3.5.22"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@playwright/test": "1.56.0",
+    "@playwright/test": "1.56.1",
     "@rsbuild/core": "1.5.17",
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.20",
