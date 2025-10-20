@@ -1445,8 +1445,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
       type-fest:
-        specifier: 2.15.0
-        version: 2.15.0
+        specifier: 2.19.0
+        version: 2.19.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -2346,8 +2346,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       type-fest:
-        specifier: 2.15.0
-        version: 2.15.0
+        specifier: 2.19.0
+        version: 2.19.0
 
   packages/toolkit/upgrade:
     devDependencies:
@@ -15878,13 +15878,9 @@ packages:
     resolution: {integrity: sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==}
     engines: {node: '>=10'}
 
-  type-fest@2.15.0:
-    resolution: {integrity: sha512-hpsXfQZrAiusX8KMY5HXSEV7xqGAGxFQoNDT+iW0yJE/bdYG0uMlRaUG0kNAUbF5p6Cq5Kuf69lm4M569QtRGw==}
+  type-fest@2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
-
-  type-fest@4.33.0:
-    resolution: {integrity: sha512-s6zVrxuyKbbAsSAD5ZPTB77q4YIdRctkTbJ2/Dqlinwz+8ooH2gd+YA7VA6Pa93KML9GockVvoxjZ2vHP+mu8g==}
-    engines: {node: '>=16'}
 
   type-fest@4.40.0:
     resolution: {integrity: sha512-ABHZ2/tS2JkvH1PEjxFDTUWC8dB5OsIGZP4IFLhR293GqT5Y5qB1WwL2kMPYhQW9DVgVD8Hd7I8gjwPIf5GFkw==}
@@ -22057,7 +22053,7 @@ snapshots:
       js-yaml: 4.1.0
       semver: 7.7.3
       table: 6.8.1
-      type-fest: 4.33.0
+      type-fest: 4.41.0
 
   check-error@2.1.1: {}
 
@@ -29388,9 +29384,7 @@ snapshots:
 
   type-fest@1.4.0: {}
 
-  type-fest@2.15.0: {}
-
-  type-fest@4.33.0: {}
+  type-fest@2.19.0: {}
 
   type-fest@4.40.0: {}
 
