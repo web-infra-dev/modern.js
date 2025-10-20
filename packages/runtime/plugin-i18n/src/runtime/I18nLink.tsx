@@ -1,3 +1,4 @@
+import { Link, useInRouterContext, useParams } from '@modern-js/runtime/router';
 import type React from 'react';
 import { useModernI18n } from './context';
 import { buildLocalizedUrl } from './utils';
@@ -23,22 +24,14 @@ export interface I18nLinkProps {
  * <I18nLink to="/">Home</I18nLink>
  * ```
  */
-// Safe hook wrapper for router hooks
+// Use static imports to avoid breaking router tree-shaking. Detect router context via useInRouterContext.
 const useRouterHooks = () => {
-  try {
-    const { Link, useParams } = require('@modern-js/runtime/router');
-    return {
-      Link,
-      params: useParams(),
-      hasRouter: true,
-    };
-  } catch (error) {
-    return {
-      Link: null,
-      params: {},
-      hasRouter: false,
-    };
-  }
+  const inRouter = useInRouterContext();
+  return {
+    Link: inRouter ? Link : null,
+    params: inRouter ? useParams() : ({} as any),
+    hasRouter: inRouter,
+  };
 };
 
 export const I18nLink: React.FC<I18nLinkProps> = ({

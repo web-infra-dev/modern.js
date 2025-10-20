@@ -39,7 +39,7 @@ const buildLocalizedUrl = (
   language: string,
   languages: string[],
 ): string => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
+  const url = new URL(req.url);
   const pathname = url.pathname;
 
   // Remove urlPath prefix to get remaining path
@@ -60,10 +60,9 @@ const buildLocalizedUrl = (
 
   const newPathname = `/${segments.join('/')}`;
   // Handle root path case to avoid double slashes like //en
+  const suffix = `${url.search}${url.hash}`;
   const localizedUrl =
-    basePath === '/'
-      ? newPathname + url.search
-      : basePath + newPathname + url.search;
+    basePath === '/' ? newPathname + suffix : basePath + newPathname + suffix;
 
   return localizedUrl;
 };
