@@ -106,6 +106,6 @@
   "dependencies": {
     "acorn-loose": "^8.5.2",
     "neo-async": "^2.6.2",
-    "webpack-sources": "^3.2.0"
+    "webpack-sources": "^3.3.3"
   }
 }
