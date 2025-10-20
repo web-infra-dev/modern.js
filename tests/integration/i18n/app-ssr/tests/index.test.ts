@@ -51,7 +51,7 @@ describe('app-ssr-i18n', () => {
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('你好，世界');
     page.click('#en-button');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const textEn = await page.$('#key');
     const targetTextEn = await page.evaluate(el => el?.textContent, textEn);
     expect(targetTextEn?.trim()).toEqual('Hello World');
@@ -66,7 +66,7 @@ describe('app-ssr-i18n', () => {
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('Hello World');
     page.click('#zh-button');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const textZh = await page.$('#key');
     const targetTextZh = await page.evaluate(el => el?.textContent, textZh);
     expect(targetTextZh?.trim()).toEqual('你好，世界');

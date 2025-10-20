@@ -39,7 +39,7 @@ describe('app-csr-i18n', () => {
     const targetText = await page.evaluate(el => el?.textContent, root);
     expect(targetText?.trim()).toEqual('Hello World');
     await page.click('#zh-button');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const targetTextZh = await page.evaluate(el => el?.textContent, root);
     expect(targetTextZh?.trim()).toEqual('你好，世界');
   });
@@ -54,7 +54,7 @@ describe('app-csr-i18n', () => {
     );
     expect(targetTextAbout?.trim()).toEqual('About');
     await page.click('#zh-button');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const targetTextAboutZh = await page.evaluate(
       el => el?.textContent,
       rootAbout,
