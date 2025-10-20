@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -150,8 +148,8 @@ importers:
         specifier: 1.0.6
         version: 1.0.6(@rsbuild/core@1.5.17)
       '@rsbuild/plugin-check-syntax':
-        specifier: 1.4.0
-        version: 1.4.0(@rsbuild/core@1.5.17)
+        specifier: 1.5.0
+        version: 1.5.0(@rsbuild/core@1.5.17)
       '@rsbuild/plugin-css-minimizer':
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.5.17)(esbuild@0.25.5)(webpack@5.99.8(@swc/core@1.11.31(@swc/helpers@0.5.17))(esbuild@0.25.5))
@@ -8160,8 +8158,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-check-syntax@1.4.0':
-    resolution: {integrity: sha512-Lq3Dg4fcONeSHeCOUNeNr2cRUoZMHG49NHpHWCFc8eB7rELICUA4k/CQtVBVoU8Ahz/4HjmD8C25ilE2PmfXBQ==}
+  '@rsbuild/plugin-check-syntax@1.5.0':
+    resolution: {integrity: sha512-/JutNle3wI67q/WOYcneyjUSAjZDJIycfpoJ04PWFh+qQ68Pwg4/Be1kU7GiVVklMwmEScoCd9S+gXWk+27YSg==}
     peerDependencies:
       '@rsbuild/core': 1.x
     peerDependenciesMeta:
@@ -19803,7 +19801,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-check-syntax@1.4.0(@rsbuild/core@1.5.17)':
+  '@rsbuild/plugin-check-syntax@1.5.0(@rsbuild/core@1.5.17)':
     dependencies:
       acorn: 8.15.0
       browserslist-to-es-version: 1.1.1
