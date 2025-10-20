@@ -142,5 +142,12 @@ exports[`create builder provider config should add default config 1`] = `
   "resolve": {},
   "server": undefined,
   "source": {},
+  "tools": {
+    "devServer": {
+      "compress": {
+        "filter": [Function],
+      },
+    },
+  },
 }
 `;

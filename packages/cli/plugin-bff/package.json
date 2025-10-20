@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.16",
+  "version": "2.68.18",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -90,7 +90,7 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.5.12",
+    "@rsbuild/core": "1.5.17",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
@@ -107,7 +107,7 @@
     "memfs": "^3.5.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.101.3",
+    "webpack": "^5.102.1",
     "zod": "^3.22.3"
   },
   "sideEffects": false,

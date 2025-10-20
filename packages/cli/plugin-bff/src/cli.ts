@@ -8,6 +8,7 @@ import {
   fs,
   API_DIR,
   type Alias,
+  DEFAULT_API_PREFIX,
   SHARED_DIR,
   normalizeOutputPath,
 } from '@modern-js/utils';
@@ -16,7 +17,6 @@ import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
 
-const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/runtime/create-request';
 const RUNTIME_HONO = '@modern-js/plugin-bff/hono';

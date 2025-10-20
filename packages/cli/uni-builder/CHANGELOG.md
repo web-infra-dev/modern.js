@@ -1,5 +1,24 @@
 # @modern-js/uni-builder
 
+## 2.68.18
+
+### Patch Changes
+
+- Updated dependencies [8157051]
+  - @modern-js/utils@2.68.18
+  - @modern-js/babel-preset@2.68.18
+  - @modern-js/flight-server-transform-plugin@2.68.18
+
+## 2.68.17
+
+### Patch Changes
+
+- b387a2f: fix: when sourcemap is false, the css sourcemap also is true in development
+- Updated dependencies [aac9de0]
+  - @modern-js/utils@2.68.17
+  - @modern-js/babel-preset@2.68.17
+  - @modern-js/flight-server-transform-plugin@2.68.17
+
 ## 2.68.16
 
 ### Patch Changes

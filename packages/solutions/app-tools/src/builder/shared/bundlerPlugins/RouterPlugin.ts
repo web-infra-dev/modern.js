@@ -323,27 +323,6 @@ export class RouterPlugin {
             }
 
             (compilation as any)[ROUTE_DEPS_COMPILATION_KEY] = route2Sources;
-
-            // Also emit to dist for external consumption
-            const ROUTE_SOURCE_MANIFEST_FILE = 'routes-source-manifest.json';
-            const routeSourceManifest = { route2Sources: route2Sources };
-            const existed = compilation.getAsset(ROUTE_SOURCE_MANIFEST_FILE);
-            if (existed) {
-              compilation.updateAsset(
-                ROUTE_SOURCE_MANIFEST_FILE,
-                new RawSource(
-                  JSON.stringify(routeSourceManifest, null, 2),
-                ) as any,
-                undefined as any,
-              );
-            } else {
-              compilation.emitAsset(
-                ROUTE_SOURCE_MANIFEST_FILE,
-                new RawSource(
-                  JSON.stringify(routeSourceManifest, null, 2),
-                ) as any,
-              );
-            }
           } catch {
             // swallow silently; do not block build if compilation shape is unexpected
           }

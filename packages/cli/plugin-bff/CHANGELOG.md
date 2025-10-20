@@ -1,5 +1,32 @@
 # @modern-js/plugin-bff
 
+## 2.68.18
+
+### Patch Changes
+
+- 8157051: feat: disable gzip for bff
+  feat: 为 bff 请求禁用 gzip
+- Updated dependencies [2294b02]
+- Updated dependencies [8157051]
+- Updated dependencies [97fe9fd]
+  - @modern-js/server-core@2.68.18
+  - @modern-js/utils@2.68.18
+  - @modern-js/create-request@2.68.18
+  - @modern-js/server-utils@2.68.18
+  - @modern-js/bff-core@2.68.18
+
+## 2.68.17
+
+### Patch Changes
+
+- Updated dependencies [aac9de0]
+- Updated dependencies [3a773b1]
+  - @modern-js/utils@2.68.17
+  - @modern-js/server-core@2.68.17
+  - @modern-js/bff-core@2.68.17
+  - @modern-js/create-request@2.68.17
+  - @modern-js/server-utils@2.68.17
+
 ## 2.68.16
 
 ### Patch Changes

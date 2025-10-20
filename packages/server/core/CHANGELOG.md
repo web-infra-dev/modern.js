@@ -1,5 +1,29 @@
 # @modern-js/server-plugin
 
+## 2.68.18
+
+### Patch Changes
+
+- 2294b02: fix: compatibility afterStreamingRender return string type
+  fix: 兼容 afterStreamingRender 返回 string 类型
+- Updated dependencies [8157051]
+  - @modern-js/utils@2.68.18
+  - @modern-js/plugin@2.68.18
+  - @modern-js/plugin-v2@2.68.18
+  - @modern-js/runtime-utils@2.68.18
+
+## 2.68.17
+
+### Patch Changes
+
+- 3a773b1: fix: add exports fro helper module in server-core package.json
+  fix: 为 server-core package.json 添加 helper 模块的 sub-exports
+- Updated dependencies [aac9de0]
+  - @modern-js/utils@2.68.17
+  - @modern-js/plugin-v2@2.68.17
+  - @modern-js/plugin@2.68.17
+  - @modern-js/runtime-utils@2.68.17
+
 ## 2.68.16
 
 ### Patch Changes

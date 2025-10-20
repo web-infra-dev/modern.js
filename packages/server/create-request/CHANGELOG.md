@@ -1,5 +1,23 @@
 # @modern-js/create-request
 
+## 2.68.18
+
+### Patch Changes
+
+- 97fe9fd: feat: bff query supports obj
+  feat: bff query 支持对象类型
+- Updated dependencies [8157051]
+  - @modern-js/utils@2.68.18
+  - @modern-js/runtime-utils@2.68.18
+
+## 2.68.17
+
+### Patch Changes
+
+- Updated dependencies [aac9de0]
+  - @modern-js/utils@2.68.17
+  - @modern-js/runtime-utils@2.68.17
+
 ## 2.68.16
 
 ### Patch Changes
