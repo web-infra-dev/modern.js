@@ -518,8 +518,8 @@ importers:
         specifier: workspace:*
         version: link:../../solutions/app-tools
       '@modern-js/module-tools':
-        specifier: 2.68.17
-        version: 2.68.17(@types/node@20.8.8)(typescript@5.6.3)
+        specifier: 2.68.18
+        version: 2.68.18(@types/node@20.8.8)(typescript@5.6.3)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
@@ -2430,11 +2430,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core':
-        specifier: 2.68.17
-        version: 2.68.17
+        specifier: 2.68.18
+        version: 2.68.18
       '@modern-js/module-tools':
-        specifier: 2.68.17
-        version: 2.68.17(@types/node@20.8.8)(typescript@5.6.3)
+        specifier: 2.68.18
+        version: 2.68.18(@types/node@20.8.8)(typescript@5.6.3)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -7580,11 +7580,11 @@ packages:
   '@modern-js/codesmith@2.6.8':
     resolution: {integrity: sha512-CPIuW5Pj4psVfnZG4ZRCBSZHEcbxIpY6kpqb2IHog+tg1EFxs8dpc1DmW6ejtfM6HbyQGgd8no3LZ4YkjNolXw==}
 
-  '@modern-js/core@2.68.17':
-    resolution: {integrity: sha512-scu9HOh5pLKfaQylzvmvHSN1EoxPkM4HFhk74x6pAkA211B8BPqfSmJGH4ZPOvoau7PDBEBEfZM31JDIT+PGZQ==}
+  '@modern-js/core@2.68.18':
+    resolution: {integrity: sha512-dVPyPELFrMFfzPvDUQ55rV0KHzI9M8KtQCmxFyzQKVWh2jwE0vt7uPT+S6rvGTPINNXw6VvDcMBWJkaSFhscCQ==}
 
-  '@modern-js/module-tools@2.68.17':
-    resolution: {integrity: sha512-d/9DzY6KI8k+69ksxd/usTRmg51KbGjbLCvRCZPMvHNWK39ov9n1rx64QUjBVeBKrH+0lhCvjshzc7SX2oovGg==}
+  '@modern-js/module-tools@2.68.18':
+    resolution: {integrity: sha512-k0hZbiNQDlRXsTL1N6PoRsqbII2uw41PfHy2ePmCxDq9YAskIGrahMfnTkNhcxRBj8zQsUlLKHD4g0s7ToPheg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -7593,20 +7593,20 @@ packages:
       typescript:
         optional: true
 
-  '@modern-js/node-bundle-require@2.68.17':
-    resolution: {integrity: sha512-SgZ4Z3gI12HBeJHVfkqsgkUjfrZnlqsQiuGNkn/uz/AMMv+bp2qXRVHqhbhMANp2xQHtvkz1+lZWSCnH7uI+Kg==}
+  '@modern-js/node-bundle-require@2.68.18':
+    resolution: {integrity: sha512-24PzZoJU7nAnN/dgpRrfM/eSlGAzpME9C2vEq1aTZZCJwdlrSbEiZh9x/+RpDMrXY4M7fEkYkPsoRiLjF0Zf6g==}
 
-  '@modern-js/plugin-changeset@2.68.17':
-    resolution: {integrity: sha512-Y7Bd/vOe02OZQqHTZK91OKUkTHkE8n1YNvJpDE8ZIGJge+ddQT89YPVXD9Cy8g0nDDZ8VEsG2caeAeboGOb1bA==}
+  '@modern-js/plugin-changeset@2.68.18':
+    resolution: {integrity: sha512-ezToXwyhNOQdW5iKABHcu09W3H4ujzGC6qgJcmIMxx9tmjJrE6PcrkEvmuSYlZtWSl6qs1fOMVbsW+qDuO5Ufg==}
 
   '@modern-js/plugin-i18n@2.60.3':
     resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
 
-  '@modern-js/plugin-i18n@2.68.17':
-    resolution: {integrity: sha512-ieaEE28HaQlFwEdiMsqMBvMUqdzwF9luUrz02576vjxHPc06o+QI9B9PrqUC9jOcMtD7NiIu+RwzRDZJI9LvHQ==}
+  '@modern-js/plugin-i18n@2.68.18':
+    resolution: {integrity: sha512-cvyfyN6Vb75lACFK8+xEpOqCrdanaqV2jrKr5+cbnqy5wzG7seK8kd+wuzGH2qOvcsv66ZcT9Etx4WmuchlhTQ==}
 
-  '@modern-js/plugin@2.68.17':
-    resolution: {integrity: sha512-IejyUJBfnfNauWb09aRtEYBq0JvVqillY/dmAAJ61Ca5z38YOrbxDd5553rAj+W2rHmpthtGth1c2XixYWvtxg==}
+  '@modern-js/plugin@2.68.18':
+    resolution: {integrity: sha512-MVtHCOYjO0qb9OmlcK0ZHDa5L1z3L8L9xXbfYwCuF/HrRjX066C03wrd0j+2nUGmZBR7ej5ENdISTG+cpuTx0A==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -7669,14 +7669,14 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.68.17':
-    resolution: {integrity: sha512-TF7D0cDaa0spy51NHqcu24V9GcuTZ4LftENyqwrwGn8wklY5Qas33QGODXLvCK63MQqezO+KuxkAXIuHZZNvyQ==}
+  '@modern-js/types@2.68.18':
+    resolution: {integrity: sha512-FuoFrJpeCcPGNyuAMMaMd4lu7kTtrqOzqES7bh41wMcEIBj3uHI5xt2DYk9/40izdSXccKjzHCCad8Kky2Jvgw==}
 
   '@modern-js/utils@2.60.3':
     resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
 
-  '@modern-js/utils@2.68.17':
-    resolution: {integrity: sha512-XH22+BtVHZPjHJ23ev4IrKvUd6MYbkV9sKoY8ktIGvBojJG/ikEAvDeNCKzBLjCcmU2cgAmPgZklJeU/SvHOLg==}
+  '@modern-js/utils@2.68.18':
+    resolution: {integrity: sha512-UXOUBUMaegpVMoBv1lqE0dSaCX+VHcKogVonWoNmhQFkFA6njAd4jtVOddJH4uk7n7zmt+OHwR9bZSdA9tkqVg==}
 
   '@module-federation/error-codes@0.14.0':
     resolution: {integrity: sha512-GGk+EoeSACJikZZyShnLshtq9E2eCrDWbRiB4QAFXCX4oYmGgFfzXlx59vMNwqTKPJWxkEGnPYacJMcr2YYjag==}
@@ -19180,26 +19180,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.68.17':
+  '@modern-js/core@2.68.18':
     dependencies:
-      '@modern-js/node-bundle-require': 2.68.17
-      '@modern-js/plugin': 2.68.17
-      '@modern-js/utils': 2.68.17
+      '@modern-js/node-bundle-require': 2.68.18
+      '@modern-js/plugin': 2.68.18
+      '@modern-js/utils': 2.68.18
       '@swc/helpers': 0.5.17
 
-  '@modern-js/module-tools@2.68.17(@types/node@20.8.8)(typescript@5.6.3)':
+  '@modern-js/module-tools@2.68.18(@types/node@20.8.8)(typescript@5.6.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.35.0
       '@babel/core': 7.28.4
       '@babel/types': 7.28.4
-      '@modern-js/core': 2.68.17
-      '@modern-js/plugin': 2.68.17
-      '@modern-js/plugin-changeset': 2.68.17(@types/node@20.8.8)
-      '@modern-js/plugin-i18n': 2.68.17
+      '@modern-js/core': 2.68.18
+      '@modern-js/plugin': 2.68.18
+      '@modern-js/plugin-changeset': 2.68.18(@types/node@20.8.8)
+      '@modern-js/plugin-i18n': 2.68.18
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.17)
-      '@modern-js/types': 2.68.17
-      '@modern-js/utils': 2.68.17
+      '@modern-js/types': 2.68.18
+      '@modern-js/utils': 2.68.18
       '@rollup/pluginutils': 4.2.1
       '@swc/helpers': 0.5.17
       convert-source-map: 1.9.0
@@ -19222,19 +19222,19 @@ snapshots:
       - debug
       - supports-color
 
-  '@modern-js/node-bundle-require@2.68.17':
+  '@modern-js/node-bundle-require@2.68.18':
     dependencies:
-      '@modern-js/utils': 2.68.17
+      '@modern-js/utils': 2.68.18
       '@swc/helpers': 0.5.17
       esbuild: 0.25.5
 
-  '@modern-js/plugin-changeset@2.68.17(@types/node@20.8.8)':
+  '@modern-js/plugin-changeset@2.68.18(@types/node@20.8.8)':
     dependencies:
       '@changesets/cli': 2.29.7(@types/node@20.8.8)
       '@changesets/git': 2.0.0
       '@changesets/read': 0.6.5
-      '@modern-js/plugin-i18n': 2.68.17
-      '@modern-js/utils': 2.68.17
+      '@modern-js/plugin-i18n': 2.68.18
+      '@modern-js/utils': 2.68.18
       '@swc/helpers': 0.5.17
       axios: 1.12.2
       resolve-from: 5.0.0
@@ -19247,14 +19247,14 @@ snapshots:
       '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin-i18n@2.68.17':
+  '@modern-js/plugin-i18n@2.68.18':
     dependencies:
-      '@modern-js/utils': 2.68.17
+      '@modern-js/utils': 2.68.18
       '@swc/helpers': 0.5.17
 
-  '@modern-js/plugin@2.68.17':
+  '@modern-js/plugin@2.68.18':
     dependencies:
-      '@modern-js/utils': 2.68.17
+      '@modern-js/utils': 2.68.18
       '@swc/helpers': 0.5.17
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -19341,7 +19341,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.17
 
-  '@modern-js/types@2.68.17': {}
+  '@modern-js/types@2.68.18': {}
 
   '@modern-js/utils@2.60.3':
     dependencies:
@@ -19350,7 +19350,7 @@ snapshots:
       lodash: 4.17.21
       rslog: 1.2.11
 
-  '@modern-js/utils@2.68.17':
+  '@modern-js/utils@2.68.18':
     dependencies:
       '@swc/helpers': 0.5.17
       caniuse-lite: 1.0.30001749
