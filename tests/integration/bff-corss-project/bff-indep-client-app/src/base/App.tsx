@@ -1,4 +1,4 @@
-import innerHello from '@api/lambda/index';
+import innerHello from '@api/index';
 import { configure as innerConfigure } from '@modern-js/plugin-bff/client';
 import type { AxiosRequestHeaders as Headers, Method } from 'axios';
 import axios from 'axios';
