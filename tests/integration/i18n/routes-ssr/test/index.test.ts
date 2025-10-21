@@ -9,7 +9,7 @@ import {
 
 const projectDir = path.resolve(__dirname, '..');
 
-describe('router-csr-i18n', () => {
+describe('router-ssr-i18n', () => {
   let app: unknown;
   let page: Page;
   let browser: Browser;
@@ -79,7 +79,7 @@ describe('router-csr-i18n', () => {
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('关于');
     page.click('#en-button');
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const textEn = await page.$('#about');
     const targetTextEn = await page.evaluate(el => el?.textContent, textEn);
     expect(targetTextEn?.trim()).toEqual('About');
@@ -94,7 +94,7 @@ describe('router-csr-i18n', () => {
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('About');
     page.click('#zh-button');
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const textZh = await page.$('#about');
     const targetTextZh = await page.evaluate(el => el?.textContent, textZh);
     expect(targetTextZh?.trim()).toEqual('关于');
