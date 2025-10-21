@@ -32,8 +32,20 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
 
     const { metaName } = api.getAppContext();
 
+    api.addCommand(({ program }) => {
+      program
+        .command('routes')
+        .description('generate routes inspect report')
+        .action(async () => {
+          const { generateRoutesInspectReport } = await import(
+            './code/inspect'
+          );
+          await generateRoutesInspectReport(api);
+        });
+    });
+
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
-      const { nestedRoutesEntry, pageRoutesEntry } = entrypoint as Entrypoint;
+      const { nestedRoutesEntry } = entrypoint as Entrypoint;
       const { packageName, serverRoutes, metaName } = api.getAppContext();
       const serverBase = serverRoutes
         .filter(
@@ -50,7 +62,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         packageName,
       )?.router;
 
-      if (nestedRoutesEntry || pageRoutesEntry) {
+      if (nestedRoutesEntry) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,

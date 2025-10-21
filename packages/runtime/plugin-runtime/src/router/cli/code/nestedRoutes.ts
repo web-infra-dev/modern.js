@@ -42,6 +42,7 @@ const createIndexRoute = (
       ...routeInfo,
       index: true,
       children: undefined,
+      routeType: 'page', // Index routes are always pages
     },
     rootDir,
     filename,
@@ -58,10 +59,15 @@ const createRoute = (
   isMainEntry: boolean,
 ): NestedRouteForCli => {
   const id = getRouteId(filename, rootDir, entryName, isMainEntry);
+  const hasChildren = routeInfo.children && routeInfo.children.length > 0;
+
   return {
     ...routeInfo,
     id,
     type: 'nested',
+    routeType: hasChildren ? 'layout' : 'page',
+    origin: 'file-system',
+    component: routeInfo._component ? filename : undefined,
   };
 };
 
@@ -88,6 +94,8 @@ export const optimizeRoute = (
       const newRoute: NestedRouteForCli = {
         ...child,
         path: routePath.replace(/\/\//g, '/'),
+        component: child.component || undefined,
+        origin: 'file-system',
       };
 
       // the index is removed when the route path exists
@@ -105,17 +113,19 @@ export const optimizeRoute = (
   }
 };
 
-export const walk = async (
-  dirname: string,
-  rootDir: string,
-  alias: {
+export const walk = async (options: {
+  dirname: string;
+  rootDir: string;
+  alias?: {
     name: string;
     basename: string;
-  },
-  entryName: string,
-  isMainEntry: boolean,
-  oldVersion: boolean,
-): Promise<NestedRouteForCli | NestedRouteForCli[] | null> => {
+  };
+  entryName: string;
+  isMainEntry: boolean;
+  oldVersion: boolean;
+}): Promise<NestedRouteForCli | NestedRouteForCli[] | null> => {
+  const { dirname, rootDir, alias, entryName, isMainEntry, oldVersion } =
+    options;
   if (!(await fs.pathExists(dirname))) {
     return null;
   }
@@ -140,6 +150,7 @@ export const walk = async (
     path: routePath?.replace(/\$$/, '?'),
     children: [],
     isRoot,
+    origin: 'file-system',
   };
 
   let pageLoaderFile = '';
@@ -159,23 +170,26 @@ export const walk = async (
 
   for (const item of items) {
     const itemPath = path.join(dirname, item);
-    const itemPathWithAlias = getPathWithoutExt(
-      replaceWithAlias(alias.basename, itemPath, alias.name),
-    );
+    const itemPathWithAlias = alias
+      ? getPathWithoutExt(
+          replaceWithAlias(alias.basename, itemPath, alias.name),
+        )
+      : getPathWithoutExt(itemPath);
+
     const extname = path.extname(item);
     const itemWithoutExt = item.slice(0, -extname.length);
 
     const isDirectory = (await fs.stat(itemPath)).isDirectory();
 
     if (isDirectory) {
-      const childRoute = await walk(
-        itemPath,
+      const childRoute = await walk({
+        dirname: itemPath,
         rootDir,
         alias,
         entryName,
         isMainEntry,
         oldVersion,
-      );
+      });
       if (childRoute && !Array.isArray(childRoute)) {
         route.children?.push(childRoute);
       }
@@ -276,11 +290,9 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CONFIG_FILE) {
       if (!route.config) {
-        splatConfigFile = replaceWithAlias(
-          alias.basename,
-          itemPath,
-          alias.name,
-        );
+        splatConfigFile = alias
+          ? replaceWithAlias(alias.basename, itemPath, alias.name)
+          : getPathWithoutExt(itemPath);
       }
     }
 
@@ -296,6 +308,7 @@ export const walk = async (
         {
           _component: itemPathWithAlias,
           path: '*',
+          origin: 'file-system',
         },
         rootDir,
         itemPath,
@@ -331,7 +344,10 @@ export const walk = async (
   }
 
   let finalRoute = createRoute(
-    route,
+    {
+      ...route,
+      origin: 'file-system',
+    },
     rootDir,
     path.join(dirname, `${NESTED_ROUTE.LAYOUT_FILE}.ts`),
     entryName,
@@ -376,6 +392,7 @@ export const walk = async (
       finalRoute = {
         ...childRoute,
         path,
+        component: childRoute.component || undefined,
       };
     }
   }

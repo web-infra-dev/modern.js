@@ -8,6 +8,7 @@ import {
   isDevCommand,
   minimist,
 } from '@modern-js/utils';
+import { getMeta } from '@modern-js/utils';
 import { createBuilderGenerator } from '../../builder';
 import { initialNormalizedConfig } from '../../config';
 import type { AppNormalizedConfig, AppTools, CliPlugin } from '../../types';
@@ -25,6 +26,7 @@ export default (): CliPlugin<AppTools> => ({
   setup: api => {
     let pagesDir: string[] = [];
     let nestedRouteEntries: string[] = [];
+    const routesConfigFiles: string[] = [];
 
     api.onPrepare(async () => {
       let appContext = api.getAppContext();
@@ -117,6 +119,35 @@ export default (): CliPlugin<AppTools> => ({
         // should only watch file-based routes
         .filter((entry: any) => entry && !path.extname(entry))
         .concat(nestedRouteEntries);
+
+      const meta = getMeta(api.getAppContext().metaName);
+      const possibleNames = [
+        `${meta}.routes.ts`,
+        `${meta}.routes.mts`,
+        `${meta}.routes.tsx`,
+        `${meta}.routes.js`,
+        `${meta}.routes.mjs`,
+        `${meta}.routes.jsx`,
+      ];
+
+      await Promise.all(
+        entrypoints.map(async entrypoint => {
+          const { absoluteEntryDir } = entrypoint;
+          if (!absoluteEntryDir) {
+            return;
+          }
+          for (const filename of possibleNames) {
+            const filePath = path.resolve(absoluteEntryDir, filename);
+
+            if (await fs.pathExists(filePath)) {
+              const stats = await fs.stat(filePath);
+              if (stats.isFile()) {
+                routesConfigFiles.push(filePath);
+              }
+            }
+          }
+        }),
+      );
 
       const { partialsByEntrypoint, htmlTemplates } = await getHtmlTemplate(
         entrypoints,
@@ -234,7 +265,7 @@ export default (): CliPlugin<AppTools> => ({
     });
 
     api.addWatchFiles(() => {
-      return { files: pagesDir, isPrivate: true };
+      return { files: [...pagesDir, ...routesConfigFiles], isPrivate: true };
     });
 
     api.modifyResolvedConfig((resolved: any) => {

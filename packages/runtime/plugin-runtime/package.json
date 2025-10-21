@@ -131,6 +131,12 @@
       "jsnext:source": "./src/cache/index.ts",
       "require": "./dist/cjs/cache/index.js",
       "default": "./dist/esm/cache/index.js"
+    },
+    "./config-routes": {
+      "types": "./dist/types/exports/config-routes.d.ts",
+      "jsnext:source": "./src/exports/config-routes.ts",
+      "require": "./dist/cjs/exports/config-routes.js",
+      "default": "./dist/cjs/exports/config-routes.js"
     }
   },
   "typesVersions": {
@@ -197,6 +203,9 @@
       ],
       "cache": [
         "./dist/types/cache/index.d.ts"
+      ],
+      "config-routes": [
+        "./dist/types/exports/config-routes.d.ts"
       ]
     }
   },

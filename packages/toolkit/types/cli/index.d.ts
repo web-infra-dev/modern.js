@@ -77,6 +77,9 @@ export type NestedRouteForCli = NestedRoute<string>;
 
 export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
   type: 'nested';
+  origin: 'file-system' | 'config';
+  // Route type to distinguish between page and layout routes
+  routeType?: 'page' | 'layout';
   parentId?: string;
   data?: string;
   clientData?: string;
@@ -90,6 +93,7 @@ export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
   isRoot?: boolean;
   config?: string | Record<string, any>;
   inValidSSRRoute?: boolean;
+  params?: string[];
 }
 
 export interface PageRoute extends Route {

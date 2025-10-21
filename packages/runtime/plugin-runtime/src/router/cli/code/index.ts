@@ -29,10 +29,75 @@ import {
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
-import { getClientRoutes } from './getClientRoutes';
 import { walk } from './nestedRoutes';
 import * as templates from './templates';
 import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
+
+/**
+ * Generate routing information for a single entry point (can be reused by the routes inspect feature)
+ */
+export async function generateRoutesForEntry(
+  entrypoint: Entrypoint,
+  appContext: AppToolsContext,
+  oldVersion = false,
+): Promise<NestedRouteForCli[]> {
+  const routes: NestedRouteForCli[] = [];
+
+  if (entrypoint.nestedRoutesEntry) {
+    const nestedRoutes = await walk({
+      dirname: entrypoint.nestedRoutesEntry,
+      rootDir: entrypoint.nestedRoutesEntry,
+      alias: {
+        name: appContext.internalSrcAlias,
+        basename: appContext.srcDirectory,
+      },
+      entryName: entrypoint.entryName,
+      isMainEntry: entrypoint.isMainEntry,
+      oldVersion,
+    });
+
+    if (nestedRoutes) {
+      if (!Array.isArray(nestedRoutes)) {
+        routes.push(nestedRoutes);
+      } else {
+        routes.push(...nestedRoutes);
+      }
+    }
+  }
+
+  const fileRoutes: NestedRouteForCli[] =
+    routes.length > 0 ? (Array.isArray(routes) ? routes : [routes]) : [];
+
+  const { discoverAndParseConfigRoutes } = await import(
+    '../config-routes/parseRouteConfig'
+  );
+
+  const configRoutesData = await discoverAndParseConfigRoutes(
+    entrypoint,
+    appContext,
+    fileRoutes,
+  );
+
+  if (configRoutesData) {
+    const { processConfigRoutes } = await import('../config-routes/converter');
+
+    const processedConfigRoutes = await processConfigRoutes(
+      configRoutesData.routes,
+      entrypoint.entryName,
+      entrypoint.isMainEntry || false,
+      path.dirname(configRoutesData.filePath),
+      {
+        name: appContext.internalSrcAlias,
+        basename: appContext.srcDirectory,
+      },
+    );
+
+    routes.length = 0;
+    routes.push(...processedConfigRoutes);
+  }
+
+  return routes;
+}
 
 export const generateCode = async (
   appContext: AppToolsContext,
@@ -40,17 +105,11 @@ export const generateCode = async (
   entrypoints: Entrypoint[],
   api: CLIPluginAPI<AppTools>,
 ) => {
-  const {
-    internalDirectory,
-    srcDirectory,
-    internalDirAlias,
-    internalSrcAlias,
-    packageName,
-  } = appContext;
+  const { internalDirectory, srcDirectory, internalSrcAlias, packageName } =
+    appContext;
 
   const hooks = api.getHooks();
 
-  const getRoutes = getClientRoutes;
   const oldVersion =
     typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
@@ -70,38 +129,24 @@ export const generateCode = async (
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (pageRoutesEntry || nestedRoutesEntry) {
-        let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
+        const initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
           [];
-        let nestedRoutes: NestedRouteForCli | NestedRouteForCli[] | null = null;
-        if (entrypoint.entry) {
-          initialRoutes = getRoutes({
-            entrypoint,
-            srcDirectory,
-            srcAlias: internalSrcAlias,
-            internalDirectory,
-            internalDirAlias,
-          });
-        }
-        if (entrypoint.nestedRoutesEntry) {
-          nestedRoutes = await walk(
-            entrypoint.nestedRoutesEntry,
-            entrypoint.nestedRoutesEntry,
-            {
-              name: internalSrcAlias,
-              basename: srcDirectory,
-            },
-            entrypoint.entryName,
-            entrypoint.isMainEntry,
-            oldVersion,
-          );
-          if (nestedRoutes) {
-            if (!Array.isArray(nestedRoutes)) {
-              nestedRoutes = [nestedRoutes];
-            }
-            for (const route of nestedRoutes) {
-              (initialRoutes as Route[]).unshift(route);
-            }
-          }
+
+        const generatedRoutes = await generateRoutesForEntry(
+          entrypoint,
+          appContext,
+          oldVersion,
+        );
+
+        // Remove component fields from generated routes
+        const { normalizeRoutes: removeComponentFields } = await import(
+          '../config-routes/converter'
+        );
+        const normalizedRoutes = removeComponentFields(generatedRoutes);
+
+        // Add all routes to initialRoutes
+        for (const route of normalizedRoutes) {
+          (initialRoutes as Route[]).unshift(route);
         }
 
         const config = api.getNormalizedConfig();
@@ -134,6 +179,7 @@ export const generateCode = async (
         if (ssr) {
           mode = typeof ssr === 'object' ? ssr.mode || 'string' : 'string';
         }
+
         if (mode === 'stream') {
           const hasPageRoute = routes.some(
             route => 'type' in route && route.type === 'page',
@@ -150,7 +196,7 @@ export const generateCode = async (
           entrypoint,
           code: await templates.fileSystemRoutes({
             metaName,
-            routes,
+            routes: routes,
             ssrMode: useSSG ? 'string' : isUseRsc(config) ? 'stream' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,

@@ -112,5 +112,5 @@ export const getServerCombinedModueFile = (
 
 export const getPathWithoutExt = (filename: string) => {
   const extname = path.extname(filename);
-  return filename.slice(0, -extname.length);
+  return extname ? filename.slice(0, -extname.length) : filename;
 };
