@@ -53,7 +53,7 @@ export class RscClientPlugin {
 
       for (const [, entryValue] of compilation.entries.entries()) {
         const entryDependency = entryValue.dependencies.find(
-          dependency => dependency.constructor.name === `EntryDependency`,
+          dependency => dependency.constructor.name.endsWith('EntryDependency'),
         );
 
         if (!entryDependency) {

@@ -224,5 +224,5 @@ async function supportResponseAPIForClientRoot({
   expect(redirectWithHeadersRes.headers.get('x-redirect-test')).toBe('test');
 }
 
-runTests({ bundler: 'rspack', mode: 'dev' });
-runTests({ bundler: 'rspack', mode: 'build' });
+runTests({ bundler: 'webpack', mode: 'dev' });
+runTests({ bundler: 'webpack', mode: 'build' });

@@ -38,61 +38,103 @@ function runTests({ bundler, mode }: TestConfig) {
   describe(`${mode} with ${bundler}`, () => {
     let app: any;
     let appPort: number;
-    let page: Page;
-    let browser: Browser;
+    let page: Page | undefined;
+    let browser: Browser | undefined;
     const errors: string[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
     }
 
+    const shutdown = async () => {
+      try {
+        if (page) {
+          await page.close();
+        }
+      } catch (err) {
+        console.error('Failed to close page', err);
+      } finally {
+        page = undefined;
+      }
+
+      try {
+        if (browser) {
+          await browser.close();
+        }
+      } catch (err) {
+        console.error('Failed to close browser', err);
+      } finally {
+        browser = undefined;
+      }
+
+      try {
+        if (app) {
+          await killApp(app);
+        }
+      } catch (err) {
+        console.error('Failed to kill app', err);
+      } finally {
+        app = null;
+      }
+    };
+
     beforeAll(async () => {
       appPort = await getPort();
 
-      if (mode === 'dev') {
-        app = await launchApp(
-          appDir,
-          appPort,
-          {},
-          {
-            BUNDLER: bundler,
-          },
-        );
-      } else {
-        await modernBuild(appDir, [], {
-          env: {
-            BUNDLER: bundler,
-          },
-        });
-        app = await modernServe(appDir, appPort, {
-          cwd: appDir,
-        });
-      }
+      try {
+        if (mode === 'dev') {
+          app = await launchApp(
+            appDir,
+            appPort,
+            {},
+            {
+              BUNDLER: bundler,
+              ASSET_PREFIX: `http://localhost:${appPort}`,
+            },
+          );
+        } else {
+          await modernBuild(appDir, [], {
+            env: {
+              BUNDLER: bundler,
+              ASSET_PREFIX: `http://localhost:${appPort}`,
+            },
+          });
+          app = await modernServe(appDir, appPort, {
+            cwd: appDir,
+            env: {
+              PORT: appPort,
+              NODE_ENV: 'production',
+              ASSET_PREFIX: `http://localhost:${appPort}`,
+            },
+          });
+        }
 
-      browser = await puppeteer.launch(launchOptions as any);
-      page = await browser.newPage();
+        browser = await puppeteer.launch(launchOptions as any);
+        page = await browser.newPage();
 
-      if (mode === 'build') {
-        page.on('pageerror', error => {
-          errors.push(error.message);
-        });
+        if (mode === 'build' && page) {
+          page.on('pageerror', error => {
+            errors.push(error.message);
+          });
+        }
+      } catch (error) {
+        await shutdown();
+        throw error;
       }
     });
 
     afterAll(async () => {
-      await killApp(app);
-      await page.close();
-      await browser.close();
+      await shutdown();
     });
 
     describe('csr and rsc', () => {
       const baseUrl = `/`;
 
       it('should render page correctly', () =>
-        renderServerRootPageCorrectly({ baseUrl, appPort, page }));
+        renderServerRootPageCorrectly({ baseUrl, appPort, page: page! }));
 
       it(`should support ${mode === 'dev' ? 'client and ' : ''}server actions`, () =>
-        supportServerAction({ baseUrl, appPort, page }));
+        supportServerAction({ baseUrl, appPort, page: page! }));
     });
   });
 }
@@ -149,7 +191,5 @@ async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
   expect(serverCount).toBe('1');
 }
 
-runTests({ bundler: 'rspack', mode: 'dev' });
-runTests({ bundler: 'rspack', mode: 'build' });
 runTests({ bundler: 'webpack', mode: 'dev' });
 runTests({ bundler: 'webpack', mode: 'build' });

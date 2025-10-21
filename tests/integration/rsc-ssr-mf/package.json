@@ -16,6 +16,7 @@
   "dependencies": {
     "@modern-js/render": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@module-federation/modern-js": "^0.21.0",
     "client-only": "^0.0.1",
     "react": "^19",
     "react-dom": "^19",

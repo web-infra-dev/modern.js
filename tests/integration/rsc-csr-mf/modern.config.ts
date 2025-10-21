@@ -1,10 +1,36 @@
 import path from 'path';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
+const resolvedPort = process.env.PORT ? Number(process.env.PORT) : undefined;
+const assetPrefix = process.env.ASSET_PREFIX;
+
+const devConfig = resolvedPort ? { port: resolvedPort } : {};
+const serverConfig = {
+  rsc: true,
+  ...(resolvedPort ? { port: resolvedPort } : {}),
+};
+const outputConfig: Record<string, string> = {};
+if (assetPrefix) {
+  outputConfig.assetPrefix = assetPrefix;
+}
+
 export default applyBaseConfig({
-  server: {
-    rsc: true,
+  dev: devConfig,
+  server: serverConfig,
+  output: outputConfig,
+  runtime: {
+    router: false,
+    state: false,
   },
+  source: {
+    enableAsyncEntry: false,
+    entries: {
+      main: 'src/App.tsx',
+    },
+    disableDefaultEntries: true,
+  },
+  plugins: [moduleFederationPlugin()],
   tools: {
     bundlerChain(chain) {
       chain.resolve.modules

@@ -1,25 +1,28 @@
 import path from 'path';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-rsc';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   dev: {
-    port: 3002,
-  },
-  runtime: {
-    state: false,
-    router: false,
+    port: 3000,
   },
   server: {
-    port: 3002,
-    ssr: {
-      mode: 'stream',
-    },
+    port: 3000,
     rsc: true,
   },
   output: {
-    minify: false,
-    assetPrefix: 'http://localhost:3002',
+    assetPrefix: 'http://localhost:3000',
+  },
+  runtime: {
+    router: false,
+    state: false,
+  },
+  source: {
+    enableAsyncEntry: false,
+    entries: {
+      main: 'src/App.tsx',
+    },
+    disableDefaultEntries: true,
   },
   plugins: [moduleFederationPlugin()],
   tools: {

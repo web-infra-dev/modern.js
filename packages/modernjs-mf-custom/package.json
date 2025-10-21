@@ -1,0 +1,158 @@
+{
+  "name": "@module-federation/modern-js-rsc",
+  "version": "0.20.0-rsc",
+  "files": [
+    "dist/",
+    "types.d.ts",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "modern-module build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/module-federation/core.git",
+    "directory": "packages/modernjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/cli/index.d.ts",
+      "import": "./dist/esm/cli/index.js",
+      "require": "./dist/cjs/cli/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
+      "default": "./dist/esm/runtime/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/react/index.d.ts",
+      "default": "./dist/esm/react/index.js"
+    },
+    "./ssr-dev-plugin": {
+      "types": "./dist/types/ssr-runtime/devPlugin.d.ts",
+      "default": "./dist/esm/ssr-runtime/devPlugin.js"
+    },
+    "./ssr-inject-data-fetch-function-plugin": {
+      "types": "./dist/types/ssr-runtime/injectDataFetchFunctionPlugin.d.ts",
+      "default": "./dist/esm/ssr-runtime/injectDataFetchFunctionPlugin.js"
+    },
+    "./config-plugin": {
+      "types": "./dist/types/cli/configPlugin.d.ts",
+      "import": "./dist/esm/cli/configPlugin.js",
+      "require": "./dist/cjs/cli/configPlugin.js"
+    },
+    "./ssr-plugin": {
+      "types": "./dist/types/cli/ssrPlugin.d.ts",
+      "import": "./dist/esm/cli/ssrPlugin.js",
+      "require": "./dist/cjs/cli/ssrPlugin.js"
+    },
+    "./shared-strategy": {
+      "types": "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts",
+      "import": "./dist/esm/cli/mfRuntimePlugins/shared-strategy.js",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/shared-strategy.js"
+    },
+    "./resolve-entry-ipv4": {
+      "types": "./dist/types/cli/mfRuntimePlugins/resolve-entry-ipv4.d.ts",
+      "import": "./dist/esm/cli/mfRuntimePlugins/resolve-entry-ipv4.js",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/resolve-entry-ipv4.js"
+    },
+    "./inject-node-fetch": {
+      "types": "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts",
+      "import": "./dist/esm/cli/mfRuntimePlugins/inject-node-fetch.js",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/inject-node-fetch.js"
+    },
+    "./data-fetch-server-plugin": {
+      "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
+      "default": "./dist/cjs/cli/server/data-fetch-server-plugin.js"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "default": "./dist/cjs/server/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "react": [
+        "./dist/types/react/index.d.ts"
+      ],
+      "config-plugin": [
+        "./dist/types/cli/configPlugin.d.ts"
+      ],
+      "ssr-plugin": [
+        "./dist/types/cli/ssrPlugin.d.ts"
+      ],
+      "shared-strategy": [
+        "./dist/types/cli/mfRuntimePlugins/shared-strategy.d.ts"
+      ],
+      "resolve-entry-ipv4": [
+        "./dist/types/cli/mfRuntimePlugins/resolve-entry-ipv4.d.ts"
+      ],
+      "inject-node-fetch": [
+        "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts"
+      ],
+      "data-fetch-server-plugin": [
+        "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
+      ],
+      "ssr-inject-data-fetch-function-plugin": [
+        "./dist/types/ssr-runtime/injectDataFetchFunctionPlugin.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
+      ]
+    }
+  },
+  "main": "./dist/cjs/cli/index.js",
+  "types": "./dist/types/cli/index.d.ts",
+  "author": "hanric <hanric.zhang@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/node-bundle-require": "workspace:*",
+    "@module-federation/rsbuild-plugin": "0.21.0",
+    "@module-federation/bridge-react": "0.21.0",
+    "fs-extra": "11.3.0",
+    "lru-cache": "10.4.3",
+    "@module-federation/enhanced": "0.21.0",
+    "@module-federation/runtime": "0.21.0",
+    "@module-federation/node": "2.7.19",
+    "@module-federation/sdk": "0.21.0",
+    "@module-federation/cli": "0.21.0",
+    "@swc/helpers": "^0.5.17",
+    "node-fetch": "~3.3.0",
+    "react-error-boundary": "4.1.2"
+  },
+  "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@rsbuild/core": "^1.3.21",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17",
+    "typescript": "^4.9.0 || ^5.0.0",
+    "vue-tsc": "^1.0.24"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    },
+    "vue-tsc": {
+      "optional": true
+    }
+  }
+}
