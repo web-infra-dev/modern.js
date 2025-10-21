@@ -91,7 +91,8 @@ export const routesForServer = ({
   let routesCode = `
   export const routes = [
   `;
-  for (const route of routesForServerLoaderMatches) {
+  for (let i = 0; i < routesForServerLoaderMatches.length; i++) {
+    const route = routesForServerLoaderMatches[i];
     if ('type' in route) {
       const keywords = ['loader', 'action'];
       const regs = keywords.map(createMatchReg);
@@ -102,6 +103,10 @@ export const routesForServer = ({
         .replace(/\\"/g, '"');
     } else {
       routesCode += `${JSON.stringify(route, null, 2)}`;
+    }
+
+    if (i < routesForServerLoaderMatches.length - 1) {
+      routesCode += ',';
     }
   }
   routesCode += `\n];`;

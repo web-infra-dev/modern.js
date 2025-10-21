@@ -2,6 +2,7 @@ import path from 'path';
 import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
+import { getMeta } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import * as templates from './code/templates';
 import { isPageComponentFile } from './code/utils';
@@ -86,7 +87,18 @@ export async function handleFileChange(api: CLIPluginAPI<AppTools>, e: any) {
   const isRouteComponent =
     isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
 
-  if (isRouteComponent && (eventType === 'add' || eventType === 'unlink')) {
+  const meta = getMeta(appContext.metaName);
+  // Normalize path for cross-platform (Windows backslashes)
+  const normalizedFilename = filename.replace(/\\/g, '/');
+  const isConfigRoutesFile =
+    normalizedFilename.includes(`${meta}.routes.`) &&
+    /\.(js|ts|jsx|tsx|mjs|mts)$/i.test(path.extname(filename));
+
+  if (
+    (isRouteComponent && (eventType === 'add' || eventType === 'unlink')) ||
+    (isConfigRoutesFile &&
+      (eventType === 'change' || eventType === 'add' || eventType === 'unlink'))
+  ) {
     const resolvedConfig = api.getNormalizedConfig();
     const { generateCode } = await import('./code');
     const entrypoints = cloneDeep(originEntrypoints);

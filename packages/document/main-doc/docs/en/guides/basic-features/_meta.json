@@ -1,5 +1,10 @@
 [
-  "routes",
+  {
+    "type": "dir",
+    "name": "routes",
+    "label": "Routes",
+    "collapsed": true
+  },
   {
     "type": "dir",
     "name": "data",

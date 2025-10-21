@@ -1,0 +1,424 @@
+---
+sidebar_position: 3
+---
+
+# 配置式路由
+
+默认情况下，Modern.js 推荐使用 [约定式路由](./routes.mdx) 作为路由定义的方式。同时，Modern.js 也提供了一个配置式路由的能力，其可以和约定式路由一起使用，或两者分别单独使用。
+
+
+## 何时使用配置式路由
+
+配置式路由在以下场景中特别有用：
+
+- **需要灵活的路由控制**：当文件结构无法直接映射到所需的 URL 结构时
+- **多路由指向同一组件**：需要将不同的 URL 路径指向同一个页面组件
+- **条件性路由**：根据不同条件动态配置路由
+- **遗留项目迁移**：从其他路由系统迁移到 Modern.js 时保持原有的路由结构
+- **复杂的路由命名**：需要自定义路由路径而不受文件目录限制
+
+## 基本用法
+
+在 `src` 或每个入口目录下，你可以定义一个 `modern.routes.[tj]s` 文件，通过该文件，你可以对路由进行配置：
+
+```ts
+import { defineRoutes } from '@modern-js/runtime/config-routes'
+
+export default defineRoutes(({ route, layout, page, $ }, fileRoutes) => {
+  return [
+    route("home.tsx", "/"),
+  ]
+})
+```
+
+### 函数签名说明
+
+`defineRoutes` 接受一个回调函数，该回调函数有两个参数：
+1. `routeFunctions`: 包含 `route`、`layout`、`page`、`$` 函数的对象
+2. `fileRoutes`: 约定式路由生成的路由配置数组
+
+路由函数的基本签名：
+- 第一个参数：相对于 `modern.routes.[tj]s` 的文件路径
+- 第二个参数：路由路径（可选，必须是字符串）
+- 第三个参数：子路由数组（可选）
+
+
+## 路由函数
+
+Modern.js 提供了四个主要的路由配置函数：
+
+:::tip 路径说明
+
+所有路由函数的第一个参数（路径）都是**相对路径**，会与父级路径拼接生成最终的路由路径：
+- **根路径**：`"/"` 或 "" 表示当前层级的根路径
+- **相对路径**：子路由的路径会相对于父级路径进行拼接
+- **动态路径**：使用 `:param` 语法表示动态参数
+- **通配路径**：使用 `"*"` 语法匹配所有路径
+
+:::
+
+
+:::info
+
+- `route`、`layout`、`page`、`$` 等函数的第一个参数（组件文件路径）必须指向当前项目中的真实文件，暂不支持 `node_modules` 及 Monorepo 下其他仓库中的文件
+- 不支持使用路径别名（例如 `@/pages/...`、`~/pages/...` 等）；请使用相对于 `modern.routes.[tj]s` 的相对路径。
+
+:::
+
+### `route` 函数
+
+`route` 函数是通用的路由配置函数，会根据是否有子路由自动决定生成页面路由还是布局路由，可以代替 `layout`, `page`, `$`等函数。
+
+```ts
+export default defineRoutes(({ route }, fileRoutes) => {
+  return [
+    // 无子路由时，自动生成页面路由
+    route("home.tsx", "/"),
+    route("about.tsx", "about"),
+
+    // 有子路由时，自动生成布局路由
+    // dashboard/layout.tsx 需要包含 <Outlet> 来渲染子路由
+    route("dashboard/layout.tsx", "dashboard", [
+      route("dashboard/overview.tsx", "overview"),  // 生成路径：/dashboard/overview
+      route("dashboard/settings.tsx", "settings"),  // 生成路径：/dashboard/settings
+    ]),
+
+    // 动态路由
+    route("products/detail.tsx", "products/:id"),
+
+    // 多路径指向同一组件
+    route("user/profile.tsx", "user"),
+    route("user/profile.tsx", "profile"),
+  ]
+})
+```
+
+**使用场景**：
+- 快速配置路由，无需明确指定是页面还是布局
+- 简化路由配置的复杂度
+
+### `layout` 函数
+
+`layout` 函数专门用于配置布局路由，始终生成布局组件，必须包含子路由：
+
+```ts
+export default defineRoutes(({ layout, page }, fileRoutes) => {
+  return [
+    // 生成布局路由，路径为 "/auth"，必须包含子路由
+    layout("auth/layout.tsx", "auth", [
+      page("auth/login/page.tsx", "login"),      // 生成路径：/auth/login
+      page("auth/register/page.tsx", "register"), // 生成路径：/auth/register
+    ]),
+  ]
+})
+```
+
+**使用场景**：
+- 需要明确指定某个组件为布局组件
+- 为多个页面提供共同的布局结构
+- 需要在多个路由间共享导航、侧边栏等UI组件
+
+### `page` 函数
+
+`page` 函数专门用于配置页面路由，始终生成页面组件：
+
+```ts
+export default defineRoutes(({ layout, page }, fileRoutes) => {
+  return [
+    layout("dashboard/layout.tsx", "dashboard", [
+      page("dashboard/overview.tsx", "overview"),  // 生成路径：/dashboard/overview
+      page("dashboard/settings.tsx", "settings"),  // 生成路径：/dashboard/settings
+    ]),
+  ]
+})
+```
+
+**使用场景**：
+- 需要明确指定某个组件为页面组件
+- 确保组件不包含 `<Outlet>` 子组件渲染
+- 提供更清晰的语义表达
+
+### `$` 函数
+
+`$` 函数专门用于配置通配路由，用于处理未匹配的路由：
+
+```ts
+export default defineRoutes(({ layout, page, $ }, fileRoutes) => {
+  return [
+    layout("blog/layout.tsx", "blog", [
+      page("blog/page.tsx", ""),                    // 生成路径：/blog
+      page("blog/[id]/page.tsx", ":id"),            // 生成路径：/blog/:id
+      $("blog/$.tsx", "*"),                         // 通配路由，匹配 /blog 下的所有未匹配路径
+    ]),
+  ]
+})
+```
+
+**使用场景**：
+- 自定义 404 页面
+- 处理特定路径下的所有未匹配请求
+
+:::tip
+`$` 函数与约定式路由中的 `$.tsx` 文件功能相同，用于捕获未匹配的路由请求。
+:::
+
+## 配置路由
+
+### 基本示例
+
+```ts
+export default defineRoutes(({ page }, fileRoutes) => {
+  return [
+    // 使用 page 函数明确指定页面路由
+    page("home.tsx", "/"),
+    page("about.tsx", "about"),
+    page("contact.tsx", "contact"),
+  ]
+})
+```
+
+### 无路径路由
+
+当不指定路径时，路由会继承父级路径：
+
+```ts
+export default defineRoutes(({ layout, page }, fileRoutes) => {
+  return [
+    // 使用 layout 函数明确指定布局路由
+    // auth/layout.tsx 需要包含 <Outlet> 来渲染子路由
+    layout("auth/layout.tsx", [
+      page("login/page.tsx", "login"),
+      page("register/page.tsx", "register"),
+    ]),
+  ]
+})
+```
+
+上述配置会生成：
+- `/login` → `auth/layout.tsx` + `login/page.tsx`
+- `/register` → `auth/layout.tsx` + `register/page.tsx`
+
+### 多路径指向同一组件
+
+```ts
+export default defineRoutes(({ page }, fileRoutes) => {
+  return [
+    page("user.tsx", "user"),
+    page("user.tsx", "profile"),
+    page("user.tsx", "account"),
+  ]
+})
+```
+
+### 动态路由
+
+配置式路由支持动态路由参数：
+
+```ts
+export default defineRoutes(({ page }, fileRoutes) => {
+  return [
+    // 必需参数
+    page("blog/detail.tsx", "blog/:id"),
+
+    // 可选参数
+    page("blog/index.tsx", "blog/:slug?"),
+  ]
+})
+```
+
+## 路由相关文件自动查找
+
+配置式路由会自动查找组件的配套文件，无需手动配置。对于 `modern.routes.[tj]s` 中指定的任意组件文件，Modern.js 会自动查找以下配套文件：
+
+```ts
+// modern.routes.[tj]s
+export default defineRoutes(({ route }, fileRoutes) => {
+  return [
+    route("pages/profile.tsx", "profile"),
+    route("pages/user/detail.tsx", "user/:id"),
+  ]
+})
+```
+
+Modern.js 会自动查找并加载：
+
+- `pages/profile.data.ts` → 数据加载器
+- `pages/profile.config.ts` → 路由配置
+- `pages/profile.error.tsx` → 错误边界
+- `pages/profile.loading.tsx` → Loading 组件
+
+### 查找规则
+
+- **文件位置**：配套文件必须与组件文件在同一目录
+- **文件命名**：配套文件名与组件文件名相同（不包括扩展名）
+- **自动发现**：Modern.js 自动发现并加载这些文件
+
+:::tip
+更多关于数据获取的详细信息，请参考 [数据获取](/guides/basic-features/data/data-fetch) 文档。关于 Loading 组件的使用，请参考 [约定式路由 - Loading](./routes.mdx#loading-experimental)。
+:::
+
+
+## 路由合并
+
+配置式路由可以与约定式路由一起使用，你可以通过修改 `fileRoutes` 参数来实现路由的合并：
+
+1. **覆盖路由**：可以主动移除约定式路由并替换为配置式路由
+2. **补充路由**：可以在约定式路由基础上添加新的配置式路由
+3. **混合使用**：可以在约定式布局路由下添加配置式子路由
+
+:::info
+
+当前路由结构可以通过 [`modern routes`](#调试路由) 命令查看
+
+:::
+
+
+### 合并示例
+
+以下示例展示了配置式路由与约定式路由的合并方式：
+
+```ts
+// modern.routes.ts
+import { defineRoutes } from '@modern-js/runtime/config-routes';
+
+export default defineRoutes(({ page }, fileRoutes) => {
+  // 场景1：覆盖约定式路由
+  // 移除原有的 shop 路由，替换为自定义组件
+  const shopPageIndex = fileRoutes[0].children?.findIndex(
+    route => route.id === 'three_shop/page',
+  );
+  fileRoutes[0].children?.splice(shopPageIndex!, 1);
+  fileRoutes[0].children?.push(page('routes/CustomShop.tsx', 'shop'));
+
+  // 场景2：补充约定式路由
+  // 添加配置式路由，无约定式路由对应
+  fileRoutes[0].children?.push(page('routes/Settings.tsx', 'settings'));
+
+  // 场景3：混合嵌套路由
+  // 在约定式布局路由下添加配置式子路由
+  const userRoute = fileRoutes[0].children?.find(
+    (route: any) => route.path === 'user',
+  );
+  if (userRoute?.children) {
+    userRoute.children.push(page('routes/user/CustomTab.tsx', 'custom-tab'));
+  }
+
+  // 场景4：自动发现配套文件
+  // Product.tsx 会自动发现 Product.data.ts 和 Product.error.tsx
+  fileRoutes[0].children?.push(page('routes/Product.tsx', 'product/:id'));
+
+  return fileRoutes;
+});
+```
+## 调试路由
+
+由于路由合并后的最终结构可能不够直观，Modern.js 提供了调试命令来帮助你查看完整路由信息：
+
+```bash
+# 生成路由结构分析报告
+npx modern routes
+```
+
+该命令会在 `dist/routes-inspect.json` 文件中生成最终的路由结构，帮助你了解合并后的完整路由信息。
+
+### 报告文件示例
+
+#### 单入口场景
+
+```json title="dist/routes-inspect.json"
+{
+  "routes": [
+    {
+      "path": "/",
+      "component": "@_modern_js_src/routes/page",
+      "data": "@_modern_js_src/routes/page.data",
+      "clientData": "@_modern_js_src/routes/page.data.client",
+      "error": "@_modern_js_src/routes/page.error",
+      "loading": "@_modern_js_src/routes/page.loading"
+    },
+    {
+      "path": "/dashboard",
+      "component": "pages/admin",
+      "config": "pages/admin.config",
+      "error": "pages/admin.error"
+    },
+    {
+      "path": "/user",
+      "component": "layouts/user",
+      "children": [
+        {
+          "path": "/user/profile",
+          "component": "@_modern_js_src/routes/user/profile",
+          "data": "@_modern_js_src/routes/user/profile.data"
+        }
+      ]
+    },
+    {
+      "path": "@_modern_js_src/routes/blog/:id",
+      "component": "blog/detail",
+      "params": ["id"],
+      "data": "blog/detail.data",
+      "loading": "blog/detail.loading"
+    },
+    {
+      "path": "/files/*",
+      "component": "@_modern_js_src/routes/files/list"
+    }
+  ]
+}
+```
+
+#### 多入口场景
+
+在多入口项目中，报告文件会按照入口名称进行分组，其中 key 为 entryName：
+
+```json title="dist/routes-inspect.json"
+{
+  "main": {
+    "routes": [
+      {
+        "path": "/",
+        "component": "@_modern_js_src/routes/page",
+        "data": "@_modern_js_src/routes/page.data",
+        "error": "@_modern_js_src/routes/page.error",
+        "loading": "@_modern_js_src/routes/page.loading"
+      },
+      {
+        "path": "/dashboard",
+        "component": "@_modern_js_src/routes/dashboard",
+        "config": "@_modern_js_src/routes/dashboard.config"
+      }
+    ]
+  },
+  "admin": {
+    "routes": [
+      {
+        "path": "/",
+        "component": "@_modern_js_src/routes/dashboard",
+        "data": "@_modern_js_src/routes/dashboard.data",
+        "clientData": "@_modern_js_src/routes/dashboard.data.client",
+        "config": "@_modern_js_src/routes/dashboard.config"
+      },
+      {
+        "path": "/users",
+        "component": "@_modern_js_src/routes/users",
+        "data": "@_modern_js_src/routes/users.data",
+        "error": "@_modern_js_src/routes/users.error",
+        "loading": "@_modern_js_src/routes/users.loading"
+      }
+    ]
+  }
+}
+```
+
+#### 路由相关文件字段说明
+
+报告中除了基本的路由信息外，还会显示每个路由找到的相关文件：
+
+- **`data`**: 服务端数据加载文件（`.data.ts`），用于在服务端获取数据
+- **`clientData`**: 客户端数据加载文件（`.data.client.ts`），用于在客户端重新获取数据
+- **`error`**: 错误边界文件（`.error.tsx`），用于处理路由渲染错误
+- **`loading`**: 加载状态组件文件（`.loading.tsx`），用于显示数据加载中的状态
+- **`config`**: 路由配置文件（`.config.ts`），用于配置路由元数据
+
+这些字段都是可选的，只有在找到对应文件时才会在报告中显示。通过查看这些字段，你可以快速了解每个路由的完整文件结构。

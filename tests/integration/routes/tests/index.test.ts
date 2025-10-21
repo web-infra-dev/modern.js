@@ -11,9 +11,25 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
+  runModernCommand,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
+
+const findRouteByPath = (routes: any[], targetPath: string): any => {
+  for (const route of routes) {
+    if (route.path === targetPath) {
+      return route;
+    }
+    if (route.children && route.children.length > 0) {
+      const found = findRouteByPath(route.children, targetPath);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return null;
+};
 
 const renderSelfRoute = async (
   page: Page,
@@ -170,7 +186,6 @@ const supportHandleConfig = async (page: Page, appPort: number) => {
 };
 
 const supportLoader = async (page: Page, errors: string[], appPort: number) => {
-  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -535,6 +550,170 @@ const supportPrefetchWithShouldRevalidate = async (
   expect(isRequestPageData).toBe(false);
 };
 
+// config-only routes (entry "two")
+const supportConfigOnlyRoutesRender = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/two`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('two root layout')).toBeTruthy();
+  const home = await page.$('.two-home');
+  const homeText = await page.evaluate(el => el?.textContent, home);
+  expect(homeText).toBe('two home');
+  expect(errors.length).toBe(0);
+};
+
+const supportConfigOnlyCatchAll = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/two/unknown/path`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('two root layout')).toBeTruthy();
+  const catchAll = await page.$('.two-catch-all');
+  const catchAllText = await page.evaluate(el => el?.textContent, catchAll);
+  expect(catchAllText).toBe('catch all route');
+  expect(errors.length).toBe(0);
+};
+
+const supportConfigOnlyErrorBoundary = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/two/boom`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  await page.waitForSelector('.two-error');
+  const el = await page.$('.two-error');
+  const text = await page.evaluate(el => el?.textContent, el);
+  expect(text?.includes('boom test')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+const supportConfigOnlyRoutesLoader = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/two/user/567`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('two root layout')).toBeTruthy();
+  const user = await page.$('.two-user');
+  const userText = await page.evaluate(el => el?.textContent, user);
+  expect(userText?.includes('user id: 567')).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+// Hybrid routes test functions
+const supportConfigOverridesConventional = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three/shop`, {
+    waitUntil: ['networkidle0'],
+  });
+  const shopElm = await page.$('.config-shop');
+  const text = await page.evaluate(el => el?.textContent, shopElm);
+  expect(text).toBe('config shop page');
+  const conventionalShop = await page.$('.conventional-shop');
+  expect(conventionalShop).toBeNull();
+  expect(errors.length).toBe(0);
+};
+
+const supportConfigSupplementsConventional = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three/settings`, {
+    waitUntil: ['networkidle0'],
+  });
+  const settingsElm = await page.$('.settings-page');
+  const text = await page.evaluate(el => el?.textContent, settingsElm);
+  expect(text).toBe('settings page from config route');
+  expect(errors.length).toBe(0);
+};
+
+const supportMixedNestedRoutes = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three/user/custom-tab`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  // Should include conventional 'user' layout content
+  expect(text?.includes('user layout')).toBeTruthy();
+  // Should include config 'custom-tab' page content
+  const customTab = await page.$('.custom-tab');
+  const tabText = await page.evaluate(el => el?.textContent, customTab);
+  expect(tabText).toBe('custom tab from config route');
+  expect(errors.length).toBe(0);
+};
+
+const supportConfigWithCompanionFiles = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  // Should load data via server loader
+  await page.goto(`http://localhost:${appPort}/three/product/123`, {
+    waitUntil: ['networkidle0'],
+  });
+  const productPage = await page.$('.product-page');
+  expect(productPage).not.toBeNull();
+  const productId = await page.$('.product-id');
+  const idText = await page.evaluate(el => el?.textContent, productId);
+  expect(idText).toBe('product id: 123');
+  const productName = await page.$('.product-name');
+  const nameText = await page.evaluate(el => el?.textContent, productName);
+  expect(nameText).toBe('product name: Product 123');
+
+  // Should render error boundary when loader throws
+  await page.goto(`http://localhost:${appPort}/three/product/error`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  await page.waitForSelector('.product-error');
+  const errorElm = await page.$('.product-error');
+  const errorText = await page.evaluate(el => el?.textContent, errorElm);
+  expect(errorText?.includes('Product Error Boundary')).toBeTruthy();
+  expect(errorText?.includes('Product load error')).toBeTruthy();
+};
+
+const supportDeepFileRoutesManipulation = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  // Ensure that 'client-loader' route has been removed
+  const response = await page.goto(
+    `http://localhost:${appPort}/three/client-loader`,
+    {
+      waitUntil: ['domcontentloaded'],
+    },
+  );
+  // After removal, it should be 404 or unmatched.
+  // Since catch-all may exist, ensure no client-loader content is shown.
+  const clientLoaderLayout = await page.$('.client-loader-layout');
+  expect(clientLoaderLayout).toBeNull();
+};
+
 describe('dev with rspack', () => {
   let app: unknown;
   let appPort: number;
@@ -652,6 +831,17 @@ describe('dev with rspack', () => {
     });
   });
 
+  describe('config-only routes (two)', () => {
+    test('render correctly', async () =>
+      supportConfigOnlyRoutesRender(page, errors, appPort));
+    test('loader works', async () =>
+      supportConfigOnlyRoutesLoader(page, errors, appPort));
+    test('catch all route works', async () =>
+      supportConfigOnlyCatchAll(page, errors, appPort));
+    test('error boundary works', async () =>
+      supportConfigOnlyErrorBoundary(page, errors, appPort));
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
@@ -673,7 +863,6 @@ describe('build with rspack', () => {
       },
     });
 
-    // log in case for test failed by build failed
     if (buildResult.code !== 0) {
       console.log('ut test build failed, err: ', buildResult.stderr);
       console.log('ut test build failed, output: ', buildResult.stdout);
@@ -779,9 +968,127 @@ describe('build with rspack', () => {
     });
   });
 
+  describe('config-only routes (two)', () => {
+    test('render correctly', async () =>
+      supportConfigOnlyRoutesRender(page, errors, appPort));
+    test('loader works', async () =>
+      supportConfigOnlyRoutesLoader(page, errors, appPort));
+    test('catch all route works', async () =>
+      supportConfigOnlyCatchAll(page, errors, appPort));
+    test('error boundary works', async () =>
+      supportConfigOnlyErrorBoundary(page, errors, appPort));
+  });
+
+  describe('hybrid routes (three)', () => {
+    test('config route overrides conventional route', async () =>
+      supportConfigOverridesConventional(page, errors, appPort));
+    test('config route supplements conventional routes', async () =>
+      supportConfigSupplementsConventional(page, errors, appPort));
+    test('mixed nested routes work correctly', async () =>
+      supportMixedNestedRoutes(page, errors, appPort));
+    test('config route with auto-discovered companion files', async () =>
+      supportConfigWithCompanionFiles(page, errors, appPort));
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
     await browser.close();
+  });
+});
+
+describe('routes inspect report', () => {
+  beforeAll(async () => {
+    const distDir = path.join(appDir, './dist');
+    if (await fs.pathExists(distDir)) {
+      await fs.remove(distDir);
+    }
+
+    await runModernCommand(['routes'], {
+      cwd: appDir,
+      stdout: true,
+      stderr: true,
+    });
+  });
+  test('should generate correct routes inspect report', async () => {
+    const reportPath = path.join(appDir, './dist/routes-inspect.json');
+
+    expect(await fs.pathExists(reportPath)).toBeTruthy();
+
+    const report = await fs.readJSON(reportPath);
+
+    expect(report).toHaveProperty('four');
+    expect(report).toHaveProperty('three');
+    expect(report.four).toHaveProperty('routes');
+    expect(report.three).toHaveProperty('routes');
+
+    const fourRoutes = report.four.routes;
+    expect(fourRoutes).toHaveLength(1);
+
+    const fourRoot = fourRoutes[0];
+    expect(fourRoot.path).toBe('/');
+    expect(fourRoot.component).toContain('@_modern_js_src/four/routes/layout');
+    expect(fourRoot.children).toBeDefined();
+
+    const fourChildren = fourRoot.children!;
+    expect(fourChildren.length).toBeGreaterThan(0);
+
+    const dynamicRoute = findRouteByPath(fourChildren, ':id');
+    expect(dynamicRoute).toBeDefined();
+    expect(dynamicRoute?.params).toEqual(['id']);
+    expect(dynamicRoute?.data).toContain(
+      '@_modern_js_src/four/routes/user/[id]/page.data',
+    );
+
+    const catchAllRoute = findRouteByPath(fourChildren, '*');
+    expect(catchAllRoute).toBeDefined();
+
+    const optionalRoute = findRouteByPath(fourChildren, 'act/:bid?');
+    expect(optionalRoute).toBeDefined();
+    expect(optionalRoute?.params).toEqual(['bid?']);
+
+    const threeRoutes = report.three.routes;
+    expect(threeRoutes).toHaveLength(1);
+
+    const threeRoot = threeRoutes[0];
+    expect(threeRoot.path).toBe('/');
+    expect(threeRoot.component).toContain(
+      '@_modern_js_src/three/routes/layout',
+    );
+    expect(threeRoot.error).toContain('@_modern_js_src/three/routes/error');
+    expect(threeRoot.loading).toContain('@_modern_js_src/three/routes/loading');
+    expect(threeRoot.config).toContain(
+      '@_modern_js_src/three/routes/layout.config',
+    );
+
+    const threeChildren = threeRoot.children!;
+
+    const authShopRoute = findRouteByPath(threeChildren, 'item');
+    expect(authShopRoute).toBeDefined();
+    expect(authShopRoute?.component).toContain(
+      '@_modern_js_src/three/routes/__auth/__shop/item/page',
+    );
+
+    const clientLoaderRoute = findRouteByPath(threeChildren, 'client-loader');
+    expect(clientLoaderRoute).toBeDefined();
+    expect(clientLoaderRoute?.data).toContain(
+      '@_modern_js_src/three/routes/client-loader/layout.data',
+    );
+    expect(clientLoaderRoute?.clientData).toContain(
+      '@_modern_js_src/three/routes/client-loader/layout.data.client',
+    );
+
+    const errorRoute = findRouteByPath(threeChildren, 'error');
+    expect(errorRoute).toBeDefined();
+    expect(errorRoute?.component).toBe('');
+
+    const dotRoute = findRouteByPath(threeChildren, 'user/profile/name');
+    expect(dotRoute).toBeDefined();
+    expect(dotRoute?.component).toContain(
+      '@_modern_js_src/three/routes/user.profile.name/layout',
+    );
+    expect(dotRoute?.config).toContain(
+      '@_modern_js_src/three/routes/user.profile.name/layout.config',
+    );
   });
 });
