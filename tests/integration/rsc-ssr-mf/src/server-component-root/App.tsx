@@ -4,7 +4,7 @@ import { setStatus } from '@modern-js/runtime';
 import { Suspense } from 'react';
 import styles from './App.module.less';
 import Suspended from './Suspended';
-import { Counter } from './components/Counter';
+import { Counter } from './components/CounterExport';
 import { getCountState } from './components/ServerState';
 
 const handleResponse = (responseType: string) => {

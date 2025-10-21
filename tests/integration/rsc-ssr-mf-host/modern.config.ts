@@ -4,22 +4,26 @@ import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   dev: {
-    port: 3002,
-  },
-  runtime: {
-    state: false,
-    router: false,
+    port: 3001,
   },
   server: {
-    port: 3002,
-    ssr: {
-      mode: 'stream',
-    },
+    port: 3001,
+    ssr: true,
     rsc: true,
   },
   output: {
-    minify: false,
-    assetPrefix: 'http://localhost:3002',
+    assetPrefix: 'http://localhost:3001',
+  },
+  runtime: {
+    router: false,
+    state: false,
+  },
+  source: {
+    enableAsyncEntry: false,
+    entries: {
+      main: 'src/App.tsx',
+    },
+    disableDefaultEntries: true,
   },
   plugins: [moduleFederationPlugin()],
   tools: {

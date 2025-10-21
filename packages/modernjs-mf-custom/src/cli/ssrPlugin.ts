@@ -111,7 +111,7 @@ export const moduleFederationSSRPlugin = (
       const { fetchServerQuery } = pluginOptions;
       plugins.push({
         name: 'injectDataFetchFunction',
-        path: '@module-federation/modern-js/ssr-inject-data-fetch-function-plugin',
+        path: '@module-federation/modern-js-rsc/ssr-inject-data-fetch-function-plugin',
         config: {
           fetchServerQuery,
         },
@@ -121,7 +121,7 @@ export const moduleFederationSSRPlugin = (
       }
       plugins.push({
         name: 'mfSSRDev',
-        path: '@module-federation/modern-js/ssr-dev-plugin',
+        path: '@module-federation/modern-js-rsc/ssr-dev-plugin',
         config: {},
       });
       return { entrypoint, plugins };

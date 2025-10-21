@@ -1,18 +1,20 @@
 import { createModuleFederationConfig } from '@module-federation/modern-js-rsc';
 
+const remoteBaseUrl =
+  process.env.REMOTE_URL ?? 'http://localhost:3002';
+
 export default createModuleFederationConfig({
-  name: 'rsc_ssr_remote',
-  manifest: {
-    filePath: 'static',
+  name: 'rsc_ssr_host',
+
+  // Configure remote pointing to rsc-ssr-mf app
+  remotes: {
+    rsc_ssr_remote: `rsc_ssr_remote@${remoteBaseUrl}/static/mf-manifest.json`,
   },
-  filename: 'static/remoteEntry.js',
+
+  // Explicit shareScope for RSC module sharing
   shareScope: 'default',
-  exposes: {
-    // Expose clean client components without server actions
-    './Counter': './src/server-component-root/components/CounterExport.tsx',
-    './DynamicMessage':
-      './src/server-component-root/components/DynamicMessageExport.tsx',
-  },
+
+  // Share same dependencies as remote (must match exactly)
   shared: {
     react: {
       singleton: true,

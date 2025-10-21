@@ -33,11 +33,13 @@
     },
     "./ssr-dev-plugin": {
       "types": "./dist/types/ssr-runtime/devPlugin.d.ts",
-      "default": "./dist/esm/ssr-runtime/devPlugin.js"
+      "import": "./dist/esm/ssr-runtime/devPlugin.js",
+      "require": "./dist/cjs/ssr-runtime/devPlugin.js"
     },
     "./ssr-inject-data-fetch-function-plugin": {
       "types": "./dist/types/ssr-runtime/injectDataFetchFunctionPlugin.d.ts",
-      "default": "./dist/esm/ssr-runtime/injectDataFetchFunctionPlugin.js"
+      "import": "./dist/esm/ssr-runtime/injectDataFetchFunctionPlugin.js",
+      "require": "./dist/cjs/ssr-runtime/injectDataFetchFunctionPlugin.js"
     },
     "./config-plugin": {
       "types": "./dist/types/cli/configPlugin.d.ts",

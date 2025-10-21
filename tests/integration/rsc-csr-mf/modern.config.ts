@@ -1,5 +1,5 @@
 import path from 'path';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-rsc';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 const resolvedPort = process.env.PORT ? Number(process.env.PORT) : undefined;

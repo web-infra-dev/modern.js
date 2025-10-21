@@ -109,7 +109,7 @@ export const createHonoHandler = (handler: Handler) => {
 const getHonoInput = async (c: Context) => {
   const draft: Record<string, any> = {
     params: c.req.param(),
-    query: parse(c.req.query()),
+    query: c.req.query(),
     headers: c.req.header(),
     cookies: c.req.header('cookie'),
   };

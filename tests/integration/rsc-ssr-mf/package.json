@@ -3,10 +3,10 @@
   "name": "rsc-ssr-mf",
   "version": "2.66.0",
   "scripts": {
-    "dev": "cross-env BUNDLER=rspack modern dev",
-    "dev:webpack": "cross-env BUNDLER=webpack  modern dev",
-    "build": "cross-env BUNDLER=rspack modern build",
-    "build:webpack": "cross-env BUNDLER=webpack modern build",
+    "dev": "cross-env BUNDLER=webpack modern dev",
+    "dev:rspack": "cross-env BUNDLER=rspack modern dev",
+    "build": "cross-env BUNDLER=webpack modern build",
+    "build:rspack": "cross-env BUNDLER=rspack modern build",
     "serve": "modern serve",
     "new": "modern new"
   },
@@ -16,7 +16,7 @@
   "dependencies": {
     "@modern-js/render": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@module-federation/modern-js": "^0.21.0",
+    "@module-federation/modern-js-rsc": "workspace:*",
     "client-only": "^0.0.1",
     "react": "^19",
     "react-dom": "^19",

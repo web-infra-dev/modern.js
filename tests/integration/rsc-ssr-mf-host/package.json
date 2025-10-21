@@ -1,34 +1,33 @@
 {
   "private": true,
-  "name": "rsc-csr-mf",
+  "name": "rsc-ssr-mf-host",
   "version": "2.66.0",
   "scripts": {
     "dev": "cross-env BUNDLER=webpack modern dev",
-    "dev:rspack": "cross-env BUNDLER=rspack modern dev",
     "build": "cross-env BUNDLER=webpack modern build",
-    "build:rspack": "cross-env BUNDLER=rspack modern build",
-    "serve": "modern serve",
-    "new": "modern new"
-  },
-  "engines": {
-    "node": ">=14.17.6"
+    "serve": "modern serve"
   },
   "dependencies": {
+    "@modern-js/render": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@module-federation/modern-js-rsc": "workspace:*",
     "client-only": "^0.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19",
+    "react-dom": "^19",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-swc": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^18",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "cross-env": "^7.0.3",
+    "isomorphic-fetch": "^3.0.0",
+    "puppeteer": "^24.10.2",
     "typescript": "^5"
   }
 }
