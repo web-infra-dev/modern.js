@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
 import type { LoaderContext } from 'webpack';
 import {
   type ServerReferencesModuleInfo,
@@ -10,6 +12,16 @@ import {
 export type ClientLoaderOptions = {
   callServerImport?: string;
   registerImport?: string;
+};
+
+type ServerReferencesManifestEntry = {
+  path: string;
+  exports: string[];
+  moduleId?: string | number | null;
+};
+
+type ServerReferencesManifest = {
+  serverReferences: ServerReferencesManifestEntry[];
 };
 
 export default async function rscClientLoader(
@@ -35,8 +47,7 @@ export default async function rscClientLoader(
   const buildInfo = sharedData.get<ServerReferencesModuleInfo>(
     this.resourcePath,
   );
-
-  const moduleInfo = buildInfo
+  let moduleInfo = buildInfo
     ? {
         moduleId: buildInfo?.moduleId,
         exportNames: buildInfo?.exportNames,
@@ -44,6 +55,59 @@ export default async function rscClientLoader(
     : null;
 
   if (!moduleInfo) {
+    const serverModuleInfoMap = sharedData.get<
+      Map<string, ServerReferencesModuleInfo>
+    >('serverModuleInfoMap');
+
+    const infoFromMap = serverModuleInfoMap?.get(this.resourcePath);
+    if (infoFromMap) {
+      moduleInfo = {
+        moduleId: infoFromMap.moduleId ?? undefined,
+        exportNames: infoFromMap.exportNames,
+      };
+    }
+  }
+
+  if (!moduleInfo) {
+    const manifestPath =
+      sharedData.get<string>('serverReferencesManifestPath') ||
+      path.join(
+        this.rootContext,
+        'dist',
+        'server',
+        'server-references-manifest.json',
+      );
+
+    if (manifestPath && existsSync(manifestPath)) {
+      try {
+        const manifest = JSON.parse(
+          readFileSync(manifestPath, 'utf-8'),
+        ) as ServerReferencesManifest;
+
+        const entry = manifest.serverReferences.find(
+          item => item.path === this.resourcePath,
+        );
+
+        if (entry) {
+          moduleInfo = {
+            moduleId: entry.moduleId ?? undefined,
+            exportNames: entry.exports,
+          };
+        }
+      } catch {
+        // Ignore malformed manifest; fall through to existing error.
+      }
+    }
+  }
+
+  if (!moduleInfo) {
+    if (process.env.DEBUG_RSC_PLUGIN) {
+      console.log(
+        `[rsc-client-loader] missing build info for ${this.resourcePath}. Known keys: ${Array.from(
+          sharedData.store.keys(),
+        ).join(', ')}`,
+      );
+    }
     this.emitError(
       new Error(
         `Could not find server module info in \`serverReferencesMap\` for ${this.resourcePath}.`,

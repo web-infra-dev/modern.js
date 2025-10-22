@@ -8,7 +8,7 @@ import {
   useRuntimeContext,
 } from '@modern-js/runtime';
 import './App.css';
-import { Counter } from '../server-component-root/components/CounterExport';
+import { Counter } from '../server-component-root/components/Counter';
 
 const handleResponse = (responseType: string) => {
   switch (responseType) {

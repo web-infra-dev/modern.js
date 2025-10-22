@@ -1,8 +1,11 @@
+import { promises as fs } from 'fs';
+import path from 'path';
 import type Webpack from 'webpack';
 import { type Compilation, type ModuleGraph, NormalModule } from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,
+  type ServerReferencesModuleInfo,
   findRootIssuer,
   getRscBuildInfo,
   isCssModule,
@@ -39,6 +42,9 @@ export class RscServerPlugin {
   private entryPath2Name = new Map<string, string>();
   private styles: Set<string>;
   private moduleToEntries = new Map<string, Set<string>>();
+  private serverReferencesManifestFilename: string;
+  private serverReferencesManifestPath?: string;
+  private serverModuleInfo = new Map<string, ServerReferencesModuleInfo>();
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
 
@@ -46,6 +52,7 @@ export class RscServerPlugin {
       options?.serverManifestFilename || `react-server-manifest.json`;
 
     this.entryPath2Name = options?.entryPath2Name || new Map();
+    this.serverReferencesManifestFilename = 'server-references-manifest.json';
   }
 
   private isValidModule(module: NormalModule): boolean {
@@ -156,6 +163,36 @@ export class RscServerPlugin {
   private buildModuleToEntriesMapping(compilation: Compilation): void {
     this.moduleToEntries.clear();
 
+    if (process.env.DEBUG_RSC_PLUGIN) {
+      compilation.modules.forEach(module => {
+        if (
+          module?.constructor &&
+          (module.constructor.name === 'ContainerEntryModule' ||
+            (module as any).type === 'container entry')
+        ) {
+          console.log(
+            `[RscServerPlugin] found container entry module name=${
+              (module as any).name || ''
+            }`,
+          );
+
+          const connections =
+            compilation.moduleGraph.getOutgoingConnections(module);
+          for (const connection of connections) {
+            if (connection?.module) {
+              console.log(
+                `[RscServerPlugin]  connection to ${
+                  'resource' in connection.module && connection.module.resource
+                    ? connection.module.resource
+                    : connection.module.identifier?.()
+                }`,
+              );
+            }
+          }
+        }
+      });
+    }
+
     for (const [entryName, entryDependency] of compilation.entries.entries()) {
       const entryModule = compilation.moduleGraph.getModule(
         entryDependency.dependencies[0],
@@ -235,7 +272,11 @@ export class RscServerPlugin {
       }
 
       const includePromises = entries
-        .filter(([entryName]) => resourceEntryNames?.includes(entryName))
+        .filter(([entryName]) =>
+          resourceEntryNames && resourceEntryNames.length > 0
+            ? resourceEntryNames.includes(entryName)
+            : true,
+        )
         .map(([entryName]) => {
           const dependency = EntryPlugin.createDependency(resource, {
             name: resource,
@@ -282,6 +323,7 @@ export class RscServerPlugin {
     compiler.hooks.finishMake.tapPromise(
       RscServerPlugin.name,
       async compilation => {
+        this.serverModuleInfo.clear();
         this.buildModuleToEntriesMapping(compilation);
 
         const processModules = (modules: Webpack.Compilation['modules']) => {
@@ -297,11 +339,9 @@ export class RscServerPlugin {
               continue;
             }
 
-            if (module.layer && buildInfo.type === 'server') {
+            if (buildInfo.type === 'server') {
               sharedData.set(buildInfo?.resourcePath, buildInfo);
-            }
-
-            if (!module.layer && buildInfo.type === 'client') {
+            } else if (!module.layer && buildInfo.type === 'client') {
               sharedData.set(buildInfo?.resourcePath, buildInfo);
             }
 
@@ -309,6 +349,13 @@ export class RscServerPlugin {
               buildInfo?.type === 'client'
                 ? this.clientReferencesMap.get(buildInfo.resourcePath)
                 : this.serverReferencesMap.get(buildInfo.resourcePath);
+
+            if (buildInfo?.type === 'server') {
+              this.serverModuleInfo.set(
+                buildInfo.resourcePath,
+                buildInfo as ServerReferencesModuleInfo,
+              );
+            }
 
             if (buildInfo?.type === 'client' && !currentReference) {
               hasChangeReference = true;
@@ -323,6 +370,11 @@ export class RscServerPlugin {
                 buildInfo.resourcePath,
                 buildInfo.exportNames,
               );
+              if (process.env.DEBUG_RSC_PLUGIN) {
+                console.log(
+                  `[RscServerPlugin] server module detected ${buildInfo.resourcePath}`,
+                );
+              }
             }
 
             if (module instanceof NormalModule) {
@@ -405,7 +457,56 @@ export class RscServerPlugin {
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
       sharedData.set('styles', this.styles);
+      sharedData.set('serverModuleInfoMap', this.serverModuleInfo);
+      if (this.serverReferencesManifestPath) {
+        sharedData.set(
+          'serverReferencesManifestPath',
+          this.serverReferencesManifestPath,
+        );
+      }
     });
+
+    compiler.hooks.afterEmit.tapPromise(
+      RscServerPlugin.name,
+      async compilation => {
+        const outputPath =
+          compilation.outputOptions.path || compiler.options.output.path;
+        if (!outputPath) {
+          return;
+        }
+
+        const manifest = {
+          serverReferences: Array.from(this.serverModuleInfo.entries()).map(
+            ([resourcePath, info]) => ({
+              path: resourcePath,
+              exports: info.exportNames ?? [],
+              moduleId: info.moduleId ?? null,
+            }),
+          ),
+        };
+
+        if (process.env.DEBUG_RSC_PLUGIN) {
+          console.log(
+            `[RscServerPlugin] writing server references manifest at ${outputPath} with ${manifest.serverReferences.length} entries`,
+          );
+        }
+
+        const manifestPath = path.join(
+          outputPath,
+          this.serverReferencesManifestFilename,
+        );
+
+        await fs.mkdir(path.dirname(manifestPath), { recursive: true });
+        await fs.writeFile(
+          manifestPath,
+          JSON.stringify(manifest, null, 2),
+          'utf-8',
+        );
+
+        this.serverReferencesManifestPath = manifestPath;
+        sharedData.set('serverReferencesManifestPath', manifestPath);
+      },
+    );
 
     compiler.hooks.thisCompilation.tap(
       RscServerPlugin.name,

@@ -8,8 +8,7 @@ export default createModuleFederationConfig({
   filename: 'static/remoteEntry.js',
   shareScope: 'default',
   exposes: {
-    // Expose clean client components without server actions
-    './Counter': './src/server-component-root/components/CounterExport.tsx',
+    './Counter': './src/server-component-root/components/Counter.tsx',
     './DynamicMessage':
       './src/server-component-root/components/DynamicMessageExport.tsx',
   },

@@ -52,8 +52,8 @@ export class RscClientPlugin {
       const entryModules: Webpack.Module[] = [];
 
       for (const [, entryValue] of compilation.entries.entries()) {
-        const entryDependency = entryValue.dependencies.find(
-          dependency => dependency.constructor.name.endsWith('EntryDependency'),
+        const entryDependency = entryValue.dependencies.find(dependency =>
+          dependency.constructor.name.endsWith('EntryDependency'),
         );
 
         if (!entryDependency) {
