@@ -50,11 +50,17 @@ describe('app-ssr-i18n', () => {
     const text = await page.$('#key');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('你好，世界');
-    page.click('#en-button');
+    await page.click('#en-button');
     await new Promise(resolve => setTimeout(resolve, 5000));
-    const textEn = await page.$('#key');
-    const targetTextEn = await page.evaluate(el => el?.textContent, textEn);
-    expect(targetTextEn?.trim()).toEqual('Hello World');
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('#key');
+        return (
+          el && el.textContent !== null && el.textContent === 'Hello World'
+        );
+      },
+      { timeout: 10000 },
+    );
   });
   test('page-en', async () => {
     const response = await page.goto(`http://localhost:${appPort}/en`, {
@@ -65,10 +71,14 @@ describe('app-ssr-i18n', () => {
     const text = await page.$('#key');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('Hello World');
-    page.click('#zh-button');
+    await page.click('#zh-button');
     await new Promise(resolve => setTimeout(resolve, 5000));
-    const textZh = await page.$('#key');
-    const targetTextZh = await page.evaluate(el => el?.textContent, textZh);
-    expect(targetTextZh?.trim()).toEqual('你好，世界');
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('#key');
+        return el && el.textContent !== null && el.textContent === '你好，世界';
+      },
+      { timeout: 10000 },
+    );
   });
 });

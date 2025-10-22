@@ -11,6 +11,7 @@ node_modules/
 .eslintcache
 
 dist/
+dist-ssg/
 doc_build/
 !**/compiled/**/dist
 coverage/

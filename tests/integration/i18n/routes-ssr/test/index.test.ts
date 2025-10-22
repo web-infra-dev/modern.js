@@ -78,11 +78,15 @@ describe('router-ssr-i18n', () => {
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('关于');
-    page.click('#en-button');
+    await page.click('#en-button');
     await new Promise(resolve => setTimeout(resolve, 5000));
-    const textEn = await page.$('#about');
-    const targetTextEn = await page.evaluate(el => el?.textContent, textEn);
-    expect(targetTextEn?.trim()).toEqual('About');
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('#about');
+        return el && el.textContent !== null && el.textContent === 'About';
+      },
+      { timeout: 10000 },
+    );
   });
   test('page-en-about', async () => {
     const response = await page.goto(`http://localhost:${appPort}/en/about`, {
@@ -93,10 +97,14 @@ describe('router-ssr-i18n', () => {
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('About');
-    page.click('#zh-button');
+    await page.click('#zh-button');
     await new Promise(resolve => setTimeout(resolve, 5000));
-    const textZh = await page.$('#about');
-    const targetTextZh = await page.evaluate(el => el?.textContent, textZh);
-    expect(targetTextZh?.trim()).toEqual('关于');
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('#about');
+        return el && el.textContent !== null && el.textContent === '关于';
+      },
+      { timeout: 10000 },
+    );
   });
 });
