@@ -7,6 +7,9 @@ export default defineConfig({
     ssr: process.env.NODE_ENV === 'development',
   },
   output: {
+    distPath: {
+      root: 'dist-ssg',
+    },
     ssg: {
       routes: ['/zh/about', '/en/about', '/en', '/zh'],
     },
