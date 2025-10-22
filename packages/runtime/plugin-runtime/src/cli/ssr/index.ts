@@ -114,6 +114,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
   setup: api => {
     const appContext = api.getAppContext();
     const exportLoadablePath = `@${appContext.metaName}/runtime/loadable`;
+    const runtimeUtilsPath = require.resolve('@modern-js/runtime-utils/node');
+    const aliasPath = runtimeUtilsPath
+      .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
+      .replace(/\.js$/, '.mjs');
 
     api.config(() => {
       return {

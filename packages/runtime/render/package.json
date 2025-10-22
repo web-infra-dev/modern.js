@@ -23,8 +23,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -33,6 +33,8 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
+    "@rslib/core": "0.14.0",
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/react": "^19.1.8",
@@ -50,17 +52,17 @@
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
       "jsnext:source": "./src/server/ssr/index.ts",
-      "default": "./dist/esm/server/ssr/index.js"
+      "default": "./dist/esm/server/ssr/index.mjs"
     },
     "./rsc": {
       "types": "./dist/types/server/rsc/index.d.ts",
       "jsnext:source": "./src/server/rsc/index.ts",
-      "default": "./dist/esm/server/rsc/index.js"
+      "default": "./dist/esm/server/rsc/index.mjs"
     },
     "./client": {
       "types": "./dist/types/client/index.d.ts",
       "jsnext:source": "./src/client/index.tsx",
-      "default": "./dist/esm/client/index.js"
+      "default": "./dist/esm/client/index.mjs"
     }
   },
   "typesVersions": {

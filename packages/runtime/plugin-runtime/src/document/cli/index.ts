@@ -432,22 +432,26 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       }
     }
 
-    api.config(() => ({
-      resolve: {
-        alias: {
-          '@meta/runtime/document$': require
-            .resolve('../')
-            .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`),
+    api.config(() => {
+      const documentPath = require.resolve('../');
+      return {
+        resolve: {
+          alias: {
+            '@meta/runtime/document$': documentPath.replace(
+              `${path.sep}cjs${path.sep}`,
+              `${path.sep}esm${path.sep}`,
+            ),
+          },
         },
-      },
-      tools: {
-        bundlerChain: (chain: RspackChain) => {
-          chain
-            .plugin('modernjs-document-child-compiler')
-            .use(ModernJsDocumentChildCompilerPlugin, []);
+        tools: {
+          bundlerChain: (chain: RspackChain) => {
+            chain
+              .plugin('modernjs-document-child-compiler')
+              .use(ModernJsDocumentChildCompilerPlugin, []);
+          },
         },
-      },
-    }));
+      };
+    });
 
     const getDocParams = (params: {
       config: NormalizedConfig;
