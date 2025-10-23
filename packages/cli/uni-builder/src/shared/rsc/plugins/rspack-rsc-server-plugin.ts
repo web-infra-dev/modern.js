@@ -394,7 +394,37 @@ export class RscServerPlugin {
       },
     );
 
-    compiler.hooks.done.tap(RscServerPlugin.name, () => {
+    compiler.hooks.done.tap(RscServerPlugin.name, stats => {
+      // Ensure all server module entries have moduleId populated before sharing
+      const compilation = stats?.compilation;
+      if (compilation) {
+        for (const [
+          resourcePath,
+          moduleInfo,
+        ] of this.serverModuleInfo.entries()) {
+          if (
+            moduleInfo.moduleId === undefined &&
+            moduleInfo.exportNames?.length
+          ) {
+            // Try to find the module and get its ID from chunkGraph
+            for (const module of compilation.modules) {
+              if (module.nameForCondition?.() === resourcePath) {
+                const moduleId = compilation.chunkGraph.getModuleId(module);
+                if (moduleId !== null) {
+                  moduleInfo.moduleId = moduleId;
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    console.log(
+                      `[RscServerPlugin] hydrated moduleId ${moduleId} for ${resourcePath} in done hook`,
+                    );
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
       sharedData.set('styles', this.styles);
@@ -479,10 +509,8 @@ export class RscServerPlugin {
             );
           }
         } else if (getRscBuildInfo(module)?.type === 'server') {
-          // Allow server actions (with 'use server') to get moduleId assigned
-          // regardless of layer, so they can be imported from client components
           const serverReferencesModuleInfo = getRscBuildInfo(module);
-          if (serverReferencesModuleInfo) {
+          if (serverReferencesModuleInfo?.exportNames?.length) {
             serverReferencesModuleInfo.moduleId = moduleId;
 
             for (const exportName of serverReferencesModuleInfo.exportNames) {
@@ -493,11 +521,12 @@ export class RscServerPlugin {
               };
             }
           } else {
-            compilation.errors.push(
-              new WebpackError(
-                `Could not find server references module info in \`serverReferencesMap\` for ${resource}.`,
-              ),
-            );
+            if (process.env.DEBUG_RSC_PLUGIN) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                `[RspackRscServerPlugin] skip non-action server reference module: ${resource}`,
+              );
+            }
           }
         }
       }

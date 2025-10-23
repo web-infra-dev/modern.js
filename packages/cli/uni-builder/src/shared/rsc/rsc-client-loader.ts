@@ -68,15 +68,118 @@ export default async function rscClientLoader(
     }
   }
 
+  // Final small retry loop: the server manifest may be written slightly later
+  // than the client transform runs. Poll a few times to hydrate moduleId.
+  if (!moduleInfo || !moduleInfo.moduleId) {
+    const tryHydrateFromManifest = () => {
+      let manifestPath = sharedData.get<string>('serverReferencesManifestPath');
+      if (!manifestPath) {
+        const candidates = [
+          path.join(
+            this.rootContext,
+            'dist',
+            'server',
+            'server-references-manifest.json',
+          ),
+          path.join(
+            this.rootContext,
+            'dist',
+            'bundles',
+            'server-references-manifest.json',
+          ),
+        ];
+        manifestPath = candidates.find(p => existsSync(p));
+      }
+      if (manifestPath && existsSync(manifestPath)) {
+        try {
+          const manifest = JSON.parse(
+            readFileSync(manifestPath, 'utf-8'),
+          ) as ServerReferencesManifest;
+          const entry = manifest.serverReferences.find(
+            item => item.path === this.resourcePath,
+          );
+          if (entry) {
+            if (process.env.DEBUG_RSC_PLUGIN) {
+              console.log(
+                '[rsc-client-loader] retry hydrate from',
+                manifestPath,
+                'entry:',
+                entry,
+              );
+            }
+            moduleInfo = moduleInfo || {
+              moduleId: undefined,
+              exportNames: entry.exports,
+            };
+            if (entry.moduleId != null) {
+              moduleInfo.moduleId = entry.moduleId;
+            }
+          }
+        } catch {}
+      }
+    };
+    for (let i = 0; i < 5 && (!moduleInfo || !moduleInfo.moduleId); i++) {
+      await new Promise(resolve => setTimeout(resolve, 50));
+      tryHydrateFromManifest();
+    }
+  }
+
+  // If we found export names but the moduleId is still missing, try to
+  // hydrate it from the persisted manifest file.
+  if (moduleInfo && !moduleInfo.moduleId) {
+    let manifestPath = sharedData.get<string>('serverReferencesManifestPath');
+    if (!manifestPath) {
+      const candidates = [
+        path.join(
+          this.rootContext,
+          'dist',
+          'server',
+          'server-references-manifest.json',
+        ),
+        path.join(
+          this.rootContext,
+          'dist',
+          'bundles',
+          'server-references-manifest.json',
+        ),
+      ];
+      manifestPath = candidates.find(p => existsSync(p));
+    }
+    if (manifestPath && existsSync(manifestPath)) {
+      try {
+        const manifest = JSON.parse(
+          readFileSync(manifestPath, 'utf-8'),
+        ) as ServerReferencesManifest;
+        const entry = manifest.serverReferences.find(
+          item => item.path === this.resourcePath,
+        );
+        if (entry && entry.moduleId != null) {
+          moduleInfo.moduleId = entry.moduleId;
+        }
+      } catch {}
+    }
+  }
+
   if (!moduleInfo) {
-    const manifestPath =
-      sharedData.get<string>('serverReferencesManifestPath') ||
-      path.join(
-        this.rootContext,
-        'dist',
-        'server',
-        'server-references-manifest.json',
-      );
+    // Try shared manifest path; otherwise, search common output locations.
+    let manifestPath = sharedData.get<string>('serverReferencesManifestPath');
+    if (!manifestPath) {
+      const candidates = [
+        path.join(
+          this.rootContext,
+          'dist',
+          'server',
+          'server-references-manifest.json',
+        ),
+        path.join(
+          this.rootContext,
+          'dist',
+          'bundles',
+          'server-references-manifest.json',
+        ),
+      ];
+      manifestPath = candidates.find(p => existsSync(p));
+    }
 
     if (manifestPath && existsSync(manifestPath)) {
       try {
@@ -118,7 +221,92 @@ export default async function rscClientLoader(
     return;
   }
 
-  const { moduleId, exportNames } = moduleInfo;
+  const { exportNames } = moduleInfo;
+  let moduleId = moduleInfo.moduleId;
+  if (process.env.DEBUG_RSC_PLUGIN) {
+    console.log(
+      '[rsc-client-loader] final moduleInfo:',
+      this.resourcePath,
+      moduleInfo,
+    );
+  }
+
+  if (!moduleId) {
+    // One last attempt: read manifest now that the server build likely finished
+    let manifestPath = sharedData.get<string>('serverReferencesManifestPath');
+    if (process.env.DEBUG_RSC_PLUGIN) {
+      console.log(
+        '[rsc-client-loader] manifestPath from sharedData:',
+        manifestPath,
+      );
+    }
+    if (!manifestPath) {
+      const candidates = [
+        path.join(
+          this.rootContext,
+          'dist',
+          'server',
+          'server-references-manifest.json',
+        ),
+        path.join(
+          this.rootContext,
+          'dist',
+          'bundles',
+          'server-references-manifest.json',
+        ),
+      ];
+      if (process.env.DEBUG_RSC_PLUGIN) {
+        console.log('[rsc-client-loader] searching candidates:', candidates);
+      }
+      manifestPath = candidates.find(p => existsSync(p));
+      if (process.env.DEBUG_RSC_PLUGIN) {
+        console.log('[rsc-client-loader] found manifestPath:', manifestPath);
+      }
+    }
+    if (manifestPath && existsSync(manifestPath)) {
+      try {
+        const manifest = JSON.parse(
+          readFileSync(manifestPath, 'utf-8'),
+        ) as ServerReferencesManifest;
+        if (process.env.DEBUG_RSC_PLUGIN) {
+          console.log(
+            '[rsc-client-loader] loaded manifest with',
+            manifest.serverReferences.length,
+            'entries',
+          );
+        }
+        const entry = manifest.serverReferences.find(
+          item => item.path === this.resourcePath,
+        );
+        if (entry && entry.moduleId != null) {
+          moduleId = entry.moduleId as any;
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log(
+              '[rsc-client-loader] hydrated moduleId from manifest:',
+              moduleId,
+              'for',
+              this.resourcePath,
+            );
+          }
+        } else {
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log(
+              '[rsc-client-loader] no matching entry in manifest for',
+              this.resourcePath,
+            );
+          }
+        }
+      } catch (err) {
+        if (process.env.DEBUG_RSC_PLUGIN) {
+          console.warn('[rsc-client-loader] failed to read manifest:', err);
+        }
+      }
+    } else {
+      if (process.env.DEBUG_RSC_PLUGIN) {
+        console.log('[rsc-client-loader] manifest file not found');
+      }
+    }
+  }
 
   if (!moduleId) {
     this.emitError(
