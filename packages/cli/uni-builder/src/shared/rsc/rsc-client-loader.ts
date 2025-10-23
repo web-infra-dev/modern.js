@@ -139,6 +139,27 @@ export default async function rscClientLoader(
     }
   }
 
+  // Advertise discovered server references to the server compiler via sharedData.
+  // This lets the server plugin include server action modules that only exist in
+  // the web graph (common in CSR remotes) so they get a stable moduleId.
+  try {
+    const names = moduleInfo?.exportNames;
+    if (names && names.length > 0) {
+      const candidatesKey = 'serverModuleInfoCandidates';
+      const candidates =
+        (sharedData.get<Map<string, ServerReferencesModuleInfo>>(candidatesKey) ||
+          new Map()) as Map<string, ServerReferencesModuleInfo>;
+      const existing = candidates.get(this.resourcePath) || {
+        resourcePath: this.resourcePath,
+        exportNames: [],
+      };
+      existing.resourcePath = this.resourcePath;
+      existing.exportNames = Array.from(new Set([...(existing.exportNames || []), ...names]));
+      candidates.set(this.resourcePath, existing);
+      sharedData.set(candidatesKey, candidates);
+    }
+  } catch {}
+
   // If we found export names but the moduleId is still missing, try to
   // hydrate it from the persisted manifest file.
   if (moduleInfo && !moduleInfo.moduleId) {

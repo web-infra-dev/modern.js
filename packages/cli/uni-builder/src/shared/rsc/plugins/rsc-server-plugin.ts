@@ -324,6 +324,37 @@ export class RscServerPlugin {
       RscServerPlugin.name,
       async compilation => {
         this.serverModuleInfo.clear();
+
+        // Merge server action candidates discovered by the client compiler so the
+        // server build includes them and assigns stable moduleIds.
+        try {
+          const candidates = sharedData.get<Map<string, ServerReferencesModuleInfo>>(
+            'serverModuleInfoCandidates',
+          );
+          if (candidates && candidates.size > 0) {
+            for (const [resourcePath, info] of candidates.entries()) {
+              if (info.exportNames?.length) {
+                if (!this.serverReferencesMap.has(resourcePath)) {
+                  this.serverReferencesMap.set(resourcePath, info.exportNames);
+                }
+                if (!this.serverModuleInfo.has(resourcePath)) {
+                  this.serverModuleInfo.set(resourcePath, {
+                    moduleId: info.moduleId,
+                    exportNames: info.exportNames,
+                    resourcePath,
+                  });
+                }
+                sharedData.set(resourcePath, {
+                  type: 'server',
+                  resourcePath,
+                  exportNames: info.exportNames,
+                  moduleId: info.moduleId,
+                });
+              }
+            }
+          }
+        } catch {}
+
         this.buildModuleToEntriesMapping(compilation);
 
         const processModules = (modules: Webpack.Compilation['modules']) => {
