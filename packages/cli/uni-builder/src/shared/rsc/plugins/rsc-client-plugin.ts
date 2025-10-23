@@ -125,6 +125,11 @@ export class RscClientPlugin {
     compiler.hooks.compilation.tap(
       RscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
+        // Skip child compilers (e.g., HtmlWebpackPlugin) that don't have a normalModuleFactory
+        if (!normalModuleFactory) {
+          return;
+        }
+
         compilation.dependencyFactories.set(
           ClientReferenceDependency,
           normalModuleFactory,
@@ -167,10 +172,17 @@ export class RscClientPlugin {
     compiler.hooks.thisCompilation.tap(
       RscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
-        this.styles = sharedData.get('styles') as Set<string>;
-        this.clientReferencesMap = sharedData.get(
-          'clientReferencesMap',
-        ) as ClientReferencesMap;
+        // Skip child compilers (e.g., HtmlWebpackPlugin) that don't have a normalModuleFactory
+        if (!normalModuleFactory) {
+          return;
+        }
+
+        // Initialize with safe defaults if sharedData is not available (child compilers)
+        this.styles =
+          (sharedData.get('styles') as Set<string>) || new Set<string>();
+        this.clientReferencesMap =
+          (sharedData.get('clientReferencesMap') as ClientReferencesMap) ||
+          new Map();
         const onNormalModuleFactoryParser = (
           parser: Webpack.javascript.JavascriptParser,
         ) => {
