@@ -142,6 +142,19 @@ export const rsbuildRscPlugin = ({
             .layer(webpackRscLayerName)
             .end();
 
+          // Treat application entries as server-layer roots so modules imported
+          // from src/App.tsx (like ./ClientRoot.tsx) are parsed by rsc-server-loader.
+          // This lets the server plugin record 'use client' modules and populate
+          // clientReferencesMap for the client manifest.
+          if (entryPath2Name.size > 0) {
+            const entryPaths = Array.from(entryPath2Name.keys());
+            chain.module
+              .rule('rsc-entry-server')
+              .resource(entryPaths)
+              .layer(webpackRscLayerName)
+              .end();
+          }
+
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)

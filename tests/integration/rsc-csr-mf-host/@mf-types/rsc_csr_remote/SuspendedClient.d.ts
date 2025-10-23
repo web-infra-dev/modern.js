@@ -1,2 +1,2 @@
-export * from './compiled-types/components/Suspended';
-export { default } from './compiled-types/components/Suspended';
+export * from './compiled-types/mf-exposes/SuspendedClient';
+export { default } from './compiled-types/mf-exposes/SuspendedClient';
