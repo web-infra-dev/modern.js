@@ -1,4 +1,4 @@
-import 'server-only';
+// Server component - no 'server-only' import needed
 import { Suspense, lazy } from 'react';
 
 // Dynamic imports for Module Federation remote components

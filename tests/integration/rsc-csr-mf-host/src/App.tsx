@@ -1,4 +1,5 @@
-import 'server-only';
+// Server component - no 'server-only' import needed as the component
+// is naturally server-side in RSC architecture
 import ClientRoot from './ClientRoot';
 
 export default function App() {

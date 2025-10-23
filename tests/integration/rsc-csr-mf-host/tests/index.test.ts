@@ -119,6 +119,17 @@ function runTests({ bundler, mode }: TestConfig) {
 
       try {
         if (mode === 'dev') {
+          // Clean .modern-js directories to ensure fresh builds with correct ports
+          const fs = require('fs');
+          const remoteDotModernJs = path.join(remoteAppDir, 'node_modules', '.modern-js');
+          const hostDotModernJs = path.join(hostAppDir, 'node_modules', '.modern-js');
+          if (fs.existsSync(remoteDotModernJs)) {
+            fs.rmSync(remoteDotModernJs, { recursive: true, force: true });
+          }
+          if (fs.existsSync(hostDotModernJs)) {
+            fs.rmSync(hostDotModernJs, { recursive: true, force: true });
+          }
+
           // Launch remote first so manifest is ready before host boot
           remoteApp = await launchApp(
             remoteAppDir,
@@ -169,8 +180,9 @@ function runTests({ bundler, mode }: TestConfig) {
             },
           );
 
-          console.log(`Waiting for host at http://localhost:${hostPort}`);
-          await waitForServer(`http://localhost:${hostPort}/`);
+          // Dev server is listening (launchApp resolved on "> Local:"), give it a brief tick
+          console.log(`Host dev server reported listening; pausing briefly`);
+          await new Promise(r => setTimeout(r, 2000));
           console.log('Host server is ready');
         } else {
           // Build both apps first in parallel

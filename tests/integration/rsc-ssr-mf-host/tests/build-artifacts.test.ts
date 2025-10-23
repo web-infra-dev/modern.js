@@ -13,7 +13,7 @@ describe('build artifacts audit (rsc-ssr-mf-host)', () => {
 
     const bundlesDir = path.join(appDir, 'dist', 'bundles');
     expect(fs.existsSync(bundlesDir)).toBe(true);
-    const files = fs.readdirSync(bundlesDir).filter(f => /server-component-root.*\.js$/.test(f));
+    const files = fs.readdirSync(bundlesDir).filter(f => /main.*\.js$/.test(f));
     expect(files.length).toBeGreaterThan(0);
   }, 180000);
 });

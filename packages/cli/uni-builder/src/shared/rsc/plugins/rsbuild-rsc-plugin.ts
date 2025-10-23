@@ -156,37 +156,29 @@ export const rsbuildRscPlugin = ({
             `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );
 
+          // Only assign actual RSC rendering modules to react-server layer,
+          // NOT AppProxy or routes which are part of the main server bundle.
           chain.module
             .rule('server-module')
             .resource([
               /render[/\\].*[/\\]server[/\\]rsc/,
-              /AppProxy/,
-              routesFileReg,
             ])
             .layer(webpackRscLayerName)
             .end();
 
-          // Treat application entries as server-layer roots so modules imported
-          // from src/App.tsx (like ./ClientRoot.tsx) are parsed by rsc-server-loader.
-          // This lets the server plugin record 'use client' modules and populate
-          // clientReferencesMap for the client manifest.
-          // Only apply this to server (node) compilations, not web compilations.
-          if (isServer && entryPath2Name.size > 0) {
-            const entryPaths = Array.from(entryPath2Name.keys());
-            chain.module
-              .rule('rsc-entry-server')
-              .resource(entryPaths)
-              .layer(webpackRscLayerName)
-              .end();
-          }
+          // DO NOT assign entries to react-server layer for the main server bundle.
+          // The react-server layer should only be used for actual RSC render paths,
+          // not for the main server bundle that runs in normal Node environment.
+          // Entry files and their imports are parsed by rsc-client-detect oneOf rule
+          // (lines 112-130) which records 'use client' modules without layer assignment.
 
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
             .include.add(/[/\\]src[/\\]/)
-            .end()
-            .resolve.conditionNames.add(webpackRscLayerName)
-            .add('...');
+            .end();
+          // DO NOT add react-server condition globally - it causes imports to resolve
+          // to server-side React exports that throw when loaded in normal Node environment.
 
           chain.module
             .rule('rsc-common')
