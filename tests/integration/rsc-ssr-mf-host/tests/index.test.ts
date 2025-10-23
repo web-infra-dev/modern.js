@@ -121,8 +121,16 @@ function runTests({ bundler, mode }: TestConfig) {
         if (mode === 'dev') {
           // Clean .modern-js directories to ensure fresh builds with correct ports
           const fs = require('fs');
-          const remoteDotModernJs = path.join(remoteAppDir, 'node_modules', '.modern-js');
-          const hostDotModernJs = path.join(hostAppDir, 'node_modules', '.modern-js');
+          const remoteDotModernJs = path.join(
+            remoteAppDir,
+            'node_modules',
+            '.modern-js',
+          );
+          const hostDotModernJs = path.join(
+            hostAppDir,
+            'node_modules',
+            '.modern-js',
+          );
           if (fs.existsSync(remoteDotModernJs)) {
             fs.rmSync(remoteDotModernJs, { recursive: true, force: true });
           }
@@ -180,7 +188,9 @@ function runTests({ bundler, mode }: TestConfig) {
           );
 
           // Dev server is listening (launchApp resolved on "> Local:"), give it a brief tick
-          console.log(`SSR Host dev server reported listening; pausing briefly`);
+          console.log(
+            `SSR Host dev server reported listening; pausing briefly`,
+          );
           await new Promise(r => setTimeout(r, 2000));
           console.log('SSR Host server is ready');
         } else {

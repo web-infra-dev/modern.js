@@ -160,9 +160,7 @@ export const rsbuildRscPlugin = ({
           // NOT AppProxy or routes which are part of the main server bundle.
           chain.module
             .rule('server-module')
-            .resource([
-              /render[/\\].*[/\\]server[/\\]rsc/,
-            ])
+            .resource([/render[/\\].*[/\\]server[/\\]rsc/])
             .layer(webpackRscLayerName)
             .end();
 

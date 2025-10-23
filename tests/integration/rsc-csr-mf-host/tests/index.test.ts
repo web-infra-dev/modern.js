@@ -121,8 +121,16 @@ function runTests({ bundler, mode }: TestConfig) {
         if (mode === 'dev') {
           // Clean .modern-js directories to ensure fresh builds with correct ports
           const fs = require('fs');
-          const remoteDotModernJs = path.join(remoteAppDir, 'node_modules', '.modern-js');
-          const hostDotModernJs = path.join(hostAppDir, 'node_modules', '.modern-js');
+          const remoteDotModernJs = path.join(
+            remoteAppDir,
+            'node_modules',
+            '.modern-js',
+          );
+          const hostDotModernJs = path.join(
+            hostAppDir,
+            'node_modules',
+            '.modern-js',
+          );
           if (fs.existsSync(remoteDotModernJs)) {
             fs.rmSync(remoteDotModernJs, { recursive: true, force: true });
           }

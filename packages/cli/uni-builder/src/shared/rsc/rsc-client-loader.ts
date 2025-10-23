@@ -4,10 +4,10 @@ import type { LoaderContext } from 'webpack';
 import {
   type ServerReferencesModuleInfo,
   type SourceMap,
+  getExportNames,
   isServerModule,
   parseSource,
   sharedData,
-  getExportNames,
 } from './common';
 
 export type ClientLoaderOptions = {
@@ -71,11 +71,18 @@ export default async function rscClientLoader(
 
   // Ensure we have export names even if the server plugin hasn't populated
   // sharedData yet by deriving them from the current AST.
-  if (!moduleInfo || !moduleInfo.exportNames || moduleInfo.exportNames.length === 0) {
+  if (
+    !moduleInfo ||
+    !moduleInfo.exportNames ||
+    moduleInfo.exportNames.length === 0
+  ) {
     try {
       const names = await getExportNames(ast, true);
       if (names && names.length > 0) {
-        moduleInfo = moduleInfo || { moduleId: undefined as any, exportNames: [] };
+        moduleInfo = moduleInfo || {
+          moduleId: undefined as any,
+          exportNames: [],
+        };
         moduleInfo.exportNames = names;
       }
     } catch {}
@@ -133,7 +140,11 @@ export default async function rscClientLoader(
     };
     const maxAttempts = Number(process.env.RSC_CLIENT_LOADER_ATTEMPTS || 30);
     const delayMs = Number(process.env.RSC_CLIENT_LOADER_DELAY_MS || 100);
-    for (let i = 0; i < maxAttempts && (!moduleInfo || !moduleInfo.moduleId); i++) {
+    for (
+      let i = 0;
+      i < maxAttempts && (!moduleInfo || !moduleInfo.moduleId);
+      i++
+    ) {
       await new Promise(resolve => setTimeout(resolve, delayMs));
       tryHydrateFromManifest();
     }
@@ -146,16 +157,18 @@ export default async function rscClientLoader(
     const names = moduleInfo?.exportNames;
     if (names && names.length > 0) {
       const candidatesKey = 'serverModuleInfoCandidates';
-      const candidates =
-        (sharedData.get<Map<string, ServerReferencesModuleInfo>>(candidatesKey) ||
-          new Map()) as Map<string, ServerReferencesModuleInfo>;
+      const candidates = (sharedData.get<
+        Map<string, ServerReferencesModuleInfo>
+      >(candidatesKey) || new Map()) as Map<string, ServerReferencesModuleInfo>;
       const existing = candidates.get(this.resourcePath);
       const mergedExports = Array.from(
-        new Set([...(existing?.exportNames || []), ...names])
+        new Set([...(existing?.exportNames || []), ...names]),
       );
       const merged: ServerReferencesModuleInfo = {
         exportNames: mergedExports,
-        ...(existing?.moduleId !== undefined && { moduleId: existing.moduleId }),
+        ...(existing?.moduleId !== undefined && {
+          moduleId: existing.moduleId,
+        }),
       };
       candidates.set(this.resourcePath, merged);
       sharedData.set(candidatesKey, candidates);

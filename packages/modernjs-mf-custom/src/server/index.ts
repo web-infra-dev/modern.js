@@ -13,8 +13,12 @@ const staticServePlugin = (): ServerPlugin => ({
       // Ensure it's defined to avoid early throws during server bundle warmup in Node.
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (globalThis as any).__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE =
-          (globalThis as any).__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE || {};
+        (
+          globalThis as any
+        ).__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE =
+          (globalThis as any)
+            .__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE ||
+          {};
       } catch {}
       // For dev server readiness: respond to HEAD health checks with CSR fallback
       // by setting the known SSR fallback header so the render pipeline selects
@@ -43,7 +47,8 @@ const staticServePlugin = (): ServerPlugin => ({
             try {
               const method = c.req.raw.method;
               const url = new URL(c.req.url);
-              const isDoc = !url.pathname.startsWith('/static/') &&
+              const isDoc =
+                !url.pathname.startsWith('/static/') &&
                 !url.pathname.startsWith('/bundles/') &&
                 !url.pathname.startsWith('/api/');
               if (isDoc && method === 'HEAD') {
@@ -57,13 +62,19 @@ const staticServePlugin = (): ServerPlugin => ({
                 const seen = cookies.includes('mf_csr=1');
                 if (!seen && !url.searchParams.has('csr')) {
                   // Redirect to CSR mode, mark cookie so we only do this once
-                  console.log('[MF RSC DEV] Redirecting to CSR mode for', url.pathname);
+                  console.log(
+                    '[MF RSC DEV] Redirecting to CSR mode for',
+                    url.pathname,
+                  );
                   url.searchParams.set('csr', '1');
                   return c.redirect(url.toString(), 302, {
                     'set-cookie': 'mf_csr=1; Path=/; Max-Age=60',
                   });
                 }
-                console.log('[MF RSC DEV] CSR mode active for GET', url.pathname);
+                console.log(
+                  '[MF RSC DEV] CSR mode active for GET',
+                  url.pathname,
+                );
                 // If we get here, either csr=1 or cookie present; continue to renderer
               }
             } catch (e) {

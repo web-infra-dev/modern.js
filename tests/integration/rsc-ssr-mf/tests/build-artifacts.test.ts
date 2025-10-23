@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
@@ -24,12 +24,17 @@ describe('build artifacts audit (rsc-ssr-mf)', () => {
     expect(fs.existsSync(serverRefs)).toBe(true);
 
     const refs = JSON.parse(fs.readFileSync(serverRefs, 'utf-8')) as {
-      serverReferences: Array<{ path: string; exports: string[]; moduleId: number | string | null }>;
+      serverReferences: Array<{
+        path: string;
+        exports: string[];
+        moduleId: number | string | null;
+      }>;
     };
-    const actionEntry = refs.serverReferences.find(e => e.path.endsWith('/src/server-component-root/components/action.ts'));
+    const actionEntry = refs.serverReferences.find(e =>
+      e.path.endsWith('/src/server-component-root/components/action.ts'),
+    );
     expect(actionEntry).toBeTruthy();
     expect(actionEntry!.exports.length).toBeGreaterThan(0);
     expect(actionEntry!.moduleId).not.toBeNull();
   }, 180000);
 });
-

@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
@@ -17,4 +17,3 @@ describe('build artifacts audit (rsc-ssr-mf-host)', () => {
     expect(files.length).toBeGreaterThan(0);
   }, 180000);
 });
-

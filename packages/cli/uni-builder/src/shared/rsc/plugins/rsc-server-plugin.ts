@@ -328,9 +328,9 @@ export class RscServerPlugin {
         // Merge server action candidates discovered by the client compiler so the
         // server build includes them and assigns stable moduleIds.
         try {
-          const candidates = sharedData.get<Map<string, ServerReferencesModuleInfo>>(
-            'serverModuleInfoCandidates',
-          );
+          const candidates = sharedData.get<
+            Map<string, ServerReferencesModuleInfo>
+          >('serverModuleInfoCandidates');
           if (process.env.DEBUG_RSC_PLUGIN) {
             console.log('[RscServerPlugin] candidates:', candidates?.size || 0);
           }
