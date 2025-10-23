@@ -9,7 +9,26 @@ const staticServePlugin = (): ServerPlugin => ({
   name: '@module-federation/modern-js-rsc/server',
   setup: api => {
     api.onPrepare(() => {
-      // In development, we don't need to serve the manifest file, bundler dev server will handle it
+      // For dev server readiness: respond to HEAD health checks with CSR fallback
+      // by setting the known SSR fallback header so the render pipeline selects
+      // CSR immediately instead of trying to resolve the server bundle.
+      if (process.env.NODE_ENV === 'development') {
+        const { middlewares } = api.getServerContext();
+        middlewares.unshift({
+          name: 'mf-dev-ready-head-csr',
+          handler: async (c, next) => {
+            try {
+              const req = c.req.raw;
+              if (req.method === 'HEAD') {
+                c.req.headers.set('x-modernjs-ssr-fallback', '1;reason=dev-ready');
+                c.req.headers.set('x-modern-js-ssr-fallback', '1;reason=dev-ready');
+              }
+            } catch {}
+            await next();
+          },
+        });
+      }
+      // In development, manifest/static files are handled by the dev server; skip static middleware below.
       if (process.env.NODE_ENV === 'development') {
         return;
       }
