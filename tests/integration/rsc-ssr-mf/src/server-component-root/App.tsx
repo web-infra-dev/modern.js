@@ -2,6 +2,8 @@ import 'server-only';
 import { getRequest, redirect, setHeaders } from '@modern-js/runtime';
 import { setStatus } from '@modern-js/runtime';
 import { Suspense } from 'react';
+// Ensure server actions are part of the server compilation graph
+import '../rsc-server-refs';
 import styles from './App.module.less';
 import Suspended from './Suspended';
 import Counter from './components/Counter';

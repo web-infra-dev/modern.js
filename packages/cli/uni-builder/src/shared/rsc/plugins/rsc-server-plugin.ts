@@ -331,11 +331,14 @@ export class RscServerPlugin {
           const candidates = sharedData.get<Map<string, ServerReferencesModuleInfo>>(
             'serverModuleInfoCandidates',
           );
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log('[RscServerPlugin] candidates:', candidates?.size || 0);
+          }
           if (candidates && candidates.size > 0) {
             for (const [resourcePath, info] of candidates.entries()) {
               if (info.exportNames?.length) {
                 if (!this.serverReferencesMap.has(resourcePath)) {
-                  this.serverReferencesMap.set(resourcePath, info);
+                  this.serverReferencesMap.set(resourcePath, info.exportNames);
                 }
                 if (!this.serverModuleInfo.has(resourcePath)) {
                   this.serverModuleInfo.set(resourcePath, {
@@ -345,7 +348,6 @@ export class RscServerPlugin {
                 }
                 sharedData.set(resourcePath, {
                   type: 'server',
-                  resourcePath,
                   exportNames: info.exportNames,
                   moduleId: info.moduleId,
                 });
