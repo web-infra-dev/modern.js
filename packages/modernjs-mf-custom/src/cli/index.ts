@@ -35,7 +35,14 @@ export const moduleFederationPlugin = (
           api.getAppContext().bundlerType === 'rspack' ? 'rspack' : 'webpack';
         const target = chain.get('target');
         const chainName = chain.get('name');
-        const isRSC = chainName === 'server' || chainName === 'client';
+        // Consider Node chain as RSC when RSC is enabled so server references
+        // are generated for the Node runtime (fixes missing serverReferencesMap).
+        const enableRsc = Boolean(modernjsConfig?.server?.rsc);
+        const isRSC =
+          enableRsc &&
+          (chainName === 'server' ||
+            chainName === 'client' ||
+            chainName === 'node');
         const isWebBuild = isWebTarget(target);
 
         // DEBUG LOGGING
@@ -117,10 +124,10 @@ export const moduleFederationPlugin = (
       });
 
       api._internalServerPlugins(({ plugins }) => {
-        plugins.push({
-          name: '@module-federation/modern-js-rsc/server',
-          path: '@module-federation/modern-js-rsc/server',
-        });
+        // Import and use the actual plugin functions instead of path references
+        const staticServePlugin =
+          require('@module-federation/modern-js-rsc/server').default;
+        plugins.push(staticServePlugin());
 
         if (modernjsConfig.server?.rsc) {
           const manifestRemotes = internalModernPluginOptions.manifestRemotes;
@@ -132,13 +139,9 @@ export const moduleFederationPlugin = (
             internalModernPluginOptions.csrConfig?.remotes ||
             internalModernPluginOptions.ssrConfig?.remotes;
 
-          plugins.push({
-            name: '@module-federation/modern-js-rsc/rsc-manifest-plugin',
-            path: '@module-federation/modern-js-rsc/rsc-manifest-plugin',
-            options: {
-              remotes,
-            },
-          });
+          const rscManifestPlugin =
+            require('@module-federation/modern-js-rsc/rsc-manifest-plugin').default;
+          plugins.push(rscManifestPlugin({ remotes }));
         }
 
         return { plugins };

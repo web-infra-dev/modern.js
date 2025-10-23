@@ -12,6 +12,7 @@ export interface PluginOptions {
     | boolean;
   remoteIpStrategy?: 'ipv4' | 'inherit';
   fetchServerQuery?: Record<string, unknown>;
+  remotes?: moduleFederationPlugin.ModuleFederationPluginOptions['remotes'];
 }
 
 export interface InternalModernPluginOptions {
