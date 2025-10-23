@@ -106,6 +106,28 @@ export const rsbuildRscPlugin = ({
               .options(jsLoaderOptions)
               .end()
               .end()
+              // Fallback detection for host apps with wrapped entries: scan
+              // src for 'use client' modules even if their issuer isn't in the
+              // react-server layer, so the server plugin can record them.
+              .oneOf('rsc-client-detect')
+              .include.add(/[/\\]src[/\\]/)
+              .end()
+              .exclude.add(/node_modules/)
+              .end()
+              .use('rsc-server-loader')
+              .loader(require.resolve('../rsc-server-loader'))
+              .options({
+                entryPath2Name,
+                appDir,
+                runtimePath: rscServerRuntimePath,
+                internalDirectory,
+              })
+              .end()
+              .use(JSRule)
+              .loader(jsLoaderPath)
+              .options(jsLoaderOptions)
+              .end()
+              .end()
               .oneOf('rsc-ssr')
               .exclude.add(/universal[/\\]async_storage/)
               .end()

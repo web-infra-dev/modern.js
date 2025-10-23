@@ -335,13 +335,12 @@ export class RscServerPlugin {
             for (const [resourcePath, info] of candidates.entries()) {
               if (info.exportNames?.length) {
                 if (!this.serverReferencesMap.has(resourcePath)) {
-                  this.serverReferencesMap.set(resourcePath, info.exportNames);
+                  this.serverReferencesMap.set(resourcePath, info);
                 }
                 if (!this.serverModuleInfo.has(resourcePath)) {
                   this.serverModuleInfo.set(resourcePath, {
                     moduleId: info.moduleId,
                     exportNames: info.exportNames,
-                    resourcePath,
                   });
                 }
                 sharedData.set(resourcePath, {
