@@ -4,6 +4,17 @@ export default createModuleFederationConfig({
   name: 'rsc_csr_remote',
   manifest: {
     filePath: 'static',
+    additionalData: manifest => {
+      const base = assetPrefix ? assetPrefix.replace(/\/$/, '') : '';
+      const remoteEntryUrl = `${base}/static/remoteEntry.js`;
+      if (manifest.metaData?.remoteEntry) {
+        manifest.metaData.remoteEntry.path = `${base}/static/`;
+        manifest.metaData.remoteEntry.url = remoteEntryUrl;
+      }
+      return {
+        remoteEntry: remoteEntryUrl,
+      };
+    },
   },
   filename: 'static/remoteEntry.js',
   shareScope: 'default',

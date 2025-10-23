@@ -12,6 +12,6 @@ export function SSRLiveReload() {
       }
    `,
       }}
-    ></script>
+    />
   );
 }

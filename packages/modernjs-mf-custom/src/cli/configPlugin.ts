@@ -1,27 +1,292 @@
-import path from 'path';
 import fs from 'fs';
-import { getIPV4, isWebTarget, skipByTarget } from './utils';
-import { moduleFederationPlugin, encodeName } from '@module-federation/sdk';
+import path from 'path';
 import { bundle } from '@modern-js/node-bundle-require';
-import { PluginOptions } from '../types';
-import { LOCALHOST, PLUGIN_IDENTIFIER } from '../constant';
 import {
-  autoDeleteSplitChunkCacheGroups,
   addDataFetchExposes,
+  autoDeleteSplitChunkCacheGroups,
 } from '@module-federation/rsbuild-plugin/utils';
+import {
+  encodeName,
+  type moduleFederationPlugin,
+} from '@module-federation/sdk';
+import { LOCALHOST, PLUGIN_IDENTIFIER } from '../constant';
 import logger from '../logger';
+import type { PluginOptions } from '../types';
+import { getIPV4, isWebTarget, skipByTarget } from './utils';
 import { isDev } from './utils';
 
-import type { InternalModernPluginOptions } from '../types';
+function patchContainerEntryModuleBuildError() {
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    const { createRequire } = require('module');
+    const localRequire = createRequire(__filename);
+    const enhancedEntry = localRequire.resolve('@module-federation/enhanced');
+    const enhancedDir = path.dirname(enhancedEntry);
+    const candidatePaths = [
+      path.join(enhancedDir, 'lib', 'container', 'ContainerEntryModule.js'),
+      path.join(
+        enhancedDir,
+        '..',
+        'lib',
+        'container',
+        'ContainerEntryModule.js',
+      ),
+    ];
+    let containerModule;
+    let containerModulePath: string | undefined;
+    for (const candidate of candidatePaths) {
+      if (fs.existsSync(candidate)) {
+        containerModulePath = candidate;
+        containerModule = require(candidate);
+        break;
+      }
+    }
+    if (!containerModule || !containerModulePath) {
+      return;
+    }
+    const ContainerEntryModule =
+      containerModule?.default ??
+      containerModule?.ContainerEntryModule ??
+      containerModule;
+    if (!ContainerEntryModule || ContainerEntryModule.__modernJsPatched) {
+      return;
+    }
+
+    const {
+      normalizeWebpackPath,
+    } = require('@module-federation/sdk/normalize-webpack-path');
+    const webpack = require(normalizeWebpackPath('webpack')) as typeof import(
+      'webpack',
+    );
+    const webpackSources = webpack.sources;
+    const { Template, RuntimeGlobals } = webpack;
+    const runtimeUtilsPath = containerModulePath.replace(
+      /ContainerEntryModule\.js$/,
+      'runtime/utils',
+    );
+    const { getFederationGlobalScope } = require(runtimeUtilsPath);
+    const { PrefetchPlugin } = require('@module-federation/data-prefetch/cli');
+
+    ContainerEntryModule.prototype.codeGeneration = function codeGeneration({
+      moduleGraph,
+      chunkGraph,
+      runtimeTemplate,
+    }: any) {
+      const sources = new Map();
+      const runtimeRequirements = new Set([
+        RuntimeGlobals.definePropertyGetters,
+        RuntimeGlobals.hasOwnProperty,
+        RuntimeGlobals.exports,
+      ]);
+      const getters: string[] = [];
+
+      for (const block of this.blocks) {
+        const { dependencies } = block;
+        const modules = dependencies.map((dependency: any) => {
+          const dep = dependency;
+          return {
+            name: dep.exposedName,
+            module: moduleGraph.getModule(dep),
+            request: dep.userRequest,
+          };
+        });
+
+        const missingModules = modules.filter((m: any) => !m.module);
+        let str: string;
+
+        if (missingModules.length > 0) {
+          const requestList = missingModules
+            .map((m: any) => m.request)
+            .join(', ');
+          logger.warn(
+            `[module-federation] Skipping unavailable expose(s) during dev build: ${requestList}`,
+          );
+          str = `return Promise.reject(new Error(${JSON.stringify(
+            `Missing exposed modules: ${requestList}`,
+          )}));`;
+        } else {
+          str = `return ${runtimeTemplate.blockPromise({
+            block,
+            message: '',
+            chunkGraph,
+            runtimeRequirements,
+          })}.then(${runtimeTemplate.returningFunction(
+            runtimeTemplate.returningFunction(
+              `(${modules
+                .map(({ module, request }: any) =>
+                  runtimeTemplate.moduleRaw({
+                    module,
+                    chunkGraph,
+                    request,
+                    weak: false,
+                    runtimeRequirements,
+                  }),
+                )
+                .join(', ')})`,
+            ),
+          )});`;
+        }
+
+        if (modules.length > 0) {
+          getters.push(
+            `${JSON.stringify(modules[0].name)}: ${runtimeTemplate.basicFunction('', str)}`,
+          );
+        }
+      }
+
+      const federationGlobal = getFederationGlobalScope(RuntimeGlobals || {});
+      const source = Template.asString([
+        `var moduleMap = {`,
+        Template.indent(getters.join(',\n')),
+        '};',
+        `var get = ${runtimeTemplate.basicFunction('module, getScope', [
+          `${RuntimeGlobals.currentRemoteGetScope} = getScope;`,
+          'getScope = (',
+          Template.indent([
+            `${RuntimeGlobals.hasOwnProperty}(moduleMap, module)`,
+            Template.indent([
+              '? moduleMap[module]()',
+              `: Promise.resolve().then(${runtimeTemplate.basicFunction(
+                '',
+                "throw new Error('Module \"' + module + '\" does not exist in container.');",
+              )})`,
+            ]),
+          ]),
+          ');',
+          `${RuntimeGlobals.currentRemoteGetScope} = undefined;`,
+          'return getScope;',
+        ])};`,
+        `var init = ${runtimeTemplate.basicFunction(
+          'shareScope, initScope, remoteEntryInitOptions',
+          [
+            `return ${federationGlobal}.bundlerRuntime.initContainerEntry({${Template.indent(
+              [
+                `webpackRequire: ${RuntimeGlobals.require},`,
+                `shareScope: shareScope,`,
+                `initScope: initScope,`,
+                `remoteEntryInitOptions: remoteEntryInitOptions,`,
+                `shareScopeKey: ${JSON.stringify(this._shareScope)}`,
+              ],
+            )}`,
+            '})',
+          ],
+        )};`,
+        this._dataPrefetch ? PrefetchPlugin.setRemoteIdentifier() : '',
+        this._dataPrefetch ? PrefetchPlugin.removeRemoteIdentifier() : '',
+        '// This exports getters to disallow modifications',
+        `${RuntimeGlobals.definePropertyGetters}(exports, {`,
+        Template.indent([
+          `get: ${runtimeTemplate.returningFunction('get')},`,
+          `init: ${runtimeTemplate.returningFunction('init')}`,
+        ]),
+        '});',
+      ]);
+
+      sources.set(
+        'javascript',
+        this.useSourceMap || this.useSimpleSourceMap
+          ? new webpackSources.OriginalSource(source, 'webpack/container-entry')
+          : new webpackSources.RawSource(source),
+      );
+
+      return {
+        sources,
+        runtimeRequirements,
+      };
+    };
+
+    ContainerEntryModule.__modernJsPatched = true;
+    logger.info?.(
+      '[module-federation] Applied ContainerEntryModule build error patch',
+    );
+  } catch (error) {
+    console.error(
+      '[module-federation] Failed to patch ContainerEntryModule build error handler',
+      error,
+    );
+  }
+}
+
+patchContainerEntryModuleBuildError();
+
 import type {
   AppTools,
-  webpack,
-  UserConfig,
-  Rspack,
-  CliPluginFuture,
   Bundler,
+  CliPluginFuture,
+  Rspack,
+  UserConfig,
+  webpack,
 } from '@modern-js/app-tools';
 import type { BundlerChainConfig } from '../interfaces/bundler';
+import type { InternalModernPluginOptions } from '../types';
+
+const RSC_UNSHARED_PACKAGES = [
+  'server-only',
+  'react',
+  'react-dom',
+  'react/jsx-runtime',
+  'react/jsx-dev-runtime',
+];
+
+const MANIFEST_FILE_NAME = 'mf-manifest.json';
+const REMOTE_ENTRY_NAME = 'remoteEntry.js';
+const SSR_REMOTE_ENTRY_PATH = `bundles/static/${REMOTE_ENTRY_NAME}`;
+
+const replaceManifestWithRemoteEntry = (url: string) => {
+  const idx = url.lastIndexOf(MANIFEST_FILE_NAME);
+  if (idx === -1) {
+    return url;
+  }
+  return `${url.slice(0, idx)}${REMOTE_ENTRY_NAME}${url.slice(idx + MANIFEST_FILE_NAME.length)}`;
+};
+
+const replaceManifestWithSsrRemoteEntry = (url: string) => {
+  const marker = `static/${MANIFEST_FILE_NAME}`;
+  const idx = url.lastIndexOf(marker);
+  if (idx === -1) {
+    return replaceManifestWithRemoteEntry(url);
+  }
+  const prefix = url.slice(0, idx);
+  const suffix = url.slice(idx + marker.length);
+  return `${prefix}${SSR_REMOTE_ENTRY_PATH}${suffix}`;
+};
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+
+const removeSharedEntry = (
+  shared: MFPluginOptions.ModuleFederationPluginOptions['shared'] | undefined,
+  packageName: string,
+) => {
+  if (!shared) {
+    return;
+  }
+
+  if (Array.isArray(shared)) {
+    shared.forEach(entry => {
+      if (!isRecord(entry)) {
+        return;
+      }
+      if (packageName in entry) {
+        entry[packageName] = false;
+      }
+    });
+    return;
+  }
+
+  if (isRecord(shared) && packageName in shared) {
+    delete shared[packageName];
+  }
+};
+
+const patchSharedConfigForRsc = (
+  shared: MFPluginOptions.ModuleFederationPluginOptions['shared'] | undefined,
+) => {
+  RSC_UNSHARED_PACKAGES.forEach(packageName => {
+    removeSharedEntry(shared, packageName);
+  });
+};
 
 const defaultPath = path.resolve(process.cwd(), 'module-federation.config.ts');
 
@@ -37,8 +302,8 @@ type RuntimePluginEntry = NonNullable<
 
 export function setEnv(enableSSR: boolean) {
   if (enableSSR) {
-    process.env['MF_DISABLE_EMIT_STATS'] = 'true';
-    process.env['MF_SSR_PRJ'] = 'true';
+    process.env.MF_DISABLE_EMIT_STATS = 'true';
+    process.env.MF_SSR_PRJ = 'true';
   }
 }
 
@@ -65,7 +330,7 @@ const injectRuntimePlugins = (
   const pluginName =
     typeof runtimePlugin === 'string' ? runtimePlugin : runtimePlugin[0];
 
-  const hasPlugin = runtimePlugins.some((existingPlugin) => {
+  const hasPlugin = runtimePlugins.some(existingPlugin => {
     if (typeof existingPlugin === 'string') {
       return existingPlugin === pluginName;
     }
@@ -92,7 +357,7 @@ const replaceRemoteUrl = (
   const handleRemoteObject = (
     remoteObject: moduleFederationPlugin.RemotesObject,
   ) => {
-    Object.keys(remoteObject).forEach((remoteKey) => {
+    Object.keys(remoteObject).forEach(remoteKey => {
       const remote = remoteObject[remoteKey];
       // no support array items yet
       if (Array.isArray(remote)) {
@@ -111,7 +376,7 @@ const replaceRemoteUrl = (
     });
   };
   if (Array.isArray(mfConfig.remotes)) {
-    mfConfig.remotes.forEach((remoteObject) => {
+    mfConfig.remotes.forEach(remoteObject => {
       if (typeof remoteObject === 'string') {
         return;
       }
@@ -120,6 +385,22 @@ const replaceRemoteUrl = (
   } else if (typeof mfConfig.remotes !== 'string') {
     handleRemoteObject(mfConfig.remotes);
   }
+};
+
+const replaceManifestRemoteUrl = (
+  remotes: Record<string, string> | undefined,
+  remoteIpStrategy?: 'ipv4' | 'inherit',
+) => {
+  if (!remotes || remoteIpStrategy === 'inherit') {
+    return;
+  }
+  const ipv4 = getIPV4();
+  Object.keys(remotes).forEach(remoteKey => {
+    const value = remotes[remoteKey];
+    if (typeof value === 'string' && value.includes(LOCALHOST)) {
+      remotes[remoteKey] = value.replace(LOCALHOST, ipv4);
+    }
+  });
 };
 
 const patchDTSConfig = (
@@ -164,8 +445,93 @@ export const patchMFConfig = (
   isServer: boolean,
   remoteIpStrategy?: 'ipv4' | 'inherit',
   enableSSR?: boolean,
+  manifestRemotes?: Record<string, string>,
 ) => {
+  if (mfConfig.remotes && manifestRemotes) {
+    const updateRemoteString = (
+      remoteKey: string | undefined,
+      remoteValue: string,
+    ) => {
+      const [requestScope, ...locationParts] = remoteValue.split('@');
+      if (!locationParts.length) {
+        return remoteValue;
+      }
+      const location = locationParts.join('@');
+      if (!location.includes(MANIFEST_FILE_NAME)) {
+        return remoteValue;
+      }
+      const remoteName = remoteKey || requestScope;
+      manifestRemotes[remoteName] = `${requestScope}@${location}`;
+      const remoteEntryUrl = isServer
+        ? replaceManifestWithSsrRemoteEntry(location)
+        : replaceManifestWithRemoteEntry(location);
+      return `${requestScope}@${remoteEntryUrl}`;
+    };
+
+    const updateRemotesContainer = (
+      container:
+        | moduleFederationPlugin.RemotesObject
+        | moduleFederationPlugin.RemotesItem[],
+    ) => {
+      if (Array.isArray(container)) {
+        container.forEach((item, index) => {
+          if (typeof item === 'string') {
+            container[index] = updateRemoteString(undefined, item);
+            return;
+          }
+          if (!item || typeof item !== 'object') {
+            return;
+          }
+          Object.keys(item).forEach(key => {
+            const value = item[key];
+            if (typeof value === 'string') {
+              item[key] = updateRemoteString(key, value);
+            } else if (Array.isArray(value)) {
+              item[key] = value.map(entry =>
+                typeof entry === 'string'
+                  ? updateRemoteString(key, entry)
+                  : entry,
+              );
+            } else if (
+              value &&
+              typeof value === 'object' &&
+              typeof value.external === 'string'
+            ) {
+              value.external = updateRemoteString(key, value.external);
+            }
+          });
+        });
+        return;
+      }
+
+      Object.keys(container).forEach(remoteKey => {
+        const remoteValue = container[remoteKey];
+        if (typeof remoteValue === 'string') {
+          container[remoteKey] = updateRemoteString(remoteKey, remoteValue);
+        } else if (Array.isArray(remoteValue)) {
+          container[remoteKey] = remoteValue.map(entry =>
+            typeof entry === 'string'
+              ? updateRemoteString(remoteKey, entry)
+              : entry,
+          );
+        } else if (
+          remoteValue &&
+          typeof remoteValue === 'object' &&
+          typeof remoteValue.external === 'string'
+        ) {
+          remoteValue.external = updateRemoteString(
+            remoteKey,
+            remoteValue.external,
+          );
+        }
+      });
+    };
+
+    updateRemotesContainer(mfConfig.remotes);
+  }
+
   replaceRemoteUrl(mfConfig, remoteIpStrategy);
+  replaceManifestRemoteUrl(manifestRemotes, remoteIpStrategy);
   addDataFetchExposes(mfConfig.exposes, isServer);
 
   if (mfConfig.remoteType === undefined) {
@@ -181,6 +547,8 @@ export const patchMFConfig = (
   ] as RuntimePluginEntry[];
 
   patchDTSConfig(mfConfig, isServer);
+
+  patchSharedConfigForRsc(mfConfig.shared);
 
   injectRuntimePlugins(
     require.resolve('@module-federation/modern-js/shared-strategy'),
@@ -250,8 +618,8 @@ function patchIgnoreWarning<T extends Bundler>(chain: BundlerChainConfig) {
     'process.env.WS_NO_BUFFER_UTIL',
     `Can't resolve 'utf-8-validate`,
   ];
-  ignoreWarnings.push((warning) => {
-    if (ignoredMsgs.some((msg) => warning.message.includes(msg))) {
+  ignoreWarnings.push(warning => {
+    if (ignoredMsgs.some(msg => warning.message.includes(msg))) {
       return true;
     }
     return false;
@@ -392,7 +760,7 @@ export const moduleFederationConfigPlugin = (
   name: '@modern-js/plugin-module-federation-config',
   pre: ['@modern-js/plugin-initialize'],
   post: ['@modern-js/plugin-module-federation'],
-  setup: async (api) => {
+  setup: async api => {
     const modernjsConfig = api.getConfig();
     const mfConfig = await getMFConfig(userConfig.originPluginOptions);
     const csrConfig =
@@ -401,11 +769,12 @@ export const moduleFederationConfigPlugin = (
       userConfig.ssrConfig || JSON.parse(JSON.stringify(mfConfig));
     userConfig.ssrConfig = ssrConfig;
     userConfig.csrConfig = csrConfig;
+    userConfig.manifestRemotes = userConfig.manifestRemotes || {};
     const enableSSR = Boolean(
       userConfig.userConfig?.ssr ?? Boolean(modernjsConfig?.server?.ssr),
     );
 
-    api.modifyBundlerChain((chain) => {
+    api.modifyBundlerChain(chain => {
       const target = chain.get('target');
       if (skipByTarget(target)) {
         return;
@@ -414,12 +783,24 @@ export const moduleFederationConfigPlugin = (
       addMyTypes2Ignored(chain, !isWeb ? ssrConfig : csrConfig);
 
       const targetMFConfig = !isWeb ? ssrConfig : csrConfig;
+      const resolvedRemoteIpStrategy =
+        (targetMFConfig.remoteIpStrategy as 'ipv4' | 'inherit' | undefined) ??
+        userConfig.remoteIpStrategy ??
+        'ipv4';
+
       patchMFConfig(
         targetMFConfig,
         !isWeb,
-        userConfig.remoteIpStrategy || 'ipv4',
+        resolvedRemoteIpStrategy,
         enableSSR,
+        userConfig.manifestRemotes,
       );
+
+      if (process.env.DEBUG_MF_CONFIG) {
+        const logPrefix = `[MF CONFIG][${isWeb ? 'web' : 'server'}]`;
+        const stringified = JSON.stringify(targetMFConfig.exposes, null, 2);
+        console.log(`${logPrefix} exposes:`, stringified);
+      }
 
       patchBundlerConfig({
         chain,
@@ -480,7 +861,7 @@ export const moduleFederationConfigPlugin = (
         REMOTE_IP_STRATEGY: JSON.stringify(userConfig.remoteIpStrategy),
       };
       if (enableSSR && isDev()) {
-        defineConfig['FEDERATION_IPV4'] = JSON.stringify(ipv4);
+        defineConfig.FEDERATION_IPV4 = JSON.stringify(ipv4);
       }
       return {
         tools: {

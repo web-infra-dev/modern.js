@@ -8,7 +8,7 @@ import {
   useRuntimeContext,
 } from '@modern-js/runtime';
 import './App.css';
-import { Counter } from '../server-component-root/components/Counter';
+import Counter from '../server-component-root/components/Counter';
 
 const handleResponse = (responseType: string) => {
   switch (responseType) {
@@ -46,11 +46,14 @@ const App = () => {
   if (responseType) {
     handleResponse(responseType);
   }
+  const userAgent = context.request?.userAgent;
+  const userAgentDisplay =
+    typeof userAgent === 'string' ? 'string' : 'undefined';
   return (
     <>
       <div className="container">
         <main>
-          <div className="user-agent">{typeof context.request?.userAgent}</div>
+          <div className="user-agent">{userAgentDisplay}</div>
           <div className="logo">
             <img
               src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png"

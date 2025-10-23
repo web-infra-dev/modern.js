@@ -4,14 +4,14 @@ import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   dev: {
-    port: 3002,
+    port: Number(process.env.PORT) || 3002,
   },
   runtime: {
     state: false,
     router: false,
   },
   server: {
-    port: 3002,
+    port: Number(process.env.PORT) || 3002,
     ssr: {
       mode: 'stream',
     },
@@ -19,7 +19,7 @@ export default applyBaseConfig({
   },
   output: {
     minify: false,
-    assetPrefix: 'http://localhost:3002',
+    assetPrefix: process.env.ASSET_PREFIX || 'http://localhost:3002',
   },
   plugins: [moduleFederationPlugin()],
   tools: {

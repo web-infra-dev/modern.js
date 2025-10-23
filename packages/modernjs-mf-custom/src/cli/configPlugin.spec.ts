@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { patchMFConfig } from './configPlugin';
 import { getIPV4 } from './utils';
 

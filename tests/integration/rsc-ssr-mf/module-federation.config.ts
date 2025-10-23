@@ -4,13 +4,24 @@ export default createModuleFederationConfig({
   name: 'rsc_ssr_remote',
   manifest: {
     filePath: 'static',
+    additionalData: manifest => {
+      const base = assetPrefix ? assetPrefix.replace(/\/$/, '') : '';
+      const remoteEntryUrl = `${base}/static/remoteEntry.js`;
+      if (manifest.metaData?.remoteEntry) {
+        manifest.metaData.remoteEntry.path = `${base}/static/`;
+        manifest.metaData.remoteEntry.url = remoteEntryUrl;
+      }
+      return {
+        remoteEntry: remoteEntryUrl,
+      };
+    },
   },
   filename: 'static/remoteEntry.js',
   shareScope: 'default',
   exposes: {
-    './Counter': './src/server-component-root/components/Counter.tsx',
-    './DynamicMessage':
-      './src/server-component-root/components/DynamicMessageExport.tsx',
+    // Use server-safe wrappers to avoid evaluating client modules on Node.
+    './Counter': './src/mf-exposes/Counter.ts',
+    './DynamicMessage': './src/mf-exposes/DynamicMessage.ts',
   },
   shared: {
     react: {

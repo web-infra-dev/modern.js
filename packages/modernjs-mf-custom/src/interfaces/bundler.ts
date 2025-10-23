@@ -6,19 +6,24 @@ type ExcludeUndefined<T> = T extends undefined ? never : T;
 
 type ExtractObjectType<T> = T extends (...args: any[]) => any ? never : T;
 
-type OmitArrayConfiguration<T> =
-  T extends Array<any> ? (T extends (infer U)[] ? U : T) : ExtractObjectType<T>;
-
-type WebpackConfigs =
-  ExcludeUndefined<AppToolsUserConfig<'webpack'>> extends { webpack?: infer U }
+type OmitArrayConfiguration<T> = T extends Array<any>
+  ? T extends (infer U)[]
     ? U
-    : never;
+    : T
+  : ExtractObjectType<T>;
+
+type WebpackConfigs = ExcludeUndefined<AppToolsUserConfig<'webpack'>> extends {
+  webpack?: infer U;
+}
+  ? U
+  : never;
 type ObjectWebpack = ExtractObjectType<OmitArrayConfiguration<WebpackConfigs>>;
 
-type RspackConfigs =
-  ExcludeUndefined<AppToolsUserConfig<'rspack'>> extends { rspack?: infer U }
-    ? U
-    : never;
+type RspackConfigs = ExcludeUndefined<AppToolsUserConfig<'rspack'>> extends {
+  rspack?: infer U;
+}
+  ? U
+  : never;
 type ObjectRspack = ExtractObjectType<OmitArrayConfiguration<RspackConfigs>>;
 
 type BundlerChain = ExcludeUndefined<

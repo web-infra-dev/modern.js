@@ -10,7 +10,7 @@ export const injectDataFetchFunctionPlugin = ({
 }): RuntimePluginFuture => ({
   name: '@module-federation/inject-data-fetch-function-plugin',
 
-  setup: (api) => {
+  setup: api => {
     api.onBeforeRender(async () => {
       setSSREnv({ fetchServerQuery });
 

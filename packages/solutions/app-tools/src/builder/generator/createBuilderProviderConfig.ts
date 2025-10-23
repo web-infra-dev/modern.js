@@ -23,6 +23,20 @@ export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig<B>,
   appContext: AppToolsContext<B>,
 ): Omit<AppNormalizedConfig<B>, 'plugins'> {
+  const createCompressConfig = () =>
+    ({
+      filter: (req: IncomingMessage) => {
+        const bffPrefix = resolveConfig.bff?.prefix || DEFAULT_API_PREFIX;
+        const url = req.url;
+
+        if (url?.startsWith(bffPrefix)) {
+          return false;
+        }
+
+        return true;
+      },
+    }) satisfies { filter: (req: IncomingMessage) => boolean };
+
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
     htmlConfig.templateByEntries = {
@@ -30,6 +44,30 @@ export function createBuilderProviderConfig<B extends Bundler>(
       ...htmlConfig.templateByEntries,
     };
   }
+  const originalDevServer = resolveConfig.tools?.devServer;
+  let normalizedDevServer = originalDevServer;
+
+  const isDevServerDisabled = (originalDevServer as any) === false;
+
+  const canNormalizeDevServer =
+    originalDevServer !== undefined &&
+    originalDevServer !== null &&
+    typeof originalDevServer !== 'function' &&
+    typeof originalDevServer !== 'boolean';
+
+  if (canNormalizeDevServer) {
+    const baseDevServer = {
+      ...(originalDevServer ?? {}),
+    } as Record<string, any>;
+
+    if ((baseDevServer as { compress?: unknown }).compress === undefined) {
+      (baseDevServer as { compress?: unknown }).compress =
+        createCompressConfig();
+    }
+
+    normalizedDevServer = baseDevServer;
+  }
+
   const config = {
     ...resolveConfig,
     plugins: [],
@@ -49,21 +87,19 @@ export function createBuilderProviderConfig<B extends Bundler>(
     },
     tools: {
       ...resolveConfig.tools,
-      devServer: {
-        ...resolveConfig.tools?.devServer,
-        compress: {
-          filter: (req: IncomingMessage) => {
-            const bffPrefix = resolveConfig.bff?.prefix || DEFAULT_API_PREFIX;
-            const url = req.url;
-
-            if (url?.startsWith(bffPrefix)) {
-              return false;
+      ...(normalizedDevServer !== undefined
+        ? {
+            devServer: normalizedDevServer,
+          }
+        : isDevServerDisabled
+          ? {
+              devServer: false as any,
             }
-
-            return true;
-          },
-        },
-      },
+          : {
+              devServer: {
+                compress: createCompressConfig(),
+              },
+            }),
     },
   };
 

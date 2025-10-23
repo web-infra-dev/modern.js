@@ -541,11 +541,10 @@ export class RscServerPlugin {
               return;
             }
 
-            if (
-              module.layer === webpackRscLayerName &&
-              isServerModule &&
-              !hasServerReferenceDependency(module)
-            ) {
+            // Add ServerReferenceDependency to all server action modules (with 'use server'),
+            // not just those in react-server layer. This allows server actions to be
+            // imported from client components.
+            if (isServerModule && !hasServerReferenceDependency(module)) {
               module.addDependency(new ServerReferenceDependency());
             }
           });

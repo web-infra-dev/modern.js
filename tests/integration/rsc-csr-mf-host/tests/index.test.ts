@@ -15,8 +15,26 @@ const hostAppDir = path.resolve(__dirname, '../');
 const remoteAppDir = path.resolve(__dirname, '../../rsc-csr-mf');
 
 interface TestConfig {
-  bundler: 'webpack';  // Only webpack for now
+  bundler: 'webpack'; // Only webpack for now
   mode: 'dev' | 'build';
+}
+
+// Helper to wait for a URL to be ready
+async function waitForServer(url: string, timeout = 30000): Promise<void> {
+  const startTime = Date.now();
+  while (Date.now() - startTime < timeout) {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      if (response.ok || response.status === 404) {
+        // 404 is ok - server is running
+        return;
+      }
+    } catch (error) {
+      // Server not ready yet, will retry
+    }
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  throw new Error(`Server at ${url} did not become ready within ${timeout}ms`);
 }
 
 interface TestOptions {
@@ -101,65 +119,133 @@ function runTests({ bundler, mode }: TestConfig) {
 
       try {
         if (mode === 'dev') {
-          // Launch both apps in parallel
-          [remoteApp, hostApp] = await Promise.all([
-            launchApp(
-              remoteAppDir,
-              remotePort,
-              {},
-              {
-                BUNDLER: bundler,
-                ASSET_PREFIX: `http://localhost:${remotePort}`,
-              },
-            ),
-            launchApp(
-              hostAppDir,
-              hostPort,
-              {},
-              {
-                BUNDLER: bundler,
-                REMOTE_URL: `http://localhost:${remotePort}`,
-                ASSET_PREFIX: `http://localhost:${hostPort}`,
-              },
-            ),
-          ]);
+          // Launch remote first so manifest is ready before host boot
+          remoteApp = await launchApp(
+            remoteAppDir,
+            remotePort,
+            {},
+            {
+              BUNDLER: bundler,
+              REMOTE_IP_STRATEGY: 'inherit',
+              ASSET_PREFIX: `http://localhost:${remotePort}`,
+              MODERN_MF_AUTO_CORS: '1',
+            },
+          );
+
+          console.log(
+            `Waiting for remote at http://localhost:${remotePort}/static/mf-manifest.json`,
+          );
+          // Wait specifically for the manifest to be available
+          const manifestUrl = `http://localhost:${remotePort}/static/mf-manifest.json`;
+          await waitForServer(manifestUrl);
+
+          // Double-check manifest is accessible
+          try {
+            const response = await fetch(manifestUrl);
+            if (!response.ok) {
+              throw new Error(`Manifest not accessible: ${response.status}`);
+            }
+            const manifest = await response.json();
+            console.log(`Remote manifest loaded: ${manifest.name}`);
+          } catch (error) {
+            console.error(
+              `Failed to verify manifest at ${manifestUrl}:`,
+              error,
+            );
+            throw error;
+          }
+
+          console.log('Remote server is ready');
+
+          hostApp = await launchApp(
+            hostAppDir,
+            hostPort,
+            {},
+            {
+              BUNDLER: bundler,
+              REMOTE_URL: `http://localhost:${remotePort}`,
+              REMOTE_IP_STRATEGY: 'inherit',
+              ASSET_PREFIX: `http://localhost:${hostPort}`,
+            },
+          );
+
+          console.log(`Waiting for host at http://localhost:${hostPort}`);
+          await waitForServer(`http://localhost:${hostPort}/`);
+          console.log('Host server is ready');
         } else {
-          // Build both apps first, then serve in parallel
+          // Build both apps first in parallel
           await Promise.all([
             modernBuild(remoteAppDir, [], {
               env: {
                 BUNDLER: bundler,
+                REMOTE_IP_STRATEGY: 'inherit',
                 ASSET_PREFIX: `http://localhost:${remotePort}`,
+                MODERN_MF_AUTO_CORS: '1',
               },
             }),
             modernBuild(hostAppDir, [], {
               env: {
                 BUNDLER: bundler,
                 REMOTE_URL: `http://localhost:${remotePort}`,
+                REMOTE_IP_STRATEGY: 'inherit',
                 ASSET_PREFIX: `http://localhost:${hostPort}`,
               },
             }),
           ]);
 
-          [remoteApp, hostApp] = await Promise.all([
-            modernServe(remoteAppDir, remotePort, {
-              cwd: remoteAppDir,
-              env: {
-                PORT: remotePort,
-                NODE_ENV: 'production',
-                ASSET_PREFIX: `http://localhost:${remotePort}`,
-              },
-            }),
-            modernServe(hostAppDir, hostPort, {
-              cwd: hostAppDir,
-              env: {
-                PORT: hostPort,
-                NODE_ENV: 'production',
-                REMOTE_URL: `http://localhost:${remotePort}`,
-                ASSET_PREFIX: `http://localhost:${hostPort}`,
-              },
-            }),
-          ]);
+          // Start remote server first
+          remoteApp = await modernServe(remoteAppDir, remotePort, {
+            cwd: remoteAppDir,
+            env: {
+              PORT: remotePort,
+              NODE_ENV: 'production',
+              REMOTE_IP_STRATEGY: 'inherit',
+              ASSET_PREFIX: `http://localhost:${remotePort}`,
+              MODERN_MF_AUTO_CORS: '1',
+            },
+          });
+
+          // Wait for remote to be ready
+          console.log(
+            `Waiting for remote at http://localhost:${remotePort}/static/mf-manifest.json`,
+          );
+          const manifestUrl = `http://localhost:${remotePort}/static/mf-manifest.json`;
+          await waitForServer(manifestUrl);
+
+          // Double-check manifest is accessible
+          try {
+            const response = await fetch(manifestUrl);
+            if (!response.ok) {
+              throw new Error(`Manifest not accessible: ${response.status}`);
+            }
+            const manifest = await response.json();
+            console.log(`Remote manifest loaded: ${manifest.name}`);
+          } catch (error) {
+            console.error(
+              `Failed to verify manifest at ${manifestUrl}:`,
+              error,
+            );
+            throw error;
+          }
+
+          console.log('Remote server is ready');
+
+          // Now start host server
+          hostApp = await modernServe(hostAppDir, hostPort, {
+            cwd: hostAppDir,
+            env: {
+              PORT: hostPort,
+              NODE_ENV: 'production',
+              REMOTE_URL: `http://localhost:${remotePort}`,
+              REMOTE_IP_STRATEGY: 'inherit',
+              ASSET_PREFIX: `http://localhost:${hostPort}`,
+            },
+          });
+
+          // Wait for host to be ready too
+          console.log(`Waiting for host at http://localhost:${hostPort}`);
+          await waitForServer(`http://localhost:${hostPort}/`);
+          console.log('Host server is ready');
         }
 
         browser = await puppeteer.launch(launchOptions as any);
@@ -246,28 +332,35 @@ function runTests({ bundler, mode }: TestConfig) {
 async function testRemoteComponentLoads({
   baseUrl,
   hostPort,
-  page
+  page,
 }: TestOptions) {
   await page.goto(`http://localhost:${hostPort}${baseUrl}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
     timeout: 50000,
   });
 
+  await page.waitForSelector('.client-count', { timeout: 20000 });
+  await page.waitForFunction(
+    () => document.body.textContent?.includes('countStateFromServer'),
+    { timeout: 20000 },
+  );
+
   // Check that host page loaded
   const hostHeader = await page.$eval('body', el =>
-    el.textContent?.includes('Host Application')
+    el.textContent?.includes('Host Application'),
   );
   expect(hostHeader).toBe(true);
 
   // Check that remote Counter component content is present
   const counterPresent = await page.$eval('body', el =>
-    el.textContent?.includes('Client State')
+    el.textContent?.includes('Client State'),
   );
   expect(counterPresent).toBe(true);
 
   // Verify specific remote sections loaded
-  const remoteSections = await page.$$eval('.remote-section', sections =>
-    sections.length
+  const remoteSections = await page.$$eval(
+    '.remote-section',
+    sections => sections.length,
   );
   expect(remoteSections).toBeGreaterThan(0);
 }
@@ -275,12 +368,18 @@ async function testRemoteComponentLoads({
 async function testRemoteServerActions({
   baseUrl,
   hostPort,
-  page
+  page,
 }: TestOptions) {
   await page.goto(`http://localhost:${hostPort}${baseUrl}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
     timeout: 50000,
   });
+
+  await page.waitForSelector('.client-count', { timeout: 20000 });
+  await page.waitForFunction(
+    () => document.body.textContent?.includes('countStateFromServer'),
+    { timeout: 20000 },
+  );
 
   // Wait for remote component to fully load
   await page.waitForSelector('.client-count', { timeout: 10000 });
@@ -300,7 +399,7 @@ async function testRemoteServerActions({
   await page.waitForFunction(
     () =>
       !document.querySelector('.server-increment')?.hasAttribute('disabled'),
-    { timeout: 10000 }
+    { timeout: 10000 },
   );
 
   const serverCount = await page.$eval('.server-count', el => el.textContent);
@@ -310,38 +409,39 @@ async function testRemoteServerActions({
 async function testRemoteComponentState({
   baseUrl,
   hostPort,
-  page
+  page,
 }: TestOptions) {
   await page.goto(`http://localhost:${hostPort}${baseUrl}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
     timeout: 50000,
   });
 
+  await page.waitForSelector('.client-count', { timeout: 20000 });
+
   // Wait for page to be fully loaded
   await page.waitForSelector('body', { timeout: 10000 });
 
   // Verify server state from remote component
   const serverState = await page.$eval('body', el =>
-    el.textContent?.includes('countStateFromServer')
+    el.textContent?.includes('countStateFromServer'),
   );
   expect(serverState).toBe(true);
 
   // Verify Dynamic Message loaded
   const dynamicMessage = await page.$eval('body', el =>
-    el.textContent?.includes('Dynamic Message')
+    el.textContent?.includes('Dynamic Message'),
   );
   expect(dynamicMessage).toBe(true);
 }
 
-async function testRemoteDirectAccess({
-  remotePort,
-  page,
-}: TestOptions) {
+async function testRemoteDirectAccess({ remotePort, page }: TestOptions) {
   // Verify remote app works independently
   await page.goto(`http://localhost:${remotePort}/`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
     timeout: 50000,
   });
+
+  await page.waitForSelector('.client-count', { timeout: 20000 });
 
   const pageContent = await page.$eval('body', el => el.textContent);
   expect(pageContent).toContain('Client State');

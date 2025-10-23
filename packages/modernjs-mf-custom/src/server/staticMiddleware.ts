@@ -1,7 +1,7 @@
-import fs from 'fs-extra';
 import path from 'node:path';
-import { fileCache } from './fileCache';
 import type { MiddlewareHandler } from '@modern-js/server-runtime';
+import fs from 'fs-extra';
+import { fileCache } from './fileCache';
 
 const bundlesAssetPrefix = '/bundles';
 // Remove domain name from assetPrefix if it exists
@@ -27,35 +27,80 @@ const createStaticMiddleware = (options: {
 }): MiddlewareHandler => {
   const { assetPrefix, pwd } = options;
 
+  const allowedRootJsonFiles = new Set([
+    'react-client-manifest.json',
+    'react-ssr-manifest.json',
+    'server-references-manifest.json',
+    'route.json',
+  ]);
+
+  const applyCorsHeaders = (c: Parameters<MiddlewareHandler>[0]) => {
+    if (!process.env.MODERN_MF_AUTO_CORS) {
+      return;
+    }
+    c.header('Access-Control-Allow-Origin', '*');
+    c.header(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    );
+    c.header('Access-Control-Allow-Headers', '*');
+  };
+
   return async (c, next) => {
     const pathname = c.req.path;
+    const ext = path.extname(pathname);
 
-    // We only handle js file for performance
-    if (path.extname(pathname) !== '.js') {
+    // We only handle js & json files for performance
+    if (ext !== '.js' && ext !== '.json') {
       return next();
     }
 
     const prefixWithoutHost = removeHost(assetPrefix);
     const prefixWithBundle = path.join(prefixWithoutHost, bundlesAssetPrefix);
     // Skip if the request is not for asset prefix + `/bundles`
-    if (!pathname.startsWith(prefixWithBundle)) {
-      return next();
+    if (pathname.startsWith(prefixWithBundle)) {
+      const pathnameWithoutPrefix = pathname.replace(prefixWithBundle, '');
+      const filepath = path.join(
+        pwd,
+        bundlesAssetPrefix,
+        pathnameWithoutPrefix,
+      );
+
+      if (await fs.pathExists(filepath)) {
+        const fileResult = await fileCache.getFile(filepath);
+        if (!fileResult) {
+          return next();
+        }
+
+        c.header(
+          'Content-Type',
+          ext === '.json' ? 'application/json' : 'application/javascript',
+        );
+        c.header('Content-Length', String(fileResult.content.length));
+        applyCorsHeaders(c);
+        return c.body(fileResult.content, 200);
+      }
+    } else if (ext === '.json') {
+      const manifestName = path.basename(pathname);
+      if (allowedRootJsonFiles.has(manifestName)) {
+        if (process.env.DEBUG_MF_RSC_SERVER) {
+          console.log('[MF RSC] Serving root manifest', manifestName);
+        }
+        const manifestPath = path.join(pwd, manifestName);
+        if (await fs.pathExists(manifestPath)) {
+          const fileResult = await fileCache.getFile(manifestPath);
+          if (!fileResult) {
+            return next();
+          }
+          c.header('Content-Type', 'application/json');
+          c.header('Content-Length', String(fileResult.content.length));
+          applyCorsHeaders(c);
+          return c.body(fileResult.content, 200);
+        }
+      }
     }
 
-    const pathnameWithoutPrefix = pathname.replace(prefixWithBundle, '');
-    const filepath = path.join(pwd, bundlesAssetPrefix, pathnameWithoutPrefix);
-    if (!(await fs.pathExists(filepath))) {
-      return next();
-    }
-
-    const fileResult = await fileCache.getFile(filepath);
-    if (!fileResult) {
-      return next();
-    }
-
-    c.header('Content-Type', 'application/javascript');
-    c.header('Content-Length', String(fileResult.content.length));
-    return c.body(fileResult.content, 200);
+    return next();
   };
 };
 

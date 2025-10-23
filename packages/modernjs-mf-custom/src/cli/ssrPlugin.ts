@@ -1,24 +1,235 @@
 import path from 'path';
-import fs from 'fs-extra';
-import { ModuleFederationPlugin } from '@module-federation/enhanced/webpack';
 import { ModuleFederationPlugin as RspackModuleFederationPlugin } from '@module-federation/enhanced/rspack';
+import { ModuleFederationPlugin } from '@module-federation/enhanced/webpack';
 import UniverseEntryChunkTrackerPlugin from '@module-federation/node/universe-entry-chunk-tracker-plugin';
+import { updateStatsAndManifest } from '@module-federation/rsbuild-plugin/utils';
+import fs from 'fs-extra';
 import logger from '../logger';
 import { isDev } from './utils';
-import { updateStatsAndManifest } from '@module-federation/rsbuild-plugin/utils';
 import { isWebTarget, skipByTarget } from './utils';
 
+const MANIFEST_LOCATIONS = [
+  ['static', 'mf-manifest.json'],
+  ['bundles', 'static', 'mf-manifest.json'],
+];
+
+const REMOTE_ENTRY_BASENAME = 'static/remoteEntry.js';
+const SSR_REMOTE_ENTRY_BASENAME = `bundles/${REMOTE_ENTRY_BASENAME}`;
+
+const joinUrl = (base: string, relative: string) => {
+  try {
+    return new URL(relative, base).toString();
+  } catch {
+    return `${base.replace(/\/$/, '')}/${relative.replace(/^\//, '')}`;
+  }
+};
+
+const normaliseRelativeEntry = (
+  entry: { path?: string; name?: string } | undefined,
+  fallback: string,
+) => {
+  if (!entry) {
+    return fallback;
+  }
+  const name = typeof entry.name === 'string' ? entry.name : fallback;
+  if (typeof entry.path !== 'string' || entry.path.length === 0) {
+    return name;
+  }
+  return `${entry.path.replace(/\/$/, '')}/${name.replace(/^\//, '')}`;
+};
+
+const resolveEntryUrl = (
+  candidate: unknown,
+  base: string | undefined,
+  fallback: string,
+) => {
+  if (!candidate) {
+    return undefined;
+  }
+
+  if (typeof candidate === 'string') {
+    if (/^https?:\/\//i.test(candidate) || !base) {
+      return candidate;
+    }
+    return joinUrl(base, candidate);
+  }
+
+  if (typeof candidate === 'object') {
+    const maybeUrl = (candidate as Record<string, unknown>).url;
+    if (typeof maybeUrl === 'string') {
+      return maybeUrl;
+    }
+    const relative = normaliseRelativeEntry(
+      candidate as { path?: string; name?: string },
+      fallback,
+    );
+    if (!base) {
+      return relative;
+    }
+    return joinUrl(base, relative);
+  }
+
+  return undefined;
+};
+
+const computeClientRemoteEntryUrl = (manifest: Record<string, any>) => {
+  const meta = manifest?.metaData ?? {};
+  const base =
+    typeof meta?.publicPath === 'string' ? meta.publicPath : undefined;
+  const candidate = manifest?.remoteEntry ?? meta?.remoteEntry;
+  const resolved = resolveEntryUrl(candidate, base, REMOTE_ENTRY_BASENAME);
+  if (resolved) {
+    return resolved;
+  }
+  if (base) {
+    return joinUrl(base, REMOTE_ENTRY_BASENAME);
+  }
+  return undefined;
+};
+
+const computeSsrRemoteEntryUrl = (manifest: Record<string, any>) => {
+  const meta = manifest?.metaData ?? {};
+  const ssrBase =
+    typeof meta?.ssrPublicPath === 'string'
+      ? meta.ssrPublicPath
+      : typeof meta?.publicPath === 'string'
+        ? joinUrl(meta.publicPath, 'bundles/')
+        : undefined;
+  const candidate = manifest?.ssrRemoteEntry ?? meta?.ssrRemoteEntry;
+  const resolved = resolveEntryUrl(
+    candidate,
+    ssrBase,
+    SSR_REMOTE_ENTRY_BASENAME,
+  );
+  if (resolved) {
+    return resolved;
+  }
+  if (ssrBase) {
+    return joinUrl(ssrBase, REMOTE_ENTRY_BASENAME);
+  }
+  if (typeof meta?.publicPath === 'string') {
+    return joinUrl(meta.publicPath, SSR_REMOTE_ENTRY_BASENAME);
+  }
+  return undefined;
+};
+
+const SSR_REMOTE_ENTRY_META_DEFAULT = {
+  path: 'bundles/static',
+  name: 'remoteEntry.js',
+  type: 'commonjs-module',
+} as const;
+
+const patchManifestRemoteEntry = (distOutputDir: string) => {
+  if (process.env.DEBUG_MF_RSC_SERVER) {
+    console.log(`[MF RSC] Starting manifest patch in "${distOutputDir}"`);
+  }
+  for (const segments of MANIFEST_LOCATIONS) {
+    const manifestPath = path.join(distOutputDir, ...segments);
+    if (!fs.pathExistsSync(manifestPath)) {
+      if (process.env.DEBUG_MF_RSC_SERVER) {
+        console.log(
+          `[MF RSC] Manifest not found at "${manifestPath}", skipping patch`,
+        );
+      }
+      continue;
+    }
+    try {
+      const manifest = JSON.parse(
+        fs.readFileSync(manifestPath, 'utf-8'),
+      ) as Record<string, any>;
+      manifest.metaData = manifest.metaData ?? {};
+
+      const remoteEntryUrl = computeClientRemoteEntryUrl(manifest);
+      const ssrRemoteEntryUrl = computeSsrRemoteEntryUrl(manifest);
+
+      if (remoteEntryUrl) {
+        manifest.remoteEntry = remoteEntryUrl;
+        const remoteMeta = manifest.metaData.remoteEntry;
+        if (typeof remoteMeta === 'object' && remoteMeta) {
+          remoteMeta.name =
+            typeof remoteMeta.name === 'string'
+              ? remoteMeta.name
+              : REMOTE_ENTRY_BASENAME;
+          remoteMeta.path =
+            typeof remoteMeta.path === 'string' ? remoteMeta.path : '';
+          remoteMeta.type =
+            typeof remoteMeta.type === 'string' ? remoteMeta.type : 'global';
+        } else {
+          manifest.metaData.remoteEntry = {
+            name: REMOTE_ENTRY_BASENAME,
+            path: '',
+            type: 'global',
+          };
+        }
+      }
+
+      if (ssrRemoteEntryUrl) {
+        manifest.ssrRemoteEntry = ssrRemoteEntryUrl;
+        manifest.metaData.ssrPublicPath =
+          typeof manifest.metaData.ssrPublicPath === 'string'
+            ? manifest.metaData.ssrPublicPath
+            : (() => {
+                const meta = manifest.metaData;
+                if (typeof meta.publicPath === 'string') {
+                  return joinUrl(meta.publicPath, 'bundles/');
+                }
+                return undefined;
+              })();
+        const ssrMeta = manifest.metaData.ssrRemoteEntry;
+        if (typeof ssrMeta === 'object' && ssrMeta) {
+          ssrMeta.name = SSR_REMOTE_ENTRY_META_DEFAULT.name;
+          ssrMeta.path = SSR_REMOTE_ENTRY_META_DEFAULT.path;
+          ssrMeta.type =
+            typeof ssrMeta.type === 'string'
+              ? ssrMeta.type
+              : SSR_REMOTE_ENTRY_META_DEFAULT.type;
+        } else {
+          manifest.metaData.ssrRemoteEntry = {
+            ...SSR_REMOTE_ENTRY_META_DEFAULT,
+          };
+        }
+      }
+
+      if (remoteEntryUrl || ssrRemoteEntryUrl) {
+        fs.writeFileSync(
+          manifestPath,
+          JSON.stringify(manifest, null, 2),
+          'utf-8',
+        );
+      }
+
+      if (process.env.DEBUG_MF_RSC_SERVER) {
+        if (remoteEntryUrl) {
+          console.log(
+            `[MF RSC] Injected remoteEntry "${remoteEntryUrl}" into ${manifestPath}`,
+          );
+        }
+        if (ssrRemoteEntryUrl) {
+          console.log(
+            `[MF RSC] Injected ssrRemoteEntry "${ssrRemoteEntryUrl}" into ${manifestPath}`,
+          );
+        }
+      }
+    } catch (error) {
+      logger.warn(
+        `[MF RSC] Failed to patch remoteEntry for manifest ${manifestPath}:`,
+        error,
+      );
+    }
+  }
+};
+
+import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import type {
-  RsbuildPlugin,
-  ModifyWebpackConfigFn,
   ModifyRspackConfigFn,
+  ModifyWebpackConfigFn,
+  RsbuildPlugin,
 } from '@rsbuild/core';
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
 import type { InternalModernPluginOptions, PluginOptions } from '../types';
 
 export function setEnv() {
-  process.env['MF_DISABLE_EMIT_STATS'] = 'true';
-  process.env['MF_SSR_PRJ'] = 'true';
+  process.env.MF_DISABLE_EMIT_STATS = 'true';
+  process.env.MF_SSR_PRJ = 'true';
 }
 
 export const CHAIN_MF_PLUGIN_ID = 'plugin-module-federation-server';
@@ -96,10 +307,22 @@ export const moduleFederationSSRPlugin = (
     '@modern-js/plugin-module-federation-config',
     '@modern-js/plugin-module-federation',
   ],
-  setup: async (api) => {
+  setup: async api => {
     const modernjsConfig = api.getConfig();
+    const explicitSSR =
+      pluginOptions.userConfig?.ssr ?? modernjsConfig?.server?.ssr;
     const enableSSR =
-      pluginOptions.userConfig?.ssr ?? Boolean(modernjsConfig?.server?.ssr);
+      explicitSSR !== undefined
+        ? Boolean(explicitSSR)
+        : Boolean(modernjsConfig?.server?.rsc);
+
+    if (process.env.DEBUG_MF_RSC_SERVER) {
+      console.log(
+        `[MF RSC] moduleFederationSSRPlugin enableSSR=${enableSSR} (server.ssr=${JSON.stringify(
+          modernjsConfig?.server?.ssr,
+        )})`,
+      );
+    }
 
     if (!enableSSR) {
       return;
@@ -126,6 +349,21 @@ export const moduleFederationSSRPlugin = (
       });
       return { entrypoint, plugins };
     });
+    api._internalRuntimePlugins(({ entrypoint, plugins }) => {
+      const remotes =
+        pluginOptions.originPluginOptions?.remotes ||
+        pluginOptions.ssrConfig?.remotes ||
+        pluginOptions.csrConfig?.remotes;
+
+      plugins.push({
+        name: 'mfRscManifestMerger',
+        path: '@module-federation/modern-js-rsc/rsc-manifest-merger',
+        config: {
+          remotes,
+        },
+      });
+      return { entrypoint, plugins };
+    });
 
     if (pluginOptions.ssrConfig.remotes) {
       api._internalServerPlugins(({ plugins }) => {
@@ -138,7 +376,7 @@ export const moduleFederationSSRPlugin = (
       });
     }
 
-    api.modifyBundlerChain((chain) => {
+    api.modifyBundlerChain(chain => {
       const target = chain.get('target');
       if (skipByTarget(target)) {
         return;
@@ -158,6 +396,12 @@ export const moduleFederationSSRPlugin = (
             .plugin(CHAIN_MF_PLUGIN_ID)
             .use(MFPlugin, [pluginOptions.ssrConfig])
             .init((Plugin: typeof MFPlugin, args) => {
+              if (process.env.DEBUG_MF_CONFIG) {
+                console.log(
+                  '[MF SSR CONFIG][server init] exposes:',
+                  JSON.stringify(args[0]?.exposes, null, 2),
+                );
+              }
               pluginOptions.nodePlugin = new Plugin(args[0]);
               return pluginOptions.nodePlugin;
             });
@@ -188,6 +432,16 @@ export const moduleFederationSSRPlugin = (
         chain.externals({
           '@module-federation/node/utils': 'NOT_USED_IN_BROWSER',
         });
+      }
+
+      if (process.env.DEBUG_MF_CONFIG) {
+        const currentConfig = isWeb
+          ? pluginOptions.csrConfig
+          : pluginOptions.ssrConfig;
+        console.log(
+          '[MF SSR CONFIG][after modifyBundlerChain]',
+          JSON.stringify(currentConfig?.exposes, null, 2),
+        );
       }
     });
     api.config(() => {
@@ -228,14 +482,45 @@ export const moduleFederationSSRPlugin = (
         },
       };
     });
+    const scheduleManifestPatch = (result: unknown, distOutputDir: string) => {
+      const finalize = () => patchManifestRemoteEntry(distOutputDir);
+      if (
+        result &&
+        typeof (result as PromiseLike<unknown>).then === 'function'
+      ) {
+        (result as PromiseLike<unknown>)
+          .catch(error => {
+            logger.warn(
+              '[MF RSC] updateStatsAndManifest failed before manifest patch:',
+              error,
+            );
+          })
+          .finally(() => {
+            finalize();
+          });
+        return;
+      }
+      finalize();
+    };
+
     api.onAfterBuild(() => {
       const { nodePlugin, browserPlugin, distOutputDir } = pluginOptions;
-      updateStatsAndManifest(nodePlugin, browserPlugin, distOutputDir);
+      const result = updateStatsAndManifest(
+        nodePlugin,
+        browserPlugin,
+        distOutputDir,
+      );
+      scheduleManifestPatch(result, distOutputDir);
     });
     api.onDevCompileDone(() => {
       // 热更后修改 manifest
       const { nodePlugin, browserPlugin, distOutputDir } = pluginOptions;
-      updateStatsAndManifest(nodePlugin, browserPlugin, distOutputDir);
+      const result = updateStatsAndManifest(
+        nodePlugin,
+        browserPlugin,
+        distOutputDir,
+      );
+      scheduleManifestPatch(result, distOutputDir);
     });
   },
 });

@@ -59,7 +59,7 @@ const resolveEntryIpv4Plugin: () => ModuleFederationRuntimePlugin = () => ({
       replaceObjectLocalhost('getPublicPath', remoteSnapshot);
     }
     if (remoteSnapshot.remotesInfo) {
-      Object.keys(remoteSnapshot.remotesInfo).forEach((key) => {
+      Object.keys(remoteSnapshot.remotesInfo).forEach(key => {
         const remoteInfo = remoteSnapshot.remotesInfo[key];
         replaceObjectLocalhost('matchedVersion', remoteInfo);
       });

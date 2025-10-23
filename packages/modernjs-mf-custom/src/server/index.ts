@@ -6,7 +6,7 @@ import {
 
 const staticServePlugin = (): ServerPlugin => ({
   name: '@modern-js/module-federation/server',
-  setup: (api) => {
+  setup: api => {
     api.onPrepare(() => {
       // In development, we don't need to serve the manifest file, bundler dev server will handle it
       if (process.env.NODE_ENV === 'development') {
@@ -17,9 +17,17 @@ const staticServePlugin = (): ServerPlugin => ({
       const config = api.getServerConfig();
 
       const assetPrefix = config.output?.assetPrefix || '';
+      if (process.env.DEBUG_MF_RSC_SERVER) {
+        console.log('[MF RSC] Server config snapshot:', config.server);
+      }
       // When SSR is enabled, we need to serve the files in `bundle/` directory externally
       // Modern.js will only serve the files in `static/` directory
-      if (config.server?.ssr) {
+      if (config.server?.ssr || config.server?.rsc) {
+        if (process.env.DEBUG_MF_RSC_SERVER) {
+          console.log(
+            '[MF RSC] Enabling static middleware for manifest serving',
+          );
+        }
         const context = api.getServerContext();
         const pwd = context.distDirectory!;
         const serverStaticMiddleware = createStaticMiddleware({

@@ -2,18 +2,26 @@ import path from 'path';
 import { moduleFederationPlugin } from '@module-federation/modern-js-rsc';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
+const resolvedPort = process.env.PORT ? Number(process.env.PORT) : undefined;
+const assetPrefix = process.env.ASSET_PREFIX;
+
+const devConfig = resolvedPort ? { port: resolvedPort } : {};
+
+const serverConfig = {
+  ssr: true,
+  rsc: true,
+  ...(resolvedPort ? { port: resolvedPort } : {}),
+};
+
+const outputConfig: Record<string, string> = {};
+if (assetPrefix) {
+  outputConfig.assetPrefix = assetPrefix;
+}
+
 export default applyBaseConfig({
-  dev: {
-    port: 3001,
-  },
-  server: {
-    port: 3001,
-    ssr: true,
-    rsc: true,
-  },
-  output: {
-    assetPrefix: 'http://localhost:3001',
-  },
+  dev: devConfig,
+  server: serverConfig,
+  output: outputConfig,
   runtime: {
     router: false,
     state: false,
@@ -25,7 +33,11 @@ export default applyBaseConfig({
     },
     disableDefaultEntries: true,
   },
-  plugins: [moduleFederationPlugin()],
+  plugins: [
+    moduleFederationPlugin({
+      remoteIpStrategy: 'inherit',
+    }),
+  ],
   tools: {
     bundlerChain(chain) {
       chain.resolve.modules

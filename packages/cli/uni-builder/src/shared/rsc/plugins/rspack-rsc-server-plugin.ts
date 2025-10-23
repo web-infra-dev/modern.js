@@ -478,10 +478,9 @@ export class RscServerPlugin {
               ),
             );
           }
-        } else if (
-          module.layer === webpackRscLayerName &&
-          getRscBuildInfo(module)?.type === 'server'
-        ) {
+        } else if (getRscBuildInfo(module)?.type === 'server') {
+          // Allow server actions (with 'use server') to get moduleId assigned
+          // regardless of layer, so they can be imported from client components
           const serverReferencesModuleInfo = getRscBuildInfo(module);
           if (serverReferencesModuleInfo) {
             serverReferencesModuleInfo.moduleId = moduleId;

@@ -1,4 +1,4 @@
-import { it, expect, describe, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createStaticMiddleware } from './staticMiddleware';
 
 // Mock dependencies

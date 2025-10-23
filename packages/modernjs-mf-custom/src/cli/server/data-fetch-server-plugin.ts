@@ -4,7 +4,7 @@ import type { ServerPlugin } from '@modern-js/server-runtime';
 
 const dataFetchServePlugin = (): ServerPlugin => ({
   name: 'mf-data-fetch-server-plugin',
-  setup: (api) => {
+  setup: api => {
     api.onPrepare(() => {
       const { middlewares } = api.getServerContext();
       middlewares.push({

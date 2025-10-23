@@ -20,4 +20,6 @@ module.exports = {
   globalSetup: './utils/setup.js',
   globalTeardown: './utils/teardown.js',
   testSequencer: './utils/custom-sequencer.js',
+  testTimeout: 120000,
+  forceExit: true,
 };

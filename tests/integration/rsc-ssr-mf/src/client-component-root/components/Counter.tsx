@@ -1,4 +1,6 @@
 'use client';
-export function Counter() {
+function Counter() {
   return <div>Counter</div>;
 }
+
+export default Counter;

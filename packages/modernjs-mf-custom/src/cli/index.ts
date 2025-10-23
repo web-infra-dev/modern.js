@@ -1,11 +1,11 @@
-import type { CliPluginFuture, AppTools } from '@modern-js/app-tools';
+import type { AppTools, CliPluginFuture } from '@modern-js/app-tools';
 import {
-  ModuleFederationPlugin as WebpackModuleFederationPlugin,
   AsyncBoundaryPlugin,
+  ModuleFederationPlugin as WebpackModuleFederationPlugin,
 } from '@module-federation/enhanced';
 import { ModuleFederationPlugin as RspackModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import type { moduleFederationPlugin as MFPluginOptions } from '@module-federation/sdk';
-import type { PluginOptions, InternalModernPluginOptions } from '../types';
+import type { InternalModernPluginOptions, PluginOptions } from '../types';
 import { moduleFederationConfigPlugin } from './configPlugin';
 import { moduleFederationSSRPlugin } from './ssrPlugin';
 import { isWebTarget } from './utils';
@@ -21,15 +21,16 @@ export const moduleFederationPlugin = (
     distOutputDir: '',
     originPluginOptions: userConfig,
     remoteIpStrategy: userConfig?.remoteIpStrategy,
+    manifestRemotes: {},
     userConfig: userConfig || {},
     fetchServerQuery: userConfig.fetchServerQuery ?? undefined,
   };
   return {
     name: '@modern-js/plugin-module-federation',
-    setup: async (api) => {
+    setup: async api => {
       const modernjsConfig = api.getConfig();
 
-      api.modifyBundlerChain((chain) => {
+      api.modifyBundlerChain(chain => {
         const bundlerType =
           api.getAppContext().bundlerType === 'rspack' ? 'rspack' : 'webpack';
         const target = chain.get('target');
@@ -56,14 +57,23 @@ export const moduleFederationPlugin = (
         if (shouldApplyMF) {
           // Use ssrConfig for server compilation (server chain or node build)
           // Use csrConfig for client compilation (client chain or web build)
-          const isServerCompilation = chainName === 'server' || chainName === 'node' || isNodeBuild;
-          console.log('[MF RSC DEBUG] Is Server Compilation:', isServerCompilation);
+          const isServerCompilation =
+            chainName === 'server' || chainName === 'node' || isNodeBuild;
+          console.log(
+            '[MF RSC DEBUG] Is Server Compilation:',
+            isServerCompilation,
+          );
 
-          const pluginOptions = (isServerCompilation
-            ? internalModernPluginOptions.ssrConfig
-            : internalModernPluginOptions.csrConfig) as MFPluginOptions.ModuleFederationPluginOptions;
+          const pluginOptions = (
+            isServerCompilation
+              ? internalModernPluginOptions.ssrConfig
+              : internalModernPluginOptions.csrConfig
+          ) as MFPluginOptions.ModuleFederationPluginOptions;
 
-          console.log('[MF RSC DEBUG] Plugin Options:', JSON.stringify(pluginOptions, null, 2));
+          console.log(
+            '[MF RSC DEBUG] Plugin Options:',
+            JSON.stringify(pluginOptions, null, 2),
+          );
 
           const MFPlugin =
             bundlerType === 'webpack'
@@ -94,9 +104,9 @@ export const moduleFederationPlugin = (
               typeof browserPluginOptions.async === 'object'
                 ? browserPluginOptions.async
                 : {
-                    eager: (module) =>
+                    eager: module =>
                       module && /\.federation/.test(module?.request || ''),
-                    excludeChunk: (chunk) =>
+                    excludeChunk: chunk =>
                       chunk.name === browserPluginOptions.name,
                   };
             chain
@@ -108,8 +118,29 @@ export const moduleFederationPlugin = (
 
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
-          name: '@module-federation/modern-js/server',
+          name: '@module-federation/modern-js-rsc/server',
+          path: '@module-federation/modern-js-rsc/server',
         });
+
+        if (modernjsConfig.server?.rsc) {
+          const manifestRemotes = internalModernPluginOptions.manifestRemotes;
+          const remotes =
+            (manifestRemotes &&
+              Object.keys(manifestRemotes).length &&
+              manifestRemotes) ||
+            internalModernPluginOptions.originPluginOptions?.remotes ||
+            internalModernPluginOptions.csrConfig?.remotes ||
+            internalModernPluginOptions.ssrConfig?.remotes;
+
+          plugins.push({
+            name: '@module-federation/modern-js-rsc/rsc-manifest-plugin',
+            path: '@module-federation/modern-js-rsc/rsc-manifest-plugin',
+            options: {
+              remotes,
+            },
+          });
+        }
+
         return { plugins };
       });
     },

@@ -1,6 +1,6 @@
-import { moduleFederationPlugin } from '@module-federation/sdk';
 import type { ModuleFederationPlugin as WebpackModuleFederationPlugin } from '@module-federation/enhanced';
 import type { ModuleFederationPlugin as RspackModuleFederationPlugin } from '@module-federation/enhanced/rspack';
+import type { moduleFederationPlugin } from '@module-federation/sdk';
 
 export interface PluginOptions {
   config?: moduleFederationPlugin.ModuleFederationPluginOptions;
@@ -19,6 +19,7 @@ export interface InternalModernPluginOptions {
   ssrConfig?: moduleFederationPlugin.ModuleFederationPluginOptions;
   distOutputDir: string;
   originPluginOptions: PluginOptions;
+  manifestRemotes: Record<string, string>;
   browserPlugin?: BundlerPlugin;
   nodePlugin?: BundlerPlugin;
   remoteIpStrategy?: 'ipv4' | 'inherit';

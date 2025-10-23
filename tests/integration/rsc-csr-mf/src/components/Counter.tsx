@@ -6,7 +6,7 @@ import { increment, incrementByForm } from './action';
 
 const DynamicMessage = React.lazy(() => import('./DynamicMessage'));
 
-export const Counter = () => {
+const Counter = () => {
   const [count, setCount] = useState(0);
   const [inputValue, setInputValue] = useState(1);
   const [result, formAction, isPending] = useActionState(incrementByForm, 0);
@@ -50,3 +50,5 @@ export const Counter = () => {
     </>
   );
 };
+
+export default Counter;

@@ -1,5 +1,5 @@
 import os from 'os';
-import type { webpack, Rspack } from '@modern-js/app-tools';
+import type { Rspack, webpack } from '@modern-js/app-tools';
 
 export type ConfigType<T> = T extends 'webpack'
   ? webpack.Configuration
@@ -14,8 +14,8 @@ const getIpv4Interfaces = (): os.NetworkInterfaceInfo[] => {
     const interfaces = os.networkInterfaces();
     const ipv4Interfaces: os.NetworkInterfaceInfo[] = [];
 
-    Object.values(interfaces).forEach((detail) => {
-      detail?.forEach((detail) => {
+    Object.values(interfaces).forEach(detail => {
+      detail?.forEach(detail => {
         // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
         const familyV4Value = typeof detail.family === 'string' ? 'IPv4' : 4;
 

@@ -1,7 +1,9 @@
 import 'server-only';
 import { Suspense } from 'react';
+// Ensure server actions are part of the server compilation graph
+import './rsc-server-refs';
 import styles from './App.module.less';
-import { Counter } from './components/Counter';
+import Counter from './components/Counter';
 import { getCountState } from './components/ServerState';
 import Suspended from './components/Suspended';
 

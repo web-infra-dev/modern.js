@@ -6,12 +6,12 @@ const sharedStrategy: () => ModuleFederationRuntimePlugin = () => ({
     const { userOptions } = args;
     const shared = userOptions.shared;
     if (shared) {
-      Object.keys(shared).forEach((sharedKey) => {
+      Object.keys(shared).forEach(sharedKey => {
         const sharedConfigs = shared[sharedKey];
         const arraySharedConfigs = Array.isArray(sharedConfigs)
           ? sharedConfigs
           : [sharedConfigs];
-        arraySharedConfigs.forEach((s) => {
+        arraySharedConfigs.forEach(s => {
           s.strategy = 'loaded-first';
         });
       });

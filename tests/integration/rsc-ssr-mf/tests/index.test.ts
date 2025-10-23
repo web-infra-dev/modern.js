@@ -49,6 +49,26 @@ function runTests({ bundler, mode }: TestConfig) {
     beforeAll(async () => {
       appPort = await getPort();
 
+      const assetPrefix = `http://localhost:${appPort}`;
+
+      const waitForServer = async (url: string, timeout = 30000) => {
+        const start = Date.now();
+        while (Date.now() - start < timeout) {
+          try {
+            const res = await fetch(url, { method: 'HEAD' });
+            if (res.ok || res.status === 404) {
+              return;
+            }
+          } catch (err) {
+            // retry
+          }
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        throw new Error(
+          `Server at ${url} did not become ready within ${timeout}ms`,
+        );
+      };
+
       if (mode === 'dev') {
         app = await launchApp(
           appDir,
@@ -56,17 +76,25 @@ function runTests({ bundler, mode }: TestConfig) {
           {},
           {
             BUNDLER: bundler,
+            ASSET_PREFIX: assetPrefix,
           },
         );
       } else {
         await modernBuild(appDir, [], {
           env: {
             BUNDLER: bundler,
+            ASSET_PREFIX: assetPrefix,
           },
         });
         app = await modernServe(appDir, appPort, {
           cwd: appDir,
+          env: {
+            PORT: appPort,
+            NODE_ENV: 'production',
+            ASSET_PREFIX: assetPrefix,
+          },
         });
+        await waitForServer(`${assetPrefix}/server-component-root`);
       }
 
       browser = await puppeteer.launch(launchOptions as any);
@@ -80,6 +108,10 @@ function runTests({ bundler, mode }: TestConfig) {
     });
 
     afterAll(async () => {
+      if (errors.length) {
+        // eslint-disable-next-line no-console
+        console.log('Captured page errors:', errors);
+      }
       await killApp(app);
       await page.close();
       await browser.close();

@@ -1,4 +1,4 @@
-import { it, expect, describe, vi, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { FileCache } from './fileCache';
 
 beforeAll(() => {

@@ -1,11 +1,11 @@
 import type { RuntimePluginFuture } from '@modern-js/runtime';
-import { SSRLiveReload } from './SSRLiveReload';
 import { flushDataFetch } from '@module-federation/bridge-react/lazy-utils';
+import { SSRLiveReload } from './SSRLiveReload';
 
 export const mfSSRDevPlugin = (): RuntimePluginFuture => ({
   name: '@module-federation/modern-js',
 
-  setup: (api) => {
+  setup: api => {
     api.onBeforeRender(async () => {
       if (typeof window !== 'undefined') {
         return;
@@ -21,7 +21,7 @@ export const mfSSRDevPlugin = (): RuntimePluginFuture => ({
         globalThis.shouldUpdate = true;
       }
     });
-    api.wrapRoot((App) => {
+    api.wrapRoot(App => {
       const AppWrapper = (props: any) => (
         <>
           <SSRLiveReload />
