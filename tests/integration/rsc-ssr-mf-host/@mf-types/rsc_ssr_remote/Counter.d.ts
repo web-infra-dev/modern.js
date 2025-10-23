@@ -1,2 +1,2 @@
-export * from './compiled-types/server-component-root/components/Counter';
-export { default } from './compiled-types/server-component-root/components/Counter';
+export * from './compiled-types/mf-exposes/Counter';
+export { default } from './compiled-types/mf-exposes/Counter';
