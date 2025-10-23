@@ -88,6 +88,8 @@ export const rsbuildRscPlugin = ({
               .rule(CHAIN_ID.RULE.JS)
               .oneOf('rsc-server')
               .issuerLayer(webpackRscLayerName)
+              .include.add(/[/\\]src[/\\]/)
+              .end()
               .exclude.add(/universal[/\\]async_storage/)
               .end()
               .use('rsc-server-loader')
@@ -146,7 +148,8 @@ export const rsbuildRscPlugin = ({
           // from src/App.tsx (like ./ClientRoot.tsx) are parsed by rsc-server-loader.
           // This lets the server plugin record 'use client' modules and populate
           // clientReferencesMap for the client manifest.
-          if (entryPath2Name.size > 0) {
+          // Only apply this to server (node) compilations, not web compilations.
+          if (isServer && entryPath2Name.size > 0) {
             const entryPaths = Array.from(entryPath2Name.keys());
             chain.module
               .rule('rsc-entry-server')
@@ -158,6 +161,8 @@ export const rsbuildRscPlugin = ({
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
+            .include.add(/[/\\]src[/\\]/)
+            .end()
             .resolve.conditionNames.add(webpackRscLayerName)
             .add('...');
 

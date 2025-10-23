@@ -7,6 +7,7 @@ import {
   isServerModule,
   parseSource,
   sharedData,
+  getExportNames,
 } from './common';
 
 export type ClientLoaderOptions = {
@@ -68,8 +69,20 @@ export default async function rscClientLoader(
     }
   }
 
-  // Final small retry loop: the server manifest may be written slightly later
-  // than the client transform runs. Poll a few times to hydrate moduleId.
+  // Ensure we have export names even if the server plugin hasn't populated
+  // sharedData yet by deriving them from the current AST.
+  if (!moduleInfo || !moduleInfo.exportNames || moduleInfo.exportNames.length === 0) {
+    try {
+      const names = await getExportNames(ast, true);
+      if (names && names.length > 0) {
+        moduleInfo = moduleInfo || { moduleId: undefined as any, exportNames: [] };
+        moduleInfo.exportNames = names;
+      }
+    } catch {}
+  }
+
+  // Retry loop: the server manifest may be written later than the client
+  // transform runs. Poll with a larger budget to reduce flakiness.
   if (!moduleInfo || !moduleInfo.moduleId) {
     const tryHydrateFromManifest = () => {
       let manifestPath = sharedData.get<string>('serverReferencesManifestPath');
@@ -118,8 +131,10 @@ export default async function rscClientLoader(
         } catch {}
       }
     };
-    for (let i = 0; i < 5 && (!moduleInfo || !moduleInfo.moduleId); i++) {
-      await new Promise(resolve => setTimeout(resolve, 50));
+    const maxAttempts = Number(process.env.RSC_CLIENT_LOADER_ATTEMPTS || 30);
+    const delayMs = Number(process.env.RSC_CLIENT_LOADER_DELAY_MS || 100);
+    for (let i = 0; i < maxAttempts && (!moduleInfo || !moduleInfo.moduleId); i++) {
+      await new Promise(resolve => setTimeout(resolve, delayMs));
       tryHydrateFromManifest();
     }
   }
