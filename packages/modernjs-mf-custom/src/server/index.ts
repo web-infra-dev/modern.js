@@ -5,7 +5,8 @@ import {
 } from './staticMiddleware';
 
 const staticServePlugin = (): ServerPlugin => ({
-  name: '@modern-js/module-federation/server',
+  // Use the actual module id that resolves from our package exports.
+  name: '@module-federation/modern-js-rsc/server',
   setup: api => {
     api.onPrepare(() => {
       // In development, we don't need to serve the manifest file, bundler dev server will handle it

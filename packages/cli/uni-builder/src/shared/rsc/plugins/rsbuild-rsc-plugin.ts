@@ -198,15 +198,20 @@ export const rsbuildRscPlugin = ({
           chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 
-        if (isServer) {
-          chain.name('server');
+        const chainName = chain.get('name');
+        const treatAsServer = isServer || chainName === 'node';
+
+        if (treatAsServer) {
+          if (isServer) {
+            chain.name('server');
+          }
           layerHandler();
           flightCssHandler();
           jsHandler();
           addServerRscPlugin();
         } else {
           chain.name('client');
-          chain.dependencies(['server']);
+          // No hard dependency on a specific compiler name; avoid MultiCompiler dependency issues.
           addRscClientLoader();
           addRscClientPlugin();
         }

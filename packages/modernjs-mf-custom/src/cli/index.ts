@@ -124,10 +124,8 @@ export const moduleFederationPlugin = (
       });
 
       api._internalServerPlugins(({ plugins }) => {
-        // Import and use the actual plugin functions instead of path references
-        const staticServePlugin =
-          require('@module-federation/modern-js-rsc/server').default;
-        plugins.push(staticServePlugin());
+        // Provide server plugin configs; the server loader will resolve by name.
+        plugins.push({ name: '@module-federation/modern-js-rsc/server' });
 
         if (modernjsConfig.server?.rsc) {
           const manifestRemotes = internalModernPluginOptions.manifestRemotes;
@@ -139,9 +137,10 @@ export const moduleFederationPlugin = (
             internalModernPluginOptions.csrConfig?.remotes ||
             internalModernPluginOptions.ssrConfig?.remotes;
 
-          const rscManifestPlugin =
-            require('@module-federation/modern-js-rsc/rsc-manifest-plugin').default;
-          plugins.push(rscManifestPlugin({ remotes }));
+          plugins.push({
+            name: '@module-federation/modern-js-rsc/rsc-manifest-plugin',
+            options: { remotes },
+          });
         }
 
         return { plugins };
