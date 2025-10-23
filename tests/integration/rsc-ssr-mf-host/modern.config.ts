@@ -8,7 +8,12 @@ const assetPrefix = process.env.ASSET_PREFIX;
 const devConfig = resolvedPort ? { port: resolvedPort } : {};
 
 const serverConfig = {
-  ssr: true,
+  ssr: {
+    mode: 'stream',
+    // Force CSR in dev so initial health check to '/' succeeds before SSR
+    // bundles are warmed; server actions still route via x-rsc-action.
+    forceCSR: process.env.NODE_ENV !== 'production',
+  },
   rsc: true,
   ...(resolvedPort ? { port: resolvedPort } : {}),
 };

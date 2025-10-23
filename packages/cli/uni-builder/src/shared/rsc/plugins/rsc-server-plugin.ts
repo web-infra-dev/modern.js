@@ -338,7 +338,7 @@ export class RscServerPlugin {
             for (const [resourcePath, info] of candidates.entries()) {
               if (info.exportNames?.length) {
                 if (!this.serverReferencesMap.has(resourcePath)) {
-                  this.serverReferencesMap.set(resourcePath, info.exportNames);
+                  this.serverReferencesMap.set(resourcePath, info);
                 }
                 if (!this.serverModuleInfo.has(resourcePath)) {
                   this.serverModuleInfo.set(resourcePath, {
@@ -400,7 +400,7 @@ export class RscServerPlugin {
 
               this.serverReferencesMap.set(
                 buildInfo.resourcePath,
-                buildInfo.exportNames,
+                buildInfo as ServerReferencesModuleInfo,
               );
               if (process.env.DEBUG_RSC_PLUGIN) {
                 console.log(

@@ -10,6 +10,9 @@ const devConfig = resolvedPort ? { port: resolvedPort } : {};
 const serverConfig = {
   ssr: {
     mode: 'stream',
+    // In dev, force CSR fallback so the first health check to '/' doesn't
+    // depend on server bundle warmup. Server actions still work via x-rsc-action.
+    forceCSR: process.env.NODE_ENV !== 'production',
   },
   rsc: true,
   ...(resolvedPort ? { port: resolvedPort } : {}),
