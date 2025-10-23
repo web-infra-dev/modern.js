@@ -56,9 +56,8 @@ function patchContainerEntryModuleBuildError() {
     const {
       normalizeWebpackPath,
     } = require('@module-federation/sdk/normalize-webpack-path');
-    const webpack = require(normalizeWebpackPath('webpack')) as typeof import(
-      'webpack',
-    );
+    // biome-ignore format: SWC parser requires single-line type import
+    const webpack = require(normalizeWebpackPath('webpack')) as typeof import('webpack');
     const webpackSources = webpack.sources;
     const { Template, RuntimeGlobals } = webpack;
     const runtimeUtilsPath = containerModulePath.replace(
