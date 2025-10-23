@@ -480,6 +480,14 @@ export class RscServerPlugin {
         ) {
           needsAdditionalPass = true;
         }
+
+        // Publish interim maps early so the client compiler can read them in
+        // its initial build, avoiding an empty client manifest due to timing.
+        try {
+          sharedData.set('clientReferencesMap', this.clientReferencesMap);
+          sharedData.set('styles', this.styles);
+          sharedData.set('serverModuleInfoMap', this.serverModuleInfo);
+        } catch {}
       },
     );
 

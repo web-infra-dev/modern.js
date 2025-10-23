@@ -149,13 +149,15 @@ export default async function rscClientLoader(
       const candidates =
         (sharedData.get<Map<string, ServerReferencesModuleInfo>>(candidatesKey) ||
           new Map()) as Map<string, ServerReferencesModuleInfo>;
-      const existing = candidates.get(this.resourcePath) || {
-        resourcePath: this.resourcePath,
-        exportNames: [],
+      const existing = candidates.get(this.resourcePath);
+      const mergedExports = Array.from(
+        new Set([...(existing?.exportNames || []), ...names])
+      );
+      const merged: ServerReferencesModuleInfo = {
+        exportNames: mergedExports,
+        ...(existing?.moduleId !== undefined && { moduleId: existing.moduleId }),
       };
-      existing.resourcePath = this.resourcePath;
-      existing.exportNames = Array.from(new Set([...(existing.exportNames || []), ...names]));
-      candidates.set(this.resourcePath, existing);
+      candidates.set(this.resourcePath, merged);
       sharedData.set(candidatesKey, candidates);
     }
   } catch {}

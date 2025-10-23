@@ -183,6 +183,34 @@ export class RscClientPlugin {
         this.clientReferencesMap =
           (sharedData.get('clientReferencesMap') as ClientReferencesMap) ||
           new Map();
+
+        // Fallback: if the server plugin hasn't published clientReferencesMap
+        // yet, derive it from per-module buildInfo entries stored in sharedData
+        // by the server loader. This helps initial, non-watch builds where the
+        // client and server compilers run concurrently.
+        if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+          const derived: ClientReferencesMap = new Map();
+          try {
+            for (const [key, val] of (sharedData as any).store || []) {
+              if (
+                typeof key === 'string' &&
+                val &&
+                typeof val === 'object' &&
+                (val as any).type === 'client' &&
+                (val as any).resourcePath &&
+                (val as any).clientReferences
+              ) {
+                derived.set(
+                  (val as any).resourcePath as string,
+                  (val as any).clientReferences,
+                );
+              }
+            }
+          } catch {}
+          if (derived.size > 0) {
+            this.clientReferencesMap = derived;
+          }
+        }
         const onNormalModuleFactoryParser = (
           parser: Webpack.javascript.JavascriptParser,
         ) => {
