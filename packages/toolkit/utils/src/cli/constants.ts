@@ -3,6 +3,7 @@ import type { InternalPlugins } from '@modern-js/types';
 export {
   NESTED_ROUTE_SPEC_FILE,
   MAIN_ENTRY_NAME,
+  DEFAULT_ENTRY_NAME,
   ROUTE_SPEC_FILE,
   SERVER_BUNDLE_DIRECTORY,
   SERVER_RENDER_FUNCTION_NAME,

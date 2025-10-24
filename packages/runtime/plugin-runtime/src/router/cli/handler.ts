@@ -34,6 +34,10 @@ export async function handleGeneratorEntryCode(
   await Promise.all(
     entrypoints.map(async entrypoint => {
       if (entrypoint.nestedRoutesEntry || entrypoint.pageRoutesEntry) {
+        const route = appContext.serverRoutes.find(
+          r => r.entryName === entrypoint.entryName,
+        );
+        const basename = route?.urlPath || '/';
         generatorRegisterCode(
           internalDirectory,
           entrypoint.entryName,
@@ -45,6 +49,7 @@ export async function handleGeneratorEntryCode(
             internalSrcAlias: appContext.internalSrcAlias,
             globalApp: entrypoint.fileSystemRoutes?.globalApp,
             rscType: enableRsc ? 'client' : undefined,
+            basename,
           }),
         );
         if (enableRsc) {
@@ -59,6 +64,7 @@ export async function handleGeneratorEntryCode(
               internalSrcAlias: appContext.internalSrcAlias,
               globalApp: entrypoint.fileSystemRoutes?.globalApp,
               rscType: 'server',
+              basename,
             }),
           );
         }

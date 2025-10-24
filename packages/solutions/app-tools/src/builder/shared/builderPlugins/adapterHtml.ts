@@ -6,12 +6,11 @@ import type {
   RsbuildPlugin,
   RspackChain,
 } from '@rsbuild/core';
-import type { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
 
 const createVirtualModule = (content: string) =>
-  `data:text/javascript,${content}`;
+  `data:text/javascript;charset=utf-8,${encodeURIComponent(content)}`;
 
 export const builderPluginAdapterHtml = (
   options: BuilderOptions,

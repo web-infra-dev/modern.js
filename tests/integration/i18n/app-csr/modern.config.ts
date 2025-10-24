@@ -10,7 +10,7 @@ export default defineConfig({
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
         localeDetectionByEntry: {
-          main: {
+          index: {
             enable: false,
           },
         },

@@ -558,6 +558,7 @@ export const runtimeGlobalContext = async ({
   internalSrcAlias,
   globalApp,
   rscType = false,
+  basename,
 }: {
   entryName: string;
   metaName: string;
@@ -566,6 +567,7 @@ export const runtimeGlobalContext = async ({
   internalSrcAlias: string;
   globalApp?: string | false;
   rscType?: 'server' | 'client' | false;
+  basename?: string;
 }) => {
   const imports = [
     `import { setGlobalContext } from '@${metaName}/runtime/context';`,
@@ -619,11 +621,13 @@ export const runtimeGlobalContext = async ({
     import { routes } from './routes';
 
     const entryName = '${entryName}';
+    const basename = '${basename || '/'}';
       setGlobalContext({
         entryName,
         layoutApp,
         routes,
         appInit,
+        basename,
         isRscClient: true,
         enableRsc: true,
       });
@@ -634,11 +638,13 @@ export const runtimeGlobalContext = async ({
     import { routes } from './routes';
 
     const entryName = '${entryName}';
+    const basename = '${basename || '/'}';
       setGlobalContext({
         entryName,
         layoutApp,
         routes,
         appInit,
+        basename,
         enableRsc: ${enableRsc},
       });
     `;

@@ -1,4 +1,4 @@
-import { MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { DEFAULT_ENTRY_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { AppUserConfig } from '../types';
 import type { AppToolsContext } from '../types/plugin';
 import { getAutoInjectEnv } from '../utils/env';
@@ -37,7 +37,7 @@ export function createDefaultConfig(
     alias: Record<string, string>;
   } = {
     entries: undefined,
-    mainEntryName: MAIN_ENTRY_NAME,
+    mainEntryName: DEFAULT_ENTRY_NAME,
     enableAsyncEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
