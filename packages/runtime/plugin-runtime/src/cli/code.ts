@@ -188,6 +188,8 @@ export const generateCode = async (
         // runtime-global-context.js
         let contextCode = '';
         if (!config.server.rsc || entrypoint.nestedRoutesEntry) {
+          const route = serverRoutes.find(r => r.entryName === entryName);
+          const basename = route?.urlPath || '/';
           contextCode = template.runtimeGlobalContext({
             entryName,
             srcDirectory,
@@ -195,6 +197,7 @@ export const generateCode = async (
             metaName,
             entry,
             customEntry,
+            basename,
           });
         } else {
           const AppProxyPath = path.join(

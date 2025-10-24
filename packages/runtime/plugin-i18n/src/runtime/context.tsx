@@ -138,11 +138,6 @@ export const useModernI18n = (
         // Update i18n instance
         await i18nInstance.changeLanguage(newLang);
 
-        // Update context language state
-        if (updateLanguage) {
-          updateLanguage(newLang);
-        }
-
         // Update URL if locale detection is enabled, we're in browser, and router is available
         if (
           enableLocaleDetection &&
@@ -174,6 +169,8 @@ export const useModernI18n = (
 
           // Use history API to navigate without page reload
           window.history.pushState(null, '', newUrl);
+        } else if (updateLanguage) {
+          updateLanguage(newLang);
         }
       } catch (error) {
         console.error('Failed to change language:', error);

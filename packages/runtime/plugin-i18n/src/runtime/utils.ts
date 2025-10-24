@@ -1,7 +1,12 @@
+import { getGlobalBasename } from '@modern-js/runtime/context';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 
-export const getEntryPath = (entryName: string = MAIN_ENTRY_NAME) => {
-  return entryName === MAIN_ENTRY_NAME ? '' : `/${entryName}`;
+export const getEntryPath = (entryName?: string): string => {
+  const basename = getGlobalBasename();
+  if (basename) {
+    return basename === '/' ? '' : basename;
+  }
+  return '';
 };
 /**
  * Helper function to get language from current pathname

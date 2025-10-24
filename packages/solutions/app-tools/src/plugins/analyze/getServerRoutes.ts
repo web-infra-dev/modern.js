@@ -129,6 +129,7 @@ const collectHtmlRoutes = (
     server: { baseUrl, routes, ssr, ssrByEntries, rsc },
     deploy,
   } = config;
+
   const { packageName } = appContext;
   const workerSSR = deploy?.worker?.ssr;
 

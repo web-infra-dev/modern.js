@@ -267,6 +267,7 @@ export const runtimeGlobalContext = ({
   metaName,
   entry,
   customEntry,
+  basename,
 }: {
   entryName: string;
   srcDirectory: string;
@@ -274,6 +275,7 @@ export const runtimeGlobalContext = ({
   metaName: string;
   entry: string;
   customEntry?: boolean;
+  basename?: string;
 }) => {
   return `import { setGlobalContext } from '@${metaName}/runtime/context'
 
@@ -289,9 +291,11 @@ import App from '${
   }';
 
 const entryName = '${entryName}';
+const basename = '${basename || '/'}';
 setGlobalContext({
   entryName,
   App,
+  basename,
 });`;
 };
 

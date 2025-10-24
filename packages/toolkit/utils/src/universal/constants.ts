@@ -39,6 +39,11 @@ export const NESTED_ROUTE_SPEC_FILE = 'nestedRoutes.json';
 export const MAIN_ENTRY_NAME = 'main';
 
 /**
+ * default entry name
+ */
+export const DEFAULT_ENTRY_NAME = 'index';
+
+/**
  * server side bundles directory, which relative to dist.
  */
 export const SERVER_BUNDLE_DIRECTORY = 'bundles';

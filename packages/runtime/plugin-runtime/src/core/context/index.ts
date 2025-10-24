@@ -30,6 +30,10 @@ interface GlobalContext {
    * page router _app.tsx export layout app
    */
   layoutApp?: React.ComponentType;
+  /**
+   * Entry basename for routing
+   */
+  basename?: string;
 
   internalRuntimeContext?: InternalRuntimeContext<RuntimeExtends>;
   /**
@@ -64,6 +68,7 @@ export function setGlobalContext(
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
   globalContext.layoutApp = context.layoutApp;
+  globalContext.basename = context.basename;
   globalContext.RSCRoot = context.RSCRoot;
   globalContext.isRscClient = context.isRscClient;
   globalContext.enableRsc = context.enableRsc;
@@ -97,4 +102,8 @@ export function getGlobalRoutes(): undefined | (NestedRoute | PageRoute)[] {
 
 export function getGlobalLayoutApp() {
   return globalContext.layoutApp;
+}
+
+export function getGlobalBasename() {
+  return globalContext.basename;
 }
