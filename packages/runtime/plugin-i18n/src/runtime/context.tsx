@@ -169,8 +169,6 @@ export const useModernI18n = (
 
           // Use history API to navigate without page reload
           window.history.pushState(null, '', newUrl);
-        } else if (updateLanguage) {
-          updateLanguage(newLang);
         }
 
         // Update language state after URL update
