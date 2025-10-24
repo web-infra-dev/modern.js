@@ -11,7 +11,7 @@ describe('ssg', () => {
     const appDir = join(fixtureDir, 'web-server');
     await modernBuild(appDir);
 
-    const htmlPath = path.join(appDir, './dist/html/main/index.html');
+    const htmlPath = path.join(appDir, './dist/html/index/index.html');
     const content = fs.readFileSync(htmlPath, 'utf-8');
     expect(content).toMatch('Hello, Modern.js');
     expect(content).toMatch('bytedance');

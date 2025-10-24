@@ -103,7 +103,7 @@ describe('test build', () => {
   test(`should get right alias build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
-    expect(existsSync('html/main/index.html')).toBe(true);
+    expect(existsSync('html/index/index.html')).toBe(true);
   });
 
   test('should visit page correctly', async () => {

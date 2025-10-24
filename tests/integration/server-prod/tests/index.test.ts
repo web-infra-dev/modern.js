@@ -33,7 +33,7 @@ describe('test basic usage', () => {
     expect(fs.existsSync(favicon1)).toBe(true);
     expect(fs.existsSync(appIcon)).toBe(true);
 
-    const mainEntry = path.resolve(appPath, './dist/html/main/index.html');
+    const mainEntry = path.resolve(appPath, './dist/html/index/index.html');
     const activityEntry = path.resolve(
       appPath,
       './dist/html/activity/index.html',

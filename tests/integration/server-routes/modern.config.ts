@@ -7,7 +7,7 @@ export default applyBaseConfig({
   },
   server: {
     routes: {
-      main: {
+      index: {
         route: ['/a', '/b', '/main/:id'],
       },
     },

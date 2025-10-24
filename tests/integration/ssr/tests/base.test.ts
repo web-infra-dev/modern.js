@@ -56,7 +56,7 @@ async function redirectInLoader(page: Page, appPort: number) {
 
 async function checkIsPassChunkLoadingGlobal() {
   const modernJsDir = join(fixtureDir, 'base', 'node_modules', '.modern-js');
-  const entryFilePath = join(modernJsDir, 'main', 'index.jsx');
+  const entryFilePath = join(modernJsDir, 'index', 'index.jsx');
   const content = await fs.readFile(entryFilePath, 'utf-8');
   expect(content).toMatch(/chunkLoadingGlobal/);
 }

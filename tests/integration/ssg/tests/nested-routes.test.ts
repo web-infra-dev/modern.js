@@ -25,19 +25,19 @@ describe('ssg', () => {
   });
 
   test('should nested-routes ssg access / work correctly', async () => {
-    const htmlPath = path.join(distDir, 'html/main/index.html');
+    const htmlPath = path.join(distDir, 'html/index/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
     expect(html.includes('Hello, Home')).toBe(true);
   });
 
   test('should nested-routes ssg access /user work correctly', async () => {
-    const htmlPath = path.join(distDir, 'html/main/user/index.html');
+    const htmlPath = path.join(distDir, 'html/index/user/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
     expect(html.includes('Hello, User')).toBe(true);
   });
 
   test('should nested-routes ssg access /user/1 work correctly with data loading', async () => {
-    const htmlPath = path.join(distDir, 'html/main/user/1/index.html');
+    const htmlPath = path.join(distDir, 'html/index/user/1/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
     expect(html.includes('User 1: John Doe')).toBe(true);
     expect(html.includes('User ID: <!-- -->1')).toBe(true);

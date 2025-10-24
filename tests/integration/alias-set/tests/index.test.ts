@@ -20,7 +20,7 @@ describe('alias set build', () => {
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
-    expect(existsSync('html/main/index.html')).toBe(true);
+    expect(existsSync('html/index/index.html')).toBe(true);
   });
 });
 
