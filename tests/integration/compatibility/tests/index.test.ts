@@ -11,6 +11,6 @@ function existsSync(filePath: string) {
 test('should generate es5 artifact and pass check syntax by default', async () => {
   const appDir = path.resolve(__dirname, '..');
   await modernBuild(appDir);
-  expect(existsSync('html/main/index.html')).toBeTruthy();
-  expect(existsSync('static/js/main.js')).toBeTruthy();
+  expect(existsSync('html/index/index.html')).toBeTruthy();
+  expect(existsSync('static/js/index.js')).toBeTruthy();
 });

@@ -172,6 +172,11 @@ export const useModernI18n = (
         } else if (updateLanguage) {
           updateLanguage(newLang);
         }
+
+        // Update language state after URL update
+        if (updateLanguage) {
+          updateLanguage(newLang);
+        }
       } catch (error) {
         console.error('Failed to change language:', error);
         throw error;

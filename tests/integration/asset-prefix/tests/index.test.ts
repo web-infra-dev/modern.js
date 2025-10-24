@@ -35,7 +35,7 @@ describe('asset prefix', () => {
   });
   test(`should generate assetPrefix correctly when dev.assetPrefix is true`, async () => {
     const HTML = readFileSync(
-      path.join(appDir, 'dist/html/main/index.html'),
+      path.join(appDir, 'dist/html/index/index.html'),
       'utf-8',
     );
     expect(
@@ -47,7 +47,7 @@ describe('asset prefix', () => {
     const expected = `http://${DEFAULT_DEV_HOST}:${appPort}`;
 
     const mainJs = readFileSync(
-      path.join(appDir, 'dist/static/js/main.js'),
+      path.join(appDir, 'dist/static/js/index.js'),
       'utf-8',
     );
 

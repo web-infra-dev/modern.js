@@ -8,7 +8,7 @@ test(`should allow distPath.root to be an absolute path`, async () => {
 
   const distPath = path.join(appDir, 'dist/foo');
   const configFile = path.join(distPath, OUTPUT_CONFIG_FILE);
-  const htmlFile = path.join(distPath, 'html/main/index.html');
+  const htmlFile = path.join(distPath, 'html/index/index.html');
   expect(fs.existsSync(configFile)).toBeTruthy();
   expect(fs.existsSync(htmlFile)).toBeTruthy();
 });

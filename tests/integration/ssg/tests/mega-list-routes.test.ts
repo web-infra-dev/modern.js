@@ -12,7 +12,7 @@ it('should render static mega list routes', async () => {
 
   const ids = [0, 100, 9999];
   for (const id of ids) {
-    const htmlPath = path.join(appDir, `dist/html/main/user/${id}/index.html`);
+    const htmlPath = path.join(appDir, `dist/html/index/user/${id}/index.html`);
     const content = fs.readFileSync(htmlPath, 'utf-8');
     expect(content).toContain(
       `<div class="text-center" id="data">/user/${id}</div>`,

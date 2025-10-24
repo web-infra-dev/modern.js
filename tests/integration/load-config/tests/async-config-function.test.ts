@@ -10,7 +10,7 @@ describe('local config', () => {
     await modernBuild(appDir);
 
     expect(
-      existsSync(path.join(appDir, 'dist/foo/html/main/index.html')),
+      existsSync(path.join(appDir, 'dist/foo/html/index/index.html')),
     ).toBeTruthy();
   });
 });

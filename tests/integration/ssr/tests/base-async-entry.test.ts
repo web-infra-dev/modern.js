@@ -63,11 +63,11 @@ describe('init with SSR', () => {
     const loadableStats = fs.readJSONSync(
       path.join(appDir, 'dist/loadable-stats.json'),
     );
-    const chunks = loadableStats.namedChunkGroups['async-main'].assets;
+    const chunks = loadableStats.namedChunkGroups['async-index'].assets;
     const urls: string[] = chunks.map((chunk: { name: string }) => {
       return `/${chunk.name}`;
     });
-    const existAssets = loadableStats.entrypoints.main.assets.map(
+    const existAssets = loadableStats.entrypoints.index.assets.map(
       (asset: { name: string }) => `/${asset.name}`,
     );
 
