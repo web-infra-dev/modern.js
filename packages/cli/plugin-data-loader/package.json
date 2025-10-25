@@ -53,7 +53,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.28.4",
+    "@babel/core": "^7.28.5",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",

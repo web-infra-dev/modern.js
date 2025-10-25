@@ -38,11 +38,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.28.4",
+    "@babel/core": "^7.28.5",
     "@babel/plugin-proposal-decorators": "^7.28.0",
-    "@babel/preset-env": "^7.28.3",
-    "@babel/preset-react": "^7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/babel-plugin-module-resolver": "workspace:*",
     "@modern-js/babel-preset": "workspace:*",
