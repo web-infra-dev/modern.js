@@ -11,7 +11,7 @@
     "react-i18next": "15.5.2",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "i18next-browser-languagedetector": "8.1.0",
+    "i18next-browser-languagedetector": "8.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
