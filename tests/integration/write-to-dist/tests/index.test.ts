@@ -49,6 +49,6 @@ describe('test dev', () => {
 
   test('should not get production in dist', async () => {
     expect(existsSync('route.json')).toBeTruthy();
-    expect(existsSync('html/main/index.html')).toBeFalsy();
+    expect(existsSync('html/index/index.html')).toBeFalsy();
   });
 });

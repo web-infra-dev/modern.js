@@ -169,7 +169,10 @@ export const useModernI18n = (
 
           // Use history API to navigate without page reload
           window.history.pushState(null, '', newUrl);
-        } else if (updateLanguage) {
+        }
+
+        // Update language state after URL update
+        if (updateLanguage) {
           updateLanguage(newLang);
         }
       } catch (error) {

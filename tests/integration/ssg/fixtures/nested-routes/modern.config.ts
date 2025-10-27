@@ -7,7 +7,7 @@ export default defineConfig({
   },
   output: {
     ssgByEntries: {
-      main: {
+      index: {
         routes: [
           '/user',
           {

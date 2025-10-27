@@ -6,7 +6,7 @@ export default defineConfig({
     router: true,
   },
   source: {
-    mainEntryName: 'main',
+    mainEntryName: 'index',
   },
   output: {
     // disable polyfill and ts checker to make test faster
