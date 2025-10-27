@@ -11,8 +11,8 @@ describe('ssg', () => {
     const appDir = projectDir;
     await modernBuild(appDir, ['--config', 'modern.ssg.config.ts']);
 
-    const zhHtmlPath = path.join(appDir, './dist/html/index/zh/index.html');
-    const enHtmlPath = path.join(appDir, './dist/html/index/en/index.html');
+    const zhHtmlPath = path.join(appDir, './dist-ssg/html/index/zh/index.html');
+    const enHtmlPath = path.join(appDir, './dist-ssg/html/index/en/index.html');
     const zhContent = fs.readFileSync(zhHtmlPath, 'utf-8');
     const enContent = fs.readFileSync(enHtmlPath, 'utf-8');
     expect(zhContent).toMatch('你好，世界');
