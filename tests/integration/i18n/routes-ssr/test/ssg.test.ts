@@ -13,11 +13,11 @@ describe('ssg', () => {
 
     const zhAboutHtmlPath = path.join(
       appDir,
-      './dist/html/index/zh/about/index.html',
+      './dist-ssg/html/index/zh/about/index.html',
     );
     const enAboutHtmlPath = path.join(
       appDir,
-      './dist/html/index/en/about/index.html',
+      './dist-ssg/html/index/en/about/index.html',
     );
     const zhAboutContent = fs.readFileSync(zhAboutHtmlPath, 'utf-8');
     const enAboutContent = fs.readFileSync(enAboutHtmlPath, 'utf-8');
