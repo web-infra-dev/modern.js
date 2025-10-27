@@ -112,37 +112,47 @@ The UI to be implemented this time is more complex and has an internal structure
 
 Modern.js integrates the mainstream, light, general-purpose Utility Class library [Tailwind CSS](https://tailwindcss.com/).
 
-Execute `pnpm run new` and select the following to start Tailwind CSS:
+Install the tailwindcss package to integrate Tailwind CSS:
 
-```bash
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Tailwind CSS
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install tailwindcss@^3 -D',
+    yarn: 'yarn add tailwindcss@^3 -D',
+    pnpm: 'pnpm install tailwindcss@^3 -D',
+  }}
+/>
+
+Register the tailwindcss PostCSS plugin via `postcss.config.cjs`:
+
+```js title="postcss.config.cjs"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
 ```
 
-Register the Tailwind plugin in `modern.config.ts`:
+Create a tailwind.config.js file in the root directory of the current project and add the following content:
 
-```ts title="modern.config.ts"
-import { appTools, defineConfig } from '@modern-js/app-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  runtime: {
-    router: true,
-    state: true,
+```js title="tailwind.config.js"
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
   },
-  server: {
-    ssr: true,
-  },
-  plugins: [appTools(), tailwindcssPlugin()],
-});
+  plugins: [],
+};
 ```
 
-Import the Tailwind CSS css file at the top of `src/routes/page.tsx` to start a quick implementation of the professional UI:
+Add the @tailwind directives in the CSS entry file:
 
-```js
-import 'tailwindcss/base.css';
-import 'tailwindcss/components.css';
-import 'tailwindcss/utilities.css';
+```css title="main.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
 Create the Item component first:

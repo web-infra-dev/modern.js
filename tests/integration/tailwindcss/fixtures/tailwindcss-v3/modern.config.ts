@@ -1,20 +1,20 @@
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
-  plugins: [tailwindcssPlugin()],
+  plugins: [],
   tools: {
-    tailwindcss: {
-      theme: {
-        extend: {
-          colors: {
-            primary: 'green',
-            dark: {
-              primary: 'emerald',
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-macros',
+          {
+            twin: {
+              preset: 'styled-components',
+              config: './tailwind.config.js',
             },
           },
-        },
-      },
+        ],
+      ],
     },
   },
 });
