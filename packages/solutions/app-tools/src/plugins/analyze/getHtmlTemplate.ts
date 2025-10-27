@@ -109,7 +109,7 @@ export const getHtmlTemplate = async (
       PartialPosition.INDEX,
     );
     if (customIndexTemplate) {
-      htmlTemplates[entryName] = customIndexTemplate.file;
+      htmlTemplates[entryName] = customIndexTemplate.file.replace(/\\/g, '/');
     } else {
       const getPartialInitValue = (position: PartialPosition) => {
         const partial = findPartials(htmlDir, name, position);
@@ -134,7 +134,7 @@ export const getHtmlTemplate = async (
 
       fs.outputFileSync(templatePath, templates.html(partials), 'utf8');
 
-      htmlTemplates[entryName] = templatePath;
+      htmlTemplates[entryName] = templatePath.replace(/\\/g, '/');
       partialsByEntrypoint[entryName] = partials;
 
       const bottomTemplate = findPartials(
