@@ -62,7 +62,7 @@ function runTests({ mode }: TestConfig) {
 
       if (mode === 'build') {
         page.on('pageerror', error => {
-          errors.push(error.message);
+          errors.push((error as Error).message);
         });
       }
     });

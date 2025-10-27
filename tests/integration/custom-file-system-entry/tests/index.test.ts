@@ -27,8 +27,8 @@ describe('dev', () => {
       interceptedRequest.continue();
     });
     page.on('pageerror', error => {
-      console.log(error.message);
-      errors.push(error.message);
+      console.log((error as Error).message);
+      errors.push((error as Error).message);
     });
   });
 
