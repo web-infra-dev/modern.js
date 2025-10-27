@@ -40,7 +40,7 @@ describe('alias set dev', () => {
 
     const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
-    page.on('pageerror', error => errors.push(error.message));
+    page.on('pageerror', error => errors.push((error as Error).message));
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

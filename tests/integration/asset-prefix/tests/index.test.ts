@@ -25,7 +25,7 @@ describe('asset prefix', () => {
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     page.on('pageerror', error => {
-      errors.push(error.message);
+      errors.push((error as Error).message);
     });
   });
   afterAll(async () => {

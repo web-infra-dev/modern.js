@@ -35,7 +35,7 @@ describe('test dev', () => {
   test(`should render csr page with memory correctly`, async () => {
     const errors = [];
     page.on('pageerror', error => {
-      errors.push(error.message);
+      errors.push((error as Error).message);
     });
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
