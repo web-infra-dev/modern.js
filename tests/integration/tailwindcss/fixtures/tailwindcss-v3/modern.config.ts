@@ -3,4 +3,18 @@ import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
   plugins: [tailwindcssPlugin()],
+  tools: {
+    tailwindcss: {
+      theme: {
+        extend: {
+          colors: {
+            primary: 'green',
+            dark: {
+              primary: 'emerald',
+            },
+          },
+        },
+      },
+    },
+  },
 });

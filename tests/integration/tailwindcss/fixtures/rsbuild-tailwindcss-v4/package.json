@@ -1,6 +1,7 @@
 {
   "private": true,
-  "name": "integration-tailwindcss-v3",
+  "type": "module",
+  "name": "integration-rsbuild-tailwindcss-v4",
   "version": "2.66.0",
     "scripts": {
     "dev": "modern dev",
@@ -12,10 +13,10 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "twin.macro": "^3.4.1",
-    "tailwindcss": "^3.3.3",
-    "styled-components": "^5.3.1"
+    "@tailwindcss/postcss": "^4.1.14",
+    "tailwindcss": "^4"
   }
 }
