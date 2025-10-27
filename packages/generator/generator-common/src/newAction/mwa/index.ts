@@ -13,7 +13,6 @@ import {
 export const MWAActionTypes = [ActionType.Element, ActionType.Function];
 
 export const MWAActionFunctions = [
-  ActionFunction.TailwindCSS,
   ActionFunction.BFF,
   ActionFunction.SSG,
   ActionFunction.Polyfill,
@@ -83,14 +82,12 @@ export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
-  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
-  [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
 };
 
@@ -107,7 +104,6 @@ export const MWANewActionGenerators: Record<
     [ActionElement.Server]: '@modern-js/server-generator',
   },
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
@@ -122,7 +118,6 @@ export const MWANewActionPluginName: Record<
     [ActionElement.Server]: '',
   },
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
@@ -137,7 +132,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionElement.Server]: '',
   },
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.BFF]: '@modern-js/plugin-bff',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',

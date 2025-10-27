@@ -1,6 +1,7 @@
 ---
 title: Add Application Entry
 ---
+
 # Add Application Entry
 
 In the last chapter, we basically completed the development of the point of contact list application, introduced the usage of some functions in the Modern.js, and recommended best practices.
@@ -95,7 +96,6 @@ Now, modify the `modern.config.ts` to add something:
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   runtime: {
@@ -108,7 +108,7 @@ export default defineConfig({
       'landing-page': false,
     },
   },
-  plugins: [appTools(), tailwindcssPlugin()],
+  plugins: [appTools()],
 });
 ```
 

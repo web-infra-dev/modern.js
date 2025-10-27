@@ -95,7 +95,6 @@ mv src/myapp src/contacts
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   runtime: {
@@ -108,7 +107,7 @@ export default defineConfig({
       'landing-page': false,
     },
   },
-  plugins: [appTools(), tailwindcssPlugin()],
+  plugins: [appTools()],
 });
 ```
 

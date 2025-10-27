@@ -11,7 +11,6 @@ export enum ActionElement {
 }
 
 export enum ActionFunction {
-  TailwindCSS = 'tailwindcss',
   BFF = 'bff',
   I18n = 'i18n',
   SSG = 'ssg',
@@ -34,8 +33,6 @@ export const ActionElementText: Record<ActionElement, () => string> = {
 };
 
 export const ActionFunctionText: Record<ActionFunction, () => string> = {
-  [ActionFunction.TailwindCSS]: () =>
-    i18n.t(localeKeys.action.function.tailwindcss),
   [ActionFunction.BFF]: () => i18n.t(localeKeys.action.function.bff),
   [ActionFunction.I18n]: () => i18n.t(localeKeys.action.function.i18n),
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),

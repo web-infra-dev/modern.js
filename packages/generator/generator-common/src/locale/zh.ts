@@ -4,7 +4,6 @@ export const ZH_LOCALE = {
     function: {
       self: '启用可选功能',
       question: '请选择功能名称',
-      tailwindcss: '启用「Tailwind CSS」 支持',
       bff: '启用「BFF」功能',
       i18n: '启用「国际化（i18n）」功能',
       ssg: '启用「SSG」功能',

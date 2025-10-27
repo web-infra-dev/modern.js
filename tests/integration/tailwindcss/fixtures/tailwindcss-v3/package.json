@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "twin.macro": "^3.4.1",
+    "twin.macro": "^3.4.0",
     "tailwindcss": "^3.3.3",
     "styled-components": "^5.3.1"
+  },
+  "devDependencies": {
+    "babel-plugin-macros": "3.1.0"
   }
 }
