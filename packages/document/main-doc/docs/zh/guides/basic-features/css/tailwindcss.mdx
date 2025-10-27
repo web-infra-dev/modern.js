@@ -2,88 +2,93 @@
 
 [Tailwind CSS](https://tailwindcss.com/) 是一个以 Utility Class 为基础的 CSS 框架和设计系统，可以快速地为组件添加常用样式，同时支持主题样式的灵活扩展。
 
-在 Modern.js 中使用 [Tailwind CSS](https://tailwindcss.com/)，你只需要按照以下步骤操作：
+## 在 Modern.js 中使用 Tailwind CSS
 
-1. 在项目根目录下执行 `pnpm run new`，按照如下进行选择：
+在 Modern.js 中使用 [Tailwind CSS](https://tailwindcss.com/)，你只需要按照 Rsbuild 操作步骤进行配置，Rsbuild 支持 Tailwind CSS v3 和 v4 版本：
 
-```text
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用 「Tailwind CSS」 支持
+- [Tailwind CSS v3](https://rsbuild.rs/zh/guide/styling/tailwindcss-v3#tailwind-css-v3)
+- [Tailwind CSS v4](https://rsbuild.rs/zh/guide/styling/tailwindcss)
+
+## Tailwind 插件迁移
+
+### 迁移背景
+
+随着 Modern.js 不断演进，为了提供更统一的构建体验和更强的配置灵活性，我们对 Tailwind CSS 的支持方式进行了调整。Modern.js V3 推荐通过 Rsbuild 原生方式接入 Tailwind CSS，不再依赖 `@modern-js/plugin-tailwindcss` 插件，从而充分利用 Rsbuild 提供的更灵活的配置能力和更优的构建体验。
+
+### 迁移步骤
+
+以 Tailwind CSS V3 版本为例，提供迁移步骤如下：
+
+#### 1. 移除旧插件
+
+- 移除 `@modern-js/plugin-tailwindcss` 依赖
+- 移除 `modern.config.ts` 文件中 `@modern-js/plugin-tailwindcss` 插件的导入和使用
+
+#### 2. 配置 PostCSS
+
+创建或更新 `postcss.config.cjs` 文件。
+
+```js title="postcss.config.cjs"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
 ```
 
-成功开启后，你会看到 `package.json` 中新增了 `tailwindcss` 和 `@modern-js/plugin-tailwindcss` 依赖。
+#### 3. Tailwind CSS 配置迁移
 
-2. 在 `modern.config.ts` 中注册 Tailwind 插件:
+- **单一配置情况**：
 
-```ts title="modern.config.ts"
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+  - 若仅在 `tailwind.config.{ts,js}` 中配置，则无需额外处理
+  - 若仅在 `modern.config.ts` 中配置，需将 Tailwind 相关配置移植到 `tailwind.config.{ts,js}` 中
 
-export default defineConfig({
-  plugins: [..., tailwindcssPlugin()],
-});
-```
+- **双重配置情况**：若在 `tailwind.config.{ts,js}` 与 `modern.config.ts` 中都有配置，需要合并两者的配置内容，并将合并后的配置移植到 `tailwind.config.{ts,js}`
 
-3. 创建 `index.css` 文件，添加以下代码：
+- **特殊目录处理**：若项目中存在 storybook 或 config/html 目录，需在 `tailwind.config.{ts,js}` 的 `content` 中补充 `./storybook/**/*` 或 `./config/html/**/*.{html,ejs,hbs}`
 
-```css title="index.css"
+#### 4. CSS 样式引入
+
+- 变更为 @tailwind 指令方式
+
+```css
+/* 旧方式 */
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
+
+/* 新方式 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-:::info
-根据需求不同，你可以选择性地导入 Tailwind CSS 提供的 CSS 样式。请参考 [`@tailwind` 文档](https://tailwindcss.com/docs/functions-and-directives#tailwind) 来了解 `@tailwind` 指令的详细用法。
-:::
+#### 5. Twin.macro 集成
 
-4. 引用 `index.css` 文件，比如在入口的根组件 `src/App.jsx` 添加如下代码：
+若项目中有使用 twin.macro 需执行如下操作，未使用则忽略：
 
-```js
-import './index.css';
-```
+- 手动安装依赖：`pnpm add twin.macro styled-components -D`
+- 新增 `babel-plugin-macros.config.cjs` 配置文件：
 
-5. 然后即可在各个组件中使用 Tailwind CSS 提供的 Utility Class 了：
-
-```tsx
-const Hello = () => (
-  <div className="h-12 w-48">
-    <p className="text-xl font-medium text-black">hello world</p>
-  </div>
-);
-```
-
-### 配置 Tailwind CSS
-
-在 Modern.js 中，你有两种方式来配置 Tailwind CSS：
-
-1. 使用 `tailwind.config.{ts,js}` 文件，该用法与 Tailwind CSS 的官方用法一致，请参考 ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) 来了解更多用法。
-
-```ts title="tailwind.config.ts"
-import type { Config } from 'tailwindcss';
-
-export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-} as Config;
-```
-
-:::tip
-请升级 Modern.js 到 >= MAJOR_VERSION.33.0 版本，以支持自动读取 `tailwind.config.{ts,js}` 文件。
-:::
-
-2. 使用 [tools.tailwindcss](/configure/app/tools/tailwindcss.html) 配置项，这是旧版本的用法，我们更推荐使用 `tailwind.config.{ts,js}` 文件进行配置。
-
-```ts title="modern.config.ts"
-export default {
-  tools: {
-    tailwindcss: {
-      content: ['./src/**/*.{js,jsx,ts,tsx}'],
-    },
+```js title="babel-plugin-macros.config.cjs"
+module.exports = {
+  twin: {
+    preset: 'styled-components',
+    config: './tailwind.config.js',
   },
 };
 ```
 
-如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+#### Tailwind CSS V2 版本迁移
 
-### Tailwind CSS 自动补全
+如果你的项目仍使用 Tailwind CSS v2，我们推荐你升级到 v3 以支持 JIT 等能力。关于 Tailwind CSS v2 与 v3 版本之间的差异，请参考以下文章：
+
+- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
+- [Upgrade Guide](https://v3.tailwindcss.com/docs/upgrade-guide)
+
+Tailwind CSS v2 迁移同样参考上述步骤，但需要注意的是，原插件自动适配 Tailwind v2（purge 配置）与 v3（content 配置）的差异。移除后，需使用 `purge` 配置项来指定需要保留的 CSS 类名。
+
+## Tailwind CSS 自动补全
 
 Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
 
@@ -91,15 +96,6 @@ Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tail
 
 1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
 2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
-
-## Tailwind CSS 版本
-
-Modern.js 同时支持 Tailwind CSS v2 和 v3 版本，框架会识别项目 `package.json` 中的 `tailwindcss` 依赖版本，并启用相应的配置。默认情况下，我们会为你安装 Tailwind CSS v3 版本。
-
-如果你的项目仍在使用 Tailwind CSS v2，我们推荐你升级到 v3 以支持 JIT 等能力。关于 Tailwind CSS v2 与 v3 版本之间的差异，请参考以下文章：
-
-- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
-- [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
 
 ## 浏览器兼容性
 
