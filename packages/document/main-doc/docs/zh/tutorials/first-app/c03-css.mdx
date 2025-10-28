@@ -1,9 +1,10 @@
 ---
 title: 添加样式
 ---
+
 # 添加样式
 
-import { Tabs, Tab as TabItem } from "@theme";
+import { Tabs, Tab as TabItem } from '@theme';
 
 上一章节中，我们学习了如何使用使用三方库中的组件。
 
@@ -109,39 +110,49 @@ export default Avatar;
 
 这次要实现的 UI 更复杂，有内部结构，但另一方面，并没有 `<Avatar>` 组件的**很粗的亮蓝色边框**这样很特殊的 UI，都是很常规的水平垂直布局、居中、字体样式等。这种情况下，其实根本没必要写 CSS，有更高效的、跟 styled-components 互补的实现方式：**Utility Class**。
 
-Modern.js 集成了主流、轻量、通用的 Utility Class 工具库 [Tailwind CSS](https://tailwindcss.com/)。
+Modern.js 支持主流、轻量、通用的 Utility Class 工具库 [Tailwind CSS](https://tailwindcss.com/)。
 
-执行 `pnpm run new`，进行如下选择，开启 Tailwind CSS：
+安装 tailwindcss 包来接入 Tailwind CSS：
 
-```bash
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用 「Tailwind CSS」 支持
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install tailwindcss@^3 -D',
+    yarn: 'yarn add tailwindcss@^3 -D',
+    pnpm: 'pnpm install tailwindcss@^3 -D',
+  }}
+/>
+
+通过 `postcss.config.cjs` 来注册 tailwindcss 的 PostCSS 插件：
+
+```js title="postcss.config.cjss"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
 ```
 
-在 `modern.config.ts` 中注册 Tailwind 插件:
+在当前项目的根目录创建 tailwind.config.js 文件，并添加以下内容：
 
-```ts title="modern.config.ts"
-import { appTools, defineConfig } from '@modern-js/app-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  runtime: {
-    router: true,
-    state: true,
+```js title="tailwind.config.js"
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
   },
-  server: {
-    ssr: true,
-  },
-  plugins: [appTools(), tailwindcssPlugin()],
-});
+  plugins: [],
+};
 ```
 
-在 `src/routes/page.tsx` 顶部引入 Tailwind CSS 的 css 文件，就可以开始快速实现专业的 UI：
+在 CSS 入口文件中添加 @tailwind 指令：
 
-```js
-import 'tailwindcss/base.css';
-import 'tailwindcss/components.css';
-import 'tailwindcss/utilities.css';
+```css title="main.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
 先创建 Item 组件：

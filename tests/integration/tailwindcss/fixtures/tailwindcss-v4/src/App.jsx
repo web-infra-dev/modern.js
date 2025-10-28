@@ -1,8 +1,5 @@
-import './app.css';
-import 'tailwindcss/base.css';
-import 'tailwindcss/components.css';
-import 'tailwindcss/utilities.css';
 import { useEffect, useState } from 'react';
+import './index.css';
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

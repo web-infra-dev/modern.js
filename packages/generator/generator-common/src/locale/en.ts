@@ -4,7 +4,6 @@ export const EN_LOCALE = {
     function: {
       self: 'Enable Features',
       question: 'Please select the feature name:',
-      tailwindcss: 'Enable Tailwind CSS',
       bff: 'Enable BFF',
       i18n: 'Enable Internationalization (i18n)',
       ssg: 'Enable SSG',

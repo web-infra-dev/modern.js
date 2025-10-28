@@ -2,86 +2,103 @@
 
 [Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
-To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you can follow the steps below:
+## Using Tailwind CSS in Modern.js
 
-1. Run `pnpm run new` in the root directory of your project and make the following selections:
+To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you only need to configure it according to the Rsbuild steps. Rsbuild supports Tailwind CSS versions v3 and v4:
 
-```text
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Tailwind CSS
+- [Tailwind CSS v3](https://rsbuild.rs/zh/guide/styling/tailwindcss-v3#tailwind-css-v3)
+- [Tailwind CSS v4](https://rsbuild.rs/zh/guide/styling/tailwindcss)
+
+## Tailwind Plugin Migration
+
+### Migration Background
+
+As Modern.js evolves, to provide a more unified build experience and stronger configuration flexibility, we have adjusted the way Tailwind CSS is supported. Modern.js V3 recommends integrating Tailwind CSS natively through Rsbuild, no longer relying on the `@modern-js/plugin-tailwindcss` plugin, thereby fully leveraging Rsbuild’s more flexible configuration capabilities and better build experience.
+
+### Migration Steps
+
+Taking Tailwind CSS V3 as an example, the migration steps are as follows:
+
+#### 1. Remove the Old Plugin
+
+- Remove the `@modern-js/plugin-tailwindcss` dependency
+- Remove the import and usage of the `@modern-js/plugin-tailwindcss` plugin in the `modern.config.ts` file
+
+#### 2. Configure PostCSS
+
+Create or update the `postcss.config.cjs` file.
+
+```js title="postcss.config.cjs"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
 ```
 
-After successful initialization, you will see that the `package.json` has added dependencies for `tailwindcss` and `@modern-js/plugin-tailwindcss`.
+#### 3. Tailwind CSS Configuration Migration
 
-2. Register the Tailwind plugin in `modern.config.ts`:
+- **Single Configuration Case**:
 
-```ts title="modern.config.ts"
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+  - If configured only in `tailwind.config.{ts,js}`, no additional action is needed
+  - If configured only in `modern.config.ts`, migrate the Tailwind-related configuration to `tailwind.config.{ts,js}`
 
-export default defineConfig({
-  plugins: [..., tailwindcssPlugin()],
-});
-```
+- **Dual Configuration Case**: If configurations exist in both `tailwind.config.{ts,js}` and `modern.config.ts`, merge the configurations and migrate the merged result to `tailwind.config.{ts,js}`
 
-3. Create a `index.css` file and add the following code:
+- **Special Directory Handling**: If your project contains storybook or config/html directories, supplement `./storybook/**/*` or `./config/html/**/*.{html,ejs,hbs}` in the `content` field of `tailwind.config.{ts,js}`
 
-```css title="index.css"
+#### 4. CSS Style Import
+
+- Change to use the @tailwind directive
+
+```css
+/* Old way */
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
+
+/* New way */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-:::info
-Depending on your needs, you can selectively import the CSS styles provided by Tailwind CSS. Please refer to the [`@tailwind` documentation](https://tailwindcss.com/docs/functions-and-directives#tailwind) for detailed usage of the `@tailwind` directive.
-:::
+#### 5. Twin.macro Integration
 
-4. Import the `index.css` file, for example, add the following code in the root component `src/App.jsx`:
+If the project uses twin.macro, perform the following steps; otherwise, ignore:
 
-```js
-import './index.css';
-```
-
-5. Now you can use the Utility Classes provided by Tailwind CSS in your components:
-
-```tsx
-const Hello = () => (
-  <div className="h-12 w-48">
-    <p className="text-xl font-medium text-black">hello world</p>
-  </div>
-);
-```
-
-## Configuring Tailwind CSS
-
-In Modern.js, you have two ways to configure Tailwind CSS:
-
-1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
-
-```ts title="tailwind.config.ts"
-import type { Config } from 'tailwindcss';
-
-export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-} as Config;
-```
-
-:::tip
-Please upgrade Modern.js to version >= MAJOR_VERSION.33.0 to support automatic reading of `tailwind.config.{ts,js}` files.
-:::
-
-2. Using the [tools.tailwindcss](/configure/app/tools/tailwindcss.html) configuration option. This is the old way of configuring Tailwind CSS, and we recommend using the `tailwind.config.{ts,js}` file for configuration.
+- Manually install dependencies: `pnpm add twin.macro styled-components babel-plugin-macros -D`
+- Configure the `babel-plugin-macros` Babel plugin:
 
 ```ts title="modern.config.ts"
-export default {
+export default defineConfig({
+  plugins: [appTools()],
   tools: {
-    tailwindcss: {
-      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-macros',
+          {
+            twin: {
+              preset: 'styled-components',
+              config: './tailwind.config.ts',
+            },
+          },
+        ],
+      ],
     },
   },
-};
+});
 ```
 
-If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+#### Tailwind CSS V2 Migration
+
+If your project still uses Tailwind CSS v2, we recommend upgrading to v3 to support JIT and other features. For differences between Tailwind CSS v2 and v3, please refer to the following articles:
+
+- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
+- [Upgrade Guide](https://v3.tailwindcss.com/docs/upgrade-guide)
+
+The migration for Tailwind CSS v2 also follows the above steps, but note that the original plugin automatically adapts to the differences between Tailwind v2 (purge configuration) and v3 (content configuration). After removal, you need to use the `purge` option to specify the CSS classes to retain.
 
 ## Tailwind CSS Autocomplete
 
@@ -91,15 +108,6 @@ You can follow the steps below to enable the autocomplete feature:
 
 1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
 2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
-
-## Tailwind CSS Version
-
-Modern.js supports both Tailwind CSS v2 and v3 versions, and the framework will recognize the version of the `tailwindcss` dependency in the project `package.json` file and enable the corresponding configuration. By default, we will install Tailwind CSS v3 version for you.
-
-If your project is still using Tailwind CSS v2, we recommend that you upgrade to v3 to support JIT and other capabilities. For the differences between Tailwind CSS v2 and v3 versions, please refer to the following articles:
-
-- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
-- [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
 
 ## Browser Compatibility
 
