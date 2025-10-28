@@ -67,16 +67,28 @@ module.exports = {
 
 若项目中有使用 twin.macro 需执行如下操作，未使用则忽略：
 
-- 手动安装依赖：`pnpm add twin.macro styled-components -D`
-- 新增 `babel-plugin-macros.config.cjs` 配置文件：
+- 手动安装依赖：`pnpm add twin.macro styled-components babel-plugin-macros -D`
+- 配置 `babel-plugin-macros` babel 插件：
 
-```js title="babel-plugin-macros.config.cjs"
-module.exports = {
-  twin: {
-    preset: 'styled-components',
-    config: './tailwind.config.js',
+```ts title="modern.config.ts"
+export default defineConfig({
+  plugins: [appTools()],
+  tools: {
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-macros',
+          {
+            twin: {
+              preset: 'styled-components',
+              config: './tailwind.config.ts',
+            },
+          },
+        ],
+      ],
+    },
   },
-};
+});
 ```
 
 #### Tailwind CSS V2 版本迁移

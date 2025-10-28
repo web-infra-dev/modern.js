@@ -65,18 +65,30 @@ module.exports = {
 
 #### 5. Twin.macro Integration
 
-If your project uses twin.macro, perform the following steps; otherwise, ignore:
+If the project uses twin.macro, perform the following steps; otherwise, ignore:
 
-- Manually install dependencies: `pnpm add twin.macro styled-components -D`
-- Add the `babel-plugin-macros.config.cjs` configuration file:
+- Manually install dependencies: `pnpm add twin.macro styled-components babel-plugin-macros -D`
+- Configure the `babel-plugin-macros` Babel plugin:
 
-```js title="babel-plugin-macros.config.cjs"
-module.exports = {
-  twin: {
-    preset: 'styled-components',
-    config: './tailwind.config.js',
+```ts title="modern.config.ts"
+export default defineConfig({
+  plugins: [appTools()],
+  tools: {
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-macros',
+          {
+            twin: {
+              preset: 'styled-components',
+              config: './tailwind.config.ts',
+            },
+          },
+        ],
+      ],
+    },
   },
-};
+});
 ```
 
 #### Tailwind CSS V2 Migration
