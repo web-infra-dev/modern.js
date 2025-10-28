@@ -2,21 +2,9 @@ import type { BuilderConfig } from '@modern-js/builder';
 import type { JestConfig } from '@modern-js/types';
 import type { UnwrapBuilderConfig } from '../utils';
 
-export type Tailwindcss =
-  | Record<string, any>
-  | ((options: Record<string, any>) => Record<string, any> | void);
-
 type BuilderToolsConfig = UnwrapBuilderConfig<BuilderConfig, 'tools'>;
 
 export interface ToolsUserConfig extends Omit<BuilderToolsConfig, 'swc'> {
-  /**
-   * Used to custom Tailwind CSS configurations.
-   * @requires `tailwindcss` plugin.
-   * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   */
-  tailwindcss?: Tailwindcss;
-
   /**
    * Used to custom Jest configurations.
    * @requires `test` plugin.
