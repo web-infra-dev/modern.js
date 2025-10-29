@@ -46,11 +46,6 @@ export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
    */
   entriesDir?: string;
   /**
-   * By default, framework identifies the application entry point based on the `src` directory.
-   * You can use this option to prevent some directories from being recognized as application entry points.
-   */
-  disableEntryDirs?: string[];
-  /**
    * Customize the directory of the framework configuration files.
    */
   configDir?: string;

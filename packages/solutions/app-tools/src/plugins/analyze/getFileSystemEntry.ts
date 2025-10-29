@@ -97,15 +97,9 @@ export const getFileSystemEntry = async (
   const { appDirectory } = appContext;
 
   const {
-    source: { entriesDir, disableEntryDirs },
+    source: { entriesDir },
   } = config;
 
-  let disabledDirs: string[] = [];
-  if (disableEntryDirs && Array.isArray(disableEntryDirs)) {
-    disabledDirs = disableEntryDirs?.map(dir =>
-      ensureAbsolutePath(appDirectory, dir),
-    );
-  }
   const src = ensureAbsolutePath(appDirectory, entriesDir || '');
 
   if (fs.existsSync(src)) {
@@ -119,8 +113,7 @@ export const getFileSystemEntry = async (
           const file = path.join(src, filename);
           if (
             fs.statSync(file).isDirectory() &&
-            (await isBundleEntry(hooks, file)) &&
-            !disabledDirs.includes(file)
+            (await isBundleEntry(hooks, file))
           ) {
             dirs.push(file);
           }
