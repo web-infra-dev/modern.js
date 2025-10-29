@@ -8,6 +8,7 @@ import type {
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { resolveSSRMode } from './mode';
 
 const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
@@ -42,16 +43,12 @@ const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   return false;
 };
 
-const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
-  const { output } = config;
-
-  if (output?.ssg) {
-    return true;
-  }
-  if (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0) {
-    return true;
-  }
-  return hasStringSSREntry(config);
+const checkUseStringSSR = (
+  config: AppToolsNormalizedConfig,
+  appDirectory?: string,
+): boolean => {
+  const ssrMode = resolveSSRMode({ config, appDirectory });
+  return ssrMode === 'string';
 };
 
 const ssrBuilderPlugin = (
@@ -72,10 +69,13 @@ const ssrBuilderPlugin = (
           ? 'edge'
           : 'node';
 
+      const appContext = modernAPI.getAppContext();
+      const { appDirectory } = appContext;
+
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
-        checkUseStringSSR(userConfig);
+        checkUseStringSSR(userConfig, appDirectory);
 
       return mergeEnvironmentConfig(config, {
         source: {

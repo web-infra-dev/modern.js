@@ -56,8 +56,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       });
 
       const isbot = checkIsBot(request.headers.get('user-agent'));
-      if (isbot) {
-        // However, when a crawler visits your page, or if you’re generating the pages at the build time,
+      const isSsgRender = request.headers.get('x-modern-ssg-render') === 'true';
+      if (isbot || isSsgRender) {
+        // However, when a crawler visits your page, or if you're generating the pages at the build time,
         // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
         // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
         await readableOriginal.allReady;

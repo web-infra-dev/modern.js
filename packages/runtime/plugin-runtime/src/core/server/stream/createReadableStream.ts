@@ -36,7 +36,11 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     // When a crawler visit the page, we should waiting for entrie content of page
 
     const isbot = checkIsBot(request.headers.get('user-agent'));
-    const onReady = isbot || forceStream2String ? 'onAllReady' : 'onShellReady';
+    const isSsgRender = request.headers.get('x-modern-ssg-render') === 'true';
+    const onReady =
+      isbot || isSsgRender || forceStream2String
+        ? 'onAllReady'
+        : 'onShellReady';
 
     const internalRuntimeContext = getGlobalInternalRuntimeContext();
     const hooks = internalRuntimeContext.hooks;
