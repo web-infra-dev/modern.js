@@ -48,7 +48,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       "key": "xxxx",
     },
     "middlewareMode": true,
-    "port": 8081,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },

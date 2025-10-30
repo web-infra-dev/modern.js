@@ -78,7 +78,6 @@ describe('parseCommonConfig', () => {
               key: 'xxxx',
               cert: 'xxx',
             },
-            port: 8081,
             host: 'xxx.xxx',
             client: {
               path: '/aaaa',
@@ -107,7 +106,6 @@ describe('parseCommonConfig', () => {
               key: 'xxxx',
               cert: 'xxx',
             },
-            port: 8081,
             host: 'xxx.xxx',
           },
           tools: {
