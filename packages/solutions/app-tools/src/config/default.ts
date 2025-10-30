@@ -8,9 +8,6 @@ export function createDefaultConfig(
   appContext: AppToolsContext,
 ): AppUserConfig {
   const dev: AppUserConfig['dev'] = {
-    // `dev.port` should not have a default value
-    // because we will use `server.port` by default
-    port: undefined,
     cliShortcuts: {
       help: false,
       // does not support restart server and print urls yet

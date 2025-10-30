@@ -24,15 +24,9 @@ export const transformToRsbuildServerOptions = (
   rsbuildDev: DevConfig;
   rsbuildServer: ServerConfig;
 } => {
-  const {
-    port = 8080,
-    host,
-    https,
-    startUrl,
-    beforeStartUrl,
-    ...devConfig
-  } = dev;
+  const { host, https, startUrl, beforeStartUrl, ...devConfig } = dev;
 
+  const port = process.env.PORT ? Number(process.env.PORT) : 8080;
   const rsbuildDev: DevConfig = merge(defaultDevConfig, devConfig);
   // setupMiddlewares apply by @modern-js/server
   delete rsbuildDev.setupMiddlewares;
@@ -53,8 +47,8 @@ export const transformToRsbuildServerOptions = (
         headers: serverCofig.headers,
         historyApiFallback: serverCofig.historyApiFallback,
         proxy: serverCofig.proxy,
-        port,
         host,
+        port,
         https: https ? (https as ServerConfig['https']) : undefined,
         middlewareMode: true,
       };

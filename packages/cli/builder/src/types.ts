@@ -144,10 +144,6 @@ export type BuilderExtraConfig = {
      * After configuring this option, you can enable HTTPS Dev Server, and disabling the HTTP Dev Server.
      */
     https?: DevServerHttpsOptions;
-    /**
-     * Specify a port number for Dev Server to listen.
-     */
-    port?: number;
   };
   source?: {
     transformImport?: SourceConfig['transformImport'] | false;

@@ -126,7 +126,6 @@ const updateConfigForTest = (
   // make devPort random to avoid port conflict
   config.dev = {
     ...(config.dev || {}),
-    port: getRandomPort(config.dev?.port),
   };
   config.source ??= {};
 
@@ -216,9 +215,7 @@ export async function build({
   const { distPath } = builder.context;
 
   const { port, close } = runServer
-    ? await runStaticServer(distPath, {
-        port: builderConfig.dev!.port,
-      })
+    ? await runStaticServer(distPath, {})
     : { port: 0, close: noop };
 
   const clean = async () => await fs.remove(distPath);
