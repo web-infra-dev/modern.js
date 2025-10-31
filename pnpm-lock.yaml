@@ -1323,8 +1323,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       '@swc/plugin-loadable-components':
-        specifier: ^8.0.2
-        version: 8.0.2
+        specifier: ^9.0.0
+        version: 9.0.0
       '@types/loadable__component':
         specifier: ^5.13.10
         version: 5.13.10
@@ -8973,8 +8973,8 @@ packages:
     peerDependencies:
       '@swc/core': '*'
 
-  '@swc/plugin-loadable-components@8.0.2':
-    resolution: {integrity: sha512-fD04gidg7L35F4A9fPyp5D0V1uKN6vXo3HQUAwqxJ7XjXyUSOIzz01KNwVH8BDV9zuHk/lnvicANjj1EGGQSxw==}
+  '@swc/plugin-loadable-components@9.0.0':
+    resolution: {integrity: sha512-YRhogIo16GZSyjdyVsg97x3nKGZccX1dguKC59CCpn2hwG00e8eWRIPgAVxKzT+IoWbVDPLj2zNVONXB1vL7Vg==}
 
   '@swc/plugin-styled-components@9.1.0':
     resolution: {integrity: sha512-c0eVq3KLZq614zMRu3HcJ9BR/2ZFEn4j42Oyo3zsKxiMP2w33CQOAO4IqQ+BhK8EKnpIptbpGEGfBsIF7H2U4w==}
@@ -20893,7 +20893,7 @@ snapshots:
       '@swc/counter': 0.1.3
       jsonc-parser: 3.3.1
 
-  '@swc/plugin-loadable-components@8.0.2':
+  '@swc/plugin-loadable-components@9.0.0':
     dependencies:
       '@swc/counter': 0.1.3
 
