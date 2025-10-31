@@ -2423,6 +2423,12 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.0(react@19.2.0)
       rslog:
         specifier: ^1.2.11
         version: 1.2.11
@@ -4710,6 +4716,12 @@ importers:
       '@source-code-build/utils':
         specifier: workspace:*
         version: link:../utils
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: 19.2.0
+        version: 19.2.0(react@19.2.0)
 
   tests/integration/source-code-build/utils:
     devDependencies:
