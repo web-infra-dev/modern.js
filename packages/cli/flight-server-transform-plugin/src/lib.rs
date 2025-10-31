@@ -15,8 +15,8 @@ use swc_core::{
             DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, ExportSpecifier, Expr,
             ExprOrSpread, ExprStmt, FnDecl, Function, Ident, IdentName, ImportDecl,
             ImportNamedSpecifier, ImportPhase, ImportSpecifier, Lit, MemberExpr, MemberProp,
-            Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, Pat, Program, Script,
-            Stmt, Str, VarDecl, VarDeclKind, VarDeclarator,
+            Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport, Pat, Program, Stmt, Str,
+            VarDecl, VarDeclKind, VarDeclarator,
         },
         parser::{Syntax, TsSyntax},
         transforms::testing::{test, test_fixture},
@@ -259,7 +259,9 @@ where
             if let Stmt::Expr(expr_stmt) = first_stmt {
                 if let Expr::Lit(lit) = &*expr_stmt.expr {
                     if let Lit::Str(str_lit) = lit {
-                        return str_lit.value.as_ref() == "use server";
+                        if let Some("use server") = str_lit.value.as_str() {
+                            return true;
+                        }
                     }
                 }
             }
@@ -318,20 +320,6 @@ where
             .map(|info| info.export_name.clone())
             .unwrap_or_else(|| local_name.to_string())
     }
-
-    fn module_item_to_stmt(&self, item: ModuleItem) -> Option<Stmt> {
-        match item {
-            ModuleItem::Stmt(stmt) => Some(stmt),
-            ModuleItem::ModuleDecl(decl) => match decl {
-                ModuleDecl::ExportDecl(export_decl) => Some(Stmt::Decl(export_decl.decl)),
-                ModuleDecl::ExportDefaultExpr(export_default) => Some(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: export_default.expr,
-                })),
-                _ => None,
-            },
-        }
-    }
 }
 
 impl<C> VisitMut for TransformVisitor<C>
@@ -345,11 +333,11 @@ where
             if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = directive {
                 if let Expr::Lit(lit) = expr.as_ref() {
                     if let Lit::Str(str) = lit {
-                        match str.value.as_ref() {
-                            "use client" => {
+                        match str.value.as_str() {
+                            Some("use client") => {
                                 self.directive = Some(Directive::Client);
                             }
-                            "use server" => {
+                            Some("use server") => {
                                 self.directive = Some(Directive::Server);
                                 server_directive_pos = Some(index);
                             }
