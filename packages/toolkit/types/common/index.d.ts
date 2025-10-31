@@ -12,4 +12,4 @@ export type ServerPlugin = {
   options?: Record<string, any>;
 };
 
-export type SSRMode = 'string' | 'stream';
+export type SSRMode = 'string' | 'stream' | false;

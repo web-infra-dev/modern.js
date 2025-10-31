@@ -120,6 +120,7 @@ export const createServer = async (
           method: 'GET',
           headers: {
             host: 'localhost',
+            'x-modern-ssg-render': 'true',
           },
         });
 

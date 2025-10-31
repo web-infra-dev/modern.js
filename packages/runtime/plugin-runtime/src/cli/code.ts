@@ -1,6 +1,5 @@
 import path from 'path';
 import type {
-  AppNormalizedConfig,
   AppToolsContext,
   AppToolsFeatureHooks,
   AppToolsNormalizedConfig,
@@ -17,6 +16,7 @@ import {
   INDEX_FILE_NAME,
   SERVER_ENTRY_POINT_FILE_NAME,
 } from './constants';
+import { resolveSSRMode } from './ssr/mode';
 import * as template from './template';
 import * as serverTemplate from './template.server';
 
@@ -24,25 +24,7 @@ function getSSRMode(
   entry: string,
   config: AppToolsNormalizedConfig,
 ): 'string' | 'stream' | false {
-  const { ssr, ssrByEntries } = config.server;
-
-  if (config.output.ssg || config.output.ssgByEntries) {
-    return 'string';
-  }
-
-  return checkSSRMode(ssrByEntries?.[entry] || ssr);
-
-  function checkSSRMode(ssr: AppNormalizedConfig['server']['ssr']) {
-    if (!ssr) {
-      return false;
-    }
-
-    if (typeof ssr === 'boolean') {
-      return ssr ? 'string' : false;
-    }
-
-    return ssr.mode === 'stream' ? 'stream' : 'string';
-  }
+  return resolveSSRMode({ entry, config });
 }
 
 export const generateCode = async (
