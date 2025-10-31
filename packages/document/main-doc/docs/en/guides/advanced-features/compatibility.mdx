@@ -1,14 +1,18 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # Browser Compatibility
 
 ## Browserslist Configuration
 
-Modern.js supports setting the browserslist for your web applications. You can set the value of [Browserslist](https://browsersl.ist/) in the `.browserslistrc` file.
+Modern.js supports three ways to set the range of browsers that a web application needs to support.
 
-When you create a new Modern.js project, it will includes a `.browserslistrc` configuration by default, which means that the JavaScript code will be compiled to ES6.
+### Method 1: Configure via `.browserslistrc` File
+
+Modern.js supports setting the range of browsers that a web application needs to support. You can set the [Browserslist](https://browsersl.ist/) values in the `.browserslistrc` file.
+
+When you create a new Modern.js project, a default `.browserslistrc` configuration is included, which indicates that JavaScript code will be compiled to ES6 format.
 
 ```yaml title=".browserslistrc"
 chrome >= 51
@@ -18,23 +22,63 @@ safari >= 10
 ios_saf >= 10
 ```
 
+When the `overrideBrowserslist` configuration is not specified in the project, this `.browserslistrc` file will take effect.
+
+### Method 2: Configure via package.json
+
+You can also configure browserslist by setting the `browserslist` field in the `package.json` file:
+
+```json title="package.json"
+{
+  "browserslist": [
+    "chrome >= 51"
+    // Other browser configurations...
+  ]
+}
+```
+
+### Method 3: Configure via `output.overrideBrowserslist`
+
+You can also configure browserslist by setting the [`output.overrideBrowserslist`](/configure/app/output/override-browserslist) field in the `modern.config.js` file:
+
+```js title="modern.config.js"
+export default {
+  output: {
+    overrideBrowserslist: [
+      'chrome >= 51',
+      // Other browser configurations...
+    ],
+  },
+};
+```
+
+### Configuration Priority
+
+The `overrideBrowserslist` configuration has a higher priority than the `.browserslistrc` file and the `browserslist` field in package.json.
+
+In most scenarios, it is recommended to prioritize using the `.browserslistrc` file rather than the `overrideBrowserslist` configuration because the `.browserslistrc` file is the officially defined configuration file, has better general applicability, and can be recognized by other libraries in the community.
+
 :::tip
-Please refer to [Rsbuild - Browserslist](https://rsbuild.rs/guide/advanced/browserslist) for more information.
+Please refer to [Rsbuild - Setting Browser Range](https://rsbuild.rs/zh/guide/advanced/browserslist) for more information.
 :::
+
+import UpgradeBrowserslist from '@site-docs-en/components/upgrade-browserslist';
+
+<UpgradeBrowserslist />
 
 ## Polyfill
 
-### Polyfill At Compile
+### Compile-time Polyfill
 
-Modern.js defaults to importing corresponding polyfill code from [core-js](https://github.com/zloirock/core-js) during compilation.
+Modern.js by default injects corresponding polyfill code at compile time through [core-js](https://github.com/zloirock/core-js).
 
-By default, the required Polyfill code will be introduced according to the settings of the Browserslist, so there is no need to worry about the Polyfill problem of the project source code and third-party dependencies, but because it contains some Polyfill code that is not used, the final bundle size may be increased.
+By default, it will include the necessary polyfill code based on the project's Browserslist settings, so you generally do not need to worry about polyfill issues for your project source code and third-party dependencies. However, since some unused polyfill code is included, the final bundle size may increase.
 
 :::info
-For case where Polyfill is not required for third-party dependencies, you can set ['output.polyfill'](/configure/app/output/polyfill) to `usage`, so that Babel compiles only Polyfill code based on the syntax used in the code.
+For scenarios where certain third-party dependencies clearly do not require polyfills, you can set [`output.polyfill`](/configure/app/output/polyfill) to `usage`. This way, Babel will only inject polyfill code based on the syntax used in the code during compilation.
 
 :::
 
-import UAPolyfill from '@site-docs-en/components/ua-polyfill';
+import UAPolyfill from '@site-docs/components/ua-polyfill';
 
 <UAPolyfill />

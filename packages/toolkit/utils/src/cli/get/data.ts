@@ -42,7 +42,12 @@ export const getCoreJsVersion = (corejsPkgPath: string) => {
   }
 };
 
-export const defaults = ['> 0.01%', 'not dead', 'not op_mini all'];
+export const defaults = [
+  'chrome >= 87',
+  'edge >= 88',
+  'firefox >= 78',
+  'safari >= 14',
+];
 
 export const getBrowserslist = (appDirectory: string) =>
   browserslist.loadConfig({ path: appDirectory }) || defaults;

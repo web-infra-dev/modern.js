@@ -49,11 +49,16 @@ export const isHtmlDisabled = (
   );
 };
 
-const DEFAULT_WEB_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
+const DEFAULT_WEB_BROWSERSLIST = [
+  'chrome >= 87',
+  'edge >= 88',
+  'firefox >= 78',
+  'safari >= 14',
+];
 
 const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
   web: DEFAULT_WEB_BROWSERSLIST,
-  node: ['node >= 14'],
+  node: ['node >= 16'],
   'web-worker': DEFAULT_WEB_BROWSERSLIST,
 };
 
