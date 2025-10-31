@@ -290,5 +290,17 @@
     "jest": "^29.7.0",
     "typescript": "^5"
   },
+  "peerDependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
   "sideEffects": false
 }
