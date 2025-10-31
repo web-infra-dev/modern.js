@@ -14,7 +14,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "asyncWebAssembly": true,
     "inlineConst": false,
     "inlineEnum": false,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -453,6 +452,15 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -1310,7 +1318,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -1622,6 +1629,15 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -2050,6 +2066,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -2163,7 +2180,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -2601,6 +2617,15 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -3292,6 +3317,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -3449,7 +3475,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -3753,6 +3778,15 @@ exports[`builder rspack > should generator rspack config correctly when service-
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -4169,6 +4203,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
