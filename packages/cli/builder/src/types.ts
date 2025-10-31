@@ -206,7 +206,7 @@ export type BuilderExtraConfig = {
     disableSvgr?: boolean;
   };
   html?: {
-    appIcon?: string | HtmlConfig['appIcon'];
+    appIcon?: HtmlConfig['appIcon'];
     // TODO: need support rsbuild favicon type in server/utils
     favicon?: string;
   };

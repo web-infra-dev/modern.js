@@ -13,7 +13,7 @@ type AppIconItem = {
   target?: 'apple-touch-icon' | 'web-app-manifest';
 };
 
-type AppIcon = string | {
+type AppIcon = {
   name?: string;
   icons: AppIconItem[];
   filename?: string;
@@ -26,28 +26,6 @@ type AppIcon = string | {
 
 - 生成 web app manifest 文件和其中的 `icons` 字段。
 - 生成 HTML 文件中的 `apple-touch-icon` 标签和 `manifest` 标签。
-
-### 字符串形式
-
-`string` 类型的 `appIcon` 配置是对象类型的一个语法糖。
-
-```js
-export default {
-  html: {
-    appIcon: './src/assets/icon.png',
-  },
-};
-```
-
-以上配置相当于下面配置的语法糖：
-
-```js
-export default {
-  html: {
-    appIcon: { icons: [{ src: './src/assets/icon.png', size: 180 }] }
-  },
-};
-```
 
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 

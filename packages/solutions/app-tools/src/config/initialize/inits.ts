@@ -19,8 +19,8 @@ export function initHtmlConfig(
   ) {
     const { appIcon } = config.html;
     const { configDir } = config.source;
-    const getDefaultAppIcon = () =>
-      findExists(
+    const getDefaultAppIcon = () => {
+      const appIconPath = findExists(
         ICON_EXTENSIONS.map(ext =>
           path.resolve(
             appContext.appDirectory,
@@ -29,6 +29,10 @@ export function initHtmlConfig(
           ),
         ),
       );
+      return appIconPath
+        ? { icons: [{ src: appIconPath, size: 180 }] }
+        : undefined;
+    };
     return appIcon || getDefaultAppIcon() || undefined;
   }
   function createBuilderFavicon(

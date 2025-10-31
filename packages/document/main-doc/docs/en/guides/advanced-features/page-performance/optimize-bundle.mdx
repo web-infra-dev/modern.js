@@ -46,20 +46,20 @@ See the [performance.bundleAnalyze](/configure/app/performance/bundle-analyze.ht
 
 Modern.js will compile the code according to the project's Browserslist config, and inject some Polyfills. If the project does not need to be compatible with legacy browsers, you can adjust the Browserslist and drop some legacy browsers, thereby reducing the compilation overhead on syntax and polyfill.
 
-Modern.js's default Browserslist config is:
+Modern.js's default [`output.overrideBrowserslist`](/configure/app/output/override-browserslist.html) config is:
 
 ```js
-['> 0.01%', 'not dead', 'not op_mini all'];
+['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'];
 ```
 
-For example, if you only need to be compatible with browsers above Chrome 61, you can change it to:
+For example, if you only need to be compatible with browsers above Chrome 100, you can change it to:
 
 ```js
-['Chrome >= 61'];
+['Chrome >= 100'];
 ```
 
 :::tip
-Please read the [Browserslist](https://rsbuild.rs/guide/advanced/browserslist) chapter to know more about the usage of Browserslist.
+Please read the [Browserslist configuration](/guides/advanced-features/compatibility.html) chapter to know more about the usage of Browserslist.
 :::
 
 ## Usage polyfill

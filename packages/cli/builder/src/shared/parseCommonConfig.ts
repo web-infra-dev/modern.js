@@ -166,10 +166,7 @@ export async function parseCommonConfig(
 
   html.title ??= '';
 
-  html.appIcon =
-    typeof appIcon === 'string'
-      ? { icons: [{ src: appIcon, size: 180 }] }
-      : appIcon;
+  html.appIcon = appIcon;
 
   extraConfig.tools ??= {};
 

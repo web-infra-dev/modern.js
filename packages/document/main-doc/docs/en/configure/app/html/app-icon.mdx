@@ -13,7 +13,7 @@ type AppIconItem = {
   target?: 'apple-touch-icon' | 'web-app-manifest';
 };
 
-type AppIcon = string | {
+type AppIcon = {
   name?: string;
   icons: AppIconItem[];
   filename?: string;
@@ -26,28 +26,6 @@ Set the web application icons to display when added to the home screen of a mobi
 
 - Generate the web app manifest file and its `icons` field.
 - Generate the `apple-touch-icon` and `manifest` tags in the HTML file.
-
-### AppIcon string
-
-The `appIcon` configuration of type `string` is a syntactic sugar for the `object` type.
-
-```js
-export default {
-  html: {
-    appIcon: './src/assets/icon.png',
-  },
-};
-```
-
-The above configuration is equivalent to the following configuration:
-
-```js
-export default {
-  html: {
-    appIcon: { icons: [{ src: './src/assets/icon.png', size: 180 }] }
-  },
-};
-```
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
 
