@@ -63,9 +63,9 @@ export class ServerBase<E extends Env = any> {
       handleSetupResult,
     });
     serverContext.serverBase = this;
+    this.serverContext = serverContext as unknown as ServerContext;
     // need after serverContext to run onPrepare
     await serverContext.hooks.onPrepare.call();
-    this.serverContext = serverContext as unknown as ServerContext;
     this.#applyMiddlewares();
 
     return this;
