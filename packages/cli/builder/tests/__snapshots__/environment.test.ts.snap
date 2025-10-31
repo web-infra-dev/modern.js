@@ -15,7 +15,6 @@ exports[`builder environment compat > should generator environment config correc
       "asyncWebAssembly": true,
       "inlineConst": false,
       "inlineEnum": false,
-      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -454,6 +453,15 @@ exports[`builder environment compat > should generator environment config correc
             },
           ],
           "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+          ],
+          "test": /\\\\\\.json\\$/i,
         },
         {
           "dependency": "url",
@@ -1269,7 +1277,6 @@ exports[`builder environment compat > should generator environment config correc
       "asyncWebAssembly": true,
       "inlineConst": false,
       "inlineEnum": false,
-      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -1581,6 +1588,15 @@ exports[`builder environment compat > should generator environment config correc
             },
           ],
           "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+          ],
+          "test": /\\\\\\.json\\$/i,
         },
         {
           "dependency": "url",
@@ -2083,7 +2099,6 @@ exports[`builder environment compat > should generator environment config correc
       "asyncWebAssembly": true,
       "inlineConst": false,
       "inlineEnum": false,
-      "lazyBarrel": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -2387,6 +2402,15 @@ exports[`builder environment compat > should generator environment config correc
             },
           ],
           "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        },
+        {
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+          ],
+          "test": /\\\\\\.json\\$/i,
         },
         {
           "dependency": "url",
