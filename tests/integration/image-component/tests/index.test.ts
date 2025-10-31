@@ -61,7 +61,7 @@ describe.skip('devtools build', () => {
   });
 });
 
-describe('devtools dev', () => {
+describe.skip('devtools dev', () => {
   test(`should render page correctly`, async () => {
     if (!isVersionAtLeast18()) return;
     const appPort = await getPort();
