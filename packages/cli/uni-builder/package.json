@@ -57,7 +57,7 @@
     "@rsbuild/plugin-typed-css-modules": "1.1.1",
     "@rsbuild/plugin-yaml": "1.0.3",
     "@rsbuild/webpack": "1.6.0",
-    "@swc/core": "1.11.31",
+    "@swc/core": "1.14.0",
     "@swc/helpers": "^0.5.17",
     "autoprefixer": "10.4.21",
     "babel-loader": "9.2.1",
