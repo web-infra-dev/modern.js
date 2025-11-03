@@ -12,6 +12,9 @@ test('should not compile specified file when source.exclude', async () => {
         source: {
           exclude: [path.resolve(__dirname, './src/test.js')],
         },
+        output: {
+          overrideBrowserslist: ['> 0.01%', 'not dead', 'not op_mini all'],
+        },
         security: {
           checkSyntax: true,
         },
