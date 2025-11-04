@@ -23,7 +23,11 @@ import {
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
 
-export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
+export const routerPlugin = ({
+  disableRegisterRuntimePlugin,
+}: { disableRegisterRuntimePlugin?: boolean }): CliPluginFuture<
+  AppTools<'shared'>
+> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
@@ -51,7 +55,11 @@ export const routerPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
         packageName,
       )?.router;
 
-      if ((nestedRoutesEntry || pageRoutesEntry) && !isRouterV5) {
+      if (
+        (nestedRoutesEntry || pageRoutesEntry) &&
+        !isRouterV5 &&
+        !disableRegisterRuntimePlugin
+      ) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,
