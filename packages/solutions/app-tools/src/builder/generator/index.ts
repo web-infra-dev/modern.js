@@ -33,9 +33,26 @@ export async function generateBuilder<B extends Bundler>(
     tempBuilderConfig,
   );
 
-  builderConfig.environments = builderConfig.environments
-    ? mergeRsbuildConfig(environments, builderConfig.environments)
-    : environments;
+  if (builderConfig.environments) {
+    const mergedEnvironments: Record<string, EnvironmentConfig> = {
+      ...environments,
+    };
+
+    for (const name in builderConfig.environments) {
+      if (environments[name]) {
+        mergedEnvironments[name] = mergeRsbuildConfig(
+          environments[name],
+          builderConfig.environments[name],
+        );
+      } else {
+        mergedEnvironments[name] = builderConfig.environments[name];
+      }
+    }
+
+    builderConfig.environments = mergedEnvironments;
+  } else {
+    builderConfig.environments = environments;
+  }
 
   const builder = await createUniBuilder({
     cwd: appContext.appDirectory,
