@@ -2235,7 +2235,7 @@ exports[`uni-builder environment compat > should generator environment config co
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": [Function],
+      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "library": {
@@ -3154,7 +3154,7 @@ exports[`uni-builder environment compat > should generator environment config co
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": [Function],
+      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "libraryTarget": "commonjs2",
