@@ -9,6 +9,8 @@ import type { BaseLocaleDetectionOptions } from '../utils/config';
 import { ModernI18nProvider } from './context';
 import type { I18nInitOptions, I18nInstance } from './i18n';
 import { getI18nInstance } from './i18n';
+import { useI18nextLanguageDetector } from './i18n/detection';
+import { mergeDetectionOptions } from './i18n/detection/config';
 import { getI18nextProvider, getInitReactI18next } from './i18n/instance';
 import { getEntryPath, getLanguageFromPath } from './utils';
 
@@ -26,7 +28,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
     const {
       entryName,
       i18nInstance: userI18nInstance,
-      changeLanguage,
       initOptions: userInitOptions,
       localeDetection,
     } = options;
@@ -60,6 +61,9 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       if (initReactI18next) {
         i18nInstance.use(initReactI18next);
       }
+      if (i18nextDetector) {
+        useI18nextLanguageDetector(i18nInstance);
+      }
       // Always detect language from path for consistency between SSR and client
       let initialLanguage = fallbackLanguage;
       if (localePathRedirect) {
@@ -73,11 +77,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         }
       }
       if (!i18nInstance.isInitialized) {
+        // Merge detection options: default options + user options
+        const mergedDetection = i18nextDetector
+          ? mergeDetectionOptions(userInitOptions?.detection)
+          : userInitOptions?.detection;
+
         const initOptions: I18nInitOptions = {
           lng: initialLanguage,
           fallbackLng: fallbackLanguage,
           supportedLngs: languages,
           ...(userInitOptions || {}),
+          detection: mergedDetection,
         };
         await i18nInstance.init(initOptions);
       }

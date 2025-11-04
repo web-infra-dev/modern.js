@@ -9,11 +9,25 @@ export interface I18nInstance {
   cloneInstance?: () => I18nInstance; // ssr need
 }
 
+type LanguageDetectorOrder = string[];
+type LanguageDetectorCaches = boolean | string[];
+export interface LanguageDetectorOptions {
+  order?: LanguageDetectorOrder;
+  lookupQuerystring?: string;
+  lookupCookie?: string;
+  lookupSession?: string;
+  lookupFromPathIndex?: number;
+  caches?: LanguageDetectorCaches;
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+}
+
 export type I18nInitOptions = {
   lng?: string;
   fallbackLng?: string;
   supportedLngs?: string[];
   initImmediate?: boolean;
+  detection?: LanguageDetectorOptions;
 };
 
 export function isI18nInstance(obj: any): obj is I18nInstance {
