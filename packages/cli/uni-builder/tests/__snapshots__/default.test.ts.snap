@@ -2318,7 +2318,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -3698,7 +3698,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -4701,7 +4701,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
@@ -7858,7 +7858,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
