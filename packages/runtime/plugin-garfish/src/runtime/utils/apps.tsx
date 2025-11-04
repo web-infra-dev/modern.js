@@ -38,6 +38,42 @@ export function pathJoin(...args: string[]) {
   return res || '/';
 }
 
+function deepEqualExcludeFunctions(prev: any, next: any): boolean {
+  if (prev === next) return true;
+  if (!prev || !next) return false;
+  if (typeof prev !== 'object' || typeof next !== 'object') return false;
+
+  const prevKeys = Object.keys(prev).filter(
+    key => typeof prev[key] !== 'function',
+  );
+  const nextKeys = Object.keys(next).filter(
+    key => typeof next[key] !== 'function',
+  );
+
+  if (prevKeys.length !== nextKeys.length) return false;
+
+  for (const key of prevKeys) {
+    if (!nextKeys.includes(key)) return false;
+
+    const prevVal = prev[key];
+    const nextVal = next[key];
+
+    if (typeof prevVal === 'function' || typeof nextVal === 'function') {
+      continue;
+    }
+
+    if (typeof prevVal === 'object' && typeof nextVal === 'object') {
+      if (!deepEqualExcludeFunctions(prevVal, nextVal)) {
+        return false;
+      }
+    } else if (prevVal !== nextVal) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function getAppInstance(
   options: typeof Garfish.options,
   appInfo: ModulesInfo[number],
@@ -55,6 +91,9 @@ function getAppInstance(
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
     const locationHrefRef = useRef('');
+    const propsRef = useRef<MicroProps>(props);
+    const previousPropsRef = useRef<MicroProps>(props);
+    const propsUpdateCounterRef = useRef(0);
 
     const domId = generateSubAppContainerKey(appInfo);
     const [{ component: SubModuleComponent }, setSubModuleComponent] =
@@ -63,6 +102,7 @@ function getAppInstance(
       }>({
         component: null,
       });
+    const [propsUpdateKey, setPropsUpdateKey] = useState(0);
     const context = useContext(RuntimeReactContext);
     const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
     const useMatches = props.useMatches ?? context?.router?.useMatches;
@@ -158,10 +198,46 @@ or directly pass the "basename":
     }, [locationPathname]);
 
     useEffect(() => {
+      const prevPropsForCompare = { ...previousPropsRef.current };
+      const currentPropsForCompare = { ...props };
+
+      Object.keys(prevPropsForCompare).forEach(key => {
+        if (typeof prevPropsForCompare[key] === 'function') {
+          delete prevPropsForCompare[key];
+        }
+      });
+      Object.keys(currentPropsForCompare).forEach(key => {
+        if (typeof currentPropsForCompare[key] === 'function') {
+          delete currentPropsForCompare[key];
+        }
+      });
+
+      if (
+        !deepEqualExcludeFunctions(prevPropsForCompare, currentPropsForCompare)
+      ) {
+        previousPropsRef.current = props;
+        propsRef.current = props;
+        propsUpdateCounterRef.current += 1;
+        setPropsUpdateKey(prev => prev + 1);
+        // If the app is mounted, notify the sub-app via a custom event (optional)
+        if (appRef.current?.mounted) {
+          window.dispatchEvent(
+            new CustomEvent('garfishPropsUpdated', {
+              detail: {
+                appName: appInfo.name,
+                props: props,
+              },
+            }),
+          );
+        }
+      }
+    }, [props, appInfo.name]);
+
+    useEffect(() => {
       // [MODIFIED] Register the current instance's state setter when the component mounts
       componentSetterRegistry.current = setSubModuleComponent;
 
-      const { setLoadingState, ...userProps } = props;
+      const { setLoadingState, ...userProps } = propsRef.current;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         cache: true,
@@ -278,12 +354,38 @@ or directly pass the "basename":
           }
         }
       };
-    }, []);
+    }, [basename, domId, appInfo.name]);
+
+    useEffect(() => {
+      if (appRef.current?.appInfo) {
+        const { setLoadingState, ...updatedProps } = props;
+        const updatedPropsWithKey = {
+          ...appInfo.props,
+          ...updatedProps,
+          _garfishPropsUpdateKey: propsUpdateKey,
+        };
+        appRef.current.appInfo.props = updatedPropsWithKey;
+      }
+    }, [propsUpdateKey, props]);
+
+    // Remove setLoadingState from props
+    const { setLoadingState, ...renderProps } = props;
+
+    // Create the final props that include _garfishPropsUpdateKey
+    const finalRenderProps = {
+      ...renderProps,
+      _garfishPropsUpdateKey: propsUpdateKey,
+    };
+
+    // Use propsUpdateKey as part of the key
+    const componentKey = `${appInfo.name}-${propsUpdateKey}`;
 
     return (
       <>
         <div id={domId}>
-          {SubModuleComponent && <SubModuleComponent {...props} />}
+          {SubModuleComponent && (
+            <SubModuleComponent key={componentKey} {...finalRenderProps} />
+          )}
         </div>
       </>
     );

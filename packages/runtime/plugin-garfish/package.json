@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.18",
+  "version": "2.68.19-alpha.1",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
