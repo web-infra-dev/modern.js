@@ -3,7 +3,7 @@ import {
   type UniBuilderInstance,
   createUniBuilder,
 } from '@modern-js/uni-builder';
-import { mergeRsbuildConfig } from '@rsbuild/core';
+import { type EnvironmentConfig, mergeRsbuildConfig } from '@rsbuild/core';
 import type { Bundler } from '../../types';
 import type { BuilderOptions } from '../shared';
 import { builderPluginAdapterCopy } from './adapterCopy';
