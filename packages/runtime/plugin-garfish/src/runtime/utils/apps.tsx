@@ -219,17 +219,6 @@ or directly pass the "basename":
         propsRef.current = props;
         propsUpdateCounterRef.current += 1;
         setPropsUpdateKey(prev => prev + 1);
-        // If the app is mounted, notify the sub-app via a custom event (optional)
-        if (appRef.current?.mounted) {
-          window.dispatchEvent(
-            new CustomEvent('garfishPropsUpdated', {
-              detail: {
-                appName: appInfo.name,
-                props: props,
-              },
-            }),
-          );
-        }
       }
     }, [props, appInfo.name]);
 
