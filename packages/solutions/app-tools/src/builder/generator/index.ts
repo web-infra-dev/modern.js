@@ -3,7 +3,7 @@ import {
   type BundlerType,
   createBuilder,
 } from '@modern-js/builder';
-import { mergeRsbuildConfig } from '@rsbuild/core';
+import { type EnvironmentConfig, mergeRsbuildConfig } from '@rsbuild/core';
 import type { BuilderOptions } from '../shared';
 import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
@@ -32,9 +32,26 @@ export async function generateBuilder(
     tempBuilderConfig,
   );
 
-  builderConfig.environments = builderConfig.environments
-    ? mergeRsbuildConfig(environments, builderConfig.environments)
-    : environments;
+  if (builderConfig.environments) {
+    const mergedEnvironments: Record<string, EnvironmentConfig> = {
+      ...environments,
+    };
+
+    for (const name in builderConfig.environments) {
+      if (environments[name]) {
+        mergedEnvironments[name] = mergeRsbuildConfig(
+          environments[name],
+          builderConfig.environments[name],
+        );
+      } else {
+        mergedEnvironments[name] = builderConfig.environments[name];
+      }
+    }
+
+    builderConfig.environments = mergedEnvironments;
+  } else {
+    builderConfig.environments = environments;
+  }
 
   const builder = await createBuilder({
     cwd: appContext.appDirectory,
