@@ -1989,7 +1989,7 @@ exports[`builder environment compat > should generator environment config correc
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": [Function],
+      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "library": {
@@ -2791,7 +2791,7 @@ exports[`builder environment compat > should generator environment config correc
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": [Function],
+      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "libraryTarget": "commonjs2",

@@ -2066,7 +2066,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -3317,7 +3317,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -4203,7 +4203,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": [Function],
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
