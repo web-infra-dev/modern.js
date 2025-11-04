@@ -18,7 +18,7 @@ export default defineConfig({
     appTools(),
     i18nPlugin({
       localeDetection: {
-        enable: true,
+        localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
       },

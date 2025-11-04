@@ -81,7 +81,7 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           return;
         }
         const {
-          enable,
+          localePathRedirect,
           languages = [],
           fallbackLanguage = 'en',
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
@@ -89,7 +89,7 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
         const urlPath = originUrlPath.endsWith('/')
           ? `${originUrlPath}*`
           : `${originUrlPath}/*`;
-        if (enable) {
+        if (localePathRedirect) {
           middlewares.push({
             name: 'i18n-server-middleware',
             path: urlPath,

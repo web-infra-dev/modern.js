@@ -1212,6 +1212,15 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
+      i18next-browser-languagedetector:
+        specifier: ^8.2.0
+        version: 8.2.0
+      i18next-fs-backend:
+        specifier: ^2.6.0
+        version: 2.6.0
+      i18next-http-middleware:
+        specifier: ^3.8.1
+        version: 3.8.1
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -3833,9 +3842,6 @@ importers:
       i18next:
         specifier: 25.6.0
         version: 25.6.0(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3861,9 +3867,6 @@ importers:
       i18next:
         specifier: 25.6.0
         version: 25.6.0(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3892,9 +3895,6 @@ importers:
       i18next:
         specifier: 25.6.0
         version: 25.6.0(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3920,9 +3920,6 @@ importers:
       i18next:
         specifier: 25.6.0
         version: 25.6.0(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -12269,6 +12266,12 @@ packages:
 
   i18next-browser-languagedetector@8.2.0:
     resolution: {integrity: sha512-P+3zEKLnOF0qmiesW383vsLdtQVyKtCNA9cjSoKCppTKPQVfKd2W8hbVo5ZhNJKDqeM7BOcvNoKJOjpHh4Js9g==}
+
+  i18next-fs-backend@2.6.0:
+    resolution: {integrity: sha512-3ZlhNoF9yxnM8pa8bWp5120/Ob6t4lVl1l/tbLmkml/ei3ud8IWySCHt2lrY5xWRlSU5D9IV2sm5bEbGuTqwTw==}
+
+  i18next-http-middleware@3.8.1:
+    resolution: {integrity: sha512-uxbB9VpiPaKuZy2DOtGgcbBkxoXYt/au5Zz6buVlpEmkTFJZcJohKd9cHAUZfEvoyfR6jA0gQ2gxNoCvBzQLng==}
 
   i18next@25.6.0:
     resolution: {integrity: sha512-tTn8fLrwBYtnclpL5aPXK/tAYBLWVvoHM1zdfXoRNLcI+RvtMsoZRV98ePlaW3khHYKuNh/Q65W/+NVFUeIwVw==}
@@ -24720,6 +24723,10 @@ snapshots:
   i18next-browser-languagedetector@8.2.0:
     dependencies:
       '@babel/runtime': 7.28.4
+
+  i18next-fs-backend@2.6.0: {}
+
+  i18next-http-middleware@3.8.1: {}
 
   i18next@25.6.0(typescript@5.6.3):
     dependencies:

@@ -2,8 +2,10 @@
  * Base locale detection configuration for a single entry
  */
 export interface BaseLocaleDetectionOptions {
-  /** Whether locale detection is enabled for this entry */
-  enable?: boolean;
+  /** Whether to enable locale detection from path and automatic redirect */
+  localePathRedirect?: boolean;
+  /** Whether to enable automatic language detection via i18next detectors (i18next-browser-languagedetector and i18next-http-middleware) */
+  i18nextDetector?: boolean;
   /** List of supported languages */
   languages?: string[];
   /** Fallback language when detection fails */

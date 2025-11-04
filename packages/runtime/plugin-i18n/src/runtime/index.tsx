@@ -31,7 +31,8 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       localeDetection,
     } = options;
     const {
-      enable: enableLocaleDetection,
+      localePathRedirect,
+      i18nextDetector,
       languages = [],
       fallbackLanguage = 'en',
     } = localeDetection || {};
@@ -39,7 +40,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
     // Helper function to detect language from path
     const detectLanguageFromPath = (pathname: string) => {
-      if (enableLocaleDetection) {
+      if (localePathRedirect) {
         const relativePath = pathname.replace(getEntryPath(entryName), '');
         const detectedLang = getLanguageFromPath(
           relativePath,
@@ -61,7 +62,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       }
       // Always detect language from path for consistency between SSR and client
       let initialLanguage = fallbackLanguage;
-      if (enableLocaleDetection) {
+      if (localePathRedirect) {
         if (isBrowser()) {
           // In browser, get from window.location
           initialLanguage = detectLanguageFromPath(window.location.pathname);
@@ -83,7 +84,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       if (!isBrowser() && i18nInstance.cloneInstance) {
         i18nInstance = i18nInstance.cloneInstance();
       }
-      if (enableLocaleDetection && i18nInstance.language !== initialLanguage) {
+      if (localePathRedirect && i18nInstance.language !== initialLanguage) {
         // If instance is already initialized but language doesn't match the path, update it
         await i18nInstance.changeLanguage(initialLanguage);
       }
@@ -112,7 +113,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
         // Initialize language from URL on mount (only when localeDetection is enabled)
         useEffect(() => {
-          if (enableLocaleDetection) {
+          if (localePathRedirect) {
             const currentPathname = getCurrentPathname();
             const currentLang = detectLanguageFromPath(currentPathname);
             if (currentLang !== lang) {
@@ -130,7 +131,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           i18nInstance,
           entryName,
           languages,
-          enableLocaleDetection,
+          localePathRedirect,
           updateLanguage: setLang,
         };
 

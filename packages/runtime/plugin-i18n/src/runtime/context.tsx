@@ -10,7 +10,7 @@ export interface ModernI18nContextValue {
   // Plugin configuration for useModernI18n hook
   entryName?: string;
   languages?: string[];
-  enableLocaleDetection?: boolean;
+  localePathRedirect?: boolean;
   // Callback to update language in context
   updateLanguage?: (newLang: string) => void;
 }
@@ -32,12 +32,6 @@ export const ModernI18nProvider: FC<ModernI18nProviderProps> = ({
     </ModernI18nContext.Provider>
   );
 };
-
-export interface UseModernI18nOptions {
-  entryName?: string;
-  languages?: string[];
-  enableLocaleDetection?: boolean;
-}
 
 export interface UseModernI18nReturn {
   language: string;
@@ -86,9 +80,7 @@ const useRouterHooks = () => {
  * @param options - Optional configuration to override context settings
  * @returns Object containing i18n functionality and utilities
  */
-export const useModernI18n = (
-  options: UseModernI18nOptions = {},
-): UseModernI18nReturn => {
+export const useModernI18n = (): UseModernI18nReturn => {
   const context = useContext(ModernI18nContext);
   if (!context) {
     throw new Error('useModernI18n must be used within a ModernI18nProvider');
@@ -97,18 +89,11 @@ export const useModernI18n = (
   const {
     language: contextLanguage,
     i18nInstance,
-    entryName: contextEntryName,
-    languages: contextLanguages,
-    enableLocaleDetection: contextEnableLocaleDetection,
+    entryName,
+    languages,
+    localePathRedirect,
     updateLanguage,
   } = context;
-
-  // Merge context options with passed options (passed options take precedence)
-  const {
-    entryName = contextEntryName,
-    languages = contextLanguages || [],
-    enableLocaleDetection = contextEnableLocaleDetection || false,
-  } = options;
 
   // Get router hooks safely
   const { navigate, location, hasRouter } = useRouterHooks();
@@ -140,7 +125,7 @@ export const useModernI18n = (
 
         // Update URL if locale detection is enabled, we're in browser, and router is available
         if (
-          enableLocaleDetection &&
+          localePathRedirect &&
           isBrowser() &&
           hasRouter &&
           navigate &&
@@ -151,19 +136,27 @@ export const useModernI18n = (
           const relativePath = currentPath.replace(entryPath, '');
 
           // Build new path with updated language
-          const newPath = buildLocalizedUrl(relativePath, newLang, languages);
+          const newPath = buildLocalizedUrl(
+            relativePath,
+            newLang,
+            languages || [],
+          );
           const newUrl = entryPath + newPath + location.search + location.hash;
 
           // Navigate to new URL
           navigate(newUrl, { replace: true });
-        } else if (enableLocaleDetection && isBrowser() && !hasRouter) {
+        } else if (localePathRedirect && isBrowser() && !hasRouter) {
           // Fallback: use window.history API when router is not available
           const currentPath = window.location.pathname;
           const entryPath = getEntryPath(entryName);
           const relativePath = currentPath.replace(entryPath, '');
 
           // Build new path with updated language
-          const newPath = buildLocalizedUrl(relativePath, newLang, languages);
+          const newPath = buildLocalizedUrl(
+            relativePath,
+            newLang,
+            languages || [],
+          );
           const newUrl =
             entryPath + newPath + window.location.search + window.location.hash;
 
@@ -183,7 +176,7 @@ export const useModernI18n = (
     [
       i18nInstance,
       updateLanguage,
-      enableLocaleDetection,
+      localePathRedirect,
       entryName,
       languages,
       hasRouter,
@@ -195,7 +188,7 @@ export const useModernI18n = (
   // Helper function to check if a language is supported
   const isLanguageSupported = useCallback(
     (lang: string) => {
-      return languages.includes(lang);
+      return languages?.includes(lang) || false;
     },
     [languages],
   );
@@ -204,7 +197,7 @@ export const useModernI18n = (
     language: currentLanguage,
     changeLanguage,
     i18nInstance,
-    supportedLanguages: languages,
+    supportedLanguages: languages || [],
     isLanguageSupported,
   };
 };
