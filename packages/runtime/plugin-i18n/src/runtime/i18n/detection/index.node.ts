@@ -29,16 +29,8 @@ export const detectLanguage = (
       }
       return undefined;
     } catch (error) {
-      console.warn('[@modern-js/plugin-i18n] Language detection failed', {
-        error,
-        context: 'server-detection',
-      });
       return undefined;
     }
   }
   return undefined;
 };
-
-export function exportServerLngToWindow(context: RuntimeContext, lng: string) {
-  context.__i18nData__ = { lng };
-}

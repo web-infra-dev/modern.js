@@ -31,10 +31,6 @@ export const detectLanguage = (
         return result[0];
       }
     } catch (error) {
-      console.warn('[@modern-js/plugin-i18n] Language detection failed', {
-        error,
-        context: 'browser-detection',
-      });
       return undefined;
     }
   }
