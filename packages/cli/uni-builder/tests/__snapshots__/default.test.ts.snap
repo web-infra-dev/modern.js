@@ -14,7 +14,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "asyncWebAssembly": true,
     "inlineConst": false,
     "inlineEnum": false,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -501,6 +500,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -1445,7 +1453,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -1805,6 +1812,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -2302,6 +2318,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -2415,7 +2432,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -2901,6 +2917,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -3673,6 +3698,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -3830,7 +3856,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "asyncWebAssembly": true,
     "inlineConst": true,
     "inlineEnum": true,
-    "lazyBarrel": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -4182,6 +4207,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -4667,6 +4701,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
@@ -5349,6 +5384,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
         ],
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
       },
       {
         "dependency": "url",
@@ -6940,6 +6984,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
+        "oneOf": [
+          {
+            "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+            "type": "asset/source",
+          },
+        ],
+        "test": /\\\\\\.json\\$/i,
+      },
+      {
         "dependency": "url",
         "generator": {
           "filename": "static/wasm/[hash].module.wasm",
@@ -7805,6 +7858,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
+    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",

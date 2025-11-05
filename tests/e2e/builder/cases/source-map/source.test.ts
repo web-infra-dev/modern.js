@@ -72,14 +72,14 @@ test('source-map', async () => {
   }));
 
   expect(originalPositions[0]).toEqual({
-    source: 'src/App.jsx',
+    source: '../../../src/App.jsx',
     line: 2,
     column: 24,
     name: null,
   });
 
   expect(originalPositions[1]).toEqual({
-    source: 'src/index.js',
+    source: '../../../src/index.js',
     line: 5,
     column: 0,
     name: 'window',
