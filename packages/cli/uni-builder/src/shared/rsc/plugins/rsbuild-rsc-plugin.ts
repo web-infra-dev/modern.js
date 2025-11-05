@@ -58,6 +58,29 @@ export const rsbuildRscPlugin = ({
   setup(api) {
     api.modifyBundlerChain({
       handler: async (chain, { isServer, CHAIN_ID }) => {
+        // Guardrail: Rspack does not support Module Federation + RSC right now.
+        // If a module-federation config is present in the app and the bundler
+        // is Rspack, exit early with a clear message so users switch to webpack.
+        if (isRspack) {
+          const mfConfigCandidates = [
+            'module-federation.config.ts',
+            'module-federation.config.js',
+            'module-federation.config.mjs',
+            'module-federation.config.cjs',
+          ];
+          const hasMfConfig = mfConfigCandidates.some(file =>
+            fse.pathExistsSync(path.resolve(appDir, file)),
+          );
+          if (hasMfConfig) {
+            logger.error(
+              '\nModule Federation + React Server Components is not supported with Rspack.\n' +
+                'Please build these projects with webpack instead.\n' +
+                'Try: `BUNDLER=webpack pnpm run build` or update your package.json scripts.\n',
+            );
+            process.exit(1);
+          }
+        }
+
         if (!(await checkReactVersionAtLeast19(appDir))) {
           logger.error(
             'Enable react server component, please make sure the react and react-dom versions are greater than or equal to 19.0.0',
@@ -104,6 +127,28 @@ export const rsbuildRscPlugin = ({
               .options(jsLoaderOptions)
               .end()
               .end()
+              // Fallback detection for host apps with wrapped entries: scan
+              // src for 'use client' modules even if their issuer isn't in the
+              // react-server layer, so the server plugin can record them.
+              .oneOf('rsc-client-detect')
+              .include.add(/[/\\]src[/\\]/)
+              .end()
+              .exclude.add(/node_modules/)
+              .end()
+              .use('rsc-server-loader')
+              .loader(require.resolve('../rsc-server-loader'))
+              .options({
+                entryPath2Name,
+                appDir,
+                runtimePath: rscServerRuntimePath,
+                internalDirectory,
+              })
+              .end()
+              .use(JSRule)
+              .loader(jsLoaderPath)
+              .options(jsLoaderOptions)
+              .end()
+              .end()
               .oneOf('rsc-ssr')
               .exclude.add(/universal[/\\]async_storage/)
               .end()
@@ -132,6 +177,7 @@ export const rsbuildRscPlugin = ({
             `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );
 
+          // Assign RSC layer to internal framework files (non-MF apps)
           chain.module
             .rule('server-module')
             .resource([
@@ -142,6 +188,9 @@ export const rsbuildRscPlugin = ({
             .layer(webpackRscLayerName)
             .end();
 
+          // Key: Use issuerLayer to assign react-server layer to modules
+          // imported BY code already in the react-server layer. This allows
+          // the rsc-server-loader to run on them and detect 'use client'.
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
@@ -198,15 +247,43 @@ export const rsbuildRscPlugin = ({
           chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 
-        if (isServer) {
-          chain.name('server');
+        const chainName = chain.get('name');
+        const treatAsServer = isServer || chainName === 'node';
+
+        if (treatAsServer) {
+          if (isServer) {
+            chain.name('server');
+          }
           layerHandler();
           flightCssHandler();
           jsHandler();
           addServerRscPlugin();
         } else {
           chain.name('client');
-          chain.dependencies(['server']);
+          // No hard dependency on a specific compiler name; avoid MultiCompiler dependency issues.
+
+          // Add client-side 'use client' detection for Webpack non-MF apps.
+          // This ensures clientReferencesMap is populated before entry parsing,
+          // allowing parser hooks to attach dependencies at the right time (v2 parity).
+          if (!isRspack) {
+            chain.module
+              .rule('js')
+              .oneOf('rsc-client-detect')
+              .before('babel')
+              .include.add(/[/\\]src[/\\]/)
+              .end()
+              .exclude.add(/node_modules/)
+              .end()
+              .use('rsc-server-loader-detect')
+              .loader(require.resolve('../rsc-server-loader'))
+              .options({
+                appDir,
+                runtimePath: rscServerRuntimePath,
+                detectOnly: true,
+              })
+              .end();
+          }
+
           addRscClientLoader();
           addRscClientPlugin();
         }

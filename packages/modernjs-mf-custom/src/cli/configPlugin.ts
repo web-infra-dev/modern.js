@@ -630,6 +630,59 @@ export const patchMFConfig = (
 
   mfConfig.runtimePlugins = runtimePlugins;
 
+  // Persist remotes for server plugin (dev + prod) without relying on envs.
+  try {
+    const cwd = process.cwd();
+    const storeDir = path.join(cwd, 'node_modules', '.modern-js');
+    const storeFile = path.join(storeDir, 'mf-remotes.json');
+    const definitions: Array<{ name: string; manifestUrl: string }> = [];
+    if (manifestRemotes && Object.keys(manifestRemotes).length) {
+      for (const [name, spec] of Object.entries(manifestRemotes)) {
+        const at = spec.indexOf('@');
+        const url = at >= 0 ? spec.slice(at + 1) : undefined;
+        if (url) definitions.push({ name, manifestUrl: url });
+      }
+    }
+    // Fallback: infer from mfConfig.remotes if needed
+    if (definitions.length === 0 && mfConfig.remotes) {
+      const push = (name: string, value: any) => {
+        let str: string | undefined;
+        if (typeof value === 'string') str = value;
+        else if (Array.isArray(value))
+          str = typeof value[0] === 'string' ? value[0] : undefined;
+        else if (value && typeof value === 'object') {
+          if (typeof (value as any).external === 'string')
+            str = (value as any).external;
+          else if (typeof (value as any).url === 'string')
+            str = (value as any).url;
+        }
+        if (str?.includes('@')) {
+          const parts = str.split('@');
+          const url = parts.slice(1).join('@');
+          if (url) definitions.push({ name, manifestUrl: url });
+        }
+      };
+      if (Array.isArray(mfConfig.remotes)) {
+        for (const item of mfConfig.remotes) {
+          if (item && typeof item === 'object') {
+            for (const [name, value] of Object.entries(item)) push(name, value);
+          }
+        }
+      } else if (typeof mfConfig.remotes === 'object') {
+        for (const [name, value] of Object.entries(mfConfig.remotes))
+          push(name, value);
+      }
+    }
+    if (definitions.length) {
+      fs.mkdirSync(storeDir, { recursive: true });
+      fs.writeFileSync(
+        storeFile,
+        JSON.stringify({ definitions }, null, 2),
+        'utf-8',
+      );
+    }
+  } catch {}
+
   if (!isServer) {
     if (mfConfig.library?.type === 'commonjs-module') {
       mfConfig.library.type = 'global';

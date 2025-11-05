@@ -1,8 +1,11 @@
+import { promises as fs, existsSync } from 'fs';
+import path from 'path';
 import type Webpack from 'webpack';
 import { type Compilation, type ModuleGraph, NormalModule } from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,
+  type ServerReferencesModuleInfo,
   findRootIssuer,
   getRscBuildInfo,
   isCssModule,
@@ -39,6 +42,9 @@ export class RscServerPlugin {
   private entryPath2Name = new Map<string, string>();
   private styles: Set<string>;
   private moduleToEntries = new Map<string, Set<string>>();
+  private serverReferencesManifestFilename: string;
+  private serverReferencesManifestPath?: string;
+  private serverModuleInfo = new Map<string, ServerReferencesModuleInfo>();
   constructor(options: RscServerPluginOptions) {
     this.styles = new Set();
 
@@ -46,6 +52,7 @@ export class RscServerPlugin {
       options?.serverManifestFilename || `react-server-manifest.json`;
 
     this.entryPath2Name = options?.entryPath2Name || new Map();
+    this.serverReferencesManifestFilename = 'server-references-manifest.json';
   }
 
   private isValidModule(module: NormalModule): boolean {
@@ -156,6 +163,36 @@ export class RscServerPlugin {
   private buildModuleToEntriesMapping(compilation: Compilation): void {
     this.moduleToEntries.clear();
 
+    if (process.env.DEBUG_RSC_PLUGIN) {
+      compilation.modules.forEach(module => {
+        if (
+          module?.constructor &&
+          (module.constructor.name === 'ContainerEntryModule' ||
+            (module as any).type === 'container entry')
+        ) {
+          console.log(
+            `[RscServerPlugin] found container entry module name=${
+              (module as any).name || ''
+            }`,
+          );
+
+          const connections =
+            compilation.moduleGraph.getOutgoingConnections(module);
+          for (const connection of connections) {
+            if (connection?.module) {
+              console.log(
+                `[RscServerPlugin]  connection to ${
+                  'resource' in connection.module && connection.module.resource
+                    ? connection.module.resource
+                    : connection.module.identifier?.()
+                }`,
+              );
+            }
+          }
+        }
+      });
+    }
+
     for (const [entryName, entryDependency] of compilation.entries.entries()) {
       const entryModule = compilation.moduleGraph.getModule(
         entryDependency.dependencies[0],
@@ -235,7 +272,11 @@ export class RscServerPlugin {
       }
 
       const includePromises = entries
-        .filter(([entryName]) => resourceEntryNames?.includes(entryName))
+        .filter(([entryName]) =>
+          resourceEntryNames && resourceEntryNames.length > 0
+            ? resourceEntryNames.includes(entryName)
+            : true,
+        )
         .map(([entryName]) => {
           const dependency = EntryPlugin.createDependency(resource, {
             name: resource,
@@ -282,6 +323,39 @@ export class RscServerPlugin {
     compiler.hooks.finishMake.tapPromise(
       RscServerPlugin.name,
       async compilation => {
+        this.serverModuleInfo.clear();
+
+        // Merge server action candidates discovered by the client compiler so the
+        // server build includes them and assigns stable moduleIds.
+        try {
+          const candidates = sharedData.get<
+            Map<string, ServerReferencesModuleInfo>
+          >('serverModuleInfoCandidates');
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log('[RscServerPlugin] candidates:', candidates?.size || 0);
+          }
+          if (candidates && candidates.size > 0) {
+            for (const [resourcePath, info] of candidates.entries()) {
+              if (info.exportNames?.length) {
+                if (!this.serverReferencesMap.has(resourcePath)) {
+                  this.serverReferencesMap.set(resourcePath, info);
+                }
+                if (!this.serverModuleInfo.has(resourcePath)) {
+                  this.serverModuleInfo.set(resourcePath, {
+                    moduleId: info.moduleId,
+                    exportNames: info.exportNames,
+                  });
+                }
+                sharedData.set(resourcePath, {
+                  type: 'server',
+                  exportNames: info.exportNames,
+                  moduleId: info.moduleId,
+                });
+              }
+            }
+          }
+        } catch {}
+
         this.buildModuleToEntriesMapping(compilation);
 
         const processModules = (modules: Webpack.Compilation['modules']) => {
@@ -297,11 +371,9 @@ export class RscServerPlugin {
               continue;
             }
 
-            if (module.layer && buildInfo.type === 'server') {
+            if (buildInfo.type === 'server') {
               sharedData.set(buildInfo?.resourcePath, buildInfo);
-            }
-
-            if (!module.layer && buildInfo.type === 'client') {
+            } else if (!module.layer && buildInfo.type === 'client') {
               sharedData.set(buildInfo?.resourcePath, buildInfo);
             }
 
@@ -309,6 +381,13 @@ export class RscServerPlugin {
               buildInfo?.type === 'client'
                 ? this.clientReferencesMap.get(buildInfo.resourcePath)
                 : this.serverReferencesMap.get(buildInfo.resourcePath);
+
+            if (buildInfo?.type === 'server') {
+              this.serverModuleInfo.set(
+                buildInfo.resourcePath,
+                buildInfo as ServerReferencesModuleInfo,
+              );
+            }
 
             if (buildInfo?.type === 'client' && !currentReference) {
               hasChangeReference = true;
@@ -321,8 +400,13 @@ export class RscServerPlugin {
 
               this.serverReferencesMap.set(
                 buildInfo.resourcePath,
-                buildInfo.exportNames,
+                buildInfo as ServerReferencesModuleInfo,
               );
+              if (process.env.DEBUG_RSC_PLUGIN) {
+                console.log(
+                  `[RscServerPlugin] server module detected ${buildInfo.resourcePath}`,
+                );
+              }
             }
 
             if (module instanceof NormalModule) {
@@ -398,14 +482,190 @@ export class RscServerPlugin {
         ) {
           needsAdditionalPass = true;
         }
+
+        // Publish interim maps early so the client compiler can read them in
+        // its initial build, avoiding an empty client manifest due to timing.
+        try {
+          sharedData.set('clientReferencesMap', this.clientReferencesMap);
+          sharedData.set('styles', this.styles);
+          sharedData.set('serverModuleInfoMap', this.serverModuleInfo);
+        } catch {}
       },
     );
 
-    compiler.hooks.done.tap(RscServerPlugin.name, () => {
+    compiler.hooks.done.tapPromise(RscServerPlugin.name, async stats => {
+      if (process.env.DEBUG_RSC_PLUGIN) {
+        try {
+          const info = stats?.toJson?.({ all: false, errors: true });
+          const firstError = info?.errors?.[0];
+          if (firstError) {
+            // eslint-disable-next-line no-console
+            console.error(
+              '[RscServerPlugin] first compilation error:',
+              firstError.message || firstError,
+            );
+          }
+        } catch {}
+      }
+
+      // Ensure all server module entries have moduleId populated before sharing
+      const compilation = stats?.compilation;
+      if (compilation) {
+        for (const [
+          resourcePath,
+          moduleInfo,
+        ] of this.serverModuleInfo.entries()) {
+          if (
+            moduleInfo.moduleId === undefined &&
+            moduleInfo.exportNames?.length
+          ) {
+            // Try to find the module and get its ID from chunkGraph
+            for (const module of compilation.modules) {
+              if (module.nameForCondition?.() === resourcePath) {
+                const moduleId = compilation.chunkGraph.getModuleId(module);
+                if (moduleId !== null) {
+                  moduleInfo.moduleId = moduleId;
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    console.log(
+                      `[RscServerPlugin] hydrated moduleId ${moduleId} for ${resourcePath} in done hook from chunkGraph`,
+                    );
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // If the manifest was written during afterEmit, read it back to ensure moduleIds are synchronized
+      if (
+        this.serverReferencesManifestPath &&
+        existsSync(this.serverReferencesManifestPath)
+      ) {
+        try {
+          await new Promise(resolve => setTimeout(resolve, 100)); // Brief delay to ensure file write completed
+          const manifestContent = await fs.readFile(
+            this.serverReferencesManifestPath,
+            'utf-8',
+          );
+          const manifest = JSON.parse(manifestContent) as {
+            serverReferences: Array<{
+              path: string;
+              exports: string[];
+              moduleId: string | number | null;
+            }>;
+          };
+
+          for (const entry of manifest.serverReferences) {
+            if (entry.moduleId != null) {
+              const moduleInfo = this.serverModuleInfo.get(entry.path);
+              if (moduleInfo && moduleInfo.moduleId === undefined) {
+                moduleInfo.moduleId = entry.moduleId as any;
+                if (process.env.DEBUG_RSC_PLUGIN) {
+                  console.log(
+                    `[RscServerPlugin] hydrated moduleId ${entry.moduleId} for ${entry.path} in done hook from manifest file`,
+                  );
+                }
+              }
+            }
+          }
+        } catch (err) {
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.warn(
+              '[RscServerPlugin] failed to read manifest in done hook:',
+              err,
+            );
+          }
+        }
+      }
+
+      // Re-write the manifest file with hydrated moduleIds
+      if (this.serverReferencesManifestPath) {
+        const manifest = {
+          serverReferences: Array.from(this.serverModuleInfo.entries()).map(
+            ([resourcePath, info]) => ({
+              path: resourcePath,
+              exports: info.exportNames ?? [],
+              moduleId: info.moduleId ?? null,
+            }),
+          ),
+        };
+
+        try {
+          await fs.writeFile(
+            this.serverReferencesManifestPath,
+            JSON.stringify(manifest, null, 2),
+            'utf-8',
+          );
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log(
+              `[RscServerPlugin] re-wrote manifest in done hook with hydrated moduleIds`,
+            );
+          }
+        } catch (err) {
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.warn(
+              '[RscServerPlugin] failed to re-write manifest in done hook:',
+              err,
+            );
+          }
+        }
+      }
+
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
       sharedData.set('styles', this.styles);
+      sharedData.set('serverModuleInfoMap', this.serverModuleInfo);
+      if (this.serverReferencesManifestPath) {
+        sharedData.set(
+          'serverReferencesManifestPath',
+          this.serverReferencesManifestPath,
+        );
+      }
     });
+
+    compiler.hooks.afterEmit.tapPromise(
+      RscServerPlugin.name,
+      async compilation => {
+        const outputPath =
+          compilation.outputOptions.path || compiler.options.output.path;
+        if (!outputPath) {
+          return;
+        }
+
+        const manifest = {
+          serverReferences: Array.from(this.serverModuleInfo.entries()).map(
+            ([resourcePath, info]) => ({
+              path: resourcePath,
+              exports: info.exportNames ?? [],
+              moduleId: info.moduleId ?? null,
+            }),
+          ),
+        };
+
+        if (process.env.DEBUG_RSC_PLUGIN) {
+          console.log(
+            `[RscServerPlugin] writing server references manifest at ${outputPath} with ${manifest.serverReferences.length} entries`,
+          );
+        }
+
+        const manifestPath = path.join(
+          outputPath,
+          this.serverReferencesManifestFilename,
+        );
+
+        await fs.mkdir(path.dirname(manifestPath), { recursive: true });
+        await fs.writeFile(
+          manifestPath,
+          JSON.stringify(manifest, null, 2),
+          'utf-8',
+        );
+
+        this.serverReferencesManifestPath = manifestPath;
+        sharedData.set('serverReferencesManifestPath', manifestPath);
+      },
+    );
 
     compiler.hooks.thisCompilation.tap(
       RscServerPlugin.name,
@@ -440,11 +700,10 @@ export class RscServerPlugin {
               return;
             }
 
-            if (
-              module.layer === webpackRscLayerName &&
-              isServerModule &&
-              !hasServerReferenceDependency(module)
-            ) {
+            // Add ServerReferenceDependency to all server action modules (with 'use server'),
+            // not just those in react-server layer. This allows server actions to be
+            // imported from client components.
+            if (isServerModule && !hasServerReferenceDependency(module)) {
               module.addDependency(new ServerReferenceDependency());
             }
           });
@@ -509,8 +768,17 @@ export class RscServerPlugin {
                 }
               } else if (hasServerReferenceDependency(module)) {
                 const serverReferencesModuleInfo = getRscBuildInfo(module);
-                if (serverReferencesModuleInfo) {
+                if (serverReferencesModuleInfo?.exportNames?.length) {
                   serverReferencesModuleInfo.moduleId = moduleId;
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    // eslint-disable-next-line no-console
+                    console.log(
+                      '[RscServerPlugin] assigned moduleId',
+                      moduleId,
+                      'for',
+                      resource,
+                    );
+                  }
 
                   for (const exportName of serverReferencesModuleInfo.exportNames) {
                     this.serverManifest[`${moduleId}#${exportName}`] = {
@@ -520,11 +788,15 @@ export class RscServerPlugin {
                     };
                   }
                 } else {
-                  compilation.errors.push(
-                    new WebpackError(
-                      `Could not find server references module info in \`serverReferencesMap\` for ${resource}.`,
-                    ),
-                  );
+                  // Tolerate spurious ServerReferenceDependency on non-action modules
+                  // such as framework server entries; skip instead of erroring to
+                  // keep the server build progressing.
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    // eslint-disable-next-line no-console
+                    console.warn(
+                      `[RscServerPlugin] skip non-action server reference module: ${resource}`,
+                    );
+                  }
                 }
               }
             }

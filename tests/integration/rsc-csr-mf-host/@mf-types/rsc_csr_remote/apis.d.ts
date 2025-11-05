@@ -1,11 +1,3 @@
-export type RemoteKeys =
-  | 'rsc_csr_remote/CounterClient'
-  | 'rsc_csr_remote/DynamicMessageClient'
-  | 'rsc_csr_remote/SuspendedClient';
-type PackageType<T> = T extends 'rsc_csr_remote/SuspendedClient'
-  ? typeof import('rsc_csr_remote/SuspendedClient')
-  : T extends 'rsc_csr_remote/DynamicMessageClient'
-    ? typeof import('rsc_csr_remote/DynamicMessageClient')
-    : T extends 'rsc_csr_remote/CounterClient'
-      ? typeof import('rsc_csr_remote/CounterClient')
-      : any;
+
+    export type RemoteKeys = 'rsc_csr_remote/CounterClient' | 'rsc_csr_remote/DynamicMessageClient' | 'rsc_csr_remote/SuspendedClient';
+    type PackageType<T> = T extends 'rsc_csr_remote/SuspendedClient' ? typeof import('rsc_csr_remote/SuspendedClient') :T extends 'rsc_csr_remote/DynamicMessageClient' ? typeof import('rsc_csr_remote/DynamicMessageClient') :T extends 'rsc_csr_remote/CounterClient' ? typeof import('rsc_csr_remote/CounterClient') :any;

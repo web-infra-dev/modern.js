@@ -2,6 +2,7 @@ import type Webpack from 'webpack';
 import type { Module } from 'webpack';
 import {
   type ClientManifest,
+  type ClientReference,
   type ClientReferencesMap,
   type ImportManifestEntry,
   type SSRManifest,
@@ -18,6 +19,8 @@ export class RscClientPlugin {
   private clientManifestFilename: string;
   private ssrManifestFilename: string;
   private styles?: Set<string>;
+  private dependencies: Webpack.Dependency[] = [];
+  private includedResources: Set<string> = new Set();
 
   constructor(options?: RscClientPluginOptions) {
     this.clientManifestFilename =
@@ -52,8 +55,8 @@ export class RscClientPlugin {
       const entryModules: Webpack.Module[] = [];
 
       for (const [, entryValue] of compilation.entries.entries()) {
-        const entryDependency = entryValue.dependencies.find(
-          dependency => dependency.constructor.name === `EntryDependency`,
+        const entryDependency = entryValue.dependencies.find(dependency =>
+          dependency.constructor.name.endsWith('EntryDependency'),
         );
 
         if (!entryDependency) {
@@ -81,50 +84,166 @@ export class RscClientPlugin {
       return entryModules;
     };
 
-    const addClientReferencesChunks = (entryModule: Webpack.Module) => {
-      [...this.clientReferencesMap.keys()].forEach((resourcePath, index) => {
-        const chunkName = `client${index}`;
-
+    const addClientReferencesBlocks = (entryModule: Webpack.Module) => {
+      let index = 0;
+      const resourceSet = new Set<string>();
+      for (const key of this.clientReferencesMap.keys()) resourceSet.add(key);
+      for (const key of this.includedResources) resourceSet.add(key);
+      for (const resourcePath of resourceSet) {
+        const chunkName = `client${index++}`;
         const block = new AsyncDependenciesBlock(
           { name: chunkName },
           undefined,
           resourcePath,
         );
-
-        block.addDependency(new ClientReferenceDependency(resourcePath));
-
+        const dep = new ClientReferenceDependency(resourcePath);
+        block.addDependency(dep);
         entryModule.addBlock(block);
-      });
-      if (this.styles && this.styles.size > 0) {
-        for (const style of this.styles) {
-          const dep = new ClientReferenceDependency(style);
-          entryModule.addDependency(dep);
-        }
+        this.dependencies.push(dep);
       }
+      // Styles collected later from assets for SSR; no CSS injection here.
     };
 
-    compiler.hooks.finishMake.tap(RscClientPlugin.name, compilation => {
-      if (compiler.watchMode) {
-        const entryModules = getEntryModule(compilation);
+    // Do not add entries directly to avoid CSS child compilation issues
 
-        for (const entryModule of entryModules) {
-          // Remove stale client references.
-          entryModule.blocks = entryModule.blocks.filter(block =>
-            block.dependencies.some(
-              dependency =>
-                !(dependency instanceof ClientReferenceDependency) ||
-                this.clientReferencesMap.has(dependency.request),
-            ),
-          );
+    // Narrow type for loader-published sharedData records
+    type ClientRefRecord = {
+      readonly type: 'client';
+      readonly resourcePath: string;
+      readonly clientReferences: ClientReference[];
+    };
 
-          addClientReferencesChunks(entryModule);
+    const isClientRefRecord = (value: unknown): value is ClientRefRecord => {
+      if (!value || typeof value !== 'object') return false;
+      const obj = value as Record<string, unknown>;
+      if (obj.type !== 'client') return false;
+      if (typeof obj.resourcePath !== 'string') return false;
+      const list = obj.clientReferences as unknown;
+      if (!Array.isArray(list)) return false;
+      // Basic element shape check (id + exportName)
+      return list.every(
+        item =>
+          item &&
+          typeof (item as ClientReference).exportName === 'string' &&
+          (typeof (item as ClientReference).id === 'string' ||
+            typeof (item as ClientReference).id === 'number'),
+      );
+    };
+
+    compiler.hooks.finishMake.tapAsync(
+      RscClientPlugin.name,
+      (compilation, callback) => {
+        // Try to hydrate from sharedData in case server compiler published during module loading
+        const tryHydrate = () => {
+          try {
+            const map = sharedData.get<ClientReferencesMap>(
+              'clientReferencesMap',
+            );
+            if (
+              map &&
+              map.size > 0 &&
+              (!this.clientReferencesMap || this.clientReferencesMap.size === 0)
+            ) {
+              this.clientReferencesMap = map;
+            }
+            // Also try loader keys fallback
+            if (
+              !this.clientReferencesMap ||
+              this.clientReferencesMap.size === 0
+            ) {
+              const derived: ClientReferencesMap = new Map();
+              const store = sharedData.store;
+              const entries: Iterable<[unknown, unknown]> =
+                store && typeof store === 'object' && 'forEach' in store
+                  ? (store as Map<unknown, unknown>).entries()
+                  : [];
+              for (const [key, val] of entries) {
+                if (typeof key !== 'string' || !key.endsWith(':client-refs'))
+                  continue;
+                if (!isClientRefRecord(val)) continue;
+                derived.set(val.resourcePath, val.clientReferences);
+              }
+              if (derived.size > 0) {
+                this.clientReferencesMap = derived;
+                if (process.env.DEBUG_RSC_CLIENT) {
+                  console.log(
+                    '[RscClientPlugin finishMake] derived from loader keys:',
+                    Array.from(derived.keys()),
+                  );
+                }
+              }
+            }
+          } catch {}
+        };
+
+        if (compiler.watchMode) {
+          tryHydrate();
+          const entryModules = getEntryModule(compilation);
+
+          for (const entryModule of entryModules) {
+            // Remove stale client reference blocks
+            entryModule.blocks = entryModule.blocks.filter(block =>
+              block.dependencies.some(
+                dependency =>
+                  !(dependency instanceof ClientReferenceDependency) ||
+                  this.clientReferencesMap.has(dependency.request),
+              ),
+            );
+            addClientReferencesBlocks(entryModule);
+          }
+          callback();
+        } else {
+          // Non-watch mode: poll for clientReferencesMap to be published by server compiler
+          const deadline = Date.now() + 4000;
+          let attemptCount = 0;
+          const pollAndProceed = () => {
+            attemptCount++;
+            tryHydrate();
+
+            if (process.env.DEBUG_RSC_CLIENT && attemptCount % 5 === 1) {
+              console.log(
+                `[RscClientPlugin finishMake] attempt ${attemptCount}, map size:`,
+                this.clientReferencesMap.size,
+              );
+            }
+
+            if (this.clientReferencesMap && this.clientReferencesMap.size > 0) {
+              if (process.env.DEBUG_RSC_CLIENT) {
+                console.log(
+                  '[RscClientPlugin finishMake] successfully hydrated, keys:',
+                  Array.from(this.clientReferencesMap.keys()),
+                );
+              }
+              // Add client reference blocks to entry modules
+              const entryModules = getEntryModule(compilation);
+              for (const entryModule of entryModules) {
+                addClientReferencesBlocks(entryModule);
+              }
+              callback();
+            } else if (Date.now() < deadline) {
+              setTimeout(pollAndProceed, 50);
+            } else {
+              if (process.env.DEBUG_RSC_CLIENT) {
+                console.log(
+                  '[RscClientPlugin finishMake] gave up waiting, proceeding with empty map',
+                );
+              }
+              callback();
+            }
+          };
+          pollAndProceed();
         }
-      }
-    });
+      },
+    );
 
     compiler.hooks.compilation.tap(
       RscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
+        // Skip child compilers (e.g., HtmlWebpackPlugin) that don't have a normalModuleFactory
+        if (!normalModuleFactory) {
+          return;
+        }
+
         compilation.dependencyFactories.set(
           ClientReferenceDependency,
           normalModuleFactory,
@@ -167,19 +286,123 @@ export class RscClientPlugin {
     compiler.hooks.thisCompilation.tap(
       RscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
-        this.styles = sharedData.get('styles') as Set<string>;
-        this.clientReferencesMap = sharedData.get(
-          'clientReferencesMap',
-        ) as ClientReferencesMap;
+        // Skip child compilers (e.g., HtmlWebpackPlugin) that don't have a normalModuleFactory
+        if (!normalModuleFactory) {
+          return;
+        }
+
+        // Initialize with safe defaults if sharedData is not available (child compilers)
+        this.styles =
+          sharedData.get<Set<string>>('styles') || new Set<string>();
+        this.clientReferencesMap =
+          sharedData.get<ClientReferencesMap>('clientReferencesMap') ||
+          new Map();
+
+        // Fallback: if the server plugin hasn't published clientReferencesMap
+        // yet, derive it from per-module ":client-refs" keys published by the
+        // server loader during module loading. This helps initial builds where
+        // the client and server compilers run concurrently.
+        if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+          const derived: ClientReferencesMap = new Map();
+          try {
+            const store = sharedData.store;
+            const entries: Iterable<[unknown, unknown]> =
+              store && typeof store === 'object' && 'forEach' in store
+                ? (store as Map<unknown, unknown>).entries()
+                : [];
+            for (const [key, val] of entries) {
+              if (typeof key !== 'string' || !key.endsWith(':client-refs'))
+                continue;
+              if (!isClientRefRecord(val)) continue;
+              const { resourcePath, clientReferences } = val;
+              derived.set(resourcePath, clientReferences);
+            }
+          } catch {}
+          if (derived.size > 0) {
+            this.clientReferencesMap = derived;
+            if (process.env.DEBUG_RSC_CLIENT) {
+              console.log(
+                '[RscClientPlugin] derived from loader keys:',
+                Array.from(derived.keys()),
+              );
+            }
+          }
+        }
+        if (process.env.DEBUG_RSC_CLIENT) {
+          console.log(
+            '[RscClientPlugin] clientReferencesMap size:',
+            this.clientReferencesMap.size,
+          );
+        }
+        // Pre-scan src for 'use client' to seed resource paths early for non-MF webpack
+        try {
+          if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+            const fs = require('fs') as typeof import('fs');
+            const path = require('path') as typeof import('path');
+            const root = compiler.context || process.cwd();
+            const srcDir = path.join(root, 'src');
+            const exts = new Set(['.js', '.jsx', '.ts', '.tsx']);
+            const scan = (dir: string) => {
+              try {
+                const entries = fs.readdirSync(dir, { withFileTypes: true });
+                for (const ent of entries) {
+                  const full = path.join(dir, ent.name);
+                  if (ent.isDirectory()) {
+                    scan(full);
+                  } else if (exts.has(path.extname(ent.name))) {
+                    try {
+                      const buf = fs.readFileSync(full, 'utf-8');
+                      // quick directive check near top
+                      const head = buf.slice(0, 256);
+                      if (/['\"]use client['\"];?/.test(head)) {
+                        this.includedResources.add(full);
+                      }
+                    } catch {}
+                  }
+                }
+              } catch {}
+            };
+            if (fs.existsSync(srcDir)) scan(srcDir);
+          }
+        } catch {}
+
         const onNormalModuleFactoryParser = (
           parser: Webpack.javascript.JavascriptParser,
         ) => {
           parser.hooks.program.tap(RscClientPlugin.name, () => {
+            // Re-hydrate from sharedData at parse time in case server loader
+            // published client refs after thisCompilation hook ran
+            try {
+              const map = sharedData.get<ClientReferencesMap>('clientReferencesMap');
+              if (map && map.size > 0) {
+                this.clientReferencesMap = map;
+              } else if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+                // Fallback: read from loader-published keys
+                const derived: ClientReferencesMap = new Map();
+                const store = sharedData.store;
+                const entries: Iterable<[unknown, unknown]> =
+                  store && typeof store === 'object' && 'forEach' in store
+                    ? (store as Map<unknown, unknown>).entries()
+                    : [];
+                for (const [key, val] of entries) {
+                  if (typeof key !== 'string' || !key.endsWith(':client-refs')) continue;
+                  if (!isClientRefRecord(val)) continue;
+                  derived.set(val.resourcePath, val.clientReferences);
+                }
+                if (derived.size > 0) {
+                  this.clientReferencesMap = derived;
+                  if (process.env.DEBUG_RSC_CLIENT) {
+                    console.log('[RscClientPlugin parser] hydrated from loader keys:', Array.from(derived.keys()));
+                  }
+                }
+              }
+            } catch {}
+
             const entryModules = getEntryModule(compilation);
 
             for (const entryModule of entryModules) {
               if (entryModule === parser.state.module) {
-                addClientReferencesChunks(entryModule);
+                addClientReferencesBlocks(entryModule);
               }
             }
           });
@@ -207,73 +430,104 @@ export class RscClientPlugin {
 
         compilation.hooks.processAssets.tap(RscClientPlugin.name, () => {
           const clientManifest: ClientManifest = {};
-          const { chunkGraph, moduleGraph, modules } = compilation;
+          const { chunkGraph, moduleGraph, modules } = compilation as unknown as Webpack.Compilation & { modules: Iterable<Webpack.Module> };
 
-          for (const module of modules) {
+          // Build manifests from explicitly added client-reference dependencies
+          for (const dependency of this.dependencies) {
+            const module = moduleGraph.getModule(dependency);
+            if (!module) continue;
             const resourcePath = module.nameForCondition();
-
             const clientReferences = resourcePath
               ? this.clientReferencesMap.get(resourcePath)
               : undefined;
+            if (!clientReferences) continue;
 
-            if (clientReferences) {
-              const moduleId = chunkGraph.getModuleId(module);
+            const moduleId = chunkGraph.getModuleId(module);
+            const ssrModuleMetaData: Record<string, ImportManifestEntry> = {};
 
-              const ssrModuleMetaData: Record<string, ImportManifestEntry> = {};
+            const chunksSet = new Set<Webpack.Chunk>();
+            for (const chunk of chunkGraph.getModuleChunksIterable(module)) {
+              chunksSet.add(chunk);
+            }
 
-              for (const { id, exportName, ssrId } of clientReferences) {
-                const clientExportName = exportName;
-                const ssrExportName = exportName;
-
-                const chunksSet = new Set<Webpack.Chunk>();
-
-                for (const chunk of chunkGraph.getModuleChunksIterable(
-                  module,
-                )) {
-                  chunksSet.add(chunk);
-                }
-
-                for (const connection of moduleGraph.getOutgoingConnections(
-                  module,
-                )) {
-                  for (const chunk of chunkGraph.getModuleChunksIterable(
-                    connection.module,
-                  )) {
-                    chunksSet.add(chunk);
+            const chunks: (string | number)[] = [];
+            const styles: string[] = [];
+            for (const chunk of chunksSet) {
+              if (chunk.id && !chunk.isOnlyInitial()) {
+                for (const file of chunk.files) {
+                  if (file.endsWith('.js')) {
+                    chunks.push(chunk.id, file);
                   }
                 }
+              }
+            }
 
-                const chunks: (string | number)[] = [];
-                const styles: string[] = [];
+            for (const { id, exportName, ssrId } of clientReferences) {
+              clientManifest[id] = {
+                id: moduleId!,
+                name: exportName,
+                chunks,
+                styles,
+              };
 
-                for (const chunk of chunksSet) {
-                  if (chunk.id && !chunk.isOnlyInitial()) {
-                    for (const file of chunk.files) {
-                      if (file.endsWith('.js')) {
-                        chunks.push(chunk.id, file);
-                      }
-                    }
+              if (ssrId) {
+                ssrModuleMetaData[exportName] = {
+                  id: ssrId,
+                  name: exportName,
+                  chunks: [],
+                };
+              }
+            }
+
+            ssrManifest.moduleMap[moduleId!] = ssrModuleMetaData;
+          }
+
+          // Fallback: also scan all modules to catch any client refs that were
+          // included via other means (e.g., optimization/concat changes).
+          for (const mod of modules) {
+            const resourcePath = mod.nameForCondition();
+            const clientReferences = resourcePath
+              ? this.clientReferencesMap.get(resourcePath)
+              : undefined;
+            if (!clientReferences) continue;
+            const moduleId = chunkGraph.getModuleId(mod);
+            const ssrModuleMetaData: Record<string, ImportManifestEntry> = {};
+            const chunksSet = new Set<Webpack.Chunk>();
+            for (const chunk of chunkGraph.getModuleChunksIterable(mod)) {
+              chunksSet.add(chunk);
+            }
+            const chunks: (string | number)[] = [];
+            const styles: string[] = [];
+            for (const chunk of chunksSet) {
+              if (chunk.id && !chunk.isOnlyInitial()) {
+                for (const file of chunk.files) {
+                  if (file.endsWith('.js')) {
+                    chunks.push(chunk.id, file);
                   }
                 }
-
+              }
+            }
+            for (const { id, exportName, ssrId } of clientReferences) {
+              if (!clientManifest[id]) {
                 clientManifest[id] = {
                   id: moduleId!,
-                  name: clientExportName,
+                  name: exportName,
                   chunks,
                   styles,
                 };
-
-                if (ssrId) {
-                  ssrModuleMetaData[clientExportName] = {
-                    id: ssrId,
-                    name: ssrExportName,
-                    chunks: [],
-                  };
-                }
               }
-
-              ssrManifest.moduleMap[moduleId!] = ssrModuleMetaData;
+              if (ssrId) {
+                ssrModuleMetaData[exportName] = {
+                  id: ssrId,
+                  name: exportName,
+                  chunks: [],
+                };
+              }
             }
+            ssrManifest.moduleMap[moduleId!] = {
+              ...(ssrManifest.moduleMap[moduleId!] || {}),
+              ...ssrModuleMetaData,
+            };
           }
 
           compilation.emitAsset(

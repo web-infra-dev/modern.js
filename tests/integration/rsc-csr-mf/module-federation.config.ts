@@ -19,9 +19,9 @@ export default createModuleFederationConfig({
   filename: 'static/remoteEntry.js',
   shareScope: 'default',
   exposes: {
-    './CounterClient': './src/mf-exposes/CounterClient.js',
-    './DynamicMessageClient': './src/mf-exposes/DynamicMessageClient.js',
-    './SuspendedClient': './src/mf-exposes/SuspendedClient.js',
+    './CounterClient': './src/mf-exposes/CounterClient.ts',
+    './DynamicMessageClient': './src/mf-exposes/DynamicMessageClient.ts',
+    './SuspendedClient': './src/mf-exposes/SuspendedClient.ts',
   },
   shared: {
     react: {

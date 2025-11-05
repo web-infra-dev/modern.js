@@ -6,6 +6,7 @@ import { setRscBuildInfo } from './common';
 export type RscServerLoaderOptions = {
   appDir: string;
   runtimePath?: string;
+  detectOnly?: boolean;
 };
 
 interface ExportName {
@@ -39,7 +40,7 @@ export default async function rscServerLoader(
 ) {
   this.cacheable(true);
   const callback = this.async();
-  const { appDir, runtimePath = '@modern-js/runtime/rsc/server' } =
+  const { appDir, runtimePath = '@modern-js/runtime/rsc/server', detectOnly = false } =
     this.getOptions();
 
   const result = await transform(source, {
@@ -67,6 +68,13 @@ export default async function rscServerLoader(
   const metadata = extractMetadata(code);
 
   if (metadata?.directive && metadata.directive === 'client') {
+    if (process.env.DEBUG_RSC_LOADER) {
+      // eslint-disable-next-line no-console
+      console.log(
+        '[rsc-server-loader] detected client module:',
+        this.resourcePath,
+      );
+    }
     const { exportNames } = metadata;
     if (exportNames.length > 0) {
       setRscBuildInfo(this._module!, {
@@ -74,6 +82,33 @@ export default async function rscServerLoader(
         resourcePath: this.resourcePath,
         clientReferences: exportNames,
       });
+
+      // CRITICAL: Also publish to sharedData immediately for multi-compiler builds.
+      // This ensures the client compiler can see client references early.
+      try {
+        const { sharedData } = require('./common');
+        const key = `${this.resourcePath}:client-refs`;
+        sharedData.set(key, {
+          type: 'client',
+          resourcePath: this.resourcePath,
+          clientReferences: exportNames,
+        });
+        if (process.env.DEBUG_RSC_LOADER) {
+          // eslint-disable-next-line no-console
+          console.log('[rsc-server-loader] published to sharedData:', key);
+        }
+      } catch (err) {
+        // Silently fail if sharedData unavailable
+      }
+    }
+
+    // If detectOnly mode, return original source without SWC transform
+    if (detectOnly) {
+      if (process.env.DEBUG_RSC_LOADER) {
+        // eslint-disable-next-line no-console
+        console.log('[rsc-server-loader] detectOnly mode, returning original source');
+      }
+      return callback(null, source);
     }
   } else if (metadata) {
     const { exportNames } = metadata;

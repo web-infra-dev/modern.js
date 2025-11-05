@@ -161,14 +161,18 @@ const splitRemoteString = (remoteValue: string) => {
 
 const fetchJson = async <T>(url: string): Promise<T | undefined> => {
   try {
-    const response = await fetch(url, {
-      cache: 'no-store',
-    });
+    const response = await fetch(url, { cache: 'no-store' });
+    if (process.env.DEBUG_MF_RSC_SERVER) {
+      console.log(`[MF RSC] fetch ${url} -> ${response.status}`);
+    }
     if (!response.ok) {
       return undefined;
     }
     return (await response.json()) as T;
-  } catch {
+  } catch (err) {
+    if (process.env.DEBUG_MF_RSC_SERVER) {
+      console.log(`[MF RSC] fetch ${url} failed:`, err);
+    }
     return undefined;
   }
 };
@@ -209,12 +213,110 @@ export const remoteRscManifestPlugin = (
       ? api.getLogger()
       : { info: console.log, warn: console.warn, error: console.error };
 
-    const remoteDefinitions = normaliseRemoteEntries(options.remotes);
-    const initMessage = `[module-federation] remote RSC manifest plugin initialised with ${remoteDefinitions.length} remote(s).`;
+    let remoteDefinitions = normaliseRemoteEntries(options.remotes);
+    // Load persisted remotes if not provided by plugin options
+    if (remoteDefinitions.length === 0) {
+      try {
+        // Use sync require to avoid top-level await in CJS
+        const path = require('path') as any;
+        const fs = require('fs') as any;
+        const file = path.join(
+          process.cwd(),
+          'node_modules',
+          '.modern-js',
+          'mf-remotes.json',
+        );
+        if (fs.existsSync(file)) {
+          const json = JSON.parse(fs.readFileSync(file, 'utf-8')) as {
+            definitions?: Array<{ name: string; manifestUrl: string }>;
+          };
+          if (json?.definitions?.length) {
+            console.log(
+              '[MF RSC] Loaded remotes from persisted JSON:',
+              json.definitions,
+            );
+            remoteDefinitions = json.definitions;
+          }
+        }
+      } catch {}
+    }
+    if (remoteDefinitions.length === 0) {
+      const envCsr = process.env.RSC_CSR_REMOTE_URL || process.env.REMOTE_URL;
+      const envSsr = process.env.RSC_SSR_REMOTE_URL;
+      const defs: RemoteDefinition[] = [];
+      if (envCsr) {
+        defs.push({
+          name: 'rsc_csr_remote',
+          manifestUrl: new URL('static/mf-manifest.json', envCsr).toString(),
+        });
+      }
+      if (envSsr) {
+        defs.push({
+          name: 'rsc_ssr_remote',
+          manifestUrl: new URL('static/mf-manifest.json', envSsr).toString(),
+        });
+      }
+      if (defs.length) {
+        console.log('[MF RSC] Fallback remotes from env:', defs);
+        remoteDefinitions = defs;
+      }
+    }
+    const initMessage = `[module-federation] remote RSC manifest plugin initialised with ${remoteDefinitions.length} remote(s). remotes option type=${typeof options.remotes}`;
     logger?.info?.(initMessage);
     if (!logger?.info) {
       console.log(initMessage);
     }
+    try {
+      console.log('[MF RSC] remotes option snapshot:', options.remotes);
+      console.log('[MF RSC] env REMOTE_URL=', process.env.REMOTE_URL);
+      console.log(
+        '[MF RSC] env RSC_CSR_REMOTE_URL=',
+        process.env.RSC_CSR_REMOTE_URL,
+      );
+      console.log(
+        '[MF RSC] env RSC_SSR_REMOTE_URL=',
+        process.env.RSC_SSR_REMOTE_URL,
+      );
+    } catch {}
+
+    // Early background preload so first request sees merged manifests
+    let preloadPromise: Promise<void> | undefined;
+    const startPreload = () => {
+      if (preloadPromise) return preloadPromise;
+      preloadPromise = (async () => {
+        try {
+          if (remoteDefinitions.length === 0) {
+            const persisted = readPersistedRemotes();
+            if (persisted.length) {
+              console.log(
+                '[MF RSC] (prepare) using persisted remotes:',
+                persisted,
+              );
+              remoteDefinitions = persisted;
+            } else {
+              const fromConfig = await loadRemotesFromAppConfig();
+              if (fromConfig.length) {
+                console.log(
+                  '[MF RSC] (prepare) using app-config remotes:',
+                  fromConfig,
+                );
+                remoteDefinitions = fromConfig;
+              }
+            }
+          }
+          if (remoteDefinitions.length) {
+            const tasks = remoteDefinitions.map(r => loadRemoteArtifacts(r));
+            await Promise.allSettled(tasks);
+          }
+        } catch (err) {
+          console.warn('[MF RSC] (prepare) failed to preload remotes:', err);
+        }
+      })();
+      return preloadPromise;
+    };
+
+    // kick off preload
+    startPreload();
 
     const logFederationRemotes = (phase: string) => {
       if (!process.env.DEBUG_MF_RSC_SERVER) {
@@ -441,7 +543,13 @@ export const remoteRscManifestPlugin = (
           return joinUrl(baseForCandidate, 'static/remoteEntry.js');
         }
         if (publicPath) {
-          return joinUrl(publicPath, 'bundles/static/remoteEntry.js');
+          // In development, remotes serve assets from /static only. Avoid
+          // using the /bundles prefix which is production-only.
+          const dev = process.env.NODE_ENV === 'development';
+          return joinUrl(
+            publicPath,
+            dev ? 'static/remoteEntry.js' : 'bundles/static/remoteEntry.js',
+          );
         }
         return undefined;
       })();
@@ -471,13 +579,205 @@ export const remoteRscManifestPlugin = (
 
     const pendingLoads = new Map<string, Promise<void>>();
 
+    const getFederationRemoteEntries = () => {
+      try {
+        const federation = (globalThis as any).__FEDERATION__;
+        const instances = federation?.__INSTANCES__;
+        const out: RemoteDefinition[] = [];
+        if (!instances || !instances.length) return out;
+        for (const instance of instances) {
+          // Prefer concrete remoteInfo entries (post-initialization)
+          if (instance.remoteInfo instanceof Map) {
+            for (const [name, info] of instance.remoteInfo.entries()) {
+              const entry = info?.entry as string | undefined;
+              if (name && typeof entry === 'string' && entry.length) {
+                // Derive mf-manifest.json from remoteEntry.js location
+                const manifestUrl = new URL(
+                  'mf-manifest.json',
+                  entry,
+                ).toString();
+                out.push({ name, manifestUrl });
+              }
+            }
+          } else if (
+            instance.remoteInfo &&
+            typeof instance.remoteInfo === 'object'
+          ) {
+            for (const [name, info] of Object.entries(instance.remoteInfo)) {
+              const entry = (info as any)?.entry as string | undefined;
+              if (name && typeof entry === 'string' && entry.length) {
+                const manifestUrl = new URL(
+                  'mf-manifest.json',
+                  entry,
+                ).toString();
+                out.push({ name, manifestUrl });
+              }
+            }
+          }
+
+          // Fallback: parse options.remotes (pre-initialization)
+          const remotes = instance.options?.remotes;
+          const pushFromValue = (remoteName: string, value: any) => {
+            let str: string | undefined;
+            if (typeof value === 'string') str = value;
+            else if (Array.isArray(value))
+              str = typeof value[0] === 'string' ? value[0] : undefined;
+            else if (value && typeof value === 'object') {
+              if (typeof value.external === 'string')
+                str = value.external as string;
+              else if (typeof value.url === 'string') str = value.url as string;
+            }
+            if (str?.includes('@')) {
+              const parts = str.split('@');
+              const url = parts.slice(1).join('@');
+              try {
+                const manifestUrl = new URL('mf-manifest.json', url).toString();
+                out.push({ name: remoteName, manifestUrl });
+              } catch {}
+            }
+          };
+          if (Array.isArray(remotes)) {
+            for (const item of remotes) {
+              if (item && typeof item === 'object') {
+                for (const [remoteName, value] of Object.entries(item)) {
+                  pushFromValue(remoteName, value);
+                }
+              }
+            }
+          } else if (remotes && typeof remotes === 'object') {
+            for (const [remoteName, value] of Object.entries(remotes)) {
+              pushFromValue(remoteName, value);
+            }
+          }
+        }
+        return out;
+      } catch {
+        return [] as RemoteDefinition[];
+      }
+    };
+
+    const readPersistedRemotes = (): RemoteDefinition[] => {
+      try {
+        const path = require('path') as any;
+        const fs = require('fs') as any;
+        const file = path.join(
+          process.cwd(),
+          'node_modules',
+          '.modern-js',
+          'mf-remotes.json',
+        );
+        if (fs.existsSync(file)) {
+          const json = JSON.parse(fs.readFileSync(file, 'utf-8')) as {
+            definitions?: Array<{ name: string; manifestUrl: string }>;
+          };
+          if (json?.definitions?.length) {
+            return json.definitions;
+          }
+        }
+      } catch {}
+      return [];
+    };
+
+    const loadRemotesFromAppConfig = async (): Promise<RemoteDefinition[]> => {
+      try {
+        // Dynamically bundle-require the app's module-federation.config.* file
+        const path = require('path') as any;
+        const fs = require('fs') as any;
+        const candidates = [
+          'module-federation.config.ts',
+          'module-federation.config.js',
+          'module-federation.config.mjs',
+          'module-federation.config.cjs',
+        ].map((f: string) => path.join(process.cwd(), f));
+        const file = candidates.find((p: string) => fs.existsSync(p));
+        if (!file) return [];
+        const { bundle } = require('@modern-js/node-bundle-require');
+        const mod = await bundle(file);
+        const cfg = (mod?.default || mod) as { remotes?: any };
+        if (!cfg?.remotes) return [];
+
+        const out: RemoteDefinition[] = [];
+        const push = (name: string, value: any) => {
+          let str: string | undefined;
+          if (typeof value === 'string') str = value;
+          else if (Array.isArray(value))
+            str = typeof value[0] === 'string' ? value[0] : undefined;
+          else if (value && typeof value === 'object') {
+            if (typeof (value as any).external === 'string')
+              str = (value as any).external;
+            else if (typeof (value as any).url === 'string')
+              str = (value as any).url;
+          }
+          if (str?.includes('@')) {
+            const parts = str.split('@');
+            const url = parts.slice(1).join('@');
+            try {
+              // If the provided URL already points to a manifest, use it as-is.
+              const manifestUrl = /mf-manifest\.json(\?|#|$)/.test(url)
+                ? url
+                : new URL('mf-manifest.json', url).toString();
+              out.push({ name, manifestUrl });
+            } catch {}
+          }
+        };
+
+        if (Array.isArray(cfg.remotes)) {
+          for (const item of cfg.remotes) {
+            if (item && typeof item === 'object') {
+              for (const [name, value] of Object.entries(item))
+                push(name, value);
+            }
+          }
+        } else if (typeof cfg.remotes === 'object') {
+          for (const [name, value] of Object.entries(cfg.remotes))
+            push(name, value);
+        }
+        return out;
+      } catch {
+        return [];
+      }
+    };
+
     const ensureRemoteArtifacts = async () => {
-      if (remoteDefinitions.length === 0) {
+      let defs = remoteDefinitions;
+      if (defs.length === 0) {
+        // Fallback: derive from federation runtime entries (dev often sets entry only)
+        const derived = getFederationRemoteEntries();
+        if (derived.length) {
+          console.log(
+            '[MF RSC] Derived remote definitions from federation:',
+            derived,
+          );
+          defs = derived;
+        }
+        if (defs.length === 0) {
+          const persisted = readPersistedRemotes();
+          if (persisted.length) {
+            console.log(
+              '[MF RSC] Loaded persisted remote definitions:',
+              persisted,
+            );
+            defs = persisted;
+          }
+        }
+        if (defs.length === 0) {
+          const fromConfig = await loadRemotesFromAppConfig();
+          if (fromConfig.length) {
+            console.log(
+              '[MF RSC] Loaded remote definitions from app config:',
+              fromConfig,
+            );
+            defs = fromConfig;
+          }
+        }
+      }
+
+      if (defs.length === 0) {
         clearRemoteRscArtifacts();
         return;
       }
 
-      const tasks = remoteDefinitions.map(remote => {
+      const tasks = defs.map(remote => {
         const existing = getRemoteRscArtifacts().get(remote.name);
         if (existing) {
           return Promise.resolve();
@@ -503,6 +803,14 @@ export const remoteRscManifestPlugin = (
       name: 'module-federation-merge-remote-rsc-manifest',
       handler: async (c, next) => {
         await ensureRemoteArtifacts();
+        // If still empty on first pass, await preload once with timeout
+        if (getRemoteRscArtifacts().size === 0 && preloadPromise) {
+          const timeout = new Promise<void>(resolve =>
+            setTimeout(resolve, 2000),
+          );
+          await Promise.race([preloadPromise.catch(() => {}), timeout]);
+          await ensureRemoteArtifacts();
+        }
 
         const applyMerge = () => {
           const artifacts = getRemoteRscArtifacts();

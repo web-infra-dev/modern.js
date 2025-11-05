@@ -129,13 +129,27 @@ export const moduleFederationPlugin = (
 
         if (modernjsConfig.server?.rsc) {
           const manifestRemotes = internalModernPluginOptions.manifestRemotes;
+          const originRemotes =
+            internalModernPluginOptions.originPluginOptions?.remotes;
+          const csrRemotes = internalModernPluginOptions.csrConfig?.remotes;
+          const ssrRemotes = internalModernPluginOptions.ssrConfig?.remotes;
+
           const remotes =
             (manifestRemotes &&
               Object.keys(manifestRemotes).length &&
               manifestRemotes) ||
-            internalModernPluginOptions.originPluginOptions?.remotes ||
-            internalModernPluginOptions.csrConfig?.remotes ||
-            internalModernPluginOptions.ssrConfig?.remotes;
+            originRemotes ||
+            csrRemotes ||
+            ssrRemotes;
+
+          try {
+            // Debug sources so we can see why remotes may be undefined
+            console.log('[MF RSC CONFIG] manifestRemotes =', manifestRemotes);
+            console.log('[MF RSC CONFIG] originRemotes =', originRemotes);
+            console.log('[MF RSC CONFIG] csrRemotes =', csrRemotes);
+            console.log('[MF RSC CONFIG] ssrRemotes =', ssrRemotes);
+            console.log('[MF RSC CONFIG] server plugin remotes =', remotes);
+          } catch {}
 
           plugins.push({
             name: '@module-federation/modern-js-rsc/rsc-manifest-plugin',

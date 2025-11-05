@@ -4,9 +4,7 @@
   "version": "2.66.0",
   "scripts": {
     "dev": "cross-env BUNDLER=webpack modern dev",
-    "dev:rspack": "cross-env BUNDLER=rspack modern dev",
     "build": "cross-env BUNDLER=webpack modern build",
-    "build:rspack": "cross-env BUNDLER=rspack modern build",
     "serve": "modern serve",
     "new": "modern new"
   },

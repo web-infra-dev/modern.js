@@ -49,7 +49,7 @@
     "build:module_docs": "pnpm --filter @modern-js/module-tools-docs... build && pnpm --filter @modern-js/module-tools-docs build",
     "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/main-doc/doc_build/* ./doc_output && cp -r ./packages/document/module-doc/doc_build/ ./doc_output/module-tools",
     "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs",
-    "demo:rsc:mf:csr": "pnpm -C tests/integration/rsc-csr-mf build && pnpm -C tests/integration/rsc-csr-mf-host build && (PORT=3001 NODE_ENV=production ASSET_PREFIX=http://localhost:3001 MODERN_MF_AUTO_CORS=1 pnpm -C tests/integration/rsc-csr-mf serve &) && sleep 5 && PORT=3000 NODE_ENV=production ASSET_PREFIX=http://localhost:3001 pnpm -C tests/integration/rsc-csr-mf-host serve"
+    "demo:rsc:mf:csr": "BUNDLER=webpack pnpm -C tests/integration/rsc-csr-mf build && BUNDLER=webpack pnpm -C tests/integration/rsc-csr-mf-host build && (PORT=3001 NODE_ENV=production ASSET_PREFIX=http://localhost:3001 MODERN_MF_AUTO_CORS=1 pnpm -C tests/integration/rsc-csr-mf serve &) && sleep 5 && PORT=3000 NODE_ENV=production ASSET_PREFIX=http://localhost:3001 pnpm -C tests/integration/rsc-csr-mf-host serve"
   },
   "engines": {
     "node": ">=18",

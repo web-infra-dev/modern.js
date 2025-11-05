@@ -8,6 +8,26 @@ import {
   type SSRManifest,
   sharedData,
 } from '../common';
+
+type ClientRefRecord = {
+  type: 'client';
+  resourcePath: string;
+  clientReferences: {
+    id: string | number;
+    exportName: string;
+    ssrId?: string | number;
+  }[];
+};
+
+const isClientRefRecord = (val: unknown): val is ClientRefRecord => {
+  if (!val || typeof val !== 'object') return false;
+  const rec = val as Record<string, unknown>;
+  return (
+    rec.type === 'client' &&
+    typeof rec.resourcePath === 'string' &&
+    Array.isArray(rec.clientReferences)
+  );
+};
 export interface RscClientPluginOptions {
   readonly clientManifestFilename?: string;
   readonly ssrManifestFilename?: string;
@@ -158,13 +178,119 @@ export class RspackRscClientPlugin {
     compiler.hooks.finishMake.tapAsync(
       RspackRscClientPlugin.name,
       (compilation, callback) => {
-        const entryModules = getEntryModule(compilation);
-
-        for (const entryModule of entryModules) {
-          if (entryModule) {
-            addClientReferencesChunks(compilation, entryModule, callback);
+        // Attempt to hydrate maps as early as possible so we can include
+        // client references during this finishMake phase.
+        try {
+          const styles = sharedData.get('styles') as Set<string> | undefined;
+          const map = sharedData.get('clientReferencesMap') as
+            | ClientReferencesMap
+            | undefined;
+          if (styles && (!this.styles || this.styles.size === 0)) {
+            this.styles = styles;
           }
+          if (map && this.clientReferencesMap.size === 0) {
+            this.clientReferencesMap = map;
+          }
+          // Fallback: derive from sharedData.store when map still empty.
+          // This reads individual ":client-refs" keys published by the loader
+          // during server compilation's module loading phase.
+          if (
+            !this.clientReferencesMap ||
+            this.clientReferencesMap.size === 0
+          ) {
+            const derived: ClientReferencesMap = new Map();
+            try {
+              const store: Map<string, unknown> =
+                (sharedData as unknown as { store: Map<string, unknown> })
+                  .store || new Map();
+              for (const [key, raw] of store) {
+                if (
+                  typeof key === 'string' &&
+                  key.endsWith(':client-refs') &&
+                  isClientRefRecord(raw)
+                ) {
+                  derived.set(raw.resourcePath, raw.clientReferences);
+                }
+              }
+            } catch {}
+            if (derived.size > 0) {
+              this.clientReferencesMap = derived;
+              if (process.env.DEBUG_RSC_CLIENT) {
+                console.log(
+                  '[RspackRscClientPlugin] derived from loader keys:',
+                  Array.from(derived.keys()),
+                );
+              }
+            }
+          }
+        } catch {}
+        if (process.env.DEBUG_RSC_CLIENT) {
+          // eslint-disable-next-line no-console
+          console.log(
+            '[RspackRscClientPlugin] clientReferencesMap size:',
+            this.clientReferencesMap ? this.clientReferencesMap.size : 0,
+          );
         }
+        const proceed = () => {
+          const entryModules = getEntryModule(compilation);
+
+          for (const entryModule of entryModules) {
+            if (entryModule) {
+              addClientReferencesChunks(compilation, entryModule, callback);
+            }
+          }
+        };
+
+        // If map is empty here, give the server compiler a brief chance to
+        // publish it (finishMake races in multi-compiler builds). This avoids
+        // writing an empty client manifest in single-shot builds.
+        if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+          const deadline = Date.now() + 1500;
+          let attemptCount = 0;
+          const tryHydrate = () => {
+            attemptCount++;
+            try {
+              const map = sharedData.get('clientReferencesMap') as
+                | ClientReferencesMap
+                | undefined;
+              if (process.env.DEBUG_RSC_CLIENT && attemptCount % 5 === 1) {
+                console.log(
+                  `[RspackRscClientPlugin] tryHydrate attempt ${attemptCount}, map size:`,
+                  map ? map.size : 'undefined',
+                );
+              }
+              if (map && map.size > 0) {
+                this.clientReferencesMap = map;
+                if (process.env.DEBUG_RSC_CLIENT) {
+                  console.log(
+                    '[RspackRscClientPlugin] successfully hydrated, keys:',
+                    Array.from(map.keys()),
+                  );
+                }
+              }
+            } catch (err) {
+              if (process.env.DEBUG_RSC_CLIENT) {
+                console.log('[RspackRscClientPlugin] tryHydrate error:', err);
+              }
+            }
+
+            if (this.clientReferencesMap && this.clientReferencesMap.size > 0) {
+              proceed();
+            } else if (Date.now() < deadline) {
+              setTimeout(tryHydrate, 50);
+            } else {
+              if (process.env.DEBUG_RSC_CLIENT) {
+                console.log(
+                  '[RspackRscClientPlugin] gave up waiting, proceeding with empty map',
+                );
+              }
+              proceed();
+            }
+          };
+          return tryHydrate();
+        }
+
+        proceed();
       },
     );
 
@@ -203,10 +329,37 @@ export class RspackRscClientPlugin {
     compiler.hooks.thisCompilation.tap(
       RspackRscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
-        this.styles = sharedData.get('styles') as Set<string>;
-        this.clientReferencesMap = sharedData.get(
-          'clientReferencesMap',
-        ) as ClientReferencesMap;
+        // Initialize with safe defaults if sharedData is not available (child compilers)
+        this.styles =
+          (sharedData.get('styles') as Set<string>) || new Set<string>();
+        this.clientReferencesMap =
+          (sharedData.get('clientReferencesMap') as ClientReferencesMap) ||
+          new Map();
+
+        // Fallback: if the server plugin hasn't published clientReferencesMap
+        // yet, derive it from per-module ":client-refs" keys published by the
+        // server loader during module loading. This helps initial builds where
+        // the client and server compilers run concurrently.
+        if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
+          const derived: ClientReferencesMap = new Map();
+          try {
+            const store: Map<string, unknown> =
+              (sharedData as unknown as { store: Map<string, unknown> })
+                .store || new Map();
+            for (const [key, raw] of store) {
+              if (
+                typeof key === 'string' &&
+                key.endsWith(':client-refs') &&
+                isClientRefRecord(raw)
+              ) {
+                derived.set(raw.resourcePath, raw.clientReferences);
+              }
+            }
+          } catch {}
+          if (derived.size > 0) {
+            this.clientReferencesMap = derived;
+          }
+        }
 
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           RspackRscClientPlugin.name,

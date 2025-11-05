@@ -34,8 +34,29 @@ const staticServePlugin = (): ServerPlugin => ({
             try {
               const url = new URL(c.req.url);
               if (url.pathname === '/static/mf-manifest.json') {
-                // Minimal manifest payload; tests only log `.name`, not assert.
-                return c.json({}, 200);
+                const origin = `${url.protocol}//${url.host}/`;
+                const publicPath = origin;
+                const ssrPublicPath = new URL(
+                  'bundles/',
+                  publicPath,
+                ).toString();
+                const remoteEntry = new URL(
+                  'static/remoteEntry.js',
+                  publicPath,
+                ).toString();
+                // Provide enough hints so the host can patch federation correctly
+                // in development without relying on production-only /bundles path.
+                return c.json(
+                  {
+                    remoteEntry,
+                    metaData: {
+                      publicPath,
+                      ssrPublicPath,
+                      remoteEntry,
+                    },
+                  },
+                  200,
+                );
               }
             } catch {}
             await next();
