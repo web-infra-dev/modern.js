@@ -88,31 +88,7 @@ export const rsbuildRscPlugin = ({
               .rule(CHAIN_ID.RULE.JS)
               .oneOf('rsc-server')
               .issuerLayer(webpackRscLayerName)
-              .include.add(/[/\\]src[/\\]/)
-              .end()
               .exclude.add(/universal[/\\]async_storage/)
-              .end()
-              .use('rsc-server-loader')
-              .loader(require.resolve('../rsc-server-loader'))
-              .options({
-                entryPath2Name,
-                appDir,
-                runtimePath: rscServerRuntimePath,
-                internalDirectory,
-              })
-              .end()
-              .use(JSRule)
-              .loader(jsLoaderPath)
-              .options(jsLoaderOptions)
-              .end()
-              .end()
-              // Fallback detection for host apps with wrapped entries: scan
-              // src for 'use client' modules even if their issuer isn't in the
-              // react-server layer, so the server plugin can record them.
-              .oneOf('rsc-client-detect')
-              .include.add(/[/\\]src[/\\]/)
-              .end()
-              .exclude.add(/node_modules/)
               .end()
               .use('rsc-server-loader')
               .loader(require.resolve('../rsc-server-loader'))
@@ -156,31 +132,21 @@ export const rsbuildRscPlugin = ({
             `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );
 
-          // Only assign actual RSC rendering modules to react-server layer,
-          // NOT AppProxy or routes which are part of the main server bundle.
           chain.module
             .rule('server-module')
-            .resource([/render[/\\].*[/\\]server[/\\]rsc/])
+            .resource([
+              /render[/\\].*[/\\]server[/\\]rsc/,
+              /AppProxy/,
+              routesFileReg,
+            ])
             .layer(webpackRscLayerName)
             .end();
-
-          // DO NOT assign entries to react-server layer for the main server bundle.
-          // The react-server layer should only be used for actual RSC render paths,
-          // not for the main server bundle that runs in normal Node environment.
-          // Entry files and their imports are parsed by rsc-client-detect oneOf rule
-          // (lines 112-130) which records 'use client' modules without layer assignment.
 
           chain.module
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
-            .include.add(/[/\\]src[/\\]/)
-            .end()
-            .resolve.conditionNames.add('react-server')
-            .add('node')
-            .add('import')
-            .end()
-            .end();
-          // react-server condition is scoped to modules in react-server layer only.
+            .resolve.conditionNames.add(webpackRscLayerName)
+            .add('...');
 
           chain.module
             .rule('rsc-common')
@@ -232,20 +198,15 @@ export const rsbuildRscPlugin = ({
           chain.plugin('rsc-client-plugin').use(ClientPlugin);
         };
 
-        const chainName = chain.get('name');
-        const treatAsServer = isServer || chainName === 'node';
-
-        if (treatAsServer) {
-          if (isServer) {
-            chain.name('server');
-          }
+        if (isServer) {
+          chain.name('server');
           layerHandler();
           flightCssHandler();
           jsHandler();
           addServerRscPlugin();
         } else {
           chain.name('client');
-          // No hard dependency on a specific compiler name; avoid MultiCompiler dependency issues.
+          chain.dependencies(['server']);
           addRscClientLoader();
           addRscClientPlugin();
         }

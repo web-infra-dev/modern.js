@@ -11,7 +11,16 @@ lto = true
 
 [dependencies]
 path-slash = "0.2.1"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-swc_core = { version = "9.0.3", features = ["ecma_plugin_transform", "testing", "ecma_parser", "ecma_quote"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+swc_core = { version = "46.0.2", features = [
+  "common",
+  "ecma_ast",
+  "ecma_visit",
+  "ecma_parser",
+  "ecma_quote",
+  "ecma_plugin_transform",
+  "testing",
+] }
+swc_atoms = "8.0.2"
 

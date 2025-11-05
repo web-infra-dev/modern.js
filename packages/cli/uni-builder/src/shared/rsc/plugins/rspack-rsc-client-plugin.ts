@@ -203,34 +203,10 @@ export class RspackRscClientPlugin {
     compiler.hooks.thisCompilation.tap(
       RspackRscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
-        this.styles = (sharedData.get('styles') as Set<string>) || new Set();
-        this.clientReferencesMap =
-          (sharedData.get('clientReferencesMap') as ClientReferencesMap) ||
-          new Map();
-
-        if (!this.clientReferencesMap || this.clientReferencesMap.size === 0) {
-          const derived: ClientReferencesMap = new Map();
-          try {
-            for (const [key, val] of (sharedData as any).store || []) {
-              if (
-                typeof key === 'string' &&
-                val &&
-                typeof val === 'object' &&
-                (val as any).type === 'client' &&
-                (val as any).resourcePath &&
-                (val as any).clientReferences
-              ) {
-                derived.set(
-                  (val as any).resourcePath as string,
-                  (val as any).clientReferences,
-                );
-              }
-            }
-          } catch {}
-          if (derived.size > 0) {
-            this.clientReferencesMap = derived;
-          }
-        }
+        this.styles = sharedData.get('styles') as Set<string>;
+        this.clientReferencesMap = sharedData.get(
+          'clientReferencesMap',
+        ) as ClientReferencesMap;
 
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           RspackRscClientPlugin.name,
