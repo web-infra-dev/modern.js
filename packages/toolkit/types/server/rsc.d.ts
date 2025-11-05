@@ -22,6 +22,10 @@ export interface ServerManifest {
 export interface ServerReferencesModuleInfo {
   readonly exportNames: string[];
   moduleId?: string | number;
+  federationRef?: {
+    remote: string;
+    expose: string;
+  };
 }
 
 export type ClientReferencesMap = Map<string, ClientReference[]>;

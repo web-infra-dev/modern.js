@@ -285,29 +285,41 @@ export class RscServerPlugin {
               sharedData.set(buildInfo?.resourcePath, buildInfo);
             }
 
+            const normalizedResourcePath = path
+              .resolve(buildInfo.resourcePath)
+              .replace(/\\/g, '/');
             const currentReference =
               buildInfo?.type === 'client'
-                ? this.clientReferencesMap.get(buildInfo.resourcePath)
-                : this.serverReferencesMap.get(buildInfo.resourcePath);
+                ? this.clientReferencesMap.get(normalizedResourcePath)
+                : this.serverReferencesMap.get(normalizedResourcePath);
 
             if (buildInfo?.type === 'server') {
+              const normalizedPath = path
+                .resolve(buildInfo.resourcePath)
+                .replace(/\\/g, '/');
               this.serverModuleInfo.set(
-                buildInfo.resourcePath,
+                normalizedPath,
                 buildInfo as ServerReferencesModuleInfo,
               );
             }
 
             if (buildInfo?.type === 'client' && !currentReference) {
               hasChangeReference = true;
+              const normalizedPath = path
+                .resolve(buildInfo.resourcePath)
+                .replace(/\\/g, '/');
               this.clientReferencesMap.set(
-                buildInfo.resourcePath,
+                normalizedPath,
                 buildInfo.clientReferences,
               );
             } else if (buildInfo?.type === 'server' && !currentReference) {
               hasChangeReference = true;
 
+              const normalizedPath = path
+                .resolve(buildInfo.resourcePath)
+                .replace(/\\/g, '/');
               this.serverReferencesMap.set(
-                buildInfo.resourcePath,
+                normalizedPath,
                 buildInfo.exportNames,
               );
               if (process.env.DEBUG_RSC_PLUGIN) {
@@ -402,7 +414,7 @@ export class RscServerPlugin {
       },
     );
 
-    compiler.hooks.done.tap(RscServerPlugin.name, stats => {
+    compiler.hooks.done.tapPromise(RscServerPlugin.name, async stats => {
       // Ensure all server module entries have moduleId populated before sharing
       const compilation = stats?.compilation;
       if (compilation) {
@@ -420,9 +432,14 @@ export class RscServerPlugin {
                 const moduleId = compilation.chunkGraph.getModuleId(module);
                 if (moduleId !== null) {
                   moduleInfo.moduleId = moduleId;
+                  // Also update serverReferencesMap since that's what gets published
+                  const refInfo = this.serverReferencesMap.get(resourcePath);
+                  if (refInfo) {
+                    refInfo.moduleId = moduleId;
+                  }
                   if (process.env.DEBUG_RSC_PLUGIN) {
                     console.log(
-                      `[RscServerPlugin] hydrated moduleId ${moduleId} for ${resourcePath} in done hook`,
+                      `[RspackRscServerPlugin] hydrated moduleId ${moduleId} for ${resourcePath} in done hook`,
                     );
                   }
                   break;
@@ -442,6 +459,57 @@ export class RscServerPlugin {
           'serverReferencesManifestPath',
           this.serverReferencesManifestPath,
         );
+
+        // Rewrite the manifest with hydrated moduleIds
+        try {
+          // Get expose metadata from compiler
+          const exposeResourceToKey = (compiler as any).__mfExposeMetadata as
+            | Map<string, { expose: string; container: string }>
+            | undefined;
+
+          const manifest = {
+            serverReferences: Array.from(this.serverModuleInfo.entries()).map(
+              ([resourcePath, info]) => {
+                const normalizedPath = path
+                  .resolve(resourcePath)
+                  .replace(/\\/g, '/');
+                const entry: any = {
+                  path: normalizedPath,
+                  exports: info.exportNames ?? [],
+                  moduleId: info.moduleId ?? null,
+                };
+
+                // Add federationRef if this module is exposed
+                const exposeInfo = exposeResourceToKey?.get(resourcePath);
+                if (exposeInfo) {
+                  entry.federationRef = {
+                    remote: exposeInfo.container,
+                    expose: exposeInfo.expose,
+                  };
+                }
+
+                return entry;
+              },
+            ),
+          };
+          await fs.writeFile(
+            this.serverReferencesManifestPath,
+            JSON.stringify(manifest, null, 2),
+            'utf-8',
+          );
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log(
+              `[RspackRscServerPlugin] rewrote manifest in done hook with hydrated moduleIds`,
+            );
+          }
+        } catch (err) {
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.warn(
+              '[RspackRscServerPlugin] failed to rewrite manifest in done hook:',
+              err,
+            );
+          }
+        }
       }
     });
 
@@ -454,13 +522,34 @@ export class RscServerPlugin {
           return;
         }
 
+        // Get expose metadata from compiler
+        const exposeResourceToKey = (compiler as any).__mfExposeMetadata as
+          | Map<string, { expose: string; container: string }>
+          | undefined;
+
         const manifest = {
           serverReferences: Array.from(this.serverModuleInfo.entries()).map(
-            ([resourcePath, info]) => ({
-              path: resourcePath,
-              exports: info.exportNames ?? [],
-              moduleId: info.moduleId ?? null,
-            }),
+            ([resourcePath, info]) => {
+              const normalizedPath = path
+                .resolve(resourcePath)
+                .replace(/\\/g, '/');
+              const entry: any = {
+                path: normalizedPath,
+                exports: info.exportNames ?? [],
+                moduleId: info.moduleId ?? null,
+              };
+
+              // Add federationRef if this module is exposed
+              const exposeInfo = exposeResourceToKey?.get(resourcePath);
+              if (exposeInfo) {
+                entry.federationRef = {
+                  remote: exposeInfo.container,
+                  expose: exposeInfo.expose,
+                };
+              }
+
+              return entry;
+            },
           ),
         };
 

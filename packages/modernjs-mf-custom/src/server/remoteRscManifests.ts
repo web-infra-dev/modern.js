@@ -113,3 +113,90 @@ export function mergeSSRManifestWithRemotes(
 
   return merged;
 }
+
+/**
+ * Server action reference with federation metadata
+ */
+export interface ServerActionReference {
+  path: string;
+  exports: string[];
+  moduleId?: string | number | null;
+  federationRef?: {
+    remote: string;
+    expose: string;
+  };
+}
+
+/**
+ * Build a stable lookup map for server actions using federation references when available.
+ * This ensures that server action IDs remain stable across module federation boundaries,
+ * even when webpack module IDs change.
+ */
+export function buildServerActionLookup(): Map<
+  string,
+  {
+    reference: ServerActionReference;
+    remoteName?: string;
+    lookupKey: string;
+  }
+> {
+  const lookup = new Map<
+    string,
+    {
+      reference: ServerActionReference;
+      remoteName?: string;
+      lookupKey: string;
+    }
+  >();
+
+  for (const [remoteName, artifact] of remoteArtifactsStore.entries()) {
+    if (!artifact.serverReferences) {
+      continue;
+    }
+
+    const serverRefs = artifact.serverReferences as {
+      serverReferences?: ServerActionReference[];
+    };
+
+    if (
+      !serverRefs.serverReferences ||
+      !Array.isArray(serverRefs.serverReferences)
+    ) {
+      continue;
+    }
+
+    for (const ref of serverRefs.serverReferences) {
+      // Prefer federation reference for stable lookup
+      if (ref.federationRef) {
+        const federationKey = `${ref.federationRef.remote}:${ref.federationRef.expose}`;
+        lookup.set(federationKey, {
+          reference: ref,
+          remoteName,
+          lookupKey: federationKey,
+        });
+
+        // Also register by moduleId as fallback
+        if (ref.moduleId != null) {
+          const moduleIdKey = `moduleId:${ref.moduleId}`;
+          if (!lookup.has(moduleIdKey)) {
+            lookup.set(moduleIdKey, {
+              reference: ref,
+              remoteName,
+              lookupKey: moduleIdKey,
+            });
+          }
+        }
+      } else if (ref.moduleId != null) {
+        // No federation ref, use moduleId only
+        const moduleIdKey = `moduleId:${ref.moduleId}`;
+        lookup.set(moduleIdKey, {
+          reference: ref,
+          remoteName,
+          lookupKey: moduleIdKey,
+        });
+      }
+    }
+  }
+
+  return lookup;
+}

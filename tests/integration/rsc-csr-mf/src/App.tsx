@@ -1,14 +1,12 @@
-import 'server-only';
+'use client';
 import { Suspense } from 'react';
-// Ensure server actions are part of the server compilation graph
-import './rsc-server-refs';
 import styles from './App.module.less';
 import Counter from './components/Counter';
-import { getCountState } from './components/ServerState';
 import Suspended from './components/Suspended';
 
 const App = () => {
-  const countStateFromServer = getCountState();
+  // CSR mode: use hard-coded initial state (no server-side getCountState)
+  const countStateFromServer = 0;
   return (
     <div className={styles.root}>
       <Suspense fallback={<div>Loading...</div>}>

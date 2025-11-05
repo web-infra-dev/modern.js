@@ -8,12 +8,9 @@ const assetPrefix = process.env.ASSET_PREFIX;
 const devConfig = resolvedPort ? { port: resolvedPort } : {};
 
 const serverConfig = {
-  ssr: {
-    mode: 'stream',
-    // In dev, force CSR fallback so the first health check to '/' doesn't
-    // depend on server bundle warmup. Server actions still work via x-rsc-action.
-    forceCSR: process.env.NODE_ENV !== 'production',
-  },
+  // Disable SSR completely for CSR host - prevents loading dist/bundles/main.js
+  // which would require react-server conditions
+  ssr: false,
   rsc: true,
   ...(resolvedPort ? { port: resolvedPort } : {}),
 };
@@ -35,6 +32,7 @@ export default applyBaseConfig({
     enableAsyncEntry: false,
     entries: {
       main: 'src/App.tsx',
+      server: 'src/server-entry.ts',
     },
     disableDefaultEntries: true,
   },

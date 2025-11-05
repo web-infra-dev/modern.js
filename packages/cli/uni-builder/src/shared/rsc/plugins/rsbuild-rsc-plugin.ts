@@ -174,9 +174,13 @@ export const rsbuildRscPlugin = ({
             .rule(webpackRscLayerName)
             .issuerLayer(webpackRscLayerName)
             .include.add(/[/\\]src[/\\]/)
+            .end()
+            .resolve.conditionNames.add('react-server')
+            .add('node')
+            .add('import')
+            .end()
             .end();
-          // DO NOT add react-server condition globally - it causes imports to resolve
-          // to server-side React exports that throw when loaded in normal Node environment.
+          // react-server condition is scoped to modules in react-server layer only.
 
           chain.module
             .rule('rsc-common')

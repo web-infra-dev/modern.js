@@ -27,12 +27,13 @@ export default applyBaseConfig({
     enableAsyncEntry: false,
     entries: {
       main: 'src/App.tsx',
+      server: 'src/server-entry.ts',
     },
     disableDefaultEntries: true,
   },
   plugins: [moduleFederationPlugin()],
   tools: {
-    bundlerChain(chain) {
+    bundlerChain(chain, { isServer }) {
       chain.resolve.modules
         .clear()
         .add(path.resolve(__dirname, 'node_modules'))

@@ -289,6 +289,39 @@ const patchSharedConfigForRsc = (
 
 const defaultPath = path.resolve(process.cwd(), 'module-federation.config.ts');
 
+/**
+ * Detects if a file is client-only by checking filename or 'use client' directive
+ */
+function isClientOnly(filePath: string): boolean {
+  // Check filename suffix (e.g., .client.tsx, .client.jsx, .client.ts, .client.js)
+  if (/\.client\.[jt]sx?$/.test(filePath)) {
+    return true;
+  }
+
+  // Check for 'use client' directive at start of file
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    // Remove comments and whitespace from the start
+    const firstNonComment = content
+      .replace(/^[\s\n]*\/\*[\s\S]*?\*\//, '') // Remove block comments
+      .replace(/^[\s\n]*\/\/[^\n]*\n/, '') // Remove line comments
+      .trim();
+    return (
+      firstNonComment.startsWith("'use client'") ||
+      firstNonComment.startsWith('"use client"')
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Escapes special regex characters in a string
+ */
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export type ConfigType<T> = T extends 'webpack'
   ? webpack.Configuration
   : T extends 'rspack'
@@ -550,13 +583,13 @@ export const patchMFConfig = (
   patchSharedConfigForRsc(mfConfig.shared);
 
   injectRuntimePlugins(
-    require.resolve('@module-federation/modern-js/shared-strategy'),
+    require.resolve('@module-federation/modern-js-rsc/shared-strategy'),
     runtimePlugins,
   );
 
   if (enableSSR && isDev()) {
     injectRuntimePlugins(
-      require.resolve('@module-federation/modern-js/resolve-entry-ipv4'),
+      require.resolve('@module-federation/modern-js-rsc/resolve-entry-ipv4'),
       runtimePlugins,
     );
   }
@@ -576,7 +609,7 @@ export const patchMFConfig = (
     }
 
     injectRuntimePlugins(
-      require.resolve('@module-federation/modern-js/inject-node-fetch'),
+      require.resolve('@module-federation/modern-js-rsc/inject-node-fetch'),
       runtimePlugins,
     );
 
@@ -678,6 +711,42 @@ export function addMyTypes2Ignored(
     ignored: ignored.concat(DEFAULT_IGNORED_GLOB),
   });
 }
+export function buildExposeResourceToKey(
+  exposes: moduleFederationPlugin.ModuleFederationPluginOptions['exposes'],
+  containerName: string,
+): Map<string, { expose: string; container: string }> {
+  const map = new Map<string, { expose: string; container: string }>();
+  if (!exposes) {
+    return map;
+  }
+
+  const exposesObj =
+    typeof exposes === 'object' && !Array.isArray(exposes) ? exposes : {};
+
+  for (const [exposeKey, exposeValue] of Object.entries(exposesObj)) {
+    if (typeof exposeValue === 'string') {
+      // Simple case: exposeValue is a path string
+      const absolutePath = path.isAbsolute(exposeValue)
+        ? exposeValue
+        : path.resolve(process.cwd(), exposeValue);
+      map.set(absolutePath, { expose: exposeKey, container: containerName });
+    } else if (
+      exposeValue &&
+      typeof exposeValue === 'object' &&
+      'import' in exposeValue &&
+      typeof exposeValue.import === 'string'
+    ) {
+      // Object case: exposeValue has an import property
+      const absolutePath = path.isAbsolute(exposeValue.import)
+        ? exposeValue.import
+        : path.resolve(process.cwd(), exposeValue.import);
+      map.set(absolutePath, { expose: exposeKey, container: containerName });
+    }
+  }
+
+  return map;
+}
+
 export function patchBundlerConfig(options: {
   chain: BundlerChainConfig;
   isServer: boolean;
@@ -761,6 +830,7 @@ export const moduleFederationConfigPlugin = (
   post: ['@modern-js/plugin-module-federation'],
   setup: async api => {
     const modernjsConfig = api.getConfig();
+    const { appDirectory } = api.useAppContext();
     const mfConfig = await getMFConfig(userConfig.originPluginOptions);
     const csrConfig =
       userConfig.csrConfig || JSON.parse(JSON.stringify(mfConfig));
@@ -801,6 +871,121 @@ export const moduleFederationConfigPlugin = (
         console.log(`${logPrefix} exposes:`, stringified);
       }
 
+      // Apply client-only expose filter for Node/SSR builds when enabled
+      const appDir = appDirectory || process.cwd();
+
+      if (!isWeb) {
+        chain.resolve.alias.set(
+          'react/shared-subset',
+          path.resolve(__dirname, '../shims/react-shared-subset.js'),
+        );
+      }
+
+      if (
+        process.env.MF_FILTER_CLIENT_EXPOSES === '1' &&
+        !isWeb &&
+        targetMFConfig.exposes
+      ) {
+        const exposes = targetMFConfig.exposes;
+        const exposesObj =
+          typeof exposes === 'object' && !Array.isArray(exposes) ? exposes : {};
+
+        // Import NormalModuleReplacementPlugin
+        const {
+          normalizeWebpackPath,
+        } = require('@module-federation/sdk/normalize-webpack-path');
+        const webpack = require(
+          normalizeWebpackPath('webpack'),
+        ) as typeof import('webpack');
+        const { NormalModuleReplacementPlugin } = webpack;
+
+        const stubPath = path.resolve(__dirname, './client-expose-stub.js');
+
+        for (const [exposeKey, exposeValue] of Object.entries(exposesObj)) {
+          // Handle different expose value formats
+          let exposePath: string | undefined;
+          if (typeof exposeValue === 'string') {
+            exposePath = exposeValue;
+          } else if (
+            typeof exposeValue === 'object' &&
+            exposeValue &&
+            'import' in exposeValue &&
+            typeof exposeValue.import === 'string'
+          ) {
+            exposePath = exposeValue.import;
+          }
+
+          if (!exposePath) {
+            continue;
+          }
+
+          // Resolve to absolute path
+          const absolutePath = path.resolve(appDir, exposePath);
+
+          // Check if this is a client-only file
+          if (isClientOnly(absolutePath)) {
+            const escapedPath = escapeRegex(absolutePath);
+            const pluginId = `mf-client-expose-stub-${exposeKey}`;
+
+            if (process.env.DEBUG_MF_CONFIG) {
+              console.log(
+                `[MF CONFIG][${isWeb ? 'web' : 'server'}] Replacing client-only expose "${exposeKey}" (${absolutePath}) with stub`,
+              );
+            }
+
+            chain
+              .plugin(pluginId)
+              .use(NormalModuleReplacementPlugin, [
+                new RegExp(escapedPath),
+                stubPath,
+              ]);
+          }
+        }
+      }
+
+      // Ensure server builds include RSC server reference modules even when
+      // the application's main entry is client-only (common for MF remotes).
+      if (!isWeb) {
+        const serverReferenceCandidates = [
+          'src/server-entry.ts',
+          'src/server-entry.js',
+          'src/server-entry.mjs',
+          'src/server-entry.cjs',
+          'src/rsc-server-refs.ts',
+          'src/rsc-server-refs.js',
+          'src/rsc-server-refs.mjs',
+          'src/rsc-server-refs.cjs',
+        ]
+          .map(relative => path.resolve(appDir, relative))
+          .filter(candidate => fs.existsSync(candidate));
+
+        if (serverReferenceCandidates.length > 0) {
+          const refsPath = serverReferenceCandidates[0];
+          let appended = false;
+          const entryPoints = chain.entryPoints;
+
+          if (entryPoints?.values) {
+            for (const entry of entryPoints.values()) {
+              if (entry?.add) {
+                entry.add(refsPath);
+                appended = true;
+              }
+            }
+          }
+
+          if (!appended) {
+            chain.entry('main').add(refsPath);
+          }
+
+          if (process.env.DEBUG_RSC_PLUGIN) {
+            console.log(
+              '[MF RSC CONFIG] appended server reference entry to Node build:',
+              refsPath,
+            );
+          }
+        }
+      }
+
       patchBundlerConfig({
         chain,
         isServer: !isWeb,
@@ -809,8 +994,172 @@ export const moduleFederationConfigPlugin = (
         enableSSR,
       });
 
+      // Build and store the expose metadata for RSC federation
+      if (targetMFConfig.exposes && targetMFConfig.name) {
+        const exposeResourceToKey = buildExposeResourceToKey(
+          targetMFConfig.exposes,
+          targetMFConfig.name,
+        );
+
+        // Store in a compiler plugin so it's accessible in webpack hooks
+        chain.plugin('mf-expose-metadata').use(
+          class MFExposeMetadataPlugin {
+            apply(compiler: any) {
+              compiler.hooks.beforeCompile.tap(
+                'MFExposeMetadataPlugin',
+                (params: any) => {
+                  if (!params.compilationDependencies) {
+                    params.compilationDependencies = new Set();
+                  }
+                  // Store in a way accessible to other plugins
+                  if (!compiler.__mfExposeMetadata) {
+                    compiler.__mfExposeMetadata = exposeResourceToKey;
+                  }
+                },
+              );
+            }
+          },
+        );
+      }
+
       userConfig.distOutputDir =
         chain.output.get('path') || path.resolve(process.cwd(), 'dist');
+    });
+
+    api.onAfterBuild(() => {
+      const exposesCfg = userConfig.csrConfig?.exposes;
+      if (!exposesCfg) {
+        return;
+      }
+
+      const exposesObj =
+        typeof exposesCfg === 'object' && !Array.isArray(exposesCfg)
+          ? exposesCfg
+          : {};
+
+      if (Object.keys(exposesObj).length === 0) {
+        return;
+      }
+
+      const distDir =
+        userConfig.distOutputDir || path.resolve(process.cwd(), 'dist');
+      const manifestCandidates = [
+        path.join(distDir, 'static', MANIFEST_FILE_NAME),
+        path.join(distDir, 'bundles', 'static', MANIFEST_FILE_NAME),
+      ];
+
+      if (manifestCandidates.some(candidate => fs.existsSync(candidate))) {
+        return;
+      }
+
+      const pluginVersion = process.env.MF_PLUGIN_VERSION ?? '';
+      const buildVersion = process.env.npm_package_version ?? '0.0.0';
+      const buildName = path.basename(appDirectory || process.cwd());
+      const manifestName =
+        userConfig.csrConfig?.name || buildName || 'mf-remote';
+
+      const filename =
+        typeof userConfig.csrConfig?.filename === 'string'
+          ? userConfig.csrConfig.filename
+          : `static/${REMOTE_ENTRY_NAME}`;
+      const normalizedFilename = filename
+        .replace(/^\.\//, '')
+        .replace(/^\//, '');
+      const remoteEntryParts = normalizedFilename.split('/');
+      const remoteEntryName = remoteEntryParts.pop() || REMOTE_ENTRY_NAME;
+      const remoteEntryPath = remoteEntryParts.join('/');
+
+      const normalizeBase = (value: string) =>
+        value === '' ? '' : value.replace(/\/+$/, '');
+
+      const assetPrefix =
+        process.env.ASSET_PREFIX || modernjsConfig.output?.assetPrefix || '';
+      const baseUrl = normalizeBase(assetPrefix);
+      const joinWithBase = (base: string, relative: string) => {
+        const cleanedBase = base.replace(/\/+$/, '');
+        const cleanedRelative = relative.replace(/^\/+/, '');
+        return `${cleanedBase}/${cleanedRelative}`;
+      };
+      const remoteEntryUrl = baseUrl
+        ? joinWithBase(baseUrl, normalizedFilename)
+        : `/${normalizedFilename.replace(/^\/+/, '')}`;
+      const publicPath = baseUrl ? `${baseUrl}/` : '/';
+
+      const exposes = Object.keys(exposesObj).map(exposeKey => {
+        const cleaned = exposeKey.replace(/^\.\//, '');
+        return {
+          id: `${manifestName}:${cleaned}`,
+          name: cleaned,
+          path: exposeKey,
+          assets: {
+            js: { sync: [] as string[], async: [] as string[] },
+            css: { sync: [] as string[], async: [] as string[] },
+          },
+        };
+      });
+
+      const zipName = '@mf-types.zip';
+      const dtsName = '@mf-types.d.ts';
+      const typesZipRelative = fs.existsSync(path.join(distDir, zipName))
+        ? zipName
+        : '';
+      const typesDtsRelative = fs.existsSync(path.join(distDir, dtsName))
+        ? dtsName
+        : '';
+
+      const manifest = {
+        id: manifestName,
+        name: manifestName,
+        metaData: {
+          name: manifestName,
+          type: 'app',
+          buildInfo: {
+            buildVersion,
+            buildName,
+          },
+          remoteEntry: {
+            name: remoteEntryName,
+            path: remoteEntryPath,
+            type: 'global',
+            url: remoteEntryUrl,
+          },
+          types: {
+            path: '',
+            name: '',
+            zip: typesZipRelative,
+            api: typesDtsRelative,
+          },
+          globalName:
+            (userConfig.csrConfig?.library as undefined | { name?: string })
+              ?.name || manifestName,
+          pluginVersion,
+          prefetchInterface: false,
+          publicPath,
+        },
+        shared: [] as unknown[],
+        remotes: [] as unknown[],
+        exposes,
+        remoteEntry: remoteEntryUrl,
+      };
+
+      for (const manifestPath of manifestCandidates) {
+        try {
+          fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+          fs.writeFileSync(
+            manifestPath,
+            JSON.stringify(manifest, null, 2),
+            'utf-8',
+          );
+          if (process.env.DEBUG_MF_CONFIG) {
+            console.log('[MF CONFIG] Wrote fallback manifest to', manifestPath);
+          }
+        } catch (error) {
+          console.warn(
+            `[MF CONFIG] Failed to write fallback manifest at ${manifestPath}:`,
+            error,
+          );
+        }
+      }
     });
     api.config(() => {
       const bundlerType =
@@ -872,7 +1221,7 @@ export const moduleFederationConfigPlugin = (
           alias: {
             // TODO: deprecated
             '@modern-js/runtime/mf': require.resolve(
-              '@module-federation/modern-js/runtime',
+              '@module-federation/modern-js-rsc/runtime',
             ),
           },
         },

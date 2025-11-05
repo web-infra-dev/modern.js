@@ -184,6 +184,13 @@ function runTests({ bundler, mode }: TestConfig) {
               REMOTE_URL: `http://localhost:${remotePort}`,
               REMOTE_IP_STRATEGY: 'inherit',
               ASSET_PREFIX: `http://localhost:${hostPort}`,
+              // SSR host requires react-server condition to load RSC server code
+              NODE_OPTIONS: [
+                process.env.NODE_OPTIONS,
+                '--conditions=react-server',
+              ]
+                .filter(Boolean)
+                .join(' '),
             },
           );
 
@@ -260,6 +267,13 @@ function runTests({ bundler, mode }: TestConfig) {
               REMOTE_URL: `http://localhost:${remotePort}`,
               REMOTE_IP_STRATEGY: 'inherit',
               ASSET_PREFIX: `http://localhost:${hostPort}`,
+              // SSR host requires react-server condition to load RSC server code
+              NODE_OPTIONS: [
+                process.env.NODE_OPTIONS,
+                '--conditions=react-server',
+              ]
+                .filter(Boolean)
+                .join(' '),
             },
           });
 

@@ -963,7 +963,7 @@ importers:
         version: 0.20.0(@types/react@18.3.18)(react@18.3.1)
       react-json-view:
         specifier: ^1.21.3
-        version: 1.21.3(@types/react@18.3.18)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 1.21.3(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-use:
         specifier: ^17.6.0
         version: 17.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -37289,15 +37289,15 @@ snapshots:
     dependencies:
       bser: 2.1.1
 
-  fbemitter@3.0.0(encoding@0.1.13):
+  fbemitter@3.0.0:
     dependencies:
-      fbjs: 3.0.5(encoding@0.1.13)
+      fbjs: 3.0.5
     transitivePeerDependencies:
       - encoding
 
   fbjs-css-vars@1.0.2: {}
 
-  fbjs@3.0.5(encoding@0.1.13):
+  fbjs@3.0.5:
     dependencies:
       cross-fetch: 3.1.5(encoding@0.1.13)
       fbjs-css-vars: 1.0.2
@@ -37464,10 +37464,10 @@ snapshots:
 
   flow-parser@0.247.1: {}
 
-  flux@4.0.4(encoding@0.1.13)(react@18.3.1):
+  flux@4.0.4(react@18.3.1):
     dependencies:
-      fbemitter: 3.0.0(encoding@0.1.13)
-      fbjs: 3.0.5(encoding@0.1.13)
+      fbemitter: 3.0.0
+      fbjs: 3.0.5
       react: 18.3.1
     transitivePeerDependencies:
       - encoding
@@ -43588,9 +43588,9 @@ snapshots:
       react: 18.3.1
       react-base16-styling: 0.10.0
 
-  react-json-view@1.21.3(@types/react@18.3.18)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-json-view@1.21.3(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      flux: 4.0.4(encoding@0.1.13)(react@18.3.1)
+      flux: 4.0.4(react@18.3.1)
       react: 18.3.1
       react-base16-styling: 0.6.0
       react-dom: 18.3.1(react@18.3.1)

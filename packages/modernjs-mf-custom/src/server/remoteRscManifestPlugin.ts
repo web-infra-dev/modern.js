@@ -6,6 +6,7 @@ import type {
 } from '@modern-js/types/server';
 import type { moduleFederationPlugin } from '@module-federation/sdk';
 import {
+  buildServerActionLookup,
   clearRemoteRscArtifacts,
   getRemoteRscArtifacts,
   mergeClientManifestWithRemotes,
@@ -410,6 +411,13 @@ export const remoteRscManifestPlugin = (
         fetchJson(rscSSRManifestUrl),
       ]);
 
+      if (process.env.DEBUG_MF_RSC_SERVER && serverReferencesManifest) {
+        console.log(
+          `[MF RSC] Loaded server references manifest for "${remoteName}":`,
+          JSON.stringify(serverReferencesManifest, null, 2),
+        );
+      }
+
       const remoteEntryUrl = (() => {
         const candidate =
           manifestJson?.ssrRemoteEntry ??
@@ -540,6 +548,23 @@ export const remoteRscManifestPlugin = (
               Object.keys(mergedSSR),
             );
             c.set('rscSSRManifest', mergedSSR);
+          }
+
+          // Build and expose server action lookup for federation-aware routing
+          const serverActionLookup = buildServerActionLookup();
+          if (serverActionLookup.size > 0) {
+            if (process.env.DEBUG_MF_RSC_SERVER) {
+              console.log(
+                `[MF RSC] Built server action lookup with ${serverActionLookup.size} entries`,
+              );
+              for (const [key, value] of serverActionLookup.entries()) {
+                console.log(
+                  `[MF RSC]   ${key} -> remote=${value.remoteName}, federationRef=${value.reference.federationRef ? JSON.stringify(value.reference.federationRef) : 'none'}`,
+                );
+              }
+            }
+            // Store in context for use by server action handlers
+            c.set('serverActionLookup', serverActionLookup);
           }
         };
 

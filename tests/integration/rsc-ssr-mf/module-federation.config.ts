@@ -20,8 +20,8 @@ export default createModuleFederationConfig({
   shareScope: 'default',
   exposes: {
     // Use server-safe wrappers to avoid evaluating client modules on Node.
-    './Counter': './src/mf-exposes/Counter.ts',
-    './DynamicMessage': './src/mf-exposes/DynamicMessage.ts',
+    './Counter': './src/mf-exposes/Counter.js',
+    './DynamicMessage': './src/mf-exposes/DynamicMessage.js',
   },
   shared: {
     react: {

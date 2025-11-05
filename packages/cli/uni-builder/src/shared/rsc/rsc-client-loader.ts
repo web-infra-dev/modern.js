@@ -45,9 +45,13 @@ export default async function rscClientLoader(
     registerImport = `@modern-js/runtime/rsc/client`,
   } = this.getOptions();
 
-  const buildInfo = sharedData.get<ServerReferencesModuleInfo>(
-    this.resourcePath,
-  );
+  // Normalize resource path for consistent lookups
+  const normalizedResource = path
+    .resolve(this.resourcePath)
+    .replace(/\\/g, '/');
+
+  const buildInfo =
+    sharedData.get<ServerReferencesModuleInfo>(normalizedResource);
   let moduleInfo = buildInfo
     ? {
         moduleId: buildInfo?.moduleId,
@@ -60,7 +64,7 @@ export default async function rscClientLoader(
       Map<string, ServerReferencesModuleInfo>
     >('serverModuleInfoMap');
 
-    const infoFromMap = serverModuleInfoMap?.get(this.resourcePath);
+    const infoFromMap = serverModuleInfoMap?.get(normalizedResource);
     if (infoFromMap) {
       moduleInfo = {
         moduleId: infoFromMap.moduleId ?? undefined,
@@ -116,7 +120,7 @@ export default async function rscClientLoader(
             readFileSync(manifestPath, 'utf-8'),
           ) as ServerReferencesManifest;
           const entry = manifest.serverReferences.find(
-            item => item.path === this.resourcePath,
+            item => item.path === normalizedResource,
           );
           if (entry) {
             if (process.env.DEBUG_RSC_PLUGIN) {
@@ -160,7 +164,7 @@ export default async function rscClientLoader(
       const candidates = (sharedData.get<
         Map<string, ServerReferencesModuleInfo>
       >(candidatesKey) || new Map()) as Map<string, ServerReferencesModuleInfo>;
-      const existing = candidates.get(this.resourcePath);
+      const existing = candidates.get(normalizedResource);
       const mergedExports = Array.from(
         new Set([...(existing?.exportNames || []), ...names]),
       );
@@ -170,7 +174,7 @@ export default async function rscClientLoader(
           moduleId: existing.moduleId,
         }),
       };
-      candidates.set(this.resourcePath, merged);
+      candidates.set(normalizedResource, merged);
       sharedData.set(candidatesKey, candidates);
     }
   } catch {}
@@ -202,7 +206,7 @@ export default async function rscClientLoader(
           readFileSync(manifestPath, 'utf-8'),
         ) as ServerReferencesManifest;
         const entry = manifest.serverReferences.find(
-          item => item.path === this.resourcePath,
+          item => item.path === normalizedResource,
         );
         if (entry && entry.moduleId != null) {
           moduleInfo.moduleId = entry.moduleId;
@@ -239,7 +243,7 @@ export default async function rscClientLoader(
         ) as ServerReferencesManifest;
 
         const entry = manifest.serverReferences.find(
-          item => item.path === this.resourcePath,
+          item => item.path === normalizedResource,
         );
 
         if (entry) {
@@ -257,14 +261,14 @@ export default async function rscClientLoader(
   if (!moduleInfo) {
     if (process.env.DEBUG_RSC_PLUGIN) {
       console.log(
-        `[rsc-client-loader] missing build info for ${this.resourcePath}. Known keys: ${Array.from(
+        `[rsc-client-loader] missing build info for ${normalizedResource}. Known keys: ${Array.from(
           sharedData.store.keys(),
         ).join(', ')}`,
       );
     }
     this.emitError(
       new Error(
-        `Could not find server module info in \`serverReferencesMap\` for ${this.resourcePath}.`,
+        `Could not find server module info in \`serverReferencesMap\` for ${normalizedResource}.`,
       ),
     );
 
@@ -277,7 +281,7 @@ export default async function rscClientLoader(
   if (process.env.DEBUG_RSC_PLUGIN) {
     console.log(
       '[rsc-client-loader] final moduleInfo:',
-      this.resourcePath,
+      normalizedResource,
       moduleInfo,
     );
   }
@@ -327,7 +331,7 @@ export default async function rscClientLoader(
           );
         }
         const entry = manifest.serverReferences.find(
-          item => item.path === this.resourcePath,
+          item => item.path === normalizedResource,
         );
         if (entry && entry.moduleId != null) {
           moduleId = entry.moduleId as any;
@@ -336,14 +340,14 @@ export default async function rscClientLoader(
               '[rsc-client-loader] hydrated moduleId from manifest:',
               moduleId,
               'for',
-              this.resourcePath,
+              normalizedResource,
             );
           }
         } else {
           if (process.env.DEBUG_RSC_PLUGIN) {
             console.log(
               '[rsc-client-loader] no matching entry in manifest for',
-              this.resourcePath,
+              normalizedResource,
             );
           }
         }
@@ -362,7 +366,7 @@ export default async function rscClientLoader(
   if (!moduleId) {
     this.emitError(
       new Error(
-        `Could not find server module ID in \`serverReferencesMap\` for ${this.resourcePath}.`,
+        `Could not find server module ID in \`serverReferencesMap\` for ${normalizedResource}.`,
       ),
     );
 
