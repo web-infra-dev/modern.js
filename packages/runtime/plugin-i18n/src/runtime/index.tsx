@@ -10,9 +10,32 @@ import { ModernI18nProvider } from './context';
 import type { I18nInitOptions, I18nInstance } from './i18n';
 import { getI18nInstance } from './i18n';
 import { detectLanguage, useI18nextLanguageDetector } from './i18n/detection';
-import { mergeDetectionOptions } from './i18n/detection/config';
+import {
+  exportServerLngToWindow,
+  mergeDetectionOptions,
+} from './i18n/detection/config';
 import { getI18nextProvider, getInitReactI18next } from './i18n/instance';
 import { getEntryPath } from './utils';
+
+/**
+ * Validate languages array configuration
+ * @param languages - Array of language codes to validate
+ * @returns true if all languages are valid, false otherwise
+ */
+const validateLanguages = (languages: string[]): boolean => {
+  return languages.every(lang => typeof lang === 'string' && lang.length > 0);
+};
+
+/**
+ * Get language from SSR data in a type-safe way
+ * @param window - The window object
+ * @returns The language from SSR data or undefined
+ */
+const getLanguageFromSSRData = (window: Window): string | undefined => {
+  // Type-safe access to SSR data via global Window interface
+  const ssrData = window._SSR_DATA;
+  return ssrData?.data?.i18nData?.lng;
+};
 
 export interface I18nPluginOptions {
   entryName?: string;
@@ -37,11 +60,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       languages = [],
       fallbackLanguage = 'en',
     } = localeDetection || {};
+
+    // Validate languages configuration
+    if (!validateLanguages(languages)) {
+      console.warn(
+        '[@modern-js/plugin-i18n] Invalid languages configuration. All language codes must be non-empty strings.',
+        { languages },
+      );
+    }
+
     let I18nextProvider: React.FunctionComponent<any> | null;
 
-    // Helper function to detect language from path
-    // Returns: { detected: true, language: string } if language found in path
-    //          { detected: false } if no language found in path
     const detectLanguageFromPath = (
       pathname: string,
     ): {
@@ -56,7 +85,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       const segments = relativePath.split('/').filter(Boolean);
       const firstSegment = segments[0];
 
-      // Check if first segment is a valid language
       if (firstSegment && languages.includes(firstSegment)) {
         return { detected: true, language: firstSegment };
       }
@@ -73,7 +101,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         i18nInstance.use(initReactI18next);
       }
 
-      // Get pathname from appropriate source
       const getPathname = () => {
         if (isBrowser()) {
           return window.location.pathname;
@@ -81,25 +108,38 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         return context.ssrContext?.request?.pathname || '/';
       };
 
-      // Step 1: Detect language with priority: path > i18next detector > fallback
+      // Language detection priority: SSR data > path > i18next detector > fallback
       let detectedLanguage: string | undefined;
 
-      // Priority 1: Path detection (if enabled)
-      if (localePathRedirect) {
-        const pathname = getPathname();
-        const pathDetection = detectLanguageFromPath(pathname);
-        if (pathDetection.detected && pathDetection.language) {
-          detectedLanguage = pathDetection.language;
-        }
+      // Priority 1: SSR data
+      if (isBrowser()) {
+        try {
+          const ssrLanguage = getLanguageFromSSRData(window);
+          if (
+            ssrLanguage &&
+            (languages.length === 0 || languages.includes(ssrLanguage))
+          ) {
+            detectedLanguage = ssrLanguage;
+          }
+        } catch (error) {}
       }
 
-      // Step 2: Register detector and prepare detection options if enabled
+      // Priority 2: Path detection
+      if (!detectedLanguage && localePathRedirect) {
+        try {
+          const pathname = getPathname();
+          const pathDetection = detectLanguageFromPath(pathname);
+          if (pathDetection.detected && pathDetection.language) {
+            detectedLanguage = pathDetection.language;
+          }
+        } catch (error) {}
+      }
+
       if (i18nextDetector) {
         useI18nextLanguageDetector(i18nInstance);
       }
 
-      // Merge detection options and exclude 'path' if localePathRedirect is enabled
-      // to avoid conflict with manual path detection
+      // Exclude 'path' from detection order to avoid conflict with manual path detection
       const mergedDetection = i18nextDetector
         ? mergeDetectionOptions(userInitOptions?.detection)
         : userInitOptions?.detection;
@@ -109,59 +149,77 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         );
       }
 
-      // Step 3: Use i18next detector if path didn't detect (Priority 2)
+      // Priority 3: i18next detector
       if (!detectedLanguage && i18nextDetector) {
-        // Initialize with fallback language first to enable detector
-        const initOptions: I18nInitOptions = {
-          fallbackLng: fallbackLanguage,
-          supportedLngs: languages,
-          ...(userInitOptions || {}),
-          detection: mergedDetection,
-        };
-        await i18nInstance.init(initOptions);
+        if (!i18nInstance.isInitialized) {
+          const initialLng = userInitOptions?.lng || fallbackLanguage;
+          const initOptions: any = {
+            ...(userInitOptions || {}),
+            lng: initialLng,
+            fallbackLng: fallbackLanguage,
+            supportedLngs: languages,
+            detection: mergedDetection,
+          };
+          await i18nInstance.init(initOptions);
+        }
 
-        // Use detector to detect language
         let detectorLang: string | undefined;
-        if (isBrowser()) {
-          detectorLang = detectLanguage(i18nInstance);
-        } else {
-          const request = context.ssrContext?.request;
-          if (request) {
-            detectorLang = detectLanguage(i18nInstance, request as any);
+        try {
+          if (isBrowser()) {
+            detectorLang = detectLanguage(i18nInstance);
+          } else {
+            const request = context.ssrContext?.request;
+            if (request) {
+              detectorLang = detectLanguage(i18nInstance, request as any);
+            }
           }
-        }
 
-        // Validate detected language
-        if (detectorLang) {
-          if (languages.length === 0 || languages.includes(detectorLang)) {
-            detectedLanguage = detectorLang;
+          if (detectorLang) {
+            if (languages.length === 0 || languages.includes(detectorLang)) {
+              detectedLanguage = detectorLang;
+            }
+          } else if (i18nInstance.isInitialized && i18nInstance.language) {
+            // Fallback to instance's current language if detector didn't detect
+            const currentLang = i18nInstance.language;
+            if (languages.length === 0 || languages.includes(currentLang)) {
+              detectedLanguage = currentLang;
+            }
           }
-        }
+        } catch (error) {}
       }
 
-      // Priority 3: Use fallback language
-      const finalLanguage = detectedLanguage || fallbackLanguage;
+      // Priority 4: Use user config language or fallback
+      const finalLanguage =
+        detectedLanguage || userInitOptions?.lng || fallbackLanguage;
 
-      // Step 4: Initialize i18n if not already initialized
       if (!i18nInstance.isInitialized) {
-        const initOptions: I18nInitOptions = {
+        const initOptions: any = {
+          ...(userInitOptions || {}),
           lng: finalLanguage,
           fallbackLng: fallbackLanguage,
           supportedLngs: languages,
-          ...(userInitOptions || {}),
           detection: mergedDetection,
         };
         await i18nInstance.init(initOptions);
-      } else {
-        // Update language if different
+      } else if (i18nInstance.language !== finalLanguage) {
+        await i18nInstance.changeLanguage(finalLanguage);
+      }
+
+      // Clone instance for SSR
+      if (!isBrowser() && i18nInstance.cloneInstance) {
+        i18nInstance = i18nInstance.cloneInstance();
         if (i18nInstance.language !== finalLanguage) {
           await i18nInstance.changeLanguage(finalLanguage);
         }
       }
 
-      // Clone instance for SSR if needed
-      if (!isBrowser() && i18nInstance.cloneInstance) {
-        i18nInstance = i18nInstance.cloneInstance();
+      // Ensure language is correct (critical for SSR)
+      if (i18nInstance.language !== finalLanguage) {
+        await i18nInstance.changeLanguage(finalLanguage);
+      }
+
+      if (!isBrowser()) {
+        exportServerLngToWindow(context, finalLanguage);
       }
 
       context.i18nInstance = i18nInstance;
@@ -171,23 +229,22 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       return props => {
         const runtimeContext = useRuntimeContext();
         const i18nInstance = (runtimeContext as any).i18nInstance;
-        const [lang, setLang] = useState(i18nInstance.language);
+        const initialLang =
+          i18nInstance?.language || (localeDetection?.fallbackLanguage ?? 'en');
+        const [lang, setLang] = useState(initialLang);
 
-        if (!isBrowser()) {
-          (i18nInstance as any).translator.language = i18nInstance.language;
+        // Sync translator.language with i18nInstance.language
+        if (i18nInstance?.language && i18nInstance.translator) {
+          i18nInstance.translator.language = i18nInstance.language;
         }
 
-        // Get pathname from appropriate source based on environment
         const getCurrentPathname = () => {
           if (isBrowser()) {
             return window.location.pathname;
-          } else {
-            // In SSR, get pathname from request context
-            return runtimeContext.request?.pathname || '/';
           }
+          return runtimeContext.request?.pathname || '/';
         };
 
-        // Initialize language from URL on mount (only when localeDetection is enabled)
         useEffect(() => {
           if (localePathRedirect) {
             const currentPathname = getCurrentPathname();
@@ -196,15 +253,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
               const currentLang = pathDetection.language;
               if (currentLang !== lang) {
                 setLang(currentLang);
-                // Update i18n instance language
                 i18nInstance.changeLanguage(currentLang);
               }
             }
+          } else {
+            // Sync language when localePathRedirect is false (important for CSR)
+            const instanceLang = i18nInstance.language;
+            if (instanceLang && instanceLang !== lang) {
+              setLang(instanceLang);
+            }
           }
         }, []);
-
-        // Context value contains language, i18nInstance, and plugin configuration
-        // changeLanguage is now implemented in the useModernI18n hook
         const contextValue = {
           language: lang,
           i18nInstance,

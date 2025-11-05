@@ -7,6 +7,17 @@ export interface I18nInstance {
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
   cloneInstance?: () => I18nInstance; // ssr need
+  translator?: {
+    language?: string;
+    [key: string]: any;
+  };
+  services?: {
+    languageDetector?: {
+      detect: (request?: any, options?: any) => string | string[] | undefined;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
 }
 
 type LanguageDetectorOrder = string[];

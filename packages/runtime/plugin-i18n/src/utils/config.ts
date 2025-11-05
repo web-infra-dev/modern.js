@@ -40,7 +40,15 @@ export const getLocaleDetectionOptions = (
 
   if (hasEntryConfig(localeDetection)) {
     const { localeDetectionByEntry, ...globalConfig } = localeDetection;
-    return localeDetectionByEntry?.[entryName] || globalConfig;
+    const entryConfig = localeDetectionByEntry?.[entryName];
+    // Merge entry-specific config with global config, entry config takes precedence
+    if (entryConfig) {
+      return {
+        ...globalConfig,
+        ...entryConfig,
+      };
+    }
+    return globalConfig;
   }
 
   return localeDetection;

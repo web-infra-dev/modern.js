@@ -19,7 +19,7 @@ export const detectLanguage = (
 ): string | undefined => {
   // Access the detector from i18next services
   // The detector is registered via useI18nextLanguageDetector() and initialized in init()
-  const detector = (i18nInstance as any)?.services?.languageDetector;
+  const detector = i18nInstance.services?.languageDetector;
   if (detector && typeof detector.detect === 'function') {
     try {
       const result = detector.detect();
@@ -31,7 +31,10 @@ export const detectLanguage = (
         return result[0];
       }
     } catch (error) {
-      // Silently fail if detection fails
+      console.warn('[@modern-js/plugin-i18n] Language detection failed', {
+        error,
+        context: 'browser-detection',
+      });
       return undefined;
     }
   }

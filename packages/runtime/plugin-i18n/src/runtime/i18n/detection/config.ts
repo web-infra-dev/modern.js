@@ -1,3 +1,4 @@
+import type { RuntimeContext } from '@modern-js/runtime';
 import type { LanguageDetectorOptions } from '../instance';
 
 export const DEFAULT_I18NEXT_DETECTION_OPTIONS = {
@@ -65,4 +66,8 @@ export function mergeDetectionOptions(
   }
 
   return merged as LanguageDetectorOptions;
+}
+
+export function exportServerLngToWindow(context: RuntimeContext, lng: string) {
+  context.__i18nData__ = { lng };
 }

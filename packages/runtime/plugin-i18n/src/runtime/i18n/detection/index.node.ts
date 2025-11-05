@@ -1,3 +1,4 @@
+import type { RuntimeContext } from '@modern-js/runtime';
 import { LanguageDetector } from 'i18next-http-middleware';
 import type { I18nInstance } from '../instance';
 
@@ -15,9 +16,21 @@ export const detectLanguage = (
   i18nInstance: I18nInstance,
   request?: any,
 ): string | undefined => {
-  const detector = (i18nInstance as any)?.services?.languageDetector;
+  const detector = i18nInstance.services?.languageDetector;
   if (detector && typeof detector.detect === 'function' && request) {
-    return detector.detect(request, {});
+    try {
+      return detector.detect(request, {});
+    } catch (error) {
+      console.warn('[@modern-js/plugin-i18n] Language detection failed', {
+        error,
+        context: 'server-detection',
+      });
+      return undefined;
+    }
   }
   return undefined;
 };
+
+export function exportServerLngToWindow(context: RuntimeContext, lng: string) {
+  context.__i18nData__ = { lng };
+}
