@@ -19,7 +19,15 @@ export const detectLanguage = (
   const detector = i18nInstance.services?.languageDetector;
   if (detector && typeof detector.detect === 'function' && request) {
     try {
-      return detector.detect(request, {});
+      const result = detector.detect(request, {});
+      // detector.detect() can return string | string[] | undefined
+      if (typeof result === 'string') {
+        return result;
+      }
+      if (Array.isArray(result) && result.length > 0) {
+        return result[0];
+      }
+      return undefined;
     } catch (error) {
       console.warn('[@modern-js/plugin-i18n] Language detection failed', {
         error,
