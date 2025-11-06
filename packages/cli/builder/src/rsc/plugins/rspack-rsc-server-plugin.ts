@@ -433,21 +433,18 @@ export class RscServerPlugin {
       }
     });
 
-    compiler.hooks.thisCompilation.tap(
-      RscServerPlugin.name,
-      (compilation, { normalModuleFactory }) => {
-        compilation.hooks.needAdditionalPass.tap(
-          RscServerPlugin.name,
-          () => !(needsAdditionalPass = !needsAdditionalPass),
-        );
+    compiler.hooks.thisCompilation.tap(RscServerPlugin.name, compilation => {
+      compilation.hooks.needAdditionalPass.tap(
+        RscServerPlugin.name,
+        () => !(needsAdditionalPass = !needsAdditionalPass),
+      );
 
-        compilation.hooks.processAssets.tap(RscServerPlugin.name, () => {
-          compilation.emitAsset(
-            this.serverManifestFilename,
-            new RawSource(JSON.stringify(this.serverManifest, null, 2), false),
-          );
-        });
-      },
-    );
+      compilation.hooks.processAssets.tap(RscServerPlugin.name, () => {
+        compilation.emitAsset(
+          this.serverManifestFilename,
+          new RawSource(JSON.stringify(this.serverManifest, null, 2), false),
+        );
+      });
+    });
   }
 }

@@ -113,7 +113,6 @@ export async function parseConfig(
     rsbuildPlugins.push(
       rsbuildRscPlugin({
         appDir: options.cwd,
-        isRspack: true,
         rscClientRuntimePath,
         rscServerRuntimePath,
         internalDirectory,

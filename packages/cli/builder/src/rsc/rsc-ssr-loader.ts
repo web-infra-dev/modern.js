@@ -18,7 +18,6 @@ export default async function rscSsrLoader(
 ) {
   this.cacheable(true);
   const callback = this.async();
-  const { entryPath2Name } = this.getOptions();
   const ast = await parseSource(source);
   const hasDeclareServerDirective = await isServerModule(ast);
   const resourcePath = this.resourcePath;

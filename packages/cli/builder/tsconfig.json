@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "ES2020",
     "outDir": "./dist",
-    "baseUrl": "./",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "rootDir": "src",
     "moduleResolution": "Bundler"
   },
