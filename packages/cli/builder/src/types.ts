@@ -149,6 +149,11 @@ export type BuilderExtraConfig = {
     transformImport?: SourceConfig['transformImport'] | false;
     // TODO: need to support rsbuild alias type in server/utils
     alias?: AliasOption;
+
+    /**
+     * Modify the config of [resolve.dedupe](https://rsbuild.rs/config/resolve/dedupe).
+     */
+    dedupe?: string[];
     /**
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */

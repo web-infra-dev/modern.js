@@ -33,7 +33,9 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "dedupe": undefined,
+  },
   "security": {},
   "server": {
     "compress": false,
@@ -99,7 +101,9 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "dedupe": undefined,
+  },
   "security": {},
   "server": {
     "htmlFallback": false,
@@ -156,7 +160,9 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "dedupe": undefined,
+  },
   "security": {},
   "server": {
     "htmlFallback": false,

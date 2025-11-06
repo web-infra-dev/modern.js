@@ -283,5 +283,15 @@ describe('parseCommonConfig', () => {
         css: true,
       });
     });
+
+    test('should work with source.dedupe', async () => {
+      const config = await parseCommonConfig({
+        source: {
+          dedupe: ['react'],
+        },
+      });
+
+      expect(config.rsbuildConfig.resolve?.dedupe).toEqual(['react']);
+    });
   });
 });

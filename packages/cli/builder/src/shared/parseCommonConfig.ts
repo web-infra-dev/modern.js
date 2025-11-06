@@ -70,6 +70,7 @@ export async function parseCommonConfig(
     html: { outputStructure, appIcon, ...htmlConfig } = {},
     source: {
       alias,
+      dedupe,
       globalVars,
       resolveMainFields,
       resolveExtensionPrefix,
@@ -100,7 +101,10 @@ export async function parseCommonConfig(
       sourceMap,
       ...outputConfig,
     },
-    resolve,
+    resolve: {
+      dedupe,
+      ...resolve,
+    },
     source: {
       alias: alias as unknown as SourceConfig['alias'],
       ...sourceConfig,
