@@ -1177,6 +1177,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
@@ -3375,6 +3376,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
