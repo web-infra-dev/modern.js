@@ -5,14 +5,14 @@ import type {
   RsbuildPlugin,
 } from '@rsbuild/core';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
-import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
-import { castArray } from '../shared/utils';
+import { rsbuildRscPlugin } from './rsc/plugins/rsbuild-rsc-plugin';
+import { parseCommonConfig } from './shared/parseCommonConfig';
+import { castArray } from './shared/utils';
 import type {
   BuilderConfig,
   CreateBuilderCommonOptions,
   CreateBuilderOptions,
-} from '../types';
+} from './types';
 
 export async function parseConfig(
   builderConfig: BuilderConfig,
@@ -48,7 +48,7 @@ export async function parseConfig(
   }
 
   if (Boolean(rsbuildConfig.tools!.lightningcssLoader) === false) {
-    const { pluginPostcss } = await import('../shared/plugins/postcss');
+    const { pluginPostcss } = await import('./plugins/postcss');
     rsbuildPlugins.push(
       pluginPostcss({ autoprefixer: builderConfig.tools?.autoprefixer }),
     );

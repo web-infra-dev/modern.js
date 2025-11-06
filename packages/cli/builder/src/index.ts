@@ -1,4 +1,4 @@
-import { type BuilderInstance, createRspackBuilder } from './rspack';
+import { type BuilderInstance, createRspackBuilder } from './createBuilder';
 import type { CreateBuilderOptions } from './types';
 
 export type { CreateBuilderOptions, BuilderInstance };
@@ -14,9 +14,7 @@ export type {
   CacheGroup,
 } from './types';
 
-export async function createBuilder(options: CreateBuilderOptions) {
-  return createRspackBuilder(options);
-}
+export { createRspackBuilder as createBuilder };
 
 export {
   logger,
@@ -38,4 +36,4 @@ export {
   castArray,
 } from './shared/utils';
 
-export { parseConfig as parseRspackConfig } from './rspack';
+export { parseConfig as parseRspackConfig } from './createBuilder';

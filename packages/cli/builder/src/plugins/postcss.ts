@@ -1,8 +1,8 @@
 import { applyOptionsChain, isProd } from '@modern-js/utils';
 import type { PostCSSLoaderOptions, RsbuildPlugin } from '@rsbuild/core';
 import type { Options } from 'cssnano';
-import type { ToolsAutoprefixerConfig } from '../../types';
-import { getCssSupport } from '../getCssSupport';
+import { getCssSupport } from '../shared/getCssSupport';
+import type { ToolsAutoprefixerConfig } from '../types';
 
 type PostCSSConfig = NonNullable<PostCSSLoaderOptions['postcssOptions']>;
 type PostCSSOptions = Exclude<PostCSSConfig, (loader: any) => any>;
@@ -28,7 +28,7 @@ async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
   }
 
   const { default: postcssrc } = await import(
-    '../../../compiled/postcss-load-config'
+    '../../compiled/postcss-load-config'
   );
 
   const promise = postcssrc({}, root).catch((err: Error) => {

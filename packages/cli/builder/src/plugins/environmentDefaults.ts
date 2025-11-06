@@ -1,10 +1,10 @@
 import { join } from 'node:path';
 import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
-import type { DistPath } from '../../types';
 import {
   SERVICE_WORKER_ENVIRONMENT_NAME,
   getBrowserslistWithDefault,
-} from '../utils';
+} from '../shared/utils';
+import type { DistPath } from '../types';
 
 export const pluginEnvironmentDefaults = (
   distPath: DistPath = {},
