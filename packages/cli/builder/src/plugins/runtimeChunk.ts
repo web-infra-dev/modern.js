@@ -1,5 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { RUNTIME_CHUNK_NAME } from '../utils';
+import { RUNTIME_CHUNK_NAME } from '../shared/utils';
 
 export const pluginRuntimeChunk = (
   disableInlineRuntimeChunk?: boolean,

@@ -9,15 +9,15 @@ import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSass } from '@rsbuild/plugin-sass';
+import { pluginDevtool } from '../plugins/devtools';
+import { pluginEmitRouteFile } from '../plugins/emitRouteFile';
+import { pluginEnvironmentDefaults } from '../plugins/environmentDefaults';
+import { pluginGlobalVars } from '../plugins/globalVars';
+import { pluginHtmlMinifierTerser } from '../plugins/htmlMinify';
+import { pluginRuntimeChunk } from '../plugins/runtimeChunk';
 import type { BuilderConfig, CreateBuilderCommonOptions } from '../types';
 import { transformToRsbuildServerOptions } from './devServer';
-import { pluginDevtool } from './plugins/devtools';
-import { pluginEmitRouteFile } from './plugins/emitRouteFile';
-import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
-import { pluginGlobalVars } from './plugins/globalVars';
-import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
-import { pluginRuntimeChunk } from './plugins/runtimeChunk';
-import { NODE_MODULES_REGEX, castArray } from './utils';
+import { NODE_MODULES_REGEX } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
@@ -238,12 +238,14 @@ export async function parseCommonConfig(
   }
 
   if (resolveMainFields) {
-    const { pluginMainFields } = await import('./plugins/mainFields');
+    const { pluginMainFields } = await import('../plugins/mainFields');
     rsbuildPlugins.push(pluginMainFields(resolveMainFields));
   }
 
   if (resolveExtensionPrefix) {
-    const { pluginExtensionPrefix } = await import('./plugins/extensionPrefix');
+    const { pluginExtensionPrefix } = await import(
+      '../plugins/extensionPrefix'
+    );
     rsbuildPlugins.push(pluginExtensionPrefix(resolveExtensionPrefix));
   }
 
@@ -315,7 +317,7 @@ export async function parseCommonConfig(
   );
 
   if (enableAssetManifest) {
-    const { pluginManifest } = await import('./plugins/manifest');
+    const { pluginManifest } = await import('../plugins/manifest');
     rsbuildPlugins.push(pluginManifest());
   }
 
