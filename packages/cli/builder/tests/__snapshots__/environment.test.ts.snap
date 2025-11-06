@@ -1178,6 +1178,7 @@ exports[`builder environment compat > should generator environment config correc
       },
       RsbuildHtmlPlugin {
         "getExtraData": [Function],
+        "getHTMLPlugin": [Function],
         "name": "RsbuildHtmlPlugin",
       },
       DefinePlugin {
