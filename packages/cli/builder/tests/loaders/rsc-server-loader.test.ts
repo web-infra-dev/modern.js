@@ -2,10 +2,10 @@ import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 import fs from 'fs/promises';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { MODERN_RSC_INFO, sharedData } from '../../src/shared/rsc/common';
+import { MODERN_RSC_INFO, sharedData } from '../../src/rsc/common';
 import rscServerLoader, {
   type RscServerLoaderOptions,
-} from '../../src/shared/rsc/rsc-server-loader';
+} from '../../src/rsc/rsc-server-loader';
 
 async function callLoader(
   resourcePath: string,

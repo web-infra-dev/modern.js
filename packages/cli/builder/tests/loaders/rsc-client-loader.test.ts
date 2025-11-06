@@ -2,13 +2,10 @@ import path from 'path';
 import type { Rspack } from '@rsbuild/core';
 import fs from 'fs/promises';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  type ServerReferencesMap,
-  sharedData,
-} from '../../src/shared/rsc/common';
+import { type ServerReferencesMap, sharedData } from '../../src/rsc/common';
 import rscClientLoader, {
   type ClientLoaderOptions,
-} from '../../src/shared/rsc/rsc-client-loader';
+} from '../../src/rsc/rsc-client-loader';
 
 async function callLoader(
   resourcePath: string,

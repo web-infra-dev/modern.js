@@ -3,13 +3,10 @@ import url from 'url';
 import type { Rspack } from '@rsbuild/core';
 import fs from 'fs/promises';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  MODERN_RSC_INFO,
-  type ServerReferencesMap,
-} from '../../src/shared/rsc/common';
+import { MODERN_RSC_INFO } from '../../src/rsc/common';
 import rscSsrLoader, {
   type RscSsrLoaderOptions,
-} from '../../src/shared/rsc/rsc-ssr-loader';
+} from '../../src/rsc/rsc-ssr-loader';
 
 const currentDirname = path.dirname(url.fileURLToPath(import.meta.url));
 
