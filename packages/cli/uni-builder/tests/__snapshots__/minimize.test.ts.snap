@@ -77,6 +77,7 @@ exports[`html minify > should not apply html minify in production when disableMi
   },
   RsbuildHtmlPlugin {
     "getExtraData": [Function],
+    "getHTMLPlugin": [Function],
     "name": "RsbuildHtmlPlugin",
   },
   DefinePlugin {
@@ -208,6 +209,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
   },
   RsbuildHtmlPlugin {
     "getExtraData": [Function],
+    "getHTMLPlugin": [Function],
     "name": "RsbuildHtmlPlugin",
   },
   DefinePlugin {
