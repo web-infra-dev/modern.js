@@ -1,4 +1,7 @@
+import { promises as fs } from 'fs';
+import path from 'path';
 import type { Context, Next, ServerPlugin } from '@modern-js/server-runtime';
+import type { ServerRoute } from '@modern-js/types';
 import type { LocaleDetectionOptions } from '../shared/type';
 import { getLocaleDetectionOptions } from '../shared/utils.js';
 
@@ -66,11 +69,139 @@ const buildLocalizedUrl = (
   return localizedUrl;
 };
 
+/**
+ * Match locale JSON route from request
+ * Only matches routes for JSON files in locales directory
+ */
+function matchLocaleJsonRoute(
+  req: { path: string },
+  routes: ServerRoute[],
+): ServerRoute | undefined {
+  const requestPath = req.path;
+
+  // Only process JSON files
+  if (!requestPath.endsWith('.json')) {
+    return undefined;
+  }
+
+  // Sort routes by urlPath length (longest first) to match more specific routes first
+  const sortedRoutes = [...routes].sort(
+    (a, b) => b.urlPath.length - a.urlPath.length,
+  );
+
+  for (const route of sortedRoutes) {
+    // Skip SSR routes and non-locales routes
+    if (route.isSSR || !route.entryPath.startsWith('locales')) {
+      continue;
+    }
+
+    // Only match JSON files
+    if (!route.entryPath.endsWith('.json')) {
+      continue;
+    }
+
+    const routeUrlPath = route.urlPath;
+
+    // Exact match is preferred
+    if (requestPath === routeUrlPath) {
+      return route;
+    }
+
+    // Also support path that starts with route urlPath (for nested paths)
+    // But ensure it's a valid path continuation (starts with / after the route path)
+    if (requestPath.startsWith(routeUrlPath)) {
+      // Check if the next character after routeUrlPath is '/' or end of string
+      // This prevents partial matches like /locales matching /locale
+      const remainingPath = requestPath.slice(routeUrlPath.length);
+      if (remainingPath === '' || remainingPath.startsWith('/')) {
+        return route;
+      }
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Create middleware to serve locale JSON files
+ * Simplified version specifically for i18n JSON translation files
+ */
+function createLocaleStaticMiddleware(
+  distDirectory: string,
+  appDirectory: string | undefined,
+  routes: ServerRoute[],
+): (c: Context, next: Next) => Promise<any> {
+  return async (c, next) => {
+    const route = matchLocaleJsonRoute(c.req, routes);
+
+    if (!route) {
+      return await next();
+    }
+
+    try {
+      // Try distDirectory first (for production builds where files are copied)
+      let filename = path.join(distDirectory, route.entryPath);
+
+      // Check if file exists in distDirectory
+      let fileExists = false;
+      try {
+        await fs.access(filename);
+        fileExists = true;
+      } catch {
+        // If not in distDirectory, try appDirectory (for dev mode or if not copied)
+        if (appDirectory) {
+          filename = path.join(appDirectory, route.entryPath);
+          try {
+            await fs.access(filename);
+            fileExists = true;
+          } catch {
+            // File doesn't exist in either location
+          }
+        }
+      }
+
+      if (!fileExists) {
+        return await next();
+      }
+
+      const data = await fs.readFile(filename);
+
+      c.header('Content-Type', 'application/json; charset=utf-8');
+
+      // Set response headers from route config if any
+      if (route.responseHeaders) {
+        Object.entries(route.responseHeaders).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
+      }
+
+      // Buffer is compatible with Hono's body method (same as static plugin)
+      return c.body(data as any, 200);
+    } catch (error) {
+      // File not found or read error, continue to next middleware
+      return await next();
+    }
+  };
+}
+
 export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-i18n/server',
   setup: api => {
     api.onPrepare(() => {
-      const { middlewares, routes } = api.getServerContext();
+      const { middlewares, routes, distDirectory, appDirectory } =
+        api.getServerContext();
+
+      // Add middleware to serve locale static files (e.g., locales/*.json)
+      // This should run before other middlewares to handle static file requests
+      if (distDirectory) {
+        middlewares.unshift({
+          name: 'i18n-locale-static',
+          handler: createLocaleStaticMiddleware(
+            distDirectory,
+            appDirectory,
+            routes,
+          ),
+        });
+      }
       routes.map(route => {
         const { entryName } = route;
         if (!entryName) {

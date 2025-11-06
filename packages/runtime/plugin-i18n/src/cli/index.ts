@@ -45,6 +45,22 @@ export const i18nPlugin = (
       };
     });
 
+    api.config(() => {
+      const { appDirectory } = api.getAppContext();
+      const resourcePathPrefixes = getAllBackendResourcePathPrefixes(
+        backend,
+        appDirectory,
+      );
+      return {
+        output: {
+          copy: resourcePathPrefixes.map(prefix => ({
+            from: prefix.replace(/^\//, ''),
+            to: prefix.replace(/^\//, ''),
+          })),
+        },
+      };
+    });
+
     api.modifyServerRoutes(({ routes }) => {
       const { appDirectory } = api.getAppContext();
       if (!appDirectory) {
@@ -76,9 +92,14 @@ export const i18nPlugin = (
       );
 
       if (serverRoutes && Array.isArray(serverRoutes)) {
+        // Get static route prefixes from both 'public' and 'locales' directories
+        // 'public' routes are handled by static plugin, 'locales' routes are handled by i18n plugin
         const staticRoutePrefixes = serverRoutes
           .filter(
-            route => !route.entryName && route.entryPath.startsWith('public'),
+            route =>
+              !route.entryName &&
+              (route.entryPath.startsWith('public') ||
+                route.entryPath.startsWith('locales')),
           )
           .map(route => route.urlPath)
           .filter(Boolean);
