@@ -6,6 +6,7 @@ import {
 
 export interface I18nPluginOptions {
   localeDetection: LocaleDetectionOptions;
+  resourcePathPrefixes?: string[];
 }
 
 const getLanguageFromPath = (
@@ -85,6 +86,7 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           languages = [],
           fallbackLanguage = 'en',
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
+        const resourcePathPrefixes = options.resourcePathPrefixes || [];
         const originUrlPath = route.urlPath;
         const urlPath = originUrlPath.endsWith('/')
           ? `${originUrlPath}*`
@@ -94,6 +96,24 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
             name: 'i18n-server-middleware',
             path: urlPath,
             handler: async (c: Context, next: Next) => {
+              const url = new URL(
+                c.req.url || '',
+                `http://${c.req.header('host')}`,
+              );
+              const pathname = url.pathname;
+
+              // Skip i18n resource requests to avoid redirecting them
+              // These paths are used by i18next-http-backend to load translation files
+              // The path prefixes are configurable via backend.loadPath option
+              const isResourceRequest = resourcePathPrefixes.some(
+                prefix =>
+                  pathname.startsWith(`${prefix}/`) || pathname === prefix,
+              );
+              if (isResourceRequest) {
+                await next();
+                return;
+              }
+
               const language = getLanguageFromPath(c.req, urlPath, languages);
               if (!language) {
                 const localizedUrl = buildLocalizedUrl(
