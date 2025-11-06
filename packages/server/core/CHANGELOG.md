@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.68.19
+
+### Patch Changes
+
+- 7edc183: fix: server hooks not get when run onPrepare
+
+  fix: 修复服务端插件在 onPrepare 中获取 hooks 失败
+
+  - @modern-js/plugin@2.68.19
+  - @modern-js/plugin-v2@2.68.19
+  - @modern-js/runtime-utils@2.68.19
+  - @modern-js/utils@2.68.19
+
 ## 2.68.18
 
 ### Patch Changes
