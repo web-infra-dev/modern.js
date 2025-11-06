@@ -1306,6 +1306,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
@@ -3756,6 +3757,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
@@ -6276,6 +6278,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
@@ -7983,6 +7986,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
     RsbuildHtmlPlugin {
       "getExtraData": [Function],
+      "getHTMLPlugin": [Function],
       "name": "RsbuildHtmlPlugin",
     },
     DefinePlugin {
