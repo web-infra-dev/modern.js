@@ -62,7 +62,20 @@ export function getBackendOptionsForEntry(
   appDirectory?: string,
 ): BaseBackendOptions | undefined {
   if (backend === undefined) {
-    return {};
+    // If appDirectory is not provided, cannot check directory existence, return undefined
+    if (!appDirectory) {
+      return undefined;
+    }
+    // Check if locales directory exists to determine if backend should be enabled
+    const directoryExists = checkBackendDirectoryExistsForEntry(
+      entryName,
+      undefined,
+      appDirectory,
+    );
+    if (!directoryExists) {
+      return undefined;
+    }
+    return { enabled: true };
   }
 
   const entryConfig = getEntryConfig(

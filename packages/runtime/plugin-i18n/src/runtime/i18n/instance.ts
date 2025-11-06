@@ -1,3 +1,5 @@
+import type { BaseBackendOptions } from '../../shared/type';
+
 // simple i18n instance definition
 export interface I18nInstance {
   language: string;
@@ -33,12 +35,32 @@ export interface LanguageDetectorOptions {
   cookieDomain?: string;
 }
 
+export interface BackendOptions extends Omit<BaseBackendOptions, 'enabled'> {
+  parse?: (data: string) => any;
+  stringify?: (data: any) => string;
+  [key: string]: any;
+}
+
+export interface Resources {
+  [lng: string]: {
+    [source: string]: string | Record<string, string>;
+  };
+}
+
 export type I18nInitOptions = {
   lng?: string;
   fallbackLng?: string;
   supportedLngs?: string[];
   initImmediate?: boolean;
   detection?: LanguageDetectorOptions;
+  backend?: BackendOptions;
+  resources?: Resources;
+  ns?: string | string[];
+  defaultNS?: string | string[];
+  react?: {
+    useSuspense?: boolean;
+    [key: string]: any;
+  };
 };
 
 export function isI18nInstance(obj: any): obj is I18nInstance {
