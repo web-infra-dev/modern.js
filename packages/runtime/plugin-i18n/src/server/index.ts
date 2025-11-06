@@ -1,6 +1,6 @@
 import type { Context, Next, ServerPlugin } from '@modern-js/server-runtime';
 import type { LocaleDetectionOptions } from '../shared/type';
-import { getLocaleDetectionOptions } from '../shared/utils';
+import { getLocaleDetectionOptions } from '../shared/utils.js';
 
 export interface I18nPluginOptions {
   localeDetection: LocaleDetectionOptions;
