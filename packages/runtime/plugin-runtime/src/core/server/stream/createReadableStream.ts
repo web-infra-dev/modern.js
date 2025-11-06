@@ -63,7 +63,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       }
     });
 
-    const chunkVec: string[] = [];
+    const chunkVec: Buffer[] = [];
 
     return new Promise(resolve => {
       const { pipe: reactStreamingPipe } = renderToPipeableStream(
@@ -94,17 +94,19 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                 transform(chunk, _encoding, callback) {
                   try {
                     if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-                      chunkVec.push(chunk.toString());
-                      /**
+                      chunkVec.push(
+                        Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk),
+                      ); /**
                        * The shell content of App may be splitted by multiple chunks to transform,
                        * when any node value's size is larger than the React limitation, refer to:
                        * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
                        * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
                        */
-                      let concatedChunk = chunkVec.join('');
-                      if (
-                        concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)
-                      ) {
+                      const chunkStr = chunk.toString('utf-8');
+                      if (chunkStr.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
+                        let concatedChunk = Buffer.concat(
+                          chunkVec as any,
+                        ).toString('utf-8');
                         concatedChunk = concatedChunk.replace(
                           ESCAPED_SHELL_STREAM_END_MARK,
                           '',
