@@ -31,11 +31,6 @@ export const builderPluginAdapterBasic = (
       const { appContext } = options;
       const { metaName } = appContext;
 
-      // This helps symlinked packages to resolve packages correctly, such as `react/jsx-runtime`, typically for monorepo.
-      chain.resolve.modules
-        .add('node_modules')
-        .add(path.join(api.context.rootPath, 'node_modules'));
-
       chain.watchOptions({
         ignored: [
           `[\\\\/](?:node_modules(?![\\\\/]\\.${metaName})|.git)[\\\\/]`,
