@@ -1,11 +1,11 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
+import { getLocaleDetectionOptions } from '../shared/utils';
 import {
-  type BackendOptions,
-  type LocaleDetectionOptions,
   getAllBackendResourcePathPrefixes,
   getBackendOptionsForEntry,
-  getLocaleDetectionOptions,
-} from '../utils/config';
+} from './utils/config';
+import { collectLocaleRoutes } from './utils/routes';
 
 export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;
@@ -45,12 +45,46 @@ export const i18nPlugin = (
       };
     });
 
+    api.modifyServerRoutes(({ routes }) => {
+      const { appDirectory } = api.getAppContext();
+      if (!appDirectory) {
+        return { routes };
+      }
+
+      // Get all locales directory paths
+      const urlPrefixes = getAllBackendResourcePathPrefixes(
+        backend,
+        appDirectory,
+      );
+
+      // Collect locale routes from backend directories
+      const localeRoutes = collectLocaleRoutes(
+        urlPrefixes,
+        appDirectory,
+        backend,
+      );
+
+      return { routes: [...routes, ...localeRoutes] };
+    });
+
     api._internalServerPlugins(({ plugins }) => {
-      const appDirectory = api.getAppContext()?.appDirectory;
+      const { appDirectory, serverRoutes } = api.getAppContext();
+
       const resourcePathPrefixes = getAllBackendResourcePathPrefixes(
         backend,
         appDirectory,
       );
+
+      if (serverRoutes && Array.isArray(serverRoutes)) {
+        const staticRoutePrefixes = serverRoutes
+          .filter(
+            route => !route.entryName && route.entryPath.startsWith('public'),
+          )
+          .map(route => route.urlPath)
+          .filter(Boolean);
+        resourcePathPrefixes.push(...staticRoutePrefixes);
+      }
+
       plugins.push({
         name: '@modern-js/plugin-i18n/server',
         options: {

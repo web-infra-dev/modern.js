@@ -1,40 +1,10 @@
 import { existsSync, statSync } from 'fs';
 import { join, resolve } from 'path';
-
-export interface BaseLocaleDetectionOptions {
-  localePathRedirect?: boolean;
-  i18nextDetector?: boolean;
-  languages?: string[];
-  fallbackLanguage?: string;
-}
-
-export interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {
-  localeDetectionByEntry?: Record<string, BaseLocaleDetectionOptions>;
-}
-
-export interface BaseBackendOptions {
-  enabled?: boolean;
-  loadPath?: string;
-  addPath?: string;
-}
-
-export interface BackendOptions extends BaseBackendOptions {
-  backendOptionsByEntry?: Record<string, BaseBackendOptions>;
-}
+import type { BackendOptions, BaseBackendOptions } from '../../shared/type';
+import { getEntryConfig, removeEntryConfigKey } from '../../shared/utils';
 
 function getEnabled(backendObj: BaseBackendOptions): boolean {
   return backendObj.enabled !== undefined ? backendObj.enabled : true;
-}
-
-function getEntryConfig<T extends Record<string, any>>(
-  entryName: string,
-  config: T,
-  entryKey: string,
-): T | undefined {
-  const entryConfigMap = (config as any)[entryKey] as
-    | Record<string, T>
-    | undefined;
-  return entryConfigMap?.[entryName];
 }
 
 function removeEnabledProperty<T extends BaseBackendOptions>(
@@ -42,43 +12,6 @@ function removeEnabledProperty<T extends BaseBackendOptions>(
 ): Omit<T, 'enabled'> {
   const { enabled: _, ...rest } = config;
   return rest;
-}
-
-function removeEntryConfigKey<T extends Record<string, any>>(
-  config: T,
-  entryKey: string,
-): Omit<T, typeof entryKey> {
-  const { [entryKey]: _, ...rest } = config;
-  return rest;
-}
-
-export function getLocaleDetectionOptions(
-  entryName: string,
-  localeDetection: BaseLocaleDetectionOptions,
-): BaseLocaleDetectionOptions {
-  const fullConfig = localeDetection as LocaleDetectionOptions;
-  const entryConfig = getEntryConfig(
-    entryName,
-    fullConfig,
-    'localeDetectionByEntry',
-  );
-
-  if (entryConfig) {
-    const globalConfig = removeEntryConfigKey(
-      fullConfig,
-      'localeDetectionByEntry',
-    );
-    return {
-      ...globalConfig,
-      ...entryConfig,
-    };
-  }
-
-  if ('localeDetectionByEntry' in fullConfig) {
-    return removeEntryConfigKey(fullConfig, 'localeDetectionByEntry');
-  }
-
-  return localeDetection;
 }
 
 export function deepMerge<T extends Record<string, any>>(
@@ -299,7 +232,7 @@ function collectPossibleDirectoryPaths(
   return possiblePaths;
 }
 
-function extractRelativeDirectoryPath(
+export function extractRelativeDirectoryPath(
   loadPath: string,
   appDirectory: string,
 ): string | null {
