@@ -86,6 +86,7 @@
       "@swc/helpers": "^0.5.17",
       "i18next-browser-languagedetector": "^8.2.0",
       "i18next-fs-backend": "^2.6.0",
+      "i18next-http-backend": "^3.0.2",
       "i18next-http-middleware": "^3.8.1"
     },
     "peerDependencies": {
