@@ -289,15 +289,32 @@ export class RscServerPlugin {
               { name: entryName, layer },
               (error, module) => {
                 if (error) {
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    console.error(
+                      `[RscServerPlugin] addInclude error for ${resource}:`,
+                      error,
+                    );
+                  }
                   compilation.errors.push(error);
                   return reject(error);
                 }
 
                 if (!module) {
-                  const noModuleError = new WebpackError(`Module not added`);
+                  if (process.env.DEBUG_RSC_PLUGIN) {
+                    console.warn(
+                      `[RscServerPlugin] Module not added: ${resource} (entry: ${entryName})`,
+                    );
+                  }
+                  const noModuleError = new WebpackError(
+                    `Module not added: ${resource}`,
+                  );
                   noModuleError.file = resource;
+                  // In dev/watch mode, treat as warning instead of error to allow HMR to continue
+                  if (compiler.watching) {
+                    compilation.warnings.push(noModuleError);
+                    return resolve();
+                  }
                   compilation.errors.push(noModuleError);
-
                   return reject(noModuleError);
                 }
 

@@ -7,6 +7,7 @@ export type RscServerLoaderOptions = {
   appDir: string;
   runtimePath?: string;
   detectOnly?: boolean;
+  isServer?: boolean;
 };
 
 interface ExportName {
@@ -40,8 +41,40 @@ export default async function rscServerLoader(
 ) {
   this.cacheable(true);
   const callback = this.async();
-  const { appDir, runtimePath = '@modern-js/runtime/rsc/server', detectOnly = false } =
-    this.getOptions();
+  const {
+    appDir,
+    runtimePath = '@modern-js/runtime/rsc/server',
+    detectOnly = false,
+    isServer = false,
+  } = this.getOptions();
+
+  // Detect SSR/server context to prevent client-error injection
+  const isSSRContext =
+    isServer ||
+    this._module?.layer === 'rsc-server' ||
+    (this._compilation?.options.target &&
+      String(this._compilation.options.target).includes('node')) ||
+    (this._compilation?.compiler?.name &&
+      /server|ssr|node/i.test(this._compilation.compiler.name));
+
+  // CRITICAL: Pre-check for 'use server' in SSR context to skip transform entirely.
+  // The flight-server-transform-plugin injects a 610 error module for 'use server'
+  // that throws "This module cannot be imported from a Client Component module".
+  // In SSR bundles, we need the actual server action code to execute, not the error.
+  if (isSSRContext) {
+    const hasUseServer = /^\s*['"]use server['"]/.test(source);
+    if (hasUseServer) {
+      if (process.env.DEBUG_RSC_LOADER) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[rsc-server-loader] SSR context with use server detected, skipping transform to avoid 610 error:',
+          this.resourcePath,
+        );
+      }
+      // Return original source without running transform - no 610 error injection
+      return callback(null, source);
+    }
+  }
 
   const result = await transform(source, {
     filename: this.resourcePath,
@@ -55,6 +88,7 @@ export default async function rscServerLoader(
             {
               appDir: appDir,
               runtimePath: runtimePath,
+              isServer: isSSRContext,
             },
           ],
         ],
@@ -106,7 +140,9 @@ export default async function rscServerLoader(
     if (detectOnly) {
       if (process.env.DEBUG_RSC_LOADER) {
         // eslint-disable-next-line no-console
-        console.log('[rsc-server-loader] detectOnly mode, returning original source');
+        console.log(
+          '[rsc-server-loader] detectOnly mode, returning original source',
+        );
       }
       return callback(null, source);
     }

@@ -120,6 +120,7 @@ export const rsbuildRscPlugin = ({
                 appDir,
                 runtimePath: rscServerRuntimePath,
                 internalDirectory,
+                isServer: true,
               })
               .end()
               .use(JSRule)
@@ -142,6 +143,7 @@ export const rsbuildRscPlugin = ({
                 appDir,
                 runtimePath: rscServerRuntimePath,
                 internalDirectory,
+                isServer: true,
               })
               .end()
               .use(JSRule)

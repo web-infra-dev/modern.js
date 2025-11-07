@@ -5,6 +5,7 @@ const remoteManifestUrl = `${remoteBaseUrl}/static/mf-manifest.json`;
 
 export default createModuleFederationConfig({
   name: 'rsc_ssr_host',
+  dts: false as any,
 
   // Configure remote pointing to rsc-ssr-mf app
   remotes: {

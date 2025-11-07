@@ -207,7 +207,9 @@ function patchContainerEntryModuleBuildError() {
   }
 }
 
-patchContainerEntryModuleBuildError();
+if (process.env.NODE_ENV === 'production') {
+  patchContainerEntryModuleBuildError();
+}
 
 import type {
   AppTools,
@@ -440,6 +442,10 @@ const patchDTSConfig = (
   isServer: boolean,
 ) => {
   if (isServer) {
+    return;
+  }
+  // Avoid injecting DTS plugin during development to reduce dev flakiness
+  if (isDev()) {
     return;
   }
   const ModernJSRuntime = '@module-federation/modern-js/runtime';
@@ -686,6 +692,10 @@ export const patchMFConfig = (
   if (!isServer) {
     if (mfConfig.library?.type === 'commonjs-module') {
       mfConfig.library.type = 'global';
+    }
+    // Disable DTS in dev to avoid known DTS plugin issues during local MF + RSC
+    if (isDev()) {
+      mfConfig.dts = false as any;
     }
     return mfConfig;
   }

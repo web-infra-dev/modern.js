@@ -2,6 +2,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js-rsc';
 
 export default createModuleFederationConfig({
   name: 'rsc_ssr_remote',
+  dts: false as any,
   manifest: {
     filePath: 'static',
     additionalData: manifest => {

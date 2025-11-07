@@ -283,7 +283,8 @@ export const remoteRscManifestPlugin = (
     let preloadPromise: Promise<void> | undefined;
     const startPreload = () => {
       if (preloadPromise) return preloadPromise;
-      preloadPromise = (async () => {
+      // Defer execution so helper functions declared below are initialized
+      preloadPromise = Promise.resolve().then(async () => {
         try {
           if (remoteDefinitions.length === 0) {
             const persisted = readPersistedRemotes();
@@ -311,7 +312,7 @@ export const remoteRscManifestPlugin = (
         } catch (err) {
           console.warn('[MF RSC] (prepare) failed to preload remotes:', err);
         }
-      })();
+      });
       return preloadPromise;
     };
 
