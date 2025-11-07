@@ -32,6 +32,12 @@
   },
   {
     "type": "dir",
+    "name": "app/resolve",
+    "label": "resolve",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "app/server",
     "label": "server",
     "collapsed": true
