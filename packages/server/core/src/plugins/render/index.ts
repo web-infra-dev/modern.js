@@ -1,4 +1,5 @@
 import type { ServerRoute } from '@modern-js/types';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { getLoaderCtx } from '../../helper';
 import type {
@@ -114,6 +115,6 @@ function createRenderHandler(
       headersData[k] = v;
     });
 
-    return c.body(body, status, headersData);
+    return c.body(body!, status as ContentfulStatusCode, headersData);
   };
 }

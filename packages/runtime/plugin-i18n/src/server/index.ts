@@ -13,7 +13,7 @@ const getLanguageFromPath = (
   urlPath: string,
   languages: string[],
 ): string | null => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
+  const url = new URL(req.url, `http://${req.header().host}`);
   const pathname = url.pathname;
 
   // Remove urlPath prefix to get remaining path

@@ -1613,8 +1613,8 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       hono:
-        specifier: ^3.12.2
-        version: 3.12.12
+        specifier: ^4.10.4
+        version: 4.10.4
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
@@ -3327,8 +3327,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/server/server-runtime
       hono:
-        specifier: ^3.12.2
-        version: 3.12.12
+        specifier: ^4.10.4
+        version: 4.10.4
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -12140,9 +12140,9 @@ packages:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
 
-  hono@3.12.12:
-    resolution: {integrity: sha512-5IAMJOXfpA5nT+K0MNjClchzz0IhBHs2Szl7WFAhrFOsbtQsYmNynFyJRg/a3IPsmCfxcrf8txUGiNShXpK5Rg==}
-    engines: {node: '>=16.0.0'}
+  hono@4.10.4:
+    resolution: {integrity: sha512-YG/fo7zlU3KwrBL5vDpWKisLYiM+nVstBQqfr7gCPbSYURnNEP9BDxEMz8KfsDR9JX0lJWDRNc6nXX31v7ZEyg==}
+    engines: {node: '>=16.9.0'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -24572,7 +24572,7 @@ snapshots:
     dependencies:
       parse-passwd: 1.0.0
 
-  hono@3.12.12: {}
+  hono@4.10.4: {}
 
   hookable@5.5.3: {}
 
