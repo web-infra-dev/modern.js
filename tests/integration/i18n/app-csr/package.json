@@ -6,7 +6,7 @@
     "dev": "modern dev"
   },
   "dependencies": {
-    "i18next":"25.6.0",
+    "i18next":"25.6.1",
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
