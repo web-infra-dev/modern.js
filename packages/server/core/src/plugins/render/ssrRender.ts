@@ -18,7 +18,7 @@ import type {
   RequestHandlerOptions,
 } from '../../types/requestHandler';
 import { getPathname, parseHeaders } from '../../utils';
-import { getCacheResult, matchCacheControl } from './ssrCache';
+import { getCacheResult, matchCacheControl, shouldUseCache } from './ssrCache';
 import { createRequestHandlerConfig } from './utils';
 
 // TODO: It's a type combine by RenderOptions and CreateRenderOptions, improve it.
@@ -135,7 +135,7 @@ export async function ssrRender(
 
   let response: Response;
 
-  if (cacheControl) {
+  if (cacheControl && shouldUseCache(request)) {
     response = await getCacheResult(request, {
       cacheControl,
       container: cacheConfig?.container,
