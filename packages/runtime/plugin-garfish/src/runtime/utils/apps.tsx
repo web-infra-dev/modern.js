@@ -84,7 +84,10 @@ function getAppInstance(
   // It will be shared by all MicroApp component instances to store the state setter of the currently active component
   const componentSetterRegistry = {
     current: null as React.Dispatch<
-      React.SetStateAction<{ component: React.ComponentType<any> | null }>
+      React.SetStateAction<{
+        component: React.ComponentType<any> | null;
+        isFromJupiter?: boolean;
+      }>
     > | null,
   };
 
@@ -96,12 +99,17 @@ function getAppInstance(
     const propsUpdateCounterRef = useRef(0);
 
     const domId = generateSubAppContainerKey(appInfo);
-    const [{ component: SubModuleComponent }, setSubModuleComponent] =
-      useState<{
-        component: React.ComponentType<any> | null;
-      }>({
-        component: null,
-      });
+    const componentRef = useRef<React.ComponentType<any> | null>(null);
+    const [
+      { component: SubModuleComponent, isFromJupiter },
+      setSubModuleComponent,
+    ] = useState<{
+      component: React.ComponentType<any> | null;
+      isFromJupiter?: boolean;
+    }>({
+      component: null,
+      isFromJupiter: false,
+    });
     const [propsUpdateKey, setPropsUpdateKey] = useState(0);
     const context = useContext(RuntimeReactContext);
     const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
@@ -249,6 +257,8 @@ or directly pass the "basename":
             jupiter_submodule_app_key,
           } = provider;
           const SubComponent = SubModuleComponent || jupiter_submodule_app_key;
+          const isFromJupiter =
+            !SubModuleComponent && !!jupiter_submodule_app_key;
           const componetRenderMode = manifest?.componentRender;
           return {
             mount: (...props) => {
@@ -256,7 +266,11 @@ or directly pass the "basename":
                 // [MODIFIED] Get and call the current state setter from the registry center
                 // This way, even if the mount method is cached, it can still call the setter of the latest component instance
                 if (componentSetterRegistry.current) {
-                  componentSetterRegistry.current({ component: SubComponent });
+                  componentRef.current = SubComponent;
+                  componentSetterRegistry.current({
+                    component: SubComponent,
+                    isFromJupiter,
+                  });
                 } else {
                   logger(
                     `[Garfish] MicroApp for "${appInfo.name}" tried to mount, but no active component setter was found.`,
@@ -357,6 +371,50 @@ or directly pass the "basename":
       }
     }, [propsUpdateKey, props]);
 
+    useEffect(() => {
+      const componetRenderMode = manifest?.componentRender;
+
+      // 只在 componentRender 模式下，且应用已挂载时执行
+      if (componetRenderMode && appRef.current?.mounted) {
+        // 使用 SubModuleComponent 或 componentRef.current 来获取最新的组件引用
+        const componentToUse = SubModuleComponent || componentRef.current;
+
+        // 如果组件存在，则强制重新挂载
+        if (componentToUse) {
+          // 当 propsUpdateKey 变化时，清除组件状态，强制 React 重新挂载组件
+          // 通过设置 component 为 null，然后延迟恢复，确保 React 能够检测到组件状态的变化
+          const currentComponent = componentToUse;
+          const currentIsFromJupiter = isFromJupiter;
+
+          // 清除组件，触发 React 卸载
+          setSubModuleComponent({
+            component: null,
+            isFromJupiter: false,
+          });
+
+          // 使用 setTimeout 延迟恢复，确保 React 能够完全卸载组件后再重新挂载
+          // 这样可以确保组件真正重新挂载，而不是仅仅更新 props
+          setTimeout(() => {
+            setSubModuleComponent({
+              component: currentComponent,
+              isFromJupiter: currentIsFromJupiter,
+            });
+          }, 50);
+        } else {
+          // 组件还未设置，但应用已挂载，可以尝试重新触发 mount
+          // 即使组件为 null，只要应用已挂载，我们也可以尝试重新触发 mount 来设置组件
+          if (appRef.current?.mounted) {
+            // 先 hide，然后 show，触发组件重新设置
+            appRef.current?.hide();
+            setTimeout(() => {
+              appRef.current?.show();
+            }, 10);
+          }
+        }
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [propsUpdateKey]);
+
     // Remove setLoadingState from props
     const { setLoadingState, ...renderProps } = props;
 
@@ -367,13 +425,19 @@ or directly pass the "basename":
     };
 
     // Use propsUpdateKey as part of the key
-    const componentKey = `${appInfo.name}-${propsUpdateKey}`;
+    // If the component is from jupiter_submodule_app_key, don't use the update key calculation logic
+    const componentKey = isFromJupiter
+      ? undefined
+      : `${appInfo.name}-${propsUpdateKey}`;
 
     return (
       <>
         <div id={domId}>
           {SubModuleComponent && (
-            <SubModuleComponent key={componentKey} {...finalRenderProps} />
+            <SubModuleComponent
+              {...(componentKey ? { key: componentKey } : {})}
+              {...finalRenderProps}
+            />
           )}
         </div>
       </>
