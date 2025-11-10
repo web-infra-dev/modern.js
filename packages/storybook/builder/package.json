@@ -61,7 +61,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.6.2",
+    "@rsbuild/core": "1.6.3",
     "@storybook/components": "~7.6.12",
     "@storybook/core-common": "~7.6.12",
     "@storybook/csf-plugin": "~7.6.12",

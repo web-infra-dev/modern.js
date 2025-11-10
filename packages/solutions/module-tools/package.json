@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
-    "@rsbuild/core": "1.6.2",
+    "@rsbuild/core": "1.6.3",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/convert-source-map": "1.5.2",
