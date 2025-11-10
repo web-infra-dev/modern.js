@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/module-tools": "2.68.18",
+    "@modern-js/module-tools": "2.68.19",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
