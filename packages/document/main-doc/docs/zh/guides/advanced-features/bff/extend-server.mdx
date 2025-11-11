@@ -19,7 +19,7 @@ import {
 
 const requireAuthForApi: MiddlewareHandler = async (c, next) => {
   if (c.req.path.startsWith('/api') && c.req.path !== '/api/login') {
-    const sid = getCookie(c, sid)
+    const sid = getCookie(c, 'sid');
     if (!sid) {
       return c.json({ code: -1, message: 'need login' }, 400);
     }
