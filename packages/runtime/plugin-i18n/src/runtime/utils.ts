@@ -1,7 +1,7 @@
 import { getGlobalBasename } from '@modern-js/runtime/context';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 
-export const getEntryPath = (entryName?: string): string => {
+export const getEntryPath = (): string => {
   const basename = getGlobalBasename();
   if (basename) {
     return basename === '/' ? '' : basename;

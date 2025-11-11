@@ -132,7 +132,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
           location
         ) {
           const currentPath = location.pathname;
-          const entryPath = getEntryPath(entryName);
+          const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
           // Build new path with updated language
@@ -148,7 +148,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
         } else if (localePathRedirect && isBrowser() && !hasRouter) {
           // Fallback: use window.history API when router is not available
           const currentPath = window.location.pathname;
-          const entryPath = getEntryPath(entryName);
+          const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
           // Build new path with updated language
