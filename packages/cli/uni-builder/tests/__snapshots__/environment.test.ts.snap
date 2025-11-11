@@ -1307,6 +1307,7 @@ exports[`uni-builder environment compat > should generator environment config co
       },
       RsbuildHtmlPlugin {
         "getExtraData": [Function],
+        "getHTMLPlugin": [Function],
         "name": "RsbuildHtmlPlugin",
       },
       DefinePlugin {
