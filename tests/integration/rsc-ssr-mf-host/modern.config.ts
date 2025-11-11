@@ -44,6 +44,15 @@ export default applyBaseConfig({
     }),
   ],
   tools: {
+    devServer: {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': '*',
+      },
+    },
+  },
+  tools: {
     bundlerChain(chain) {
       chain.resolve.modules
         .clear()

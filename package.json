@@ -113,5 +113,8 @@
       "uuid": "3.4.0",
       "trim": "0.0.1"
     }
+  },
+  "dependencies": {
+    "@module-federation/node": "2.7.19"
   }
 }

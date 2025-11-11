@@ -368,7 +368,7 @@ export const moduleFederationSSRPlugin = (
     if (pluginOptions.ssrConfig.remotes) {
       api._internalServerPlugins(({ plugins }) => {
         plugins.push({
-          name: '@module-federation/modern-js/data-fetch-server-plugin',
+          name: '@module-federation/modern-js-rsc/data-fetch-server-plugin',
           options: {},
         });
 

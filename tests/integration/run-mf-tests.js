@@ -56,7 +56,7 @@ async function waitForServer(url, timeout = 30000) {
   throw new Error(`Server at ${url} did not become ready within ${timeout}ms`);
 }
 
-async function buildProject(dir, bundler = 'webpack') {
+async function buildProject(dir, bundler = 'webpack', env = {}) {
   console.log(`Building ${path.basename(dir)}...`);
 
   return new Promise((resolve, reject) => {
@@ -66,6 +66,7 @@ async function buildProject(dir, bundler = 'webpack') {
         ...process.env,
         BUNDLER: bundler,
         NODE_ENV: 'production',
+        ...env,
       },
       stdio: 'inherit',
     });
@@ -91,6 +92,7 @@ async function serveProject(dir, port, env = {}) {
       ...process.env,
       PORT: port,
       NODE_ENV: 'production',
+      MODERN_MF_AUTO_CORS: '1',
       ...env,
     },
     stdio: 'inherit',
@@ -132,13 +134,16 @@ async function runTests() {
     }
 
     // Step 3: Build all hosts with remote URLs
-    console.log('\n=== Building Host Applications ===\n');
-    for (const host of TEST_APPS.hosts) {
-      const remoteUrl = remoteUrls[host.remoteEnvKey];
+  console.log('\n=== Building Host Applications ===\n');
+  for (const host of TEST_APPS.hosts) {
+    const remoteUrl = remoteUrls[host.remoteEnvKey];
 
-      await buildProject(host.dir);
-      console.log(`✅ Built ${host.name} with REMOTE_URL=${remoteUrl}`);
-    }
+    await buildProject(host.dir, 'webpack', {
+      REMOTE_URL: remoteUrl,
+      MODERN_MF_AUTO_CORS: '1',
+    });
+    console.log(`✅ Built ${host.name} with REMOTE_URL=${remoteUrl}`);
+  }
 
     // Step 4: Run the actual tests with proper environment
     console.log('\n=== Running Tests ===\n');
@@ -152,13 +157,18 @@ async function runTests() {
     const testProcess = spawn(
       'pnpm',
       [
+        'run',
         'test:framework',
-        '--testPathPattern=rsc-(csr|ssr)-mf',
+        '--',
+        path.resolve(__dirname, 'rsc-csr-mf/tests/index.test.ts'),
+        path.resolve(__dirname, 'rsc-csr-mf-host/tests/index.test.ts'),
+        path.resolve(__dirname, 'rsc-ssr-mf/tests/index.test.ts'),
+        path.resolve(__dirname, 'rsc-ssr-mf-host/tests/index.test.ts'),
         '--runInBand',
         '--no-coverage',
       ],
       {
-        cwd: path.resolve(__dirname, '../..'),
+        cwd: path.resolve(__dirname, '..'),
         env: testEnv,
         stdio: 'inherit',
       },

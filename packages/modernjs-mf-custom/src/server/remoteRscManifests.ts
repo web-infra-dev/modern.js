@@ -14,6 +14,7 @@ export interface RemoteRscArtifacts {
   readonly ssrManifest?: RscSSRManifest;
   readonly serverReferences?: Record<string, unknown>;
   readonly remoteEntry?: string;
+  readonly renderBundle?: string;
 }
 
 const remoteArtifactsStore = new Map<string, RemoteRscArtifacts>();

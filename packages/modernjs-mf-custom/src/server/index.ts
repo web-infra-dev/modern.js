@@ -9,6 +9,14 @@ const staticServePlugin = (): ServerPlugin => ({
   name: '@module-federation/modern-js-rsc/server',
   setup: api => {
     api.onPrepare(() => {
+      // Webpack-only MF enforcement: fail fast if BUNDLER is set to non-webpack
+      if (process.env.BUNDLER && process.env.BUNDLER !== 'webpack') {
+        console.error(
+          `\n[MF RSC] ERROR: Module Federation + React Server Components requires BUNDLER=webpack.\nCurrent BUNDLER="${process.env.BUNDLER}" is not supported.\nPlease set BUNDLER=webpack or remove the BUNDLER environment variable.\n`,
+        );
+        process.exit(1);
+      }
+
       // React 19 server bundles may check for __SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE
       // Ensure it's defined to avoid early throws during server bundle warmup in Node.
       try {
