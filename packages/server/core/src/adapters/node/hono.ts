@@ -42,6 +42,9 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     }
 
     if (isResFinalized(res)) {
+      // Fix: ensure context.res is initialized before setting finalized
+      // This prevents c.#res from being undefined in Hono
+      const _ = context.res;
       context.finalized = true;
     } else {
       await next();
@@ -92,6 +95,9 @@ export const connectMockMid2HonoMid = (
       // The function lenth < 3 means the handler is not a function with next
       if (handler.length < 3) {
         res.once('finish', () => {
+          // Fix: ensure context.res is initialized before setting finalized
+          // This prevents c.#res from being undefined in Hono
+          const _ = context.res;
           context.finalized = true;
           resolve();
         });
