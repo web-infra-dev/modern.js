@@ -1,8 +1,6 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import {
-  type LocaleDetectionOptions,
-  getLocaleDetectionOptions,
-} from '../utils/config';
+import type { LocaleDetectionOptions } from '../shared/type';
+import { getLocaleDetectionOptions } from '../shared/utils';
 
 export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;

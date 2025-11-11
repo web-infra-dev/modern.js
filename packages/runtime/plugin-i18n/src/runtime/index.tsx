@@ -5,7 +5,7 @@ import {
 } from '@modern-js/runtime';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import type { BaseLocaleDetectionOptions } from '../utils/config';
+import type { BaseLocaleDetectionOptions } from '../shared/type';
 import { ModernI18nProvider } from './context';
 import type { I18nInitOptions, I18nInstance } from './i18n';
 import { getI18nInstance } from './i18n';
