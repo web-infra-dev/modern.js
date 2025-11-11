@@ -11,6 +11,7 @@ declare global {
 
 export interface SSRData {
   initialData?: Record<string, unknown>;
+  i18nData?: Record<string, unknown>;
   [props: string]: any;
 }
 
