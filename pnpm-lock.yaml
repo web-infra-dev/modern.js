@@ -3839,9 +3839,6 @@ importers:
       i18next:
         specifier: 25.6.1
         version: 25.6.1(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3867,9 +3864,6 @@ importers:
       i18next:
         specifier: 25.6.1
         version: 25.6.1(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3898,9 +3892,6 @@ importers:
       i18next:
         specifier: 25.6.1
         version: 25.6.1(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3926,9 +3917,6 @@ importers:
       i18next:
         specifier: 25.6.1
         version: 25.6.1(typescript@5.6.3)
-      i18next-browser-languagedetector:
-        specifier: 8.2.0
-        version: 8.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -12289,9 +12277,6 @@ packages:
   hyperdyperid@1.2.0:
     resolution: {integrity: sha512-Y93lCzHYgGWdrJ66yIktxiaGULYc6oGiABxhcO5AufBeOyoIdZF7bIfLaOrbM0iGIOXQQgxxRrFEnb+Y6w1n4A==}
     engines: {node: '>=10.18'}
-
-  i18next-browser-languagedetector@8.2.0:
-    resolution: {integrity: sha512-P+3zEKLnOF0qmiesW383vsLdtQVyKtCNA9cjSoKCppTKPQVfKd2W8hbVo5ZhNJKDqeM7BOcvNoKJOjpHh4Js9g==}
 
   i18next@25.6.1:
     resolution: {integrity: sha512-yUWvdXtalZztmKrKw3yz/AvSP3yKyqIkVPx/wyvoYy9lkLmwzItLxp0iHZLG5hfVQ539Jor4XLO+U+NHIXg7pw==}
@@ -24754,10 +24739,6 @@ snapshots:
   husky@8.0.3: {}
 
   hyperdyperid@1.2.0: {}
-
-  i18next-browser-languagedetector@8.2.0:
-    dependencies:
-      '@babel/runtime': 7.28.4
 
   i18next@25.6.1(typescript@5.6.3):
     dependencies:
