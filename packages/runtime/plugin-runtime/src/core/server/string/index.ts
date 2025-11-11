@@ -57,6 +57,7 @@ export const renderString: RenderString = async (
       config,
     }),
     new SSRDataCollector({
+      runtimeContext,
       request,
       ssrConfig,
       ssrContext: runtimeContext.ssrContext!,
