@@ -32,6 +32,12 @@
       "jsnext:source": "./src/adapters/node/index.ts",
       "import": "./dist/esm-node/adapters/node/index.js",
       "default": "./dist/cjs/adapters/node/index.js"
+    },
+    "./hono": {
+      "types": "./dist/types/hono.d.ts",
+      "jsnext:source": "./src/hono.ts",
+      "import": "./dist/esm-node/hono.js",
+      "default": "./dist/cjs/hono.js"
     }
   },
   "typesVersions": {
@@ -41,6 +47,9 @@
       ],
       "node": [
         "./dist/types/adapters/node/index.d.ts"
+      ],
+      "hono": [
+        "./dist/types/hono.d.ts"
       ]
     }
   },
@@ -64,7 +73,7 @@
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
     "flatted": "^3.3.3",
-    "hono": "^3.12.2",
+    "hono": "^4.10.4",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
@@ -95,6 +104,11 @@
         "types": "./dist/types/adapters/node/index.d.ts",
         "import": "./dist/esm-node/adapters/node/index.js",
         "default": "./dist/cjs/adapters/node/index.js"
+      },
+      "./hono": {
+        "types": "./dist/types/hono.d.ts",
+        "import": "./dist/esm-node/hono.js",
+        "default": "./dist/cjs/hono.js"
       }
     }
   }

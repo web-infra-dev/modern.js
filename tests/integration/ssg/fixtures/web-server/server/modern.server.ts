@@ -11,7 +11,8 @@ const timing: MiddlewareHandler = async (c, next) => {
   const text = await res.text();
 
   const newText = text.replace('<body>', '<body>bytedance');
-  c.res = c.body(newText, {
+
+  c.res = new Response(newText, {
     status: res.status,
     headers: res.headers,
   });

@@ -44,7 +44,7 @@ const handleResponseMeta = (c: Context, handler: Handler) => {
         case ResponseMetaType.Redirect:
           return c.redirect(meta.value as string);
         case ResponseMetaType.StatusCode:
-          c.status(meta.value as number);
+          c.status(meta.value as any);
           break;
         default:
           break;

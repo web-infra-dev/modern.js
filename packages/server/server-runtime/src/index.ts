@@ -10,6 +10,8 @@ export {
   type ServerConfig,
 } from '@modern-js/server-core';
 
+export * from '@modern-js/server-core/hono';
+
 export type {
   Container,
   CacheControl,

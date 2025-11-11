@@ -14,11 +14,12 @@ Modern.js 支持用户通过 [Middleware](/guides/advanced-features/web-server.h
 import {
   type MiddlewareHandler,
   defineServerConfig,
+  getCookie
 } from '@modern-js/server-runtime';
 
 const requireAuthForApi: MiddlewareHandler = async (c, next) => {
   if (c.req.path.startsWith('/api') && c.req.path !== '/api/login') {
-    const sid = c.req.cookie('sid');
+    const sid = getCookie(c, 'sid');
     if (!sid) {
       return c.json({ code: -1, message: 'need login' }, 400);
     }

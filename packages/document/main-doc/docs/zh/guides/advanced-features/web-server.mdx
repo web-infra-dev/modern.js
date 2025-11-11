@@ -400,7 +400,7 @@ Middleware `Context` 和 Hono `Context` 的具体差异：
 
 | UnstableMiddleware   | Hono                   | 说明                                                                     |
 | :------------------- | :--------------------- | :----------------------------------------------------------------------- |
-| `c.request.cookie`   | `c.req.cookie()`       | 参考 [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) 文档     |
+| `c.request.cookie`   | `getCookie()`       | 参考 [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) 文档     |
 | `c.request.pathname` | `c.req.path`           | 参考 [HonoRequest path](https://hono.dev/docs/api/request#path) 文档     |
 | `c.request.url`      | -                      | Hono `c.req.url` 为完整请求路径，自行通过 url 计算                       |
 | `c.request.host`     | `c.req.header('Host')` | 通过 header 获取 host                                                    |

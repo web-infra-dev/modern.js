@@ -64,6 +64,8 @@ export class HonoAdapter {
           if (result instanceof Response) {
             return result;
           }
+        } else {
+          logger.error(err);
         }
       } catch (configError) {
         logger.error(`Error in serverConfig.onError handler: ${configError}`);
@@ -104,11 +106,7 @@ export class HonoAdapter {
         before,
         handler: async (c: Context, next: Next) => {
           if (this.apiServer) {
-            const response = await this.apiServer.fetch(
-              c.req as unknown as Request,
-              c.env,
-            );
-
+            const response = await this.apiServer.fetch(c.req.raw, c.env);
             if (response.status !== 404) {
               return new Response(response.body, response);
             }
