@@ -1,4 +1,5 @@
 import type { Context, Next, ServerPlugin } from '@modern-js/server-runtime';
+import { detectLanguageFromRequest } from '../shared/detection.js';
 import type { LocaleDetectionOptions } from '../shared/type';
 import { getLocaleDetectionOptions } from '../shared/utils.js';
 
@@ -80,8 +81,10 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
         }
         const {
           localePathRedirect,
+          i18nextDetector = true,
           languages = [],
           fallbackLanguage = 'en',
+          detection,
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
         const originUrlPath = route.urlPath;
         const urlPath = originUrlPath.endsWith('/')
@@ -94,10 +97,28 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
             handler: async (c: Context, next: Next) => {
               const language = getLanguageFromPath(c.req, urlPath, languages);
               if (!language) {
+                // Try to detect language from request using the same detection config as client
+                let detectedLanguage: string | null = null;
+                if (i18nextDetector) {
+                  // Create a compatible headers object
+                  const headers = {
+                    get: (name: string) => c.req.header(name) || null,
+                  };
+                  detectedLanguage = detectLanguageFromRequest(
+                    {
+                      url: c.req.url,
+                      headers,
+                    },
+                    languages,
+                    detection,
+                  );
+                }
+                // Use detected language or fallback to fallbackLanguage
+                const targetLanguage = detectedLanguage || fallbackLanguage;
                 const localizedUrl = buildLocalizedUrl(
                   c.req,
                   originUrlPath,
-                  fallbackLanguage,
+                  targetLanguage,
                   languages,
                 );
                 return c.redirect(localizedUrl);

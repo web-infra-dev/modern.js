@@ -1,5 +1,4 @@
-import type { RuntimeContext } from '@modern-js/runtime';
-import { deepMerge } from '../../../shared/deepMerge';
+import { deepMerge } from '../../../shared/deepMerge.js';
 import type { LanguageDetectorOptions } from '../instance';
 
 export const DEFAULT_I18NEXT_DETECTION_OPTIONS = {

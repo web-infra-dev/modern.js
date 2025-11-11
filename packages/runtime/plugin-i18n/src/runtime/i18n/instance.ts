@@ -27,6 +27,7 @@ export interface LanguageDetectorOptions {
   caches?: LanguageDetectorCaches;
   cookieExpirationDate?: Date;
   cookieDomain?: string;
+  lookupHeader?: string;
 }
 
 export type I18nInitOptions = {

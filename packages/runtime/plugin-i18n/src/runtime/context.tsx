@@ -123,6 +123,15 @@ export const useModernI18n = (): UseModernI18nReturn => {
         // Update i18n instance
         await i18nInstance.changeLanguage(newLang);
 
+        // Ensure detector caches the new language (cookie/localStorage)
+        // This is important because changeLanguage might not always trigger cache update
+        if (isBrowser() && i18nInstance.services?.languageDetector) {
+          const detector = i18nInstance.services.languageDetector;
+          if (typeof detector.cacheUserLanguage === 'function') {
+            detector.cacheUserLanguage(newLang);
+          }
+        }
+
         // Update URL if locale detection is enabled, we're in browser, and router is available
         if (
           localePathRedirect &&
@@ -177,7 +186,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
       i18nInstance,
       updateLanguage,
       localePathRedirect,
-      entryName,
       languages,
       hasRouter,
       navigate,
