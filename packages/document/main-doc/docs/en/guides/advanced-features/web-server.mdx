@@ -406,7 +406,7 @@ type MiddlewareContext = {
 Differences between Middleware `Context` and Hono `Context`:
 | UnstableMiddleware | Hono | Description |
 | :----------------------- | :---------------------------- | :--------------------------------------------------------------------------- |
-| `c.request.cookie` | `c.req.cookie()` | Refer to [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) documentation |
+| `c.request.cookie` | `getCookie` | Refer to [Hono Cookie Helper](https://hono.dev/docs/helpers/cookie) documentation |
 | `c.request.pathname` | `c.req.path` | Refer to [HonoRequest path](https://hono.dev/docs/api/request#path) documentation |
 | `c.request.url` | - | Hono `c.req.url` provides the full request URL, calculate manually from URL |
 | `c.request.host` | `c.req.header('Host')` | Obtain host through header |
