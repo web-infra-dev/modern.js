@@ -64,6 +64,8 @@ export class HonoAdapter {
           if (result instanceof Response) {
             return result;
           }
+        } else {
+          logger.error(err);
         }
       } catch (configError) {
         logger.error(`Error in serverConfig.onError handler: ${configError}`);
