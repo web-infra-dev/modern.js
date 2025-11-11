@@ -2,8 +2,8 @@
  * Base locale detection configuration for a single entry
  */
 export interface BaseLocaleDetectionOptions {
-  /** Whether locale detection is enabled for this entry */
-  enable?: boolean;
+  /** Whether to enable locale detection from path and automatic redirect */
+  localePathRedirect?: boolean;
   /** List of supported languages */
   languages?: string[];
   /** Fallback language when detection fails */
@@ -38,7 +38,15 @@ export const getLocaleDetectionOptions = (
 
   if (hasEntryConfig(localeDetection)) {
     const { localeDetectionByEntry, ...globalConfig } = localeDetection;
-    return localeDetectionByEntry?.[entryName] || globalConfig;
+    const entryConfig = localeDetectionByEntry?.[entryName];
+    // Merge entry-specific config with global config, entry config takes precedence
+    if (entryConfig) {
+      return {
+        ...globalConfig,
+        ...entryConfig,
+      };
+    }
+    return globalConfig;
   }
 
   return localeDetection;
