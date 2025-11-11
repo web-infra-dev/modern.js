@@ -38,11 +38,22 @@ export function pathJoin(...args: string[]) {
   return res || '/';
 }
 
-function deepEqualExcludeFunctions(prev: any, next: any): boolean {
+function deepEqualExcludeFunctions(
+  prev: any,
+  next: any,
+  visited?: WeakSet<any>,
+): boolean {
   if (prev === next) return true;
   if (!prev || !next) return false;
   if (typeof prev !== 'object' || typeof next !== 'object') return false;
 
+  const visitedSet = visited ?? new WeakSet();
+  // 如果已经访问过，说明有循环引用，直接返回 true（认为相等）
+  if (visitedSet.has(prev) || visitedSet.has(next)) {
+    return true;
+  }
+  visitedSet.add(prev);
+  visitedSet.add(next);
   const prevKeys = Object.keys(prev).filter(
     key => typeof prev[key] !== 'function',
   );
@@ -63,7 +74,7 @@ function deepEqualExcludeFunctions(prev: any, next: any): boolean {
     }
 
     if (typeof prevVal === 'object' && typeof nextVal === 'object') {
-      if (!deepEqualExcludeFunctions(prevVal, nextVal)) {
+      if (!deepEqualExcludeFunctions(prevVal, nextVal, visitedSet)) {
         return false;
       }
     } else if (prevVal !== nextVal) {
@@ -117,6 +128,8 @@ function getAppInstance(
     const useLocation = props.useLocation ?? context?.router?.useLocation;
     const useHistory = props.useHistory ?? context?.router?.useHistory;
     const useHref = props.useHistory ?? context?.router?.useHref;
+    const lastPropsUpdateKeyRef = useRef(0);
+    const isRemountingRef = useRef(false);
 
     const match = useRouteMatch?.();
     const matchs = useMatches?.();
@@ -206,8 +219,21 @@ or directly pass the "basename":
     }, [locationPathname]);
 
     useEffect(() => {
+      if (previousPropsRef.current === props) {
+        return;
+      }
       const prevPropsForCompare = { ...previousPropsRef.current };
       const currentPropsForCompare = { ...props };
+
+      const ignoredKeysForRemount = [
+        'style',
+        'location',
+        'match',
+        'history',
+        'staticContext',
+        'guideState',
+        'guideConfig',
+      ];
 
       Object.keys(prevPropsForCompare).forEach(key => {
         if (typeof prevPropsForCompare[key] === 'function') {
@@ -220,13 +246,34 @@ or directly pass the "basename":
         }
       });
 
-      if (
-        !deepEqualExcludeFunctions(prevPropsForCompare, currentPropsForCompare)
-      ) {
+      const prevPropsForDeepCompare: any = {};
+      const currentPropsForDeepCompare: any = {};
+
+      Object.keys(prevPropsForCompare).forEach(key => {
+        if (!ignoredKeysForRemount.includes(key)) {
+          prevPropsForDeepCompare[key] = prevPropsForCompare[key];
+        }
+      });
+      Object.keys(currentPropsForCompare).forEach(key => {
+        if (!ignoredKeysForRemount.includes(key)) {
+          currentPropsForDeepCompare[key] = currentPropsForCompare[key];
+        }
+      });
+
+      // 只对非路由相关的 props 进行深度比较
+      const propsEqual = deepEqualExcludeFunctions(
+        prevPropsForDeepCompare,
+        currentPropsForDeepCompare,
+      );
+
+      if (!propsEqual) {
         previousPropsRef.current = props;
         propsRef.current = props;
         propsUpdateCounterRef.current += 1;
         setPropsUpdateKey(prev => prev + 1);
+      } else {
+        previousPropsRef.current = props;
+        propsRef.current = props;
       }
     }, [props, appInfo.name]);
 
@@ -374,6 +421,14 @@ or directly pass the "basename":
     useEffect(() => {
       const componetRenderMode = manifest?.componentRender;
 
+      if (
+        propsUpdateKey === lastPropsUpdateKeyRef.current ||
+        isRemountingRef.current
+      ) {
+        return;
+      }
+      lastPropsUpdateKeyRef.current = propsUpdateKey;
+
       // 只在 componentRender 模式下，且应用已挂载时执行
       if (componetRenderMode && appRef.current?.mounted) {
         // 使用 SubModuleComponent 或 componentRef.current 来获取最新的组件引用
@@ -408,6 +463,9 @@ or directly pass the "basename":
             appRef.current?.hide();
             setTimeout(() => {
               appRef.current?.show();
+              setTimeout(() => {
+                isRemountingRef.current = false;
+              }, 100);
             }, 10);
           }
         }
