@@ -35,6 +35,50 @@ function extractMetadata(code: string): SWCMetadata | null {
   }
 }
 
+/**
+ * Extract export names from source code without running transform.
+ * Used when skipping transform in SSR context to still provide metadata.
+ */
+function extractExportNames(source: string): string[] {
+  const exports: string[] = [];
+
+  // Match: export async function name / export function name
+  const funcMatches = source.matchAll(/export\s+(?:async\s+)?function\s+(\w+)/g);
+  for (const match of funcMatches) {
+    if (match[1] && match[1] !== 'default') {
+      exports.push(match[1]);
+    }
+  }
+
+  // Match: export const/let/var name
+  const varMatches = source.matchAll(/export\s+(?:const|let|var)\s+(\w+)/g);
+  for (const match of varMatches) {
+    if (match[1]) {
+      exports.push(match[1]);
+    }
+  }
+
+  // Match: export { name, name2 as alias }
+  const namedExportMatches = source.matchAll(/export\s+\{([^}]+)\}/g);
+  for (const match of namedExportMatches) {
+    const names = match[1].split(',').map(s => s.trim());
+    for (const name of names) {
+      // Handle "name as alias" - we want the original name
+      const actualName = name.split(/\s+as\s+/)[0].trim();
+      if (actualName && actualName !== 'default') {
+        exports.push(actualName);
+      }
+    }
+  }
+
+  // Match: export default
+  if (/export\s+default/.test(source)) {
+    exports.push('default');
+  }
+
+  return [...new Set(exports)]; // Deduplicate
+}
+
 export default async function rscServerLoader(
   this: LoaderContext<RscServerLoaderOptions>,
   source: string,
@@ -64,13 +108,25 @@ export default async function rscServerLoader(
   if (isSSRContext) {
     const hasUseServer = /^\s*['"]use server['"]/.test(source);
     if (hasUseServer) {
+      // Extract export names manually since we're skipping transform
+      const exportNames = extractExportNames(source);
+
+      // Publish server action metadata for manifest building
+      if (exportNames.length > 0) {
+        setRscBuildInfo(this._module!, {
+          type: 'server',
+          resourcePath: this.resourcePath,
+          exportNames,
+        });
+      }
+
       if (process.env.DEBUG_RSC_LOADER) {
         // eslint-disable-next-line no-console
         console.log(
-          '[rsc-server-loader] SSR context with use server detected, skipping transform to avoid 610 error:',
-          this.resourcePath,
+          `[rsc-server-loader] SSR context with use server detected, skipping transform but extracted ${exportNames.length} export(s): ${this.resourcePath}`,
         );
       }
+
       // Return original source without running transform - no 610 error injection
       return callback(null, source);
     }

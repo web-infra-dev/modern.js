@@ -112,7 +112,7 @@ async function runTests() {
     // Step 1: Build all remotes first
     console.log('\n=== Building Remote Applications ===\n');
     for (const remote of TEST_APPS.remotes) {
-      await buildProject(remote.dir);
+      await buildProject(remote.dir, 'webpack');
     }
 
     // Step 2: Start all remotes

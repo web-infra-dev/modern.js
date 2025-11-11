@@ -1162,11 +1162,15 @@ export const remoteRscManifestPlugin = (
 
     const { middlewares } = api.getServerContext();
 
-    // Add SSR readiness middleware to validate remote bundles before SSR
-    middlewares.push({
-      name: 'module-federation-ssr-remotes-readiness',
-      handler: createSsrRemotesReadinessMiddleware(),
-    });
+    // Add SSR readiness middleware ONLY for hosts (when remotes are configured)
+    // Remotes don't need to validate their own bundles
+    const isHost = remoteDefinitions.length > 0;
+    if (isHost) {
+      middlewares.push({
+        name: 'module-federation-ssr-remotes-readiness',
+        handler: createSsrRemotesReadinessMiddleware(),
+      });
+    }
 
     middlewares.push({
       name: 'module-federation-merge-remote-rsc-manifest',
