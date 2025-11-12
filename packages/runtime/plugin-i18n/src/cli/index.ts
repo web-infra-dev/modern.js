@@ -1,4 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
 import type { LocaleDetectionOptions } from '../shared/type';
 import { getLocaleDetectionOptions } from '../shared/utils';
 
@@ -32,6 +33,7 @@ export const i18nPlugin = (
 
     api._internalServerPlugins(({ plugins }) => {
       const { serverRoutes } = api.getAppContext();
+      const normalizedConfig = api.getNormalizedConfig();
 
       let staticRoutePrefixes: string[] = [];
       if (serverRoutes && Array.isArray(serverRoutes)) {
@@ -44,6 +46,18 @@ export const i18nPlugin = (
           .map(route => route.urlPath)
           .filter(Boolean);
       }
+
+      // Also include publicDir configuration paths
+      // publicDir files are copied to dist/{dir}/ and should be treated as static resources
+      const publicDirPrefixes = getPublicDirRoutePrefixes(
+        normalizedConfig?.server?.publicDir,
+      );
+      publicDirPrefixes.forEach(prefix => {
+        if (!staticRoutePrefixes.includes(prefix)) {
+          staticRoutePrefixes.push(prefix);
+        }
+      });
+
       plugins.push({
         name: '@modern-js/plugin-i18n/server',
         options: {

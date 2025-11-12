@@ -4,6 +4,7 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 export default defineConfig({
   server: {
     ssr: true,
+    publicDir: './locales',
   },
   plugins: [
     appTools(),

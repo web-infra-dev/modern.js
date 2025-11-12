@@ -80,14 +80,52 @@ const convertToHonoLanguageDetectorOptions = (
 
 /**
  * Check if the given pathname is a static resource request
+ * This includes:
+ * 1. Paths matching staticRoutePrefixes (from public directories)
+ * 2. Standard static resource paths like /static/, /upload/
+ * 3. Paths with language prefix like /en/static/, /zh/static/
  */
 const isStaticResourceRequest = (
   pathname: string,
   staticRoutePrefixes: string[],
+  languages: string[] = [],
 ): boolean => {
-  return staticRoutePrefixes.some(
-    prefix => pathname.startsWith(`${prefix}/`) || pathname === prefix,
-  );
+  // Check against staticRoutePrefixes (from public directories)
+  if (
+    staticRoutePrefixes.some(
+      prefix => pathname.startsWith(`${prefix}/`) || pathname === prefix,
+    )
+  ) {
+    return true;
+  }
+
+  // Check standard static resource paths
+  const standardStaticPrefixes = ['/static/', '/upload/'];
+  if (standardStaticPrefixes.some(prefix => pathname.startsWith(prefix))) {
+    return true;
+  }
+
+  // Check paths with language prefix (e.g., /en/static/, /zh/static/)
+  // Remove language prefix if present and check again
+  const pathSegments = pathname.split('/').filter(Boolean);
+  if (pathSegments.length > 0 && languages.includes(pathSegments[0])) {
+    // biome-ignore lint/style/useTemplate: <explanation>
+    const pathWithoutLang = '/' + pathSegments.slice(1).join('/');
+    if (
+      standardStaticPrefixes.some(prefix =>
+        pathWithoutLang.startsWith(prefix),
+      ) ||
+      staticRoutePrefixes.some(
+        prefix =>
+          pathWithoutLang.startsWith(`${prefix}/`) ||
+          pathWithoutLang === prefix,
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 const getLanguageFromPath = (
@@ -191,7 +229,13 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
                 const pathname = url.pathname;
 
                 // For static resource requests, skip language detection
-                if (isStaticResourceRequest(pathname, staticRoutePrefixes)) {
+                if (
+                  isStaticResourceRequest(
+                    pathname,
+                    staticRoutePrefixes,
+                    languages,
+                  )
+                ) {
                   return await next();
                 }
 
@@ -208,7 +252,13 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
               const pathname = url.pathname;
 
               // For static resource requests, skip i18n processing
-              if (isStaticResourceRequest(pathname, staticRoutePrefixes)) {
+              if (
+                isStaticResourceRequest(
+                  pathname,
+                  staticRoutePrefixes,
+                  languages,
+                )
+              ) {
                 return await next();
               }
 

@@ -24,6 +24,7 @@ export type SSR =
 export type SSRByEntries = Record<string, SSR>;
 
 export interface ServerUserConfig {
+  publicDir?: string | string[];
   routes?: Routes;
   /**
    * Experimenal, it is not recommended to use it now

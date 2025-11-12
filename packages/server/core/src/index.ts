@@ -1,4 +1,12 @@
 export { createErrorHtml, onError, ErrorDigest } from './utils';
+export {
+  normalizePublicDir,
+  normalizePublicDirPath,
+  getPublicDirRoutePrefixes,
+  getPublicDirPatterns,
+  resolvePublicDirPaths,
+  getPublicDirConfig,
+} from './utils/publicDir';
 
 export { AGGRED_DIR } from './constants';
 

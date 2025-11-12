@@ -4,7 +4,8 @@
   "version": "2.66.0",
   "scripts": {
     "dev": "modern dev",
-    "build": "modern build -c modern.ssg.config.ts"
+    "build": "modern build -c modern.ssg.config.ts",
+    "serve": "modern serve"
   },
   "dependencies": {
     "i18next":"25.6.1",

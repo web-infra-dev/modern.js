@@ -5,6 +5,7 @@ import { ssgPlugin } from '@modern-js/plugin-ssg';
 export default defineConfig({
   server: {
     ssr: process.env.NODE_ENV === 'development',
+    publicDir: './locales',
   },
   output: {
     distPath: {
