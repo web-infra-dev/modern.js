@@ -1,7 +1,7 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
-import type { LocaleDetectionOptions } from '../shared/type';
-import { getLocaleDetectionOptions } from '../shared/utils';
+import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
+import { getBackendOptions, getLocaleDetectionOptions } from '../shared/utils';
 
 export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;
