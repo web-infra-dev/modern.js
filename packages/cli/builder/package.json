@@ -34,7 +34,7 @@
     "@rsbuild/plugin-assets-retry": "1.5.0",
     "@rsbuild/plugin-babel": "1.0.6",
     "@rsbuild/plugin-check-syntax": "1.6.0",
-    "@rsbuild/plugin-css-minimizer": "1.0.3",
+    "@rsbuild/plugin-css-minimizer": "1.1.0",
     "@rsbuild/plugin-less": "1.5.0",
     "@rsbuild/plugin-react": "1.4.2",
     "@rsbuild/plugin-rem": "1.0.4",
