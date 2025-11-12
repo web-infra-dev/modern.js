@@ -21,8 +21,12 @@ export const DEFAULT_I18NEXT_DETECTION_OPTIONS = {
 };
 
 export function mergeDetectionOptions(
+  cliOptions?: LanguageDetectorOptions,
   userOptions?: LanguageDetectorOptions,
   defaultOptions: LanguageDetectorOptions = DEFAULT_I18NEXT_DETECTION_OPTIONS,
 ): LanguageDetectorOptions {
-  return deepMerge(defaultOptions, userOptions);
+  return deepMerge(
+    deepMerge(defaultOptions, cliOptions ?? {}),
+    userOptions ?? {},
+  );
 }

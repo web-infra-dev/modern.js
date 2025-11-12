@@ -1,6 +1,10 @@
 import { type RuntimeContext, isBrowser } from '@modern-js/runtime';
 import { detectLanguageFromPath } from '../../utils';
-import type { I18nInitOptions, I18nInstance } from '../instance';
+import type {
+  I18nInitOptions,
+  I18nInstance,
+  LanguageDetectorOptions,
+} from '../instance';
 import { mergeDetectionOptions as mergeDetectionOptionsUtil } from './config';
 import { detectLanguage } from './middleware';
 
@@ -13,12 +17,16 @@ export const getLanguageFromSSRData = (window: Window): string | undefined => {
   return ssrData?.data?.i18nData?.lng as string | undefined;
 };
 
-export interface LanguageDetectionOptions {
+export interface BaseLanguageDetectionOptions {
   languages: string[];
   fallbackLanguage: string;
   localePathRedirect: boolean;
   i18nextDetector: boolean;
+  detection?: LanguageDetectorOptions;
   userInitOptions?: I18nInitOptions;
+}
+
+export interface LanguageDetectionOptions extends BaseLanguageDetectionOptions {
   pathname: string;
   ssrContext?: any;
 }
@@ -96,20 +104,15 @@ const detectLanguageFromPathPriority = (
  */
 const initializeI18nForDetector = async (
   i18nInstance: I18nInstance,
-  options: {
-    languages: string[];
-    fallbackLanguage: string;
-    localePathRedirect: boolean;
-    i18nextDetector: boolean;
-    userInitOptions?: I18nInitOptions;
-  },
+  options: BaseLanguageDetectionOptions,
 ): Promise<void> => {
   if (i18nInstance.isInitialized) {
     return;
   }
 
-  const { mergedDetection } = mergeDetectionOptions(
+  const mergedDetection = mergeDetectionOptions(
     options.i18nextDetector,
+    options.detection,
     options.localePathRedirect,
     options.userInitOptions,
   );
@@ -140,14 +143,7 @@ const initializeI18nForDetector = async (
  */
 const detectLanguageFromI18nextDetector = async (
   i18nInstance: I18nInstance,
-  options: {
-    languages: string[];
-    fallbackLanguage: string;
-    localePathRedirect: boolean;
-    i18nextDetector: boolean;
-    userInitOptions?: I18nInitOptions;
-    ssrContext?: any;
-  },
+  options: BaseLanguageDetectionOptions & { ssrContext?: any },
 ): Promise<string | undefined> => {
   if (!options.i18nextDetector) {
     return undefined;
@@ -195,6 +191,7 @@ export const detectLanguageWithPriority = async (
     fallbackLanguage,
     localePathRedirect,
     i18nextDetector,
+    detection,
     userInitOptions,
     pathname,
     ssrContext,
@@ -219,6 +216,7 @@ export const detectLanguageWithPriority = async (
       fallbackLanguage,
       localePathRedirect,
       i18nextDetector,
+      detection,
       userInitOptions,
       ssrContext,
     });
@@ -276,12 +274,13 @@ export const buildInitOptions = (
  */
 export const mergeDetectionOptions = (
   i18nextDetector: boolean,
-  localePathRedirect: boolean,
+  detection?: LanguageDetectorOptions,
+  localePathRedirect?: boolean,
   userInitOptions?: I18nInitOptions,
 ) => {
   // Exclude 'path' from detection order to avoid conflict with manual path detection
   const mergedDetection = i18nextDetector
-    ? mergeDetectionOptionsUtil(userInitOptions?.detection)
+    ? mergeDetectionOptionsUtil(detection, userInitOptions?.detection)
     : userInitOptions?.detection;
   if (localePathRedirect && mergedDetection?.order) {
     mergedDetection.order = mergedDetection.order.filter(
@@ -289,5 +288,5 @@ export const mergeDetectionOptions = (
     );
   }
 
-  return { mergedDetection };
+  return mergedDetection;
 };

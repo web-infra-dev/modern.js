@@ -6,10 +6,15 @@ import {
 } from '@modern-js/runtime';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import type { BaseLocaleDetectionOptions } from '../shared/type';
+import type {
+  BaseBackendOptions,
+  BaseLocaleDetectionOptions,
+} from '../shared/type';
 import { ModernI18nProvider } from './context';
 import type { I18nInitOptions, I18nInstance } from './i18n';
 import { getI18nInstance } from './i18n';
+import { mergeBackendOptions } from './i18n/backend';
+import { useI18nextBackend } from './i18n/backend/middleware';
 import {
   detectLanguageWithPriority,
   exportServerLngToWindow,
@@ -22,6 +27,7 @@ import { detectLanguageFromPath } from './utils';
 export interface I18nPluginOptions {
   entryName?: string;
   localeDetection?: BaseLocaleDetectionOptions;
+  backend?: BaseBackendOptions;
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => void;
   initOptions?: I18nInitOptions;
@@ -42,14 +48,16 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       i18nInstance: userI18nInstance,
       initOptions: userInitOptions,
       localeDetection,
+      backend,
     } = options;
     const {
       localePathRedirect = false,
       i18nextDetector = true,
       languages = [],
       fallbackLanguage = 'en',
+      detection,
     } = localeDetection || {};
-
+    const { enabled: backendEnabled = false } = backend || {};
     let I18nextProvider: React.FunctionComponent<any> | null;
 
     api.onBeforeRender(async context => {
@@ -67,12 +75,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         useI18nextLanguageDetector(i18nInstance);
       }
 
+      if (backendEnabled) {
+        useI18nextBackend(i18nInstance);
+      }
+
       // Detect language with priority: SSR data > path > i18next detector > fallback
       const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
         fallbackLanguage,
         localePathRedirect,
         i18nextDetector,
+        detection,
         userInitOptions,
         pathname,
         ssrContext: context.ssrContext,
@@ -80,17 +93,20 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
       if (!i18nInstance.isInitialized) {
         // Merge detection options if i18nextDetector is enabled
-        const { mergedDetection } = mergeDetectionOptions(
+        const mergedDetection = mergeDetectionOptions(
           i18nextDetector,
+          detection,
           localePathRedirect,
           userInitOptions,
         );
+        const mergeBackend = mergeBackendOptions(backend, userInitOptions);
 
         const initOptions: I18nInitOptions = {
           lng: finalLanguage,
           fallbackLng: fallbackLanguage,
           supportedLngs: languages,
           detection: mergedDetection,
+          backend: mergeBackend,
           ...(userInitOptions || {}),
         };
         await i18nInstance.init(initOptions);
