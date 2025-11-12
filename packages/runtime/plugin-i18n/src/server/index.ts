@@ -10,6 +10,7 @@ import { getLocaleDetectionOptions } from '../shared/utils.js';
 
 export interface I18nPluginOptions {
   localeDetection: LocaleDetectionOptions;
+  staticRoutePrefixes: string[];
 }
 
 /**
@@ -75,6 +76,18 @@ const convertToHonoLanguageDetectorOptions = (
     ...(caches !== undefined && { caches }),
     ignoreCase: true,
   };
+};
+
+/**
+ * Check if the given pathname is a static resource request
+ */
+const isStaticResourceRequest = (
+  pathname: string,
+  staticRoutePrefixes: string[],
+): boolean => {
+  return staticRoutePrefixes.some(
+    prefix => pathname.startsWith(`${prefix}/`) || pathname === prefix,
+  );
 };
 
 const getLanguageFromPath = (
@@ -156,6 +169,7 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           fallbackLanguage = 'en',
           detection,
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
+        const staticRoutePrefixes = options.staticRoutePrefixes;
         const originUrlPath = route.urlPath;
         const urlPath = originUrlPath.endsWith('/')
           ? `${originUrlPath}*`
@@ -168,10 +182,21 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
               fallbackLanguage,
               detection,
             );
+            const detectorHandler = languageDetector(detectorOptions);
             middlewares.push({
               name: 'i18n-language-detector',
               path: urlPath,
-              handler: languageDetector(detectorOptions),
+              handler: async (c: Context, next: Next) => {
+                const url = new URL(c.req.url);
+                const pathname = url.pathname;
+
+                // For static resource requests, skip language detection
+                if (isStaticResourceRequest(pathname, staticRoutePrefixes)) {
+                  return await next();
+                }
+
+                return detectorHandler(c, next);
+              },
             });
           }
 
@@ -179,6 +204,14 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
             name: 'i18n-server-middleware',
             path: urlPath,
             handler: async (c: Context, next: Next) => {
+              const url = new URL(c.req.url);
+              const pathname = url.pathname;
+
+              // For static resource requests, skip i18n processing
+              if (isStaticResourceRequest(pathname, staticRoutePrefixes)) {
+                return await next();
+              }
+
               const language = getLanguageFromPath(c.req, urlPath, languages);
               if (!language) {
                 // Get detected language from languageDetector middleware

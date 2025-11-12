@@ -87,4 +87,11 @@ describe('app-ssr-i18n', () => {
       { timeout: 10000 },
     );
   });
+  test('static-resource', async () => {
+    const response = await page.goto(`http://localhost:${appPort}/text.txt`, {
+      waitUntil: ['networkidle0'],
+    });
+    const body = await response?.text();
+    expect(body).toContain('test public');
+  });
 });
