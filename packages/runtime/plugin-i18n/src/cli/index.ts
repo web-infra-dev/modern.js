@@ -31,10 +31,24 @@ export const i18nPlugin = (
     });
 
     api._internalServerPlugins(({ plugins }) => {
+      const { serverRoutes } = api.getAppContext();
+
+      let staticRoutePrefixes: string[] = [];
+      if (serverRoutes && Array.isArray(serverRoutes)) {
+        // Get static route prefixes from 'public' directories
+        // 'public' routes are handled by static plugin
+        staticRoutePrefixes = serverRoutes
+          .filter(
+            route => !route.entryName && route.entryPath.startsWith('public'),
+          )
+          .map(route => route.urlPath)
+          .filter(Boolean);
+      }
       plugins.push({
         name: '@modern-js/plugin-i18n/server',
         options: {
           localeDetection,
+          staticRoutePrefixes,
         },
       });
       return { plugins };
