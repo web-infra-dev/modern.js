@@ -4,7 +4,6 @@ const ignoreDeps = [
   'react-router-dom',
   'tailwindcss',
   'tsconfig-paths',
-  'twin.macro',
   'typescript',
   'lru-cache',
 ];
