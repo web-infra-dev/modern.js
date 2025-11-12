@@ -10,6 +10,7 @@ export default defineConfig({
     i18nPlugin({
       localeDetection: {
         localePathRedirect: true,
+        i18nextDetector: false,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
       },

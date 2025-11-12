@@ -80,6 +80,7 @@
     },
     "dependencies": {
       "@modern-js/plugin": "workspace:*",
+      "@modern-js/server-core": "workspace:*",
       "@modern-js/server-runtime": "workspace:*",
       "@modern-js/types": "workspace:*",
       "@modern-js/utils": "workspace:*",

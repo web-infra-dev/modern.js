@@ -1,11 +1,81 @@
+import { languageDetector } from '@modern-js/server-core/hono';
 import type { Context, Next, ServerPlugin } from '@modern-js/server-runtime';
-import { detectLanguageFromRequest } from '../shared/detection.js';
+import {
+  DEFAULT_I18NEXT_DETECTION_OPTIONS,
+  mergeDetectionOptions,
+} from '../runtime/i18n/detection/config.js';
+import type { LanguageDetectorOptions } from '../runtime/i18n/instance';
 import type { LocaleDetectionOptions } from '../shared/type';
 import { getLocaleDetectionOptions } from '../shared/utils.js';
 
 export interface I18nPluginOptions {
   localeDetection: LocaleDetectionOptions;
 }
+
+/**
+ * Convert i18next detection options to hono languageDetector options
+ */
+const convertToHonoLanguageDetectorOptions = (
+  languages: string[],
+  fallbackLanguage: string,
+  detectionOptions?: LanguageDetectorOptions,
+) => {
+  // Merge user detection options with defaults
+  const mergedDetection = detectionOptions
+    ? mergeDetectionOptions(detectionOptions)
+    : DEFAULT_I18NEXT_DETECTION_OPTIONS;
+
+  // Get detection order, excluding 'path' and browser-only detectors
+  const order = (mergedDetection.order || []).filter(
+    (item: string) =>
+      !['path', 'localStorage', 'navigator', 'htmlTag', 'subdomain'].includes(
+        item,
+      ),
+  );
+
+  // If no order specified, use default server-side order
+  const detectionOrder =
+    order.length > 0 ? order : ['querystring', 'cookie', 'header'];
+
+  // Map i18next order to hono order
+  const honoOrder = detectionOrder.map(item => {
+    // Map 'querystring' to 'querystring', 'cookie' to 'cookie', 'header' to 'header'
+    if (item === 'querystring') return 'querystring';
+    if (item === 'cookie') return 'cookie';
+    if (item === 'header') return 'header';
+    return item;
+  }) as ('querystring' | 'cookie' | 'header' | 'path')[];
+
+  // Determine caches option
+  // hono languageDetector expects: false | "cookie"[] | undefined
+  const caches: false | ['cookie'] | undefined =
+    mergedDetection.caches === false
+      ? false
+      : Array.isArray(mergedDetection.caches) &&
+          !mergedDetection.caches.includes('cookie')
+        ? false
+        : (['cookie'] as ['cookie']);
+
+  return {
+    supportedLanguages: languages.length > 0 ? languages : [fallbackLanguage],
+    fallbackLanguage,
+    order: honoOrder,
+    lookupQueryString:
+      mergedDetection.lookupQuerystring ||
+      DEFAULT_I18NEXT_DETECTION_OPTIONS.lookupQuerystring ||
+      'lng',
+    lookupCookie:
+      mergedDetection.lookupCookie ||
+      DEFAULT_I18NEXT_DETECTION_OPTIONS.lookupCookie ||
+      'i18next',
+    lookupFromHeaderKey:
+      mergedDetection.lookupHeader ||
+      DEFAULT_I18NEXT_DETECTION_OPTIONS.lookupHeader ||
+      'accept-language',
+    ...(caches !== undefined && { caches }),
+    ignoreCase: true,
+  };
+};
 
 const getLanguageFromPath = (
   req: any,
@@ -86,32 +156,36 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           fallbackLanguage = 'en',
           detection,
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
+        console.log('====i18nextDetector', i18nextDetector);
         const originUrlPath = route.urlPath;
         const urlPath = originUrlPath.endsWith('/')
           ? `${originUrlPath}*`
           : `${originUrlPath}/*`;
         if (localePathRedirect) {
+          // Add languageDetector middleware before the redirect handler
+          if (i18nextDetector) {
+            const detectorOptions = convertToHonoLanguageDetectorOptions(
+              languages,
+              fallbackLanguage,
+              detection,
+            );
+            middlewares.push({
+              name: 'i18n-language-detector',
+              path: urlPath,
+              handler: languageDetector(detectorOptions),
+            });
+          }
+
           middlewares.push({
             name: 'i18n-server-middleware',
             path: urlPath,
             handler: async (c: Context, next: Next) => {
               const language = getLanguageFromPath(c.req, urlPath, languages);
               if (!language) {
-                // Try to detect language from request using the same detection config as client
+                // Get detected language from languageDetector middleware
                 let detectedLanguage: string | null = null;
                 if (i18nextDetector) {
-                  // Create a compatible headers object
-                  const headers = {
-                    get: (name: string) => c.req.header(name) || null,
-                  };
-                  detectedLanguage = detectLanguageFromRequest(
-                    {
-                      url: c.req.url,
-                      headers,
-                    },
-                    languages,
-                    detection,
-                  );
+                  detectedLanguage = c.get('language') || null;
                 }
                 // Use detected language or fallback to fallbackLanguage
                 const targetLanguage = detectedLanguage || fallbackLanguage;

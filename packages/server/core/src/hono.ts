@@ -15,3 +15,5 @@ export {
   getCookie,
   deleteCookie,
 } from 'hono/cookie';
+
+export { languageDetector } from 'hono/language';

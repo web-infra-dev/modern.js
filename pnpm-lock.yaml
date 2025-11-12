@@ -1200,6 +1200,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/server-runtime':
         specifier: workspace:*
         version: link:../../server/server-runtime
