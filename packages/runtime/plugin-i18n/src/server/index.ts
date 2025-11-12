@@ -156,7 +156,6 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           fallbackLanguage = 'en',
           detection,
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
-        console.log('====i18nextDetector', i18nextDetector);
         const originUrlPath = route.urlPath;
         const urlPath = originUrlPath.endsWith('/')
           ? `${originUrlPath}*`
