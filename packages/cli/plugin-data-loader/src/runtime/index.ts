@@ -52,6 +52,18 @@ function convertModernRedirectResponse(headers: Headers, basename: string) {
   });
 }
 
+export function hasFileExtension(pathname: string): boolean {
+  const lastSegment = pathname.split('/').pop() || '';
+  const dotIndex = lastSegment.lastIndexOf('.');
+
+  if (dotIndex === -1) {
+    return false;
+  }
+
+  const extension = lastSegment.substring(dotIndex).toLowerCase();
+  return extension !== '.html';
+}
+
 export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
   request,
   serverRoutes,
@@ -61,6 +73,13 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
 }): Promise<Response | void> => {
   const url = new URL(request.url);
   const routeId = url.searchParams.get(LOADER_ID_PARAM) as string;
+
+  // Check if pathname has file extension (excluding .html)
+  // Reject requests like /three/user/profile.js but allow /three/user/profile
+  if (hasFileExtension(url.pathname)) {
+    return;
+  }
+
   const entry = matchEntry(url.pathname, serverRoutes);
   // LOADER_ID_PARAM is the indicator for CSR data loader request.
   if (!routeId || !entry) {
