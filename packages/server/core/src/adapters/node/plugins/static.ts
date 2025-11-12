@@ -8,9 +8,11 @@ import type {
   HtmlNormalizedConfig,
   Middleware,
   OutputNormalizedConfig,
+  ServerNormalizedConfig,
   ServerPlugin,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
+import { getPublicDirPatterns } from '../../../utils/publicDir';
 
 export const serverStaticPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-server-static',
@@ -30,6 +32,7 @@ export const serverStaticPlugin = (): ServerPlugin => ({
         routes,
         output: config.output || {},
         html: config.html || {},
+        server: config.server || {},
       });
 
       middlewares.push({
@@ -110,6 +113,7 @@ export interface ServerStaticOptions {
   pwd: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
+  server: ServerNormalizedConfig;
   routes?: ServerRoute[];
 }
 
@@ -133,11 +137,22 @@ export function createStaticMiddleware(
     distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
   } = options.output;
   const { favicon } = options.html;
+  const { publicDir } = options.server;
   const favicons = prepareFavicons(favicon);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
 
+  // Handle custom publicDir: string | string[]
+  // Convert publicDir paths to regex patterns for matching
+  // e.g., './locales' or 'locales' -> 'locales/'
+  const publicDirPatterns = getPublicDirPatterns(publicDir);
+
   // TODO: If possible, we should not use `...staticFiles` here, file should only be read in static and upload dir.
-  const staticReg = ['static/', 'upload/', ...staticFiles];
+  const staticReg = [
+    'static/',
+    'upload/',
+    ...staticFiles,
+    ...publicDirPatterns,
+  ];
   // TODO: Also remove iconReg
   const iconReg = ['favicon.ico', 'icon.png', ...favicons];
   const regPrefix = pathPrefix.endsWith('/') ? pathPrefix : `${pathPrefix}/`;
@@ -160,7 +175,7 @@ export function createStaticMiddleware(
       return next();
     }
 
-    // exist is path
+    // Check if path matches static resource pattern
     const hit = staticPathRegExp.test(pathname);
 
     // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'

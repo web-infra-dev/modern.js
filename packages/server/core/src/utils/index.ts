@@ -6,3 +6,4 @@ export * from './warmup';
 export * from './entry';
 export * from './request';
 export * from './serverConfig';
+export * from './publicDir';
