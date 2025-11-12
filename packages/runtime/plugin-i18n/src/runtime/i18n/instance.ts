@@ -7,6 +7,27 @@ export interface I18nInstance {
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
   cloneInstance?: () => I18nInstance; // ssr need
+  services?: {
+    languageDetector?: {
+      detect: (request?: any, options?: any) => string | string[] | undefined;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
+}
+
+type LanguageDetectorOrder = string[];
+type LanguageDetectorCaches = boolean | string[];
+export interface LanguageDetectorOptions {
+  order?: LanguageDetectorOrder;
+  lookupQuerystring?: string;
+  lookupCookie?: string;
+  lookupSession?: string;
+  lookupFromPathIndex?: number;
+  caches?: LanguageDetectorCaches;
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+  lookupHeader?: string;
 }
 
 export type I18nInitOptions = {
@@ -14,6 +35,7 @@ export type I18nInitOptions = {
   fallbackLng?: string;
   supportedLngs?: string[];
   initImmediate?: boolean;
+  detection?: LanguageDetectorOptions;
 };
 
 export function isI18nInstance(obj: any): obj is I18nInstance {

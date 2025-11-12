@@ -1,7 +1,6 @@
 import { getGlobalBasename } from '@modern-js/runtime/context';
-import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 
-export const getEntryPath = (entryName?: string): string => {
+export const getEntryPath = (): string => {
   const basename = getGlobalBasename();
   if (basename) {
     return basename === '/' ? '' : basename;
@@ -53,4 +52,27 @@ export const buildLocalizedUrl = (
   }
 
   return `/${segments.join('/')}`;
+};
+
+export const detectLanguageFromPath = (
+  pathname: string,
+  languages: string[],
+  localePathRedirect: boolean,
+): {
+  detected: boolean;
+  language?: string;
+} => {
+  if (!localePathRedirect) {
+    return { detected: false };
+  }
+
+  const relativePath = pathname.replace(getEntryPath(), '');
+  const segments = relativePath.split('/').filter(Boolean);
+  const firstSegment = segments[0];
+
+  if (firstSegment && languages.includes(firstSegment)) {
+    return { detected: true, language: firstSegment };
+  }
+
+  return { detected: false };
 };

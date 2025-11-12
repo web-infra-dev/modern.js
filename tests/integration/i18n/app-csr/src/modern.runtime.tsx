@@ -5,7 +5,6 @@ export default defineRuntimeConfig({
   i18n: {
     i18nInstance: i18next,
     initOptions: {
-      lng: 'en',
       fallbackLng: 'en',
       supportedLngs: ['zh', 'en'],
       resources: {
