@@ -40,13 +40,11 @@ const checkReactVersionAtLeast19 = async (appDir: string) => {
 
 export const rsbuildRscPlugin = ({
   appDir,
-  isRspack = true,
   rscClientRuntimePath,
   rscServerRuntimePath,
   internalDirectory,
 }: {
   appDir: string;
-  isRspack?: boolean;
   rscClientRuntimePath?: string;
   rscServerRuntimePath?: string;
   internalDirectory?: string;

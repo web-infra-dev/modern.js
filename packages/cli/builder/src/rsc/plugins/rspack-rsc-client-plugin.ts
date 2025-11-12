@@ -81,11 +81,10 @@ export class RspackRscClientPlugin {
 
     const addClientReferencesChunks = (
       compilation: Rspack.Compilation,
-      entryModule: Rspack.Module,
       callback: (err: any | null) => void,
     ) => {
       const promises = [];
-      [...this.clientReferencesMap.keys()].forEach((resourcePath, index) => {
+      [...this.clientReferencesMap.keys()].forEach(resourcePath => {
         const entries = compilation.entries.entries();
 
         for (const [entryName, entry] of entries) {
@@ -159,47 +158,44 @@ export class RspackRscClientPlugin {
 
         for (const entryModule of entryModules) {
           if (entryModule) {
-            addClientReferencesChunks(compilation, entryModule, callback);
+            addClientReferencesChunks(compilation, callback);
           }
         }
       },
     );
 
-    compiler.hooks.compilation.tap(
-      RspackRscClientPlugin.name,
-      (compilation, { normalModuleFactory }) => {
-        class EntryNameRuntimeModule extends RuntimeModule {
-          private entryName: string;
-          constructor(entryName: string) {
-            super('entry-name', 10); // Set a higher stage to ensure priority execution
-            this.entryName = entryName;
-          }
-
-          generate() {
-            return `window.__MODERN_JS_ENTRY_NAME="${this.entryName}";`;
-          }
+    compiler.hooks.compilation.tap(RspackRscClientPlugin.name, compilation => {
+      class EntryNameRuntimeModule extends RuntimeModule {
+        private entryName: string;
+        constructor(entryName: string) {
+          super('entry-name', 10); // Set a higher stage to ensure priority execution
+          this.entryName = entryName;
         }
 
-        compilation.hooks.runtimeRequirementInTree
-          .for(RuntimeGlobals.ensureChunk)
-          .tap(RspackRscClientPlugin.name, (chunk, set) => {
-            Array.from(compilation.entrypoints.entries()).forEach(
-              ([entryName, entrypoint]) => {
-                if (entrypoint.chunks.includes(chunk)) {
-                  compilation.addRuntimeModule(
-                    chunk,
-                    new EntryNameRuntimeModule(entryName),
-                  );
-                }
-              },
-            );
-          });
-      },
-    );
+        generate() {
+          return `window.__MODERN_JS_ENTRY_NAME="${this.entryName}";`;
+        }
+      }
+
+      compilation.hooks.runtimeRequirementInTree
+        .for(RuntimeGlobals.ensureChunk)
+        .tap(RspackRscClientPlugin.name, chunk => {
+          Array.from(compilation.entrypoints.entries()).forEach(
+            ([entryName, entrypoint]) => {
+              if (entrypoint.chunks.includes(chunk)) {
+                compilation.addRuntimeModule(
+                  chunk,
+                  new EntryNameRuntimeModule(entryName),
+                );
+              }
+            },
+          );
+        });
+    });
 
     compiler.hooks.thisCompilation.tap(
       RspackRscClientPlugin.name,
-      (compilation, { normalModuleFactory }) => {
+      compilation => {
         this.styles = sharedData.get('styles') as Set<string>;
         this.clientReferencesMap = sharedData.get(
           'clientReferencesMap',
