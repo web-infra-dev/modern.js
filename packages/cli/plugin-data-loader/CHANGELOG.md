@@ -1,5 +1,14 @@
 # @modern-js/plugin-data-loader
 
+## 2.68.20
+
+### Patch Changes
+
+- 37c2356: fix: static resource requests should not be valid loader requests.
+  fix: 静态资源请求不应该是合法的 loader 请求
+  - @modern-js/runtime-utils@2.68.20
+  - @modern-js/utils@2.68.20
+
 ## 2.68.19
 
 ### Patch Changes

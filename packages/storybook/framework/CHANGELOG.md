@@ -1,5 +1,12 @@
 # @modern-js/storybook
 
+## 2.68.20
+
+### Patch Changes
+
+- @modern-js/storybook-builder@2.68.20
+- @modern-js/utils@2.68.20
+
 ## 2.68.19
 
 ### Patch Changes
