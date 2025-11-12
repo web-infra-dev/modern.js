@@ -44,6 +44,12 @@ async function processCache({
   const response = await requestHandler(request, requestHandlerOptions);
   const { onError } = requestHandlerOptions;
 
+  // Do not cache responses with certain status codes
+  const nonCacheableStatusCodes = [204, 305, 404, 405, 500, 501, 502, 503, 504];
+  if (nonCacheableStatusCodes.includes(response.status)) {
+    return response;
+  }
+
   const decoder: TextDecoder = new TextDecoder();
 
   if (response.body) {
@@ -135,6 +141,19 @@ function computedKey(req: Request, cacheControl: CacheControl): string {
 }
 
 type MaybeAsync<T> = Promise<T> | T;
+
+/**
+ * Check if a request should be processed through cache logic
+ */
+export function shouldUseCache(request: Request): boolean {
+  const url = new URL(request.url);
+  const hasRSCAction = request.headers.has('x-rsc-action');
+  const hasRSCTree = request.headers.has('x-rsc-tree');
+  const hasLoaderQuery = url.searchParams.has('__loader');
+
+  // Skip cache for RSC requests or loader requests
+  return !(hasRSCAction || hasRSCTree || hasLoaderQuery);
+}
 
 export function matchCacheControl(
   cacheOption?: CacheOption,
