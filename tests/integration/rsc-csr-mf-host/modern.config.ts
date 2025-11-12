@@ -8,9 +8,9 @@ const assetPrefix = process.env.ASSET_PREFIX;
 const devConfig = resolvedPort ? { port: resolvedPort } : {};
 
 const serverConfig = {
-  // Disable SSR completely for CSR host - prevents loading dist/bundles/main.js
-  // which would require react-server conditions
-  ssr: false,
+  ssr: {
+    mode: 'stream',
+  },
   rsc: true,
   ...(resolvedPort ? { port: resolvedPort } : {}),
 };

@@ -1,5 +1,3 @@
-import 'server-only';
-
 let countState = 0;
 
 export function setCountState(num: number) {

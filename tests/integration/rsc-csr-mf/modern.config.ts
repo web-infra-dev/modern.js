@@ -7,6 +7,9 @@ const assetPrefix = process.env.ASSET_PREFIX;
 
 const devConfig = resolvedPort ? { port: resolvedPort } : {};
 const serverConfig = {
+  ssr: {
+    mode: 'stream',
+  },
   rsc: true,
   ...(resolvedPort ? { port: resolvedPort } : {}),
 };
