@@ -31,7 +31,7 @@
     "webpack": "^5.102.1"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.6.5",
+    "@rsbuild/core": "1.6.6",
     "@rsbuild/webpack": "1.6.1",
     "@scripts/build": "workspace:*",
     "typescript": "^5.4.2"
