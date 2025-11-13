@@ -1,0 +1,106 @@
+---
+title: Best Practices
+---
+
+# Best Practices
+
+## Resource File Organization
+
+It's recommended to organize resource files as follows:
+
+```
+locales/
+├── en/
+│   ├── translation.json    # Default namespace
+│   ├── common.json         # Common translations
+│   └── errors.json         # Error messages
+└── zh/
+    ├── translation.json
+    ├── common.json
+    └── errors.json
+```
+
+**Configure Multiple Namespaces**:
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      ns: ['translation', 'common', 'errors'],
+      defaultNS: 'translation',
+    },
+  },
+});
+```
+
+**Using Namespaces**:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation('common');
+
+  return <div>{t('welcome')}</div>;
+}
+```
+
+## Error Handling
+
+It's recommended to provide fallback options when resource loading fails:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t, i18n } = useTranslation();
+
+  // Check if resources are loaded
+  if (!i18n.isInitialized) {
+    return <div>Loading...</div>;
+  }
+
+  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+}
+```
+
+## Type Safety
+
+Add type definitions for translation keys to improve development experience:
+
+```ts
+// types/i18n.d.ts
+import 'react-i18next';
+
+declare module 'react-i18next' {
+  interface CustomTypeOptions {
+    defaultNS: 'translation';
+    resources: {
+      translation: {
+        hello: string;
+        world: string;
+        welcome: string;
+      };
+      common: {
+        submit: string;
+        cancel: string;
+      };
+    };
+  }
+}
+```
+
+Using type-safe translations:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation();
+
+  // TypeScript will check if the key exists
+  return <div>{t('hello')}</div>; // ✅ Type safe
+  // return <div>{t('invalid')}</div>; // ❌ TypeScript error
+}
+```
+

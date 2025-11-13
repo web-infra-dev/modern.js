@@ -21,9 +21,10 @@ export const i18nPlugin = (
       const backendOptions = backend
         ? getBackendOptions(entrypoint.entryName, backend)
         : undefined;
+      const { metaName } = api.getAppContext();
       plugins.push({
         name: 'i18n',
-        path: '@modern-js/plugin-i18n/runtime',
+        path: `@${metaName}/plugin-i18n/runtime`,
         config: {
           entryName: entrypoint.entryName,
           localeDetection: localeDetectionOptions,

@@ -1,0 +1,271 @@
+---
+title: 资源加载
+---
+
+# 资源加载
+
+插件支持三种资源加载方式：HTTP 后端、文件系统后端（FS Backend）和 SDK 后端。
+
+## HTTP 后端
+
+HTTP 后端通过 HTTP 请求加载资源文件，适用于客户端渲染（CSR）场景。
+
+### 配置方式
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+### 资源文件结构
+
+资源文件需要放在 `public` 目录或通过 `server.publicDir` 配置的目录中：
+
+```
+public/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+或者通过 `server.publicDir` 配置自定义目录：
+
+```ts
+export default defineConfig({
+  server: {
+    publicDir: './locales', // 指定资源文件目录
+  },
+  plugins: [
+    i18nPlugin({
+      backend: {
+        enabled: true,
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
+    }),
+  ],
+});
+```
+
+**资源文件格式**：
+
+```json
+{
+  "key1": "value1",
+  "key2": "value2",
+  "nested": {
+    "key": "value"
+  }
+}
+```
+
+### 路径变量
+
+`loadPath` 支持以下变量：
+
+- `{{lng}}`：语言代码（如 `en`、`zh`）
+- `{{ns}}`：命名空间（如 `translation`、`common`）
+
+**示例**：
+
+```ts
+// 默认路径格式
+loadPath: '/locales/{{lng}}/{{ns}}.json';
+// 实际加载路径：
+// /locales/en/translation.json
+// /locales/zh/translation.json
+
+// 自定义路径格式
+loadPath: '/i18n/{{lng}}/{{ns}}.json';
+// 实际加载路径：
+// /i18n/en/translation.json
+// /i18n/zh/translation.json
+```
+
+## 文件系统后端（FS Backend）
+
+文件系统后端直接从文件系统读取资源文件，适用于服务端渲染（SSR）场景。
+
+### 配置方式
+
+在 SSR 场景下，插件会自动使用文件系统后端。资源文件需要放在项目目录中：
+
+```
+项目根目录/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+### 资源文件路径
+
+文件系统后端的默认路径格式为相对路径：
+
+```
+./locales/{{lng}}/{{ns}}.json
+```
+
+可以通过 `loadPath` 自定义路径：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // 使用绝对路径（推荐）
+  },
+});
+```
+
+:::warning
+`loadPath` 配置会同时用于 HTTP 后端（前端）和文件系统后端（服务端）。如果配置的是以 `/` 开头的绝对路径（如 `/locales/{{lng}}/{{ns}}.json`），文件系统后端会自动将其转换为相对路径（`./locales/{{lng}}/{{ns}}.json`）。因此，建议在配置中使用绝对路径，这样可以同时满足前后端的需求。
+:::
+
+## SDK 后端
+
+SDK 后端允许通过自定义函数加载资源，适用于需要从外部服务、数据库或其他自定义来源加载翻译资源的场景。
+
+### 启用 SDK 模式
+
+**步骤 1：在 `modern.config.ts` 中启用 SDK 模式**
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    sdk: true, // 启用 SDK 模式
+  },
+});
+```
+
+**步骤 2：在 `modern.runtime.ts` 中实现 SDK 函数**
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { I18nSdkLoader, Resources } from '@modern-js/plugin-i18n/runtime';
+
+const mySdkLoader: I18nSdkLoader = async options => {
+  // 实现资源加载逻辑
+  if (options.all) {
+    // 加载所有资源
+    return await loadAllResources();
+  }
+
+  if (options.lng && options.ns) {
+    // 加载单个资源
+    return await loadSingleResource(options.lng, options.ns);
+  }
+
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: mySdkLoader,
+      },
+    },
+  },
+});
+```
+
+### 实现 SDK 加载函数
+
+SDK 函数接收一个 `I18nSdkLoadOptions` 参数，需要返回 `Resources` 格式的数据：
+
+```ts
+interface I18nSdkLoadOptions {
+  /** 单个语言代码 */
+  lng?: string;
+  /** 单个命名空间 */
+  ns?: string;
+  /** 多个语言代码 */
+  lngs?: string[];
+  /** 多个命名空间 */
+  nss?: string[];
+  /** 加载所有资源 */
+  all?: boolean;
+}
+
+type Resources = {
+  [lng: string]: {
+    [ns: string]: Record<string, string>;
+  };
+};
+```
+
+### 批量加载示例
+
+SDK 后端支持多种加载模式：
+
+**1. 加载单个资源**：
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lng && options.ns) {
+    const response = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    const data = await response.json();
+    return {
+      [options.lng]: {
+        [options.ns]: data,
+      },
+    };
+  }
+  return {};
+};
+```
+
+**2. 批量加载多个语言**：
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lngs && options.ns) {
+    const resources: Resources = {};
+    for (const lng of options.lngs) {
+      const response = await fetch(`/api/i18n/${lng}/${options.ns}`);
+      resources[lng] = {
+        [options.ns]: await response.json(),
+      };
+    }
+    return resources;
+  }
+  return {};
+};
+```
+
+**3. 批量加载多个命名空间**：
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lng && options.nss) {
+    const resources: Resources = {
+      [options.lng]: {},
+    };
+    for (const ns of options.nss) {
+      const response = await fetch(`/api/i18n/${options.lng}/${ns}`);
+      resources[options.lng][ns] = await response.json();
+    }
+    return resources;
+  }
+  return {};
+};
+```
+
+**4. 加载所有资源**：
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.all) {
+    const response = await fetch('/api/i18n/all');
+    return await response.json();
+  }
+  return {};
+};
+```

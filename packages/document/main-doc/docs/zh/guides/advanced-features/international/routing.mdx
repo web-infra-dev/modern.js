@@ -1,0 +1,187 @@
+---
+title: 路由集成
+---
+
+# 路由集成
+
+插件与 Modern.js 路由系统深度集成，支持语言路径前缀和自动路径重定向。
+
+## 启用路径重定向
+
+当 `localePathRedirect` 设置为 `true` 时，插件会自动在 URL 中添加语言前缀，并处理语言切换时的路径重定向。
+
+**配置**：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+## 路由配置
+
+启用路径重定向后，需要在路由配置中添加 `:lang` 动态参数。
+
+### 约定式路由
+
+使用约定式路由时，需要在 `routes/` 目录下创建 `[lang]` 目录来表示语言参数：
+
+```bash
+routes/
+├── [lang]/
+│   ├── layout.tsx    # 布局组件
+│   ├── page.tsx      # 首页
+│   ├── about/
+│   │   └── page.tsx  # About 页面
+│   └── contact/
+│       └── page.tsx  # Contact 页面
+```
+
+**routes/[lang]/layout.tsx**:
+
+```tsx
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**routes/[lang]/page.tsx**:
+
+```tsx
+export default function Home() {
+  return <div>Home</div>;
+}
+```
+
+**routes/[lang]/about/page.tsx**:
+
+```tsx
+export default function About() {
+  return <div>About</div>;
+}
+```
+
+**routes/[lang]/contact/page.tsx**:
+
+```tsx
+export default function Contact() {
+  return <div>Contact</div>;
+}
+```
+
+**生成的路由结构**：
+
+```
+/:lang          → Home 页面
+/:lang/about    → About 页面
+/:lang/contact  → Contact 页面
+```
+
+访问 `/` 或 `/about` 时，会自动重定向到 `/en` 或 `/en/about`（使用默认语言）。
+
+### 自定义路由
+
+如果使用自定义路由（`modern.routes.ts`），需要在路由配置中添加 `:lang` 动态参数：
+
+```tsx
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+} from '@modern-js/runtime/router';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* 添加 :lang 参数 */}
+        <Route path=":lang" element={<Outlet />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+:::info
+约定式路由会自动根据文件结构生成对应的路由，推荐使用约定式路由。只有在需要特殊路由控制时才使用自定义路由。
+:::
+
+## I18nLink 组件
+
+`I18nLink` 组件是 `@modern-js/plugin-i18n` 提供的链接组件，会自动在路径前添加当前语言前缀。
+
+### 基本用法
+
+```tsx
+import { I18nLink } from '@modern-js/plugin-i18n/runtime';
+
+function Navigation() {
+  return (
+    <nav>
+      <I18nLink to="/">首页</I18nLink>
+      <I18nLink to="/about">关于</I18nLink>
+      <I18nLink to="/contact">联系</I18nLink>
+    </nav>
+  );
+}
+```
+
+**当前语言为 `en` 时**：
+
+- `<I18nLink to="/">` → 实际链接：`/en`
+- `<I18nLink to="/about">` → 实际链接：`/en/about`
+
+**当前语言为 `zh` 时**：
+
+- `<I18nLink to="/">` → 实际链接：`/zh`
+- `<I18nLink to="/about">` → 实际链接：`/zh/about`
+
+### 自动添加语言前缀
+
+`I18nLink` 会自动处理语言前缀，无需手动添加：
+
+```tsx
+// ✅ 正确：不需要手动添加语言前缀
+<I18nLink to="/about">关于</I18nLink>
+
+// ❌ 错误：不要手动添加语言前缀
+<I18nLink to="/en/about">关于</I18nLink>
+```
+
+### Props 说明
+
+`I18nLink` 接受所有 `Link` 组件的 props，并额外支持：
+
+```tsx
+interface I18nLinkProps {
+  /** 目标路径（不需要包含语言前缀） */
+  to: string;
+  /** 子元素 */
+  children: React.ReactNode;
+  /** 其他 Link 组件的 props */
+  [key: string]: any;
+}
+```
+
+**示例**：
+
+```tsx
+<I18nLink to="/about" replace>
+  关于
+</I18nLink>
+
+<I18nLink to="/contact" state={{ from: 'home' }}>
+  联系
+</I18nLink>
+```

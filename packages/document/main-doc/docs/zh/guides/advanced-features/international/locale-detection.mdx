@@ -1,0 +1,193 @@
+---
+title: 语言检测
+---
+
+# 语言检测
+
+插件支持多种语言检测方式，可以组合使用以满足不同的业务需求。
+
+## 检测方式
+
+### 1. URL 路径检测（localePathRedirect）
+
+当 `localePathRedirect` 设置为 `true` 时，插件会从 URL 路径中检测语言。
+
+**示例**：
+
+- `/zh/about` → 检测到语言：`zh`
+- `/en/about` → 检测到语言：`en`
+- `/about` → 如果没有语言前缀，会重定向到默认语言路径
+
+**配置**：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+**路由配置**（约定式路由）：
+
+使用约定式路由时，需要在 `routes/` 目录下创建 `[lang]` 目录来表示语言参数：
+
+```bash
+routes/
+├── [lang]/
+│   ├── layout.tsx    # 布局组件
+│   ├── page.tsx      # 首页
+│   └── about/
+│       └── page.tsx  # About 页面
+```
+
+**routes/[lang]/layout.tsx**:
+
+```tsx
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**routes/[lang]/page.tsx**:
+
+```tsx
+export default function Home() {
+  return <div>Home</div>;
+}
+```
+
+**routes/[lang]/about/page.tsx**:
+
+```tsx
+export default function About() {
+  return <div>About</div>;
+}
+```
+
+:::info
+如果使用自定义路由（`modern.routes.ts`），需要在路由配置中添加 `:lang` 动态参数。约定式路由会自动根据文件结构生成对应的路由。
+:::
+
+### 2. i18next 语言检测器
+
+当 `i18nextDetector` 设置为 `true` 时，会启用 i18next 的语言检测器，支持从以下位置检测语言：
+
+- **Cookie**：从 Cookie 中读取语言设置
+- **LocalStorage**：从浏览器 LocalStorage 中读取
+- **查询参数**：从 URL 查询参数中读取（如 `?lng=en`）
+- **请求头**：从 HTTP 请求头中读取（如 `Accept-Language`）
+- **HTML 标签**：从 HTML 标签的 `lang` 属性读取
+- **子域名**：从子域名中读取（如 `en.example.com`）
+
+**配置**：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    detection: {
+      order: ['cookie', 'querystring', 'header'],
+      lookupCookie: 'i18next',
+      lookupQuerystring: 'lng',
+      lookupHeader: 'accept-language',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+### 3. 自定义检测配置
+
+通过 `detection` 选项可以自定义检测行为：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    detection: {
+      // 检测顺序
+      order: ['path', 'cookie', 'querystring', 'header'],
+
+      // Cookie 相关
+      lookupCookie: 'i18next',
+      cookieExpirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1年后过期
+      cookieDomain: '.example.com',
+
+      // 查询参数相关
+      lookupQuerystring: 'lng',
+
+      // 请求头相关
+      lookupHeader: 'accept-language',
+
+      // 缓存配置
+      caches: ['cookie', 'localStorage'],
+    },
+  },
+});
+```
+
+## 检测优先级
+
+当启用多种检测方式时，检测优先级按照 `detection.order` 中配置的顺序执行：
+
+1. **路径检测**（如果 `localePathRedirect` 为 `true`）
+2. **i18next 检测器**（按照 `order` 配置的顺序）
+3. **回退语言**（`fallbackLanguage`）
+
+**示例**：
+
+```ts
+// 配置的检测顺序
+detection: {
+  order: ['path', 'cookie', 'querystring', 'header'],
+}
+
+// 实际检测流程：
+// 1. 首先检查 URL 路径（如果启用 localePathRedirect）
+// 2. 然后检查 Cookie
+// 3. 然后检查查询参数
+// 4. 然后检查请求头
+// 5. 最后使用 fallbackLanguage
+```
+
+## 检测选项说明
+
+### order（检测顺序）
+
+指定语言检测的顺序，可选值：
+
+- `path`：从 URL 路径检测
+- `querystring`：从查询参数检测
+- `cookie`：从 Cookie 检测
+- `localStorage`：从 LocalStorage 检测
+- `sessionStorage`：从 SessionStorage 检测
+- `navigator`：从浏览器语言设置检测
+- `htmlTag`：从 HTML 标签检测
+- `header`：从 HTTP 请求头检测
+- `subdomain`：从子域名检测
+
+:::warning
+`path` 检测需要 `localePathRedirect` 为 `true`，`localStorage`、`navigator`、`htmlTag` 仅在浏览器环境可用。
+:::
+
+### caches（缓存方式）
+
+指定检测到的语言应该缓存在哪里，可选值：
+
+- `false`：不缓存
+- `['cookie']`：缓存到 Cookie
+- `['localStorage']`：缓存到 LocalStorage（仅浏览器）
+- `['cookie', 'localStorage']`：同时缓存到 Cookie 和 LocalStorage
+
+### lookupQuerystring、lookupCookie、lookupHeader
+
+指定从查询参数、Cookie 或请求头中读取语言时使用的键名：
+
+- `lookupQuerystring`：默认 `'lng'`，例如 `?lng=en`
+- `lookupCookie`：默认 `'i18next'`
+- `lookupHeader`：默认 `'accept-language'`

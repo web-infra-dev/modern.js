@@ -1,0 +1,194 @@
+---
+title: Locale Detection
+---
+
+# Locale Detection
+
+The plugin supports multiple language detection methods, which can be combined to meet different business requirements.
+
+## Detection Methods
+
+### 1. URL Path Detection (localePathRedirect)
+
+When `localePathRedirect` is set to `true`, the plugin will detect the language from the URL path.
+
+**Examples**:
+
+- `/zh/about` → Detected language: `zh`
+- `/en/about` → Detected language: `en`
+- `/about` → If there's no language prefix, will redirect to the default language path
+
+**Configuration**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+**Route Configuration** (Convention-based Routing):
+
+When using convention-based routing, you need to create a `[lang]` directory under the `routes/` directory to represent the language parameter:
+
+```bash
+routes/
+├── [lang]/
+│   ├── layout.tsx    # Layout component
+│   ├── page.tsx      # Home page
+│   └── about/
+│       └── page.tsx  # About page
+```
+
+**routes/[lang]/layout.tsx**:
+
+```tsx
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**routes/[lang]/page.tsx**:
+
+```tsx
+export default function Home() {
+  return <div>Home</div>;
+}
+```
+
+**routes/[lang]/about/page.tsx**:
+
+```tsx
+export default function About() {
+  return <div>About</div>;
+}
+```
+
+:::info
+If using custom routing (`modern.routes.ts`), you need to add `:lang` dynamic parameter in the route configuration. Convention-based routing will automatically generate corresponding routes based on the file structure.
+:::
+
+### 2. i18next Language Detector
+
+When `i18nextDetector` is set to `true`, the i18next language detector will be enabled, supporting language detection from the following locations:
+
+- **Cookie**: Read language settings from cookies
+- **LocalStorage**: Read from browser LocalStorage
+- **Query Parameters**: Read from URL query parameters (e.g., `?lng=en`)
+- **Request Headers**: Read from HTTP request headers (e.g., `Accept-Language`)
+- **HTML Tag**: Read from the `lang` attribute of HTML tags
+- **Subdomain**: Read from subdomain (e.g., `en.example.com`)
+
+**Configuration**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    detection: {
+      order: ['cookie', 'querystring', 'header'],
+      lookupCookie: 'i18next',
+      lookupQuerystring: 'lng',
+      lookupHeader: 'accept-language',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+### 3. Custom Detection Configuration
+
+You can customize detection behavior through the `detection` option:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    detection: {
+      // Detection order
+      order: ['path', 'cookie', 'querystring', 'header'],
+
+      // Cookie related
+      lookupCookie: 'i18next',
+      cookieExpirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Expires in 1 year
+      cookieDomain: '.example.com',
+
+      // Query parameter related
+      lookupQuerystring: 'lng',
+
+      // Request header related
+      lookupHeader: 'accept-language',
+
+      // Cache configuration
+      caches: ['cookie', 'localStorage'],
+    },
+  },
+});
+```
+
+## Detection Priority
+
+When multiple detection methods are enabled, the detection priority follows the order configured in `detection.order`:
+
+1. **Path Detection** (if `localePathRedirect` is `true`)
+2. **i18next Detector** (following the order configured in `order`)
+3. **Fallback Language** (`fallbackLanguage`)
+
+**Example**:
+
+```ts
+// Configured detection order
+detection: {
+  order: ['path', 'cookie', 'querystring', 'header'],
+}
+
+// Actual detection flow:
+// 1. First check URL path (if localePathRedirect is enabled)
+// 2. Then check Cookie
+// 3. Then check query parameters
+// 4. Then check request headers
+// 5. Finally use fallbackLanguage
+```
+
+## Detection Options
+
+### order (Detection Order)
+
+Specifies the order of language detection, optional values:
+
+- `path`: Detect from URL path
+- `querystring`: Detect from query parameters
+- `cookie`: Detect from cookies
+- `localStorage`: Detect from LocalStorage
+- `sessionStorage`: Detect from SessionStorage
+- `navigator`: Detect from browser language settings
+- `htmlTag`: Detect from HTML tags
+- `header`: Detect from HTTP request headers
+- `subdomain`: Detect from subdomain
+
+:::warning
+`path` detection requires `localePathRedirect` to be `true`. `localStorage`, `navigator`, and `htmlTag` are only available in browser environments.
+:::
+
+### caches (Cache Method)
+
+Specifies where the detected language should be cached, optional values:
+
+- `false`: No caching
+- `['cookie']`: Cache to Cookie
+- `['localStorage']`: Cache to LocalStorage (browser only)
+- `['cookie', 'localStorage']`: Cache to both Cookie and LocalStorage
+
+### lookupQuerystring, lookupCookie, lookupHeader
+
+Specifies the key name used when reading language from query parameters, cookies, or request headers:
+
+- `lookupQuerystring`: Default `'lng'`, e.g., `?lng=en`
+- `lookupCookie`: Default `'i18next'`
+- `lookupHeader`: Default `'accept-language'`
+

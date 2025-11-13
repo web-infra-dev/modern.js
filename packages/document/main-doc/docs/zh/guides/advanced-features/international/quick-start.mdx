@@ -1,0 +1,122 @@
+---
+title: 快速开始
+---
+
+# 快速开始
+
+本指南将帮助你快速在 Modern.js 项目中集成国际化功能。
+
+## 安装插件
+
+首先，安装必要的依赖：
+
+```bash
+pnpm add @modern-js/plugin-i18n i18next react-i18next
+```
+
+:::info
+`i18next` 和 `react-i18next` 是 peer dependencies，需要手动安装。
+:::
+
+## 基础配置
+
+### 1. 在 `modern.config.ts` 中配置插件
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  server: {
+    publicDir: './locales', // 必需：指定资源文件目录
+  },
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      localeDetection: {
+        localePathRedirect: true, // 启用路径重定向
+        languages: ['zh', 'en'], // 支持的语言列表
+        fallbackLanguage: 'en', // 默认语言
+      },
+      backend: {
+        enabled: true, // 启用后端资源加载
+        // loadPath 默认为 '/locales/{{lng}}/{{ns}}.json'，通常无需修改
+      },
+    }),
+  ],
+});
+```
+
+:::info
+`server.publicDir` 是必需配置，用于指定资源文件的实际存放位置。即使使用默认的 `loadPath` 路径，也需要配置此项。
+:::
+
+### 2. 创建语言资源文件
+
+在项目根目录创建 `locales` 文件夹，并按语言组织资源文件：
+
+```
+locales/
+├── en/
+│   └── translation.json
+└── zh/
+    └── translation.json
+```
+
+**locales/en/translation.json**:
+
+```json
+{
+  "hello": "Hello",
+  "world": "World",
+  "welcome": "Welcome to Modern.js"
+}
+```
+
+**locales/zh/translation.json**:
+
+```json
+{
+  "hello": "你好",
+  "world": "世界",
+  "welcome": "欢迎使用 Modern.js"
+}
+```
+
+### 3. 在组件中使用
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
+
+function App() {
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <p>当前语言: {language}</p>
+      <div>
+        {supportedLanguages.map(lang => (
+          <button
+            key={lang}
+            onClick={() => changeLanguage(lang)}
+            disabled={lang === language}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## 下一步
+
+- 了解详细的[配置说明](./configuration)
+- 学习[语言检测](./locale-detection)的多种方式
+- 查看[资源加载](./resource-loading)的配置选项

@@ -1,0 +1,106 @@
+---
+title: 最佳实践
+---
+
+# 最佳实践
+
+## 资源文件组织
+
+建议按以下方式组织资源文件：
+
+```
+locales/
+├── en/
+│   ├── translation.json    # 默认命名空间
+│   ├── common.json         # 通用翻译
+│   └── errors.json         # 错误信息
+└── zh/
+    ├── translation.json
+    ├── common.json
+    └── errors.json
+```
+
+**配置多个命名空间**：
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      ns: ['translation', 'common', 'errors'],
+      defaultNS: 'translation',
+    },
+  },
+});
+```
+
+**使用命名空间**：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation('common');
+
+  return <div>{t('welcome')}</div>;
+}
+```
+
+## 错误处理
+
+建议在资源加载失败时提供回退方案：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t, i18n } = useTranslation();
+
+  // 检查资源是否加载完成
+  if (!i18n.isInitialized) {
+    return <div>Loading...</div>;
+  }
+
+  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+}
+```
+
+## 类型安全
+
+为翻译键添加类型定义，提高开发体验：
+
+```ts
+// types/i18n.d.ts
+import 'react-i18next';
+
+declare module 'react-i18next' {
+  interface CustomTypeOptions {
+    defaultNS: 'translation';
+    resources: {
+      translation: {
+        hello: string;
+        world: string;
+        welcome: string;
+      };
+      common: {
+        submit: string;
+        cancel: string;
+      };
+    };
+  }
+}
+```
+
+使用类型安全的翻译：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation();
+
+  // TypeScript 会检查键是否存在
+  return <div>{t('hello')}</div>; // ✅ 类型安全
+  // return <div>{t('invalid')}</div>; // ❌ TypeScript 错误
+}
+```
+

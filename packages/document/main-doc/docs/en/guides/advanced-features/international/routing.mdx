@@ -1,0 +1,188 @@
+---
+title: Routing Integration
+---
+
+# Routing Integration
+
+The plugin is deeply integrated with Modern.js routing system, supporting language path prefixes and automatic path redirection.
+
+## Enable Path Redirection
+
+When `localePathRedirect` is set to `true`, the plugin will automatically add language prefixes to URLs and handle path redirection when switching languages.
+
+**Configuration**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+## Route Configuration
+
+After enabling path redirection, you need to add `:lang` dynamic parameter to the route configuration.
+
+### Convention-based Routing
+
+When using convention-based routing, you need to create a `[lang]` directory under the `routes/` directory to represent the language parameter:
+
+```bash
+routes/
+├── [lang]/
+│   ├── layout.tsx    # Layout component
+│   ├── page.tsx      # Home page
+│   ├── about/
+│   │   └── page.tsx  # About page
+│   └── contact/
+│       └── page.tsx  # Contact page
+```
+
+**routes/[lang]/layout.tsx**:
+
+```tsx
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**routes/[lang]/page.tsx**:
+
+```tsx
+export default function Home() {
+  return <div>Home</div>;
+}
+```
+
+**routes/[lang]/about/page.tsx**:
+
+```tsx
+export default function About() {
+  return <div>About</div>;
+}
+```
+
+**routes/[lang]/contact/page.tsx**:
+
+```tsx
+export default function Contact() {
+  return <div>Contact</div>;
+}
+```
+
+**Generated Route Structure**:
+
+```
+/:lang          → Home page
+/:lang/about    → About page
+/:lang/contact  → Contact page
+```
+
+When accessing `/` or `/about`, it will automatically redirect to `/en` or `/en/about` (using the default language).
+
+### Custom Routing
+
+If using custom routing (`modern.routes.ts`), you need to add `:lang` dynamic parameter in the route configuration:
+
+```tsx
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+} from '@modern-js/runtime/router';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Add :lang parameter */}
+        <Route path=":lang" element={<Outlet />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+:::info
+Convention-based routing will automatically generate corresponding routes based on the file structure. It's recommended to use convention-based routing. Only use custom routing when special route control is needed.
+:::
+
+## I18nLink Component
+
+The `I18nLink` component is provided by `@modern-js/plugin-i18n` and automatically adds the current language prefix to paths.
+
+### Basic Usage
+
+```tsx
+import { I18nLink } from '@modern-js/plugin-i18n/runtime';
+
+function Navigation() {
+  return (
+    <nav>
+      <I18nLink to="/">Home</I18nLink>
+      <I18nLink to="/about">About</I18nLink>
+      <I18nLink to="/contact">Contact</I18nLink>
+    </nav>
+  );
+}
+```
+
+**When current language is `en`**:
+
+- `<I18nLink to="/">` → Actual link: `/en`
+- `<I18nLink to="/about">` → Actual link: `/en/about`
+
+**When current language is `zh`**:
+
+- `<I18nLink to="/">` → Actual link: `/zh`
+- `<I18nLink to="/about">` → Actual link: `/zh/about`
+
+### Automatic Language Prefix
+
+`I18nLink` automatically handles language prefixes, no need to add them manually:
+
+```tsx
+// ✅ Correct: No need to manually add language prefix
+<I18nLink to="/about">About</I18nLink>
+
+// ❌ Wrong: Don't manually add language prefix
+<I18nLink to="/en/about">About</I18nLink>
+```
+
+### Props
+
+`I18nLink` accepts all `Link` component props and additionally supports:
+
+```tsx
+interface I18nLinkProps {
+  /** Target path (no need to include language prefix) */
+  to: string;
+  /** Child elements */
+  children: React.ReactNode;
+  /** Other Link component props */
+  [key: string]: any;
+}
+```
+
+**Example**:
+
+```tsx
+<I18nLink to="/about" replace>
+  About
+</I18nLink>
+
+<I18nLink to="/contact" state={{ from: 'home' }}>
+  Contact
+</I18nLink>
+```
+

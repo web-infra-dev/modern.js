@@ -1,0 +1,281 @@
+---
+title: 配置说明
+---
+
+# 配置说明
+
+插件的配置分为两部分：CLI 配置（`modern.config.ts`）和运行时配置（`modern.runtime.ts`）。两者需要结合使用，CLI 配置用于插件的基础设置，运行时配置用于 i18next 的初始化选项。
+
+:::warning
+函数类型的配置（如 SDK 加载函数）只能在运行时配置（`modern.runtime.ts`）中设置，不能在 CLI 配置中设置。这是因为 CLI 配置在构建时执行，无法序列化函数。
+:::
+
+## CLI 配置（modern.config.ts）
+
+在 `modern.config.ts` 中配置插件选项：
+
+```ts
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    i18nPlugin({
+      localeDetection: {
+        // 语言检测配置
+      },
+      backend: {
+        // 后端资源加载配置
+      },
+    }),
+  ],
+});
+```
+
+### localeDetection 配置
+
+`localeDetection` 用于配置语言检测相关选项：
+
+:::warning
+如果启用了 `localePathRedirect`，`detection` 配置必须放在 CLI 配置（`modern.config.ts`）中，因为服务端插件需要根据此配置来获取语言信息并进行路径重定向。
+:::
+
+```ts
+interface BaseLocaleDetectionOptions {
+  /** 是否启用路径重定向，启用后会在 URL 中添加语言前缀 */
+  localePathRedirect?: boolean;
+
+  /** 是否启用 i18next 语言检测器 */
+  i18nextDetector?: boolean;
+
+  /** 支持的语言列表 */
+  languages?: string[];
+
+  /** 默认回退语言 */
+  fallbackLanguage?: string;
+
+  /** 自定义检测配置 */
+  detection?: LanguageDetectorOptions;
+}
+
+interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {
+  /** 按入口配置语言检测（多入口场景） */
+  localeDetectionByEntry?: Record<string, BaseLocaleDetectionOptions>;
+}
+```
+
+**示例**：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    i18nextDetector: true,
+    languages: ['zh', 'en', 'ja'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['path', 'cookie', 'header'],
+      lookupCookie: 'i18next',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+### backend 配置
+
+`backend` 用于配置资源加载方式：
+
+```ts
+interface BaseBackendOptions {
+  /** 是否启用后端资源加载 */
+  enabled?: boolean;
+
+  /** 资源文件加载路径（HTTP 后端） */
+  loadPath?: string;
+
+  /** 缺失翻译保存路径（可选） */
+  addPath?: string;
+
+  /** SDK 加载函数（自定义后端）
+   *
+   * 注意：在 CLI 配置中只能设置为 `true` 或字符串标识符来启用 SDK 模式。
+   * 实际的 SDK 函数必须在运行时配置（`modern.runtime.ts`）中通过 `initOptions.backend.sdk` 提供。
+   */
+  sdk?: I18nSdkLoader | boolean | string;
+}
+
+interface BackendOptions extends BaseBackendOptions {
+  /** 按入口配置后端（多入口场景） */
+  backendOptionsByEntry?: Record<string, BaseBackendOptions>;
+}
+```
+
+**示例**：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+### 多入口配置
+
+如果项目有多个入口，可以为每个入口单独配置：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    // 为特定入口覆盖配置
+    localeDetectionByEntry: {
+      admin: {
+        localePathRedirect: false, // admin 入口不使用路径重定向
+      },
+    },
+  },
+  backend: {
+    enabled: true,
+    // 为特定入口覆盖配置
+    backendOptionsByEntry: {
+      admin: {
+        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
+      },
+    },
+  },
+});
+```
+
+## 运行时配置（modern.runtime.ts）
+
+在 `src/modern.runtime.ts` 中可以配置运行时选项：
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+export default defineRuntimeConfig({
+  i18n: {
+    // 使用自定义 i18next 实例（可选）
+    i18nInstance: i18next,
+
+    // i18next 初始化选项
+    initOptions: {
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+      // 其他 i18next 配置选项
+    },
+  },
+});
+```
+
+### i18nInstance 配置
+
+如果需要使用自定义的 i18next 实例，可以在运行时配置中提供：
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+// 创建自定义实例
+const customI18n = i18next.createInstance({
+  // 自定义配置
+});
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+  },
+});
+```
+
+### initOptions 配置
+
+`initOptions` 会传递给 i18next 的 `init` 方法，支持所有 i18next 配置选项：
+
+:::info
+如果启用了 `localePathRedirect`，`detection` 配置应该在 CLI 配置中设置，而不是在 `initOptions` 中。这是因为服务端插件需要读取 CLI 配置中的 `detection` 选项来进行语言检测和路径重定向。
+:::
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      // 语言相关
+      lng: 'en',
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+
+      // 命名空间相关
+      ns: ['translation', 'common'],
+      defaultNS: 'translation',
+
+      // React 相关
+      react: {
+        useSuspense: false,
+      },
+
+      // 其他 i18next 选项
+      interpolation: {
+        escapeValue: false,
+      },
+    },
+  },
+});
+```
+
+### SDK 后端配置
+
+如果使用 SDK 后端，需要在运行时配置中提供实际的 SDK 函数：
+
+:::info
+函数类型的配置只能在运行时配置中设置。在 CLI 配置中，`sdk` 只能设置为 `true` 或字符串标识符来启用 SDK 模式，实际的函数实现必须在 `modern.runtime.ts` 中提供。
+:::
+
+**在 `modern.config.ts` 中启用 SDK 模式**：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    sdk: true, // 启用 SDK 模式
+  },
+});
+```
+
+**在 `modern.runtime.ts` 中提供 SDK 函数**：
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { I18nSdkLoader } from '@modern-js/plugin-i18n/runtime';
+
+const mySdkLoader: I18nSdkLoader = async options => {
+  if (options.all) {
+    // 加载所有资源
+    return await fetchAllResources();
+  }
+
+  if (options.lng && options.ns) {
+    // 加载单个资源
+    const response = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    return response.json();
+  }
+
+  // 处理其他情况
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: mySdkLoader,
+      },
+    },
+  },
+});
+```

@@ -23,5 +23,11 @@
     "label": "server-monitor",
     "collapsed": true
   },
+  {
+    "type": "dir",
+    "name": "international",
+    "label": "Internationalization",
+    "collapsed": true
+  },
   "web-server"
 ]

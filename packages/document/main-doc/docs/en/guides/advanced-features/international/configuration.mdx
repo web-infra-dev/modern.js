@@ -1,0 +1,282 @@
+---
+title: Configuration
+---
+
+# Configuration
+
+Plugin configuration is divided into two parts: CLI configuration (`modern.config.ts`) and runtime configuration (`modern.runtime.ts`). Both need to be used together - CLI configuration is for basic plugin settings, while runtime configuration is for i18next initialization options.
+
+:::warning
+Function-type configurations (such as SDK loader functions) can only be set in runtime configuration (`modern.runtime.ts`), not in CLI configuration. This is because CLI configuration is executed at build time and cannot serialize functions.
+:::
+
+## CLI Configuration (modern.config.ts)
+
+Configure plugin options in `modern.config.ts`:
+
+```ts
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    i18nPlugin({
+      localeDetection: {
+        // Language detection configuration
+      },
+      backend: {
+        // Backend resource loading configuration
+      },
+    }),
+  ],
+});
+```
+
+### localeDetection Configuration
+
+`localeDetection` is used to configure language detection related options:
+
+:::warning
+If `localePathRedirect` is enabled, the `detection` configuration must be placed in CLI configuration (`modern.config.ts`), because the server-side plugin needs to read this configuration to get language information and perform path redirection.
+:::
+
+```ts
+interface BaseLocaleDetectionOptions {
+  /** Whether to enable path redirection, adds language prefix to URL when enabled */
+  localePathRedirect?: boolean;
+
+  /** Whether to enable i18next language detector */
+  i18nextDetector?: boolean;
+
+  /** Supported language list */
+  languages?: string[];
+
+  /** Default fallback language */
+  fallbackLanguage?: string;
+
+  /** Custom detection configuration */
+  detection?: LanguageDetectorOptions;
+}
+
+interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {
+  /** Configure language detection by entry (multi-entry scenarios) */
+  localeDetectionByEntry?: Record<string, BaseLocaleDetectionOptions>;
+}
+```
+
+**Example**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    i18nextDetector: true,
+    languages: ['zh', 'en', 'ja'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['path', 'cookie', 'header'],
+      lookupCookie: 'i18next',
+      caches: ['cookie'],
+    },
+  },
+});
+```
+
+### backend Configuration
+
+`backend` is used to configure resource loading methods:
+
+```ts
+interface BaseBackendOptions {
+  /** Whether to enable backend resource loading */
+  enabled?: boolean;
+
+  /** Resource file loading path (HTTP backend) */
+  loadPath?: string;
+
+  /** Missing translation save path (optional) */
+  addPath?: string;
+
+  /** SDK loader function (custom backend)
+   *
+   * Note: In CLI configuration, can only be set to `true` or a string identifier to enable SDK mode.
+   * The actual SDK function must be provided through `initOptions.backend.sdk` in runtime configuration (`modern.runtime.ts`).
+   */
+  sdk?: I18nSdkLoader | boolean | string;
+}
+
+interface BackendOptions extends BaseBackendOptions {
+  /** Configure backend by entry (multi-entry scenarios) */
+  backendOptionsByEntry?: Record<string, BaseBackendOptions>;
+}
+```
+
+**Example**:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+### Multi-Entry Configuration
+
+If the project has multiple entries, you can configure each entry separately:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    // Override configuration for specific entry
+    localeDetectionByEntry: {
+      admin: {
+        localePathRedirect: false, // admin entry does not use path redirection
+      },
+    },
+  },
+  backend: {
+    enabled: true,
+    // Override configuration for specific entry
+    backendOptionsByEntry: {
+      admin: {
+        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
+      },
+    },
+  },
+});
+```
+
+## Runtime Configuration (modern.runtime.ts)
+
+You can configure runtime options in `src/modern.runtime.ts`:
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+export default defineRuntimeConfig({
+  i18n: {
+    // Use custom i18next instance (optional)
+    i18nInstance: i18next,
+
+    // i18next initialization options
+    initOptions: {
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+      // Other i18next configuration options
+    },
+  },
+});
+```
+
+### i18nInstance Configuration
+
+If you need to use a custom i18next instance, you can provide it in runtime configuration:
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+// Create custom instance
+const customI18n = i18next.createInstance({
+  // Custom configuration
+});
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+  },
+});
+```
+
+### initOptions Configuration
+
+`initOptions` will be passed to i18next's `init` method and supports all i18next configuration options:
+
+:::info
+If `localePathRedirect` is enabled, the `detection` configuration should be set in CLI configuration, not in `initOptions`. This is because the server-side plugin needs to read the `detection` option from CLI configuration to perform language detection and path redirection.
+:::
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      // Language related
+      lng: 'en',
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+
+      // Namespace related
+      ns: ['translation', 'common'],
+      defaultNS: 'translation',
+
+      // React related
+      react: {
+        useSuspense: false,
+      },
+
+      // Other i18next options
+      interpolation: {
+        escapeValue: false,
+      },
+    },
+  },
+});
+```
+
+### SDK Backend Configuration
+
+If using SDK backend, you need to provide the actual SDK function in runtime configuration:
+
+:::info
+Function-type configurations can only be set in runtime configuration. In CLI configuration, `sdk` can only be set to `true` or a string identifier to enable SDK mode. The actual function implementation must be provided in `modern.runtime.ts`.
+:::
+
+**Enable SDK mode in `modern.config.ts`**:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    sdk: true, // Enable SDK mode
+  },
+});
+```
+
+**Provide SDK function in `modern.runtime.ts`**:
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { I18nSdkLoader } from '@modern-js/plugin-i18n/runtime';
+
+const mySdkLoader: I18nSdkLoader = async options => {
+  if (options.all) {
+    // Load all resources
+    return await fetchAllResources();
+  }
+
+  if (options.lng && options.ns) {
+    // Load single resource
+    const response = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    return response.json();
+  }
+
+  // Handle other cases
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: mySdkLoader,
+      },
+    },
+  },
+});
+```
+
