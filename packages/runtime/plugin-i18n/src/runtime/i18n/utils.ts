@@ -28,7 +28,7 @@ export const buildInitOptions = (
     useSuspense !== undefined
       ? useSuspense
       : isBrowser()
-        ? ((userInitOptions as any)?.react?.useSuspense ?? true)
+        ? (userInitOptions?.react?.useSuspense ?? true)
         : false;
 
   return {
@@ -39,7 +39,7 @@ export const buildInitOptions = (
     backend: mergedBackend,
     ...(userInitOptions || {}),
     react: {
-      ...((userInitOptions as any)?.react || {}),
+      ...(userInitOptions?.react || {}),
       useSuspense: defaultUseSuspense,
     },
   };
@@ -85,6 +85,15 @@ export const initializeI18nInstance = async (
 };
 
 /**
+ * Type guard to check if i18n instance has options property
+ */
+function hasOptions(instance: I18nInstance): instance is I18nInstance & {
+  options: NonNullable<I18nInstance['options']>;
+} {
+  return instance.options !== undefined && instance.options !== null;
+}
+
+/**
  * Setup cloned instance for SSR with backend support
  */
 export const setupClonedInstance = async (
@@ -102,9 +111,9 @@ export const setupClonedInstance = async (
   if (backendEnabled) {
     useI18nextBackend(i18nInstance);
     const mergedBackend = mergeBackendOptions(backend, userInitOptions);
-    if (mergedBackend && (i18nInstance as any).options) {
-      (i18nInstance as any).options.backend = {
-        ...(i18nInstance as any).options.backend,
+    if (mergedBackend && hasOptions(i18nInstance)) {
+      i18nInstance.options.backend = {
+        ...i18nInstance.options.backend,
         ...mergedBackend,
       };
     }

@@ -16,6 +16,11 @@ export interface I18nInstance {
     };
     [key: string]: any;
   };
+  // i18next instance options (available after initialization)
+  options?: {
+    backend?: BackendOptions;
+    [key: string]: any;
+  };
 }
 
 type LanguageDetectorOrder = string[];
