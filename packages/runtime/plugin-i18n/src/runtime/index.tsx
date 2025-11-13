@@ -22,6 +22,11 @@ import {
 } from './i18n/detection';
 import { useI18nextLanguageDetector } from './i18n/detection/middleware';
 import { getI18nextProvider, getInitReactI18next } from './i18n/instance';
+import {
+  ensureLanguageMatch,
+  initializeI18nInstance,
+  setupClonedInstance,
+} from './i18n/utils';
 import { detectLanguageFromPath } from './utils';
 
 export interface I18nPluginOptions {
@@ -91,35 +96,46 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         ssrContext: context.ssrContext,
       });
 
-      if (!i18nInstance.isInitialized) {
-        // Merge detection options if i18nextDetector is enabled
-        const mergedDetection = mergeDetectionOptions(
+      // Merge options once for reuse
+      const mergedDetection = mergeDetectionOptions(
+        i18nextDetector,
+        detection,
+        localePathRedirect,
+        userInitOptions,
+      );
+      const mergedBackend = mergeBackendOptions(backend, userInitOptions);
+
+      // Initialize instance if not already initialized
+      await initializeI18nInstance(
+        i18nInstance,
+        finalLanguage,
+        fallbackLanguage,
+        languages,
+        mergedDetection,
+        mergedBackend,
+        userInitOptions,
+      );
+
+      // Handle SSR cloned instance
+      if (!isBrowser() && i18nInstance.cloneInstance) {
+        i18nInstance = i18nInstance.cloneInstance();
+        await setupClonedInstance(
+          i18nInstance,
+          finalLanguage,
+          fallbackLanguage,
+          languages,
+          backendEnabled,
+          backend,
           i18nextDetector,
           detection,
           localePathRedirect,
           userInitOptions,
         );
-        const mergeBackend = mergeBackendOptions(backend, userInitOptions);
+      }
 
-        const initOptions: I18nInitOptions = {
-          lng: finalLanguage,
-          fallbackLng: fallbackLanguage,
-          supportedLngs: languages,
-          detection: mergedDetection,
-          backend: mergeBackend,
-          ...(userInitOptions || {}),
-        };
-        await i18nInstance.init(initOptions);
-      }
-      if (!isBrowser() && i18nInstance.cloneInstance) {
-        i18nInstance = i18nInstance.cloneInstance();
-        if (i18nInstance.language !== finalLanguage) {
-          await i18nInstance.changeLanguage(finalLanguage);
-        }
-      }
-      if (localePathRedirect && i18nInstance.language !== finalLanguage) {
-        // If instance is already initialized but language doesn't match the path, update it
-        await i18nInstance.changeLanguage(finalLanguage);
+      // Ensure language matches path if localePathRedirect is enabled
+      if (localePathRedirect) {
+        await ensureLanguageMatch(i18nInstance, finalLanguage);
       }
 
       if (!isBrowser()) {
@@ -139,8 +155,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         if (i18nInstance?.language && i18nInstance.translator) {
           i18nInstance.translator.language = i18nInstance.language;
         }
-
-        // Get pathname from appropriate source based on environment
 
         // Initialize language from URL on mount (only when localeDetection is enabled)
         useEffect(() => {
@@ -179,20 +193,16 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           updateLanguage: setLang,
         };
 
-        if (I18nextProvider) {
-          return (
-            <I18nextProvider i18n={i18nInstance}>
-              <ModernI18nProvider value={contextValue}>
-                <App {...props} />
-              </ModernI18nProvider>
-            </I18nextProvider>
-          );
-        }
-
-        return (
+        const appContent = (
           <ModernI18nProvider value={contextValue}>
             <App {...props} />
           </ModernI18nProvider>
+        );
+
+        return I18nextProvider ? (
+          <I18nextProvider i18n={i18nInstance}>{appContent}</I18nextProvider>
+        ) : (
+          appContent
         );
       };
     });

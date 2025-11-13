@@ -23,6 +23,9 @@ export default defineConfig({
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
       },
+      backend: {
+        enabled: true,
+      },
     }),
     ssgPlugin(),
   ],
