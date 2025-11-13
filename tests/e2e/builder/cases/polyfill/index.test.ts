@@ -28,6 +28,7 @@ test('should add polyfill when set polyfill entry (default)', async ({
     builderConfig: {
       output: {
         polyfill: 'entry',
+        overrideBrowserslist: ['> 0.01%', 'not dead', 'not op_mini all'],
       },
     },
     runServer: true,

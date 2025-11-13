@@ -1,0 +1,18 @@
+---
+title: conditionNames
+---
+
+# resolve.conditionNames
+
+- **Type:** `string[]`
+- **Default:** Same as Rspack's `resolve.conditionNames`
+
+Specifies the condition names used to match entry points in the [exports](https://nodejs.org/api/packages.html#packages_exports) of a package.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="resolve.extensions" />
+
+:::warning
+Do not enable this configuration option for SSR applications, as it will cause SSR rendering to fail.
+:::

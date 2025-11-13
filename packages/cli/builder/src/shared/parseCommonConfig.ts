@@ -68,14 +68,7 @@ export async function parseCommonConfig(
       ...outputConfig
     } = {},
     html: { outputStructure, appIcon, ...htmlConfig } = {},
-    source: {
-      alias,
-      globalVars,
-      resolveMainFields,
-      resolveExtensionPrefix,
-      transformImport,
-      ...sourceConfig
-    } = {},
+    source: { alias, globalVars, transformImport, ...sourceConfig } = {},
     dev = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: {
@@ -166,10 +159,7 @@ export async function parseCommonConfig(
 
   html.title ??= '';
 
-  html.appIcon =
-    typeof appIcon === 'string'
-      ? { icons: [{ src: appIcon, size: 180 }] }
-      : appIcon;
+  html.appIcon = appIcon;
 
   extraConfig.tools ??= {};
 
@@ -235,18 +225,6 @@ export async function parseCommonConfig(
         tsCheckerOptions: tsChecker,
       }),
     );
-  }
-
-  if (resolveMainFields) {
-    const { pluginMainFields } = await import('../plugins/mainFields');
-    rsbuildPlugins.push(pluginMainFields(resolveMainFields));
-  }
-
-  if (resolveExtensionPrefix) {
-    const { pluginExtensionPrefix } = await import(
-      '../plugins/extensionPrefix'
-    );
-    rsbuildPlugins.push(pluginExtensionPrefix(resolveExtensionPrefix));
   }
 
   if (convertToRem) {

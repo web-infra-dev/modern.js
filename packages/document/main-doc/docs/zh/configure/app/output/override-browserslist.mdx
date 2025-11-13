@@ -9,9 +9,9 @@ title: overrideBrowserslist
 
 ```ts
 const defaultBrowserListMap: Record<RsbuildTarget, string[]> = {
-  web: ['> 0.01%', 'not dead', 'not op_mini all'],
+  web: ['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'],
   node: ['node >= 14'],
-  'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
+  'web-worker': ['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'],
 };
 ```
 
@@ -19,7 +19,7 @@ const defaultBrowserListMap: Record<RsbuildTarget, string[]> = {
 
 该值会被 [SWC](https://github.com/swc-project/swc) 和 [autoprefixer](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
 
-Modern.js 会优先使用项目根目录的 `.browserslistrc` 文件中的配置。
+其他配置方式和配置优先级请参考 [Browserslist 配置](/guides/advanced-features/compatibility.html)。
 
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 

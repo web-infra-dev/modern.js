@@ -23,6 +23,9 @@ test('should throw error when exist syntax errors', async () => {
         security: {
           checkSyntax: true,
         },
+        output: {
+          overrideBrowserslist: ['> 0.01%', 'not dead', 'not op_mini all'],
+        },
       },
     }),
   ).rejects.toThrowError('incompatible syntax');

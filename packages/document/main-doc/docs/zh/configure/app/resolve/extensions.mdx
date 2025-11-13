@@ -1,0 +1,18 @@
+---
+title: extensions
+---
+
+# resolve.extensions
+
+- **类型:** `string[]`
+- **默认值:** `['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json']`
+
+自动添加导入文件的扩展名。这意味着你可以导入文件，而不需要显式地写它们的扩展名。
+
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="resolve.extensions" />
+
+:::warning
+SSR 应用请勿启用此配置项，否则会导致 SSR 渲染失败。
+:::

@@ -46,20 +46,20 @@ BUNDLE_ANALYZE=true pnpm build
 
 Modern.js 会根据项目的 Browserslist 配置范围进行代码编译，并注入相应的 Polyfill。如果项目不需要兼容旧版浏览器，可以根据实际情况来提升 Browserslist 范围，从而减少在语法和 Polyfill 上的编译开销。
 
-Modern.js 默认的 Browserslist 配置为：
+Modern.js 默认的 [`output.overrideBrowserslist`](/configure/app/output/override-browserslist.html) 配置为：
 
 ```js
-['> 0.01%', 'not dead', 'not op_mini all'];
+['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'];
 ```
 
-比如只兼容 Chrome 61 以上的浏览器，可以改成：
+比如只兼容 Chrome 100 以上的浏览器，可以改成：
 
 ```js
-['Chrome >= 61'];
+['Chrome >= 100'];
 ```
 
 :::tip
-请阅读 [设置浏览器范围](https://rsbuild.rs/zh/guide/advanced/browserslist) 章节来了解更多关于 Browserslist 的用法。
+请阅读 [Browserslist 配置](/guides/advanced-features/compatibility.html) 章节来了解更多关于 Browserslist 的用法。
 :::
 
 ## 按需引入 polyfill

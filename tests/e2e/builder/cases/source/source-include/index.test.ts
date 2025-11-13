@@ -12,6 +12,9 @@ test('should not compile file which outside of project by default', async () => 
         source: {
           exclude: [path.resolve(__dirname, '../test.js')],
         },
+        output: {
+          overrideBrowserslist: ['> 0.01%', 'not dead', 'not op_mini all'],
+        },
         security: {
           checkSyntax: true,
         },

@@ -151,15 +151,6 @@ export type BuilderExtraConfig = {
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
     globalVars?: ChainedGlobalVars;
-    /**
-     * This configuration will determine which field of `package.json` you use to import the `npm` module.
-     * Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
-     */
-    resolveMainFields?: MainFields | Partial<Record<RsbuildTarget, MainFields>>;
-    /**
-     * Add a prefix to [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions).
-     */
-    resolveExtensionPrefix?: string | Partial<Record<RsbuildTarget, string>>;
   };
   output?: {
     /**
@@ -200,7 +191,7 @@ export type BuilderExtraConfig = {
     disableSvgr?: boolean;
   };
   html?: {
-    appIcon?: string | HtmlConfig['appIcon'];
+    appIcon?: HtmlConfig['appIcon'];
     // TODO: need support rsbuild favicon type in server/utils
     favicon?: string;
   };
