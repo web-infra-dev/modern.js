@@ -7,20 +7,6 @@ export default defineRuntimeConfig({
     initOptions: {
       fallbackLng: 'en',
       supportedLngs: ['zh', 'en'],
-      resources: {
-        en: {
-          translation: {
-            key: 'Hello World',
-            about: 'About',
-          },
-        },
-        zh: {
-          translation: {
-            key: '你好，世界',
-            about: '关于',
-          },
-        },
-      },
     },
   },
 });

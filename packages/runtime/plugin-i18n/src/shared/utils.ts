@@ -1,4 +1,6 @@
 import type {
+  BackendOptions,
+  BaseBackendOptions,
   BaseLocaleDetectionOptions,
   LocaleDetectionOptions,
 } from './type';
@@ -49,4 +51,32 @@ export function getLocaleDetectionOptions(
   }
 
   return localeDetection;
+}
+
+export function getBackendOptions(
+  entryName: string,
+  backend: BaseBackendOptions,
+): BaseBackendOptions {
+  const fullConfig = backend as BackendOptions;
+  const entryConfig = getEntryConfig(
+    entryName,
+    fullConfig,
+    'backendOptionsByEntry',
+  );
+  if (entryConfig) {
+    const globalConfig = removeEntryConfigKey(
+      fullConfig,
+      'backendOptionsByEntry',
+    );
+    return {
+      ...globalConfig,
+      ...entryConfig,
+    };
+  }
+
+  if ('backendOptionsByEntry' in fullConfig) {
+    return removeEntryConfigKey(fullConfig, 'backendOptionsByEntry');
+  }
+
+  return backend;
 }

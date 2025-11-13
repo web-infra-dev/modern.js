@@ -67,6 +67,8 @@ describe('app-ssr-i18n', () => {
 
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
+    // Disable cache for translation JSON requests to avoid 304 responses
+    await page.setCacheEnabled(false);
   });
 
   afterAll(async () => {
@@ -131,7 +133,9 @@ describe('app-ssr-i18n', () => {
       },
     );
     expect(response).not.toBeNull();
-    expect(response?.status()).toBe(200);
+    // Accept both 200 (OK) and 304 (Not Modified) as valid responses
+    // 304 means the resource hasn't changed and browser uses cached version
+    expect([200, 304]).toContain(response?.status());
 
     const body = await response?.json();
     expect(body).toEqual({
@@ -148,7 +152,9 @@ describe('app-ssr-i18n', () => {
       },
     );
     expect(response).not.toBeNull();
-    expect(response?.status()).toBe(200);
+    // Accept both 200 (OK) and 304 (Not Modified) as valid responses
+    // 304 means the resource hasn't changed and browser uses cached version
+    expect([200, 304]).toContain(response?.status());
 
     const body = await response?.json();
     expect(body).toEqual({

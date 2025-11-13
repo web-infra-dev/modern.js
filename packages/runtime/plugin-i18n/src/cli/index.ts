@@ -1,10 +1,11 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
-import type { LocaleDetectionOptions } from '../shared/type';
-import { getLocaleDetectionOptions } from '../shared/utils';
+import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
+import { getBackendOptions, getLocaleDetectionOptions } from '../shared/utils';
 
 export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;
+  backend?: BackendOptions;
 }
 
 export const i18nPlugin = (
@@ -12,10 +13,13 @@ export const i18nPlugin = (
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-i18n',
   setup: api => {
-    const { localeDetection } = options;
+    const { localeDetection, backend } = options;
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const localeDetectionOptions = localeDetection
         ? getLocaleDetectionOptions(entrypoint.entryName, localeDetection)
+        : undefined;
+      const backendOptions = backend
+        ? getBackendOptions(entrypoint.entryName, backend)
         : undefined;
       plugins.push({
         name: 'i18n',
@@ -23,6 +27,7 @@ export const i18nPlugin = (
         config: {
           entryName: entrypoint.entryName,
           localeDetection: localeDetectionOptions,
+          backend: backendOptions,
         },
       });
       return {
