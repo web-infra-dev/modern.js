@@ -37,6 +37,7 @@ export const buildInitOptions = (
     supportedLngs: languages,
     detection: mergedDetection,
     backend: mergedBackend,
+    initImmediate: userInitOptions?.initImmediate ?? true,
     ...(userInitOptions || {}),
     react: {
       ...(userInitOptions?.react || {}),
@@ -81,6 +82,22 @@ export const initializeI18nInstance = async (
       useSuspense,
     );
     await i18nInstance.init(initOptions);
+
+    if (mergedBackend && hasOptions(i18nInstance)) {
+      const defaultNS =
+        initOptions.defaultNS || initOptions.ns || 'translation';
+      const ns = Array.isArray(defaultNS) ? defaultNS[0] : defaultNS;
+
+      let retries = 20;
+      while (retries > 0) {
+        const store = (i18nInstance as any).store;
+        if (store?.data?.[finalLanguage]?.[ns]) {
+          break;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+        retries--;
+      }
+    }
   }
 };
 
@@ -109,8 +126,8 @@ export const setupClonedInstance = async (
   userInitOptions: I18nInitOptions | undefined,
 ): Promise<void> => {
   if (backendEnabled) {
-    useI18nextBackend(i18nInstance);
     const mergedBackend = mergeBackendOptions(backend, userInitOptions);
+    useI18nextBackend(i18nInstance, mergedBackend);
     if (mergedBackend && hasOptions(i18nInstance)) {
       i18nInstance.options.backend = {
         ...i18nInstance.options.backend,

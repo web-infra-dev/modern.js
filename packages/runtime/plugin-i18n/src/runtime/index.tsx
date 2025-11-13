@@ -29,6 +29,9 @@ import {
 } from './i18n/utils';
 import { detectLanguageFromPath } from './utils';
 
+export type { I18nSdkLoader, I18nSdkLoadOptions } from '../shared/type';
+export type { Resources } from './i18n/instance';
+
 export interface I18nPluginOptions {
   entryName?: string;
   localeDetection?: BaseLocaleDetectionOptions;
@@ -75,16 +78,22 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
       const pathname = getPathname(context);
 
-      // Setup i18next language detector if enabled
       if (i18nextDetector) {
         useI18nextLanguageDetector(i18nInstance);
       }
 
+      const mergedDetection = mergeDetectionOptions(
+        i18nextDetector,
+        detection,
+        localePathRedirect,
+        userInitOptions,
+      );
+      const mergedBackend = mergeBackendOptions(backend, userInitOptions);
+
       if (backendEnabled) {
-        useI18nextBackend(i18nInstance);
+        useI18nextBackend(i18nInstance, mergedBackend);
       }
 
-      // Detect language with priority: SSR data > path > i18next detector > fallback
       const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
         fallbackLanguage,
@@ -96,16 +105,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         ssrContext: context.ssrContext,
       });
 
-      // Merge options once for reuse
-      const mergedDetection = mergeDetectionOptions(
-        i18nextDetector,
-        detection,
-        localePathRedirect,
-        userInitOptions,
-      );
-      const mergedBackend = mergeBackendOptions(backend, userInitOptions);
-
-      // Initialize instance if not already initialized
       await initializeI18nInstance(
         i18nInstance,
         finalLanguage,
@@ -116,7 +115,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         userInitOptions,
       );
 
-      // Handle SSR cloned instance
       if (!isBrowser() && i18nInstance.cloneInstance) {
         i18nInstance = i18nInstance.cloneInstance();
         await setupClonedInstance(
@@ -133,7 +131,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         );
       }
 
-      // Ensure language matches path if localePathRedirect is enabled
       if (localePathRedirect) {
         await ensureLanguageMatch(i18nInstance, finalLanguage);
       }
@@ -156,7 +153,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           i18nInstance.translator.language = i18nInstance.language;
         }
 
-        // Initialize language from URL on mount (only when localeDetection is enabled)
         useEffect(() => {
           if (localePathRedirect) {
             const currentPathname = getPathname(
@@ -182,8 +178,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           }
         }, []);
 
-        // Context value contains language, i18nInstance, and plugin configuration
-        // changeLanguage is now implemented in the useModernI18n hook
         const contextValue = {
           language: lang,
           i18nInstance,
