@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.68.20
+
+### Patch Changes
+
+- 914c32e: fix: Avoid caching unexpected responses
+  fix: 避免不受期待的响应被缓存
+  - @modern-js/plugin@2.68.20
+  - @modern-js/plugin-v2@2.68.20
+  - @modern-js/runtime-utils@2.68.20
+  - @modern-js/utils@2.68.20
+
 ## 2.68.19
 
 ### Patch Changes

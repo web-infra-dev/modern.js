@@ -21,7 +21,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.19",
+  "version": "2.68.20",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",

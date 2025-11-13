@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.68.20
+
+### Patch Changes
+
+- e92d5b7: fix: stream ssr should concat buffer first, then stringify buffer
+  fix: stream ssr 先拼接 buffer, 再将 buffer 处理成字符串
+- Updated dependencies [37c2356]
+  - @modern-js/plugin-data-loader@2.68.20
+  - @modern-js/render@2.68.20
+  - @modern-js/plugin@2.68.20
+  - @modern-js/plugin-v2@2.68.20
+  - @modern-js/runtime-utils@2.68.20
+  - @modern-js/types@2.68.20
+  - @modern-js/utils@2.68.20
+
 ## 2.68.19
 
 ### Patch Changes
