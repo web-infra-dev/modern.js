@@ -7,6 +7,18 @@ export const mergeBackendOptions = (
   backend?: BaseBackendOptions,
   userInitOptions?: I18nInitOptions,
 ) => {
+  const hasSdkFunction =
+    typeof userInitOptions?.backend?.sdk === 'function' ||
+    (backend?.enabled && backend?.sdk && typeof backend.sdk === 'function');
+
+  if (hasSdkFunction) {
+    return baseMergeBackendOptions(
+      {} as BackendOptions,
+      backend as BackendOptions,
+      userInitOptions?.backend,
+    );
+  }
+
   const mergedBackend = backend?.enabled
     ? baseMergeBackendOptions(
         DEFAULT_I18NEXT_BACKEND_OPTIONS,
