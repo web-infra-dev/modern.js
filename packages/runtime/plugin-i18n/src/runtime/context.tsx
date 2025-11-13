@@ -89,7 +89,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
   const {
     language: contextLanguage,
     i18nInstance,
-    entryName,
     languages,
     localePathRedirect,
     updateLanguage,

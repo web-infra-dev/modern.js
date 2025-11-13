@@ -1,0 +1,193 @@
+---
+title: 高级用法
+---
+
+# 高级用法
+
+## SSR 配置
+
+插件完全支持服务端渲染（SSR）场景。
+
+### 服务端语言检测
+
+在 SSR 场景下，插件会从 HTTP 请求中检测语言：
+
+1. **URL 路径**：从路径中提取语言前缀
+2. **Cookie**：从 Cookie 中读取语言设置
+3. **请求头**：从 `Accept-Language` 请求头读取
+
+**配置示例**：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    i18nextDetector: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['path', 'cookie', 'header'],
+      lookupHeader: 'accept-language',
+    },
+  },
+})
+```
+
+### SSR 资源加载
+
+在 SSR 场景下，插件会自动使用文件系统后端加载资源：
+
+```ts
+export default defineConfig({
+  server: {
+    ssr: true,
+    publicDir: './locales', // 资源文件目录
+  },
+  plugins: [
+    i18nPlugin({
+      backend: {
+        enabled: true,
+      },
+    }),
+  ],
+});
+```
+
+资源文件结构：
+
+```
+项目根目录/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+## 多入口配置
+
+如果项目有多个入口，可以为每个入口单独配置语言检测和后端选项。
+
+### 按入口配置语言检测
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    // 全局配置
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+
+    // 按入口覆盖配置
+    localeDetectionByEntry: {
+      admin: {
+        localePathRedirect: false, // admin 入口不使用路径重定向
+        languages: ['en'], // admin 入口只支持英文
+      },
+      mobile: {
+        languages: ['zh', 'en', 'ja'], // mobile 入口支持更多语言
+      },
+    },
+  },
+})
+```
+
+### 按入口配置后端
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // 默认路径
+
+    // 按入口覆盖配置
+    backendOptionsByEntry: {
+      admin: {
+        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
+      },
+      mobile: {
+        loadPath: '/mobile/locales/{{lng}}/{{ns}}.json',
+      },
+    },
+  },
+})
+```
+
+## 自定义 i18next 实例
+
+如果需要使用自定义的 i18next 实例，可以在运行时配置中提供。
+
+### 创建自定义实例
+
+```ts
+// src/i18n.ts
+import i18next from 'i18next';
+
+const customI18n = i18next.createInstance({
+  // 自定义配置
+  fallbackLng: 'en',
+  supportedLngs: ['zh', 'en'],
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+export default customI18n;
+```
+
+### 传递自定义实例
+
+```ts
+// src/modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import customI18n from './i18n';
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+    initOptions: {
+      // 其他配置选项
+    },
+  },
+});
+```
+
+## 语言切换
+
+### 编程式切换
+
+使用 `useModernI18n` Hook 的 `changeLanguage` 方法：
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function LanguageSwitcher() {
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+
+  return (
+    <select
+      value={language}
+      onChange={e => changeLanguage(e.target.value)}
+    >
+      {supportedLanguages.map(lang => (
+        <option key={lang} value={lang}>
+          {lang}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+### URL 同步
+
+当启用 `localePathRedirect` 时，切换语言会自动更新 URL：
+
+```tsx
+// 当前 URL: /en/about
+// 调用 changeLanguage('zh')
+// URL 自动更新为: /zh/about
+```
+
+如果未启用 `localePathRedirect`，语言切换只会更新 i18next 实例和缓存，不会改变 URL。
+

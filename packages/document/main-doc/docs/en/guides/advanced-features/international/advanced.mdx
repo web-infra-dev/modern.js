@@ -1,0 +1,193 @@
+---
+title: Advanced Usage
+---
+
+# Advanced Usage
+
+## SSR Configuration
+
+The plugin fully supports server-side rendering (SSR) scenarios.
+
+### Server-side Language Detection
+
+In SSR scenarios, the plugin will detect language from HTTP requests:
+
+1. **URL Path**: Extract language prefix from path
+2. **Cookie**: Read language settings from cookies
+3. **Request Headers**: Read from `Accept-Language` request header
+
+**Configuration Example**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    i18nextDetector: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    detection: {
+      order: ['path', 'cookie', 'header'],
+      lookupHeader: 'accept-language',
+    },
+  },
+})
+```
+
+### SSR Resource Loading
+
+In SSR scenarios, the plugin will automatically use the file system backend to load resources:
+
+```ts
+export default defineConfig({
+  server: {
+    ssr: true,
+    publicDir: './locales', // Resource file directory
+  },
+  plugins: [
+    i18nPlugin({
+      backend: {
+        enabled: true,
+      },
+    }),
+  ],
+});
+```
+
+Resource file structure:
+
+```
+Project Root/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+## Multi-Entry Configuration
+
+If the project has multiple entries, you can configure language detection and backend options separately for each entry.
+
+### Configure Language Detection by Entry
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    // Global configuration
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+
+    // Override configuration by entry
+    localeDetectionByEntry: {
+      admin: {
+        localePathRedirect: false, // admin entry does not use path redirection
+        languages: ['en'], // admin entry only supports English
+      },
+      mobile: {
+        languages: ['zh', 'en', 'ja'], // mobile entry supports more languages
+      },
+    },
+  },
+})
+```
+
+### Configure Backend by Entry
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Default path
+
+    // Override configuration by entry
+    backendOptionsByEntry: {
+      admin: {
+        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
+      },
+      mobile: {
+        loadPath: '/mobile/locales/{{lng}}/{{ns}}.json',
+      },
+    },
+  },
+})
+```
+
+## Custom i18next Instance
+
+If you need to use a custom i18next instance, you can provide it in runtime configuration.
+
+### Create Custom Instance
+
+```ts
+// src/i18n.ts
+import i18next from 'i18next';
+
+const customI18n = i18next.createInstance({
+  // Custom configuration
+  fallbackLng: 'en',
+  supportedLngs: ['zh', 'en'],
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+export default customI18n;
+```
+
+### Pass Custom Instance
+
+```ts
+// src/modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import customI18n from './i18n';
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+    initOptions: {
+      // Other configuration options
+    },
+  },
+});
+```
+
+## Language Switching
+
+### Programmatic Switching
+
+Use the `changeLanguage` method of the `useModernI18n` Hook:
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function LanguageSwitcher() {
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+
+  return (
+    <select
+      value={language}
+      onChange={e => changeLanguage(e.target.value)}
+    >
+      {supportedLanguages.map(lang => (
+        <option key={lang} value={lang}>
+          {lang}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+### URL Synchronization
+
+When `localePathRedirect` is enabled, switching languages will automatically update the URL:
+
+```tsx
+// Current URL: /en/about
+// Call changeLanguage('zh')
+// URL automatically updates to: /zh/about
+```
+
+If `localePathRedirect` is not enabled, language switching will only update the i18next instance and cache, without changing the URL.
+

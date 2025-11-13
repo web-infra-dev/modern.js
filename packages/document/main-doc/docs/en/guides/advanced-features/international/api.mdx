@@ -1,0 +1,257 @@
+---
+title: API Reference
+---
+
+# API Reference
+
+## useModernI18n Hook
+
+`useModernI18n` is a React Hook provided by the plugin for accessing internationalization functionality in components.
+
+### Return Value
+
+```ts
+interface UseModernI18nReturn {
+  /** Current language code */
+  language: string;
+
+  /** Function to change language */
+  changeLanguage: (newLang: string) => Promise<void>;
+
+  /** i18next instance (for advanced usage) */
+  i18nInstance: I18nInstance;
+
+  /** Supported language list */
+  supportedLanguages: string[];
+
+  /** Check if language is supported */
+  isLanguageSupported: (lang: string) => boolean;
+}
+```
+
+### Usage Example
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function LanguageSwitcher() {
+  const {
+    language,
+    changeLanguage,
+    supportedLanguages,
+    isLanguageSupported,
+  } = useModernI18n();
+
+  return (
+    <div>
+      <p>Current language: {language}</p>
+      <div>
+        {supportedLanguages.map(lang => (
+          <button
+            key={lang}
+            onClick={() => changeLanguage(lang)}
+            disabled={lang === language}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
+      <button
+        onClick={() => {
+          if (isLanguageSupported('ja')) {
+            changeLanguage('ja');
+          }
+        }}
+      >
+        Switch to Japanese
+      </button>
+    </div>
+  );
+}
+```
+
+### changeLanguage Method
+
+The `changeLanguage` method is used to switch languages. It will:
+
+1. Update the language of the i18next instance
+2. Update browser cache (Cookie/LocalStorage)
+3. Update URL path (if `localePathRedirect` is enabled)
+
+```tsx
+const { changeLanguage } = useModernI18n();
+
+// Switch language
+await changeLanguage('zh');
+```
+
+:::info
+`changeLanguage` is an async function that returns a Promise.
+:::
+
+### Language Support Check
+
+`isLanguageSupported` is used to check if a language is in the supported language list:
+
+```tsx
+const { isLanguageSupported, changeLanguage } = useModernI18n();
+
+function handleLanguageChange(lang: string) {
+  if (isLanguageSupported(lang)) {
+    changeLanguage(lang);
+  } else {
+    console.warn(`Language ${lang} is not supported`);
+  }
+}
+```
+
+## I18nLink Component
+
+The `I18nLink` component is used to create links with language prefixes.
+
+### Props
+
+```tsx
+interface I18nLinkProps {
+  /** Target path (no need to include language prefix) */
+  to: string;
+  /** Child elements */
+  children: React.ReactNode;
+  /** Other Link component props (such as replace, state, etc.) */
+  [key: string]: any;
+}
+```
+
+### Usage Example
+
+```tsx
+import { I18nLink } from '@modern-js/plugin-i18n/runtime';
+
+function Navigation() {
+  return (
+    <nav>
+      <I18nLink to="/">Home</I18nLink>
+      <I18nLink to="/about">About</I18nLink>
+      <I18nLink to="/contact" replace>
+        Contact
+      </I18nLink>
+    </nav>
+  );
+}
+```
+
+## Integration with react-i18next
+
+The plugin is fully compatible with `react-i18next` and can use the `useTranslation` Hook and other `react-i18next` features.
+
+### useTranslation Hook
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <p>{t('description', { name: 'Modern.js' })}</p>
+    </div>
+  );
+}
+```
+
+### Accessing i18next Instance
+
+You can get the i18next instance through `useModernI18n`:
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { i18nInstance } = useModernI18n();
+  const { t } = useTranslation();
+
+  // Directly access i18next instance
+  console.log(i18nInstance.language);
+  console.log(i18nInstance.options);
+
+  return <div>{t('hello')}</div>;
+}
+```
+
+## Type Definitions
+
+### I18nInstance Interface
+
+```ts
+interface I18nInstance {
+  language: string;
+  isInitialized: boolean;
+  init: (options?: I18nInitOptions) => void | Promise<void>;
+  changeLanguage: (lang: string) => void | Promise<void>;
+  use: (plugin: any) => void;
+  createInstance: (options?: I18nInitOptions) => I18nInstance;
+  cloneInstance?: () => I18nInstance;
+  services?: {
+    languageDetector?: {
+      detect: (request?: any, options?: any) => string | string[] | undefined;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
+  options?: {
+    backend?: BackendOptions;
+    [key: string]: any;
+  };
+}
+```
+
+### I18nInitOptions Interface
+
+```ts
+interface I18nInitOptions {
+  lng?: string;
+  fallbackLng?: string;
+  supportedLngs?: string[];
+  initImmediate?: boolean;
+  detection?: LanguageDetectorOptions;
+  backend?: BackendOptions;
+  resources?: Resources;
+  ns?: string | string[];
+  defaultNS?: string | string[];
+  react?: {
+    useSuspense?: boolean;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+```
+
+### LanguageDetectorOptions Interface
+
+```ts
+interface LanguageDetectorOptions {
+  order?: string[];
+  lookupQuerystring?: string;
+  lookupCookie?: string;
+  lookupSession?: string;
+  lookupFromPathIndex?: number;
+  caches?: boolean | string[];
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+  lookupHeader?: string;
+}
+```
+
+### Resources Type
+
+```ts
+type Resources = {
+  [lng: string]: {
+    [ns: string]: string | Record<string, string>;
+  };
+};
+```
+

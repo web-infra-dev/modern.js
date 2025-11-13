@@ -1,0 +1,272 @@
+---
+title: Resource Loading
+---
+
+# Resource Loading
+
+The plugin supports three resource loading methods: HTTP backend, File System backend (FS Backend), and SDK backend.
+
+## HTTP Backend
+
+HTTP backend loads resource files through HTTP requests, suitable for client-side rendering (CSR) scenarios.
+
+### Configuration
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+### Resource File Structure
+
+Resource files need to be placed in the `public` directory or the directory configured through `server.publicDir`:
+
+```
+public/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+Or configure a custom directory through `server.publicDir`:
+
+```ts
+export default defineConfig({
+  server: {
+    publicDir: './locales', // Specify resource file directory
+  },
+  plugins: [
+    i18nPlugin({
+      backend: {
+        enabled: true,
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
+    }),
+  ],
+});
+```
+
+**Resource File Format**:
+
+```json
+{
+  "key1": "value1",
+  "key2": "value2",
+  "nested": {
+    "key": "value"
+  }
+}
+```
+
+### Path Variables
+
+`loadPath` supports the following variables:
+
+- `{{lng}}`: Language code (e.g., `en`, `zh`)
+- `{{ns}}`: Namespace (e.g., `translation`, `common`)
+
+**Examples**:
+
+```ts
+// Default path format
+loadPath: '/locales/{{lng}}/{{ns}}.json';
+// Actual loading paths:
+// /locales/en/translation.json
+// /locales/zh/translation.json
+
+// Custom path format
+loadPath: '/i18n/{{lng}}/{{ns}}.json';
+// Actual loading paths:
+// /i18n/en/translation.json
+// /i18n/zh/translation.json
+```
+
+## File System Backend (FS Backend)
+
+File System backend reads resource files directly from the file system, suitable for server-side rendering (SSR) scenarios.
+
+### Configuration
+
+In SSR scenarios, the plugin will automatically use the file system backend. Resource files need to be placed in the project directory:
+
+```
+Project Root/
+└── locales/
+    ├── en/
+    │   └── translation.json
+    └── zh/
+        └── translation.json
+```
+
+### Resource File Path
+
+The default path format for file system backend is a relative path:
+
+```
+./locales/{{lng}}/{{ns}}.json
+```
+
+You can customize the path through `loadPath`:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Use absolute path (recommended)
+  },
+});
+```
+
+:::warning
+The `loadPath` configuration is used for both HTTP backend (frontend) and file system backend (server-side). If configured as an absolute path starting with `/` (e.g., `/locales/{{lng}}/{{ns}}.json`), the file system backend will automatically convert it to a relative path (`./locales/{{lng}}/{{ns}}.json`). Therefore, it's recommended to use absolute paths in the configuration, which can meet both frontend and backend requirements.
+:::
+
+## SDK Backend
+
+SDK backend allows loading resources through custom functions, suitable for scenarios where translation resources need to be loaded from external services, databases, or other custom sources.
+
+### Enable SDK Mode
+
+**Step 1: Enable SDK mode in `modern.config.ts`**
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    sdk: true, // Enable SDK mode
+  },
+});
+```
+
+**Step 2: Implement SDK function in `modern.runtime.ts`**
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { I18nSdkLoader, Resources } from '@modern-js/plugin-i18n/runtime';
+
+const mySdkLoader: I18nSdkLoader = async options => {
+  // Implement resource loading logic
+  if (options.all) {
+    // Load all resources
+    return await loadAllResources();
+  }
+
+  if (options.lng && options.ns) {
+    // Load single resource
+    return await loadSingleResource(options.lng, options.ns);
+  }
+
+  return {};
+};
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: mySdkLoader,
+      },
+    },
+  },
+});
+```
+
+### Implement SDK Loader Function
+
+The SDK function receives an `I18nSdkLoadOptions` parameter and needs to return data in `Resources` format:
+
+```ts
+interface I18nSdkLoadOptions {
+  /** Single language code */
+  lng?: string;
+  /** Single namespace */
+  ns?: string;
+  /** Multiple language codes */
+  lngs?: string[];
+  /** Multiple namespaces */
+  nss?: string[];
+  /** Load all resources */
+  all?: boolean;
+}
+
+type Resources = {
+  [lng: string]: {
+    [ns: string]: Record<string, string>;
+  };
+};
+```
+
+### Batch Loading Examples
+
+SDK backend supports multiple loading modes:
+
+**1. Load single resource**:
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lng && options.ns) {
+    const response = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    const data = await response.json();
+    return {
+      [options.lng]: {
+        [options.ns]: data,
+      },
+    };
+  }
+  return {};
+};
+```
+
+**2. Batch load multiple languages**:
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lngs && options.ns) {
+    const resources: Resources = {};
+    for (const lng of options.lngs) {
+      const response = await fetch(`/api/i18n/${lng}/${options.ns}`);
+      resources[lng] = {
+        [options.ns]: await response.json(),
+      };
+    }
+    return resources;
+  }
+  return {};
+};
+```
+
+**3. Batch load multiple namespaces**:
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.lng && options.nss) {
+    const resources: Resources = {
+      [options.lng]: {},
+    };
+    for (const ns of options.nss) {
+      const response = await fetch(`/api/i18n/${options.lng}/${ns}`);
+      resources[options.lng][ns] = await response.json();
+    }
+    return resources;
+  }
+  return {};
+};
+```
+
+**4. Load all resources**:
+
+```ts
+const sdkLoader: I18nSdkLoader = async options => {
+  if (options.all) {
+    const response = await fetch('/api/i18n/all');
+    return await response.json();
+  }
+  return {};
+};
+```
+

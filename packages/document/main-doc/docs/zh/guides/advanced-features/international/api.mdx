@@ -1,0 +1,257 @@
+---
+title: API 参考
+---
+
+# API 参考
+
+## useModernI18n Hook
+
+`useModernI18n` 是插件提供的 React Hook，用于在组件中访问国际化功能。
+
+### 返回值说明
+
+```ts
+interface UseModernI18nReturn {
+  /** 当前语言代码 */
+  language: string;
+
+  /** 切换语言的函数 */
+  changeLanguage: (newLang: string) => Promise<void>;
+
+  /** i18next 实例（用于高级用法） */
+  i18nInstance: I18nInstance;
+
+  /** 支持的语言列表 */
+  supportedLanguages: string[];
+
+  /** 检查语言是否支持 */
+  isLanguageSupported: (lang: string) => boolean;
+}
+```
+
+### 使用示例
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function LanguageSwitcher() {
+  const {
+    language,
+    changeLanguage,
+    supportedLanguages,
+    isLanguageSupported,
+  } = useModernI18n();
+
+  return (
+    <div>
+      <p>当前语言: {language}</p>
+      <div>
+        {supportedLanguages.map(lang => (
+          <button
+            key={lang}
+            onClick={() => changeLanguage(lang)}
+            disabled={lang === language}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
+      <button
+        onClick={() => {
+          if (isLanguageSupported('ja')) {
+            changeLanguage('ja');
+          }
+        }}
+      >
+        切换到日语
+      </button>
+    </div>
+  );
+}
+```
+
+### changeLanguage 方法
+
+`changeLanguage` 方法用于切换语言，它会：
+
+1. 更新 i18next 实例的语言
+2. 更新浏览器缓存（Cookie/LocalStorage）
+3. 更新 URL 路径（如果启用 `localePathRedirect`）
+
+```tsx
+const { changeLanguage } = useModernI18n();
+
+// 切换语言
+await changeLanguage('zh');
+```
+
+:::info
+`changeLanguage` 是异步函数，返回 Promise。
+:::
+
+### 语言支持检查
+
+`isLanguageSupported` 用于检查某个语言是否在支持的语言列表中：
+
+```tsx
+const { isLanguageSupported, changeLanguage } = useModernI18n();
+
+function handleLanguageChange(lang: string) {
+  if (isLanguageSupported(lang)) {
+    changeLanguage(lang);
+  } else {
+    console.warn(`语言 ${lang} 不受支持`);
+  }
+}
+```
+
+## I18nLink 组件
+
+`I18nLink` 组件用于创建带语言前缀的链接。
+
+### Props 说明
+
+```tsx
+interface I18nLinkProps {
+  /** 目标路径（不需要包含语言前缀） */
+  to: string;
+  /** 子元素 */
+  children: React.ReactNode;
+  /** 其他 Link 组件的 props（如 replace、state 等） */
+  [key: string]: any;
+}
+```
+
+### 使用示例
+
+```tsx
+import { I18nLink } from '@modern-js/plugin-i18n/runtime';
+
+function Navigation() {
+  return (
+    <nav>
+      <I18nLink to="/">首页</I18nLink>
+      <I18nLink to="/about">关于</I18nLink>
+      <I18nLink to="/contact" replace>
+        联系
+      </I18nLink>
+    </nav>
+  );
+}
+```
+
+## 与 react-i18next 集成
+
+插件完全兼容 `react-i18next`，可以使用 `useTranslation` Hook 和其他 `react-i18next` 功能。
+
+### useTranslation Hook
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <p>{t('description', { name: 'Modern.js' })}</p>
+    </div>
+  );
+}
+```
+
+### i18next 实例访问
+
+可以通过 `useModernI18n` 获取 i18next 实例：
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { i18nInstance } = useModernI18n();
+  const { t } = useTranslation();
+
+  // 直接访问 i18next 实例
+  console.log(i18nInstance.language);
+  console.log(i18nInstance.options);
+
+  return <div>{t('hello')}</div>;
+}
+```
+
+## 类型定义
+
+### I18nInstance 接口
+
+```ts
+interface I18nInstance {
+  language: string;
+  isInitialized: boolean;
+  init: (options?: I18nInitOptions) => void | Promise<void>;
+  changeLanguage: (lang: string) => void | Promise<void>;
+  use: (plugin: any) => void;
+  createInstance: (options?: I18nInitOptions) => I18nInstance;
+  cloneInstance?: () => I18nInstance;
+  services?: {
+    languageDetector?: {
+      detect: (request?: any, options?: any) => string | string[] | undefined;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
+  options?: {
+    backend?: BackendOptions;
+    [key: string]: any;
+  };
+}
+```
+
+### I18nInitOptions 接口
+
+```ts
+interface I18nInitOptions {
+  lng?: string;
+  fallbackLng?: string;
+  supportedLngs?: string[];
+  initImmediate?: boolean;
+  detection?: LanguageDetectorOptions;
+  backend?: BackendOptions;
+  resources?: Resources;
+  ns?: string | string[];
+  defaultNS?: string | string[];
+  react?: {
+    useSuspense?: boolean;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+```
+
+### LanguageDetectorOptions 接口
+
+```ts
+interface LanguageDetectorOptions {
+  order?: string[];
+  lookupQuerystring?: string;
+  lookupCookie?: string;
+  lookupSession?: string;
+  lookupFromPathIndex?: number;
+  caches?: boolean | string[];
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+  lookupHeader?: string;
+}
+```
+
+### Resources 类型
+
+```ts
+type Resources = {
+  [lng: string]: {
+    [ns: string]: string | Record<string, string>;
+  };
+};
+```
+

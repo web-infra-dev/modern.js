@@ -23,5 +23,11 @@
     "label": "server-monitor",
     "collapsed": true
   },
+  {
+    "type": "dir",
+    "name": "international",
+    "label": "国际化",
+    "collapsed": true
+  },
   "web-server"
 ]
