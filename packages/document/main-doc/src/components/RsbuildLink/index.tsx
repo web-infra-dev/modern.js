@@ -1,5 +1,5 @@
+import { useLang } from '@rspress/core/runtime';
 import React from 'react';
-import { useLang } from 'rspress/runtime';
 
 const RsbuildLink = ({ configName }: { configName: string }) => {
   const lang = useLang();

@@ -1,6 +1,6 @@
+import { Head, useLocation } from '@rspress/core/runtime';
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { Head, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';

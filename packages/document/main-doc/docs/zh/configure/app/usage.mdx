@@ -191,7 +191,7 @@ export default defineConfig({
 - `modern.config.local.ts` 文件的优先级不仅高于 `modern.config.ts`，也高于 `package.json` 中的 `modernConfig` 字段。
 - 由于 `modern.config.local.ts` 仅在本地调试时使用，因此不建议将其提交到代码仓库中，请确保项目的 `.gitignore` 文件中包含 `modern.config.local.ts` 等文件。
 
-```bash title=".gitingore"
+```bash title=".gitignore"
 modern.config.local.*
 ```
 

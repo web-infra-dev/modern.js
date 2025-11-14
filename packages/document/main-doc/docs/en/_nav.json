@@ -25,6 +25,10 @@
     "activeMatch": "/tutorials/"
   },
   {
+    "text": "Modern.js 2.x Docs",
+    "link": "https://modernjs.dev/guides/get-started/introduction.html"
+  },
+  {
     "text": "community",
     "link": "/community/showcase",
     "activeMatch": "/community/"
