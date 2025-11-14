@@ -1,2 +1,5 @@
 export type { SSRServerContext } from './core/types';
-export { InternalRuntimeContext } from './core/context/runtime';
+export {
+  InternalRuntimeContext,
+  type TInternalRuntimeContext,
+} from './core/context/runtime';
