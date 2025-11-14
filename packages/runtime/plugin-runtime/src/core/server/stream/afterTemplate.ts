@@ -2,7 +2,7 @@ import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { type RenderLevel, SSR_DATA_JSON_ID } from '../../constants';
-import type { RuntimeContext } from '../../context';
+import type { TInternalRuntimeContext } from '../../context';
 import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import type { HandleRequestConfig } from '../requestHandler';
@@ -10,7 +10,7 @@ import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
 import { attributesToString, safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
-  runtimeContext: RuntimeContext;
+  runtimeContext: TInternalRuntimeContext;
   renderLevel: RenderLevel;
   ssrConfig: SSRConfig;
   request: Request;
@@ -39,14 +39,15 @@ export function buildShellAfterTemplate(
 
   async function injectJs(template: string, entryName: string, nonce?: string) {
     const { routeManifest } = runtimeContext;
+    if (!routeManifest) return template;
     const { routeAssets } = routeManifest;
     if (!routeAssets) return template;
     const asyncEntry = routeAssets[`async-${entryName}`];
     if (asyncEntry) {
       const { assets } = asyncEntry;
       const jsChunkStr = assets
-        ?.filter(asset => asset.endsWith('.js'))
-        ?.map(asset => {
+        ?.filter((asset: string) => asset.endsWith('.js'))
+        ?.map((asset: string) => {
           return `<script src=${asset} nonce="${nonce}"></script>`;
         })
         .join(' ');
@@ -62,7 +63,7 @@ export function buildShellAfterTemplate(
 
 function createReplaceSSRData(options: {
   request: Request;
-  runtimeContext: RuntimeContext;
+  runtimeContext: TInternalRuntimeContext;
   ssrConfig: SSRConfig;
   nonce?: string;
   useJsonScript?: boolean;
@@ -87,7 +88,7 @@ function createReplaceSSRData(options: {
   const ssrData: SSRContainer = {
     data: {
       initialData: runtimeContext.initialData,
-      i18nData: runtimeContext.__i18nData__,
+      i18nData: runtimeContext.__i18nData__ as Record<string, unknown>,
     },
     context: {
       reporter: {

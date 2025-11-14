@@ -69,6 +69,7 @@ export interface BaseResponseLike {
 }
 
 export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
+  baseUrl: string;
   request: {
     params: Record<string, string>;
     pathname: string;
@@ -80,10 +81,8 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
     userAgent?: string;
     cookie?: string;
     cookieMap?: Record<string, string>;
-    [propsName: string]: any;
   };
   response: BaseResponseLike;
-  redirection: { url?: string; status?: number };
   loadableStats: Record<string, any>;
   routeManifest?: Record<string, any>;
   template: string;
@@ -93,26 +92,9 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   serverTiming: ServerTiming;
   reporter?: Reporter;
   metrics?: Metrics;
-
-  // TODO: remove it
-  /** @deprecated */
-  cacheConfig?: any;
-
-  enableUnsafeCtx?: boolean;
-
   nonce?: string;
-
-  /** @deprecated source req */
-  req?: T extends 'worker' ? Request : ModernServerContext['req'];
-
-  /** @deprecated source res */
-  res?: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
-
   /** SSR type  */
   mode?: SSRMode;
-
-  /** Check if it's spider request */
-  isSpider?: boolean;
 };
 
 export interface ServerInitHookContext {

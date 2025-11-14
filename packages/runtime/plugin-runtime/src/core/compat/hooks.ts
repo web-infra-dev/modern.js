@@ -1,5 +1,4 @@
-import type { RuntimeContext } from '../context';
-import type { RuntimeConfig } from '../plugin/types';
+import type { TInternalRuntimeContext, TRuntimeContext } from '../context';
 
 export function transformHookRunner(hookRunnerName: string) {
   switch (hookRunnerName) {
@@ -37,7 +36,7 @@ export function handleSetupResult(
 }
 
 export function getHookRunners(
-  runtimeContext: RuntimeContext,
+  runtimeContext: TInternalRuntimeContext,
 ): Record<string, any> {
   const { _internalContext } = runtimeContext;
   const { hooks } = _internalContext;
@@ -48,7 +47,7 @@ export function getHookRunners(
     wrapRoot: (App: React.ComponentType) => {
       return hooks.wrapRoot.call(App);
     },
-    pickContext: (context: RuntimeContext) => {
+    pickContext: (context: TRuntimeContext) => {
       return hooks.pickContext.call(context);
     },
     config: () => {

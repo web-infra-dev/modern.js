@@ -1,4 +1,4 @@
-import { type Plugin, RuntimeReactContext } from '@modern-js/runtime';
+import { RuntimeContext, type RuntimePlugin } from '@modern-js/runtime';
 import { createContext, useContext } from 'react';
 
 interface ContextValue {
@@ -11,7 +11,7 @@ function getValue() {
     setTimeout(() => resolve('custom plugin'), 1000);
   });
 }
-export const contextPlugin = (): Plugin => {
+export const contextPlugin = (): RuntimePlugin => {
   return {
     name: 'app-custom-plugin',
     setup: _api => {
@@ -23,7 +23,7 @@ export const contextPlugin = (): Plugin => {
         wrapRoot: App => {
           const getContextApp = () => {
             return () => {
-              const context = useContext(RuntimeReactContext);
+              const context = useContext(RuntimeContext);
               return (
                 <Context.Provider value={context.custom}>
                   <App />

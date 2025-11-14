@@ -159,7 +159,7 @@ await hooks.onBeforeRender.call(myContext);
 您可以组合使用多个钩子来实现更复杂的功能。例如，您可以使用 `onBeforeRender` 获取数据，然后使用 `wrapRoot` 将数据通过 Context 传递给整个应用：
 
 ```ts
-import { RuntimePlugin, RuntimeReactContext } from '@modern-js/runtime';
+import { RuntimePlugin, RuntimeContext } from '@modern-js/runtime';
 import { useContext, createContext } from 'react';
 
 export const ThemeContext = createContext<{ theme: string } | null>(null);
@@ -179,7 +179,7 @@ export const themePlugin = (): RuntimePlugin => {
 
       api.wrapRoot(App => {
         return props => {
-          const context = useContext(RuntimeReactContext);
+          const context = useContext(RuntimeContext);
           return (
             <ThemeContext.Provider value={context.data}>
               <App {...props} />

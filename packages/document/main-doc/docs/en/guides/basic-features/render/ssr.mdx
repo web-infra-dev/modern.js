@@ -291,7 +291,7 @@ Wrap elements that should not be server-side rendered with the `NoSSR` component
 
 After modifying the code, refresh the page and notice that the previous warning has disappeared. Open the browser's developer tools and check the Network tab. The returned HTML document will not contain the content wrapped by the `NoSSR` component.
 
-In practical scenarios, some UI displays might be affected by the user's device, such as [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) information. Modern.js also provides APIs like [`useRuntimeContext`](/apis/app/runtime/core/use-runtime-context), allowing components to access complete request information and maintaining SSR and CSR rendering consistency.
+In practical scenarios, some UI displays might be affected by the user's device, such as [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) information. Modern.js also provides APIs like [`use(RuntimeContext)`](/apis/app/runtime/core/use-runtime-context), allowing components to access complete request information and maintaining SSR and CSR rendering consistency.
 
 ### Attention to Memory Leaks
 

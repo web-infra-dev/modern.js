@@ -30,6 +30,11 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/esm/index.js"
     },
+    "./internal": {
+      "types": "./dist/types/internal.d.ts",
+      "jsnext:source": "./src/internal.ts",
+      "default": "./dist/esm/internal.js"
+    },
     "./package.json": "./package.json",
     "./types": "./types/index.d.ts",
     "./types/index": "./types/index.d.ts",
@@ -143,6 +148,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "internal": [
+        "./dist/types/internal.d.ts"
       ],
       "types": [
         "./types/index.d.ts"

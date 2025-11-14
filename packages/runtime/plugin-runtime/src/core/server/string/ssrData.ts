@@ -3,14 +3,14 @@ import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
-import type { RuntimeContext } from '../../context';
+import type { TRuntimeContext } from '../../context';
 import type { SSRContainer, SSRServerContext } from '../../types';
 import type { SSRConfig } from '../shared';
 import { attributesToString, serializeErrors } from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
-  runtimeContext: RuntimeContext;
+  runtimeContext: TRuntimeContext;
   request: Request;
   chunkSet: ChunkSet;
   ssrContext: SSRServerContext;
@@ -64,7 +64,7 @@ export class SSRDataCollector implements Collector {
     return {
       data: {
         initialData: runtimeContext.initialData,
-        i18nData: runtimeContext.__i18nData__,
+        i18nData: runtimeContext.__i18nData__ as Record<string, unknown>,
       },
       context: {
         request: {

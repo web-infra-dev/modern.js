@@ -1,18 +1,20 @@
+import type { BaseSSRServerContext } from '@modern-js/types';
 // this plugin is use to provide request context to runtime context
-import type { RuntimeContext } from '../context';
+import type { TRuntimeContext } from '../context';
 import type { RuntimePlugin } from '../plugin/types';
-import type { TSSRContext } from '../types';
 
-export const makeRequestContext = (context: RuntimeContext) => {
+export const makeRequestContext = (context: TRuntimeContext) => {
   const baseSSRContext = context.ssrContext;
   const requestContext = baseSSRContext
     ? {
         isBrowser: context.isBrowser,
-        request: baseSSRContext.request || ({} as TSSRContext['request']),
-        response: baseSSRContext.response || ({} as TSSRContext['response']),
-        logger: baseSSRContext.logger || ({} as TSSRContext['logger']),
+        request:
+          baseSSRContext.request || ({} as BaseSSRServerContext['request']),
+        response:
+          baseSSRContext.response || ({} as BaseSSRServerContext['response']),
+        logger: baseSSRContext.logger || ({} as BaseSSRServerContext['logger']),
       }
-    : ({} as TSSRContext);
+    : {};
 
   return requestContext;
 };

@@ -36,7 +36,7 @@ describe('test status code page', () => {
     await page.goto(`http://localhost:${port}`);
     const runtimeEl = await page.$('#runtimeSign');
     const runtimeText = await page.evaluate(el => el?.textContent, runtimeEl);
-    expect(runtimeText).toBe('monitors exist in useRuntimeContext: 1');
+    expect(runtimeText).toBe('monitors exist in RuntimeContext: 1');
 
     const indexEl = await page.$('#indexSign');
     const indexText = await page.evaluate(el => el?.textContent, indexEl);

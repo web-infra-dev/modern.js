@@ -15,10 +15,14 @@ import {
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
-import { type RuntimePlugin, RuntimeReactContext } from '../../core';
-import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
+import { RuntimeContext, type RuntimePlugin } from '../../core';
+import {
+  InternalRuntimeContext,
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+} from '../../core/context';
 import { getGlobalIsRscClient } from '../../core/context';
-import type { RuntimeContext } from '../../core/context/runtime';
+import type { TInternalRuntimeContext } from '../../core/context/runtime';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
@@ -215,12 +219,15 @@ function isSegmentPrefix(pathname: string, base: string) {
 function useRouterCreation(props: any, options: UseRouterCreationOptions) {
   const { api, createRoutes, supportHtml5History, selectBasePath, basename } =
     options;
-  const runtimeContext = useContext(RuntimeReactContext);
+  const runtimeContext = useContext(InternalRuntimeContext);
 
   const baseUrl = selectBasePath(location.pathname).replace(/^\/*/, '/');
   const _basename =
     baseUrl === '/'
-      ? urlJoin(baseUrl, runtimeContext._internalRouterBaseName || basename)
+      ? urlJoin(
+          baseUrl,
+          runtimeContext._internalRouterBaseName || basename || '',
+        )
       : baseUrl;
 
   const { unstable_getBlockNavState: getBlockNavState } = runtimeContext;

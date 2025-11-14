@@ -19,7 +19,6 @@ const Page = () => {
       <Suspense fallback={<div id="loading">loading user data ...</div>}>
         <Await resolve={data.data}>
           {(user: User) => {
-            console.log('render user');
             return (
               <div id="data">
                 {user.name}-{user.age}

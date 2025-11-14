@@ -6,7 +6,7 @@ import type {
   ServerManifest as RscServerManifest,
 } from '@modern-js/types/server';
 import type React from 'react';
-import type { RuntimeContext } from '../../context';
+import type { TRuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestConfig } from '../requestHandler';
 import type { RenderStreaming, SSRConfig } from '../shared';
@@ -14,7 +14,7 @@ import { SSRErrors, SSRTimings } from '../tracer';
 import { getSSRConfigByEntry } from '../utils';
 
 export type CreateReadableStreamFromElementOptions = {
-  runtimeContext: RuntimeContext;
+  runtimeContext: TRuntimeContext;
   config: HandleRequestConfig;
   ssrConfig: SSRConfig;
   htmlTemplate: string;
