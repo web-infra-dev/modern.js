@@ -97,7 +97,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@rsbuild/core": "1.6.5",
+    "@rsbuild/core": "1.6.6",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
