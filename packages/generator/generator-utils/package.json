@@ -41,7 +41,7 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "glob": "7.2.3",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "json5": "2.2.3"
   },
   "devDependencies": {
