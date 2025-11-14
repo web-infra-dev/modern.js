@@ -1,16 +1,6 @@
 [
   {
     "type": "dir",
-    "name": "foundations",
-    "label": "foundations"
-  },
-  {
-    "type": "dir",
-    "name": "first-app",
-    "label": "first-app"
-  },
-  {
-    "type": "dir",
     "name": "examples",
     "label": "examples"
   }
