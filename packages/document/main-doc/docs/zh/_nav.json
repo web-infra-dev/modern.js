@@ -1,31 +1,35 @@
 [
   {
-    "text": "guide",
+    "text": "指南",
     "link": "/guides/get-started/introduction",
     "activeMatch": "/guides/"
   },
   {
-    "text": "configure",
+    "text": "配置",
     "link": "/configure/app/usage",
     "activeMatch": "/configure/"
   },
   {
-    "text": "plugin-menu",
+    "text": "插件",
     "link": "/plugin/introduction",
     "activeMatch": "/plugin/"
   },
   {
-    "text": "apis",
+    "text": "API",
     "link": "/apis/app/commands",
     "activeMatch": "/apis/"
   },
   {
-    "text": "tutorials",
+    "text": "示例",
     "link": "/tutorials/foundations/introduction",
     "activeMatch": "/tutorials/"
   },
   {
-    "text": "community",
+    "text": "Modern.js 2.x 文档",
+    "link": "https://modernjs.dev/zh/guides/get-started/introduction.html"
+  },
+  {
+    "text": "社区",
     "link": "/community/showcase",
     "activeMatch": "/community/"
   }

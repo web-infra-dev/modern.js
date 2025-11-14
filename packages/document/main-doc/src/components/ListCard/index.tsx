@@ -1,5 +1,5 @@
+import { withBase } from '@rspress/core/runtime';
 import type React from 'react';
-import { withBase } from 'rspress/runtime';
 import styles from './index.module.css';
 
 export interface ICardProps {

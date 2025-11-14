@@ -92,6 +92,9 @@ export default defineConfig({
     },
   ],
   builderConfig: {
+    performance: {
+      buildCache: false,
+    },
     tools: {
       // FIXME: use `?raw` after upgrading to Rsbuild@1.4.0, https://github.com/web-infra-dev/rsbuild/pull/5355
       rspack(_config, { addRules }) {
