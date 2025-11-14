@@ -1,7 +1,7 @@
 import cookieTool from 'cookie';
 import type React from 'react';
 import { getGlobalInternalRuntimeContext } from '../context';
-import { type RuntimeContext, getInitialContext } from '../context/runtime';
+import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
@@ -69,8 +69,8 @@ export async function render(
   App: React.ReactElement<{ basename: string }>,
   id?: HTMLElement | string,
 ) {
-  const context: RuntimeContext = getInitialContext();
-  const runBeforeRender = async (context: RuntimeContext) => {
+  const context: TRuntimeContext = getInitialContext();
+  const runBeforeRender = async (context: TRuntimeContext) => {
     const internalRuntimeContext = getGlobalInternalRuntimeContext();
     const api = internalRuntimeContext!.pluginAPI;
     api!.updateRuntimeContext(context);

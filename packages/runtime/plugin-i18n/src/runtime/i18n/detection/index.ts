@@ -1,4 +1,4 @@
-import { type RuntimeContext, isBrowser } from '@modern-js/runtime';
+import { type TRuntimeContext, isBrowser } from '@modern-js/runtime';
 import { detectLanguageFromPath } from '../../utils';
 import type {
   I18nInitOptions,
@@ -8,7 +8,7 @@ import type {
 import { mergeDetectionOptions as mergeDetectionOptionsUtil } from './config';
 import { detectLanguage } from './middleware';
 
-export function exportServerLngToWindow(context: RuntimeContext, lng: string) {
+export function exportServerLngToWindow(context: TRuntimeContext, lng: string) {
   context.__i18nData__ = { lng };
 }
 

@@ -125,9 +125,10 @@ const loader = async ({ context }: LoaderFunctionArgs) => {
 When invoking Monitors in components, you need to determine whether the current runtime environment is Node.js:
 
 ```tsx title="routes/page.tsx"
-import { getMonitors } from '@modern-js/runtime';
+import { use } from 'react';
+import { RuntimeContext, getMonitors } from '@modern-js/runtime';
 const Page = () => {
-  const { context } = useRuntimeContext();
+  const context = use(RuntimeContext);
   if (process.env.MODERN_TARGET === 'node') {
     const monitors = getMonitors();
     monitors.info();

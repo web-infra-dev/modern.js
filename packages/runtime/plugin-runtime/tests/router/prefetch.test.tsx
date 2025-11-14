@@ -8,7 +8,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import React, { act } from 'react';
-import { RuntimeReactContext } from '../../src';
+import { RuntimeContext } from '../../src';
 import { Link } from '../../src/router';
 
 declare global {
@@ -36,7 +36,7 @@ jest.mock('react', () => {
   return {
     ...originalModule,
     useContext: (context: unknown) => {
-      if (context === RuntimeReactContext) {
+      if (context === RuntimeContext) {
         return {
           routes: mockRoutes,
           routeManifest: mockRouteManifest,
@@ -118,7 +118,7 @@ describe('prefetch', () => {
       return {
         ...originalModule,
         useContext: (context: unknown) => {
-          if (context === RuntimeReactContext) {
+          if (context === RuntimeContext) {
             return {
               routes: mockRoutes,
               routeManifest: mockRouteManifest,

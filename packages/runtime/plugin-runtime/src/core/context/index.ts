@@ -5,8 +5,10 @@ import type { RuntimeExtends } from '../plugin/types';
 import type { ServerPayload } from './serverPayload/index';
 
 export {
-  type RuntimeContext,
-  RuntimeReactContext,
+  type TRuntimeContext,
+  type TInternalRuntimeContext,
+  RuntimeContext,
+  InternalRuntimeContext,
   getInitialContext,
 } from './runtime';
 

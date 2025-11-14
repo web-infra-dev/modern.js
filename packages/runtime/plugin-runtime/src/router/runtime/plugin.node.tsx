@@ -17,9 +17,9 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
-import { RuntimeReactContext } from '../../core';
 import type { RuntimePlugin } from '../../core';
 import {
+  InternalRuntimeContext,
   type ServerPayload,
   getGlobalEnableRsc,
   getGlobalLayoutApp,
@@ -96,10 +96,11 @@ export const routerPlugin = (
           mode: ssrMode,
           nonce,
           loaderFailureMode = 'errorBoundary',
+          baseUrl,
         } = context.ssrContext!;
-        const { baseUrl } = request;
         const _basename =
           baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+
         const { reporter } = context.ssrContext!;
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
@@ -218,12 +219,12 @@ export const routerPlugin = (
         const getRouteApp = () => {
           const enableRsc = getGlobalEnableRsc();
           return (props => {
-            const context = useContext(RuntimeReactContext);
+            const context = useContext(InternalRuntimeContext);
             const { routerContext, ssrContext, routes } = context;
             const { nonce, mode, useJsonScript } = ssrContext!;
             const { basename } = routerContext!;
 
-            const remixRouter = createStaticRouter(routes, routerContext!);
+            const remixRouter = createStaticRouter(routes!, routerContext!);
             if (!enableRsc) {
               const routerWrapper = (
                 <>

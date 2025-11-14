@@ -1,13 +1,17 @@
 import React from 'react';
-import { type RuntimeContext, RuntimeReactContext } from '../context';
+import {
+  InternalRuntimeContext,
+  RuntimeContext,
+  type TRuntimeContext,
+} from '../context';
 
 export function wrapRuntimeContextProvider(
   App: React.ReactElement,
-  contextValue: RuntimeContext,
+  contextValue: TRuntimeContext,
 ) {
   return React.createElement(
-    RuntimeReactContext.Provider,
+    InternalRuntimeContext.Provider,
     { value: contextValue },
-    App,
+    React.createElement(RuntimeContext.Provider, { value: contextValue }, App),
   );
 }

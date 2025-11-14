@@ -42,7 +42,7 @@ type BuildHtmlCb = (tempalte: string) => string;
 /* 在服务端获取的 SSRContext */
 export type SSRServerContext = Pick<
   BaseSSRServerContext,
-  | 'redirection'
+  | 'baseUrl'
   | 'response'
   | 'nonce'
   | 'mode'
@@ -53,7 +53,6 @@ export type SSRServerContext = Pick<
   | 'routeManifest'
 > & {
   request: BaseSSRServerContext['request'] & {
-    baseUrl: string;
     raw: Request;
   };
   htmlModifiers: BuildHtmlCb[];
@@ -62,22 +61,3 @@ export type SSRServerContext = Pick<
   onTiming: OnTiming;
   useJsonScript?: boolean;
 };
-
-/* 通过 useRuntimeContext 获取的 SSRContext */
-interface TSSRBaseContext {
-  request: BaseSSRServerContext['request'];
-  [propName: string]: any;
-}
-
-export interface ServerContext extends TSSRBaseContext {
-  isBrowser: false;
-  response: BaseSSRServerContext['response'];
-  logger: BaseSSRServerContext['logger'];
-}
-
-export interface ClientContext extends TSSRBaseContext {
-  isBrowser: true;
-}
-
-// TODO: rename it, maybe requestContext or renderContext
-export declare type TSSRContext = ServerContext | ClientContext;

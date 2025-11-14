@@ -35,7 +35,7 @@ export default defineRuntimeConfig({
 
 ## 应用场景 -- 全局数据注入
 
-通过 `onBeforeRender` 钩子的 `context` 参数，可以向应用注入全局数据。应用的组件可以通过 `useRuntimeContext` Hook 访问这些数据。
+通过 `onBeforeRender` 钩子的 `context` 参数，可以向应用注入全局数据。应用的组件可以通过 `use(RuntimeContext)` Hook 访问这些数据。
 
 :::info
 
@@ -68,10 +68,11 @@ export default dataInjectionPlugin;
 **在组件中使用注入的数据**
 
 ```tsx
-import { useRuntimeContext } from '@modern-js/runtime';
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export default function MyComponent() {
-  const context = useRuntimeContext();
+  const context = use(RuntimeContext);
   const { message } = context;
 
   return <div>{message}</div>;

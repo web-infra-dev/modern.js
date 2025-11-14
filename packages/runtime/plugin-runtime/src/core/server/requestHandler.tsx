@@ -13,7 +13,7 @@ import {
 import type React from 'react';
 import { Fragment } from 'react';
 import {
-  type RuntimeContext,
+  type TInternalRuntimeContext,
   getGlobalInternalRuntimeContext,
   getGlobalRSCRoot,
 } from '../context';
@@ -28,7 +28,7 @@ import { getSSRConfigByEntry, getSSRMode } from './utils';
 async function handleRSCRequest(
   request: Request,
   Root: React.ComponentType,
-  context: RuntimeContext,
+  context: TInternalRuntimeContext,
   options: RequestHandlerOptions,
   handleRequest: HandleRequest,
 ): Promise<Response> {
@@ -64,7 +64,7 @@ export type HandleRequestOptions = Exclude<
   RequestHandlerOptions,
   'staticGenerate'
 > & {
-  runtimeContext: RuntimeContext;
+  runtimeContext: TInternalRuntimeContext;
 };
 
 export type HandleRequest = (
@@ -152,13 +152,12 @@ function createSSRContext(
     nonce,
     useJsonScript,
     loaderContext,
-    redirection: {},
     htmlModifiers: [],
+    baseUrl: route.urlPath,
     logger,
     metrics,
     request: {
       url: request.url.replace(url.host, host).replace(url.protocol, protocol),
-      baseUrl: route.urlPath,
       userAgent: headers.get('user-agent')!,
       cookie,
       cookieMap,
@@ -215,13 +214,13 @@ export const createRequestHandler: CreateRequestHandler = async (
 
         const { routeManifest } = options.resource;
 
-        const context: RuntimeContext = getInitialContext(
+        const context: TInternalRuntimeContext = getInitialContext(
           false,
           routeManifest as any,
         );
 
         const runBeforeRender = async (
-          context: RuntimeContext,
+          context: TInternalRuntimeContext,
         ): Promise<Response | undefined> => {
           // when router is redirect, beforeRender will return a response
           const result = await hooks.onBeforeRender.call(context);

@@ -35,7 +35,7 @@ export default defineRuntimeConfig({
 
 ## Use Case -- Global Data Injection
 
-Through the `context` parameter of the `onBeforeRender` hook, you can inject global data into your application. Application components can access this data using the `useRuntimeContext` Hook.
+Through the `context` parameter of the `onBeforeRender` hook, you can inject global data into your application. Application components can access this data using the `use(RuntimeContext)` Hook.
 
 :::info
 
@@ -68,10 +68,11 @@ export default dataInjectionPlugin;
 **Using Injected Data in Components**
 
 ```tsx
-import { useRuntimeContext } from '@modern-js/runtime';
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export default function MyComponent() {
-  const context = useRuntimeContext();
+  const context = use(RuntimeContext);
   const { message } = context;
 
   return <div>{message}</div>;

@@ -1,6 +1,6 @@
 import {
-  type RuntimeContext,
   type RuntimePlugin,
+  type TRuntimeContext,
   isBrowser,
   useRuntimeContext,
 } from '@modern-js/runtime';
@@ -41,7 +41,7 @@ export interface I18nPluginOptions {
   initOptions?: I18nInitOptions;
 }
 
-const getPathname = (context: RuntimeContext) => {
+const getPathname = (context: TRuntimeContext) => {
   if (isBrowser()) {
     return window.location.pathname;
   }
@@ -156,7 +156,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         useEffect(() => {
           if (localePathRedirect) {
             const currentPathname = getPathname(
-              runtimeContext as RuntimeContext,
+              runtimeContext as TRuntimeContext,
             );
             const pathDetection = detectLanguageFromPath(
               currentPathname,

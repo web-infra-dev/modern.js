@@ -298,7 +298,7 @@ import { NoSSR } from '@modern-js/runtime/ssr';
 修改代码后，刷新页发现之前的 Waring 消失。打开浏览器开发者工具的 Network 窗口，查看返回的 HTML 文档是不包含 `NoSSR` 组件包裹的内容的。
 
 在实际场景中，有些应用的 UI 展示会和用户设备有关，例如 [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) 信息。Modern.js 也提供了
-[`useRuntimeContext`](/apis/app/runtime/core/use-runtime-context) 这类 API，可以在组件中获取完整的请求信息，利用它保证 SSR 与 CSR 的渲染结果一致。
+[`use(RuntimeContext)`](/apis/app/runtime/core/use-runtime-context) 这类 API，可以在组件中获取完整的请求信息，利用它保证 SSR 与 CSR 的渲染结果一致。
 
 ### 关注内存泄漏
 

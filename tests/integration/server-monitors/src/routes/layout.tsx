@@ -1,8 +1,9 @@
-import { getMonitors, useRuntimeContext } from '@modern-js/runtime';
+import { RuntimeContext, getMonitors } from '@modern-js/runtime';
 import { Outlet } from '@modern-js/runtime/router';
+import { use } from 'react';
 
 export default () => {
-  const { context } = useRuntimeContext();
+  const { context } = use(RuntimeContext);
   let exist = false;
 
   if (!context.isBrowser) {
@@ -16,7 +17,7 @@ export default () => {
   return (
     <div>
       <div id="runtimeSign">
-        monitors exist in useRuntimeContext: {exist ? 1 : 0}
+        monitors exist in RuntimeContext: {exist ? 1 : 0}
       </div>
       <Outlet />
     </div>
