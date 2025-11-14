@@ -55,7 +55,7 @@
     "gzip-size": "6.0.0",
     "import-lazy": "4.0.0",
     "inquirer": "8.2.7",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "json5": "2.2.3",
     "less": "4.4.2",
     "mime-types": "2.1.35",
