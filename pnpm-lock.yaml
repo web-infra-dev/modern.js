@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -5110,7 +5108,7 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@24.3.1)(typescript@5.6.3))
       twin.macro:
-        specifier: ^3.4.0
+        specifier: ^3.4.1
         version: 3.4.1(tailwindcss@3.3.3(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@24.3.1)(typescript@5.6.3)))
     devDependencies:
       babel-plugin-macros:
