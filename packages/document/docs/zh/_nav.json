@@ -25,12 +25,12 @@
     "activeMatch": "/tutorials/"
   },
   {
-    "text": "Modern.js 2.x 文档",
-    "link": "https://modernjs.dev/zh/guides/get-started/introduction.html"
-  },
-  {
     "text": "社区",
     "link": "/community/showcase",
     "activeMatch": "/community/"
+  },
+  {
+    "text": "Modern.js 2.x 文档",
+    "link": "https://modernjs.dev/zh/guides/get-started/introduction.html"
   }
 ]
