@@ -1150,8 +1150,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       i18next:
-        specifier: 25.6.1
-        version: 25.6.1(typescript@5.6.3)
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
@@ -1163,7 +1163,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
       ts-jest:
         specifier: ^29.4.5
         version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
@@ -3752,8 +3752,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       i18next:
-        specifier: 25.6.1
-        version: 25.6.1(typescript@5.6.3)
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3762,7 +3762,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -3777,8 +3777,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       i18next:
-        specifier: 25.6.1
-        version: 25.6.1(typescript@5.6.3)
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3787,7 +3787,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -3805,8 +3805,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       i18next:
-        specifier: 25.6.1
-        version: 25.6.1(typescript@5.6.3)
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3815,7 +3815,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -3830,8 +3830,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       i18next:
-        specifier: 25.6.1
-        version: 25.6.1(typescript@5.6.3)
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -3840,7 +3840,7 @@ importers:
         version: 19.2.0(react@19.2.0)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -12148,8 +12148,8 @@ packages:
   i18next-http-middleware@3.8.2:
     resolution: {integrity: sha512-Z0i85W9dlX4dbceQD3EX2vj/PChebMjDCSLxE7ZJZ5Fgm8LPQmBmB9iJeE7oX3LH7Zzdu/a/28LCHOVHqaeW0Q==}
 
-  i18next@25.6.1:
-    resolution: {integrity: sha512-yUWvdXtalZztmKrKw3yz/AvSP3yKyqIkVPx/wyvoYy9lkLmwzItLxp0iHZLG5hfVQ539Jor4XLO+U+NHIXg7pw==}
+  i18next@25.6.2:
+    resolution: {integrity: sha512-0GawNyVUw0yvJoOEBq1VHMAsqdM23XrHkMtl2gKEjviJQSLVXsrPqsoYAxBEugW5AB96I2pZkwRxyl8WZVoWdw==}
     peerDependencies:
       typescript: ^5
     peerDependenciesMeta:
@@ -24951,7 +24951,7 @@ snapshots:
 
   i18next-http-middleware@3.8.2: {}
 
-  i18next@25.6.1(typescript@5.6.3):
+  i18next@25.6.2(typescript@5.6.3):
     dependencies:
       '@babel/runtime': 7.28.4
     optionalDependencies:
@@ -28429,11 +28429,11 @@ snapshots:
       react-fast-compare: 3.2.0
       react-side-effect: 2.1.2(react@19.2.0)
 
-  react-i18next@15.7.4(i18next@25.6.1(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3):
+  react-i18next@15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3):
     dependencies:
       '@babel/runtime': 7.28.4
       html-parse-stringify: 3.0.1
-      i18next: 25.6.1(typescript@5.6.3)
+      i18next: 25.6.2(typescript@5.6.3)
       react: 19.2.0
     optionalDependencies:
       react-dom: 19.2.0(react@19.2.0)
