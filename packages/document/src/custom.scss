@@ -1,0 +1,15 @@
+:root {
+  --edenx-primary-color: #2f54eb;
+  --edenx-gradient-color-dark: var(--edenx-primary-color);
+  --edenx-gradient-color-light: #7cb2fa;
+
+  --edenx-home-hero-name-background: linear-gradient(
+    274.85deg,
+    var(--edenx-gradient-color-dark) 3%,
+    var(--edenx-gradient-color-light) 97.17%
+  );
+}
+
+.rspress-announcement div {
+  background: var(--edenx-home-hero-name-background) !important;
+}

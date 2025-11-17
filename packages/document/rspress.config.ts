@@ -1,8 +1,8 @@
 import path from 'path';
 import { pluginSass } from '@rsbuild/plugin-sass';
+import { defineConfig } from '@rspress/core';
 import { pluginLlms } from '@rspress/plugin-llms';
 import { transformerNotationHighlight } from '@shikijs/transformers';
-import { defineConfig } from 'rspress/config';
 
 const docPath = path.join(__dirname, 'docs');
 

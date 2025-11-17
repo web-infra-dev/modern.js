@@ -1,3 +1,4 @@
+import './custom.scss';
 import HomeLayout from './pages';
 
 export { HomeLayout };

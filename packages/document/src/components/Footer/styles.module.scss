@@ -1,8 +1,8 @@
 .footer {
-  margin-top: 6vh;
   display: flex;
   justify-content: center;
   padding: 10vh 0;
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .logo {
@@ -12,6 +12,7 @@
 
 .wrapper {
   width: 80vw;
+  padding: 0 16px;
   max-width: 1200px;
 }
 
@@ -23,9 +24,8 @@
 
 .linkTitle {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 12px;
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .linkWrapper {
@@ -35,10 +35,10 @@
 .link {
   line-height: 32px;
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.7;
 
   &:hover {
-    color: rgba(255, 255, 255, 1);
+    opacity: 1;
   }
 }
 

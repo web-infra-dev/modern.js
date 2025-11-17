@@ -10,13 +10,15 @@ import styles from './index.module.scss';
 
 const HomepageHeader = () => {
   const t = useI18n();
-
   return (
     <div className={styles.header}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
+        <div className={styles.mask} />
         <h1 className={styles.title}>
-          <div>Inspire Creativity in</div>
-          <div className={styles.titleGradient}>Modern Web Development</div>
+          <span className={clsx([styles.titleGradient, styles.mainTitle])}>
+            Modern.js
+          </span>
+          <div>{t('slogan')}</div>
         </h1>
         <div className={styles.buttons}>
           <a
@@ -24,12 +26,6 @@ const HomepageHeader = () => {
             className={styles.leftButton}
           >
             {t('introduction')}
-            <img
-              width="20"
-              height="20"
-              className={styles.startArrow}
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow.svg?url"
-            />
           </a>
           <a
             href={useUrl('/guides/get-started/quick-start')}
@@ -106,7 +102,6 @@ export default function Home() {
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
-          <SecondaryTitle>Features</SecondaryTitle>
           <div className={styles.cardContainer}>
             {features.map(card => (
               <ContentCard
