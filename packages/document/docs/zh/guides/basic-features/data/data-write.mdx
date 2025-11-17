@@ -14,7 +14,7 @@ sidebar_position: 4
 
 ## 什么是 Data Action
 
-Modern.js 推荐使用[约定式路由](/guides/basic-features/routes)做路由的管理，每个路由组件（`layout.ts`，`page.ts` 或 `$.tsx`）都可以有一个同名的 `.data` 文件。这些文件可以导出一个 `action` 函数，我们称为 Data Action，开发者可以在合适的时机调用它：
+Modern.js 推荐使用[约定式路由](/guides/basic-features/routes/routes)做路由的管理，每个路由组件（`layout.ts`，`page.ts` 或 `$.tsx`）都可以有一个同名的 `.data` 文件。这些文件可以导出一个 `action` 函数，我们称为 Data Action，开发者可以在合适的时机调用它：
 
 ```bash
 .
@@ -82,7 +82,7 @@ export default () => {
 
 ### params
 
-`params` 是当路由为[动态路由](/guides/basic-features/routes#动态路由)时动态路由片段，会作为参数传入 `action` 函数：
+`params` 是当路由为[动态路由](/guides/basic-features/routes/routes#动态路由)时动态路由片段，会作为参数传入 `action` 函数：
 
 ```tsx title="routes/user/[id]/page.data.ts"
 import { ActionFunctionArgs } from '@modern-js/runtime/router';

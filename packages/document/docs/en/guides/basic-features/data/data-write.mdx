@@ -13,7 +13,7 @@ In Modern.js, you can use Data Action to address these scenarios.
 
 ## What is Data Action
 
-Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export an `action` function, known as Data Action, which developers can call at an appropriate time:
+Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export an `action` function, known as Data Action, which developers can call at an appropriate time:
 
 ```bash
 .
@@ -81,7 +81,7 @@ Similar to the `loader` function, the `action` function takes two parameters: `p
 
 ### params
 
-`params` is the dynamic route segments when the route is a [dynamic route](/guides/basic-features/routes#dynamic-routes), which are passed as parameters to the `action` function:
+`params` is the dynamic route segments when the route is a [dynamic route](/guides/basic-features/routes/routes#dynamic-routes), which are passed as parameters to the `action` function:
 
 ```tsx title="routes/user/[id]/page.data.ts"
 import { ActionFunctionArgs } from '@modern-js/runtime/router;

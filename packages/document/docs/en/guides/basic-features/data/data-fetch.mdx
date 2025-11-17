@@ -12,7 +12,7 @@ Modern.js provides out-of-the-box data fetching capabilities. Developers can use
 In Modern.js v1 projects, data was fetched using `useLoader`. This is no longer the recommended approach; we suggest migrating to Data Loader.
 :::
 
-Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export a `loader` function, known as Data Loader, which executes before the corresponding route component renders to provide data for the component. Here is an example:
+Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export a `loader` function, known as Data Loader, which executes before the corresponding route component renders to provide data for the component. Here is an example:
 
 ```bash
 .
@@ -74,7 +74,7 @@ In an SSR environment, the `loader` function only executes on the server side fo
 In future versions, Modern.js may support running `loader` functions on the server side even in CSR environments to improve performance and security. Therefore, it is advisable to keep the `loader` function pure, handling only data fetching scenarios.
 :::
 
-When navigating on the client side, based on [conventional routing](/guides/basic-features/routes), Modern.js supports parallel execution (requests) of all `loader` functions. For example, when visiting `/user/profile`, the `loader` functions under `/user` and `/user/profile` will execute in parallel, solving the request-render waterfall issue and significantly improving page performance.
+When navigating on the client side, based on [conventional routing](/guides/basic-features/routes/routes), Modern.js supports parallel execution (requests) of all `loader` functions. For example, when visiting `/user/profile`, the `loader` functions under `/user` and `/user/profile` will execute in parallel, solving the request-render waterfall issue and significantly improving page performance.
 
 ## `loader` Function
 
@@ -82,7 +82,7 @@ The `loader` function has two parameters used for getting route parameters and r
 
 ### params
 
-`params` is the dynamic route segments when the route is a [dynamic route](/guides/basic-features/routes#dynamic-routes), which passed as parameters to the `loader` function:
+`params` is the dynamic route segments when the route is a [dynamic route](/guides/basic-features/routes/routes#dynamic-routes), which passed as parameters to the `loader` function:
 
 ```tsx title="routes/user/[id]/page.data.ts"
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
@@ -167,7 +167,7 @@ export async function loader() {
 
 ### Basic Usage
 
-In a `loader` function, you can handle errors by using `throw error` or `throw response`. When an error is thrown in the `loader` function, Modern.js will stop executing the remaining code in the current `loader` and switch the front-end UI to the defined [`ErrorBoundary`](/guides/basic-features/routes#error-handling) component:
+In a `loader` function, you can handle errors by using `throw error` or `throw response`. When an error is thrown in the `loader` function, Modern.js will stop executing the remaining code in the current `loader` and switch the front-end UI to the defined [`ErrorBoundary`](/guides/basic-features/routes/routes#error-handling) component:
 
 ```tsx
 // routes/user/profile/page.data.ts
