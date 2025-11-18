@@ -1,5 +1,21 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`builder rspack with cache > should disable cache by default 1`] = `
+{
+  "buildDependencies": [
+    "package.json",
+    "tsconfig.json",
+    "modern.config.ts",
+  ],
+  "storage": {
+    "directory": "node_modules/.cache/rspack",
+    "type": "filesystem",
+  },
+  "type": "persistent",
+  "version": "web-test",
+}
+`;
+
 exports[`builder rspack with cache > should generator rspack config correctly with cache 1`] = `
 {
   "buildDependencies": [

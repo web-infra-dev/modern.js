@@ -28,7 +28,7 @@ type BuildCacheConfig =
 
 控制 Modern.js 在构建过程中的缓存行为。
 
-在使用 webpack 构建时，Modern.js 默认会开启构建缓存来提升二次构建的速度。如果不希望缓存，你可以将 `buildCache` 置为 `false` 将其禁用掉：
+在构建时，Modern.js 默认会开启构建缓存来提升二次构建的速度。如果不希望缓存，你可以将 `buildCache` 置为 `false` 将其禁用掉：
 
 ```js
 export default {
@@ -37,8 +37,6 @@ export default {
   },
 };
 ```
-
-需要注意的是，Rspack 的持久化缓存处于[实验性阶段](https://rspack.rs/zh/config/experiments#experimentscache)，可能会在未来的版本中发生变化，该功能需要手动开启。
 
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
