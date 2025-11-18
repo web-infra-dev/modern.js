@@ -63,7 +63,7 @@ export default defineConfig({
     ],
     editLink: {
       docRepoBaseUrl:
-        'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/main-doc/docs',
+        'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/docs',
       text: 'Edit this page on GitHub',
     },
     socialLinks: [
