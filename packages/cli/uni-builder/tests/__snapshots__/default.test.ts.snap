@@ -2,6 +2,7 @@
 
 exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 {
+  "cache": true,
   "context": "",
   "devtool": "cheap-module-source-map",
   "entry": {
@@ -12,6 +13,18 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "cache": {
+      "buildDependencies": [
+        "package.json",
+        "tsconfig.json",
+      ],
+      "storage": {
+        "directory": "node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "web-development",
+    },
     "inlineConst": false,
     "inlineEnum": false,
     "rspackFuture": {
@@ -1443,6 +1456,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
 
 exports[`uni-builder rspack > should generator rspack config correctly when node 1`] = `
 {
+  "cache": true,
   "context": "",
   "devtool": "source-map",
   "entry": {
@@ -1452,6 +1466,18 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "cache": {
+      "buildDependencies": [
+        "package.json",
+        "tsconfig.json",
+      ],
+      "storage": {
+        "directory": "node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "node-production",
+    },
     "inlineConst": true,
     "inlineEnum": true,
     "rspackFuture": {
@@ -2421,6 +2447,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
 
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
 {
+  "cache": true,
   "context": "",
   "devtool": "hidden-source-map",
   "entry": {
@@ -2431,6 +2458,18 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "cache": {
+      "buildDependencies": [
+        "package.json",
+        "tsconfig.json",
+      ],
+      "storage": {
+        "directory": "node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "web-production",
+    },
     "inlineConst": true,
     "inlineEnum": true,
     "rspackFuture": {
@@ -3847,6 +3886,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
 
 exports[`uni-builder rspack > should generator rspack config correctly when service-worker 1`] = `
 {
+  "cache": true,
   "context": "",
   "devtool": "hidden-source-map",
   "entry": {
@@ -3856,6 +3896,18 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "cache": {
+      "buildDependencies": [
+        "package.json",
+        "tsconfig.json",
+      ],
+      "storage": {
+        "directory": "node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "workerSSR-production",
+    },
     "inlineConst": true,
     "inlineEnum": true,
     "rspackFuture": {

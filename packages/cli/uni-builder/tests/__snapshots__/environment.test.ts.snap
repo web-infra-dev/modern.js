@@ -3,6 +3,7 @@
 exports[`uni-builder environment compat > should generator environment config correctly 1`] = `
 [
   {
+    "cache": true,
     "context": "",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -13,6 +14,18 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "cache": {
+        "buildDependencies": [
+          "package.json",
+          "tsconfig.json",
+        ],
+        "storage": {
+          "directory": "node_modules/.cache/rspack",
+          "type": "filesystem",
+        },
+        "type": "persistent",
+        "version": "web-development",
+      },
       "inlineConst": false,
       "inlineEnum": false,
       "rspackFuture": {
@@ -1396,6 +1409,7 @@ exports[`uni-builder environment compat > should generator environment config co
     },
   },
   {
+    "cache": true,
     "context": "",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -1405,6 +1419,18 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "cache": {
+        "buildDependencies": [
+          "package.json",
+          "tsconfig.json",
+        ],
+        "storage": {
+          "directory": "node_modules/.cache/rspack",
+          "type": "filesystem",
+        },
+        "type": "persistent",
+        "version": "node-development",
+      },
       "inlineConst": false,
       "inlineEnum": false,
       "rspackFuture": {
@@ -2335,6 +2361,7 @@ exports[`uni-builder environment compat > should generator environment config co
     },
   },
   {
+    "cache": true,
     "context": "",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -2344,6 +2371,18 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "experiments": {
       "asyncWebAssembly": true,
+      "cache": {
+        "buildDependencies": [
+          "package.json",
+          "tsconfig.json",
+        ],
+        "storage": {
+          "directory": "node_modules/.cache/rspack",
+          "type": "filesystem",
+        },
+        "type": "persistent",
+        "version": "workerSSR-development",
+      },
       "inlineConst": false,
       "inlineEnum": false,
       "rspackFuture": {

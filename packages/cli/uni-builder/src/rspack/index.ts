@@ -24,7 +24,7 @@ export async function parseConfig(
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   uniBuilderConfig.performance ??= {};
-  uniBuilderConfig.performance.buildCache ??= false;
+  uniBuilderConfig.performance.buildCache ??= true;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
