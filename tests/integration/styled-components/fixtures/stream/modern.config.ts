@@ -10,5 +10,10 @@ export default applyBaseConfig({
       mode: 'stream',
     },
   },
-  plugins: [styledComponentsPlugin()],
+  plugins: [
+    styledComponentsPlugin({
+      minify: process.env.NODE_ENV === 'production',
+      namespace: 'my-styled-components',
+    }),
+  ],
 });

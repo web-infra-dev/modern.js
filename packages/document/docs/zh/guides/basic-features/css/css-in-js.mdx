@@ -2,31 +2,33 @@
 
 CSS-in-JS 是一种可以将 CSS 样式写在 JS 文件里的技术。
 
-Modern.js 支持社区常用的 CSS-in-JS 实现库 [styled-components](https://styled-components.com/)，它使用 JavaScript 的新特性 [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) 编写组件的 CSS 样式。可以直接从 `@modern-js/runtime/styled` 引入 [styled-components](https://styled-components.com/) 的 API 进行使用。
+Modern.js 支持社区常用的 CSS-in-JS 实现库 [styled-components](https://styled-components.com/)，它使用 JavaScript 的新特性 [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) 编写组件的 CSS 样式。
+
+Modern.js 插件 `@modern-js/plugin-styled-components` 提供了对 styled-components 的支持，并为 styled-components 添加了服务器端渲染能力。你可以通过安装 `@modern-js/plugin-styled-components` 插件来使用 styled-components。
 
 ## 在 Modern.js 中使用 styled-components
 
-首先，你需要安装 `styled-components` 依赖：
+首先，你需要安装 `styled-components` 插件依赖：
 
-```bash
-# npm
-npm add @rsbuild/plugin-styled-components -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @rsbuild/plugin-styled-components -D
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @modern-js/plugin-styled-components -D',
+    yarn: 'yarn add @modern-js/plugin-styled-components -D',
+    pnpm: 'pnpm install @modern-js/plugin-styled-components -D',
+  }}
+/>
 
-# pnpm
-pnpm add @rsbuild/plugin-styled-components -D
-```
 然后在 `modern.config.ts` 中配置 `styled-components` 插件：
 
 ```ts
 import { defineConfig } from '@modern-js/app-tools';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+import { styledComponentsPlugin } from '@modern-js/plugin-styled-components';
 
 export default defineConfig({
-  builderPlugins: [
-    pluginStyledComponents({
+  plugins: [
+    styledComponentsPlugin({
       // ...
       displayName: true,
       minify: process.env.NODE_ENV === 'production',
@@ -35,12 +37,14 @@ export default defineConfig({
 });
 ```
 
+styledComponentsPlugin 插件的配置项与 [@rsbuild/plugin-styled-components](https://www.npmjs.com/package/@rsbuild/plugin-styled-components) 插件的配置项相同，你可以参考 [@rsbuild/plugin-styled-components](https://www.npmjs.com/package/@rsbuild/plugin-styled-components) 插件的文档进行配置。
+
 ## 使用 styled-components 编写样式
 
 当需要编写一个内部字体为红色的 `div` 组件时，可以如下实现：
 
 ```js
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 
 const RedDiv = styled.div`
   color: red;
@@ -50,7 +54,7 @@ const RedDiv = styled.div`
 当需要根据组件的 `props` 动态设置组件样式时，例如 `props` 的属性 `primary` 为 `true` 时，按钮的颜色为白色，其他情况为红色，实现代码如下：
 
 ```js
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 
 const Button = styled.button`
   color: ${props => (props.primary ? 'white' : 'red')};
@@ -59,8 +63,6 @@ const Button = styled.button`
 ```
 
 关于 styled-components 的更多用法，请参考 [styled-components 官网](https://styled-components.com/)。
-
-Modern.js 内部集成了 Babel 的 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 插件，你可以通过 [tools.styledComponents](/configure/app/tools/styled-components) 对插件进行配置。
 
 :::tip 提示
 如果需要使用 [styled-jsx](https://www.npmjs.com/package/styled-jsx)、[Emotion](https://emotion.sh/) 等其他 CSS-in-JS 库，需要先安装对应库的依赖。具体使用方式请参考对应库的官网。

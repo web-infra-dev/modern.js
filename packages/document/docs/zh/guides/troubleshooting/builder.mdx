@@ -188,20 +188,6 @@ export default {
 };
 ```
 
-除了上述原因外，还有一种可能会导致 Babel 编译卡死，就是使用 Babel 编译了一个超过 1 万行的大型 JS 文件（通常是使用 `source.include` 编译了 node_modules 中的某个大文件）。
-
-当 Babel 编译大文件时，Modern.js 内置的 babel-plugin-styled-components 会卡死，社区中已有 [相关 issue](https://github.com/styled-components/babel-plugin-styled-components/issues/374)。
-
-未来 Modern.js 会考虑移除内置的 babel-plugin-styled-components。在当前版本里，你可以将 [tools.styledComponents](/configure/app/tools/styled-components.html) 设置为 `false` 来移除该插件。
-
-```ts title="modern.config.ts"
-export default {
-  tools: {
-    styledComponents: false,
-  },
-};
-```
-
 ---
 
 ### webpack 编译缓存未生效，应该如何排查？

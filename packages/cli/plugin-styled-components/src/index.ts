@@ -1,7 +1,12 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+import {
+  type PluginStyledComponentsOptions,
+  pluginStyledComponents,
+} from '@rsbuild/plugin-styled-components';
 
-export const styledComponentsPlugin = (): CliPlugin<AppTools> => ({
+export const styledComponentsPlugin = (
+  options?: PluginStyledComponentsOptions,
+): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-styled-components',
 
   setup(api) {
@@ -9,16 +14,11 @@ export const styledComponentsPlugin = (): CliPlugin<AppTools> => ({
       return {
         builderPlugins: [
           pluginStyledComponents({
-            displayName: true,
-            minify: process.env.NODE_ENV === 'production',
+            ...options,
+            // https://github.com/styled-components/babel-plugin-styled-components/issues/287
+            topLevelImportPaths: ['@modern-js/plugin-styled-components/styled'],
           }),
         ],
-        tools: {
-          // styledComponents: {
-          //   // https://github.com/styled-components/babel-plugin-styled-components/issues/287
-          //   topLevelImportPaths: ['@modern-js/plugin-styled-components/styled'],
-          // },
-        },
         resolve: {
           alias: {
             'styled-components': require.resolve('styled-components'),
