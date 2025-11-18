@@ -1643,9 +1643,15 @@ importers:
         specifier: ^7.1.3
         version: 7.1.3
     devDependencies:
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rslib/core':
+        specifier: 0.14.0
+        version: 0.14.0(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1695,12 +1701,18 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rslib/core':
+        specifier: 0.14.0
+        version: 0.14.0(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1719,46 +1731,6 @@ importers:
       '@types/ua-parser-js':
         specifier: ^0.7.39
         version: 0.7.39
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  packages/server/plugin-worker:
-    dependencies:
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../prod-server
-      '@modern-js/server-utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../solutions/app-tools
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.31(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
@@ -1866,6 +1838,12 @@ importers:
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../../cli/builder
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
+      '@rslib/core':
+        specifier: 0.14.0
+        version: 0.14.0(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1982,9 +1960,15 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2(@babel/core@7.28.4)(@babel/traverse@7.28.4)
     devDependencies:
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
+      '@rslib/core':
+        specifier: 0.14.0
+        version: 0.14.0(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build

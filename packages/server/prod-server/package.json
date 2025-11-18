@@ -31,13 +31,19 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
-      "import": "./dist/esm-node/index.mjs",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
     },
     "./netlify": {
       "types": "./dist/types/netlify.d.ts",
       "jsnext:source": "./src/netlify.ts",
-      "import": "./dist/esm-node/netlify.mjs",
+      "node": {
+        "import": "./dist/esm-node/netlify.mjs",
+        "require": "./dist/cjs/netlify.js"
+      },
       "default": "./dist/cjs/netlify.js"
     }
   },
@@ -45,6 +51,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "netlify": [
+        "./dist/types/netlify.d.ts"
       ]
     }
   },
@@ -78,14 +87,18 @@
     "exports": {
       ".": {
         "types": "./dist/types/index.d.ts",
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.mjs",
+        "node": {
+          "import": "./dist/esm-node/index.mjs",
+          "require": "./dist/cjs/index.js"
+        },
         "default": "./dist/cjs/index.js"
       },
       "./netlify": {
         "types": "./dist/types/netlify.d.ts",
-        "jsnext:source": "./src/netlify.ts",
-        "import": "./dist/esm-node/netlify.mjs",
+        "node": {
+          "import": "./dist/esm-node/netlify.mjs",
+          "require": "./dist/cjs/netlify.js"
+        },
         "default": "./dist/cjs/netlify.js"
       }
     }

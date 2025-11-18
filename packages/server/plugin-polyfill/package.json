@@ -19,38 +19,54 @@
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
-  "module": "./dist/esm/cli.js",
+  "module": "./dist/esm/cli.mjs",
   "exports": {
     ".": {
+      "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
       "node": {
-        "import": "./dist/cjs/cli.js",
+        "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/cjs/cli.js"
+      "default": "./dist/esm/cli.mjs"
     },
     "./cli": {
+      "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
       "node": {
-        "import": "./dist/cjs/cli.js",
+        "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/cjs/cli.js"
+      "default": "./dist/esm/cli.mjs"
     },
     "./server": {
+      "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm/index.mjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli.d.ts"
+      ],
+      "server": [
+        "./dist/types/index.d.ts"
+      ]
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "rslib build",
+    "dev": "rslib build --watch",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -66,6 +82,8 @@
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "0.14.0",
+    "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^20",
