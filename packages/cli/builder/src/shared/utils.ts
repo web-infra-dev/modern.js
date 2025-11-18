@@ -3,6 +3,11 @@ import browserslist from 'browserslist';
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 
+// RegExp like /builder-runtime([.].+)?\.js$/
+export const RUNTIME_CHUNK_REGEX = new RegExp(
+  `${RUNTIME_CHUNK_NAME}([.].+)?\\.js$`,
+);
+
 export const SERVICE_WORKER_ENVIRONMENT_NAME = 'workerSSR';
 
 export const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;

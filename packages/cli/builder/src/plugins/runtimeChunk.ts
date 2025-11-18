@@ -1,5 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { RUNTIME_CHUNK_NAME } from '../shared/utils';
+import { RUNTIME_CHUNK_NAME, RUNTIME_CHUNK_REGEX } from '../shared/utils';
 
 export const pluginRuntimeChunk = (
   disableInlineRuntimeChunk?: boolean,
@@ -30,12 +30,8 @@ export const pluginRuntimeChunk = (
         return;
       }
 
-      // RegExp like /bundler-runtime([.].+)?\.js$/
-      // matches bundler-runtime.js and bundler-runtime.123456.js
-      const regexp = new RegExp(`${RUNTIME_CHUNK_NAME}([.].+)?\\.js$`);
-
       if (!config.output.inlineScripts) {
-        config.output.inlineScripts = regexp;
+        config.output.inlineScripts = RUNTIME_CHUNK_REGEX;
       }
     });
   },
