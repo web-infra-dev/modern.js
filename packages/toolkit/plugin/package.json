@@ -19,16 +19,16 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm/index.js",
+        "import": "./dist/esm/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm/index.mjs"
     },
     "./run": {
       "types": "./dist/types/cli/run/run.d.ts",
@@ -44,10 +44,10 @@
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.tsx",
       "node": {
-        "import": "./dist/esm/runtime/index.js",
+        "import": "./dist/esm/runtime/index.mjs",
         "require": "./dist/cjs/runtime/index.js"
       },
-      "default": "./dist/esm/runtime/index.js"
+      "default": "./dist/esm/runtime/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
@@ -81,8 +81,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest"
   },
   "dependencies": {
@@ -101,6 +101,8 @@
     "@types/node": "^20",
     "@types/react": "^19.1.8",
     "jest": "^29.7.0",
+    "@rslib/core": "0.14.0",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false,
