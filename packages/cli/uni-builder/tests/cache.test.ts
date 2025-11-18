@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 
 describe('uni-builder rspack with cache', () => {
-  it('should disable cache by default', async () => {
+  it('should enable cache by default', async () => {
     const rsbuild = await createUniBuilder({
       bundlerType: 'rspack',
       config: {},
@@ -15,8 +15,8 @@ describe('uni-builder rspack with cache', () => {
       origin: { bundlerConfigs },
     } = await rsbuild.inspectConfig();
 
-    expect(bundlerConfigs[0].cache).toBeUndefined();
-    expect(bundlerConfigs[0].experiments?.cache).toBeUndefined();
+    expect(bundlerConfigs[0].cache).toBeTruthy();
+    expect(bundlerConfigs[0].experiments?.cache).toMatchSnapshot();
   });
 
   it('should generator rspack config correctly with cache', async () => {
