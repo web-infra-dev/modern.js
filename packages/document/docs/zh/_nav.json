@@ -1,0 +1,36 @@
+[
+  {
+    "text": "指南",
+    "link": "/guides/get-started/introduction",
+    "activeMatch": "/guides/"
+  },
+  {
+    "text": "配置",
+    "link": "/configure/app/usage",
+    "activeMatch": "/configure/"
+  },
+  {
+    "text": "插件",
+    "link": "/plugin/introduction",
+    "activeMatch": "/plugin/"
+  },
+  {
+    "text": "API",
+    "link": "/apis/app/commands",
+    "activeMatch": "/apis/"
+  },
+  {
+    "text": "示例",
+    "link": "/tutorials/foundations/introduction",
+    "activeMatch": "/tutorials/"
+  },
+  {
+    "text": "社区",
+    "link": "/community/showcase",
+    "activeMatch": "/community/"
+  },
+  {
+    "text": "Modern.js 2.x 文档",
+    "link": "https://modernjs.dev/zh/guides/get-started/introduction.html"
+  }
+]

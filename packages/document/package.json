@@ -1,0 +1,49 @@
+{
+  "name": "@modern-js/main-doc",
+  "description": "Documentation of modern.js framework",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/document/main-doc"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "scripts": {
+    "dev": "rspress dev",
+    "dev:no_lazy": "LAZY=false rspress dev",
+    "build": "rspress build",
+    "preview": "rspress preview"
+  },
+  "version": "2.68.1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {
+    "@modern-js/sandpack-react": "workspace:*",
+    "mermaid": "^11.12.1"
+  },
+  "devDependencies": {
+    "@rsbuild/plugin-sass": "1.4.0",
+    "@shikijs/transformers": "^3.15.0",
+    "@rspress/shared": "2.0.0-rc.0",
+    "@rspress/plugin-llms": "2.0.0-rc.0",
+    "@types/fs-extra": "9.0.13",
+    "@types/node": "^20",
+    "classnames": "^2.5.1",
+    "clsx": "^1.2.1",
+    "fs-extra": "^10.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "@rspress/core": "2.0.0-rc.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}

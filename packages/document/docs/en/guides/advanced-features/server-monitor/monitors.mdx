@@ -1,0 +1,168 @@
+# Monitors
+
+Modern.js is a full-stack framework that supports both client-side and server-side development. When server-side rendering (SSR), the framework automatically injects additional logs and metrics during server runtime to help production issue diagnosis.
+
+As server code operates in Node.js environments, developers cannot directly utilize browser consoles for troubleshooting. Given that different projects may adopt varied logging libraries or data reporting platforms, the framework provides a unified approach for developers to manage built-in logging and metric collection.
+
+The Monitors module in Modern.js empowers application monitoring through two core capabilities: Monitor registration and monitoring event distribution. When developers invoke Monitors APIs, the framework propagates corresponding monitoring events to all registered Monitors.
+
+:::note
+Modern.js ships with a default Monitor implementation, while simultaneously allowing developers to register custom Monitors.
+:::
+
+## Monitors Type
+
+The Monitors module is defined with the following types, where the `push` method is used to register Monitor and other methods are used to dispatch monitoring events.
+
+```ts
+export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace';
+export interface LogEvent {
+  type: 'log';
+  payload: {
+    level: LogLevel;
+    message: string;
+    args?: any[];
+  };
+}
+
+export interface TimingEvent {
+  type: 'timing';
+  payload: {
+    name: string;
+    dur: number;
+    desc?: string;
+    args?: any[];
+  };
+}
+
+export interface CounterEvent {
+  type: 'counter';
+  payload: {
+    name: string;
+    args?: any[];
+  };
+}
+
+export type MonitorEvent = LogEvent | TimingEvent | CounterEvent;
+
+export type CoreMonitor = (event: MonitorEvent) => void;
+
+export interface Monitors {
+  // Register Monitor
+  push(monitor: CoreMonitor): void;
+
+  // Log Event
+  error(message: string, ...args: any[]): void;
+  warn(message: string, ...args: any[]): void;
+  debug(message: string, ...args: any[]): void;
+  info(message: string, ...args: any[]): void;
+  trace(message: string, ...args: any[]): void;
+
+  // Metrics Event
+  timing(name: string, dur: number, ...args: any[]): void;
+  counter(name: string, ...args: any[]): void;
+}
+```
+
+## Internal Monitor
+
+Modern.js comes with a built-in default Monitor, where different events trigger different behaviors in the built-in Monitor. For more details, see:
+
+- [Log Event](/guides/advanced-features/server-monitor/logger)
+- [Metrics Event](/guides/advanced-features/server-monitor/metrics)
+
+## Register Monitors
+
+Developers can register their own Monitors using the `push` API, but this can only be done in [server middleware](/guides/advanced-features/web-server#unstable-middleware) or server plugins. Registration is not available in Data Loaders, components, or init functions.
+
+:::note
+Server plugins are currently not available, and documentation will be added in the future.
+:::
+
+```ts title="server/index.ts"
+import type { CoreMonitors } from '@modern-js/types';
+const injectMonitorMiddleware = c => {
+  const monitors = c.get('monitors');
+  const myMonitor = (event: MonitorEvent) => {
+    if (event.type === 'log') {
+      // some code
+    } else {
+      // some other code
+    }
+  };
+  monitors.push(myMonitor);
+  return next();
+};
+
+export const middlewares = [injectMonitorMiddleware];
+```
+
+## Use Monitors
+
+Modern.js allows developers to invoke Monitors in Data Loaders and components.
+
+:::tip
+Monitors can only be invoked in Node.js environments, and calling them in browser environments will have no effect.
+:::
+
+In Data Loaders, developers can use them as follows:
+
+```ts title="routes/page.data.ts"
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+import { getMonitors } from '@modern-js/runtime';
+const loader = async ({ context }: LoaderFunctionArgs) => {
+    const monitors = getMonitors();
+    const start = Date.now();
+    try {
+        await fetch(...);
+        monitors.timing('loader_fetch_timing', Date.now() - start);
+    } catch(e) {
+        monitors.error(e);
+    }
+}
+```
+
+When invoking Monitors in components, you need to determine whether the current runtime environment is Node.js:
+
+```tsx title="routes/page.tsx"
+import { use } from 'react';
+import { RuntimeContext, getMonitors } from '@modern-js/runtime';
+const Page = () => {
+  const context = use(RuntimeContext);
+  if (process.env.MODERN_TARGET === 'node') {
+    const monitors = getMonitors();
+    monitors.info();
+  }
+  return <div>Hello World</div>;
+};
+export default Page;
+```
+
+In middleware, we can also invoke Monitors, but the approach differs from runtime code as it requires accessing them through `context`:
+
+```ts title="server/modern.server.ts"
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
+
+export const handler: MiddlewareHandler = async (c, next) => {
+  const monitors = c.get('monitors');
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // 上报耗时
+  monitors.timing('request_timing', end - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
+```

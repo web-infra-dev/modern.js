@@ -1,0 +1,168 @@
+# Monitors
+
+Modern.js 是一个全栈框架，它可以同时支持客户端和服务端的开发。当 Modern.js 在服务端渲染页面时，框架会在运行时插入更多日志与指标，帮助开发者在线上运维时定位问题。
+
+但服务端代码运行在 Node.js 环境中，开发者无法直接通过浏览器控制台来排查问题，而不同的项目可能使用不同的日志库，或是将数据上报到不同的平台。框架无法覆盖所有的场景，因此需要有统一的方式，允许开发者自行管理所有的内置日志与指标。
+
+Monitors 是 Modern.js 提供的帮助开发者监控应用程序的运行情况的模块。它包含注册 Monitor 和分发监控事件两部分能力。当开发者中调用 Monitors 的某个 API 时，框架会对应的监控事件分发到所有注册的 Monitor 中。
+
+:::note
+在 Modern.js 中内置了默认的 Monitor，开发者也可以注册自定义的 Monitor。
+:::
+
+## Monitors 定义
+
+Monitors 模块的类型定义如下，其中 `push` 方法用于注册 Monitor，其他方法用于分发监控事件。
+
+```ts
+export type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'trace';
+export interface LogEvent {
+  type: 'log';
+  payload: {
+    level: LogLevel;
+    message: string;
+    args?: any[];
+  };
+}
+
+export interface TimingEvent {
+  type: 'timing';
+  payload: {
+    name: string;
+    dur: number;
+    desc?: string;
+    args?: any[];
+  };
+}
+
+export interface CounterEvent {
+  type: 'counter';
+  payload: {
+    name: string;
+    args?: any[];
+  };
+}
+
+export type MonitorEvent = LogEvent | TimingEvent | CounterEvent;
+
+export type CoreMonitor = (event: MonitorEvent) => void;
+
+export interface Monitors {
+  // 注册 Monitor
+  push(monitor: CoreMonitor): void;
+
+  // 日志事件
+  error(message: string, ...args: any[]): void;
+  warn(message: string, ...args: any[]): void;
+  debug(message: string, ...args: any[]): void;
+  info(message: string, ...args: any[]): void;
+  trace(message: string, ...args: any[]): void;
+
+  // 指标事件
+  timing(name: string, dur: number, ...args: any[]): void;
+  counter(name: string, ...args: any[]): void;
+}
+```
+
+## 内置 Monitor
+
+Modern.js 内置了默认的 Monitor，不同的事件会触发内置 Monitor 不同的行为。详细内容查看：
+
+- [日志事件](/guides/advanced-features/server-monitor/logger)
+- [指标事件](/guides/advanced-features/server-monitor/metrics)
+
+## 注册 Monitors
+
+开发者可以通过 Monitors 的 `push` API 注册自己的 Monitor，但只能在[服务端中间件](/guides/advanced-features/web-server#unstable-middleware)或服务端插件中注册，在 Data Loader、组件、init 函数中无法注册。
+
+:::note
+目前暂未开放服务端插件，后续会补充相关文档。
+:::
+
+```ts title="server/index.ts"
+import type { CoreMonitors } from '@modern-js/types';
+const injectMonitorMiddleware = c => {
+  const monitors = c.get('monitors');
+  const myMonitor = (event: MonitorEvent) => {
+    if (event.type === 'log') {
+      // some code
+    } else {
+      // some other code
+    }
+  };
+  monitors.push(myMonitor);
+  return next();
+};
+
+export const middlewares = [injectMonitorMiddleware];
+```
+
+## 调用 Monitors
+
+Modern.js 允许开发者在 Data Loader、组件中调用 Monitors。
+
+:::tip
+只有在 Node.js 环境才可以调用 Monitors，在浏览器环境调用无任何效果。
+:::
+
+在 Data Loader 中，开发者可以这样使用：
+
+```ts title="routes/page.data.ts"
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+import { getMonitors } from '@modern-js/runtime';
+const loader = async ({ context }: LoaderFunctionArgs) => {
+    const monitors = getMonitors();
+    const start = Date.now();
+    try {
+        await fetch(...);
+        monitors.timing('loader_fetch_timing', Date.now() - start);
+    } catch(e) {
+        monitors.error(e);
+    }
+}
+```
+
+在组件中调用 Monitors，需要判断当前运行环境是否为 Node.js：
+
+```tsx title="routes/page.tsx"
+import { use } from 'react';
+import { RuntimeContext, getMonitors } from '@modern-js/runtime';
+const Page = () => {
+  const context = use(RuntimeContext);
+  if (process.env.MODERN_TARGET === 'node') {
+    const monitors = getMonitors();
+    monitors.info();
+  }
+  return <div>Hello World</div>;
+};
+export default Page;
+```
+
+在中间件中，我们也可以调用 Monitors，但方式与在运行时代码中不同，需要通过 `context` 来获取：
+
+```ts title="server/modern.server.ts"
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
+
+export const handler: MiddlewareHandler = async (c, next) => {
+  const monitors = c.get('monitors');
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+  // 上报耗时
+  monitors.timing('request_timing', end - start);
+};
+
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'request-timing',
+      handler,
+    },
+  ],
+});
+```

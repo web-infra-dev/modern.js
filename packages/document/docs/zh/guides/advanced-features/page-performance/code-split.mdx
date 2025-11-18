@@ -1,0 +1,81 @@
+---
+sidebar_position: 3
+---
+
+# 代码分割
+
+代码分割（code splitting）是优化前端资源加载的一种常用手段，本文将介绍 Modern.js 支持的三种代码分割方式：
+
+:::info
+使用 Modern.js [约定式路由](/guides/basic-features/routes/routes#约定式路由)时，默认会根据路由组件做代码分割，无需自行进行代码分割。
+:::
+
+- 动态 `import`
+- `React.lazy`
+- `loadable`
+
+## 动态 import
+
+使用动态 `import()` 语法，传入的 JS 模块将会被被打包到单独的 JS 文件中。例如：
+
+```ts
+import('./math').then(math => {
+  console.log(math.add(16, 26));
+});
+```
+
+## React.lazy
+
+React 官方提供的组件代码分割的方式。
+
+:::caution
+`React.lazy` 通常配合 `<Suspense>` 使用，因此仅在 CSR 或 React 18 Streaming SSR 中可用。
+
+对于使用传统 SSR（字符串渲染）的项目，不支持 `React.lazy`，请使用 Loadable API。
+:::
+
+```tsx
+import React, { Suspense } from 'react';
+
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </div>
+  );
+}
+```
+
+`React.lazy` 更多用法请见 [React 官网文档](https://zh-hans.react.dev/reference/react/lazy)。
+
+## Loadable
+
+在 Modern.js 中，可以从 `@modern-js/runtime/loadable` 中导出使用 Loadable API，示例如下：
+
+```tsx
+import loadable from '@modern-js/runtime/loadable';
+
+const OtherComponent = loadable(() => import('./OtherComponent'));
+
+function MyComponent() {
+  return <OtherComponent />;
+}
+```
+
+Modern.js 开箱即用的支持在 SSR 中使用 `loadable`，无需再添加 Babel 插件，或是在 SSR 时向 HTML 中注入脚本。
+
+但需要注意的是，任何 Loadable API 在 SSR 中都不支持配合 `<Suspense>` 使用。
+
+:::info
+如果希望在 React 17 及以下的 CSR 项目中使用 `<Suspense>`，可以用 [loadable.lazy](https://loadable-components.com/docs/suspense/) 代替 `React.lazy`。
+:::
+
+更多用法请见 [Loadable API](/apis/app/runtime/utility/loadable)。

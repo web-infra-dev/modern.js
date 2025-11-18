@@ -1,0 +1,88 @@
+---
+sidebar_position: 4
+---
+
+# 技术栈
+
+Modern.js 框架默认集成了一些社区中流行的库和开发工具。
+
+在这篇文档中，你可以了解到 Modern.js 框架涉及的主要技术栈，以及一些可选的库和工具。
+
+## UI 库
+
+Modern.js 使用 [React 18](https://react.dev/) 来构建用户界面，同时也兼容 React 17。
+
+Modern.js 底层的 Rsbuild 支持构建 Vue 应用，如果你需要使用 Vue，可以参考 [Rsbuild - Vue](https://rsbuild.rs/zh/guide/framework/vue)。
+
+## 路由
+
+Modern.js 的路由基于 [React Router 7](https://reactrouter.com/en/main)，同时也兼容 React Router 5。
+
+Modern.js 支持约定式路由、自控式路由或其他路由方案，请参考 [路由方案](/guides/basic-features/routes/routes) 进行选择。
+
+## 包管理器
+
+Modern.js 可以与社区中任意的包管理器搭配使用，比如 [npm](https://www.npmjs.com/package/npm)、[yarn](https://classic.yarnpkg.com/lang/en/)、[pnpm](https://pnpm.io/) 或 [Bun](https://bun.sh/)。
+
+我们推荐使用 pnpm 来获得更快的安装速度。
+
+## 打包工具
+
+Modern.js 使用 [Webpack 5](https://webpack.js.org/) 或 [Rspack](https://rspack.rs/) 来打包你的 Web 应用。
+
+默认使用的打包工具为 Webpack 5，你可以参考 [使用 Rspack](/guides/advanced-features/rspack-start) 来切换到更快的 Rspack。
+
+## 转译工具
+
+Modern.js 使用 [Babel](https://babeljs.io/)、[SWC](https://swc.rs/) 或 [esbuild](https://esbuild.github.io/) 作为 JS 转译工具，将 TypeScript 或 JSX 转义为可以在浏览器上运行的 JavaScript 代码，并进行语法降级。
+
+- 使用 Webpack 打包时，默认为 Babel，支持切换到 SWC 或 esbuild。
+- 使用 Rspack 打包时，默认为 SWC，支持切换到 Babel。
+
+## 压缩工具
+
+在生产环境构建时，Modern.js 使用 [Terser](https://github.com/terser/terser)、[SWC](https://swc.rs/) 或 [esbuild](https://esbuild.github.io/) 来压缩 JavaScript 代码，使用 [cssnano](https://cssnano.co/) 来压缩 CSS 代码。
+
+- 使用 Webpack 打包时，默认使用 Terser 压缩 JS 代码，支持切换到 SWC 或 esbuild。
+- 使用 Rspack 打包时，默认使用 SWC 压缩 JS 代码，暂不支持切换到其他工具。
+
+## CSS 转换
+
+Modern.js 使用 [PostCSS](https://postcss.org/) 来转换 CSS 代码，并默认开启 [autoprefixer](https://github.com/postcss/autoprefixer) 来补全 CSS 前缀。
+
+Modern.js 支持 [启用 Lightning CSS](/configure/app/tools/lightningcss-loader)，使用 Lightning CSS 降级 CSS 语法。
+
+Modern.js 支持 [启用 Tailwind CSS](/guides/basic-features/css/tailwindcss)，并同时兼容 Tailwind CSS v3 和 v4 版本。
+
+## CSS 预处理器
+
+Modern.js 支持 [Sass](https://sass-lang.com/)、[Less](https://lesscss.org/) 和 [Stylus](https://stylus-lang.com/) 三种 CSS 预处理器：
+
+- 默认支持 Sass 和 Less，开箱即用。
+- 可选支持 Stylus，请参考 [Stylus 插件](https://rsbuild.rs/zh/plugins/list/plugin-stylus) 来使用。
+
+## CSS Modules
+
+Modern.js 对 [CSS Modules](https://github.com/css-modules/css-modules) 提供了开箱即用的支持，内部基于 [css-loader](https://www.npmjs.com/package/css-loader) 实现。
+
+请参考 [使用 CSS Modules](/guides/basic-features/css/css-modules) 来使用。
+
+## CSS-in-JS
+
+Modern.js 支持使用 [styled-components](https://styled-components.com/)，请参考 [使用 CSS-in-JS](/guides/basic-features/css/css-in-js) 来使用。
+
+如果你需要使用其他 CSS-in-JS 方案，可以自行集成到你的项目中。
+
+## 组件库
+
+Modern.js 可以与社区中任意的 React 组件库搭配使用，比如 [MUI](https://mui.com/)、[Ant Design](https://ant.design/)、[Arco Design](https://github.com/arco-design/arco-design)、[Semi Design](https://semi.design/)、[Radix UI](https://www.radix-ui.com/) 等。
+
+## 组件开发
+
+Modern.js 支持使用 [Storybook](https://storybook.js.org/) 来开发 UI 组件。该功能为可选功能，请参考 [使用 Storybook](/guides/basic-features/debug/using-storybook) 启用。
+
+## Node.js 框架
+
+import TechStackNodeFramework from '@site-docs/components/tech-stack-node-framework';
+
+<TechStackNodeFramework />

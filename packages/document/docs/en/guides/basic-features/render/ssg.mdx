@@ -1,0 +1,224 @@
+---
+---
+
+# Static Site Generation
+
+SSG (Static Site Generation) is a technical solution that generates complete static web pages at build time based on data and templates. This means that in a production environment, pages are pre-rendered with content and can be cached by a CDN. SSG can offer better performance and higher security for pages that do not require dynamic data.
+
+## Enabling SSG
+
+First, we need to enable the SSG feature by running `pnpm run new`:
+
+```bash
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable SSG
+```
+
+After running the command, register the SSG plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { ssgPlugin } from '@modern-js/plugin-ssg';
+
+export default defineConfig({
+  output: {
+    ssg: true,
+  },
+  plugins: [..., ssgPlugin()],
+});
+```
+
+::::info Scope
+- Use `output.ssg` for single-entry apps.
+- Use `output.ssgByEntries` for multi-entry apps.
+- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
+::::
+
+## Development Debugging
+
+Since SSG also renders pages in a Node.js environment, we can enable SSR during the **development phase** to expose code issues early and validate the SSG rendering effect:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: process.env.NODE_ENV === 'development',
+  }
+}
+```
+
+## Using SSG in Conventional Routing
+
+In **conventional routing**, Modern.js generates routes based on the file structure under the entry point, allowing the framework to collect complete route information.
+
+### Basic Usage
+
+For example, the following is a project directory structure using conventional routing:
+
+```bash
+.
+└── routes
+    ├── layout.tsx
+    ├── page.tsx
+    └── user
+        ├── layout.tsx
+        ├── page.tsx
+        └── profile
+            └── page.tsx
+```
+
+The above file directory will generate the following three routes:
+
+- `/`
+- `/user`
+- `/user/profile`
+
+:::tip
+If you are not familiar with the rules of conventional routing, refer to the [Routing Solution](/guides/basic-features/routes/routes) first.
+
+:::
+
+Add component code in `src/routes/page.tsx`:
+
+```jsx title="src/routes/page.tsx"
+export default () => {
+  return <div>Index Page</div>;
+};
+```
+
+Run the command `pnpm run dev` at the project root and check the `dist/` directory, where only one HTML file `main/index.html` is generated.
+
+Run the command `pnpm run build` at the project root, and after the build completes, check the `dist/` directory again. This time, you'll find `main/index.html`, `main/user/index.html`, and `main/user/profile/index.html` files, each corresponding to the routes listed above.
+
+Each route in **conventional routing** will generate a separate HTML file. Checking `main/index.html`, you will find it contains the text `Index Page`, which demonstrates the effect of SSG.
+
+After running `pnpm run serve` to start the project, inspect the returned document in the Network tab of the browser's development tools. The document includes the fully rendered content from the component.
+
+### Preventing Default Behavior
+
+By default, all routes in **conventional routing** have SSG enabled. Modern.js provides another field to prevent the default SSG behavior.
+
+For example, in the following directory structure, routes `/`, `/user`, and `/user/profile` all have SSG enabled:
+
+```bash
+.
+├── src
+│   └── routes
+│       ├── layout.tsx
+│       ├── page.tsx
+│       └── user
+│           ├── layout.tsx
+│           ├── page.tsx
+│           └── profile
+│               └── page.tsx
+```
+
+You can disable the default behavior of certain routes by configuring `preventDefault`. After configuring as shown below, only the SSG pages for `/` and `/user/profile` will be generated:
+
+```js
+export default defineConfig({
+  output: {
+    ssg: {
+      preventDefault: ['/user'],
+    },
+  },
+});
+```
+
+## Using SSG in Manual Routing
+
+**Manual routing** defines routes through component code, requiring the application to run to obtain accurate route information. Therefore, you cannot use the SSG feature out of the box. Developers need to configure which routes require SSG.
+
+For example, consider the following code with multiple routes. By setting `output.ssg` to `true`, it will only render the entry route (`/`) by default.
+
+import SelfRouteExample from '@site-docs/components/self-route-example';
+
+<SelfRouteExample />
+
+If you want to enable SSG for `/about` as well, you can configure `output.ssg`:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: ['/', '/about'],
+    },
+  },
+});
+```
+
+After running `pnpm run build`, you will see a new `main/about/index.html` file in the `dist/` directory.
+
+After running `pnpm run serve` to start the project, inspect the returned document in the Network tab of the browser's development tools. The document includes the fully rendered content from the component.
+
+:::info
+The above example introduces single-entry scenarios. For more information, refer to the [API Documentation](/configure/app/output/ssg).
+:::
+
+## Adding Dynamic Routes
+
+In manual routing or conventional routing with dynamic segments (e.g., `/user/[id]`), provide concrete paths directly in `routes`.
+
+```js
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: [
+        '/',
+        '/about',
+        '/user/modernjs',
+      ],
+    },
+  },
+});
+```
+
+## Multi-entry
+
+For multi-entry apps, configure per entry via `output.ssgByEntries`:
+
+```js
+export default defineConfig({
+  output: {
+    ssgByEntries: {
+      home: {
+        routes: ['/', '/about', '/user/modernjs'],
+      },
+      admin: false,
+    },
+  },
+});
+```
+
+:::info
+See API details: [output.ssgByEntries](/configure/app/output/ssgByEntries)
+:::
+
+## Configuring Request Headers for Rendering
+
+Modern.js supports configuring request headers for specific entries or routes. For example:
+
+```js
+export default defineConfig({
+  output: {
+    ssg: {
+      headers: {
+        "x-tt-env": "ppe_modernjs"
+      },
+      routes: [
+        '/',
+        {
+          url: '/about',
+          headers: {
+            "from": "modern-website"
+          },
+        },
+      ],
+    },
+  },
+});
+```
+
+In the above configuration, the `x-tt-env` request header is set for all routes, and the `from` request header is specifically set for the `/about` route.
+
+:::tip
+Headers set in routes will override headers set for entries.
+:::

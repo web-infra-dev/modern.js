@@ -1,0 +1,36 @@
+[
+  {
+    "text": "guide",
+    "link": "/guides/get-started/introduction",
+    "activeMatch": "/guides/"
+  },
+  {
+    "text": "configure",
+    "link": "/configure/app/usage",
+    "activeMatch": "/configure/"
+  },
+  {
+    "text": "plugin-menu",
+    "link": "/plugin/introduction",
+    "activeMatch": "/plugin/"
+  },
+  {
+    "text": "apis",
+    "link": "/apis/app/commands",
+    "activeMatch": "/apis/"
+  },
+  {
+    "text": "Examples",
+    "link": "/tutorials/foundations/introduction",
+    "activeMatch": "/tutorials/"
+  },
+  {
+    "text": "community",
+    "link": "/community/showcase",
+    "activeMatch": "/community/"
+  },
+  {
+    "text": "Modern.js 2.x Docs",
+    "link": "https://modernjs.dev/guides/get-started/introduction.html"
+  }
+]

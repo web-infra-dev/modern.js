@@ -1,0 +1,288 @@
+# 配置使用
+
+Modern.js 中有三种配置，分别是编译时配置、运行时配置和服务端运行时配置。
+
+**编译时配置**可以在两个位置进行配置：
+
+- 根路径下的 `modern.config.(ts|js|mjs)` 文件
+- `package.json` 文件
+
+:::info
+Modern.js 不支持同时在 `package.json` 中和 `modern.config.ts` 中配置同一个配置项，推荐在 `modern.config.ts` 中进行配置。如果 Modern.js 检测到重复配置导致的冲突，将会抛出警告。
+:::
+
+**运行时配置**可以在 `src/modern.runtime.(ts|js|mjs)` 文件中配置。
+
+**服务端运行时配置**可以在 `server/modern.server.(ts|js|mjs)` 中进行配置。
+
+## 编译时配置
+
+### 在配置文件中配置
+
+Modern.js 的配置文件定义在项目的根目录下，支持 `.ts`, `.js` 和 `.mjs` 格式：
+
+- `modern.config.ts`
+- `modern.config.js`
+- `modern.config.mjs`
+
+#### modern.config.ts（推荐）
+
+我们推荐使用 `.ts` 格式的配置文件，它提供了友好的 TypeScript 类型提示，从而帮助你避免配置中的错误。
+
+从 `@modern-js/app-tools` 中导入 `defineConfig` 工具函数, 它会帮助你进行配置的类型推导和类型补全：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    alias: {
+      '@common': './src/common',
+    },
+  },
+});
+```
+
+#### modern.config.js
+
+如果你在开发一个非 TypeScript 项目，可以使用 `.js` 格式的配置文件：
+
+```js title="modern.config.js"
+export default {
+  source: {
+    alias: opts => {
+      opts['@common'] = './src/common';
+    },
+  },
+};
+```
+
+你也可以通过 `process.env.NODE_ENV`，根据环境做不同配置：
+
+```js title="modern.config.js"
+export default {
+  server: {
+    ssr: process.env.NODE_ENV === 'development',
+  },
+};
+```
+
+#### 导出配置函数
+
+Modern.js 支持在配置文件中导出一个函数，你可以在函数中动态计算配置，并返回给 Modern.js。
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(({ env, command }) => ({
+  source: {
+    alias: {
+      '@foo': env === 'development' ? './src/foo.dev.ts' : './src/foo.prod.ts',
+    },
+  },
+}));
+```
+
+该函数接受以下入参：
+
+- `env`：对应 `process.env.NODE_ENV` 的值。
+  - 当运行 `modern dev` 或 `modern start` 时，`env` 的值为 `development`。
+  - 当运行 `modern build` 或 `modern serve` 时，`env` 的值为 `production`。
+- `command`：对应当前运行的命令，如 `dev`、`start`、`build`、`serve`。
+
+#### 导出异步函数
+
+Modern.js 也支持在配置文件中导出一个异步函数，你可以在函数中进行一些异步操作：
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig(async ({ env, command }) => {
+  const result = await someAsyncFunction();
+
+  return {
+    html: {
+      title: result,
+    },
+  };
+});
+```
+
+#### 指定配置文件
+
+Modern.js 命令行支持通过 `--config` 选项来指定配置文件的名称。
+
+例如，你需要在执行 `build` 命令时使用 `modern.prod.config.ts` 文件，可以在 `package.json` 中添加如下配置：
+
+```json title="package.json"
+{
+  "scripts": {
+    "dev": "modern modern",
+    "build": "modern build --config modern.prod.config.ts"
+  }
+}
+```
+
+你也可以将 `--config` 选项缩写为 `-c`：
+
+```bash
+$ modern build -c modern.prod.config.js
+```
+
+### 在 package.json 中配置（不推荐）
+
+除了配置文件外，你也可以在 `package.json` 中的 `modernConfig` 字段下设置配置项，如：
+
+```json title="package.json"
+{
+  "modernConfig": {
+    "source": {
+      "alias": {
+        "@common": "./src/common"
+      }
+    }
+  }
+}
+```
+
+由于 JSON 文件格式的限制，`package.json` 中只能定义数字、字符串、布尔值、数组等简单类型的值，当我们需要设置函数类型的值时，建议在 Modern.js 配置文件中进行设置。
+
+#### 注意事项
+
+- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，Modern.js 会在命令行进行提示错误。
+
+### 本地调试配置
+
+为了便于本地调试配置，Modern.js 支持在项目根目录下创建 `modern.config.local.(ts|js|mjs)` 文件，用于覆盖 `modern.config.(ts|js|mjs)` 中的配置选项。
+
+#### 示例
+
+比如，项目的 `modern.config.ts` 中配置了端口号为 `3000`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+});
+```
+
+如果你在本地调试时需要将端口号修改为 `3001`，但是又不希望修改当前项目的 `modern.config.ts` 文件，那么可以创建一个 `modern.config.local.ts` 文件，并添加以下配置：
+
+```ts title="modern.config.local.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    port: 3001,
+  },
+});
+```
+
+`modern.config.local.ts` 文件中的配置会与 `modern.config.ts` 中的配置进行深层合并，并覆盖 `modern.config.ts` 中的配置选项，因此 `server.port` 会被覆盖为 `3001`。
+
+#### 注意事项
+
+在使用 `modern.config.local.ts` 时，请注意以下事项：
+
+- `modern.config.local.ts` 文件仅会在执行 `modern dev` 或 `modern start` 命令时被加载，当执行 `modern build` 时不会被加载。
+- `modern.config.local.ts` 文件的优先级不仅高于 `modern.config.ts`，也高于 `package.json` 中的 `modernConfig` 字段。
+- 由于 `modern.config.local.ts` 仅在本地调试时使用，因此不建议将其提交到代码仓库中，请确保项目的 `.gitignore` 文件中包含 `modern.config.local.ts` 等文件。
+
+```bash title=".gitignore"
+modern.config.local.*
+```
+
+### 合并多份配置
+
+在某些情况下，你可能需要将多份配置合并为一份配置，此时你可以使用 `mergeConfig` 工具函数来合并多个配置。
+
+`mergeConfig` 函数接受一个数组作为参数，数组中的每一项都是一个配置对象，`mergeConfig` 会将数组中的每一项配置对象进行深层合并，自动将多个函数项合并为数组，最终返回一个合并后的配置对象。
+
+#### 示例
+
+```ts title="modern.config.ts"
+import { mergeConfig } from '@modern-js/app-tools';
+
+const config1 = {
+  dev: {
+    port: 3000,
+  },
+  tools: {
+    postcss: () => console.log('config1');
+  },
+};
+const config2 = {
+  dev: {
+    port: 3001,
+  },
+  tools: {
+    postcss: () => console.log('config2');
+  },
+};
+
+const mergedConfig = mergeConfig([config1, config2]);
+```
+
+在以上示例中，合并后的配置对象为：
+
+```ts
+const mergedConfig = {
+  dev: {
+    port: 3001,
+  },
+  tools: {
+    postcss: [() => console.log('config1'), () => console.log('config2')],
+  },
+};
+```
+
+### 配置类型定义
+
+Modern.js 导出了 `AppUserConfig` 类型，对应 Modern.js 配置对象的类型：
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig = {
+  tools: {
+    webpack: {},
+  },
+};
+```
+
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `AppUserConfig` 指定 `` 泛型：
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig = {
+  tools: {
+    rspack: {},
+  },
+};
+```
+
+## 运行时配置
+
+运行时配置的详细信息可以参考 [Runtime 配置介绍](/configure/app/runtime/0-intro.html)。
+
+:::tip
+如果当前的 Runtime 配置需要在编译时和运行时同时使用，请将相关配置参数添加到插件注册的位置。
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { xxPlugin } from '@modern-js/plugin-xx';
+
+export default defineConfig({
+  plugins: [
+    xxPlugin({
+      /** 在此处添加参数 */
+    }),
+  ],
+});
+```
+
+:::

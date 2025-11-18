@@ -1,0 +1,49 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 10vh 0;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.logo {
+  width: 240px;
+  margin-bottom: 48px;
+}
+
+.wrapper {
+  width: 80vw;
+  padding: 0 16px;
+  max-width: 1200px;
+}
+
+.linksWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.linkTitle {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.linkWrapper {
+  margin-bottom: 24px;
+}
+
+.link {
+  line-height: 32px;
+  font-size: 15px;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .linkWrapper {
+    width: 50%;
+  }
+}

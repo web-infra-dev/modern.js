@@ -1,0 +1,31 @@
+---
+title: 路由鉴权
+---
+
+# 路由鉴权
+
+Modern.js 默认提供的路由方式是基于 React Router v7 的约定式路由，具体可查看[路由方案](/guides/basic-features/routes/routes#路由方案)。
+
+在一个 Web 应用中如果存在多个路由，我们可能需要对部分路由进行鉴权后才能访问。例如下面这个案例：
+
+- 访问 `/` 路由，无需鉴权，可直接访问。
+- 访问 `/protected` 路由，需要鉴权，如果无，自动跳转到 `/login` 路由，登录成功后返回 `/protected`。
+
+import Sandpack from '@site/src/components/Sandpack';
+import srcRoutesPageText from '../../../../src/sandbox/csr-auth/src/routes/page-tsx.txt';
+import srcRoutesLayoutText from '../../../../src/sandbox/csr-auth/src/routes/layout-tsx.txt';
+import srcRoutesAuthText from '../../../../src/sandbox/csr-auth/src/routes/Auth-tsx.txt';
+import srcRoutesFakeAuthText from '../../../../src/sandbox/csr-auth/src/routes/fakeAuth-ts.txt';
+import srcRoutesProtectedPageText from '../../../../src/sandbox/csr-auth/src/routes/protected/page-tsx.txt';
+import srcRoutesLoginPageText from '../../../../src/sandbox/csr-auth/src/routes/login/page-tsx.txt';
+
+<Sandpack template="web-app" files={{
+  '/src/routes/page.tsx': srcRoutesPageText,
+  '/src/routes/layout.tsx': srcRoutesLayoutText,
+  '/src/routes/Auth.tsx': srcRoutesAuthText,
+  '/src/routes/fakeAuth.ts': srcRoutesFakeAuthText,
+  '/src/routes/protected/page.tsx': srcRoutesProtectedPageText,
+  '/src/routes/login/page.tsx': srcRoutesLoginPageText,
+}}>
+
+</Sandpack>
