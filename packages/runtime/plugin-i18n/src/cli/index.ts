@@ -1,11 +1,19 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { getPublicDirRoutePrefixes } from '@modern-js/server-core';
+import type { Entrypoint } from '@modern-js/types';
 import type { BackendOptions, LocaleDetectionOptions } from '../shared/type';
 import { getBackendOptions, getLocaleDetectionOptions } from '../shared/utils';
+
+export type TransformRuntimeConfigFn = (
+  extendedConfig: Record<string, any>,
+  entrypoint: Entrypoint,
+) => Record<string, any>;
 
 export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;
   backend?: BackendOptions;
+  transformRuntimeConfig?: TransformRuntimeConfigFn;
+  [key: string]: any;
 }
 
 export const i18nPlugin = (
@@ -13,7 +21,8 @@ export const i18nPlugin = (
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-i18n',
   setup: api => {
-    const { localeDetection, backend } = options;
+    const { localeDetection, backend, transformRuntimeConfig, ...restOptions } =
+      options;
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const localeDetectionOptions = localeDetection
         ? getLocaleDetectionOptions(entrypoint.entryName, localeDetection)
@@ -22,14 +31,28 @@ export const i18nPlugin = (
         ? getBackendOptions(entrypoint.entryName, backend)
         : undefined;
       const { metaName } = api.getAppContext();
+
+      // Transform extended config if transform function is provided
+      let extendedConfig = restOptions;
+      if (transformRuntimeConfig) {
+        extendedConfig = transformRuntimeConfig(
+          restOptions,
+          entrypoint as Entrypoint,
+        );
+      }
+
+      // Build final config with base config and transformed extended config
+      const config = {
+        entryName: entrypoint.entryName,
+        localeDetection: localeDetectionOptions,
+        backend: backendOptions,
+        ...extendedConfig,
+      };
+
       plugins.push({
         name: 'i18n',
         path: `@${metaName}/plugin-i18n/runtime`,
-        config: {
-          entryName: entrypoint.entryName,
-          localeDetection: localeDetectionOptions,
-          backend: backendOptions,
-        },
+        config,
       });
       return {
         entrypoint,
@@ -38,7 +61,7 @@ export const i18nPlugin = (
     });
 
     api._internalServerPlugins(({ plugins }) => {
-      const { serverRoutes } = api.getAppContext();
+      const { serverRoutes, metaName } = api.getAppContext();
       const normalizedConfig = api.getNormalizedConfig();
 
       let staticRoutePrefixes: string[] = [];
@@ -65,7 +88,7 @@ export const i18nPlugin = (
       });
 
       plugins.push({
-        name: '@modern-js/plugin-i18n/server',
+        name: `@${metaName}/plugin-i18n/server`,
         options: {
           localeDetection,
           staticRoutePrefixes,
