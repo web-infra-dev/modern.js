@@ -1,5 +1,5 @@
 ---
-'@modern-js/uni-builder': patch
+'@modern-js/uni-builder': minor
 ---
 
 feat: enable rspack persistent cache default

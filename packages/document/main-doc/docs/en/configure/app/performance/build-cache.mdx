@@ -28,7 +28,7 @@ type BuildCacheConfig =
 
 Controls the caching behavior during the build process.
 
-When you are using webpack as build tool, Modern.js will enable build cache by default to improve the compile speed. You can disable the build cache by setting it to `false`:
+Modern.js will enable build cache by default to improve the compile speed. You can disable the build cache by setting it to `false`:
 
 ```js
 export default {
@@ -38,7 +38,9 @@ export default {
 };
 ```
 
-It should be noted that, Rspack's persistent cache is [experimental](https://rspack.rs/config/experiments#experimentscache), which may change in future versions, and this feature needs to be turned on manually.
+::: warning
+Starting from `v2.69.0`, Modern.js using rspack as build tool will enable buildCache by default; previous versions required manual configuration to enable it.
+:::
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
 
