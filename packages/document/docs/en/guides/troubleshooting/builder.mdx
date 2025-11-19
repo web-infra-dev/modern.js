@@ -188,20 +188,6 @@ export default {
 };
 ```
 
-In addition to the reasons mentioned above, there is another possibility that can cause Babel compilation to hang, which is when Babel compiles a large JS file exceeding 10,000 lines (usually a large file in the node_modules directory that is compiled using `source.include`).
-
-When Babel compiles large files, the built-in babel-plugin-styled-components in Modern.js can cause the compilation to hang. There is already a [relevant issue](https://github.com/styled-components/babel-plugin-styled-components/issues/374) in the community .
-
-In the future, Modern.js will consider removing the built-in babel-plugin-styled-components. In the current version, you can set [tools.styledComponents](/configure/app/tools/styled-components.html) to `false` to remove this plugin.
-
-```ts title="modern.config.ts"
-export default {
-  tools: {
-    styledComponents: false,
-  },
-};
-```
-
 ---
 
 ### The webpack cache does not work?

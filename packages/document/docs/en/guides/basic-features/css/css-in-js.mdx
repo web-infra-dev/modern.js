@@ -1,31 +1,34 @@
 # Using CSS-in-JS
 
-CSS-in-JS is a technique that allows you to write CSS styles in JS files.
+CSS-in-JS is a technique that allows you to write CSS styles within JS files.
 
-Modern.js supports the popular CSS-in-JS implementation library [styled-components](https://styled-components.com/), which uses the new JavaScript feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles. You can directly import the API of [styled-components](https://styled-components.com/) from `@modern-js/runtime/styled` for use.
+Modern.js supports the commonly used community CSS-in-JS library [styled-components](https://styled-components.com/), which uses JavaScript's new feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles.
+
+The Modern.js plugin `@modern-js/plugin-styled-components` provides support for styled-components and adds server-side rendering capability for styled-components. You can use styled-components by installing the `@modern-js/plugin-styled-components` plugin.
 
 ## Using styled-components in Modern.js
-First, you need to install the `styled-components` dependency:
 
-```bash
-# npm
-npm add @rsbuild/plugin-styled-components -D
+First, you need to install the `styled-components` plugin dependency:
 
-# yarn
-yarn add @rsbuild/plugin-styled-components -D
+import { PackageManagerTabs } from '@theme';
 
-# pnpm
-pnpm add @rsbuild/plugin-styled-components -D
-```
-Then, configure the `styled-components` plugin in `modern.config.ts`:
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @modern-js/plugin-styled-components -D',
+    yarn: 'yarn add @modern-js/plugin-styled-components -D',
+    pnpm: 'pnpm install @modern-js/plugin-styled-components -D',
+  }}
+/>
+
+Then configure the `styled-components` plugin in `modern.config.ts`:
 
 ```ts
 import { defineConfig } from '@modern-js/app-tools';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+import { styledComponentsPlugin } from '@modern-js/plugin-styled-components';
 
 export default defineConfig({
-  builderPlugins: [
-    pluginStyledComponents({
+  plugins: [
+    styledComponentsPlugin({
       // ...
       displayName: true,
       minify: process.env.NODE_ENV === 'production',
@@ -34,22 +37,24 @@ export default defineConfig({
 });
 ```
 
-## Writing Styles with styled-components
+The configuration options of the styledComponentsPlugin plugin are the same as those of the [@rsbuild/plugin-styled-components](https://www.npmjs.com/package/@rsbuild/plugin-styled-components) plugin. You can refer to the documentation of [@rsbuild/plugin-styled-components](https://www.npmjs.com/package/@rsbuild/plugin-styled-components) for configuration.
 
-When you need to write a `div` component with an internal font color of red, you can implement it as follows:
+## Writing styles with styled-components
+
+When you need to write a `div` component with red text inside, you can implement it as follows:
 
 ```js
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 
 const RedDiv = styled.div`
   color: red;
 `;
 ```
 
-If you need to dynamically set component styles based on the component's `props`, for example, the `primary` property of `props` is `true`, the button color is white, otherwise it is red, you can implement the code as follows:
+When you need to dynamically set component styles based on the component's `props`, for example, when the `primary` attribute of `props` is `true`, the button's color is white, otherwise red, the implementation is as follows:
 
 ```js
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 
 const Button = styled.button`
   color: ${props => (props.primary ? 'white' : 'red')};
@@ -57,10 +62,8 @@ const Button = styled.button`
 `;
 ```
 
-For more usage of styled-components, please refer to [styled-components official website](https://styled-components.com/).
+For more usage of styled-components, please refer to the [styled-components official website](https://styled-components.com/).
 
-Modern.js integrates Babel's [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) plugin internally, and you can configure the plugin through [tools.styledComponents](/configure/app/tools/styled-components).
-
-:::tip
-If you need to use other CSS-in-JS libraries such as [styled-jsx](https://www.npmjs.com/package/styled-jsx) and [Emotion](https://emotion.sh/), you need to install the corresponding dependencies first. For specific usage, please refer to the library's official website.
+:::tip Tip
+If you want to use other CSS-in-JS libraries such as [styled-jsx](https://www.npmjs.com/package/styled-jsx), [Emotion](https://emotion.sh/), etc., you need to install the corresponding dependencies first. Please refer to the official websites of the respective libraries for specific usage.
 :::

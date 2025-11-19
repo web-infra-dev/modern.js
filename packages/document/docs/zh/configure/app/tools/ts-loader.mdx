@@ -6,7 +6,7 @@ title: tsLoader
 
 import { Badge } from '@theme';
 
-<Badge type="danger" >仅支持 Webpack</Badge>
+<Badge type="danger">仅支持 Webpack</Badge>
 
 - **类型：** `Object | Function | undefined`
 - **默认值：** `undefined`
@@ -15,7 +15,7 @@ import { Badge } from '@theme';
 
 不推荐在项目中使用 ts-loader，原因如下：
 
-- 启用 ts-loader 时将无法使用 [source.transformImport](/configure/app/source/transform-import) 和 [tools.styledComponents](/configure/app/tools/styled-components) 等由 Babel 和 SWC 提供支持的能力。
+- 启用 ts-loader 时将无法使用 [source.transformImport](/configure/app/source/transform-import) 等由 Babel 和 SWC 提供支持的能力。
 - Rspack 不支持使用 ts-loader。
 
 :::

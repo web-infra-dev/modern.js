@@ -23,7 +23,7 @@ styled-components 通过模块化的方式，避免了传统 CSS 写法上的诸
 在 `src/routes/page.tsx` 里修改顶部的代码：
 
 ```js
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 ```
 
 添加以下代码：
@@ -81,7 +81,7 @@ import Avatar from '../components/Avatar';
 `src/components/Avatar/index.tsx` 的内容，修改为：
 
 ```ts
-import styled from '@modern-js/runtime/styled';
+import styled from '@modern-js/plugin-styled-components/styled';
 
 const Avatar = styled.img`
   width: 50px;
