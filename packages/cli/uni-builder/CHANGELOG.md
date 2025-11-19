@@ -1,5 +1,19 @@
 # @modern-js/uni-builder
 
+## 2.69.0
+
+### Minor Changes
+
+- d636723: feat: enable rspack persistent cache default
+
+  feat: rspack 默认启动持久化缓存
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.69.0
+- @modern-js/flight-server-transform-plugin@2.69.0
+- @modern-js/utils@2.69.0
+
 ## 2.68.20
 
 ### Patch Changes
