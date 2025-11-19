@@ -30,7 +30,7 @@
   "dependencies": {
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.6.6",
+    "@rsbuild/core": "1.6.7",
     "@rsbuild/plugin-assets-retry": "1.5.0",
     "@rsbuild/plugin-babel": "1.0.6",
     "@rsbuild/plugin-check-syntax": "1.6.0",
