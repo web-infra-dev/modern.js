@@ -76,7 +76,7 @@
     "@modern-js/builder": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.14.0",
+    "@rslib/core": "0.18.0",
     "@modern-js/rslib": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",
     "@types/jest": "^29.5.14",
