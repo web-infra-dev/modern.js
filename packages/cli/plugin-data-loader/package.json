@@ -76,7 +76,7 @@
     "supertest": "^6.3.4",
     "ts-jest": "^29.4.5",
     "typescript": "^5",
-    "@rsbuild/core": "1.6.6"
+    "@rsbuild/core": "1.6.7"
   },
   "peerDependencies": {
     "react": ">=17.0.0"
