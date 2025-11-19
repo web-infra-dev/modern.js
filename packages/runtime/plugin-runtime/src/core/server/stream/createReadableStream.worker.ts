@@ -68,9 +68,38 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       const stream = new ReadableStream({
         start(controller) {
           const pendingScripts: string[] = [];
+          let isClosed = false;
+
+          const safeEnqueue = (chunk: Uint8Array | unknown) => {
+            if (isClosed) return;
+            try {
+              controller.enqueue(chunk as Uint8Array);
+            } catch {
+              isClosed = true;
+            }
+          };
+
+          const closeController = () => {
+            if (!isClosed) {
+              isClosed = true;
+              try {
+                controller.close();
+              } catch {
+                // Controller already closed
+              }
+            }
+          };
+
+          const flushPendingScripts = () => {
+            for (const s of pendingScripts) {
+              safeEnqueue(encodeForWebStream(s));
+            }
+            pendingScripts.length = 0;
+          };
+
           const enqueueScript = (script: string) => {
             if (shellChunkStatus === ShellChunkStatus.FINISH) {
-              controller.enqueue(encodeForWebStream(script));
+              safeEnqueue(encodeForWebStream(script));
             } else {
               pendingScripts.push(script);
             }
@@ -78,7 +107,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
           const storageContext = storage.useContext?.();
           const activeDeferreds = storageContext?.activeDeferreds;
-
           /**
            * activeDeferreds is injected into storageContext by @modern-js/runtime.
            * @see packages/toolkit/runtime-utils/src/browser/nestedRoutes.tsx
@@ -89,50 +117,57 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               : [];
 
           if (entries.length > 0) {
-            enqueueFromEntries(entries, config.nonce, (s: string) =>
-              enqueueScript(s),
-            );
+            enqueueFromEntries(entries, config.nonce, enqueueScript);
           }
 
           async function push() {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              return;
-            }
-            if (shellChunkStatus !== ShellChunkStatus.FINISH) {
-              const chunk = new TextDecoder().decode(value);
+            try {
+              const { done, value } = await reader.read();
+              if (done) {
+                closeController();
+                return;
+              }
 
-              chunkVec.push(chunk);
+              if (isClosed) return;
 
-              let concatedChunk = chunkVec.join('');
-              if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
-                concatedChunk = concatedChunk.replace(
-                  ESCAPED_SHELL_STREAM_END_MARK,
-                  '',
-                );
+              if (shellChunkStatus !== ShellChunkStatus.FINISH) {
+                chunkVec.push(new TextDecoder().decode(value));
+                const concatedChunk = chunkVec.join('');
 
-                shellChunkStatus = ShellChunkStatus.FINISH;
+                if (concatedChunk.includes(ESCAPED_SHELL_STREAM_END_MARK)) {
+                  shellChunkStatus = ShellChunkStatus.FINISH;
+                  safeEnqueue(
+                    encodeForWebStream(
+                      `${shellBefore}${concatedChunk.replace(
+                        ESCAPED_SHELL_STREAM_END_MARK,
+                        '',
+                      )}${shellAfter}`,
+                    ),
+                  );
+                  flushPendingScripts();
+                }
+              } else {
+                safeEnqueue(value);
+              }
 
-                controller.enqueue(
-                  encodeForWebStream(
-                    `${shellBefore}${concatedChunk}${shellAfter}`,
-                  ),
-                );
-                // Flush any pending <script> collected before shell finished
-                if (pendingScripts.length > 0) {
-                  for (const s of pendingScripts) {
-                    controller.enqueue(encodeForWebStream(s));
-                  }
-                  pendingScripts.length = 0;
+              if (!isClosed) push();
+            } catch (error) {
+              if (!isClosed) {
+                isClosed = true;
+                try {
+                  controller.error(error);
+                } catch {
+                  // Controller already closed
                 }
               }
-            } else {
-              controller.enqueue(value);
             }
-            push();
           }
           push();
+        },
+        cancel(reason) {
+          reader.cancel(reason).catch(() => {
+            // Ignore cancellation errors
+          });
         },
       });
       return stream;
