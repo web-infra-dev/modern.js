@@ -91,7 +91,7 @@
     "@modern-js/types": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "jiti": "1.21.7",
-    "@rsbuild/core": "1.6.6"
+    "@rsbuild/core": "1.6.7"
   },
   "devDependencies": {
     "@modern-js/uni-builder": "workspace:*",
