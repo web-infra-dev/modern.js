@@ -35,14 +35,14 @@ exports[`uni-builder rspack with cache > should generator rspack config correctl
 exports[`uni-builder webpack with cache > should generator webpack config correctly with cache (default) 1`] = `
 {
   "buildDependencies": {
+    "additional": [
+      "modern.config.ts",
+    ],
     "packageJson": [
       "package.json",
     ],
     "tsconfig": [
       "tsconfig.json",
-    ],
-    "userBuildDependencies": [
-      "modern.config.ts",
     ],
   },
   "cacheDirectory": "node_modules/.cache/webpack",
