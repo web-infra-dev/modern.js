@@ -1,11 +1,10 @@
-import { useLoaderData } from '@modern-js/runtime/router';
 import { createLazyComponent } from '@module-federation/modern-js/react';
 import { getInstance } from '@module-federation/modern-js/runtime';
-import type { ProfileData } from './page.data';
+import { useTranslation } from 'react-i18next';
 
 const RemoteSSRComponent = createLazyComponent({
   instance: getInstance(),
-  loader: () => import('remote/Image'),
+  loader: () => import('remote/Text'),
   loading: 'loading...',
   export: 'default',
   fallback: ({ error }) => {
@@ -17,14 +16,10 @@ const RemoteSSRComponent = createLazyComponent({
 });
 
 export default () => {
-  const profileData = useLoaderData() as ProfileData;
-  const data = profileData.data;
-  if (typeof data !== 'string') {
-    return <div>Loading...</div>;
-  }
+  const { t } = useTranslation();
   return (
     <div id="key">
-      {data}
+      {t('key')}
       <RemoteSSRComponent />
     </div>
   );

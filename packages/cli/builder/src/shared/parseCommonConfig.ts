@@ -70,6 +70,7 @@ export async function parseCommonConfig(
     html: { outputStructure, appIcon, ...htmlConfig } = {},
     source: { alias, globalVars, transformImport, ...sourceConfig } = {},
     dev = {},
+    server = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: {
       devServer,
@@ -188,7 +189,7 @@ export async function parseCommonConfig(
   const { rsbuildDev, rsbuildServer } = transformToRsbuildServerOptions(
     dev || {},
     devServer || {},
-    builderConfig.server,
+    server || {},
   );
 
   rsbuildConfig.server = removeUndefinedKey(rsbuildServer);

@@ -8,5 +8,7 @@ export default createModuleFederationConfig({
   shared: {
     react: { singleton: true },
     'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
   },
 });

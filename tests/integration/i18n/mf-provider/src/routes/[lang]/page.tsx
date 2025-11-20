@@ -4,6 +4,7 @@ import type { ProfileData } from './page.data';
 export default () => {
   const profileData = useLoaderData() as ProfileData;
   const data = profileData.data;
+  console.log('===data', data);
   if (typeof data !== 'string') {
     return <div>Loading...</div>;
   }

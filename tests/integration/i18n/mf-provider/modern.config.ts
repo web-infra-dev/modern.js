@@ -11,13 +11,13 @@ export default defineConfig({
   },
   plugins: [
     appTools(),
-    // i18nPlugin({
-    //   localeDetection: {
-    //     localePathRedirect: true,
-    //     languages: ['zh', 'en'],
-    //     fallbackLanguage: 'en',
-    //   },
-    // }),
+    i18nPlugin({
+      localeDetection: {
+        localePathRedirect: true,
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
+      },
+    }),
     moduleFederationPlugin(),
   ],
 });

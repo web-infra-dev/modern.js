@@ -8,14 +8,14 @@ i18next.init({
   resources: {
     en: {
       translation: {
-        key: 'Hello World',
-        about: 'About',
+        key: 'Hello World(consumer)',
+        about: 'About(consumer)',
       },
     },
     zh: {
       translation: {
-        key: '你好，世界',
-        about: '关于',
+        key: '你好，世界(consumer)',
+        about: '关于(consumer)',
       },
     },
   },
