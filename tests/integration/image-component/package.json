@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rsdoctor/rspack-plugin": "^0.4.9",
+    "@rsdoctor/rspack-plugin": "^1.3.11",
     "@types/jest": "^29",
     "@types/node": "^18",
     "@types/react": "^18.3.11",
