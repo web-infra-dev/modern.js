@@ -188,6 +188,7 @@ export async function parseCommonConfig(
   const { rsbuildDev, rsbuildServer } = transformToRsbuildServerOptions(
     dev || {},
     devServer || {},
+    builderConfig.server,
   );
 
   rsbuildConfig.server = removeUndefinedKey(rsbuildServer);

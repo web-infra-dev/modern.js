@@ -20,13 +20,16 @@ const defaultDevConfig = {
 export const transformToRsbuildServerOptions = (
   dev: NonNullable<BuilderConfig['dev']>,
   devServer: ToolsDevServerConfig,
+  server?: BuilderConfig['server'],
 ): {
   rsbuildDev: DevConfig;
   rsbuildServer: ServerConfig;
 } => {
   const { host, https, startUrl, beforeStartUrl, ...devConfig } = dev;
 
-  const port = process.env.PORT ? Number(process.env.PORT) : 8080;
+  const port = process.env.PORT
+    ? Number(process.env.PORT)
+    : (server?.port ?? 8080);
   const rsbuildDev: DevConfig = merge(defaultDevConfig, devConfig);
   // setupMiddlewares apply by @modern-js/server
   delete rsbuildDev.setupMiddlewares;

@@ -271,6 +271,7 @@ export type BuilderConfig = {
   };
   server?: {
     rsc?: boolean;
+    port?: number;
   };
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
