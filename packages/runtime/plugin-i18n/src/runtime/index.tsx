@@ -39,6 +39,7 @@ export interface I18nPluginOptions {
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => void;
   initOptions?: I18nInitOptions;
+  [key: string]: any;
 }
 
 const getPathname = (context: TRuntimeContext) => {
