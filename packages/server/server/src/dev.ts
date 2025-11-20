@@ -110,7 +110,6 @@ export const devPlugin = (
 
       middlewares.push({
         name: 'mock-dev',
-
         handler: mockMiddleware,
       });
 
