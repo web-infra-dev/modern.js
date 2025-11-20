@@ -63,8 +63,6 @@ main {
   border-radius: 12px;
   padding: 0.6rem 0.9rem;
   font-size: 1.05rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
 .container-box .grid {
