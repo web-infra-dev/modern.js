@@ -13,9 +13,10 @@ export default defineConfig({
     appTools(),
     i18nPlugin({
       localeDetection: {
-        localePathRedirect: false,
+        localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
+        ignoreRedirectRoutes: ['/about', '/'],
       },
     }),
     moduleFederationPlugin(),
