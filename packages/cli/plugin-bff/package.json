@@ -19,37 +19,61 @@
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
-  "module": "./dist/esm/cli.js",
+  "module": "./dist/esm-node/cli.mjs",
   "exports": {
     "./types": "./types.d.ts",
     ".": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
+      "node": {
+        "import": "./dist/esm-node/cli.mjs",
+        "require": "./dist/cjs/cli.js"
+      },
       "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
+      "node": {
+        "import": "./dist/esm-node/cli.mjs",
+        "require": "./dist/cjs/cli.js"
+      },
       "default": "./dist/cjs/cli.js"
     },
     "./server-plugin": {
       "types": "./dist/types/server.d.ts",
       "jsnext:source": "./src/server.ts",
+      "node": {
+        "import": "./dist/esm-node/server.mjs",
+        "require": "./dist/cjs/server.js"
+      },
       "default": "./dist/cjs/server.js"
     },
     "./loader": {
       "types": "./dist/types/loader.d.ts",
       "jsnext:source": "./src/loader.ts",
+      "node": {
+        "import": "./dist/esm-node/loader.mjs",
+        "require": "./dist/cjs/loader.js"
+      },
       "default": "./dist/cjs/loader.js"
     },
     "./server": {
       "types": "./dist/types/runtime/hono/index.d.ts",
       "jsnext:source": "./src/runtime/hono/index.ts",
+      "node": {
+        "import": "./dist/esm-node/runtime/hono/index.mjs",
+        "require": "./dist/cjs/runtime/hono/index.js"
+      },
       "default": "./dist/cjs/runtime/hono/index.js"
     },
     "./client": {
       "types": "./dist/types/create-request/index.d.ts",
       "jsnext:source": "./src/runtime/create-request/index.ts",
+      "node": {
+        "import": "./dist/esm-node/runtime/create-request/index.mjs",
+        "require": "./dist/cjs/runtime/create-request/index.js"
+      },
       "default": "./dist/cjs/runtime/create-request/index.js"
     }
   },
@@ -75,8 +99,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "rslib build",
+    "dev": "rslib build --watch",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -96,9 +120,10 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@rsbuild/core": "1.6.8",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",

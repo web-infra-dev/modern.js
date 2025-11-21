@@ -225,7 +225,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 ): T {
   return (async (...args: Parameters<T>) => {
     if (isServer && typeof options === 'undefined') {
-      const storage = getAsyncLocalStorage();
+      const storage = await getAsyncLocalStorage();
       const request = storage?.useContext()?.request;
       if (request) {
         let shouldDisableCaching = false;
@@ -302,7 +302,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
 
         let shouldDisableCaching = false;
         if (isServer && cacheConfig.unstable_shouldDisable) {
-          const asyncStorage = getAsyncLocalStorage();
+          const asyncStorage = await getAsyncLocalStorage();
           const request = asyncStorage?.useContext()?.request;
           if (request) {
             shouldDisableCaching = await cacheConfig.unstable_shouldDisable({
@@ -361,7 +361,7 @@ export function cache<T extends (...args: any[]) => Promise<any>>(
                       }
                     } catch (error) {
                       if (isServer) {
-                        const asyncStorage = getAsyncLocalStorage();
+                        const asyncStorage = await getAsyncLocalStorage();
                         asyncStorage
                           ?.useContext()
                           ?.monitors?.error((error as Error).message);
@@ -524,7 +524,7 @@ export function withRequestCache<
   }
 
   return (async (req: Request, ...args: Parameters<T>) => {
-    const storage = getAsyncLocalStorage();
+    const storage = await getAsyncLocalStorage();
     return storage!.run({ request: req }, () => handler(req, ...args));
   }) as T;
 }

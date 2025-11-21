@@ -19,12 +19,17 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/esm/index.mjs",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "node": {
+        "require": "./dist/cjs/index.js",
+        "import": "./dist/esm-node/index.mjs"
+      },
+      "import": "./dist/esm-node/index.mjs",
       "default": "./dist/cjs/index.js"
     },
     "./logger": {
@@ -47,17 +52,17 @@
     },
     "./universal": {
       "jsnext:source": "./src/universal/index.ts",
-      "import": "./dist/esm/universal/index.js",
+      "import": "./dist/esm/universal/index.mjs",
       "default": "./dist/cjs/universal/index.js"
     },
     "./universal/constants": {
       "jsnext:source": "./src/universal/constants.ts",
-      "import": "./dist/esm/universal/constants.js",
+      "import": "./dist/esm/universal/constants.mjs",
       "default": "./dist/cjs/universal/constants.js"
     },
     "./universal/plugin-dag-sort": {
       "jsnext:source": "./src/universal/pluginDagSort.ts",
-      "import": "./dist/esm/universal/pluginDagSort.js",
+      "import": "./dist/esm/universal/pluginDagSort.mjs",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
     "./commander": "./compiled/commander/index.js",
@@ -113,6 +118,7 @@
     "exports": {
       ".": {
         "types": "./dist/types/index.d.ts",
+        "import": "./dist/esm-node/index.mjs",
         "default": "./dist/cjs/index.js"
       },
       "./logger": {
@@ -135,17 +141,17 @@
       },
       "./universal": {
         "types": "./dist/types/universal/index.d.ts",
-        "import": "./dist/esm/universal/index.js",
+        "import": "./dist/esm/universal/index.mjs",
         "default": "./dist/cjs/universal/index.js"
       },
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
-        "import": "./dist/esm/universal/constants.js",
+        "import": "./dist/esm/universal/constants.mjs",
         "default": "./dist/cjs/universal/constants.js"
       },
       "./universal/plugin-dag-sort": {
         "types": "./dist/types/universal/pluginDagSort.d.ts",
-        "import": "./dist/esm/universal/pluginDagSort.js",
+        "import": "./dist/esm/universal/pluginDagSort.mjs",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
       "./commander": "./dist/compiled/commander/index.js",
@@ -271,8 +277,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -283,11 +289,12 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "jest": "^29.7.0",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "peerDependencies": {

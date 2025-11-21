@@ -19,12 +19,13 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
+  "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/cjs/index.js"
@@ -32,16 +33,28 @@
     "./builder": {
       "types": "./dist/types/builder/index.d.ts",
       "jsnext:source": "./src/builder/index.ts",
+      "node": {
+        "import": "./dist/esm-node/builder/index.mjs",
+        "require": "./dist/cjs/builder/index.js"
+      },
       "default": "./dist/cjs/builder/index.js"
     },
     "./cli": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
     },
     "./cli/run": {
       "types": "./dist/types/run/index.d.ts",
       "jsnext:source": "./src/run/index.ts",
+      "node": {
+        "import": "./dist/esm-node/run/index.mjs",
+        "require": "./dist/cjs/run/index.js"
+      },
       "default": "./dist/cjs/run/index.js"
     },
     "./types": {
@@ -52,6 +65,10 @@
     "./server": {
       "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
+      "node": {
+        "import": "./dist/esm-node/exports/server.mjs",
+        "require": "./dist/cjs/exports/server.js"
+      },
       "default": "./dist/cjs/exports/server.js"
     }
   },
@@ -87,8 +104,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -118,8 +135,9 @@
     "std-env": "^3.10.0"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
