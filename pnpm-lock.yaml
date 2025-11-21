@@ -3796,6 +3796,40 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-ssg
 
+  tests/integration/i18n/mf-app-provider:
+    dependencies:
+      '@modern-js/plugin-i18n':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-i18n
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      '@module-federation/bridge-react':
+        specifier: 0.0.0-feat-modern-3-0-20251120074204
+        version: 0.0.0-feat-modern-3-0-20251120074204(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+      '@module-federation/modern-js':
+        specifier: 0.0.0-feat-modern-3-0-20251120074204
+        version: 0.0.0-feat-modern-3-0-20251120074204(@rsbuild/core@1.6.7)(@rspack/core@1.6.4(@swc/helpers@0.5.17))(bufferutil@4.0.8)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(typescript@5.6.3)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
+      i18next:
+        specifier: 25.6.2
+        version: 25.6.2(typescript@5.6.3)
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.0(react@19.2.0)
+      react-i18next:
+        specifier: 15.7.4
+        version: 15.7.4(i18next@25.6.2(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-ssg':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-ssg
+
   tests/integration/i18n/mf-consumer:
     dependencies:
       '@modern-js/plugin-i18n':
@@ -3804,9 +3838,15 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
+      '@module-federation/bridge-react':
+        specifier: 0.0.0-feat-modern-3-0-20251120074204
+        version: 0.0.0-feat-modern-3-0-20251120074204(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       '@module-federation/modern-js':
         specifier: 0.0.0-feat-modern-3-0-20251120074204
         version: 0.0.0-feat-modern-3-0-20251120074204(@rsbuild/core@1.6.7)(@rspack/core@1.6.4(@swc/helpers@0.5.17))(bufferutil@4.0.8)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(typescript@5.6.3)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
+      '@module-federation/runtime':
+        specifier: 0.0.0-feat-modern-3-0-20251120074204
+        version: 0.0.0-feat-modern-3-0-20251120074204
       i18next:
         specifier: 25.6.2
         version: 25.6.2(typescript@5.6.3)

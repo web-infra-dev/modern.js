@@ -1,6 +1,15 @@
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import RemoteApp from '../../../components/RemoteApp';
 
-export default () => {
-  const { t } = useTranslation();
-  return <div id="about">{t('about')}</div>;
+export default (props: Record<string, any>) => {
+  return (
+    <div>
+      <h2>远程应用页面</h2>
+      <RemoteApp
+        {...props}
+        basename={'/remote-app'}
+        customProp="hello from host"
+      />
+    </div>
+  );
 };

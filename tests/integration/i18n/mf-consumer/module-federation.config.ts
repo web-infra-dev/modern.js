@@ -4,6 +4,10 @@ export default createModuleFederationConfig({
   name: 'consumer',
   remotes: {
     remote: 'provider@http://localhost:3006/mf-manifest.json',
+    producerApp: 'provider@http://localhost:3005/mf-manifest.json',
+  },
+  bridge: {
+    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },

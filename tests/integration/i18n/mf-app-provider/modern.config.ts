@@ -4,10 +4,10 @@ import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
   server: {
-    // ssr: {
-    //   mode: 'stream',
-    // },
-    port: 3007,
+    ssr: {
+      mode: 'stream',
+    },
+    port: 3005,
   },
   plugins: [
     appTools(),
