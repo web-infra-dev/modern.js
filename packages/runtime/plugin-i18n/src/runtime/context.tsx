@@ -11,6 +11,7 @@ export interface ModernI18nContextValue {
   entryName?: string;
   languages?: string[];
   localePathRedirect?: boolean;
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean);
   // Callback to update language in context
   updateLanguage?: (newLang: string) => void;
 }
@@ -40,6 +41,44 @@ export interface UseModernI18nReturn {
   supportedLanguages: string[];
   isLanguageSupported: (lang: string) => boolean;
 }
+
+/**
+ * Check if the given pathname should ignore automatic locale redirect
+ */
+const shouldIgnoreRedirect = (
+  pathname: string,
+  languages: string[],
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+): boolean => {
+  if (!ignoreRedirectRoutes) {
+    return false;
+  }
+
+  // Remove language prefix if present (e.g., /en/api -> /api)
+  const segments = pathname.split('/').filter(Boolean);
+  let pathWithoutLang = pathname;
+  if (segments.length > 0 && languages.includes(segments[0])) {
+    // Remove language prefix
+    pathWithoutLang = `/${segments.slice(1).join('/')}`;
+  }
+
+  // Normalize path (ensure it starts with /)
+  const normalizedPath = pathWithoutLang.startsWith('/')
+    ? pathWithoutLang
+    : `/${pathWithoutLang}`;
+
+  if (typeof ignoreRedirectRoutes === 'function') {
+    return ignoreRedirectRoutes(normalizedPath);
+  }
+
+  // Check if pathname matches any of the ignore patterns
+  return ignoreRedirectRoutes.some(pattern => {
+    // Support both exact match and prefix match
+    return (
+      normalizedPath === pattern || normalizedPath.startsWith(`${pattern}/`)
+    );
+  });
+};
 
 // Safe hook wrapper to handle cases where router context is not available
 const useRouterHooks = () => {
@@ -91,6 +130,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
     i18nInstance,
     languages,
     localePathRedirect,
+    ignoreRedirectRoutes,
     updateLanguage,
   } = context;
 
@@ -143,33 +183,55 @@ export const useModernI18n = (): UseModernI18nReturn => {
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
-          // Build new path with updated language
-          const newPath = buildLocalizedUrl(
-            relativePath,
-            newLang,
-            languages || [],
-          );
-          const newUrl = entryPath + newPath + location.search + location.hash;
+          // Check if this route should ignore automatic redirect
+          if (
+            !shouldIgnoreRedirect(
+              relativePath,
+              languages || [],
+              ignoreRedirectRoutes,
+            )
+          ) {
+            // Build new path with updated language
+            const newPath = buildLocalizedUrl(
+              relativePath,
+              newLang,
+              languages || [],
+            );
+            const newUrl =
+              entryPath + newPath + location.search + location.hash;
 
-          // Navigate to new URL
-          navigate(newUrl, { replace: true });
+            // Navigate to new URL
+            await navigate(newUrl, { replace: true });
+          }
         } else if (localePathRedirect && isBrowser() && !hasRouter) {
           // Fallback: use window.history API when router is not available
           const currentPath = window.location.pathname;
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
-          // Build new path with updated language
-          const newPath = buildLocalizedUrl(
-            relativePath,
-            newLang,
-            languages || [],
-          );
-          const newUrl =
-            entryPath + newPath + window.location.search + window.location.hash;
+          // Check if this route should ignore automatic redirect
+          if (
+            !shouldIgnoreRedirect(
+              relativePath,
+              languages || [],
+              ignoreRedirectRoutes,
+            )
+          ) {
+            // Build new path with updated language
+            const newPath = buildLocalizedUrl(
+              relativePath,
+              newLang,
+              languages || [],
+            );
+            const newUrl =
+              entryPath +
+              newPath +
+              window.location.search +
+              window.location.hash;
 
-          // Use history API to navigate without page reload
-          window.history.pushState(null, '', newUrl);
+            // Use history API to navigate without page reload
+            window.history.pushState(null, '', newUrl);
+          }
         }
 
         // Update language state after URL update
@@ -185,6 +247,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
       i18nInstance,
       updateLanguage,
       localePathRedirect,
+      ignoreRedirectRoutes,
       languages,
       hasRouter,
       navigate,

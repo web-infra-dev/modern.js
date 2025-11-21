@@ -39,6 +39,7 @@ export interface I18nPluginOptions {
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => void;
   initOptions?: I18nInitOptions;
+  [key: string]: any;
 }
 
 const getPathname = (context: TRuntimeContext) => {
@@ -64,6 +65,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       languages = [],
       fallbackLanguage = 'en',
       detection,
+      ignoreRedirectRoutes,
     } = localeDetection || {};
     const { enabled: backendEnabled = false } = backend || {};
     let I18nextProvider: React.FunctionComponent<any> | null;
@@ -184,6 +186,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           entryName,
           languages,
           localePathRedirect,
+          ignoreRedirectRoutes,
           updateLanguage: setLang,
         };
 

@@ -9,6 +9,7 @@ export interface BaseLocaleDetectionOptions {
   languages?: string[];
   fallbackLanguage?: string;
   detection?: LanguageDetectorOptions;
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean);
 }
 
 export interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {

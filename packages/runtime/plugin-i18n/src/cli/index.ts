@@ -13,6 +13,15 @@ export interface I18nPluginOptions {
   localeDetection?: LocaleDetectionOptions;
   backend?: BackendOptions;
   transformRuntimeConfig?: TransformRuntimeConfigFn;
+  customPlugin?: {
+    runtime?: {
+      name?: string;
+      path?: string;
+    };
+    server?: {
+      name?: string;
+    };
+  };
   [key: string]: any;
 }
 
@@ -21,8 +30,13 @@ export const i18nPlugin = (
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-i18n',
   setup: api => {
-    const { localeDetection, backend, transformRuntimeConfig, ...restOptions } =
-      options;
+    const {
+      localeDetection,
+      backend,
+      transformRuntimeConfig,
+      customPlugin,
+      ...restOptions
+    } = options;
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const localeDetectionOptions = localeDetection
         ? getLocaleDetectionOptions(entrypoint.entryName, localeDetection)
@@ -50,8 +64,8 @@ export const i18nPlugin = (
       };
 
       plugins.push({
-        name: 'i18n',
-        path: `@${metaName}/plugin-i18n/runtime`,
+        name: customPlugin?.runtime?.name || 'i18n',
+        path: customPlugin?.runtime?.path || `@${metaName}/plugin-i18n/runtime`,
         config,
       });
       return {
@@ -88,7 +102,7 @@ export const i18nPlugin = (
       });
 
       plugins.push({
-        name: `@${metaName}/plugin-i18n/server`,
+        name: customPlugin?.server?.name || `@${metaName}/plugin-i18n/server`,
         options: {
           localeDetection,
           staticRoutePrefixes,

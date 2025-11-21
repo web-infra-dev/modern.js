@@ -147,8 +147,11 @@ export const routerPlugin = (
           return match || '/';
         };
 
+        // Cache router instance in closure to avoid recreating on parent re-render
+        let cachedRouter: any = null;
+
         const RouterWrapper = (props: any) => {
-          const { router, routes } = useRouterCreation(
+          const routerResult = useRouterCreation(
             {
               ...props,
               rscPayload: props?.rscPayload,
@@ -161,6 +164,18 @@ export const routerPlugin = (
               basename,
             },
           );
+
+          // Only cache router instance, routes are always from routerResult
+          // rscPayload is stable after first render, so we only create router once
+          const router = useMemo(() => {
+            if (cachedRouter) {
+              return cachedRouter;
+            }
+
+            cachedRouter = routerResult.router;
+            return cachedRouter;
+          }, []);
+          const { routes } = routerResult;
 
           useEffect(() => {
             routesContainer.current = routes;
