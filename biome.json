@@ -16,7 +16,8 @@
       "packages/generator/sandpack-react/src/templates/**",
       "tests/integration/swc/fixtures/minify-css/src/bootstrap.css",
       "tests/integration/swc/fixtures/config-function/src/bootstrap.css",
-      "packages/runtime/plugin-runtime/static/**"
+      "packages/runtime/plugin-runtime/static/**",
+      "tests/integration/i18n/mf-consumer/@mf-types/**"
     ]
   },
   "css": {
@@ -113,7 +114,8 @@
       "tests/integration/module/plugins/vue/**/*",
       "packages/module/plugin-module-node-polyfill/src/globals.js",
       "packages/runtime/plugin-runtime/static/**",
-      "packages/cli/flight-server-transform-plugin/tests/fixture/**/*"
+      "packages/cli/flight-server-transform-plugin/tests/fixture/**/*",
+      "**/@mf-types/**"
     ]
   }
 }
