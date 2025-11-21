@@ -9,6 +9,9 @@ export default defineConfig({
     },
     port: 3006,
   },
+  performance: {
+    buildCache: false,
+  },
   plugins: [
     appTools(),
     i18nPlugin({

@@ -15,7 +15,6 @@ export default () => {
     return (
       <>
         <div>Loading...</div>
-        <div id="key">{i18next.t('key')}</div>
       </>
     );
   }

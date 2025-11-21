@@ -1,6 +1,16 @@
-import { useTranslation } from 'react-i18next';
+import { useLoaderData } from '@modern-js/runtime/router';
+import i18next from '../../../i18n';
+import type { ProfileData } from './page.data';
 
 export default () => {
-  const { t } = useTranslation();
-  return <div id="about">{t('about')}</div>;
+  const profileData = useLoaderData() as ProfileData;
+  const data = profileData.data;
+  if (typeof data !== 'string') {
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    );
+  }
+  return <div id="key">{data}</div>;
 };
