@@ -47,10 +47,12 @@ function applyNodeCompat(isServiceWorker: boolean, chain: RspackChain) {
     '.node.jsx',
     '.node.ts',
     '.node.tsx',
+    '.node.mjs',
     '.server.js',
     '.server.jsx',
     '.server.ts',
     '.server.tsx',
+    '.server.mjs',
   ];
   const webWorkerExts = [
     '.worker.js',
@@ -68,4 +70,16 @@ function applyNodeCompat(isServiceWorker: boolean, chain: RspackChain) {
       chain.resolve.extensions.prepend(ext);
     }
   }
+
+  const extensionAlias = {
+    '.js': ['.node.js', '.server.js', '.js'],
+    '.jsx': ['.node.jsx', '.server.jsx', '.jsx'],
+    '.ts': ['.node.ts', '.server.ts', '.ts'],
+    '.tsx': ['.node.tsx', '.server.tsx', '.tsx'],
+    '.mjs': ['.node.mjs', '.server.mjs', '.mjs'],
+    '.json': ['.node.json', '.server.json', '.json'],
+  };
+
+  // At present, it is mainly for the scene of async_storage and consistent with resolve.extensions
+  chain.resolve.extensionAlias.merge(extensionAlias);
 }

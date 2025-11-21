@@ -234,7 +234,7 @@ const configureChildCompiler = (
   child.options.target = 'node';
   child.options.context = compiler.options.context || appDirectory;
   child.options.resolve = {
-    ...child.options.resolve,
+    ...compiler.options.resolve,
     fallback: {},
   };
   child.options.module = compiler.options.module;
@@ -432,22 +432,25 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       }
     }
 
-    api.config(() => ({
-      resolve: {
-        alias: {
-          '@meta/runtime/document$': require
-            .resolve('../')
-            .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`),
+    api.config(() => {
+      const documentPath = require.resolve('../');
+      return {
+        resolve: {
+          alias: {
+            '@meta/runtime/document$': documentPath
+              .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
+              .replace(/.js$/, '.mjs'),
+          },
         },
-      },
-      tools: {
-        bundlerChain: (chain: RspackChain) => {
-          chain
-            .plugin('modernjs-document-child-compiler')
-            .use(ModernJsDocumentChildCompilerPlugin, []);
+        tools: {
+          bundlerChain: (chain: RspackChain) => {
+            chain
+              .plugin('modernjs-document-child-compiler')
+              .use(ModernJsDocumentChildCompilerPlugin, []);
+          },
         },
-      },
-    }));
+      };
+    });
 
     const getDocParams = (params: {
       config: NormalizedConfig;

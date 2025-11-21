@@ -5,6 +5,12 @@ import {
 } from '@modern-js/builder';
 import { type EnvironmentConfig, mergeRsbuildConfig } from '@rsbuild/core';
 import type { BuilderOptions } from '../shared';
+import {
+  builderPluginAdapterBasic,
+  builderPluginAdapterHooks,
+  builderPluginAdapterHtml,
+  builderPluginAdapterSSR,
+} from '../shared/builderPlugins';
 import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
 import { getBuilderEnvironments } from './getBuilderEnvironments';
@@ -72,13 +78,6 @@ async function applyBuilderPlugins(
   builder: BuilderInstance,
   options: BuilderOptions,
 ) {
-  const {
-    builderPluginAdapterBasic,
-    builderPluginAdapterHtml,
-    builderPluginAdapterSSR,
-    builderPluginAdapterHooks,
-  } = await import('../shared/builderPlugins/index.js');
-
   builder.addPlugins([
     builderPluginAdapterBasic(options),
     builderPluginAdapterSSR(options),
