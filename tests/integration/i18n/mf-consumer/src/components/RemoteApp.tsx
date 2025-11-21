@@ -1,5 +1,5 @@
 import { createRemoteAppComponent } from '@module-federation/bridge-react';
-import { loadRemote } from '@module-federation/runtime';
+import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 
 // 错误回退组件
@@ -24,9 +24,9 @@ const FallbackComp = (
 
 // 创建远程应用组件
 const RemoteApp = createRemoteAppComponent({
-  loader: () => import('producerApp/export-app'),
+  // loader: () => import('AppRemote/export-App'),
   // 或者使用 loadRemote:
-  // loader: () => loadRemote('producerApp/export-app'),
+  loader: () => loadRemote('AppRemote/export-app'),
   export: 'provider' as any, // 指定导出的 provider
   fallback: FallbackErrorComp,
   loading: FallbackComp,

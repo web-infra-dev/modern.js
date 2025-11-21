@@ -1,5 +1,5 @@
-import type { PackageType as PackageType_0,RemoteKeys as RemoteKeys_0 } from './producerApp/apis.d.ts';
-import type { PackageType as PackageType_1,RemoteKeys as RemoteKeys_1 } from './remote/apis.d.ts';
+import type { PackageType as PackageType_0,RemoteKeys as RemoteKeys_0 } from './AppRemote/apis.d.ts';
+import type { PackageType as PackageType_1,RemoteKeys as RemoteKeys_1 } from './componentRemote/apis.d.ts';
     declare module "@module-federation/runtime" {
       type RemoteKeys = RemoteKeys_0 | RemoteKeys_1;
       type PackageType<T, Y=any> = T extends RemoteKeys_0 ? PackageType_0<T> :

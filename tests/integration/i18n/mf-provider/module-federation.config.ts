@@ -2,7 +2,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
-  name: 'provider',
+  name: 'i18nComponentProvider',
   filename: 'remoteEntry.js',
   exposes: {
     './Text': './src/components/Text.tsx',

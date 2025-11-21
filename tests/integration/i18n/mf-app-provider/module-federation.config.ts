@@ -2,7 +2,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
-  name: 'provider',
+  name: 'i18nAppProvider',
   filename: 'remoteEntry.js',
   exposes: {
     './export-app': './src/export-app.tsx',

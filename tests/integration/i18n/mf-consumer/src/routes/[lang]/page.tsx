@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 const RemoteSSRComponent = createLazyComponent({
   instance: getInstance(),
-  loader: () => import('remote/Text'),
+  loader: () => import('componentRemote/Text'),
   loading: 'loading...',
   export: 'default',
   fallback: ({ error }) => {
