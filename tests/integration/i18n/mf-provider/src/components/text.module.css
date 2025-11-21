@@ -5,3 +5,33 @@
 .text2 {
   color: blue;
 }
+
+.remoteBadge {
+  margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.remoteBadge:hover {
+  opacity: 1;
+}
+
+.remoteIcon {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.remoteText {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
