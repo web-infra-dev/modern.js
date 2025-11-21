@@ -13,7 +13,7 @@ export default defineConfig({
     appTools(),
     i18nPlugin({
       localeDetection: {
-        localePathRedirect: true,
+        localePathRedirect: false,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
       },

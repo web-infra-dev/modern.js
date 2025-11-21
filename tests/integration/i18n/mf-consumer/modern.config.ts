@@ -16,6 +16,7 @@ export default defineConfig({
         localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
+        ignoreRedirectRoutes: ['/remote'],
       },
     }),
     moduleFederationPlugin(),

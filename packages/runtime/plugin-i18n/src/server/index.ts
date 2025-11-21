@@ -79,6 +79,42 @@ const convertToHonoLanguageDetectorOptions = (
 };
 
 /**
+ * Check if the given pathname should ignore automatic locale redirect
+ */
+const shouldIgnoreRedirect = (
+  pathname: string,
+  urlPath: string,
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+): boolean => {
+  if (!ignoreRedirectRoutes) {
+    return false;
+  }
+
+  // Remove urlPath prefix to get remaining path for matching
+  const basePath = urlPath.replace('/*', '');
+  const remainingPath = pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length)
+    : pathname;
+
+  // Normalize path (ensure it starts with /)
+  const normalizedPath = remainingPath.startsWith('/')
+    ? remainingPath
+    : `/${remainingPath}`;
+
+  if (typeof ignoreRedirectRoutes === 'function') {
+    return ignoreRedirectRoutes(normalizedPath);
+  }
+
+  // Check if pathname matches any of the ignore patterns
+  return ignoreRedirectRoutes.some(pattern => {
+    // Support both exact match and prefix match
+    return (
+      normalizedPath === pattern || normalizedPath.startsWith(`${pattern}/`)
+    );
+  });
+};
+
+/**
  * Check if the given pathname is a static resource request
  * This includes:
  * 1. Paths matching staticRoutePrefixes (from public directories)
@@ -206,6 +242,7 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
           languages = [],
           fallbackLanguage = 'en',
           detection,
+          ignoreRedirectRoutes,
         } = getLocaleDetectionOptions(entryName, options.localeDetection);
         const staticRoutePrefixes = options.staticRoutePrefixes;
         const originUrlPath = route.urlPath;
@@ -258,6 +295,13 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
                   staticRoutePrefixes,
                   languages,
                 )
+              ) {
+                return await next();
+              }
+
+              // Check if this route should ignore automatic redirect
+              if (
+                shouldIgnoreRedirect(pathname, urlPath, ignoreRedirectRoutes)
               ) {
                 return await next();
               }
