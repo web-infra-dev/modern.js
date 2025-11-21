@@ -152,7 +152,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
           const newUrl = entryPath + newPath + location.search + location.hash;
 
           // Navigate to new URL
-          navigate(newUrl, { replace: true });
+          await navigate(newUrl, { replace: true });
         } else if (localePathRedirect && isBrowser() && !hasRouter) {
           // Fallback: use window.history API when router is not available
           const currentPath = window.location.pathname;
