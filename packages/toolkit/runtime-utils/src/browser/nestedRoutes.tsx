@@ -149,7 +149,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
       const res = await loader(args);
       let activeDeferreds = null;
       if (typeof document === 'undefined') {
-        activeDeferreds = getAsyncLocalStorage()?.useContext()
+        activeDeferreds = (await getAsyncLocalStorage())?.useContext()
           ?.activeDeferreds as Map<string, DeferredData>;
       } else {
         activeDeferreds = originalActiveDeferreds;
@@ -161,7 +161,7 @@ function createLoader(route: NestedRoute): LoaderFunction {
 
       const cost = end();
       if (typeof document === 'undefined') {
-        const storage = getAsyncLocalStorage();
+        const storage = await getAsyncLocalStorage();
         storage
           ?.useContext()
           .monitors?.timing(

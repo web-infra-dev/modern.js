@@ -212,12 +212,13 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
             );
 
             const name = isServer ? 'server' : 'client';
+            const loaderPath = require.resolve('./loader');
             chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
             chain.module
               .rule('js-bff-api')
               .test(apiRegexp)
               .use('custom-loader')
-              .loader(require.resolve('./loader').replace(/\\/g, '/'))
+              .loader(loaderPath.replace(/\\/g, '/'))
               .options({
                 prefix,
                 appDir: appDirectory,

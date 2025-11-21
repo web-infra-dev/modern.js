@@ -3,6 +3,7 @@ import { i18next } from './i18n';
 
 export default defineRuntimeConfig({
   i18n: {
+    debug: true,
     i18nInstance: i18next,
     initOptions: {
       fallbackLng: 'en',

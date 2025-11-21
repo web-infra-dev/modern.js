@@ -22,7 +22,7 @@
   "jsnext:source": "./src/runtime/index.ts",
   "types": "./src/runtime/index.ts",
   "main": "./dist/cjs/runtime/index.js",
-  "module": "./dist/esm/runtime/index.js",
+  "module": "./dist/esm/runtime/index.mjs",
   "exports": {
     "./loader": {
       "types": "./dist/types/cli/loader.d.ts",
@@ -32,7 +32,7 @@
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/esm/runtime/index.js"
+      "default": "./dist/esm/runtime/index.mjs"
     }
   },
   "typesVersions": {
@@ -48,8 +48,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "rslib build",
+    "dev": "rslib build --watch",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -62,8 +62,9 @@
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
