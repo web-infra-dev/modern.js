@@ -3,7 +3,7 @@ import { castArray } from '@modern-js/builder';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
 import { createAsyncHook } from '@modern-js/plugin';
 import {
-  // cleanRequireCache,
+  cleanRequireCache,
   deprecatedCommands,
   emptyDir,
   getArgv,
@@ -160,9 +160,9 @@ export const appTools = (): CliPlugin<AppTools> => ({
       }
     });
 
-    // api.onBeforeRestart(() => {
-    //   cleanRequireCache([require.resolve('./plugins/analyze')]);
-    // });
+    api.onBeforeRestart(() => {
+      cleanRequireCache([require.resolve('./plugins/analyze')]);
+    });
   },
 });
 
