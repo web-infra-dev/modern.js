@@ -13,6 +13,6 @@
     "@modern-js/runtime": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^2"
+    "tailwindcss": "^2.2.19"
   }
 }
