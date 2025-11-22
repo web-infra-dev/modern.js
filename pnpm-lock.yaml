@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -3805,8 +3803,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-modern-3-0-20251120074204
-        version: 0.0.0-feat-modern-3-0-20251120074204(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+        specifier: 0.21.6
+        version: 0.21.6(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       '@module-federation/modern-js':
         specifier: 0.0.0-feat-modern-3-0-20251120074204
         version: 0.0.0-feat-modern-3-0-20251120074204(@rsbuild/core@1.6.7)(@rspack/core@1.6.4(@swc/helpers@0.5.17))(bufferutil@4.0.8)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(typescript@5.6.3)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
@@ -3839,8 +3837,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       '@module-federation/bridge-react':
-        specifier: 0.0.0-feat-modern-3-0-20251120074204
-        version: 0.0.0-feat-modern-3-0-20251120074204(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+        specifier: 0.21.6
+        version: 0.21.6(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       '@module-federation/modern-js':
         specifier: 0.0.0-feat-modern-3-0-20251120074204
         version: 0.0.0-feat-modern-3-0-20251120074204(@rsbuild/core@1.6.7)(@rspack/core@1.6.4(@swc/helpers@0.5.17))(bufferutil@4.0.8)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)(typescript@5.6.3)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
@@ -7749,8 +7747,24 @@ packages:
       react-router-dom:
         optional: true
 
+  '@module-federation/bridge-react@0.21.6':
+    resolution: {integrity: sha512-cwL63ua5k34pviQq4bob8q87ZIJQgJ+Eij/FJuNigeja5s8xUEOPN9WN8Hk3zDq7UlkV6a/axFb4hGxeuqTJ/w==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+      react-router: ^6 || ^7
+      react-router-dom: ^4 || ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      react-router:
+        optional: true
+      react-router-dom:
+        optional: true
+
   '@module-federation/bridge-shared@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-Vtyw+ixcB4Cy90GdlXoT/s5Mvn1MqTn59O+Ap2tFJ+yH8+9xJi3s9O7g9Uj8fm7QbcxheJ1KNa+K9iYuikX90w==}
+
+  '@module-federation/bridge-shared@0.21.6':
+    resolution: {integrity: sha512-ARe9IZeCBfQF4MJAbUp8/EucYkwQCsIQm1ti6XEbeDs+VaS9t6UtkcBnubrKCt/wc83+3czmcNZ0dxcpY57fHg==}
 
   '@module-federation/cli@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-78mzRfV4oSiwdMK4M/F5zK2bo+/Tm3lFLQiza2K8sEWBWNkREILk9ERxKbNw6jgbwBzY/Xl26Rg97Wp0wPFQMQ==}
@@ -7882,6 +7896,9 @@ packages:
 
   '@module-federation/sdk@0.21.4':
     resolution: {integrity: sha512-tzvhOh/oAfX++6zCDDxuvioHY4Jurf8vcfoCbKFxusjmyKr32GPbwFDazUP+OPhYCc3dvaa9oWU6X/qpUBLfJw==}
+
+  '@module-federation/sdk@0.21.6':
+    resolution: {integrity: sha512-x6hARETb8iqHVhEsQBysuWpznNZViUh84qV2yE7AD+g7uIzHKiYdoWqj10posbo5XKf/147qgWDzKZoKoEP2dw==}
 
   '@module-federation/third-party-dts-extractor@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-FFH0pL+1rSKBTkofh32WRU7ta9MbyLU4f3zwC5dV7T1ft251zC1Wx0R7rMb123vReG+9vJWRMzhG0Eqh4x3LTA==}
@@ -20051,7 +20068,21 @@ snapshots:
       react-router: 7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react-router-dom: 7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
+  '@module-federation/bridge-react@0.21.6(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-router@7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      '@module-federation/bridge-shared': 0.21.6
+      '@module-federation/sdk': 0.21.6
+      lru-cache: 10.4.3
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      react-error-boundary: 4.1.2(react@19.2.0)
+    optionalDependencies:
+      react-router: 7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-router-dom: 7.8.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+
   '@module-federation/bridge-shared@0.0.0-feat-modern-3-0-20251120074204': {}
+
+  '@module-federation/bridge-shared@0.21.6': {}
 
   '@module-federation/cli@0.0.0-feat-modern-3-0-20251120074204(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)':
     dependencies:
@@ -20286,6 +20317,8 @@ snapshots:
   '@module-federation/sdk@0.0.0-feat-modern-3-0-20251120074204': {}
 
   '@module-federation/sdk@0.21.4': {}
+
+  '@module-federation/sdk@0.21.6': {}
 
   '@module-federation/third-party-dts-extractor@0.0.0-feat-modern-3-0-20251120074204':
     dependencies:
