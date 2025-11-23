@@ -31,6 +31,7 @@ export {
 
 export {
   RUNTIME_CHUNK_NAME,
+  RUNTIME_CHUNK_REGEX,
   SERVICE_WORKER_ENVIRONMENT_NAME,
   isHtmlDisabled,
   castArray,
