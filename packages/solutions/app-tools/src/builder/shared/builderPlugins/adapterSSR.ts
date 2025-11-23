@@ -29,7 +29,7 @@ export const builderPluginAdapterSSR = (
     api.modifyRsbuildConfig(config => {
       return mergeRsbuildConfig(config, {
         html: {
-          inject: isStreamingSSR(normalizedConfig) ? 'body' : undefined,
+          inject: isStreamingSSR(normalizedConfig) ? 'head' : undefined,
         },
         server: {
           // the http-compression can't handler stream http.
