@@ -212,14 +212,12 @@ export async function findConfigRoutesFile(
 }
 
 export async function parseConfigRoutesFile(
-  appDirectory: string,
   filePath: string,
   entrypoint: Entrypoint,
   fileRoutes?: NestedRouteForCli[],
 ): Promise<ConfigRouteFile> {
-  delete require.cache[filePath];
-
-  const configModule = await import(filePath);
+  const { loadTypeScriptFile } = await import('@modern-js/plugin/run');
+  const configModule = loadTypeScriptFile(filePath);
 
   if (!configModule.default || typeof configModule.default !== 'function') {
     throw new Error(
@@ -267,7 +265,6 @@ export async function discoverAndParseConfigRoutes(
   }
 
   const configRouteFile = await parseConfigRoutesFile(
-    appContext.appDirectory,
     configFilePath,
     entrypoint,
     fileRoutes,

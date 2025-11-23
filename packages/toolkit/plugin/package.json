@@ -31,9 +31,9 @@
       "default": "./dist/esm/index.mjs"
     },
     "./run": {
-      "types": "./dist/types/cli/run/run.d.ts",
-      "jsnext:source": "./src/cli/run/run.ts",
-      "default": "./dist/cjs/cli/run/run.js"
+      "types": "./dist/types/cli/run/index.d.ts",
+      "jsnext:source": "./src/cli/run/index.ts",
+      "default": "./dist/cjs/cli/run/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
@@ -65,7 +65,7 @@
         "./dist/index.d.ts"
       ],
       "run": [
-        "./dist/types/cli/run/run.d.ts"
+        "./dist/types/cli/run/index.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
