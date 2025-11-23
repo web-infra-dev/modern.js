@@ -133,6 +133,9 @@
     "@rsbuild/plugin-styled-components",
     "@rspress/shared",
     "@rspress/plugin-llms",
-    "rspress"
+    "rspress",
+    "@module-federation/modern-js",
+    "@module-federation/bridge-react",
+    "@module-federation/runtime"
   ]
 }
