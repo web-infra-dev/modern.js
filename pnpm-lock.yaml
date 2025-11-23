@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1751,8 +1749,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -3184,8 +3182,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -3635,8 +3633,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -4559,8 +4557,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -4624,8 +4622,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -4655,8 +4653,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -4827,8 +4825,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       axios:
-        specifier: ^1.12.2
-        version: 1.12.2
+        specifier: ^1.13.2
+        version: 1.13.2
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -9841,8 +9839,8 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  axios@1.12.2:
-    resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
+  axios@1.13.2:
+    resolution: {integrity: sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==}
 
   axios@1.8.4:
     resolution: {integrity: sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==}
@@ -19842,7 +19840,7 @@ snapshots:
       '@modern-js/plugin-i18n': 2.69.0
       '@modern-js/utils': 2.69.0
       '@swc/helpers': 0.5.17
-      axios: 1.12.2
+      axios: 1.13.2
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -20024,7 +20022,7 @@ snapshots:
       '@module-federation/third-party-dts-extractor': 0.0.0-feat-modern-3-0-20251120074204
       adm-zip: 0.5.16
       ansi-colors: 4.1.3
-      axios: 1.12.2
+      axios: 1.13.2
       chalk: 3.0.0
       fs-extra: 9.1.0
       isomorphic-ws: 5.0.0(ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10))
@@ -20736,7 +20734,7 @@ snapshots:
       '@rsdoctor/sdk': 0.4.13(@rspack/core@1.6.4(@swc/helpers@0.5.17))(bufferutil@4.0.8)(utf-8-validate@5.0.10)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
       '@rsdoctor/types': 0.4.13(@rspack/core@1.6.4(@swc/helpers@0.5.17))(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
       '@rsdoctor/utils': 0.4.13(@rspack/core@1.6.4(@swc/helpers@0.5.17))(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
-      axios: 1.12.2
+      axios: 1.13.2
       enhanced-resolve: 5.12.0
       filesize: 10.1.6
       fs-extra: 11.3.0
@@ -22450,7 +22448,7 @@ snapshots:
 
   available-typed-arrays@1.0.5: {}
 
-  axios@1.12.2:
+  axios@1.13.2:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.4
@@ -27560,7 +27558,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.12.2
+      axios: 1.13.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -30779,7 +30777,7 @@ snapshots:
 
   wait-on@8.0.3:
     dependencies:
-      axios: 1.12.2
+      axios: 1.13.2
       joi: 17.13.3
       lodash: 4.17.21
       minimist: 1.2.8
