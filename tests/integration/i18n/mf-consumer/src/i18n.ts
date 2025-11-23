@@ -1,6 +1,4 @@
-import originalI18next from 'i18next';
-
-const i18next = originalI18next.createInstance();
+import i18next from 'i18next';
 
 i18next.init({
   lng: 'en',
