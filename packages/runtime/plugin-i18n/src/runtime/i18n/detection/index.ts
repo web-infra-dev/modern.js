@@ -6,7 +6,10 @@ import type {
   LanguageDetectorOptions,
 } from '../instance';
 import { mergeDetectionOptions as mergeDetectionOptionsUtil } from './config';
-import { detectLanguage } from './middleware';
+import { cacheUserLanguage, detectLanguage } from './middleware';
+
+// Re-export cacheUserLanguage for use in context
+export { cacheUserLanguage };
 
 export function exportServerLngToWindow(context: TRuntimeContext, lng: string) {
   context.__i18nData__ = { lng };
@@ -118,8 +121,6 @@ const initializeI18nForDetector = async (
   );
 
   // Don't set lng explicitly when detector is enabled, let the detector find the language
-  // This allows localStorage/cookie to be read properly
-  // Only set lng if user explicitly provided it, otherwise let detector work
   const userLng = options.userInitOptions?.lng;
   const { lng: _, ...restUserOptions } = options.userInitOptions || {};
   const initOptions: any = {
@@ -149,17 +150,27 @@ const detectLanguageFromI18nextDetector = async (
     return undefined;
   }
 
+  // Merge detection options to pass to detector
+  const mergedDetection = mergeDetectionOptions(
+    options.i18nextDetector,
+    options.detection,
+    options.localePathRedirect,
+    options.userInitOptions,
+  );
+
   await initializeI18nForDetector(i18nInstance, options);
 
   try {
     const request = options.ssrContext?.request;
-    // In browser environment, detectLanguage can work without request
-    // In server environment, request is required
     if (!isBrowser() && !request) {
       return undefined;
     }
 
-    const detectorLang = detectLanguage(i18nInstance, request as any);
+    const detectorLang = detectLanguage(
+      i18nInstance,
+      request as any,
+      mergedDetection,
+    );
 
     if (detectorLang && isLanguageSupported(detectorLang, options.languages)) {
       return detectorLang;

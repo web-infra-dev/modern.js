@@ -1,13 +1,12 @@
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-import { getGlobalBasename } from '@modern-js/runtime/context';
-import { Outlet } from '@modern-js/runtime/router';
+import { Outlet, useHref } from '@modern-js/runtime/router';
 
 export default function Layout() {
   const { changeLanguage } = useModernI18n();
-  const basename = getGlobalBasename();
+  const basename = useHref('/');
   return (
     <div>
-      {!basename ? (
+      {basename === '/custom' ? (
         <div>
           <button id="zh-button" onClick={() => changeLanguage('zh')}>
             zh

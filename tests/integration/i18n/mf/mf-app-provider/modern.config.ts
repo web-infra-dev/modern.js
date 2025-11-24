@@ -19,7 +19,7 @@ export default defineConfig({
         localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
-        ignoreRedirectRoutes: ['/about', '/'],
+        ignoreRedirectRoutes: ['/about', '/', '/custom'],
       },
     }),
     moduleFederationPlugin(),

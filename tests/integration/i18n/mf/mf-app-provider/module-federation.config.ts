@@ -4,7 +4,8 @@ export default createModuleFederationConfig({
   name: 'i18nAppProvider',
   filename: 'remoteEntry.js',
   exposes: {
-    './export-app': './src/export-app.tsx',
+    './export-app': './src/i18n-mf-app-provider/export-app.tsx',
+    './export-app-custom': './src/custom/export-app.tsx',
   },
   bridge: {
     enableBridgeRouter: false,

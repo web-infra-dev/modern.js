@@ -2,7 +2,6 @@ import i18next from 'i18next';
 
 if (!i18next.isInitialized) {
   i18next.init({
-    lng: 'en',
     fallbackLng: 'en',
     resources: {
       en: {

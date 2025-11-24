@@ -204,6 +204,53 @@ describe('mf-i18n-tests', () => {
       );
       expect(targetText?.trim()).toEqual('你好，世界(provider)');
     });
+
+    conditionalTest(
+      'should render custom page with i18n correctly',
+      async () => {
+        await appProviderPage.setCookie({
+          name: 'i18next',
+          value: 'en',
+          domain: 'localhost',
+          path: '/',
+        });
+        await appProviderPage.goto(
+          `http://localhost:${APP_PROVIDER_PORT}/custom`,
+          {
+            waitUntil: ['networkidle0'],
+            timeout: 50000,
+          },
+        );
+        const root = await appProviderPage.$('#key');
+        const targetText = await appProviderPage.evaluate(
+          el => el?.textContent,
+          root,
+        );
+        expect(targetText?.trim()).toEqual('Hello World(provider-custom)');
+      },
+    );
+
+    conditionalTest('should support zh locale for custom page', async () => {
+      await appProviderPage.setCookie({
+        name: 'i18next',
+        value: 'zh',
+        domain: 'localhost',
+        path: '/',
+      });
+      await appProviderPage.goto(
+        `http://localhost:${APP_PROVIDER_PORT}/custom`,
+        {
+          waitUntil: ['networkidle0'],
+          timeout: 50000,
+        },
+      );
+      const root = await appProviderPage.$('#key');
+      const targetText = await appProviderPage.evaluate(
+        el => el?.textContent,
+        root,
+      );
+      expect(targetText?.trim()).toEqual('你好，世界(provider-custom)');
+    });
   });
 
   // mf-consumer 加载 mf-component 测试
@@ -386,6 +433,45 @@ describe('mf-i18n-tests', () => {
         remoteAppTitle,
       );
       expect(titleText?.trim()).toEqual('远程应用页面');
+    });
+
+    conditionalTest('should load remote-2 app correctly', async () => {
+      await page.goto(`http://localhost:${CONSUMER_PORT}/en/remote-2`, {
+        waitUntil: ['networkidle0'],
+        timeout: 60000,
+      });
+      // 验证远程应用加载成功（检查是否有远程应用的内容）
+      const remoteAppTitle = await page.$('h2');
+      const titleText = await page.evaluate(
+        el => el?.textContent,
+        remoteAppTitle,
+      );
+      expect(titleText?.trim()).toEqual('远程应用页面');
+      // 等待远程应用内容加载完成
+      await page.waitForSelector('#key', { timeout: 30000 });
+      // 验证远程应用中的 i18n 内容（custom 应用的英文内容）
+      const remoteKey = await page.$('#key');
+      const remoteText = await page.evaluate(el => el?.textContent, remoteKey);
+      expect(remoteText?.trim()).toEqual('Hello World(provider-custom)');
+    });
+
+    conditionalTest('should support zh locale with remote-2 app', async () => {
+      await page.goto(`http://localhost:${CONSUMER_PORT}/zh/remote-2`, {
+        waitUntil: ['networkidle0'],
+        timeout: 60000,
+      });
+      const remoteAppTitle = await page.$('h2');
+      const titleText = await page.evaluate(
+        el => el?.textContent,
+        remoteAppTitle,
+      );
+      expect(titleText?.trim()).toEqual('远程应用页面');
+      // 等待远程应用内容加载完成
+      await page.waitForSelector('#key', { timeout: 30000 });
+      // 验证远程应用中的 i18n 内容（custom 应用的中文内容）
+      const remoteKey = await page.$('#key');
+      const remoteText = await page.evaluate(el => el?.textContent, remoteKey);
+      expect(remoteText?.trim()).toEqual('你好，世界(provider-custom)');
     });
   });
 });

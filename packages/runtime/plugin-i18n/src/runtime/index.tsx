@@ -16,6 +16,7 @@ import { getI18nInstance } from './i18n';
 import { mergeBackendOptions } from './i18n/backend';
 import { useI18nextBackend } from './i18n/backend/middleware';
 import {
+  cacheUserLanguage,
   detectLanguageWithPriority,
   exportServerLngToWindow,
   mergeDetectionOptions,
@@ -80,6 +81,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
       const pathname = getPathname(context);
 
+      // Register LanguageDetector before init()
       if (i18nextDetector) {
         useI18nextLanguageDetector(i18nInstance);
       }
@@ -92,10 +94,12 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       );
       const mergedBackend = mergeBackendOptions(backend, userInitOptions);
 
+      // Register Backend before init() if needed
       if (backendEnabled) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 
+      // Detect language with priority: SSR data > path > i18next detector > fallback
       const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
         fallbackLanguage,
@@ -107,6 +111,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         ssrContext: context.ssrContext,
       });
 
+      // Initialize i18n instance if not already initialized
       await initializeI18nInstance(
         i18nInstance,
         finalLanguage,
@@ -170,6 +175,14 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
               if (currentLang !== lang) {
                 setLang(currentLang);
                 i18nInstance.changeLanguage(currentLang);
+                if (isBrowser()) {
+                  const detectionOptions = i18nInstance.options?.detection;
+                  cacheUserLanguage(
+                    i18nInstance,
+                    currentLang,
+                    detectionOptions,
+                  );
+                }
               }
             }
           } else {

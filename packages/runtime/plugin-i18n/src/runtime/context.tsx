@@ -2,6 +2,7 @@ import { isBrowser } from '@modern-js/runtime';
 import { createContext, useCallback, useContext } from 'react';
 import type { FC, ReactNode } from 'react';
 import type { I18nInstance } from './i18n';
+import { cacheUserLanguage } from './i18n/detection';
 import { buildLocalizedUrl, getEntryPath } from './utils';
 
 export interface ModernI18nContextValue {
@@ -83,7 +84,6 @@ const shouldIgnoreRedirect = (
 // Safe hook wrapper to handle cases where router context is not available
 const useRouterHooks = () => {
   try {
-    // Dynamically import router hooks to avoid issues when router context is not available
     const {
       useLocation,
       useNavigate,
@@ -96,7 +96,6 @@ const useRouterHooks = () => {
       hasRouter: true,
     };
   } catch (error) {
-    // Router context not available, return fallback values
     return {
       navigate: null,
       location: null,
@@ -159,19 +158,13 @@ export const useModernI18n = (): UseModernI18nReturn => {
           throw new Error('Language must be a non-empty string');
         }
 
-        // Update i18n instance
         await i18nInstance.changeLanguage(newLang);
 
-        // Ensure detector caches the new language (cookie/localStorage)
-        // This is important because changeLanguage might not always trigger cache update
-        if (isBrowser() && i18nInstance.services?.languageDetector) {
-          const detector = i18nInstance.services.languageDetector;
-          if (typeof detector.cacheUserLanguage === 'function') {
-            detector.cacheUserLanguage(newLang);
-          }
+        if (isBrowser()) {
+          const detectionOptions = i18nInstance.options?.detection;
+          cacheUserLanguage(i18nInstance, newLang, detectionOptions);
         }
 
-        // Update URL if locale detection is enabled, we're in browser, and router is available
         if (
           localePathRedirect &&
           isBrowser() &&
@@ -183,7 +176,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
-          // Check if this route should ignore automatic redirect
           if (
             !shouldIgnoreRedirect(
               relativePath,
@@ -191,7 +183,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
               ignoreRedirectRoutes,
             )
           ) {
-            // Build new path with updated language
             const newPath = buildLocalizedUrl(
               relativePath,
               newLang,
@@ -200,16 +191,13 @@ export const useModernI18n = (): UseModernI18nReturn => {
             const newUrl =
               entryPath + newPath + location.search + location.hash;
 
-            // Navigate to new URL
             await navigate(newUrl, { replace: true });
           }
         } else if (localePathRedirect && isBrowser() && !hasRouter) {
-          // Fallback: use window.history API when router is not available
           const currentPath = window.location.pathname;
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
-          // Check if this route should ignore automatic redirect
           if (
             !shouldIgnoreRedirect(
               relativePath,
@@ -217,7 +205,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
               ignoreRedirectRoutes,
             )
           ) {
-            // Build new path with updated language
             const newPath = buildLocalizedUrl(
               relativePath,
               newLang,
@@ -229,7 +216,6 @@ export const useModernI18n = (): UseModernI18nReturn => {
               window.location.search +
               window.location.hash;
 
-            // Use history API to navigate without page reload
             window.history.pushState(null, '', newUrl);
           }
         }
