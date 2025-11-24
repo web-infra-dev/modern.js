@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "i18n-mf-provider",
+  "name": "i18n-mf-component-provider",
   "version": "2.66.0",
   "scripts": {
     "dev": "modern dev",

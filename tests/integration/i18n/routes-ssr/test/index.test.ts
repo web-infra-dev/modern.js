@@ -6,11 +6,9 @@ import {
   launchApp,
   launchOptions,
 } from '../../../../utils/modernTestUtils';
+import { conditionalTest } from '../../test-utils';
 
 const projectDir = path.resolve(__dirname, '..');
-
-// Skip flaky tests on CI (Windows), but run them locally
-const conditionalTest = process.env.LOCAL_TEST === 'true' ? test : test.skip;
 
 describe('router-ssr-i18n', () => {
   let app: unknown;

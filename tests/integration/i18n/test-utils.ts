@@ -1,5 +1,9 @@
 import type { Page } from 'puppeteer';
 
+// Skip flaky tests on CI, but run them locally
+export const conditionalTest =
+  process.env.LOCAL_TEST === 'true' ? test : test.skip;
+
 /**
  * Clear all cookies, localStorage, and reset Accept-Language header
  * This ensures a clean state before each test
