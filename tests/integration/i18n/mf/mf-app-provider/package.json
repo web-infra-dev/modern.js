@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "i18n-mf-app-provider",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "new": "modern new"
+  },
+  "dependencies": {
+    "i18next":"25.6.3",
+    "react-i18next": "15.7.4",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20251120074204",
+    "@module-federation/bridge-react": "0.0.0-feat-modern-3-0-20251120074204",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-ssg": "workspace:*"
+  }
+}

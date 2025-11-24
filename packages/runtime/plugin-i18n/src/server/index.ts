@@ -1,4 +1,5 @@
-import { languageDetector } from '@modern-js/server-core/hono';
+import * as honoPkg from '@modern-js/server-core/hono';
+const { languageDetector } = honoPkg;
 import type { Context, Next, ServerPlugin } from '@modern-js/server-runtime';
 import {
   DEFAULT_I18NEXT_DETECTION_OPTIONS,
