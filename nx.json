@@ -7,6 +7,7 @@
       "{projectRoot}/tsconfig.json",
       "{projectRoot}/package.json",
       "{projectRoot}/modern.config.*",
+      "{projectRoot}/rslib.config.*",
       "{projectRoot}/scripts/**/*"
     ]
   },

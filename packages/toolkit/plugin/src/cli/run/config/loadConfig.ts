@@ -81,6 +81,34 @@ function loadConfigContent<T>(configFile: string): T {
  * @param configFile - Specific absolute config file path.
  * @returns Object contain config file path, user config object and dependency files used by config file.
  */
+/**
+ * Load a TypeScript file dynamically using jiti
+ * @param {string} filePath - Path to the TypeScript file (absolute or relative)
+ * @returns {any} - The loaded module object
+ */
+export const loadTypeScriptFile = (filePath: string): any => {
+  const _require = jiti(__filename, {
+    esmResolve: true,
+    requireCache: false,
+    interopDefault: true,
+  });
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`TypeScript file does not exist: ${filePath}`);
+  }
+
+  try {
+    return _require(filePath);
+  } catch (e: any) {
+    if (e instanceof Error) {
+      e.message = `Get Error while loading TypeScript file: ${filePath}, please check it and retry.\n${
+        e.message || ''
+      }`;
+    }
+    throw e;
+  }
+};
+
 export const loadConfig = async <T>(
   appDirectory: string,
   configFile: string,

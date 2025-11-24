@@ -19,9 +19,12 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/esm/index.mjs",
   "typesVersions": {
     "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
       "language-detector": [
         "./dist/types/languageDetector.d.ts"
       ]
@@ -31,26 +34,27 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
       "types": "./dist/types/index.d.ts",
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm/index.mjs"
     },
     "./language-detector": {
       "node": {
         "jsnext:source": "./src/languageDetector.ts",
-        "import": "./dist/esm-node/languageDetector.js",
+        "import": "./dist/esm-node/languageDetector.mjs",
         "require": "./dist/cjs/languageDetector.js"
       },
       "types": "./dist/types/languageDetector.d.ts",
-      "default": "./dist/esm/languageDetector.js"
+      "default": "./dist/esm/languageDetector.mjs"
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -58,6 +62,8 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29.5.14",
@@ -73,19 +79,19 @@
     "exports": {
       ".": {
         "node": {
-          "import": "./dist/esm-node/index.js",
+          "import": "./dist/esm-node/index.mjs",
           "require": "./dist/cjs/index.js"
         },
         "types": "./dist/types/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "default": "./dist/esm/index.mjs"
       },
       "./language-detector": {
         "node": {
-          "import": "./dist/esm-node/languageDetector.js",
+          "import": "./dist/esm-node/languageDetector.mjs",
           "require": "./dist/cjs/languageDetector.js"
         },
         "types": "./dist/types/languageDetector.d.ts",
-        "default": "./dist/esm/languageDetector.js"
+        "default": "./dist/esm/languageDetector.mjs"
       }
     }
   }

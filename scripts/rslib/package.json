@@ -1,0 +1,23 @@
+{
+  "name": "@modern-js/rslib",
+  "private": true,
+  "version": "2.68.10",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "dev": "rslib build --watch",
+    "build": "rslib build"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/cjs/index.js"
+    }
+  },
+  "devDependencies": {
+    "@rslib/core": "0.18.0",
+    "@rsbuild/plugin-react": "1.4.2",
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}

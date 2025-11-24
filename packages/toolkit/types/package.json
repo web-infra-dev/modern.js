@@ -42,7 +42,6 @@
     }
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",

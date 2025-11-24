@@ -13,9 +13,10 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/esm/index.mjs",
   "scripts": {
-    "build": "modern-lib build"
+    "dev": "rslib build --watch",
+    "build": "rslib build"
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
@@ -24,6 +25,8 @@
  "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",
     "@types/jest": "^29.5.14",
@@ -42,17 +45,29 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/cjs/index.js"
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.mjs"
     },
     "./runtime": {
       "types": "./dist/types/runtime.d.ts",
       "jsnext:source": "./src/runtime.ts",
-      "default": "./dist/cjs/runtime.js"
+      "node": {
+        "import": "./dist/esm-node/runtime.mjs",
+        "require": "./dist/cjs/runtime.js"
+      },
+      "default": "./dist/esm/runtime.mjs"
     },
     "./styled": {
       "types": "./dist/types/styled.d.ts",
       "jsnext:source": "./src/styled.ts",
-      "default": "./dist/cjs/styled.js"
+      "node": {
+        "import": "./dist/esm-node/styled.mjs",
+        "require": "./dist/cjs/styled.js"
+      },
+      "default": "./dist/esm/styled.mjs"
     }
 },
 "typesVersions": {

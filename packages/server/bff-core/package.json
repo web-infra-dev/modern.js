@@ -30,8 +30,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/koa-compose": "^3.2.9",
@@ -51,6 +50,8 @@
     "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "@rslib/core": "0.18.0",
+    "@modern-js/rslib": "workspace:*",
     "typescript": "^5",
     "zod": "^3.22.3"
   },
