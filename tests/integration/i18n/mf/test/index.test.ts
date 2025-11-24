@@ -7,7 +7,6 @@ import {
 } from '../../../../utils/modernTestUtils';
 import { clearI18nTestState, conditionalTest } from '../../test-utils';
 
-// 等待应用就绪的辅助函数
 async function waitForAppReady(port: number, maxRetries = 30) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -16,13 +15,10 @@ async function waitForAppReady(port: number, maxRetries = 30) {
         signal: AbortSignal.timeout(2000),
       });
       if (response.ok || response.status < 500) {
-        // 应用已就绪，额外等待确保完全就绪
         await new Promise(resolve => setTimeout(resolve, 2000));
         return;
       }
-    } catch (error) {
-      // 连接失败，继续重试
-    }
+    } catch (error) {}
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
   throw new Error(`Application on port ${port} did not become ready`);
@@ -35,13 +31,11 @@ const componentProviderDir = path.resolve(
 const appProviderDir = path.resolve(__dirname, '../mf-app-provider');
 const consumerDir = path.resolve(__dirname, '../mf-consumer');
 
-// 固定端口配置
 const COMPONENT_PROVIDER_PORT = 3006;
 const APP_PROVIDER_PORT = 3005;
 const CONSUMER_PORT = 3007;
 
 describe('mf-i18n-tests', () => {
-  // 共享的应用实例，在所有测试套件之间共享
   let componentProviderApp: unknown;
   let appProviderApp: unknown;
   let componentProviderPage: Page;
@@ -49,21 +43,17 @@ describe('mf-i18n-tests', () => {
   let appProviderPage: Page;
   let appProviderBrowser: Browser;
 
-  // 在最外层统一启动所有 provider 应用
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 5);
-    // 启动 component provider
     componentProviderApp = await launchApp(
       componentProviderDir,
       COMPONENT_PROVIDER_PORT,
     );
     await waitForAppReady(COMPONENT_PROVIDER_PORT);
 
-    // 启动 app provider
     appProviderApp = await launchApp(appProviderDir, APP_PROVIDER_PORT);
     await waitForAppReady(APP_PROVIDER_PORT);
 
-    // 为独立测试创建 browser 和 page
     componentProviderBrowser = await puppeteer.launch(launchOptions as any);
     componentProviderPage = await componentProviderBrowser.newPage();
     await componentProviderPage.setExtraHTTPHeaders({
@@ -77,7 +67,6 @@ describe('mf-i18n-tests', () => {
     });
   });
 
-  // 统一关闭所有应用
   afterAll(async () => {
     if (componentProviderBrowser) {
       await componentProviderBrowser.close();
@@ -93,7 +82,6 @@ describe('mf-i18n-tests', () => {
     }
   });
 
-  // mf-component-provider 独立运行测试
   describe('mf-component-provider standalone', () => {
     beforeEach(async () => {
       await clearI18nTestState(componentProviderPage);
@@ -151,7 +139,6 @@ describe('mf-i18n-tests', () => {
     });
   });
 
-  // mf-app-provider 独立运行测试
   describe('mf-app-provider standalone', () => {
     beforeEach(async () => {
       await clearI18nTestState(appProviderPage);
@@ -168,7 +155,6 @@ describe('mf-i18n-tests', () => {
         waitUntil: ['networkidle0'],
         timeout: 50000,
       });
-      // 验证页面正常加载
       const body = await appProviderPage.$('body');
       expect(body).toBeTruthy();
     });
@@ -208,11 +194,13 @@ describe('mf-i18n-tests', () => {
     conditionalTest(
       'should render custom page with i18n correctly',
       async () => {
-        await appProviderPage.setCookie({
-          name: 'i18next',
-          value: 'en',
-          domain: 'localhost',
-          path: '/',
+        await appProviderPage.goto(`http://localhost:${APP_PROVIDER_PORT}`, {
+          waitUntil: ['networkidle0'],
+          timeout: 50000,
+        });
+        await appProviderPage.evaluate(() => {
+          localStorage.setItem('i18nextLng', 'en');
+          localStorage.setItem('i18next', 'en');
         });
         await appProviderPage.goto(
           `http://localhost:${APP_PROVIDER_PORT}/custom`,
@@ -253,7 +241,6 @@ describe('mf-i18n-tests', () => {
     });
   });
 
-  // mf-consumer 加载 mf-component 测试
   describe('mf-consumer with mf-component', () => {
     let consumerApp: unknown;
     let page: Page;
@@ -261,9 +248,7 @@ describe('mf-i18n-tests', () => {
 
     beforeAll(async () => {
       jest.setTimeout(1000 * 60 * 3);
-      // 直接使用已启动的 component provider，启动 consumer
       consumerApp = await launchApp(consumerDir, CONSUMER_PORT);
-      // 等待 consumer 启动完成
       await waitForAppReady(CONSUMER_PORT);
 
       browser = await puppeteer.launch(launchOptions as any);
@@ -291,19 +276,15 @@ describe('mf-i18n-tests', () => {
         waitUntil: ['networkidle0'],
         timeout: 60000,
       });
-      // 验证 consumer 的 i18n 内容
       const consumerKey = await page.$('#key');
       const consumerText = await page.evaluate(
         el => el?.textContent,
         consumerKey,
       );
       expect(consumerText?.trim()).toContain('Hello World(consumer)');
-      // 等待远程组件加载完成
       await page.waitForSelector('#about', { timeout: 30000 });
-      // 验证远程组件加载成功
       const remoteComponent = await page.$('#about');
       expect(remoteComponent).toBeTruthy();
-      // 等待远程组件中的文本元素出现（使用更通用的选择器）
       await page.waitForFunction(
         () => {
           const aboutEl = document.querySelector('#about');
@@ -313,13 +294,10 @@ describe('mf-i18n-tests', () => {
         },
         { timeout: 30000 },
       );
-      // 验证远程组件中使用 consumer 的 i18n 的内容
-      // 查找包含 "About(consumer)" 的 p 标签
       const remoteText2Content = await page.evaluate(() => {
         const aboutEl = document.querySelector('#about');
         if (!aboutEl) return null;
         const paragraphs = aboutEl.querySelectorAll('p');
-        // 第二个 p 标签应该包含 consumer 的 i18n 内容
         if (paragraphs.length >= 2) {
           return paragraphs[1].textContent?.trim() || null;
         }
@@ -342,9 +320,7 @@ describe('mf-i18n-tests', () => {
           consumerKey,
         );
         expect(consumerText?.trim()).toContain('你好，世界(consumer)');
-        // 等待远程组件加载完成
         await page.waitForSelector('#about', { timeout: 30000 });
-        // 等待远程组件中的文本元素出现（使用更通用的选择器）
         await page.waitForFunction(
           () => {
             const aboutEl = document.querySelector('#about');
@@ -354,13 +330,10 @@ describe('mf-i18n-tests', () => {
           },
           { timeout: 30000 },
         );
-        // 验证远程组件中使用 consumer 的 i18n 的内容
-        // 查找包含 "关于(consumer)" 的 p 标签
         const remoteText2Content = await page.evaluate(() => {
           const aboutEl = document.querySelector('#about');
           if (!aboutEl) return null;
           const paragraphs = aboutEl.querySelectorAll('p');
-          // 第二个 p 标签应该包含 consumer 的 i18n 内容
           if (paragraphs.length >= 2) {
             return paragraphs[1].textContent?.trim() || null;
           }
@@ -372,7 +345,6 @@ describe('mf-i18n-tests', () => {
     );
   });
 
-  // mf-consumer 加载 mf-app 测试
   describe('mf-consumer with mf-app', () => {
     let consumerApp: unknown;
     let page: Page;
@@ -380,9 +352,7 @@ describe('mf-i18n-tests', () => {
 
     beforeAll(async () => {
       jest.setTimeout(1000 * 60 * 3);
-      // 直接使用已启动的 app provider，启动 consumer
       consumerApp = await launchApp(consumerDir, CONSUMER_PORT);
-      // 等待 consumer 启动完成
       await waitForAppReady(CONSUMER_PORT);
 
       browser = await puppeteer.launch(launchOptions as any);
@@ -410,14 +380,12 @@ describe('mf-i18n-tests', () => {
         waitUntil: ['networkidle0'],
         timeout: 60000,
       });
-      // 验证远程应用加载成功（检查是否有远程应用的内容）
       const remoteAppTitle = await page.$('h2');
       const titleText = await page.evaluate(
         el => el?.textContent,
         remoteAppTitle,
       );
       expect(titleText?.trim()).toEqual('远程应用页面');
-      // 验证远程应用内容正常渲染
       const body = await page.$('body');
       expect(body).toBeTruthy();
     });
@@ -440,16 +408,13 @@ describe('mf-i18n-tests', () => {
         waitUntil: ['networkidle0'],
         timeout: 60000,
       });
-      // 验证远程应用加载成功（检查是否有远程应用的内容）
       const remoteAppTitle = await page.$('h2');
       const titleText = await page.evaluate(
         el => el?.textContent,
         remoteAppTitle,
       );
       expect(titleText?.trim()).toEqual('远程应用页面');
-      // 等待远程应用内容加载完成
       await page.waitForSelector('#key', { timeout: 30000 });
-      // 验证远程应用中的 i18n 内容（custom 应用的英文内容）
       const remoteKey = await page.$('#key');
       const remoteText = await page.evaluate(el => el?.textContent, remoteKey);
       expect(remoteText?.trim()).toEqual('Hello World(provider-custom)');
@@ -466,9 +431,7 @@ describe('mf-i18n-tests', () => {
         remoteAppTitle,
       );
       expect(titleText?.trim()).toEqual('远程应用页面');
-      // 等待远程应用内容加载完成
       await page.waitForSelector('#key', { timeout: 30000 });
-      // 验证远程应用中的 i18n 内容（custom 应用的中文内容）
       const remoteKey = await page.$('#key');
       const remoteText = await page.evaluate(el => el?.textContent, remoteKey);
       expect(remoteText?.trim()).toEqual('你好，世界(provider-custom)');

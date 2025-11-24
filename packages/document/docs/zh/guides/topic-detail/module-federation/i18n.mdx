@@ -1,0 +1,644 @@
+# 集成国际化能力
+
+Modern.js 提供了 **@modern-js/plugin-i18n** 插件来支持国际化能力。当使用 Module Federation 时，需要针对不同的场景（组件或应用）提供相应的 i18n 集成方案。
+
+## 前置条件
+
+在开始之前，请确保你已经：
+
+- 了解 [Module Federation 基础用法](/guides/topic-detail/module-federation/usage)
+- 了解 [国际化插件的基础使用](/guides/advanced-features/international/quick-start)
+- 创建了生产者和消费者应用
+
+## 方案概述
+
+在 Module Federation 场景下，生产者和消费者需要共享或独立管理 i18n 实例。根据不同的使用场景，我们提供了两种方案：
+
+1. **共享 I18n 实例**：生产者和消费者使用同一个 i18n 实例，语言切换会同步更新
+2. **独立 I18n 实例**：生产者和消费者各自维护独立的 i18n 实例，可以独立切换语言
+
+:::tip
+
+对于组件场景，推荐使用共享 I18n 实例，因为组件最终会在同一棵 React 树上渲染，共享实例可以保证语言切换的一致性。
+
+:::
+
+:::info
+
+关于 i18n 插件的详细使用说明，请参考[国际化文档](/guides/advanced-features/international/quick-start)。
+
+:::
+
+## 开启 I18n 能力
+
+不管是生产者还是消费者，都需要先开启 i18n 能力。
+
+### 安装依赖
+
+在 Module Federation 场景下，需要同时安装 i18n 插件和 Module Federation 插件：
+
+```bash
+pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-js
+```
+
+:::info
+
+`i18next` 和 `react-i18next` 是 peer dependencies，需要手动安装。
+
+:::
+
+### 配置插件
+
+在 `modern.config.ts` 中同时配置 i18n 插件和 Module Federation 插件：
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+export default defineConfig({
+  plugins: [appTools(), i18nPlugin(), moduleFederationPlugin()],
+});
+```
+
+:::info
+
+关于 i18n 插件的详细配置选项，请参考[配置说明文档](/guides/advanced-features/international/configuration)。
+
+:::
+
+## 场景一：生产者 - 组件
+
+当生产者导出的是组件级别的模块时，可以使用以下两种方案集成 i18n。
+
+### 共享 I18n 实例（推荐）
+
+对于组件场景，生产者和消费者最终是在同一棵 React 树上，因此只需要共享 i18next 和 react-i18next 依赖即可。
+
+:::note
+
+生产者和消费者都需要在 `module-federation.config.ts` 中配置 `shared`，确保 `i18next` 和 `react-i18next` 使用 singleton 模式。
+
+:::
+
+#### 配置 Module Federation
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
+  name: 'i18nComponentProvider',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Text': './src/components/Text.tsx',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': {
+      singleton: true,
+    },
+    i18next: {
+      singleton: true,
+    },
+  },
+});
+```
+
+#### 使用翻译
+
+在组件中使用 `react-i18next` 的 `useTranslation` hook 来完成翻译：
+
+```tsx title="src/components/Text.tsx"
+import { useTranslation } from 'react-i18next';
+
+export default () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <p>{t('about')}</p>
+    </div>
+  );
+};
+```
+
+使用共享实例时，远程组件会使用消费者的 i18n 实例，主应用切换语言时，对应的远程组件都会自动更新。
+
+### 独立 I18n 实例
+
+如果生产者需要维护自己的 I18n 实例（例如需要独立的语言资源或语言切换逻辑），可以不配置 `i18next` 和 `react-i18next` 的 shared，但需要：
+
+1. 创建独立的 i18n 实例
+2. 使用 `I18nextProvider` 包装导出的组件
+3. 导出语言切换的 Hook 供消费者使用
+
+#### 创建独立的 i18n 实例
+
+```ts title="src/i18n.ts"
+import originalI18next from 'i18next';
+
+const i18next = originalI18next.createInstance();
+
+i18next.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        key: 'Hello World(provider)',
+        about: 'About(provider)',
+      },
+    },
+    zh: {
+      translation: {
+        key: '你好，世界(provider)',
+        about: '关于(provider)',
+      },
+    },
+  },
+});
+
+export default i18next;
+```
+
+#### 使用 I18nextProvider 包装组件
+
+```tsx title="src/components/Text.tsx"
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import i18next from '../i18n';
+
+const Text = () => {
+  const { t } = useTranslation();
+  return <p>{t('about')}</p>;
+};
+
+export default () => {
+  return (
+    <I18nextProvider i18n={i18next}>
+      <Text />
+    </I18nextProvider>
+  );
+};
+```
+
+#### 导出切换语言的 Hook
+
+导出 `changeLanguage` 的 hook，支持让消费者去切换对应生产者的语言：
+
+```ts title="src/hooks/useSwitchLanguage.ts"
+import i18next from '../i18n';
+
+const useSwitchLanguage = () => {
+  return (languageId: string) => i18next.changeLanguage(languageId);
+};
+
+export default useSwitchLanguage;
+```
+
+#### 配置 Module Federation
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
+  name: 'i18nComponentProvider',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Text': './src/components/Text.tsx',
+    './hooks/useSwitchLanguage': './src/hooks/useSwitchLanguage',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+## 场景二：消费者 - 组件
+
+当消费者需要加载远程组件时，需要根据生产者使用的方案进行相应配置。
+
+### 配置 Module Federation
+
+首先，在消费者的 `module-federation.config.ts` 中配置远程模块：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
+  name: 'consumer',
+  remotes: {
+    componentRemote:
+      'i18nComponentProvider@http://localhost:3006/mf-manifest.json',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
+  },
+});
+```
+
+:::note
+
+如果生产者使用共享 I18n 实例，消费者必须配置 `i18next` 和 `react-i18next` 的 shared。如果生产者使用独立实例，则不需要配置这两个依赖的 shared。
+
+:::
+
+### 共享 I18n 实例
+
+当生产者使用共享 I18n 实例时，消费者可以直接加载远程组件，无需额外配置：
+
+```tsx title="src/routes/page.tsx"
+import { createLazyComponent } from '@module-federation/modern-js/react';
+import { getInstance } from '@module-federation/modern-js/runtime';
+
+const RemoteComponent = createLazyComponent({
+  instance: getInstance(),
+  loader: () => import('componentRemote/Text'),
+  loading: 'loading...',
+  export: 'default',
+});
+
+export default () => {
+  return (
+    <div>
+      <RemoteComponent />
+    </div>
+  );
+};
+```
+
+这里使用的 i18n 资源、i18n 实例都是主应用的，主应用切换语言时，对应的远程组件都会自动更新。
+
+### 独立 I18n 实例
+
+当生产者使用独立 I18n 实例时，消费者需要同时处理主应用和远程组件的语言切换逻辑：
+
+```tsx title="src/routes/layout.tsx"
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { Outlet } from '@modern-js/runtime/router';
+import useSwitchComponentLanguage from 'componentRemote/hooks/useSwitchLanguage';
+
+export default function Layout() {
+  const { changeLanguage } = useModernI18n();
+  const switchComponentLanguage = useSwitchComponentLanguage();
+
+  const handleSwitchLanguage = (language: string) => {
+    changeLanguage(language);
+    switchComponentLanguage(language);
+  };
+
+  return (
+    <div>
+      <div>
+        <button onClick={() => handleSwitchLanguage('zh')}>zh</button>
+        <button onClick={() => handleSwitchLanguage('en')}>en</button>
+      </div>
+      <Outlet />
+    </div>
+  );
+}
+```
+
+:::info
+
+关于 `useModernI18n` Hook 的详细 API 说明，请参考[API 参考文档](/guides/advanced-features/international/api)。
+
+:::
+
+## 场景三：生产者 - 应用
+
+当生产者导出的是应用级别的模块时，需要使用 Bridge API 来导出应用。关于应用级别模块的详细说明，请参考[应用级别模块](/guides/topic-detail/module-federation/application)。
+
+:::warning
+
+生产者不支持开启路径重定向（`localePathRedirect`），需要在消费者统一管理路由和语言切换。
+
+:::
+
+:::note
+
+当使用 Modern.js 路由时，必须在 `module-federation.config.ts` 中配置 `bridge.enableBridgeRouter: false`，以避免与 Modern.js 的路由系统冲突。
+
+:::
+
+:::info
+
+关于路由集成的详细说明，请参考[路由集成文档](/guides/advanced-features/international/routing)。
+
+:::
+
+### 导出应用
+
+首先需要创建导出应用的入口文件：
+
+```tsx title="src/export-app.tsx"
+import '@modern-js/runtime/registry/index';
+import { render } from '@modern-js/runtime/browser';
+import { createRoot } from '@modern-js/runtime/react';
+import { createBridgeComponent } from '@module-federation/bridge-react/v19';
+import type { ReactElement } from 'react';
+
+const ModernRoot = createRoot();
+
+export const provider = createBridgeComponent({
+  rootComponent: ModernRoot,
+  render: (Component, dom) =>
+    render(Component as ReactElement<{ basename: string }>, dom),
+});
+
+export default provider;
+```
+
+### 共享 I18n 实例
+
+#### 配置 Module Federation
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
+  name: 'i18nAppProvider',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './export-app': './src/export-app.tsx',
+  },
+  bridge: {
+    // 使用 Modern.js 路由时，必须设置为 false，避免与 Modern.js 路由系统冲突
+    enableBridgeRouter: false,
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
+  },
+});
+```
+
+#### 配置运行时使用共享实例
+
+在 `modern.runtime.tsx` 中配置使用共享的 i18n 实例：
+
+```ts title="modern.runtime.tsx"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+if (!i18next.isInitialized) {
+  i18next.init({
+    fallbackLng: 'en',
+    resources: {
+      en: {
+        translation: {
+          key: 'Hello World(provider)',
+          about: 'About(provider)',
+        },
+      },
+      zh: {
+        translation: {
+          key: '你好，世界(provider)',
+          about: '关于(provider)',
+        },
+      },
+    },
+  });
+}
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: i18next,
+  },
+});
+```
+
+:::note
+
+使用共享实例时，这里的 `i18next` 不需要调用 `init`，直接使用消费者初始化过的 i18next 默认导出实例即可。
+
+:::
+
+:::info
+
+关于 `i18nInstance` 配置的详细说明，请参考[配置说明文档](/guides/advanced-features/international/configuration#i18ninstance-配置)。
+
+:::
+
+### 独立 I18n 实例（推荐）
+
+对于独立 I18n 实例，无需额外操作，生产者会使用自己的 i18n 实例。i18n 插件会自动初始化 i18n 实例。
+
+## 场景四：消费者 - 应用
+
+当消费者需要加载远程应用时，需要使用 Bridge API 来加载应用级别模块。
+
+:::note
+
+当使用 Modern.js 路由时，必须在 `module-federation.config.ts` 中配置 `bridge.enableBridgeRouter: false`，以避免与 Modern.js 的路由系统冲突。
+
+:::
+
+### 配置 Module Federation
+
+首先，在消费者的 `module-federation.config.ts` 中配置远程应用：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
+  name: 'consumer',
+  remotes: {
+    AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
+  },
+  bridge: {
+    // 使用 Modern.js 路由时，必须设置为 false，避免与 Modern.js 路由系统冲突
+    enableBridgeRouter: false,
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
+  },
+});
+```
+
+:::note
+
+如果生产者使用共享 I18n 实例，消费者必须配置 `i18next` 和 `react-i18next` 的 shared。如果生产者使用独立实例，则不需要配置这两个依赖的 shared。
+
+:::
+
+### 定义加载远程应用组件
+
+创建用于加载远程应用的组件：
+
+```tsx title="src/components/RemoteApp.tsx"
+import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { loadRemote } from '@module-federation/modern-js/runtime';
+import React from 'react';
+
+const FallbackErrorComp = (info: any) => {
+  return (
+    <div
+      style={{ padding: '20px', border: '1px solid red', borderRadius: '4px' }}
+    >
+      <h3>加载失败</h3>
+      <p>{info?.error?.message}</p>
+      <button onClick={() => info.resetErrorBoundary()}>重试</button>
+    </div>
+  );
+};
+
+const FallbackComp = (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div>正在加载远程应用...</div>
+  </div>
+);
+
+const RemoteApp = createRemoteAppComponent({
+  loader: () => loadRemote('AppRemote/export-app'),
+  export: 'provider' as any,
+  fallback: FallbackErrorComp,
+  loading: FallbackComp,
+});
+
+export default RemoteApp;
+```
+
+### 在路由中使用远程应用
+
+在路由文件中使用远程应用组件。`basename` 参数用于指定远程应用的基础路径，需要根据是否开启路径重定向（`localePathRedirect`）来决定：
+
+#### 开启路径重定向时
+
+如果消费者开启了路径重定向（`localePathRedirect: true`），路由会包含 `[lang]` 动态参数，需要从路由参数中获取语言信息并传递给 `basename`：
+
+```tsx title="src/routes/[lang]/remote/$.tsx"
+import { useParams } from '@modern-js/runtime/router';
+import React from 'react';
+import RemoteApp from '../../../components/RemoteApp';
+
+export default (props: Record<string, any>) => {
+  const { lang } = useParams();
+  return (
+    <div>
+      <h2>远程应用页面</h2>
+      {/* basename 需要包含语言前缀，例如：zh/remote 或 en/remote */}
+      <RemoteApp {...props} basename={`${lang}/remote`} />
+    </div>
+  );
+};
+```
+
+#### 未开启路径重定向时
+
+如果消费者未开启路径重定向（`localePathRedirect: false` 或未配置），路由中不包含语言参数，`basename` 只需要包含路由路径即可：
+
+```tsx title="src/routes/remote/$.tsx"
+import React from 'react';
+import RemoteApp from '../../components/RemoteApp';
+
+export default (props: Record<string, any>) => {
+  return (
+    <div>
+      <h2>远程应用页面</h2>
+      {/* 未开启路径重定向时，basename 不需要包含语言前缀 */}
+      <RemoteApp {...props} basename="remote" />
+    </div>
+  );
+};
+```
+
+:::note
+
+`basename` 的计算规则：
+
+- **开启 `localePathRedirect`**：`basename` 需要包含语言前缀，格式为 `${lang}/${routePath}`（例如：`zh/remote`、`en/remote`）
+- **未开启 `localePathRedirect`**：`basename` 只需要包含路由路径，格式为 `${routePath}`（例如：`remote`），不需要添加语言前缀
+
+:::
+
+### 共享 I18n 实例
+
+当生产者使用共享 I18n 实例时，消费者需要创建自定义的 i18n 实例，并在运行时配置中使用它。
+
+#### 创建自定义 I18n 实例
+
+创建自定义的 i18n 实例，使用 i18next 的默认导出实例：
+
+```ts title="src/i18n.ts"
+import i18next from 'i18next';
+
+i18next.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        key: 'Hello World(consumer)',
+        about: 'About(consumer)',
+      },
+    },
+    zh: {
+      translation: {
+        key: '你好，世界(consumer)',
+        about: '关于(consumer)',
+      },
+    },
+  },
+});
+
+export default i18next;
+```
+
+#### 配置运行时使用自定义实例
+
+将自定义的 i18n 实例传入到应用中：
+
+```ts title="modern.runtime.tsx"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from './i18n';
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: i18next,
+  },
+});
+```
+
+:::info
+
+关于 `i18nInstance` 配置的详细说明，请参考[配置说明文档](/guides/advanced-features/international/configuration#i18ninstance-配置)。
+
+:::
+
+### 独立 I18n 实例
+
+对于独立 I18n 实例，无需额外操作，远程应用会使用自己的 i18n 实例。
+
+## 总结
+
+Module Federation 集成 i18n 的关键点：
+
+1. **组件场景**：推荐使用共享 I18n 实例，生产者和消费者共享 `i18next` 和 `react-i18next`，语言切换会自动同步
+2. **应用场景**：可以选择共享或独立 I18n 实例，根据业务需求决定
+3. **配置要点**：确保生产者和消费者的 `shared` 配置一致，特别是 `i18next` 和 `react-i18next` 的 singleton 配置
+4. **路由管理**：生产者不支持路径重定向（`localePathRedirect`），需要在消费者统一管理路由和语言切换
+5. **依赖共享**：使用共享实例时，必须在生产者和消费者的 `module-federation.config.ts` 中都配置 `i18next` 和 `react-i18next` 为 singleton
+6. **名称唯一性**：`createModuleFederationConfig` 的 `name` 参数必须每个应用唯一，不能不同的 remote 使用相同的名称
+7. **Bridge 路由配置**：使用 Modern.js 路由时，必须在应用级别模块的生产者和消费者中都配置 `bridge.enableBridgeRouter: false`，避免与 Modern.js 路由系统冲突
+
+## 相关文档
+
+- [Module Federation 基础用法](/guides/topic-detail/module-federation/usage)
+- [应用级别模块](/guides/topic-detail/module-federation/application)
+- [国际化快速开始](/guides/advanced-features/international/quick-start)
+- [国际化配置说明](/guides/advanced-features/international/configuration)
+- [国际化路由集成](/guides/advanced-features/international/routing)
