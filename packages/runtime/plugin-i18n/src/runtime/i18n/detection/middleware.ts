@@ -1,6 +1,5 @@
 import LanguageDetector from 'i18next-browser-languagedetector';
 import type { I18nInstance } from '../instance';
-import { DEFAULT_I18NEXT_DETECTION_OPTIONS } from './config';
 
 /**
  * Register LanguageDetector plugin to i18n instance
@@ -148,136 +147,8 @@ export const detectLanguage = (
 };
 
 /**
- * Set cookie with language value
- */
-const setCookie = (
-  name: string,
-  value: string,
-  options: {
-    cookieMinutes?: number;
-    cookieDomain?: string;
-    cookiePath?: string;
-  } = {},
-): void => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
-  try {
-    const {
-      cookieMinutes = 60 * 24 * 365,
-      cookieDomain,
-      cookiePath = '/',
-    } = options;
-
-    const isInIframe = window.self !== window.top;
-    const cookieEnabled = navigator.cookieEnabled;
-
-    if (!cookieEnabled) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('[i18n] Browser cookies are disabled');
-      }
-      return;
-    }
-
-    if (isInIframe && process.env.NODE_ENV === 'development') {
-      console.warn(
-        '[i18n] Page is in iframe, cookies may be blocked by browser policy',
-      );
-    }
-
-    const expires = new Date();
-    expires.setTime(expires.getTime() + cookieMinutes * 60 * 1000);
-
-    const cookieStrings: string[] = [];
-    cookieStrings.push(
-      `${name}=${encodeURIComponent(value)}; path=${cookiePath}; expires=${expires.toUTCString()}`,
-    );
-
-    if (location.protocol === 'https:') {
-      cookieStrings.push(
-        `${name}=${encodeURIComponent(value)}; path=${cookiePath}; expires=${expires.toUTCString()}; SameSite=None; Secure`,
-      );
-    }
-
-    cookieStrings.push(
-      `${name}=${encodeURIComponent(value)}; path=${cookiePath}; expires=${expires.toUTCString()}; SameSite=Lax`,
-    );
-
-    if (cookieDomain) {
-      cookieStrings.forEach((str, index) => {
-        cookieStrings[index] = str.replace(
-          `; path=${cookiePath}`,
-          `; domain=${cookieDomain}; path=${cookiePath}`,
-        );
-      });
-    }
-
-    let cookieSet = false;
-    for (const cookieString of cookieStrings) {
-      try {
-        document.cookie = cookieString;
-
-        const cookieDescriptor =
-          Object.getOwnPropertyDescriptor(Document.prototype, 'cookie') ||
-          Object.getOwnPropertyDescriptor(HTMLDocument.prototype, 'cookie');
-        if (cookieDescriptor?.set) {
-          try {
-            cookieDescriptor.set.call(document, cookieString);
-          } catch (e) {
-            // Ignore
-          }
-        }
-
-        const newCookie = document.cookie;
-        const cookies = newCookie
-          .split(';')
-          .reduce((acc: Record<string, string>, item: string) => {
-            const [key, val] = item.trim().split('=');
-            if (key && val) {
-              acc[key] = decodeURIComponent(val);
-            }
-            return acc;
-          }, {});
-
-        if (cookies[name] === value) {
-          cookieSet = true;
-          break;
-        }
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(`[i18n] Error setting cookie format:`, error);
-        }
-      }
-    }
-
-    if (!cookieSet && process.env.NODE_ENV === 'development') {
-      setTimeout(() => {
-        const finalCookies = document.cookie
-          .split(';')
-          .reduce((acc: Record<string, string>, item: string) => {
-            const [key, val] = item.trim().split('=');
-            if (key && val) {
-              acc[key] = decodeURIComponent(val);
-            }
-            return acc;
-          }, {});
-        if (finalCookies[name] !== value) {
-          console.warn(
-            `[i18n] Cookie ${name} was not set. This may be due to browser privacy settings, extensions, or iframe restrictions.`,
-          );
-        }
-      }, 200);
-    }
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Failed to set cookie:', error);
-    }
-  }
-};
-
-/**
  * Cache user language to localStorage/cookie
+ * Uses LanguageDetector's cacheUserLanguage method when available
  */
 export const cacheUserLanguage = (
   i18nInstance: I18nInstance,
@@ -289,50 +160,45 @@ export const cacheUserLanguage = (
   }
 
   try {
-    const userOptions = detectionOptions || i18nInstance.options?.detection;
-    const options = {
-      ...DEFAULT_I18NEXT_DETECTION_OPTIONS,
-      ...userOptions,
-    };
-    const caches = options.caches;
-
-    let shouldSetCookie = true;
-    let shouldSetLocalStorage = true;
-
-    if (caches === false) {
-      shouldSetCookie = false;
-      shouldSetLocalStorage = false;
-    } else if (Array.isArray(caches)) {
-      shouldSetCookie = caches.includes('cookie');
-      shouldSetLocalStorage = caches.includes('localStorage');
-    }
-
-    if (shouldSetLocalStorage) {
-      try {
-        const lookupKey = options.lookupLocalStorage || 'i18nextLng';
-        localStorage.setItem(lookupKey, language);
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn('Failed to set localStorage:', error);
-        }
-      }
-    }
-
-    if (shouldSetCookie) {
-      const lookupKey = options.lookupCookie || 'i18next';
-      setCookie(lookupKey, language, {
-        cookieMinutes: options.cookieMinutes,
-        cookieDomain: options.cookieDomain,
-        cookiePath: options.cookiePath,
-      });
-    }
-
+    // Try to use detector's cacheUserLanguage method first
     const detector = i18nInstance.services?.languageDetector;
     if (detector && typeof detector.cacheUserLanguage === 'function') {
       try {
         detector.cacheUserLanguage(language);
+        return;
       } catch (error) {
-        // Ignore
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(
+            '[i18n] Failed to cache via detector, falling back to manual cache:',
+            error,
+          );
+        }
+      }
+    }
+
+    // Fallback: manually create detector instance if i18n is initialized
+    if (
+      i18nInstance.isInitialized &&
+      i18nInstance.services &&
+      i18nInstance.options
+    ) {
+      try {
+        const userOptions = detectionOptions || i18nInstance.options?.detection;
+        const optionsToUse = userOptions
+          ? { ...i18nInstance.options, detection: userOptions }
+          : i18nInstance.options;
+
+        const manualDetector = new LanguageDetector();
+        manualDetector.init(i18nInstance.services, optionsToUse as any);
+
+        if (typeof manualDetector.cacheUserLanguage === 'function') {
+          manualDetector.cacheUserLanguage(language);
+          return;
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[i18n] Failed to create manual detector:', error);
+        }
       }
     }
   } catch (error) {

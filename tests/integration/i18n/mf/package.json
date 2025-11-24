@@ -1,9 +1,5 @@
 {
   "private": true,
   "name": "i18n-mf-test",
-  "version": "2.66.0",
-  "dependencies": {
-  },
-  "devDependencies": {
-  }
+  "version": "2.66.0"
 }
