@@ -221,6 +221,13 @@ describe('mf-i18n-tests', () => {
             timeout: 50000,
           },
         );
+        // 等待页面加载完成，然后点击 en 按钮确保语言切换到英文
+        await appProviderPage.waitForSelector('#en-button', {
+          timeout: 10000,
+        });
+        await appProviderPage.click('#en-button');
+        // 等待语言切换完成
+        await new Promise(resolve => setTimeout(resolve, 500));
         const root = await appProviderPage.$('#key');
         const targetText = await appProviderPage.evaluate(
           el => el?.textContent,
