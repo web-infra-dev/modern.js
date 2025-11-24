@@ -5,6 +5,6 @@
   "dependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "axios": "^1.12.2"
+    "axios": "^1.13.2"
   }
 }
