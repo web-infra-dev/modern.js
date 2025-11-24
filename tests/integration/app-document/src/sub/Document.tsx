@@ -55,6 +55,14 @@ export default function Document(): React.ReactElement {
             console.log('this is a IIFE function');
           }}
         />
+        <Script
+          defer
+          async
+          id="script-has-id2"
+          content={() => {
+            console.log('this is another IIFE function');
+          }}
+        />
       </Head>
       <Body {...{ dir: 'ltr' }}>
         <Root {...{ class: 'root' }}>
