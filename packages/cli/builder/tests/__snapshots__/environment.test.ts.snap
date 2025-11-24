@@ -243,7 +243,7 @@ exports[`builder environment compat > should generator environment config correc
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.46",
+                  "coreJs": "3.47",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -311,7 +311,7 @@ exports[`builder environment compat > should generator environment config correc
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.46",
+                  "coreJs": "3.47",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -875,7 +875,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.46",
+                      "coreJs": "3.47",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -951,7 +951,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.46",
+                      "coreJs": "3.47",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
