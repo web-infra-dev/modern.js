@@ -18,3 +18,4 @@ packages:
  - 'tests/integration/**/*'
  - 'tests/e2e/**/*'
  - 'website/*'
+ - 'benchmark/*'
