@@ -1,8 +1,11 @@
-// This file is an `async_storage` proxy for browser bundle.
 import type { Storage } from './async_storage.server';
 
 const isBrowser =
   typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+// Fallback for test environment where IS_WEB is not defined, for ut test and bff cases
+// @ts-ignore
+const IS_WEB_FALLBACK = typeof IS_WEB !== 'undefined' ? IS_WEB : isBrowser;
 
 export const getAsyncLocalStorage = async (): Promise<Storage | null> => {
   if (isBrowser) {
@@ -10,8 +13,7 @@ export const getAsyncLocalStorage = async (): Promise<Storage | null> => {
     return null;
   } else {
     try {
-      // @ts-ignore
-      if (!IS_WEB) {
+      if (!IS_WEB_FALLBACK) {
         const serverStorage = await import('./async_storage.server');
         return serverStorage.getAsyncLocalStorage();
       }
