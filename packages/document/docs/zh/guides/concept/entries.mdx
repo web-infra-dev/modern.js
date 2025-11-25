@@ -66,53 +66,69 @@ Modern.js 会将与 `package.json` 文件中 `name` 字段同名的入口作为�
 
 ## 入口类型
 
-不同的入口类型具有不同的编译和运行时行为。
+Modern.js 支持三种入口类型，每种类型都有不同的使用场景和特点。选择合适的入口类型可以帮助你更好地组织代码。
+
+### 如何识别入口
+
+Modern.js 会自动扫描目录，识别符合条件的入口。一个目录被认定为入口需要满足以下**三个条件之一**：
+
+1. **具有 `routes/` 目录** → 约定式路由入口
+2. **具有 `App.[jt]sx?` 文件** → 自控式路由入口
+3. **具有 `entry.[jt]sx?` 文件** → 自定义入口
+
+:::tip 入口扫描逻辑
+- 如果 `src/` 本身满足入口条件 → 单入口应用
+- 如果 `src/` 不满足条件 → 扫描 `src/` 下的子目录 → 多入口应用
+- 单入口应用中，默认入口名为 `main`
+
+:::
+
+
+:::tip 自定义扫描目录
+你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改识别入口的目录。
+
+:::
 
 import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 <EntryMode />
 
-默认情况下，Modern.js 启动应用前会对 `src/` 下的文件进行扫描，识别入口，并生成对应的服务端路由。
+接下来我们详细介绍每种入口类型的使用方法。
 
-:::tip
-你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改识别入口的目录。
-:::
-
-入口所在目录必须满足以下三个条件之一：
-
-1. 具有 `routes/` 目录。
-2. 具有 `App.[jt]sx?` 文件。
-3. 具有 `entry.[jt]sx?` 文件。
-
-当 `src/` 目录满足入口特征时，Modern.js 会认为当前应用为单入口应用。否则，Modern.js 会扫描 `src/` 下的一级目录，并进一步判断是否为入口，此时应用通常为多入口应用。
-
-:::tip
-在单入口应用中，默认的入口名为 `main`。
-:::
-
-### 框架模式入口
-
-框架模式指的是需要使用 Modern.js 的框架能力，例如约定式路由、SSR、一体化调用等。这类入口约定下，应用中的入口并不是真正的编译入口。Modern.js 在启动时会生成一个封装过的入口，可以在 `node_modules/.modern/[entryName]/index.js` 找到真正的入口。
-
-#### 约定式路由
+### 约定式路由
 
 如果入口中存在 `routes/` 目录，我们称该入口为约定式路由。Modern.js 会在启动时扫描 `routes/` 下的文件，基于文件约定，自动生成客户端路由（react-router）。例如：
 
 ```bash
-.
-├── src
-│   └── routes
-│       ├── layout.tsx
-│       └── page.tsx
+src/
+└── routes/
+    ├── layout.tsx    # 布局组件（可选）
+    ├── page.tsx      # 首页组件（/ 路由）
+    ├── about/
+    │   └── page.tsx  # 关于页面（/about 路由）
+    └── blog/
+        ├── page.tsx  # 博客列表页（/blog 路由）
+        └── [id]/
+            └── page.tsx  # 博客详情页（/blog/:id 路由）
 ```
 
-上述目录中，`layout.tsx` 中导出的组件会作为最外层的组件，`page.tsx` 中导出的组件会作为 `/` 路由的组件。
+组件对应关系
+
+| 文件 | 路由 | 说明 |
+|------|------|------|
+| `routes/layout.tsx` | 全局布局 | 所有页面的外层容器 |
+| `routes/page.tsx` | `/` | 首页 |
+| `routes/about/page.tsx` | `/about` | 关于页面 |
+| `routes/blog/[id]/page.tsx` | `/blog/:id` | 动态路由页面 |
+
+
 
 详细内容可以参考[路由方案](/guides/basic-features/routes/routes#约定式路由)。
 
-#### 自控式路由
+### 自控式路由
 
-如果入口中存在 `App.[jt]sx?` 文件，我们称为该入口为自控式路由。例如：
+如果入口中存在 `App.[jt]sx?` 文件，该入口就是自控式路由。这种方式给开发者完全的路由控制权。
+
 
 ```bash
 .
@@ -141,18 +157,25 @@ export default () => {
 我们推荐开发者使用约定式路由，Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力。而在使用自控路由时，这些能力都需要开发者自行封装。
 :::
 
-#### 自定义入口
+### 自定义入口
 
 默认情况下，使用约定式路由或自控式路由时，Modern.js 会自动完成渲染。如果你希望自定义这个行为，可以通过自定义入口文件的方式来实现。
 
+:::tip
+自定义入口可以和约定式路由及自控式路由入口共存，自定义项目初始化的逻辑。
+
+:::
+
 如果入口中存在 `entry.[jt]sx` 文件，则 Modern.js 不再控制应用的渲染流程，你可以在 `entry.[jt]sx` 文件中调用 `createRoot` 和 `render` 函数，完成应用入口逻辑。
 
-```tsx
+```tsx title="src/entry.tsx"
 import { createRoot } from '@modern-js/runtime/react';
 import { render } from '@modern-js/runtime/browser';
 
+// 创建根组件
 const ModernRoot = createRoot();
 
+// 渲染到 DOM
 render(<ModernRoot />);
 ```
 
@@ -173,11 +196,7 @@ beforeRender().then(() => {
 });
 ```
 
-### 构建模式入口
-
-构建模式指的是不使用 Modern.js 提供的 Runtime 能力，只使用 Modern.js 构建能力的开发模式。当应用中未安装 `@modern-js/runtime` 依赖时，Modern.js 会认为当前应用所有的入口都是构建模式入口。
-
-此时，如果入口中存在 `entry.[jt]sx`，则该文件会被识别为 webpack 或 Rspack 的构建入口。此时，Modern.js 不会自动生成入口代码，你需要自行将组件挂载到 DOM 节点上，例如:
+如果你不想使用 Modern.js 任何运行时能力，也可以自行将组件挂载到 DOM 节点上，例如:
 
 ```js title=src/entry.tsx
 import React from 'react';
@@ -187,11 +206,11 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-在构建模式入口中，**将无法使用 Modern.js 框架的运行时能力**，比如：
+在该模式下，**将无法使用 Modern.js 框架的运行时能力**，比如：
 
 - 约定式路由，即基于 `src/routes` 下文件的路由
 - 服务端渲染（SSR）
-- `modern.config.js` 文件中的 `runtime` 配置将不会再生效
+
 
 ## 在配置文件中指定入口
 
