@@ -7,4 +7,7 @@ export default defineConfig({
     router: true,
   },
   plugins: [AppToolsPlugin(), bff()],
+  performance: {
+    buildCache: false,
+  },
 });

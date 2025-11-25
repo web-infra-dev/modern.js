@@ -36,4 +36,7 @@ export default defineConfig({
     router: true,
   },
   plugins: [appTools(), MyPlugin()],
+  performance: {
+    buildCache: false,
+  },
 });

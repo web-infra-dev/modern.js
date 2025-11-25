@@ -18,6 +18,9 @@ export const applyBaseConfig = (config = defineConfig({})) => {
         polyfill: 'off',
         disableTsChecker: true,
       },
+      performance: {
+        buildCache: false,
+      },
       plugins: [appTools()],
     },
     config,
