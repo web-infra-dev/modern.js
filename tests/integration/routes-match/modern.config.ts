@@ -14,4 +14,7 @@ export default defineConfig({
       c: '/detail/12',
     },
   },
+  performance: {
+    buildCache: false,
+  },
 });

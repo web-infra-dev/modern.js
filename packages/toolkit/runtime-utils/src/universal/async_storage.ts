@@ -12,14 +12,30 @@ export const getAsyncLocalStorage = async (): Promise<Storage | null> => {
     console.error('You should not get async storage in browser');
     return null;
   } else {
-    try {
-      if (!IS_WEB_FALLBACK) {
-        const serverStorage = await import('./async_storage.server');
+    if (!IS_WEB_FALLBACK) {
+      try {
+        // First try importing with explicit file extension for Node.js environment
+        const serverStorage = await import('./async_storage.server.js');
         return serverStorage.getAsyncLocalStorage();
+      } catch (extensionError) {
+        try {
+          // Fallback to extensionless import for bundler environments
+          const serverStorage = await import('./async_storage.server');
+          return serverStorage.getAsyncLocalStorage();
+        } catch (fallbackError) {
+          console.error('Failed to load server async storage', {
+            extensionError:
+              extensionError instanceof Error
+                ? extensionError.message
+                : extensionError,
+            fallbackError:
+              fallbackError instanceof Error
+                ? fallbackError.message
+                : fallbackError,
+          });
+          return null;
+        }
       }
-    } catch (err) {
-      console.error('Failed to load server async storage', err);
-      return null;
     }
     return null;
   }

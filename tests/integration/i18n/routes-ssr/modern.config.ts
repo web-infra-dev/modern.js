@@ -13,6 +13,9 @@ export default defineConfig({
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
       },
+      performance: {
+        buildCache: false,
+      },
     }),
   ],
 });
