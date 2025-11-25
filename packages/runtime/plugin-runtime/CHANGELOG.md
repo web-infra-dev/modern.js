@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.69.1
+
+### Patch Changes
+
+- bf22ac6: fix: use minify regex
+  fix: 用最小匹配来替换
+  - @modern-js/plugin-data-loader@2.69.1
+  - @modern-js/render@2.69.1
+  - @modern-js/plugin@2.69.1
+  - @modern-js/plugin-v2@2.69.1
+  - @modern-js/runtime-utils@2.69.1
+  - @modern-js/types@2.69.1
+  - @modern-js/utils@2.69.1
+
 ## 2.69.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/image",
-  "version": "2.69.0",
+  "version": "2.69.1",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
