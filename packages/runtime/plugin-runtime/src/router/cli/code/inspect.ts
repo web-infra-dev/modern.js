@@ -91,7 +91,7 @@ async function generateInspectReportForEntry(
 
   console.log(`🔍 Analyzing routes for entry "${entryName}"...`);
 
-  const routes = await generateRoutesForEntry(entrypoint, appContext, false);
+  const routes = await generateRoutesForEntry(entrypoint, appContext);
 
   if (routes.length === 0) {
     console.log(`⚠️  No routes found for entry "${entryName}"`);

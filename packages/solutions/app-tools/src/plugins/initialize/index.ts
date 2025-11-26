@@ -65,8 +65,6 @@ export default (): CliPlugin<AppTools> => ({
           'testing',
           'plugins',
           'builderPlugins',
-          'runtime',
-          'runtimeByEntries',
           'deploy',
           'performance',
         ],

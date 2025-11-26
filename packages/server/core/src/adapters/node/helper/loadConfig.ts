@@ -62,7 +62,6 @@ export function loadServerCliConfig(
     tools: {},
     server: {},
     security: {},
-    runtime: {},
     bff: {},
     html: {},
     dev: {},

@@ -122,10 +122,8 @@ export const walk = async (options: {
   };
   entryName: string;
   isMainEntry: boolean;
-  oldVersion: boolean;
 }): Promise<NestedRouteForCli | NestedRouteForCli[] | null> => {
-  const { dirname, rootDir, alias, entryName, isMainEntry, oldVersion } =
-    options;
+  const { dirname, rootDir, alias, entryName, isMainEntry } = options;
   if (!(await fs.pathExists(dirname))) {
     return null;
   }
@@ -188,7 +186,6 @@ export const walk = async (options: {
         alias,
         entryName,
         isMainEntry,
-        oldVersion,
       });
       if (childRoute && !Array.isArray(childRoute)) {
         route.children?.push(childRoute);
@@ -403,7 +400,7 @@ export const walk = async (options: {
     );
   }
 
-  if (isRoot && !oldVersion) {
+  if (isRoot) {
     const optimizedRoutes = optimizeRoute(finalRoute);
     return optimizedRoutes;
   }

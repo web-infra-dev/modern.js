@@ -21,13 +21,6 @@ import type { ToolsUserConfig } from './tools';
 
 export * from './output';
 
-export interface RuntimeUserConfig {
-  [name: string]: any;
-}
-export interface RuntimeByEntriesUserConfig {
-  [name: string]: RuntimeUserConfig;
-}
-
 export interface AppToolsUserConfig {
   resolve?: ResolveUserConfig;
   server?: ServerUserConfig;
@@ -42,8 +35,6 @@ export interface AppToolsUserConfig {
   bff?: BffUserConfig;
   dev?: DevUserConfig;
   deploy?: DeployUserConfig;
-  runtime?: RuntimeUserConfig;
-  runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: HtmlUserConfig;
   tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
