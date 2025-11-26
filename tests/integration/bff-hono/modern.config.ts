@@ -7,9 +7,6 @@ export default applyBaseConfig({
       mode: 'stream',
     },
   },
-  runtime: {
-    router: true,
-  },
   bff: {
     prefix: '/bff-api',
   },

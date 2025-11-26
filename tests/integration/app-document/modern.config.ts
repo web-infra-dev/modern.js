@@ -15,9 +15,6 @@ export const tmpTest = (): CliPlugin<AppTools> => ({
 });
 
 export default applyBaseConfig({
-  runtime: {
-    router: true,
-  },
   source: {
     alias: {
       '@aliasTest': './src/utils/aliasModule',

@@ -32,9 +32,6 @@ const MyPlugin = (): CliPlugin<AppTools> => ({
   },
 });
 export default defineConfig({
-  runtime: {
-    router: true,
-  },
   plugins: [appTools(), MyPlugin()],
   performance: {
     buildCache: false,

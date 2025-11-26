@@ -7,9 +7,6 @@ export default applyBaseConfig({
   bff: {
     enableHandleWeb: true,
   },
-  runtime: {
-    router: true,
-  },
   server: {
     ssr: {
       mode: 'stream',

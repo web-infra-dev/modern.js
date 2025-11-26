@@ -7,9 +7,6 @@ export default defineConfig({
     },
     disableDefaultEntries: true,
   },
-  runtime: {
-    router: true,
-  },
   plugins: [appTools()],
   performance: {
     buildCache: false,

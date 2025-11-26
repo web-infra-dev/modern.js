@@ -2,9 +2,6 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
-  runtime: {
-    router: true,
-  },
   output: {
     ssg: {
       routes: Array.from(Array(10_000)).map((_, id) => ({
