@@ -251,7 +251,7 @@ export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
 
           html = html.replace(
             new RegExp(
-              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}${DOCUMENT_SCRIPT_ATTRIBUTES_START}(.*)${DOCUMENT_SCRIPT_ATTRIBUTES_END}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
+              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}${DOCUMENT_SCRIPT_ATTRIBUTES_START}(.*?)${DOCUMENT_SCRIPT_ATTRIBUTES_END}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
               'g',
             ),
             (_scriptStr, $1, $2) =>
