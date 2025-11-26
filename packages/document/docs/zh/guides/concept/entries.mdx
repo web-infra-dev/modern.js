@@ -76,13 +76,9 @@ Modern.js 会自动扫描目录，识别符合条件的入口。一个目录被�
 2. **具有 `App.[jt]sx?` 文件** → 自控式路由入口
 3. **具有 `entry.[jt]sx?` 文件** → 自定义入口
 
-:::tip 入口扫描逻辑
-- 如果 `src/` 本身满足入口条件 → 单入口应用
-- 如果 `src/` 不满足条件 → 扫描 `src/` 下的子目录 → 多入口应用
-- 单入口应用中，默认入口名为 `main`
+import EntryScanLogic from '@site-docs/components/entry-scan-logic.mdx';
 
-:::
-
+<EntryScanLogic />
 
 :::tip 自定义扫描目录
 你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改识别入口的目录。

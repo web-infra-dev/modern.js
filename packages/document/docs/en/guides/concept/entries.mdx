@@ -76,12 +76,9 @@ Modern.js automatically scans directories to identify entries that meet the crit
 2. **Has an `App.[jt]sx?` file** → Self-controlled routing entry
 3. **Has an `entry.[jt]sx?` file** → Custom entry
 
-:::tip Entry scanning logic
-- If `src/` itself meets entry criteria → Single-entry application
-- If `src/` does not meet criteria → Scan subdirectories under `src/` → Multi-entry application
-- In single-entry applications, the default entry name is `main`
+import EntryScanLogic from '@site-docs/components/entry-scan-logic.mdx';
 
-:::
+<EntryScanLogic />
 
 :::tip Custom scanning directory
 You can modify the directory for identifying entries through [source.entriesDir](/configure/app/source/entries-dir).
