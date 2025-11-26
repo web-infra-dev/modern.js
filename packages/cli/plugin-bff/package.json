@@ -107,7 +107,7 @@
     "memfs": "^3.5.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.102.1",
+    "webpack": "^5.103.0",
     "zod": "^3.22.3"
   },
   "sideEffects": false,
