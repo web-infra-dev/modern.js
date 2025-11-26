@@ -75,15 +75,13 @@ export const runtimePlugin = (params?: {
     });
 
     api.config(() => {
-      const { appDirectory, metaName, internalDirectory } = api.getAppContext();
+      const { appDirectory, metaName } = api.getAppContext();
 
       const isReact18 = checkIsReact18(appDirectory);
 
       process.env.IS_REACT18 = isReact18.toString();
 
       return {
-        runtime: {},
-        runtimeByEntries: {},
         resolve: {
           alias: {
             '@meta/runtime/browser$': require.resolve(
