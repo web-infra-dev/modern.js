@@ -174,7 +174,8 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
               const currentLang = pathDetection.language;
               if (currentLang !== lang) {
                 setLang(currentLang);
-                i18nInstance.changeLanguage(currentLang);
+                i18nInstance?.setLang?.(currentLang);
+                i18nInstance?.changeLanguage?.(currentLang);
                 if (isBrowser()) {
                   const detectionOptions = i18nInstance.options?.detection;
                   cacheUserLanguage(

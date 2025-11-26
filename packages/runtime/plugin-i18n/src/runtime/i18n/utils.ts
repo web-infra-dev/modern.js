@@ -54,7 +54,8 @@ export const ensureLanguageMatch = async (
   finalLanguage: string,
 ): Promise<void> => {
   if (i18nInstance.language !== finalLanguage) {
-    await i18nInstance.changeLanguage(finalLanguage);
+    await i18nInstance.setLang?.(finalLanguage);
+    await i18nInstance.changeLanguage?.(finalLanguage);
   }
 };
 
