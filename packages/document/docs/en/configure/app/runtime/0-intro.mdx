@@ -2,12 +2,6 @@
 
 Modern.js runtime configuration should be centralized in the `src/modern.runtime.ts` file.
 
-:::warning
-
-Using the `src/modern.runtime.ts` configuration approach requires Modern.js version **MAJOR_VERSION.66.0** or higher.
-
-:::
-
 :::info
 
 If this file doesn't exist in your project yet, create it with the following command:
@@ -27,9 +21,6 @@ export default defineRuntimeConfig({
   router: {
     // Router configuration
   },
-  state: {
-    // State management configuration
-  },
   // Other runtime modules...
 });
 ```
@@ -47,16 +38,13 @@ export default defineRuntimeConfig(entryName => {
       router: {
         // Router configuration for "main" entry
       },
-      state: {
-        // State management configuration for "main" entry
-      },
     };
   }
 
   // Configuration for other entries
   return {
-    masterApp: {
-      // Micro-frontend configuration example
+    router: {
+      // Other entry router configuration
     },
   };
 });

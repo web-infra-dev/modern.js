@@ -2,12 +2,6 @@
 
 Modern.js 的运行时（Runtime）配置需集中在 `src/modern.runtime.ts` 文件中声明。
 
-:::warning
-
-使用 `src/modern.runtime.ts` 配置方式需要 Modern.js 版本 **MAJOR_VERSION.66.0** 或更高版本。
-
-:::
-
 :::info
 如果项目中还没有此文件，请执行以下命令创建：
 
@@ -26,9 +20,6 @@ export default defineRuntimeConfig({
   router: {
     // 路由配置
   },
-  state: {
-    // 状态管理配置
-  },
   // 其他运行时模块...
 });
 ```
@@ -46,16 +37,13 @@ export default defineRuntimeConfig(entryName => {
       router: {
         // "main" 入口的路由配置
       },
-      state: {
-        // "main" 入口的状态管理配置
-      },
     };
   }
 
   // 其他入口的配置
   return {
-    masterApp: {
-      // 微前端配置示例
+    router: {
+      // 其他入口的路由配置
     },
   };
 });

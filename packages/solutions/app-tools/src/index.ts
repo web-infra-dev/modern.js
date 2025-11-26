@@ -167,7 +167,6 @@ export const appTools = (): CliPlugin<AppTools> => ({
 });
 
 export { defineConfig } from './defineConfig';
-export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
 export { serve } from './commands/serve';

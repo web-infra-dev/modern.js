@@ -142,8 +142,6 @@ function applyRouterPlugin(
     entrypoint => entrypoint.nestedRoutesEntry,
   );
 
-  const routerConfig: any = normalizedConfig?.runtime?.router;
-  const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
   const { enableInlineRouteManifests, disableInlineRouteManifests } =
@@ -152,7 +150,7 @@ function applyRouterPlugin(
     ? !disableInlineRouteManifests
     : enableInlineRouteManifests;
 
-  if (existNestedRoutes || routerManifest || workerSSR) {
+  if (existNestedRoutes || workerSSR) {
     chain.plugin(pluginName).use(RouterPlugin, [
       {
         HtmlBundlerPlugin,

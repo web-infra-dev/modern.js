@@ -39,7 +39,6 @@ import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 export async function generateRoutesForEntry(
   entrypoint: Entrypoint,
   appContext: AppToolsContext,
-  oldVersion = false,
 ): Promise<NestedRouteForCli[]> {
   const routes: NestedRouteForCli[] = [];
 
@@ -53,7 +52,6 @@ export async function generateRoutesForEntry(
       },
       entryName: entrypoint.entryName,
       isMainEntry: entrypoint.isMainEntry,
-      oldVersion,
     });
 
     if (nestedRoutes) {
@@ -110,11 +108,6 @@ export const generateCode = async (
 
   const hooks = api.getHooks();
 
-  const oldVersion =
-    typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
-      ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
-      : false;
-
   await Promise.all(entrypoints.map(generateEntryCode));
 
   async function generateEntryCode(entrypoint: Entrypoint) {
@@ -135,7 +128,6 @@ export const generateCode = async (
         const generatedRoutes = await generateRoutesForEntry(
           entrypoint,
           appContext,
-          oldVersion,
         );
 
         // Remove component fields from generated routes

@@ -3,7 +3,6 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   isReact18 as checkIsReact18,
   cleanRequireCache,
-  createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
 import { routerPlugin } from '../router/cli';
@@ -76,26 +75,15 @@ export const runtimePlugin = (params?: {
     });
 
     api.config(() => {
-      const { appDirectory, metaName, internalDirectory } = api.getAppContext();
+      const { appDirectory, metaName } = api.getAppContext();
 
       const isReact18 = checkIsReact18(appDirectory);
 
       process.env.IS_REACT18 = isReact18.toString();
 
-      const pluginsExportsUtils = createRuntimeExportsUtils(
-        internalDirectory,
-        'plugins',
-      );
-
       return {
-        runtime: {},
-        runtimeByEntries: {},
         resolve: {
           alias: {
-            /**
-             * Compatible with the reference path of the old version of the plugin.
-             */
-            [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
             '@meta/runtime/browser$': require.resolve(
               '@modern-js/runtime/browser',
             ),

@@ -2,9 +2,6 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { imagePlugin } from '@modern-js/image';
 
 export default defineConfig({
-  runtime: {
-    router: true,
-  },
   source: {
     mainEntryName: 'index',
   },

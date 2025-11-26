@@ -6,12 +6,7 @@ import type {
   PageRoute,
   ServerRoute,
 } from '@modern-js/types';
-import {
-  fs,
-  NESTED_ROUTE_SPEC_FILE,
-  createRuntimeExportsUtils,
-  getEntryOptions,
-} from '@modern-js/utils';
+import { fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
 import { isRouteEntry } from './entry';
 import {
@@ -46,30 +41,19 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
 
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const { nestedRoutesEntry } = entrypoint as Entrypoint;
-      const { packageName, serverRoutes, metaName } = api.getAppContext();
+      const { serverRoutes, metaName } = api.getAppContext();
       const serverBase = serverRoutes
         .filter(
           (route: ServerRoute) => route.entryName === entrypoint.entryName,
         )
         .map(route => route.urlPath)
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
-      const userConfig = api.getNormalizedConfig();
-      const routerConfig = getEntryOptions(
-        entrypoint.entryName,
-        entrypoint.isMainEntry!,
-        userConfig.runtime,
-        userConfig.runtimeByEntries,
-        packageName,
-      )?.router;
 
       if (nestedRoutesEntry) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,
-          config:
-            typeof routerConfig === 'boolean'
-              ? { serverBase }
-              : { ...routerConfig, serverBase },
+          config: { serverBase },
         });
       }
 

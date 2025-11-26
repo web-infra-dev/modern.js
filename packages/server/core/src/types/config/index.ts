@@ -14,17 +14,11 @@ export * from './server';
 export * from './source';
 export * from './tools';
 
-interface RuntimeUserConfig {
-  [property: string]: any;
-}
-type RuntimeNormalizedConfig = RuntimeUserConfig;
-
 export interface UserConfig {
   output?: OutputUserConfig;
   source?: SourceUserConfig;
   tools?: ToolsUserConfig;
   server?: ServerUserConfig;
-  runtime?: RuntimeUserConfig;
   html?: HtmlUserConfig;
   bff?: BffUserConfig;
   dev?: DevUserConfig;
@@ -36,7 +30,6 @@ export type ServerOptions = {
   source: SourceNormalizedConfig;
   tools: ToolsNormalizedConfig;
   server: ServerNormalizedConfig;
-  runtime: RuntimeNormalizedConfig;
   html: HtmlNormalizedConfig;
   bff: BffNormalizedConfig;
   dev?: DevNormalizedConfig;

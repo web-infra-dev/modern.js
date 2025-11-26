@@ -2,10 +2,6 @@ import path from 'path';
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
-  runtime: {
-    state: false,
-    router: false,
-  },
   server: {
     ssr: {
       mode: 'stream',

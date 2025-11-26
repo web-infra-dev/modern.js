@@ -5,7 +5,8 @@ export interface I18nInstance {
   language: string;
   isInitialized: boolean;
   init: (options?: I18nInitOptions) => void | Promise<void>;
-  changeLanguage: (lang: string) => void | Promise<void>;
+  changeLanguage?: (lang: string) => void | Promise<void>;
+  setLang?: (lang: string) => void | Promise<void>;
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
   cloneInstance?: () => I18nInstance; // ssr need

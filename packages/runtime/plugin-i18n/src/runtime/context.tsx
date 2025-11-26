@@ -158,7 +158,8 @@ export const useModernI18n = (): UseModernI18nReturn => {
           throw new Error('Language must be a non-empty string');
         }
 
-        await i18nInstance.changeLanguage(newLang);
+        await i18nInstance?.setLang?.(newLang);
+        await i18nInstance?.changeLanguage?.(newLang);
 
         if (isBrowser()) {
           const detectionOptions = i18nInstance.options?.detection;

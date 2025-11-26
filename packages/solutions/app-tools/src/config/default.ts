@@ -93,7 +93,5 @@ export function createDefaultConfig(
     },
     plugins: [],
     builderPlugins: [],
-    runtime: {},
-    runtimeByEntries: {},
   };
 }

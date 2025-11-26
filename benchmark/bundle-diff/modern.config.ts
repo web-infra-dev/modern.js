@@ -5,10 +5,6 @@ const isCI = process.env.CI === 'true';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
-  runtime: {
-    router: true,
-  },
-
   tools: {
     bundlerChain: chain => {
       if (process.env.RSDOCTOR) {
