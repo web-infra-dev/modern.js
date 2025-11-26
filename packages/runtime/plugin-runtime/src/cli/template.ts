@@ -225,7 +225,7 @@ const getRegisterRuntimePluginCode = (
 ) => {
   return `plugins.push(${configName}Plugin(mergeConfig(${JSON.stringify(
     config,
-  )}, (runtimeConfig || {})['${configName}'], ((runtimeConfig || {})['${configName}ByEntries'] || {})['${entryName}'])));`;
+  )}, (runtimeConfig || {})['${configName}'])));`;
 };
 
 export const runtimeRegister = ({
