@@ -49,13 +49,38 @@ function MyComponent() {
 
 It's recommended to provide fallback options when resource loading fails:
 
+### Check Resource Loading State
+
+When using SDK backend or need to ensure resources are loaded, use `isResourcesReady` from `useModernI18n`:
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { isResourcesReady } = useModernI18n();
+  const { t } = useTranslation();
+
+  // Check if resources are loaded and ready
+  if (!isResourcesReady) {
+    return <div>Loading translation resources...</div>;
+  }
+
+  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+}
+```
+
+### Alternative: Check i18next Initialization
+
+For simpler cases, you can also check i18next initialization status:
+
 ```tsx
 import { useTranslation } from 'react-i18next';
 
 function MyComponent() {
   const { t, i18n } = useTranslation();
 
-  // Check if resources are loaded
+  // Check if i18n is initialized
   if (!i18n.isInitialized) {
     return <div>Loading...</div>;
   }
@@ -63,6 +88,10 @@ function MyComponent() {
   return <div>{t('content', { defaultValue: 'Default content' })}</div>;
 }
 ```
+
+:::tip
+`isResourcesReady` is more accurate for SDK backend scenarios as it checks if all required resources are actually loaded, not just if the instance is initialized.
+:::
 
 ## Type Safety
 
@@ -103,4 +132,3 @@ function MyComponent() {
   // return <div>{t('invalid')}</div>; // ❌ TypeScript error
 }
 ```
-

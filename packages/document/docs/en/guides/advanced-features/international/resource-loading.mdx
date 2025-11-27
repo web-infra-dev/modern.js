@@ -270,3 +270,22 @@ const sdkLoader: I18nSdkLoader = async options => {
 };
 ```
 
+### Check Resource Loading State
+
+When using SDK backend, you can check if resources are loaded using `isResourcesReady`:
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function MyComponent() {
+  const { isResourcesReady } = useModernI18n();
+
+  if (!isResourcesReady) {
+    return <div>Loading translation resources...</div>;
+  }
+
+  return <div>Resources are ready!</div>;
+}
+```
+
+This is particularly useful when resources are loaded asynchronously, as it ensures all required namespaces for the current language are loaded before rendering content that depends on translations.
