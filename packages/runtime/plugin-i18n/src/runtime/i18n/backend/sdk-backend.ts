@@ -194,4 +194,38 @@ export class SdkBackend {
     // For SDK backend, missing translations should be managed through the external SDK service,
     // not saved at runtime.
   }
+
+  /**
+   * Check if a specific resource is currently loading
+   * @param language - Language code
+   * @param namespace - Namespace
+   * @returns true if the resource is currently loading, false otherwise
+   */
+  isLoading(language: string, namespace: string): boolean {
+    const cacheKey = `${language}:${namespace}`;
+    return this.loadingPromises.has(cacheKey);
+  }
+
+  /**
+   * Get all currently loading resources
+   * @returns Array of objects containing language and namespace of loading resources
+   */
+  getLoadingResources(): Array<{ language: string; namespace: string }> {
+    const loading: Array<{ language: string; namespace: string }> = [];
+    for (const key of this.loadingPromises.keys()) {
+      const [language, namespace] = key.split(':');
+      if (language && namespace) {
+        loading.push({ language, namespace });
+      }
+    }
+    return loading;
+  }
+
+  /**
+   * Check if any resource is currently loading
+   * @returns true if any resource is loading, false otherwise
+   */
+  hasLoadingResources(): boolean {
+    return this.loadingPromises.size > 0;
+  }
 }
