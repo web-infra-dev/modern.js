@@ -58,6 +58,10 @@ module.exports = {
         '<rootDir>/packages/(server|solutions)/',
         '<rootDir>/packages/generator/',
         '<rootDir>/packages/runtime/plugin-runtime/',
+        '<rootDir>/packages/cli/plugin-ssg/',
+        '<rootDir>/packages/toolkit/plugin/',
+        '<rootDir>/packages/toolkit/compiler/babel/',
+        '<rootDir>/packages/toolkit/i18n-utils/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',
@@ -102,6 +106,9 @@ module.exports = {
         '<rootDir>/packages/builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/generator/',
+        '<rootDir>/packages/server/babel-plugin-module-resolver/',
+        '<rootDir>/packages/server/core/',
+        '<rootDir>/packages/server/bff-runtime/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: 'node',
@@ -111,51 +118,6 @@ module.exports = {
         '<rootDir>/packages/server/**/tests/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/solutions/**/tests/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/runtime/plugin-runtime/',
-      ],
-    },
-    {
-      setupFiles: [],
-      transform: {
-        '\\.[jt]sx?$': [
-          require.resolve('@swc/jest'),
-          {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-                decorators: true,
-              },
-              transform: {
-                react: {
-                  runtime: 'automatic',
-                },
-              },
-            },
-          },
-        ],
-      },
-      moduleNameMapper: {
-        '^@modern-js/generator-common$':
-          '<rootDir>/packages/generator/generator-common/src',
-        '^@modern-js/generator-utils$':
-          '<rootDir>/packages/generator/generator-utils/src',
-        '^@modern-js/i18n-utils$': '<rootDir>/packages/toolkit/i18n-utils/src',
-      },
-      globals: {},
-      transformIgnorePatterns: [],
-      modulePathIgnorePatterns: [
-        '<rootDir>/packages/cli/builder/',
-        '<rootDir>/packages/toolkit/e2e/',
-        '<rootDir>/packages/solutions/module-tools/compiled/',
-        '<rootDir>/packages/toolkit/utils/compiled/',
-        '<rootDir>/.nx-cache',
-        '<rootDir>/.nx',
-      ],
-      testPathIgnorePatterns: [],
-      rootDir: path.join(__dirname, '../'),
-      testEnvironment: 'node',
-      testMatch: [
-        '<rootDir>/packages/generator/**/src/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/generator/**/tests/**/*.test.[jt]s?(x)',
       ],
     },
   ],
