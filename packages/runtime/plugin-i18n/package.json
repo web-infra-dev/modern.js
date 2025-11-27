@@ -88,6 +88,7 @@
       "@modern-js/plugin": "workspace:*",
       "@modern-js/server-core": "workspace:*",
       "@modern-js/server-runtime": "workspace:*",
+      "@modern-js/runtime-utils": "workspace:*",
       "@modern-js/types": "workspace:*",
       "@modern-js/utils": "workspace:*",
       "@swc/helpers": "^0.5.17",
