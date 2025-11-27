@@ -4,8 +4,9 @@ import {
   isBrowser,
   useRuntimeContext,
 } from '@modern-js/runtime';
+import { merge } from '@modern-js/runtime-utils/merge';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type {
   BaseBackendOptions,
   BaseLocaleDetectionOptions,
@@ -43,12 +44,16 @@ export interface I18nPluginOptions {
   [key: string]: any;
 }
 
-const getPathname = (context: TRuntimeContext) => {
+const getPathname = (context: TRuntimeContext): string => {
   if (isBrowser()) {
     return window.location.pathname;
   }
   return context.ssrContext?.request?.pathname || '/';
 };
+
+interface RuntimeContextWithI18n extends TRuntimeContext {
+  i18nInstance?: I18nInstance;
+}
 
 export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
   name: '@modern-js/plugin-i18n',
@@ -56,7 +61,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
     const {
       entryName,
       i18nInstance: userI18nInstance,
-      initOptions: userInitOptions,
+      initOptions,
       localeDetection,
       backend,
     } = options;
@@ -73,6 +78,9 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
     api.onBeforeRender(async context => {
       let i18nInstance = await getI18nInstance(userI18nInstance);
+      const { i18n: otherConfig } = api.getRuntimeConfig();
+      const { initOptions: otherInitOptions } = otherConfig || {};
+      const userInitOptions = merge(otherInitOptions || {}, initOptions || {});
       const initReactI18next = await getInitReactI18next();
       I18nextProvider = await getI18nextProvider();
       if (initReactI18next) {
@@ -150,21 +158,42 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
     api.wrapRoot(App => {
       return props => {
-        const runtimeContext = useRuntimeContext();
-        const i18nInstance = (runtimeContext as any).i18nInstance;
-        const initialLang =
-          i18nInstance?.language || (localeDetection?.fallbackLanguage ?? 'en');
+        const runtimeContext = useRuntimeContext() as RuntimeContextWithI18n;
+        const i18nInstance = runtimeContext.i18nInstance;
+        const initialLang = useMemo(
+          () =>
+            i18nInstance?.language ||
+            (localeDetection?.fallbackLanguage ?? 'en'),
+          [i18nInstance?.language, localeDetection?.fallbackLanguage],
+        );
         const [lang, setLang] = useState(initialLang);
+        const prevLangRef = useRef(lang);
+        const runtimeContextRef = useRef(runtimeContext);
+        runtimeContextRef.current = runtimeContext;
 
-        if (i18nInstance?.language && i18nInstance.translator) {
-          i18nInstance.translator.language = i18nInstance.language;
-        }
+        // Sync translator language with i18n instance language
+        useEffect(() => {
+          if (i18nInstance?.language) {
+            const translator = (i18nInstance as any).translator;
+            if (translator) {
+              translator.language = i18nInstance.language;
+            }
+          }
+        }, [i18nInstance?.language]);
+
+        // Update prevLangRef when lang changes from other sources (e.g., updateLanguage callback)
+        useEffect(() => {
+          prevLangRef.current = lang;
+        }, [lang]);
+
+        // Handle language detection and updates
 
         useEffect(() => {
+          if (!i18nInstance) {
+            return;
+          }
           if (localePathRedirect) {
-            const currentPathname = getPathname(
-              runtimeContext as TRuntimeContext,
-            );
+            const currentPathname = getPathname(runtimeContextRef.current);
             const pathDetection = detectLanguageFromPath(
               currentPathname,
               languages,
@@ -172,10 +201,12 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
             );
             if (pathDetection.detected && pathDetection.language) {
               const currentLang = pathDetection.language;
-              if (currentLang !== lang) {
+              // Only update if language actually changed
+              if (currentLang !== prevLangRef.current) {
+                prevLangRef.current = currentLang;
                 setLang(currentLang);
-                i18nInstance?.setLang?.(currentLang);
-                i18nInstance?.changeLanguage?.(currentLang);
+                i18nInstance.setLang?.(currentLang);
+                i18nInstance.changeLanguage?.(currentLang);
                 if (isBrowser()) {
                   const detectionOptions = i18nInstance.options?.detection;
                   cacheUserLanguage(
@@ -188,27 +219,63 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
             }
           } else {
             const instanceLang = i18nInstance.language;
-            if (instanceLang && instanceLang !== lang) {
+            // Only update if language actually changed
+            if (instanceLang && instanceLang !== prevLangRef.current) {
+              prevLangRef.current = instanceLang;
               setLang(instanceLang);
             }
           }
-        }, []);
+        }, [i18nInstance, localePathRedirect, languages]);
 
-        const contextValue = {
-          language: lang,
+        const contextValue = useMemo(() => {
+          if (!i18nInstance) {
+            // Return a minimal safe context value when i18nInstance is not available
+            // Create a minimal I18nInstance object that won't cause runtime errors
+            const minimalI18nInstance: I18nInstance = {
+              language: lang,
+              isInitialized: false,
+              init: () => {},
+              use: () => {},
+              createInstance: () => minimalI18nInstance,
+              services: {},
+            };
+            return {
+              language: lang,
+              i18nInstance: minimalI18nInstance,
+              entryName,
+              languages,
+              localePathRedirect,
+              ignoreRedirectRoutes,
+              updateLanguage: setLang,
+            };
+          }
+          return {
+            language: lang,
+            i18nInstance,
+            entryName,
+            languages,
+            localePathRedirect,
+            ignoreRedirectRoutes,
+            updateLanguage: setLang,
+          };
+        }, [
+          lang,
           i18nInstance,
           entryName,
           languages,
           localePathRedirect,
           ignoreRedirectRoutes,
-          updateLanguage: setLang,
-        };
+        ]);
 
         const appContent = (
           <ModernI18nProvider value={contextValue}>
             <App {...props} />
           </ModernI18nProvider>
         );
+
+        if (!i18nInstance) {
+          return appContent;
+        }
 
         return I18nextProvider ? (
           <I18nextProvider i18n={i18nInstance}>{appContent}</I18nextProvider>

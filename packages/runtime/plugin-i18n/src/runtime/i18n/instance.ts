@@ -1,6 +1,5 @@
 import type { BaseBackendOptions } from '../../shared/type';
 
-// simple i18n instance definition
 export interface I18nInstance {
   language: string;
   isInitialized: boolean;
@@ -22,6 +21,7 @@ export interface I18nInstance {
     backend?: BackendOptions;
     [key: string]: any;
   };
+  [key: string]: any;
 }
 
 type LanguageDetectorOrder = string[];
