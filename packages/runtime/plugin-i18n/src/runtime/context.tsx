@@ -2,6 +2,7 @@ import { isBrowser } from '@modern-js/runtime';
 import { createContext, useCallback, useContext } from 'react';
 import type { FC, ReactNode } from 'react';
 import type { I18nInstance } from './i18n';
+import type { SdkBackend } from './i18n/backend/sdk-backend';
 import { cacheUserLanguage } from './i18n/detection';
 import { buildLocalizedUrl, getEntryPath } from './utils';
 
@@ -41,6 +42,8 @@ export interface UseModernI18nReturn {
   i18nInstance: I18nInstance;
   supportedLanguages: string[];
   isLanguageSupported: (lang: string) => boolean;
+  // Indicates if translation resources for current language are ready to use
+  isResourcesReady: boolean;
 }
 
 /**
@@ -250,11 +253,63 @@ export const useModernI18n = (): UseModernI18nReturn => {
     [languages],
   );
 
+  // Check if current language resources are ready
+  // This checks if all required namespaces for the current language are loaded
+  const checkIsResourcesReady = (): boolean => {
+    if (!i18nInstance?.isInitialized) {
+      return false;
+    }
+
+    // Get backend instance
+    const backend = i18nInstance?.services?.backend as SdkBackend | undefined;
+
+    // If using SDK backend, check loading state
+    if (backend && typeof backend.isLoading === 'function') {
+      // Check if any resource for current language is loading
+      const loadingResources = backend.getLoadingResources();
+      const isCurrentLanguageLoading = loadingResources.some(
+        ({ language }) => language === currentLanguage,
+      );
+      if (isCurrentLanguageLoading) {
+        return false;
+      }
+    }
+
+    // Check if resources exist in store
+    const store = (i18nInstance as any).store;
+    if (!store?.data) {
+      return false;
+    }
+
+    const langData = store.data[currentLanguage];
+    if (!langData || typeof langData !== 'object') {
+      return false;
+    }
+
+    // Get required namespaces
+    const options = i18nInstance.options;
+    const namespaces = options?.ns || options?.defaultNS || ['translation'];
+    const requiredNamespaces = Array.isArray(namespaces)
+      ? namespaces
+      : [namespaces];
+
+    // Check if all required namespaces are loaded
+    return requiredNamespaces.every(ns => {
+      const nsData = langData[ns];
+      return (
+        nsData && typeof nsData === 'object' && Object.keys(nsData).length > 0
+      );
+    });
+  };
+
+  const isResourcesReady = checkIsResourcesReady();
+
   return {
     language: currentLanguage,
     changeLanguage,
     i18nInstance,
     supportedLanguages: languages || [],
     isLanguageSupported,
+    isResourcesReady,
   };
 };
