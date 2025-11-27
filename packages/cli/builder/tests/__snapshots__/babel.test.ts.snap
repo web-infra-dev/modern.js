@@ -45,7 +45,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
@@ -176,7 +176,7 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
@@ -299,7 +299,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
@@ -385,7 +385,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
@@ -508,7 +508,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
@@ -631,7 +631,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
           "isModule": "unknown",
           "jsc": {
             "experimental": {
-              "cacheRoot": "node_modules/.cache/.swc",
+              "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
               "keepImportAttributes": true,
             },
             "externalHelpers": true,
