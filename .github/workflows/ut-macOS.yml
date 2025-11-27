@@ -1,7 +1,8 @@
-name: Unit Test (vitest - Windows)
+name: Unit Test (macOS)
 
+# TODO: migrate jest tests to rstest later
 concurrency:
-  group: windows-vitest-${{ github.head_ref }}
+  group: macos-unit-test-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
@@ -17,9 +18,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ut-windows:
+  ut-mac:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: macos-14
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -32,7 +33,6 @@ jobs:
         run: npm i -g --force corepack && corepack enable
 
       - name: Check skip CI
-        shell: bash
         run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
         id: skip-ci
 
@@ -51,4 +51,4 @@ jobs:
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: pnpm run test:vitest
+        run: pnpm run test:rstest

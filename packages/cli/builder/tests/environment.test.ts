@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { join } from 'path';
+import { describe, expect, it } from '@rstest/core';
 import { createBuilder } from '../src';
 
 describe('builder environment compat', () => {
@@ -23,7 +24,7 @@ describe('builder environment compat', () => {
           },
         },
       },
-      cwd: '',
+      cwd: join(__dirname, '..'),
     });
 
     const {

@@ -1,0 +1,15 @@
+{
+  "name": "@scripts/rstest-config",
+  "private": true,
+  "version": "2.66.0",
+  "main": "src/index.ts",
+  "typings": "src/index.ts",
+  "dependencies": {
+    "@modern-js/tsconfig": "workspace:*",
+    "path-serializer": "0.5.1",
+    "@types/lodash": "^4.17.21",
+    "@types/node": "^20",
+    "lodash": "^4.17.21",
+    "typescript": "^5"
+  }
+}

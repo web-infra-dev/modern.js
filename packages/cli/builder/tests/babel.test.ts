@@ -1,11 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { join } from 'path';
+import { describe, expect, it } from '@rstest/core';
 import { createBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
 describe('plugin-babel (rspack mode)', () => {
   it('should not set babel-loader when babel config not modified', async () => {
     const rsbuild = await createBuilder({
-      cwd: '',
+      cwd: join(__dirname, '..'),
       bundlerType: 'rspack',
       config: {
         output: {
@@ -32,7 +33,7 @@ describe('plugin-babel (rspack mode)', () => {
 
   it('should set babel-loader when babel config modified', async () => {
     const rsbuild = await createBuilder({
-      cwd: '',
+      cwd: join(__dirname, '..'),
       bundlerType: 'rspack',
       config: {
         output: {
@@ -69,7 +70,7 @@ describe('plugin-babel (rspack mode)', () => {
 
   it('should set babel-loader when environment babel config defined', async () => {
     const rsbuild = await createBuilder({
-      cwd: '',
+      cwd: join(__dirname, '..'),
       bundlerType: 'rspack',
       config: {
         output: {
@@ -120,7 +121,7 @@ describe('plugin-babel (rspack mode)', () => {
 
   it('should merge environment and shared babel config', async () => {
     const rsbuild = await createBuilder({
-      cwd: '',
+      cwd: join(__dirname, '..'),
       bundlerType: 'rspack',
       config: {
         output: {

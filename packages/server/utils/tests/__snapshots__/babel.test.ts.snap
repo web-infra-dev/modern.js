@@ -31,7 +31,7 @@ exports[`babel resolveBabelConfig 1`] = `
       {
         "alias": {
           "@/*": [
-            "src/*",
+            "./src/*",
           ],
         },
         "extensions": [
@@ -44,7 +44,7 @@ exports[`babel resolveBabelConfig 1`] = `
           ".mjs",
         ],
         "resolvePath": [Function],
-        "root": "<ROOT>/tests/fixtures/",
+        "root": "<WORKSPACE>/packages/server/utils/tests/fixtures/",
       },
     ],
     "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-typescript-metadata/lib/plugin.js",

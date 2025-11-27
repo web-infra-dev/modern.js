@@ -18,9 +18,9 @@
     "test": "npm run test:ut",
     "test:rspack": "cd tests && pnpm run test:rspack",
     "test:jest": "cd tests && pnpm run test:ut",
-    "test:vitest": "cross-env VITE_CJS_IGNORE_WARNING=true node scripts/vitest-config/vitestRunAll.js",
-    "test:ut": "pnpm run test:jest && pnpm run test:vitest",
-    "test:ut:update": "pnpm run test:jest -u && pnpm run test:vitest -u",
+    "test:rstest": "rstest",
+    "test:ut": "pnpm run test:jest && pnpm run test:rstest",
+    "test:ut:update": "pnpm run test:jest -u && pnpm run test:rstest -u",
     "test:e2e": "cd tests && npm run test",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
     "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --maxParallel=4",
@@ -75,7 +75,6 @@
     "@scripts/build": "workspace:*",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitest/ui": "^3.2.4",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
     "esbuild": "0.25.5",
@@ -83,7 +82,7 @@
     "lint-staged": "~13.3.0",
     "nx": "^17.3.2",
     "rimraf": "^6.1.2",
-    "vitest": "^3.0.0"
+    "@rstest/core": "0.6.6"
   },
   "pnpm": {
     "peerDependencyRules": {

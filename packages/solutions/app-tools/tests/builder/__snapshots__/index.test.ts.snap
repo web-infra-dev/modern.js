@@ -11,11 +11,11 @@ exports[`create builder Options test create builder environments config 1`] = `
       "source": {
         "entry": {
           "main": [
-            "src/index.ts",
-            "src/main.ts",
+            "./src/index.ts",
+            "./src/main.ts",
           ],
           "next": [
-            "src/next.ts",
+            "./src/next.ts",
           ],
         },
       },
@@ -35,11 +35,11 @@ exports[`create builder Options test create builder environments config 2`] = `
       "source": {
         "entry": {
           "main": [
-            "src/index.ts",
-            "src/main.ts",
+            "./src/index.ts",
+            "./src/main.ts",
           ],
           "next": [
-            "src/next.ts",
+            "./src/next.ts",
           ],
         },
       },
@@ -51,11 +51,11 @@ exports[`create builder Options test create builder environments config 2`] = `
       "source": {
         "entry": {
           "main": [
-            "src/index.ts",
-            "src/main.ts",
+            "./src/index.ts",
+            "./src/main.ts",
           ],
           "next": [
-            "src/next.ts",
+            "./src/next.ts",
           ],
         },
       },
@@ -83,11 +83,11 @@ exports[`create builder Options test create builder environments config 3`] = `
       "source": {
         "entry": {
           "main": [
-            "src/index.ts",
-            "src/main.ts",
+            "./src/index.ts",
+            "./src/main.ts",
           ],
           "next": [
-            "src/next.ts",
+            "./src/next.ts",
           ],
         },
       },
@@ -99,11 +99,11 @@ exports[`create builder Options test create builder environments config 3`] = `
       "source": {
         "entry": {
           "main": [
-            "src/index.ts",
-            "src/main.ts",
+            "./src/index.ts",
+            "./src/main.ts",
           ],
           "next": [
-            "src/next.ts",
+            "./src/next.ts",
           ],
         },
       },

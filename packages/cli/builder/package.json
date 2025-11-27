@@ -24,8 +24,8 @@
   "scripts": {
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
-    "test": "vitest run",
-    "test:watch": "vitest dev"
+    "test": "rstest run",
+    "test:watch": "rstest watch"
   },
   "dependencies": {
     "@modern-js/flight-server-transform-plugin": "workspace:*",
@@ -65,7 +65,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@scripts/vitest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.21",
     "react": "^19.2.0",

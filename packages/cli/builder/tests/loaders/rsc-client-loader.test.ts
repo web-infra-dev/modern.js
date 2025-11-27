@@ -1,7 +1,7 @@
 import path from 'path';
 import type { Rspack } from '@rsbuild/core';
+import { type Mock, beforeEach, describe, expect, it, rs } from '@rstest/core';
 import fs from 'fs/promises';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type ServerReferencesMap, sharedData } from '../../src/rsc/common';
 import rscClientLoader, {
   type ClientLoaderOptions,
@@ -18,7 +18,7 @@ async function callLoader(
     const context: Partial<Rspack.LoaderContext<ClientLoaderOptions>> = {
       getOptions: () => options || {},
       resourcePath,
-      cacheable: vi.fn(),
+      cacheable: rs.fn(),
       emitError,
       async: () => context.callback!,
       callback: (error, content) => {
@@ -95,7 +95,7 @@ describe('rscClientLoader', () => {
     const resourcePath = path.resolve(__dirname, 'fixtures/server-actions.ts');
 
     const serverReferencesMap: ServerReferencesMap = new Map();
-    const emitError = vi.fn();
+    const emitError = rs.fn();
 
     const output = await callLoader(resourcePath, {}, emitError);
 

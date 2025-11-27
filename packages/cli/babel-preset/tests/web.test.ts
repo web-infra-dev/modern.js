@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest';
+import { expect, test } from '@rstest/core';
 import { getBabelConfigForWeb } from '../src/web';
 
 test('should provide web preset as expected', () => {

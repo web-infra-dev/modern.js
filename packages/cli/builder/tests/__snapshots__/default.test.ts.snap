@@ -1,25 +1,25 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Rstest Snapshot v1
 
 exports[`builder rspack > should generator rspack config correctly 1`] = `
 {
   "cache": true,
-  "context": "",
+  "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "cheap-module-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
-      "src/index.ts",
+      "data:text/javascript,import \\"core-js\\";",
+      "<WORKSPACE>/packages/cli/builder/src/index.ts",
     ],
   },
   "experiments": {
     "asyncWebAssembly": true,
     "cache": {
       "buildDependencies": [
-        "package.json",
-        "tsconfig.json",
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       ],
       "storage": {
-        "directory": "node_modules/.cache/rspack",
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
         "type": "filesystem",
       },
       "type": "persistent",
@@ -254,7 +254,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -322,7 +322,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -756,7 +756,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": true,
@@ -836,7 +836,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": true,
@@ -886,7 +886,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -962,7 +962,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -1076,7 +1076,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
-    "path": "dist",
+    "path": "<WORKSPACE>/packages/cli/builder/dist",
     "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -1141,13 +1141,13 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       "_args": [
         {
           "import.meta.env": {
-            "ASSET_PREFIX": """",
+            "ASSET_PREFIX": "\\"\\"",
             "BASE_URL": "\\"/\\"",
             "DEV": true,
-            "MODE": ""development"",
+            "MODE": "\\"development\\"",
             "PROD": false,
           },
-          "process.env.ASSET_PREFIX": """",
+          "process.env.ASSET_PREFIX": "\\"\\"",
           "process.env.BASE_URL": "\\"/\\"",
         },
       ],
@@ -1176,7 +1176,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "typescript": {
           "build": false,
-          "configFile": "tsconfig.json",
+          "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
           "memoryLimit": 8192,
           "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
@@ -1230,7 +1230,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       ".json",
     ],
     "tsConfig": {
-      "configFile": "tsconfig.json",
+      "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
     },
   },
@@ -1266,22 +1266,22 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
 exports[`builder rspack > should generator rspack config correctly when node 1`] = `
 {
   "cache": true,
-  "context": "",
+  "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "source-map",
   "entry": {
     "index": [
-      "src/index.ts",
+      "<WORKSPACE>/packages/cli/builder/src/index.ts",
     ],
   },
   "experiments": {
     "asyncWebAssembly": true,
     "cache": {
       "buildDependencies": [
-        "package.json",
-        "tsconfig.json",
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       ],
       "storage": {
-        "directory": "node_modules/.cache/rspack",
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
         "type": "filesystem",
       },
       "type": "persistent",
@@ -1409,7 +1409,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -1469,7 +1469,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -1770,7 +1770,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -1799,7 +1799,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -1845,7 +1845,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -1916,7 +1916,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -2043,7 +2043,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "library": {
       "type": "commonjs2",
     },
-    "path": "dist/bundles",
+    "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
     "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -2059,13 +2059,13 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "_args": [
         {
           "import.meta.env": {
-            "ASSET_PREFIX": """",
+            "ASSET_PREFIX": "\\"\\"",
             "BASE_URL": "\\"/\\"",
             "DEV": false,
-            "MODE": ""production"",
+            "MODE": "\\"production\\"",
             "PROD": true,
           },
-          "process.env.ASSET_PREFIX": """",
+          "process.env.ASSET_PREFIX": "\\"\\"",
           "process.env.BASE_URL": "\\"/\\"",
         },
       ],
@@ -2094,7 +2094,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "typescript": {
           "build": false,
-          "configFile": "tsconfig.json",
+          "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
           "memoryLimit": 8192,
           "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
@@ -2126,7 +2126,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       ".json",
     ],
     "tsConfig": {
-      "configFile": "tsconfig.json",
+      "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
     },
   },
@@ -2140,23 +2140,23 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
 exports[`builder rspack > should generator rspack config correctly when prod 1`] = `
 {
   "cache": true,
-  "context": "",
+  "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
-      "src/index.ts",
+      "data:text/javascript,import \\"core-js\\";",
+      "<WORKSPACE>/packages/cli/builder/src/index.ts",
     ],
   },
   "experiments": {
     "asyncWebAssembly": true,
     "cache": {
       "buildDependencies": [
-        "package.json",
-        "tsconfig.json",
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       ],
       "storage": {
-        "directory": "node_modules/.cache/rspack",
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
         "type": "filesystem",
       },
       "type": "persistent",
@@ -2390,7 +2390,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -2458,7 +2458,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -2892,7 +2892,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -2972,7 +2972,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -3022,7 +3022,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -3098,7 +3098,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -3248,7 +3248,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
-    "path": "dist",
+    "path": "<WORKSPACE>/packages/cli/builder/dist",
     "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -3310,13 +3310,13 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       "_args": [
         {
           "import.meta.env": {
-            "ASSET_PREFIX": """",
+            "ASSET_PREFIX": "\\"\\"",
             "BASE_URL": "\\"/\\"",
             "DEV": false,
-            "MODE": ""production"",
+            "MODE": "\\"production\\"",
             "PROD": true,
           },
-          "process.env.ASSET_PREFIX": """",
+          "process.env.ASSET_PREFIX": "\\"\\"",
           "process.env.BASE_URL": "\\"/\\"",
         },
       ],
@@ -3345,7 +3345,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "typescript": {
           "build": false,
-          "configFile": "tsconfig.json",
+          "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
           "memoryLimit": 8192,
           "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
@@ -3377,7 +3377,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       ".json",
     ],
     "tsConfig": {
-      "configFile": "tsconfig.json",
+      "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
     },
   },
@@ -3394,22 +3394,22 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
 exports[`builder rspack > should generator rspack config correctly when service-worker 1`] = `
 {
   "cache": true,
-  "context": "",
+  "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
-      "src/index.ts",
+      "<WORKSPACE>/packages/cli/builder/src/index.ts",
     ],
   },
   "experiments": {
     "asyncWebAssembly": true,
     "cache": {
       "buildDependencies": [
-        "package.json",
-        "tsconfig.json",
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       ],
       "storage": {
-        "directory": "node_modules/.cache/rspack",
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
         "type": "filesystem",
       },
       "type": "persistent",
@@ -3534,7 +3534,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -3595,7 +3595,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               "isModule": "unknown",
               "jsc": {
                 "experimental": {
-                  "cacheRoot": "node_modules/.cache/.swc",
+                  "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                   "keepImportAttributes": true,
                 },
                 "externalHelpers": true,
@@ -3878,7 +3878,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -3907,7 +3907,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
-                  "node_modules",
+                  "<WORKSPACE>/packages/cli/builder/node_modules",
                 ],
               },
               "sourceMap": false,
@@ -3953,7 +3953,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -4025,7 +4025,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                   "isModule": "unknown",
                   "jsc": {
                     "experimental": {
-                      "cacheRoot": "node_modules/.cache/.swc",
+                      "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                       "keepImportAttributes": true,
                     },
                     "externalHelpers": true,
@@ -4149,7 +4149,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
-    "path": "dist/worker",
+    "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
     "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -4165,13 +4165,13 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "_args": [
         {
           "import.meta.env": {
-            "ASSET_PREFIX": """",
+            "ASSET_PREFIX": "\\"\\"",
             "BASE_URL": "\\"/\\"",
             "DEV": false,
-            "MODE": ""production"",
+            "MODE": "\\"production\\"",
             "PROD": true,
           },
-          "process.env.ASSET_PREFIX": """",
+          "process.env.ASSET_PREFIX": "\\"\\"",
           "process.env.BASE_URL": "\\"/\\"",
         },
       ],
@@ -4200,7 +4200,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "typescript": {
           "build": false,
-          "configFile": "tsconfig.json",
+          "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
           "memoryLimit": 8192,
           "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
@@ -4232,7 +4232,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
       ".json",
     ],
     "tsConfig": {
-      "configFile": "tsconfig.json",
+      "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
     },
   },
