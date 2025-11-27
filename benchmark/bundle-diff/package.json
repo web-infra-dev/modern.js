@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/eslint-config": "2.59.0",
     "@modern-js/tsconfig": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.3.11",
     "@types/jest": "^29.5.14",

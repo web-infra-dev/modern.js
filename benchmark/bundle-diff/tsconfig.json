@@ -4,7 +4,6 @@
     "declaration": false,
     "jsx": "preserve",
     "skipLibCheck": false,
-    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
