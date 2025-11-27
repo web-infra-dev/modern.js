@@ -54,13 +54,33 @@ export interface BaseBackendOptions {
   loadPath?: string;
   addPath?: string;
   /**
+   * Cache hit mode for chained backend (only effective when both `loadPath` and `sdk` are provided)
+   *
+   * - `'none'` (default): If the first backend returns resources, stop and don't try the next backend
+   * - `'refresh'`: Try to refresh the cache by loading from the next backend and update the cache
+   * - `'refreshAndUpdateStore'`: Try to refresh the cache by loading from the next backend,
+   *   update the cache and also update the i18next resource store. This allows FS/HTTP resources
+   *   to be displayed first, then SDK resources will update them asynchronously.
+   *
+   * @default 'refreshAndUpdateStore' when both loadPath and sdk are provided
+   */
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+  /**
    * SDK function to load i18n resources dynamically
    *
    * **Important**: In `modern.config.ts`, you can only set this to `true` or any identifier
    * to enable SDK mode. The actual SDK function must be provided in `modern.runtime.ts`
    * via `initOptions.backend.sdk`.
    *
-   * When provided, this will be used instead of the default HTTP/FS backend
+   * When both `loadPath` (or FS backend) and `sdk` are provided, the plugin will automatically
+   * use `i18next-chained-backend` to chain multiple backends. The order will be:
+   * 1. HTTP/FS backend (primary) - loads from `loadPath` or file system first for quick initial display
+   * 2. SDK backend (fallback/update) - loads from the SDK function to update/refresh translations
+   *
+   * With `cacheHitMode: 'refreshAndUpdateStore'` (default), FS/HTTP resources will be displayed
+   * immediately, then SDK resources will be loaded asynchronously to update the translations.
+   *
+   * If only `sdk` is provided, it will be used instead of the default HTTP/FS backend
    *
    * @example In modern.config.ts - enable SDK mode
    * ```ts

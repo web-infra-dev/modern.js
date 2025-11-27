@@ -96,10 +96,30 @@ interface BaseBackendOptions {
   /** Missing translation save path (optional) */
   addPath?: string;
 
+  /** Cache hit mode for chained backend (only effective when both `loadPath` and `sdk` are provided)
+   *
+   * - `'none'` (default, only when chained backend is not configured): If the first backend returns resources, stop and don't try the next backend
+   * - `'refresh'`: Try to refresh the cache by loading from the next backend and update the cache
+   * - `'refreshAndUpdateStore'` (default for chained backend): Try to refresh the cache by loading from the next backend,
+   *   update the cache and also update the i18next resource store. This allows FS/HTTP resources to be displayed first,
+   *   then SDK resources will update them asynchronously.
+   *
+   * @default 'refreshAndUpdateStore' when both loadPath and sdk are provided
+   */
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+
   /** SDK loader function (custom backend)
    *
    * Note: In CLI configuration, can only be set to `true` or a string identifier to enable SDK mode.
    * The actual SDK function must be provided through `initOptions.backend.sdk` in runtime configuration (`modern.runtime.ts`).
+   *
+   * When both `loadPath` (or FS backend) and `sdk` are provided, the plugin will automatically use `i18next-chained-backend`
+   * to chain multiple backends. The loading order will be:
+   * 1. HTTP/FS backend (primary) - loads from `loadPath` or file system first for quick initial display
+   * 2. SDK backend (update) - loads from the SDK function to update/refresh translations
+   *
+   * With `cacheHitMode: 'refreshAndUpdateStore'` (default), FS/HTTP resources will be displayed immediately,
+   * then SDK resources will be loaded asynchronously to update the translations.
    */
   sdk?: I18nSdkLoader | boolean | string;
 }
@@ -110,7 +130,9 @@ interface BackendOptions extends BaseBackendOptions {
 }
 ```
 
-**Example**:
+**Examples**:
+
+**1. HTTP/FS backend only**:
 
 ```ts
 i18nPlugin({
@@ -120,6 +142,45 @@ i18nPlugin({
   },
 });
 ```
+
+**2. Chained backend (recommended)**: Use both HTTP/FS backend and SDK backend
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS backend
+    sdk: true, // SDK backend
+    // cacheHitMode: 'refreshAndUpdateStore', // Default value, can be omitted
+  },
+});
+```
+
+Provide the SDK function in `modern.runtime.ts`:
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          // SDK implementation
+          if (options.lng && options.ns) {
+            return await mySdk.getResource(options.lng, options.ns);
+          }
+        },
+      },
+    },
+  },
+});
+```
+
+When using chained backend, the system will:
+
+1. First load resources from `/locales/{{lng}}/{{ns}}.json` and display immediately (quick initial display of basic translations)
+2. Then asynchronously load resources from SDK and update the i18next store (update/supplement translations)
+
+This ensures users see page content quickly while the latest translation resources are loaded in the background.
 
 ### Multi-Entry Configuration
 
@@ -279,4 +340,3 @@ export default defineRuntimeConfig({
   },
 });
 ```
-

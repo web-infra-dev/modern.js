@@ -95,7 +95,8 @@
       "i18next-browser-languagedetector": "^8.2.0",
       "i18next-http-middleware": "^3.8.2",
       "i18next-fs-backend": "^2.6.1",
-      "i18next-http-backend": "^3.0.2"
+      "i18next-http-backend": "^3.0.2",
+      "i18next-chained-backend": "^4.6.2"
     },
     "peerDependencies": {
       "react": ">=17",
