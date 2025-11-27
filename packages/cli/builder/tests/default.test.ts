@@ -1,5 +1,6 @@
+import { join } from 'path';
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from '@rstest/core';
 import { createBuilder } from '../src';
 
 describe('builder rspack', () => {
@@ -17,7 +18,7 @@ describe('builder rspack', () => {
           },
         ],
       },
-      cwd: '',
+      cwd: join(__dirname, '..'),
     });
 
     const {
@@ -40,7 +41,7 @@ describe('builder rspack', () => {
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
       config: {},
-      cwd: '',
+      cwd: join(__dirname, '..'),
     });
 
     const {
@@ -67,7 +68,7 @@ describe('builder rspack', () => {
           },
         },
       },
-      cwd: '',
+      cwd: join(__dirname, '..'),
     });
 
     const {
@@ -94,7 +95,7 @@ describe('builder rspack', () => {
           },
         },
       },
-      cwd: '',
+      cwd: join(__dirname, '..'),
     });
 
     const {

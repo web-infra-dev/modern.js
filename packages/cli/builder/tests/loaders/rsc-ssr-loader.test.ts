@@ -1,8 +1,8 @@
 import path from 'path';
 import url from 'url';
 import type { Rspack } from '@rsbuild/core';
+import { describe, expect, it, rs } from '@rstest/core';
 import fs from 'fs/promises';
-import { describe, expect, it, vi } from 'vitest';
 import { MODERN_RSC_INFO } from '../../src/rsc/common';
 import rscSsrLoader, {
   type RscSsrLoaderOptions,
@@ -20,7 +20,7 @@ async function callLoader(
     const context: Partial<Rspack.LoaderContext<RscSsrLoaderOptions>> = {
       getOptions: () => ({}),
       resourcePath,
-      cacheable: vi.fn(),
+      cacheable: rs.fn(),
       _module: {
         buildInfo: buildInfo || {},
       } as any,

@@ -47,8 +47,8 @@
   "scripts": {
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
-    "test": "vitest run",
-    "test:watch": "vitest dev"
+    "test": "rstest run",
+    "test:watch": "rstest dev"
   },
   "dependencies": {
     "@babel/core": "^7.28.5",
@@ -70,7 +70,7 @@
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@scripts/vitest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5.3.0"
   },

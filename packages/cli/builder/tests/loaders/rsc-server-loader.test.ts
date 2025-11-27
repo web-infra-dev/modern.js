@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { Rspack } from '@rsbuild/core';
+import { beforeEach, describe, expect, it, rs } from '@rstest/core';
 import fs from 'fs/promises';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MODERN_RSC_INFO, sharedData } from '../../src/rsc/common';
 import rscServerLoader, {
   type RscServerLoaderOptions,
@@ -19,7 +19,7 @@ async function callLoader(
         appDir: __dirname,
       }),
       resourcePath,
-      cacheable: vi.fn(),
+      cacheable: rs.fn(),
       _module: {
         buildInfo: buildInfo || {},
       } as any,

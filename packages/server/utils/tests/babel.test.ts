@@ -4,7 +4,7 @@ import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { compile, resolveBabelConfig } from '../src';
 import { defaults, join } from './helpers';
 
-initSnapshotSerializer({ cwd: path.resolve(__dirname, '../') });
+initSnapshotSerializer({ workspace: path.resolve(__dirname, '../../../..') });
 
 describe('babel', () => {
   jest.setTimeout(30000);

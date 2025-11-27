@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest';
+import { expect, test } from '@rstest/core';
 import { getBabelConfigForNode } from '../src/node';
 
 test('should provide node preset as expected', () => {

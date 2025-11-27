@@ -3,7 +3,7 @@ import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
 import { getBuilderEnvironments } from '../../src/builder/generator/getBuilderEnvironments';
 
-initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
+initSnapshotSerializer({ root: path.resolve(__dirname, '../..') });
 
 describe('create builder Options', () => {
   it('test create builder environments config', () => {

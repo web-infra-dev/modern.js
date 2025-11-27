@@ -1,6 +1,7 @@
 import { Console } from 'console';
-import { createSnapshotSerializer } from '@scripts/vitest-config';
-import { expect } from 'vitest';
+import path from 'path';
+import { expect } from '@rstest/core';
+import { createSnapshotSerializer } from 'path-serializer';
 
 global.console.Console = Console;
 
@@ -9,6 +10,7 @@ process.env.FORCE_COLOR = '0';
 
 expect.addSnapshotSerializer(
   createSnapshotSerializer({
+    workspace: path.join(__dirname, '../..'),
     replace: [
       {
         mark: 'fragment',

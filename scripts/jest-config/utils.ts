@@ -1,7 +1,7 @@
 import {
   type SnapshotSerializerOptions,
   createSnapshotSerializer,
-} from '../vitest-config/src/utils';
+} from 'path-serializer';
 
 export const initSnapshotSerializer = (options?: SnapshotSerializerOptions) => {
   expect.addSnapshotSerializer(createSnapshotSerializer(options));

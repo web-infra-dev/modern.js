@@ -1,5 +1,5 @@
 import type { OutputConfig } from '@rsbuild/core';
-import { afterAll, afterEach, describe, expect, test } from 'vitest';
+import { afterAll, afterEach, describe, expect, test } from '@rstest/core';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 import type { BuilderConfig } from '../src/types';
 

@@ -8,7 +8,7 @@ import { optimizeRoute, walk } from '../../src/router/cli/code/nestedRoutes';
 
 const fixtures = path.join(__dirname, 'fixtures');
 
-initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
+initSnapshotSerializer({ root: path.resolve(__dirname, '../..') });
 
 describe('nested routes', () => {
   describe('optimizeRoute', () => {

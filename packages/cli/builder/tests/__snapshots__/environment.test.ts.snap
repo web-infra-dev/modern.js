@@ -1,26 +1,26 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Rstest Snapshot v1
 
 exports[`builder environment compat > should generator environment config correctly 1`] = `
 [
   {
     "cache": true,
-    "context": "",
+    "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "/datatext/javascript,import \\"core-js\\";",
-        "src/index.ts",
+        "data:text/javascript,import \\"core-js\\";",
+        "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
     "experiments": {
       "asyncWebAssembly": true,
       "cache": {
         "buildDependencies": [
-          "package.json",
-          "tsconfig.json",
+          "<WORKSPACE>/packages/cli/builder/package.json",
+          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         ],
         "storage": {
-          "directory": "node_modules/.cache/rspack",
+          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
           "type": "filesystem",
         },
         "type": "persistent",
@@ -255,7 +255,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -323,7 +323,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -757,7 +757,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -837,7 +837,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -887,7 +887,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -963,7 +963,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -1077,7 +1077,7 @@ exports[`builder environment compat > should generator environment config correc
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "static/js/[name].js",
       "hashFunction": "xxhash64",
-      "path": "dist",
+      "path": "<WORKSPACE>/packages/cli/builder/dist",
       "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -1142,13 +1142,13 @@ exports[`builder environment compat > should generator environment config correc
         "_args": [
           {
             "import.meta.env": {
-              "ASSET_PREFIX": """",
+              "ASSET_PREFIX": "\\"\\"",
               "BASE_URL": "\\"/\\"",
               "DEV": true,
-              "MODE": ""development"",
+              "MODE": "\\"development\\"",
               "PROD": false,
             },
-            "process.env.ASSET_PREFIX": """",
+            "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",
           },
         ],
@@ -1211,7 +1211,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "tsConfig": {
-        "configFile": "tsconfig.json",
+        "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         "references": "auto",
       },
     },
@@ -1225,22 +1225,22 @@ exports[`builder environment compat > should generator environment config correc
   },
   {
     "cache": true,
-    "context": "",
+    "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "src/index.ts",
+        "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
     "experiments": {
       "asyncWebAssembly": true,
       "cache": {
         "buildDependencies": [
-          "package.json",
-          "tsconfig.json",
+          "<WORKSPACE>/packages/cli/builder/package.json",
+          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         ],
         "storage": {
-          "directory": "node_modules/.cache/rspack",
+          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
           "type": "filesystem",
         },
         "type": "persistent",
@@ -1368,7 +1368,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -1428,7 +1428,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -1729,7 +1729,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -1758,7 +1758,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -1804,7 +1804,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -1875,7 +1875,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -1966,7 +1966,7 @@ exports[`builder environment compat > should generator environment config correc
       "library": {
         "type": "commonjs2",
       },
-      "path": "dist/bundles",
+      "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
       "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -1982,13 +1982,13 @@ exports[`builder environment compat > should generator environment config correc
         "_args": [
           {
             "import.meta.env": {
-              "ASSET_PREFIX": """",
+              "ASSET_PREFIX": "\\"\\"",
               "BASE_URL": "\\"/\\"",
               "DEV": true,
-              "MODE": ""development"",
+              "MODE": "\\"development\\"",
               "PROD": false,
             },
-            "process.env.ASSET_PREFIX": """",
+            "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",
           },
         ],
@@ -2017,7 +2017,7 @@ exports[`builder environment compat > should generator environment config correc
           },
           "typescript": {
             "build": false,
-            "configFile": "tsconfig.json",
+            "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
             "memoryLimit": 8192,
             "mode": "readonly",
             "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
@@ -2049,7 +2049,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "tsConfig": {
-        "configFile": "tsconfig.json",
+        "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         "references": "auto",
       },
     },
@@ -2060,22 +2060,22 @@ exports[`builder environment compat > should generator environment config correc
   },
   {
     "cache": true,
-    "context": "",
+    "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "src/index.ts",
+        "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
     "experiments": {
       "asyncWebAssembly": true,
       "cache": {
         "buildDependencies": [
-          "package.json",
-          "tsconfig.json",
+          "<WORKSPACE>/packages/cli/builder/package.json",
+          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         ],
         "storage": {
-          "directory": "node_modules/.cache/rspack",
+          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
           "type": "filesystem",
         },
         "type": "persistent",
@@ -2200,7 +2200,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -2261,7 +2261,7 @@ exports[`builder environment compat > should generator environment config correc
                 "isModule": "unknown",
                 "jsc": {
                   "experimental": {
-                    "cacheRoot": "node_modules/.cache/.swc",
+                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                     "keepImportAttributes": true,
                   },
                   "externalHelpers": true,
@@ -2544,7 +2544,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -2573,7 +2573,7 @@ exports[`builder environment compat > should generator environment config correc
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
-                    "node_modules",
+                    "<WORKSPACE>/packages/cli/builder/node_modules",
                   ],
                 },
                 "sourceMap": true,
@@ -2619,7 +2619,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -2691,7 +2691,7 @@ exports[`builder environment compat > should generator environment config correc
                     "isModule": "unknown",
                     "jsc": {
                       "experimental": {
-                        "cacheRoot": "node_modules/.cache/.swc",
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
                         "keepImportAttributes": true,
                       },
                       "externalHelpers": true,
@@ -2779,7 +2779,7 @@ exports[`builder environment compat > should generator environment config correc
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "libraryTarget": "commonjs2",
-      "path": "dist/worker",
+      "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
       "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
@@ -2795,13 +2795,13 @@ exports[`builder environment compat > should generator environment config correc
         "_args": [
           {
             "import.meta.env": {
-              "ASSET_PREFIX": """",
+              "ASSET_PREFIX": "\\"\\"",
               "BASE_URL": "\\"/\\"",
               "DEV": true,
-              "MODE": ""development"",
+              "MODE": "\\"development\\"",
               "PROD": false,
             },
-            "process.env.ASSET_PREFIX": """",
+            "process.env.ASSET_PREFIX": "\\"\\"",
             "process.env.BASE_URL": "\\"/\\"",
           },
         ],
@@ -2842,7 +2842,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "tsConfig": {
-        "configFile": "tsconfig.json",
+        "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
         "references": "auto",
       },
     },

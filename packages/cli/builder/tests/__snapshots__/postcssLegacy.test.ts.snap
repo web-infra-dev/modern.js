@@ -1,4 +1,4 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Rstest Snapshot v1
 
 exports[`lightningcss-loader > should register lightningcss-loader and disable postcss-loader when lightningcssLoader enabled 1`] = `
 [

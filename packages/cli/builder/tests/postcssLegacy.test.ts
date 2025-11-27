@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from '@rstest/core';
 import { createBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
