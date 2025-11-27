@@ -96,10 +96,29 @@ interface BaseBackendOptions {
   /** 缺失翻译保存路径（可选） */
   addPath?: string;
 
+  /** 链式后端的缓存命中模式（仅在同时配置 `loadPath` 和 `sdk` 时生效）
+   *
+   * - `'none'`（默认）：如果第一个后端返回了资源，则停止，不再尝试下一个后端
+   * - `'refresh'`：尝试从下一个后端刷新缓存并更新缓存
+   * - `'refreshAndUpdateStore'`：尝试从下一个后端刷新缓存，更新缓存并同时更新 i18next 资源存储。
+   *   这允许先显示 FS/HTTP 资源，然后 SDK 资源会异步更新它们。
+   *
+   * @default 'refreshAndUpdateStore' 当同时配置 loadPath 和 sdk 时
+   */
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+
   /** SDK 加载函数（自定义后端）
    *
    * 注意：在 CLI 配置中只能设置为 `true` 或字符串标识符来启用 SDK 模式。
    * 实际的 SDK 函数必须在运行时配置（`modern.runtime.ts`）中通过 `initOptions.backend.sdk` 提供。
+   *
+   * 当同时配置 `loadPath`（或 FS 后端）和 `sdk` 时，插件会自动使用 `i18next-chained-backend`
+   * 来链式加载多个后端。加载顺序为：
+   * 1. HTTP/FS 后端（主要）- 先从 `loadPath` 或文件系统加载，用于快速初始显示
+   * 2. SDK 后端（更新）- 从 SDK 函数加载，用于更新/刷新翻译
+   *
+   * 使用 `cacheHitMode: 'refreshAndUpdateStore'`（默认）时，FS/HTTP 资源会立即显示，
+   * 然后 SDK 资源会异步加载以更新翻译。
    */
   sdk?: I18nSdkLoader | boolean | string;
 }
@@ -112,6 +131,8 @@ interface BackendOptions extends BaseBackendOptions {
 
 **示例**：
 
+**1. 仅使用 HTTP/FS 后端**：
+
 ```ts
 i18nPlugin({
   backend: {
@@ -120,6 +141,45 @@ i18nPlugin({
   },
 });
 ```
+
+**2. 链式后端（推荐）**：同时使用 HTTP/FS 后端和 SDK 后端
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS 后端
+    sdk: true, // SDK 后端
+    // cacheHitMode: 'refreshAndUpdateStore', // 默认值，可省略
+  },
+});
+```
+
+在 `modern.runtime.ts` 中提供 SDK 函数：
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          // SDK 实现
+          if (options.lng && options.ns) {
+            return await mySdk.getResource(options.lng, options.ns);
+          }
+        },
+      },
+    },
+  },
+});
+```
+
+使用链式后端时，系统会：
+
+1. 首先从 `/locales/{{lng}}/{{ns}}.json` 加载资源并立即显示（快速显示基础翻译）
+2. 然后异步从 SDK 加载资源并更新 i18next store（更新/补充翻译）
+
+这样可以确保用户快速看到页面内容，同时后台加载最新的翻译资源。
 
 ### 多入口配置
 

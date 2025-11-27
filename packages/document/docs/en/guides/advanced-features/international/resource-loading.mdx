@@ -4,7 +4,7 @@ title: Resource Loading
 
 # Resource Loading
 
-The plugin supports three resource loading methods: HTTP backend, File System backend (FS Backend), and SDK backend.
+The plugin supports three resource loading methods: HTTP backend, File System backend (FS Backend), and SDK backend. Additionally, the plugin supports chained backend, which allows combining multiple backends.
 
 ## HTTP Backend
 
@@ -23,10 +23,10 @@ i18nPlugin({
 
 ### Resource File Structure
 
-Resource files need to be placed in the `public` directory or the directory configured through `server.publicDir`:
+Resource files need to be placed in the `config/public` directory or the directory configured through `server.publicDir`:
 
 ```
-public/
+config/public/
 └── locales/
     ├── en/
     │   └── translation.json
@@ -289,3 +289,128 @@ function MyComponent() {
 ```
 
 This is particularly useful when resources are loaded asynchronously, as it ensures all required namespaces for the current language are loaded before rendering content that depends on translations.
+
+## Chained Backend
+
+Chained backend allows using multiple backends simultaneously, enabling progressive resource loading and updates. When both `loadPath` (or FS backend) and `sdk` are configured, the plugin automatically uses `i18next-chained-backend` to chain resource loading.
+
+### How It Works
+
+The chained backend workflow:
+
+1. **Initial Load**: First load resources from HTTP/FS backend and display immediately (quick display of basic translations)
+2. **Async Update**: Then asynchronously load resources from SDK backend and update the i18next store (update/supplement translations)
+
+This ensures users see page content quickly while the latest translation resources are loaded in the background.
+
+### Configuration
+
+**Step 1: Configure chained backend in `modern.config.ts`**
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS backend
+    sdk: true, // SDK backend
+    // cacheHitMode: 'refreshAndUpdateStore', // Default value, can be omitted
+  },
+});
+```
+
+**Step 2: Implement SDK function in `modern.runtime.ts`**
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          // SDK implementation
+          if (options.lng && options.ns) {
+            return await mySdk.getResource(options.lng, options.ns);
+          }
+        },
+      },
+    },
+  },
+});
+```
+
+### Cache Hit Mode (cacheHitMode)
+
+The `cacheHitMode` option controls the behavior of chained backend:
+
+- **`'none'`** (default, only when chained backend is not configured): If the first backend returns resources, stop and don't try the next backend
+- **`'refresh'`**: Try to refresh the cache by loading from the next backend and update the cache
+- **`'refreshAndUpdateStore'`** (default for chained backend): Try to refresh the cache by loading from the next backend, update the cache and also update the i18next resource store. This allows FS/HTTP resources to be displayed first, then SDK resources will update them asynchronously.
+
+**Configuration example**:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+    sdk: true,
+    cacheHitMode: 'refreshAndUpdateStore', // Explicitly specify (default value)
+  },
+});
+```
+
+### Use Cases
+
+Chained backend is particularly suitable for the following scenarios:
+
+1. **Progressive Loading**: Display local/static resources first, then load latest translations from remote services
+2. **Offline Support**: Local resources as offline fallback, SDK resources provide online updates
+3. **Performance Optimization**: Quickly display basic translations, load complete translation content in the background
+4. **A/B Testing**: Local resources as default values, SDK provides dynamic translation variants
+
+### Complete Example
+
+```ts
+// modern.config.ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Local resources
+    sdk: true, // Remote SDK resources
+    cacheHitMode: 'refreshAndUpdateStore',
+  },
+});
+
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          if (options.lng && options.ns) {
+            // Load latest translations from remote service
+            const response = await fetch(
+              `https://api.example.com/i18n/${options.lng}/${options.ns}`,
+            );
+            return {
+              [options.lng]: {
+                [options.ns]: await response.json(),
+              },
+            };
+          }
+          return {};
+        },
+      },
+    },
+  },
+});
+```
+
+In this example:
+
+- When the page loads, resources are first loaded from `/locales/{{lng}}/{{ns}}.json` and displayed immediately
+- Latest translations are loaded asynchronously from `https://api.example.com/i18n/...` in the background
+- After SDK resources are loaded, the i18next store is automatically updated, and the UI text is automatically updated
