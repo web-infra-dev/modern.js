@@ -2,12 +2,8 @@
   "name": "@scripts/rstest-config",
   "private": true,
   "version": "2.66.0",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc"
-  },
+  "main": "src/index.ts",
+  "typings": "src/index.ts",
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
     "path-serializer": "0.5.1",
