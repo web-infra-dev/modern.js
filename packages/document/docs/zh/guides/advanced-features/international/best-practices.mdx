@@ -49,13 +49,38 @@ function MyComponent() {
 
 建议在资源加载失败时提供回退方案：
 
+### 检查资源加载状态
+
+当使用 SDK 后端或需要确保资源已加载时，使用 `useModernI18n` 中的 `isResourcesReady`：
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { isResourcesReady } = useModernI18n();
+  const { t } = useTranslation();
+
+  // 检查资源是否已加载并准备好
+  if (!isResourcesReady) {
+    return <div>正在加载翻译资源...</div>;
+  }
+
+  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+}
+```
+
+### 替代方案：检查 i18next 初始化状态
+
+对于简单场景，也可以检查 i18next 的初始化状态：
+
 ```tsx
 import { useTranslation } from 'react-i18next';
 
 function MyComponent() {
   const { t, i18n } = useTranslation();
 
-  // 检查资源是否加载完成
+  // 检查 i18n 是否已初始化
   if (!i18n.isInitialized) {
     return <div>Loading...</div>;
   }
@@ -63,6 +88,10 @@ function MyComponent() {
   return <div>{t('content', { defaultValue: 'Default content' })}</div>;
 }
 ```
+
+:::tip
+对于 SDK 后端场景，`isResourcesReady` 更准确，因为它会检查所有必需的资源是否实际已加载，而不仅仅是检查实例是否已初始化。
+:::
 
 ## 类型安全
 
@@ -103,4 +132,3 @@ function MyComponent() {
   // return <div>{t('invalid')}</div>; // ❌ TypeScript 错误
 }
 ```
-

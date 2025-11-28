@@ -25,6 +25,7 @@ export const createMockSdkLoader = (): I18nSdkLoader => {
   };
 
   return async (options: I18nSdkLoadOptions): Promise<Resources> => {
+    console.log('mock sdk loader');
     await new Promise(resolve => setTimeout(resolve, 10));
 
     if (options.all || (!options.lng && !options.lngs)) {

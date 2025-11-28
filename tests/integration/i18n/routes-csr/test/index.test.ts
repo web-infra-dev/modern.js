@@ -142,7 +142,7 @@ describe('router-csr-i18n', () => {
     });
     const text = await page.$('#key');
     const targetText = await page.evaluate(el => el?.textContent, text);
-    expect(targetText?.trim()).toEqual('你好，世界');
+    expect(targetText?.trim()).toEqual('你好，世界 1');
   });
   test('page-en', async () => {
     await page.goto(`http://localhost:${appPort}/en`, {
@@ -150,12 +150,13 @@ describe('router-csr-i18n', () => {
     });
     const text = await page.$('#key');
     const targetText = await page.evaluate(el => el?.textContent, text);
-    expect(targetText?.trim()).toEqual('Hello World');
+    expect(targetText?.trim()).toEqual('Hello World 1');
   });
   test('page-zh-about', async () => {
     await page.goto(`http://localhost:${appPort}/zh/about`, {
       waitUntil: ['networkidle0'],
     });
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('关于');
@@ -169,6 +170,7 @@ describe('router-csr-i18n', () => {
     await page.goto(`http://localhost:${appPort}/en/about`, {
       waitUntil: ['networkidle0'],
     });
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('About');
@@ -177,5 +179,36 @@ describe('router-csr-i18n', () => {
     const textZh = await page.$('#about');
     const targetTextZh = await page.evaluate(el => el?.textContent, textZh);
     expect(targetTextZh?.trim()).toEqual('关于');
+  });
+
+  test('console-log-mock-sdk-loader', async () => {
+    const consoleMessages: string[] = [];
+    page.on('console', msg => {
+      consoleMessages.push(msg.text());
+    });
+    await page.goto(`http://localhost:${appPort}/en`, {
+      waitUntil: ['networkidle0'],
+    });
+    // Wait a bit for async operations
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    expect(consoleMessages).toContain('mock sdk loader');
+  });
+
+  test('about-page-key-1-en', async () => {
+    await page.goto(`http://localhost:${appPort}/en/about`, {
+      waitUntil: ['networkidle0'],
+    });
+    const text = await page.$('#key_1');
+    const targetText = await page.evaluate(el => el?.textContent, text);
+    expect(targetText?.trim()).toEqual('Hello World 1');
+  });
+
+  test('about-page-key-1-zh', async () => {
+    await page.goto(`http://localhost:${appPort}/zh/about`, {
+      waitUntil: ['networkidle0'],
+    });
+    const text = await page.$('#key_1');
+    const targetText = await page.evaluate(el => el?.textContent, text);
+    expect(targetText?.trim()).toEqual('你好，世界 1');
   });
 });

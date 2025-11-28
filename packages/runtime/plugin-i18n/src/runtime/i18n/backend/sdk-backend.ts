@@ -1,17 +1,11 @@
 import type { I18nSdkLoadOptions, I18nSdkLoader } from '../../../shared/type';
 import type { Resources } from '../instance';
 
-/**
- * i18next backend options interface
- */
 interface BackendOptions {
   sdk?: I18nSdkLoader;
   [key: string]: unknown;
 }
 
-/**
- * Custom i18next backend that uses SDK to load resources
- */
 export class SdkBackend {
   static type = 'backend';
   type = 'backend' as const;
@@ -45,59 +39,109 @@ export class SdkBackend {
     callback: (error: Error | null, data: unknown) => void,
   ) {
     if (!this.sdk) {
+      console.error('[i18n] SdkBackend.read - SDK function not initialized');
       callback(new Error('SDK function not initialized'), null);
       return;
     }
 
-    if (this.allResourcesCache) {
-      const cached = this.extractFromCache(language, namespace);
-      if (cached !== null) {
-        callback(null, cached);
-        return;
-      }
-    }
-
-    const cacheKey = `${language}:${namespace}`;
-    const existingPromise = this.loadingPromises.get(cacheKey);
-    if (existingPromise) {
-      existingPromise
-        .then(data => {
-          const formattedData = this.formatResources(data, language, namespace);
-          callback(null, formattedData);
-        })
-        .catch(error => {
-          callback(
-            error instanceof Error ? error : new Error(String(error)),
-            null,
-          );
-        });
+    const cached = this.allResourcesCache
+      ? this.extractFromCache(language, namespace)
+      : null;
+    if (cached !== null) {
+      callback(null, cached);
       return;
     }
 
+    const cacheKey = this.getCacheKey(language, namespace);
+    const existingPromise = this.loadingPromises.get(cacheKey);
+    if (existingPromise) {
+      this.handlePromise(existingPromise, language, namespace, callback, false);
+      return;
+    }
+
+    this.loadResource(language, namespace, callback);
+  }
+
+  create(
+    _languages: string[],
+    _namespace: string,
+    _key: string,
+    _fallbackValue: string,
+  ): void {
+    // Not implemented - translations are managed by the external SDK service
+  }
+
+  isLoading(language: string, namespace: string): boolean {
+    return this.loadingPromises.has(this.getCacheKey(language, namespace));
+  }
+
+  getLoadingResources(): Array<{ language: string; namespace: string }> {
+    const loading: Array<{ language: string; namespace: string }> = [];
+    for (const key of this.loadingPromises.keys()) {
+      const [language, namespace] = key.split(':');
+      if (language && namespace) {
+        loading.push({ language, namespace });
+      }
+    }
+    return loading;
+  }
+
+  hasLoadingResources(): boolean {
+    return this.loadingPromises.size > 0;
+  }
+
+  private getCacheKey(language: string, namespace: string): string {
+    return `${language}:${namespace}`;
+  }
+
+  private loadResource(
+    language: string,
+    namespace: string,
+    callback: (error: Error | null, data: unknown) => void,
+  ): void {
     try {
       const result = this.callSdk(language, namespace);
       const loadPromise =
         result instanceof Promise ? result : Promise.resolve(result);
+      const cacheKey = this.getCacheKey(language, namespace);
 
       this.loadingPromises.set(cacheKey, loadPromise);
 
-      loadPromise
-        .then(data => {
-          const formattedData = this.formatResources(data, language, namespace);
+      this.handlePromise(loadPromise, language, namespace, callback, true);
+    } catch (error) {
+      callback(this.normalizeError(error), null);
+    }
+  }
+
+  private handlePromise(
+    promise: Promise<unknown>,
+    language: string,
+    namespace: string,
+    callback: (error: Error | null, data: unknown) => void,
+    shouldUpdateCache: boolean,
+  ): void {
+    const cacheKey = this.getCacheKey(language, namespace);
+
+    promise
+      .then(data => {
+        const formattedData = this.formatResources(data, language, namespace);
+        if (shouldUpdateCache) {
           this.updateCache(language, namespace, formattedData);
           this.loadingPromises.delete(cacheKey);
-          callback(null, formattedData);
-        })
-        .catch(error => {
+        }
+        callback(null, formattedData);
+        this.triggerI18nextUpdate(language, namespace);
+      })
+      .catch(error => {
+        if (shouldUpdateCache) {
           this.loadingPromises.delete(cacheKey);
-          callback(
-            error instanceof Error ? error : new Error(String(error)),
-            null,
-          );
-        });
-    } catch (error) {
-      callback(error instanceof Error ? error : new Error(String(error)), null);
-    }
+        }
+        callback(this.normalizeError(error), null);
+      });
+  }
+
+  private normalizeError(error: unknown): Error {
+    return error instanceof Error ? error : new Error(String(error));
   }
 
   private callSdk(
@@ -121,12 +165,12 @@ export class SdkBackend {
     }
 
     const langData = this.allResourcesCache[language];
-    if (!langData || typeof langData !== 'object') {
+    if (!this.isObject(langData)) {
       return null;
     }
 
     const nsData = langData[namespace];
-    if (!nsData || typeof nsData !== 'object') {
+    if (!this.isObject(nsData)) {
       return null;
     }
 
@@ -146,7 +190,7 @@ export class SdkBackend {
       this.allResourcesCache[language] = {};
     }
 
-    if (data && typeof data === 'object') {
+    if (this.isObject(data)) {
       this.allResourcesCache[language][namespace] = data as Record<
         string,
         string
@@ -159,22 +203,22 @@ export class SdkBackend {
     language: string,
     namespace: string,
   ): Record<string, string> {
-    if (!data || typeof data !== 'object') {
+    if (!this.isObject(data)) {
       return {};
     }
 
     const dataObj = data as Record<string, unknown>;
-
     const langData = dataObj[language];
-    if (langData && typeof langData === 'object') {
+
+    if (this.isObject(langData)) {
       const nsData = (langData as Record<string, unknown>)[namespace];
-      if (nsData && typeof nsData === 'object') {
+      if (this.isObject(nsData)) {
         return nsData as Record<string, string>;
       }
     }
 
-    const hasLanguageKeys = Object.keys(dataObj).some(
-      key => dataObj[key] && typeof dataObj[key] === 'object',
+    const hasLanguageKeys = Object.keys(dataObj).some(key =>
+      this.isObject(dataObj[key]),
     );
     if (!hasLanguageKeys) {
       return dataObj as Record<string, string>;
@@ -183,15 +227,16 @@ export class SdkBackend {
     return {};
   }
 
-  create(
-    _languages: string[],
-    _namespace: string,
-    _key: string,
-    _fallbackValue: string,
-  ): void {
-    // Not implemented - translations are managed by the external SDK service.
-    // This method is called by i18next when saveMissing is enabled and addPath is configured.
-    // For SDK backend, missing translations should be managed through the external SDK service,
-    // not saved at runtime.
+  private isObject(value: unknown): value is Record<string, unknown> {
+    return value !== null && typeof value === 'object';
+  }
+
+  private triggerI18nextUpdate(language: string, namespace: string): void {
+    if (typeof window !== 'undefined') {
+      const event = new CustomEvent('i18n-sdk-resources-loaded', {
+        detail: { language, namespace },
+      });
+      window.dispatchEvent(event);
+    }
   }
 }

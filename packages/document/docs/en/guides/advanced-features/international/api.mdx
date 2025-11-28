@@ -26,6 +26,9 @@ interface UseModernI18nReturn {
 
   /** Check if language is supported */
   isLanguageSupported: (lang: string) => boolean;
+
+  /** Indicates if translation resources for current language are ready to use */
+  isResourcesReady: boolean;
 }
 ```
 
@@ -104,6 +107,37 @@ function handleLanguageChange(lang: string) {
   }
 }
 ```
+
+### Resource Loading State
+
+`isResourcesReady` indicates whether the translation resources for the current language are loaded and ready to use. This is particularly useful when using SDK backend to load resources dynamically.
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function MyComponent() {
+  const { isResourcesReady } = useModernI18n();
+
+  if (!isResourcesReady) {
+    return <div>Loading translation resources...</div>;
+  }
+
+  return <div>Translation resources are ready</div>;
+}
+```
+
+**When to use:**
+
+- Display a loading state while resources are being loaded
+- Prevent rendering content that depends on translations before resources are ready
+- Handle resource loading errors gracefully
+
+:::info
+`isResourcesReady` automatically checks:
+- If i18n instance is initialized
+- If any resources for the current language are currently loading (SDK backend only)
+- If all required namespaces for the current language are loaded in the store
+:::
 
 ## I18nLink Component
 

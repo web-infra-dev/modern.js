@@ -41,6 +41,8 @@ export default defineConfig({
       backend: {
         enabled: true, // 启用后端资源加载
         // loadPath 默认为 '/locales/{{lng}}/{{ns}}.json'，通常无需修改
+        // 注意：你也可以省略 'enabled'，只需配置 'loadPath' 或 'addPath'，
+        // 或者完全省略 backend 配置，让插件自动检测 locales 目录
       },
     }),
   ],
