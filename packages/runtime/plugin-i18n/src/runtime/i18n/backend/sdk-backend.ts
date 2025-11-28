@@ -6,12 +6,31 @@ interface BackendOptions {
   [key: string]: unknown;
 }
 
+interface I18nextServices {
+  resourceStore?: {
+    data?: {
+      [language: string]: {
+        [namespace: string]: Record<string, string>;
+      };
+    };
+  };
+  store?: {
+    data?: {
+      [language: string]: {
+        [namespace: string]: Record<string, string>;
+      };
+    };
+  };
+  [key: string]: any;
+}
+
 export class SdkBackend {
   static type = 'backend';
   type = 'backend' as const;
   sdk?: I18nSdkLoader;
   private allResourcesCache: Resources | null = null;
   private loadingPromises = new Map<string, Promise<unknown>>();
+  private services?: I18nextServices;
 
   constructor(_services: unknown, _options: Record<string, unknown>) {
     void _services;
@@ -19,11 +38,11 @@ export class SdkBackend {
   }
 
   init(
-    _services: unknown,
+    services: I18nextServices,
     backendOptions: BackendOptions,
     _i18nextOptions: unknown,
   ): void {
-    void _services;
+    this.services = services;
     void _i18nextOptions;
     this.sdk = backendOptions?.sdk;
     if (!this.sdk) {
@@ -48,7 +67,13 @@ export class SdkBackend {
       ? this.extractFromCache(language, namespace)
       : null;
     if (cached !== null) {
-      callback(null, cached);
+      // Merge cached data with existing store data to preserve HTTP backend data
+      const mergedData = this.mergeWithExistingResources(
+        language,
+        namespace,
+        cached,
+      );
+      callback(null, mergedData);
       return;
     }
 
@@ -125,11 +150,18 @@ export class SdkBackend {
     promise
       .then(data => {
         const formattedData = this.formatResources(data, language, namespace);
+        // Merge with existing resources in store to preserve data from other backends (e.g., HTTP backend)
+        // This is important when using refreshAndUpdateStore mode in chained backend
+        const mergedData = this.mergeWithExistingResources(
+          language,
+          namespace,
+          formattedData,
+        );
         if (shouldUpdateCache) {
-          this.updateCache(language, namespace, formattedData);
+          this.updateCache(language, namespace, mergedData);
           this.loadingPromises.delete(cacheKey);
         }
-        callback(null, formattedData);
+        callback(null, mergedData);
         this.triggerI18nextUpdate(language, namespace);
       })
       .catch(error => {
@@ -229,6 +261,24 @@ export class SdkBackend {
 
   private isObject(value: unknown): value is Record<string, unknown> {
     return value !== null && typeof value === 'object';
+  }
+
+  private mergeWithExistingResources(
+    language: string,
+    namespace: string,
+    sdkData: Record<string, string>,
+  ): Record<string, string> {
+    // Get existing resources from store (may contain data from HTTP backend)
+    const store = this.services?.resourceStore || this.services?.store;
+    const existingData =
+      store?.data?.[language]?.[namespace] || ({} as Record<string, string>);
+
+    // Merge: preserve existing data (from HTTP backend), add/update with SDK data
+    // This ensures that when using refreshAndUpdateStore, HTTP backend data is not lost
+    return {
+      ...existingData,
+      ...sdkData,
+    };
   }
 
   private triggerI18nextUpdate(language: string, namespace: string): void {

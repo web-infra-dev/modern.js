@@ -56,16 +56,40 @@ const isLanguageSupported = (
 };
 
 /**
+ * Check if SSR data is valid (project is SSR)
+ * For CSR projects, SSR data may not exist or be invalid
+ */
+const hasValidSSRData = (ssrContext?: any): boolean => {
+  if (!isBrowser()) {
+    return !!ssrContext;
+  }
+
+  try {
+    const ssrData = window._SSR_DATA;
+    return !!ssrData?.data?.i18nData?.lng;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
  * Priority 1: Detect language from SSR data
+ * Only use SSR data if it's valid (SSR project)
+ * For CSR projects, this will return undefined
  */
 const detectLanguageFromSSR = (languages: string[]): string | undefined => {
   if (!isBrowser()) {
     return undefined;
   }
 
+  // For CSR projects, ignore SSR data
+  if (!hasValidSSRData()) {
+    return undefined;
+  }
+
   try {
     const ssrLanguage = getLanguageFromSSRData(window);
-    if (isLanguageSupported(ssrLanguage, languages)) {
+    if (ssrLanguage && isLanguageSupported(ssrLanguage, languages)) {
       return ssrLanguage;
     }
   } catch (error) {
@@ -228,7 +252,9 @@ const detectLanguageFromI18nextDetector = async (
 };
 
 /**
- * Detect language with priority: SSR data > path > i18next detector > fallback
+ * Detect language with priority:
+ * - SSR projects: SSR data > path > i18next detector > fallback
+ * - CSR projects: path > i18next detector > fallback (SSR data is ignored)
  */
 export const detectLanguageWithPriority = async (
   i18nInstance: I18nInstance,
@@ -245,30 +271,61 @@ export const detectLanguageWithPriority = async (
     ssrContext,
   } = options;
 
-  // Priority 1: SSR data
-  let detectedLanguage = detectLanguageFromSSR(languages);
+  const isSSRProject = hasValidSSRData(ssrContext);
+  let detectedLanguage: string | undefined;
 
-  // Priority 2: Path detection
-  if (!detectedLanguage) {
-    detectedLanguage = detectLanguageFromPathPriority(
-      pathname,
-      languages,
-      localePathRedirect,
-    );
-  }
+  // For CSR projects, prioritize i18next detector (reads from cookie/localStorage)
+  // For SSR projects, prioritize SSR data first
+  if (isSSRProject) {
+    // Priority 1: SSR data (for SSR projects)
+    detectedLanguage = detectLanguageFromSSR(languages);
 
-  // Priority 3: i18next detector
-  if (!detectedLanguage) {
-    detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {
-      languages,
-      fallbackLanguage,
-      localePathRedirect,
-      i18nextDetector,
-      detection,
-      userInitOptions,
-      mergedBackend: options.mergedBackend,
-      ssrContext,
-    });
+    // Priority 2: Path detection
+    if (!detectedLanguage) {
+      detectedLanguage = detectLanguageFromPathPriority(
+        pathname,
+        languages,
+        localePathRedirect,
+      );
+    }
+
+    // Priority 3: i18next detector (reads from cookie/localStorage)
+    if (!detectedLanguage) {
+      detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {
+        languages,
+        fallbackLanguage,
+        localePathRedirect,
+        i18nextDetector,
+        detection,
+        userInitOptions,
+        mergedBackend: options.mergedBackend,
+        ssrContext,
+      });
+    }
+  } else {
+    // For CSR projects, prioritize i18next detector first
+    // Priority 1: i18next detector (reads from cookie/localStorage)
+    if (i18nextDetector) {
+      detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {
+        languages,
+        fallbackLanguage,
+        localePathRedirect,
+        i18nextDetector,
+        detection,
+        userInitOptions,
+        mergedBackend: options.mergedBackend,
+        ssrContext,
+      });
+    }
+
+    // Priority 2: Path detection
+    if (!detectedLanguage) {
+      detectedLanguage = detectLanguageFromPathPriority(
+        pathname,
+        languages,
+        localePathRedirect,
+      );
+    }
   }
 
   // Priority 4: Use user config language or fallback

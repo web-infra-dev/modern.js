@@ -1,12 +1,21 @@
 import LanguageDetector from 'i18next-browser-languagedetector';
 import type { I18nInstance } from '../instance';
+import { getActualI18nextInstance, isI18nWrapperInstance } from '../instance';
 
 /**
  * Register LanguageDetector plugin to i18n instance
  * Must be called before init() to properly register the detector
+ * For wrapper instances, ensure detector is registered on the underlying i18next instance
  */
 export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
   if (!i18nInstance.isInitialized) {
+    // For wrapper instances, also register on the underlying instance
+    if (isI18nWrapperInstance(i18nInstance)) {
+      const actualInstance = getActualI18nextInstance(i18nInstance);
+      if (actualInstance && !actualInstance.isInitialized) {
+        actualInstance.use(LanguageDetector);
+      }
+    }
     return i18nInstance.use(LanguageDetector);
   }
   return i18nInstance;
@@ -98,6 +107,7 @@ const readLanguageFromStorage = (
 /**
  * Detect language using i18next-browser-languagedetector
  * For initialized instances without detector in services, manually create a detector instance
+ * For wrapper instances, access the underlying i18next instance's services
  */
 export const detectLanguage = (
   i18nInstance: I18nInstance,
@@ -105,7 +115,15 @@ export const detectLanguage = (
   detectionOptions?: any,
 ): string | undefined => {
   try {
-    const detector = i18nInstance.services?.languageDetector;
+    // For wrapper instances, get the underlying i18next instance
+    const actualInstance = isI18nWrapperInstance(i18nInstance)
+      ? getActualI18nextInstance(i18nInstance)
+      : i18nInstance;
+
+    // Try to get detector from services (prefer actual instance for wrapper)
+    const detector =
+      actualInstance?.services?.languageDetector ||
+      i18nInstance.services?.languageDetector;
     if (detector && typeof detector.detect === 'function') {
       const result = detector.detect();
       if (typeof result === 'string') {
@@ -117,18 +135,23 @@ export const detectLanguage = (
       return undefined;
     }
 
-    if (i18nInstance.isInitialized) {
+    // Fallback: read directly from storage or create manual detector
+    if (i18nInstance.isInitialized || actualInstance?.isInitialized) {
       const directRead = readLanguageFromStorage(detectionOptions);
       if (directRead) {
         return directRead;
       }
 
-      if (i18nInstance.services && i18nInstance.options) {
+      // Use actual instance's services if available, otherwise use wrapper's
+      const servicesToUse = actualInstance?.services || i18nInstance.services;
+      const optionsToUse = actualInstance?.options || i18nInstance.options;
+
+      if (servicesToUse && optionsToUse) {
         const manualDetector = new LanguageDetector();
-        const optionsToUse = detectionOptions
-          ? { ...i18nInstance.options, detection: detectionOptions }
-          : i18nInstance.options;
-        manualDetector.init(i18nInstance.services, optionsToUse as any);
+        const mergedOptions = detectionOptions
+          ? { ...optionsToUse, detection: detectionOptions }
+          : optionsToUse;
+        manualDetector.init(servicesToUse, mergedOptions as any);
 
         const result = manualDetector.detect();
         if (typeof result === 'string') {
@@ -149,6 +172,7 @@ export const detectLanguage = (
 /**
  * Cache user language to localStorage/cookie
  * Uses LanguageDetector's cacheUserLanguage method when available
+ * For wrapper instances, access the underlying i18next instance's services
  */
 export const cacheUserLanguage = (
   i18nInstance: I18nInstance,
@@ -160,8 +184,16 @@ export const cacheUserLanguage = (
   }
 
   try {
+    // For wrapper instances, get the underlying i18next instance
+    const actualInstance = isI18nWrapperInstance(i18nInstance)
+      ? getActualI18nextInstance(i18nInstance)
+      : i18nInstance;
+
     // Try to use detector's cacheUserLanguage method first
-    const detector = i18nInstance.services?.languageDetector;
+    // Prefer actual instance's detector for wrapper instances
+    const detector =
+      actualInstance?.services?.languageDetector ||
+      i18nInstance.services?.languageDetector;
     if (detector && typeof detector.cacheUserLanguage === 'function') {
       try {
         detector.cacheUserLanguage(language);
@@ -177,19 +209,20 @@ export const cacheUserLanguage = (
     }
 
     // Fallback: manually create detector instance if i18n is initialized
-    if (
-      i18nInstance.isInitialized &&
-      i18nInstance.services &&
-      i18nInstance.options
-    ) {
+    const isInitialized =
+      i18nInstance.isInitialized || actualInstance?.isInitialized;
+    const servicesToUse = actualInstance?.services || i18nInstance.services;
+    const optionsToUse = actualInstance?.options || i18nInstance.options;
+
+    if (isInitialized && servicesToUse && optionsToUse) {
       try {
-        const userOptions = detectionOptions || i18nInstance.options?.detection;
-        const optionsToUse = userOptions
-          ? { ...i18nInstance.options, detection: userOptions }
-          : i18nInstance.options;
+        const userOptions = detectionOptions || optionsToUse?.detection;
+        const mergedOptions = userOptions
+          ? { ...optionsToUse, detection: userOptions }
+          : optionsToUse;
 
         const manualDetector = new LanguageDetector();
-        manualDetector.init(i18nInstance.services, optionsToUse as any);
+        manualDetector.init(servicesToUse, mergedOptions as any);
 
         if (typeof manualDetector.cacheUserLanguage === 'function') {
           manualDetector.cacheUserLanguage(language);

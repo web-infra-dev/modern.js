@@ -78,6 +78,7 @@ export interface LanguageDetectorOptions {
   order?: LanguageDetectorOrder;
   lookupQuerystring?: string;
   lookupCookie?: string;
+  lookupLocalStorage?: string;
   lookupSession?: string;
   lookupFromPathIndex?: number;
   caches?: LanguageDetectorCaches;
