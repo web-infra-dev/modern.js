@@ -4,6 +4,7 @@ import type {
   ChainedBackendConfig,
 } from '../../../shared/type';
 import type { I18nInstance } from '../instance';
+import { getActualI18nextInstance } from '../instance';
 import { SdkBackend } from './sdk-backend';
 
 type BackendConfigWithChained = BaseBackendOptions &
@@ -53,6 +54,13 @@ function setupChainedBackend(
   BackendWithSave: new (...args: any[]) => any,
 ) {
   i18nInstance.use(ChainedBackend);
+  const actualInstance = getActualI18nextInstance(i18nInstance);
+  if (actualInstance?.options) {
+    actualInstance.options.backend = buildChainedBackendConfig(
+      backend,
+      BackendWithSave,
+    );
+  }
   if (i18nInstance.options) {
     i18nInstance.options.backend = buildChainedBackendConfig(
       backend,
@@ -97,8 +105,10 @@ export function useI18nextBackendCommon(
     return i18nInstance.use(SdkBackend);
   }
 
-  // For non-chained backend, we still need to set the backend config
-  // so that init() can use it to load resources
+  const actualInstance = getActualI18nextInstance(i18nInstance);
+  if (actualInstance?.options) {
+    actualInstance.options.backend = cleanBackendConfig(backend);
+  }
   if (i18nInstance.options) {
     i18nInstance.options.backend = cleanBackendConfig(backend);
   }

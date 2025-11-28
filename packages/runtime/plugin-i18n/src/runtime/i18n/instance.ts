@@ -1,8 +1,5 @@
 import type { BaseBackendOptions } from '../../shared/type';
 
-/**
- * Resource store interface for i18next
- */
 export interface I18nResourceStore {
   data?: {
     [language: string]: {
@@ -16,6 +13,33 @@ export interface I18nResourceStore {
     deep?: boolean,
     overwrite?: boolean,
   ) => void;
+}
+
+export function isI18nWrapperInstance(obj: any): boolean {
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    obj.i18nInstance &&
+    typeof obj.i18nInstance === 'object' &&
+    obj.i18nInstance.instance &&
+    typeof obj.init === 'function' &&
+    typeof obj.use === 'function'
+  );
+}
+
+export function getI18nWrapperI18nextInstance(wrapperInstance: any): any {
+  if (isI18nWrapperInstance(wrapperInstance)) {
+    return wrapperInstance.i18nInstance?.instance;
+  }
+  return null;
+}
+
+export function getActualI18nextInstance(instance: I18nInstance | any): any {
+  if (isI18nWrapperInstance(instance)) {
+    const i18nextInstance = getI18nWrapperI18nextInstance(instance);
+    return i18nextInstance || instance;
+  }
+  return instance;
 }
 
 export interface I18nInstance {
@@ -91,12 +115,15 @@ export type I18nInitOptions = {
 };
 
 export function isI18nInstance(obj: any): obj is I18nInstance {
-  return (
-    obj &&
-    typeof obj === 'object' &&
-    typeof obj.init === 'function' &&
-    typeof obj.use === 'function'
-  );
+  if (!obj || typeof obj !== 'object') {
+    return false;
+  }
+
+  if (isI18nWrapperInstance(obj)) {
+    return true;
+  }
+
+  return typeof obj.init === 'function' && typeof obj.use === 'function';
 }
 
 async function tryImportI18next(): Promise<I18nInstance | null> {
@@ -114,8 +141,6 @@ async function createI18nextInstance(): Promise<I18nInstance | null> {
     if (!i18next) {
       return null;
     }
-    // Create a new instance without auto-initialization
-    // Use initImmediate: false to prevent auto-init
     return i18next.createInstance({
       initImmediate: false,
     }) as unknown as I18nInstance;
@@ -133,10 +158,27 @@ async function tryImportReactI18next() {
   }
 }
 
+export function getI18nextInstanceForProvider(
+  instance: I18nInstance | any,
+): any {
+  if (isI18nWrapperInstance(instance)) {
+    const i18nextInstance = getI18nWrapperI18nextInstance(instance);
+    if (i18nextInstance) {
+      return i18nextInstance;
+    }
+  }
+
+  return instance;
+}
+
 export async function getI18nInstance(
-  userInstance?: I18nInstance,
+  userInstance?: I18nInstance | any,
 ): Promise<I18nInstance> {
   if (userInstance) {
+    if (isI18nWrapperInstance(userInstance)) {
+      return userInstance as I18nInstance;
+    }
+
     if (isI18nInstance(userInstance)) {
       return userInstance;
     }

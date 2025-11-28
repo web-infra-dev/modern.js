@@ -20,9 +20,6 @@ export default defineConfig({
         enabled: true,
         sdk: true,
       },
-      performance: {
-        buildCache: false,
-      },
     }),
   ],
 });

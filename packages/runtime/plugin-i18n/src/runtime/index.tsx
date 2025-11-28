@@ -27,7 +27,11 @@ import {
   mergeDetectionOptions,
 } from './i18n/detection';
 import { useI18nextLanguageDetector } from './i18n/detection/middleware';
-import { getI18nextProvider, getInitReactI18next } from './i18n/instance';
+import {
+  getI18nextInstanceForProvider,
+  getI18nextProvider,
+  getInitReactI18next,
+} from './i18n/instance';
 import {
   ensureLanguageMatch,
   initializeI18nInstance,
@@ -230,11 +234,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           return appContent;
         }
 
-        return I18nextProvider ? (
-          <I18nextProvider i18n={i18nInstance}>{appContent}</I18nextProvider>
-        ) : (
-          appContent
-        );
+        if (I18nextProvider) {
+          const i18nextInstanceForProvider =
+            getI18nextInstanceForProvider(i18nInstance);
+          return (
+            <I18nextProvider i18n={i18nextInstanceForProvider}>
+              {appContent}
+            </I18nextProvider>
+          );
+        }
+
+        return appContent;
       };
     });
   },

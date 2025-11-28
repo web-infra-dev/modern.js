@@ -6,7 +6,11 @@ import { useI18nextBackend } from './backend/middleware';
 import { SdkBackend } from './backend/sdk-backend';
 import { mergeDetectionOptions } from './detection';
 import type { I18nInitOptions, I18nInstance } from './instance';
-import { isI18nInstance } from './instance';
+import {
+  getActualI18nextInstance,
+  isI18nInstance,
+  isI18nWrapperInstance,
+} from './instance';
 
 export function assertI18nInstance(obj: any): asserts obj is I18nInstance {
   if (!isI18nInstance(obj)) {
@@ -156,39 +160,46 @@ export const initializeI18nInstance = async (
     // For i18next, backend configuration must be passed to init() via initOptions.backend
     // The backend class is already registered via useI18nextBackend, but the config (loadPath, etc.)
     // needs to be in initOptions.backend for init() to use it
-    // Save backend config before init for chained backend (needs backends array)
-    const savedBackendConfig = i18nInstance.options?.backend;
+    const actualInstance = getActualI18nextInstance(i18nInstance);
+    const savedBackendConfig =
+      actualInstance?.options?.backend || i18nInstance.options?.backend;
     const isChainedBackendFromSaved =
       savedBackendConfig?.backends &&
       Array.isArray(savedBackendConfig.backends);
 
     await i18nInstance.init(initOptions);
 
-    // After init(), ensure backend config is correctly set in i18nInstance.options.backend
-    // For chained backend, merge saved config (backends array) with initOptions.backend (backendOptions)
-    // For non-chained backend, ensure initOptions.backend (with loadPath) is set
-    if (hasOptions(i18nInstance) && mergedBackend) {
-      if (isChainedBackendFromSaved && initOptions.backend) {
-        // Merge saved config (which has backends array) with initOptions.backend (which has backendOptions)
-        i18nInstance.options.backend = {
-          ...initOptions.backend,
-          backends: savedBackendConfig.backends,
-        };
-      } else if (initOptions.backend) {
-        // For non-chained backend, ensure initOptions.backend (with loadPath) is set
-        i18nInstance.options.backend = {
-          ...i18nInstance.options.backend,
-          ...initOptions.backend,
-        };
+    if (mergedBackend) {
+      if (isI18nWrapperInstance(i18nInstance) && actualInstance?.options) {
+        if (isChainedBackendFromSaved && initOptions.backend) {
+          actualInstance.options.backend = {
+            ...initOptions.backend,
+            backends: savedBackendConfig.backends,
+          };
+        } else if (initOptions.backend) {
+          actualInstance.options.backend = {
+            ...actualInstance.options.backend,
+            ...initOptions.backend,
+          };
+        }
+      }
+
+      if (hasOptions(i18nInstance)) {
+        if (isChainedBackendFromSaved && initOptions.backend) {
+          i18nInstance.options.backend = {
+            ...initOptions.backend,
+            backends: savedBackendConfig.backends,
+          };
+        } else if (initOptions.backend) {
+          i18nInstance.options.backend = {
+            ...i18nInstance.options.backend,
+            ...initOptions.backend,
+          };
+        }
       }
     }
 
     if (mergedBackend && hasOptions(i18nInstance)) {
-      const isChainedBackend =
-        mergedBackend._useChainedBackend && mergedBackend._chainedBackendConfig;
-      const cacheHitMode =
-        mergedBackend.cacheHitMode || 'refreshAndUpdateStore';
-
       // For chained backend with cacheHitMode: 'refreshAndUpdateStore',
       // i18next-chained-backend automatically:
       // 1. Loads from the first backend (HTTP/FS) and displays immediately
@@ -204,7 +215,9 @@ export const initializeI18nInstance = async (
 
       let retries = 20;
       while (retries > 0) {
-        const store = (i18nInstance as any).store;
+        // Get the actual i18next instance to access store property
+        const actualInstance = getActualI18nextInstance(i18nInstance);
+        const store = (actualInstance as any).store;
         if (store?.data?.[finalLanguage]?.[ns]) {
           break;
         }
