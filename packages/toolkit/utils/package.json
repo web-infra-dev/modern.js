@@ -34,34 +34,41 @@
       "default": "./dist/cjs/index.js"
     },
     "./logger": {
+      "modern:source": "./src/cli/logger.ts",
       "jsnext:source": "./src/cli/logger.ts",
       "default": "./dist/cjs/cli/logger.js"
     },
     "./chain-id": {
+      "modern:source": "./src/cli/constants/chainId.ts",
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
     },
     "./require": {
+      "modern:source": "./src/cli/require.ts",
       "jsnext:source": "./src/cli/require.ts",
       "import": "./dist/esm/cli/require.js",
       "default": "./dist/cjs/cli/require.js"
     },
     "./env": {
+      "modern:source": "./src/cli/is/env.ts",
       "jsnext:source": "./src/cli/is/env.ts",
       "import": "./dist/esm/cli/is/env.js",
       "default": "./dist/cjs/cli/is/env.js"
     },
     "./universal": {
+      "modern:source": "./src/universal/index.ts",
       "jsnext:source": "./src/universal/index.ts",
       "import": "./dist/esm/universal/index.mjs",
       "default": "./dist/cjs/universal/index.js"
     },
     "./universal/constants": {
+      "modern:source": "./src/universal/constants.ts",
       "jsnext:source": "./src/universal/constants.ts",
       "import": "./dist/esm/universal/constants.mjs",
       "default": "./dist/cjs/universal/constants.js"
     },
     "./universal/plugin-dag-sort": {
+      "modern:source": "./src/universal/pluginDagSort.ts",
       "jsnext:source": "./src/universal/pluginDagSort.ts",
       "import": "./dist/esm/universal/pluginDagSort.mjs",
       "default": "./dist/cjs/universal/pluginDagSort.js"
