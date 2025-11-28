@@ -28,6 +28,7 @@
     },
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
+      "modern:source": "./src/adapters/node/index.ts",
       "jsnext:source": "./src/adapters/node/index.ts",
       "default": "./dist/cjs/adapters/node/index.js"
     },
