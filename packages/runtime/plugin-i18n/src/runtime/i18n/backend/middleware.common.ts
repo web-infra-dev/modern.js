@@ -6,11 +6,66 @@ import type {
 import type { I18nInstance } from '../instance';
 import { SdkBackend } from './sdk-backend';
 
-/**
- * Backend configuration that may include chained backend config
- */
 type BackendConfigWithChained = BaseBackendOptions &
   Partial<ChainedBackendConfig>;
+
+function checkBackendConfig(backend?: BackendConfigWithChained) {
+  const hasSdk = backend?.sdk && typeof backend.sdk === 'function';
+  const hasLoadPath = !!backend?.loadPath;
+  const useChained = backend?._useChainedBackend;
+
+  return { hasSdk, hasLoadPath, useChained };
+}
+
+function buildChainedBackendConfig(
+  backend: BackendConfigWithChained,
+  BackendWithSave: new (...args: any[]) => any,
+) {
+  const cacheHitMode = backend.cacheHitMode || 'refreshAndUpdateStore';
+
+  if (backend._chainedBackendConfig) {
+    return {
+      backends: [BackendWithSave, SdkBackend],
+      backendOptions: backend._chainedBackendConfig.backendOptions,
+      cacheHitMode,
+    };
+  }
+
+  // Legacy: build chained backend config from backend options
+  return {
+    backends: [BackendWithSave, SdkBackend],
+    backendOptions: [
+      {
+        loadPath: backend.loadPath,
+        addPath: backend.addPath,
+      },
+      {
+        sdk: backend.sdk,
+      },
+    ],
+    cacheHitMode,
+  };
+}
+
+function setupChainedBackend(
+  i18nInstance: I18nInstance,
+  backend: BackendConfigWithChained,
+  BackendWithSave: new (...args: any[]) => any,
+) {
+  i18nInstance.use(ChainedBackend);
+  if (i18nInstance.options) {
+    i18nInstance.options.backend = buildChainedBackendConfig(
+      backend,
+      BackendWithSave,
+    );
+  }
+}
+
+function cleanBackendConfig(backend: BackendConfigWithChained) {
+  const { _useChainedBackend, _chainedBackendConfig, ...cleanBackend } =
+    backend;
+  return cleanBackend;
+}
 
 /**
  * Common logic for using i18next backend
@@ -23,69 +78,29 @@ type BackendConfigWithChained = BaseBackendOptions &
  */
 export function useI18nextBackendCommon(
   i18nInstance: I18nInstance,
-  BackendWithSave: new (...args: any[]) => any, // The wrapped backend class with save method
-  BackendBase: new (...args: any[]) => any, // The base backend class (for non-chained use)
+  BackendWithSave: new (...args: any[]) => any,
+  BackendBase: new (...args: any[]) => any,
   backend?: BackendConfigWithChained,
 ) {
-  const hasSdk = backend?.sdk && typeof backend.sdk === 'function';
-  const hasLoadPath = !!backend?.loadPath;
-  const useChained = backend?._useChainedBackend;
+  if (!backend) {
+    return i18nInstance.use(BackendBase);
+  }
 
-  // If both loadPath and sdk are provided, use chained backend
-  if (useChained && backend?._chainedBackendConfig) {
-    i18nInstance.use(ChainedBackend);
-    // Set the chained backend configuration with HTTP/FS backend first, then SDK backend
-    // Use refreshAndUpdateStore mode by default to allow FS/HTTP resources to display first,
-    // then SDK resources will update them asynchronously
-    // Use BackendWithSave wrapper to ensure refresh logic is triggered
-    if (i18nInstance.options) {
-      const backendConfig = {
-        backends: [BackendWithSave, SdkBackend],
-        backendOptions: backend._chainedBackendConfig.backendOptions,
-        cacheHitMode: backend.cacheHitMode || 'refreshAndUpdateStore',
-      };
-      i18nInstance.options.backend = backendConfig;
-    }
+  const { hasSdk, hasLoadPath, useChained } = checkBackendConfig(backend);
+
+  if (useChained || (hasLoadPath && hasSdk)) {
+    setupChainedBackend(i18nInstance, backend, BackendWithSave);
     return;
   }
 
-  // Legacy check: if both loadPath and sdk are provided, use chained backend
-  if (hasLoadPath && hasSdk) {
-    i18nInstance.use(ChainedBackend);
-    if (i18nInstance.options) {
-      i18nInstance.options.backend = {
-        backends: [BackendWithSave, SdkBackend],
-        backendOptions: [
-          {
-            loadPath: backend.loadPath,
-            addPath: backend.addPath,
-          },
-          {
-            sdk: backend.sdk,
-          },
-        ],
-        // Use refreshAndUpdateStore mode by default to allow FS/HTTP resources to display first,
-        // then SDK resources will update them asynchronously
-        // Use BackendWithSave wrapper to ensure refresh logic is triggered
-        cacheHitMode: backend.cacheHitMode || 'refreshAndUpdateStore',
-      };
-    }
-    return;
-  }
-
-  // If only SDK is provided, use SDK backend
   if (hasSdk) {
     return i18nInstance.use(SdkBackend);
   }
 
-  // Otherwise, use HTTP/FS backend
   // For non-chained backend, we still need to set the backend config
   // so that init() can use it to load resources
-  if (i18nInstance.options && backend) {
-    // Remove internal properties before setting
-    const { _useChainedBackend, _chainedBackendConfig, ...cleanBackend } =
-      backend || {};
-    i18nInstance.options.backend = cleanBackend;
+  if (i18nInstance.options) {
+    i18nInstance.options.backend = cleanBackendConfig(backend);
   }
   return i18nInstance.use(BackendBase);
 }

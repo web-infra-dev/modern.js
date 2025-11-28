@@ -9,93 +9,134 @@ import {
   convertBackendOptions,
 } from './defaults';
 
-export const mergeBackendOptions = (
+function hasSdkFunction(
   backend?: BaseBackendOptions,
   userInitOptions?: I18nInitOptions,
-) => {
-  const hasSdkFunction =
+): boolean {
+  return (
     typeof userInitOptions?.backend?.sdk === 'function' ||
-    (backend?.enabled && backend?.sdk && typeof backend.sdk === 'function');
-  // Check if user explicitly configured loadPath (non-empty string)
-  // If backend.enabled is true and user didn't explicitly configure loadPath,
-  // we will use default loadPath, so consider it as having loadPath
+    (!!backend?.enabled && !!backend?.sdk && typeof backend.sdk === 'function')
+  );
+}
+
+/**
+ * Checks if loadPath is configured.
+ * If backend.enabled is true and user didn't explicitly configure loadPath,
+ * we will use default loadPath, so consider it as having loadPath.
+ */
+function hasLoadPath(
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): { hasPath: boolean; isExplicit: boolean } {
   const userLoadPath = userInitOptions?.backend?.loadPath ?? backend?.loadPath;
-  const hasExplicitLoadPath = !!userLoadPath && userLoadPath !== '';
-  const hasLoadPath =
-    hasExplicitLoadPath || (backend?.enabled && userLoadPath === undefined);
+  const isExplicit: boolean = !!userLoadPath && userLoadPath !== '';
+  const hasPath =
+    isExplicit || (!!backend?.enabled && userLoadPath === undefined);
 
-  // If both loadPath and sdk are provided, return chained backend config
-  if (hasLoadPath && hasSdkFunction) {
-    const merged = baseMergeBackendOptions(
-      DEFAULT_I18NEXT_BACKEND_OPTIONS,
-      backend as BackendOptions,
-      userInitOptions?.backend,
-    );
-    // If user didn't explicitly configure loadPath but backend.enabled is true,
-    // ensure default loadPath is used
-    if (backend?.enabled && !hasExplicitLoadPath && !merged.loadPath) {
-      merged.loadPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.loadPath;
-      merged.addPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.addPath;
-    }
-    const mergedOptions = convertBackendOptions(merged);
+  return { hasPath, isExplicit };
+}
 
-    // Ensure loadPath and sdk are properly set
-    const finalLoadPath =
-      mergedOptions?.loadPath ||
-      userInitOptions?.backend?.loadPath ||
-      (backend?.enabled ? DEFAULT_I18NEXT_BACKEND_OPTIONS.loadPath : undefined);
-    const finalSdk =
-      mergedOptions?.sdk ||
-      userInitOptions?.backend?.sdk ||
-      (backend?.sdk && typeof backend.sdk === 'function'
-        ? backend.sdk
-        : undefined);
+function ensureDefaultLoadPath(
+  merged: BackendOptions,
+  backend?: BaseBackendOptions,
+  isExplicitLoadPath = false,
+): void {
+  if (backend?.enabled && !isExplicitLoadPath && !merged.loadPath) {
+    merged.loadPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.loadPath;
+    merged.addPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.addPath;
+  }
+}
 
-    // Return chained backend configuration
-    // The actual backend classes will be set in middleware based on environment
-    // cacheHitMode defaults to 'refreshAndUpdateStore' to allow FS/HTTP resources
-    // to display first, then SDK resources will update them asynchronously
-    const chainedBackendOptions = [
-      {
-        loadPath: finalLoadPath,
-        addPath:
-          mergedOptions?.addPath || DEFAULT_I18NEXT_BACKEND_OPTIONS.addPath,
-      },
-      {
-        sdk: finalSdk,
-      },
-    ];
+function getFinalLoadPath(
+  mergedOptions?: BackendOptions,
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): string | undefined {
+  return (
+    mergedOptions?.loadPath ||
+    userInitOptions?.backend?.loadPath ||
+    (backend?.enabled ? DEFAULT_I18NEXT_BACKEND_OPTIONS.loadPath : undefined)
+  );
+}
 
-    const result: ChainedBackendConfig & BaseBackendOptions = {
-      ...mergedOptions,
+function getFinalSdk(
+  mergedOptions?: BackendOptions,
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): any {
+  return (
+    mergedOptions?.sdk ||
+    userInitOptions?.backend?.sdk ||
+    (backend?.sdk && typeof backend.sdk === 'function'
+      ? backend.sdk
+      : undefined)
+  );
+}
+
+function buildChainedBackendConfig(
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): ChainedBackendConfig & BaseBackendOptions {
+  const merged = baseMergeBackendOptions(
+    DEFAULT_I18NEXT_BACKEND_OPTIONS,
+    backend as BackendOptions,
+    userInitOptions?.backend,
+  );
+
+  const { isExplicit } = hasLoadPath(backend, userInitOptions);
+  ensureDefaultLoadPath(merged, backend, isExplicit);
+
+  const mergedOptions = convertBackendOptions(merged);
+  const finalLoadPath = getFinalLoadPath(
+    mergedOptions,
+    backend,
+    userInitOptions,
+  );
+  const finalSdk = getFinalSdk(mergedOptions, backend, userInitOptions);
+
+  const chainedBackendOptions = [
+    {
       loadPath: finalLoadPath,
+      addPath:
+        mergedOptions?.addPath || DEFAULT_I18NEXT_BACKEND_OPTIONS.addPath,
+    },
+    {
       sdk: finalSdk,
-      cacheHitMode:
-        mergedOptions?.cacheHitMode ||
-        (backend as BackendOptions)?.cacheHitMode ||
-        userInitOptions?.backend?.cacheHitMode ||
-        'refreshAndUpdateStore',
-      _useChainedBackend: true,
-      _chainedBackendConfig: {
-        // These will be populated in middleware
-        backendOptions: chainedBackendOptions,
-      },
-    };
+    },
+  ];
 
-    return result;
-  }
+  return {
+    ...mergedOptions,
+    loadPath: finalLoadPath,
+    sdk: finalSdk,
+    cacheHitMode:
+      mergedOptions?.cacheHitMode ||
+      (backend as BackendOptions)?.cacheHitMode ||
+      userInitOptions?.backend?.cacheHitMode ||
+      'refreshAndUpdateStore',
+    _useChainedBackend: true,
+    _chainedBackendConfig: {
+      backendOptions: chainedBackendOptions,
+    },
+  };
+}
 
-  // If only SDK is provided, use SDK backend
-  if (hasSdkFunction) {
-    const merged = baseMergeBackendOptions(
-      {} as BackendOptions,
-      backend as BackendOptions,
-      userInitOptions?.backend,
-    );
-    return convertBackendOptions(merged);
-  }
+function buildSdkOnlyBackendConfig(
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): BackendOptions {
+  const merged = baseMergeBackendOptions(
+    {} as BackendOptions,
+    backend as BackendOptions,
+    userInitOptions?.backend,
+  );
+  return convertBackendOptions(merged) || ({} as BackendOptions);
+}
 
-  // Otherwise, use HTTP/FS backend
+function buildHttpFsBackendConfig(
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+): BackendOptions {
   const mergedBackend = backend?.enabled
     ? baseMergeBackendOptions(
         DEFAULT_I18NEXT_BACKEND_OPTIONS,
@@ -104,17 +145,31 @@ export const mergeBackendOptions = (
       )
     : userInitOptions?.backend;
 
-  // If user didn't explicitly configure loadPath but backend.enabled is true,
-  // ensure default loadPath is used
-  if (
-    mergedBackend &&
-    backend?.enabled &&
-    !hasExplicitLoadPath &&
-    !mergedBackend.loadPath
-  ) {
-    mergedBackend.loadPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.loadPath;
-    mergedBackend.addPath = DEFAULT_I18NEXT_BACKEND_OPTIONS.addPath;
+  if (mergedBackend) {
+    const { isExplicit } = hasLoadPath(backend, userInitOptions);
+    ensureDefaultLoadPath(mergedBackend, backend, isExplicit);
   }
 
-  return convertBackendOptions(mergedBackend as BackendOptions);
+  return (
+    convertBackendOptions(mergedBackend as BackendOptions) ||
+    ({} as BackendOptions)
+  );
+}
+
+export const mergeBackendOptions = (
+  backend?: BaseBackendOptions,
+  userInitOptions?: I18nInitOptions,
+) => {
+  const sdkFunction = hasSdkFunction(backend, userInitOptions);
+  const { hasPath } = hasLoadPath(backend, userInitOptions);
+
+  if (hasPath && sdkFunction) {
+    return buildChainedBackendConfig(backend, userInitOptions);
+  }
+
+  if (sdkFunction) {
+    return buildSdkOnlyBackendConfig(backend, userInitOptions);
+  }
+
+  return buildHttpFsBackendConfig(backend, userInitOptions);
 };
