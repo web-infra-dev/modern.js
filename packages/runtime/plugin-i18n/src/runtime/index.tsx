@@ -12,12 +12,16 @@ import type {
   BaseLocaleDetectionOptions,
 } from '../shared/type';
 import { ModernI18nProvider } from './context';
+import {
+  createContextValue,
+  useLanguageSync,
+  useSdkResourcesLoader,
+} from './hooks';
 import type { I18nInitOptions, I18nInstance } from './i18n';
 import { getI18nInstance } from './i18n';
 import { mergeBackendOptions } from './i18n/backend';
 import { useI18nextBackend } from './i18n/backend/middleware';
 import {
-  cacheUserLanguage,
   detectLanguageWithPriority,
   exportServerLngToWindow,
   mergeDetectionOptions,
@@ -29,7 +33,7 @@ import {
   initializeI18nInstance,
   setupClonedInstance,
 } from './i18n/utils';
-import { detectLanguageFromPath } from './utils';
+import { getPathname } from './utils';
 
 export type { I18nSdkLoader, I18nSdkLoadOptions } from '../shared/type';
 export type { Resources } from './i18n/instance';
@@ -43,13 +47,6 @@ export interface I18nPluginOptions {
   initOptions?: I18nInitOptions;
   [key: string]: any;
 }
-
-const getPathname = (context: TRuntimeContext): string => {
-  if (isBrowser()) {
-    return window.location.pathname;
-  }
-  return context.ssrContext?.request?.pathname || '/';
-};
 
 interface RuntimeContextWithI18n extends TRuntimeContext {
   i18nInstance?: I18nInstance;
@@ -89,7 +86,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
       const pathname = getPathname(context);
 
-      // Register LanguageDetector before init()
       if (i18nextDetector) {
         useI18nextLanguageDetector(i18nInstance);
       }
@@ -105,13 +101,10 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       // Register Backend BEFORE detectLanguageWithPriority
       // This is critical because detectLanguageWithPriority may trigger init()
       // through i18next detector, and backend must be registered before init()
-      // Check mergedBackend instead of just backendEnabled, because mergedBackend
-      // may come from userInitOptions even if backend.enabled is false
       if (mergedBackend) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 
-      // Detect language with priority: SSR data > path > i18next detector > fallback
       const { finalLanguage } = await detectLanguageWithPriority(i18nInstance, {
         languages,
         fallbackLanguage,
@@ -123,7 +116,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         ssrContext: context.ssrContext,
       });
 
-      // Initialize i18n instance if not already initialized
       await initializeI18nInstance(
         i18nInstance,
         finalLanguage,
@@ -176,7 +168,6 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         const runtimeContextRef = useRef(runtimeContext);
         runtimeContextRef.current = runtimeContext;
 
-        // Sync translator language with i18n instance language
         useEffect(() => {
           if (i18nInstance?.language) {
             const translator = (i18nInstance as any).translator;
@@ -186,187 +177,41 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           }
         }, [i18nInstance?.language]);
 
-        // Update prevLangRef when lang changes from other sources (e.g., updateLanguage callback)
         useEffect(() => {
           prevLangRef.current = lang;
         }, [lang]);
 
-        // Listen for SDK resources loaded event and trigger i18next update
-        useEffect(() => {
-          if (!i18nInstance || !isBrowser()) {
-            return;
-          }
+        useSdkResourcesLoader(i18nInstance, setForceUpdate);
+        useLanguageSync(
+          i18nInstance,
+          localePathRedirect,
+          languages,
+          runtimeContextRef,
+          prevLangRef,
+          setLang,
+        );
 
-          const handleSdkResourcesLoaded = (event: Event) => {
-            const customEvent = event as CustomEvent<{
-              language: string;
-              namespace: string;
-            }>;
-            const { language, namespace } = customEvent.detail;
-
-            // Use retry mechanism to ensure the resource is in store
-            // The callback in backend might have just finished, so wait a bit
-            const triggerUpdate = (retryCount = 0) => {
-              const store = (i18nInstance as any).store;
-              const hasResource = store?.data?.[language]?.[namespace];
-
-              if (hasResource || retryCount >= 10) {
-                // Resource is in store or we've retried enough times
-                // Force update by triggering multiple events and state changes
-
-                // First, directly update the store to ensure resources are there
-                // This is important for chained backend scenarios
-                if (store?.data?.[language]?.[namespace]) {
-                  // Force store to emit change event
-                  if (typeof store.emit === 'function') {
-                    store.emit('added', language, namespace);
-                  }
-                }
-
-                // Emit 'loaded' event to trigger React re-render
-                // This is the primary event that react-i18next listens to
-                if (typeof i18nInstance.emit === 'function') {
-                  i18nInstance.emit('loaded', {
-                    language,
-                    namespace,
-                  });
-                  // Also emit with different format that react-i18next might expect
-                  i18nInstance.emit('loaded', language, namespace);
-                }
-
-                // Call reloadResources to trigger re-render
-                // This will reload resources and trigger 'loaded' event automatically
-                if (typeof i18nInstance.reloadResources === 'function') {
-                  i18nInstance
-                    .reloadResources(language, namespace)
-                    .then(() => {
-                      // After reloadResources completes, emit loaded event again
-                      if (typeof i18nInstance.emit === 'function') {
-                        i18nInstance.emit('loaded', {
-                          language,
-                          namespace,
-                        });
-                      }
-                      // Force a state update to trigger re-render
-                      setForceUpdate(prev => prev + 1);
-                    })
-                    .catch(() => {
-                      // Ignore errors from reloadResources
-                    });
-                }
-
-                // Trigger 'languageChanged' event as well
-                // This is another event that react-i18next listens to
-                if (typeof i18nInstance.emit === 'function') {
-                  i18nInstance.emit('languageChanged', language);
-                }
-
-                // Force a state update to trigger re-render
-                // This ensures React components re-render even if events don't work
-                setForceUpdate(prev => prev + 1);
-              } else {
-                // Resource not in store yet, retry after a short delay
-                setTimeout(() => triggerUpdate(retryCount + 1), 10);
-              }
-            };
-
-            triggerUpdate();
-          };
-
-          window.addEventListener(
-            'i18n-sdk-resources-loaded',
-            handleSdkResourcesLoaded,
-          );
-
-          return () => {
-            window.removeEventListener(
-              'i18n-sdk-resources-loaded',
-              handleSdkResourcesLoaded,
-            );
-          };
-        }, [i18nInstance]);
-
-        // Handle language detection and updates
-
-        useEffect(() => {
-          if (!i18nInstance) {
-            return;
-          }
-          if (localePathRedirect) {
-            const currentPathname = getPathname(runtimeContextRef.current);
-            const pathDetection = detectLanguageFromPath(
-              currentPathname,
-              languages,
-              localePathRedirect,
-            );
-            if (pathDetection.detected && pathDetection.language) {
-              const currentLang = pathDetection.language;
-              // Only update if language actually changed
-              if (currentLang !== prevLangRef.current) {
-                prevLangRef.current = currentLang;
-                setLang(currentLang);
-                i18nInstance.setLang?.(currentLang);
-                i18nInstance.changeLanguage?.(currentLang);
-                if (isBrowser()) {
-                  const detectionOptions = i18nInstance.options?.detection;
-                  cacheUserLanguage(
-                    i18nInstance,
-                    currentLang,
-                    detectionOptions,
-                  );
-                }
-              }
-            }
-          } else {
-            const instanceLang = i18nInstance.language;
-            // Only update if language actually changed
-            if (instanceLang && instanceLang !== prevLangRef.current) {
-              prevLangRef.current = instanceLang;
-              setLang(instanceLang);
-            }
-          }
-        }, [i18nInstance, localePathRedirect, languages]);
-
-        const contextValue = useMemo(() => {
-          if (!i18nInstance) {
-            // Return a minimal safe context value when i18nInstance is not available
-            // Create a minimal I18nInstance object that won't cause runtime errors
-            const minimalI18nInstance: I18nInstance = {
-              language: lang,
-              isInitialized: false,
-              init: () => {},
-              use: () => {},
-              createInstance: () => minimalI18nInstance,
-              services: {},
-            };
-            return {
-              language: lang,
-              i18nInstance: minimalI18nInstance,
+        const contextValue = useMemo(
+          () =>
+            createContextValue(
+              lang,
+              i18nInstance,
               entryName,
               languages,
               localePathRedirect,
               ignoreRedirectRoutes,
-              updateLanguage: setLang,
-            };
-          }
-          return {
-            language: lang,
+              setLang,
+            ),
+          [
+            lang,
             i18nInstance,
             entryName,
             languages,
             localePathRedirect,
             ignoreRedirectRoutes,
-            updateLanguage: setLang,
-          };
-        }, [
-          lang,
-          i18nInstance,
-          entryName,
-          languages,
-          localePathRedirect,
-          ignoreRedirectRoutes,
-          forceUpdate, // Include forceUpdate to trigger re-render when SDK resources load
-        ]);
+            forceUpdate,
+          ],
+        );
 
         const appContent = (
           <ModernI18nProvider value={contextValue}>

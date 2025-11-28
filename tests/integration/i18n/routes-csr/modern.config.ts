@@ -18,7 +18,7 @@ export default defineConfig({
       },
       backend: {
         enabled: true,
-        // sdk: true,
+        sdk: true,
       },
       performance: {
         buildCache: false,

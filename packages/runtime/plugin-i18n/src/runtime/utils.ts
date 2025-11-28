@@ -1,4 +1,13 @@
+import type { TRuntimeContext } from '@modern-js/runtime';
+import { isBrowser } from '@modern-js/runtime';
 import { getGlobalBasename } from '@modern-js/runtime/context';
+
+export const getPathname = (context: TRuntimeContext): string => {
+  if (isBrowser()) {
+    return window.location.pathname;
+  }
+  return context.ssrContext?.request?.pathname || '/';
+};
 
 export const getEntryPath = (): string => {
   const basename = getGlobalBasename();
