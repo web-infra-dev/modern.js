@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/plugin-transform-classes": "^7.28.4",
     "@babel/preset-typescript": "^7.28.5",
-    "@scripts/jest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.18.0",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",

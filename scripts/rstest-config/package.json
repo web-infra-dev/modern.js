@@ -7,9 +7,7 @@
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
     "path-serializer": "0.5.1",
-    "@types/lodash": "^4.17.21",
     "@types/node": "^20",
-    "lodash": "^4.17.21",
     "typescript": "^5"
   }
 }

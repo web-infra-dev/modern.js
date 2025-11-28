@@ -489,9 +489,9 @@ importers:
       '@rslib/core':
         specifier: 0.18.0
         version: 0.18.0(typescript@5.6.3)
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../scripts/jest-config
+        version: link:../../../scripts/rstest-config
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -1619,9 +1619,9 @@ importers:
       '@rslib/core':
         specifier: 0.18.0
         version: 0.18.0(typescript@5.6.3)
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../scripts/jest-config
+        version: link:../../../scripts/rstest-config
       '@types/cloneable-readable':
         specifier: ^2.0.3
         version: 2.0.3
@@ -2140,9 +2140,9 @@ importers:
       '@rslib/core':
         specifier: 0.18.0
         version: 0.18.0(typescript@5.6.3)
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../../scripts/jest-config
+        version: link:../../../../scripts/rstest-config
       '@types/babel__core':
         specifier: ^7.20.5
         version: 7.20.5
@@ -2869,15 +2869,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
-      '@types/lodash':
-        specifier: ^4.17.21
-        version: 4.17.21
       '@types/node':
         specifier: ^20
         version: 20.8.8
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       path-serializer:
         specifier: 0.5.1
         version: 0.5.1

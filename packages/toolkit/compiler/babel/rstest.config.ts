@@ -1,5 +1,7 @@
-import { defineConfig } from '@rstest/core';
+import { withTestPreset } from '@scripts/rstest-config';
 
-export default defineConfig({
+export default withTestPreset({
+  root: __dirname,
+  testEnvironment: 'node',
   globals: true,
 });
