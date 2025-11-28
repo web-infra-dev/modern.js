@@ -15,42 +15,50 @@ export const useI18nextBackend = (
   const hasLoadPath = !!backend?.loadPath;
   const useChained = backend?._useChainedBackend;
 
-  // If both loadPath and sdk are provided, use chained backend
-  if (useChained && backend?._chainedBackendConfig) {
+  // Helper to configure chained backend
+  function configureChainedBackend(
+    i18nInstance: I18nInstance,
+    backendOptions: any,
+    cacheHitMode:
+      | 'none'
+      | 'refresh'
+      | 'refreshAndUpdateStore' = 'refreshAndUpdateStore',
+  ) {
     i18nInstance.use(ChainedBackend);
-    // Set the chained backend configuration with FS backend first, then SDK backend
-    // Use refreshAndUpdateStore mode by default to allow FS/HTTP resources to display first,
-    // then SDK resources will update them asynchronously
     if (i18nInstance.options) {
       i18nInstance.options.backend = {
         backends: [Backend, SdkBackend],
-        backendOptions: backend._chainedBackendConfig.backendOptions,
-        cacheHitMode: backend.cacheHitMode || 'refreshAndUpdateStore',
+        backendOptions,
+        cacheHitMode,
       };
     }
+  }
+
+  // If both loadPath and sdk are provided, use chained backend
+  if (useChained && backend?._chainedBackendConfig) {
+    configureChainedBackend(
+      i18nInstance,
+      backend._chainedBackendConfig.backendOptions,
+      backend.cacheHitMode || 'refreshAndUpdateStore',
+    );
     return;
   }
 
   // Legacy check: if both loadPath and sdk are provided, use chained backend
   if (hasLoadPath && hasSdk) {
-    i18nInstance.use(ChainedBackend);
-    if (i18nInstance.options) {
-      i18nInstance.options.backend = {
-        backends: [Backend, SdkBackend],
-        backendOptions: [
-          {
-            loadPath: backend.loadPath,
-            addPath: backend.addPath,
-          },
-          {
-            sdk: backend.sdk,
-          },
-        ],
-        // Use refreshAndUpdateStore mode by default to allow FS/HTTP resources to display first,
-        // then SDK resources will update them asynchronously
-        cacheHitMode: backend.cacheHitMode || 'refreshAndUpdateStore',
-      };
-    }
+    configureChainedBackend(
+      i18nInstance,
+      [
+        {
+          loadPath: backend.loadPath,
+          addPath: backend.addPath,
+        },
+        {
+          sdk: backend.sdk,
+        },
+      ],
+      backend.cacheHitMode || 'refreshAndUpdateStore',
+    );
     return;
   }
 

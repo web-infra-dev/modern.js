@@ -235,7 +235,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
               language: lang,
               isInitialized: false,
               init: () => {},
-              use: () => {},
+              use: () => minimalI18nInstance,
               createInstance: () => minimalI18nInstance,
               services: {},
             };
