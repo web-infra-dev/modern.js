@@ -1,6 +1,5 @@
 {
   "name": "@modern-js/plugin-styled-components",
-  "private": true,
   "description": "A Modern.js plugin for styled-components.",
  "license": "MIT",
   "keywords": [
