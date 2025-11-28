@@ -8,6 +8,17 @@ export const cacheUserLanguage = (
 ): void => {
   return;
 };
+
+/**
+ * Read language directly from storage (localStorage/cookie)
+ * Not available in Node.js environment, returns undefined
+ */
+export const readLanguageFromStorage = (
+  _detectionOptions?: any,
+): string | undefined => {
+  // In Node.js environment, storage-based detection is not available
+  return undefined;
+};
 /**
  * Register LanguageDetector plugin to i18n instance
  * Must be called before init() to properly register the detector
