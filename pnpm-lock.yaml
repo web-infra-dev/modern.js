@@ -649,24 +649,18 @@ importers:
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../scripts/jest-config
+        version: link:../../../scripts/rstest-config
       '@types/glob':
         specifier: 7.2.0
         version: 7.2.0
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
       '@types/node':
         specifier: ^20
         version: 20.8.8
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       typescript:
         specifier: ^5
         version: 5.6.3

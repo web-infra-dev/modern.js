@@ -42,7 +42,7 @@
     "**/node_modules": false
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "biomejs.biome",
     "editor.codeActionsOnSave": {
       "quickfix.biome": "explicit",
       "source.organizeImports": "never",
