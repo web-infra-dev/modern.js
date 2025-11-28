@@ -16,10 +16,7 @@ export const renderRscHandler = async (
     locals,
     params,
     loaderContext,
-    reporter,
     monitors,
-    logger,
-    metrics,
     onError,
     onTiming,
     staticGenerate,
@@ -48,14 +45,12 @@ export const renderRscHandler = async (
     rscServerManifest,
 
     locals,
-    reporter,
     staticGenerate,
-    logger,
-    metrics,
     monitors,
 
     onError,
     onTiming,
+    reporter: options.reporter,
   };
 
   if (!serverBundle) {

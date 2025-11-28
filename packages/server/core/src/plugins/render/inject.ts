@@ -29,11 +29,10 @@ export const injectRenderHandlerPlugin = ({
         return;
       }
 
-      const onFallback: OnFallback = async (reason, utils, error) => {
+      const onFallback: OnFallback = async (reason, error) => {
         // For other framework can report ssr fallback reason & error.
         await hooks.fallback.call({
           reason,
-          ...utils,
           error,
         });
       };
