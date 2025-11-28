@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import { getRequestUrl } from '../src/cli/createRequest';
 import { DIRECT_PARAM, LOADER_ID_PARAM } from '../src/common/constants';
 

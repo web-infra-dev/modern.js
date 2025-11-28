@@ -43,6 +43,7 @@ module.exports = {
       transformIgnorePatterns: ['/node_modules/.pnpm/(?!(@babel))'],
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/builder/',
+        '<rootDir>/packages/cli/plugin-data-loader/',
         '<rootDir>/packages/cli/babel-preset/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',

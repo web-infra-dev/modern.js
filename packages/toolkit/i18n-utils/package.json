@@ -55,7 +55,7 @@
     "new": "modern-lib new",
     "dev": "rslib build --watch",
     "build": "rslib build",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
@@ -65,10 +65,8 @@
     "@rslib/core": "0.18.0",
     "@modern-js/rslib": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29.5.14",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "jest": "^29.7.0",
     "typescript": "^5"
   },
   "sideEffects": false,
