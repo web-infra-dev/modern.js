@@ -1,5 +1,5 @@
 import { isBrowser } from '@modern-js/runtime';
-import { createContext, useCallback, useContext } from 'react';
+import { createContext, useCallback, useContext, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import type { I18nInstance } from './i18n';
 import type { SdkBackend } from './i18n/backend/sdk-backend';
@@ -255,7 +255,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
 
   // Check if current language resources are ready
   // This checks if all required namespaces for the current language are loaded
-  const checkIsResourcesReady = (): boolean => {
+  const isResourcesReady = useMemo(() => {
     if (!i18nInstance?.isInitialized) {
       return false;
     }
@@ -300,9 +300,7 @@ export const useModernI18n = (): UseModernI18nReturn => {
         nsData && typeof nsData === 'object' && Object.keys(nsData).length > 0
       );
     });
-  };
-
-  const isResourcesReady = checkIsResourcesReady();
+  }, [currentLanguage, i18nInstance]);
 
   return {
     language: currentLanguage,
