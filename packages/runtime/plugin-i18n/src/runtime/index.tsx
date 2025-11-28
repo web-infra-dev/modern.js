@@ -27,7 +27,11 @@ import {
   mergeDetectionOptions,
 } from './i18n/detection';
 import { useI18nextLanguageDetector } from './i18n/detection/middleware';
-import { getI18nextProvider, getInitReactI18next } from './i18n/instance';
+import {
+  getI18nextInstanceForProvider,
+  getI18nextProvider,
+  getInitReactI18next,
+} from './i18n/instance';
 import {
   ensureLanguageMatch,
   initializeI18nInstance,
@@ -101,8 +105,13 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       // Register Backend BEFORE detectLanguageWithPriority
       // This is critical because detectLanguageWithPriority may trigger init()
       // through i18next detector, and backend must be registered before init()
-      // Only register backend if enabled is true (explicitly or auto-detected)
-      if (mergedBackend && backendEnabled) {
+      // Register backend if:
+      // 1. enabled is true (explicitly or auto-detected), OR
+      // 2. SDK is configured (allows standalone SDK usage even without locales directory)
+      const hasSdkConfig =
+        typeof userInitOptions?.backend?.sdk === 'function' ||
+        (mergedBackend?.sdk && typeof mergedBackend.sdk === 'function');
+      if (mergedBackend && (backendEnabled || hasSdkConfig)) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 
@@ -225,11 +234,17 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           return appContent;
         }
 
-        return I18nextProvider ? (
-          <I18nextProvider i18n={i18nInstance}>{appContent}</I18nextProvider>
-        ) : (
-          appContent
-        );
+        if (I18nextProvider) {
+          const i18nextInstanceForProvider =
+            getI18nextInstanceForProvider(i18nInstance);
+          return (
+            <I18nextProvider i18n={i18nextInstanceForProvider}>
+              {appContent}
+            </I18nextProvider>
+          );
+        }
+
+        return appContent;
       };
     });
   },
