@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import {
   CacheSize,
   CacheTime,
@@ -23,16 +20,16 @@ class MockRequest {
 
 describe('cache function', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    rs.useFakeTimers();
     clearStore();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    rs.useRealTimers();
   });
 
   it('should cache function call results', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, {
       tag: 'testTag',
     });
@@ -46,9 +43,7 @@ describe('cache function', () => {
   });
 
   it('should have separate caches for different parameters', async () => {
-    const mockFn = jest.fn((param: string) =>
-      Promise.resolve(`result_${param}`),
-    );
+    const mockFn = rs.fn((param: string) => Promise.resolve(`result_${param}`));
     const cachedFn = cache(mockFn, {
       tag: 'testTag',
     });
@@ -64,37 +59,37 @@ describe('cache function', () => {
   });
 
   it('should expire after maxAge', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, { maxAge: CacheTime.SECOND });
 
     await cachedFn('param1');
-    jest.advanceTimersByTime(CacheTime.SECOND / 2);
+    rs.advanceTimersByTime(CacheTime.SECOND / 2);
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(CacheTime.SECOND / 2 + 1);
+    rs.advanceTimersByTime(CacheTime.SECOND / 2 + 1);
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
   it('should use default maxAge', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, {
       tag: 'testTag',
     });
 
     await cachedFn('param1');
-    jest.advanceTimersByTime(CacheTime.MINUTE * 5 - 1);
+    rs.advanceTimersByTime(CacheTime.MINUTE * 5 - 1);
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(1);
+    rs.advanceTimersByTime(1);
     await cachedFn('param1');
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
   it('should invalidate cache when revalidateTag is called', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, { tag: 'testTag' });
 
     await cachedFn('param1');
@@ -108,7 +103,7 @@ describe('cache function', () => {
   });
 
   it('should support array of tags', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, { tag: ['tag1', 'tag2'] });
 
     await cachedFn('param1');
@@ -128,8 +123,8 @@ describe('cache function', () => {
   });
 
   it('should revalidate all functions associated with a tag', async () => {
-    const mockFn1 = jest.fn().mockResolvedValue('data1');
-    const mockFn2 = jest.fn().mockResolvedValue('data2');
+    const mockFn1 = rs.fn().mockResolvedValue('data1');
+    const mockFn2 = rs.fn().mockResolvedValue('data2');
     const cachedFn1 = cache(mockFn1, { tag: 'shared' });
     const cachedFn2 = cache(mockFn2, { tag: ['shared', 'other'] });
 
@@ -154,7 +149,7 @@ describe('cache function', () => {
 
   it('should handle errors correctly', async () => {
     const error = new Error('test error');
-    const mockFn = jest.fn().mockRejectedValue(error);
+    const mockFn = rs.fn().mockRejectedValue(error);
     const cachedFn = cache(mockFn, {
       tag: 'testTag',
     });
@@ -165,7 +160,7 @@ describe('cache function', () => {
 
   describe('server-side caching', () => {
     it('should cache within request lifecycle when no options provided', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
       const handler = withRequestCache(async (req: Request) => {
@@ -186,8 +181,8 @@ describe('cache function', () => {
     });
 
     it('should not mix different functions with same parameters', async () => {
-      const mockFn1 = jest.fn().mockResolvedValue('data1');
-      const mockFn2 = jest.fn().mockResolvedValue('data2');
+      const mockFn1 = rs.fn().mockResolvedValue('data1');
+      const mockFn2 = rs.fn().mockResolvedValue('data2');
       const cachedFn1 = cache(mockFn1);
       const cachedFn2 = cache(mockFn2);
 
@@ -210,7 +205,7 @@ describe('cache function', () => {
     });
 
     it('should use normal caching when options provided on server', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { maxAge: CacheTime.SECOND });
 
       const handler1 = withRequestCache(async () => {
@@ -230,7 +225,7 @@ describe('cache function', () => {
       expect(result2).toBe('test data');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(CacheTime.SECOND + 1);
+      rs.advanceTimersByTime(CacheTime.SECOND + 1);
 
       const result3 = await handler1();
       expect(result3).toBe('test data');
@@ -238,7 +233,7 @@ describe('cache function', () => {
     });
 
     it('should not share cache between different requests', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
       const handler = withRequestCache(async (req: Request) => {
@@ -255,7 +250,7 @@ describe('cache function', () => {
 
     it('should handle errors in request cache', async () => {
       const error = new Error('test error');
-      const mockFn = jest.fn().mockRejectedValue(error);
+      const mockFn = rs.fn().mockRejectedValue(error);
       const cachedFn = cache(mockFn);
 
       const handler = withRequestCache(async (req: Request) => {
@@ -274,7 +269,7 @@ describe('cache function', () => {
     });
 
     it('should handle nested request handlers', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
       const innerHandler = withRequestCache(async (req: Request) => {
@@ -297,7 +292,7 @@ describe('cache function', () => {
     });
 
     it('should handle concurrent requests with same parameters', async () => {
-      const mockFn = jest.fn().mockImplementation(async () => {
+      const mockFn = rs.fn().mockImplementation(async () => {
         return 'test data';
       });
       const cachedFn = cache(mockFn);
@@ -319,7 +314,7 @@ describe('cache function', () => {
     });
 
     it('should handle concurrent requests', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
 
       const handler = withRequestCache(async (req: Request) => {
@@ -344,7 +339,7 @@ describe('cache function', () => {
     it('should limit cache based on data size', async () => {
       configureCache({ maxSize: 3 * CacheSize.KB });
 
-      const mockFn = jest.fn().mockImplementation((size: number) => {
+      const mockFn = rs.fn().mockImplementation((size: number) => {
         return Promise.resolve('x'.repeat(size));
       });
       const cachedFn = cache(mockFn, { tag: 'sizeTest' });
@@ -365,7 +360,7 @@ describe('cache function', () => {
     it('should estimate object sizes for cache limits', async () => {
       configureCache({ maxSize: 3 * CacheSize.KB });
 
-      const mockFn = jest.fn();
+      const mockFn = rs.fn();
       const cachedFn = cache(mockFn, { tag: 'estimateTest' });
 
       const largeArray = new Array(100).fill('x'.repeat(10));
@@ -389,7 +384,7 @@ describe('cache function', () => {
     it('should share LRU cache store between different tags', async () => {
       configureCache({ maxSize: 3 * CacheSize.KB });
 
-      const mockFn = jest.fn();
+      const mockFn = rs.fn();
       const cachedFn1 = cache(mockFn, { tag: 'tag1' });
       const cachedFn2 = cache(mockFn, { tag: 'tag2' });
 
@@ -472,8 +467,8 @@ describe('cache function', () => {
 
   describe('customKey', () => {
     it('should share cache between different functions with same customKey', async () => {
-      const mockFn1 = jest.fn().mockResolvedValue('data1');
-      const mockFn2 = jest.fn().mockResolvedValue('data2');
+      const mockFn1 = rs.fn().mockResolvedValue('data1');
+      const mockFn2 = rs.fn().mockResolvedValue('data2');
 
       const cachedFn1 = cache(mockFn1, {
         customKey: () => 'shared-key',
@@ -493,7 +488,7 @@ describe('cache function', () => {
     });
 
     it('should support customKey that depends on function arguments', async () => {
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockImplementation(id => Promise.resolve(`data for ${id}`));
 
@@ -512,7 +507,7 @@ describe('cache function', () => {
     });
 
     it('should respect maxAge and work with tag revalidation', async () => {
-      const mockFn = jest.fn().mockResolvedValue('cached data');
+      const mockFn = rs.fn().mockResolvedValue('cached data');
       const cachedFn = cache(mockFn, {
         tag: 'custom-tag',
         customKey: () => 'test-key',
@@ -529,7 +524,7 @@ describe('cache function', () => {
       await cachedFn('param');
       expect(mockFn).toHaveBeenCalledTimes(2);
 
-      jest.advanceTimersByTime(CacheTime.SECOND + 1);
+      rs.advanceTimersByTime(CacheTime.SECOND + 1);
       await cachedFn('param');
       expect(mockFn).toHaveBeenCalledTimes(3);
     });
@@ -537,16 +532,16 @@ describe('cache function', () => {
 
   describe('getKey', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      rs.useFakeTimers();
       clearStore();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      rs.useRealTimers();
     });
 
     it('should use getKey to generate custom cache key', async () => {
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockImplementation((id, data) =>
           Promise.resolve(`data for ${id}: ${JSON.stringify(data)}`),
@@ -565,8 +560,8 @@ describe('cache function', () => {
     });
 
     it('should use getKey over default key generation', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn, {
         getKey: () => 'constant-key',
@@ -587,7 +582,7 @@ describe('cache function', () => {
     });
 
     it('should work with getKey and tag revalidation', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
 
       const cachedFn = cache(mockFn, {
         tag: 'getKey-test',
@@ -607,17 +602,17 @@ describe('cache function', () => {
 
   describe('cache statistics', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      rs.useFakeTimers();
       clearStore();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      rs.useRealTimers();
     });
 
     it('should call onCache with hit status when cache hit', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
@@ -647,8 +642,8 @@ describe('cache function', () => {
     });
 
     it('should call onCache with stale status when in revalidate window', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.SECOND,
@@ -659,7 +654,7 @@ describe('cache function', () => {
       await cachedFn('param1');
       onCacheMock.mockClear();
 
-      jest.advanceTimersByTime(CacheTime.SECOND + 10);
+      rs.advanceTimersByTime(CacheTime.SECOND + 10);
 
       await cachedFn('param1');
       expect(onCacheMock).toHaveBeenCalledTimes(1);
@@ -675,8 +670,8 @@ describe('cache function', () => {
     });
 
     it('should include correct key in onCache callback', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn1 = cache(mockFn, {
         onCache: onCacheMock,
@@ -709,8 +704,8 @@ describe('cache function', () => {
     });
 
     it('should not call onCache when no options are provided', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn);
 
@@ -727,17 +722,17 @@ describe('cache function', () => {
 
   describe('unstable_shouldDisable', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      rs.useFakeTimers();
       clearStore();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      rs.useRealTimers();
       configureCache({ maxSize: CacheSize.GB });
     });
 
     it('should bypass cache when unstable_shouldDisable returns true', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { maxAge: CacheTime.MINUTE });
 
       configureCache({
@@ -757,7 +752,7 @@ describe('cache function', () => {
     });
 
     it('should use cache when unstable_shouldDisable returns false', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { maxAge: CacheTime.MINUTE });
 
       configureCache({
@@ -777,7 +772,7 @@ describe('cache function', () => {
     });
 
     it('should support dynamic decision based on request', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { tag: 'testTag' });
 
       configureCache({
@@ -811,7 +806,7 @@ describe('cache function', () => {
     });
 
     it('should affect no-options cache as well', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn);
       configureCache({
         maxSize: CacheSize.GB,
@@ -830,7 +825,7 @@ describe('cache function', () => {
     });
 
     it('should support async decision function', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { maxAge: CacheTime.MINUTE });
 
       configureCache({
@@ -852,8 +847,8 @@ describe('cache function', () => {
     });
 
     it('should still trigger onCache callback even when cache is disabled', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
@@ -885,16 +880,16 @@ describe('cache function', () => {
 
   describe('unstable_shouldCache', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      rs.useFakeTimers();
       clearStore();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      rs.useRealTimers();
     });
 
     it('should not cache when unstable_shouldCache returns false', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
         unstable_shouldCache: () => false,
@@ -911,7 +906,7 @@ describe('cache function', () => {
     });
 
     it('should cache when unstable_shouldCache returns true', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
         unstable_shouldCache: () => true,
@@ -928,8 +923,8 @@ describe('cache function', () => {
     });
 
     it('should receive correct parameters in unstable_shouldCache', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const shouldCacheMock = jest.fn().mockReturnValue(true);
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const shouldCacheMock = rs.fn().mockReturnValue(true);
 
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
@@ -952,7 +947,7 @@ describe('cache function', () => {
     });
 
     it('should support async unstable_shouldCache function', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.MINUTE,
         unstable_shouldCache: async () => Promise.resolve(false),
@@ -969,7 +964,7 @@ describe('cache function', () => {
     });
 
     it('should only cache if result meets the condition', async () => {
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockResolvedValueOnce({ status: 'error', data: 'bad' })
         .mockResolvedValueOnce({ status: 'ok', data: 'good' });
@@ -996,7 +991,7 @@ describe('cache function', () => {
     });
 
     it('should respect unstable_shouldCache false in stale revalidation', async () => {
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockResolvedValueOnce('cached')
         .mockResolvedValueOnce('rejected')
@@ -1011,11 +1006,11 @@ describe('cache function', () => {
       const handler = withRequestCache(async () => {
         await cachedFn('test');
 
-        jest.advanceTimersByTime(CacheTime.SECOND + 10);
+        rs.advanceTimersByTime(CacheTime.SECOND + 10);
         await cachedFn('test');
-        await jest.runAllTimersAsync();
+        await rs.runAllTimersAsync();
 
-        jest.advanceTimersByTime(CacheTime.SECOND + 10);
+        rs.advanceTimersByTime(CacheTime.SECOND + 10);
         await cachedFn('test');
       });
 

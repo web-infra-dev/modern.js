@@ -63,6 +63,7 @@ module.exports = {
         '<rootDir>/packages/toolkit/plugin/',
         '<rootDir>/packages/toolkit/compiler/babel/',
         '<rootDir>/packages/toolkit/i18n-utils/',
+        '<rootDir>/packages/toolkit/runtime-utils/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',

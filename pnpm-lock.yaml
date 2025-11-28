@@ -32,8 +32,8 @@ importers:
         specifier: workspace:*
         version: link:packages/tsconfig
       '@rstest/core':
-        specifier: 0.6.6
-        version: 0.6.6(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))
+        specifier: 0.6.8
+        version: 0.6.8(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -2306,15 +2306,12 @@ importers:
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../scripts/jest-config
+        version: link:../../../scripts/rstest-config
       '@types/ioredis-mock':
         specifier: ^8.2.6
         version: 8.2.6(ioredis@5.6.1)
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -2324,9 +2321,6 @@ importers:
       ioredis-mock:
         specifier: ^8.13.1
         version: 8.13.1(@types/ioredis-mock@8.2.6(ioredis@5.6.1))(ioredis@5.6.1)
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -8516,8 +8510,8 @@ packages:
   '@rspress/shared@2.0.0-rc.0':
     resolution: {integrity: sha512-+Zwl+ycVwvwYg9eMTtoI/sst0Q/fJZS2oW+mEwj0La9hWHFutPcBHq0+zHHmi9eV7RHXLUo2lySfnQ14PTUPSw==}
 
-  '@rstest/core@0.6.6':
-    resolution: {integrity: sha512-dY7V+E1woLXxMF20lH6zq+aDViOEJ/0TfB6tfbwamLcfpVrYGK8aYLYe+Te0k4RsqR3Jhmwsd++JKx2fvrex4w==}
+  '@rstest/core@0.6.8':
+    resolution: {integrity: sha512-rWn3HzcOx1QY/F+Qu/5HpLM9k0f2I0Svvi08vGGB8p9TN9u2wD2/AY+Rh9ao+90wxX5GiN2RVlI//4G7lHYJBg==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     peerDependencies:
@@ -20690,7 +20684,7 @@ snapshots:
       lodash-es: 4.17.21
       unified: 11.0.5
 
-  '@rstest/core@0.6.6(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.6.8(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 1.6.0-beta.1
       '@types/chai': 5.2.3
