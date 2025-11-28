@@ -28,6 +28,7 @@
     },
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
+      "modern:source": "./src/adapters/node/index.ts",
       "jsnext:source": "./src/adapters/node/index.ts",
       "default": "./dist/cjs/adapters/node/index.js"
     },
@@ -75,7 +76,7 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.18.0",
     "@types/cloneable-readable": "^2.0.3",
     "@types/jest": "^29.5.14",

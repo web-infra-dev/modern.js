@@ -137,7 +137,7 @@ describe('import and export statement', () => {
     );
   });
 
-  describe('should ignore the call if a non-import statement is used', () => {
+  it('should ignore the call if a non-import statement is used', () => {
     const code = stripIndent`
       function test() {
         return "components/Sidebar/Footer";

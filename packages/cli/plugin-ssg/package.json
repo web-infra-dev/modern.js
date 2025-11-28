@@ -64,7 +64,7 @@
     "new": "modern-lib new",
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/prod-server": "workspace:*",
@@ -84,12 +84,10 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.18.0",
     "@modern-js/rslib": "workspace:*",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "jest": "^29.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.6.0",

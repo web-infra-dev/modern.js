@@ -8,6 +8,6 @@
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "paths": {},
-    "types": ["node", "jest"]
+    "types": ["node", "@rstest/core/globals"]
   }
 }

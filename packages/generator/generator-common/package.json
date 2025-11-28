@@ -23,6 +23,7 @@
   "exports": {
     ".": {
       "node": {
+        "modern:source": "./src/index.ts",
         "jsnext:source": "./src/index.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
@@ -34,7 +35,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/codesmith-formily": "2.6.8",
@@ -46,10 +47,8 @@
     "@modern-js/codesmith-api-app": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
     "@scripts/build": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29.5.14",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "jest": "^29.7.0",
     "typescript": "^5"
   },
   "sideEffects": false,

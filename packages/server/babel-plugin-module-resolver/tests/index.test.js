@@ -526,7 +526,7 @@ describe('module-resolver', () => {
     });
 
     describe('with a function', () => {
-      const mockSubstitute = jest.fn();
+      const mockSubstitute = rs.fn();
       const regExpSubsituteOpts = {
         babelrc: false,
         cwd,
@@ -618,12 +618,12 @@ describe('module-resolver', () => {
     });
 
     describe('missing packages warning', () => {
-      const mockWarn = jest.fn();
-      jest.mock('../src/log', () => ({
+      const mockWarn = rs.fn();
+      rs.doMock('../src/log', () => ({
         warn: mockWarn,
       }));
-      jest.resetModules();
-      const pluginWithMock = jest.requireActual('../src').default;
+      rs.resetModules();
+      const pluginWithMock = rs.requireActual('../src').default;
       const fileName = path.resolve('unknown');
 
       const missingAliasTransformerOpts = {
@@ -1009,8 +1009,8 @@ describe('module-resolver', () => {
     });
 
     describe('missing babelrc in path (uses cwd)', () => {
-      jest.resetModules();
-      const pluginWithMock = jest.requireActual('../src').default;
+      rs.resetModules();
+      const pluginWithMock = rs.requireActual('../src').default;
 
       const missingBabelConfigTransformerOpts = {
         babelrc: false,
@@ -1120,13 +1120,13 @@ describe('module-resolver', () => {
     });
 
     describe('missing package.json in path (uses cwd)', () => {
-      jest.mock('pkg-up', () => ({
+      rs.mock('pkg-up', () => ({
         sync: function pkgUpSync() {
           return null;
         },
       }));
-      jest.resetModules();
-      const pluginWithMock = jest.requireActual('../src').default;
+      rs.resetModules();
+      const pluginWithMock = rs.requireActual('../src').default;
 
       const missingPkgJsonConfigTransformerOpts = {
         babelrc: false,

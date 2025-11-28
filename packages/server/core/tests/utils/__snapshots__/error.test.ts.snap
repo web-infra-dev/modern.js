@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`test utils.error should get 404 error html 1`] = `
+exports[`test utils.error > should get 404 error html 1`] = `
 "<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -33,7 +33,7 @@ exports[`test utils.error should get 404 error html 1`] = `
   "
 `;
 
-exports[`test utils.error should get 500 error html 1`] = `
+exports[`test utils.error > should get 500 error html 1`] = `
 "<!DOCTYPE html>
   <html lang="en">
   <head>

@@ -1,25 +1,23 @@
-import { join } from 'path';
-import { type RstestConfig, defineConfig } from '@rstest/core';
-import _ from 'lodash';
+import {
+  type RstestConfig,
+  defineConfig,
+  mergeRstestConfig,
+} from '@rstest/core';
 export const testPreset = defineConfig({
   coverage: {
     enabled: false,
   },
-  testEnvironment: 'happy-dom',
   testTimeout: 30000,
   include: ['src/**/*.test.[jt]s?(x)', 'tests/**/*.test.[jt]s?(x)'],
   restoreMocks: true,
-  setupFiles: [join(__dirname, '../setup.ts')],
   resolve: {
-    conditionNames: ['jsnext:source', 'require', 'node', 'default'],
+    // Make sure to resolve modern.js packages to their source code in tests because modern.js packages are build slowly in CI.
+    conditionNames: ['modern:source', 'require', 'node', 'default'],
   },
 });
 
 export const withTestPreset = (config: RstestConfig) => {
-  const mergedConfig = _.merge({}, testPreset, config);
-  if (config.setupFiles) {
-    mergedConfig.setupFiles = [...testPreset.setupFiles!, ...config.setupFiles];
-  }
+  const mergedConfig = mergeRstestConfig(testPreset, config);
   return defineConfig(mergedConfig);
 };
 
