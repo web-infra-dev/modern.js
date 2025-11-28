@@ -101,8 +101,13 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       // Register Backend BEFORE detectLanguageWithPriority
       // This is critical because detectLanguageWithPriority may trigger init()
       // through i18next detector, and backend must be registered before init()
-      // Only register backend if enabled is true (explicitly or auto-detected)
-      if (mergedBackend && backendEnabled) {
+      // Register backend if:
+      // 1. enabled is true (explicitly or auto-detected), OR
+      // 2. SDK is configured (allows standalone SDK usage even without locales directory)
+      const hasSdkConfig =
+        typeof userInitOptions?.backend?.sdk === 'function' ||
+        (mergedBackend?.sdk && typeof mergedBackend.sdk === 'function');
+      if (mergedBackend && (backendEnabled || hasSdkConfig)) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 

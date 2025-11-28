@@ -239,8 +239,13 @@ export const setupClonedInstance = async (
   localePathRedirect: boolean,
   userInitOptions: I18nInitOptions | undefined,
 ): Promise<void> => {
-  if (backendEnabled) {
-    const mergedBackend = mergeBackendOptions(backend, userInitOptions);
+  const mergedBackend = mergeBackendOptions(backend, userInitOptions);
+  // Check if SDK is configured (allows standalone SDK usage even without locales directory)
+  const hasSdkConfig =
+    typeof userInitOptions?.backend?.sdk === 'function' ||
+    (mergedBackend?.sdk && typeof mergedBackend.sdk === 'function');
+
+  if (backendEnabled || hasSdkConfig) {
     useI18nextBackend(i18nInstance, mergedBackend);
     if (mergedBackend && hasOptions(i18nInstance)) {
       i18nInstance.options.backend = {
