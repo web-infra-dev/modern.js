@@ -112,6 +112,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         i18nextDetector,
         detection,
         userInitOptions,
+        mergedBackend,
         pathname,
         ssrContext: context.ssrContext,
       });
