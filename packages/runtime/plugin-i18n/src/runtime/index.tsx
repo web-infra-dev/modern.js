@@ -101,7 +101,8 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       // Register Backend BEFORE detectLanguageWithPriority
       // This is critical because detectLanguageWithPriority may trigger init()
       // through i18next detector, and backend must be registered before init()
-      if (mergedBackend) {
+      // Only register backend if enabled is true (explicitly or auto-detected)
+      if (mergedBackend && backendEnabled) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 

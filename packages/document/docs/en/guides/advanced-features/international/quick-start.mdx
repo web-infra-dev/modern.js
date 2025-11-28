@@ -41,6 +41,8 @@ export default defineConfig({
       backend: {
         enabled: true, // Enable backend resource loading
         // loadPath defaults to '/locales/{{lng}}/{{ns}}.json', usually no need to modify
+        // Note: You can also omit 'enabled' and just configure 'loadPath' or 'addPath',
+        // or omit backend config entirely to let the plugin auto-detect locales directory
       },
     }),
   ],

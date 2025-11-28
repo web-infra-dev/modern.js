@@ -136,7 +136,13 @@ function buildSdkOnlyBackendConfig(
 function buildHttpFsBackendConfig(
   backend?: BaseBackendOptions,
   userInitOptions?: I18nInitOptions,
-): BackendOptions {
+): BackendOptions | undefined {
+  // If backend.enabled is false and no userInitOptions.backend, return undefined
+  // to avoid registering backend plugin unnecessarily
+  if (!backend?.enabled && !userInitOptions?.backend) {
+    return undefined;
+  }
+
   const mergedBackend = backend?.enabled
     ? baseMergeBackendOptions(
         DEFAULT_I18NEXT_BACKEND_OPTIONS,
@@ -159,7 +165,7 @@ function buildHttpFsBackendConfig(
 export const mergeBackendOptions = (
   backend?: BaseBackendOptions,
   userInitOptions?: I18nInitOptions,
-) => {
+): BackendOptions | undefined => {
   const sdkFunction = hasSdkFunction(backend, userInitOptions);
   const { hasPath } = hasLoadPath(backend, userInitOptions);
 

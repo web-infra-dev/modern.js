@@ -85,6 +85,23 @@ i18nPlugin({
 
 `backend` is used to configure resource loading methods:
 
+:::info
+**Auto-detection**: The plugin automatically detects and enables backend in the following scenarios:
+
+1. **If you configure `loadPath` or `addPath`**: The backend will be automatically enabled (`enabled: true`) without checking for locales directory, since you've already specified the resource path.
+
+2. **If you don't configure backend**: The plugin will automatically detect if a `locales` directory exists in:
+   - Project root: `{projectRoot}/locales`
+   - Config public directory: `{projectRoot}/config/public/locales`
+   - Public directory configured via `server.publicDir`: `{projectRoot}/{publicDir}/locales`
+
+   If the directory exists and contains JSON files, the backend will be automatically enabled.
+
+3. **If you explicitly set `enabled: false`**: No auto-detection will be performed, and the backend will remain disabled.
+
+This automatic detection helps reduce unnecessary backend registration when locales directory doesn't exist, improving performance.
+:::
+
 ```ts
 interface BaseBackendOptions {
   /** Whether to enable backend resource loading */
@@ -134,6 +151,8 @@ interface BackendOptions extends BaseBackendOptions {
 
 **1. HTTP/FS backend only**:
 
+You can explicitly enable backend:
+
 ```ts
 i18nPlugin({
   backend: {
@@ -142,6 +161,33 @@ i18nPlugin({
   },
 });
 ```
+
+Or simply configure `loadPath` or `addPath`, and backend will be automatically enabled:
+
+```ts
+i18nPlugin({
+  backend: {
+    // enabled will be automatically set to true
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+**Auto-detection without configuration**:
+
+If you don't configure backend at all, the plugin will automatically detect locales directory:
+
+```ts
+i18nPlugin({
+  // No backend config - plugin will auto-detect locales directory
+  localeDetection: {
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+If `locales` directory exists with JSON files, backend will be automatically enabled with default `loadPath: '/locales/{{lng}}/{{ns}}.json'`.
 
 **2. Chained backend (recommended)**: Use both HTTP/FS backend and SDK backend
 
