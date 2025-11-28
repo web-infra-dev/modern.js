@@ -16,15 +16,19 @@ export interface I18nResourceStore {
 }
 
 export function isI18nWrapperInstance(obj: any): boolean {
-  return (
-    obj &&
-    typeof obj === 'object' &&
-    obj.i18nInstance &&
-    typeof obj.i18nInstance === 'object' &&
-    obj.i18nInstance.instance &&
-    typeof obj.init === 'function' &&
-    typeof obj.use === 'function'
-  );
+  if (!obj || typeof obj !== 'object') {
+    return false;
+  }
+  if (!obj.i18nInstance || typeof obj.i18nInstance !== 'object') {
+    return false;
+  }
+  if (!obj.i18nInstance.instance) {
+    return false;
+  }
+  if (typeof obj.init !== 'function' || typeof obj.use !== 'function') {
+    return false;
+  }
+  return true;
 }
 
 export function getI18nWrapperI18nextInstance(wrapperInstance: any): any {

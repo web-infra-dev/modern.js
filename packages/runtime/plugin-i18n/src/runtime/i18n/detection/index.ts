@@ -5,8 +5,13 @@ import type {
   I18nInstance,
   LanguageDetectorOptions,
 } from '../instance';
+import { isI18nWrapperInstance } from '../instance';
 import { mergeDetectionOptions as mergeDetectionOptionsUtil } from './config';
-import { cacheUserLanguage, detectLanguage } from './middleware';
+import {
+  cacheUserLanguage,
+  detectLanguage,
+  readLanguageFromStorage,
+} from './middleware';
 
 // Re-export cacheUserLanguage for use in context
 export { cacheUserLanguage };
@@ -16,8 +21,19 @@ export function exportServerLngToWindow(context: TRuntimeContext, lng: string) {
 }
 
 export const getLanguageFromSSRData = (window: Window): string | undefined => {
-  const ssrData = window._SSR_DATA;
-  return ssrData?.data?.i18nData?.lng as string | undefined;
+  try {
+    const ssrData = window._SSR_DATA;
+    // Check if SSR data exists and has valid structure
+    if (!ssrData || !ssrData.data || !ssrData.data.i18nData) {
+      return undefined;
+    }
+    const lng = ssrData.data.i18nData.lng;
+    // Return language only if it's a non-empty string
+    return typeof lng === 'string' && lng.trim() !== '' ? lng : undefined;
+  } catch (error) {
+    // If accessing window._SSR_DATA throws an error, return undefined
+    return undefined;
+  }
 };
 
 export interface BaseLanguageDetectionOptions {
@@ -41,7 +57,20 @@ export interface LanguageDetectionResult {
 }
 
 /**
+ * Normalize language code (e.g., 'zh-CN' -> 'zh', 'en-US' -> 'en')
+ */
+const normalizeLanguageCode = (language: string): string => {
+  if (!language) {
+    return language;
+  }
+  // Extract base language code (before hyphen)
+  const baseLang = language.split('-')[0];
+  return baseLang;
+};
+
+/**
  * Check if a language is supported
+ * Also checks the base language code (e.g., 'zh-CN' matches 'zh')
  */
 const isLanguageSupported = (
   language: string | undefined,
@@ -50,40 +79,55 @@ const isLanguageSupported = (
   if (!language) {
     return false;
   }
-  return (
-    supportedLanguages.length === 0 || supportedLanguages.includes(language)
-  );
+  if (supportedLanguages.length === 0) {
+    return true;
+  }
+  // Check exact match first
+  if (supportedLanguages.includes(language)) {
+    return true;
+  }
+  // Check base language code match (e.g., 'zh-CN' matches 'zh')
+  const baseLang = normalizeLanguageCode(language);
+  if (baseLang !== language && supportedLanguages.includes(baseLang)) {
+    return true;
+  }
+  return false;
 };
 
 /**
- * Check if SSR data is valid (project is SSR)
- * For CSR projects, SSR data may not exist or be invalid
+ * Get the supported language that matches the given language
+ * Returns the exact match if available, otherwise returns the base language code match
+ * Returns undefined if no match is found
  */
-const hasValidSSRData = (ssrContext?: any): boolean => {
-  if (!isBrowser()) {
-    return !!ssrContext;
+const getSupportedLanguage = (
+  language: string | undefined,
+  supportedLanguages: string[],
+): string | undefined => {
+  if (!language) {
+    return undefined;
   }
-
-  try {
-    const ssrData = window._SSR_DATA;
-    return !!ssrData?.data?.i18nData?.lng;
-  } catch (error) {
-    return false;
+  if (supportedLanguages.length === 0) {
+    return language;
   }
+  // Check exact match first
+  if (supportedLanguages.includes(language)) {
+    return language;
+  }
+  // Check base language code match (e.g., 'zh-CN' matches 'zh')
+  const baseLang = normalizeLanguageCode(language);
+  if (baseLang !== language && supportedLanguages.includes(baseLang)) {
+    return baseLang;
+  }
+  return undefined;
 };
 
 /**
  * Priority 1: Detect language from SSR data
- * Only use SSR data if it's valid (SSR project)
- * For CSR projects, this will return undefined
+ * Try to get language from window._SSR_DATA first (both SSR and CSR projects)
+ * Returns undefined if SSR data is not available or invalid
  */
 const detectLanguageFromSSR = (languages: string[]): string | undefined => {
   if (!isBrowser()) {
-    return undefined;
-  }
-
-  // For CSR projects, ignore SSR data
-  if (!hasValidSSRData()) {
     return undefined;
   }
 
@@ -101,6 +145,7 @@ const detectLanguageFromSSR = (languages: string[]): string | undefined => {
 
 /**
  * Priority 2: Detect language from URL path
+ * Only returns a language if the path explicitly contains a language prefix
  */
 const detectLanguageFromPathPriority = (
   pathname: string,
@@ -111,17 +156,28 @@ const detectLanguageFromPathPriority = (
     return undefined;
   }
 
+  // If no languages are configured, cannot detect from path
+  if (!languages || languages.length === 0) {
+    return undefined;
+  }
+
+  // If pathname is empty or invalid, no language in path
+  if (!pathname || pathname.trim() === '') {
+    return undefined;
+  }
+
   try {
     const pathDetection = detectLanguageFromPath(
       pathname,
       languages,
       localePathRedirect,
     );
-    if (pathDetection.detected && pathDetection.language) {
+    // Only return language if explicitly detected in path
+    if (pathDetection.detected === true && pathDetection.language) {
       return pathDetection.language;
     }
   } catch (error) {
-    // Silently ignore errors
+    // Silently ignore errors, return undefined
   }
 
   return undefined;
@@ -233,8 +289,16 @@ const detectLanguageFromI18nextDetector = async (
       mergedDetection,
     );
 
-    if (detectorLang && isLanguageSupported(detectorLang, options.languages)) {
-      return detectorLang;
+    // Use getSupportedLanguage to get the matching supported language
+    // This handles both exact match and base language code match (e.g., 'zh-CN' -> 'zh')
+    if (detectorLang) {
+      const supportedLang = getSupportedLanguage(
+        detectorLang,
+        options.languages,
+      );
+      if (supportedLang) {
+        return supportedLang;
+      }
     }
 
     // Fallback to instance's current language if detector didn't detect
@@ -253,8 +317,10 @@ const detectLanguageFromI18nextDetector = async (
 
 /**
  * Detect language with priority:
- * - SSR projects: SSR data > path > i18next detector > fallback
- * - CSR projects: path > i18next detector > fallback (SSR data is ignored)
+ * Priority 1: SSR data (try window._SSR_DATA first, works for both SSR and CSR)
+ * Priority 2: Path detection
+ * Priority 3: i18next detector (reads from cookie/localStorage)
+ * Priority 4: User config language or fallback
  */
 export const detectLanguageWithPriority = async (
   i18nInstance: I18nInstance,
@@ -271,26 +337,33 @@ export const detectLanguageWithPriority = async (
     ssrContext,
   } = options;
 
-  const isSSRProject = hasValidSSRData(ssrContext);
   let detectedLanguage: string | undefined;
 
-  // For CSR projects, prioritize i18next detector (reads from cookie/localStorage)
-  // For SSR projects, prioritize SSR data first
-  if (isSSRProject) {
-    // Priority 1: SSR data (for SSR projects)
-    detectedLanguage = detectLanguageFromSSR(languages);
+  // Priority 1: Try SSR data first (works for both SSR and CSR projects)
+  // For CSR projects, if SSR data exists in window, use it; otherwise continue to next priority
+  detectedLanguage = detectLanguageFromSSR(languages);
 
-    // Priority 2: Path detection
-    if (!detectedLanguage) {
-      detectedLanguage = detectLanguageFromPathPriority(
-        pathname,
-        languages,
-        localePathRedirect,
+  // Priority 2: Path detection
+  if (!detectedLanguage) {
+    detectedLanguage = detectLanguageFromPathPriority(
+      pathname,
+      languages,
+      localePathRedirect,
+    );
+  }
+
+  // Priority 3: i18next detector (reads from cookie/localStorage)
+  if (!detectedLanguage && i18nextDetector) {
+    if (isI18nWrapperInstance(i18nInstance)) {
+      detectedLanguage = readLanguageFromStorage(
+        mergeDetectionOptions(
+          i18nextDetector,
+          detection,
+          localePathRedirect,
+          userInitOptions,
+        ),
       );
-    }
-
-    // Priority 3: i18next detector (reads from cookie/localStorage)
-    if (!detectedLanguage) {
+    } else {
       detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {
         languages,
         fallbackLanguage,
@@ -301,30 +374,6 @@ export const detectLanguageWithPriority = async (
         mergedBackend: options.mergedBackend,
         ssrContext,
       });
-    }
-  } else {
-    // For CSR projects, prioritize i18next detector first
-    // Priority 1: i18next detector (reads from cookie/localStorage)
-    if (i18nextDetector) {
-      detectedLanguage = await detectLanguageFromI18nextDetector(i18nInstance, {
-        languages,
-        fallbackLanguage,
-        localePathRedirect,
-        i18nextDetector,
-        detection,
-        userInitOptions,
-        mergedBackend: options.mergedBackend,
-        ssrContext,
-      });
-    }
-
-    // Priority 2: Path detection
-    if (!detectedLanguage) {
-      detectedLanguage = detectLanguageFromPathPriority(
-        pathname,
-        languages,
-        localePathRedirect,
-      );
     }
   }
 
@@ -385,10 +434,24 @@ export const mergeDetectionOptions = (
   userInitOptions?: I18nInitOptions,
 ) => {
   // Exclude 'path' from detection order to avoid conflict with manual path detection
-  const mergedDetection = i18nextDetector
-    ? mergeDetectionOptionsUtil(detection, userInitOptions?.detection)
-    : userInitOptions?.detection;
-  if (localePathRedirect && mergedDetection?.order) {
+  let mergedDetection: LanguageDetectorOptions;
+  if (i18nextDetector) {
+    // mergeDetectionOptionsUtil always returns an object with default options
+    mergedDetection = mergeDetectionOptionsUtil(
+      detection,
+      userInitOptions?.detection,
+    );
+  } else {
+    // If detector is disabled, use user options or empty object
+    mergedDetection = userInitOptions?.detection || {};
+  }
+
+  // Ensure mergedDetection is always an object (should not be undefined after above)
+  if (!mergedDetection || typeof mergedDetection !== 'object') {
+    mergedDetection = {};
+  }
+
+  if (localePathRedirect && mergedDetection.order) {
     mergedDetection.order = mergedDetection.order.filter(
       (item: string) => item !== 'path',
     );

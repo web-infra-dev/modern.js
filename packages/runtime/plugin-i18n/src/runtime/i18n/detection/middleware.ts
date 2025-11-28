@@ -1,3 +1,4 @@
+import { isBrowser } from '@modern-js/runtime';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import type { I18nInstance } from '../instance';
 import { getActualI18nextInstance, isI18nWrapperInstance } from '../instance';
@@ -25,7 +26,7 @@ export const useI18nextLanguageDetector = (i18nInstance: I18nInstance) => {
  * Read language directly from localStorage/cookie
  * Fallback when detector is not available in services
  */
-const readLanguageFromStorage = (
+export const readLanguageFromStorage = (
   detectionOptions?: any,
 ): string | undefined => {
   try {
@@ -120,6 +121,10 @@ export const detectLanguage = (
       ? getActualI18nextInstance(i18nInstance)
       : i18nInstance;
 
+    // Check if either instance is initialized
+    const isInitialized =
+      i18nInstance.isInitialized || actualInstance?.isInitialized;
+
     // Try to get detector from services (prefer actual instance for wrapper)
     const detector =
       actualInstance?.services?.languageDetector ||
@@ -132,17 +137,21 @@ export const detectLanguage = (
       if (Array.isArray(result) && result.length > 0) {
         return result[0];
       }
-      return undefined;
+      // If detector exists but returns undefined, continue to fallback logic
     }
 
-    // Fallback: read directly from storage or create manual detector
-    if (i18nInstance.isInitialized || actualInstance?.isInitialized) {
+    // Fallback: read directly from storage (always try this in browser)
+    // This is important for wrapper instances where detector might not be properly initialized
+    if (isBrowser()) {
       const directRead = readLanguageFromStorage(detectionOptions);
       if (directRead) {
         return directRead;
       }
+    }
 
-      // Use actual instance's services if available, otherwise use wrapper's
+    // If instance is initialized, try creating manual detector
+    if (isInitialized) {
+      // Use actual instance's services/options for wrapper, otherwise use wrapper's
       const servicesToUse = actualInstance?.services || i18nInstance.services;
       const optionsToUse = actualInstance?.options || i18nInstance.options;
 
