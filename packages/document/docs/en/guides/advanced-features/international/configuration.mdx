@@ -85,6 +85,23 @@ i18nPlugin({
 
 `backend` is used to configure resource loading methods:
 
+:::info
+**Auto-detection**: The plugin automatically detects and enables backend in the following scenarios:
+
+1. **If you configure `loadPath` or `addPath`**: The backend will be automatically enabled (`enabled: true`) without checking for locales directory, since you've already specified the resource path.
+
+2. **If you don't configure backend**: The plugin will automatically detect if a `locales` directory exists in:
+   - Project root: `{projectRoot}/locales`
+   - Config public directory: `{projectRoot}/config/public/locales`
+   - Public directory configured via `server.publicDir`: `{projectRoot}/{publicDir}/locales`
+
+   If the directory exists and contains JSON files, the backend will be automatically enabled.
+
+3. **If you explicitly set `enabled: false`**: No auto-detection will be performed, and the backend will remain disabled.
+
+This automatic detection helps reduce unnecessary backend registration when locales directory doesn't exist, improving performance.
+:::
+
 ```ts
 interface BaseBackendOptions {
   /** Whether to enable backend resource loading */
@@ -96,10 +113,30 @@ interface BaseBackendOptions {
   /** Missing translation save path (optional) */
   addPath?: string;
 
+  /** Cache hit mode for chained backend (only effective when both `loadPath` and `sdk` are provided)
+   *
+   * - `'none'` (default, only when chained backend is not configured): If the first backend returns resources, stop and don't try the next backend
+   * - `'refresh'`: Try to refresh the cache by loading from the next backend and update the cache
+   * - `'refreshAndUpdateStore'` (default for chained backend): Try to refresh the cache by loading from the next backend,
+   *   update the cache and also update the i18next resource store. This allows FS/HTTP resources to be displayed first,
+   *   then SDK resources will update them asynchronously.
+   *
+   * @default 'refreshAndUpdateStore' when both loadPath and sdk are provided
+   */
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+
   /** SDK loader function (custom backend)
    *
    * Note: In CLI configuration, can only be set to `true` or a string identifier to enable SDK mode.
    * The actual SDK function must be provided through `initOptions.backend.sdk` in runtime configuration (`modern.runtime.ts`).
+   *
+   * When both `loadPath` (or FS backend) and `sdk` are provided, the plugin will automatically use `i18next-chained-backend`
+   * to chain multiple backends. The loading order will be:
+   * 1. HTTP/FS backend (primary) - loads from `loadPath` or file system first for quick initial display
+   * 2. SDK backend (update) - loads from the SDK function to update/refresh translations
+   *
+   * With `cacheHitMode: 'refreshAndUpdateStore'` (default), FS/HTTP resources will be displayed immediately,
+   * then SDK resources will be loaded asynchronously to update the translations.
    */
   sdk?: I18nSdkLoader | boolean | string;
 }
@@ -110,7 +147,11 @@ interface BackendOptions extends BaseBackendOptions {
 }
 ```
 
-**Example**:
+**Examples**:
+
+**1. HTTP/FS backend only**:
+
+You can explicitly enable backend:
 
 ```ts
 i18nPlugin({
@@ -120,6 +161,104 @@ i18nPlugin({
   },
 });
 ```
+
+Or simply configure `loadPath` or `addPath`, and backend will be automatically enabled:
+
+```ts
+i18nPlugin({
+  backend: {
+    // enabled will be automatically set to true
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+  },
+});
+```
+
+**Auto-detection without configuration**:
+
+If you don't configure backend at all, the plugin will automatically detect locales directory:
+
+```ts
+i18nPlugin({
+  // No backend config - plugin will auto-detect locales directory
+  localeDetection: {
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+  },
+});
+```
+
+If `locales` directory exists with JSON files, backend will be automatically enabled with default `loadPath: '/locales/{{lng}}/{{ns}}.json'`.
+
+**2. Chained backend (recommended)**: Use both HTTP/FS backend and SDK backend
+
+When `backend.enabled = true` and `sdk` is configured, if `loadPath` is not explicitly configured, the default `loadPath` will be used automatically and chained backend will be enabled:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    // When loadPath is not configured, default '/locales/{{lng}}/{{ns}}.json' will be used
+    sdk: true, // SDK backend
+    // cacheHitMode: 'refreshAndUpdateStore', // Default value, can be omitted
+  },
+});
+```
+
+You can also explicitly configure `loadPath`:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS backend
+    sdk: true, // SDK backend
+  },
+});
+```
+
+Provide the SDK function in `modern.runtime.ts`:
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          // SDK implementation
+          if (options.lng && options.ns) {
+            return await mySdk.getResource(options.lng, options.ns);
+          }
+        },
+      },
+    },
+  },
+});
+```
+
+When using chained backend, the system will:
+
+1. First load resources from `/locales/{{lng}}/{{ns}}.json` and display immediately (quick initial display of basic translations)
+2. Then asynchronously load resources from SDK and update the i18next store (update/supplement translations)
+
+This ensures users see page content quickly while the latest translation resources are loaded in the background.
+
+**3. SDK backend only**:
+
+If you need to disable HTTP/FS backend and use only SDK backend, you can explicitly set `loadPath: ''`:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '', // Explicitly disable HTTP/FS backend
+    sdk: true, // Use SDK backend only
+  },
+});
+```
+
+:::warning
+When using SDK backend only, you must provide the actual SDK function in `modern.runtime.ts`, otherwise it will fallback to HTTP/FS backend.
+:::
 
 ### Multi-Entry Configuration
 
@@ -279,4 +418,3 @@ export default defineRuntimeConfig({
   },
 });
 ```
-

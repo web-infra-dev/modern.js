@@ -1,6 +1,23 @@
 import type { BaseBackendOptions } from '../../shared/type';
 
-// simple i18n instance definition
+/**
+ * Resource store interface for i18next
+ */
+export interface I18nResourceStore {
+  data?: {
+    [language: string]: {
+      [namespace: string]: Record<string, string>;
+    };
+  };
+  addResourceBundle?: (
+    language: string,
+    namespace: string,
+    resources: Record<string, string>,
+    deep?: boolean,
+    overwrite?: boolean,
+  ) => void;
+}
+
 export interface I18nInstance {
   language: string;
   isInitialized: boolean;
@@ -10,11 +27,17 @@ export interface I18nInstance {
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
   cloneInstance?: () => I18nInstance; // ssr need
+  // i18next store (may not be in type definition but exists at runtime)
+  store?: I18nResourceStore;
+  emit?: (event: string, ...args: any[]) => void;
+  reloadResources?: (language?: string, namespace?: string) => Promise<void>;
   services?: {
     languageDetector?: {
       detect: (request?: any, options?: any) => string | string[] | undefined;
       [key: string]: any;
     };
+    resourceStore?: I18nResourceStore;
+    backend?: any; // Backend instance (e.g., SdkBackend)
     [key: string]: any;
   };
   // i18next instance options (available after initialization)
@@ -22,6 +45,7 @@ export interface I18nInstance {
     backend?: BackendOptions;
     [key: string]: any;
   };
+  [key: string]: any;
 }
 
 type LanguageDetectorOrder = string[];

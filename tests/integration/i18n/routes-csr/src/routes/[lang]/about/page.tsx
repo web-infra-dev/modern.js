@@ -1,5 +1,11 @@
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 export default () => {
-  return <div id="about">{i18next.t('about')}</div>;
+  const { t } = useTranslation();
+  return (
+    <>
+      <div id="about">{t('about')}</div>
+      <div id="key_1">{t('key_1')}</div>
+    </>
+  );
 };

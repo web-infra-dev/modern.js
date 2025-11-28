@@ -4,7 +4,7 @@ title: 资源加载
 
 # 资源加载
 
-插件支持三种资源加载方式：HTTP 后端、文件系统后端（FS Backend）和 SDK 后端。
+插件支持三种资源加载方式：HTTP 后端、文件系统后端（FS Backend）和 SDK 后端。同时，插件还支持链式后端，可以组合使用多个后端。
 
 ## HTTP 后端
 
@@ -23,10 +23,10 @@ i18nPlugin({
 
 ### 资源文件结构
 
-资源文件需要放在 `public` 目录或通过 `server.publicDir` 配置的目录中：
+资源文件需要放在 `config/public` 目录或通过 `server.publicDir` 配置的目录中：
 
 ```
-public/
+config/public/
 └── locales/
     ├── en/
     │   └── translation.json
@@ -269,3 +269,148 @@ const sdkLoader: I18nSdkLoader = async options => {
   return {};
 };
 ```
+
+### 检查资源加载状态
+
+使用 SDK 后端时，可以使用 `isResourcesReady` 检查资源是否已加载：
+
+```tsx
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function MyComponent() {
+  const { isResourcesReady } = useModernI18n();
+
+  if (!isResourcesReady) {
+    return <div>正在加载翻译资源...</div>;
+  }
+
+  return <div>资源已准备好！</div>;
+}
+```
+
+这在资源异步加载时特别有用，因为它确保当前语言的所有必需命名空间都已加载完成，然后再渲染依赖翻译的内容。
+
+## 链式后端（Chained Backend）
+
+链式后端允许同时使用多个后端，实现资源的渐进式加载和更新。当同时配置 `loadPath`（或 FS 后端）和 `sdk` 时，插件会自动使用 `i18next-chained-backend` 来链式加载资源。
+
+### 工作原理
+
+链式后端的工作流程：
+
+1. **初始加载**：首先从 HTTP/FS 后端加载资源并立即显示（快速显示基础翻译）
+2. **异步更新**：然后从 SDK 后端异步加载资源并更新 i18next store（更新/补充翻译）
+
+这样可以确保用户快速看到页面内容，同时后台加载最新的翻译资源。
+
+### 配置方式
+
+**步骤 1：在 `modern.config.ts` 中配置链式后端**
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS 后端
+    sdk: true, // SDK 后端
+    // cacheHitMode: 'refreshAndUpdateStore', // 默认值，可省略
+  },
+});
+```
+
+**步骤 2：在 `modern.runtime.ts` 中实现 SDK 函数**
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          // SDK 实现
+          if (options.lng && options.ns) {
+            return await mySdk.getResource(options.lng, options.ns);
+          }
+        },
+      },
+    },
+  },
+});
+```
+
+### 缓存命中模式（cacheHitMode）
+
+`cacheHitMode` 选项控制链式后端的行为：
+
+- **`'none'`**（默认，仅当未配置链式后端时）：如果第一个后端返回了资源，则停止，不再尝试下一个后端
+- **`'refresh'`**：尝试从下一个后端刷新缓存并更新缓存
+- **`'refreshAndUpdateStore'`**（链式后端的默认值）：尝试从下一个后端刷新缓存，更新缓存并同时更新 i18next 资源存储。这允许先显示 FS/HTTP 资源，然后 SDK 资源会异步更新它们。
+
+**配置示例**：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json',
+    sdk: true,
+    cacheHitMode: 'refreshAndUpdateStore', // 显式指定（默认值）
+  },
+});
+```
+
+### 使用场景
+
+链式后端特别适用于以下场景：
+
+1. **渐进式加载**：先显示本地/静态资源，然后从远程服务加载最新翻译
+2. **离线支持**：本地资源作为离线 fallback，SDK 资源提供在线更新
+3. **性能优化**：快速显示基础翻译，后台加载完整翻译内容
+4. **A/B 测试**：本地资源作为默认值，SDK 提供动态翻译变体
+
+### 完整示例
+
+```ts
+// modern.config.ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // 本地资源
+    sdk: true, // 远程 SDK 资源
+    cacheHitMode: 'refreshAndUpdateStore',
+  },
+});
+
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      backend: {
+        sdk: async options => {
+          if (options.lng && options.ns) {
+            // 从远程服务加载最新翻译
+            const response = await fetch(
+              `https://api.example.com/i18n/${options.lng}/${options.ns}`,
+            );
+            return {
+              [options.lng]: {
+                [options.ns]: await response.json(),
+              },
+            };
+          }
+          return {};
+        },
+      },
+    },
+  },
+});
+```
+
+在这个示例中：
+
+- 页面加载时，首先从 `/locales/{{lng}}/{{ns}}.json` 加载资源并立即显示
+- 后台异步从 `https://api.example.com/i18n/...` 加载最新翻译
+- SDK 资源加载完成后，自动更新 i18next store，界面文案自动更新

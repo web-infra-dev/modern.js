@@ -27,6 +27,7 @@ export interface BaseLanguageDetectionOptions {
   i18nextDetector: boolean;
   detection?: LanguageDetectorOptions;
   userInitOptions?: I18nInitOptions;
+  mergedBackend?: any;
 }
 
 export interface LanguageDetectionOptions extends BaseLanguageDetectionOptions {
@@ -122,7 +123,13 @@ const initializeI18nForDetector = async (
 
   // Don't set lng explicitly when detector is enabled, let the detector find the language
   const userLng = options.userInitOptions?.lng;
-  const { lng: _, ...restUserOptions } = options.userInitOptions || {};
+  // Exclude backend from userInitOptions to avoid overriding mergedBackend
+  // Backend should be set via mergedBackend which contains the properly merged configuration
+  const {
+    lng: _,
+    backend: _removedBackend,
+    ...restUserOptions
+  } = options.userInitOptions || {};
   const initOptions: any = {
     ...restUserOptions,
     ...(userLng ? { lng: userLng } : {}),
@@ -136,6 +143,36 @@ const initializeI18nForDetector = async (
         : false,
     },
   };
+
+  // Set backend config from mergedBackend if available
+  // This ensures default backend config (like loadPath) is preserved when user only provides sdk
+  if (options.mergedBackend) {
+    const isChainedBackend = !!options.mergedBackend?._useChainedBackend;
+    if (isChainedBackend && options.mergedBackend._chainedBackendConfig) {
+      // For chained backend, we need to get backend classes from i18nInstance.options.backend.backends
+      // which were set by useI18nextBackend
+      const savedBackendConfig = i18nInstance.options?.backend;
+      if (
+        savedBackendConfig?.backends &&
+        Array.isArray(savedBackendConfig.backends)
+      ) {
+        initOptions.backend = {
+          backends: savedBackendConfig.backends,
+          backendOptions:
+            options.mergedBackend._chainedBackendConfig.backendOptions,
+          cacheHitMode:
+            options.mergedBackend.cacheHitMode || 'refreshAndUpdateStore',
+        };
+      }
+    } else {
+      // For non-chained backend, pass the backend config directly
+      // Remove internal properties before passing to init()
+      const { _useChainedBackend, _chainedBackendConfig, ...cleanBackend } =
+        options.mergedBackend || {};
+      initOptions.backend = cleanBackend;
+    }
+  }
+
   await i18nInstance.init(initOptions);
 };
 
@@ -229,6 +266,7 @@ export const detectLanguageWithPriority = async (
       i18nextDetector,
       detection,
       userInitOptions,
+      mergedBackend: options.mergedBackend,
       ssrContext,
     });
   }

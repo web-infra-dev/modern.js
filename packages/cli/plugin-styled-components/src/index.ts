@@ -28,9 +28,11 @@ export const styledComponentsPlugin = (
     });
 
     api._internalRuntimePlugins(async ({ entrypoint, plugins }) => {
+      const { metaName } = api.getAppContext();
+
       plugins.push({
         name: 'styledComponents',
-        path: '@modern-js/plugin-styled-components/runtime',
+        path: `@${metaName}/plugin-styled-components/runtime`,
         config: {},
       });
       return { entrypoint, plugins };
