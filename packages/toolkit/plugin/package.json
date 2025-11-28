@@ -24,6 +24,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "node": {
+        "modern:source": "./src/index.ts",
         "jsnext:source": "./src/index.ts",
         "import": "./dist/esm/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -51,6 +52,7 @@
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
+      "modern:source": "./src/server/index.ts",
       "jsnext:source": "./src/server/index.ts",
       "node": {
         "require": "./dist/cjs/server/index.js",

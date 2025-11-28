@@ -71,6 +71,7 @@
     },
     "./storer": {
       "types": "./dist/types/node/storer/index.d.ts",
+      "modern:source": "./src/node/storer/index.ts",
       "jsnext:source": "./src/node/storer/index.ts",
       "require": "./dist/cjs/node/storer/index.js",
       "default": "./dist/esm/node/storer/index.mjs"

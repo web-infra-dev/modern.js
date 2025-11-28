@@ -23,6 +23,7 @@
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
+      "modern:source": "./src/index.ts",
       "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
       "node": {
