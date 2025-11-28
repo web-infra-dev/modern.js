@@ -144,13 +144,27 @@ i18nPlugin({
 
 **2. 链式后端（推荐）**：同时使用 HTTP/FS 后端和 SDK 后端
 
+当 `backend.enabled = true` 且配置了 `sdk` 时，如果未显式配置 `loadPath`，将自动使用默认的 `loadPath` 并启用链式后端：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    // 当未配置 loadPath 时，将自动使用默认的 '/locales/{{lng}}/{{ns}}.json'
+    sdk: true, // SDK 后端
+    // cacheHitMode: 'refreshAndUpdateStore', // 默认值，可省略
+  },
+});
+```
+
+你也可以显式配置 `loadPath`：
+
 ```ts
 i18nPlugin({
   backend: {
     enabled: true,
     loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS 后端
     sdk: true, // SDK 后端
-    // cacheHitMode: 'refreshAndUpdateStore', // 默认值，可省略
   },
 });
 ```
@@ -180,6 +194,24 @@ export default defineRuntimeConfig({
 2. 然后异步从 SDK 加载资源并更新 i18next store（更新/补充翻译）
 
 这样可以确保用户快速看到页面内容，同时后台加载最新的翻译资源。
+
+**3. 仅使用 SDK 后端**：
+
+如果你需要禁用 HTTP/FS 后端并仅使用 SDK 后端，可以显式设置 `loadPath: ''`：
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '', // 显式禁用 HTTP/FS 后端
+    sdk: true, // 仅使用 SDK 后端
+  },
+});
+```
+
+:::warning
+当仅使用 SDK 后端时，必须在 `modern.runtime.ts` 中提供实际的 SDK 函数，否则将回退到 HTTP/FS 后端。
+:::
 
 ### 多入口配置
 

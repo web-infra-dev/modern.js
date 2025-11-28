@@ -145,13 +145,27 @@ i18nPlugin({
 
 **2. Chained backend (recommended)**: Use both HTTP/FS backend and SDK backend
 
+When `backend.enabled = true` and `sdk` is configured, if `loadPath` is not explicitly configured, the default `loadPath` will be used automatically and chained backend will be enabled:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    // When loadPath is not configured, default '/locales/{{lng}}/{{ns}}.json' will be used
+    sdk: true, // SDK backend
+    // cacheHitMode: 'refreshAndUpdateStore', // Default value, can be omitted
+  },
+});
+```
+
+You can also explicitly configure `loadPath`:
+
 ```ts
 i18nPlugin({
   backend: {
     enabled: true,
     loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS backend
     sdk: true, // SDK backend
-    // cacheHitMode: 'refreshAndUpdateStore', // Default value, can be omitted
   },
 });
 ```
@@ -181,6 +195,24 @@ When using chained backend, the system will:
 2. Then asynchronously load resources from SDK and update the i18next store (update/supplement translations)
 
 This ensures users see page content quickly while the latest translation resources are loaded in the background.
+
+**3. SDK backend only**:
+
+If you need to disable HTTP/FS backend and use only SDK backend, you can explicitly set `loadPath: ''`:
+
+```ts
+i18nPlugin({
+  backend: {
+    enabled: true,
+    loadPath: '', // Explicitly disable HTTP/FS backend
+    sdk: true, // Use SDK backend only
+  },
+});
+```
+
+:::warning
+When using SDK backend only, you must provide the actual SDK function in `modern.runtime.ts`, otherwise it will fallback to HTTP/FS backend.
+:::
 
 ### Multi-Entry Configuration
 

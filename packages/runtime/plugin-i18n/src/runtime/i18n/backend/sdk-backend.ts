@@ -45,6 +45,7 @@ export class SdkBackend {
     callback: (error: Error | null, data: unknown) => void,
   ) {
     if (!this.sdk) {
+      console.error('[i18n] SdkBackend.read - SDK function not initialized');
       callback(new Error('SDK function not initialized'), null);
       return;
     }
@@ -64,6 +65,8 @@ export class SdkBackend {
         .then(data => {
           const formattedData = this.formatResources(data, language, namespace);
           callback(null, formattedData);
+          // Trigger i18next update event after SDK resources are loaded
+          this.triggerI18nextUpdate(language, namespace);
         })
         .catch(error => {
           callback(
@@ -87,6 +90,8 @@ export class SdkBackend {
           this.updateCache(language, namespace, formattedData);
           this.loadingPromises.delete(cacheKey);
           callback(null, formattedData);
+          // Trigger i18next update event after SDK resources are loaded
+          this.triggerI18nextUpdate(language, namespace);
         })
         .catch(error => {
           this.loadingPromises.delete(cacheKey);
@@ -227,5 +232,21 @@ export class SdkBackend {
    */
   hasLoadingResources(): boolean {
     return this.loadingPromises.size > 0;
+  }
+
+  /**
+   * Trigger i18next update event after SDK resources are loaded
+   * This ensures React components re-render with the new translations
+   * We dispatch a custom event that will be handled in wrapRoot
+   */
+  private triggerI18nextUpdate(language: string, namespace: string): void {
+    // Dispatch a custom event that wrapRoot can listen to
+    // This avoids the need to access i18next instance from backend
+    if (typeof window !== 'undefined') {
+      const event = new CustomEvent('i18n-sdk-resources-loaded', {
+        detail: { language, namespace },
+      });
+      window.dispatchEvent(event);
+    }
   }
 }

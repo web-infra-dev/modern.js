@@ -102,8 +102,12 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       );
       const mergedBackend = mergeBackendOptions(backend, userInitOptions);
 
-      // Register Backend before init() if needed
-      if (backendEnabled) {
+      // Register Backend BEFORE detectLanguageWithPriority
+      // This is critical because detectLanguageWithPriority may trigger init()
+      // through i18next detector, and backend must be registered before init()
+      // Check mergedBackend instead of just backendEnabled, because mergedBackend
+      // may come from userInitOptions even if backend.enabled is false
+      if (mergedBackend) {
         useI18nextBackend(i18nInstance, mergedBackend);
       }
 
@@ -167,6 +171,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           [i18nInstance?.language, localeDetection?.fallbackLanguage],
         );
         const [lang, setLang] = useState(initialLang);
+        const [forceUpdate, setForceUpdate] = useState(0);
         const prevLangRef = useRef(lang);
         const runtimeContextRef = useRef(runtimeContext);
         runtimeContextRef.current = runtimeContext;
@@ -185,6 +190,101 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         useEffect(() => {
           prevLangRef.current = lang;
         }, [lang]);
+
+        // Listen for SDK resources loaded event and trigger i18next update
+        useEffect(() => {
+          if (!i18nInstance || !isBrowser()) {
+            return;
+          }
+
+          const handleSdkResourcesLoaded = (event: Event) => {
+            const customEvent = event as CustomEvent<{
+              language: string;
+              namespace: string;
+            }>;
+            const { language, namespace } = customEvent.detail;
+
+            // Use retry mechanism to ensure the resource is in store
+            // The callback in backend might have just finished, so wait a bit
+            const triggerUpdate = (retryCount = 0) => {
+              const store = (i18nInstance as any).store;
+              const hasResource = store?.data?.[language]?.[namespace];
+
+              if (hasResource || retryCount >= 10) {
+                // Resource is in store or we've retried enough times
+                // Force update by triggering multiple events and state changes
+
+                // First, directly update the store to ensure resources are there
+                // This is important for chained backend scenarios
+                if (store?.data?.[language]?.[namespace]) {
+                  // Force store to emit change event
+                  if (typeof store.emit === 'function') {
+                    store.emit('added', language, namespace);
+                  }
+                }
+
+                // Emit 'loaded' event to trigger React re-render
+                // This is the primary event that react-i18next listens to
+                if (typeof i18nInstance.emit === 'function') {
+                  i18nInstance.emit('loaded', {
+                    language,
+                    namespace,
+                  });
+                  // Also emit with different format that react-i18next might expect
+                  i18nInstance.emit('loaded', language, namespace);
+                }
+
+                // Call reloadResources to trigger re-render
+                // This will reload resources and trigger 'loaded' event automatically
+                if (typeof i18nInstance.reloadResources === 'function') {
+                  i18nInstance
+                    .reloadResources(language, namespace)
+                    .then(() => {
+                      // After reloadResources completes, emit loaded event again
+                      if (typeof i18nInstance.emit === 'function') {
+                        i18nInstance.emit('loaded', {
+                          language,
+                          namespace,
+                        });
+                      }
+                      // Force a state update to trigger re-render
+                      setForceUpdate(prev => prev + 1);
+                    })
+                    .catch(() => {
+                      // Ignore errors from reloadResources
+                    });
+                }
+
+                // Trigger 'languageChanged' event as well
+                // This is another event that react-i18next listens to
+                if (typeof i18nInstance.emit === 'function') {
+                  i18nInstance.emit('languageChanged', language);
+                }
+
+                // Force a state update to trigger re-render
+                // This ensures React components re-render even if events don't work
+                setForceUpdate(prev => prev + 1);
+              } else {
+                // Resource not in store yet, retry after a short delay
+                setTimeout(() => triggerUpdate(retryCount + 1), 10);
+              }
+            };
+
+            triggerUpdate();
+          };
+
+          window.addEventListener(
+            'i18n-sdk-resources-loaded',
+            handleSdkResourcesLoaded,
+          );
+
+          return () => {
+            window.removeEventListener(
+              'i18n-sdk-resources-loaded',
+              handleSdkResourcesLoaded,
+            );
+          };
+        }, [i18nInstance]);
 
         // Handle language detection and updates
 
@@ -235,7 +335,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
               language: lang,
               isInitialized: false,
               init: () => {},
-              use: () => minimalI18nInstance,
+              use: () => {},
               createInstance: () => minimalI18nInstance,
               services: {},
             };
@@ -265,6 +365,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           languages,
           localePathRedirect,
           ignoreRedirectRoutes,
+          forceUpdate, // Include forceUpdate to trigger re-render when SDK resources load
         ]);
 
         const appContent = (

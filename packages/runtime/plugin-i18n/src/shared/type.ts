@@ -49,6 +49,24 @@ export type I18nSdkLoader = (
   options: I18nSdkLoadOptions,
 ) => Promise<Resources> | Resources;
 
+/**
+ * Chained backend configuration
+ * Used internally when both loadPath and sdk are provided
+ */
+export interface ChainedBackendConfig {
+  _useChainedBackend: boolean;
+  _chainedBackendConfig: {
+    backendOptions: Array<Record<string, unknown>>;
+  };
+  cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
+}
+
+/**
+ * Extended backend options that may include chained backend configuration
+ */
+export type ExtendedBackendOptions = BaseBackendOptions &
+  Partial<ChainedBackendConfig>;
+
 export interface BaseBackendOptions {
   enabled?: boolean;
   loadPath?: string;
