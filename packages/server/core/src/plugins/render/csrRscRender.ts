@@ -15,8 +15,6 @@ export const csrRscRender = async (req: Request, options: SSRRenderOptions) => {
     loaderContext,
     reporter,
     monitors,
-    logger,
-    metrics,
     onError,
     onTiming,
     staticGenerate,
@@ -47,14 +45,12 @@ export const csrRscRender = async (req: Request, options: SSRRenderOptions) => {
     rscServerManifest,
 
     locals,
-    reporter,
     staticGenerate,
-    logger,
-    metrics,
     monitors,
 
     onError,
     onTiming,
+    reporter: reporter,
   };
 
   if (!serverBundle) {

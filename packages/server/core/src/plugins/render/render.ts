@@ -126,9 +126,6 @@ export async function createRender({
   return async (
     req,
     {
-      logger,
-      reporter,
-      metrics,
       monitors,
       nodeReq,
       templates,
@@ -141,6 +138,7 @@ export async function createRender({
       matchPathname,
       loaderContext,
       contextForceCSR,
+      reporter,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -155,7 +153,7 @@ export async function createRender({
 
     const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
       fallbackReason = reason;
-      return onFallback?.(reason, { logger, reporter, metrics }, error);
+      return onFallback?.(reason, error);
     };
 
     if (!routeInfo) {
@@ -219,11 +217,8 @@ export async function createRender({
       config,
       nodeReq,
       cacheConfig,
-      reporter,
       serverRoutes: routes,
       params,
-      logger,
-      metrics,
       monitors,
       locals,
       rscClientManifest,
@@ -233,6 +228,7 @@ export async function createRender({
       loaderContext: loaderContext || new Map(),
       onError,
       onTiming,
+      reporter,
     };
 
     if (fallbackReason) {

@@ -101,12 +101,9 @@ export const routerPlugin = (
         const _basename =
           baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
-        const { reporter } = context.ssrContext!;
         const requestContext = createRequestContext(
           context.ssrContext?.loaderContext,
         );
-        // TODO: we may remove it or put it to other runtime plugins in next version
-        requestContext.set(reporterCtx, reporter);
         const hooks = api.getHooks();
 
         await hooks.onBeforeCreateRoutes.call(context);

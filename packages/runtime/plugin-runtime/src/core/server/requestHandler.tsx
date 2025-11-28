@@ -100,8 +100,6 @@ function createSSRContext(
     resource,
     params,
     responseProxy,
-    logger,
-    metrics,
     reporter,
   } = options;
 
@@ -154,8 +152,6 @@ function createSSRContext(
     loaderContext,
     htmlModifiers: [],
     baseUrl: route.urlPath,
-    logger,
-    metrics,
     request: {
       url: request.url.replace(url.host, host).replace(url.protocol, protocol),
       userAgent: headers.get('user-agent')!,

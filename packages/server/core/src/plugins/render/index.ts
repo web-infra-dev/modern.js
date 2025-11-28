@@ -72,7 +72,6 @@ function createRenderHandler(
   render: Render,
 ): Middleware<ServerNodeEnv & ServerEnv> {
   return async (c, _) => {
-    const logger = c.get('logger');
     const reporter = c.get('reporter');
     const monitors = c.get('monitors');
     const templates = c.get('templates') || {};
@@ -93,10 +92,7 @@ function createRenderHandler(
     const res = await render(request, {
       nodeReq,
       monitors,
-      logger,
-      reporter,
       templates,
-      metrics,
       serverManifest,
       rscServerManifest,
       rscClientManifest,
@@ -106,6 +102,7 @@ function createRenderHandler(
       matchPathname,
       matchEntryName,
       contextForceCSR,
+      reporter,
     });
 
     const { body, status, headers } = res;

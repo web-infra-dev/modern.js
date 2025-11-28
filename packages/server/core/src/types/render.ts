@@ -22,13 +22,6 @@ export interface RenderOptions {
 
   /** Communicating with custom server hook & modern ssr runtime. */
   locals?: Record<string, any>;
-
-  /** @deprecated  */
-  logger: Logger;
-
-  /** @deprecated */
-  metrics?: Metrics;
-
   /** @deprecated */
   reporter?: Reporter;
 

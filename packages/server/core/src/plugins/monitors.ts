@@ -122,11 +122,6 @@ export const injectloggerPlugin = (inputLogger: Logger): ServerPlugin => ({
         name: 'inject-logger',
 
         handler: (async (c: Context<ServerEnv>, next) => {
-          // TODO: remove in next version
-          if (!c.get('logger')) {
-            c.set('logger', logger);
-          }
-
           const pathname = c.req.path;
 
           const loggerMonitor: CoreMonitor = event => {

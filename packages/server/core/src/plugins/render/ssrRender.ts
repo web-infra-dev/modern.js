@@ -37,9 +37,6 @@ export interface SSRRenderOptions {
   loaderContext: Map<string, unknown>;
 
   params: Params;
-  logger: Logger;
-  metrics?: Metrics;
-  reporter?: Reporter;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   cacheConfig?: CacheConfig;
@@ -48,6 +45,7 @@ export interface SSRRenderOptions {
   monitors: Monitors;
   onError: OnError;
   onTiming: OnTiming;
+  reporter?: Reporter;
 }
 
 const SERVER_RUNTIME_ENTRY = 'requestHandler';
@@ -67,13 +65,11 @@ export async function ssrRender(
     locals,
     params,
     loaderContext,
-    reporter,
     monitors,
     cacheConfig,
-    logger,
-    metrics,
     onError,
     onTiming,
+    reporter,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -118,14 +114,11 @@ export async function ssrRender(
     rscServerManifest,
 
     locals,
-    reporter,
     staticGenerate,
-    logger,
-    metrics,
     monitors,
-
     onError,
     onTiming,
+    reporter,
   };
 
   const cacheControl = await matchCacheControl(

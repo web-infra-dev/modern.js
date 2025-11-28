@@ -63,12 +63,6 @@ export type RequestHandlerOptions = {
   /** @deprecated ssr runtime code need reporter instance */
   reporter?: Reporter;
 
-  /** @deprecated */
-  logger: Logger;
-
-  /** @deprecated */
-  metrics?: Metrics;
-
   monitors: Monitors;
 
   onError: OnError;
