@@ -383,7 +383,7 @@ const initializeI18nForDetector = async (
 
   const safeUserOptions = pickSafeDetectionOptions(options.userInitOptions);
 
-  // 仅初始化检测能力，不加载任何资源，避免与后续 backend 初始化冲突。
+  // Only initialize detection capability, don't load any resources to avoid conflicts with subsequent backend initialization
   const initOptions: I18nInitOptions = {
     ...safeUserOptions,
     fallbackLng: options.fallbackLanguage,
@@ -395,7 +395,7 @@ const initializeI18nForDetector = async (
     },
   };
 
-  // 确保检测实例加载了语言探测插件
+  // Ensure the detector instance has the language detection plugin loaded
   useI18nextLanguageDetector(instance);
 
   if (!instance.isInitialized) {
@@ -465,9 +465,9 @@ const detectLanguageFromI18nextDetector = async (
   } catch (error) {
     // Silently ignore errors
   } finally {
-    // 清理临时实例，避免影响后续正式初始化
+    // Clean up temporary instance to avoid affecting subsequent formal initialization
     if (isTemporary && detectorInstance !== i18nInstance) {
-      // 临时实例保存在缓存中，留待复用
+      // Temporary instance is saved in cache for reuse
       detectorInstanceCache.set(i18nInstance, {
         instance: detectorInstance,
         isTemporary: true,
@@ -478,7 +478,7 @@ const detectLanguageFromI18nextDetector = async (
         ),
       });
     } else if (detectorInstance === i18nInstance) {
-      // 作为兜底，防止 i18nInstance 被检测 init 污染
+      // As a fallback, prevent i18nInstance from being polluted by detector init
       (i18nInstance as any).isInitialized = false;
       delete (i18nInstance as any).language;
     }

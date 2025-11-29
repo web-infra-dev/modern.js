@@ -40,7 +40,7 @@ export function createStarlingWrapper() {
     t(...args: any[]) {
       return inner.t.apply(inner, args as any);
     },
-    // 事件系统：转发到内部的 i18next 实例
+    // Event system: forward to inner i18next instance
     on(event: string, callback: (...args: any[]) => void) {
       if (typeof inner.on === 'function') {
         inner.on(event, callback);
@@ -59,7 +59,6 @@ export function createStarlingWrapper() {
       }
       return this;
     },
-    // 其他可能需要的属性
     get isInitialized() {
       return inner.isInitialized;
     },
