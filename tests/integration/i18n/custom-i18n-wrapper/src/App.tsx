@@ -5,7 +5,6 @@ export default function App() {
   const { language, changeLanguage, i18nInstance } = useModernI18n();
   const [text, setText] = useState('');
 
-  // 更新文本的函数
   const updateText = () => {
     if (i18nInstance) {
       setText((i18nInstance as any).t('key'));
@@ -13,10 +12,8 @@ export default function App() {
   };
 
   useEffect(() => {
-    // 初始更新
     updateText();
 
-    // 监听资源加载和语言变更事件
     const loadedHandler = () => {
       updateText();
     };
@@ -37,7 +34,6 @@ export default function App() {
     };
   }, [i18nInstance]);
 
-  // 当语言改变时，立即更新文本（因为资源可能已经加载）
   useEffect(() => {
     updateText();
   }, [language, i18nInstance]);
