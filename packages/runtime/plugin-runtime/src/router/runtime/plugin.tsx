@@ -177,9 +177,7 @@ export const routerPlugin = (
           }, []);
           const { routes } = routerResult;
 
-          useEffect(() => {
-            routesContainer.current = routes;
-          }, [routes]);
+          routesContainer.current = routes;
 
           beforeCreateRouter = false;
 
