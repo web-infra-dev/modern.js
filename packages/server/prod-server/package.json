@@ -71,7 +71,7 @@
     "@types/node": "^20",
     "jest": "^29.7.0",
     "lint-staged": "~13.3.0",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "typescript": "~5.0.4"
   },

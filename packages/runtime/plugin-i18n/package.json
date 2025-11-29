@@ -119,7 +119,7 @@
       "@modern-js/runtime": "workspace:*",
       "@modern-js/app-tools": "workspace:*",
       "@scripts/jest-config": "workspace:*",
-      "@rslib/core": "0.18.0",
+      "@rslib/core": "0.18.2",
       "@modern-js/rslib": "workspace:*",
       "@testing-library/react": "^13.4.0",
       "@types/jest": "^29.5.14",
