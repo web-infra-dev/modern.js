@@ -38,12 +38,8 @@ interface UseModernI18nReturn {
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 
 function LanguageSwitcher() {
-  const {
-    language,
-    changeLanguage,
-    supportedLanguages,
-    isLanguageSupported,
-  } = useModernI18n();
+  const { language, changeLanguage, supportedLanguages, isLanguageSupported } =
+    useModernI18n();
 
   return (
     <div>
@@ -90,6 +86,7 @@ await changeLanguage('zh');
 
 :::info
 `changeLanguage` 是异步函数，返回 Promise。
+
 :::
 
 ### 语言支持检查
@@ -134,9 +131,11 @@ function MyComponent() {
 
 :::info
 `isResourcesReady` 会自动检查：
+
 - i18n 实例是否已初始化
 - 当前语言是否有资源正在加载中（仅 SDK 后端）
 - 当前语言的所有必需命名空间是否已在 store 中加载完成
+
 :::
 
 ## I18nLink 组件
@@ -267,14 +266,27 @@ interface I18nInitOptions {
 
 ```ts
 interface LanguageDetectorOptions {
+  /** 检测顺序 */
   order?: string[];
+  /** 查询参数的键名，默认 'lng' */
   lookupQuerystring?: string;
+  /** Cookie 的键名，默认 'i18next' */
   lookupCookie?: string;
+  /** LocalStorage 的键名，默认 'i18nextLng'（仅浏览器环境） */
+  lookupLocalStorage?: string;
+  /** SessionStorage 的键名（仅浏览器环境） */
   lookupSession?: string;
+  /** 从路径的哪个位置开始检测语言，默认 0 */
   lookupFromPathIndex?: number;
+  /** 缓存方式，可以是 false、字符串数组（如 ['cookie', 'localStorage']） */
   caches?: boolean | string[];
+  /** Cookie 过期时间（分钟） */
+  cookieMinutes?: number;
+  /** Cookie 过期日期（Date 对象，优先级高于 cookieMinutes） */
   cookieExpirationDate?: Date;
+  /** Cookie 域名 */
   cookieDomain?: string;
+  /** 请求头的键名，默认 'accept-language' */
   lookupHeader?: string;
 }
 ```
@@ -289,3 +301,7 @@ type Resources = {
 };
 ```
 
+:::info
+命名空间的值可以是字符串（用于简单的键值对）或对象（用于嵌套的翻译结构）。
+
+:::

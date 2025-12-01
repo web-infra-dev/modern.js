@@ -18,9 +18,33 @@ i18nPlugin({
     localePathRedirect: true,
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
+    // Optional: ignore automatic redirection for certain routes
+    ignoreRedirectRoutes: ['/api', '/admin'],
   },
 });
 ```
+
+### Ignore Redirection Routes
+
+Some routes (such as API routes, static resources, etc.) don't need language prefixes. You can use the `ignoreRedirectRoutes` configuration to ignore automatic redirection for these routes:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    // String array: supports exact match and prefix match
+    ignoreRedirectRoutes: ['/api', '/admin', '/static'],
+    // Or use function for more flexible judgment
+    ignoreRedirectRoutes: pathname => {
+      return pathname.startsWith('/api') || pathname.startsWith('/admin');
+    },
+  },
+});
+```
+
+For more details, please refer to the `ignoreRedirectRoutes` configuration in the [Locale Detection documentation](./locale-detection#ignoreredirectroutes).
 
 ## Route Configuration
 
@@ -115,6 +139,7 @@ function App() {
 
 :::info
 Convention-based routing will automatically generate corresponding routes based on the file structure. It's recommended to use convention-based routing. Only use custom routing when special route control is needed.
+
 :::
 
 ## I18nLink Component
@@ -185,4 +210,3 @@ interface I18nLinkProps {
   Contact
 </I18nLink>
 ```
-
