@@ -41,7 +41,7 @@
     "@rsbuild/plugin-sass": "1.4.0",
     "@rsbuild/plugin-source-build": "1.0.3",
     "@rsbuild/plugin-svgr": "1.2.2",
-    "@rsbuild/plugin-type-check": "1.3.1",
+    "@rsbuild/plugin-type-check": "1.3.2",
     "@rsbuild/plugin-typed-css-modules": "1.2.0",
     "@swc/core": "1.14.0",
     "@swc/helpers": "^0.5.17",
