@@ -8,6 +8,7 @@ title: 配置说明
 
 :::warning
 函数类型的配置（如 SDK 加载函数）只能在运行时配置（`modern.runtime.ts`）中设置，不能在 CLI 配置中设置。这是因为 CLI 配置在构建时执行，无法序列化函数。
+
 :::
 
 ## CLI 配置（modern.config.ts）
@@ -37,6 +38,7 @@ export default defineConfig({
 
 :::warning
 如果启用了 `localePathRedirect`，`detection` 配置必须放在 CLI 配置（`modern.config.ts`）中，因为服务端插件需要根据此配置来获取语言信息并进行路径重定向。
+
 :::
 
 ```ts
@@ -105,6 +107,7 @@ i18nPlugin({
 1. **如果配置了 `loadPath` 或 `addPath`**：由于你已经指定了资源路径，backend 会自动启用（`enabled: true`），无需检测 locales 目录。
 
 2. **如果没有配置 backend**：插件会自动检测以下位置是否存在 `locales` 目录：
+
    - 项目根目录：`{项目根目录}/locales`
    - Config public 目录：`{项目根目录}/config/public/locales`
    - 通过 `server.publicDir` 配置的目录：`{项目根目录}/{publicDir}/locales`
@@ -114,6 +117,7 @@ i18nPlugin({
 3. **如果显式设置 `enabled: false`**：不会进行自动检测，backend 保持禁用状态。
 
 这种自动检测机制可以在 locales 目录不存在时减少不必要的 backend 注册，提升性能。
+
 :::
 
 ```ts
@@ -271,6 +275,7 @@ i18nPlugin({
 
 :::warning
 当仅使用 SDK 后端时，必须在 `modern.runtime.ts` 中提供实际的 SDK 函数，否则将回退到 HTTP/FS 后端。
+
 :::
 
 ### 多入口配置

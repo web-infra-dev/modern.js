@@ -70,7 +70,9 @@ export default function About() {
 ```
 
 :::info
+
 如果使用自定义路由（`modern.routes.ts`），需要在路由配置中添加 `:lang` 动态参数。约定式路由会自动根据文件结构生成对应的路由。
+
 :::
 
 ### 2. i18next 语言检测器
@@ -142,7 +144,9 @@ i18nPlugin({
 5. **回退语言**：使用 `fallbackLanguage` 作为最终回退
 
 :::info
+
 SSR 数据检测优先级最高，这是为了确保客户端能够使用服务端渲染时检测到的语言，避免客户端重新检测导致的语言闪烁问题。
+
 :::
 
 **示例**：
@@ -198,11 +202,15 @@ order: [
 ```
 
 :::warning
+
 `path` 检测需要 `localePathRedirect` 为 `true`，`localStorage`、`sessionStorage`、`navigator`、`htmlTag` 仅在浏览器环境可用。
+
 :::
 
 :::info
+
 注意：`order` 配置只影响 i18next 检测器内部的优先级。实际的检测优先级还包括 SSR 数据和路径检测，它们有更高的优先级（见上面的"检测优先级"章节）。
+
 :::
 
 ### caches（缓存方式）

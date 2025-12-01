@@ -37,7 +37,7 @@ i18nPlugin({
     // 字符串数组：支持精确匹配和前缀匹配
     ignoreRedirectRoutes: ['/api', '/admin', '/static'],
     // 或使用函数进行更灵活的判断
-    ignoreRedirectRoutes: (pathname) => {
+    ignoreRedirectRoutes: pathname => {
       return pathname.startsWith('/api') || pathname.startsWith('/admin');
     },
   },
@@ -139,6 +139,7 @@ function App() {
 
 :::info
 约定式路由会自动根据文件结构生成对应的路由，推荐使用约定式路由。只有在需要特殊路由控制时才使用自定义路由。
+
 :::
 
 ## I18nLink 组件
