@@ -10,7 +10,7 @@ import {
   parseHeaders,
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
-import type React from 'react';
+import React from 'react';
 import { Fragment } from 'react';
 import {
   type TInternalRuntimeContext,
@@ -141,7 +141,13 @@ function createSSRContext(
     config.ssr,
     config.ssrByEntries,
   );
-  const ssrMode = getSSRMode(ssrConfig);
+  let ssrMode = getSSRMode(ssrConfig);
+
+  const isSsgRender = headers.get('x-modern-ssg-render') === 'true';
+  if (isSsgRender) {
+    const reactMajor = Number((React.version || '0').split('.')[0]);
+    ssrMode = reactMajor >= 18 ? 'stream' : 'string';
+  }
 
   const loaderFailureMode =
     typeof ssrConfig === 'object' ? ssrConfig.loaderFailureMode : undefined;
