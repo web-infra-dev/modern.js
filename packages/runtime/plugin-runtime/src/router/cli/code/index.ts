@@ -171,6 +171,7 @@ export const generateCode = async (
           entry: entrypoint.entryName,
           config,
           appDirectory: appContext.appDirectory,
+          nestedRoutesEntry: entrypoint.nestedRoutesEntry,
         });
 
         if (ssrMode === 'stream') {

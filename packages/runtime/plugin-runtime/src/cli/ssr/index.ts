@@ -6,6 +6,7 @@ import type {
   ServerUserConfig,
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
+import type { Entrypoint } from '@modern-js/types';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { resolveSSRMode } from './mode';
@@ -43,12 +44,32 @@ const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   return false;
 };
 
+/**
+ * Check if any entry uses string SSR mode.
+ * Returns true if at least one entry uses 'string' SSR mode.
+ */
 const checkUseStringSSR = (
   config: AppToolsNormalizedConfig,
   appDirectory?: string,
+  entrypoints?: Entrypoint[],
 ): boolean => {
-  const ssrMode = resolveSSRMode({ config, appDirectory });
-  return ssrMode === 'string';
+  // If entrypoints are provided, check each entry
+  if (entrypoints && entrypoints.length > 0) {
+    for (const entrypoint of entrypoints) {
+      const ssrMode = resolveSSRMode({
+        entry: entrypoint.entryName,
+        config,
+        appDirectory,
+        nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+      });
+      if (ssrMode === 'string') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return true;
 };
 
 const ssrBuilderPlugin = (
@@ -70,12 +91,12 @@ const ssrBuilderPlugin = (
           : 'node';
 
       const appContext = modernAPI.getAppContext();
-      const { appDirectory } = appContext;
+      const { appDirectory, entrypoints } = appContext;
 
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
-        checkUseStringSSR(userConfig, appDirectory);
+        checkUseStringSSR(userConfig, appDirectory, entrypoints);
 
       return mergeEnvironmentConfig(config, {
         source: {

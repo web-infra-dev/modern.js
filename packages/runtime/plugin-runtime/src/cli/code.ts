@@ -20,13 +20,6 @@ import { resolveSSRMode } from './ssr/mode';
 import * as template from './template';
 import * as serverTemplate from './template.server';
 
-function getSSRMode(
-  entry: string,
-  config: AppToolsNormalizedConfig,
-): 'string' | 'stream' | false {
-  return resolveSSRMode({ entry, config });
-}
-
 export const generateCode = async (
   entrypoints: Entrypoint[],
   appContext: AppToolsContext,
@@ -45,15 +38,25 @@ export const generateCode = async (
   } = appContext;
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, entry, customEntry, customServerEntry } =
-        entrypoint;
+      const {
+        entryName,
+        isAutoMount,
+        entry,
+        customEntry,
+        customServerEntry,
+        nestedRoutesEntry,
+      } = entrypoint;
       const { plugins: runtimePlugins } =
         await hooks._internalRuntimePlugins.call({
           entrypoint,
           plugins: [],
         });
       if (isAutoMount) {
-        const ssrMode = getSSRMode(entryName, config);
+        const ssrMode = resolveSSRMode({
+          entry: entryName,
+          config,
+          nestedRoutesEntry,
+        });
         let indexCode = '';
         // index.jsx
         if (!ssrMode && config.server.rsc) {

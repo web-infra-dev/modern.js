@@ -17,8 +17,9 @@ export function resolveSSRMode(params: {
   entry?: string;
   config: AppToolsNormalizedConfig;
   appDirectory?: string;
+  nestedRoutesEntry?: string;
 }): SSRMode {
-  const { entry, config, appDirectory } = params;
+  const { entry, config, appDirectory, nestedRoutesEntry } = params;
 
   // 1. Check if SSG is enabled first (SSG takes precedence over SSR when both are configured)
   const isSsgEnabled =
@@ -29,19 +30,11 @@ export function resolveSSRMode(params: {
         : Object.keys(config.output.ssgByEntries).length > 0));
 
   if (isSsgEnabled) {
-    // If user explicitly disables conventional routing (non-conventional routing), force 'string'
-    const entryRouterConfig = entry
-      ? config.runtimeByEntries?.[entry]?.router
-      : undefined;
-    const routerConfig =
-      entryRouterConfig !== undefined
-        ? entryRouterConfig
-        : config.runtime?.router;
-
-    if (!routerConfig) {
+    if (nestedRoutesEntry) {
+      return 'stream';
+    } else {
       return 'string';
     }
-
     if (appDirectory) {
       return isReact18(appDirectory) ? 'stream' : 'string';
     }
