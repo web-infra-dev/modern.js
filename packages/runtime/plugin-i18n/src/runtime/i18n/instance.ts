@@ -113,6 +113,10 @@ export type I18nInitOptions = {
   resources?: Resources;
   ns?: string | string[];
   defaultNS?: string | string[];
+  interpolation?: {
+    escapeValue?: boolean;
+    [key: string]: any;
+  };
   react?: {
     useSuspense?: boolean;
     [key: string]: any;

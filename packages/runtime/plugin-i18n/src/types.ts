@@ -9,4 +9,9 @@ declare module '@modern-js/runtime' {
       initOptions?: I18nInitOptions;
     };
   }
+
+  interface TInternalRuntimeContext {
+    i18nInstance?: I18nInstance;
+    changeLanguage?: (lang: string) => Promise<void>;
+  }
 }

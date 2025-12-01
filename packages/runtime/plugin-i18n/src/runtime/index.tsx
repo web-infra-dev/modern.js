@@ -33,6 +33,7 @@ import {
   getInitReactI18next,
 } from './i18n/instance';
 import {
+  changeI18nLanguage,
   ensureLanguageMatch,
   initializeI18nInstance,
   setupClonedInstance,
@@ -54,6 +55,7 @@ export interface I18nPluginOptions {
 
 interface RuntimeContextWithI18n extends TInternalRuntimeContext {
   i18nInstance?: I18nInstance;
+  changeLanguage?: (lang: string) => Promise<void>;
 }
 
 export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
@@ -161,6 +163,13 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         exportServerLngToWindow(context, finalLanguage);
       }
       context.i18nInstance = i18nInstance;
+
+      // Add changeLanguage method to context for other runtime plugins to use
+      context.changeLanguage = async (newLang: string) => {
+        await changeI18nLanguage(i18nInstance, newLang, {
+          detectionOptions: mergedDetection,
+        });
+      };
     });
 
     api.wrapRoot(App => {
