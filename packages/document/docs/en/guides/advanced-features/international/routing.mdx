@@ -37,7 +37,7 @@ i18nPlugin({
     // String array: supports exact match and prefix match
     ignoreRedirectRoutes: ['/api', '/admin', '/static'],
     // Or use function for more flexible judgment
-    ignoreRedirectRoutes: (pathname) => {
+    ignoreRedirectRoutes: pathname => {
       return pathname.startsWith('/api') || pathname.startsWith('/admin');
     },
   },
@@ -139,6 +139,7 @@ function App() {
 
 :::info
 Convention-based routing will automatically generate corresponding routes based on the file structure. It's recommended to use convention-based routing. Only use custom routing when special route control is needed.
+
 :::
 
 ## I18nLink Component
@@ -209,4 +210,3 @@ interface I18nLinkProps {
   Contact
 </I18nLink>
 ```
-
