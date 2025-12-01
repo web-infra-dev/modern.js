@@ -11,10 +11,124 @@ import {
   cacheUserLanguage,
   detectLanguage,
   readLanguageFromStorage,
+  useI18nextLanguageDetector,
 } from './middleware';
 
 // Re-export cacheUserLanguage for use in context
 export { cacheUserLanguage };
+
+interface DetectorCacheEntry {
+  instance: I18nInstance;
+  isTemporary: boolean;
+  configKey: string;
+}
+
+const detectorInstanceCache = new WeakMap<I18nInstance, DetectorCacheEntry>();
+
+const DETECTOR_SAFE_OPTION_KEYS: string[] = [
+  'lowerCaseLng',
+  'nonExplicitSupportedLngs',
+  'load',
+  'partialBundledLanguages',
+  'returnNull',
+  'returnEmptyString',
+  'returnObjects',
+  'joinArrays',
+  'keySeparator',
+  'nsSeparator',
+  'pluralSeparator',
+  'contextSeparator',
+  'fallbackNS',
+  'ns',
+  'defaultNS',
+  'debug',
+];
+
+/**
+ * Stable stringify that sorts object keys to ensure consistent output
+ * regardless of property order
+ */
+const stableStringify = (value: any): string => {
+  if (value === null || value === undefined) {
+    return JSON.stringify(value);
+  }
+
+  if (typeof value !== 'object') {
+    return JSON.stringify(value);
+  }
+
+  if (Array.isArray(value)) {
+    // Arrays maintain their order
+    return `[${value.map(item => stableStringify(item)).join(',')}]`;
+  }
+
+  // For objects, sort keys and recursively stringify values
+  const sortedKeys = Object.keys(value).sort();
+  const sortedEntries = sortedKeys.map(key => {
+    const stringifiedValue = stableStringify(value[key]);
+    return `${JSON.stringify(key)}:${stringifiedValue}`;
+  });
+
+  return `{${sortedEntries.join(',')}}`;
+};
+
+const buildDetectorConfigKey = (
+  languages: string[],
+  fallbackLanguage: string,
+  mergedDetection: LanguageDetectorOptions,
+): string => {
+  return stableStringify({
+    languages,
+    fallbackLanguage,
+    detection: mergedDetection,
+  });
+};
+
+const pickSafeDetectionOptions = (
+  userInitOptions?: I18nInitOptions,
+): Partial<I18nInitOptions> & Record<string, any> => {
+  if (!userInitOptions) {
+    return {};
+  }
+  const safeOptions: Partial<I18nInitOptions> & Record<string, any> = {};
+  for (const key of DETECTOR_SAFE_OPTION_KEYS) {
+    const value = (userInitOptions as any)[key];
+    if (value !== undefined) {
+      safeOptions[key] = value;
+    }
+  }
+  if ((userInitOptions as any).interpolation) {
+    safeOptions.interpolation = { ...(userInitOptions as any).interpolation };
+  }
+  return safeOptions;
+};
+
+const cleanupDetectorCacheEntry = (entry?: DetectorCacheEntry) => {
+  if (!entry || !entry.isTemporary) {
+    return;
+  }
+  const instance = entry.instance as any;
+  try {
+    instance?.removeAllListeners?.();
+  } catch (error) {
+    void error;
+  }
+  try {
+    instance?.off?.('*');
+  } catch (error) {
+    void error;
+  }
+  try {
+    instance?.services?.backendConnector?.backend?.stop?.();
+  } catch (error) {
+    void error;
+  }
+  try {
+    instance?.services?.backendConnector?.backend?.close?.();
+  } catch (error) {
+    void error;
+  }
+};
 
 export function exportServerLngToWindow(context: TRuntimeContext, lng: string) {
   context.__i18nData__ = { lng };
@@ -186,14 +300,69 @@ const detectLanguageFromPathPriority = (
 /**
  * Initialize i18n instance for detector if needed
  */
+interface DetectorInitResult {
+  detectorInstance: I18nInstance;
+  isTemporary: boolean;
+}
+
+const createDetectorInstance = (
+  baseInstance: I18nInstance,
+  configKey: string,
+): { instance: I18nInstance; isTemporary: boolean } => {
+  const cached = detectorInstanceCache.get(baseInstance);
+  if (cached && cached.configKey === configKey) {
+    return { instance: cached.instance, isTemporary: cached.isTemporary };
+  }
+
+  if (cached) {
+    cleanupDetectorCacheEntry(cached);
+    detectorInstanceCache.delete(baseInstance);
+  }
+
+  const createNewInstance = (): {
+    instance: I18nInstance;
+    isTemporary: boolean;
+  } => {
+    if (typeof baseInstance.createInstance === 'function') {
+      try {
+        const created = baseInstance.createInstance();
+        if (created) {
+          return { instance: created, isTemporary: true };
+        }
+      } catch (error) {
+        void error;
+      }
+    }
+
+    if (typeof baseInstance.cloneInstance === 'function') {
+      try {
+        const cloned = baseInstance.cloneInstance();
+        if (cloned) {
+          return { instance: cloned, isTemporary: true };
+        }
+      } catch (error) {
+        void error;
+      }
+    }
+
+    return { instance: baseInstance, isTemporary: false };
+  };
+
+  const created = createNewInstance();
+  if (created.isTemporary) {
+    detectorInstanceCache.set(baseInstance, {
+      instance: created.instance,
+      isTemporary: true,
+      configKey,
+    });
+  }
+  return created;
+};
+
 const initializeI18nForDetector = async (
   i18nInstance: I18nInstance,
   options: BaseLanguageDetectionOptions,
-): Promise<void> => {
-  if (i18nInstance.isInitialized) {
-    return;
-  }
-
+): Promise<DetectorInitResult> => {
   const mergedDetection = mergeDetectionOptions(
     options.i18nextDetector,
     options.detection,
@@ -201,59 +370,41 @@ const initializeI18nForDetector = async (
     options.userInitOptions,
   );
 
-  // Don't set lng explicitly when detector is enabled, let the detector find the language
-  const userLng = options.userInitOptions?.lng;
-  // Exclude backend from userInitOptions to avoid overriding mergedBackend
-  // Backend should be set via mergedBackend which contains the properly merged configuration
-  const {
-    lng: _,
-    backend: _removedBackend,
-    ...restUserOptions
-  } = options.userInitOptions || {};
-  const initOptions: any = {
-    ...restUserOptions,
-    ...(userLng ? { lng: userLng } : {}),
+  const configKey = buildDetectorConfigKey(
+    options.languages,
+    options.fallbackLanguage,
+    mergedDetection,
+  );
+
+  const { instance, isTemporary } = createDetectorInstance(
+    i18nInstance,
+    configKey,
+  );
+
+  const safeUserOptions = pickSafeDetectionOptions(options.userInitOptions);
+
+  // Only initialize detection capability, don't load any resources to avoid conflicts with subsequent backend initialization
+  const initOptions: I18nInitOptions = {
+    ...safeUserOptions,
     fallbackLng: options.fallbackLanguage,
     supportedLngs: options.languages,
     detection: mergedDetection,
+    initImmediate: true,
     react: {
-      ...((options.userInitOptions as any)?.react || {}),
-      useSuspense: isBrowser()
-        ? ((options.userInitOptions as any)?.react?.useSuspense ?? true)
-        : false,
+      useSuspense: false,
     },
   };
 
-  // Set backend config from mergedBackend if available
-  // This ensures default backend config (like loadPath) is preserved when user only provides sdk
-  if (options.mergedBackend) {
-    const isChainedBackend = !!options.mergedBackend?._useChainedBackend;
-    if (isChainedBackend && options.mergedBackend._chainedBackendConfig) {
-      // For chained backend, we need to get backend classes from i18nInstance.options.backend.backends
-      // which were set by useI18nextBackend
-      const savedBackendConfig = i18nInstance.options?.backend;
-      if (
-        savedBackendConfig?.backends &&
-        Array.isArray(savedBackendConfig.backends)
-      ) {
-        initOptions.backend = {
-          backends: savedBackendConfig.backends,
-          backendOptions:
-            options.mergedBackend._chainedBackendConfig.backendOptions,
-          cacheHitMode:
-            options.mergedBackend.cacheHitMode || 'refreshAndUpdateStore',
-        };
-      }
-    } else {
-      // For non-chained backend, pass the backend config directly
-      // Remove internal properties before passing to init()
-      const { _useChainedBackend, _chainedBackendConfig, ...cleanBackend } =
-        options.mergedBackend || {};
-      initOptions.backend = cleanBackend;
-    }
+  // Ensure the detector instance has the language detection plugin loaded
+  useI18nextLanguageDetector(instance);
+
+  if (!instance.isInitialized) {
+    await instance.init(initOptions);
+  } else if (isTemporary) {
+    await instance.init(initOptions);
   }
 
-  await i18nInstance.init(initOptions);
+  return { detectorInstance: instance, isTemporary };
 };
 
 /**
@@ -275,7 +426,10 @@ const detectLanguageFromI18nextDetector = async (
     options.userInitOptions,
   );
 
-  await initializeI18nForDetector(i18nInstance, options);
+  const { detectorInstance, isTemporary } = await initializeI18nForDetector(
+    i18nInstance,
+    options,
+  );
 
   try {
     const request = options.ssrContext?.request;
@@ -284,7 +438,7 @@ const detectLanguageFromI18nextDetector = async (
     }
 
     const detectorLang = detectLanguage(
-      i18nInstance,
+      detectorInstance,
       request as any,
       mergedDetection,
     );
@@ -302,14 +456,32 @@ const detectLanguageFromI18nextDetector = async (
     }
 
     // Fallback to instance's current language if detector didn't detect
-    if (i18nInstance.isInitialized && i18nInstance.language) {
-      const currentLang = i18nInstance.language;
+    if (detectorInstance.isInitialized && detectorInstance.language) {
+      const currentLang = detectorInstance.language;
       if (isLanguageSupported(currentLang, options.languages)) {
         return currentLang;
       }
     }
   } catch (error) {
     // Silently ignore errors
+  } finally {
+    // Clean up temporary instance to avoid affecting subsequent formal initialization
+    if (isTemporary && detectorInstance !== i18nInstance) {
+      // Temporary instance is saved in cache for reuse
+      detectorInstanceCache.set(i18nInstance, {
+        instance: detectorInstance,
+        isTemporary: true,
+        configKey: buildDetectorConfigKey(
+          options.languages,
+          options.fallbackLanguage,
+          mergedDetection,
+        ),
+      });
+    } else if (detectorInstance === i18nInstance) {
+      // As a fallback, prevent i18nInstance from being polluted by detector init
+      (i18nInstance as any).isInitialized = false;
+      delete (i18nInstance as any).language;
+    }
   }
 
   return undefined;

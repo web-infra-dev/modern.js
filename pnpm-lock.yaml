@@ -3875,6 +3875,31 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-ssg
 
+  tests/integration/i18n/custom-i18n-wrapper:
+    dependencies:
+      '@modern-js/plugin-i18n':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-i18n
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      i18next:
+        specifier: 25.6.3
+        version: 25.6.3(typescript@5.6.3)
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.0(react@19.2.0)
+      react-i18next:
+        specifier: 15.7.4
+        version: 15.7.4(i18next@25.6.3(typescript@5.6.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+
   tests/integration/i18n/mf: {}
 
   tests/integration/i18n/mf/mf-app-provider:
