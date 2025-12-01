@@ -55,6 +55,20 @@ interface BaseLocaleDetectionOptions {
 
   /** 自定义检测配置 */
   detection?: LanguageDetectorOptions;
+
+  /** 忽略自动重定向的路由列表或函数
+   *
+   * 可以是一个字符串数组（路径模式），或一个函数来判断是否应该忽略重定向。
+   * 支持精确匹配和前缀匹配（如 '/api' 会匹配 '/api' 和 '/api/users'）。
+   *
+   * @example
+   * // 字符串数组
+   * ignoreRedirectRoutes: ['/api', '/admin']
+   *
+   * // 函数
+   * ignoreRedirectRoutes: (pathname) => pathname.startsWith('/api')
+   */
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean);
 }
 
 interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {

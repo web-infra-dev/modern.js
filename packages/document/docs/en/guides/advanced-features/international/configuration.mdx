@@ -55,6 +55,20 @@ interface BaseLocaleDetectionOptions {
 
   /** Custom detection configuration */
   detection?: LanguageDetectorOptions;
+
+  /** Routes to ignore automatic redirection (array of path patterns or function)
+   *
+   * Can be a string array (path patterns) or a function to determine if redirection should be ignored.
+   * Supports exact match and prefix match (e.g., '/api' will match '/api' and '/api/users').
+   *
+   * @example
+   * // String array
+   * ignoreRedirectRoutes: ['/api', '/admin']
+   *
+   * // Function
+   * ignoreRedirectRoutes: (pathname) => pathname.startsWith('/api')
+   */
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean);
 }
 
 interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {

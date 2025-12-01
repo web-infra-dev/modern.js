@@ -18,9 +18,33 @@ i18nPlugin({
     localePathRedirect: true,
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
+    // 可选：忽略某些路由的自动重定向
+    ignoreRedirectRoutes: ['/api', '/admin'],
   },
 });
 ```
+
+### 忽略重定向的路由
+
+某些路由（如 API 路由、静态资源等）不需要语言前缀，可以使用 `ignoreRedirectRoutes` 配置来忽略这些路由的自动重定向：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    // 字符串数组：支持精确匹配和前缀匹配
+    ignoreRedirectRoutes: ['/api', '/admin', '/static'],
+    // 或使用函数进行更灵活的判断
+    ignoreRedirectRoutes: (pathname) => {
+      return pathname.startsWith('/api') || pathname.startsWith('/admin');
+    },
+  },
+});
+```
+
+更多详情请参考[语言检测文档](./locale-detection#ignoreredirectroutes)中的 `ignoreRedirectRoutes` 配置说明。
 
 ## 路由配置
 
