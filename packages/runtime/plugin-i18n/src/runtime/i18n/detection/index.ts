@@ -390,6 +390,10 @@ const initializeI18nForDetector = async (
     supportedLngs: options.languages,
     detection: mergedDetection,
     initImmediate: true,
+    interpolation: {
+      ...(safeUserOptions?.interpolation || {}),
+      escapeValue: safeUserOptions?.interpolation?.escapeValue ?? false,
+    },
     react: {
       useSuspense: false,
     },
@@ -590,6 +594,10 @@ export const buildInitOptions = (
     supportedLngs: languages,
     detection: mergedDetection,
     backend: mergeBackend,
+    interpolation: {
+      ...(userInitOptions?.interpolation || {}),
+      escapeValue: userInitOptions?.interpolation?.escapeValue ?? false,
+    },
     react: {
       useSuspense: isBrowser(),
     },

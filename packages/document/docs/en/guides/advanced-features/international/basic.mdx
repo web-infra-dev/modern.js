@@ -1,0 +1,417 @@
+---
+title: Basic Concepts
+---
+
+# Basic Concepts
+
+Before integrating internationalization capabilities into your project, you need to understand internationalization-related concepts. Understanding core concepts can help you quickly establish a stable translation system and better solve various problems during use.
+
+## Core Concepts
+
+### i18n
+
+`i18n` is the abbreviation for Internationalization, which refers to making applications run well in different languages, regions, and cultures. It requires considering factors such as multilingual resources, numbers/dates/currencies, and cultural differences at the design stage.
+
+### i18next
+
+i18next is a general-purpose internationalization framework that provides capabilities such as language detection, resource management, interpolation, and pluralization. @modern-js/plugin-i18n is based on i18next by default. Please refer to its [official documentation](https://www.i18next.com/) for complete configuration instructions.
+
+### react-i18next
+
+react-i18next is a React binding library for i18next, providing Hooks/components such as `useTranslation` and `Trans` to achieve good integration with React lifecycle:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function App() {
+  const { t } = useTranslation();
+  return <h1>{t('welcome')}</h1>;
+}
+```
+
+### i18n Instance
+
+i18next exports a default instance by default, and also supports generating multiple instances through `createInstance`:
+
+```ts
+import i18next, { createInstance } from 'i18next';
+
+i18next.init({
+  /* ... */
+});
+
+const custom = createInstance();
+await custom.init({
+  /* Independent configuration */
+});
+```
+
+The instance is responsible for translation resources, current language, language switching, and other functions. You can also pass a custom instance in Modern.js's `runtime`.
+
+### Initialization (init)
+
+i18next completes initialization through `init`. Common core options:
+
+- `lng`: Initial language
+- `ns` / `defaultNS`: Namespace list and default namespace
+- `supportedLngs`: Allowed language set
+- `fallbackLng`: Fallback language when resources are missing (can be an array or mapping)
+- `interpolation`: Interpolation settings, usually configured with `escapeValue: false` in React environments
+
+```ts
+i18next.init({
+  lng: 'zh',
+  ns: ['translation', 'common'],
+  defaultNS: 'translation',
+  supportedLngs: ['zh', 'en'],
+  fallbackLng: ['en'],
+  interpolation: { escapeValue: false },
+});
+```
+
+### `t` Function
+
+`t` is the core API for obtaining translations. It can be used directly from the instance or obtained through react-i18next Hook:
+
+```ts
+i18next.t('welcome');
+```
+
+```tsx
+const { t } = useTranslation();
+t('welcome', { name: 'Modern.js', count: 3 });
+```
+
+`t` supports advanced features such as interpolation, pluralization, and context, which will be explained in detail later.
+
+import PlatformSupport from '@site-docs/components/international/platform-support';
+
+<PlatformSupport />
+
+## Language Code
+
+Language codes are used to identify the current interface language, following the ISO 639-1 standard (`en`, `zh`, etc.), and can also carry region information (`en-US`, `zh-CN`).
+
+- **Supported Language List**: Declared through plugin configuration, so you can know what products need to be generated at compile time.
+- **Default Language**: Used when user language cannot be detected or resources are missing.
+- **Fallback Language Chain**: Chains like `en-US → en → zh` determine the search order when translations are missing.
+
+```ts
+// modern.config.ts
+import { defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    i18nPlugin({
+      localeDetection: {
+        languages: ['zh', 'en', 'ja'],
+        fallbackLanguage: ['zh', 'en'], // Supports fallback chain
+      },
+    }),
+  ],
+});
+```
+
+💡 It is recommended to maintain `supportedLanguages` and `fallbackLanguage` in sync to avoid situations where users switch to unconfigured languages.
+
+## Namespace
+
+Namespaces are used to split translation files by business modules, facilitating code splitting and on-demand loading. The default namespace `translation` is used when not specified.
+
+```ts
+// src/modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      ns: ['translation', 'common', 'dashboard'],
+      defaultNS: 'translation',
+    },
+  },
+});
+```
+
+Using different namespaces in components:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+export function DashboardHeader() {
+  const { t } = useTranslation(['dashboard', 'common']);
+  return (
+    <header>
+      <h1>{t('dashboard:title')}</h1>
+      <button>{t('common:button.refresh')}</button>
+    </header>
+  );
+}
+```
+
+Namespaces can also be combined with dynamic loading to request large amounts of text on demand.
+
+## Resource File Structure
+
+Recommended resource file directory:
+
+```
+locales/
+├── en/
+│   ├── translation.json
+│   ├── common.json
+│   └── dashboard.json
+└── zh/
+    ├── translation.json
+    ├── common.json
+    └── dashboard.json
+```
+
+- **File Naming**: `locales/<language>/<namespace>.json`
+- **Format**: Standard JSON, key-value pairs or nested objects
+- **Organization**: Nested objects are used to represent UI hierarchy, such as buttons, dialogs, etc.
+
+```json
+{
+  "header": {
+    "title": "Welcome",
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  }
+}
+```
+
+You can also directly inject resources through the `resources` option during initialization, or call `addResourceBundle` at runtime:
+
+```ts
+i18next.init({
+  resources: {
+    en: {
+      common: {
+        welcome: 'Welcome',
+      },
+    },
+    zh: {
+      common: {
+        welcome: '欢迎',
+      },
+    },
+  },
+});
+
+i18next.addResourceBundle('en', 'home', { title: 'Home' });
+```
+
+## Translation Key
+
+Translation keys are paths to access translations, usually using dots to represent hierarchy: `common.button.submit`.
+
+Naming convention recommendations:
+
+- Use semantic words, avoid abbreviations
+- Divide prefixes by module (`dashboard.table.*`)
+- Can use `:` to specify namespace (`common:button.submit`)
+- Avoid using complete Chinese text directly as keys
+
+```tsx
+const { t } = useTranslation();
+
+button.textContent = t('common.button.submit', {
+  defaultValue: 'Submit',
+});
+```
+
+## Interpolation and Variables
+
+Interpolation allows dynamic injection of variables into translation text.
+
+**Resource File**:
+
+```json
+{
+  "welcome": "Welcome, {{name}}!",
+  "invite": "{{name}} invites you to join {{project}}",
+  "formattedValue": "Current price: {{value, currency}}"
+}
+```
+
+**Usage**:
+
+```tsx
+const { t } = useTranslation();
+
+return (
+  <>
+    <p>{t('welcome', { name: 'John' })}</p>
+    <p>{t('invite', { name: 'Alice', project: 'Modern.js' })}</p>
+  </>
+);
+```
+
+### Nested Interpolation
+
+You can directly pass objects or multi-level variables:
+
+```json
+{
+  "greeting": "Hello, {{user.name}}, you have {{user.notifications}} new messages"
+}
+```
+
+```tsx
+t('greeting', {
+  user: { name: 'Jay', notifications: 3 },
+});
+```
+
+### Formatted Interpolation
+
+Format numbers, dates, etc. through the `interpolation.format` function:
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      interpolation: {
+        format(value, format, lng) {
+          if (format === 'currency') {
+            return new Intl.NumberFormat(lng, {
+              style: 'currency',
+              currency: lng === 'zh' ? 'CNY' : 'USD',
+            }).format(Number(value));
+          }
+          if (value instanceof Date) {
+            return new Intl.DateTimeFormat(lng, { dateStyle: 'medium' }).format(
+              value,
+            );
+          }
+          return value;
+        },
+      },
+    },
+  },
+});
+```
+
+```tsx
+t('formattedValue', { value: 99.5, format: 'currency' });
+```
+
+### Escaping Interpolation
+
+`react-i18next` escapes interpolation values by default to prevent XSS. If you need to render safe HTML, you need to explicitly enable `interpolation.escapeValue = false` and ensure the data is trustworthy.
+
+## Pluralization
+
+Pluralization automatically selects the appropriate word form based on the language, depending on the `count` parameter.
+
+```json
+{
+  "item": "1 item",
+  "item_plural": "{{count}} items",
+  "item_0": "no items"
+}
+```
+
+```tsx
+t('item', { count: 0 }); // no items
+t('item', { count: 1 }); // 1 item
+t('item', { count: 5 }); // 5 items
+```
+
+Different languages have different pluralization rules, for example:
+
+- **English**: Singular, plural
+- **Russian**: Multiple forms such as one, few, many
+- **Chinese**: Usually only a single form, can use `_0` key to override special text
+
+💡 If you need to customize pluralization rules, you can extend through `i18next.services.pluralResolver`. See advanced usage for details.
+
+## Nested Translation Structure
+
+Nested structures can intuitively reflect UI hierarchy.
+
+```json
+{
+  "common": {
+    "button": {
+      "submit": "Submit",
+      "cancel": "Cancel"
+    }
+  }
+}
+```
+
+Use dots to access in code:
+
+```tsx
+const { t } = useTranslation();
+t('common.button.submit');
+```
+
+Advantages of nested structures:
+
+- Avoid lengthy key names
+- Easy to view module text as a whole in JSON
+- Can be combined with `keyPrefix` to simplify calls: `useTranslation('common', { keyPrefix: 'button' })`
+
+## Fallback Language
+
+When the current language is missing a key, it will continue searching according to the fallback language chain.
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      lng: 'zh-CN',
+      fallbackLng: {
+        'zh-CN': ['zh', 'en'],
+        default: ['en'],
+      },
+    },
+  },
+});
+```
+
+:::tip
+You can fallback from regional languages (such as `zh-CN`) to general languages (`zh`), and finally to the default language (`en`), ensuring that all keys have available text.
+:::
+
+## Language Detection
+
+i18next automatically identifies user language through language detection plugins. Modern.js plugin has built-in browser and server support.
+
+```ts
+import LanguageDetector from 'i18next-browser-languagedetector';
+import i18next from 'i18next';
+
+i18next.use(LanguageDetector).init({
+  supportedLngs: ['zh', 'en', 'ja'],
+  detection: {
+    order: ['path', 'cookie', 'localStorage', 'navigator'],
+    lookupCookie: 'i18next',
+    lookupLocalStorage: 'i18nextLng',
+  },
+});
+```
+
+In Modern.js, you can directly enable built-in detection in the plugin configuration:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    languages: ['zh', 'en'],
+    detection: {
+      order: ['path', 'cookie', 'header'],
+    },
+  },
+});
+```
+
+:::warning
+After enabling detection, there is no need to explicitly set `lng` in `init`. If you manually call `changeLanguage()` without passing a language, it will also automatically infer based on the detection configuration.
+:::
+

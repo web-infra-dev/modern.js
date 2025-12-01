@@ -1,0 +1,416 @@
+---
+title: 基础概念
+---
+
+# 基础概念
+
+在项目集成国际化能力之前，需要了解国际化相关概念。理解核心概念可以帮助你快速建立稳定的翻译体系, 帮助我们更好地解决使用过程中的各种问题，。
+
+## 核心概念
+
+### i18n
+
+`i18n` 是 Internationalization 的缩写，指让应用在不同语言、地区和文化中都能良好运行，需要在设计阶段就考虑多语言资源、数字/日期/货币以及文化差异等因素。
+
+### i18next
+
+i18next 是一个通用的国际化框架，提供语言检测、资源管理、插值、复数等能力。@modern-js/plugin-i18n 默认基于 i18next，请参考其[官方文档](https://www.i18next.com/)获取完整的配置说明。
+
+### react-i18next
+
+react-i18next 是 i18next 的 React 绑定库，提供 `useTranslation`、`Trans` 等 Hook/组件，实现与 React 生命周期良好结合：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+function App() {
+  const { t } = useTranslation();
+  return <h1>{t('welcome')}</h1>;
+}
+```
+
+### i18n 实例
+
+i18next 默认导出一个实例，也支持通过 `createInstance` 生成多实例：
+
+```ts
+import i18next, { createInstance } from 'i18next';
+
+i18next.init({
+  /* ... */
+});
+
+const custom = createInstance();
+await custom.init({
+  /* 独立配置 */
+});
+```
+
+实例负责翻译资源、当前语言、切换语言等功能，也可以在 Modern.js 的 `runtime` 中传入自定义实例。
+
+### 初始化（init）
+
+i18next 通过 `init` 完成初始化，常用核心选项：
+
+- `lng`：初始语言
+- `ns` / `defaultNS`：命名空间列表与默认命名空间
+- `supportedLngs`：允许的语言集合
+- `fallbackLng`：缺失资源时的回退语言（可为数组或映射）
+- `interpolation`：插值设置，React 环境通常配置 `escapeValue: false`
+
+```ts
+i18next.init({
+  lng: 'zh',
+  ns: ['translation', 'common'],
+  defaultNS: 'translation',
+  supportedLngs: ['zh', 'en'],
+  fallbackLng: ['en'],
+  interpolation: { escapeValue: false },
+});
+```
+
+### `t` 函数
+
+`t` 是获取翻译的核心 API，可直接从实例使用，也可以通过 react-i18next Hook 获得：
+
+```ts
+i18next.t('welcome');
+```
+
+```tsx
+const { t } = useTranslation();
+t('welcome', { name: 'Modern.js', count: 3 });
+```
+
+`t` 支持插值、复数、上下文等高级特性，后文会展开说明。
+
+import PlatformSupport from '@site-docs/components/international/platform-support';
+
+<PlatformSupport />
+
+## 语言代码
+
+语言代码用于标识当前界面语言，遵循 ISO 639-1 标准（`en`、`zh` 等），也可以携带地区信息（`en-US`、`zh-CN`）。
+
+- **支持语言列表**：通过插件配置声明，编译期即可获知需要生成的产物。
+- **默认语言**：当检测不到用户语言或资源缺失时使用。
+- **回退语言链**：`en-US → en → zh` 这类链决定缺失翻译时的查找顺序。
+
+```ts
+// modern.config.ts
+import { defineConfig } from '@modern-js/app-tools';
+import { i18nPlugin } from '@modern-js/plugin-i18n';
+
+export default defineConfig({
+  plugins: [
+    i18nPlugin({
+      localeDetection: {
+        languages: ['zh', 'en', 'ja'],
+        fallbackLanguage: ['zh', 'en'], // 支持回退链
+      },
+    }),
+  ],
+});
+```
+
+💡 建议将 `supportedLanguages` 与 `fallbackLanguage` 同步维护，避免出现用户切换到未配置语言的情况。
+
+## 命名空间
+
+命名空间（Namespace）用于按照业务模块拆分翻译文件，便于代码分割与按需加载。未指定时使用默认命名空间 `translation`。
+
+```ts
+// src/modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      ns: ['translation', 'common', 'dashboard'],
+      defaultNS: 'translation',
+    },
+  },
+});
+```
+
+在组件中使用不同命名空间：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+export function DashboardHeader() {
+  const { t } = useTranslation(['dashboard', 'common']);
+  return (
+    <header>
+      <h1>{t('dashboard:title')}</h1>
+      <button>{t('common:button.refresh')}</button>
+    </header>
+  );
+}
+```
+
+命名空间还可以和动态加载结合，按需请求大体量文案。
+
+## 资源文件结构
+
+推荐的资源文件目录：
+
+```
+locales/
+├── en/
+│   ├── translation.json
+│   ├── common.json
+│   └── dashboard.json
+└── zh/
+    ├── translation.json
+    ├── common.json
+    └── dashboard.json
+```
+
+- **文件命名**：`locales/<language>/<namespace>.json`
+- **格式**：标准 JSON，键值对或嵌套对象
+- **组织**：嵌套对象用于表示 UI 层级，例如按钮、对话框等
+
+```json
+{
+  "header": {
+    "title": "欢迎",
+    "actions": {
+      "save": "保存",
+      "cancel": "取消"
+    }
+  }
+}
+```
+
+也可以通过 `resources` 选项在初始化时直接注入资源，或在运行时调用 `addResourceBundle`：
+
+```ts
+i18next.init({
+  resources: {
+    en: {
+      common: {
+        welcome: 'Welcome',
+      },
+    },
+    zh: {
+      common: {
+        welcome: '欢迎',
+      },
+    },
+  },
+});
+
+i18next.addResourceBundle('en', 'home', { title: 'Home' });
+```
+
+## 翻译键
+
+翻译键（Translation Key）是访问翻译的路径，通常使用点号表示层级：`common.button.submit`。
+
+命名规范建议：
+
+- 使用语义化单词，避免缩写
+- 按模块划分前缀（`dashboard.table.*`）
+- 可使用 `:` 指定命名空间（`common:button.submit`）
+- 避免直接把完整中文文案当作键
+
+```tsx
+const { t } = useTranslation();
+
+button.textContent = t('common.button.submit', {
+  defaultValue: 'Submit',
+});
+```
+
+## 插值和变量
+
+插值（Interpolation）允许在翻译文本中动态注入变量。
+
+**资源文件**：
+
+```json
+{
+  "welcome": "欢迎，{{name}}！",
+  "invite": "{{name}} 邀请你加入 {{project}}",
+  "formattedValue": "当前价格：{{value, currency}}"
+}
+```
+
+**用法**：
+
+```tsx
+const { t } = useTranslation();
+
+return (
+  <>
+    <p>{t('welcome', { name: 'John' })}</p>
+    <p>{t('invite', { name: 'Alice', project: 'Modern.js' })}</p>
+  </>
+);
+```
+
+### 嵌套插值
+
+可以直接传递对象或多级变量：
+
+```json
+{
+  "greeting": "你好，{{user.name}}，你有 {{user.notifications}} 条新消息"
+}
+```
+
+```tsx
+t('greeting', {
+  user: { name: 'Jay', notifications: 3 },
+});
+```
+
+### 格式化插值
+
+通过 `interpolation.format` 函数格式化数字、日期等：
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      interpolation: {
+        format(value, format, lng) {
+          if (format === 'currency') {
+            return new Intl.NumberFormat(lng, {
+              style: 'currency',
+              currency: lng === 'zh' ? 'CNY' : 'USD',
+            }).format(Number(value));
+          }
+          if (value instanceof Date) {
+            return new Intl.DateTimeFormat(lng, { dateStyle: 'medium' }).format(
+              value,
+            );
+          }
+          return value;
+        },
+      },
+    },
+  },
+});
+```
+
+```tsx
+t('formattedValue', { value: 99.5, format: 'currency' });
+```
+
+### 转义插值
+
+`react-i18next` 默认会对插值值进行转义以防止 XSS。如需渲染安全的 HTML，需显式开启 `interpolation.escapeValue = false` 并确保数据可信。
+
+## 复数
+
+复数处理根据语言自动选择合适的词形，依赖 `count` 参数。
+
+```json
+{
+  "item": "1 个条目",
+  "item_plural": "{{count}} 个条目",
+  "item_0": "没有条目"
+}
+```
+
+```tsx
+t('item', { count: 0 }); // 没有条目
+t('item', { count: 1 }); // 1 个条目
+t('item', { count: 5 }); // 5 个条目
+```
+
+不同语言具有不同的复数规则，例如：
+
+- **英语**：单数、复数
+- **俄语**：one、few、many 多种形式
+- **中文**：通常只有单一形式，可使用 `_0` 键覆盖特殊文案
+
+💡 如果需要自定义复数规则，可通过 `i18next.services.pluralResolver` 扩展，详见高级用法。
+
+## 嵌套翻译结构
+
+嵌套结构可以直观反映 UI 层级。
+
+```json
+{
+  "common": {
+    "button": {
+      "submit": "提交",
+      "cancel": "取消"
+    }
+  }
+}
+```
+
+在代码中使用点号访问：
+
+```tsx
+const { t } = useTranslation();
+t('common.button.submit');
+```
+
+嵌套结构的优势：
+
+- 避免键名冗长
+- 便于在 JSON 中整体查看模块文案
+- 可搭配 `keyPrefix` 精简调用：`useTranslation('common', { keyPrefix: 'button' })`
+
+## 回退语言
+
+当当前语言缺少某个键时，会按回退语言链继续查找。
+
+```ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      lng: 'zh-CN',
+      fallbackLng: {
+        'zh-CN': ['zh', 'en'],
+        default: ['en'],
+      },
+    },
+  },
+});
+```
+
+:::tip
+可以将地区语言（如 `zh-CN`）回退到通用语言（`zh`），最后再回退到默认语言（`en`），确保所有键都有可用文本。
+:::
+
+## 语言检测
+
+i18next 通过语言检测插件自动识别用户语言，Modern.js 插件内置浏览器与服务端支持。
+
+```ts
+import LanguageDetector from 'i18next-browser-languagedetector';
+import i18next from 'i18next';
+
+i18next.use(LanguageDetector).init({
+  supportedLngs: ['zh', 'en', 'ja'],
+  detection: {
+    order: ['path', 'cookie', 'localStorage', 'navigator'],
+    lookupCookie: 'i18next',
+    lookupLocalStorage: 'i18nextLng',
+  },
+});
+```
+
+Modern.js 中可以直接在插件配置里开启内置检测：
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    i18nextDetector: true,
+    languages: ['zh', 'en'],
+    detection: {
+      order: ['path', 'cookie', 'header'],
+    },
+  },
+});
+```
+
+:::warning
+启用检测后，无需在 `init` 中显式设置 `lng`。如果手动调用 `changeLanguage()` 未传入语言，也会根据检测配置自动推断。
+:::

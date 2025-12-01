@@ -173,6 +173,99 @@ function Navigation() {
 }
 ```
 
+## Runtime 插件 API
+
+在 Runtime 插件的 `onBeforeRender` 钩子中，可以通过 `context.changeLanguage` 方法修改语言。这对于需要根据请求信息（如用户偏好、地理位置等）动态设置语言的场景非常有用。
+
+### context.changeLanguage
+
+在 `onBeforeRender` 钩子中，i18n 插件会在 `context` 上添加 `changeLanguage` 方法，供其他 Runtime 插件使用。
+
+**类型定义：**
+
+```ts
+interface TInternalRuntimeContext {
+  i18nInstance?: I18nInstance;
+  changeLanguage?: (lang: string) => Promise<void>;
+}
+```
+
+### 使用示例
+
+```ts
+import type { RuntimePlugin } from '@modern-js/runtime';
+
+const myRuntimePlugin = (): RuntimePlugin => ({
+  name: 'my-runtime-plugin',
+  setup: api => {
+    api.onBeforeRender(async context => {
+      // 检查是否有 changeLanguage 方法（确保 i18n 插件已加载）
+      if (context.changeLanguage) {
+        // 根据某些条件决定语言
+        const userLang = getUserLanguageFromRequest(context);
+
+        // 修改语言
+        await context.changeLanguage(userLang);
+      }
+    });
+  },
+});
+
+function getUserLanguageFromRequest(context: any): string {
+  // 从请求头、Cookie 或其他来源获取用户语言
+  const acceptLanguage = context.ssrContext?.req?.headers['accept-language'];
+  // 解析并返回合适的语言代码
+  return parseAcceptLanguage(acceptLanguage) || 'zh';
+}
+
+export default myRuntimePlugin;
+```
+
+### 注意事项
+
+1. **执行顺序**：确保 i18n 插件在其他使用 `changeLanguage` 的插件之前注册，这样 `context.changeLanguage` 才会可用。
+
+2. **异步操作**：`changeLanguage` 是异步方法，需要使用 `await` 等待完成。
+
+3. **错误处理**：如果传入无效的语言代码，会抛出错误，建议添加错误处理：
+
+```ts
+api.onBeforeRender(async context => {
+  if (context.changeLanguage) {
+    try {
+      await context.changeLanguage('zh');
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
+  }
+});
+```
+
+4. **语言验证**：建议在调用 `changeLanguage` 前验证语言是否在支持的语言列表中：
+
+```ts
+api.onBeforeRender(async context => {
+  if (context.changeLanguage && context.i18nInstance) {
+    const supportedLngs = context.i18nInstance.options?.supportedLngs || [];
+    const targetLang = 'zh';
+
+    if (supportedLngs.includes(targetLang)) {
+      await context.changeLanguage(targetLang);
+    }
+  }
+});
+```
+
+:::info
+`changeLanguage` 方法会：
+
+- 更新 i18n 实例的语言
+- 在浏览器环境中缓存语言选择（Cookie/LocalStorage）
+- 触发语言切换相关的回调
+
+但不会自动更新 URL 路径，如果需要更新 URL，需要配合路由插件或手动处理。
+:::
+
 ## 与 react-i18next 集成
 
 插件完全兼容 `react-i18next`，可以使用 `useTranslation` Hook 和其他 `react-i18next` 功能。

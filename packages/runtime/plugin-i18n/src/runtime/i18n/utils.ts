@@ -4,6 +4,7 @@ import { mergeBackendOptions } from './backend';
 import { HttpBackendWithSave } from './backend/middleware';
 import { useI18nextBackend } from './backend/middleware';
 import { SdkBackend } from './backend/sdk-backend';
+import { cacheUserLanguage } from './detection';
 import { mergeDetectionOptions } from './detection';
 import type { I18nInitOptions, I18nInstance } from './instance';
 import {
@@ -59,6 +60,11 @@ export const buildInitOptions = async (
     supportedLngs: languages,
     detection: mergedDetection,
     initImmediate: sanitizedUserInitOptions?.initImmediate ?? true,
+    interpolation: {
+      ...(sanitizedUserInitOptions?.interpolation || {}),
+      escapeValue:
+        sanitizedUserInitOptions?.interpolation?.escapeValue ?? false,
+    },
     react: {
       ...(sanitizedUserInitOptions?.react || {}),
       useSuspense: defaultUseSuspense,
@@ -129,6 +135,40 @@ export const ensureLanguageMatch = async (
   if (i18nInstance.language !== finalLanguage) {
     await i18nInstance.setLang?.(finalLanguage);
     await i18nInstance.changeLanguage?.(finalLanguage);
+  }
+};
+
+/**
+ * Change language for i18n instance in onBeforeRender hook
+ * This function can be used by other runtime plugins to change language
+ * @param i18nInstance - The i18n instance
+ * @param newLang - The new language code to switch to
+ * @param options - Optional configuration
+ */
+export const changeI18nLanguage = async (
+  i18nInstance: I18nInstance,
+  newLang: string,
+  options?: {
+    detectionOptions?: any;
+  },
+): Promise<void> => {
+  if (!newLang || typeof newLang !== 'string') {
+    throw new Error('Language must be a non-empty string');
+  }
+
+  if (!i18nInstance) {
+    throw new Error('i18nInstance is required');
+  }
+
+  // Update i18n instance language
+  await i18nInstance.setLang?.(newLang);
+  await i18nInstance.changeLanguage?.(newLang);
+
+  // Cache language in browser environment
+  if (isBrowser()) {
+    const detectionOptions =
+      options?.detectionOptions || i18nInstance.options?.detection;
+    cacheUserLanguage(i18nInstance, newLang, detectionOptions);
   }
 };
 
