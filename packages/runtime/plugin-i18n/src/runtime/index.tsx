@@ -1,10 +1,10 @@
 import {
   type RuntimePlugin,
-  type TRuntimeContext,
   isBrowser,
   useRuntimeContext,
 } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
+import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type {
@@ -52,7 +52,7 @@ export interface I18nPluginOptions {
   [key: string]: any;
 }
 
-interface RuntimeContextWithI18n extends TRuntimeContext {
+interface RuntimeContextWithI18n extends TInternalRuntimeContext {
   i18nInstance?: I18nInstance;
 }
 

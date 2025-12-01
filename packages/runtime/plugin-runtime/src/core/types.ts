@@ -48,8 +48,6 @@ export type SSRServerContext = Pick<
   | 'mode'
   | 'loaderContext'
   | 'reporter'
-  | 'logger'
-  | 'metrics'
   | 'routeManifest'
 > & {
   request: BaseSSRServerContext['request'] & {
@@ -60,4 +58,9 @@ export type SSRServerContext = Pick<
   onError: OnError;
   onTiming: OnTiming;
   useJsonScript?: boolean;
+};
+
+export type RequestContext = {
+  request: BaseSSRServerContext['request'];
+  response: BaseSSRServerContext['response'];
 };
