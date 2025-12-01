@@ -6,8 +6,10 @@ import type {
   ServerUserConfig,
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
+import type { Entrypoint } from '@modern-js/types';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { resolveSSRMode } from './mode';
 
 const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
@@ -42,16 +44,32 @@ const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   return false;
 };
 
-const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
-  const { output } = config;
+/**
+ * Check if any entry uses string SSR mode.
+ * Returns true if at least one entry uses 'string' SSR mode.
+ */
+const checkUseStringSSR = (
+  config: AppToolsNormalizedConfig,
+  appDirectory?: string,
+  entrypoints?: Entrypoint[],
+): boolean => {
+  // If entrypoints are provided, check each entry
+  if (entrypoints && entrypoints.length > 0) {
+    for (const entrypoint of entrypoints) {
+      const ssrMode = resolveSSRMode({
+        entry: entrypoint.entryName,
+        config,
+        appDirectory,
+        nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+      });
+      if (ssrMode === 'string') {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  if (output?.ssg) {
-    return true;
-  }
-  if (output?.ssgByEntries && Object.keys(output.ssgByEntries).length > 0) {
-    return true;
-  }
-  return hasStringSSREntry(config);
+  return true;
 };
 
 const ssrBuilderPlugin = (
@@ -72,10 +90,13 @@ const ssrBuilderPlugin = (
           ? 'edge'
           : 'node';
 
+      const appContext = modernAPI.getAppContext();
+      const { appDirectory, entrypoints } = appContext;
+
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
-        checkUseStringSSR(userConfig);
+        checkUseStringSSR(userConfig, appDirectory, entrypoints);
 
       return mergeEnvironmentConfig(config, {
         source: {
