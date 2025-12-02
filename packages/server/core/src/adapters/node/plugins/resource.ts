@@ -20,8 +20,12 @@ import type {
 import { uniqueKeyByRoute } from '../../../utils';
 
 export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
+  // Only process routes with entryName, which are HTML template routes.
+  // Public static file routes don't have entryName and shouldn't be processed here.
+  const htmlRoutes = routes.filter(route => route.entryName);
+
   const htmls = await Promise.all(
-    routes.map(async route => {
+    htmlRoutes.map(async route => {
       let html: string | undefined;
       try {
         const htmlPath = path.join(pwd, route.entryPath);
