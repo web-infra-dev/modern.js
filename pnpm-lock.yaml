@@ -2128,13 +2128,13 @@ importers:
 
   packages/toolkit/create:
     dependencies:
+      '@modern-js/i18n-utils':
+        specifier: workspace:*
+        version: link:../i18n-utils
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
     devDependencies:
-      '@modern-js/i18n-utils':
-        specifier: workspace:*
-        version: link:../i18n-utils
       '@rslib/core':
         specifier: 0.18.2
         version: 0.18.2(typescript@5.6.3)

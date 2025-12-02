@@ -40,11 +40,11 @@
     "start": "node ./dist/index.js"
   },
   "dependencies": {
-    "handlebars": "^4.7.8"
+    "handlebars": "^4.7.8",
+    "@modern-js/i18n-utils": "workspace:*"
   },
   "devDependencies": {
     "@rslib/core": "0.18.2",
-    "@modern-js/i18n-utils": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
   },
