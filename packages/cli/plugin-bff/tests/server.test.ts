@@ -35,7 +35,6 @@ export async function serverInit({
         tools: {},
         server: {},
         html: {},
-        runtime: {},
         bff: {},
         security: {},
       },

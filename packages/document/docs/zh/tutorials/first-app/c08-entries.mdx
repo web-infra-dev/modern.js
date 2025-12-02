@@ -1,6 +1,7 @@
 ---
 title: 添加应用入口
 ---
+
 # 添加应用入口
 
 上一个章节中，我们基本完成了联系人列表应用的开发，介绍了 Modern.js 中部分功能的用法，以及推荐的最佳实践。
@@ -97,10 +98,6 @@ mv src/myapp src/contacts
 import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  runtime: {
-    router: true,
-    state: true,
-  },
   server: {
     ssr: true,
     ssrByEntries: {

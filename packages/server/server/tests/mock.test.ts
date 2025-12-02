@@ -13,7 +13,6 @@ function getDefaultConfig() {
     source: {},
     tools: {},
     server: {},
-    runtime: {},
     bff: {},
     dev: {},
     security: {},
