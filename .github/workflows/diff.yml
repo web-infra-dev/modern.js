@@ -2,8 +2,10 @@ name: Diff
 
 on:
   pull_request:
-    types: [opened, synchronize, closed]
-    branches: [main]
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
 
 jobs:
   Build:
