@@ -102,7 +102,7 @@
     "react-dom": ">=17.0.2",
     "i18next": ">=25.6.3",
     "react-i18next": ">=15.7.4",
-    "@modern-js/runtime": "workspace:2.68.1"
+    "@modern-js/runtime": "workspace:^2.68.1"
   },
   "peerDependenciesMeta": {
     "i18next": {
