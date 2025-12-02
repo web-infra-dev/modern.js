@@ -29,5 +29,10 @@
     "name": "troubleshooting",
     "label": "troubleshooting"
   },
-  "deprecated"
+  "deprecated",
+  {
+    "type": "dir",
+    "name": "upgrade",
+    "label": "从 Modern.js 2.0 升级"
+  }
 ]

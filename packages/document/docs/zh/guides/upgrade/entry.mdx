@@ -1,0 +1,468 @@
+# 入口变更
+
+本章节介绍 Modern.js 从 2.0 升级到 3.0 时，页面入口相关的变更内容。
+
+## 概述
+
+Modern.js 3.0 对入口机制进行了优化和简化，主要变更包括：
+
+- **入口文件命名变更**：自定义入口文件从 `index.[jt]sx` 改为 `entry.[jt]sx`
+- **Bootstrap 函数替换**：使用新的 `createRoot` 和 `render` API
+- **运行时配置迁移**：`App.config` 和 `routes/layout` 的 `config` 导出需要迁移
+- **初始化逻辑迁移**：`App.init` 和 `routes/layout` 的 `init` 导出需要改为运行时插件
+
+## 入口类型识别
+
+在开始迁移前，首先需要识别你的项目使用的入口类型。
+
+### 入口识别条件
+
+Modern.js 会扫描目录并识别符合以下**任一条件**的入口：
+
+1. **具有 `routes/` 目录** → 约定式路由入口
+2. **具有 `App.[jt]sx?` 文件** → 自控式路由入口
+3. **具有 `index.[jt]sx?` 文件（2.0）或 `entry.[jt]sx?` 文件（3.0）**→ 自定义入口
+
+### 单入口 vs 多入口
+
+**单入口应用**：默认扫描 `src/` 目录
+
+```bash
+src/
+├── routes/        # 或者
+├── App.tsx        # 或者
+└── index.tsx      # 2.0 版本
+```
+
+**多入口应用**：扫描 `src/` 目录下的一级子目录
+
+```bash
+src/
+├── entry1/
+│   └── routes/    # 每个子目录都是一个入口
+└── entry2/
+    └── App.tsx
+```
+
+:::tip
+你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 配置修改入口扫描目录。
+:::
+
+## 迁移步骤
+
+本小节中的迁移操作都是仅当项目中实际存在对应用法时才需要执行，例如 `bootstrap` 函数、`App.config/App.init`、`routes/layout.tsx` 中的 `config/init` 函数等。
+
+### 1.自定义入口文件重命名
+
+如果你的项目使用了自定义入口文件（`index.[jt]sx`），需要将其重命名为 `entry.[jt]sx`。
+
+**2.0 版本：**
+
+```bash
+src/
+└── index.tsx
+```
+
+**3.0 版本：**
+
+```bash
+src/
+└── entry.tsx
+```
+
+### 2.Bootstrap 函数迁移
+
+如果你的入口文件导出了一个接收 `App` 和 `bootstrap` 参数的函数，需要改用新的 API。
+
+**2.0 版本：**
+
+```tsx title="src/index.tsx"
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // 执行初始化操作
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+**3.0 版本：**
+
+```tsx title="src/entry.tsx"
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+// 创建根组件
+const ModernRoot = createRoot();
+
+// 执行初始化操作
+async function beforeRender() {
+  await initSomething();
+}
+
+// 渲染应用
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+
+:::info 说明
+- `createRoot()` 返回的组件对应 `routes/` 目录生成或 `App.tsx` 导出的组件
+- `render()` 函数用于处理渲染与挂载组件
+
+:::
+
+### 3.App.config 迁移
+
+如果你在 `App.[tj]sx` 中定义了 `App.config`，需要将其迁移到运行时配置文件中。
+
+**2.0 版本：**
+
+```tsx title="src/App.tsx"
+const App = () => {
+  return <div>Hello</div>;
+};
+
+App.config = {
+  router: {
+    supportHtml5History: true,
+  },
+};
+
+export default App;
+```
+
+**3.0 版本：**
+
+在入口同级目录创建 `modern.runtime.ts`：
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    supportHtml5History: true,
+  },
+});
+```
+
+:::warning 注意
+Modern.js 3.0 不再支持在 `modern.config.ts` 中配置 runtime，必须使用 `modern.runtime.ts` 文件。
+:::
+
+### 4.App.init 迁移
+
+如果你在 `App.[tj]sx` 中定义了 `App.init`，需要将其改为运行时插件。
+
+**2.0 版本：**
+
+```tsx title="src/App.tsx"
+const App = () => {
+  return <div>Hello</div>;
+};
+
+App.init = (context) => {
+  context.store = createStore();
+  context.request = (url: string) => fetch(url);
+};
+
+export default App;
+```
+
+**3.0 版本：**
+
+```ts title="src/modern.runtime.ts"
+import type { RuntimePlugin } from '@modern-js/runtime';
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+const initPlugin = (): RuntimePlugin => ({
+  name: 'init-plugin',
+  setup: (api) => {
+    return {
+      init({ context }) {
+        context.store = createStore();
+        context.request = (url: string) => fetch(url);
+      },
+    };
+  },
+});
+
+export default defineRuntimeConfig({
+  plugins: [initPlugin()],
+});
+```
+
+### 5.routes/layout.tsx 中的 config 导出迁移
+
+如果你在 `routes/layout.tsx` 中导出了 `config` 函数，需要将其迁移到运行时配置文件。
+
+**2.0 版本：**
+
+```tsx title="src/routes/layout.tsx"
+export const config = () => {
+  return {
+    router: {
+      supportHtml5History: true,
+    },
+  };
+};
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**3.0 版本：**
+
+```tsx title="src/routes/layout.tsx"
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    supportHtml5History: true,
+  },
+});
+```
+
+### 6.routes/layout.tsx 中的 init 导出迁移
+
+如果你在 `routes/layout.tsx` 中导出了 `init` 函数，需要将其改为运行时插件。
+
+**2.0 版本：**
+
+```tsx title="src/routes/layout.tsx"
+export const init = (context) => {
+  context.request = (url: string) => fetch(url);
+};
+
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+**3.0 版本：**
+
+```tsx title="src/routes/layout.tsx"
+export default function Layout() {
+  return <Outlet />;
+}
+```
+
+```ts title="src/modern.runtime.ts"
+import type { RuntimePlugin } from '@modern-js/runtime';
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+const initPlugin = (): RuntimePlugin => ({
+  name: 'init-plugin',
+  setup: (api) => {
+    return {
+      init({ context }) {
+        context.request = (url: string) => fetch(url);
+      },
+    };
+  },
+});
+
+export default defineRuntimeConfig({
+  plugins: [initPlugin()],
+});
+```
+
+
+## 多入口应用迁移注意事项
+
+对于多入口应用，需要在 `src/modern.runtime.ts` 中使用函数形式的配置，根据入口名称返回不同的运行时配置。
+
+### 配置方式
+
+**目录结构：**
+
+```bash
+src/
+├── modern.runtime.ts  # 统一的运行时配置文件
+├── entry1/
+│   └── routes/
+└── entry2/
+    └── App.tsx
+```
+
+**配置示例：**
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig((entryName) => {
+  // 公共配置
+  const commonConfig = {
+    plugins: [commonPlugin()],
+  };
+
+  // 根据入口名称返回特定配置
+  if (entryName === 'entry1') {
+    return {
+      ...commonConfig,
+      router: {
+        supportHtml5History: true,
+      },
+      plugins: [
+        ...commonConfig.plugins,
+        entry1Plugin(),
+      ],
+    };
+  }
+
+  if (entryName === 'entry2') {
+    return {
+      ...commonConfig,
+      router: {
+        supportHtml5History: false,
+      },
+      plugins: [
+        ...commonConfig.plugins,
+        entry2Plugin(),
+      ],
+    };
+  }
+
+  // 默认配置
+  return commonConfig;
+});
+```
+
+:::info 说明
+- `entryName` 参数对应入口目录名称
+- 主入口（与 `package.json` 中 `name` 同名）：传入的是该目录名
+- 其他入口：传入的是入口目录名
+
+:::
+
+### 迁移注意事项
+
+1. **合并同一入口的配置**：如果同一入口下同时存在 `App.config/App.init` 和 `routes/layout.tsx` 的 `config/init`，需要将它们合并到 `src/modern.runtime.ts` 文件中对应入口的配置里
+
+2. **多个插件并列配置**：多个运行时插件可以在 `plugins` 数组中并列配置
+
+3. **清理旧代码**：迁移完成后，记得删除原文件中的：
+   - `App.config` 属性
+   - `App.init` 方法
+   - `routes/layout.tsx` 中的 `config` 导出
+   - `routes/layout.tsx` 中的 `init` 导出
+
+### 迁移示例
+
+假设你有一个 2.0 版本的多入口应用：
+
+**2.0 版本目录结构：**
+
+```bash
+src/
+├── main/
+│   ├── routes/
+│   │   └── layout.tsx  # 含 config 和 init
+│   └── App.tsx         # 含 App.config 和 App.init
+└── admin/
+    └── routes/
+        └── layout.tsx  # 含 config 和 init
+```
+
+**2.0 版本配置：**
+
+```tsx title="src/main/App.tsx"
+const App = () => <div>Main App</div>;
+
+App.config = {
+  router: { supportHtml5History: true },
+};
+
+App.init = (context) => {
+  context.mainData = 'main';
+};
+```
+
+```tsx title="src/admin/routes/layout.tsx"
+export const config = () => ({
+  router: { supportHtml5History: false },
+});
+
+export const init = (context) => {
+  context.adminData = 'admin';
+};
+```
+
+**3.0 版本迁移后：**
+
+```bash
+src/
+├── modern.runtime.ts  # 新增统一配置文件
+├── main/
+│   ├── routes/
+│   │   └── layout.tsx  # 移除 config 和 init
+│   └── App.tsx         # 移除 App.config 和 App.init
+└── admin/
+    └── routes/
+        └── layout.tsx  # 移除 config 和 init
+```
+
+```ts title="src/modern.runtime.ts"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import type { RuntimePlugin } from '@modern-js/runtime';
+
+// main 入口的初始化插件
+const mainInitPlugin = (): RuntimePlugin => ({
+  name: 'main-init-plugin',
+  setup: (api) => {
+    return {
+      init({ context }) {
+        context.mainData = 'main';
+      },
+    };
+  },
+});
+
+// admin 入口的初始化插件
+const adminInitPlugin = (): RuntimePlugin => ({
+  name: 'admin-init-plugin',
+  setup: (api) => {
+    return {
+      init({ context }) {
+        context.adminData = 'admin';
+      },
+    };
+  },
+});
+
+export default defineRuntimeConfig((entryName) => {
+  if (entryName === 'main') {
+    return {
+      router: {
+        supportHtml5History: true,
+      },
+      plugins: [mainInitPlugin()],
+    };
+  }
+
+  if (entryName === 'admin') {
+    return {
+      router: {
+        supportHtml5History: false,
+      },
+      plugins: [adminInitPlugin()],
+    };
+  }
+
+  return {};
+});
+```
+
+## 相关链接
+
+- [页面入口](/guides/concept/entries)
+- [运行时配置](/configure/app/runtime/0-intro)
+- [Runtime 插件](/plugin/introduction.html#runtime-插件)
+- [source.entries 配置](/configure/app/source/entries)
+- [source.entriesDir 配置](/configure/app/source/entries-dir)
