@@ -537,7 +537,7 @@ importers:
     dependencies:
       '@modern-js/sandpack-react':
         specifier: workspace:*
-        version: link:../generator/sandpack-react
+        version: link:../toolkit/sandpack-react
       mermaid:
         specifier: ^11.12.1
         version: 11.12.1
@@ -578,67 +578,6 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
-      typescript:
-        specifier: ^5
-        version: 5.6.3
-
-  packages/generator/sandpack-react:
-    dependencies:
-      '@codesandbox/sandpack-react':
-        specifier: ^2.20.0
-        version: 2.20.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@swc/helpers':
-        specifier: ^0.5.17
-        version: 0.5.17
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-      react-dom:
-        specifier: ^19.2.0
-        version: 19.2.0(react@19.2.0)
-    devDependencies:
-      '@modern-js/codesmith-api-handlebars':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
-      '@modern-js/create':
-        specifier: workspace:*
-        version: link:../../toolkit/create
-      '@modern-js/rslib':
-        specifier: workspace:*
-        version: link:../../../scripts/rslib
-      '@rslib/core':
-        specifier: 0.18.2
-        version: 0.18.2(typescript@5.6.3)
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.8.8
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.1.8
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.8)
-      '@types/recursive-readdir':
-        specifier: ^2.2.4
-        version: 2.2.4
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
-      recursive-readdir:
-        specifier: ^2.2.3
-        version: 2.2.3
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
@@ -1845,6 +1784,67 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
+
+  packages/toolkit/sandpack-react:
+    dependencies:
+      '@codesandbox/sandpack-react':
+        specifier: ^2.20.0
+        version: 2.20.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@swc/helpers':
+        specifier: ^0.5.17
+        version: 0.5.17
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.0(react@19.2.0)
+    devDependencies:
+      '@modern-js/codesmith-api-handlebars':
+        specifier: 2.6.8
+        version: 2.6.8(@modern-js/codesmith@2.6.8)
+      '@modern-js/codesmith-utils':
+        specifier: 2.6.8
+        version: 2.6.8
+      '@modern-js/create':
+        specifier: workspace:*
+        version: link:../create
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
+      '@rslib/core':
+        specifier: 0.18.2
+        version: 0.18.2(typescript@5.6.3)
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20
+        version: 20.8.8
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.1.8
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.1.6(@types/react@19.1.8)
+      '@types/recursive-readdir':
+        specifier: ^2.2.4
+        version: 2.2.4
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
+      recursive-readdir:
+        specifier: ^2.2.3
+        version: 2.2.3
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -12795,10 +12795,6 @@ packages:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
 
-  mime-db@1.53.0:
-    resolution: {integrity: sha512-oHlN/w+3MQ3rba9rqFr6V/ypF10LSkdwUysQL7GkXoTgIWeV+tcXGA852TBxH+gsh8UWoyhR1hKcoMJTuWflpg==}
-    engines: {node: '>= 0.6'}
-
   mime-db@1.54.0:
     resolution: {integrity: sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==}
     engines: {node: '>= 0.6'}
@@ -17603,7 +17599,7 @@ snapshots:
       '@codesandbox/nodebox': 0.1.8
       buffer: 6.0.3
       dequal: 2.0.3
-      mime-db: 1.53.0
+      mime-db: 1.54.0
       outvariant: 1.4.0
       static-browser-server: 1.0.3
 
@@ -26012,8 +26008,6 @@ snapshots:
 
   mime-db@1.52.0: {}
 
-  mime-db@1.53.0: {}
-
   mime-db@1.54.0: {}
 
   mime-types@2.1.35:
@@ -28493,7 +28487,7 @@ snapshots:
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
       dotenv: 16.4.7
-      mime-db: 1.53.0
+      mime-db: 1.54.0
       outvariant: 1.4.0
 
   statuses@1.5.0: {}
