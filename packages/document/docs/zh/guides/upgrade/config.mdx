@@ -127,7 +127,7 @@ export default {
 
 **处理步骤**:
 1. 检查项目中是否有 `.browserslistrc` 文件
-2. 检查 `edenx.config.[ts|js]` 中是否配置了 `output.overrideBrowserslist`
+2. 检查 `modern.config.[ts|js]` 中是否配置了 `output.overrideBrowserslist`
 3. 检查 package.json 中是否配置了 browserslist
 
 如果都没有，则创建 `.browserslistrc` 文件，内容为支持 ES6 的浏览器：
@@ -537,46 +537,6 @@ dev: {
 
 ## plugins
 
-### autoLoadPlugins
-
-**变更内容**: 该配置已被废弃，需要手动注册插件。
-
-**处理步骤**:
-1. 移除 `autoLoadPlugins` 配置
-2. 手动导入并注册需要使用的插件
-
-**支持的插件变量名**:
-- `@edenx/app-tools`: `appTools`
-- `@edenx/plugin-slardar-web`: `slardarWebPlugin`
-- `@edenx/plugin-i18n`: `i18nPlugin`
-- `@edenx/plugin-starling-intl`: `starlingIntlPlugin`
-- `@edenx/plugin-bff`: `bffPlugin`
-- `@edenx/plugin-gulu`: `guluPlugin`
-- `@edenx/plugin-gulux`: `guluxPlugin`
-- `@edenx/plugin-ssg`: `ssgPlugin`
-- `@edenx/plugin-garfish`: `garfishPlugin`
-
-**迁移示例**:
-```typescript
-// v2 - 自动加载插件
-export default {
-  autoLoadPlugins: true
-}
-
-// v3 - 手动注册插件
-import { defineConfig, appTools } from '@edenx/app-tools';
-import { i18nPlugin } from '@edenx/plugin-i18n';
-import { ssgPlugin } from '@edenx/plugin-ssg';
-
-export default defineConfig({
-  plugins: [
-    appTools(),
-    i18nPlugin(),
-    ssgPlugin()
-  ]
-})
-```
-
 ### app-tools 插件
 
 **变更内容**: 该插件不需要传入任何参数。
@@ -594,25 +554,6 @@ plugins: [
 plugins: [
   appTools()
 ],
-```
-
-### plugin-gecko
-
-**变更内容**: 按以下步骤处理
-
-**处理步骤**:
-1. 检测 `edenx.config.[tj]s` 中是否有注册 `@edenx/plugin-gecko`
-2. 如果有，将 gecko 插件的注册相关代码移除或注释
-3. 添加注释说明直接使用 gecko 原子服务
-
-**迁移示例**:
-```typescript
-// 移除 gecko 插件注册代码
-// 请直接使用 gecko 原子服务 [Gecko 原子服务用户文档](https://bytedance.larkoffice.com/wiki/GQgHwQpubiAksVkWDnwcgeRjn8c)
-// import { geckoPlugin } from '@edenx/plugin-gecko';
-// plugins: [
-//   geckoPlugin()
-// ],
 ```
 
 ## performance
