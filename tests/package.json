@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/core": "1.14.0",
