@@ -7,7 +7,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "devtool": "cheap-module-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
+      "/datatext/javascript,import%20%22core-js%22%3B",
       "src/index.ts",
     ],
   },
@@ -262,7 +262,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.46",
+                "coreJs": "3.47",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -353,7 +353,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.46",
+                "coreJs": "3.47",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1001,7 +1001,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.46",
+                    "coreJs": "3.47",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1100,7 +1100,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.46",
+                    "coreJs": "3.47",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2452,7 +2452,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
+      "/datatext/javascript,import%20%22core-js%22%3B",
       "src/index.ts",
     ],
   },
@@ -2706,7 +2706,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.46",
+                "coreJs": "3.47",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2797,7 +2797,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.46",
+                "coreJs": "3.47",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -3445,7 +3445,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.46",
+                    "coreJs": "3.47",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -3544,7 +3544,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.46",
+                    "coreJs": "3.47",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -4875,7 +4875,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "devtool": "cheap-module-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
+      "/datatext/javascript,import%20%22core-js%22%3B",
       "src/index.ts",
     ],
   },
@@ -6469,7 +6469,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
+      "/datatext/javascript,import%20%22core-js%22%3B",
       "src/index.ts",
     ],
   },

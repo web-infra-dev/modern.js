@@ -8,7 +8,7 @@ exports[`uni-builder environment compat > should generator environment config co
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "/datatext/javascript,import \\"core-js\\";",
+        "/datatext/javascript,import%20%22core-js%22%3B",
         "src/index.ts",
       ],
     },
@@ -263,7 +263,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.46",
+                  "coreJs": "3.47",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -354,7 +354,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.46",
+                  "coreJs": "3.47",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -1002,7 +1002,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.46",
+                      "coreJs": "3.47",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -1101,7 +1101,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.46",
+                      "coreJs": "3.47",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -1348,6 +1348,26 @@ exports[`uni-builder environment compat > should generator environment config co
         ],
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
+      },
+      TsCheckerRspackPlugin {
+        "options": {
+          "issue": {
+            "exclude": [
+              [Function],
+            ],
+          },
+          "logger": {
+            "error": [Function],
+            "log": [Function],
+          },
+          "typescript": {
+            "build": false,
+            "configFile": "tsconfig.json",
+            "memoryLimit": 8192,
+            "mode": "readonly",
+            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+          },
+        },
       },
       ReactRefreshRspackPlugin {
         "options": {
@@ -2305,26 +2325,6 @@ exports[`uni-builder environment compat > should generator environment config co
         ],
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
-      },
-      TsCheckerRspackPlugin {
-        "options": {
-          "issue": {
-            "exclude": [
-              [Function],
-            ],
-          },
-          "logger": {
-            "error": [Function],
-            "log": [Function],
-          },
-          "typescript": {
-            "build": false,
-            "configFile": "tsconfig.json",
-            "memoryLimit": 8192,
-            "mode": "readonly",
-            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
-          },
-        },
       },
     ],
     "resolve": {
