@@ -54,31 +54,17 @@ async function handleCodesandboxTemplate() {
 }
 
 async function handleCreateTemplate() {
-  // 获取 @modern-js/create 包的模板目录
-  // 使用 require.resolve 来定位包的位置，然后获取模板目录
-  let createPackagePath: string;
-  try {
-    // 尝试通过 require.resolve 找到包
-    const createPackageJsonPath = require.resolve(
-      '@modern-js/create/package.json',
-    );
-    createPackagePath = path.dirname(createPackageJsonPath);
-  } catch {
-    // 如果找不到，使用相对路径（在 monorepo 中）
-    // 从 packages/generator/sandpack-react/scripts 到 packages/toolkit/create
-    createPackagePath = path.resolve(__dirname, '../../../toolkit/create');
-  }
+  const createPackageMainPath = require.resolve('@modern-js/create');
+  const createPackagePath = path.dirname(path.dirname(createPackageMainPath));
+  const createPackageJsonPath = path.join(createPackagePath, 'package.json');
 
   const templateDir = path.join(createPackagePath, 'template');
 
-  // 读取 @modern-js/create 的 package.json 获取版本号
-  const createPackageJsonPath = path.join(createPackagePath, 'package.json');
   const createPackageJson = JSON.parse(
     fs.readFileSync(createPackageJsonPath, 'utf-8'),
   );
-  const version = createPackageJson.version || '2.68.1';
+  const version = createPackageJson.version || '3.0.0';
 
-  // 处理模板，提供 handlebars 需要的数据
   const files = await handleTemplate(templateDir, {
     packageName: 'modern-app',
     version,
