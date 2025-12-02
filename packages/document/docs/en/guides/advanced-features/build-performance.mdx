@@ -44,23 +44,6 @@ nvm default 18
 node -v
 ```
 
-### Avoid using ts-loader
-
-By default, Modern.js uses Babel to compile TS files. After enabling the [tools.tsLoader](/en/configure/app/tools/ts-loader.html) option, `ts-loader` will be used to compile TS files.
-
-Please avoid using `ts-loader` because it requires additional parsing and type checking, which will slow down the build.
-
-```js
-export default {
-  tools: {
-    // remove this config
-    tsLoader: {},
-  },
-};
-```
-
-See the [tools.tsLoader documentation](/en/configure/app/tools/ts-loader.html) for details.
-
 ## Development optimization strategies
 
 The following are strategies for improve build performance in development environment.
