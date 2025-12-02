@@ -82,18 +82,6 @@ export const runtimePlugin = (params?: {
       process.env.IS_REACT18 = isReact18.toString();
 
       return {
-        resolve: {
-          alias: {
-            '@meta/runtime/browser$': require.resolve(
-              '@modern-js/runtime/browser',
-            ),
-            '@meta/runtime/react$': require.resolve('@modern-js/runtime/react'),
-            '@meta/runtime/context$': require.resolve(
-              '@modern-js/runtime/context',
-            ),
-            '@meta/runtime$': require.resolve('@modern-js/runtime'),
-          },
-        },
         source: {
           globalVars: {
             'process.env.IS_REACT18': process.env.IS_REACT18,
