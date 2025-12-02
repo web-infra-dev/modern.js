@@ -115,7 +115,8 @@
       "packages/module/plugin-module-node-polyfill/src/globals.js",
       "packages/runtime/plugin-runtime/static/**",
       "packages/cli/flight-server-transform-plugin/tests/fixture/**/*",
-      "**/@mf-types/**"
+      "**/@mf-types/**",
+      "packages/toolkit/create/template/**/*"
     ]
   }
 }

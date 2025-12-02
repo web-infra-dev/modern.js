@@ -80,7 +80,6 @@
     "scripts": {
       "dev": "rslib build --watch",
       "prepublishOnly": "only-allow-pnpm",
-      "new": "modern-lib new",
       "build": "rslib build",
       "test": "jest"
     },

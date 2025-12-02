@@ -5,7 +5,10 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {}
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["template", "dist", "node_modules"]
 }

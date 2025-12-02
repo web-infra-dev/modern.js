@@ -28,7 +28,7 @@ import RspackPrecautions from '@site-docs-en/components/rspackPrecautions.mdx';
 
 ## Migrating configuration
 
-In Modern.js, the [tools.webpack](/configure/app/tools/webpack) and [tools.webpackChain](/configure/app/tools/webpack-chain) configurations only take effect in webpack mode, after turning on the Rspack build, you can modify it to [tools.rspack](/configure/app/tools/rspack) and [tools.bundlerChain](/configure/app/tools/bundler-chain).
+In Modern.js, the [tools.rspack](/configure/app/tools/rspack) and [tools.bundlerChain](/configure/app/tools/bundler-chain) configurations take effect in Rspack mode. If you were previously using webpack mode, after turning on the Rspack build, you can modify it to [tools.rspack](/configure/app/tools/rspack) and [tools.bundlerChain](/configure/app/tools/bundler-chain).
 
 ```diff
 export default {
