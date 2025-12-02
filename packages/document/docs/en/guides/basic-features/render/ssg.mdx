@@ -93,36 +93,6 @@ Each route in **conventional routing** will generate a separate HTML file. Check
 
 After running `pnpm run serve` to start the project, inspect the returned document in the Network tab of the browser's development tools. The document includes the fully rendered content from the component.
 
-### Preventing Default Behavior
-
-By default, all routes in **conventional routing** have SSG enabled. Modern.js provides another field to prevent the default SSG behavior.
-
-For example, in the following directory structure, routes `/`, `/user`, and `/user/profile` all have SSG enabled:
-
-```bash
-.
-├── src
-│   └── routes
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── user
-│           ├── layout.tsx
-│           ├── page.tsx
-│           └── profile
-│               └── page.tsx
-```
-
-You can disable the default behavior of certain routes by configuring `preventDefault`. After configuring as shown below, only the SSG pages for `/` and `/user/profile` will be generated:
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      preventDefault: ['/user'],
-    },
-  },
-});
-```
 
 ## Using SSG in Manual Routing
 
