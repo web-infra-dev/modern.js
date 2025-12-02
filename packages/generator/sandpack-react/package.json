@@ -40,7 +40,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "build": "ts-node scripts/template.ts && rslib build",
     "dev": "rslib build --watch",
     "test": "jest --passWithNoTests"
@@ -52,13 +51,9 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@modern-js/base-generator": "workspace:*",
+    "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
-    "@modern-js/entry-generator": "workspace:*",
-    "@modern-js/generator-common": "workspace:*",
-    "@modern-js/generator-utils": "workspace:*",
-    "@modern-js/mwa-generator": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",

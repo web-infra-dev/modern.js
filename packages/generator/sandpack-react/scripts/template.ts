@@ -1,8 +1,6 @@
 import path from 'path';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
 import { fs } from '@modern-js/codesmith-utils/fs-extra';
-import { Solution } from '@modern-js/generator-common';
-import { getModernVersion } from '@modern-js/generator-utils';
 import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
@@ -54,65 +52,52 @@ async function handleCodesandboxTemplate() {
 
   return files;
 }
-async function handleBaseTemplate() {
-  const templateDir = path.join(
-    require.resolve('@modern-js/base-generator'),
-    '../../',
-    'templates',
-  );
-  const baseTemplate = path.join(templateDir, 'base-template');
-  const pnpmTemplate = path.join(templateDir, 'pnpm-template');
-  const files: Record<string, string> = {
-    ...(await handleTemplate(baseTemplate)),
-    ...(await handleTemplate(pnpmTemplate)),
-  };
 
-  return files;
-}
+async function handleCreateTemplate() {
+  // 获取 @modern-js/create 包的模板目录
+  // 使用 require.resolve 来定位包的位置，然后获取模板目录
+  let createPackagePath: string;
+  try {
+    // 尝试通过 require.resolve 找到包
+    const createPackageJsonPath = require.resolve(
+      '@modern-js/create/package.json',
+    );
+    createPackagePath = path.dirname(createPackageJsonPath);
+  } catch {
+    // 如果找不到，使用相对路径（在 monorepo 中）
+    // 从 packages/generator/sandpack-react/scripts 到 packages/toolkit/create
+    createPackagePath = path.resolve(__dirname, '../../../toolkit/create');
+  }
 
-async function handleMWATemplate() {
-  const templateDir = path.join(
-    require.resolve('@modern-js/mwa-generator'),
-    '../../',
-    'templates',
+  const templateDir = path.join(createPackagePath, 'template');
+
+  // 读取 @modern-js/create 的 package.json 获取版本号
+  const createPackageJsonPath = path.join(createPackagePath, 'package.json');
+  const createPackageJson = JSON.parse(
+    fs.readFileSync(createPackageJsonPath, 'utf-8'),
   );
-  const entryTemplateDir = path.join(
-    require.resolve('@modern-js/entry-generator'),
-    '../../',
-    'templates',
-  );
-  const baseTemplate = path.join(templateDir, 'base-template');
-  const tsTemplate = path.join(templateDir, 'ts-template');
-  const modernVersion = await getModernVersion(Solution.MWA);
-  const files = {
-    ...(await handleTemplate(baseTemplate, {
-      name: 'modern-app',
-      isMonorepoSubProject: false,
-      modernVersion,
-      isTs: true,
-      packageManager: 'pnpm',
-    })),
-    ...(await handleTemplate(tsTemplate)),
-    ...(await handleTemplate(
-      entryTemplateDir,
-      {},
-      { fileExtra: '.tsx', routerPrefix: 'src/' },
-    )),
-  };
+  const version = createPackageJson.version || '2.68.1';
+
+  // 处理模板，提供 handlebars 需要的数据
+  const files = await handleTemplate(templateDir, {
+    packageName: 'modern-app',
+    version,
+  });
+
   return files;
 }
 
 async function main() {
   const codesandboxFiles = await handleCodesandboxTemplate();
-  const baseFiles = await handleBaseTemplate();
+  const createFiles = await handleCreateTemplate();
   const srcTemplatesDir = path.join(__dirname, '..', 'src/templates');
-  const commonFiles = { ...codesandboxFiles, ...baseFiles };
+  const commonFiles = { ...codesandboxFiles };
   fs.writeFileSync(
     path.join(srcTemplatesDir, 'common.ts'),
     `export const commonFiles = ${JSON.stringify(commonFiles, null, 2)};`,
     'utf-8',
   );
-  const mwaFiles = await handleMWATemplate();
+  const mwaFiles = createFiles;
   fs.writeFileSync(
     path.join(srcTemplatesDir, 'mwa.ts'),
     `import { commonFiles } from './common';
