@@ -4,6 +4,7 @@
   "commit": false,
   "access": "restricted",
   "baseBranch": "main",
+  "fixed": [["@modern-js/*"]],
   "updateInternalDependencies": "patch",
   "snapshot": {
     "prereleaseTemplate": "{tag}-{datetime}"
