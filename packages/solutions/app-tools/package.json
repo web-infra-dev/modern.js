@@ -106,7 +106,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.6.11",
+    "@rsbuild/core": "1.6.12",
     "@rsbuild/plugin-node-polyfill": "1.4.2",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.1.0",
