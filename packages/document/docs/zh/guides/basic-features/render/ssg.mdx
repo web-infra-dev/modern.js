@@ -94,36 +94,6 @@ export default () => {
 
 执行 `pnpm run serve` 启动项目后，访问页面，在浏览器我们工具的 Network 窗口，查看请求返回的文档，文档包含组件渲染后的完整页面内容。
 
-### 阻止默认行为
-
-默认情况下，**约定式路由**的路由会全部开启 SSG。Modern.js 提供了另一个字段，用来阻止默认的 SSG 行为。
-
-例如以下目录结构，`/`、`/user`、`/user/profle` 三条路由都开启 SSG：
-
-```bash
-.
-├── src
-│   └── routes
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── user
-│           ├── layout.tsx
-│           ├── page.tsx
-│           └── profile
-│               └── page.tsx
-```
-
-可以通过配置 `preventDefault` 来禁用某些路由的默认行为。进行下面配置后，最终只会生成 `/`、`/user/profle` 两条路由的 SSG 页面：
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      preventDefault: ['/user'],
-    },
-  },
-});
-```
 
 ## 在自控式路由中使用
 
