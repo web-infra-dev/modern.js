@@ -103,7 +103,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "dev": "rslib build --watch",
     "build": "rslib build",
     "test": "jest --passWithNoTests"

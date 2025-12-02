@@ -11,12 +11,10 @@
     "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
     "test": "pnpm test:framework",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
-    "prepare": "node node_modules/puppeteer/install.mjs",
-    "test:generator": "ts-node -T generator"
+    "prepare": "node node_modules/puppeteer/install.mjs"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/core": "1.14.0",

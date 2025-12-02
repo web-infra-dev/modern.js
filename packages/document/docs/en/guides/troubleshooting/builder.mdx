@@ -45,32 +45,6 @@ Inspect config succeed, open following files to view the content:
 
 ---
 
-### 'compilation' argument error when webpack compiling?
-
-If the following error occurs when compiling, it is usually caused by installing the wrong version of webpack in the project, or installing multiple versions of webpack:
-
-```bash
-TypeError: The 'compilation' argument must be an instance of Compilation
-```
-
-The webpack version problem has the following situations:
-
-1. The webpack dependency is directly declared in the project's package.json, and the version range of the webpack that the Modern.js depends on is different and cannot match the same version.
-2. Multiple npm packages installed in the project all depend on webpack, and the webpack version ranges they depend on are different and cannot match the same version.
-3. Due to the lock mechanism of the package manager, multiple webpack versions are generated in the lock file.
-
-In the first case, it is recommended to remove the webpack dependency from the project's package.json. Because Modern.js encapsulates webpack-related capabilities by default, and will pass in the webpack object in the [tools.webpack](/en/configure/app/tools/webpack.html) configuration option. Therefore, in most cases, it is not recommended to install additional webpack dependencies in the project.
-
-In the second case, it is recommended to see if you can upgrade an npm package so that its dependent webpack version range is consistent with the Modern.js. It is also possible to manually unify versions through the ability of the package manager, e.g. using [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) or [pnpm overrides](https ://pnpm.io/package_json#pnpmoverrides).
-
-If it is the third case, you can use the two methods mentioned in the second case, or you can try to delete the lock file and reinstall it to solve it.
-
-:::tip
-Deleting the lock file will automatically upgrade the dependency version in the project to the latest version under the specified scope, please test it thoroughly.
-:::
-
----
-
 ### Failed import other modules in Monorepo?
 
 Due to considerations of compilation performance, by default, the Modern.js does not compile files under `node_modules` or files outside the current project directory.

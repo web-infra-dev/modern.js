@@ -15,6 +15,10 @@
     "modern",
     "modern.js"
   ],
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "version": "2.68.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
@@ -22,38 +26,27 @@
   "bin": {
     "create": "./bin/run.js"
   },
-  "files": [
-    "/bin",
-    "/dist/index.js"
-  ],
   "exports": {
-    ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/index.js",
-        "require": "./dist/index.js"
-      },
-      "default": "./dist/index.js"
-    }
+    ".": "./dist/index.js"
   },
+  "files": [
+    "template",
+    "dist",
+    "bin.js"
+  ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
-    "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "build": "rslib build",
+    "dev": "rslib build -w",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "@modern-js/i18n-utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.6.8",
-    "@modern-js/codesmith-utils": "2.6.8",
-    "@modern-js/mwa-generator": "workspace:*",
-    "@modern-js/i18n-utils": "workspace:*",
-    "@scripts/build": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29.5.14",
+    "@rslib/core": "0.18.2",
+    "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
-    "commander": "10.0.1",
-    "jest": "^29.7.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "publishConfig": {

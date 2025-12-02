@@ -32,7 +32,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"

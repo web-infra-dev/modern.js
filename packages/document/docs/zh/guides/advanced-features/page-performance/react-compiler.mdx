@@ -18,9 +18,6 @@ React Compiler 是 React 19 引入的一个实验性编译器，它可以自动�
 import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  runtime: {
-    router: true,
-  },
   tools: {
     babel(_, { addPlugins }) {
       addPlugins([
@@ -33,9 +30,7 @@ export default defineConfig({
       ]);
     },
   },
-  plugins: [
-    appTools(),
-  ],
+  plugins: [appTools()],
 });
 ```
 

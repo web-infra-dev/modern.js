@@ -38,13 +38,9 @@
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
     "check-dependencies": "node ./scripts/check-dependencies.js",
-    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "npx taze major --include /rspress/ -w -r -l",
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
-    "build:main_docs": "pnpm --filter @modern-js/main-doc... build && pnpm --filter @modern-js/main-doc build",
-    "build:module_docs": "pnpm --filter @modern-js/module-tools-docs... build && pnpm --filter @modern-js/module-tools-docs build",
-    "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/main-doc/doc_build/* ./doc_output && cp -r ./packages/document/module-doc/doc_build/ ./doc_output/module-tools",
-    "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs"
+    "build:docs": "pnpm --filter @modern-js/main-doc... build"
   },
   "engines": {
     "node": ">=20",

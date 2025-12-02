@@ -19,7 +19,7 @@ function checkChangeset(packages: Package[], changesets: NewChangeset[]) {
   for (const changeset of changesets) {
     const { id, releases } = changeset;
     releases.forEach(release => {
-      if (release.type === 'major') {
+      if (!id.includes('modern-3') && release.type === 'major') {
         throw Error(
           `packages ${release.name} not allow bump major version in ${id}.md file`,
         );

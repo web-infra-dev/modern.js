@@ -44,23 +44,6 @@ nvm default 18
 node -v
 ```
 
-### 避免使用 ts-loader
-
-默认情况下，Modern.js 使用 Babel 编译 TS 文件，开启 [tools.tsLoader](/configure/app/tools/ts-loader.html) 选项后，会使用 `ts-loader` 编译 TS 文件。
-
-由于 `ts-loader` 需要进行额外的语法解析和类型检查，因此会导致项目构建速度变慢，请避免使用。
-
-```js
-export default {
-  tools: {
-    // 移除这项配置
-    tsLoader: {},
-  },
-};
-```
-
-详见 [tools.tsLoader 文档](/configure/app/tools/ts-loader.html)。
-
 ## 开发环境优化策略
 
 以下是针对开发环境进行提速的策略。

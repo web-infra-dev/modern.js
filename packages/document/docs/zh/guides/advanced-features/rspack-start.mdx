@@ -28,7 +28,7 @@ import RspackPrecautions from '@site-docs/components/rspackPrecautions.mdx';
 
 ## 配置迁移
 
-Modern.js 中 [tools.webpack](/configure/app/tools/webpack) 和 [tools.webpackChain](/configure/app/tools/webpack-chain) 配置仅在 webpack 模式下生效，开启 Rspack 构建能力后，可根据实际使用场景决定是否修改为 [tools.rspack](/configure/app/tools/rspack) 或 [tools.bundlerChain](/configure/app/tools/bundler-chain)。
+Modern.js 中 [tools.rspack](/configure/app/tools/rspack) 和 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置在 Rspack 模式下生效。如果你之前使用的是 webpack 模式，开启 Rspack 构建能力后，可根据实际使用场景决定是否修改为 [tools.rspack](/configure/app/tools/rspack) 或 [tools.bundlerChain](/configure/app/tools/bundler-chain)。
 
 ```diff
 export default {
