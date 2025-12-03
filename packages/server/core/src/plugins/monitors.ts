@@ -52,25 +52,33 @@ function createMonitors(): Monitors {
       log('trace', message, args);
     },
 
-    timing(name: string, dur: number, desc?: string, ...args: any[]) {
+    timing(
+      name: string,
+      dur: number,
+      desc?: string,
+      tags?: Record<string, any>,
+      ...args: any[]
+    ) {
       const event: TimingEvent = {
         type: 'timing',
         payload: {
           name,
           dur,
           desc,
+          tags,
           args,
         },
       };
       coreMonitors.forEach(monitor => monitor(event));
     },
 
-    counter(name: string, ...args: any[]) {
+    counter(name: string, tags?: Record<string, any>, ...args: any[]) {
       const event: CounterEvent = {
         type: 'counter',
         payload: {
           name,
           args,
+          tags,
         },
       };
       coreMonitors.forEach(monitor => monitor(event));
