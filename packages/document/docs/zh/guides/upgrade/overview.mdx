@@ -1,0 +1,36 @@
+# 概述
+
+本文档将帮助您从 Modern.js 2.0 升级到 Modern.js 3.0。
+
+## 升级概览
+
+Modern.js 3.0 带来了多项重大改进和变化，主要包括：
+
+- **构建工具升级**：默认使用 [Rspack](https://rspack.dev) 构建，不再支持 Webpack，构建配置与 [Rsbuild](https://rsbuild.dev) 对齐。
+- **React 生态升级**：全面支持 [React 19](https://react.dev/blog/2024/04/25/react-19) 和 [React Router v7](https://reactrouter.com)。
+- **插件系统重构**：重新设计插件 API，支持在 CLI、Runtime、Server 层通过自定义插件扩展框架能力。
+- **React Server Component**：支持在 [CSR](/guides/get-started/glossary#csr) 和 [SSR](/guides/basic-features/render/ssr) 项目中使用 React Server Component。
+- **国际化增强**：提供开箱即用的 [i18n 插件](/guides/advanced-features/international)，简化国际化开发流程。
+- **SSG 能力完善**：提供完整的[静态站点生成（SSG）](/guides/basic-features/render/ssg)支持。
+- **路由配置增强**：支持[配置式路由](/guides/basic-features/routes/config-routes)，可单独使用或与[约定式路由](/guides/basic-features/routes/routes)结合，提供更灵活的路由定义方式。
+
+
+## 升级前置检查
+
+在开始升级之前，请确认：
+
+1. 当前项目使用的是 Modern.js 2.0
+2. 确定使用的 react 版本是 17 及以上
+2. 确定使用的 node.js 版本是 18.20.8 及以上，推荐使用 node.js 22 以上版本
+
+
+## 获取帮助
+
+如果在升级过程中遇到任何问题，您可以通过以下方式获取帮助：
+
+- 查阅 [Modern.js 官方文档](https://modernjs.dev)
+- 在 [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues) 中搜索相关问题或提交新的 issue
+- 加入 [Modern.js Discord 社区](https://discord.gg/modernjs)与其他开发者交流
+
+我们建议在提交 issue 时提供尽可能详细的信息，包括错误日志、配置文件和复现步骤，以便更快地解决问题
+

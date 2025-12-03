@@ -193,10 +193,15 @@ If you don't want to use any of Modern.js's runtime capabilities, you can also m
 
 ```js title=src/entry.tsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
 ```
 
 In this mode, **you will not be able to use Modern.js framework's runtime capabilities**, such as:
@@ -236,10 +241,6 @@ export default defineConfig({
   },
 });
 ```
-
-It is worth noting that, by default, Modern.js considers entries specified through the configuration as **framework mode entries** and will automatically generate the actual compilation entry.
-
-If your application is migrating from build tools like Webpack or Vite to the Modern.js framework, you typically need to enable the `disableMount` option in the entry configuration. In this case, Modern.js will treat the entry as a **build mode entry**.
 
 ## In-Depth
 

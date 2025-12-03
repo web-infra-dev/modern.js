@@ -196,11 +196,17 @@ beforeRender().then(() => {
 
 ```js title=src/entry.tsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
 ```
+
 
 在该模式下，**将无法使用 Modern.js 框架的运行时能力**，比如：
 
@@ -240,8 +246,6 @@ export default defineConfig({
   },
 });
 ```
-
-值得注意的是，默认情况下，Modern.js 认为通过配置指定的入口是**框架模式入口**，将自动生成真正的编译入口。如果你的应用是从 Webpack 或 Vite 等构建工具迁移到 Modern.js 框架时，你通常需要在入口配置中开启 `disableMount` 选项，此时 Modern.js 认为该入口是**构建模式入口**。
 
 ## 深入了解
 
