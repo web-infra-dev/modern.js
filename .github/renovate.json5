@@ -139,6 +139,7 @@
     "@rsbuild/plugin-styled-components",
     "@rspress/shared",
     "@rspress/plugin-llms",
-    "rspress"
+    "rspress",
+    "'@rsbuild/webpack"
   ]
 }
