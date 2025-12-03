@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.69.2
+
+### Patch Changes
+
+- 62a5e7f: fix: should immediately assign routes
+  fix: 应该立即赋值 routes
+- Updated dependencies [0ce9b91]
+  - @modern-js/types@2.69.2
+  - @modern-js/plugin-data-loader@2.69.2
+  - @modern-js/render@2.69.2
+  - @modern-js/plugin-v2@2.69.2
+  - @modern-js/runtime-utils@2.69.2
+  - @modern-js/utils@2.69.2
+  - @modern-js/plugin@2.69.2
+
 ## 2.69.1
 
 ### Patch Changes

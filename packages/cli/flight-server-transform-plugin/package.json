@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/flight-server-transform-plugin",
-  "version": "2.69.1",
+  "version": "2.69.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/web-infra-dev/modern.js",
