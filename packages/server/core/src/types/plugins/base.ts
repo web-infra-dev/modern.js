@@ -19,18 +19,10 @@ export type FallbackReason = 'error' | 'header' | 'query' | `header,${string}`;
 export type FallbackInput = {
   reason: FallbackReason;
   error: unknown;
-  logger: Logger;
-  metrics?: Metrics;
-  reporter?: Reporter;
 };
 
 export type OnFallback = (
   reason: FallbackReason,
-  utils: {
-    logger: Logger;
-    metrics?: Metrics;
-    reporter?: Reporter;
-  },
   error?: unknown,
 ) => Promise<void>;
 

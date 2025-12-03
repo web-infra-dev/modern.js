@@ -28,6 +28,7 @@ import {
 } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
+import { resolveSSRMode } from '../../../cli/ssr/mode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { walk } from './nestedRoutes';
 import * as templates from './templates';
@@ -165,14 +166,15 @@ export const generateCode = async (
           config.server.ssrByEntries,
           packageName,
         );
-        const useSSG = isSSGEntry(config, entryName, entrypoints);
 
-        let mode: SSRMode | undefined;
-        if (ssr) {
-          mode = typeof ssr === 'object' ? ssr.mode || 'string' : 'string';
-        }
+        const ssrMode = resolveSSRMode({
+          entry: entrypoint.entryName,
+          config,
+          appDirectory: appContext.appDirectory,
+          nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+        });
 
-        if (mode === 'stream') {
+        if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(
             route => 'type' in route && route.type === 'page',
           );
@@ -189,7 +191,7 @@ export const generateCode = async (
           code: await templates.fileSystemRoutes({
             metaName,
             routes: routes,
-            ssrMode: useSSG ? 'string' : isUseRsc(config) ? 'stream' : mode,
+            ssrMode: isUseRsc(config) ? 'stream' : ssrMode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
@@ -225,7 +227,7 @@ export const generateCode = async (
           const serverRoutesCode = await templates.fileSystemRoutes({
             metaName,
             routes: filtedRoutesForServer,
-            ssrMode: useSSG ? 'string' : mode,
+            ssrMode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,

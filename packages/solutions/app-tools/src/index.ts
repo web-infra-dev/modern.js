@@ -14,9 +14,7 @@ import {
   deployCommand,
   devCommand,
   inspectCommand,
-  newCommand,
   serverCommand,
-  upgradeCommand,
 } from './commands';
 import { compatPlugin } from './compat';
 import { DEFAULT_RUNTIME_CONFIG_FILE } from './constants';
@@ -91,9 +89,7 @@ export const appTools = (): CliPlugin<AppTools> => ({
       await buildCommand(program, api);
       serverCommand(program, api);
       deployCommand(program, api);
-      newCommand(program, locale);
       inspectCommand(program, api);
-      upgradeCommand(program);
       deprecatedCommands(program);
     });
 

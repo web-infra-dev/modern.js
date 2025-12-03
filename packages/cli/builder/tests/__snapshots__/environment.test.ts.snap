@@ -8,7 +8,7 @@ exports[`builder environment compat > should generator environment config correc
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "data:text/javascript,import \\"core-js\\";",
+        "data:text/javascript,import%20%22core-js%22%3B",
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
@@ -1164,6 +1164,26 @@ exports[`builder environment compat > should generator environment config correc
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
       },
+      TsCheckerRspackPlugin {
+        "options": {
+          "issue": {
+            "exclude": [
+              [Function],
+            ],
+          },
+          "logger": {
+            "error": [Function],
+            "log": [Function],
+          },
+          "typescript": {
+            "build": false,
+            "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+            "memoryLimit": 8192,
+            "mode": "readonly",
+            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+          },
+        },
+      },
       ReactRefreshRspackPlugin {
         "options": {
           "exclude": [],
@@ -2003,26 +2023,6 @@ exports[`builder environment compat > should generator environment config correc
         ],
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
-      },
-      TsCheckerRspackPlugin {
-        "options": {
-          "issue": {
-            "exclude": [
-              [Function],
-            ],
-          },
-          "logger": {
-            "error": [Function],
-            "log": [Function],
-          },
-          "typescript": {
-            "build": false,
-            "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-            "memoryLimit": 8192,
-            "mode": "readonly",
-            "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
-          },
-        },
       },
     ],
     "resolve": {

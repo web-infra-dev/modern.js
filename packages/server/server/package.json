@@ -51,7 +51,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "build": "rslib build",
     "dev": "rslib build --watch",
     "test": "jest"
@@ -75,7 +74,7 @@
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",
     "@types/jest": "^29.5.14",

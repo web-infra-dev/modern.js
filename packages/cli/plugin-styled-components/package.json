@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/plugin-styled-components",
   "description": "A Modern.js plugin for styled-components.",
- "license": "MIT",
+  "license": "MIT",
   "keywords": [
     "react",
     "framework",
@@ -21,10 +21,10 @@
     "@swc/helpers": "^0.5.17",
     "@rsbuild/plugin-styled-components": "1.5.0"
   },
- "devDependencies": {
+  "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",
@@ -68,8 +68,8 @@
       },
       "default": "./dist/esm/styled.mjs"
     }
-},
-"typesVersions": {
+  },
+  "typesVersions": {
     "*": {
       ".": [
         "./dist/types/index.d.ts"

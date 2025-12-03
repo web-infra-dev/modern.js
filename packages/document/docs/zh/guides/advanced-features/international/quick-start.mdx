@@ -10,17 +10,13 @@ title: 快速开始
 
 首先，安装必要的依赖：
 
-```bash
-pnpm add @modern-js/plugin-i18n i18next react-i18next
-```
+import InstallCommand from '@site-docs/components/international/install-command';
 
-:::info
-`i18next` 和 `react-i18next` 是 peer dependencies，需要手动安装。
-:::
+<InstallCommand />
 
 ## 基础配置
 
-### 1. 在 `modern.config.ts` 中配置插件
+### 在 `modern.config.ts` 中注册插件
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -51,9 +47,10 @@ export default defineConfig({
 
 :::info
 `server.publicDir` 是必需配置，用于指定资源文件的实际存放位置。即使使用默认的 `loadPath` 路径，也需要配置此项。
+
 :::
 
-### 2. 创建语言资源文件
+### 创建语言资源文件
 
 在项目根目录创建 `locales` 文件夹，并按语言组织资源文件：
 
@@ -85,7 +82,7 @@ locales/
 }
 ```
 
-### 3. 在组件中使用
+### 在组件中使用
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';

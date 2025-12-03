@@ -38,12 +38,8 @@ interface UseModernI18nReturn {
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 
 function LanguageSwitcher() {
-  const {
-    language,
-    changeLanguage,
-    supportedLanguages,
-    isLanguageSupported,
-  } = useModernI18n();
+  const { language, changeLanguage, supportedLanguages, isLanguageSupported } =
+    useModernI18n();
 
   return (
     <div>
@@ -90,6 +86,7 @@ await changeLanguage('zh');
 
 :::info
 `changeLanguage` is an async function that returns a Promise.
+
 :::
 
 ### Language Support Check
@@ -134,9 +131,11 @@ function MyComponent() {
 
 :::info
 `isResourcesReady` automatically checks:
+
 - If i18n instance is initialized
 - If any resources for the current language are currently loading (SDK backend only)
 - If all required namespaces for the current language are loaded in the store
+
 :::
 
 ## I18nLink Component
@@ -173,6 +172,99 @@ function Navigation() {
   );
 }
 ```
+
+## Runtime Plugin API
+
+In the `onBeforeRender` hook of Runtime plugins, you can modify the language using the `context.changeLanguage` method. This is useful for scenarios where you need to dynamically set the language based on request information (such as user preferences, geographic location, etc.).
+
+### context.changeLanguage
+
+In the `onBeforeRender` hook, the i18n plugin adds a `changeLanguage` method to the `context` for use by other Runtime plugins.
+
+**Type Definition:**
+
+```ts
+interface TInternalRuntimeContext {
+  i18nInstance?: I18nInstance;
+  changeLanguage?: (lang: string) => Promise<void>;
+}
+```
+
+### Usage Example
+
+```ts
+import type { RuntimePlugin } from '@modern-js/runtime';
+
+const myRuntimePlugin = (): RuntimePlugin => ({
+  name: 'my-runtime-plugin',
+  setup: api => {
+    api.onBeforeRender(async context => {
+      // Check if changeLanguage method exists (ensure i18n plugin is loaded)
+      if (context.changeLanguage) {
+        // Determine language based on some condition
+        const userLang = getUserLanguageFromRequest(context);
+
+        // Change language
+        await context.changeLanguage(userLang);
+      }
+    });
+  },
+});
+
+function getUserLanguageFromRequest(context: any): string {
+  // Get user language from request headers, cookies, or other sources
+  const acceptLanguage = context.ssrContext?.req?.headers['accept-language'];
+  // Parse and return appropriate language code
+  return parseAcceptLanguage(acceptLanguage) || 'zh';
+}
+
+export default myRuntimePlugin;
+```
+
+### Notes
+
+1. **Execution Order**: Ensure the i18n plugin is registered before other plugins that use `changeLanguage`, so that `context.changeLanguage` is available.
+
+2. **Async Operation**: `changeLanguage` is an async method and requires using `await` to wait for completion.
+
+3. **Error Handling**: If an invalid language code is passed, an error will be thrown. It's recommended to add error handling:
+
+```ts
+api.onBeforeRender(async context => {
+  if (context.changeLanguage) {
+    try {
+      await context.changeLanguage('zh');
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
+  }
+});
+```
+
+4. **Language Validation**: It's recommended to verify that the language is in the supported language list before calling `changeLanguage`:
+
+```ts
+api.onBeforeRender(async context => {
+  if (context.changeLanguage && context.i18nInstance) {
+    const supportedLngs = context.i18nInstance.options?.supportedLngs || [];
+    const targetLang = 'zh';
+
+    if (supportedLngs.includes(targetLang)) {
+      await context.changeLanguage(targetLang);
+    }
+  }
+});
+```
+
+:::info
+The `changeLanguage` method will:
+
+- Update the language of the i18n instance
+- Cache the language selection in the browser environment (Cookie/LocalStorage)
+- Trigger callbacks related to language switching
+
+However, it will not automatically update the URL path. If you need to update the URL, you need to coordinate with the routing plugin or handle it manually.
+:::
 
 ## Integration with react-i18next
 
@@ -267,14 +359,27 @@ interface I18nInitOptions {
 
 ```ts
 interface LanguageDetectorOptions {
+  /** Detection order */
   order?: string[];
+  /** Query parameter key name, default 'lng' */
   lookupQuerystring?: string;
+  /** Cookie key name, default 'i18next' */
   lookupCookie?: string;
+  /** LocalStorage key name, default 'i18nextLng' (browser only) */
+  lookupLocalStorage?: string;
+  /** SessionStorage key name (browser only) */
   lookupSession?: string;
+  /** Starting index in path for language detection, default 0 */
   lookupFromPathIndex?: number;
+  /** Cache method, can be false or string array (e.g., ['cookie', 'localStorage']) */
   caches?: boolean | string[];
+  /** Cookie expiration time (minutes) */
+  cookieMinutes?: number;
+  /** Cookie expiration date (Date object, takes precedence over cookieMinutes) */
   cookieExpirationDate?: Date;
+  /** Cookie domain */
   cookieDomain?: string;
+  /** Request header key name, default 'accept-language' */
   lookupHeader?: string;
 }
 ```
@@ -289,3 +394,7 @@ type Resources = {
 };
 ```
 
+:::info
+The namespace value can be a string (for simple key-value pairs) or an object (for nested translation structures).
+
+:::

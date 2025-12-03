@@ -1,140 +1,139 @@
 {
-    "name": "@modern-js/plugin-i18n",
-    "description": "A Progressive React Framework for modern web development.",
-    "homepage": "https://modernjs.dev",
-    "type": "module",
-    "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/web-infra-dev/modern.js",
-      "directory": "packages/runtime/plugin-i18n"
+  "name": "@modern-js/plugin-i18n",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "type": "module",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/runtime/plugin-i18n"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.68.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "jsnext:source": "./src/cli/index.ts",
+  "types": "./src/cli/index.ts",
+  "main": "./dist/cjs/cli/index.cjs",
+  "module": "./dist/esm/cli/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/cjs/cli/index.cjs"
     },
-    "license": "MIT",
-    "keywords": [
-      "react",
-      "framework",
-      "modern",
-      "modern.js"
-    ],
-    "version": "2.68.1",
-    "engines": {
-      "node": ">=20"
+    "./package.json": "./package.json",
+    "./cli": {
+      "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/cjs/cli/index.cjs"
     },
-    "jsnext:source": "./src/cli/index.ts",
-    "types": "./src/cli/index.ts",
-    "main": "./dist/cjs/cli/index.cjs",
-    "module": "./dist/esm/cli/index.js",
-    "exports": {
-      ".": {
-        "types": "./dist/types/cli/index.d.ts",
-        "jsnext:source": "./src/cli/index.ts",
-        "default": "./dist/cjs/cli/index.cjs"
-      },
-      "./package.json": "./package.json",
-      "./cli": {
-        "types": "./dist/types/cli/index.d.ts",
-        "jsnext:source": "./src/cli/index.ts",
-        "default": "./dist/cjs/cli/index.cjs"
-      },
-      "./runtime": {
-        "types": "./dist/types/runtime/index.d.ts",
-        "jsnext:source": "./src/runtime/index.ts",
-        "import": "./dist/esm/runtime/index.js",
-        "node": "./dist/esm-node/runtime/index.js",
-        "default": "./dist/esm/runtime/index.js"
-      },
-      "./server": {
-        "types": "./dist/types/server/index.d.ts",
-        "jsnext:source": "./src/server/index.ts",
-        "import": "./dist/esm/server/index.js",
-        "node": "./dist/esm-node/server/index.js",
-        "default": "./dist/esm/server/index.js"
-      },
-      "./i18n": {
-        "types": "./dist/types/runtime/i18n/index.d.ts",
-        "jsnext:source": "./src/runtime/i18n/index.ts",
-        "import": "./dist/esm/runtime/i18n/index.js",
-        "node": "./dist/esm-node/runtime/i18n/index.js",
-        "default": "./dist/esm/runtime/i18n/index.js"
-      }
+    "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
+      "import": "./dist/esm/runtime/index.js",
+      "node": "./dist/esm-node/runtime/index.js",
+      "default": "./dist/esm/runtime/index.js"
     },
-    "typesVersions": {
-      "*": {
-        ".": [
-          "./dist/types/cli/index.d.ts"
-        ],
-        "cli": [
-          "./dist/types/cli/index.d.ts"
-        ],
-        "runtime": [
-          "./dist/types/runtime/index.d.ts"
-        ],
-        "server": [
-          "./dist/types/server/index.d.ts"
-        ],
-        "i18n": [
-          "./dist/types/runtime/i18n/index.d.ts"
-        ]
-      }
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
+      "import": "./dist/esm/server/index.js",
+      "node": "./dist/esm-node/server/index.js",
+      "default": "./dist/esm/server/index.js"
     },
-    "scripts": {
-      "dev": "rslib build --watch",
-      "prepublishOnly": "only-allow-pnpm",
-      "new": "modern-lib new",
-      "build": "rslib build",
-      "test": "jest"
-    },
-    "dependencies": {
-      "@modern-js/plugin": "workspace:*",
-      "@modern-js/server-core": "workspace:*",
-      "@modern-js/server-runtime": "workspace:*",
-      "@modern-js/runtime-utils": "workspace:*",
-      "@modern-js/types": "workspace:*",
-      "@modern-js/utils": "workspace:*",
-      "@swc/helpers": "^0.5.17",
-      "i18next-browser-languagedetector": "^8.2.0",
-      "i18next-http-middleware": "^3.8.2",
-      "i18next-fs-backend": "^2.6.1",
-      "i18next-http-backend": "^3.0.2",
-      "i18next-chained-backend": "^4.6.2"
-    },
-    "peerDependencies": {
-      "react": ">=17",
-      "react-dom": ">=17.0.2",
-      "i18next": ">=25.6.3",
-      "react-i18next": ">=15.7.4",
-      "@modern-js/runtime": "workspace:^2.68.1"
-    },
-    "peerDependenciesMeta": {
-      "i18next": {
-        "optional": true
-      },
-      "react-i18next": {
-        "optional": true
-      }
-    },
-    "devDependencies": {
-      "i18next":"25.6.3",
-      "react-i18next":"15.7.4",
-      "@modern-js/runtime": "workspace:*",
-      "@modern-js/app-tools": "workspace:*",
-      "@scripts/jest-config": "workspace:*",
-      "@rslib/core": "0.18.0",
-      "@modern-js/rslib": "workspace:*",
-      "@testing-library/react": "^13.4.0",
-      "@types/jest": "^29.5.14",
-      "@types/node": "^20",
-      "jest": "^29.7.0",
-      "react": "^19.2.0",
-      "react-dom": "^19.2.0",
-      "ts-jest": "^29.4.5",
-      "ts-node": "^10.9.2",
-      "typescript": "^5"
-    },
-    "sideEffects": false,
-    "publishConfig": {
-      "registry": "https://registry.npmjs.org/",
-      "access": "public",
-      "types": "./dist/types/cli/index.d.ts"
+    "./i18n": {
+      "types": "./dist/types/runtime/i18n/index.d.ts",
+      "jsnext:source": "./src/runtime/i18n/index.ts",
+      "import": "./dist/esm/runtime/i18n/index.js",
+      "node": "./dist/esm-node/runtime/i18n/index.js",
+      "default": "./dist/esm/runtime/i18n/index.js"
     }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
+      ],
+      "i18n": [
+        "./dist/types/runtime/i18n/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "rslib build --watch",
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "rslib build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "^0.5.17",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-middleware": "^3.8.2",
+    "i18next-fs-backend": "^2.6.1",
+    "i18next-http-backend": "^3.0.2",
+    "i18next-chained-backend": "^4.6.2"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17.0.2",
+    "i18next": ">=25.6.3",
+    "react-i18next": ">=15.7.4",
+    "@modern-js/runtime": "workspace:^2.68.1"
+  },
+  "peerDependenciesMeta": {
+    "i18next": {
+      "optional": true
+    },
+    "react-i18next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "i18next": "25.6.3",
+    "react-i18next": "15.7.4",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@rslib/core": "0.18.2",
+    "@modern-js/rslib": "workspace:*",
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "jest": "^29.7.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/types/cli/index.d.ts"
   }
+}

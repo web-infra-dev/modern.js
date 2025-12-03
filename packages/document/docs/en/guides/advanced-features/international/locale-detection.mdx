@@ -133,25 +133,34 @@ i18nPlugin({
 
 ## Detection Priority
 
-When multiple detection methods are enabled, the detection priority follows the order configured in `detection.order`:
+The plugin's language detection follows the following priority order (from highest to lowest):
 
-1. **Path Detection** (if `localePathRedirect` is `true`)
-2. **i18next Detector** (following the order configured in `order`)
-3. **Fallback Language** (`fallbackLanguage`)
+1. **SSR Data** (highest priority): Read language from `window._SSR_DATA` set during server-side rendering, applicable to both SSR and CSR projects
+2. **Path Detection**: If `localePathRedirect` is `true`, detect language prefix from URL path
+3. **i18next Detector**: Execute detection according to the order configured in `detection.order` (Cookie, LocalStorage, query parameters, request headers, etc.)
+4. **User Configured Language**: Use the language configured in `initOptions.lng`
+5. **Fallback Language**: Use `fallbackLanguage` as the final fallback
+
+:::info
+SSR data detection has the highest priority to ensure the client uses the language detected during server-side rendering, avoiding language flickering issues caused by client-side re-detection.
+:::
 
 **Example**:
 
 ```ts
-// Configured detection order
+// Configured detection order (only affects priority within i18next detector)
 detection: {
   order: ['path', 'cookie', 'querystring', 'header'],
 }
 
 // Actual detection flow:
-// 1. First check URL path (if localePathRedirect is enabled)
-// 2. Then check Cookie
-// 3. Then check query parameters
-// 4. Then check request headers
+// 1. First check SSR data (window._SSR_DATA)
+// 2. Then check URL path (if localePathRedirect is enabled)
+// 3. Then check i18next detector according to order:
+//    - Cookie
+//    - Query parameters
+//    - Request headers
+// 4. Then use initOptions.lng (if configured)
 // 5. Finally use fallbackLanguage
 ```
 
@@ -172,7 +181,7 @@ Specifies the order of language detection, optional values:
 - `subdomain`: Detect from subdomain
 
 :::warning
-`path` detection requires `localePathRedirect` to be `true`. `localStorage`, `navigator`, and `htmlTag` are only available in browser environments.
+`path` detection requires `localePathRedirect` to be `true`. `localStorage`, `sessionStorage`, `navigator`, and `htmlTag` are only available in browser environments.
 :::
 
 ### caches (Cache Method)
@@ -184,11 +193,84 @@ Specifies where the detected language should be cached, optional values:
 - `['localStorage']`: Cache to LocalStorage (browser only)
 - `['cookie', 'localStorage']`: Cache to both Cookie and LocalStorage
 
-### lookupQuerystring, lookupCookie, lookupHeader
+### lookupQuerystring, lookupCookie, lookupLocalStorage, lookupSession, lookupHeader
 
-Specifies the key name used when reading language from query parameters, cookies, or request headers:
+Specifies the key name used when reading language from query parameters, cookies, LocalStorage, SessionStorage, or request headers:
 
 - `lookupQuerystring`: Default `'lng'`, e.g., `?lng=en`
 - `lookupCookie`: Default `'i18next'`
+- `lookupLocalStorage`: Default `'i18nextLng'` (browser only)
+- `lookupSession`: SessionStorage key name (browser only)
 - `lookupHeader`: Default `'accept-language'`
+
+### lookupFromPathIndex
+
+Specifies which position in the URL path to start detecting language (when `'path'` is included in `order`):
+
+- `lookupFromPathIndex`: Path segment index, defaults to `0` (first path segment)
+
+**Example**:
+
+```ts
+// URL: /api/v1/en/users
+// If lookupFromPathIndex = 2, detection starts from the third path segment ('en')
+detection: {
+  order: ['path'],
+  lookupFromPathIndex: 2,
+}
+```
+
+### cookieMinutes, cookieExpirationDate
+
+Controls Cookie expiration time:
+
+- `cookieMinutes`: Cookie expiration time (minutes), default `525600` (1 year)
+- `cookieExpirationDate`: Cookie expiration date (Date object), takes precedence over `cookieMinutes`
+
+**Example**:
+
+```ts
+detection: {
+  cookieMinutes: 60 * 24 * 7, // Expires in 7 days
+  // or
+  cookieExpirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+}
+```
+
+### ignoreRedirectRoutes
+
+Specifies which routes should ignore automatic language redirection. This is very useful for API routes, static resources, and other paths that don't need language prefixes.
+
+**Configuration**:
+
+```ts
+i18nPlugin({
+  localeDetection: {
+    localePathRedirect: true,
+    languages: ['zh', 'en'],
+    fallbackLanguage: 'en',
+    // String array: supports exact match and prefix match
+    ignoreRedirectRoutes: ['/api', '/admin', '/static'],
+    // Or use function for more flexible judgment
+    ignoreRedirectRoutes: pathname => {
+      return pathname.startsWith('/api') || pathname.startsWith('/admin');
+    },
+  },
+});
+```
+
+**Matching Rules**:
+
+- String array: Supports exact match (`'/api'`) and prefix match (`'/api'` will match `/api` and `/api/users`)
+- Function: Receives pathname (with language prefix removed), returns `true` to indicate ignoring redirection
+
+**Example**:
+
+```ts
+// Ignore all API routes and static resources
+ignoreRedirectRoutes: ['/api', '/static', '/assets'];
+
+// Use function to ignore all paths starting with /api
+ignoreRedirectRoutes: pathname => pathname.startsWith('/api');
+```
 

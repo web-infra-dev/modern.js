@@ -230,7 +230,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "dev": "rslib build --watch",
     "build": "rslib build",
     "test": "rstest --passWithNoTests"
@@ -264,7 +263,7 @@
     "ioredis-mock": "^8.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

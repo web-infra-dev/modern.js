@@ -17,8 +17,7 @@ import type {
   MouseEventHandler,
   TouchEventHandler,
 } from 'react';
-import { RuntimeContext } from '../../core';
-import type { TInternalRuntimeContext } from '../../core/context/runtime';
+import { InternalRuntimeContext } from '../../core/context';
 import type { RouteAssets, RouteManifest } from './types';
 
 interface PrefetchHandlers {
@@ -188,7 +187,7 @@ const getDataHref = (
 
 const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
   const { pathname } = path;
-  const context = useContext(RuntimeContext) as TInternalRuntimeContext;
+  const context = useContext(InternalRuntimeContext);
   const { routeManifest, routes } = context;
   const { routeAssets } = routeManifest || {};
   const matches = Array.isArray(routes) ? matchRoutes(routes, pathname) : [];

@@ -2,12 +2,9 @@
   "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [
-    ["@modern-js/*-generator", "@modern-js/generator-*"],
-    ["!(@modern-js/*-generator|@modern-js/generator-*)"]
-  ],
   "access": "restricted",
   "baseBranch": "main",
+  "fixed": [["@modern-js/*"]],
   "updateInternalDependencies": "patch",
   "snapshot": {
     "prereleaseTemplate": "{tag}-{datetime}"

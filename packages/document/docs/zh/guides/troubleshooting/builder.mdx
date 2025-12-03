@@ -30,7 +30,7 @@ rm -rf ./node_modules/.cache
 
 ---
 
-### 如何查看最终生成的 webpack / Rspack 配置?
+### 如何查看最终生成的 Rspack 配置?
 
 Modern.js 提供 [inspect 命令](/apis/app/commands.html) 用于查看项目最终生成的 Modern.js 配置以及 webpack / Rspack 配置。
 
@@ -42,34 +42,6 @@ Inspect config succeed, open following files to view the content:
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
   - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
 ```
-
----
-
-### webpack 编译出现 'compilation' argument 报错？
-
-如果编译时出现以下报错，通常是由于项目中安装了错误的 webpack 版本，或者安装了多个 webpack 版本引起：
-
-```bash
-TypeError: The 'compilation' argument must be an instance of Compilation
-```
-
-webpack 版本问题有以下几种情况：
-
-1. 项目的 package.json 中直接声明了 webpack 依赖，并且与 Modern.js 依赖的 webpack 版本范围不同，无法匹配到同一个版本。
-2. 项目里安装的多个 npm 包都依赖了 webpack，并且它们依赖的 webpack 版本范围不同，无法匹配到同一个版本。
-3. 由于包管理器的 lock 机制，导致 lock 文件中产生了多个 webpack 版本。
-
-如果是第一种情况，建议从项目的 package.json 中移除 webpack 依赖。因为 Modern.js 默认封装了 webpack 相关能力，并且会在 [tools.webpack](/configure/app/tools/webpack.html) 配置项中传入 webpack 对象。因此在大多数情况下，不建议在项目中额外安装 webpack 依赖。
-
-如果是第二种情况，建议看看能否升级某个 npm 包，使其依赖的 webpack 版本范围与 Modern.js 保持一致。也可以通过包管理器的能力来手动统一版本，比如使用 [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) 或 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides)。
-
-如果是第三种情况，可以使用第二种情况中提到的两种方法，也可以尝试删除 lock 文件后重新安装来解决。
-
-:::tip
-删除 lock 文件会使项目中的依赖版本自动升级到指定范围下的最新版，请进行充分的测试。
-:::
-
----
 
 ### 在 Monorepo 中引用其他模块，代码没有被正确编译？
 

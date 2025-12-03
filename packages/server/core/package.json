@@ -53,7 +53,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "dev": "rslib build --watch",
     "build": "rslib build",
     "test": "jest --passWithNoTests"
@@ -77,7 +76,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@types/cloneable-readable": "^2.0.3",
     "@types/jest": "^29.5.14",
     "@types/merge-deep": "^3.0.3",

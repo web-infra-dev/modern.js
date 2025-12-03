@@ -64,7 +64,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "build": "rslib build",
     "dev": "rslib build --watch",
     "test": "jest --passWithNoTests"
@@ -81,7 +80,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/lru-cache": "^5.1.1",

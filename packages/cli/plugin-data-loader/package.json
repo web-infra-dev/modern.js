@@ -47,7 +47,6 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "new": "modern-lib new",
     "build": "rslib build",
     "dev": "rslib build --watch",
     "test": "rstest --passWithNoTests"
@@ -63,7 +62,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.18.0",
+    "@rslib/core": "0.18.2",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/node": "^20",
@@ -74,7 +73,7 @@
     "react-dom": "^19.2.0",
     "supertest": "^6.3.4",
     "typescript": "^5",
-    "@rsbuild/core": "1.6.9"
+    "@rsbuild/core": "1.6.11"
   },
   "peerDependencies": {
     "react": ">=17.0.0"
