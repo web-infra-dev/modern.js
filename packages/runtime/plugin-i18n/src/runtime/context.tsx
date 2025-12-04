@@ -4,7 +4,12 @@ import type { FC, ReactNode } from 'react';
 import type { I18nInstance } from './i18n';
 import type { SdkBackend } from './i18n/backend/sdk-backend';
 import { cacheUserLanguage } from './i18n/detection';
-import { buildLocalizedUrl, getEntryPath } from './utils';
+import {
+  buildLocalizedUrl,
+  getEntryPath,
+  shouldIgnoreRedirect,
+  useRouterHooks,
+} from './utils';
 
 export interface ModernI18nContextValue {
   language: string;
@@ -45,68 +50,6 @@ export interface UseModernI18nReturn {
   // Indicates if translation resources for current language are ready to use
   isResourcesReady: boolean;
 }
-
-/**
- * Check if the given pathname should ignore automatic locale redirect
- */
-const shouldIgnoreRedirect = (
-  pathname: string,
-  languages: string[],
-  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
-): boolean => {
-  if (!ignoreRedirectRoutes) {
-    return false;
-  }
-
-  // Remove language prefix if present (e.g., /en/api -> /api)
-  const segments = pathname.split('/').filter(Boolean);
-  let pathWithoutLang = pathname;
-  if (segments.length > 0 && languages.includes(segments[0])) {
-    // Remove language prefix
-    pathWithoutLang = `/${segments.slice(1).join('/')}`;
-  }
-
-  // Normalize path (ensure it starts with /)
-  const normalizedPath = pathWithoutLang.startsWith('/')
-    ? pathWithoutLang
-    : `/${pathWithoutLang}`;
-
-  if (typeof ignoreRedirectRoutes === 'function') {
-    return ignoreRedirectRoutes(normalizedPath);
-  }
-
-  // Check if pathname matches any of the ignore patterns
-  return ignoreRedirectRoutes.some(pattern => {
-    // Support both exact match and prefix match
-    return (
-      normalizedPath === pattern || normalizedPath.startsWith(`${pattern}/`)
-    );
-  });
-};
-
-// Safe hook wrapper to handle cases where router context is not available
-const useRouterHooks = () => {
-  try {
-    const {
-      useLocation,
-      useNavigate,
-      useParams,
-    } = require('@modern-js/runtime/router');
-    return {
-      navigate: useNavigate(),
-      location: useLocation(),
-      params: useParams(),
-      hasRouter: true,
-    };
-  } catch (error) {
-    return {
-      navigate: null,
-      location: null,
-      params: {},
-      hasRouter: false,
-    };
-  }
-};
 
 /**
  * Hook for accessing i18n functionality in Modern.js applications.
