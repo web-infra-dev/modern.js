@@ -109,6 +109,17 @@ export const i18nPlugin = (
       ...restOptions
     } = options;
 
+    api.config(() => {
+      const { metaName } = api.getAppContext();
+      return {
+        resolve: {
+          alias: {
+            '@meta/runtime/router$': `@${metaName}/runtime/router`,
+          },
+        },
+      };
+    });
+
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const localeDetectionOptions = localeDetection
         ? getLocaleDetectionOptions(entrypoint.entryName, localeDetection)

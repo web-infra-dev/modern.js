@@ -87,11 +87,9 @@ const shouldIgnoreRedirect = (
 // Safe hook wrapper to handle cases where router context is not available
 const useRouterHooks = () => {
   try {
-    const {
-      useLocation,
-      useNavigate,
-      useParams,
-    } = require('@modern-js/runtime/router');
+    const { useLocation, useNavigate, useParams } = require(
+      `@meta/runtime/router`,
+    );
     return {
       navigate: useNavigate(),
       location: useLocation(),
