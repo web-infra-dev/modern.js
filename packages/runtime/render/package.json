@@ -29,7 +29,8 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "^0.5.17"
+    "@swc/helpers": "^0.5.17",
+    "react-server-dom-webpack": "19.0.1"
   },
   "devDependencies": {
     "@rslib/core": "0.18.3",
