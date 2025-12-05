@@ -77,11 +77,10 @@
       if ("fulfilled" === moduleExports.status)
         moduleExports = moduleExports.value;
       else throw moduleExports.reason;
-      return "*" === metadata.name
-        ? moduleExports
-        : "" === metadata.name
-          ? moduleExports.default
-          : moduleExports[metadata.name];
+      if ("*" === metadata.name) return moduleExports;
+      if ("" === metadata.name) return moduleExports.default;
+      if (hasOwnProperty.call(moduleExports, metadata.name))
+        return moduleExports[metadata.name];
     }
     function prepareDestinationWithChunks(
       moduleLoading,
@@ -2356,6 +2355,7 @@
       React = require("react"),
       decoderOptions = { stream: !0 },
       bind$1 = Function.prototype.bind,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
       asyncModuleCache = new Map(),
       ReactDOMSharedInternals =
         ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,
