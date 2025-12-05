@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-polyfill",
-  "version": "2.69.1",
+  "version": "2.69.2",
   "description": "The polyfill plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -43,7 +43,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.69.1",
+    "@modern-js/module-tools": "workspace:^2.69.2",
     "core-js-pure": "^3.25.0"
   },
   "publishConfig": {

@@ -1,5 +1,17 @@
 # @modern-js/module-tools
 
+## 2.69.2
+
+### Patch Changes
+
+- Updated dependencies [0ce9b91]
+  - @modern-js/types@2.69.2
+  - @modern-js/core@2.69.2
+  - @modern-js/utils@2.69.2
+  - @modern-js/plugin-changeset@2.69.2
+  - @modern-js/plugin-i18n@2.69.2
+  - @modern-js/plugin@2.69.2
+
 ## 2.69.1
 
 ### Patch Changes
