@@ -14,6 +14,7 @@ import type {
 import { ModernI18nProvider } from './context';
 import {
   createContextValue,
+  useClientSideRedirect,
   useLanguageSync,
   useSdkResourcesLoader,
 } from './hooks';
@@ -209,6 +210,15 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
           runtimeContextRef,
           prevLangRef,
           setLang,
+        );
+        // Handle client-side redirect for static deployments
+        // Note: This hook only executes in browser environment and skips SSR scenarios
+        useClientSideRedirect(
+          i18nInstance,
+          localePathRedirect,
+          languages,
+          fallbackLanguage,
+          ignoreRedirectRoutes,
         );
 
         const contextValue = useMemo(

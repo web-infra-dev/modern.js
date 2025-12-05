@@ -87,3 +87,65 @@ export const detectLanguageFromPath = (
 
   return { detected: false };
 };
+
+/**
+ * Check if the given pathname should ignore automatic locale redirect
+ */
+export const shouldIgnoreRedirect = (
+  pathname: string,
+  languages: string[],
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+): boolean => {
+  if (!ignoreRedirectRoutes) {
+    return false;
+  }
+
+  // Remove language prefix if present (e.g., /en/api -> /api)
+  const segments = pathname.split('/').filter(Boolean);
+  let pathWithoutLang = pathname;
+  if (segments.length > 0 && languages.includes(segments[0])) {
+    // Remove language prefix
+    pathWithoutLang = `/${segments.slice(1).join('/')}`;
+  }
+
+  // Normalize path (ensure it starts with /)
+  const normalizedPath = pathWithoutLang.startsWith('/')
+    ? pathWithoutLang
+    : `/${pathWithoutLang}`;
+
+  if (typeof ignoreRedirectRoutes === 'function') {
+    return ignoreRedirectRoutes(normalizedPath);
+  }
+
+  // Check if pathname matches any of the ignore patterns
+  return ignoreRedirectRoutes.some(pattern => {
+    // Support both exact match and prefix match
+    return (
+      normalizedPath === pattern || normalizedPath.startsWith(`${pattern}/`)
+    );
+  });
+};
+
+// Safe hook wrapper to handle cases where router context is not available
+export const useRouterHooks = () => {
+  try {
+    const {
+      useLocation,
+      useNavigate,
+      useParams,
+    } = require('@modern-js/runtime/router');
+    return {
+      navigate: useNavigate(),
+      location: useLocation(),
+      params: useParams(),
+      hasRouter: true,
+    };
+  } catch (error) {
+    return {
+      navigate: null,
+      location: null,
+      params: {},
+      hasRouter: false,
+    };
+  }
+};

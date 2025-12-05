@@ -1,10 +1,17 @@
 import { isBrowser } from '@modern-js/runtime';
 import type { TRuntimeContext } from '@modern-js/runtime';
 import type React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { I18nInstance } from './i18n';
 import { cacheUserLanguage } from './i18n/detection';
-import { detectLanguageFromPath, getPathname } from './utils';
+import {
+  buildLocalizedUrl,
+  detectLanguageFromPath,
+  getEntryPath,
+  getPathname,
+  shouldIgnoreRedirect,
+  useRouterHooks,
+} from './utils';
 
 interface RuntimeContextWithI18n extends TRuntimeContext {
   i18nInstance?: I18nInstance;
@@ -114,6 +121,106 @@ export function useSdkResourcesLoader(
       );
     };
   }, [i18nInstance, setForceUpdate]);
+}
+
+/**
+ * Hook to handle client-side redirect for locale path redirect in static deployments
+ * This ensures that when users access paths without language prefix, they are redirected
+ * to the localized version of the path
+ *
+ * Note: This hook only runs in CSR (Client-Side Rendering) scenarios.
+ * In SSR/SSG scenarios, server-side middleware handles redirects, so this hook is skipped.
+ * We use process.env.MODERN_TARGET to ensure this code is only included in browser bundles.
+ */
+export function useClientSideRedirect(
+  i18nInstance: I18nInstance | undefined,
+  localePathRedirect: boolean,
+  languages: string[],
+  fallbackLanguage: string,
+  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean),
+) {
+  const hasRedirectedRef = useRef(false);
+  // Get router hooks safely
+  const { navigate, location, hasRouter } = useRouterHooks();
+
+  useEffect(() => {
+    if (process.env.MODERN_TARGET !== 'browser') {
+      return;
+    }
+    if (!localePathRedirect || !i18nInstance) {
+      return;
+    }
+
+    try {
+      const ssrData = (window as any)._SSR_DATA;
+      if (ssrData) {
+        return;
+      }
+    } catch {
+      // Ignore errors when checking SSR data
+    }
+
+    if (hasRedirectedRef.current) {
+      return;
+    }
+
+    if (!i18nInstance.isInitialized) {
+      return;
+    }
+
+    // Use router location if available, otherwise fallback to window.location
+    const currentPathname =
+      hasRouter && location ? location.pathname : window.location.pathname;
+    const currentSearch =
+      hasRouter && location ? location.search : window.location.search;
+    const currentHash =
+      hasRouter && location ? location.hash : window.location.hash;
+
+    const entryPath = getEntryPath();
+    const relativePath = currentPathname.replace(entryPath, '');
+
+    if (shouldIgnoreRedirect(relativePath, languages, ignoreRedirectRoutes)) {
+      return;
+    }
+
+    const pathDetection = detectLanguageFromPath(
+      currentPathname,
+      languages,
+      localePathRedirect,
+    );
+
+    if (pathDetection.detected) {
+      return;
+    }
+
+    const targetLanguage =
+      i18nInstance.language || fallbackLanguage || languages[0] || 'en';
+
+    const newPath = buildLocalizedUrl(relativePath, targetLanguage, languages);
+    const newUrl = entryPath + newPath + currentSearch + currentHash;
+
+    if (newUrl !== currentPathname + currentSearch + currentHash) {
+      hasRedirectedRef.current = true;
+
+      // Use navigate if router is available (similar to changeLanguage implementation)
+      if (hasRouter && navigate && location) {
+        navigate(newUrl, { replace: true });
+      } else {
+        // Fallback to window.location.replace for non-router scenarios
+        // This ensures the new URL is properly recognized and translations are reloaded
+        window.location.replace(newUrl);
+      }
+    }
+  }, [
+    navigate,
+    location,
+    hasRouter,
+    localePathRedirect,
+    i18nInstance,
+    languages,
+    fallbackLanguage,
+    ignoreRedirectRoutes,
+  ]);
 }
 
 export function useLanguageSync(
