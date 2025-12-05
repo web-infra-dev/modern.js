@@ -8,6 +8,6 @@
     "target": "ES5",
     "esModuleInterop": true,
     "paths": {},
-    "types": ["node", "jest"]
+    "types": ["node", "@rstest/core/globals"]
   }
 }
