@@ -315,10 +315,13 @@ i18nPlugin({
 import { defineRuntimeConfig } from '@modern-js/runtime';
 import i18next from 'i18next';
 
+// 建议创建一个新的 i18next 实例，避免使用全局默认实例
+const i18nInstance = i18next.createInstance();
+
 export default defineRuntimeConfig({
   i18n: {
     // 使用自定义 i18next 实例（可选）
-    i18nInstance: i18next,
+    i18nInstance: i18nInstance,
 
     // i18next 初始化选项
     initOptions: {
