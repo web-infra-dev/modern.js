@@ -116,7 +116,7 @@ describe('watcher', () => {
   //   setTimeout(() => writeFiles('end', filepath), 100);
   // });
 
-  test('should not emit change when typings file changed', done => {
+  test('should not emit change when typings file changed', async () => {
     const watcher = new Watcher();
     const apiDir = path.normalize(path.join(pwd, './api'));
 
@@ -143,12 +143,14 @@ describe('watcher', () => {
       callback,
     );
 
-    setTimeout(async () => {
-      expect(callback).toHaveBeenCalledTimes(0);
-      await watcher.close();
-      clear();
-      done();
-    }, 1000);
+    await new Promise<void>(resolve => {
+      setTimeout(async () => {
+        expect(callback).toHaveBeenCalledTimes(0);
+        await watcher.close();
+        clear();
+        resolve();
+      }, 1000);
+    });
   });
 });
 

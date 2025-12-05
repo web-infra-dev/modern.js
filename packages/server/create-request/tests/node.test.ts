@@ -1,10 +1,6 @@
 import { storage } from '@modern-js/runtime-utils/node';
-/**
- * @jest-environment node
- */
 import nock from 'nock';
-// 如果通过 default 引入会报 "Property exprName of TSTypeQuery expected node to be of a type ["TSEntityName","TSImportType"] but instead got "MemberExpression"
-import * as fetch from 'node-fetch';
+import fetch from 'node-fetch';
 import { Response } from 'node-fetch';
 import { configure, createRequest } from '../src/node';
 
@@ -27,11 +23,11 @@ describe('configure', () => {
   //   nock.cleanAll();
   // });
 
-  test('should support custom request', done => {
+  test('should support custom request', async () => {
     const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
-    storage.run(
+    await storage.run(
       {
         headers: {
           referer: url,
@@ -41,7 +37,7 @@ describe('configure', () => {
       async () => {
         nock(url).get(path).reply(200, response);
 
-        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+        const customRequest = rs.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
         const request = createRequest({ path, method, port });
@@ -51,16 +47,15 @@ describe('configure', () => {
         expect(customRequest).toHaveBeenCalledTimes(1);
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('query should support array', done => {
+  test('query should support array', async () => {
     const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
-    storage.run(
+    await storage.run(
       {
         headers: {
           referer: url,
@@ -75,7 +70,7 @@ describe('configure', () => {
           })
           .reply(200, response);
 
-        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+        const customRequest = rs.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
         const request = createRequest({ path, method, port });
@@ -88,13 +83,12 @@ describe('configure', () => {
 
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('should support interceptor', done => {
-    storage.run(
+  test('should support interceptor', async () => {
+    await storage.run(
       {
         monitors: {} as any,
         headers: {},
@@ -102,7 +96,7 @@ describe('configure', () => {
       async () => {
         nock(url).get(path).reply(200, response);
 
-        const interceptor = jest.fn(
+        const interceptor = rs.fn(
           request => (requestPath: any) => request(requestPath),
         );
 
@@ -113,13 +107,12 @@ describe('configure', () => {
 
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('should has correct priority', done => {
-    storage.run(
+  test('should has correct priority', async () => {
+    await storage.run(
       {
         monitors: {} as any,
         headers: {},
@@ -127,9 +120,9 @@ describe('configure', () => {
       async () => {
         nock(url).get(path).reply(200, response);
 
-        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+        const customRequest = rs.fn((requestPath: any) => fetch(requestPath));
 
-        const interceptor = jest.fn(
+        const interceptor = rs.fn(
           request => (requestPath: any) => request(requestPath),
         );
 
@@ -145,15 +138,14 @@ describe('configure', () => {
         expect(customRequest).toHaveBeenCalledTimes(1);
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('should support custom headers in ssr environment', done => {
+  test('should support custom headers in ssr environment', async () => {
     const authKey = 'aaa';
 
-    storage.run(
+    await storage.run(
       {
         headers: {
           authorization: authKey,
@@ -174,13 +166,12 @@ describe('configure', () => {
         const data = await request();
 
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('should support params', done => {
-    storage.run(
+  test('should support params', async () => {
+    await storage.run(
       {
         monitors: {} as any,
         headers: {},
@@ -188,7 +179,7 @@ describe('configure', () => {
       async () => {
         nock(url).get(`${path}/modernjs`).reply(200, response);
 
-        const interceptor = jest.fn(
+        const interceptor = rs.fn(
           request => (requestPath: any) => request(requestPath),
         );
 
@@ -203,13 +194,12 @@ describe('configure', () => {
         const data = await res.json();
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });
 
-  test('should support params with schema', done => {
-    storage.run(
+  test('should support params with schema', async () => {
+    await storage.run(
       {
         monitors: {} as any,
         headers: {},
@@ -217,7 +207,7 @@ describe('configure', () => {
       async () => {
         nock(url).get(`${path}/modernjs`).reply(200, response);
 
-        const interceptor = jest.fn(
+        const interceptor = rs.fn(
           request => (requestPath: any) => request(requestPath),
         );
 
@@ -236,7 +226,6 @@ describe('configure', () => {
         const data = await res.json();
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
-        done();
       },
     );
   });

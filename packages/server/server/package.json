@@ -23,6 +23,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "modern:source": "./src/index.ts",
       "jsnext:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",

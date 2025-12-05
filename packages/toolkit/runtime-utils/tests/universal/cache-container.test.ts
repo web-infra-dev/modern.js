@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import Redis from 'ioredis-mock';
 import {
   CacheTime,
@@ -85,14 +82,14 @@ class RedisContainer implements Container {
 
 describe('Custom Container Integration', () => {
   beforeEach(async () => {
-    jest.useFakeTimers();
+    rs.useFakeTimers();
     await RedisContainer.clearAllMocks();
     configureCache({ container: undefined });
     await clearStore();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    rs.useRealTimers();
     configureCache({ container: undefined });
   });
 
@@ -101,7 +98,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { tag: 'test' });
 
       const result1 = await cachedFn('param1');
@@ -126,7 +123,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, {
         maxAge: CacheTime.SECOND,
         revalidate: CacheTime.SECOND,
@@ -141,17 +138,17 @@ describe('Custom Container Integration', () => {
       );
       expect(setOperation).toContain('ttl=2');
 
-      jest.advanceTimersByTime(CacheTime.SECOND / 2);
+      rs.advanceTimersByTime(CacheTime.SECOND / 2);
       await cachedFn('param1');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(CacheTime.SECOND / 2 + 1);
+      rs.advanceTimersByTime(CacheTime.SECOND / 2 + 1);
       await cachedFn('param1');
       expect(mockFn).toHaveBeenCalledTimes(2);
     });
 
     it('should handle container switching', async () => {
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { tag: 'test' });
 
       await cachedFn('param1');
@@ -175,11 +172,11 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn1 = jest.fn(async (param: string): Promise<string> => {
+      const mockFn1 = rs.fn(async (param: string): Promise<string> => {
         return 'data1';
       });
 
-      const mockFn2 = jest.fn(async (param: string): Promise<string> => {
+      const mockFn2 = rs.fn(async (param: string): Promise<string> => {
         return 'data2';
       });
 
@@ -227,7 +224,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockResolvedValueOnce('initial data')
         .mockResolvedValueOnce('updated data');
@@ -241,13 +238,13 @@ describe('Custom Container Integration', () => {
       expect(result1).toBe('initial data');
       expect(mockFn).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(CacheTime.SECOND + 500);
+      rs.advanceTimersByTime(CacheTime.SECOND + 500);
 
       const result2 = await cachedFn('param');
       expect(result2).toBe('initial data');
       expect(mockFn).toHaveBeenCalledTimes(2);
 
-      await jest.runOnlyPendingTimersAsync();
+      await rs.runOnlyPendingTimersAsync();
       await Promise.resolve();
       const result3 = await cachedFn('param');
       expect(result3).toBe('updated data');
@@ -263,7 +260,7 @@ describe('Custom Container Integration', () => {
         resolveRevalidation = resolve;
       });
 
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockResolvedValueOnce('initial data')
         .mockImplementationOnce(() => revalidationPromise);
@@ -274,7 +271,7 @@ describe('Custom Container Integration', () => {
       });
 
       await cachedFn('param');
-      jest.advanceTimersByTime(CacheTime.SECOND + 500);
+      rs.advanceTimersByTime(CacheTime.SECOND + 500);
 
       const results = await Promise.all([
         cachedFn('param'),
@@ -286,7 +283,7 @@ describe('Custom Container Integration', () => {
       expect(mockFn).toHaveBeenCalledTimes(2);
 
       resolveRevalidation!('updated data');
-      await jest.runOnlyPendingTimersAsync();
+      await rs.runOnlyPendingTimersAsync();
       await Promise.resolve();
     });
   });
@@ -296,8 +293,8 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn1 = jest.fn().mockResolvedValue('data1');
-      const mockFn2 = jest.fn().mockResolvedValue('data2');
+      const mockFn1 = rs.fn().mockResolvedValue('data1');
+      const mockFn2 = rs.fn().mockResolvedValue('data2');
 
       const cachedFn1 = cache(mockFn1, {
         customKey: () => 'shared-key',
@@ -320,7 +317,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest
+      const mockFn = rs
         .fn()
         .mockImplementation((id, data) =>
           Promise.resolve(`data for ${id}: ${JSON.stringify(data)}`),
@@ -342,8 +339,8 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest.fn().mockResolvedValue('test data');
-      const onCacheMock = jest.fn();
+      const mockFn = rs.fn().mockResolvedValue('test data');
+      const onCacheMock = rs.fn();
 
       const cachedFn = cache(mockFn, {
         onCache: onCacheMock,
@@ -367,7 +364,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
 
       const cachedFnWithOptions = cache(mockFn, { maxAge: CacheTime.SECOND });
 
@@ -401,7 +398,7 @@ describe('Custom Container Integration', () => {
       const redisContainer = new RedisContainer();
       configureCache({ container: redisContainer });
 
-      const mockFn = jest.fn().mockResolvedValue('test data');
+      const mockFn = rs.fn().mockResolvedValue('test data');
       const cachedFn = cache(mockFn, { tag: 'cleanup' });
 
       await cachedFn('param1');

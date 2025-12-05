@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { CacheTime, cache, clearStore } from '../../src/universal/cache';
 
 describe('client-side behavior', () => {
@@ -8,18 +5,18 @@ describe('client-side behavior', () => {
 
   beforeEach(() => {
     (global as any).window = {};
-    jest.spyOn(console, 'warn').mockImplementation();
+    rs.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterEach(() => {
     if (originalIsServer) {
       delete (global as any).window;
     }
-    jest.restoreAllMocks();
+    rs.restoreAllMocks();
   });
 
   it('should warn and execute function when no options provided on client', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn);
 
     const result = await cachedFn('param');
@@ -37,7 +34,7 @@ describe('client-side behavior', () => {
   });
 
   it('should work normally with options on client', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
     const cachedFn = cache(mockFn, { tag: 'test' });
 
     const result1 = await cachedFn('param');
@@ -53,15 +50,15 @@ describe('client-side behavior', () => {
 
 describe('stale-while-revalidate', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    rs.useFakeTimers();
     clearStore();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    rs.useRealTimers();
   });
   it('should return stale data and revalidate in background during revalidate window', async () => {
-    const mockFn = jest
+    const mockFn = rs
       .fn()
       .mockResolvedValueOnce('initial data')
       .mockResolvedValueOnce('updated data');
@@ -75,7 +72,7 @@ describe('stale-while-revalidate', () => {
     expect(result1).toBe('initial data');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(CacheTime.SECOND + 500);
+    rs.advanceTimersByTime(CacheTime.SECOND + 500);
 
     const result2 = await cachedFn('param');
     expect(result2).toBe('initial data');
@@ -90,7 +87,7 @@ describe('stale-while-revalidate', () => {
   });
 
   it('should handle concurrent requests during revalidation', async () => {
-    const mockFn = jest
+    const mockFn = rs
       .fn()
       .mockResolvedValueOnce('initial data')
       .mockResolvedValueOnce('updated data');
@@ -101,7 +98,7 @@ describe('stale-while-revalidate', () => {
     });
     await cachedFn('param');
 
-    jest.advanceTimersByTime(CacheTime.SECOND + 500);
+    rs.advanceTimersByTime(CacheTime.SECOND + 500);
 
     expect(mockFn).toHaveBeenCalledTimes(1);
     const results = await Promise.all([
@@ -115,7 +112,7 @@ describe('stale-while-revalidate', () => {
   });
 
   it('should fetch new data when outside revalidate window', async () => {
-    const mockFn = jest
+    const mockFn = rs
       .fn()
       .mockResolvedValueOnce('initial data')
       .mockResolvedValueOnce('updated data');
@@ -128,7 +125,7 @@ describe('stale-while-revalidate', () => {
     const result1 = await cachedFn('param');
     expect(result1).toBe('initial data');
 
-    jest.advanceTimersByTime(CacheTime.SECOND * 4);
+    rs.advanceTimersByTime(CacheTime.SECOND * 4);
 
     const result2 = await cachedFn('param');
     expect(result2).toBe('updated data');
@@ -137,13 +134,13 @@ describe('stale-while-revalidate', () => {
 
   it('should handle background revalidation failure', async () => {
     const error = new Error('revalidation failed');
-    const mockFn = jest
+    const mockFn = rs
       .fn()
       .mockResolvedValueOnce('initial data')
       .mockRejectedValueOnce(error)
       .mockResolvedValueOnce('updated data');
 
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+    const consoleSpy = rs.spyOn(console, 'error').mockImplementation(() => {});
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
@@ -153,7 +150,7 @@ describe('stale-while-revalidate', () => {
     const result1 = await cachedFn('param');
     expect(result1).toBe('initial data');
 
-    jest.advanceTimersByTime(CacheTime.SECOND + 500);
+    rs.advanceTimersByTime(CacheTime.SECOND + 500);
 
     const result2 = await cachedFn('param');
     expect(result2).toBe('initial data');
@@ -175,7 +172,7 @@ describe('stale-while-revalidate', () => {
   });
 
   it('should not revalidate when within maxAge', async () => {
-    const mockFn = jest.fn().mockResolvedValue('test data');
+    const mockFn = rs.fn().mockResolvedValue('test data');
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,
@@ -185,7 +182,7 @@ describe('stale-while-revalidate', () => {
     await cachedFn('param');
     expect(mockFn).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(CacheTime.SECOND / 2);
+    rs.advanceTimersByTime(CacheTime.SECOND / 2);
     await cachedFn('param');
 
     await Promise.resolve();
