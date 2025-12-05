@@ -50,6 +50,35 @@ export default defineConfig({
 
 :::
 
+### 在 `src/modern.runtime.ts` 中配置运行时选项
+
+创建 `src/modern.runtime.ts` 文件并配置 i18n 运行时选项：
+
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+// 建议创建一个新的 i18next 实例，避免使用全局默认实例
+const i18nInstance = i18next.createInstance();
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: i18nInstance,
+    initOptions: {
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
+    },
+  },
+});
+```
+
+:::info
+`modern.runtime.ts` 是运行时配置文件，用于配置 i18next 的初始化选项。即使是最基础的配置，也建议创建此文件以确保插件正常工作。
+
+建议使用 `i18next.createInstance()` 创建一个新的实例，而不是直接使用默认导出的 `i18next`，这样可以避免全局状态污染，并确保每个应用都有独立的 i18n 实例。
+
+:::
+
 ### 创建语言资源文件
 
 在项目根目录创建 `locales` 文件夹，并按语言组织资源文件：

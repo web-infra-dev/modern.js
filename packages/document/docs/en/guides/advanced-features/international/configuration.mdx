@@ -311,10 +311,13 @@ You can configure runtime options in `src/modern.runtime.ts`:
 import { defineRuntimeConfig } from '@modern-js/runtime';
 import i18next from 'i18next';
 
+// It's recommended to create a new i18next instance to avoid using the global default instance
+const i18nInstance = i18next.createInstance();
+
 export default defineRuntimeConfig({
   i18n: {
     // Use custom i18next instance (optional)
-    i18nInstance: i18next,
+    i18nInstance: i18nInstance,
 
     // i18next initialization options
     initOptions: {
