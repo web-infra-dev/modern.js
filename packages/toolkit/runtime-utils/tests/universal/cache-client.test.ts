@@ -5,7 +5,7 @@ describe('client-side behavior', () => {
 
   beforeEach(() => {
     (global as any).window = {};
-    rs.spyOn(console, 'warn').mockImplementation();
+    rs.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -140,7 +140,7 @@ describe('stale-while-revalidate', () => {
       .mockRejectedValueOnce(error)
       .mockResolvedValueOnce('updated data');
 
-    const consoleSpy = rs.spyOn(console, 'error').mockImplementation();
+    const consoleSpy = rs.spyOn(console, 'error').mockImplementation(() => {});
 
     const cachedFn = cache(mockFn, {
       maxAge: CacheTime.SECOND,

@@ -148,6 +148,8 @@ describe('cache function', () => {
   });
 
   it('should handle errors correctly', async () => {
+    const consoleSpy = rs.spyOn(console, 'warn').mockImplementation(() => {});
+
     const error = new Error('test error');
     const mockFn = rs.fn().mockRejectedValue(error);
     const cachedFn = cache(mockFn, {
@@ -156,6 +158,8 @@ describe('cache function', () => {
 
     await expect(cachedFn('param1')).rejects.toThrow(error);
     expect(mockFn).toHaveBeenCalledTimes(2);
+
+    consoleSpy.mockRestore();
   });
 
   describe('server-side caching', () => {

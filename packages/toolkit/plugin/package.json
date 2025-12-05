@@ -38,11 +38,13 @@
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
+      "modern:source": "./src/cli/index.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
+      "modern:source": "./src/runtime/index.tsx",
       "jsnext:source": "./src/runtime/index.tsx",
       "node": {
         "import": "./dist/esm/runtime/index.mjs",

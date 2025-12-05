@@ -107,6 +107,7 @@ module.exports = {
         '<rootDir>/packages/generator/',
         '<rootDir>/packages/server/babel-plugin-module-resolver/',
         '<rootDir>/packages/server/core/',
+        '<rootDir>/packages/server/create-request/',
         '<rootDir>/packages/server/bff-runtime/',
       ],
       rootDir: path.join(__dirname, '../'),
