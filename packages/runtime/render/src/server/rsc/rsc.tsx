@@ -1,12 +1,12 @@
-export { renderToReadableStream } from '@modern-js/utils/react-server-dom-webpack/server.edge';
+export { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
 import type { ClientManifest } from '@modern-js/types/server';
-import { renderToReadableStream } from '@modern-js/utils/react-server-dom-webpack/server.edge';
-import { decodeReply } from '@modern-js/utils/react-server-dom-webpack/server.edge';
-export { createFromReadableStream } from '@modern-js/utils/react-server-dom-webpack/client.edge';
+import { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
+import { decodeReply } from 'react-server-dom-webpack/server.edge';
+export { createFromReadableStream } from 'react-server-dom-webpack/client.edge';
 export {
   registerClientReference,
   registerServerReference,
-} from '@modern-js/utils/react-server-dom-webpack/server';
+} from 'react-server-dom-webpack/server';
 
 declare const __webpack_require__: (path: string) => any;
 
