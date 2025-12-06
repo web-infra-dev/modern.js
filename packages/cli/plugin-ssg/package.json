@@ -88,7 +88,7 @@
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "react-router-dom": "^7.6.0",
     "typescript": "^5"
   },
