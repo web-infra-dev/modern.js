@@ -83,7 +83,7 @@
     "@types/node": "^20",
     "http-proxy-middleware": "^2.0.9",
     "jest": "^29.7.0",
-    "ts-jest": "^29.4.5",
+    "ts-jest": "^29.4.6",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
