@@ -15,7 +15,7 @@
     "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20251120074204",
     "@module-federation/bridge-react": "0.0.0-feat-modern-3-0-20251120074204",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

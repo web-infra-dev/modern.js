@@ -12,7 +12,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "tailwindcss": "^2.2.19"
   }
 }

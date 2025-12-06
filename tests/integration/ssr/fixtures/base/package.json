@@ -9,7 +9,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
