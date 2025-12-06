@@ -78,7 +78,7 @@
     "lint-staged": "~13.3.0",
     "nx": "^17.3.2",
     "rimraf": "^6.1.2",
-    "@rstest/core": "0.6.8"
+    "@rstest/core": "0.7.0"
   },
   "pnpm": {
     "peerDependencyRules": {
