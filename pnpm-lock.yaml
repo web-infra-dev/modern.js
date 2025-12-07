@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -2209,8 +2207,8 @@ importers:
         specifier: ^3.29.5
         version: 3.29.5
       rollup-plugin-dts:
-        specifier: 6.2.3
-        version: 6.2.3(rollup@3.29.5)(typescript@5.6.3)
+        specifier: 6.3.0
+        version: 6.3.0(rollup@3.29.5)(typescript@5.6.3)
       sass:
         specifier: 1.94.2
         version: 1.94.2
@@ -14612,8 +14610,8 @@ packages:
   robust-predicates@3.0.2:
     resolution: {integrity: sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg==}
 
-  rollup-plugin-dts@6.2.3:
-    resolution: {integrity: sha512-UgnEsfciXSPpASuOelix7m4DrmyQgiaWBnvI0TM4GxuDh5FkqW8E5hu57bCxXB90VvR1WNfLV80yEDN18UogSA==}
+  rollup-plugin-dts@6.3.0:
+    resolution: {integrity: sha512-d0UrqxYd8KyZ6i3M2Nx7WOMy708qsV/7fTHMHxCMCBOAe3V/U7OMPu5GkX8hC+cmkHhzGnfeYongl1IgiooddA==}
     engines: {node: '>=16'}
     peerDependencies:
       rollup: ^3.29.4 || ^4
@@ -27944,9 +27942,9 @@ snapshots:
 
   robust-predicates@3.0.2: {}
 
-  rollup-plugin-dts@6.2.3(rollup@3.29.5)(typescript@5.6.3):
+  rollup-plugin-dts@6.3.0(rollup@3.29.5)(typescript@5.6.3):
     dependencies:
-      magic-string: 0.30.17
+      magic-string: 0.30.21
       rollup: 3.29.5
       typescript: 5.6.3
     optionalDependencies:
