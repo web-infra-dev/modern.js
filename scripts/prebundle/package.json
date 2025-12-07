@@ -75,7 +75,7 @@
     "postcss-page-break": "3.0.4",
     "postcss-value-parser": "4.2.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "react-is": "^18.3.1",
     "rollup": "^3.29.5",
     "rollup-plugin-dts": "6.2.3",
