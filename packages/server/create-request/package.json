@@ -113,7 +113,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
