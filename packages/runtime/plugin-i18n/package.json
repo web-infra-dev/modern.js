@@ -100,7 +100,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17.0.2",
-    "i18next": ">=25.6.3",
+    "i18next": ">=25.7.1",
     "react-i18next": ">=15.7.4",
     "@modern-js/runtime": "workspace:^2.68.1"
   },
@@ -113,7 +113,7 @@
     }
   },
   "devDependencies": {
-    "i18next": "25.6.3",
+    "i18next": "25.7.1",
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
