@@ -374,8 +374,8 @@ importers:
         specifier: ^3.5.3
         version: 3.5.3
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -664,8 +664,8 @@ importers:
         specifier: 15.7.4
         version: 15.7.4(i18next@25.6.3(typescript@5.6.3))(react-dom@19.2.1(react@19.2.0))(react@19.2.0)(typescript@5.6.3)
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
@@ -822,8 +822,8 @@ importers:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.0)
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)
@@ -1006,8 +1006,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1079,8 +1079,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1375,8 +1375,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -1442,8 +1442,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3))
       ts-jest:
-        specifier: ^29.4.5
-        version: 29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
+        specifier: ^29.4.6
+        version: 29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3)
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -15495,8 +15495,8 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  ts-jest@29.4.5:
-    resolution: {integrity: sha512-HO3GyiWn2qvTQA4kTgjDcXiMwYQt68a1Y8+JuLRVpdIzm+UOLSHgl/XqR4c6nzJkq5rOkjc02O2I7P7l/Yof0Q==}
+  ts-jest@29.4.6:
+    resolution: {integrity: sha512-fSpWtOO/1AjSNQguk43hb/JCo16oJDnMJf3CdEGNkqsEX3t0KX96xvyX1D7PfLCpVoKu4MfVrqUkFyblYoY4lA==}
     engines: {node: ^14.15.0 || ^16.10.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -28964,7 +28964,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.4.5(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3):
+  ts-jest@29.4.6(@babel/core@7.28.5)(@jest/transform@29.7.0)(@jest/types@30.2.0)(babel-jest@29.7.0(@babel/core@7.28.5))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.8.8)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.14.0(@swc/helpers@0.5.17))(@types/node@20.8.8)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
