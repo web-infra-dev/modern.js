@@ -55,7 +55,7 @@
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "babel-plugin-transform-typescript-metadata": "^0.3.2"
+    "babel-plugin-transform-typescript-metadata": "^0.4.0"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
