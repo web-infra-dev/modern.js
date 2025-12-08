@@ -8,7 +8,10 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import React, { act } from 'react';
-import { RuntimeContext } from '../../src';
+import {
+  InternalRuntimeContext,
+  type TInternalRuntimeContext,
+} from '../../src/core/context';
 import { Link } from '../../src/router';
 
 declare global {
@@ -36,12 +39,19 @@ jest.mock('react', () => {
   return {
     ...originalModule,
     useContext: (context: unknown) => {
-      if (context === RuntimeContext) {
+      // Mock both contexts using string comparison as fallback
+      const contextString = context.toString();
+
+      if (
+        context === InternalRuntimeContext ||
+        contextString.includes('InternalRuntimeContext')
+      ) {
         return {
           routes: mockRoutes,
           routeManifest: mockRouteManifest,
         };
       }
+
       return originContext(context);
     },
   };
@@ -118,7 +128,7 @@ describe('prefetch', () => {
       return {
         ...originalModule,
         useContext: (context: unknown) => {
-          if (context === RuntimeContext) {
+          if (context === InternalRuntimeContext) {
             return {
               routes: mockRoutes,
               routeManifest: mockRouteManifest,

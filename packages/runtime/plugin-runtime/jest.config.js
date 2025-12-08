@@ -4,7 +4,10 @@ const sharedConfig = require('@scripts/jest-config');
 module.exports = {
   ...sharedConfig,
   testEnvironment: 'node',
-  setupFiles: ['../../../tests/setEnvVars.js'],
+  setupFiles: [
+    '../../../tests/setEnvVars.js',
+    '<rootDir>/tests/setupTextEncoder.js',
+  ],
   rootDir: __dirname,
   moduleNameMapper: {
     '^@modern-js/runtime/browser$': require.resolve(

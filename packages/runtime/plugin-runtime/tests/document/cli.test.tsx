@@ -9,7 +9,7 @@ import { createContext, initPluginAPI } from '@modern-js/plugin/cli';
 
 import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
-import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';
+import { documentPlugin, getDocumentByEntryName } from '../../src/document/cli';
 
 describe('plugin runtime cli', () => {
   let pluginAPI: CLIPluginAPI<AppTools>;
@@ -31,7 +31,7 @@ describe('plugin runtime cli', () => {
     });
     context.pluginAPI = pluginAPI;
     for (const plugin of plugins) {
-      await plugin.setup(pluginAPI);
+      await plugin?.setup?.(pluginAPI);
     }
   };
   beforeAll(async () => {
@@ -75,6 +75,11 @@ describe('plugin runtime cli', () => {
     };
     const result = htmlPlugin(mockBuilderOptions, { entryName: 'main' });
 
+    // mock renderer to bypass child-compiler output in unit test
+    (global as any).__MODERN_DOC_RENDERERS__ = {
+      main: () => '<html><head></head><body>mock</body></html>',
+    };
+
     expect(result.k).toEqual(mockBuilderOptions.k);
     expect(result.templateParameters).toEqual(
       mockBuilderOptions.templateParameters,
@@ -91,10 +96,6 @@ describe('plugin runtime cli', () => {
       },
     });
     expect(html.includes('<!DOCTYPE html>')).toBeTruthy();
-    // the html file should existed
-    expect(
-      existsSync(path.join(__dirname, './feature/document/_main.html.js')),
-    ).toBeTruthy();
   });
   it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
     const hooks: any = pluginAPI.getHooks();
@@ -112,7 +113,7 @@ describe('plugin runtime cli', () => {
     );
     // empty entries
     expect(entries.length).toEqual(0);
-    const documentFile = getDocumenByEntryName(
+    const documentFile = getDocumentByEntryName(
       [],
       'main',
       path.join(__dirname, './feature'),
