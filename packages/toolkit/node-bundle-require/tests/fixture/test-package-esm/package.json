@@ -1,5 +1,0 @@
-{
-  "name": "test-package-esm",
-  "type": "module",
-  "main": "index.js"
-}

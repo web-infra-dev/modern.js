@@ -111,7 +111,6 @@
     "@babel/parser": "^7.28.5",
     "@babel/traverse": "^7.28.5",
     "@babel/types": "^7.28.5",
-    "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
