@@ -1041,7 +1041,7 @@ exports[`uni-builder environment compat > should generator environment config co
                         "legacyDecorator": true,
                         "react": {
                           "development": true,
-                          "refresh": true,
+                          "refresh": false,
                           "runtime": "automatic",
                         },
                         "useDefineForClassFields": false,
@@ -1140,7 +1140,7 @@ exports[`uni-builder environment compat > should generator environment config co
                         "legacyDecorator": true,
                         "react": {
                           "development": true,
-                          "refresh": true,
+                          "refresh": false,
                           "runtime": "automatic",
                         },
                         "useDefineForClassFields": false,
