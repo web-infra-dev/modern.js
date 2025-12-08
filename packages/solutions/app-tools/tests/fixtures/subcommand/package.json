@@ -1,6 +1,6 @@
 {
   "name": "app-tools-subcommand-test",
   "devDependencies": {
-    "react": "^19.2.0"
+    "react": "^19.2.1"
   }
 }
