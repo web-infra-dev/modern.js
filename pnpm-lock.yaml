@@ -621,8 +621,8 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2(encoding@0.1.13)
       i18next-http-middleware:
-        specifier: ^3.8.2
-        version: 3.8.2
+        specifier: ^3.9.0
+        version: 3.9.0
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -11543,8 +11543,8 @@ packages:
   i18next-http-backend@3.0.2:
     resolution: {integrity: sha512-PdlvPnvIp4E1sYi46Ik4tBYh/v/NbYfFFgTjkwFl0is8A18s7/bx9aXqsrOax9WUbeNS6mD2oix7Z0yGGf6m5g==}
 
-  i18next-http-middleware@3.8.2:
-    resolution: {integrity: sha512-Z0i85W9dlX4dbceQD3EX2vj/PChebMjDCSLxE7ZJZ5Fgm8LPQmBmB9iJeE7oX3LH7Zzdu/a/28LCHOVHqaeW0Q==}
+  i18next-http-middleware@3.9.0:
+    resolution: {integrity: sha512-hM56al/hnQ8a6Us5uRvw/en1gSI3vePqBUa9nX4+ISvIHOU/li7ffu11FrI2aR83nphTe6ofo7mxhVu0PLAe2w==}
 
   i18next@25.6.3:
     resolution: {integrity: sha512-AEQvoPDljhp67a1+NsnG/Wb1Nh6YoSvtrmeEd24sfGn3uujCtXCF3cXpr7ulhMywKNFF7p3TX1u2j7y+caLOJg==}
@@ -24067,7 +24067,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  i18next-http-middleware@3.8.2: {}
+  i18next-http-middleware@3.9.0: {}
 
   i18next@25.6.3(typescript@5.6.3):
     dependencies:
