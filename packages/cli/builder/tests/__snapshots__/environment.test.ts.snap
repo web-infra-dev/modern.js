@@ -904,7 +904,7 @@ exports[`builder environment compat > should generator environment config correc
                         "legacyDecorator": true,
                         "react": {
                           "development": true,
-                          "refresh": true,
+                          "refresh": false,
                           "runtime": "automatic",
                         },
                         "useDefineForClassFields": false,
@@ -980,7 +980,7 @@ exports[`builder environment compat > should generator environment config correc
                         "legacyDecorator": true,
                         "react": {
                           "development": true,
-                          "refresh": true,
+                          "refresh": false,
                           "runtime": "automatic",
                         },
                         "useDefineForClassFields": false,
