@@ -65,7 +65,7 @@
     "@swc/helpers": "^0.5.17",
     "@types/babel__core": "^7.20.5",
     "babel-plugin-dynamic-import-node": "2.3.3",
-    "core-js": "~3.46.0"
+    "core-js": "~3.47.0"
   },
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",
