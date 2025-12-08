@@ -69,11 +69,11 @@
     "@types/supertest": "^2.0.16",
     "isomorphic-fetch": "^3.0.0",
     "memfs": "^3.5.3",
-    "react": "^19.2.0",
+    "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "supertest": "^6.3.4",
     "typescript": "^5",
-    "@rsbuild/core": "1.6.12"
+    "@rsbuild/core": "1.6.13"
   },
   "peerDependencies": {
     "react": ">=17.0.0"
