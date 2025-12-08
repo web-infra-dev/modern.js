@@ -48,14 +48,14 @@
     "@codesandbox/sandpack-react": "^2.20.0",
     "@swc/helpers": "^0.5.17",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.1.8",

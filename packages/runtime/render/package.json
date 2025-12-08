@@ -29,17 +29,18 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "^0.5.17"
+    "@swc/helpers": "^0.5.17",
+    "react-server-dom-webpack": "19.0.1"
   },
   "devDependencies": {
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "typescript": "^5"
   },
   "peerDependencies": {

@@ -1,8 +1,8 @@
-import type { ReactServerValue } from '@modern-js/utils/react-server-dom-webpack';
+import type { ReactServerValue } from 'react-server-dom-webpack';
 import {
   createFromFetch,
   encodeReply,
-} from '@modern-js/utils/react-server-dom-webpack/client.browser';
+} from 'react-server-dom-webpack/client.browser';
 
 class CallServerError extends Error {
   readonly #statusCode: number;

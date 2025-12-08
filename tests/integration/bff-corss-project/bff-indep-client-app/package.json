@@ -16,9 +16,9 @@
     "@modern-js/runtime": "workspace:*",
     "axios": "^1.13.2",
     "bff-api-app": "workspace:*",
-    "express": "^4.21.2",
+    "express": "^4.22.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.22.3"

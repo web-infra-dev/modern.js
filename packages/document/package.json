@@ -28,11 +28,11 @@
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*",
-    "mermaid": "^11.12.1"
+    "mermaid": "^11.12.2"
   },
   "devDependencies": {
     "@rsbuild/plugin-sass": "1.4.0",
-    "@shikijs/transformers": "^3.15.0",
+    "@shikijs/transformers": "^3.19.0",
     "@rspress/shared": "2.0.0-rc.0",
     "@rspress/plugin-llms": "2.0.0-rc.0",
     "@types/fs-extra": "9.0.13",
@@ -41,7 +41,7 @@
     "clsx": "^1.2.1",
     "fs-extra": "^10.1.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "@rspress/core": "2.0.0-rc.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"

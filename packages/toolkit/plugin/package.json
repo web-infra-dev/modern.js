@@ -100,7 +100,7 @@
     "@modern-js/builder": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

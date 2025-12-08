@@ -7,7 +7,7 @@
     "build": "modern build"
   },
   "dependencies": {
-    "i18next":"25.6.3",
+    "i18next":"25.7.1",
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -15,7 +15,7 @@
     "@module-federation/bridge-react": "0.0.0-feat-modern-3-0-20251120074204",
     "@module-federation/runtime": "0.0.0-feat-modern-3-0-20251120074204",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

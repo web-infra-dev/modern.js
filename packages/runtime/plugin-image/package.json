@@ -48,10 +48,10 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@types/node": "^20",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "typescript": "^5"
   }
 }

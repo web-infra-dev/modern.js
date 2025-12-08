@@ -62,7 +62,7 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",

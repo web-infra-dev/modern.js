@@ -55,18 +55,18 @@
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "babel-plugin-transform-typescript-metadata": "^0.3.2"
+    "babel-plugin-transform-typescript-metadata": "^0.4.0"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "jest": "^29.7.0",
-    "ts-jest": "^29.4.5",
+    "ts-jest": "^29.4.6",
     "typescript": "^5"
   },
   "sideEffects": false,
