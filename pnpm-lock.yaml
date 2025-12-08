@@ -664,8 +664,8 @@ importers:
         specifier: 1.6.13
         version: 1.6.13
       '@rsbuild/webpack':
-        specifier: 1.6.2
-        version: 1.6.2(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
+        specifier: 1.6.1
+        version: 1.6.1(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -748,8 +748,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.6.13)
       '@rsbuild/webpack':
-        specifier: 1.6.2
-        version: 1.6.2(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
+        specifier: 1.6.1
+        version: 1.6.1(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
       '@swc/core':
         specifier: 1.14.0
         version: 1.14.0(@swc/helpers@0.5.17)
@@ -13420,8 +13420,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/webpack@1.6.2':
-    resolution: {integrity: sha512-1PafTAWHyYvjkae1s6VjnrqyzExwxb34YwkPsZa6NjOinOsc5+ZUzHcBiXTCIsmoj9kJvFbJscqAU+2IYWSDXw==}
+  '@rsbuild/webpack@1.6.1':
+    resolution: {integrity: sha512-Y95sg0iVDLMt5rucWik6HrOGKWcursp5eAZ40NTPsmg1lvRXnzeNJGZLNVex+33fqZZZ6HEtNHMlRneILlMLpw==}
     peerDependencies:
       '@rsbuild/core': ^1.3.21
 
@@ -18748,18 +18748,6 @@ packages:
 
   html-webpack-plugin@5.6.4:
     resolution: {integrity: sha512-V/PZeWsqhfpE27nKeX9EO2sbR+D17A+tLf6qU+ht66jdUsN0QLKJN27Z+1+gHrVMKgndBahes0PU6rRihDgHTw==}
-    engines: {node: '>=10.13.0'}
-    peerDependencies:
-      '@rspack/core': 0.x || 1.x
-      webpack: ^5.20.0
-    peerDependenciesMeta:
-      '@rspack/core':
-        optional: true
-      webpack:
-        optional: true
-
-  html-webpack-plugin@5.6.5:
-    resolution: {integrity: sha512-4xynFbKNNk+WlzXeQQ+6YYsH2g7mpfPszQZUi3ovKlj+pDmngQ7vRXjrrmGROabmKwyQkcgcX5hqfOwHbFmK5g==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -32190,11 +32178,11 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.6.13
 
-  '@rsbuild/webpack@1.6.2(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)':
+  '@rsbuild/webpack@1.6.1(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)':
     dependencies:
       '@rsbuild/core': 1.6.13
       copy-webpack-plugin: 11.0.0(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
-      html-webpack-plugin: 5.6.5(@rspack/core@1.6.6(@swc/helpers@0.5.17))(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
+      html-webpack-plugin: 5.6.4(@rspack/core@1.6.6(@swc/helpers@0.5.17))(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
       mini-css-extract-plugin: 2.9.4(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
       picocolors: 1.1.1
       reduce-configs: 1.1.1
@@ -39304,17 +39292,6 @@ snapshots:
   html-void-elements@3.0.0: {}
 
   html-webpack-plugin@5.6.4(@rspack/core@1.6.6(@swc/helpers@0.5.17))(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
-    dependencies:
-      '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0
-      lodash: 4.17.21
-      pretty-error: 4.0.0
-      tapable: 2.2.1
-    optionalDependencies:
-      '@rspack/core': 1.6.6(@swc/helpers@0.5.17)
-      webpack: 5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
-
-  html-webpack-plugin@5.6.5(@rspack/core@1.6.6(@swc/helpers@0.5.17))(webpack@5.103.0(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
