@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -208,8 +206,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.6.13)
       '@rsbuild/plugin-svgr':
-        specifier: 1.2.2
-        version: 1.2.2(@rsbuild/core@1.6.13)(typescript@5.6.3)
+        specifier: 1.2.3
+        version: 1.2.3(@rsbuild/core@1.6.13)(typescript@5.6.3)
       '@rsbuild/plugin-type-check':
         specifier: 1.3.2
         version: 1.3.2(@rsbuild/core@1.6.13)(@rspack/core@1.6.6(@swc/helpers@0.5.17))(typescript@5.6.3)
@@ -7555,8 +7553,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-svgr@1.2.2':
-    resolution: {integrity: sha512-zd1efqsd0mDWe6B6dAKmubMvvaGrD4lPKXUZObynROvPZBSeaZxY2y2Ddrwc1yCyWL6X4WdBd1WIfShGGGKDxg==}
+  '@rsbuild/plugin-svgr@1.2.3':
+    resolution: {integrity: sha512-ehcEqRGuWqjVkF96Ibz9czFGJJQptl3E2kBC11f9oq81d8xZAFQYqP3gC4Ns9B/G/YSVVlmykfrqAyf7XGoIAQ==}
     peerDependencies:
       '@rsbuild/core': 1.x
 
@@ -19382,7 +19380,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.6.13
 
-  '@rsbuild/plugin-svgr@1.2.2(@rsbuild/core@1.6.13)(typescript@5.6.3)':
+  '@rsbuild/plugin-svgr@1.2.3(@rsbuild/core@1.6.13)(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.6.13
       '@rsbuild/plugin-react': 1.4.2(@rsbuild/core@1.6.13)
