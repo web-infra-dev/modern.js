@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 2.69.3
+
+### Patch Changes
+
+- 0ebba1a: fix: upgrade react-server-dom-webpack to fix security vulnerability
+
+  fix: 升级 react-server-dom-webpack 修复安全问题
+
 ## 2.69.2
 
 ## 2.69.1

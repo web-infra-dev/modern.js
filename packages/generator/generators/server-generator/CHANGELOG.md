@@ -1,5 +1,7 @@
 # @modern-js/server-generator
 
+## 3.7.61
+
 ## 3.7.60
 
 ## 3.7.59
