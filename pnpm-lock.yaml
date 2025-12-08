@@ -842,6 +842,9 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
+      react-server-dom-webpack:
+        specifier: 19.0.1
+        version: 19.0.1(react-dom@19.2.1(react@19.2.0))(react@19.2.0)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -8925,6 +8928,10 @@ packages:
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
+  acorn-loose@8.5.2:
+    resolution: {integrity: sha512-PPvV6g8UGMGgjrMu+n/f9E/tCSkNQ2Y97eFvuVdJfG11+xdIeDcLyNdC8SHcrHbRqkfwLASdplyR6B6sKM1U4A==}
+    engines: {node: '>=0.4.0'}
+
   acorn-node@1.8.2:
     resolution: {integrity: sha512-8mt+fslDufLYntIoPAaIMUe/lrbrehIiwmR3t2k9LljIzoigEPF27eLk2hy8zSGzmR/ogr7zbRKINMo1u0yh5A==}
 
@@ -14352,6 +14359,14 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
+
+  react-server-dom-webpack@19.0.1:
+    resolution: {integrity: sha512-RdiENR3uo87Te0jZbFcCLX1chzpwFGLqN35h7n5pgGNiXqWnz43ly94uyCiy4X8zx3swjYYULHmJvwK1P5HBig==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^19.0.1
+      react-dom: ^19.0.1
+      webpack: ^5.59.0
 
   react-side-effect@2.1.2:
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
@@ -21070,6 +21085,10 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
+  acorn-loose@8.5.2:
+    dependencies:
+      acorn: 8.15.0
+
   acorn-node@1.8.2:
     dependencies:
       acorn: 7.4.1
@@ -27624,6 +27643,15 @@ snapshots:
       set-cookie-parser: 2.7.1
     optionalDependencies:
       react-dom: 19.2.1(react@19.2.0)
+
+  react-server-dom-webpack@19.0.1(react-dom@19.2.1(react@19.2.0))(react@19.2.0)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
+    dependencies:
+      acorn-loose: 8.5.2
+      neo-async: 2.6.2
+      react: 19.2.0
+      react-dom: 19.2.1(react@19.2.0)
+      webpack: 5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)
+      webpack-sources: 3.3.3
 
   react-side-effect@2.1.2(react@19.2.0):
     dependencies:
