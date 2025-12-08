@@ -136,6 +136,7 @@
     "rspress",
     "@module-federation/modern-js",
     "@module-federation/bridge-react",
-    "@module-federation/runtime"
+    "@module-federation/runtime",
+    "@rsbuild/webpack"
   ]
 }

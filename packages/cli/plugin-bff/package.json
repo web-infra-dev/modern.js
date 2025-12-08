@@ -119,7 +119,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "1.6.12",
+    "@rsbuild/core": "1.6.13",
     "@scripts/jest-config": "workspace:*",
     "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",

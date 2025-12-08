@@ -30,7 +30,7 @@
   "dependencies": {
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.6.12",
+    "@rsbuild/core": "1.6.13",
     "@rsbuild/plugin-assets-retry": "1.5.0",
     "@rsbuild/plugin-babel": "1.0.6",
     "@rsbuild/plugin-check-syntax": "1.6.0",
@@ -68,7 +68,7 @@
     "@scripts/rstest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.21",
-    "react": "^19.2.0",
+    "react": "^19.2.1",
     "terser": "^5.44.1",
     "typescript": "^5.3.0"
   },
