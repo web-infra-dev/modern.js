@@ -38,11 +38,13 @@
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
+      "modern:source": "./src/cli/index.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
+      "modern:source": "./src/runtime/index.tsx",
       "jsnext:source": "./src/runtime/index.tsx",
       "node": {
         "import": "./dist/esm/runtime/index.mjs",
@@ -84,7 +86,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
     "build": "rslib build",
-    "test": "jest"
+    "test": "rstest"
   },
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
@@ -96,11 +98,8 @@
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
-    "jest": "^29.7.0",
     "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"

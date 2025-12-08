@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "types": ["node", "jest"]
+    "types": ["node", "@rstest/core/globals"]
   },
   "include": ["src"]
 }

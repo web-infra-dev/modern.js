@@ -63,9 +63,9 @@ describe('merge function', () => {
     const i18nInstance = {
       language: 'en',
       isInitialized: true,
-      init: jest.fn(),
-      changeLanguage: jest.fn(),
-      t: jest.fn(),
+      init: rs.fn(),
+      changeLanguage: rs.fn(),
+      t: rs.fn(),
       store: {
         data: { en: { translation: {} } },
       },
@@ -90,8 +90,8 @@ describe('merge function', () => {
     const i18nInstance = {
       language: 'en',
       isInitialized: true,
-      init: jest.fn(),
-      changeLanguage: jest.fn(),
+      init: rs.fn(),
+      changeLanguage: rs.fn(),
       circular: circularObj,
     };
 

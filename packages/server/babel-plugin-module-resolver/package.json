@@ -34,7 +34,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@swc/helpers": "^0.5.17",
@@ -49,9 +49,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/preset-env": "^7.28.5",
     "@scripts/build": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "common-tags": "^1.8.2",
-    "jest": "^29.7.0"
+    "common-tags": "^1.8.2"
   },
   "sideEffects": false,
   "publishConfig": {
