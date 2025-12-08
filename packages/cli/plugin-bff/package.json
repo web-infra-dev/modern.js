@@ -121,7 +121,7 @@
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "1.6.12",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",

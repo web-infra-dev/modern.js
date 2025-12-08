@@ -68,7 +68,7 @@
     "@types/node": "^20",
     "jest": "^29.7.0",
     "ts-jest": "^29.4.6",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
