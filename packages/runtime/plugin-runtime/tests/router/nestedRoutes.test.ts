@@ -17,14 +17,17 @@ describe('nested routes', () => {
         id: 'a',
         path: 'a',
         type: 'nested',
+        origin: 'file-system',
         children: [
           {
             id: 'b',
             path: 'b',
             type: 'nested',
+            origin: 'file-system',
             children: [
               {
                 id: 'c',
+                origin: 'file-system',
                 type: 'nested',
                 path: 'c',
                 _component: 'componentC',
@@ -32,12 +35,14 @@ describe('nested routes', () => {
               {
                 // pathless layout
                 id: 'e',
+                origin: 'file-system',
                 type: 'nested',
                 _component: 'componentE',
                 children: [
                   {
                     id: 'f',
                     path: 'f',
+                    origin: 'file-system',
                     type: 'nested',
                     _component: 'componentF',
                   },
@@ -49,23 +54,27 @@ describe('nested routes', () => {
             id: 'd',
             path: 'd',
             type: 'nested',
+            origin: 'file-system',
             _component: 'componentD',
           },
           {
             id: 'g',
             path: 'g',
             type: 'nested',
+            origin: 'file-system',
             children: [
               {
                 id: 'i',
                 path: 'h/i',
                 type: 'nested',
+                origin: 'file-system',
                 _component: 'componentH',
               },
               {
                 id: 'j',
                 path: '*',
                 type: 'nested',
+                origin: 'file-system',
                 _component: 'componentJ',
               },
             ],
@@ -80,17 +89,22 @@ describe('nested routes', () => {
           path: 'a/b/c',
           type: 'nested',
           _component: 'componentC',
+          component: undefined,
+          origin: 'file-system',
         },
         {
           id: 'e',
           path: 'a/b',
           type: 'nested',
           _component: 'componentE',
+          component: undefined,
+          origin: 'file-system',
           children: [
             {
               id: 'f',
               path: 'f',
               type: 'nested',
+              origin: 'file-system',
               _component: 'componentF',
             },
           ],
@@ -100,18 +114,24 @@ describe('nested routes', () => {
           path: 'a/d',
           type: 'nested',
           _component: 'componentD',
+          component: undefined,
+          origin: 'file-system',
         },
         {
           id: 'i',
           path: 'a/g/h/i',
           type: 'nested',
           _component: 'componentH',
+          component: undefined,
+          origin: 'file-system',
         },
         {
           id: 'j',
           path: 'a/g/*',
           type: 'nested',
           _component: 'componentJ',
+          component: undefined,
+          origin: 'file-system',
         },
       ]);
     });
@@ -127,21 +147,25 @@ describe('nested routes', () => {
       const route: NestedRouteForCli = {
         id: 'a',
         type: 'nested',
+        origin: 'file-system',
         path: 'a',
         children: [
           // pathless layout
           {
             id: 'b',
             type: 'nested',
+            origin: 'file-system',
             _component: 'layoutB',
             children: [
               {
                 id: 'c',
                 type: 'nested',
+                origin: 'file-system',
                 path: 'c',
                 children: [
                   {
                     id: 'd',
+                    origin: 'file-system',
                     type: 'nested',
                     _component: 'pageD',
                     index: true,
@@ -161,12 +185,16 @@ describe('nested routes', () => {
           path: 'a',
           type: 'nested',
           _component: 'layoutB',
+          component: undefined,
+          origin: 'file-system',
           children: [
             {
               id: 'd',
               path: 'c',
               _component: 'pageD',
               type: 'nested',
+              component: undefined,
+              origin: 'file-system',
             },
           ],
         },
@@ -176,17 +204,16 @@ describe('nested routes', () => {
 
   test('walk', async () => {
     const routesDir = path.join(fixtures, './nested-routes');
-    const route = await walk(
-      routesDir,
-      routesDir,
-      {
+    const route = await walk({
+      dirname: routesDir,
+      rootDir: routesDir,
+      alias: {
         name: '@_modern_js_src',
         basename: routesDir,
       },
-      'main',
-      true,
-      false,
-    );
+      entryName: 'main',
+      isMainEntry: true,
+    });
     expect(route).toMatchSnapshot();
   });
 });
