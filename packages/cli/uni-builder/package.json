@@ -19,6 +19,16 @@
       "default": "./dist/shared/rsc/index.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "rsc": [
+        "./dist/shared/rsc/index.d.ts"
+      ]
+    }
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
