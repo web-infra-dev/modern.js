@@ -13,9 +13,9 @@
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "express": "^4.21.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "express": "^4.22.1",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.22.3"

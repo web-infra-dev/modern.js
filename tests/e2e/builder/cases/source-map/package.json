@@ -3,8 +3,8 @@
   "name": "@e2e/webpack-builder-source-map",
   "version": "2.66.0",
   "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "source-map": "0.7.6"
   }
 }

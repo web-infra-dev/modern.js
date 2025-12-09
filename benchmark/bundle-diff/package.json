@@ -16,13 +16,13 @@
   ],
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@rsdoctor/rspack-plugin": "^1.3.11",
+    "@rsdoctor/rspack-plugin": "^1.3.12",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",

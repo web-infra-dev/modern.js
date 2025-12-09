@@ -903,7 +903,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                       "legacyDecorator": true,
                       "react": {
                         "development": true,
-                        "refresh": true,
+                        "refresh": false,
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
@@ -979,7 +979,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                       "legacyDecorator": true,
                       "react": {
                         "development": true,
-                        "refresh": true,
+                        "refresh": false,
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,

@@ -16,6 +16,7 @@ export interface TimingEvent {
     name: string;
     dur: number;
     desc?: string;
+    tags?: Record<string, any>;
     args?: any[];
   };
 }
@@ -24,6 +25,7 @@ export interface CounterEvent {
   type: 'counter';
   payload: {
     name: string;
+    tags?: Record<string, any>;
     args?: any[];
   };
 }
@@ -43,6 +45,12 @@ export interface Monitors {
   trace(message: string, ...args: any[]): void;
 
   // 打点事件
-  timing(name: string, dur: number, ...args: any[]): void;
-  counter(name: string, ...args: any[]): void;
+  timing(
+    name: string,
+    dur: number,
+    desc?: string,
+    tags?: Record<string, any>,
+    ...args: any[]
+  ): void;
+  counter(name: string, tags?: Record<string, any>, ...args: any[]): void;
 }

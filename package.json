@@ -40,7 +40,8 @@
     "check-dependencies": "node ./scripts/check-dependencies.js",
     "update-rspress": "npx taze major --include /rspress/ -w -r -l",
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
-    "build:docs": "pnpm --filter @modern-js/main-doc... build"
+    "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/doc_build/* ./doc_output",
+    "build:docs": "pnpm --filter @modern-js/main-doc... build && npm run gen:docs"
   },
   "engines": {
     "node": ">=20",
@@ -78,7 +79,7 @@
     "lint-staged": "~13.3.0",
     "nx": "^17.3.2",
     "rimraf": "^6.1.2",
-    "@rstest/core": "0.6.8"
+    "@rstest/core": "0.7.0"
   },
   "pnpm": {
     "peerDependencyRules": {

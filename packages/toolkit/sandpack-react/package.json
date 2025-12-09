@@ -42,27 +42,25 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "ts-node scripts/template.ts && rslib build",
     "dev": "rslib build --watch",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",
     "@swc/helpers": "^0.5.17",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
     "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/recursive-readdir": "^2.2.4",
-    "jest": "^29.7.0",
     "recursive-readdir": "^2.2.3",
     "ts-node": "^10.9.2",
     "typescript": "^5"

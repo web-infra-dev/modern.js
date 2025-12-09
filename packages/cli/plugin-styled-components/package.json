@@ -24,7 +24,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.18.2",
+    "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",
