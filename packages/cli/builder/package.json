@@ -13,6 +13,20 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./rsc": {
+      "types": "./dist/rsc/index.d.ts",
+      "default": "./dist/rsc/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "rsc": [
+        "./dist/rsc/index.d.ts"
+      ]
     }
   },
   "main": "./dist/index.js",
