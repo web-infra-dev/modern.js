@@ -90,7 +90,7 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.6.13",
+    "@rsbuild/core": "1.6.14",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
