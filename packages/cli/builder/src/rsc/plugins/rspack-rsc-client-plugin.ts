@@ -204,9 +204,15 @@ export class RspackRscClientPlugin {
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           RspackRscClientPlugin.name,
           (_chunk, runtimeRequirements) => {
-            runtimeRequirements.add(RuntimeGlobals.ensureChunkHandlers);
-            runtimeRequirements.add(RuntimeGlobals.ensureChunk);
-            runtimeRequirements.add(RuntimeGlobals.compatGetDefaultExport);
+            runtimeRequirements.add(
+              RuntimeGlobals.ensureChunkHandlers as unknown as string,
+            );
+            runtimeRequirements.add(
+              RuntimeGlobals.ensureChunk as unknown as string,
+            );
+            runtimeRequirements.add(
+              RuntimeGlobals.compatGetDefaultExport as unknown as string,
+            );
           },
         );
 
