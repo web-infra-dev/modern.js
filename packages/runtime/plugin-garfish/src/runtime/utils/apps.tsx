@@ -38,6 +38,53 @@ export function pathJoin(...args: string[]) {
   return res || '/';
 }
 
+function deepEqualExcludeFunctions(
+  prev: any,
+  next: any,
+  visited?: WeakSet<any>,
+): boolean {
+  if (prev === next) return true;
+  if (!prev || !next) return false;
+  if (typeof prev !== 'object' || typeof next !== 'object') return false;
+
+  const visitedSet = visited ?? new WeakSet();
+  // 如果已经访问过，说明有循环引用，直接返回 true（认为相等）
+  if (visitedSet.has(prev) || visitedSet.has(next)) {
+    return true;
+  }
+  visitedSet.add(prev);
+  visitedSet.add(next);
+  const prevKeys = Object.keys(prev).filter(
+    key => typeof prev[key] !== 'function',
+  );
+  const nextKeys = Object.keys(next).filter(
+    key => typeof next[key] !== 'function',
+  );
+
+  if (prevKeys.length !== nextKeys.length) return false;
+
+  for (const key of prevKeys) {
+    if (!nextKeys.includes(key)) return false;
+
+    const prevVal = prev[key];
+    const nextVal = next[key];
+
+    if (typeof prevVal === 'function' || typeof nextVal === 'function') {
+      continue;
+    }
+
+    if (typeof prevVal === 'object' && typeof nextVal === 'object') {
+      if (!deepEqualExcludeFunctions(prevVal, nextVal, visitedSet)) {
+        return false;
+      }
+    } else if (prevVal !== nextVal) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function getAppInstance(
   options: typeof Garfish.options,
   appInfo: ModulesInfo[number],
@@ -48,27 +95,41 @@ function getAppInstance(
   // It will be shared by all MicroApp component instances to store the state setter of the currently active component
   const componentSetterRegistry = {
     current: null as React.Dispatch<
-      React.SetStateAction<{ component: React.ComponentType<any> | null }>
+      React.SetStateAction<{
+        component: React.ComponentType<any> | null;
+        isFromJupiter?: boolean;
+      }>
     > | null,
   };
 
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
     const locationHrefRef = useRef('');
+    const propsRef = useRef<MicroProps>(props);
+    const previousPropsRef = useRef<MicroProps>(props);
+    const propsUpdateCounterRef = useRef(0);
 
     const domId = generateSubAppContainerKey(appInfo);
-    const [{ component: SubModuleComponent }, setSubModuleComponent] =
-      useState<{
-        component: React.ComponentType<any> | null;
-      }>({
-        component: null,
-      });
+    const componentRef = useRef<React.ComponentType<any> | null>(null);
+    const [
+      { component: SubModuleComponent, isFromJupiter },
+      setSubModuleComponent,
+    ] = useState<{
+      component: React.ComponentType<any> | null;
+      isFromJupiter?: boolean;
+    }>({
+      component: null,
+      isFromJupiter: false,
+    });
+    const [propsUpdateKey, setPropsUpdateKey] = useState(0);
     const context = useContext(RuntimeReactContext);
     const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
     const useMatches = props.useMatches ?? context?.router?.useMatches;
     const useLocation = props.useLocation ?? context?.router?.useLocation;
     const useHistory = props.useHistory ?? context?.router?.useHistory;
     const useHref = props.useHistory ?? context?.router?.useHref;
+    const lastPropsUpdateKeyRef = useRef(0);
+    const isRemountingRef = useRef(false);
 
     const match = useRouteMatch?.();
     const matchs = useMatches?.();
@@ -158,10 +219,69 @@ or directly pass the "basename":
     }, [locationPathname]);
 
     useEffect(() => {
+      if (previousPropsRef.current === props) {
+        return;
+      }
+      const prevPropsForCompare = { ...previousPropsRef.current };
+      const currentPropsForCompare = { ...props };
+
+      const ignoredKeysForRemount = [
+        'style',
+        'location',
+        'match',
+        'history',
+        'staticContext',
+        'guideState',
+        'guideConfig',
+      ];
+
+      Object.keys(prevPropsForCompare).forEach(key => {
+        if (typeof prevPropsForCompare[key] === 'function') {
+          delete prevPropsForCompare[key];
+        }
+      });
+      Object.keys(currentPropsForCompare).forEach(key => {
+        if (typeof currentPropsForCompare[key] === 'function') {
+          delete currentPropsForCompare[key];
+        }
+      });
+
+      const prevPropsForDeepCompare: any = {};
+      const currentPropsForDeepCompare: any = {};
+
+      Object.keys(prevPropsForCompare).forEach(key => {
+        if (!ignoredKeysForRemount.includes(key)) {
+          prevPropsForDeepCompare[key] = prevPropsForCompare[key];
+        }
+      });
+      Object.keys(currentPropsForCompare).forEach(key => {
+        if (!ignoredKeysForRemount.includes(key)) {
+          currentPropsForDeepCompare[key] = currentPropsForCompare[key];
+        }
+      });
+
+      // 只对非路由相关的 props 进行深度比较
+      const propsEqual = deepEqualExcludeFunctions(
+        prevPropsForDeepCompare,
+        currentPropsForDeepCompare,
+      );
+
+      if (!propsEqual) {
+        previousPropsRef.current = props;
+        propsRef.current = props;
+        propsUpdateCounterRef.current += 1;
+        setPropsUpdateKey(prev => prev + 1);
+      } else {
+        previousPropsRef.current = props;
+        propsRef.current = props;
+      }
+    }, [props, appInfo.name]);
+
+    useEffect(() => {
       // [MODIFIED] Register the current instance's state setter when the component mounts
       componentSetterRegistry.current = setSubModuleComponent;
 
-      const { setLoadingState, ...userProps } = props;
+      const { setLoadingState, ...userProps } = propsRef.current;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         cache: true,
@@ -184,6 +304,8 @@ or directly pass the "basename":
             jupiter_submodule_app_key,
           } = provider;
           const SubComponent = SubModuleComponent || jupiter_submodule_app_key;
+          const isFromJupiter =
+            !SubModuleComponent && !!jupiter_submodule_app_key;
           const componetRenderMode = manifest?.componentRender;
           return {
             mount: (...props) => {
@@ -191,7 +313,11 @@ or directly pass the "basename":
                 // [MODIFIED] Get and call the current state setter from the registry center
                 // This way, even if the mount method is cached, it can still call the setter of the latest component instance
                 if (componentSetterRegistry.current) {
-                  componentSetterRegistry.current({ component: SubComponent });
+                  componentRef.current = SubComponent;
+                  componentSetterRegistry.current({
+                    component: SubComponent,
+                    isFromJupiter,
+                  });
                 } else {
                   logger(
                     `[Garfish] MicroApp for "${appInfo.name}" tried to mount, but no active component setter was found.`,
@@ -278,12 +404,99 @@ or directly pass the "basename":
           }
         }
       };
-    }, []);
+    }, [basename, domId, appInfo.name]);
+
+    useEffect(() => {
+      if (appRef.current?.appInfo) {
+        const { setLoadingState, ...updatedProps } = props;
+        const updatedPropsWithKey = {
+          ...appInfo.props,
+          ...updatedProps,
+          _garfishPropsUpdateKey: propsUpdateKey,
+        };
+        appRef.current.appInfo.props = updatedPropsWithKey;
+      }
+    }, [propsUpdateKey, props]);
+
+    useEffect(() => {
+      const componetRenderMode = manifest?.componentRender;
+
+      if (
+        propsUpdateKey === lastPropsUpdateKeyRef.current ||
+        isRemountingRef.current
+      ) {
+        return;
+      }
+      lastPropsUpdateKeyRef.current = propsUpdateKey;
+
+      // 只在 componentRender 模式下，且应用已挂载时执行
+      if (componetRenderMode && appRef.current?.mounted) {
+        // 使用 SubModuleComponent 或 componentRef.current 来获取最新的组件引用
+        const componentToUse = SubModuleComponent || componentRef.current;
+
+        // 如果组件存在，则强制重新挂载
+        if (componentToUse) {
+          // 当 propsUpdateKey 变化时，清除组件状态，强制 React 重新挂载组件
+          // 通过设置 component 为 null，然后延迟恢复，确保 React 能够检测到组件状态的变化
+          const currentComponent = componentToUse;
+          const currentIsFromJupiter = isFromJupiter;
+
+          // 清除组件，触发 React 卸载
+          setSubModuleComponent({
+            component: null,
+            isFromJupiter: false,
+          });
+
+          // 使用 setTimeout 延迟恢复，确保 React 能够完全卸载组件后再重新挂载
+          // 这样可以确保组件真正重新挂载，而不是仅仅更新 props
+          setTimeout(() => {
+            setSubModuleComponent({
+              component: currentComponent,
+              isFromJupiter: currentIsFromJupiter,
+            });
+          }, 50);
+        } else {
+          // 组件还未设置，但应用已挂载，可以尝试重新触发 mount
+          // 即使组件为 null，只要应用已挂载，我们也可以尝试重新触发 mount 来设置组件
+          if (appRef.current?.mounted) {
+            // 先 hide，然后 show，触发组件重新设置
+            appRef.current?.hide();
+            setTimeout(() => {
+              appRef.current?.show();
+              setTimeout(() => {
+                isRemountingRef.current = false;
+              }, 100);
+            }, 10);
+          }
+        }
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [propsUpdateKey]);
+
+    // Remove setLoadingState from props
+    const { setLoadingState, ...renderProps } = props;
+
+    // Create the final props that include _garfishPropsUpdateKey
+    const finalRenderProps = {
+      ...renderProps,
+      _garfishPropsUpdateKey: propsUpdateKey,
+    };
+
+    // Use propsUpdateKey as part of the key
+    // If the component is from jupiter_submodule_app_key, don't use the update key calculation logic
+    const componentKey = isFromJupiter
+      ? undefined
+      : `${appInfo.name}-${propsUpdateKey}`;
 
     return (
       <>
         <div id={domId}>
-          {SubModuleComponent && <SubModuleComponent {...props} />}
+          {SubModuleComponent && (
+            <SubModuleComponent
+              {...(componentKey ? { key: componentKey } : {})}
+              {...finalRenderProps}
+            />
+          )}
         </div>
       </>
     );
