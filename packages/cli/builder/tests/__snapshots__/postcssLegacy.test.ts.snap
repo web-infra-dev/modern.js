@@ -1299,3 +1299,565 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
   },
 ]
 `;
+
+exports[`plugin-postcssLegacy > should register postcss plugin correctly when injectStyles is enabled in dev environment 1`] = `
+[
+  {
+    "dependency": {
+      "not": "url",
+    },
+    "resolve": {
+      "preferRelative": true,
+    },
+    "resourceQuery": {
+      "not": [
+        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+      ],
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "importLoaders": 1,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
+              {
+                "browsers": [
+                  "chrome >= 87",
+                  "edge >= 88",
+                  "firefox >= 78",
+                  "safari >= 14",
+                ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                    "edge >= 88",
+                    "firefox >= 78",
+                    "safari >= 14",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
+              },
+            ],
+          },
+          "sourceMap": true,
+        },
+      },
+    ],
+  },
+  {
+    "resolve": {
+      "preferRelative": true,
+    },
+    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "exportType": "string",
+          "importLoaders": 1,
+          "modules": false,
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
+              {
+                "browsers": [
+                  "chrome >= 87",
+                  "edge >= 88",
+                  "firefox >= 78",
+                  "safari >= 14",
+                ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                    "edge >= 88",
+                    "firefox >= 78",
+                    "safari >= 14",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
+              },
+            ],
+          },
+          "sourceMap": true,
+        },
+      },
+    ],
+  },
+  {
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "test": /\\\\\\.css\\$/,
+    "type": "asset/source",
+  },
+]
+`;
+
+exports[`plugin-postcssLegacy > should register postcss plugin correctly when injectStyles is enabled in production environment 1`] = `
+[
+  {
+    "dependency": {
+      "not": "url",
+    },
+    "resolve": {
+      "preferRelative": true,
+    },
+    "resourceQuery": {
+      "not": [
+        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+      ],
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "importLoaders": 1,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": false,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
+              Processor {
+                "plugins": [
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-comments",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-minify-gradients",
+                  },
+                  {
+                    "postcssPlugin": "postcss-reduce-initial",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-svgo",
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-display-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-reduce-transforms",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-colormin",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-timing-functions",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-calc",
+                  },
+                  {
+                    "postcssPlugin": "postcss-convert-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-ordered-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-minify-selectors",
+                  },
+                  {
+                    "postcssPlugin": "postcss-minify-params",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-charset",
+                  },
+                  {
+                    "postcssPlugin": "postcss-discard-overridden",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-string",
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-unicode",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-minify-font-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-repeat-style",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-positions",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-whitespace",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-duplicates",
+                  },
+                  {
+                    "postcssPlugin": "postcss-merge-rules",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-empty",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-unique-selectors",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "css-declaration-sorter",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "cssnano-util-raw-cache",
+                  },
+                ],
+                "version": "8.5.6",
+              },
+              {
+                "browsers": [
+                  "chrome >= 87",
+                  "edge >= 88",
+                  "firefox >= 78",
+                  "safari >= 14",
+                ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                    "edge >= 88",
+                    "firefox >= 78",
+                    "safari >= 14",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
+              },
+            ],
+          },
+          "sourceMap": false,
+        },
+      },
+    ],
+  },
+  {
+    "resolve": {
+      "preferRelative": true,
+    },
+    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "exportType": "string",
+          "importLoaders": 1,
+          "modules": false,
+          "sourceMap": false,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
+              Processor {
+                "plugins": [
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-comments",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-minify-gradients",
+                  },
+                  {
+                    "postcssPlugin": "postcss-reduce-initial",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-svgo",
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-display-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-reduce-transforms",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-colormin",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-timing-functions",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-calc",
+                  },
+                  {
+                    "postcssPlugin": "postcss-convert-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-ordered-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-minify-selectors",
+                  },
+                  {
+                    "postcssPlugin": "postcss-minify-params",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-charset",
+                  },
+                  {
+                    "postcssPlugin": "postcss-discard-overridden",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-string",
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-unicode",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-minify-font-values",
+                    "prepare": [Function],
+                  },
+                  {
+                    "postcssPlugin": "postcss-normalize-repeat-style",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-positions",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-normalize-whitespace",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-duplicates",
+                  },
+                  {
+                    "postcssPlugin": "postcss-merge-rules",
+                    "prepare": [Function],
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-discard-empty",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "postcss-unique-selectors",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "css-declaration-sorter",
+                  },
+                  {
+                    "OnceExit": [Function],
+                    "postcssPlugin": "cssnano-util-raw-cache",
+                  },
+                ],
+                "version": "8.5.6",
+              },
+              {
+                "browsers": [
+                  "chrome >= 87",
+                  "edge >= 88",
+                  "firefox >= 78",
+                  "safari >= 14",
+                ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                    "edge >= 88",
+                    "firefox >= 78",
+                    "safari >= 14",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
+              },
+            ],
+          },
+          "sourceMap": false,
+        },
+      },
+    ],
+  },
+  {
+    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+    "test": /\\\\\\.css\\$/,
+    "type": "asset/source",
+  },
+]
+`;
