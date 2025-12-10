@@ -1,6 +1,0 @@
-{
-  "name": "test-package-esm-with-cjs",
-  "type": "module",
-  "main": "index.cjs",
-  "module": "index.mjs"
-}

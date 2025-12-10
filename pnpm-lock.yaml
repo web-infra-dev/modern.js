@@ -1411,9 +1411,6 @@ importers:
       '@modern-js/i18n-utils':
         specifier: workspace:*
         version: link:../../toolkit/i18n-utils
-      '@modern-js/node-bundle-require':
-        specifier: workspace:*
-        version: link:../../toolkit/node-bundle-require
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
