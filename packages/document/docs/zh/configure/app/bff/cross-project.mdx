@@ -1,0 +1,24 @@
+---
+title: crossProject
+---
+
+# bff.crossProject
+
+- **类型：** `boolean`
+- **默认值：** `false`
+
+import EnableBFFCaution from "@site-docs/components/enable-bff-caution";
+
+<EnableBFFCaution />
+
+该配置用于启用 BFF 跨项目调用功能。启用后，可以将当前项目作为 BFF 生产端，生成可被其他项目直接调用的 SDK。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  bff: {
+    crossProject: true,
+  },
+});
+```
+
+有关 BFF 跨项目调用的详细配置和使用方法，请参考 [BFF 跨项目调用指南](/guides/advanced-features/bff/cross-project.html)。
