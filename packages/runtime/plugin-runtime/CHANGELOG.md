@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.69.4
+
+### Patch Changes
+
+- @modern-js/plugin-v2@2.69.4
+- @modern-js/plugin-data-loader@2.69.4
+- @modern-js/render@2.69.4
+- @modern-js/plugin@2.69.4
+- @modern-js/runtime-utils@2.69.4
+- @modern-js/types@2.69.4
+- @modern-js/utils@2.69.4
+
 ## 2.69.3
 
 ### Patch Changes

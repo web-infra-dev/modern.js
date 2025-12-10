@@ -1,5 +1,19 @@
 # @modern-js/uni-builder
 
+## 2.69.4
+
+### Patch Changes
+
+- 61ce615: fix: should not enable cssnano when injectStyles is enabled in dev environment
+
+  fix: 开启 injectStyles 时 dev 环境下不启用 cssnano
+
+- f716b76: chore: re-exports rsbuildRscPlugin for other framework
+  chore: 为其他框架重导出 rsbuildRscPlugin
+  - @modern-js/babel-preset@2.69.4
+  - @modern-js/flight-server-transform-plugin@2.69.4
+  - @modern-js/utils@2.69.4
+
 ## 2.69.3
 
 ### Patch Changes
