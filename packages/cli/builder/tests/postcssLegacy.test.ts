@@ -47,6 +47,48 @@ describe('plugin-postcssLegacy', () => {
     expect(matchRules({ config, testFile: 'a.sass' })).toMatchSnapshot();
     expect(matchRules({ config, testFile: 'a.less' })).toMatchSnapshot();
   });
+
+  it('should register postcss plugin correctly when injectStyles is enabled in dev environment', async () => {
+    const originalNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'development';
+
+    const rsbuild = await createBuilder({
+      bundlerType: 'rspack',
+      config: {
+        output: {
+          injectStyles: true,
+        },
+      },
+      cwd: '',
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
+
+    process.env.NODE_ENV = originalNodeEnv;
+  });
+
+  it('should register postcss plugin correctly when injectStyles is enabled in production environment', async () => {
+    const originalNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+
+    const rsbuild = await createBuilder({
+      bundlerType: 'rspack',
+      config: {
+        output: {
+          injectStyles: true,
+        },
+      },
+      cwd: '',
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
+
+    process.env.NODE_ENV = originalNodeEnv;
+  });
 });
 
 describe('lightningcss-loader', () => {

@@ -70,7 +70,7 @@ export const pluginPostcss = (
       const cssSupport = getCssSupport(config.output.overrideBrowserslist!);
       const enableExtractCSS = !config.output?.injectStyles;
 
-      const enableCssMinify = !enableExtractCSS && isProd;
+      const enableCssMinify = !enableExtractCSS && isProd();
 
       const cssnanoOptions: Options = {
         preset: [
