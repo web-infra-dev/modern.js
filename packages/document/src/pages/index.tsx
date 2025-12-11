@@ -65,19 +65,19 @@ export default function Home() {
     {
       id: 'feature3',
       title: t('feature3'),
-      href: useUrl('/guides/basic-features/routes'),
+      href: useUrl('/guides/basic-features/routes/routes'),
       desc: t('featureDesc3'),
     },
     {
       id: 'feature4',
       title: t('feature4'),
-      href: useUrl('/guides/advanced-features/ssr'),
+      href: useUrl('/guides/basic-features/render/ssr'),
       desc: t('featureDesc4'),
     },
     {
       id: 'feature5',
       title: t('feature5'),
-      href: useUrl('/guides/basic-features/css'),
+      href: useUrl('/guides/basic-features/css/css'),
       desc: t('featureDesc5'),
     },
     {
@@ -112,16 +112,6 @@ export default function Home() {
               />
             ))}
           </div>
-        </FeatureLayout>
-
-        <FeatureLayout>
-          <h1
-            className={clsx([styles.title, styles.titleGradient])}
-            style={{ textAlign: 'left', marginBottom: 32 }}
-          >
-            <div>{t('secondSlogan1')}</div>
-            <div>{t('secondSlogan2')}</div>
-          </h1>
         </FeatureLayout>
 
         <Footer />

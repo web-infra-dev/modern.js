@@ -68,15 +68,11 @@ export default function Footer() {
       items: [
         {
           label: t('microFrontend'),
-          to: useUrl('/guides/topic-detail/micro-frontend/c01-introduction'),
+          to: useUrl('/guides/topic-detail/module-federation/introduce'),
         },
         {
           label: t('pluginSystem'),
           to: useUrl('/plugin/plugin-system'),
-        },
-        {
-          label: t('projectGenerator'),
-          to: useUrl('/guides/topic-detail/generator/project'),
         },
       ],
     },
@@ -115,10 +111,6 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.wrapper}>
-        <img
-          className={styles.logo}
-          src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/modern-logo-home-page-0209.svg"
-        />
         <div className={styles.linksWrapper}>{Links}</div>
       </div>
     </footer>
