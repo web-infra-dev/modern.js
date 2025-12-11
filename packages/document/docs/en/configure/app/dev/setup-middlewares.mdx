@@ -7,31 +7,13 @@ title: setupMiddlewares
 - **Type:**
 
 ```ts
-type SetupMiddlewaresServer = {
+type RequestHandler = (req: any, res: any, next: () => void) => void;
+
+type ExposeServerApis = {
   sockWrite: (
     type: string,
     data?: string | boolean | Record<string, any>,
   ) => void;
-  environments: {
-    [name: string]: {
-      /**
-       * Get stats info about current environment.
-       */
-      getStats: () => Promise<Stats>;
-      /**
-       * Load and execute stats bundle in server.
-       *
-       * @param entryName - relate to Rsbuild's `source.entry`
-       * @returns the return value of entry module.
-       */
-      loadBundle: <T = unknown>(entryName: string) => Promise<T>;
-
-      /**
-       * Get the compiled HTML template.
-       */
-      getTransformedHtml: (entryName: string) => Promise<string>;
-    };
-  };
 };
 
 type SetupMiddlewares = Array<
@@ -40,7 +22,7 @@ type SetupMiddlewares = Array<
       unshift: (...handlers: RequestHandler[]) => void;
       push: (...handlers: RequestHandler[]) => void;
     },
-    server: SetupMiddlewaresServer,
+    server: ExposeServerApis,
   ) => void
 >;
 ```

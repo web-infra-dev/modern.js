@@ -15,7 +15,8 @@
     "config",
     "api",
     "modern.config.ts",
-    "modern-app-env.d.ts"
+    "modern-app-env.d.ts",
+    "server"
   ],
   "exclude": ["node_modules", "dist", "dist-1"]
 }

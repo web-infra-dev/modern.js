@@ -7,32 +7,13 @@ title: setupMiddlewares
 - **类型：**
 
 ```ts
-type SetupMiddlewaresServer = {
+type RequestHandler = (req: any, res: any, next: () => void) => void;
+
+type ExposeServerApis = {
   sockWrite: (
     type: string,
     data?: string | boolean | Record<string, any>,
   ) => void;
-  environments: {
-    [name: string]: {
-      /**
-       * 获取当前环境的构建信息
-       */
-      getStats: () => Promise<Stats>;
-
-      /**
-       * 在服务端加载并执行构建产物
-       *
-       * @param entryName - 入口名称，和 Rsbuild source.entry 的某一个 key 值对应
-       * @returns 入口模块的返回值
-       */
-      loadBundle: <T = unknown>(entryName: string) => Promise<T>;
-
-      /**
-       * 获取编译后的 HTML 模版内容
-       */
-      getTransformedHtml: (entryName: string) => Promise<string>;
-    };
-  };
 };
 
 type SetupMiddlewares = Array<
@@ -41,7 +22,7 @@ type SetupMiddlewares = Array<
       unshift: (...handlers: RequestHandler[]) => void;
       push: (...handlers: RequestHandler[]) => void;
     },
-    server: SetupMiddlewaresServer,
+    server: ExposeServerApis,
   ) => void
 >;
 ```
