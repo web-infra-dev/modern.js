@@ -389,6 +389,12 @@ resolve: {
 
 **变更内容**: 该配置已废弃，直接移除。
 
+
+### source.disableEntryDirs
+
+**变更内容**: 该配置已废弃，直接移除。
+
+
 ## tools
 
 ### tools.esbuild
@@ -502,7 +508,7 @@ dev: {
 
 // 改动后
 server: {
-  port: process.env.NODE_ENV === 'development' && 8080
+  port: process.env.NODE_ENV === 'development' ?  8080 : undefined
 }
 ```
 
