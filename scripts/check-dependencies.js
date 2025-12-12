@@ -6,6 +6,7 @@ const ignoreDeps = [
   'tsconfig-paths',
   'typescript',
   'lru-cache',
+  'tsx',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps

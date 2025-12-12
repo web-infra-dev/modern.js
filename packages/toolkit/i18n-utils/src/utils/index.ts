@@ -1,4 +1,6 @@
-import { isObject, isString } from '@modern-js/utils/lodash';
+import lodash from '@modern-js/utils/lodash';
+
+const { isObject, isString } = lodash;
 
 interface ITem {
   [key: string]: string | ITem;

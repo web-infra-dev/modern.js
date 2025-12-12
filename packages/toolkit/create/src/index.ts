@@ -3,7 +3,6 @@ import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
-import Handlebars from 'handlebars';
 import { i18n, localeKeys } from './locale';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -28,6 +27,27 @@ const detectLanguage = (): 'zh' | 'en' => {
 
 i18n.changeLanguage({ locale: detectLanguage() });
 
+function renderTemplate(template: string, data: Record<string, any>): string {
+  let result = template;
+
+  const unlessRegex = /\{\{#unless\s+(\w+)\}\}([\s\S]*?)\{\{\/unless\}\}/g;
+  result = result.replace(unlessRegex, (match, condition, content) => {
+    const value = data[condition];
+    if (!value) {
+      return content;
+    }
+    return '';
+  });
+
+  const varRegex = /\{\{(\w+)\}\}/g;
+  result = result.replace(varRegex, (match, key) => {
+    const value = data[key];
+    return value !== undefined && value !== null ? String(value) : match;
+  });
+
+  return result;
+}
+
 function showHelp() {
   console.log(i18n.t(localeKeys.help.title));
   console.log(i18n.t(localeKeys.help.description));
@@ -38,11 +58,15 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.options));
   console.log(i18n.t(localeKeys.help.optionHelp));
   console.log(i18n.t(localeKeys.help.optionLang));
+  console.log(i18n.t(localeKeys.help.optionSub));
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
   console.log(i18n.t(localeKeys.help.example1));
   console.log(i18n.t(localeKeys.help.example2));
   console.log(i18n.t(localeKeys.help.example3));
+  if (localeKeys.help.example4) {
+    console.log(i18n.t(localeKeys.help.example4));
+  }
   console.log('');
   console.log(i18n.t(localeKeys.help.moreInfo));
   console.log('');
@@ -63,6 +87,17 @@ function promptInput(question: string): Promise<string> {
   });
 }
 
+function detectSubprojectFlag(): boolean | null {
+  const args = process.argv.slice(2);
+  if (args.includes('--sub') || args.includes('-s')) {
+    return true;
+  }
+  if (args.includes('--no-sub')) {
+    return false;
+  }
+  return null;
+}
+
 async function getProjectName(): Promise<string> {
   const args = process.argv.slice(2);
   const projectNameArg = args.find(
@@ -71,11 +106,17 @@ async function getProjectName(): Promise<string> {
       arg !== '-l' &&
       arg !== '--help' &&
       arg !== '-h' &&
+      arg !== '--sub' &&
+      arg !== '-s' &&
+      arg !== '--no-sub' &&
       (index === 0 ||
         (args[index - 1] !== '--lang' &&
           args[index - 1] !== '-l' &&
           args[index - 1] !== '--help' &&
-          args[index - 1] !== '-h')),
+          args[index - 1] !== '-h' &&
+          args[index - 1] !== '--sub' &&
+          args[index - 1] !== '-s' &&
+          args[index - 1] !== '--no-sub')),
   );
 
   if (projectNameArg) {
@@ -123,14 +164,32 @@ async function main() {
   console.log('');
   console.log(i18n.t(localeKeys.message.creating, { projectName }));
 
+  const subprojectFlag = detectSubprojectFlag();
+  const isSubproject = subprojectFlag === true;
+
   copyTemplate(templateDir, targetDir, {
     packageName: projectName,
     version,
+    isSubproject,
   });
 
   const targetPackageJson = path.join(targetDir, 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
   packageJson.name = projectName;
+
+  if (isSubproject) {
+    delete packageJson['lint-staged'];
+    delete packageJson['simple-git-hooks'];
+    if (packageJson.scripts) {
+      delete packageJson.scripts.prepare;
+      delete packageJson.scripts.lint;
+    }
+    if (packageJson.devDependencies) {
+      delete packageJson.devDependencies['lint-staged'];
+      delete packageJson.devDependencies['simple-git-hooks'];
+      delete packageJson.devDependencies['@biomejs/biome'];
+    }
+  }
 
   fs.writeFileSync(
     targetPackageJson,
@@ -140,9 +199,17 @@ async function main() {
   console.log(i18n.t(localeKeys.message.success));
   console.log(i18n.t(localeKeys.message.nextSteps));
   console.log('');
+  console.log(i18n.t(localeKeys.message.step1Desc));
   console.log(i18n.t(localeKeys.message.step1, { projectName }));
+  console.log('');
+  console.log(i18n.t(localeKeys.message.step2Desc));
   console.log(i18n.t(localeKeys.message.step2));
+  console.log('');
+  console.log(i18n.t(localeKeys.message.step3Desc));
   console.log(i18n.t(localeKeys.message.step3));
+  console.log('');
+  console.log(i18n.t(localeKeys.message.step4Desc));
+  console.log(i18n.t(localeKeys.message.step4));
   console.log('');
 }
 
@@ -152,14 +219,26 @@ function copyTemplate(
   options: {
     packageName: string;
     version: string;
+    isSubproject: boolean;
   },
 ) {
   fs.mkdirSync(dest, { recursive: true });
+
+  const excludeInSubproject = [
+    '.gitignore.handlebars',
+    'biome.json',
+    '.npmrc',
+    '.nvmrc',
+  ];
 
   function copyRecursive(srcDir: string, destDir: string) {
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
 
     for (const entry of entries) {
+      if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
+        continue;
+      }
+
       const srcPath = path.join(srcDir, entry.name);
       let destPath = path.join(destDir, entry.name);
 
@@ -169,10 +248,10 @@ function copyTemplate(
       } else {
         if (entry.name.endsWith('.handlebars')) {
           const templateContent = fs.readFileSync(srcPath, 'utf-8');
-          const template = Handlebars.compile(templateContent);
-          const rendered = template({
+          const rendered = renderTemplate(templateContent, {
             packageName: options.packageName,
             version: options.version,
+            isSubproject: options.isSubproject,
           });
           destPath = destPath.replace(/\.handlebars$/, '');
           fs.writeFileSync(destPath, rendered, 'utf-8');

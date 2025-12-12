@@ -1,5 +1,7 @@
-import { get } from '@modern-js/utils/lodash';
+import lodash from '@modern-js/utils/lodash';
 import { getObjKeyMap } from './utils';
+
+const { get } = lodash;
 
 type Language = string;
 
