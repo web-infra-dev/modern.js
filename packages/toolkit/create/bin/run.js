@@ -28,7 +28,33 @@ const entry = path.join(
 
 if (env === 'development') {
   try {
-    const { register } = await import('tsx/esm/api');
+    // 从当前包的 node_modules 中解析 tsx/esm/api
+    // 使用 require.resolve 来找到 tsx 包的位置
+    const packageRoot = path.join(__dirname, '..');
+    let tsxApiPath = 'tsx/esm/api';
+
+    try {
+      // 尝试解析 tsx 包的 package.json
+      const tsxPackageJson = require.resolve('tsx/package.json', {
+        paths: [packageRoot],
+      });
+      const tsxPackageDir = path.dirname(tsxPackageJson);
+      // 根据 tsx 的 exports 配置，esm/api 指向 dist/esm/api/index.mjs
+      const tsxApiFile = path.join(
+        tsxPackageDir,
+        'dist',
+        'esm',
+        'api',
+        'index.mjs',
+      );
+      if (fs.existsSync(tsxApiFile)) {
+        tsxApiPath = pathToFileURL(tsxApiFile).href;
+      }
+    } catch {
+      // 如果解析失败，使用默认的模块名（Node.js 会从工作区的 node_modules 中查找）
+    }
+
+    const { register } = await import(tsxApiPath);
     register({
       tsconfig: project,
     });
