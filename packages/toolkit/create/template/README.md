@@ -10,16 +10,10 @@ pnpm install
 
 ## Get Started
 
-Start the dev server:
+Start the start server:
 
 ```bash
-pnpm dev
-```
-
-Enable optional features or add a new entry:
-
-```bash
-pnpm new
+pnpm start
 ```
 
 Build the app for production:

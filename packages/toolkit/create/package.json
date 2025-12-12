@@ -39,11 +39,8 @@
     "dev": "rslib build -w",
     "start": "node ./dist/index.js"
   },
-  "dependencies": {
-    "handlebars": "^4.7.8",
-    "@modern-js/i18n-utils": "workspace:*"
-  },
   "devDependencies": {
+    "@modern-js/i18n-utils": "workspace:*",
     "tsx": "^4.19.2",
     "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",

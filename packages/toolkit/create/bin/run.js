@@ -27,7 +27,6 @@ const entry = path.join(
 );
 
 if (env === 'development') {
-  // 在 ES Module 环境下，使用 tsx 来加载 TypeScript 文件
   try {
     const { register } = await import('tsx/esm/api');
     register({

@@ -18,8 +18,8 @@ export const ZH_LOCALE = {
     step2: '  git init',
     step3Desc: '📥 安装项目依赖：',
     step3: '  pnpm install',
-    step4Desc: '🚀 启动开发服务器：',
-    step4: '  pnpm dev',
+    step4Desc: '⚡ 启动开发服务器：',
+    step4: '  pnpm start',
     divider: '─'.repeat(50),
   },
   help: {

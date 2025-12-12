@@ -19,8 +19,8 @@ export const EN_LOCALE = {
     step2: '  git init',
     step3Desc: '📥 Install dependencies:',
     step3: '  pnpm install',
-    step4Desc: '🚀 Start the development server:',
-    step4: '  pnpm dev',
+    step4Desc: '⚡ Start the development server:',
+    step4: '  pnpm start',
     divider: '─'.repeat(50),
   },
   help: {

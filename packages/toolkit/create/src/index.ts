@@ -3,7 +3,6 @@ import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { getLocaleLanguage } from '@modern-js/i18n-utils/language-detector';
-import Handlebars from 'handlebars';
 import { i18n, localeKeys } from './locale';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -27,6 +26,27 @@ const detectLanguage = (): 'zh' | 'en' => {
 };
 
 i18n.changeLanguage({ locale: detectLanguage() });
+
+function renderTemplate(template: string, data: Record<string, any>): string {
+  let result = template;
+
+  const unlessRegex = /\{\{#unless\s+(\w+)\}\}([\s\S]*?)\{\{\/unless\}\}/g;
+  result = result.replace(unlessRegex, (match, condition, content) => {
+    const value = data[condition];
+    if (!value) {
+      return content;
+    }
+    return '';
+  });
+
+  const varRegex = /\{\{(\w+)\}\}/g;
+  result = result.replace(varRegex, (match, key) => {
+    const value = data[key];
+    return value !== undefined && value !== null ? String(value) : match;
+  });
+
+  return result;
+}
 
 function showHelp() {
   console.log(i18n.t(localeKeys.help.title));
@@ -72,7 +92,6 @@ function detectSubprojectFlag(): boolean | null {
   if (args.includes('--sub') || args.includes('-s')) {
     return true;
   }
-  // 检查是否有 --no-sub 标志来显式禁用
   if (args.includes('--no-sub')) {
     return false;
   }
@@ -145,7 +164,6 @@ async function main() {
   console.log('');
   console.log(i18n.t(localeKeys.message.creating, { projectName }));
 
-  // 使用命令行参数，默认为 false（非子项目）
   const subprojectFlag = detectSubprojectFlag();
   const isSubproject = subprojectFlag === true;
 
@@ -159,7 +177,6 @@ async function main() {
   const packageJson = JSON.parse(fs.readFileSync(targetPackageJson, 'utf-8'));
   packageJson.name = projectName;
 
-  // 如果是子项目，移除仓库级别的配置
   if (isSubproject) {
     delete packageJson['lint-staged'];
     delete packageJson['simple-git-hooks'];
@@ -207,7 +224,6 @@ function copyTemplate(
 ) {
   fs.mkdirSync(dest, { recursive: true });
 
-  // 在子项目场景下需要排除的文件（包括 handlebars 文件）
   const excludeInSubproject = [
     '.gitignore.handlebars',
     'biome.json',
@@ -219,7 +235,6 @@ function copyTemplate(
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
 
     for (const entry of entries) {
-      // 如果是子项目，跳过需要排除的文件
       if (options.isSubproject && excludeInSubproject.includes(entry.name)) {
         continue;
       }
@@ -233,8 +248,7 @@ function copyTemplate(
       } else {
         if (entry.name.endsWith('.handlebars')) {
           const templateContent = fs.readFileSync(srcPath, 'utf-8');
-          const template = Handlebars.compile(templateContent);
-          const rendered = template({
+          const rendered = renderTemplate(templateContent, {
             packageName: options.packageName,
             version: options.version,
             isSubproject: options.isSubproject,
