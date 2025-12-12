@@ -843,8 +843,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       react-server-dom-webpack:
-        specifier: 19.0.1
-        version: 19.0.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
+        specifier: 19.0.2
+        version: 19.0.2(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -14236,12 +14236,12 @@ packages:
       react-dom:
         optional: true
 
-  react-server-dom-webpack@19.0.1:
-    resolution: {integrity: sha512-RdiENR3uo87Te0jZbFcCLX1chzpwFGLqN35h7n5pgGNiXqWnz43ly94uyCiy4X8zx3swjYYULHmJvwK1P5HBig==}
+  react-server-dom-webpack@19.0.2:
+    resolution: {integrity: sha512-niMxdagxhrZYniMzN2QqXKdfL/MOgV54V2KjDLB9TUHR+wt2BWwROzW47RQV1XihQBP0hVxcoPWmy2s1JilcUg==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
-      react: ^19.0.1
-      react-dom: ^19.0.1
+      react: ^19.0.2
+      react-dom: ^19.0.2
       webpack: ^5.59.0
 
   react-side-effect@2.1.2:
@@ -27241,7 +27241,7 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.1(react@19.2.1)
 
-  react-server-dom-webpack@19.0.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
+  react-server-dom-webpack@19.0.2(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
     dependencies:
       acorn-loose: 8.5.2
       neo-async: 2.6.2
