@@ -13,6 +13,7 @@
     "client-only": "^0.0.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "react-server-dom-webpack": "^19.2.3",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
