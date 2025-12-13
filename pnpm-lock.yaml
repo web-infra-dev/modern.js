@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1802,11 +1800,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core':
-        specifier: 2.69.2
-        version: 2.69.2
+        specifier: 2.69.4
+        version: 2.69.4
       '@modern-js/module-tools':
-        specifier: 2.69.2
-        version: 2.69.2(@types/node@20.8.8)(typescript@5.6.3)
+        specifier: 2.69.4
+        version: 2.69.4(@types/node@20.8.8)(typescript@5.6.3)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -7007,11 +7005,11 @@ packages:
   '@modern-js/codesmith@2.6.8':
     resolution: {integrity: sha512-CPIuW5Pj4psVfnZG4ZRCBSZHEcbxIpY6kpqb2IHog+tg1EFxs8dpc1DmW6ejtfM6HbyQGgd8no3LZ4YkjNolXw==}
 
-  '@modern-js/core@2.69.2':
-    resolution: {integrity: sha512-h5iokO1BGhYw3tSDnlodUPP4PfbORw6++qI2crydTFZLdroNMyN3mCo/8/i0K4oldhmvU6szAVqbOFP5tRMX4A==}
+  '@modern-js/core@2.69.4':
+    resolution: {integrity: sha512-uOZi7P8zBmcZYGWcc8krKVGVJY71aggupmfgYMuaNRkgp1Q14fY16VTk40R772YoVQpcxDL2G0pL7tbEEPNtlQ==}
 
-  '@modern-js/module-tools@2.69.2':
-    resolution: {integrity: sha512-3O9dMD4syQXT6+ZgJ88HgDyV0MWSIQwnUNRNE4wzxT7WowIL2vX9zichXTfZTzJFXg6FWGTb/eXxqzsWU2V75g==}
+  '@modern-js/module-tools@2.69.4':
+    resolution: {integrity: sha512-PX4RFx5LGDdB4XS5aVPX0tH9l5Yz1P4w1fF42TU+jd+Dp6R/wAgnLaV8Ne+PNZJayYEwOGzgJg/9qHKTLB0+8Q==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -7023,17 +7021,17 @@ packages:
   '@modern-js/node-bundle-require@0.0.0-canary-20251119023553':
     resolution: {integrity: sha512-LCVN5tKl2W+MHTGPjtsMsqoctbQXcdMp0CHhKcE+fqbbGqu9b7k7rBjHfg+6RM0UkZjZxx6k74aH+g7GxBsiFA==}
 
-  '@modern-js/node-bundle-require@2.69.2':
-    resolution: {integrity: sha512-B9yL25FLmFI2AyifA3H1aoSQYycQLr2eyzEsTXc1UxGCERjuxFbYQ+IgiNbTvxKy1u40JRtfeYeX6AGVTaXI8w==}
+  '@modern-js/node-bundle-require@2.69.4':
+    resolution: {integrity: sha512-hzKP5vrXj3j/izVA41PYCWcZIUss/CKofjOJHh6IR2svpJPkVc4HpF/g5dEYVxBzVl6i07LtjA/WBByDSGEjHg==}
 
-  '@modern-js/plugin-changeset@2.69.2':
-    resolution: {integrity: sha512-+San9PoDnyYBbqTSWJlB5d7inngsHTTKz+SoOxeVHbeY1Aptx8DoIX8mdE+qx69Df9/4zfyNzo27TqyI1ayBIA==}
+  '@modern-js/plugin-changeset@2.69.4':
+    resolution: {integrity: sha512-h4bXED9gHV6og4wDyRjP5FWZPQn0zZ6mwVz62L5KzAwEU9yrxhwPNxG6Mem802ZB+aK2+SjZ2Lna0yhSn9J/0w==}
 
-  '@modern-js/plugin-i18n@2.69.2':
-    resolution: {integrity: sha512-IoeOzc8qOeEXIO0f4zi/96AuJ4H4LhPqiwAtJKO7THUGw3VaU26X+2nivvfjfz2yX54Xs8bOJIh16FuZ3Wh2/g==}
+  '@modern-js/plugin-i18n@2.69.4':
+    resolution: {integrity: sha512-ABOdsyFfRy/c0f0fu2kZRw8nz+e2asYS35Aqx7PoCY2ZBdoWKwm2+QELlZoR12ayHePbjFwoyjxzD/doywj7lw==}
 
-  '@modern-js/plugin@2.69.2':
-    resolution: {integrity: sha512-bBbG9rkkhvZD6j2tp6etrGpT4x1c5dkb9JEKd73bIF0bwg5um47p5W8PaBOE+bMwvZ0jUVj62CcdLVe/Nm5iDQ==}
+  '@modern-js/plugin@2.69.4':
+    resolution: {integrity: sha512-oRDhRMpTU/dJYtZ5SLcpezz2zBjL1r2/0Px0l7dvMstZvSbWCa1r2wL2RztRV5WawJsRJw3j0aqQNiYA6D6WrQ==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -7096,8 +7094,8 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.69.2':
-    resolution: {integrity: sha512-30kpFVS/Cu5UrHg97I/QHWy/s32lWdOyrdS/f2UOvPwpLIXPNXdXOtvylqCOHiW+iNPcwdDNK1KZF7RzuMAxeA==}
+  '@modern-js/types@2.69.4':
+    resolution: {integrity: sha512-FicbzijowUge5ZZW5CcNFWGZwrLgVp9GYLsKfQqMynfaEcntB9yOS3YIBYV5Eepct5ipxfi4fC0ePnoWuiYqag==}
 
   '@modern-js/utils@0.0.0-canary-20251119023553':
     resolution: {integrity: sha512-XjnFzp8/++26oMR8jfXiULWpdwC0CCKK8efe3edRrEC2srk5Yp+uX44edUSkWsvQ8j03ys+mw0hq4AOqFD9uPQ==}
@@ -7110,8 +7108,8 @@ packages:
       react-dom:
         optional: true
 
-  '@modern-js/utils@2.69.2':
-    resolution: {integrity: sha512-9jqtQpg8ykFOZaSuTTZFavWsgo0ZooAuWp8gL53bWKuXy5v3w4zFmQDHy2dj9dCf61OmOSOU/7VqVT2bgkMcsQ==}
+  '@modern-js/utils@2.69.4':
+    resolution: {integrity: sha512-GSmon6lGv3RioYkwzb+dgDEnlCLYY/vMHclW7dsXYf9dMYYyXSZT6pJhbWO4C3J39CMYrK84ssYWB2+hksRrXA==}
 
   '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-8r6jLxBW35mVs1j1vHjhHctsEOv8emPE/GezQiGokOrGHB22mEDMX9hMs9ZZA6VsSB36NL79k7lWT8jxVyEvgQ==}
@@ -14399,6 +14397,7 @@ packages:
   react-server-dom-webpack@19.0.2:
     resolution: {integrity: sha512-niMxdagxhrZYniMzN2QqXKdfL/MOgV54V2KjDLB9TUHR+wt2BWwROzW47RQV1XihQBP0hVxcoPWmy2s1JilcUg==}
     engines: {node: '>=0.10.0'}
+    deprecated: High Security Vulnerability in React Server Components
     peerDependencies:
       react: ^19.0.2
       react-dom: ^19.0.2
@@ -18726,26 +18725,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.69.2':
+  '@modern-js/core@2.69.4':
     dependencies:
-      '@modern-js/node-bundle-require': 2.69.2
-      '@modern-js/plugin': 2.69.2
-      '@modern-js/utils': 2.69.2
+      '@modern-js/node-bundle-require': 2.69.4
+      '@modern-js/plugin': 2.69.4
+      '@modern-js/utils': 2.69.4
       '@swc/helpers': 0.5.17
 
-  '@modern-js/module-tools@2.69.2(@types/node@20.8.8)(typescript@5.6.3)':
+  '@modern-js/module-tools@2.69.4(@types/node@20.8.8)(typescript@5.6.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.35.0
       '@babel/core': 7.28.5
       '@babel/types': 7.28.5
-      '@modern-js/core': 2.69.2
-      '@modern-js/plugin': 2.69.2
-      '@modern-js/plugin-changeset': 2.69.2(@types/node@20.8.8)
-      '@modern-js/plugin-i18n': 2.69.2
+      '@modern-js/core': 2.69.4
+      '@modern-js/plugin': 2.69.4
+      '@modern-js/plugin-changeset': 2.69.4(@types/node@20.8.8)
+      '@modern-js/plugin-i18n': 2.69.4
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.17)
-      '@modern-js/types': 2.69.2
-      '@modern-js/utils': 2.69.2
+      '@modern-js/types': 2.69.4
+      '@modern-js/utils': 2.69.4
       '@rollup/pluginutils': 4.2.1
       '@swc/helpers': 0.5.17
       convert-source-map: 1.9.0
@@ -18777,19 +18776,19 @@ snapshots:
       - react
       - react-dom
 
-  '@modern-js/node-bundle-require@2.69.2':
+  '@modern-js/node-bundle-require@2.69.4':
     dependencies:
-      '@modern-js/utils': 2.69.2
+      '@modern-js/utils': 2.69.4
       '@swc/helpers': 0.5.17
       esbuild: 0.25.5
 
-  '@modern-js/plugin-changeset@2.69.2(@types/node@20.8.8)':
+  '@modern-js/plugin-changeset@2.69.4(@types/node@20.8.8)':
     dependencies:
       '@changesets/cli': 2.29.8(@types/node@20.8.8)
       '@changesets/git': 2.0.0
       '@changesets/read': 0.6.6
-      '@modern-js/plugin-i18n': 2.69.2
-      '@modern-js/utils': 2.69.2
+      '@modern-js/plugin-i18n': 2.69.4
+      '@modern-js/utils': 2.69.4
       '@swc/helpers': 0.5.17
       axios: 1.13.2(debug@4.3.7)
       resolve-from: 5.0.0
@@ -18797,14 +18796,14 @@ snapshots:
       - '@types/node'
       - debug
 
-  '@modern-js/plugin-i18n@2.69.2':
+  '@modern-js/plugin-i18n@2.69.4':
     dependencies:
-      '@modern-js/utils': 2.69.2
+      '@modern-js/utils': 2.69.4
       '@swc/helpers': 0.5.17
 
-  '@modern-js/plugin@2.69.2':
+  '@modern-js/plugin@2.69.4':
     dependencies:
-      '@modern-js/utils': 2.69.2
+      '@modern-js/utils': 2.69.4
       '@swc/helpers': 0.5.17
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -18891,7 +18890,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.17
 
-  '@modern-js/types@2.69.2': {}
+  '@modern-js/types@2.69.4': {}
 
   '@modern-js/utils@0.0.0-canary-20251119023553(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
     dependencies:
@@ -18903,10 +18902,10 @@ snapshots:
       react: 19.2.1
       react-dom: 19.2.1(react@19.2.1)
 
-  '@modern-js/utils@2.69.2':
+  '@modern-js/utils@2.69.4':
     dependencies:
       '@swc/helpers': 0.5.17
-      caniuse-lite: 1.0.30001754
+      caniuse-lite: 1.0.30001759
       lodash: 4.17.21
       rslog: 1.2.11
 
@@ -21644,7 +21643,7 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.1
-      caniuse-lite: 1.0.30001754
+      caniuse-lite: 1.0.30001759
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
