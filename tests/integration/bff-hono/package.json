@@ -16,7 +16,7 @@
     "@modern-js/server-runtime": "workspace:*",
     "hono": "^4.10.4",
     "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.2.3",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.22.3"

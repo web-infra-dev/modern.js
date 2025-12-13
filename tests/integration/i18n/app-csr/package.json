@@ -11,7 +11,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "react": "^19.2.1",
-    "react-dom": "^19.2.1"
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*"
