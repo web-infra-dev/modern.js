@@ -41,7 +41,7 @@
     "clsx": "^1.2.1",
     "fs-extra": "^10.1.0",
     "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.2.3",
     "@rspress/core": "2.0.0-rc.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"

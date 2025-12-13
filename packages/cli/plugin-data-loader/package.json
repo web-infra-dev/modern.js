@@ -70,7 +70,7 @@
     "isomorphic-fetch": "^3.0.0",
     "memfs": "^3.5.3",
     "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.2.3",
     "supertest": "^6.3.4",
     "typescript": "^5",
     "@rsbuild/core": "1.6.14"
