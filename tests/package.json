@@ -22,7 +22,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "cross-spawn": "^7.0.6",
-    "enhanced-resolve": "5.18.3",
+    "enhanced-resolve": "5.18.4",
     "fs-extra": "^10.1.0",
     "get-port": "5.1.1",
     "jest": "^29.7.0",
