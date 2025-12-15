@@ -350,8 +350,8 @@ importers:
         specifier: 1.6.14
         version: 1.6.14
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -414,8 +414,8 @@ importers:
         specifier: 1.6.14
         version: 1.6.14
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -475,8 +475,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -515,8 +515,8 @@ importers:
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -634,8 +634,8 @@ importers:
         specifier: workspace:*
         version: link:../plugin-runtime
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -692,8 +692,8 @@ importers:
         specifier: workspace:*
         version: link:../../solutions/app-tools
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -786,8 +786,8 @@ importers:
         specifier: 1.6.14
         version: 1.6.14
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -853,8 +853,8 @@ importers:
         specifier: workspace:*
         version: link:../../server/core
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -936,8 +936,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -985,8 +985,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -1037,8 +1037,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1089,8 +1089,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1144,8 +1144,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1184,8 +1184,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.0.4)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.0.4)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1257,8 +1257,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1315,8 +1315,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1370,8 +1370,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1470,8 +1470,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1519,8 +1519,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../../scripts/rstest-config
@@ -1546,8 +1546,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -1571,8 +1571,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1614,8 +1614,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -1651,8 +1651,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1709,8 +1709,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rslib
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1779,8 +1779,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -2164,8 +2164,8 @@ importers:
         specifier: 1.4.2
         version: 1.4.2(@rsbuild/core@1.6.14)
       '@rslib/core':
-        specifier: 0.18.3
-        version: 0.18.3(typescript@5.6.3)
+        specifier: 0.18.4
+        version: 0.18.4(typescript@5.6.3)
       '@types/node':
         specifier: ^20
         version: 20.8.8
@@ -7734,8 +7734,8 @@ packages:
   '@rsdoctor/utils@1.3.15':
     resolution: {integrity: sha512-kMje0BnBC/EU7okkcjLVTqkJdi2qZxvi5rL1ev6bBhVOBS6bNubb9cD3+qA3wfpxJlrGDmrPjQ2zGpHGqE3xag==}
 
-  '@rslib/core@0.18.3':
-    resolution: {integrity: sha512-Jdpssyig/OIJ9EzjXi957gKUCLZhlynMAunkJnaYcriFE245quLxZAdDsxXeeKjUp0Mx/J6fVXgUQyYmbKum6w==}
+  '@rslib/core@0.18.4':
+    resolution: {integrity: sha512-clS7XmsO5OTrg2bJ5ahpOPNEJx7Ew/3tZ1054VPrtRgE/RuVx3umsJUKbo2U5Yugh6E023vzqD3ry0kSJqgJ7A==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     peerDependencies:
@@ -14675,8 +14675,8 @@ packages:
   roughjs@4.6.6:
     resolution: {integrity: sha512-ZUz/69+SYpFN/g/lUlo2FXcIjRkSu3nDarreVdGGndHEBJ6cXPdKguS8JGxwj5HA5xIbVKSmLgr5b3AWxtRfvQ==}
 
-  rsbuild-plugin-dts@0.18.3:
-    resolution: {integrity: sha512-+V0D37pK0Q+5DIVGDlq+ky5H/Sb2VnTzsbtV3l0Hw9tVcXQOjEQMeWAmBgC8jBgNjnCVEWrwCqLdAvSTzIeOOw==}
+  rsbuild-plugin-dts@0.18.4:
+    resolution: {integrity: sha512-ZVG3WS0VLXQD6oWDZKN2AEKbOVblFTHpYk0cisS/DpOhIODFxSxpnlYIWvc+8qOcrKOuToVqsGvK8VfJ4n+UqQ==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       '@microsoft/api-extractor': ^7
@@ -19719,19 +19719,19 @@ snapshots:
       - '@rspack/core'
       - webpack
 
-  '@rslib/core@0.18.3(typescript@5.0.4)':
+  '@rslib/core@0.18.4(typescript@5.0.4)':
     dependencies:
       '@rsbuild/core': 1.6.14
-      rsbuild-plugin-dts: 0.18.3(@rsbuild/core@1.6.14)(typescript@5.0.4)
+      rsbuild-plugin-dts: 0.18.4(@rsbuild/core@1.6.14)(typescript@5.0.4)
     optionalDependencies:
       typescript: 5.0.4
     transitivePeerDependencies:
       - '@typescript/native-preview'
 
-  '@rslib/core@0.18.3(typescript@5.6.3)':
+  '@rslib/core@0.18.4(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.6.14
-      rsbuild-plugin-dts: 0.18.3(@rsbuild/core@1.6.14)(typescript@5.6.3)
+      rsbuild-plugin-dts: 0.18.4(@rsbuild/core@1.6.14)(typescript@5.6.3)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -27853,14 +27853,14 @@ snapshots:
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
 
-  rsbuild-plugin-dts@0.18.3(@rsbuild/core@1.6.14)(typescript@5.0.4):
+  rsbuild-plugin-dts@0.18.4(@rsbuild/core@1.6.14)(typescript@5.0.4):
     dependencies:
       '@ast-grep/napi': 0.37.0
       '@rsbuild/core': 1.6.14
     optionalDependencies:
       typescript: 5.0.4
 
-  rsbuild-plugin-dts@0.18.3(@rsbuild/core@1.6.14)(typescript@5.6.3):
+  rsbuild-plugin-dts@0.18.4(@rsbuild/core@1.6.14)(typescript@5.6.3):
     dependencies:
       '@ast-grep/napi': 0.37.0
       '@rsbuild/core': 1.6.14
