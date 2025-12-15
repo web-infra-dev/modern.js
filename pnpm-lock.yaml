@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -843,8 +841,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       react-server-dom-webpack:
-        specifier: 19.0.2
-        version: 19.0.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
+        specifier: 19.0.3
+        version: 19.0.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -14396,13 +14394,12 @@ packages:
       react-dom:
         optional: true
 
-  react-server-dom-webpack@19.0.2:
-    resolution: {integrity: sha512-niMxdagxhrZYniMzN2QqXKdfL/MOgV54V2KjDLB9TUHR+wt2BWwROzW47RQV1XihQBP0hVxcoPWmy2s1JilcUg==}
+  react-server-dom-webpack@19.0.3:
+    resolution: {integrity: sha512-Ri1trzmT2G2ZTrummbbJca306MKyXpI8l4B7j1F8jGCjykUHCaojwtXBr/luEiRSFzQRkYBkH+wabfppP3x/IQ==}
     engines: {node: '>=0.10.0'}
-    deprecated: High Security Vulnerability in React Server Components
     peerDependencies:
-      react: ^19.0.2
-      react-dom: ^19.0.2
+      react: ^19.0.3
+      react-dom: ^19.0.3
       webpack: ^5.59.0
 
   react-side-effect@2.1.2:
@@ -27516,7 +27513,7 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.3(react@19.2.3)
 
-  react-server-dom-webpack@19.0.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
+  react-server-dom-webpack@19.0.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(webpack@5.99.8(@swc/core@1.14.0(@swc/helpers@0.5.17))(esbuild@0.25.5)):
     dependencies:
       acorn-loose: 8.5.2
       neo-async: 2.6.2
