@@ -3,7 +3,7 @@ import type { BaseBackendOptions } from '../../shared/type';
 export interface I18nResourceStore {
   data?: {
     [language: string]: {
-      [namespace: string]: Record<string, string>;
+      [namespace: string]: string | { [key: string]: any };
     };
   };
   addResourceBundle?: (
@@ -49,8 +49,17 @@ export function getActualI18nextInstance(instance: I18nInstance | any): any {
 export interface I18nInstance {
   language: string;
   isInitialized: boolean;
-  init: (options?: I18nInitOptions) => void | Promise<void>;
-  changeLanguage?: (lang: string) => void | Promise<void>;
+  init: {
+    (callback?: (error: any, t: any) => void): Promise<any>;
+    (
+      options: I18nInitOptions,
+      callback?: (error: any, t: any) => void,
+    ): Promise<any>;
+  };
+  changeLanguage?: (
+    lng?: string,
+    callback?: (error: any, t: any) => void,
+  ) => Promise<any>;
   setLang?: (lang: string) => void | Promise<void>;
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;

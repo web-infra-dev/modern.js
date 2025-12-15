@@ -40,6 +40,7 @@ import {
   setupClonedInstance,
 } from './i18n/utils';
 import { getPathname } from './utils';
+import './types';
 
 export type { I18nSdkLoader, I18nSdkLoadOptions } from '../shared/type';
 export type { Resources } from './i18n/instance';
