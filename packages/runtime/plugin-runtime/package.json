@@ -36,9 +36,6 @@
       "default": "./dist/esm/internal.mjs"
     },
     "./package.json": "./package.json",
-    "./types": "./types/index.d.ts",
-    "./types/index": "./types/index.d.ts",
-    "./types/router": "./types/router.d.ts",
     "./context": {
       "types": "./dist/types/core/context/index.d.ts",
       "jsnext:source": "./src/core/context/index.ts",
@@ -158,9 +155,6 @@
       ],
       "internal": [
         "./dist/types/internal.d.ts"
-      ],
-      "types": [
-        "./types/index.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"
