@@ -54,6 +54,7 @@ export const transformToRsbuildServerOptions = (
         port,
         https: https ? (https as ServerConfig['https']) : undefined,
         middlewareMode: true,
+        cors: server?.cors,
       };
 
   if (!isProd() && startUrl) {

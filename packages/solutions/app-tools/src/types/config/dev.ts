@@ -1,5 +1,6 @@
 import type { BuilderConfig } from '@modern-js/builder';
 import type { SetupMiddlewares } from '@modern-js/server';
+import type { CorsOptions } from '@modern-js/server';
 
 type BuilderDevConfig = Omit<
   Required<BuilderConfig>['dev'],
@@ -14,4 +15,20 @@ export type DevProxyOptions = string | Record<string, string>;
  */
 export interface DevUserConfig extends BuilderDevConfig {
   setupMiddlewares?: SetupMiddlewares;
+  /**
+   * Configure CORS for the dev server.
+   * - object: enable CORS with the specified options.
+   * - true: enable CORS with default options (allow all origins, not recommended).
+   * - false: disable CORS.
+   * @default
+   * ```js
+   * { origin: defaultAllowedOrigins }
+   * ```
+   * where `defaultAllowedOrigins` includes:
+   * - `localhost`
+   * - `127.0.0.1`
+   *
+   * @link https://github.com/expressjs/cors
+   */
+  cors?: boolean | CorsOptions;
 }
