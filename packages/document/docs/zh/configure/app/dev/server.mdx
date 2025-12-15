@@ -1,15 +1,34 @@
 ---
-title: cors
+title: server
 ---
 
-# dev.server.cors
+# dev.server
+
+`dev.server` 用于配置开发服务器行为，目前支持 CORS。
+
+## cors
 
 - **类型:** `boolean | import('cors').CorsOptions`
 - **默认值:** `false`
 
 为开发服务器配置 CORS（跨域资源共享）。
 
-## 使用方式
+### 默认值
+
+Modern.js 中 `cors` 的默认配置遵循 Rsbuild 的默认值：
+
+```ts
+const defaultAllowedOrigins =
+  /^https?:\/\/(?:(?:[^:]+\. )?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
+
+const defaultOptions = {
+  // 默认允许：
+  // - localhost
+  // - 127.0.0.1
+  // - [::1]
+  origin: defaultAllowedOrigins
+};
+```
 
 ### 为特定源启用 CORS
 
@@ -24,7 +43,6 @@ export default {
   },
 };
 ```
-
 
 ### 允许所有源的 CORS
 
@@ -50,32 +68,15 @@ export default {
 };
 ```
 
-## 默认值
-
-Modern.js 中 `cors` 的默认配置遵循 Rsbuild 的默认值：
-
-```ts
-const defaultAllowedOrigins =
-  /^https?:\/\/(?:(?:[^:]+\. )?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
-
-const defaultOptions = {
-  // 默认允许：
-  // - localhost
-  // - 127.0.0.1
-  // - [::1]
-  origin: defaultAllowedOrigins
-};
-```
-
-## 更多选项
+### 更多选项
 
 更多配置选项和详细用法，请参考 [Rsbuild - server.cors](https://rsbuild.rs/zh/config/server/cors) 文档。
 
 :::warning
 使用 `cors: true` 或 `cors.origin: '*'` 会使你的开发服务器对所有源开放，这可能会泄露源码。
-
 :::
 
 :::info
-`dev.cors` 仍然兼容，但已废弃，请迁移到 `dev.server.cors`。
+`dev.cors` 已废弃，请迁移到 `dev.server.cors`。
 :::
+
