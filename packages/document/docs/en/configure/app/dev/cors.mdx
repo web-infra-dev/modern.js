@@ -2,7 +2,7 @@
 title: cors
 ---
 
-# dev.cors
+# dev.server.cors
 
 - **Type:** `boolean | import('cors').CorsOptions`
 - **Default:** `false`
@@ -16,8 +16,10 @@ Configure CORS (Cross-Origin Resource Sharing) for the development server.
 ```ts
 export default {
   dev: {
-    cors: {
-      origin: 'https://example.com',
+    server: {
+      cors: {
+        origin: 'https://example.com',
+      },
     },
   },
 };
@@ -28,7 +30,9 @@ export default {
 ```ts
 export default {
   dev: {
-    cors: true,
+    server: {
+      cors: true,
+    },
   },
 };
 ```
@@ -38,7 +42,9 @@ export default {
 ```ts
 export default {
   dev: {
-    cors: false,
+    server: {
+      cors: false,
+    },
   },
 };
 ```
@@ -67,4 +73,8 @@ For more configuration options and detailed usage, please refer to the [Rsbuild 
 :::warning
 Using `cors: true` or `cors.origin: '*'` will make your dev server open to all origins, which may compromise source code security.
 
+:::
+
+:::info
+`dev.cors` remains supported but is deprecated; please migrate to `dev.server.cors`.
 :::

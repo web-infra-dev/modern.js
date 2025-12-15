@@ -2,7 +2,7 @@
 title: cors
 ---
 
-# dev.cors
+# dev.server.cors
 
 - **类型:** `boolean | import('cors').CorsOptions`
 - **默认值:** `false`
@@ -16,8 +16,10 @@ title: cors
 ```ts
 export default {
   dev: {
-    cors: {
-      origin: 'https://example.com',
+    server: {
+      cors: {
+        origin: 'https://example.com',
+      },
     },
   },
 };
@@ -29,7 +31,9 @@ export default {
 ```ts
 export default {
   dev: {
-    cors: true,
+    server: {
+      cors: true,
+    },
   },
 };
 ```
@@ -39,7 +43,9 @@ export default {
 ```ts
 export default {
   dev: {
-    cors: false,
+    server: {
+      cors: false,
+    },
   },
 };
 ```
@@ -68,4 +74,8 @@ const defaultOptions = {
 :::warning
 使用 `cors: true` 或 `cors.origin: '*'` 会使你的开发服务器对所有源开放，这可能会泄露源码。
 
+:::
+
+:::info
+`dev.cors` 仍然兼容，但已废弃，请迁移到 `dev.server.cors`。
 :::

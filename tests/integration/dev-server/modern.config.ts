@@ -27,8 +27,10 @@ const plugin = (): CliPlugin<AppTools> => {
 export default applyBaseConfig({
   plugins: [plugin()],
   dev: {
-    cors: {
-      origin: ['http://localhost:3000', 'http://example.com'],
+    server: {
+      cors: {
+        origin: ['http://localhost:3000', 'http://example.com'],
+      },
     },
     setupMiddlewares: [
       (middlewares, _) => {

@@ -30,14 +30,13 @@ export function createBuilderProviderConfig(
     };
   }
 
-  // Map dev.cors to server.cors for Rsbuild
   const serverConfig: any = {
     ...resolveConfig.server,
   };
 
   // If dev.cors is configured, map it to server.cors
-  if (resolveConfig.dev?.cors !== undefined) {
-    serverConfig.cors = resolveConfig.dev.cors;
+  if (resolveConfig.dev?.server?.cors !== undefined) {
+    serverConfig.cors = resolveConfig.dev?.server?.cors;
   }
 
   const config = {

@@ -9,12 +9,7 @@ type BuilderDevConfig = Omit<
 
 export type DevProxyOptions = string | Record<string, string>;
 
-/**
- * setupMiddlewares is a special field, it will not be passed to Rsbuild.
- * Although its name is the same as in Rsbuild, it is consumed by Modern.js.
- */
-export interface DevUserConfig extends BuilderDevConfig {
-  setupMiddlewares?: SetupMiddlewares;
+export interface DevServerUserConfig {
   /**
    * Configure CORS for the dev server.
    * - object: enable CORS with the specified options.
@@ -31,4 +26,16 @@ export interface DevUserConfig extends BuilderDevConfig {
    * @link https://github.com/expressjs/cors
    */
   cors?: boolean | CorsOptions;
+}
+
+/**
+ * setupMiddlewares is a special field, it will not be passed to Rsbuild.
+ * Although its name is the same as in Rsbuild, it is consumed by Modern.js.
+ */
+export interface DevUserConfig extends BuilderDevConfig {
+  setupMiddlewares?: SetupMiddlewares;
+  /**
+   * Dev server specific options.
+   */
+  server?: DevServerUserConfig;
 }
