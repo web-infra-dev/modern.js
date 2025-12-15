@@ -139,7 +139,7 @@ exports[`create builder provider config should add default config 1`] = `
   "performance": {},
   "plugins": [],
   "resolve": {},
-  "server": undefined,
+  "server": {},
   "source": {},
   "tools": {
     "devServer": {
