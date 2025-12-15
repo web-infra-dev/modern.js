@@ -118,7 +118,6 @@
     "@types/lru-cache",
     "@types/testing-library__jest-dom",
     "pkg-up",
-    "react",
     "styled-components",
     "webpack",
     // need node 18
@@ -127,8 +126,6 @@
     "caniuse-lite",
     "@vercel/nft",
     "vitest",
-    "@types/react",
-    "@types/react-dom",
     "@rsbuild-image/react",
     "@rsbuild/plugin-styled-components",
     "@rspress/shared",
