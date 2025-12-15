@@ -74,7 +74,7 @@
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
     "postcss-value-parser": "4.2.0",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-is": "^18.3.1",
     "rollup": "^3.29.5",

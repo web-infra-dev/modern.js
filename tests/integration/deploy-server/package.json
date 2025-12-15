@@ -14,7 +14,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "koa": "2.16.3",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",

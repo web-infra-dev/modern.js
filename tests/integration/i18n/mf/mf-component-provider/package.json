@@ -12,7 +12,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20251120074204",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
   "devDependencies": {

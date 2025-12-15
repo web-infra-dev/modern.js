@@ -69,7 +69,7 @@
     "@types/supertest": "^2.0.16",
     "isomorphic-fetch": "^3.0.0",
     "memfs": "^3.5.3",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "supertest": "^6.3.4",
     "typescript": "^5",
