@@ -7,7 +7,6 @@ const ignoreDeps = [
   'typescript',
   'lru-cache',
   'tsx',
-  'react-server-dom-webpack',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
