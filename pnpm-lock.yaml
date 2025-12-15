@@ -32,8 +32,8 @@ importers:
         specifier: workspace:*
         version: link:packages/tsconfig
       '@rstest/core':
-        specifier: 0.7.0
-        version: 0.7.0(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))
+        specifier: 0.7.2
+        version: 0.7.2(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -7955,8 +7955,8 @@ packages:
   '@rspress/shared@2.0.0-rc.0':
     resolution: {integrity: sha512-+Zwl+ycVwvwYg9eMTtoI/sst0Q/fJZS2oW+mEwj0La9hWHFutPcBHq0+zHHmi9eV7RHXLUo2lySfnQ14PTUPSw==}
 
-  '@rstest/core@0.7.0':
-    resolution: {integrity: sha512-imqWtaulpq71uSPfTh6l7iIbunQmIjs6yVitGgtlejJXzcunKJS8m3oeVXoIa2a5OMlG6a7tYfVNYNVh7otlYw==}
+  '@rstest/core@0.7.2':
+    resolution: {integrity: sha512-td97mNlmm1qOo9fV/58cwAhR5XCp1Loe+HpmP619M+EwO6wy2IDpvR5Ogj2asKqCsyH39zTL4fA4FPUT/asAog==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     peerDependencies:
@@ -19964,7 +19964,7 @@ snapshots:
       lodash-es: 4.17.21
       unified: 11.0.5
 
-  '@rstest/core@0.7.0(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.7.2(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 1.6.12-canary-20251204065915
       '@types/chai': 5.2.3
