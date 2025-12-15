@@ -1848,8 +1848,8 @@ importers:
         specifier: ^20
         version: 20.8.8
       enhanced-resolve:
-        specifier: 5.18.3
-        version: 5.18.3
+        specifier: 5.18.4
+        version: 5.18.4
       esbuild:
         specifier: 0.25.5
         version: 0.25.5
@@ -2215,8 +2215,8 @@ importers:
         specifier: ^7.0.6
         version: 7.0.6
       enhanced-resolve:
-        specifier: 5.18.3
-        version: 5.18.3
+        specifier: 5.18.4
+        version: 5.18.4
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -10534,8 +10534,8 @@ packages:
     resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
     engines: {node: '>=10.13.0'}
 
-  enhanced-resolve@5.18.3:
-    resolution: {integrity: sha512-d4lC8xfavMeBjzGr2vECC3fsGXziXZQyJxD868h2M/mBI3PwAuODxAkLkq5HYuvrPYcUtiLzsTo8U3PgX3Ocww==}
+  enhanced-resolve@5.18.4:
+    resolution: {integrity: sha512-LgQMM4WXU3QI+SYgEc2liRgznaD5ojbmY3sb8LxyguVkIg5FxdpTkvk72te2R38/TGKxH634oLxXRGY6d7AP+Q==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.3.6:
@@ -15357,10 +15357,6 @@ packages:
 
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
-    engines: {node: '>=6'}
-
-  tapable@2.2.2:
-    resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
     engines: {node: '>=6'}
 
   tapable@2.2.3:
@@ -20230,7 +20226,7 @@ snapshots:
   '@tailwindcss/node@4.1.17':
     dependencies:
       '@jridgewell/remapping': 2.3.5
-      enhanced-resolve: 5.18.3
+      enhanced-resolve: 5.18.4
       jiti: 2.6.1
       lightningcss: 1.30.2
       magic-string: 0.30.21
@@ -22771,10 +22767,10 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.2.3
 
-  enhanced-resolve@5.18.3:
+  enhanced-resolve@5.18.4:
     dependencies:
       graceful-fs: 4.2.11
-      tapable: 2.2.2
+      tapable: 2.2.3
 
   enquirer@2.3.6:
     dependencies:
@@ -28668,8 +28664,6 @@ snapshots:
 
   tapable@2.2.1: {}
 
-  tapable@2.2.2: {}
-
   tapable@2.2.3: {}
 
   tar-fs@3.1.1:
@@ -28914,7 +28908,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.18.3
+      enhanced-resolve: 5.18.4
       tsconfig-paths: 4.2.0
 
   tsconfig-paths@3.15.0:
@@ -29279,7 +29273,7 @@ snapshots:
       acorn: 8.15.0
       browserslist: 4.28.1
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.18.3
+      enhanced-resolve: 5.18.4
       es-module-lexer: 1.7.0
       eslint-scope: 5.1.1
       events: 3.3.0
