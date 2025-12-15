@@ -21,7 +21,7 @@ function createMinimalI18nInstance(language: string): I18nInstance {
   const minimalInstance: I18nInstance = {
     language,
     isInitialized: false,
-    init: () => {},
+    init: () => Promise.resolve(undefined),
     use: () => {},
     createInstance: () => minimalInstance,
     services: {},
