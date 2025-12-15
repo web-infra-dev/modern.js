@@ -261,8 +261,8 @@
     "@types/node": "^20",
     "@types/serialize-javascript": "^5.0.4",
     "ioredis-mock": "^8.13.1",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "@rslib/core": "0.18.3",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"

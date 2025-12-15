@@ -15,8 +15,8 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "lodash-es": "^4.17.21",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "zod": "^3.22.3"
   },
   "devDependencies": {
