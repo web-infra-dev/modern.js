@@ -1,4 +1,4 @@
-import type { I18nInitOptions, I18nInstance } from './runtime/i18n';
+import type { I18nInitOptions, I18nInstance } from './i18n';
 
 declare module '@modern-js/runtime' {
   interface RuntimeConfig {

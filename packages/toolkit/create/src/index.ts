@@ -48,6 +48,14 @@ function renderTemplate(template: string, data: Record<string, any>): string {
   return result;
 }
 
+function showVersion() {
+  const createPackageJson = path.resolve(__dirname, '..', 'package.json');
+  const createPackage = JSON.parse(fs.readFileSync(createPackageJson, 'utf-8'));
+  const version = createPackage.version || 'unknown';
+  console.log(i18n.t(localeKeys.version.message, { version }));
+  process.exit(0);
+}
+
 function showHelp() {
   console.log(i18n.t(localeKeys.help.title));
   console.log(i18n.t(localeKeys.help.description));
@@ -57,6 +65,7 @@ function showHelp() {
   console.log('');
   console.log(i18n.t(localeKeys.help.options));
   console.log(i18n.t(localeKeys.help.optionHelp));
+  console.log(i18n.t(localeKeys.help.optionVersion));
   console.log(i18n.t(localeKeys.help.optionLang));
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log('');
@@ -106,6 +115,8 @@ async function getProjectName(): Promise<string> {
       arg !== '-l' &&
       arg !== '--help' &&
       arg !== '-h' &&
+      arg !== '--version' &&
+      arg !== '-v' &&
       arg !== '--sub' &&
       arg !== '-s' &&
       arg !== '--no-sub' &&
@@ -114,6 +125,8 @@ async function getProjectName(): Promise<string> {
           args[index - 1] !== '-l' &&
           args[index - 1] !== '--help' &&
           args[index - 1] !== '-h' &&
+          args[index - 1] !== '--version' &&
+          args[index - 1] !== '-v' &&
           args[index - 1] !== '--sub' &&
           args[index - 1] !== '-s' &&
           args[index - 1] !== '--no-sub')),
@@ -138,6 +151,11 @@ async function main() {
 
   if (args.includes('--help') || args.includes('-h')) {
     showHelp();
+    return;
+  }
+
+  if (args.includes('--version') || args.includes('-v')) {
+    showVersion();
     return;
   }
 

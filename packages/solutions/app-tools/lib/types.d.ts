@@ -244,4 +244,8 @@ declare module '*.xml' {
   export default src;
 }
 
-declare module '@modern-js/runtime/*' {}
+declare module 'http' {
+  interface ServerResponse {
+    locals: Record<string, any>;
+  }
+}
