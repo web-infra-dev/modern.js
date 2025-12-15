@@ -4,7 +4,7 @@ import {
   loadServerEnv,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import { applyPlugins } from './apply';
+import { applyPlugins } from './apply/node';
 import type { BaseEnv, ProdServerOptions } from './types';
 
 export type { ProdServerOptions, BaseEnv } from './types';

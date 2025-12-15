@@ -9,12 +9,16 @@ import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
+import { createEdgeOnePreset } from './platforms/edgeone';
+import { createAliESAPreset } from './platforms/ali-esa';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
   node: typeof createNodePreset;
   vercel: typeof createVercelPreset;
   netlify: typeof createNetlifyPreset;
   ghPages: typeof createGhPagesPreset;
+  edgeone: typeof createEdgeOnePreset,
+  'ali-esa': typeof createAliESAPreset,
 };
 
 type DeployTarget = keyof DeployPresetCreators;
@@ -24,6 +28,8 @@ const deployPresets: DeployPresetCreators = {
   vercel: createVercelPreset,
   netlify: createNetlifyPreset,
   ghPages: createGhPagesPreset,
+  edgeone: createEdgeOnePreset,
+  'ali-esa': createAliESAPreset,
 };
 
 async function getDeployPreset(
@@ -43,7 +49,7 @@ async function getDeployPreset(
 
   if (!createPreset) {
     throw new Error(
-      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', or 'netlify'.`,
+      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' or 'ali-esa'.`,
     );
   }
 

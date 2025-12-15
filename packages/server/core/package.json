@@ -27,16 +27,22 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
+    "./hono": {
+      "types": "./dist/types/hono.d.ts",
+      "jsnext:source": "./src/hono.ts",
+      "default": "./dist/cjs/hono.js"
+    },
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
       "modern:source": "./src/adapters/node/index.ts",
       "jsnext:source": "./src/adapters/node/index.ts",
       "default": "./dist/cjs/adapters/node/index.js"
     },
-    "./hono": {
-      "types": "./dist/types/hono.d.ts",
-      "jsnext:source": "./src/hono.ts",
-      "default": "./dist/cjs/hono.js"
+    "./edge-function": {
+      "types": "./dist/types/adapters/edge-function/index.d.ts",
+      "modern:source": "./src/adapters/edge-function/index.ts",
+      "jsnext:source": "./src/adapters/edge-function/index.ts",
+      "default": "./dist/cjs/adapters/edge-function/index.js"
     }
   },
   "typesVersions": {
@@ -46,6 +52,9 @@
       ],
       "node": [
         "./dist/types/adapters/node/index.d.ts"
+      ],
+      "edge-function": [
+        "./dist/types/adapters/edge-function/index.d.ts"
       ],
       "hono": [
         "./dist/types/hono.d.ts"
