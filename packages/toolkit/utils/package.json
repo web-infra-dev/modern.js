@@ -81,36 +81,7 @@
     "./strip-ansi": "./compiled/strip-ansi/index.js",
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
-    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./react-server-dom-webpack": "./compiled/react-server-dom-webpack/index.js",
-    "./react-server-dom-webpack/client": {
-      "workerd": "./compiled/react-server-dom-webpack/client.edge.js",
-      "deno": "./compiled/react-server-dom-webpack/client.edge.js",
-      "worker": "./compiled/react-server-dom-webpack/client.edge.js",
-      "node": {
-        "webpack": "./compiled/react-server-dom-webpack/client.node.js",
-        "default": "./compiled/react-server-dom-webpack/client.node.unbundled.js"
-      },
-      "edge-light": "./compiled/react-server-dom-webpack/client.edge.js",
-      "browser": "./compiled/react-server-dom-webpack/client.browser.js",
-      "default": "./compiled/react-server-dom-webpack/client.browser.js"
-    },
-    "./react-server-dom-webpack/client.browser": "./compiled/react-server-dom-webpack/client.browser.js",
-    "./react-server-dom-webpack/client.edge": "./compiled/react-server-dom-webpack/client.edge.js",
-    "./react-server-dom-webpack/server": {
-      "react-server": {
-        "workerd": "./compiled/react-server-dom-webpack/server.edge.js",
-        "deno": "./compiled/react-server-dom-webpack/server.browser.js",
-        "node": {
-          "webpack": "./compiled/react-server-dom-webpack/server.node.js",
-          "default": "./compiled/react-server-dom-webpack/server.node.unbundled.js"
-        },
-        "edge-light": "./compiled/react-server-dom-webpack/server.edge.js",
-        "browser": "./compiled/react-server-dom-webpack/server.browser.js"
-      },
-      "default": "./compiled/react-server-dom-webpack/server.js"
-    },
-    "./react-server-dom-webpack/server.edge": "./compiled/react-server-dom-webpack/server.edge.js"
+    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -175,36 +146,7 @@
       "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
-      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-      "./react-server-dom-webpack": "./dist/compiled/react-server-dom-webpack/index.js",
-      "./react-server-dom-webpack/client": {
-        "workerd": "./dist/compiled/react-server-dom-webpack/client.edge.js",
-        "deno": "./dist/compiled/react-server-dom-webpack/client.edge.js",
-        "worker": "./dist/compiled/react-server-dom-webpack/client.edge.js",
-        "node": {
-          "webpack": "./dist/compiled/react-server-dom-webpack/client.node.js",
-          "default": "./dist/compiled/react-server-dom-webpack/client.node.unbundled.js"
-        },
-        "edge-light": "./dist/compiled/react-server-dom-webpack/client.edge.js",
-        "browser": "./dist/compiled/react-server-dom-webpack/client.browser.js",
-        "default": "./dist/compiled/react-server-dom-webpack/client.browser.js"
-      },
-      "./react-server-dom-webpack/client.browser": "./dist/compiled/react-server-dom-webpack/client.browser.js",
-      "./react-server-dom-webpack/client.edge": "./dist/compiled/react-server-dom-webpack/client.edge.js",
-      "./react-server-dom-webpack/server": {
-        "react-server": {
-          "workerd": "./dist/compiled/react-server-dom-webpack/server.edge.js",
-          "deno": "./dist/compiled/react-server-dom-webpack/server.browser.js",
-          "node": {
-            "webpack": "./dist/compiled/react-server-dom-webpack/server.node.js",
-            "default": "./dist/compiled/react-server-dom-webpack/server.node.unbundled.js"
-          },
-          "edge-light": "./dist/compiled/react-server-dom-webpack/server.edge.js",
-          "browser": "./dist/compiled/react-server-dom-webpack/server.browser.js"
-        },
-        "default": "./dist/compiled/react-server-dom-webpack/server.js"
-      },
-      "./react-server-dom-webpack/server.edge": "./dist/compiled/react-server-dom-webpack/server.edge.js"
+      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js"
     }
   },
   "typesVersions": {
