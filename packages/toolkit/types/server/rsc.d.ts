@@ -53,7 +53,7 @@ export type ClientManifest = {
   [id: string]: ImportManifestEntry;
 };
 
-declare module '@modern-js/utils/react-server-dom-webpack/server' {
+declare module 'react-server-dom-webpack/server' {
   export const registerClientReference: <T>(
     proxyImplementation: any,
     id: string,
@@ -67,7 +67,7 @@ declare module '@modern-js/utils/react-server-dom-webpack/server' {
   ) => ServerReference[];
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack/server.edge' {
+declare module 'react-server-dom-webpack/server.edge' {
   type Options = {
     environmentName?: string;
     identifierPrefix?: string;
@@ -88,7 +88,7 @@ declare module '@modern-js/utils/react-server-dom-webpack/server.edge' {
   ): Promise<T>;
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack/client' {
+declare module 'react-server-dom-webpack/client' {
   type CallServerCallback = <T, A extends unknown[] = unknown[]>(
     string,
     args: A,
@@ -109,7 +109,7 @@ declare module '@modern-js/utils/react-server-dom-webpack/client' {
   ): Promise<string | URLSearchParams | FormData>;
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack/client.edge' {
+declare module 'react-server-dom-webpack/client.edge' {
   export type Options = {
     ssrManifest: SSRManifest;
     nonce?: string;

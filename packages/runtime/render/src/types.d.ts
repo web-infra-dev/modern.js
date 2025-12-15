@@ -13,7 +13,7 @@ declare module 'react-dom/server.edge' {
   } from 'react-dom/server';
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack' {
+declare module 'react-server-dom-webpack' {
   export type ReactServerValue =
     // References are passed by their value
     | ServerReference
@@ -31,23 +31,23 @@ declare module '@modern-js/utils/react-server-dom-webpack' {
     | Promise<ReactServerValue>;
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack/server.edge' {
+declare module 'react-server-dom-webpack/server.edge' {
   export * from '@modern-js/types/server/rsc';
 }
-declare module '@modern-js/utils/react-server-dom-webpack/client.browser' {
-  export * from '@modern-js/types/server/rsc';
-}
-
-declare module '@modern-js/utils/react-server-dom-webpack/client.edge' {
+declare module 'react-server-dom-webpack/client.browser' {
   export * from '@modern-js/types/server/rsc';
 }
 
-declare module '@modern-js/utils/react-server-dom-webpack/server' {
+declare module 'react-server-dom-webpack/client.edge' {
+  export * from '@modern-js/types/server/rsc';
+}
+
+declare module 'react-server-dom-webpack/server' {
   export * from '@modern-js/types/server/rsc';
 }
 
 // https://github.com/facebook/react/blob/2283d7204cfc200aa78b674d086a481c9a983007/packages/react-server-dom-esm/src/client/ReactFlightDOMClientBrowser.js
-declare module '@modern-js/utils/react-server-dom-webpack/client.browser' {
+declare module 'react-server-dom-webpack/client.browser' {
   import type { Thenable } from 'react';
 
   type CallServerCallback<A, T> = (id: string, args: A) => Promise<T>;
