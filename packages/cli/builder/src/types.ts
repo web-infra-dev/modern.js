@@ -123,6 +123,9 @@ export type BuilderExtraConfig = {
     autoprefixer?: ToolsAutoprefixerConfig;
     // tools.htmlPlugin minify option should works
     htmlPlugin?: ToolsConfig['htmlPlugin'];
+    /**
+     * @deprecated Use `dev.server` instead.
+     */
     devServer?: ToolsDevServerConfig;
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
