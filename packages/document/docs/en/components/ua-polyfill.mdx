@@ -1,19 +1,23 @@
-
 ### Polyfill At Runtime
 
 Modern.js also provides a runtime Polyfill solution based on browser [UA](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent) information, which has the following advantages over Babel:
 
-- It will not be inserted into the code, reducing the code .
-- The same browser will share a Polyfill code. Therefore, with more and more projects, the UA-based Polyfill code will be delivered faster and faster.
+- It will not be inserted into the code, and only delivers Polyfill code on-demand based on the device accessing the page, reducing the overall code size.
+- The same browser will share a Polyfill code. Therefore, with more and more projects, the UA-based Polyfill code will be delivered faster and faster, with overall speed exceeding conventional solutions.
 
-exec `pnpm run new` to enable this features:
+Modern.js provides the `@modern-js/plugin-polyfill` plugin to implement this feature. You can enable it by installing the plugin:
 
-```bash
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable UA-based Polyfill Feature
-```
+import { PackageManagerTabs } from '@theme';
 
-After executing the command, register the Polyfill plugin in `modern.config.ts`:
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @modern-js/plugin-polyfill',
+    yarn: 'yarn add @modern-js/plugin-polyfill',
+    pnpm: 'pnpm add @modern-js/plugin-polyfill',
+  }}
+/>
+
+Then register the Polyfill plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { polyfillPlugin } from '@modern-js/plugin-polyfill';
@@ -23,18 +27,18 @@ export default defineConfig({
 });
 ```
 
-After configuring `output.polyfill` as `ua` and executing `pnpm run build & & pnpm run serve` to start the server, visiting the page can see that the HTML artifacts contains the following script:
+After configuring `output.polyfill` as `ua` and executing `pnpm run build && pnpm run serve` to start the server, visiting the page can see that the HTML artifacts contains the following script:
 
 ```js
 <script src="/__polyfill__" crossorigin></script>
 ```
 
-Visit the page `http://localhost:8080/__polyfill__` on Chrome 51 to see:
+When accessing the page on Chrome 51, you can see the content returned by `http://localhost:8080/__polyfill__` as follows:
 
 ![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
 
 :::caution
 This feature only works when using Modern.js built-in Web Server.
 
-If you need to customize the HTML template, please refer to [HTML Template](/guides/basic-features/html.html). Manually modifying the template through html.template / tools.html will cause this feature not work.
+If you need to customize the HTML template, please refer to [HTML Template](/guides/basic-features/html.html). Manually modifying the template through `html.template` or `tools.html` may cause this feature to not work correctly.
 :::

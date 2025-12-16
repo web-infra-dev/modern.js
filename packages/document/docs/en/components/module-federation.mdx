@@ -1,7 +1,7 @@
-Module Federation (MF) is a feature of Webpack. It allows a JavaScript application to dynamically load code from another application, and in the process, share dependencies. If an application consuming a federated module does not have a dependency needed by the federated code, Webpack will download the missing dependency from that federated build origin.
+Module Federation (MF) is a technology solution that allows multiple JavaScript applications to share code and resources. Similar to microservices architecture on the server side, it allows you to split large applications into multiple independent smaller applications that can be developed, tested, and deployed independently, while dynamically loading modules from other applications at runtime.
 
-This allows for the creation of micro-frontend-style applications, where multiple systems can share code and be dynamically updated without having to rebuild the entire application.
+Module Federation solves the problem of code duplication across multiple frontend applications. In the traditional approach, if multiple applications need to use the same components or utility functions, you would need to duplicate this code in each application, leading to code duplication, high maintenance costs, and larger application sizes. With Module Federation, you can place common code in one application and have other applications load it dynamically as needed, enabling code sharing and reducing duplication.
+
+Module Federation 2.0 supports [Rspack](https://rspack.rs/) build tools, and provides enhanced features such as dynamic type hints, Manifest, Federation Runtime, runtime plugin system, and Chrome Devtools support for better development experience and debugging capabilities. You can visit the [Module Federation official documentation](https://module-federation.io/) to learn more.
 
 Modern.js provides an example project for Module Federation. Please refer to [module-federation-examples - modernjs](https://github.com/module-federation/module-federation-examples/tree/db5bdbeee56f779999a2c591fc553eb94eb20b36/modernjs).
-
-You can also read the [webpack Module Federation documentation](https://webpack.js.org/concepts/module-federation/) to learn more concepts.

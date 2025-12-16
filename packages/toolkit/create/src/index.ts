@@ -107,7 +107,22 @@ function detectSubprojectFlag(): boolean | null {
   return null;
 }
 
-async function getProjectName(): Promise<string> {
+function isDirectoryEmpty(dirPath: string): boolean {
+  if (!fs.existsSync(dirPath)) {
+    return false;
+  }
+  try {
+    const files = fs.readdirSync(dirPath);
+    return files.length === 0;
+  } catch {
+    return false;
+  }
+}
+
+async function getProjectName(): Promise<{
+  name: string;
+  useCurrentDir: boolean;
+}> {
   const args = process.argv.slice(2);
   const projectNameArg = args.find(
     (arg, index) =>
@@ -133,7 +148,13 @@ async function getProjectName(): Promise<string> {
   );
 
   if (projectNameArg) {
-    return projectNameArg;
+    return { name: projectNameArg, useCurrentDir: false };
+  }
+
+  // 如果当前目录为空，直接使用当前目录名作为项目名
+  const currentDir = process.cwd();
+  if (isDirectoryEmpty(currentDir)) {
+    return { name: path.basename(currentDir), useCurrentDir: true };
   }
 
   const projectName = await promptInput(i18n.t(localeKeys.prompt.projectName));
@@ -143,7 +164,7 @@ async function getProjectName(): Promise<string> {
     process.exit(1);
   }
 
-  return projectName;
+  return { name: projectName, useCurrentDir: false };
 }
 
 async function main() {
@@ -160,12 +181,12 @@ async function main() {
   }
 
   console.log(i18n.t(localeKeys.message.welcome));
-  console.log('');
-
-  const projectName = await getProjectName();
-  const targetDir = path.isAbsolute(projectName)
-    ? projectName
-    : path.resolve(process.cwd(), projectName);
+  const { name: projectName, useCurrentDir } = await getProjectName();
+  const targetDir = useCurrentDir
+    ? process.cwd()
+    : path.isAbsolute(projectName)
+      ? projectName
+      : path.resolve(process.cwd(), projectName);
 
   if (fs.existsSync(targetDir)) {
     const files = fs.readdirSync(targetDir);
