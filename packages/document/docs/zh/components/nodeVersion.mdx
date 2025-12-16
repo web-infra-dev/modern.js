@@ -1,4 +1,4 @@
-在开始使用前，你需要安装 [Node.js](https://nodejs.org/)，并保证 Node.js 版本不低于 18.20.8，**我们推荐使用 Node.js 22 的 LTS 版本**。
+在开始使用前，你需要安装 [Node.js](https://nodejs.org/)，并保证 Node.js 版本不低于 v20.19.5，**我们推荐使用 Node.js 22 的 LTS 版本**。
 
 你可以通过以下命令检查当前使用的 Node.js 版本：
 
@@ -6,9 +6,9 @@
 node -v
 ```
 
-如果你当前的环境中尚未安装 Node.js，或是安装的版本低于 18，可以通过 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 安装需要的版本。
+如果你当前的环境中尚未安装 Node.js，或是安装的版本低于 v20.19.5，可以通过 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 安装需要的版本。
 
- 下面是通过 nvm 安装 Node.js 22 LTS 版本的例子：
+下面是通过 nvm 安装 Node.js 22 LTS 版本的例子：
 
 ```bash
 # 安装 Node.js 22 的长期支持版本
@@ -26,7 +26,3 @@ nvm 和 fnm 都是 Node.js 版本管理工具。相对来说，nvm 较为成熟�
 :::
 
 此外，在安装 nvm 或 fnm 后，然后只要仓库根目录下有内容为 `lts/jod` 的 `.nvmrc` 文件，进入这个仓库时就会自动安装或切换到正确的 Node.js 版本。
-
-:::warning
-Modern.js 目前仍支持 Node 16，但会在 2025 年 6 月正式终止对 Node.js 16 的支持，为确保您的项目顺利过渡，请在 2025 年 6 月前完成 Node.js 版本升级。
-:::

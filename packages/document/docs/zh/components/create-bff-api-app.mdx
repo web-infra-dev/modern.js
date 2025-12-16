@@ -1,25 +1,70 @@
-
 1. 执行 `@modern-js/create` 命令：
 
 ```bash
 npx @modern-js/create@latest myapi
 ```
 
-2. 可交互的问答界面中，按照默认的选择进行初始化:
+2. 安装 BFF 插件依赖：
 
-```bash
-? 请选择开发语言 TS
-? 请选择包管理工具 pnpm
+import { PackageManagerTabs } from '@theme';
+
+安装 BFF 插件：
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @modern-js/plugin-bff',
+    yarn: 'yarn add @modern-js/plugin-bff',
+    pnpm: 'pnpm install @modern-js/plugin-bff',
+  }}
+/>
+
+安装开发依赖（TypeScript 项目需要）：
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install -D ts-node tsconfig-paths',
+    yarn: 'yarn add -D ts-node tsconfig-paths',
+    pnpm: 'pnpm install -D ts-node tsconfig-paths',
+  }}
+/>
+
+3. 在 `modern.config.[tj]s` 中添加 BFF 插件配置：
+
+```ts title="modern.config.ts"
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [bffPlugin()],
+});
 ```
 
-3. 执行 `new` 命令，启用 BFF:
+4. 如果是 TypeScript 项目，需要更新 `tsconfig.json`：
 
-```bash
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用「BFF」功能
-? 请选择 BFF 类型 框架模式
+```json title="tsconfig.json"
+{
+  "include": [
+    // ... 其他配置
+    "api"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@api/*": ["./api/lambda/*"]
+    }
+  }
+}
 ```
 
+5. 创建 BFF 函数模板文件：
 
-4. 执行【[已启用 BFF 的项目](/guides/advanced-features/bff/cross-project.html#已启用-bff-的项目)】步骤，即可打开跨项目调用开关。
-需要注意的是，当项目仅作为 BFF 生产端，其运行时不依赖 `/src` 源码目录。因此，移除 `/src` 目录可在一定程度上优化工程的编译效率。
+```ts title="api/lambda/hello.ts"
+export default async () => ({
+  message: 'Hello Modern.js',
+});
+
+export const post = async () => ({
+  message: 'Hello Modern.js',
+});
+```
+
+6. 执行【[已启用 BFF 的项目](/guides/advanced-features/bff/cross-project.html#已启用-bff-的项目)】步骤，即可打开跨项目调用开关。
+   需要注意的是，当项目仅作为 BFF 生产端，其运行时不依赖 `/src` 源码目录。因此，移除 `/src` 目录可在一定程度上优化工程的编译效率。
