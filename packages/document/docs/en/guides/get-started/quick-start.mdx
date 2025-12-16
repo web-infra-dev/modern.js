@@ -46,7 +46,7 @@ In a Modern.js project created using `@modern-js/create`, a `modern.config.ts` f
 
 You can modify the configuration through this file to override the default behavior of Modern.js. For example, to enable SSR, add the following configuration:
 
-```ts
+```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -57,14 +57,13 @@ export default defineConfig({
 });
 ```
 
-After running `pnpm run dev` again, you can find that the project has completed page rendering on the server in the browser's Network menu.
+After running `pnpm run start` again, you can find that the project has completed page rendering on the server in the browser's Network menu.
 
 ## Core npm Package
 
 In a newly created project, the `@modern-js/app-tools` npm package is installed by default. It is the core package of the Modern.js framework and provides the following capabilities:
 
-- It offers commonly used CLI commands such as `modern dev`, `modern build`, and more.
-- It integrates Modern.js Core, providing capabilities for configuration parsing, plugin loading, and more.
+- It offers commonly used CLI commands such as `modern start`, `modern build`, and more.
 - It integrates Rsbuild, providing build capabilities.
 - It integrates Modern.js Server, providing capabilities for development and production servers.
 
@@ -80,51 +79,9 @@ export default defineConfig({
 
 ## Build the project
 
-To build the production artifacts of the project, run `pnpm run build` in the project:
+import BuildOutput from '@site-docs-en/components/build-output';
 
-```bash
-$ pnpm run build
-
-> modern build
-
-  Modern.js Framework
-
-info    Starting production build...
-info    Type checker is enabled. It may take some time.
-ready   Client compiled in 6.19 s
-info    Production file sizes:
-
-  File                                       Size        Gzipped
-  dist/routes-manifest.json                  0.74 kB     0.28 kB
-  dist/static/css/async/page.d7915515.css    1.4 kB      0.69 kB
-  dist/static/js/main.5ae469e7.js            3.0 kB      1.3 kB
-  dist/html/main/index.html                  6.0 kB      2.6 kB
-  dist/static/js/async/page.ddc8a4c1.js      19.2 kB     6.7 kB
-  dist/static/js/34.171fffdb.js              21.3 kB     7.1 kB
-  dist/static/js/lib-router.8995a55e.js      55.3 kB     18.1 kB
-  dist/static/js/lib-lodash.53ec3384.js      71.4 kB     24.8 kB
-  dist/static/js/lib-react.b5856db9.js       140.0 kB    45.2 kB
-  dist/static/js/lib-polyfill.86c452b3.js    213.3 kB    69.9 kB
-
-  Total size:  531.8 kB
-  Gzipped size:  176.7 kB
-```
-
-By default, the build artifacts are generated in `dist/`, with the following directory structure:
-
-```
-dist
-├── html
-│   └── main
-├── modern.config.json
-├── route.json
-├── routes-manifest.json
-└── static
-    ├── css
-    └── js
-```
-
-> If you need to customize the directory of the build artifacts, please refer to [Output files](/guides/basic-features/output-files).
+<BuildOutput />
 
 ## Verify
 
@@ -132,8 +89,6 @@ Run `pnpm run serve` in the project to verify whether the build artifacts run no
 
 ```bash
 $ pnpm run serve
-
-> modern serve
 
   Modern.js Framework
 
@@ -143,7 +98,7 @@ info    Starting production server...
   > Network:  http://192.168.0.1:8080/
 ```
 
-Open `http://localhost:8080/` in the browser, and the content should be consistent with that of `pnpm run dev`.
+Open `http://localhost:8000/` in the browser, and the content should be consistent with that of `pnpm run dev`.
 
 ## Deployment
 

@@ -7,9 +7,15 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 
 Modern.js 提供了 `@modern-js/plugin-polyfill` 插件来实现该功能，可以通过安装该插件来开启该功能：
 
-```bash
-pnpm add @modern-js/plugin-polyfill
-```
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @modern-js/plugin-polyfill',
+    yarn: 'yarn add @modern-js/plugin-polyfill',
+    pnpm: 'pnpm add @modern-js/plugin-polyfill',
+  }}
+/>
 
 然后在 `modern.config.ts` 中注册 Polyfill 插件:
 
