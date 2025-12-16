@@ -9,17 +9,7 @@ title: server
 
 The config of DevServer can be modified through `dev.server`.
 
-:::warning
-`tools.devServer` configuration is deprecated, please use `dev.server` instead. For backward compatibility, the current version still supports `tools.devServer`, but the new configuration takes precedence over the old one.
-:::
-
-:::tip
-Modern.js does not directly use [webpack-dev-server](https://webpack.js.org/api/webpack-dev-server/) or [@rspack/dev-server](https://rspack.rs/guide/dev-server.html), but implement DevServer based on [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware).
-:::
-
-### Options
-
-#### compress
+### compress
 
 - **Type:** `boolean`
 - **Default:** `true`
@@ -38,7 +28,9 @@ export default {
 };
 ```
 
-#### headers
+For more details, please refer to the [Rsbuild - server.compress](https://rsbuild.rs/config/server/compress) documentation.
+
+### headers
 
 - **Type:** `Record<string, string>`
 - **Default:** `undefined`
@@ -57,7 +49,9 @@ export default {
 };
 ```
 
-#### historyApiFallback
+For more details, please refer to the [Rsbuild - server.headers](https://rsbuild.rs/config/server/headers) documentation.
+
+### historyApiFallback
 
 - **Type:** `boolean | ConnectHistoryApiFallbackOptions`
 - **Default:** `false`
@@ -74,16 +68,22 @@ export default {
 };
 ```
 
-For more options and information, see the [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) documentation.
+For more configuration options, please refer to the [Rsbuild - server.historyApiFallback](https://rsbuild.rs/config/server/history-api-fallback) documentation.
 
-#### cors
+### watch
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
+
+For more details, please refer to the [Rsbuild - dev.watchFiles](https://rsbuild.rs/config/dev/watch-files) documentation.
+
+### cors
 
 - **Type:** `boolean | import('cors').CorsOptions`
-- **Default:** `false`
 
 Configure CORS (Cross-Origin Resource Sharing) for the development server.
-
-### Default Values
 
 The default configuration for `cors` in Modern.js follows Rsbuild's defaults:
 
@@ -100,167 +100,4 @@ const defaultOptions = {
 };
 ```
 
-### Enable CORS for specific origin
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: {
-        origin: 'https://example.com',
-      },
-    },
-  },
-};
-```
-
-### Enable CORS for all origins
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: true,
-    },
-  },
-};
-```
-
-### Disable CORS
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: false,
-    },
-  },
-};
-```
-
-### More Options
-
 For more configuration options and detailed usage, please refer to the [Rsbuild - server.cors](https://rsbuild.rs/config/server/cors) documentation.
-
-:::warning
-Using `cors: true` or `cors.origin: '*'` will make your dev server open to all origins, which may compromise source code security.
-:::
-
-:::info
-`dev.cors` is deprecated; please migrate to `dev.server.cors`.
-:::
-
-#### proxy
-
-- **Type:** `Record<string, string> | Record<string, ProxyDetail>`
-- **Default:** `undefined`
-
-Proxying some URLs.
-
-```js
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': 'http://localhost:3000',
-      },
-    },
-  },
-};
-```
-
-A request to /api/users will now proxy the request to http://localhost:3000/api/users.
-
-If you don't want /api to be passed along, we need to rewrite the path:
-
-```js
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          pathRewrite: { '^/api': '' },
-        },
-      },
-    },
-  },
-};
-```
-
-The DevServer Proxy makes use of the [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) package. Check out its documentation for more advanced usages.
-
-The full type definition of DevServer Proxy is:
-
-```ts
-import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
-
-type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
-
-type ProxyDetail = HttpProxyOptions & {
-  bypass?: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    proxyOptions: ProxyOptions,
-  ) => string | undefined | null | false;
-  context?: Filter;
-};
-
-type ProxyOptions =
-  | Record<string, string>
-  | Record<string, ProxyDetail>
-  | ProxyDetail[]
-  | ProxyDetail;
-```
-
-In addition to the http-proxy-middleware option, we also support the bypass and context configuration:
-
-- bypass: bypass the proxy based on the return value of a function.
-  - Return `null` or `undefined` to continue processing the request with proxy.
-  - Return `false` to produce a 404 error for the request.
-  - Return a path to serve from, instead of continuing to proxy the request.
-- context: If you want to proxy multiple, specific paths to the same target, you can use an array of one or more objects with a context property.
-
-```js
-// custom bypass
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          bypass: function (req, res, proxyOptions) {
-            if (req.headers.accept.indexOf('html') !== -1) {
-              console.log('Skipping proxy for browser request.');
-              return '/index.html';
-            }
-          },
-        },
-      },
-    },
-  },
-};
-```
-
-```js
-// proxy multiple
-export default {
-  dev: {
-    server: {
-      proxy: [
-        {
-          context: ['/auth', '/api'],
-          target: 'http://localhost:3000',
-        },
-      ],
-    },
-  },
-};
-```
-
-#### watch
-
-- **Type:** `boolean`
-- **Default:** `true`
-
-Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
