@@ -2,6 +2,9 @@
 sidebar_position: 3
 ---
 
+import { PackageManagerTabs } from '@theme';
+import ReleaseNote from '@site-docs/components/release-note';
+
 # 版本升级
 
 ## 手动升级
@@ -16,8 +19,6 @@ Modern.js 所有的官方包使用**统一版本号**进行发布，因此升级
 
    - 访问 [npm](https://www.npmjs.com/package/@modern-js/app-tools) 查看 `@modern-js/app-tools` 的最新版本
    - 查看 [GitHub Releases](https://github.com/web-infra-dev/modern.js/releases)
-
-   import ReleaseNote from '@site-docs/components/release-note';
 
    <ReleaseNote />
 
@@ -40,8 +41,6 @@ Modern.js 所有的官方包使用**统一版本号**进行发布，因此升级
 3. **重新安装依赖**
 
    更新完 `package.json` 后，重新安装依赖：
-
-   import { PackageManagerTabs } from '@theme';
 
    <PackageManagerTabs command="install" />
 

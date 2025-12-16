@@ -2,6 +2,9 @@
 sidebar_position: 3
 ---
 
+import { PackageManagerTabs } from '@theme';
+import ReleaseNote from '@site-docs-en/components/release-note';
+
 # Upgrading
 
 ## Manual Upgrade
@@ -16,8 +19,6 @@ All Modern.js official packages are released with a **uniform version number**, 
 
    - Visit [npm](https://www.npmjs.com/package/@modern-js/app-tools) to check the latest version of `@modern-js/app-tools`
    - Check [GitHub Releases](https://github.com/web-infra-dev/modern.js/releases)
-
-   import ReleaseNote from '@site-docs-en/components/release-note';
 
    <ReleaseNote />
 
@@ -40,8 +41,6 @@ All Modern.js official packages are released with a **uniform version number**, 
 3. **Reinstall dependencies**
 
    After updating `package.json`, reinstall dependencies:
-
-   import { PackageManagerTabs } from '@theme';
 
    <PackageManagerTabs command="install" />
 
