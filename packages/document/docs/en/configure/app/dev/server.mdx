@@ -4,22 +4,92 @@ title: server
 
 # dev.server
 
-`dev.server` configures dev server behavior. Currently it supports CORS.
+- **Type:** `Object`
+- **Default:** `{}`
 
-## cors
+The config of DevServer can be modified through `dev.server`.
 
-- **Type:** `boolean | import('cors').CorsOptions`
+### compress
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to enable gzip compression for served static assets.
+
+If you want to disable the gzip compression, you can set `compress` to `false`:
+
+```ts
+export default {
+  dev: {
+    server: {
+      compress: false,
+    },
+  },
+};
+```
+
+For more details, please refer to the [Rsbuild - server.compress](https://rsbuild.rs/config/server/compress) documentation.
+
+### headers
+
+- **Type:** `Record<string, string>`
+- **Default:** `undefined`
+
+Adds headers to all responses.
+
+```js
+export default {
+  dev: {
+    server: {
+      headers: {
+        'X-Custom-Foo': 'bar',
+      },
+    },
+  },
+};
+```
+
+For more details, please refer to the [Rsbuild - server.headers](https://rsbuild.rs/config/server/headers) documentation.
+
+### historyApiFallback
+
+- **Type:** `boolean | ConnectHistoryApiFallbackOptions`
 - **Default:** `false`
 
-Configure CORS (Cross-Origin Resource Sharing) for the development server.
+The index.html page will likely have to be served in place of any 404 responses. Enable `dev.server.historyApiFallback` by setting it to `true`:
 
-### Default Values
+```js
+export default {
+  dev: {
+    server: {
+      historyApiFallback: true,
+    },
+  },
+};
+```
+
+For more configuration options, please refer to the [Rsbuild - server.historyApiFallback](https://rsbuild.rs/config/server/history-api-fallback) documentation.
+
+### watch
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
+
+For more details, please refer to the [Rsbuild - dev.watchFiles](https://rsbuild.rs/config/dev/watch-files) documentation.
+
+### cors
+
+- **Type:** `boolean | import('cors').CorsOptions`
+
+Configure CORS (Cross-Origin Resource Sharing) for the development server.
 
 The default configuration for `cors` in Modern.js follows Rsbuild's defaults:
 
 ```ts
 const defaultAllowedOrigins =
-  /^https?:\/\/(?:(?:[^:]+\. )?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
+  /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
 
 const defaultOptions = {
   // Default allowed:
@@ -30,54 +100,4 @@ const defaultOptions = {
 };
 ```
 
-### Enable CORS for specific origin
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: {
-        origin: 'https://example.com',
-      },
-    },
-  },
-};
-```
-
-### Enable CORS for all origins
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: true,
-    },
-  },
-};
-```
-
-### Disable CORS
-
-```ts
-export default {
-  dev: {
-    server: {
-      cors: false,
-    },
-  },
-};
-```
-
-
-### More Options
-
 For more configuration options and detailed usage, please refer to the [Rsbuild - server.cors](https://rsbuild.rs/config/server/cors) documentation.
-
-:::warning
-Using `cors: true` or `cors.origin: '*'` will make your dev server open to all origins, which may compromise source code security.
-:::
-
-:::info
-`dev.cors` is deprecated; please migrate to `dev.server.cors`.
-:::
-

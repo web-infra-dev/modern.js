@@ -15,117 +15,11 @@ Modern.js does not directly use [webpack-dev-server](https://webpack.js.org/api/
 
 ### Options
 
-#### after
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
-:::
-
-- **Type:** `Array`
-- **Default:** `[]`
-
-Provides the ability to execute custom middleware after all other middleware internally within the server.
-
-```js
-export default {
-  tools: {
-    devServer: {
-      after: [
-        async (req, res, next) => {
-          console.log('after dev middleware');
-          next();
-        },
-      ],
-    },
-  },
-};
-```
-
-`webpack-dev-server` uses Express as the server-side framework. Modern.js does not use any framework, and the `req` and `res` in the above middleware are all native Node objects. Therefore, the Express middleware used in `webpack-dev-server` may not be directly usable in Modern.js.
-
-If you want to migrate the Express middleware used in `webpack-dev-server`, you can use the following method to pass the Express app as middleware:
-
-```js
-import expressMiddleware from 'my-express-middleware';
-import express from 'express';
-
-// init Express app
-const app = express();
-app.use(expressMiddleware);
-
-export default {
-  tools: {
-    devServer: {
-      after: [app],
-    },
-  },
-};
-```
-
-#### before
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
-:::
-
-- **Type:** `Array`
-- **Default:** `[]`
-
-Provides the ability to execute custom middleware prior to all other middleware internally within the server.
-
-```js
-export default {
-  tools: {
-    devServer: {
-      before: [
-        async (req, res, next) => {
-          console.log('before dev middleware');
-          next();
-        },
-      ],
-    },
-  },
-};
-```
-
-#### client
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.client](https://modernjs.dev/en/configure/app/dev/client) instead.
-:::
-
-- **Type:**
-
-```ts
-{
-    /** Specify a protocol to use */
-    protocol?: string;
-    /** The path which the middleware is serving the event stream on */
-    path?: string;
-    /** Specify a port number to listen for requests on */
-    port?: string;
-    /** Specify a host to use */
-    host?: string;
-}
-```
-
-- **Default:**
-
-```js
-const defaultConfig = {
-  path: '/webpack-hmr',
-  // By default it is set to the port number of the dev server
-  port: '',
-  // By default it is set to "location.hostname"
-  host: '',
-  // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
-  protocol: '',
-};
-```
-
-The config of HMR client, which are usually used to set the WebSocket URL of HMR.
-
 #### compress
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.compress](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
 
 - **Type:** `boolean`
 - **Default:** `true`
@@ -144,31 +38,11 @@ export default {
 };
 ```
 
-#### devMiddleware
+#### headers
 
 :::warning
-**Deprecated**: This configuration is deprecated, please use [dev.writeToDisk](https://modernjs.dev/en/configure/app/dev/write-to-disk) instead.
+**Deprecated**: This configuration is deprecated, please use [dev.server.headers](https://modernjs.dev/en/configure/app/dev/server) instead.
 :::
-
-- **Type:**
-
-```js
-{
-  writeToDisk: boolean | ((filename: string) => boolean);
-}
-```
-
-- **Default:**
-
-```js
-{
-  writeToDisk: (file: string) => !file.includes('.hot-update.'),
-}
-```
-
-The config of devMiddleware. Current options is the subset of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware).
-
-#### headers
 
 - **Type:** `Record<string, string>`
 - **Default:** `undefined`
@@ -189,6 +63,10 @@ export default {
 
 #### historyApiFallback
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.historyApiFallback](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
+
 - **Type:** `boolean | ConnectHistoryApiFallbackOptions`
 - **Default:** `false`
 
@@ -206,127 +84,11 @@ export default {
 
 For more options and information, see the [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) documentation.
 
-#### hot
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.hmr](https://modernjs.dev/en/configure/app/dev/hmr) instead.
-:::
-
-- **Type:** `boolean`
-- **Default:** `true`
-
-Enable [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) feature.
-
-#### https
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.https](https://modernjs.dev/en/configure/app/dev/https) instead.
-:::
-
-- **Type:** `boolean | { key: string; cert: string }`
-- **Default:** `false`
-
-By default, DevServer will be served over HTTP. It can optionally be served over HTTPS by setting `devServer.https` to `true`, and will disable the HTTP server.
-
-You can also manually pass in the certificate and corresponding private key required by the HTTPS server:
-
-```ts
-export default {
-  tools: {
-    devServer: {
-      https: {
-        key: fs.readFileSync('certificates/private.pem'),
-        cert: fs.readFileSync('certificates/public.pem'),
-      },
-    },
-  },
-};
-```
-
-#### liveReload
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.liveReload](https://modernjs.dev/en/configure/app/dev/live-reload) instead.
-:::
-
-- **Type:** `boolean`
-- **Default:** `true`
-
-By default, the DevServer will reload/refresh the page when file changes are detected (`devServer.hot` option must be disabled in order for liveReload to take effect). Disable `devServer.liveReload` by setting it to `false`.
-
-#### setupMiddlewares
-
-:::warning
-**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
-:::
-
-- **Type:**
-
-```js
-Array<
-  (
-    middlewares: {
-      unshift: (...handlers: RequestHandler[]) => void;
-      push: (...handlers: RequestHandler[]) => void;
-    },
-    server: {
-      sockWrite: (
-        type: string,
-        data?: string | boolean | Record<string, any>,
-      ) => void;
-    },
-  ) => void
->;
-```
-
-- **Default:** `undefined`
-
-Provides the ability to execute a custom function and apply custom middlewares.
-
-The order among several different types of middleware is: `devServer.before` => `unshift` => internal middlewares => `push` => `devServer.after`.
-
-```js
-export default {
-  tools: {
-    devServer: {
-      setupMiddlewares: [
-        (middlewares, server) => {
-          middlewares.unshift((req, res, next) => {
-            next();
-          });
-
-          middlewares.push((req, res, next) => {
-            next();
-          });
-        },
-      ],
-    },
-  },
-};
-```
-
-It is possible to use some server api to meet special scenario requirements:
-
-- sockWrite. Allow send some message to hmr client, and then the hmr client will take different actions depending on the message type. If you send a "content changed" message, the page will reload.
-
-```js
-export default {
-  tools: {
-    devServer: {
-      setupMiddlewares: [
-        (middlewares, server) => {
-          // add custom watch & trigger page reload when change
-          watcher.on('change', changed => {
-            server.sockWrite('content-changed');
-          });
-        },
-      ],
-    },
-  },
-};
-```
-
 #### proxy
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.proxy](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
 
 - **Type:** `Record<string, string> | Record<string, ProxyDetail>`
 - **Default:** `undefined`
@@ -435,6 +197,10 @@ export default {
 ```
 
 #### watch
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.server.watch](https://modernjs.dev/en/configure/app/dev/server) instead.
+:::
 
 - **Type:** `boolean`
 - **Default:** `true`

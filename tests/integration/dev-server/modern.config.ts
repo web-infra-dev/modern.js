@@ -31,6 +31,10 @@ export default applyBaseConfig({
       cors: {
         origin: ['http://localhost:3000', 'http://example.com'],
       },
+      headers: {
+        'X-Server-Header': 'test-server-header',
+      },
+      historyApiFallback: true,
     },
     setupMiddlewares: [
       (middlewares, _) => {

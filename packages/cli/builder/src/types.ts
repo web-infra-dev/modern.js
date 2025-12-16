@@ -87,11 +87,30 @@ export type MainFields = (string | string[])[];
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
+/**
+ * @deprecated This configuration is deprecated, please use `dev.server` instead.
+ */
 export type ToolsDevServerConfig = ConfigChain<{
+  /**
+   * @deprecated Use `dev.server.compress` instead.
+   */
   compress?: ServerConfig['compress'];
+  /**
+   * @deprecated Use `dev.server.headers` instead.
+   */
   headers?: ServerConfig['headers'];
+  /**
+   * @deprecated Use `dev.server.historyApiFallback` instead.
+   */
   historyApiFallback?: ServerConfig['historyApiFallback'];
+  /**
+   * @deprecated Use `dev.server.proxy` instead.
+   */
   proxy?: ServerConfig['proxy'];
+  /**
+   * @deprecated Use `dev.server.watch` instead.
+   */
+  watch?: boolean;
 }>;
 
 export type ToolsAutoprefixerConfig = ConfigChain<AutoprefixerOptions>;
@@ -104,6 +123,9 @@ export type BuilderExtraConfig = {
     autoprefixer?: ToolsAutoprefixerConfig;
     // tools.htmlPlugin minify option should works
     htmlPlugin?: ToolsConfig['htmlPlugin'];
+    /**
+     * @deprecated Use `dev.server` instead.
+     */
     devServer?: ToolsDevServerConfig;
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
@@ -142,6 +164,16 @@ export type BuilderExtraConfig = {
      * After configuring this option, you can enable HTTPS Dev Server, and disabling the HTTP Dev Server.
      */
     https?: DevServerHttpsOptions;
+    /**
+     * Server configuration for Dev Server.
+     */
+    server?: {
+      compress?: ServerConfig['compress'];
+      headers?: ServerConfig['headers'];
+      historyApiFallback?: ServerConfig['historyApiFallback'];
+      proxy?: ServerConfig['proxy'];
+      watch?: boolean;
+    };
   };
   source?: {
     transformImport?: SourceConfig['transformImport'] | false;
@@ -263,7 +295,15 @@ export type DistPath = DistPathConfig & {
 };
 
 export type BuilderConfig = {
-  dev?: Omit<DevConfig, 'setupMiddlewares'>;
+  dev?: Omit<DevConfig, 'setupMiddlewares'> & {
+    server?: {
+      compress?: ServerConfig['compress'];
+      headers?: ServerConfig['headers'];
+      historyApiFallback?: ServerConfig['historyApiFallback'];
+      proxy?: ServerConfig['proxy'];
+      watch?: boolean;
+    };
+  };
   html?: Omit<HtmlConfig, 'appIcon'>;
   output?: Omit<OutputConfig, 'polyfill' | 'distPath'> & {
     polyfill?: Polyfill | 'ua';

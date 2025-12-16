@@ -15,117 +15,11 @@ Modern.js 中并没有直接使用 [webpack-dev-server](https://webpack.js.org/a
 
 ### 选项
 
-#### after
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
-:::
-
-- **类型：** `Array`
-- **默认值：** `[]`
-
-添加自定义中间件，在所有开发环境中间件后执行。
-
-```js
-export default {
-  tools: {
-    devServer: {
-      after: [
-        async (req, res, next) => {
-          console.log('after dev middleware');
-          next();
-        },
-      ],
-    },
-  },
-};
-```
-
-`webpack-dev-server` 使用 Express 作为服务端框架。Modern.js 中没有使用任何框架，上述中间件中 `req` 和 `res` 都是 Node 原生对象，因此 `webpack-dev-server` 的 Express 中间件不一定能直接在 Modern.js 中使用。
-
-如果要迁移 `webpack-dev-server` 中使用的 Express 中间件，可以使用以下方式，将 Express app 作为中间件传入：
-
-```js
-import expressMiddleware from 'my-express-middleware';
-import express from 'express';
-
-// 初始化 Express app
-const app = express();
-app.use(expressMiddleware);
-
-export default {
-  tools: {
-    devServer: {
-      after: [app],
-    },
-  },
-};
-```
-
-#### before
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
-:::
-
-- **类型：** `Array`
-- **默认值：** `[]`
-
-添加自定义中间件，在所有开发环境中间件前执行。
-
-```js
-export default {
-  tools: {
-    devServer: {
-      before: [
-        async (req, res, next) => {
-          console.log('before dev middleware');
-          next();
-        },
-      ],
-    },
-  },
-};
-```
-
-#### client
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.client](https://modernjs.dev/configure/app/dev/client) 代替。
-:::
-
-- **类型：**
-
-```ts
-{
-    /** 指定协议名称 */
-    protocol?: string;
-    /** 事件流路径 */
-    path?: string;
-    /** 指定监听请求的端口号 */
-    port?: string;
-    /** 指定要使用的 host */
-    host?: string;
-}
-```
-
-- **默认值：**
-
-```js
-const defaultConfig = {
-  path: '/webpack-hmr',
-  // By default it is set to the port number of the dev server
-  port: '',
-  // By default it is set to "location.hostname"
-  host: '',
-  // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
-  protocol: '',
-};
-```
-
-对应 HMR 客户端的配置，通常用于设置 HMR 对应的 WebSocket URL。
-
 #### compress
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.server.compress](https://modernjs.dev/configure/app/dev/server) 代替。
+:::
 
 - **类型：** `boolean`
 - **默认值：** `true`
@@ -144,31 +38,11 @@ export default {
 };
 ```
 
-#### devMiddleware
+#### headers
 
 :::warning
-**Deprecated**：该配置已废弃，请使用 [dev.writeToDisk](https://modernjs.dev/configure/app/dev/write-to-disk) 代替。
+**Deprecated**：该配置已废弃，请使用 [dev.server.headers](https://modernjs.dev/configure/app/dev/server) 代替。
 :::
-
-- **类型：**
-
-```js
-{
-  writeToDisk: boolean | ((filename: string) => boolean);
-}
-```
-
-- **默认值：**
-
-```js
-{
-  writeToDisk: (file: string) => !file.includes('.hot-update.'),
-}
-```
-
-devMiddleware 配置项。当前配置是 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 配置项的子集.
-
-#### headers
 
 - **类型：** `Record<string, string>`
 - **默认值：** `undefined`
@@ -189,6 +63,10 @@ export default {
 
 #### historyApiFallback
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.server.historyApiFallback](https://modernjs.dev/configure/app/dev/server) 代替。
+:::
+
 - **类型：** `boolean | ConnectHistoryApiFallbackOptions`
 - **默认值：** `false`
 
@@ -206,127 +84,11 @@ export default {
 
 更多选项和详细信息可参考 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 文档。
 
-#### hot
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.hmr](https://modernjs.dev/configure/app/dev/hmr) 代替。
-:::
-
-- **类型：** `boolean`
-- **默认值：** `true`
-
-是否开启 [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) 热更新能力。
-
-#### https
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.https](https://modernjs.dev/configure/app/dev/https) 代替。
-:::
-
-- **类型：** `boolean | { key: string; cert: string }`
-- **默认值：** `false`
-
-默认情况下，DevServer 会启用 HTTP 服务器。通过设置 `devServer.https` 为 `true` 将开启对 HTTPS 的支持，同时会禁用 HTTP 服务器。
-
-你也可以手动传入 HTTPS 服务器所需要的证书和对应的私钥：
-
-```js
-export default {
-  tools: {
-    devServer: {
-      https: {
-        key: fs.readFileSync('certificates/private.pem'),
-        cert: fs.readFileSync('certificates/public.pem'),
-      },
-    },
-  },
-};
-```
-
-#### liveReload
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.liveReload](https://modernjs.dev/configure/app/dev/live-reload) 代替。
-:::
-
-- **类型：** `boolean`
-- **默认值：** `true`
-
-默认情况下，当监听到文件变化时，DevServer 将会刷新页面（为使 liveReload 能够生效，`devServer.hot` 配置项应当禁用）。通过设置 `devServer.liveReload` 为 `false` 可以关闭该行为。
-
-#### setupMiddlewares
-
-:::warning
-**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
-:::
-
-- **类型：**
-
-```js
-Array<
-  (
-    middlewares: {
-      unshift: (...handlers: RequestHandler[]) => void;
-      push: (...handlers: RequestHandler[]) => void;
-    },
-    server: {
-      sockWrite: (
-        type: string,
-        data?: string | boolean | Record<string, any>,
-      ) => void;
-    },
-  ) => void
->;
-```
-
-- **默认值：** `undefined`
-
-提供执行自定义函数和应用自定义中间件的能力。
-
-几种不同中间件之间的执行顺序是: `devServer.before` => `unshift` => 内置中间件 => `push` => `devServer.after`。
-
-```js
-export default {
-  tools: {
-    devServer: {
-      setupMiddlewares: [
-        (middlewares, server) => {
-          middlewares.unshift((req, res, next) => {
-            next();
-          });
-
-          middlewares.push((req, res, next) => {
-            next();
-          });
-        },
-      ],
-    },
-  },
-};
-```
-
-一些特殊场景需求可能需要使用服务器 API：
-
-- sockWrite。允许向 hmr 客户端传递一些消息，hmr 客户端将根据接收到的消息类型进行不同的处理。如果你发送一个 "content-changed " 的消息，页面将会重新加载。
-
-```js
-export default {
-  tools: {
-    devServer: {
-      setupMiddlewares: [
-        (middlewares, server) => {
-          // 添加自定义 watcher 并在文件更新时触发页面刷新
-          watcher.on('change', changed => {
-            server.sockWrite('content-changed');
-          });
-        },
-      ],
-    },
-  },
-};
-```
-
 #### proxy
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.server.proxy](https://modernjs.dev/configure/app/dev/server) 代替。
+:::
 
 - **类型：** `Record<string, string> | Record<string, ProxyDetail>`
 - **默认值：** `undefined`
@@ -435,6 +197,10 @@ export default {
 ```
 
 #### watch
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.server.watch](https://modernjs.dev/configure/app/dev/server) 代替。
+:::
 
 - **类型：** `boolean`
 - **默认值：** `true`
