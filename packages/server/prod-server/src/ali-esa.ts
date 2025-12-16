@@ -1,36 +1,49 @@
+import { env } from 'node:process';
 import { createServerBase } from '@modern-js/server-core';
+import {
+  getServerCliConfig,
+  loadDeps,
+} from '@modern-js/server-core/edge-function';
+import { OUTPUT_CONFIG_FILE } from '@modern-js/utils';
 import { applyPlugins } from './apply/edge-function';
 import type { BaseEnv, ProdServerOptions } from './types';
 
-export type { ProdServerOptions, BaseEnv } from './types';
+declare const cache: Cache;
 
-export const createAliESAFunction = async (options: ProdServerOptions) => {
-  // await loadServerEnv(options);
+export type { BaseEnv, ProdServerOptions } from './types';
 
+export const createAliESAFunction = async (
+  options: ProdServerOptions,
+  deps: any,
+) => {
   const serverBaseOptions = options;
 
-  // const serverCliConfig = loadServerCliConfig(options.pwd, options.config);
+  const serverCliConfig = getServerCliConfig(
+    options.config,
+    loadDeps(OUTPUT_CONFIG_FILE, deps)?.content,
+  );
 
-  // if (serverCliConfig) {
-  //   options.config = serverCliConfig;
-  // }
+  if (serverCliConfig) {
+    options.config = serverCliConfig;
+  }
 
-  // const serverRuntimeConfig = await loadServerRuntimeConfig(
-  //   options.serverConfigPath,
-  // );
+  const serverRuntimeConfig = loadDeps(options.serverConfigPath, deps)?.content;
 
-  // if (serverRuntimeConfig) {
-  //   serverBaseOptions.serverConfig = serverRuntimeConfig;
-  //   serverBaseOptions.plugins = [
-  //     ...(serverRuntimeConfig.plugins || []),
-  //     ...(options.plugins || []),
-  //   ];
-  // }
+  if (serverRuntimeConfig) {
+    serverBaseOptions.serverConfig = serverRuntimeConfig;
+    serverBaseOptions.plugins = [
+      ...(serverRuntimeConfig.plugins || []),
+      ...(options.plugins || []),
+    ];
+  }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  await applyPlugins(server, options, undefined);
+  await applyPlugins(server, options, cache, deps, env);
   await server.init();
-  return (request: Request, context: unknown) => {
-    return server.handle(request, context);
+  return (request: Request) => {
+    return server.handle(request, {
+      Bindings: {},
+      Variables: env,
+    });
   };
 };

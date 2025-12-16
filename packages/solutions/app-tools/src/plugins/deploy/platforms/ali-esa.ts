@@ -2,18 +2,23 @@ import path from 'node:path';
 import {
   ROUTE_SPEC_FILE,
   SERVER_DIR,
+  lodash as _,
   fs as fse,
   getMeta,
   removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
-import { isMainEntry } from '../../../utils/routes';
-import { copyFileForEdgeEnv, walkDirectory } from '../edge-utils';
+import {
+  copyFileForEdge,
+  getServerConfigPath,
+  normalizePath,
+  serverAppContenxtTemplate,
+  walkDirectory,
+} from '../edge-utils';
 import {
   type PluginItem,
   genPluginImportsCode,
   getPluginsCode,
-  serverAppContenxtTemplate,
 } from '../utils';
 import type { CreatePreset } from './platform';
 
@@ -70,17 +75,28 @@ export const createAliESAPreset: CreatePreset = (
       await fse.copy(distStaticDirectory, esaDistOutput);
 
       if (needModernServer) {
+        const files: Record<string, string> = {};
         await fse.ensureDir(funcsDirectory);
+
+        // copy deps
         await walkDirectory(distDirectory, async filePath => {
           if (filePath.startsWith(distStaticDirectory)) {
             return;
           }
-          const targetPath = path.join(
-            esaDistOutput,
+          const relative = normalizePath(
             path.relative(distDirectory, filePath),
           );
-          await copyFileForEdgeEnv(filePath, targetPath);
+          const targetPath = path.join(funcsDirectory, relative);
+          if (false !== (await copyFileForEdge(filePath, targetPath))) {
+            files[relative] = `_MODERNJS_EDGE_REQUIRE_(${relative})`;
+          }
         });
+
+        // generate deps file
+        await fse.writeFile(
+          path.join(funcsDirectory, 'deps.js'),
+          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./__content__/$1')")}`,
+        );
       }
     },
     async genEntry() {
@@ -105,12 +121,12 @@ export const createAliESAPreset: CreatePreset = (
         config: serverConfig,
       };
 
-      const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
+      const serverConfigPath = getServerConfigPath(meta);
 
       const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './ali-esa-entry.js'))
+        await fse.readFile(path.join(__dirname, './ali-esa-edge-entry.js'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
@@ -143,7 +159,7 @@ export const createAliESAPreset: CreatePreset = (
         sourceDir: funcsDirectory,
         includeEntries: [
           require.resolve('@modern-js/prod-server'),
-          require.resolve('@modern-js/prod-server/netlify'),
+          require.resolve('@modern-js/prod-server/ali-esa'),
         ],
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
@@ -161,6 +177,21 @@ export const createAliESAPreset: CreatePreset = (
           };
         },
       });
+      // generate esa.jsonc
+      let esaConfig = {};
+      const esaConfigPath = path.join(appDirectory, 'esa.jsonc');
+      if (await fse.pathExists(esaConfigPath)) {
+        esaConfig = await fse.readJSON(esaConfigPath);
+      }
+      await fse.outputJSON(
+        esaConfigPath,
+        _.merge(esaConfig, {
+          entry: './functions/index.js',
+          assets: {
+            directory: './dist',
+          },
+        }),
+      );
     },
   };
 };

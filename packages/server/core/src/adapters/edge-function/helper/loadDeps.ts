@@ -1,5 +1,3 @@
-import { get } from '@modern-js/utils/lodash';
-
 interface DepInfo {
   type: 'object' | 'string' | 'buffer';
   content?: any;
@@ -7,13 +5,33 @@ interface DepInfo {
   buf?: Buffer;
 }
 
-export const loadDeps = (key: string[], deps: any): DepInfo | undefined => {
-  const value = get(deps, key);
+export const loadDeps = (
+  keyParam: string,
+  deps: Record<string, any>,
+): DepInfo | undefined => {
+  if (typeof deps !== 'object') {
+    return;
+  }
+
+  let key = keyParam;
+  if (key.startsWith('/')) {
+    key = key.substring(1);
+  }
+
+  let value: any;
+  if (deps.hasOwnProperty(key)) {
+    value = deps[key];
+  } else {
+    const s = ['.js', '.json', '.mjs'].find(x => deps.hasOwnProperty(key + x));
+    if (s) {
+      value = deps[s];
+    }
+  }
+
   if (typeof value === 'undefined') {
     return;
   }
 
-  // TODO: 只能取叶子结点
   if (typeof value === 'object') {
     if (typeof value._DEP_TEXT === 'string') {
       return {

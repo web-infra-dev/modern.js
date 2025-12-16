@@ -1,25 +1,17 @@
 import path from 'node:path';
 import {
   ROUTE_SPEC_FILE,
-  SERVER_DIR,
   fs as fse,
   getMeta,
   removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
-import {
-  copyFileForEdge,
-  getServerConfigPath,
-  normalizePath,
-  serverAppContenxtTemplate,
-  walkDirectory,
-} from '../edge-utils';
+import { getServerConfigPath, serverAppContenxtTemplate } from '../edge-utils';
 import {
   type PluginItem,
   genPluginImportsCode,
   getPluginsCode,
 } from '../utils';
-
 import type { CreatePreset } from './platform';
 
 async function cleanDistDirectory(dir: string) {
@@ -37,12 +29,19 @@ async function cleanDistDirectory(dir: string) {
   }
 }
 
-export const createEdgeOnePreset: CreatePreset = (
+export const createCloudflareWorkersPreset: CreatePreset = (
   appContext,
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, serverPlugins, metaName } = appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    entrypoints,
+    serverPlugins,
+    moduleType,
+    metaName,
+  } = appContext;
 
   const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
   const { routes } = fse.readJSONSync(routeJSON);
@@ -52,55 +51,26 @@ export const createEdgeOnePreset: CreatePreset = (
     plugin.options,
   ]);
 
-  const eoOutput = path.join(appDirectory, '.edgeone');
-  const funcsDirectory = path.join(eoOutput, 'functions');
-  const funcContentDirectory = path.join(funcsDirectory, '__content__');
-  const entryFilePath = path.join(funcsDirectory, '[[default]].js');
-  const staticDirectory = path.join(eoOutput, 'static');
+  const esaOutput = path.join(appDirectory, '.cloudflare-workers');
+  const funcsDirectory = path.join(esaOutput, 'functions');
+  const entryFilePath = path.join(funcsDirectory, 'index.js');
+  const esaDistOutput = path.join(esaOutput, 'dist');
   return {
     async prepare() {
-      await fse.remove(eoOutput);
+      await fse.remove(esaOutput);
     },
     async writeOutput() {
-      await fse.ensureDir(eoOutput);
       const distStaticDirectory = path.join(distDirectory, `static`);
-      await fse.copy(distStaticDirectory, staticDirectory);
+      await fse.ensureDir(esaDistOutput);
+      await fse.copy(distStaticDirectory, esaDistOutput);
 
       if (needModernServer) {
-        const files: Record<string, string> = {};
-        await fse.ensureDir(funcContentDirectory);
-
-        // copy deps
-        await walkDirectory(distDirectory, async filePath => {
-          if (filePath.startsWith(distStaticDirectory)) {
-            return;
-          }
-          const relative = normalizePath(
-            path.relative(distDirectory, filePath),
-          );
-          const targetPath = path.join(funcContentDirectory, relative);
-          if (false !== (await copyFileForEdge(filePath, targetPath))) {
-            files[relative] = `_MODERNJS_EDGE_REQUIRE_(${relative})`;
-          }
+        await fse.ensureDir(funcsDirectory);
+        await fse.copy(distDirectory, funcsDirectory, {
+          filter: (src: string) => {
+            return !src.includes(distStaticDirectory);
+          },
         });
-
-        // generate deps file
-        await fse.writeFile(
-          path.join(funcsDirectory, 'deps.js'),
-          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./__content__/$1')")}`,
-        );
-
-        // generate static file list
-        const staticFilesList: string[] = [];
-        await walkDirectory(staticDirectory, filePath => {
-          staticFilesList.push(
-            normalizePath(path.relative(staticDirectory, filePath)),
-          );
-        });
-        await fse.writeFile(
-          path.join(funcsDirectory, 'static-files-list.json'),
-          JSON.stringify(staticFilesList),
-        );
       }
     },
     async genEntry() {
@@ -130,7 +100,9 @@ export const createEdgeOnePreset: CreatePreset = (
       const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './edgeone-edge-entry.js'))
+        await fse.readFile(
+          path.join(__dirname, './cloudflare-workers-edge-entry.js'),
+        )
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
@@ -163,7 +135,7 @@ export const createEdgeOnePreset: CreatePreset = (
         sourceDir: funcsDirectory,
         includeEntries: [
           require.resolve('@modern-js/prod-server'),
-          require.resolve('@modern-js/prod-server/edgeone'),
+          require.resolve('@modern-js/prod-server/cloudflare-workers'),
         ],
         copyWholePackage(pkgName) {
           return pkgName === '@modern-js/utils';
@@ -181,6 +153,7 @@ export const createEdgeOnePreset: CreatePreset = (
           };
         },
       });
+      // TODO: generate wrangler.jsonc
     },
   };
 };

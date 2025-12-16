@@ -1,5 +1,6 @@
 import type { Server as NodeServer } from 'node:http';
 import type { Http2SecureServer } from 'node:http2';
+import { env } from 'node:process';
 import type { ServerBase } from '@modern-js/server-core';
 import {
   injectNodeSeverPlugin,
@@ -17,12 +18,10 @@ import {
 
 // Now we not use logger options, it can be implemented in the future
 function getLogger(_?: boolean | Record<string, unknown>) {
-  const setLevel = Boolean(
-    process.env.DEBUG || process.env.NODE_ENV === 'production',
-  );
+  const setLevel = Boolean(env.DEBUG || env.NODE_ENV === 'production');
   return baseGetLogger(
     setLevel,
-    (process.env.MODERN_SERVER_LOG_LEVEL as any) || 'verbose',
+    (env.MODERN_SERVER_LOG_LEVEL as any) || 'verbose',
   );
 }
 

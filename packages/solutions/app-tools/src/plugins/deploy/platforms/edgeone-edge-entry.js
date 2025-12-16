@@ -1,19 +1,19 @@
-import path from 'node:path';
-import { createAliESAFunction } from '@modern-js/prod-server/ali-esa';
+import { createEdgeOneFunction } from '@modern-js/prod-server/edgeone';
+import { deps } from './deps';
+import staticFilesList from './static-files-list.json' assert { type: 'json' };
 
 p_genPluginImportsCode;
 
 let requestHandler = null;
 let handlerCreationPromise = null;
 
-async function initServer() {
-  const pwd = path.dirname(import.meta.url.replace(/^file:\/\//, ''));
+async function initServer(env) {
   const routes = p_ROUTES;
 
   const dynamicProdOptions = p_dynamicProdOptions;
 
   const prodServerOptions = {
-    pwd,
+    pwd: '/',
     routes,
     disableCustomHook: true,
     appContext: {
@@ -27,19 +27,23 @@ async function initServer() {
     ...dynamicProdOptions,
   };
 
-  const requestHandler = await createAliESAFunction(prodServerOptions);
+  const requestHandler = await createEdgeOneFunction(
+    prodServerOptions,
+    deps,
+    staticFilesList,
+    env,
+  );
 
   return requestHandler;
 }
 
-async function createHandler() {
+async function createHandler(env) {
   if (!handlerCreationPromise) {
     handlerCreationPromise = (async () => {
       try {
-        requestHandler = await initServer();
+        requestHandler = await initServer(env);
       } catch (error) {
         console.error('Error creating server:', error);
-        process.exit(1);
       }
     })();
   }
@@ -47,13 +51,9 @@ async function createHandler() {
   return requestHandler;
 }
 
-createHandler();
-
-export default {
-  async fetch(request) {
-    if (!requestHandler) {
-      await createHandler();
-    }
-    return requestHandler(request);
-  },
-};
+export async function onRequest(ctx) {
+  if (!requestHandler) {
+    await createHandler(ctx.env);
+  }
+  return requestHandler(ctx);
+}

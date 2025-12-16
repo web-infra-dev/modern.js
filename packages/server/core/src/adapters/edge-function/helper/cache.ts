@@ -1,17 +1,14 @@
 import type { Container } from '@modern-js/types/server';
 
-export const createCacheContainer = async (namespace: string) => {
-  const c = await caches.open(namespace);
+const DEFAULT_CACHE_TTL = 600; // 10 min
+
+export const createCacheContainer = (c: Cache) => {
   const container: Container = {
     async get(key) {
       try {
         const res = await c.match(key);
         if (!res) {
           return undefined;
-        }
-        const ttl = Number(res.headers.get('x-expire-at'));
-        if (!Number.isNaN(ttl) && ttl < Date.now()) {
-          container.delete(key);
         }
         return res.text();
       } catch (e) {
@@ -20,10 +17,10 @@ export const createCacheContainer = async (namespace: string) => {
     },
     async set(key, value, options) {
       const resp = new Response(value);
-      if (options?.ttl) {
-        const expireAt = Date.now() + options.ttl;
-        resp.headers.set('x-expire-at', String(expireAt));
-      }
+      resp.headers.set(
+        'cache-control',
+        `max-age=${options?.ttl ? Math.round(options.ttl / 1000) : DEFAULT_CACHE_TTL}`,
+      );
       await c.put(key, resp);
       return container;
     },

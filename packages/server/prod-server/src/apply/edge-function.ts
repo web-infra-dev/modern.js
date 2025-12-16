@@ -31,6 +31,7 @@ export type ApplyPlugins = typeof applyPlugins;
 export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
+  cache: Cache,
   deps: any,
   env?: Record<string, unknown>,
   plugins?: ServerPlugin[],
@@ -38,8 +39,8 @@ export async function applyPlugins(
   const { config, logger: optLogger } = options;
 
   const cacheConfig: CacheConfig = {
-    strategy: loadDeps(['server', 'cache'], deps)?.content,
-    container: await createCacheContainer('MODERN_SERVER_CACHE'),
+    strategy: loadDeps('server/cache', deps)?.content,
+    container: createCacheContainer(cache),
   };
 
   const loggerOptions = config.server.logger;

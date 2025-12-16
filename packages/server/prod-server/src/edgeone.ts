@@ -27,17 +27,19 @@ export const createEdgeOneFunction = async (
 
   const serverCliConfig = getServerCliConfig(
     options.config,
-    loadDeps([OUTPUT_CONFIG_FILE], deps)?.content,
+    loadDeps(OUTPUT_CONFIG_FILE, deps)?.content,
   );
 
   if (serverCliConfig) {
     options.config = serverCliConfig;
   }
 
-  const serverRuntimeConfig = loadDeps(
-    options.serverConfigPath.split('/'),
-    deps,
-  )?.content;
+  const serverRuntimeConfig = loadDeps(options.serverConfigPath, deps)?.content;
+
+  let finalEnv = { ...(env || {}) };
+  if (typeof globalThis !== 'undefined' && (globalThis as any).env) {
+    finalEnv = { ...(globalThis as any).env, ...finalEnv };
+  }
 
   if (serverRuntimeConfig) {
     serverBaseOptions.serverConfig = serverRuntimeConfig;
@@ -50,19 +52,21 @@ export const createEdgeOneFunction = async (
 
   const staticPlugin = serverStaticPlugin(staticFiles);
 
-  await applyPlugins(server, options, deps, env, [staticPlugin]);
+  const cache = await caches.open('MODERN_SERVER_CACHE');
+
+  await applyPlugins(server, options, cache, deps, finalEnv, [staticPlugin]);
   await server.init();
   return (ctx: EdgeOneEventContext) => {
     return server.handle(
       ctx.request,
       {
         Bindings: {},
-        Variables: ctx.env,
+        Variables: { ...finalEnv, ...ctx.env },
       },
       {
         waitUntil: ctx.waitUntil,
         passThroughOnException: () => {},
-        props: {}
+        props: {},
       },
     );
   };
