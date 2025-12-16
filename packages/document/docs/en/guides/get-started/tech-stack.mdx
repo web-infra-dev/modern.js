@@ -28,23 +28,15 @@ We recommend using pnpm for faster installation speed.
 
 ## Bundler
 
-Modern.js uses [Webpack 5](https://webpack.js.org/) or [Rspack](https://rspack.rs/) to bundle your web applications.
-
-The default bundler used is Webpack 5. You can refer to ["Using Rspack"](/en/guides/advanced-features/rspack-start) to switch to the faster Rspack.
+Modern.js uses [Rspack](https://rspack.rs/) to bundle your web applications.
 
 ## Transpiler
 
-Modern.js uses [Babel](https://babeljs.io/), [SWC](https://swc.rs/), or [esbuild](https://esbuild.github.io/) as JavaScript transpiler to transform TypeScript or JSX into JavaScript code that can run in browsers and perform syntax downgrades.
-
-- When using Webpack for bundling, the default tool is Babel, which can be switched to SWC or esbuild.
-- When using Rspack for bundling, the default tool is SWC, which can be switched to Babel.
+Modern.js uses [SWC](https://swc.rs/) as JavaScript transpiler to transform TypeScript or JSX into JavaScript code that can run in browsers and perform syntax downgrades. It supports switching to [Babel](https://babeljs.io/).
 
 ## Minimizer
 
-During production builds, Modern.js uses [Terser](https://github.com/terser/terser), [SWC](https://swc.rs/), or [esbuild](https://esbuild.github.io/) to minify JavaScript code, and [cssnano](https://cssnano.co/) to minify CSS code.
-
-- When using Webpack for bundling, the default tool for minifying JS code is Terser, which can be switched to SWC or esbuild.
-- When using Rspack for bundling, the default tool for minifying JS code is SWC, and switching to other tools is not currently supported.
+During production builds, Modern.js uses [SWC](https://swc.rs/) to minify JS code.
 
 ## CSS Transformer
 
