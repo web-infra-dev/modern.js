@@ -1,4 +1,4 @@
-# 配置变化
+# 配置变更
 
 本篇文档主要介绍从 Modern.js 2.0 升级到 3.0 时，配置项层面的不兼容变更以及推荐的迁移方式。
 
@@ -9,6 +9,7 @@
 **变更内容**: 不再支持字符串形式，必须使用对象格式。
 
 **V2 类型**:
+
 ```typescript
 type AppIconItem = {
   src: string;
@@ -16,14 +17,17 @@ type AppIconItem = {
   target?: 'apple-touch-icon' | 'web-app-manifest';
 };
 
-type AppIcon = string | {
-  name?: string;
-  icons: AppIconItem[];
-  filename?: string;
-};
+type AppIcon =
+  | string
+  | {
+      name?: string;
+      icons: AppIconItem[];
+      filename?: string;
+    };
 ```
 
 **V3 类型**:
+
 ```typescript
 type AppIconItem = {
   src: string;
@@ -39,6 +43,7 @@ type AppIcon = {
 ```
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -51,11 +56,13 @@ export default {
 export default {
   html: {
     appIcon: {
-      icons: [{
-        src: './src/assets/icon.png',
-        size: 180
-      }]
-    }
+      icons: [
+        {
+          src: './src/assets/icon.png',
+          size: 180,
+        },
+      ],
+    },
   },
 };
 ```
@@ -65,10 +72,12 @@ export default {
 **变更内容**: `metaByEntries`、`templateParametersByEntries`、`injectByEntries`、`tagsByEnties`、`faviconByEntries`、`templateByEnties`、`titleByEntries` 等配置已废弃，需要使用函数语法代替。
 
 **处理步骤**:
+
 1. 移除相关配置
 2. 使用 `html.xxx` 的函数用法代替
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -103,6 +112,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `html.outputStructure` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2 - 等同于 html.outputStructure 配置为 nested
 export default {
@@ -126,6 +136,7 @@ export default {
 **变更内容**: 需要根据项目现有配置情况处理。
 
 **处理步骤**:
+
 1. 检查项目中是否有 `.browserslistrc` 文件
 2. 检查 `modern.config.[ts|js]` 中是否配置了 `output.overrideBrowserslist`
 3. 检查 package.json 中是否配置了 browserslist
@@ -133,11 +144,11 @@ export default {
 如果都没有，则创建 `.browserslistrc` 文件，内容为支持 ES6 的浏览器：
 
 ```typescript
-chrome >= 51
-edge >= 15
-firefox >= 54
-safari >= 10
-ios_saf >= 10
+chrome >= 51;
+edge >= 15;
+firefox >= 54;
+safari >= 10;
+ios_saf >= 10;
 ```
 
 ### output.enableAssetFallback
@@ -156,6 +167,7 @@ ios_saf >= 10
 **变更内容**: 该配置已废弃，使用 `output.cssModules.localIdentName` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -179,6 +191,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.injectStyles` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -200,6 +213,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.filenameHash` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -221,6 +235,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.minify` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -242,6 +257,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.sourceMap` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -263,6 +279,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.inlineScripts` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -284,6 +301,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `output.inlineStyles` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -305,6 +323,7 @@ export default {
 **变更内容**: 该配置已废弃，使用 `source.decorators` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -328,6 +347,7 @@ export default {
 **变更内容**: 该配置已废弃，通过注册 `pluginNodePolyfill` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -337,11 +357,9 @@ export default {
 };
 
 // v3
-import { pluginNodePolyfill } from "@rsbuild/plugin-node-polyfill";
+import { pluginNodePolyfill } from '@rsbuild/plugin-node-polyfill';
 export default {
-  builderPlugins: [
-    pluginNodePolyfill()
-  ]
+  builderPlugins: [pluginNodePolyfill()],
 };
 ```
 
@@ -352,15 +370,16 @@ export default {
 **变更内容**: 该配置已废弃，使用 `resolve.mainFields` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 source: {
-  resolveMainFields: ['custom', 'module', 'main']
+  resolveMainFields: ['custom', 'module', 'main'];
 }
 
 // v3
 resolve: {
-  mainFields: ['custom', 'module', 'main']
+  mainFields: ['custom', 'module', 'main'];
 }
 ```
 
@@ -369,15 +388,16 @@ resolve: {
 **变更内容**: 该配置已废弃，使用 `resolve.extensions` 代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 source: {
-  resolveExtensionPrefix: ['.ts', '.tsx', '.js']
+  resolveExtensionPrefix: ['.ts', '.tsx', '.js'];
 }
 
 // v3
 resolve: {
-  extensions: ['.ts', '.tsx', '.js']
+  extensions: ['.ts', '.tsx', '.js'];
 }
 ```
 
@@ -389,11 +409,9 @@ resolve: {
 
 **变更内容**: 该配置已废弃，直接移除。
 
-
 ### source.disableEntryDirs
 
 **变更内容**: 该配置已废弃，直接移除。
-
 
 ## tools
 
@@ -424,6 +442,7 @@ resolve: {
 **变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev` 配置代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
@@ -450,46 +469,48 @@ export default {
 **变更内容 2**: `client`、`https`、`liveReload` 配置已废弃，使用对应的 `dev.client`、`dev.https`、`dev.liveReload` 配置代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
   tools: {
     devServer: {
       client: {
-        port: 8081
-      }
-    }
-  }
+        port: 8081,
+      },
+    },
+  },
 };
 
 // v3
 export default {
   dev: {
     client: {
-      port: 8081
-    }
-  }
+      port: 8081,
+    },
+  },
 };
 ```
 
 **变更内容 3**: `hot` 配置已废弃，使用 `dev.hmr` 配置代替。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
   tools: {
     devServer: {
-      hot: false
-    }
-  }
+      hot: false,
+    },
+  },
 };
 
 // v3
 export default {
   dev: {
-    hmr: false
-  }
+    hmr: false,
+  },
 };
 ```
 
@@ -500,15 +521,16 @@ export default {
 **变更内容**: 该配置已被移除，改为 `server.port`。
 
 **迁移示例**:
+
 ```typescript
 // 改动前
 dev: {
-  port: 8080
+  port: 8080;
 }
 
 // 改动后
 server: {
-  port: process.env.NODE_ENV === 'development' ?  8080 : undefined
+  port: process.env.NODE_ENV === 'development' ? 8080 : undefined;
 }
 ```
 
@@ -529,15 +551,16 @@ server: {
 **变更内容**: 该配置已废弃，改为 `dev.lazyCompilation`。
 
 **迁移示例**:
+
 ```typescript
 // v2
 experiments: {
-  lazyCompilation: true
+  lazyCompilation: true;
 }
 
 // v3
 dev: {
-  lazyCompilation: true
+  lazyCompilation: true;
 }
 ```
 
@@ -548,6 +571,7 @@ dev: {
 **变更内容**: 该插件不需要传入任何参数。
 
 **迁移示例**:
+
 ```typescript
 // v2
 plugins: [
@@ -569,17 +593,17 @@ plugins: [
 **变更内容**: 不再需要，可以直接移除。
 
 **迁移示例**:
+
 ```typescript
 // v2
 export default {
   performance: {
-    transformLodash: true
-  }
-}
+    transformLodash: true,
+  },
+};
 
 // v3 - 直接移除该配置
 export default {
   // 配置...
-}
+};
 ```
-
