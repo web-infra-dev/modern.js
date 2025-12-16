@@ -67,7 +67,7 @@ export default function Footer() {
       title: t('topic'),
       items: [
         {
-          label: t('microFrontend'),
+          label: t('moduleFederation'),
           to: useUrl('/guides/topic-detail/module-federation/introduce'),
         },
         {
