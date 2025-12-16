@@ -1,4 +1,4 @@
-Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 18.20.8. **We recommend using the LTS version of Node.js 22.**
+Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is not lower than v20.19.5. **We recommend using the LTS version of Node.js 22.**
 
 You can check the currently used Node.js version with the following command:
 
@@ -6,7 +6,7 @@ You can check the currently used Node.js version with the following command:
 node -v
 ```
 
-If you do not have Node.js installed in your current environment, or the installed version is lower than 18.20.8, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
+If you do not have Node.js installed in your current environment, or the installed version is lower than v20.19.5, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
 
 Here is an example of how to install the Node.js 22 LTS version via nvm:
 
@@ -26,7 +26,3 @@ Both nvm and fnm are Node.js version management tools. Relatively speaking, nvm 
 :::
 
 Additionally, after installing nvm or fnm, when there is a `.nvmrc` file containing `lts/jod` in the repository's root directory, the system will automatically install or switch to the correct Node.js version upon entering the repository.
-
-:::warning
-Modern.js currently still supports Node 16, but will officially terminate support for Node.js 16 in June 2025. To ensure a smooth transition for your project, please complete the Node.js version upgrade before June 2025.
-:::
