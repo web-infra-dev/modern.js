@@ -1,0 +1,33 @@
+# Overview
+
+This document will help you upgrade from Modern.js 2.0 to Modern.js 3.0.
+
+## Upgrade Overview
+
+Modern.js 3.0 brings many major improvements and changes, including:
+
+- **Build Tool Upgrade**: Default use of [Rspack](https://rspack.dev) for building, no longer supporting Webpack, with build configuration aligned with [Rsbuild](https://rsbuild.dev).
+- **React Ecosystem Upgrade**: Full support for [React 19](https://react.dev/blog/2024/04/25/react-19) and [React Router v7](https://reactrouter.com).
+- **Plugin System Refactoring**: Redesigned plugin API, supporting custom plugins at CLI, Runtime, and Server layers to extend framework capabilities.
+- **React Server Component**: Support for using React Server Component in [CSR](/guides/get-started/glossary#csr) and [SSR](/guides/basic-features/render/ssr) projects.
+- **Internationalization Enhancement**: Provides out-of-the-box [i18n plugin](/guides/advanced-features/international) to simplify internationalization development workflow.
+- **SSG Capability Improvement**: Provides complete [Static Site Generation (SSG)](/guides/basic-features/render/ssg) support.
+- **Route Configuration Enhancement**: Supports [config-based routing](/guides/basic-features/routes/config-routes), which can be used alone or combined with [convention-based routing](/guides/basic-features/routes/routes) to provide more flexible route definition.
+
+## Pre-upgrade Checklist
+
+Before starting the upgrade, please confirm:
+
+1. The current project is using Modern.js 2.0
+2. The React version being used is 17 or higher
+3. The Node.js version being used is 18.20.8 or higher, and Node.js 22 or higher is recommended
+
+## Getting Help
+
+If you encounter any issues during the upgrade, you can get help through the following methods:
+
+- Check the [Modern.js official documentation](https://modernjs.dev)
+- Search for related issues or submit a new issue in [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues)
+- Join the [Modern.js Discord community](https://discord.gg/modernjs) to communicate with other developers
+
+We recommend providing as much detail as possible when submitting an issue, including error logs, configuration files, and reproduction steps, to help resolve issues faster.

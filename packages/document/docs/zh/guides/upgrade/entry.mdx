@@ -1,4 +1,4 @@
-# 入口变化
+# 入口变更
 
 本章节介绍 Modern.js 从 2.0 升级到 3.0 时，页面入口相关的变更内容。
 
@@ -106,6 +106,7 @@ beforeRender().then(() => {
 ```
 
 :::info 说明
+
 - `createRoot()` 返回的组件对应 `routes/` 目录生成或 `App.tsx` 导出的组件
 - `render()` 函数用于处理渲染与挂载组件
 
@@ -160,7 +161,7 @@ const App = () => {
   return <div>Hello</div>;
 };
 
-App.init = (context) => {
+App.init = context => {
   context.store = createStore();
   context.request = (url: string) => fetch(url);
 };
@@ -176,7 +177,7 @@ import { defineRuntimeConfig } from '@modern-js/runtime';
 
 const initPlugin = (): RuntimePlugin => ({
   name: 'init-plugin',
-  setup: (api) => {
+  setup: api => {
     return {
       init({ context }) {
         context.store = createStore();
@@ -236,7 +237,7 @@ export default defineRuntimeConfig({
 **2.0 版本：**
 
 ```tsx title="src/routes/layout.tsx"
-export const init = (context) => {
+export const init = context => {
   context.request = (url: string) => fetch(url);
 };
 
@@ -259,7 +260,7 @@ import { defineRuntimeConfig } from '@modern-js/runtime';
 
 const initPlugin = (): RuntimePlugin => ({
   name: 'init-plugin',
-  setup: (api) => {
+  setup: api => {
     return {
       init({ context }) {
         context.request = (url: string) => fetch(url);
@@ -272,7 +273,6 @@ export default defineRuntimeConfig({
   plugins: [initPlugin()],
 });
 ```
-
 
 ## 多入口应用迁移注意事项
 
@@ -296,7 +296,7 @@ src/
 ```ts title="src/modern.runtime.ts"
 import { defineRuntimeConfig } from '@modern-js/runtime';
 
-export default defineRuntimeConfig((entryName) => {
+export default defineRuntimeConfig(entryName => {
   // 公共配置
   const commonConfig = {
     plugins: [commonPlugin()],
@@ -309,10 +309,7 @@ export default defineRuntimeConfig((entryName) => {
       router: {
         supportHtml5History: true,
       },
-      plugins: [
-        ...commonConfig.plugins,
-        entry1Plugin(),
-      ],
+      plugins: [...commonConfig.plugins, entry1Plugin()],
     };
   }
 
@@ -322,10 +319,7 @@ export default defineRuntimeConfig((entryName) => {
       router: {
         supportHtml5History: false,
       },
-      plugins: [
-        ...commonConfig.plugins,
-        entry2Plugin(),
-      ],
+      plugins: [...commonConfig.plugins, entry2Plugin()],
     };
   }
 
@@ -335,6 +329,7 @@ export default defineRuntimeConfig((entryName) => {
 ```
 
 :::info 说明
+
 - `entryName` 参数对应入口目录名称
 - 主入口（与 `package.json` 中 `name` 同名）：传入的是该目录名
 - 其他入口：传入的是入口目录名
@@ -379,7 +374,7 @@ App.config = {
   router: { supportHtml5History: true },
 };
 
-App.init = (context) => {
+App.init = context => {
   context.mainData = 'main';
 };
 ```
@@ -389,7 +384,7 @@ export const config = () => ({
   router: { supportHtml5History: false },
 });
 
-export const init = (context) => {
+export const init = context => {
   context.adminData = 'admin';
 };
 ```
@@ -415,7 +410,7 @@ import type { RuntimePlugin } from '@modern-js/runtime';
 // main 入口的初始化插件
 const mainInitPlugin = (): RuntimePlugin => ({
   name: 'main-init-plugin',
-  setup: (api) => {
+  setup: api => {
     return {
       init({ context }) {
         context.mainData = 'main';
@@ -427,7 +422,7 @@ const mainInitPlugin = (): RuntimePlugin => ({
 // admin 入口的初始化插件
 const adminInitPlugin = (): RuntimePlugin => ({
   name: 'admin-init-plugin',
-  setup: (api) => {
+  setup: api => {
     return {
       init({ context }) {
         context.adminData = 'admin';
@@ -436,7 +431,7 @@ const adminInitPlugin = (): RuntimePlugin => ({
   },
 });
 
-export default defineRuntimeConfig((entryName) => {
+export default defineRuntimeConfig(entryName => {
   if (entryName === 'main') {
     return {
       router: {

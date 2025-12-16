@@ -1,0 +1,131 @@
+# Tailwind Plugin Changes
+
+Modern.js 3.0 recommends integrating Tailwind CSS natively through Rsbuild, no longer relying on the `@modern-js/plugin-tailwindcss` plugin, thereby fully leveraging Rsbuild's more flexible configuration capabilities and better build experience.
+
+## Migration Steps
+
+The migration operations in this section only need to be performed when the `@modern-js/plugin-tailwindcss` plugin is actually used in the project.
+
+### 1. Remove the Old Plugin
+
+Remove the `@modern-js/plugin-tailwindcss` dependency and configuration.
+
+**Version 2.0:**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [tailwindcssPlugin()],
+});
+```
+
+**Version 3.0:**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  plugins: [],
+});
+```
+
+Also remove the `@modern-js/plugin-tailwindcss` dependency from `package.json`.
+
+### 2. Configure PostCSS
+
+Create or update the `postcss.config.cjs` file.
+
+```js title="postcss.config.cjs"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+```
+
+### 3. Tailwind CSS Configuration Migration
+
+**Single Configuration Case**:
+
+- If configured only in `tailwind.config.{ts,js}`, no additional action is needed
+- If configured only in `modern.config.ts`, migrate the Tailwind-related configuration to `tailwind.config.{ts,js}`
+
+**Dual Configuration Case**:
+
+If configurations exist in both `tailwind.config.{ts,js}` and `modern.config.ts`, merge the configurations and migrate the merged result to `tailwind.config.{ts,js}`.
+
+**Special Directory Handling**:
+
+If your project contains storybook or config/html directories, supplement the following in the `content` field of `tailwind.config.{ts,js}`:
+
+```ts title="tailwind.config.ts"
+export default {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './storybook/**/*', // if storybook directory exists
+    './config/html/**/*.{html,ejs,hbs}', // if config/html directory exists
+  ],
+};
+```
+
+### 4. CSS Style Import
+
+Change the CSS import method to use the `@tailwind` directive.
+
+**Version 2.0:**
+
+```css
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
+```
+
+**Version 3.0:**
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### 5. Twin.macro Integration
+
+If the project uses twin.macro, manual configuration is required. If not used, you can skip this step.
+
+**Steps**:
+
+1. Manually install dependencies: `pnpm add twin.macro styled-components babel-plugin-macros -D`
+2. Configure the `babel-plugin-macros` plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  plugins: [appTools()],
+  tools: {
+    babel: {
+      plugins: [
+        [
+          'babel-plugin-macros',
+          {
+            twin: {
+              preset: 'styled-components',
+              config: './tailwind.config.ts',
+            },
+          },
+        ],
+      ],
+    },
+  },
+});
+```
+
+## Tailwind CSS V2 Migration
+
+If your project still uses Tailwind CSS v2, we recommend upgrading to v3 to support JIT and other features. For differences between Tailwind CSS v2 and v3, please refer to:
+
+- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
+- [Upgrade Guide](https://v3.tailwindcss.com/docs/upgrade-guide)
+
+The migration for Tailwind CSS v2 also follows the above steps, but note that the original plugin automatically adapts to the differences between Tailwind v2 (`purge` configuration) and v3 (`content` configuration). After removing the plugin, if using v2, you need to use the `purge` option in `tailwind.config.{ts,js}` to specify the CSS classes to retain.
+

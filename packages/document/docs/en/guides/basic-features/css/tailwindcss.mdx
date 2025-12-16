@@ -6,99 +6,8 @@
 
 To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you only need to configure it according to the Rsbuild steps. Rsbuild supports Tailwind CSS versions v3 and v4:
 
-- [Tailwind CSS v3](https://rsbuild.rs/zh/guide/styling/tailwindcss-v3#tailwind-css-v3)
-- [Tailwind CSS v4](https://rsbuild.rs/zh/guide/styling/tailwindcss)
-
-## Tailwind Plugin Migration
-
-### Migration Background
-
-As Modern.js evolves, to provide a more unified build experience and stronger configuration flexibility, we have adjusted the way Tailwind CSS is supported. Modern.js V3 recommends integrating Tailwind CSS natively through Rsbuild, no longer relying on the `@modern-js/plugin-tailwindcss` plugin, thereby fully leveraging Rsbuild’s more flexible configuration capabilities and better build experience.
-
-### Migration Steps
-
-Taking Tailwind CSS V3 as an example, the migration steps are as follows:
-
-#### 1. Remove the Old Plugin
-
-- Remove the `@modern-js/plugin-tailwindcss` dependency
-- Remove the import and usage of the `@modern-js/plugin-tailwindcss` plugin in the `modern.config.ts` file
-
-#### 2. Configure PostCSS
-
-Create or update the `postcss.config.cjs` file.
-
-```js title="postcss.config.cjs"
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-  },
-};
-```
-
-#### 3. Tailwind CSS Configuration Migration
-
-- **Single Configuration Case**:
-
-  - If configured only in `tailwind.config.{ts,js}`, no additional action is needed
-  - If configured only in `modern.config.ts`, migrate the Tailwind-related configuration to `tailwind.config.{ts,js}`
-
-- **Dual Configuration Case**: If configurations exist in both `tailwind.config.{ts,js}` and `modern.config.ts`, merge the configurations and migrate the merged result to `tailwind.config.{ts,js}`
-
-- **Special Directory Handling**: If your project contains storybook or config/html directories, supplement `./storybook/**/*` or `./config/html/**/*.{html,ejs,hbs}` in the `content` field of `tailwind.config.{ts,js}`
-
-#### 4. CSS Style Import
-
-- Change to use the @tailwind directive
-
-```css
-/* Old way */
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
-@import 'tailwindcss/utilities.css';
-
-/* New way */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-#### 5. Twin.macro Integration
-
-If the project uses twin.macro, perform the following steps; otherwise, ignore:
-
-- Manually install dependencies: `pnpm add twin.macro styled-components babel-plugin-macros -D`
-- Configure the `babel-plugin-macros` Babel plugin:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  plugins: [appTools()],
-  tools: {
-    babel: {
-      plugins: [
-        [
-          'babel-plugin-macros',
-          {
-            twin: {
-              preset: 'styled-components',
-              config: './tailwind.config.ts',
-            },
-          },
-        ],
-      ],
-    },
-  },
-});
-```
-
-#### Tailwind CSS V2 Migration
-
-If your project still uses Tailwind CSS v2, we recommend upgrading to v3 to support JIT and other features. For differences between Tailwind CSS v2 and v3, please refer to the following articles:
-
-- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
-- [Upgrade Guide](https://v3.tailwindcss.com/docs/upgrade-guide)
-
-The migration for Tailwind CSS v2 also follows the above steps, but note that the original plugin automatically adapts to the differences between Tailwind v2 (purge configuration) and v3 (content configuration). After removal, you need to use the `purge` option to specify the CSS classes to retain.
+- [Tailwind CSS v3](https://rsbuild.rs/guide/styling/tailwindcss-v3#tailwind-css-v3)
+- [Tailwind CSS v4](https://rsbuild.rs/guide/styling/tailwindcss)
 
 ## Tailwind CSS Autocomplete
 
@@ -111,9 +20,8 @@ You can follow the steps below to enable the autocomplete feature:
 
 ## Browser Compatibility
 
-Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
+Tailwind CSS v3 does not support the IE 11 browser, please refer to:
 
 - [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support).
-- [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.

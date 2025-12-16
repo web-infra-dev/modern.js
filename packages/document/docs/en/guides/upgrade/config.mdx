@@ -1,14 +1,14 @@
-# 配置变更
+# Configuration Changes
 
-本篇文档主要介绍从 Modern.js 2.0 升级到 3.0 时，配置项层面的不兼容变更以及推荐的迁移方式。
+This document mainly introduces incompatible changes at the configuration level and recommended migration methods when upgrading from Modern.js 2.0 to 3.0.
 
 ## html
 
 ### html.appIcon
 
-**变更内容**: 不再支持字符串形式，必须使用对象格式。
+**Change**: String format is no longer supported, object format must be used.
 
-**V2 类型**:
+**V2 Type**:
 
 ```typescript
 type AppIconItem = {
@@ -26,7 +26,7 @@ type AppIcon =
     };
 ```
 
-**V3 类型**:
+**V3 Type**:
 
 ```typescript
 type AppIconItem = {
@@ -42,7 +42,7 @@ type AppIcon = {
 };
 ```
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -69,14 +69,14 @@ export default {
 
 ### html.xxxByEntries
 
-**变更内容**: `metaByEntries`、`templateParametersByEntries`、`injectByEntries`、`tagsByEnties`、`faviconByEntries`、`templateByEnties`、`titleByEntries` 等配置已废弃，需要使用函数语法代替。
+**Change**: Configurations such as `metaByEntries`, `templateParametersByEntries`, `injectByEntries`, `tagsByEnties`, `faviconByEntries`, `templateByEnties`, `titleByEntries` are deprecated and need to be replaced with function syntax.
 
-**处理步骤**:
+**Steps**:
 
-1. 移除相关配置
-2. 使用 `html.xxx` 的函数用法代替
+1. Remove related configurations
+2. Use the function syntax of `html.xxx` instead
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -86,7 +86,7 @@ export default {
       foo: {
         description: 'TikTok',
       },
-      // 其他配置...
+      // other configurations...
     },
   },
 };
@@ -100,7 +100,7 @@ export default {
           return {
             description: 'TikTok',
           };
-        // 其他配置...
+        // other configurations...
       }
     },
   },
@@ -109,12 +109,12 @@ export default {
 
 ### html.disableHtmlFolder
 
-**变更内容**: 该配置已废弃，使用 `html.outputStructure` 代替。
+**Change**: This configuration is deprecated, use `html.outputStructure` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
-// v2 - 等同于 html.outputStructure 配置为 nested
+// v2 - equivalent to html.outputStructure set to nested
 export default {
   html: {
     disableHtmlFolder: true,
@@ -133,15 +133,15 @@ export default {
 
 ### output.overrideBrowserslist
 
-**变更内容**: 需要根据项目现有配置情况处理。
+**Change**: Needs to be handled based on the project's existing configuration.
 
-**处理步骤**:
+**Steps**:
 
-1. 检查项目中是否有 `.browserslistrc` 文件
-2. 检查 `modern.config.[ts|js]` 中是否配置了 `output.overrideBrowserslist`
-3. 检查 package.json 中是否配置了 browserslist
+1. Check if there is a `.browserslistrc` file in the project
+2. Check if `output.overrideBrowserslist` is configured in `modern.config.[ts|js]`
+3. Check if browserslist is configured in package.json
 
-如果都没有，则创建 `.browserslistrc` 文件，内容为支持 ES6 的浏览器：
+If none exist, create a `.browserslistrc` file with browsers that support ES6:
 
 ```typescript
 chrome >= 51;
@@ -153,10 +153,10 @@ ios_saf >= 10;
 
 ### output.enableAssetFallback
 
-**变更内容**: 该配置已废弃，注释掉并添加说明。
+**Change**: This configuration is deprecated, comment it out and add a note.
 
 ```typescript
-// 该配置已废弃，如有问题请咨询 oncall 解决
+// This configuration is deprecated, please contact oncall if you have issues
 // output: {
 //   enableAssetFallback: true,
 // },
@@ -164,9 +164,9 @@ ios_saf >= 10;
 
 ### output.cssModuleLocalIdentName
 
-**变更内容**: 该配置已废弃，使用 `output.cssModules.localIdentName` 代替。
+**Change**: This configuration is deprecated, use `output.cssModules.localIdentName` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -188,9 +188,9 @@ export default {
 
 ### output.disableCssExtract
 
-**变更内容**: 该配置已废弃，使用 `output.injectStyles` 代替。
+**Change**: This configuration is deprecated, use `output.injectStyles` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -210,9 +210,9 @@ export default {
 
 ### output.disableFilenameHash
 
-**变更内容**: 该配置已废弃，使用 `output.filenameHash` 代替。
+**Change**: This configuration is deprecated, use `output.filenameHash` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -232,9 +232,9 @@ export default {
 
 ### output.disableMinimize
 
-**变更内容**: 该配置已废弃，使用 `output.minify` 代替。
+**Change**: This configuration is deprecated, use `output.minify` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -254,9 +254,9 @@ export default {
 
 ### output.disableSourceMap
 
-**变更内容**: 该配置已废弃，使用 `output.sourceMap` 代替。
+**Change**: This configuration is deprecated, use `output.sourceMap` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -276,9 +276,9 @@ export default {
 
 ### output.enableInlineScripts
 
-**变更内容**: 该配置已废弃，使用 `output.inlineScripts` 代替。
+**Change**: This configuration is deprecated, use `output.inlineScripts` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -298,9 +298,9 @@ export default {
 
 ### output.enableInlineStyles
 
-**变更内容**: 该配置已废弃，使用 `output.inlineStyles` 代替。
+**Change**: This configuration is deprecated, use `output.inlineStyles` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -320,9 +320,9 @@ export default {
 
 ### output.enableLatestDecorators
 
-**变更内容**: 该配置已废弃，使用 `source.decorators` 代替。
+**Change**: This configuration is deprecated, use `source.decorators` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -344,9 +344,9 @@ export default {
 
 ### output.disableNodePolyfill
 
-**变更内容**: 该配置已废弃，通过注册 `pluginNodePolyfill` 代替。
+**Change**: This configuration is deprecated, use `pluginNodePolyfill` registration instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -367,9 +367,9 @@ export default {
 
 ### source.resolveMainFields
 
-**变更内容**: 该配置已废弃，使用 `resolve.mainFields` 代替。
+**Change**: This configuration is deprecated, use `resolve.mainFields` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -385,9 +385,9 @@ resolve: {
 
 ### source.resolveExtensionPrefix
 
-**变更内容**: 该配置已废弃，使用 `resolve.extensions` 代替。
+**Change**: This configuration is deprecated, use `resolve.extensions` instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -403,45 +403,45 @@ resolve: {
 
 ### source.moduleScopes
 
-**变更内容**: 该配置已废弃，直接移除。
+**Change**: This configuration is deprecated, remove it directly.
 
 ### source.enableCustomEntry
 
-**变更内容**: 该配置已废弃，直接移除。
+**Change**: This configuration is deprecated, remove it directly.
 
 ### source.disableEntryDirs
 
-**变更内容**: 该配置已废弃，直接移除。
+**Change**: This configuration is deprecated, remove it directly.
 
 ## tools
 
 ### tools.esbuild
 
-**变更内容**: 该配置已废弃，需要手动切换到 esbuild 压缩。
+**Change**: This configuration is deprecated, need to manually switch to esbuild minification.
 
 ```typescript
-// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 esbuild 压缩
+// This configuration is deprecated, please refer to [Switching Minifier](https://rsbuild.rs/config/output/minify#switching-minifier) to manually switch to esbuild minification
 // tools: {
-//   esbuild: { /* 配置 */ }
+//   esbuild: { /* configuration */ }
 // },
 ```
 
 ### tools.terser
 
-**变更内容**: 该配置已废弃，需要手动切换到 Terser 压缩。
+**Change**: This configuration is deprecated, need to manually switch to Terser minification.
 
 ```typescript
-// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 Terser 压缩
+// This configuration is deprecated, please refer to [Switching Minifier](https://rsbuild.rs/config/output/minify#switching-minifier) to manually switch to Terser minification
 // tools: {
-//   terser: { /* 配置 */ }
+//   terser: { /* configuration */ }
 // },
 ```
 
 ### tools.devServer
 
-**变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev` 配置代替。
+**Change 1**: `after`, `before`, `devMiddleware` configurations are deprecated, use `dev` configuration instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -466,9 +466,9 @@ export default {
 };
 ```
 
-**变更内容 2**: `client`、`https`、`liveReload` 配置已废弃，使用对应的 `dev.client`、`dev.https`、`dev.liveReload` 配置代替。
+**Change 2**: `client`, `https`, `liveReload` configurations are deprecated, use corresponding `dev.client`, `dev.https`, `dev.liveReload` configurations instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -492,9 +492,9 @@ export default {
 };
 ```
 
-**变更内容 3**: `hot` 配置已废弃，使用 `dev.hmr` 配置代替。
+**Change 3**: `hot` configuration is deprecated, use `dev.hmr` configuration instead.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -518,17 +518,17 @@ export default {
 
 ### dev.port
 
-**变更内容**: 该配置已被移除，改为 `server.port`。
+**Change**: This configuration has been removed, changed to `server.port`.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
-// 改动前
+// Before change
 dev: {
   port: 8080;
 }
 
-// 改动后
+// After change
 server: {
   port: process.env.NODE_ENV === 'development' ? 8080 : undefined;
 }
@@ -538,19 +538,19 @@ server: {
 
 ### runtime.router
 
-**变更内容**: 不再需要，可以直接移除。
+**Change**: No longer needed, can be removed directly.
 
 ### runtime.state
 
-**变更内容**: 该配置被废弃，建议使用第三方状态管理库。
+**Change**: This configuration is deprecated, it is recommended to use a third-party state management library.
 
 ## experiments
 
 ### experiments.lazyCompilation
 
-**变更内容**: 该配置已废弃，改为 `dev.lazyCompilation`。
+**Change**: This configuration is deprecated, changed to `dev.lazyCompilation`.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -566,11 +566,11 @@ dev: {
 
 ## plugins
 
-### app-tools 插件
+### app-tools plugin
 
-**变更内容**: 该插件不需要传入任何参数。
+**Change**: This plugin does not need any parameters.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -590,9 +590,9 @@ plugins: [
 
 ### performance.transformLodash
 
-**变更内容**: 不再需要，可以直接移除。
+**Change**: No longer needed, can be removed directly.
 
-**迁移示例**:
+**Migration Example**:
 
 ```typescript
 // v2
@@ -602,8 +602,8 @@ export default {
   },
 };
 
-// v3 - 直接移除该配置
+// v3 - remove this configuration directly
 export default {
-  // 配置...
+  // configuration...
 };
 ```

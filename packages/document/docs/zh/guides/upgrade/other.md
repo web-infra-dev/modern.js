@@ -39,13 +39,38 @@ Modern.js 3.0 默认使用 React Router v7 作为路由库。React Router v7 相
 
 如果需要使用 React Router v5 或 React Router v6，需要使用**自控式路由**模式。自控式路由允许你完全控制路由配置，不受 Modern.js 约定式路由的限制。
 
-## 使用 @modern-js/create 创建 Monorepo
+## 使用 @modern-js/create 创建 Monorepo 和 Modern.js Module
 
-Modern.js 之前提供的 Monorepo 方案是基于 [pnpm Workspace](https://pnpm.io/workspaces) 实现的，并未提供实质性的 Monorepo 管理能力。在 [v2.53.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.53.0) 版本中，移除了使用 `@modern-js/create` 创建 Monorepo 项目的功能。推荐直接使用社区提供的 Monorepo 方案。
+Modern.js 3.0 不再支持通过 `@modern-js/create` 创建 Monorepo 项目和 Modern.js Module 项目。
 
-## new 命令开启 test 能力
+**变更内容**：
 
-Modern.js 之前提供的测试能力是基于 Jest 的简单封装。该封装导致 Jest 配置不直观、用户配置更加复杂等问题。在 [v2.53.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.53.0) 版本中，移除了在应用项目和模块项目中开启 test 功能的选项。推荐直接使用社区提供的测试方案。
+- 在 [v2.53.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.53.0) 版本中，移除了使用 `@modern-js/create` 创建 Monorepo 项目的功能
+- 在 [v2.61.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.61.0) 版本中，移除了使用 `@modern-js/create` 和 `modern new` 命令创建 Modern.js Module 项目的功能
+
+**处理方式**：
+
+- **Monorepo 项目**：Modern.js 之前提供的 Monorepo 方案是基于 [pnpm Workspace](https://pnpm.io/workspaces) 实现的，并未提供实质性的 Monorepo 管理能力。推荐直接使用社区提供的 Monorepo 方案，如 [Turborepo](https://turbo.build/)、[Nx](https://nx.dev/) 等。
+- **Modern.js Module 项目**：推荐使用 [Rslib](https://rslib.rs/) 来创建和管理 JavaScript 库和 UI 组件项目。Rslib 是基于 Rsbuild 的库开发工具，提供了简单直观的方式来创建 JavaScript 库。详细使用方式请参考 [Rslib 官方文档](https://rslib.rs/)。
+
+## new 命令和 upgrade 命令移除
+
+Modern.js 3.0 移除了 `modern new` 和 `modern upgrade` 命令，需要按照文档手动操作。
+
+**变更内容**：
+
+- `modern new` 命令在 Modern.js 3.0 中不再支持，无法通过命令添加入口或启用功能
+- `modern upgrade` 命令在 Modern.js 3.0 中不再支持，无法通过命令自动升级依赖
+
+**处理方式**：
+
+- **添加入口**：需要按照文档手动创建入口目录和文件。详细步骤请参考[页面入口文档](/guides/concept/entries)。
+- **启用功能**：需要按照对应功能的文档手动安装依赖和配置。例如启用 BFF 功能，需要安装 `@modern-js/plugin-bff` 插件并在 `modern.config.ts` 中配置。
+- **升级依赖**：需要手动更新 `package.json` 中所有 `@modern-js/**` 包的版本，然后重新安装依赖。详细步骤请参考[版本升级文档](/guides/get-started/upgrade)。
+
+:::info 说明
+移除这些命令的目的是让文档更贴合 AI Agent 的默认实现方式，不把操作做封装，使开发者能够更清晰地了解每个操作的具体步骤，也便于 AI Agent 根据文档直接执行相应的操作。
+:::
 
 ## Eslint 规则集
 
