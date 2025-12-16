@@ -181,8 +181,6 @@ async function main() {
   }
 
   console.log(i18n.t(localeKeys.message.welcome));
-  console.log('');
-
   const { name: projectName, useCurrentDir } = await getProjectName();
   const targetDir = useCurrentDir
     ? process.cwd()
