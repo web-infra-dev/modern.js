@@ -1,0 +1,83 @@
+---
+title: server
+---
+
+# dev.server
+
+`dev.server` configures dev server behavior. Currently it supports CORS.
+
+## cors
+
+- **Type:** `boolean | import('cors').CorsOptions`
+- **Default:** `false`
+
+Configure CORS (Cross-Origin Resource Sharing) for the development server.
+
+### Default Values
+
+The default configuration for `cors` in Modern.js follows Rsbuild's defaults:
+
+```ts
+const defaultAllowedOrigins =
+  /^https?:\/\/(?:(?:[^:]+\. )?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
+
+const defaultOptions = {
+  // Default allowed:
+  // - localhost
+  // - 127.0.0.1
+  // - [::1]
+  origin: defaultAllowedOrigins
+};
+```
+
+### Enable CORS for specific origin
+
+```ts
+export default {
+  dev: {
+    server: {
+      cors: {
+        origin: 'https://example.com',
+      },
+    },
+  },
+};
+```
+
+### Enable CORS for all origins
+
+```ts
+export default {
+  dev: {
+    server: {
+      cors: true,
+    },
+  },
+};
+```
+
+### Disable CORS
+
+```ts
+export default {
+  dev: {
+    server: {
+      cors: false,
+    },
+  },
+};
+```
+
+
+### More Options
+
+For more configuration options and detailed usage, please refer to the [Rsbuild - server.cors](https://rsbuild.rs/config/server/cors) documentation.
+
+:::warning
+Using `cors: true` or `cors.origin: '*'` will make your dev server open to all origins, which may compromise source code security.
+:::
+
+:::info
+`dev.cors` is deprecated; please migrate to `dev.server.cors`.
+:::
+

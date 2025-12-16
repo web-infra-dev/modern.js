@@ -4,6 +4,7 @@ import type { DevServerOptions } from '../types';
 export const getDevOptions = (devOptions: DevServerOptions) => {
   const defaultOptions: DevServerOptions = {
     https: false,
+    server: {},
   };
   return {
     ...defaultOptions,

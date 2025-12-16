@@ -272,6 +272,7 @@ export type BuilderConfig = {
   server?: {
     rsc?: boolean;
     port?: number;
+    cors?: ServerConfig['cors'];
   };
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
