@@ -134,6 +134,12 @@ describe('dev', () => {
     await context.close();
   });
 
+  test('should apply dev.server.headers correctly', async () => {
+    const response = await page.goto(`http://localhost:${appPort}`);
+    const headers = response!.headers();
+    expect(headers['x-server-header']).toBe('test-server-header');
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
