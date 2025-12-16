@@ -32,7 +32,9 @@ Modern.js uses [Rspack](https://rspack.rs/) to bundle your web applications.
 
 ## Transpiler
 
-Modern.js uses [SWC](https://swc.rs/) as JavaScript transpiler to transform TypeScript or JSX into JavaScript code that can run in browsers and perform syntax downgrades. It supports switching to [Babel](https://babeljs.io/).
+Modern.js uses [SWC](https://swc.rs/) as JavaScript transpiler to transform TypeScript or JSX into JavaScript code that can run in browsers and perform syntax downgrades.
+
+When using Rspack for building, `babel-loader` is not enabled by default. If you need to add [Babel](https://babeljs.io/) plugins, you can configure them through `tools.babel`, which will generate additional compilation overhead and slow down Rspack build speed to some extent.
 
 ## Minimizer
 
