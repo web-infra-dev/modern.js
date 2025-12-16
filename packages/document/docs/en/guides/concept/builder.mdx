@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Build Engine
 
-Modern.js internally encapsulates [Rsbuild](https://rsbuild.rs/), and supports seamless switching between Webpack and Rspack bundlers.
+Modern.js internally encapsulates [Rsbuild](https://rsbuild.rs/), using Rspack as the bundler.
 
 ::: tip What is Rsbuild?
 Rsbuild is a build tool based on Rspack. It is an enhanced Rspack CLI, easy-to-use, and ready-to-use out of the box.
@@ -14,14 +14,29 @@ Rsbuild is a build tool based on Rspack. It is an enhanced Rspack CLI, easy-to-u
 
 From the building perspective, Modern.js can be divided into three-layers, from top to bottom:
 
-- Upper-level framework: Modern.js (open source) and EdenX (internal).
+- Upper-level framework: Modern.js.
 - Build tool: Rsbuild.
 - Bundler: Rspack.
 
-<img
-  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/build-layers-02193.png"
-  style={{ width: '100%', maxWidth: '540px' }}
-/>
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    Framework("Upper-level Framework: Modern.js")
+    BuildTool("Build Tool: Rsbuild")
+    Bundler("Bundler: Rspack")
+
+    Framework --> BuildTool
+    BuildTool --> Bundler
+
+    style Framework fill:#FDE68A,stroke:#F59E0B,stroke-width:2px
+    style BuildTool fill:#86EFAC,stroke:#10B981,stroke-width:2px
+    style Bundler fill:#93C5FD,stroke:#3B82F6,stroke-width:2px
+
+`}
+
+</Mermaid>
 
 ## Build Documentation
 
@@ -33,9 +48,9 @@ If you want to understand the use of build configurations, it is recommended tha
 
 ## Build Plugins
 
-In Modern.js, you can register Webpack plugins, Rspack plugins, or Rsbuild plugins:
+In Modern.js, you can register Rspack plugins or Rsbuild plugins:
 
-- Webpack / Rspack plugins: Configured through [tools.bundlerChain](/configure/app/tools/bundler-chain).
+- Rspack plugins: Configured through [tools.bundlerChain](/configure/app/tools/bundler-chain).
 - Rsbuild plugins: Configured through [builderPlugins](/configure/app/builder-plugins).
 
 ## Build Capabilities

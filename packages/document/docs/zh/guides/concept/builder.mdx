@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # 构建工具
 
-Modern.js 构建是基于 [Rsbuild](https://rsbuild.rs/) 实现的，并支持在 Webpack 和 Rspack 两种打包工具间无缝切换。
+Modern.js 构建是基于 [Rsbuild](https://rsbuild.rs/) 实现的，使用 Rspack 作为打包工具。
 
 :::tip 什么是 Rsbuild
 Rsbuild 是基于 Rspack 的构建工具，是一个增强版的 Rspack CLI，更易用、开箱即用。
@@ -14,14 +14,29 @@ Rsbuild 是基于 Rspack 的构建工具，是一个增强版的 Rspack CLI，�
 
 从构建的角度看，Modern.js 分为三层架构，从上到下依次是：
 
-- 研发框架：Modern.js（开源）和 EdenX（内部）。
+- 研发框架：Modern.js。
 - 构建工具：Rsbuild。
 - 打包工具：Rspack。
 
-<img
-  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/build-layers-02193.png"
-  style={{ width: '100%', maxWidth: '540px' }}
-/>
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    Framework("研发框架: Modern.js")
+    BuildTool("构建工具: Rsbuild")
+    Bundler("打包工具: Rspack")
+
+    Framework --> BuildTool
+    BuildTool --> Bundler
+
+    style Framework fill:#FDE68A,stroke:#F59E0B,stroke-width:2px
+    style BuildTool fill:#86EFAC,stroke:#10B981,stroke-width:2px
+    style Bundler fill:#93C5FD,stroke:#3B82F6,stroke-width:2px
+
+`}
+
+</Mermaid>
 
 ## 构建文档
 
@@ -33,9 +48,9 @@ Rsbuild 的文档地址为：https://rsbuild.rs/
 
 ## 构建插件
 
-在 Modern.js 中，你可以注册 Webpack 插件、Rspack 插件或 Rsbuild 插件：
+在 Modern.js 中，你可以注册 Rspack 插件或 Rsbuild 插件：
 
-- Webpack / Rspack 插件：通过 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置。
+- Rspack 插件：通过 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置。
 - Rsbuild 插件：通过 [builderPlugins](/configure/app/builder-plugins) 配置。
 
 ## 构建能力
