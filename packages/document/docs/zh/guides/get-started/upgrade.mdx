@@ -4,44 +4,49 @@ sidebar_position: 3
 
 # 版本升级
 
-## 通过命令行升级
+## 手动升级
 
-Modern.js 提供了 `upgrade` 命令支持项目升级到最新的 Modern.js 版本。
+Modern.js 所有的官方包使用**统一版本号**进行发布，因此升级时需要将所有 `@modern-js/**` 包的版本统一更新到目标版本。
 
-在项目中执行 `upgrade` 命令：
+### 升级步骤
 
-import { PackageManagerTabs } from '@theme';
+1. **查看最新版本**
 
-<PackageManagerTabs command="run upgrade" />
+   你可以通过以下方式查看 Modern.js 的最新版本：
 
-```bash
-> modern upgrade
+   - 访问 [npm](https://www.npmjs.com/package/@modern-js/app-tools) 查看 `@modern-js/app-tools` 的最新版本
+   - 查看 [GitHub Releases](https://github.com/web-infra-dev/modern.js/releases)
 
-[INFO] [项目类型]: Web 应用
-[INFO] [Modern.js 最新版本]: x.y.z
-[INFO] 已更新 Modern.js 依赖至最新版本!
-```
+   import ReleaseNote from '@site-docs/components/release-note';
 
-可以看到项目 `package.json` 中的依赖已经更改到最新。
+   <ReleaseNote />
+
+2. **更新 package.json**
+
+   在项目的 `package.json` 中，将所有 `@modern-js/**` 包的版本更新到目标版本。例如：
+
+   ```json title="package.json"
+   {
+     "dependencies": {
+       "@modern-js/app-tools": "3.0.0",
+       "@modern-js/runtime": "3.0.0"
+     },
+     "devDependencies": {
+       "@modern-js/types": "3.0.0"
+     }
+   }
+   ```
+
+3. **重新安装依赖**
+
+   更新完 `package.json` 后，重新安装依赖：
+
+   import { PackageManagerTabs } from '@theme';
+
+   <PackageManagerTabs command="install" />
 
 :::tip
-如果项目的 package.json 中没有声明 upgrade 命令，你可以执行 `npx modern upgrade`，效果是等价的。
-:::
-
-import UpgradeFaq from '@site-docs/components/upgrade-faq';
-
-<UpgradeFaq />
-
-## 指定版本升级
-
-Modern.js 所有的官方包目前都使用**统一版本号**进行发布。
-
-import ReleaseNote from '@site-docs/components/release-note';
-
-<ReleaseNote />
-
-:::tip
-当升级时，需要对 Modern.js 官方提供的所有包做统一升级，而不是升级单个依赖。
+当升级时，需要对 Modern.js 官方提供的所有包做统一升级，而不是升级单个依赖。确保所有 `@modern-js/**` 包的版本号保持一致。
 :::
 
 ## 版本管理策略
@@ -57,7 +62,6 @@ import ReleaseNote from '@site-docs/components/release-note';
 ```
 
 这样可以确保依赖的版本是完全确定的，从而保证构建的一致性和可预测性。
-
 
 ## 锁定子依赖
 
