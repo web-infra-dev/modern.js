@@ -3,7 +3,9 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 
 export default defineConfig({
   server: {
-    ssr: true,
+    ssr: {
+      mode: 'string',
+    },
   },
   plugins: [
     appTools(),

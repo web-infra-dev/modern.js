@@ -21,7 +21,6 @@
   "main": "./dist/cjs/cli.js",
   "module": "./dist/esm-node/cli.mjs",
   "exports": {
-    "./types": "./types.d.ts",
     ".": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
