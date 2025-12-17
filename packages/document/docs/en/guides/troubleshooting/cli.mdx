@@ -6,11 +6,13 @@ sidebar_position: 2
 
 ### Unable to pass command line arguments correctly when using pnpm?
 
-There are some differences between pnpm v6 and pnpm v7 in how they execute commands, and the following should be noted:
+There are some differences between pnpm v6 and pnpm v7+ in how they execute commands, and the following should be noted:
 
-pnpm v7:
+**pnpm v7+ (Recommended)**
 
-When using pnpm to call the commands in `package.json`, if you need to pass parameters to pnpm, you need to put the parameters before the command.
+pnpm v7 and above have consistent behavior. When using pnpm to call the commands in `package.json`:
+
+- If you need to pass parameters to pnpm, you need to put the parameters before the command.
 
 For example, using the pnpm `--filter` parameter to run the prepare command:
 
@@ -18,7 +20,7 @@ For example, using the pnpm `--filter` parameter to run the prepare command:
 pnpm run --filter "./packages/**" prepare
 ```
 
-If you need to pass parameters to the command, you need to put the parameters after the command.
+- If you need to pass parameters to the command, you need to put the parameters after the command.
 
 For example, in the following `package.json` configuration:
 
@@ -36,7 +38,7 @@ The way to pass parameters when running the command is:
 pnpm run command --options
 ```
 
-pnpm v6:
+**pnpm v6**
 
 In the following `package.json` configuration:
 
@@ -50,14 +52,13 @@ In the following `package.json` configuration:
 
 If you need to run `modern command --option`:
 
-When using pnpm, you need to run `pnpm run command -- --option`.
+When using pnpm v6, you need to run `pnpm run command -- --option`.
 
-This is because pnpm's handling of command parameters is different from that of Yarn, but similar to that of npm: when the `--` string is not added, the parameters passed are for pnpm; when the `--` string is used, the parameters passed are for running the script.
+This is because pnpm v6's handling of command parameters is different from that of Yarn, but similar to that of npm: when the `--` string is not added, the parameters passed are for pnpm; when the `--` string is used, the parameters passed are for running the script.
 
 In the above example, the `--option` parameter is passed to `modern command`. If you run `pnpm run command --option`, the `--option` parameter will be passed to pnpm.
 
-In summary:
+**Summary:**
 
-**When using pnpm v7, if passing parameters to pnpm, the parameters need to be placed before the command.**
-
-**When using pnpm v6, if the parameters are passed to pnpm, `--` is not required; if the parameters are passed to the script, the `--` string needs to be added.**
+- **When using pnpm v7+, if passing parameters to pnpm, the parameters need to be placed before the command; if passing parameters to the script, place them directly after the command.**
+- **When using pnpm v6, if the parameters are passed to pnpm, `--` is not required; if the parameters are passed to the script, the `--` string needs to be added.**

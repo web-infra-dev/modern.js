@@ -14,24 +14,24 @@ Here are some basic examples. For detailed usage, please refer to the documentat
 
 For projects using npm or yarn, you can use the `npm ls` command.
 
-For example, running `npm ls @modern-js/core` will show the following result:
+For example, running `npm ls @modern-js/plugin` will show the following result:
 
 ```
 project
 └─┬ @modern-js/app-tools@x.y.z
-  └── @modern-js/core@x.y.z
+  └── @modern-js/plugin@x.y.z
 ```
 
 **pnpm**
 
 For projects using pnpm, you can use the `pnpm ls` command.
 
-For example, running `pnpm ls @modern-js/core --depth Infinity` will show the following result:
+For example, running `pnpm ls @modern-js/plugin --depth Infinity` will show the following result:
 
 ```
 devDependencies:
 @modern-js/app-tools x.y.z
-└── @modern-js/core x.y.z
+└── @modern-js/plugin x.y.z
 ```
 
 ---
@@ -43,24 +43,24 @@ If you encounter the following error message during dependency installation, it 
 ```bash
 The engine "node" is incompatible with this module.
 
-Expected version ">=16.2.0". Got "12.20.1"
+Expected version ">=20.19.5". Got "16.20.1"
 ```
 
-When using Modern.js, it is recommended to use the latest version of [Node.js 18.x](https://nodejs.org/download/release/latest-v18.x/).
+Modern.js requires Node.js version >= 20.19.5. We strongly recommend using the latest LTS version (such as [Node.js 22 LTS](https://nodejs.org/)) for the best experience.
 
 If the Node.js version of the current environment is lower than the above requirement, you can use tools such as [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to switch versions.
 
 Here is an example of using nvm:
 
-```
-# Install Node.js v14
-nvm install 14
+```bash
+# Install Node.js 22 LTS
+nvm install 22 --lts
 
-# Switch to Node 14
-nvm use 14
+# Switch to Node.js 22
+nvm use 22
 
-# Set Node 14 as the default version
-nvm default 14
+# Set Node.js 22 as the default version
+nvm alias default 22
 ```
 
 For local development environments, it is recommended to use [fnm](https://github.com/Schniz/fnm), which has better performance than nvm and has similar usage.
@@ -102,12 +102,10 @@ In most cases, peer dependencies warnings will not affect the project operation 
 
 ### What is the minimum supported version of React for the Modern.js framework?
 
-**The recommended React version for the Modern.js framework is >= 18.0.0**, and different functions have different requirements for the React version.
+**Modern.js framework requires React version >= 18.0.0**.
 
-- If you are using React 17, some framework functions will not be available, such as Streaming SSR, because it relies on new features provided by React 18.
-- If you are still using React 16, you will not be able to use Modern.js's runtime or server-side capabilities. You can consider using the build mode of Modern.js, that is, only using Modern.js's build capabilities. In this case, React 16 can still be used.
-
-In future major versions of Modern.js, we will gradually remove support for React 16 and React 17. Therefore, please upgrade to React 18 or higher as soon as possible.
+- **If you are using Modern.js runtime capabilities** (including SSR, Streaming SSR, data loading, routing, etc.), you must use React 18 or higher. React 16 and React 17 are no longer supported.
+- **If you are only using Modern.js build capabilities** (without runtime), React 16 or React 17 may theoretically work, but it is strongly recommended to upgrade to React 18 or higher for the best experience and full feature support.
 
 ---
 
@@ -118,6 +116,8 @@ Type 'CliPlugin<{}, {}, {}, {}>' is not assignable to type 'CliPlugin<any, {}, {
   Types of property 'setup' are incompatible.
 ```
 
-When you use the Modern.js framework, the above error occurs in the configuration file, it may be due to the inconsistent versions of Modern.js related packages。You can upgrade and unify the version of modern.js related packages through `npx modern upgrade` command.
+When you use the Modern.js framework, the above error occurs in the configuration file, it may be due to the inconsistent versions of Modern.js related packages. You need to manually update all `@modern-js/**` packages to the same version.
 
 In the monorepo, the above error may also occur due to inconsistent versions of the Modern.js framework used by different sub-projects.
+
+For information on how to unify and upgrade dependency versions, please refer to the [Upgrading](/guides/get-started/upgrade) documentation.
