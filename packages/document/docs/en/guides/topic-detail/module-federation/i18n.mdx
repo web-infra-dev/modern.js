@@ -57,31 +57,13 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
-  plugins: [
-    appTools(),
-    i18nPlugin({
-      localeDetection: {
-        localePathRedirect: true,
-        languages: ['zh', 'en'],
-        fallbackLanguage: 'en',
-        ignoreRedirectRoutes: ['/about', '/'], // Optional: routes that should not be redirected
-      },
-    }),
-    moduleFederationPlugin(),
-  ],
+  plugins: [appTools(), i18nPlugin(), moduleFederationPlugin()],
 });
 ```
 
 :::info
 
 For detailed configuration options of the i18n plugin, please refer to the [Configuration Documentation](/guides/advanced-features/international/configuration).
-
-**Key Configuration Options:**
-
-- `localePathRedirect`: Enable path-based locale redirection (e.g., `/zh/page`, `/en/page`)
-- `languages`: Supported language codes
-- `fallbackLanguage`: Default language when detection fails
-- `ignoreRedirectRoutes`: Routes that should not be redirected (useful for special pages like about, home, etc.)
 
 :::
 
@@ -103,7 +85,6 @@ Both producers and consumers need to configure `shared` in `module-federation.co
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -113,21 +94,13 @@ export default createModuleFederationConfig({
     './Text': './src/components/Text.tsx',
   },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react,
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
     'react-i18next': {
       singleton: true,
-      requiredVersion: dependencies['react-i18next'],
     },
     i18next: {
       singleton: true,
-      requiredVersion: dependencies.i18next,
     },
   },
 });
@@ -139,22 +112,18 @@ Use the `useTranslation` hook from `react-i18next` in components to perform tran
 
 ```tsx title="src/components/Text.tsx"
 import { useTranslation } from 'react-i18next';
-import i18next from '../i18n';
 
 export default () => {
   const { t } = useTranslation();
   return (
     <div>
-      {/* use i18next.t() to get the key will use provider's i18n instance */}
-      <p>{i18next.t('key')}</p>
-      {/* use useTranslation() to get the key will use consumer's i18n instance */}
       <p>{t('about')}</p>
     </div>
   );
 };
 ```
 
-When using a shared instance, remote components will use the consumer's i18n instance by default when using `useTranslation()`. However, you can also directly use a specific i18next instance (e.g., `i18next.t()`) to access translations from that instance. When the main application switches languages, components using `useTranslation()` will automatically update.
+When using a shared instance, remote components will use the consumer's i18n instance, and when the main application switches languages, the corresponding remote components will automatically update.
 
 ### Independent I18n Instance
 
@@ -261,7 +230,6 @@ First, configure the remote module in the consumer's `module-federation.config.t
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -271,22 +239,10 @@ export default createModuleFederationConfig({
       'i18nComponentProvider@http://localhost:3006/mf-manifest.json',
   },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react,
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
-    'react-i18next': {
-      singleton: true,
-      requiredVersion: dependencies['react-i18next'],
-    },
-    i18next: {
-      singleton: true,
-      requiredVersion: dependencies.i18next,
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
   },
 });
 ```
@@ -310,13 +266,6 @@ const RemoteComponent = createLazyComponent({
   loader: () => import('componentRemote/Text'),
   loading: 'loading...',
   export: 'default',
-  fallback: ({ error }) => {
-    // fallback can be a function that receives error information
-    if (error instanceof Error && error.message.includes('not exist')) {
-      return <div>fallback - not existed id</div>;
-    }
-    return <div>fallback</div>;
-  },
 });
 
 export default () => {
@@ -329,14 +278,6 @@ export default () => {
 ```
 
 The i18n resources and i18n instance used here are from the main application. When the main application switches languages, the corresponding remote components will automatically update.
-
-:::tip
-The `fallback` parameter in `createLazyComponent` can be:
-
-- A string: Simple loading text
-- A React component: Static error boundary component
-- A function: Receives error information `{ error }` and returns a React element, allowing for more granular error handling based on error types
-  :::
 
 ### Independent I18n Instance
 
@@ -437,7 +378,6 @@ export default provider;
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -447,22 +387,10 @@ export default createModuleFederationConfig({
     './export-app': './src/export-app.tsx',
   },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react,
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
-    'react-i18next': {
-      singleton: true,
-      requiredVersion: dependencies['react-i18next'],
-    },
-    i18next: {
-      singleton: true,
-      requiredVersion: dependencies.i18next,
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
   },
 });
 ```
@@ -557,7 +485,6 @@ First, configure the remote application in the consumer's `module-federation.con
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -565,23 +492,15 @@ export default createModuleFederationConfig({
   remotes: {
     AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
   },
+  bridge: {
+    // When using Modern.js routing, must be set to false to avoid conflicts with Modern.js routing system
+    enableBridgeRouter: false,
+  },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react,
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
-    'react-i18next': {
-      singleton: true,
-      requiredVersion: dependencies['react-i18next'],
-    },
-    i18next: {
-      singleton: true,
-      requiredVersion: dependencies.i18next,
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    'react-i18next': { singleton: true },
+    i18next: { singleton: true },
   },
 });
 ```
@@ -621,7 +540,7 @@ const FallbackComp = (
 
 const RemoteApp = createRemoteAppComponent({
   loader: () => loadRemote('AppRemote/export-app'),
-  export: 'provider', // Specify the export name when using named exports (e.g., export const provider)
+  export: 'provider' as any,
   fallback: FallbackErrorComp,
   loading: FallbackComp,
 });

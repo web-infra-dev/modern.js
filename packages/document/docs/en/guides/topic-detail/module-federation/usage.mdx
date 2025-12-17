@@ -43,7 +43,6 @@ Then, add the `module-federation.config.ts` file at the project root to configur
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -55,21 +54,11 @@ export default createModuleFederationConfig({
     './Button': './src/components/Button.tsx',
   },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react, // Optional: specify version requirements
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
   },
 });
 ```
-
-:::tip
-The `requiredVersion` field in the `shared` configuration is optional but recommended. It specifies the version requirements for shared dependencies, ensuring version consistency between producer and consumer. You can import `dependencies` from `package.json` to automatically use the project's dependency versions.
-:::
 
 :::tip
 In the above code block, we have prefixed both the manifest and remoteEntry.js exported by Module Federation with `static`. This is because Modern.js requires all resources that need to be exposed to be placed in the `static/` directory, and Modern.js's server will only host the `static/` directory in production environments.
@@ -82,7 +71,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
-  dev: {
+  server: {
     port: 3051,
   },
   plugins: [appTools(), moduleFederationPlugin()],
@@ -97,7 +86,6 @@ Add the `module-federation.config.ts` file at the project root to configure the 
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
-import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -105,14 +93,8 @@ export default createModuleFederationConfig({
     remote: 'remote@http://localhost:3051/static/mf-manifest.json',
   },
   shared: {
-    react: {
-      singleton: true,
-      requiredVersion: dependencies.react,
-    },
-    'react-dom': {
-      singleton: true,
-      requiredVersion: dependencies['react-dom'],
-    },
+    react: { singleton: true },
+    'react-dom': { singleton: true },
   },
 });
 ```
@@ -122,7 +104,7 @@ export default createModuleFederationConfig({
 Create a new route file `src/routes/remote/page.tsx` and import the producer module:
 
 ```tsx title="src/routes/remote/page.tsx"
-import React, { useState, Suspense } from 'react';
+import React, { Suspense, type JSX } from 'react';
 import { Button } from 'remote/Button';
 
 const Index = (): JSX.Element => {
@@ -172,7 +154,7 @@ The second part, `remoteExpose`, is the `key` configured in the `exposes` field 
 
 ## Start the Applications
 
-Now, both the producer and consumer applications are set up. You can run `modern dev` locally to start both applications.
+Now, both the producer and consumer applications are set up. You can run `modern start` locally to start both applications.
 
 Once started, the imports of the producer's modules in the consumer will no longer throw errors, and the types will be downloaded to the consumer application.
 

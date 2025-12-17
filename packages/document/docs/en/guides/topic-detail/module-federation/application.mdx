@@ -91,7 +91,6 @@ const ErrorBoundary = (info?: { error: { message: string } }) => {
 const Loading = <div>loading...</div>;
 const RemoteApp = createRemoteAppComponent({
   loader: () => loadRemote('remote/app'),
-  export: 'provider', // Specify the export name when using named exports (e.g., export const provider)
   fallback: ErrorBoundary,
   loading: Loading,
 });
@@ -100,19 +99,12 @@ export default RemoteApp;
 ```
 
 :::info
-[`createRemoteAppComponent`](https://module-federation.io/practice/bridge/react-bridge/load-app.html#what-is-createremoteappcomponent) is used to load application-level modules.
-
-**Parameters:**
-
-- `loader`: Function that loads the remote module
-- `export`: (Optional) The name of the export to use. Required when the producer uses named exports (e.g., `export const provider`). Can be omitted when using default exports
-- `fallback`: Error boundary component or function that receives error information
-- `loading`: Loading component displayed while the remote module is being loaded
+[`createRemoteAppComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/load-app.html#%E4%BB%80%E4%B9%88%E6%98%AF-createremoteappcomponent) is used to load application-level modules.
   :::
 
 ## Start the Application
 
-Now, both the producer and consumer applications are set up. We can run `modern dev` locally to start both applications.
+Now, both the producer and consumer applications are set up. We can run `modern start` locally to start both applications.
 
 After startup, when the consumer application accesses the `/remote` route, it will enter the producer application. Accessing `http://localhost:8080/remote` will display a complete page of the producer's remote module in the browser.
 
