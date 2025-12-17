@@ -7,7 +7,7 @@ title: port
 - **Type:** `number`
 - **Default:** `8080`
 
-When running the `dev`, `start`, and `serve` commands, Modern.js will start with `8080` as the default port and automatically increase the port number when the port is occupied. You can use this configuration to modify the port number that the Server starts with:
+When running the `dev` and `serve` commands, Modern.js will start with `8080` as the default port and automatically increase the port number when the port is occupied. You can use this configuration to modify the port number that the Server starts with:
 
 ```js title="modern.config.ts"
 export default defineConfig({
@@ -16,27 +16,3 @@ export default defineConfig({
   },
 });
 ```
-
-### Difference between `server.port` and `dev.port`
-
-In most cases, we recommend using `server.port` instead of `dev.port` to set the port number, and the differences between them are as follows:
-
-- `dev.port` only works in the development environment, while `server.port` works in both the development and production environments.
-- In the development environment, `dev.port` has a higher priority than `server.port`.
-
-When you set both `dev.port` and `server.port`, `dev.port` will take effect in the development environment, and `server.port` will take effect in the production environment. For example, in the following example, the port number listened to in the development environment is `3001`, and the port number listened to in the production environment is `3002`.
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  dev: {
-    port: 3001,
-  },
-  server: {
-    port: 3002,
-  },
-});
-```
-
-import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
-
-<RsbuildConfig configName="server.port" />
