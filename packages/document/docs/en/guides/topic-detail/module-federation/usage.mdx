@@ -189,7 +189,7 @@ export default defineConfig({
 });
 ```
 
-Now, in the producer, run `MODERN_MF_AUTO_CORS=true modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+Now, in the producer, run `modern build && MODERN_MF_AUTO_CORS=true  modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
 
 :::tip
 When using the `modern serve` command, you need to set the `MODERN_MF_AUTO_CORS=true` environment variable when starting the producer project to automatically handle CORS issues and ensure that consumers can properly access the producer's remote module resources.
