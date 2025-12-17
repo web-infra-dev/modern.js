@@ -43,6 +43,7 @@ Then, add the `module-federation.config.ts` file at the project root to configur
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -54,11 +55,21 @@ export default createModuleFederationConfig({
     './Button': './src/components/Button.tsx',
   },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react, // Optional: specify version requirements
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
   },
 });
 ```
+
+:::tip
+The `requiredVersion` field in the `shared` configuration is optional but recommended. It specifies the version requirements for shared dependencies, ensuring version consistency between producer and consumer. You can import `dependencies` from `package.json` to automatically use the project's dependency versions.
+:::
 
 :::tip
 In the above code block, we have prefixed both the manifest and remoteEntry.js exported by Module Federation with `static`. This is because Modern.js requires all resources that need to be exposed to be placed in the `static/` directory, and Modern.js's server will only host the `static/` directory in production environments.
@@ -86,6 +97,7 @@ Add the `module-federation.config.ts` file at the project root to configure the 
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -93,8 +105,14 @@ export default createModuleFederationConfig({
     remote: 'remote@http://localhost:3051/static/mf-manifest.json',
   },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react,
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
   },
 });
 ```
@@ -189,7 +207,11 @@ export default defineConfig({
 });
 ```
 
-Now, in the producer, run `modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+Now, in the producer, run `MODERN_MF_AUTO_CORS=true modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+
+:::tip
+When using the `modern serve` command, you need to set the `MODERN_MF_AUTO_CORS=true` environment variable when starting the producer project to automatically handle CORS issues and ensure that consumers can properly access the producer's remote module resources.
+:::
 
 You can refer to this example: [Modern.js & Module Federation Basic Example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base).
 

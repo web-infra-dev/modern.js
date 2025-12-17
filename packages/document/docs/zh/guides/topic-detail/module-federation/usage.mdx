@@ -61,7 +61,7 @@ export default createModuleFederationConfig({
 ```
 
 :::tip
-在上述代码块中，我们为 Module Federation 导出的 manifest 和 remoteEntry.js 都设置了 `static` 前缀，这是因为 Modern.js 要求将所有需要暴露的资源都放在 `static/` 目录下，Modern.js 的服务器在生产环境时也只会托管 `static/` 目录。
+在上述代码块中，我们为 Module Federation 导出的 `manifest` 和 `remoteEntry.js` 都设置了 `static` 前缀，这是因为 Modern.js 要求将所有需要暴露的资源都放在 `static/` 目录下，Modern.js 的服务器在生产环境时也只会托管 `static/` 目录。
 :::
 
 另外，我们还需要修改 `modern.config.ts`，为生产者提供一个开发环境的端口，让消费者可以通过此端口访问生产者的资源：
@@ -71,7 +71,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
-  dev: {
+  server: {
     port: 3051,
   },
   plugins: [appTools(), moduleFederationPlugin()],
@@ -104,7 +104,7 @@ export default createModuleFederationConfig({
 我们创建新的路由文件 `src/routes/remote/page.tsx`，引入生产者模块：
 
 ```tsx title="src/routes/remote/page.tsx"
-import React, { useState, Suspense } from 'react';
+import React, { Suspense, type JSX } from 'react';
 import { Button } from 'remote/Button';
 
 const Index = (): JSX.Element => {
@@ -154,7 +154,7 @@ export default Index;
 
 ## 启动应用
 
-现在，生产者应用和消费者应用都已经搭建完毕，我们可以在本地运行 `modern dev` 启动两个应用。
+现在，生产者应用和消费者应用都已经搭建完毕，我们可以在本地运行 `modern start` 启动两个应用。
 
 启动后，消费者中对生产者模块的引入，不会再出现抛错，类型已经下载到消费者应用中。
 
@@ -187,7 +187,11 @@ export default defineConfig({
 });
 ```
 
-现在，在生产者中运行 `modern build && modern serve`，在消费者中运行 `modern build && modern serve`，即可在本地模拟生产环境，访问到远程模块。
+现在，在生产者中运行 `MODERN_MF_AUTO_CORS=true modern build && modern serve`，在消费者中运行 `modern build && modern serve`，即可在本地模拟生产环境，访问到远程模块。
+
+:::tip
+在使用 `modern serve` 命令时，需要在启动生产者项目时携带 `MODERN_MF_AUTO_CORS=true` 环境变量，以自动处理跨域问题，确保消费者可以正常访问生产者的远程模块资源。
+:::
 
 上述用例可以参考：[Modern.js & Module Federation 基础用法示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base)。
 

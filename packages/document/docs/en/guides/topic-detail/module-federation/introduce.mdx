@@ -20,7 +20,7 @@ Refer to [Module Federation 2.0 Announcement](https://module-federation.io/zh/bl
 
 Based on internal practices at ByteDance, the Module Federation team officially provides the [Modern.js Plugin](https://www.npmjs.com/package/@module-federation/modern-js) to help developers use Module Federation more easily.
 
-The plugin recognizes the current build engine (Webpack or Rspack), injects the corresponding Module Federation plugin into Modern.js applications, and automatically handles build configurations and adds runtime code.
+The plugin injects the Module Federation plugin into Modern.js applications and automatically handles build configurations and adds runtime code.
 
 Moreover, the plugin also supports the use of Module Federation in Modern.js SSR applications, providing a better performance experience.
 
@@ -30,6 +30,7 @@ For more details, refer to [Using Module Federation](/guides/topic-detail/module
 
 **Application-level modules** possess the application's framework rendering capabilities and routing capabilities, allowing them to operate like applications. Application-level modules are a crucial capability in **micro-frontend frameworks**, providing the ability to load and render across application frameworks (React, Vue) and supporting the loading of modules with routing.
 
-Module Federation 2.0 offers the [Bridge](https://module-federation.io/zh/practice/bridge/index.html) capability to load application-level modules.
+Module Federation 2.0 offers the [Bridge](https://module-federation.io/practice/bridge/overview.html) capability to load application-level modules.
 
 Modern.js, based on Bridge and its internal implementation, provides APIs to easily export application-level modules. For more details, refer to [Application-Level Modules](/guides/topic-detail/module-federation/application).
+

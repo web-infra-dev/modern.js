@@ -7,9 +7,6 @@ export default createModuleFederationConfig({
     './export-app': './src/i18n-mf-app-provider/export-app.tsx',
     './export-app-custom': './src/custom/export-app.tsx',
   },
-  bridge: {
-    enableBridgeRouter: false,
-  },
   shared: {
     react: { singleton: true },
     'react-dom': {

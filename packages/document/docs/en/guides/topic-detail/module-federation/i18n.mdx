@@ -57,13 +57,31 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
-  plugins: [appTools(), i18nPlugin(), moduleFederationPlugin()],
+  plugins: [
+    appTools(),
+    i18nPlugin({
+      localeDetection: {
+        localePathRedirect: true,
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
+        ignoreRedirectRoutes: ['/about', '/'], // Optional: routes that should not be redirected
+      },
+    }),
+    moduleFederationPlugin(),
+  ],
 });
 ```
 
 :::info
 
 For detailed configuration options of the i18n plugin, please refer to the [Configuration Documentation](/guides/advanced-features/international/configuration).
+
+**Key Configuration Options:**
+
+- `localePathRedirect`: Enable path-based locale redirection (e.g., `/zh/page`, `/en/page`)
+- `languages`: Supported language codes
+- `fallbackLanguage`: Default language when detection fails
+- `ignoreRedirectRoutes`: Routes that should not be redirected (useful for special pages like about, home, etc.)
 
 :::
 
@@ -85,6 +103,7 @@ Both producers and consumers need to configure `shared` in `module-federation.co
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -94,13 +113,21 @@ export default createModuleFederationConfig({
     './Text': './src/components/Text.tsx',
   },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react,
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
     'react-i18next': {
       singleton: true,
+      requiredVersion: dependencies['react-i18next'],
     },
     i18next: {
       singleton: true,
+      requiredVersion: dependencies.i18next,
     },
   },
 });
@@ -112,18 +139,22 @@ Use the `useTranslation` hook from `react-i18next` in components to perform tran
 
 ```tsx title="src/components/Text.tsx"
 import { useTranslation } from 'react-i18next';
+import i18next from '../i18n';
 
 export default () => {
   const { t } = useTranslation();
   return (
     <div>
+      {/* use i18next.t() to get the key will use provider's i18n instance */}
+      <p>{i18next.t('key')}</p>
+      {/* use useTranslation() to get the key will use consumer's i18n instance */}
       <p>{t('about')}</p>
     </div>
   );
 };
 ```
 
-When using a shared instance, remote components will use the consumer's i18n instance. When the main application switches languages, the corresponding remote components will automatically update.
+When using a shared instance, remote components will use the consumer's i18n instance by default when using `useTranslation()`. However, you can also directly use a specific i18next instance (e.g., `i18next.t()`) to access translations from that instance. When the main application switches languages, components using `useTranslation()` will automatically update.
 
 ### Independent I18n Instance
 
@@ -196,6 +227,10 @@ const useSwitchLanguage = () => {
 export default useSwitchLanguage;
 ```
 
+:::note
+When using an independent I18n instance, the producer maintains its own language state. Consumers need to manually call the language switching hook to synchronize language changes between the main application and the remote component. This approach is useful when the producer needs to maintain its own language resources or has independent language switching logic.
+:::
+
 #### Configure Module Federation
 
 ```ts title="module-federation.config.ts"
@@ -226,6 +261,7 @@ First, configure the remote module in the consumer's `module-federation.config.t
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -235,10 +271,22 @@ export default createModuleFederationConfig({
       'i18nComponentProvider@http://localhost:3006/mf-manifest.json',
   },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
-    'react-i18next': { singleton: true },
-    i18next: { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react,
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
+    'react-i18next': {
+      singleton: true,
+      requiredVersion: dependencies['react-i18next'],
+    },
+    i18next: {
+      singleton: true,
+      requiredVersion: dependencies.i18next,
+    },
   },
 });
 ```
@@ -262,6 +310,13 @@ const RemoteComponent = createLazyComponent({
   loader: () => import('componentRemote/Text'),
   loading: 'loading...',
   export: 'default',
+  fallback: ({ error }) => {
+    // fallback can be a function that receives error information
+    if (error instanceof Error && error.message.includes('not exist')) {
+      return <div>fallback - not existed id</div>;
+    }
+    return <div>fallback</div>;
+  },
 });
 
 export default () => {
@@ -274,6 +329,14 @@ export default () => {
 ```
 
 The i18n resources and i18n instance used here are from the main application. When the main application switches languages, the corresponding remote components will automatically update.
+
+:::tip
+The `fallback` parameter in `createLazyComponent` can be:
+
+- A string: Simple loading text
+- A React component: Static error boundary component
+- A function: Receives error information `{ error }` and returns a React element, allowing for more granular error handling based on error types
+  :::
 
 ### Independent I18n Instance
 
@@ -289,7 +352,9 @@ export default function Layout() {
   const switchComponentLanguage = useSwitchComponentLanguage();
 
   const handleSwitchLanguage = (language: string) => {
+    // Switch language for the main application
     changeLanguage(language);
+    // Switch language for the remote component with independent instance
     switchComponentLanguage(language);
   };
 
@@ -308,6 +373,17 @@ export default function Layout() {
 :::info
 
 For detailed API documentation of the `useModernI18n` Hook, please refer to the [API Reference Documentation](/guides/advanced-features/international/api).
+
+:::
+
+:::note
+
+When using an independent I18n instance:
+
+- The producer and consumer maintain separate language states
+- Language switching must be synchronized manually by calling both the main application's `changeLanguage` and the remote component's language switching hook
+- This approach is recommended when the producer needs independent language resources or custom language switching logic
+- For component scenarios, we generally recommend using a shared I18n instance for better consistency
 
 :::
 
@@ -341,7 +417,7 @@ First, you need to create an entry file to export the application:
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react/v19';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -361,6 +437,7 @@ export default provider;
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -369,15 +446,23 @@ export default createModuleFederationConfig({
   exposes: {
     './export-app': './src/export-app.tsx',
   },
-  bridge: {
-    // When using Modern.js routing, this must be set to false to avoid conflicts with Modern.js routing system
-    enableBridgeRouter: false,
-  },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
-    'react-i18next': { singleton: true },
-    i18next: { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react,
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
+    'react-i18next': {
+      singleton: true,
+      requiredVersion: dependencies['react-i18next'],
+    },
+    i18next: {
+      singleton: true,
+      requiredVersion: dependencies.i18next,
+    },
   },
 });
 ```
@@ -423,6 +508,29 @@ When using a shared instance, `i18next` here does not need to call `init`. You c
 
 :::
 
+:::tip
+
+For applications with multiple entries, `defineRuntimeConfig` can accept a function that receives the `entryName` parameter, allowing you to return different configurations for different entries:
+
+```ts title="modern.runtime.tsx"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18nextCustom from './custom/i18n';
+import i18nextMfAppProvider from './i18n-mf-app-provider/i18n';
+
+export default defineRuntimeConfig((entryName: string) => {
+  return {
+    i18n: {
+      i18nInstance:
+        entryName === 'custom' ? i18nextCustom : i18nextMfAppProvider,
+    },
+  };
+});
+```
+
+This is useful when you need different i18n instances for different entry points.
+
+:::
+
 :::info
 
 For detailed information about the `i18nInstance` configuration, please refer to the [Configuration Documentation](/guides/advanced-features/international/configuration#i18ninstance-配置).
@@ -449,6 +557,7 @@ First, configure the remote application in the consumer's `module-federation.con
 
 ```ts title="module-federation.config.ts"
 import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { dependencies } from './package.json';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -456,15 +565,23 @@ export default createModuleFederationConfig({
   remotes: {
     AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
   },
-  bridge: {
-    // When using Modern.js routing, this must be set to false to avoid conflicts with Modern.js routing system
-    enableBridgeRouter: false,
-  },
   shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
-    'react-i18next': { singleton: true },
-    i18next: { singleton: true },
+    react: {
+      singleton: true,
+      requiredVersion: dependencies.react,
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: dependencies['react-dom'],
+    },
+    'react-i18next': {
+      singleton: true,
+      requiredVersion: dependencies['react-i18next'],
+    },
+    i18next: {
+      singleton: true,
+      requiredVersion: dependencies.i18next,
+    },
   },
 });
 ```
@@ -480,7 +597,7 @@ If the producer uses a shared I18n instance, the consumer must configure `shared
 Create a component for loading the remote application:
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 
@@ -504,13 +621,20 @@ const FallbackComp = (
 
 const RemoteApp = createRemoteAppComponent({
   loader: () => loadRemote('AppRemote/export-app'),
-  export: 'provider' as any,
+  export: 'provider', // Specify the export name when using named exports (e.g., export const provider)
   fallback: FallbackErrorComp,
   loading: FallbackComp,
 });
 
 export default RemoteApp;
 ```
+
+:::tip
+The `export` parameter in `createRemoteAppComponent` specifies which export to use from the remote module:
+
+- When the producer uses `export default`, you can omit this parameter
+- When the producer uses named exports (e.g., `export const provider`), you must specify the export name
+  :::
 
 ### Using Remote Application in Routes
 

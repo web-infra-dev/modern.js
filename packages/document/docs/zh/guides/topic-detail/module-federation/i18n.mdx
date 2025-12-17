@@ -341,7 +341,7 @@ export default function Layout() {
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react/v19';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -368,10 +368,6 @@ export default createModuleFederationConfig({
   filename: 'remoteEntry.js',
   exposes: {
     './export-app': './src/export-app.tsx',
-  },
-  bridge: {
-    // 使用 Modern.js 路由时，必须设置为 false，避免与 Modern.js 路由系统冲突
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -480,7 +476,7 @@ export default createModuleFederationConfig({
 创建用于加载远程应用的组件：
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 

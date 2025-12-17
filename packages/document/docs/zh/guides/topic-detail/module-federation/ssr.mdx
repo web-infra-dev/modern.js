@@ -15,13 +15,13 @@ export default defineConfig({
       mode: 'stream',
     },
   },
-})
+});
 ```
 
 为更好的性能体验，我们仅支持 Streaming SSR 情况使用这种能力组合。
 
 :::warning
-目前 `@module-federation/bridge-react` 未兼容 Node 环境，你必须从依赖中移除它，才能正常使用 Module Federation 和服务端渲染。这意味着 Bridge 无法和服务端渲染配合使用。
+应用级别模块（使用 `createBridgeComponent` 和 `createRemoteAppComponent` 的模块）不支持服务端渲染（SSR）。如果你需要使用 SSR 功能，请使用组件级别的模块导出方式。
 :::
 
 ## 数据获取

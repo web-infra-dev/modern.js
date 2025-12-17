@@ -1,6 +1,6 @@
 import { upload } from 'bff-api-app/api/upload';
 import { configure } from 'bff-api-app/runtime';
-import React, { useEffect } from 'react';
+import React, { type JSX, useEffect } from 'react';
 
 configure({
   setDomain() {
