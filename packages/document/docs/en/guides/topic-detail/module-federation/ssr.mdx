@@ -21,7 +21,7 @@ export default defineConfig({
 For better performance, we only support using this capability combination in Streaming SSR scenarios.
 
 :::warning
-Currently, `@module-federation/bridge-react` is not compatible with the Node environment. You must remove it from the dependencies to use Module Federation and server-side rendering correctly. This means Bridge cannot work with server-side rendering.
+Application-level modules (modules using `createBridgeComponent` and `createRemoteAppComponent`) do not support server-side rendering (SSR). If you need to use SSR functionality, please use component-level module export methods instead.
 :::
 
 ## Data Fetching

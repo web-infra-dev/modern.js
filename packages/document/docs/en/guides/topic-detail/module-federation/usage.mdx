@@ -71,7 +71,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js';
 
 export default defineConfig({
-  dev: {
+  server: {
     port: 3051,
   },
   plugins: [appTools(), moduleFederationPlugin()],
@@ -104,7 +104,7 @@ export default createModuleFederationConfig({
 Create a new route file `src/routes/remote/page.tsx` and import the producer module:
 
 ```tsx title="src/routes/remote/page.tsx"
-import React, { useState, Suspense } from 'react';
+import React, { Suspense, type JSX } from 'react';
 import { Button } from 'remote/Button';
 
 const Index = (): JSX.Element => {
@@ -154,7 +154,7 @@ The second part, `remoteExpose`, is the `key` configured in the `exposes` field 
 
 ## Start the Applications
 
-Now, both the producer and consumer applications are set up. You can run `modern dev` locally to start both applications.
+Now, both the producer and consumer applications are set up. You can run `modern start` locally to start both applications.
 
 Once started, the imports of the producer's modules in the consumer will no longer throw errors, and the types will be downloaded to the consumer application.
 
@@ -189,7 +189,11 @@ export default defineConfig({
 });
 ```
 
-Now, in the producer, run `modern build && modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+Now, in the producer, run `modern build && MODERN_MF_AUTO_CORS=true  modern serve`, and in the consumer, run `modern build && modern serve` to simulate the production environment locally and access the remote modules.
+
+:::tip
+When using the `modern serve` command, you need to set the `MODERN_MF_AUTO_CORS=true` environment variable when starting the producer project to automatically handle CORS issues and ensure that consumers can properly access the producer's remote module resources.
+:::
 
 You can refer to this example: [Modern.js & Module Federation Basic Example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base).
 

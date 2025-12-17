@@ -6,7 +6,7 @@
 
 ## Module Federation 2.0
 
-Module Federation 作为 Webpack 5 推出的重磅功能，自发布以来已经三年有余。在今年，字节跳动与 Module Federation 的作者 [@Zack Jackson](https://github.com/ScriptedAlchemy) 以及社区成员共同推出了 **Module Federation 2.0**。
+Module Federation 作为 Webpack 5 推出的重磅功能，自发布以来已经五年有余。在今年，字节跳动与 Module Federation 的作者 [@Zack Jackson](https://github.com/ScriptedAlchemy) 以及社区成员共同推出了 **Module Federation 2.0**。
 
 Module Federation 2.0 基于字节跳动内部实践以及 Module Federation 原有社区生态，解决了原先版本中的诸多问题。
 
@@ -20,7 +20,7 @@ Module Federation 2.0 基于字节跳动内部实践以及 Module Federation 原
 
 基于字节跳动内部实践，Module Federation 团队官方提供了 [Modern.js 插件](https://www.npmjs.com/package/@module-federation/modern-js)，帮助开发者更方便的使用 Module Federation。
 
-插件会识别当前构建引擎（Webpack 或 Rspack），在 Modern.js 应用中注入 Module Federation 对应插件，并自动处理构建配置、添加运行时代码等。
+插件会在 Modern.js 应用中注入 Module Federation 插件，并自动处理构建配置、添加运行时代码等。
 
 同时，插件还支持在 Modern.js SSR 应用中使用 Module Federation，提供更好的性能体验。
 
@@ -30,6 +30,6 @@ Module Federation 2.0 基于字节跳动内部实践以及 Module Federation 原
 
 **应用级别模块**是具备应用的框架渲染能力及路由能力，能像应用一样运行的模块。应用级别模块是在**微前端框架**中非常重要的能力，提供跨应用框架（React、Vue）加载和渲染的能力，支持加载带路由的模块。
 
-Module Federation 2.0 提供了 [Bridge](https://module-federation.io/zh/practice/bridge/index.html) 的能力，用于加载应用级别模块。
+Module Federation 2.0 提供了 [Bridge](https://module-federation.io/zh/practice/bridge/overview.html) 的能力，用于加载应用级别模块。
 
 Modern.js 基于 Brdige 和自身内部实现提供了 API，可以非常简单的导出应用级别模块。详细内容可以参考 [应用级别模块](/guides/topic-detail/module-federation/application)。
