@@ -86,9 +86,9 @@ export default defineConfig(({ env, command }) => ({
 This function accepts the following parameters:
 
 - `env`: Corresponds to the value of `process.env.NODE_ENV`.
-  - When running `modern dev` or `modern start`, the value of `env` is `development`.
+  - When running `modern dev`, the value of `env` is `development`.
   - When running `modern build` or `modern serve`, the value of `env` is `production`.
-- `command`: Corresponds to the current command being run, such as `dev`, `start`, `build`, or `serve`.
+- `command`: Corresponds to the current command being run, such as `dev`, `build`, or `serve`.
 
 #### Exporting Asynchronous Functions
 
@@ -187,7 +187,7 @@ The configuration in the `modern.config.local.ts` file will be deeply merged wit
 
 When using `modern.config.local.ts`, please note the following:
 
-- The `modern.config.local.ts` file will only be loaded when executing the `modern dev` or `modern start` commands and will not be loaded during `modern build`.
+- The `modern.config.local.ts` file will only be loaded when executing the `modern dev` commands and will not be loaded during `modern build`.
 - The priority of the `modern.config.local.ts` file is higher than both `modern.config.ts` and the `modernConfig` field in `package.json`.
 - Since `modern.config.local.ts` is only used for local debugging, it is not recommended to commit it to the code repository. Ensure that the project's `.gitignore` file includes `modern.config.local.ts` and similar files.
 

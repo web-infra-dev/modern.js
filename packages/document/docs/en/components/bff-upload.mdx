@@ -23,9 +23,10 @@ The `formData` parameter in the interface processing function can access files u
 ### Integrated Calling
 
 Next, directly import and call the function in `src/routes/upload/page.tsx`:
+
 ```tsx title="routes/upload/page.tsx"
-import { upload } from '@api/upload';
-import React from 'react';
+import { post } from '@api/upload';
+import React, { type JSX } from 'react';
 
 export default (): JSX.Element => {
   const [file, setFile] = React.useState<FileList | null>();
@@ -34,27 +35,30 @@ export default (): JSX.Element => {
     setFile(e.target.files);
   };
 
-  const handleUpload = () => {
-    if (!file) {
-      return;
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (file) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append('images', file[i]);
+      }
+      post({
+        formData,
+      });
     }
-    upload({
-      files: {
-        images: file,
-      },
-    });
   };
 
   return (
     <div>
       <input multiple type="file" onChange={handleChange} />
-      <button onClick={handleUpload}>upload</button>
+      <button onClick={handleSubmit}>upload</button>
     </div>
   );
 };
 ```
+
 :::tip
-Note: The input type must be `{ formData: FormData }` for the upload to succeed.
+Note: The input parameter type must be `{ formData: FormData }` for the upload to succeed.
 :::
 
 

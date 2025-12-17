@@ -338,12 +338,6 @@ Producers do not support enabling path redirection (`localePathRedirect`). Route
 
 :::
 
-:::note
-
-When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in `module-federation.config.ts` to avoid conflicts with Modern.js's routing system.
-
-:::
-
 :::info
 
 For detailed information about routing integration, please refer to the [Routing Integration Documentation](/guides/advanced-features/international/routing).
@@ -473,12 +467,6 @@ For an independent I18n instance, no additional operations are needed. The produ
 
 When consumers need to load remote applications, they need to use the Bridge API to load application-level modules.
 
-:::note
-
-When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in `module-federation.config.ts` to avoid conflicts with Modern.js's routing system.
-
-:::
-
 ### Configure Module Federation
 
 First, configure the remote application in the consumer's `module-federation.config.ts`:
@@ -491,10 +479,6 @@ export default createModuleFederationConfig({
   name: 'consumer',
   remotes: {
     AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
-  },
-  bridge: {
-    // When using Modern.js routing, must be set to false to avoid conflicts with Modern.js routing system
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -676,7 +660,6 @@ Key points for integrating i18n with Module Federation:
 4. **Route Management**: Producers do not support path redirection (`localePathRedirect`). Route and language switching need to be managed uniformly in the consumer
 5. **Dependency Sharing**: When using a shared instance, you must configure `i18next` and `react-i18next` as singletons in both the producer's and consumer's `module-federation.config.ts`
 6. **Name Uniqueness**: The `name` parameter of `createModuleFederationConfig` must be unique for each application and cannot be the same for different remotes
-7. **Bridge Router Configuration**: When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in both the producer and consumer of application-level modules to avoid conflicts with Modern.js's routing system
 
 ## Related Documentation
 

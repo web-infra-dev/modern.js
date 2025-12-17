@@ -1,22 +1,52 @@
-import { PackageManagerTabs } from '@theme';
+To enable BFF functionality in a Modern.js project, follow these steps to modify the code:
 
-1. Execute the `new` command:
+1. Install BFF plugin dependencies
 
-<PackageManagerTabs command="run new" />
-
-2. Follow the prompts to **enable BFF functionality**:
+If the BFF plugin is not yet installed in your project, install it first:
 
 ```bash
-? Please select the operation you want to perform Enable optional features
-? Please select the feature to enable Enable "BFF"
+pnpm add @modern-js/plugin-bff
 ```
 
-3. Depending on the chosen runtime framework, add the following code to `modern.config.[tj]s`:
+:::tip Version Consistency
+Make sure the version of `@modern-js/plugin-bff` matches the version of `@modern-js/app-tools` in your project. All Modern.js official packages are released with a uniform version number, and version mismatches may cause compatibility issues.
+
+Check the version of `@modern-js/app-tools` first, then install the same version of `@modern-js/plugin-bff`:
+
+```bash
+# Check the current version of @modern-js/app-tools
+pnpm list @modern-js/app-tools
+
+# Install the same version of @modern-js/plugin-bff
+pnpm add @modern-js/plugin-bff@<version>
+```
+
+:::
+
+2. Configure modern.config.ts
+
+Import and add the BFF plugin in the `modern.config.[tj]s` file:
 
 ```ts title="modern.config.ts"
+import { defineConfig, appTools } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
 
 export default defineConfig({
-  plugins: [bffPlugin()],
+  plugins: [appTools(), bffPlugin()],
 });
+```
+
+3. Configure TypeScript alias
+
+To correctly recognize the `@api` alias in TypeScript, it is recommended to add path mapping in `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      ..., // other paths,
+      "@api/*": ["./api/lambda/*"]
+    }
+  }
+}
 ```

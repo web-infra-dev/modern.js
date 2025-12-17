@@ -79,22 +79,39 @@ Modern.js 内置了默认的 Monitor，不同的事件会触发内置 Monitor �
 目前暂未开放服务端插件，后续会补充相关文档。
 :::
 
-```ts title="server/index.ts"
-import type { CoreMonitors } from '@modern-js/types';
-const injectMonitorMiddleware = c => {
+```ts title="server/modern.server.ts"
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
+import type { MonitorEvent } from '@modern-js/types';
+
+const injectMonitorMiddleware: MiddlewareHandler = async (c, next) => {
   const monitors = c.get('monitors');
   const myMonitor = (event: MonitorEvent) => {
     if (event.type === 'log') {
-      // some code
-    } else {
-      // some other code
+      // 处理日志事件
+      console.log(`[${event.payload.level}] ${event.payload.message}`);
+    } else if (event.type === 'timing') {
+      // 处理性能指标事件
+      console.log(`Timing: ${event.payload.name} = ${event.payload.dur}ms`);
+    } else if (event.type === 'counter') {
+      // 处理计数事件
+      console.log(`Counter: ${event.payload.name}`);
     }
   };
   monitors.push(myMonitor);
-  return next();
+  await next();
 };
 
-export const middlewares = [injectMonitorMiddleware];
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'inject-monitor',
+      handler: injectMonitorMiddleware,
+    },
+  ],
+});
 ```
 
 ## 调用 Monitors
@@ -108,7 +125,7 @@ Modern.js 允许开发者在 Data Loader、组件中调用 Monitors。
 在 Data Loader 中，开发者可以这样使用：
 
 ```ts title="routes/page.data.ts"
-import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+import type { LoaderFunctionArgs } from '@modern-js/runtime/router';
 import { getMonitors } from '@modern-js/runtime';
 const loader = async ({ context }: LoaderFunctionArgs) => {
     const monitors = getMonitors();
@@ -131,7 +148,7 @@ const Page = () => {
   const context = use(RuntimeContext);
   if (process.env.MODERN_TARGET === 'node') {
     const monitors = getMonitors();
-    monitors.info();
+    monitors.info('Page rendered');
   }
   return <div>Hello World</div>;
 };

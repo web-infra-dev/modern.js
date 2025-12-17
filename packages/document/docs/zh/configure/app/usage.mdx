@@ -86,9 +86,9 @@ export default defineConfig(({ env, command }) => ({
 该函数接受以下入参：
 
 - `env`：对应 `process.env.NODE_ENV` 的值。
-  - 当运行 `modern dev` 或 `modern start` 时，`env` 的值为 `development`。
+  - 当运行 `modern dev` 时，`env` 的值为 `development`。
   - 当运行 `modern build` 或 `modern serve` 时，`env` 的值为 `production`。
-- `command`：对应当前运行的命令，如 `dev`、`start`、`build`、`serve`。
+- `command`：对应当前运行的命令，如 `dev`、`build`、`serve`。
 
 #### 导出异步函数
 
@@ -187,7 +187,7 @@ export default defineConfig({
 
 在使用 `modern.config.local.ts` 时，请注意以下事项：
 
-- `modern.config.local.ts` 文件仅会在执行 `modern dev` 或 `modern start` 命令时被加载，当执行 `modern build` 时不会被加载。
+- `modern.config.local.ts` 文件仅会在执行 `modern dev` 命令时被加载，当执行 `modern build` 时不会被加载。
 - `modern.config.local.ts` 文件的优先级不仅高于 `modern.config.ts`，也高于 `package.json` 中的 `modernConfig` 字段。
 - 由于 `modern.config.local.ts` 仅在本地调试时使用，因此不建议将其提交到代码仓库中，请确保项目的 `.gitignore` 文件中包含 `modern.config.local.ts` 等文件。
 

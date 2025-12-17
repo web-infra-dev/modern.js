@@ -16,7 +16,7 @@ sidebar_position: 3
 
 ## 动态 import
 
-使用动态 `import()` 语法，传入的 JS 模块将会被被打包到单独的 JS 文件中。例如：
+使用动态 `import()` 语法，传入的 JS 模块将会被打包到单独的 JS 文件中。例如：
 
 ```ts
 import('./math').then(math => {
@@ -29,7 +29,7 @@ import('./math').then(math => {
 React 官方提供的组件代码分割的方式。
 
 :::caution
-`React.lazy` 通常配合 `<Suspense>` 使用，因此仅在 CSR 或 React 18 Streaming SSR 中可用。
+`React.lazy` 通常配合 `<Suspense>` 使用，因此仅在 CSR 或 React 18+ 的 Streaming SSR 中可用。
 
 对于使用传统 SSR（字符串渲染）的项目，不支持 `React.lazy`，请使用 Loadable API。
 :::

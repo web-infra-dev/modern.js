@@ -6,9 +6,9 @@
 
 ## 启用 BFF
 
-import EnableBFF from "@site-docs/components/enable-bff"
+import EnableBFF from '@site-docs/components/enable-bff';
 
-<EnableBFF/>
+<EnableBFF />
 
 ## BFF 函数
 
@@ -33,11 +33,6 @@ export default () => {
   return <div>{text}</div>;
 };
 ```
-
-:::tip
-在调用 `new` 命令后，Modern.js 生成器会自动在 `tsconfig.json` 中配置 `@api` 别名，因此可以直接通过别名的方式引入函数。
-
-:::
 
 在 `src/routes/page.tsx` 中引入的函数，会自动转换成接口调用，不需要再通过请求 SDK 或 Web Fetch 调用接口。
 
@@ -69,7 +64,7 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 ### 动态路由
 
-同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。动态路由的函数参数规则可以看 [dynamac-path](/guides/advanced-features/bff/function#dynamic-path)。
+同样的，创建命名带有 `[xxx]` 的文件夹或者文件，支持动态的命名路由参数。动态路由的函数参数规则可以看 [dynamac-path](/guides/advanced-features/bff/function.html#dynamic-path)。
 
 - `api/lambda/user/[username]/info.ts` -> `{prefix}/user/:username/info`
 - `api/lambda/user/username/[action].ts` -> `{prefix}/user/username/:action`
@@ -258,9 +253,9 @@ export default () => {
 
 ## 扩展 BFF 函数
 
-import ExtendBFF from "@site-docs/components/extend-bff-function"
+import ExtendBFF from '@site-docs/components/extend-bff-function';
 
-<ExtendBFF/>
+<ExtendBFF />
 
 ## 代码共享
 
