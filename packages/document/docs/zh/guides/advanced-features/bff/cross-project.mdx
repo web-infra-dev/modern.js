@@ -7,8 +7,9 @@ import { PackageManagerTabs } from '@theme';
 
 ## BFF 生产端
 
-升级 Modern.js 相关依赖到 x.64.4 及以上版本，通过配置即可启用跨项目调用能力。你可以将已启用 BFF 能力的项目视为 BFF 生产端，也可以单独创建独立的 BFF 应用。
-当执行 `dev` 或 `build`，都会自动生成供消费端使用的产物，包括：
+你可以将已启用 BFF 能力的项目视为 BFF 生产端，也可以单独创建独立的 BFF 应用。
+当执行 `start` 或 `build`，都会自动生成供消费端使用的产物，包括：
+
 - `dist/client` 目录下的接口函数
 - `dist/runtime` 目录下的运行时配置函数
 - `package.json` 中 `exports` 定义接口函数出口
@@ -24,10 +25,9 @@ import { PackageManagerTabs } from '@theme';
 export default defineConfig({
   bff: {
     crossProject: true,
-  }
+  },
 });
 ```
-
 
 2. 生成 SDK 类型文件
 
@@ -35,15 +35,9 @@ export default defineConfig({
 
 ```ts title="tsconfig.json"
 "compilerOptions": {
-    "declaration": true,
+  "declaration": true,
 }
 ```
-
-### 创建 BFF 应用
-
-import CreateApi from "@site-docs/components/create-bff-api-app"
-
-<CreateApi/>
 
 ## BFF 消费端
 
@@ -96,9 +90,9 @@ import { configure as innerConfigure } from '@modern-js/plugin-bff/client';
 import axios from 'axios';
 
 configure({
-    setDomain() {
-        return 'https://your-bff-api.com';
-    },
+  setDomain() {
+    return 'https://your-bff-api.com';
+  },
 });
 
 innerConfigure({
@@ -115,6 +109,4 @@ innerConfigure({
     return res.data;
   },
 });
-
-
 ```

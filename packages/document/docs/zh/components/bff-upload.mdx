@@ -5,7 +5,7 @@ BFF 搭配运行时框架提供了文件上传能力，支持一体化调用及�
 首先创建 `api/lambda/upload.ts` 文件：
 
 ```ts title="api/lambda/upload.ts"
-export const post = async ({ formData }: {formData: Record<string, any>}) => {
+export const post = async ({ formData }: { formData: Record<string, any> }) => {
   console.info('formData:', formData);
   // do somethings
   return {
@@ -15,6 +15,7 @@ export const post = async ({ formData }: {formData: Record<string, any>}) => {
   };
 };
 ```
+
 :::tip
 通过接口处理函数入参中的 `formData` 可以获取客户端上传的文件。值为 `Object`，key 为上传时的字段名。
 :::
@@ -22,9 +23,10 @@ export const post = async ({ formData }: {formData: Record<string, any>}) => {
 ### 一体化调用
 
 接着在 `src/routes/upload/page.tsx` 中直接引入函数并调用：
+
 ```tsx title="routes/upload/page.tsx"
 import { post } from '@api/upload';
-import React from 'react';
+import React, { type JSX } from 'react';
 
 export default (): JSX.Element => {
   const [file, setFile] = React.useState<FileList | null>();
@@ -33,7 +35,7 @@ export default (): JSX.Element => {
     setFile(e.target.files);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const formData = new FormData();
     if (file) {
@@ -49,17 +51,19 @@ export default (): JSX.Element => {
   return (
     <div>
       <input multiple type="file" onChange={handleChange} />
-      <button onClick={handleUpload}>upload</button>
+      <button onClick={handleSubmit}>upload</button>
     </div>
   );
 };
 ```
+
 :::tip
 注意：入参类型必须为：`{ formData: FormData }` 才会正确上传。
 
 :::
 
 ### 手动上传
+
 可以基于 `fetch API` 手动上传文件，需要在调用 `fetch` 时，将 `body` 设置为 `FormData` 类型并提交 `post` 请求。
 
 ```tsx title="routes/upload/page.tsx"
@@ -93,5 +97,4 @@ export default (): JSX.Element => {
     </form>
   );
 };
-
 ```

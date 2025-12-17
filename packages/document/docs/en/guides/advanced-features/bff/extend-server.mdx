@@ -6,13 +6,28 @@ Modern.js allows users to freely extend the BFF Server through [Middleware](/gui
 
 ## Using Middleware
 
+:::tip Version Consistency
+Before using middleware, you need to install the `@modern-js/server-runtime` dependency. Make sure the version of `@modern-js/server-runtime` matches the version of `@modern-js/app-tools` in your project. All Modern.js official packages are released with a uniform version number, and version mismatches may cause compatibility issues.
+
+Check the version of `@modern-js/app-tools` first, then install the same version of `@modern-js/server-runtime`:
+
+```bash
+# Check the current version of @modern-js/app-tools
+pnpm list @modern-js/app-tools
+
+# Install the same version of @modern-js/server-runtime
+pnpm add @modern-js/server-runtime@<version>
+```
+
+:::
+
 Developers can use middleware by configuring middlewares in `server/modern.server.ts`. The following describes how to write a BFF middleware manually to add permission verification:
 
 ```ts title="server/modern.server.ts"
 import {
   type MiddlewareHandler,
   defineServerConfig,
-  getCookie
+  getCookie,
 } from '@modern-js/server-runtime';
 
 const requireAuthForApi: MiddlewareHandler = async (c, next) => {
@@ -31,9 +46,8 @@ export default defineServerConfig({
       name: 'require-auth-for-api',
       handler: requireAuthForApi,
     },
-  ]
+  ],
 });
-
 ```
 
 Then add a regular BFF function `api/lambda/hello.ts`:

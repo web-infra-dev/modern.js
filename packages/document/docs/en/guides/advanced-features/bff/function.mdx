@@ -34,10 +34,6 @@ export default () => {
 };
 ```
 
-:::tip
-After running the `new` command, the Modern.js generator will automatically configure the `@api` alias in `tsconfig.json`, allowing you to import functions directly using the alias.
-:::
-
 The function imported in `src/routes/page.tsx` will be automatically converted into an API call, eliminating the need to use an SDK or Web Fetch to call the API.
 
 After running `pnpm run dev`, open `http://localhost:8080/` and you can see that the page displays the content returned by the BFF function. In the Network tab, you can see a request was made to `http://localhost:8080/api/hello`.
