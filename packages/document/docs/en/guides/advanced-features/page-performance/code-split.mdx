@@ -16,7 +16,7 @@ When using Modern.js [Conventional routing](/guides/basic-features/routes/routes
 
 ## Dynamic import
 
-use dynamic `import()`, the JS modules pass to this API will be bundled as a separate JS file, for example:
+When using dynamic `import()`, the JS modules passed to this API will be bundled as a separate JS file. For example:
 
 ```ts
 import('./math').then(math => {
@@ -26,10 +26,10 @@ import('./math').then(math => {
 
 ## React.lazy
 
-The officially way provides by React to split component code.
+The official way provided by React to split component code.
 
 :::caution
-`React.lazy` is typically used in together with `<Suspense>`, hence it is only available in CSR or React 18 Streaming SSR.
+`React.lazy` is typically used together with `<Suspense>`, hence it is only available in CSR or React 18+ Streaming SSR.
 
 For projects that use Traditional SSR（renderToString）, `React.lazy` is not supported. Please use the Loadable API instead.
 :::

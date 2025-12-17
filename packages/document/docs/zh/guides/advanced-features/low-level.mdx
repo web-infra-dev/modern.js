@@ -6,14 +6,16 @@ sidebar_position: 10
 
 ## 使用方式
 
-Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、[Webpack](https://webpack.js.org/)、[PostCSS](https://postcss.org/)、[Tailwind CSS](https://tailwindcss.com/) 等工具。通常情况下，默认配置能够满足大多业务开发需求。当有特殊需求时，可以通过底层配置来实现。
+Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、[Rspack](https://rspack.rs/)、[PostCSS](https://postcss.org/)、[SWC](https://swc.rs/) 等工具。通常情况下，默认配置能够满足大多业务开发需求。当有特殊需求时，可以通过底层配置来实现。
 
 以配置 Rspack 为例，只需要在 `modern.config.ts` 中添加 [`tools.rspack`](/configure/app/tools/rspack) 即可：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
-    webpack: config => {},
+    rspack: config => {
+      // 修改 Rspack 配置
+    },
   },
 });
 ```
@@ -28,12 +30,21 @@ export default defineConfig({
 
 目前提供的底层配置如下表：
 
-| 底层工具     | 配置                                                    |
-| ------------ | ------------------------------------------------------- |
-| DevServer    | [tools.devServer](/configure/app/tools/dev-server)      |
-| Babel        | [tools.babel](/configure/app/tools/babel)               |
-| PostCSS      | [tools.postcss](/configure/app/tools/postcss)           |
-| Less         | [tools.less](/configure/app/tools/less)                 |
-| Sass         | [tools.sass](/configure/app/tools/sass)                 |
-| Minify CSS   | [tools.minifyCss](/configure/app/tools/minify-css)      |
-| Autoprefixer | [tools.autoprefixer](/configure/app/tools/autoprefixer) |
+| 底层工具           | 配置                                                                 |
+| ------------------ | -------------------------------------------------------------------- |
+| Rspack             | [tools.rspack](/configure/app/tools/rspack)                          |
+| Bundler Chain      | [tools.bundlerChain](/configure/app/tools/bundler-chain)             |
+| SWC                | [tools.swc](/configure/app/tools/swc)                                |
+| Babel              | [tools.babel](/configure/app/tools/babel)                            |
+| TypeScript Checker | [tools.tsChecker](/configure/app/tools/ts-checker)                   |
+| DevServer          | [tools.devServer](/configure/app/tools/dev-server)                   |
+| PostCSS            | [tools.postcss](/configure/app/tools/postcss)                        |
+| Less               | [tools.less](/configure/app/tools/less)                              |
+| Sass               | [tools.sass](/configure/app/tools/sass)                              |
+| CSS Extract        | [tools.cssExtract](/configure/app/tools/css-extract)                 |
+| CSS Loader         | [tools.cssLoader](/configure/app/tools/css-loader)                   |
+| Style Loader       | [tools.styleLoader](/configure/app/tools/style-loader)               |
+| Lightning CSS      | [tools.lightningcssLoader](/configure/app/tools/lightningcss-loader) |
+| Minify CSS         | [tools.minifyCss](/configure/app/tools/minify-css)                   |
+| Autoprefixer       | [tools.autoprefixer](/configure/app/tools/autoprefixer)              |
+| HTML Plugin        | [tools.htmlPlugin](/configure/app/tools/html-plugin)                 |

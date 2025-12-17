@@ -79,22 +79,39 @@ Developers can register their own Monitors using the `push` API, but this can on
 Server plugins are currently not available, and documentation will be added in the future.
 :::
 
-```ts title="server/index.ts"
-import type { CoreMonitors } from '@modern-js/types';
-const injectMonitorMiddleware = c => {
+```ts title="server/modern.server.ts"
+import {
+  defineServerConfig,
+  type MiddlewareHandler,
+} from '@modern-js/server-runtime';
+import type { MonitorEvent } from '@modern-js/types';
+
+const injectMonitorMiddleware: MiddlewareHandler = async (c, next) => {
   const monitors = c.get('monitors');
   const myMonitor = (event: MonitorEvent) => {
     if (event.type === 'log') {
-      // some code
-    } else {
-      // some other code
+      // Handle log events
+      console.log(`[${event.payload.level}] ${event.payload.message}`);
+    } else if (event.type === 'timing') {
+      // Handle timing events
+      console.log(`Timing: ${event.payload.name} = ${event.payload.dur}ms`);
+    } else if (event.type === 'counter') {
+      // Handle counter events
+      console.log(`Counter: ${event.payload.name}`);
     }
   };
   monitors.push(myMonitor);
-  return next();
+  await next();
 };
 
-export const middlewares = [injectMonitorMiddleware];
+export default defineServerConfig({
+  middlewares: [
+    {
+      name: 'inject-monitor',
+      handler: injectMonitorMiddleware,
+    },
+  ],
+});
 ```
 
 ## Use Monitors
@@ -131,7 +148,7 @@ const Page = () => {
   const context = use(RuntimeContext);
   if (process.env.MODERN_TARGET === 'node') {
     const monitors = getMonitors();
-    monitors.info();
+    monitors.info('Page rendered');
   }
   return <div>Hello World</div>;
 };
@@ -153,7 +170,7 @@ export const handler: MiddlewareHandler = async (c, next) => {
   await next();
 
   const end = Date.now();
-  // 上报耗时
+  // Report timing
   monitors.timing('request_timing', end - start);
 };
 

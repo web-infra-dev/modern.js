@@ -6,7 +6,7 @@ sidebar_position: 10
 
 ## Usage
 
-Modern.js internally integrates tools such as [Babel](https://babeljs.io/), [TypeScript](https://www.typescriptlang.org/), [Webpack](https://webpack.js.org/), [PostCSS](https://postcss.org/), [Tailwind CSS](https://tailwindcss.com/) by default.
+Modern.js internally integrates tools such as [Babel](https://babeljs.io/), [TypeScript](https://www.typescriptlang.org/), [Rspack](https://rspack.rs/), [PostCSS](https://postcss.org/), [SWC](https://swc.rs/) by default.
 
 Usually, the default configuration can meet most development needs. When there are special needs, it can be achieved through the underlying configuration.
 
@@ -15,7 +15,9 @@ Take configuring Rspack as an example, just add [tools.rspack](/configure/app/to
 ```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
-    webpack: config => {},
+    rspack: config => {
+      // Modify Rspack configuration
+    },
   },
 });
 ```
@@ -30,12 +32,21 @@ When the value is `Function`, the first parameter is the default configuration v
 
 Currently provided is as follows:
 
-| Tools        | Config                                                  |
-| ------------ | ------------------------------------------------------- |
-| DevServer    | [tools.devServer](/configure/app/tools/dev-server)      |
-| Babel        | [tools.babel](/configure/app/tools/babel)               |
-| PostCSS      | [tools.postcss](/configure/app/tools/postcss)           |
-| Less         | [tools.less](/configure/app/tools/less)                 |
-| Sass         | [tools.sass](/configure/app/tools/sass)                 |
-| Minify CSS   | [tools.minifyCss](/configure/app/tools/minify-css)      |
-| Autoprefixer | [tools.autoprefixer](/configure/app/tools/autoprefixer) |
+| Tools            | Config                                                          |
+| ---------------- | --------------------------------------------------------------- |
+| Rspack           | [tools.rspack](/configure/app/tools/rspack)                     |
+| Bundler Chain    | [tools.bundlerChain](/configure/app/tools/bundler-chain)        |
+| SWC              | [tools.swc](/configure/app/tools/swc)                           |
+| Babel            | [tools.babel](/configure/app/tools/babel)                       |
+| TypeScript Checker | [tools.tsChecker](/configure/app/tools/ts-checker)              |
+| DevServer        | [tools.devServer](/configure/app/tools/dev-server)              |
+| PostCSS          | [tools.postcss](/configure/app/tools/postcss)                   |
+| Less             | [tools.less](/configure/app/tools/less)                         |
+| Sass             | [tools.sass](/configure/app/tools/sass)                         |
+| CSS Extract      | [tools.cssExtract](/configure/app/tools/css-extract)            |
+| CSS Loader       | [tools.cssLoader](/configure/app/tools/css-loader)              |
+| Style Loader     | [tools.styleLoader](/configure/app/tools/style-loader)           |
+| Lightning CSS    | [tools.lightningcssLoader](/configure/app/tools/lightningcss-loader) |
+| Minify CSS       | [tools.minifyCss](/configure/app/tools/minify-css)              |
+| Autoprefixer     | [tools.autoprefixer](/configure/app/tools/autoprefixer)         |
+| HTML Plugin      | [tools.htmlPlugin](/configure/app/tools/html-plugin)            |

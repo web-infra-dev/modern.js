@@ -8,18 +8,47 @@ Modern.js 将大部分项目需要的服务端能力都进行了封装，通常�
 
 ## 开启自定义 Web Server
 
-:::tip
-必须确保 Modern.js 版本是 x.67.5 及以上。
-:::
+要在 Modern.js 项目中启用自定义 Web Server 功能，请按照以下步骤操作：
 
-开发者可以在项目根目录执行 `pnpm run new` 命令，开启「自定义 Web Server」功能：
+1. 安装 server-runtime 依赖
+
+如果项目尚未安装 `@modern-js/server-runtime` 依赖，请先安装：
 
 ```bash
-? 请选择你想要的操作 创建工程元素
-? 请选择创建元素类型 新建「自定义 Web Server」源码目录
+pnpm add @modern-js/server-runtime
 ```
 
-执行命令后，项目目录下会自动创建 `server/modern.server.ts` 文件，可以在这个文件中编写自定义逻辑。
+:::tip 版本一致性
+请确保 `@modern-js/server-runtime` 的版本与项目中 `@modern-js/app-tools` 的版本保持一致。Modern.js 的所有官方包使用统一版本号发布，版本不一致可能导致兼容性问题。
+
+请先查看 `@modern-js/app-tools` 的版本，然后安装相同版本的 `@modern-js/server-runtime`：
+
+```bash
+# 查看当前 @modern-js/app-tools 的版本
+pnpm list @modern-js/app-tools
+
+# 安装相同版本的 @modern-js/server-runtime
+pnpm add @modern-js/server-runtime@<版本号>
+```
+
+:::
+
+2. 创建 `server` 目录和配置文件
+
+在项目根目录下创建 `server/modern.server.ts` 文件：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+
+export default defineServerConfig({
+  middlewares: [], // 中间件
+  renderMiddlewares: [], // 渲染中间件
+  plugins: [], // 插件
+  onError: () => {}, // 错误处理
+});
+```
+
+创建文件后，可以在这个文件中编写自定义逻辑。
 
 ## 自定义 Web Server 能力
 
