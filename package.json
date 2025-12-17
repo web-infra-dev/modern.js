@@ -84,7 +84,7 @@
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
-        "@mdx-js/react@^1.6.22>react": "18"
+        "react-side-effect@2.1.2>react": "19"
       }
     },
     "allowedDeprecatedVersions": {
