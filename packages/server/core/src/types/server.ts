@@ -107,9 +107,9 @@ type ServerVariables = {
   locals?: Record<string, any>;
 
   /**
-   * The current matched route, now only expose entryName field.
+   * The current matched route, now only expose entryName and urlPath.
    */
-  route: Required<Pick<ServerRoute, 'entryName'>>;
+  route: Required<Pick<ServerRoute, 'entryName' | 'urlPath'>>;
 };
 
 export type ServerEnv = {
