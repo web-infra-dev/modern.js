@@ -70,7 +70,7 @@ export const Button = (props: { mfData: Data }) => {
 
 ## 消费组件
 
-消费者必须使用 createLazyComponent 的方式加载远程组件，并指定 export 为 'default'。
+消费者必须使用 [`createLazyComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/load-component.html#createlazycomponent-api-%E5%8F%82%E8%80%83) 的方式加载远程组件，并指定 export 为 'default'。
 
 ```tsx title="src/routes/page.tsx"
 import type { JSX } from 'react';
