@@ -47,11 +47,6 @@
     "react-dom": ">=17.0.0",
     "react-server-dom-webpack": "^19.0.3"
   },
-  "peerDependenciesMeta": {
-    "react-server-dom-webpack": {
-      "optional": true
-    }
-  },
   "exports": {
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
