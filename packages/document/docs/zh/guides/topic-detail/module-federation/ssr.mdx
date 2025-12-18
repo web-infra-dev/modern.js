@@ -56,7 +56,6 @@ export const fetchData = async (params: DataFetchParams): Promise<Data> => {
 
 ```ts title="src/components/Button.tsx"
 import React from 'react';
-import './index.css';
 import type { Data } from './Button.data';
 
 export const Button = (props: { mfData: Data }) => {
@@ -67,4 +66,53 @@ export const Button = (props: { mfData: Data }) => {
     </button>
   );
 };
+```
+
+## 消费组件
+
+消费者必须使用 [`createLazyComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/load-component.html#createlazycomponent-api-%E5%8F%82%E8%80%83) 的方式加载远程组件，并指定 export 为 'default'。
+
+```tsx title="src/routes/page.tsx"
+import type { JSX } from 'react';
+import { getInstance } from '@module-federation/modern-js/runtime';
+import {
+  ERROR_TYPE,
+  lazyLoadComponentPlugin,
+} from '@module-federation/modern-js/react';
+
+const instance = getInstance();
+instance!.registerPlugins([lazyLoadComponentPlugin()]);
+
+const Button = instance!.createLazyComponent({
+  loader: () => {
+    return import('remote/Button');
+  },
+  loading: 'loading...',
+  export: 'Button', // 这里需要配置为远程组件的 export 名称
+  fallback: ({ error, errorType, dataFetchMapKey }) => {
+    console.error(error);
+    if (errorType === ERROR_TYPE.LOAD_REMOTE) {
+      return <div>load remote failed</div>;
+    }
+    if (errorType === ERROR_TYPE.DATA_FETCH) {
+      return (
+        <div>
+          data fetch failed, the dataFetchMapKey key is: {dataFetchMapKey}
+        </div>
+      );
+    }
+    return <div>error type is unknown</div>;
+  },
+});
+
+const Index = (): JSX.Element => {
+  return (
+    <div>
+      <h1>Basic usage with data fetch</h1>
+      <Button />
+    </div>
+  );
+};
+
+export default Index;
 ```
