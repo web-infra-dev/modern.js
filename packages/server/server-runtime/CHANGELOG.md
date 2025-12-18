@@ -1,5 +1,12 @@
 # @modern-js/server-runtime
 
+## 2.69.5
+
+### Patch Changes
+
+- @modern-js/server-core@2.69.5
+- @modern-js/runtime-utils@2.69.5
+
 ## 2.69.4
 
 ### Patch Changes
