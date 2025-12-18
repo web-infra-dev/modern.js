@@ -1,5 +1,15 @@
 # @modern-js/render
 
+## 2.69.5
+
+### Patch Changes
+
+- 743bc76: refactor: move react-server-dom-webpack to peer dependency
+  refactor: 移动 react-server-dom-webpack 到 peerDependency 中
+- Updated dependencies [743bc76]
+  - @modern-js/types@2.69.5
+  - @modern-js/utils@2.69.5
+
 ## 2.69.4
 
 ### Patch Changes

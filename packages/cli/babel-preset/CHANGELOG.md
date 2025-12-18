@@ -1,5 +1,7 @@
 # @modern-js/babel-preset
 
+## 2.69.5
+
 ## 2.69.4
 
 ## 2.69.3

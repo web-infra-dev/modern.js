@@ -1,5 +1,12 @@
 # @modern-js/bff-core
 
+## 2.69.5
+
+### Patch Changes
+
+- Updated dependencies [743bc76]
+  - @modern-js/utils@2.69.5
+
 ## 2.69.4
 
 ### Patch Changes
