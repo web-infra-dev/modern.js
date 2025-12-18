@@ -56,7 +56,6 @@ In Button, we get the data from the `Props`:
 
 ```ts title="src/components/Button.tsx"
 import React from 'react';
-import './index.css';
 import type { Data } from './Button.data';
 
 export const Button = (props: { mfData: Data }) => {
@@ -67,4 +66,53 @@ export const Button = (props: { mfData: Data }) => {
     </button>
   );
 };
+```
+
+## Consuming Components
+
+Consumers must use `createLazyComponent` to load remote components and specify the export as the component name.
+
+```tsx title="src/routes/page.tsx"
+import type { JSX } from 'react';
+import { getInstance } from '@module-federation/modern-js/runtime';
+import {
+  ERROR_TYPE,
+  lazyLoadComponentPlugin,
+} from '@module-federation/modern-js/react';
+
+const instance = getInstance();
+instance!.registerPlugins([lazyLoadComponentPlugin()]);
+
+const Button = instance!.createLazyComponent({
+  loader: () => {
+    return import('remote/Button');
+  },
+  loading: 'loading...',
+  export: 'Button', // Configure this as the export name of the remote component
+  fallback: ({ error, errorType, dataFetchMapKey }) => {
+    console.error(error);
+    if (errorType === ERROR_TYPE.LOAD_REMOTE) {
+      return <div>load remote failed</div>;
+    }
+    if (errorType === ERROR_TYPE.DATA_FETCH) {
+      return (
+        <div>
+          data fetch failed, the dataFetchMapKey key is: {dataFetchMapKey}
+        </div>
+      );
+    }
+    return <div>error type is unknown</div>;
+  },
+});
+
+const Index = (): JSX.Element => {
+  return (
+    <div>
+      <h1>Basic usage with data fetch</h1>
+      <Button />
+    </div>
+  );
+};
+
+export default Index;
 ```
