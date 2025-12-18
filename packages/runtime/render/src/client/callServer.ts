@@ -52,6 +52,11 @@ export async function requestCallServer(id: string, args: ReactServerValue) {
   const url = entryName === 'main' ? '/' : `/${entryName}`;
 
   try {
+    // Dynamically import encodeReply to avoid bundling react-server-dom-webpack in non-RSC projects
+    const { encodeReply } = await import(
+      'react-server-dom-webpack/client.browser'
+    );
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -86,6 +91,10 @@ export async function callServer(
   id: string,
   args: ReactServerValue,
 ): Promise<any> {
+  const { createFromFetch } = await import(
+    'react-server-dom-webpack/client.browser'
+  );
+
   const response = requestCallServer(id, args);
   const res = createFromFetch(response, {
     callServer,

@@ -61,6 +61,12 @@ export function initSourceConfig(
   if (bundler === 'webpack') {
     config.source.moduleScopes = createBuilderModuleScope(config);
   }
+
+  // When server.rsc is true, automatically set process.env.MODERN_RSC via source.define
+  config.source.define = {
+    ...config.source.define,
+    'process.env.MODERN_RSC': config.server?.rsc ? 'true' : 'false',
+  };
 }
 
 function createBuilderInclude(

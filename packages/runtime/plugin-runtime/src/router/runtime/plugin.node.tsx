@@ -32,16 +32,30 @@ import {
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
-import {
-  RSCStaticRouter,
-  createServerPayload,
-  handleRSCRedirect,
-  prepareRSCRoutes,
-} from './rsc-router';
+import type { RSCStaticRouterProps } from './rsc-router';
 import type { RouterConfig } from './types';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
-function createRemixReuqest(request: Request) {
+let RSCStaticRouter: React.FC<RSCStaticRouterProps> | null = null;
+let importPromise: Promise<React.FC<RSCStaticRouterProps>> | null = null;
+
+async function loadRSCStaticRouter() {
+  if (RSCStaticRouter) return RSCStaticRouter;
+  if (importPromise) return importPromise;
+  importPromise = import('./rsc-router').then(
+    ({ RSCStaticRouter: StaticRouter }) => {
+      RSCStaticRouter = StaticRouter;
+      return RSCStaticRouter;
+    },
+  );
+  return importPromise;
+}
+
+function getRSCStaticRouter() {
+  return RSCStaticRouter;
+}
+
+function createRemixRequest(request: Request) {
   const method = 'GET';
   const { headers } = request;
   const controller = new AbortController();
@@ -86,8 +100,9 @@ export const routerPlugin = (
         }
 
         const enableRsc = getGlobalEnableRsc();
-
         if (enableRsc) {
+          const { prepareRSCRoutes } = await import('./rsc-router');
+          await loadRSCStaticRouter();
           await prepareRSCRoutes(finalRouteConfig.routes);
         }
 
@@ -139,7 +154,7 @@ export const routerPlugin = (
 
         // We can't pass post request to query,due to post request would trigger react-router submit action.
         // But user maybe do not define action for page.
-        const remixRequest = createRemixReuqest(
+        const remixRequest = createRemixRequest(
           context.ssrContext!.request.raw,
         );
 
@@ -157,6 +172,7 @@ export const routerPlugin = (
           // React Router would return a Response when redirects occur in loader.
           // Throw the Response to bail out and let the server handle it with an HTTP redirect
           if (enableRsc && isRSCNavigation) {
+            const { handleRSCRedirect } = await import('./rsc-router');
             return interrupt(
               handleRSCRedirect(
                 routerContext.headers,
@@ -195,6 +211,7 @@ export const routerPlugin = (
             }
           }
 
+          const { createServerPayload } = await import('./rsc-router');
           payload = createServerPayload(routerContext, routes);
           setServerPayload(payload);
         }
@@ -247,6 +264,12 @@ export const routerPlugin = (
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;
             } else {
+              const RSCStaticRouter = getRSCStaticRouter();
+              if (!RSCStaticRouter) {
+                throw new Error(
+                  'RSCStaticRouter is not initialized. This should not happen when RSC is enabled.',
+                );
+              }
               return App ? (
                 <App>
                   <RSCStaticRouter basename={basename} />

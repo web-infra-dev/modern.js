@@ -14,17 +14,16 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import * as React from 'react';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { type RuntimePluginFuture, RuntimeReactContext } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { getGlobalIsRscClient } from '../../core/context';
-import type { RuntimeContext } from '../../core/context/runtime';
+import { createClientRouterFromPayload } from './create-client-router';
 import {
   type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
 } from './hooks';
-import { createClientRouterFromPayload } from './rsc-router';
 import type { RouterConfig, Routes } from './types';
 import {
   createRouteObjectsFromConfig,
