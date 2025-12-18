@@ -347,7 +347,7 @@ Create a `page.data.ts` file in the same directory as `page.tsx`. This file is t
 ```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
 
-export const loader = () => {
+export const loader = async () => {
   const user = await getUser();
   if (!user) {
     return redirect('/login');

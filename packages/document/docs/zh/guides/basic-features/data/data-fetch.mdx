@@ -160,8 +160,9 @@ SSR 应用的 `loader` 函数只在服务端执行可以带来以下好处：
 ```tsx
 export async function loader() {
   const res = await fetch('URL_ADDRESS');
+  const data = await res.json();
   return {
-    message: res.message
+    message: data.message
   }
 }
 ```

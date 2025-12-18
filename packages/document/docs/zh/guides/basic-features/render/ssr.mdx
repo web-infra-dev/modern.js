@@ -88,9 +88,10 @@ export async function loader({ params }) {
   if (cache.has(params.id)) {
     return cache.get(params.id);
   }
-  const res = await fetch('URL_ADDRESS?id={params.id}');
+  const res = await fetch(`URL_ADDRESS?id=${params.id}`);
+  const data = await res.json();
   return {
-    message: res.message,
+    message: data.message,
   }
 }
 ```

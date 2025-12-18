@@ -26,14 +26,14 @@ import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
 export default {
   // ...
   tools: {
-    rspack(config, { appendPlugins }) {
+    bundlerChain(chain) {
       // 仅在 RSDOCTOR 为 true 时注册插件，因为插件会增加构建耗时
       if (process.env.RSDOCTOR) {
-        appendPlugins(
-          new RsdoctorRspackPlugin({
+        chain.plugin('rsdoctor').use(RsdoctorRspackPlugin, [
+          {
             // 插件选项
-          }),
-        );
+          },
+        ]);
       }
     },
   },
@@ -46,7 +46,7 @@ export default {
 
 ## 执行构建
 
-在你可以在项目内执行 build 命令，在完成构建后，Rsdoctor 会自动打开本次构建的分析页面。
+你可以在项目内执行 build 命令，在完成构建后，Rsdoctor 会自动打开本次构建的分析页面。
 
 ```bash
 RSDOCTOR=true npm run build

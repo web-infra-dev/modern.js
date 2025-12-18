@@ -167,9 +167,11 @@ For example, there are two files `src/index.ts` and `src/index.module.scss` unde
 import styles from './index.module.scss';
 
 export default () => {
-  <div>
-    <div className={styles.pageHeader}>Page Header</div>
-  </div>;
+  return (
+    <div>
+      <div className={styles.pageHeader}>Page Header</div>
+    </div>
+  );
 };
 ```
 

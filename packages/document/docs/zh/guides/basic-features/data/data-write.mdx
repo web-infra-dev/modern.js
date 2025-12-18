@@ -29,7 +29,7 @@ Modern.js 推荐使用[约定式路由](/guides/basic-features/routes/routes)做
 ```ts title="routes/user/layout.data.ts"
 import type { ActionFunction } from '@modern-js/runtime/router';
 
-export const action: ActionFunction = ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const newUser = await request.json();
   const name = newUser.name;
   return updateUserProfile(name);
@@ -97,7 +97,7 @@ export const action = async ({ params }: ActionFunctionArgs) => {
 
 ### request
 
-`request` 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。通过 `request`，可以在 action 函数中获取到浏览器端提交的数据，如 `request.json()`，`request.formData()`，`request.json()` 等。具体使用哪个 API，请参考[数据类型](#数据类型)。
+`request` 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。通过 `request`，可以在 action 函数中获取到浏览器端提交的数据，如 `request.json()`，`request.formData()`，`request.text()` 等。具体使用哪个 API，请参考[数据类型](#数据类型)。
 
 ```tsx title="routes/user/[id]/page.data.ts"
 import { ActionFunctionArgs } from '@modern-js/runtime/router';

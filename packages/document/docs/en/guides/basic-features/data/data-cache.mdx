@@ -123,7 +123,11 @@ const getDashboardStats = cache(
 
 The `revalidate` parameter sets a time window for revalidating the cache after it expires. It can be used together with the `maxAge` parameter, similar to HTTP Cache-Control's stale-while-revalidate mode.
 
-In the following example, within the 2-minute period before the cache expires, calls to `getDashboardStats` will return cached data. If the cache has expired (between 2 and 3 minutes), requests will first return the old data, then refresh the data in the background and update the cache.
+In the following example, the cache behavior is divided into three phases based on time:
+
+1. **0 to 2 minutes (within `maxAge`)**: Cache is fresh, returns cached data directly without re-fetching
+2. **2 to 3 minutes (between `maxAge` and `maxAge + revalidate`)**: Cache has expired but is within the revalidation window, returns stale data immediately while re-fetching and updating the cache in the background
+3. **Beyond 3 minutes (exceeding `maxAge + revalidate`)**: Cache is completely expired, re-executes the function to fetch new data
 
 ```ts
 import { cache, CacheTime } from '@modern-js/runtime/cache';
