@@ -28,7 +28,7 @@ SVG 图片是一种特殊情况，Modern.js 提供了 SVG 转 React 组件的能
 // 引用 static 目录下的 logo.png 图片
 import logo from './static/logo.png';
 
-export default = () => <img src={logo} />;
+export default () => <img src={logo} />;
 ```
 
 也支持使用[路径别名](/guides/basic-features/alias.html)来引用：
@@ -36,7 +36,7 @@ export default = () => <img src={logo} />;
 ```tsx
 import logo from '@/static/logo.png';
 
-export default = () => <img src={logo} />;
+export default () => <img src={logo} />;
 ```
 
 ## 在 CSS 文件中引用

@@ -6,17 +6,17 @@ Jest 是一个 JavaScript 测试框架，它主要和 React Testing Library 一�
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command={{ 
-  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
-  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+<PackageManagerTabs command={{
+  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom",
+  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom",
   pnpm: "pnpm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom"
 }} />
 
-随后，你可以运行以下命令，这将自动在项目中初始化 Jets，并生成一个基础的 `jest.config.[jt]s` 配置：
+随后，你可以运行以下命令，这将自动在项目中初始化 Jest，并生成一个基础的 `jest.config.[jt]s` 配置：
 
-<PackageManagerTabs command={{ 
-  npm: "npm init jest@latest", 
-  yarn: "yarn create jest@latest", 
+<PackageManagerTabs command={{
+  npm: "npm init jest@latest",
+  yarn: "yarn create jest@latest",
   pnpm: "pnpm create jest@latest"
 }} />
 
@@ -28,9 +28,9 @@ import { PackageManagerTabs } from '@theme';
 
 相比于其他的测试框架，Jest 在构建层面需要更多的配置，例如处理 JSX 和 ESM 语法，因此首先需要安装一些额外的依赖：
 
-<PackageManagerTabs command={{ 
-  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
-  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+<PackageManagerTabs command={{
+  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript",
+  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript",
   pnpm: "pnpm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript"
 }} />
 
@@ -78,7 +78,7 @@ module.exports = {
 
 ## 编写测试用例
 
-现在，你可以开始编写测试用了，首先在 `package.json` 中添加一个 `test` 命令：
+现在，你可以开始编写测试用例了，首先在 `package.json` 中添加一个 `test` 命令：
 
 ```json title="package.json"
 {

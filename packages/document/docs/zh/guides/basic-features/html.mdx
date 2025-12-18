@@ -35,7 +35,7 @@ Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.[jt]sx
 
 ### HTML 组件
 
-Modern.js 提供了一些列渲染页面的组件，用来帮助开发者生成模板，可以从 `@modern-js/runtime/document` 中使用这些组件：
+Modern.js 提供了一系列渲染页面的组件，用来帮助开发者生成模板，可以从 `@modern-js/runtime/document` 中使用这些组件：
 
 ```tsx
 import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
@@ -154,7 +154,7 @@ export default function Document(): React.ReactElement {
 你可以使用 `<Scripts>` 组件，将构建生成的 `<script>` 标签插入到 `<body>` 标签内：
 
 ```tsx
-import React, { useContext } from 'react';
+import React from 'react';
 import { Html, Root, Head, Body, Scripts } from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {

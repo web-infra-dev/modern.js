@@ -70,7 +70,7 @@ module.exports = {
 
 ```ts
 export default {
-  'api/getInfo': (req, res) => {
+  '/api/getInfo': (req, res) => {
     setTimeout(() => {
       res.end('delay 2000ms');
     }, 2000);
@@ -83,6 +83,9 @@ export default {
 Under the `config/mock/index.ts`, you can also export the `config` to control the Mock service.
 
 ```ts
+import type { IncomingMessage } from 'node:http';
+import type { ServerResponse } from 'node:http';
+
 type MockConfig = {
   enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
 };

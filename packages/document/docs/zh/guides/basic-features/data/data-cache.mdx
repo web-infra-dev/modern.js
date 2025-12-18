@@ -27,7 +27,7 @@ import { fetchUserData } from './api';
 const getUser = cache(fetchUserData);
 
 const loader = async () => {
-  const user = await getUser(user); // 函数入参发生变化时，函数会重新执行
+  const user = await getUser('123'); // 函数入参发生变化时，函数会重新执行
   return {
     user,
   };
@@ -117,8 +117,11 @@ const getDashboardStats = cache(
 
 `revalidate` 参数用于设置缓存过期后，重新验证缓存的时间窗口，可以和 `maxAge` 参数一起使用，类似与 HTTP Cache-Control 的 stale-while-revalidate 模式。
 
+如以下示例，缓存的行为会根据时间分为三个阶段：
 
-如以下示例，在缓存未过期的 2分钟内，如果调用 `getDashboardStats` 函数，会返回缓存的数据，如果缓存过期，2分到3分钟内，收到的请求会先返回旧数据，然后后台会重新请求数据，并更新缓存。
+1. **0 到 2 分钟（`maxAge` 内）**：缓存新鲜，直接返回缓存数据，不会重新请求
+2. **2 到 3 分钟（`maxAge` 到 `maxAge + revalidate` 之间）**：缓存过期但在重新验证窗口内，会立即返回旧数据，同时在后台重新请求数据并更新缓存
+3. **超过 3 分钟（超过 `maxAge + revalidate`）**：缓存完全过期，会重新执行函数获取新数据
 
 ```ts
 import { cache, CacheTime } from '@modern-js/runtime/cache';
@@ -159,7 +162,7 @@ const getComplexStatistics = cache(
   }
 );
 
-await revalidateTag('dashboard-stats'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
+await revalidateTag('dashboard'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
 ```
 
 #### `getKey` 参数
@@ -451,7 +454,7 @@ class RedisContainer implements Container {
   }
 
   async get(key: string): Promise<string | null> {
-    const value = await this.redis.get(key);
+    const value = await this.client.get(key);
     return value ? JSON.parse(value) : null;
   }
 
