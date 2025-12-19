@@ -89,4 +89,12 @@ describe('test basic usage', () => {
     expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/png');
   });
+
+  test(`should serve static file with special characters in filename`, async () => {
+    const { status, data } = await axios.get(
+      `http://localhost:${appPort}/test(bug.txt`,
+    );
+    expect(status).toBe(successStatus);
+    expect(data.trim()).toBe('test');
+  });
 });

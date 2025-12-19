@@ -15,6 +15,18 @@ import { requestLatencyMiddleware } from '../monitors';
 
 export * from './inject';
 
+const DYNAMIC_ROUTE_REG = /\/:./;
+
+/**
+ * Escape special regex characters in a path string.
+ * This is needed because Hono's router converts paths to regex patterns,
+ * and special characters like parentheses need to be escaped.
+ */
+function escapeRegexSpecialChars(path: string): string {
+  // Escape special regex characters: ( ) [ ] { } * + ? . ^ $ | \
+  return path.replace(/[()[\]{}*+?.^$|\\]/g, '\\$&');
+}
+
 export const renderPlugin = (): ServerPluginLegacy => ({
   name: '@modern-js/plugin-render',
 
@@ -47,9 +59,17 @@ export const renderPlugin = (): ServerPluginLegacy => ({
 
         for (const route of pageRoutes) {
           const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
-          const urlPath = originUrlPath.endsWith('/')
-            ? `${originUrlPath}*`
-            : `${originUrlPath}/*`;
+          const isDynamic = DYNAMIC_ROUTE_REG.test(originUrlPath);
+
+          // For static routes, escape special regex characters to prevent regex syntax errors
+          // For dynamic routes, keep as-is since they contain route parameters
+          const escapedPath = isDynamic
+            ? originUrlPath
+            : escapeRegexSpecialChars(originUrlPath);
+
+          const urlPath = escapedPath.endsWith('/')
+            ? `${escapedPath}*`
+            : `${escapedPath}/*`;
 
           // Hook middleware will handle stream as string and then handle it as stream, which will cause the performance problem
           // TODO: Hook middleware will be deprecated in next version
