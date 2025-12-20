@@ -24,7 +24,7 @@
     "@types/react-dom": "^19.1.6",
     "@types/serve-static": "^1.15.10",
     "connect": "^3.7.0",
-    "serve-static": "^1.16.2",
+    "serve-static": "^1.16.3",
     "typescript": "^5"
   }
 }
