@@ -263,7 +263,7 @@
     "ioredis-mock": "^8.13.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "@rslib/core": "0.18.4",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

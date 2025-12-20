@@ -134,7 +134,7 @@
   },
   "devDependencies": {
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.4",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/jest": "^29.5.14",
