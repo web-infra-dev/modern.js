@@ -65,7 +65,7 @@
   "devDependencies": {
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@rslib/core": "0.18.4",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

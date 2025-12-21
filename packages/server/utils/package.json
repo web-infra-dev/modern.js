@@ -60,7 +60,7 @@
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.4",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
