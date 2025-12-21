@@ -1,4 +1,4 @@
-import { applyOptionsChain } from '../src';
+import { applyOptionsChain, logger } from '../src';
 
 describe('apply options chain', () => {
   test(`should return default options`, () => {
@@ -87,12 +87,17 @@ describe('apply options chain', () => {
   });
 
   test(`should log warning about function result`, () => {
-    let outputs = '';
-    console.log = jest.fn(input => (outputs += input));
+    const outputs: string[] = [];
+    const spy = jest
+      .spyOn(logger, 'warn' as any)
+      .mockImplementation((input: any) => {
+        outputs.push(String(input));
+      });
     applyOptionsChain({ name: 'a' } as any, [() => 111]);
 
-    expect(outputs).toContain(
+    expect(outputs.join('\n')).toContain(
       'Function should mutate the config and return nothing, Or return a cloned or merged version of config object.',
     );
+    spy.mockRestore();
   });
 });
