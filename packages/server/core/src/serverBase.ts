@@ -118,8 +118,33 @@ export class ServerBase<E extends Env = any> {
     for (const middleware of finalMiddlewares) {
       const { path = '*', method = 'all', handler } = middleware;
       const handlers = handler2Handlers(handler);
+      if (handlers.length === 0) {
+        continue;
+      }
+      const firstHandler = handlers[0]!;
+      const restHandlers = handlers.slice(1);
 
-      this.app[method](path, ...handlers);
+      /**
+       * When we call `this.app[method]` directly, TypeScript may choose the overload
+       * where the first argument is a handler (no `path`), and then rejects `path: string`.
+       * We ensure at least one handler exists and cast to the "path + handlers" signature.
+       */
+      type RouteMethod =
+        | 'options'
+        | 'get'
+        | 'post'
+        | 'put'
+        | 'delete'
+        | 'patch'
+        | 'all';
+      type Register = (
+        path: string,
+        handler: MiddlewareHandler,
+        ...handlers: MiddlewareHandler[]
+      ) => unknown;
+      const m = method as RouteMethod;
+      const register = this.app[m] as unknown as Register;
+      register.call(this.app, path, firstHandler, ...restHandlers);
     }
 
     function handler2Handlers(

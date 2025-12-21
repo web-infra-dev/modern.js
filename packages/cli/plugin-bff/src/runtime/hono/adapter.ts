@@ -51,7 +51,36 @@ export class HonoAdapter {
     this.apiServer = new Hono();
     this.apiMiddleware.forEach(({ path = '*', method = 'all', handler }) => {
       const handlers = this.wrapInArray(handler);
-      this.apiServer?.[method](path, ...handlers);
+      if (handlers.length === 0) {
+        return;
+      }
+      const firstHandler = handlers[0]!;
+      const restHandlers = handlers.slice(1);
+      /**
+       * When we call `apiServer[method]` directly, TypeScript may choose the overload
+       * where the first argument is a handler (no `path`), and then rejects `path: string`.
+       * We ensure at least one handler exists and cast to the "path + handlers" signature.
+       */
+      type RouteMethod =
+        | 'options'
+        | 'get'
+        | 'post'
+        | 'put'
+        | 'delete'
+        | 'patch'
+        | 'all';
+      type Register = (
+        path: string,
+        handler: MiddlewareHandler,
+        ...handlers: MiddlewareHandler[]
+      ) => unknown;
+      const m = method as RouteMethod;
+      const server = this.apiServer;
+      if (!server) {
+        return;
+      }
+      const register = server[m] as unknown as Register;
+      register.call(server, path, firstHandler, ...restHandlers);
     });
 
     this.apiServer.onError(async (err, c) => {
