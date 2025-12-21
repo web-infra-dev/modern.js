@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -2233,7 +2231,7 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       puppeteer:
-        specifier: ^24.32.0
+        specifier: ^24.34.0
         version: 24.34.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
       rimraf:
         specifier: ^6.1.2
