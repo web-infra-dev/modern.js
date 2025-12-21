@@ -30,6 +30,8 @@
     "lint": "biome check",
     "change": "changeset add",
     "bump": "changeset version",
+    "pre:enter": "changeset pre enter",
+    "pre:exit": "changeset pre exit",
     "change-status": "changeset status",
     "gen-release-note": "cd ./scripts/release-note && pnpm start",
     "get-release-version": "cd ./scripts/release-version && pnpm start",

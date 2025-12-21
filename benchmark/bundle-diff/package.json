@@ -1,6 +1,6 @@
 {
-  "name": "bundle-diff-benchmark",
-  "version": "0.1.0",
+  "name": "@modern-js/bundle-diff-benchmark",
+  "version": "2.68.1",
   "private": true,
   "scripts": {
     "dev": "modern dev",
