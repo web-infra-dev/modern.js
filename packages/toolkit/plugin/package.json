@@ -99,7 +99,7 @@
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
+    "@types/react": "^19.2.7",
     "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
