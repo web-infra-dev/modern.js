@@ -259,7 +259,7 @@
     "@rsbuild/core": "1.6.15",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^16.3.1",
-    "@testing-library/dom": "^10.0.0",
+    "@testing-library/dom": "^10.4.1",
     "@types/cookie": "0.6.0",
     "@types/invariant": "^2.2.37",
     "@types/jest": "^29.5.14",

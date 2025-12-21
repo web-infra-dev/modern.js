@@ -786,7 +786,7 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/jest-config
       '@testing-library/dom':
-        specifier: ^10.0.0
+        specifier: ^10.4.1
         version: 10.4.1
       '@testing-library/react':
         specifier: ^16.3.1
