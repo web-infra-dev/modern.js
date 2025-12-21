@@ -78,7 +78,8 @@ class StreamPump {
 
         const available = (this.controller.desiredSize || 0) - bytes.byteLength;
         this.controller.enqueue(
-          bytes as unknown as ArrayBufferView & Uint8Array,
+          bytes as unknown as ArrayBufferView<ArrayBuffer> &
+            Uint8Array<ArrayBufferLike>,
         );
         if (available <= 0) {
           this.pause();
