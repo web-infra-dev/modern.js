@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -555,7 +553,7 @@ importers:
         specifier: 2.0.0-rc.0
         version: 2.0.0-rc.0
       '@shikijs/transformers':
-        specifier: ^3.19.0
+        specifier: ^3.20.0
         version: 3.20.0
       '@types/fs-extra':
         specifier: 9.0.13
