@@ -621,7 +621,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2(encoding@0.1.13)
       i18next-http-middleware:
-        specifier: ^3.9.0
+        specifier: ^3.9.1
         version: 3.9.1
     devDependencies:
       '@modern-js/app-tools':
