@@ -7,7 +7,7 @@
     "build": "modern build"
   },
   "dependencies": {
-    "i18next": "25.7.2",
+    "i18next": "25.7.3",
     "react-i18next": "15.7.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
