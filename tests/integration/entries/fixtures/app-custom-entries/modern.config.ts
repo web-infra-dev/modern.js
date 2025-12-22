@@ -16,7 +16,9 @@ export default defineConfig({
     },
   },
   server: {
-    ssr: true,
+    ssr: {
+      mode: 'string',
+    },
   },
   plugins: [appTools()],
 });
