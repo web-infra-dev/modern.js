@@ -4,7 +4,12 @@ import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
   server: {
-    ssr: process.env.NODE_ENV === 'development',
+    ssr:
+      process.env.NODE_ENV === 'development'
+        ? {
+            mode: 'string',
+          }
+        : false,
     publicDir: './locales',
   },
   output: {
