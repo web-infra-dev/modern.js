@@ -74,8 +74,10 @@ export function getSSRConfigByEntry(
 
 export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
   if (typeof ssrConfig === 'boolean') {
-    return ssrConfig ? 'string' : false;
+    const result = ssrConfig ? 'stream' : false;
+    return result;
   }
 
-  return ssrConfig?.mode === 'stream' ? 'stream' : 'string';
+  const result = ssrConfig?.mode === 'string' ? 'string' : 'stream';
+  return result;
 }

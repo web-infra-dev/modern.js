@@ -22,7 +22,9 @@ export default applyBaseConfig({
   },
   server: {
     ssrByEntries: {
-      test: true,
+      test: {
+        mode: 'string',
+      },
     },
   },
   html: {

@@ -18,9 +18,9 @@ Modern.js 3.0 将项目默认入口名称改为 `index`，默认构建出的 HTM
 
 如果你的项目部署配置中指定了特定的入口文件名，需要更新为 `index.html`。
 
-## 别名改动
+## API 引入路径
 
-Modern.js 3.0 对部分运行时路径别名进行了调整，需要更新相关的导入路径。路径映射对照如下：
+Modern.js 3.0 对部分运行时进行了调整，需要更新相关的导入路径。路径映射对照如下：
 
 | 旧版路径 | 新版路径 | 说明 |
 |---------|---------|------|
@@ -32,6 +32,13 @@ Modern.js 3.0 对部分运行时路径别名进行了调整，需要更新相关
 Modern.js 3.0 不再支持 Modern.js 1.0 版本引入的 `pages` 目录的约定式路由，统一使用 `routes` 目录的约定式路由。
 
 如果你的项目使用了 `pages` 目录，需要将 `src/pages` 目录重命名为 `src/routes`，并更新项目中所有引用 `pages` 目录的导入路径。详细迁移步骤请参考 [约定式路由文档](/guides/basic-features/routes/routes)。
+
+## SSR Mode 默认值变化
+
+Modern.js 3.0 将 `server.ssr.mode` 的默认值从 `'string'` 改为 `'stream'`。这意味着当启用 SSR 时，默认使用流式渲染（streaming rendering）而不是传统的字符串渲染。
+
+对于 React 18 及以上项目，把 `ssr.mode` 的值由 `'stream'` 改为 `'string'`，不对 Data Loader 中的代码进行修改或使用 Suspense 的话，从渲染结果上没有任何影响。如果你的项目依赖了 React17，请把 `ssr.mode` 的值手动设置为 `'string'`。
+
 
 ## 使用 React Router v7
 
