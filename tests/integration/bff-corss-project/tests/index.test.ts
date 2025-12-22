@@ -171,6 +171,7 @@ describe('corss project bff', () => {
         const helloEl = document.querySelector('.hello');
         return !loadingEl && helloEl;
       });
+      await new Promise(resolve => setTimeout(resolve, 3000));
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe(expectedText);
     });
