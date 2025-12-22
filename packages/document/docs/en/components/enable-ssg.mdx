@@ -1,0 +1,48 @@
+To enable SSG functionality in a Modern.js project, follow these steps to modify the code:
+
+1. Install SSG plugin dependencies
+
+If the SSG plugin is not yet installed in your project, install it first:
+
+```bash
+pnpm add @modern-js/plugin-ssg
+```
+
+:::tip Version Consistency
+Make sure the version of `@modern-js/plugin-ssg` matches the version of `@modern-js/app-tools` in your project. All Modern.js official packages are released with a uniform version number, and version mismatches may cause compatibility issues.
+
+Check the version of `@modern-js/app-tools` first, then install the same version of `@modern-js/plugin-ssg`:
+
+```bash
+# Check the current version of @modern-js/app-tools
+pnpm list @modern-js/app-tools
+
+# Install the same version of @modern-js/plugin-ssg
+pnpm add @modern-js/plugin-ssg@<version>
+```
+
+:::
+
+2. Configure modern.config.ts
+
+Import and add the SSG plugin in the `modern.config.[tj]s` file, and configure `output.ssg`:
+
+```ts title="modern.config.ts"
+import { defineConfig, appTools } from '@modern-js/app-tools';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
+
+export default defineConfig({
+  plugins: [appTools(), ssgPlugin()],
+  output: {
+    ssg: true,
+  },
+});
+```
+
+:::info Scope of Application
+
+- Use `output.ssg` for single-entry apps.
+- Use `output.ssgByEntries` for multi-entry apps.
+- When only `output.ssg: true` is set and `output.ssgByEntries` is not configured, all routes under all entries will be treated as SSG routes.
+
+:::

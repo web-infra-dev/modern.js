@@ -1,0 +1,47 @@
+要在 Modern.js 项目中启用 SSG 功能，请按照以下步骤修改代码：
+
+1. 安装 SSG 插件依赖
+
+如果项目尚未安装 SSG 插件，请先安装：
+
+```bash
+pnpm add @modern-js/plugin-ssg
+```
+
+:::tip 版本一致性
+请确保 `@modern-js/plugin-ssg` 的版本与项目中 `@modern-js/app-tools` 的版本保持一致。Modern.js 的所有官方包使用统一版本号发布，版本不一致可能导致兼容性问题。
+
+请先查看 `@modern-js/app-tools` 的版本，然后安装相同版本的 `@modern-js/plugin-ssg`：
+
+```bash
+# 查看当前 @modern-js/app-tools 的版本
+pnpm list @modern-js/app-tools
+
+# 安装相同版本的 @modern-js/plugin-ssg
+pnpm add @modern-js/plugin-ssg@<版本号>
+```
+
+:::
+
+2. 配置 modern.config.ts
+
+在 `modern.config.[tj]s` 文件中导入并添加 SSG 插件，同时配置 `output.ssg`：
+
+```ts title="modern.config.ts"
+import { defineConfig, appTools } from '@modern-js/app-tools';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
+
+export default defineConfig({
+  plugins: [appTools(), ssgPlugin()],
+  output: {
+    ssg: true,
+  },
+});
+```
+
+:::info 适用范围
+
+- 单入口请使用 `output.ssg`。
+- 多入口请使用 `output.ssgByEntries`。
+- 当仅设置 `output.ssg: true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
+  :::
