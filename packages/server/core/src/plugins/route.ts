@@ -5,6 +5,7 @@ import { sortRoutes } from '../utils';
 
 function injectRoute(route: {
   entryName: string;
+  urlPath: string;
 }): Middleware<ServerEnv> {
   return async (c, next) => {
     if (route && !c.get('route')) {
@@ -47,7 +48,7 @@ export const injectRoutePlugin = (): ServerPluginLegacy => ({
           middlewares.push({
             name: 'inject-route-info',
             path: urlPath,
-            handler: injectRoute({ entryName }),
+            handler: injectRoute({ entryName, urlPath: originUrlPath }),
           });
         }
       },
