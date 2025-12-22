@@ -138,7 +138,12 @@ export const generateCode = async (
       });
 
       // Check if non-convention-based routing (no nestedRoutesEntry) with non-string SSR mode
-      if (!nestedRoutesEntry && ssrMode && ssrMode !== 'string') {
+      if (
+        !nestedRoutesEntry &&
+        ssrMode &&
+        ssrMode !== 'string' &&
+        !isUseRsc(config)
+      ) {
         logger.error(
           'Streaming SSR is only supported for convention-based routing (nested routes). Please set `server.ssr.mode` to `"string"` for non-convention-based routing projects.',
         );
