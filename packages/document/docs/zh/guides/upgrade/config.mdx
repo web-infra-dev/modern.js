@@ -2,6 +2,26 @@
 
 本篇文档主要介绍从 Modern.js 2.0 升级到 3.0 时，配置项层面的不兼容变更以及推荐的迁移方式。
 
+## dev
+
+### dev.port
+
+**变更内容**: 该配置已被移除，改为 `server.port`。
+
+**迁移示例**:
+
+```typescript
+// 改动前
+dev: {
+  port: 8080;
+}
+
+// 改动后
+server: {
+  port: process.env.NODE_ENV === 'development' ? 8080 : undefined;
+}
+```
+
 ## html
 
 ### html.appIcon
@@ -127,6 +147,357 @@ export default {
     outputStructure: 'flat',
   },
 };
+```
+
+## tools
+
+### tools.esbuild
+
+**变更内容**: 该配置已废弃，需要手动切换到 esbuild 压缩。
+
+```typescript
+// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 esbuild 压缩
+// tools: {
+//   esbuild: { /* 配置 */ }
+// },
+```
+
+### tools.terser
+
+**变更内容**: 该配置已废弃，需要手动切换到 Terser 压缩。
+
+```typescript
+// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 Terser 压缩
+// tools: {
+//   terser: { /* 配置 */ }
+// },
+```
+
+### tools.devServer
+
+**变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev` 配置代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      before: [...],
+      after: [...],
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
+};
+
+// v3
+export default {
+  dev: {
+    setupMiddlewares: [...],
+    writeToDisk: true
+  }
+};
+```
+
+**变更内容 2**: `client`、`https`、`liveReload` 配置已废弃，使用对应的 `dev.client`、`dev.https`、`dev.liveReload` 配置代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      client: {
+        port: 8081,
+      },
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    client: {
+      port: 8081,
+    },
+  },
+};
+```
+
+**变更内容 3**: `hot` 配置已废弃，使用 `dev.hmr` 配置代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      hot: false,
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    hmr: false,
+  },
+};
+```
+
+**变更内容 4**: `compress`、`headers`、`historyApiFallback`、`watch` 配置已废弃，使用 `dev.server.compress`、`dev.server.headers`、`dev.server.historyApiFallback`、`dev.server.watch` 配置代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      compress: true,
+      headers: {
+        'X-Custom-Header': 'custom-value',
+      },
+      historyApiFallback: true,
+      watch: true,
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    server: {
+      compress: true,
+      headers: {
+        'X-Custom-Header': 'custom-value',
+      },
+      historyApiFallback: true,
+      watch: true,
+    },
+  },
+};
+```
+
+### tools.pug
+
+**变更内容**: 该配置已废弃，使用 Rsbuild 的 [Pug 插件](https://github.com/rspack-contrib/rsbuild-plugin-pug) 来启用支持。
+
+**迁移示例**:
+
+```typescript
+// v2
+tools: {
+  pug: true,
+},
+
+// v3
+import { pluginPug } from "@rsbuild/plugin-pug";
+
+export default {
+  builderPlugins: [pluginPug()],
+};
+```
+
+### tools.rsdoctor
+
+**变更内容**: 该配置已废弃，请参考 [Rsdoctor 文档](/guides/basic-features/debug/rsdoctor)，使用 Rspack 的 [Rsdoctor 插件]来启用支持。
+
+**迁移示例**:
+
+```typescript
+// v2
+tools: {
+  rsdoctor: {
+    disableClientServer: true,
+    features: ['bundle', 'loader', 'plugins', 'resolver'],
+  },
+},
+
+// v3
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
+
+export default {
+  // ...
+  tools: {
+    bundlerChain(chain) {
+      // 仅在 RSDOCTOR 为 true 时注册插件，因为插件会增加构建耗时
+      if (process.env.RSDOCTOR) {
+        chain.plugin('rsdoctor').use(RsdoctorRspackPlugin, [
+          {
+            // 插件选项
+            disableClientServer: true,
+            features: ['bundle', 'loader', 'plugins', 'resolver'],
+          },
+        ]);
+      }
+    },
+  },
+};
+```
+
+### tools.tailwindcss
+
+**变更内容**: 该配置已废弃，请参考 [Tailwind 插件变更](/guides/upgrade/tailwindcss)，使用 Rsbuild 的方式来接入 Tailwind CSS。
+
+### tools.tsLoader
+
+**变更内容**: 由于 Rspack 不支持 `tsLoader` 因此该配置已废弃，[Rspack experiments.typeReexportsPresence 配置](https://rspack.rs/zh/config/experiments#experimentstypereexportspresence)，可以用于改进对 Typescript 类型导出的识别。可以辅助 ts-loader 迁移。
+
+```typescript
+// 该配置已废弃
+// tools: {
+//   tsLoader: { /* 配置 */ }
+// },
+```
+
+### tools.webpackChain
+
+**变更内容**: 该配置已废弃，请迁移到 `tools.bundlerChain`。
+
+```typescript
+// v2
+tools: {
+  webpackChain: (chain, { env }) => {
+    if (env === 'development') {
+      chain.devtool('cheap-module-eval-source-map');
+    }
+  };
+}
+
+// v3
+tools: {
+  bundlerChain: (chain, { env }) => {
+    if (env === 'development') {
+      chain.devtool('cheap-module-eval-source-map');
+    }
+  };
+}
+```
+
+### tools.webpack
+
+**变更内容**: 该配置已废弃，请将 webpack 配置迁移到 `tools.rspack`。
+
+```typescript
+// v2
+tools: {
+  webpack: (chain, { env }) => {
+    {
+      /* 配置 */
+    }
+  };
+}
+
+// v3
+tools: {
+  rspack: (chain, { env }) => {
+    {
+      /* 配置 */
+    }
+  };
+}
+```
+
+## source
+
+### source.resolveMainFields
+
+**变更内容**: 该配置已废弃，使用 `resolve.mainFields` 代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+source: {
+  resolveMainFields: ['custom', 'module', 'main'];
+}
+
+// v3
+resolve: {
+  mainFields: ['custom', 'module', 'main'];
+}
+```
+
+### source.resolveExtensionPrefix
+
+**变更内容**: 该配置已废弃，使用 `resolve.extensions` 代替。
+
+**迁移示例**:
+
+```typescript
+// v2
+source: {
+  resolveExtensionPrefix: ['.ts', '.tsx', '.js'];
+}
+
+// v3
+resolve: {
+  extensions: ['.ts', '.tsx', '.js'];
+}
+```
+
+### source.moduleScopes
+
+**变更内容**: 该配置已废弃，直接移除。
+
+### source.enableCustomEntry
+
+**变更内容**: 该配置已废弃，直接移除。
+
+### source.disableEntryDirs
+
+**变更内容**: 该配置已废弃，直接移除。
+
+### source.alias
+
+**变更内容**: 该配置不再作用于自定义 Server 和 BFF 中的代码，为服务端代码配置的 alias 需要迁移到 tsconfig.json 中。
+
+**迁移示例**:
+
+```typescript
+// v2
+source: {
+  alias: {
+    '@api/*': './api/*',
+  },
+},
+
+// v3 tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@api/*": ["./api/*"]
+    },
+  },
+}
+```
+
+### server.routes
+
+**变更内容**: 默认路由由 `main` 变更为 `index`，如果 `server.routes` 配置中存在 `index` 则按如下迁移。
+
+**迁移示例**:
+
+```typescript
+// v2
+server: {
+  routes: {
+    main: '/new',
+  },
+},
+
+// v3
+server: {
+  routes: {
+    index: '/new',
+  },
+},
 ```
 
 ## output
@@ -363,207 +734,6 @@ export default {
 };
 ```
 
-## source
-
-### source.resolveMainFields
-
-**变更内容**: 该配置已废弃，使用 `resolve.mainFields` 代替。
-
-**迁移示例**:
-
-```typescript
-// v2
-source: {
-  resolveMainFields: ['custom', 'module', 'main'];
-}
-
-// v3
-resolve: {
-  mainFields: ['custom', 'module', 'main'];
-}
-```
-
-### source.resolveExtensionPrefix
-
-**变更内容**: 该配置已废弃，使用 `resolve.extensions` 代替。
-
-**迁移示例**:
-
-```typescript
-// v2
-source: {
-  resolveExtensionPrefix: ['.ts', '.tsx', '.js'];
-}
-
-// v3
-resolve: {
-  extensions: ['.ts', '.tsx', '.js'];
-}
-```
-
-### source.moduleScopes
-
-**变更内容**: 该配置已废弃，直接移除。
-
-### source.enableCustomEntry
-
-**变更内容**: 该配置已废弃，直接移除。
-
-### source.disableEntryDirs
-
-**变更内容**: 该配置已废弃，直接移除。
-
-## tools
-
-### tools.esbuild
-
-**变更内容**: 该配置已废弃，需要手动切换到 esbuild 压缩。
-
-```typescript
-// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 esbuild 压缩
-// tools: {
-//   esbuild: { /* 配置 */ }
-// },
-```
-
-### tools.terser
-
-**变更内容**: 该配置已废弃，需要手动切换到 Terser 压缩。
-
-```typescript
-// 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 Terser 压缩
-// tools: {
-//   terser: { /* 配置 */ }
-// },
-```
-
-### tools.devServer
-
-**变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev` 配置代替。
-
-**迁移示例**:
-
-```typescript
-// v2
-export default {
-  tools: {
-    devServer: {
-      before: [...],
-      after: [...],
-      devMiddleware: {
-        writeToDisk: true
-      }
-    }
-  }
-};
-
-// v3
-export default {
-  dev: {
-    setupMiddlewares: [...],
-    writeToDisk: true
-  }
-};
-```
-
-**变更内容 2**: `client`、`https`、`liveReload` 配置已废弃，使用对应的 `dev.client`、`dev.https`、`dev.liveReload` 配置代替。
-
-**迁移示例**:
-
-```typescript
-// v2
-export default {
-  tools: {
-    devServer: {
-      client: {
-        port: 8081,
-      },
-    },
-  },
-};
-
-// v3
-export default {
-  dev: {
-    client: {
-      port: 8081,
-    },
-  },
-};
-```
-
-**变更内容 3**: `hot` 配置已废弃，使用 `dev.hmr` 配置代替。
-
-**迁移示例**:
-
-```typescript
-// v2
-export default {
-  tools: {
-    devServer: {
-      hot: false,
-    },
-  },
-};
-
-// v3
-export default {
-  dev: {
-    hmr: false,
-  },
-};
-```
-
-## dev
-
-### dev.port
-
-**变更内容**: 该配置已被移除，改为 `server.port`。
-
-**迁移示例**:
-
-```typescript
-// 改动前
-dev: {
-  port: 8080;
-}
-
-// 改动后
-server: {
-  port: process.env.NODE_ENV === 'development' ? 8080 : undefined;
-}
-```
-
-## runtime
-
-### runtime.router
-
-**变更内容**: 不再需要，可以直接移除。
-
-### runtime.state
-
-**变更内容**: 该配置被废弃，建议使用第三方状态管理库。
-
-## experiments
-
-### experiments.lazyCompilation
-
-**变更内容**: 该配置已废弃，改为 `dev.lazyCompilation`。
-
-**迁移示例**:
-
-```typescript
-// v2
-experiments: {
-  lazyCompilation: true;
-}
-
-// v3
-dev: {
-  lazyCompilation: true;
-}
-```
-
 ## plugins
 
 ### app-tools 插件
@@ -586,6 +756,16 @@ plugins: [
 ],
 ```
 
+## runtime
+
+### runtime.router
+
+**变更内容**: 不再需要，可以直接移除。
+
+### runtime.state
+
+**变更内容**: 该配置被废弃，建议使用第三方状态管理库。
+
 ## performance
 
 ### performance.transformLodash
@@ -606,4 +786,24 @@ export default {
 export default {
   // 配置...
 };
+```
+
+## experiments
+
+### experiments.lazyCompilation
+
+**变更内容**: 该配置已废弃，改为 `dev.lazyCompilation`。
+
+**迁移示例**:
+
+```typescript
+// v2
+experiments: {
+  lazyCompilation: true;
+}
+
+// v3
+dev: {
+  lazyCompilation: true;
+}
 ```
