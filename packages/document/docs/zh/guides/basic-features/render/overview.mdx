@@ -1,0 +1,52 @@
+---
+title: 渲染模式总览
+---
+
+# 渲染模式总览
+
+Modern.js 支持多种渲染模式，不同的渲染模式适用于不同的场景。选择合适的渲染模式可以显著提升应用的性能和用户体验。
+
+## 渲染模式速览
+
+| 渲染模式 | 特点 | 适用场景 |
+|---------|------|---------|
+| **CSR** | 在浏览器端执行 JavaScript 渲染页面 | 交互性强、对 SEO 要求不高的应用 |
+| **SSR** | 在服务端预先渲染完整 HTML 页面 | 对首屏性能和 SEO 要求高的网站 |
+| **Streaming SSR** | 边渲染边返回，更快显示初始 UI | 需要更快首屏感知速度的应用（**SSR 默认模式**） |
+| **RSC** | 组件在服务端渲染，减少客户端 JS 体积；数据与组件逻辑高内聚，减少状态传递 | 追求极致性能、需要减少客户端代码的项目 |
+| **SSG** | 构建时生成静态页面，可被 CDN 缓存 | 内容相对静态的网站，如博客、文档站点 |
+
+## 性能对比
+
+| 渲染技术 | 核心优势 | 主要瓶颈 |
+|---------|---------|---------|
+| **SSR** | 服务端预渲染，有利于 SEO | 需等待所有数据加载完成才能响应 |
+| **Streaming SSR** | 边渲染边返回，更快首屏 | JS 体积仍然较大 |
+| **Streaming SSR + RSC** | 减少客户端 JS 体积 | - |
+
+## 如何选择
+
+### 快速决策
+
+- **内容静态 + 需要 SEO** → **SSG**
+- **需要 SEO + 首屏性能** → **Streaming SSR**（默认）
+- **追求极致性能** → **Streaming SSR + RSC**
+- **CSR 项目渐进优化** → **CSR + RSC**
+- **高度交互 + 无需 SEO** → **CSR**
+
+### 组合使用
+
+Modern.js 支持多种渲染模式组合使用：
+
+- **Streaming SSR + RSC**：流式渲染 + 减少客户端代码
+- **SSG + SSR**：部分页面静态，部分页面动态
+- **CSR + RSC**：客户端渲染 + 部分 Server Component
+
+
+## 相关文档
+
+- [服务端渲染（SSR）](/guides/basic-features/render/ssr)
+- [流式服务端渲染（Streaming SSR）](/guides/basic-features/render/streaming-ssr)
+- [React Server Components（RSC）](/guides/basic-features/render/rsc)
+- [静态站点生成（SSG）](/guides/basic-features/render/ssg)
+- [渲染缓存](/guides/basic-features/render/ssr-cache)

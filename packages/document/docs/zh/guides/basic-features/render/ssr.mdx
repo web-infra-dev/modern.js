@@ -4,26 +4,34 @@ title: 服务端渲染（SSR）
 
 # 服务端渲染（SSR）
 
-通过在服务器端将网页的 HTML 内容渲染成完整的网页（Server-Side Rendering，简称 SSR），然后将生成的网页发送到浏览器端，浏览器端只需要显示网页即可，不需要再进行额外的渲染。
+服务端渲染（Server-Side Rendering，简称 SSR）在服务器端生成完整的 HTML 页面，然后发送到浏览器端直接显示，无需客户端额外渲染。
 
-它主要的优势在于：
+## 核心优势
 
-- 提高首屏加载速度：SSR 可以在服务器端生成完整的网页，浏览器端只需要下载网页内容即可，不需要再进行额外的渲染，从而提高了首屏加载速度。
-- 有利于 SEO：SSR 可以生成完整的 HTML 内容，搜索引擎可以直接索引 HTML 内容，从而提高网站的排名。
+- **更快首屏**：服务端预渲染，浏览器直接显示，无需等待 JavaScript 执行
+- **更好 SEO**：搜索引擎可直接索引完整的 HTML 内容
+- **开箱即用**：无需编写复杂服务端逻辑，无需单独运维
 
-如果你有以下场景的需求，开发者可以考虑使用 SSR 来渲染你的页面：
+:::info 默认渲染模式
+Modern.js 的 SSR **默认使用流式渲染（Streaming SSR）**，页面会边渲染边返回，用户可以更快看到初始内容。
 
-1. 对首屏加载速度要求较高的网站，如电商网站、新闻网站等。
-2. 对用户体验要求较高的网站，如社交网站、游戏网站等。
-3. 对 SEO 要求较高的网站，如企业官网、博客等。
+详细用法请参考[流式服务端渲染（Streaming SSR）](/guides/basic-features/render/streaming-ssr)文档。
 
-在 Modern.js 中，SSR 也是开箱即用的。开发者无需为 SSR 编写复杂的服务端逻辑，也无需关心 SSR 的运维，或是创建单独的服务。
+如需切换到传统 SSR 模式（等待所有数据加载完成后一次性返回），可配置：
 
-除了开箱即用的 SSR 服务，为了保证开发者的开发体验，Modern.js 还具备：
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
 
-- 完备的 SSR 降级策略，保证页面能够安全运行。
-- 自动分割子路由，按需加载，减少首屏资源体积。
-- 内置缓存系统，解决服务端负载高的问题。
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'string', // 传统 SSR 模式
+    },
+  },
+});
+```
+
+:::
 
 ## 开启 SSR
 
@@ -34,20 +42,19 @@ import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   server: {
-    ssr: true,
+    ssr: true, // 默认启用流式渲染
   },
 });
 ```
 
 ## 数据获取
 
-:::tip 前置阅读
-如果你还不了解 Data Loader 如何使用或 Client Loader 的概念，请先阅读[数据获取](/guides/basic-features/data/data-fetch)。
+Modern.js 提供了 Data Loader，支持在 SSR 和 CSR 下同构地获取数据。每个路由模块（如 `layout.tsx` 和 `page.tsx`）都可以定义自己的 Data Loader：
+
+:::tip 了解更多
+以下方式不会有流式渲染效果，要想获得流式渲染效果请参考[流式服务端渲染（Streaming SSR）](/guides/basic-features/render/streaming-ssr)
+
 :::
-
-### 基本用法
-
-Modern.js 中提供了 Data Loader，方便开发者在 SSR、CSR 下同构地获取数据。每个路由模块，如 `layout.tsx` 和 `page.tsx` 都可以定义自己的 Data Loader：
 
 ```ts title="src/routes/page.data.ts"
 export const loader = () => {
@@ -57,7 +64,7 @@ export const loader = () => {
 };
 ```
 
-在组件中可以通过 Hooks API 的方式获取 `loader` 函数返回的数据：
+在组件中通过 Hooks API 获取数据：
 
 ```tsx
 import { useLoaderData } from '@modern-js/runtime/router';
@@ -70,9 +77,6 @@ export default () => {
 
 ### 使用 Client Loader
 
-:::info
-该功能需要 x.36.0 以上版本，推荐使用框架最新版本。
-:::
 
 默认情况下，在 SSR 应用中，`loader` 函数只会在服务端执行。但有些场景下，开发者可能期望在浏览器端发送的请求不经过 SSR 服务，直接请求数据源，例如：
 
@@ -95,9 +99,7 @@ export async function loader({ params }) {
 }
 ```
 
-:::warning
-要使用 Client Loader，必须有对应的 Server Loader，且 Server Loader 必须是 `.data` 文件约定，不能是 `.loader` 文件约定。
-:::
+
 
 ## SSR 降级
 
@@ -328,3 +330,4 @@ export default function Test() {
 在浏览器端，这段代码不会造成任何问题，但是在 SSR 时，Middleware 实例会一直无法被销毁。每次渲染组件，调用 `epicMiddleware.run(rootEpic)` 时，都会在内部添加新的事件绑定，导致整个对象不断变大，最终对应用性能造成影响。
 
 CSR 中这类问题不易被发觉，因此从 CSR 切换到 SSR 时，如果不确定应用是否存在这类隐患，可以对应用进行压测。
+
