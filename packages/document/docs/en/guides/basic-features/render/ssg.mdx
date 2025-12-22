@@ -7,32 +7,9 @@ SSG (Static Site Generation) is a technical solution that generates complete sta
 
 ## Enabling SSG
 
-First, we need to enable the SSG feature by running `pnpm run new`:
+import EnableSSG from "@site-docs-en/components/enable-ssg";
 
-```bash
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable SSG
-```
-
-After running the command, register the SSG plugin in `modern.config.ts`:
-
-```ts title="modern.config.ts"
-import { ssgPlugin } from '@modern-js/plugin-ssg';
-
-export default defineConfig({
-  output: {
-    ssg: true,
-  },
-  plugins: [..., ssgPlugin()],
-});
-```
-
-:::info
-- Use `output.ssg` for single-entry apps.
-- Use `output.ssgByEntries` for multi-entry apps.
-- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
-
-:::
+<EnableSSG />
 
 ## Development Debugging
 
