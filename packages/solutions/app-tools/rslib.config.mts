@@ -1,20 +1,36 @@
-import path from 'node:path';
+import path from 'path';
 import { rslibConfig } from '@modern-js/rslib';
-import { cloneDeep, set } from '@modern-js/utils/lodash';
 import { defineConfig } from '@rslib/core';
 
 export default defineConfig({
   ...rslibConfig,
   lib: rslibConfig.lib?.map(libConfig => {
-    const res = cloneDeep(libConfig);
-    set(res, 'output.copy', [
-      {
-        from: './src/esm',
-        to: './esm',
+    return {
+      ...libConfig,
+      entry: {
+        index: [
+          './src/**',
+          '!./src/plugins/deploy/platforms/*.mjs',
+          '!./src/plugins/deploy/platforms/*.cjs',
+        ],
       },
-      { from: '**/*-edge-entry.js', context: path.join(__dirname, 'src') },
-    ]);
-    set(res, 'source.entry.index', ['./src/**', '!src/**/*-edge-entry.js']);
-    return res;
+      output: {
+        ...libConfig.output,
+        copy: [
+          {
+            from: './src/esm',
+            to: './esm',
+          },
+          {
+            from: 'plugins/deploy/platforms/*.cjs',
+            context: path.join(__dirname, 'src'),
+          },
+          {
+            from: 'plugins/deploy/platforms/*.mjs',
+            context: path.join(__dirname, 'src'),
+          },
+        ],
+      },
+    };
   }),
 });

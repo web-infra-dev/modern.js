@@ -1,4 +1,4 @@
-import { createEdgeOneFunction } from '@modern-js/prod-server/edgeone';
+import { createEdgeOneFunction } from './bundles/modern-server';
 import { deps } from './deps';
 import staticFilesList from './static-files-list.json' assert { type: 'json' };
 
@@ -51,9 +51,9 @@ async function createHandler(env) {
   return requestHandler;
 }
 
-export async function onRequest(ctx) {
+export const handleRequest = async ctx => {
   if (!requestHandler) {
     await createHandler(ctx.env);
   }
   return requestHandler(ctx);
-}
+};

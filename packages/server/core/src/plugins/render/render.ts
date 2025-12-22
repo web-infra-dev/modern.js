@@ -139,6 +139,7 @@ export async function createRender({
       loaderContext,
       contextForceCSR,
       reporter,
+      bindings,
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
@@ -229,6 +230,7 @@ export async function createRender({
       onError,
       onTiming,
       reporter,
+      bindings,
     };
 
     if (fallbackReason) {

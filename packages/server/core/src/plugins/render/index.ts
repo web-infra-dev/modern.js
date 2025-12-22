@@ -87,7 +87,8 @@ function createRenderHandler(
     const contextForceCSR = c.get('forceCSR');
 
     const request = c.req.raw;
-    const nodeReq = c.env.node?.req;
+    const bindings = c.env;
+    const nodeReq = bindings.node?.req;
 
     const res = await render(request, {
       nodeReq,
@@ -103,6 +104,7 @@ function createRenderHandler(
       matchEntryName,
       contextForceCSR,
       reporter,
+      bindings,
     });
 
     const { body, status, headers } = res;

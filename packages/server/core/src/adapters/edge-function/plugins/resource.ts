@@ -78,8 +78,6 @@ export async function getServerManifest(
     routes
       .filter(route => Boolean(route.bundle))
       .map(async route => {
-        loadDeps(route.bundle!, deps)?.content.filter(Boolean);
-
         const entryName = route.entryName || MAIN_ENTRY_NAME;
 
         const renderBundle = loadDeps(route.bundle || '', deps)?.content;

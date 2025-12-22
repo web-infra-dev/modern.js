@@ -1,10 +1,11 @@
 import { merge } from '@modern-js/utils/lodash';
+import { fromJSON } from 'flatted';
 import type { CliConfig, UserConfig } from '../../../types';
 export function getServerCliConfig(
   userConfig: UserConfig = {},
-  cliConfig?: CliConfig,
+  inputConfig?: CliConfig,
 ): CliConfig {
-  const defaultConfig: CliConfig = {
+  let cliConfig: CliConfig = {
     output: {},
     source: {},
     tools: {},
@@ -15,7 +16,15 @@ export function getServerCliConfig(
     dev: {},
   };
 
-  const mergedCliConfig = merge(userConfig, cliConfig || defaultConfig);
+  if (inputConfig) {
+    try {
+      cliConfig = fromJSON(inputConfig);
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  const mergedCliConfig = merge(userConfig, cliConfig);
 
   return mergedCliConfig;
 }

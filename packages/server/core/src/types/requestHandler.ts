@@ -67,6 +67,8 @@ export type RequestHandlerOptions = {
 
   onError: OnError;
   onTiming: OnTiming;
+
+  bindings?: any;
 };
 
 export type RequestHandler = (

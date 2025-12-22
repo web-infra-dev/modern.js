@@ -46,6 +46,8 @@ export interface SSRRenderOptions {
   onError: OnError;
   onTiming: OnTiming;
   reporter?: Reporter;
+
+  bindings?: any;
 }
 
 const SERVER_RUNTIME_ENTRY = 'requestHandler';
@@ -70,6 +72,7 @@ export async function ssrRender(
     onError,
     onTiming,
     reporter,
+    bindings,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -119,6 +122,8 @@ export async function ssrRender(
     onError,
     onTiming,
     reporter,
+
+    bindings,
   };
 
   const cacheControl = await matchCacheControl(

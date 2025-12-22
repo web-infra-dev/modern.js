@@ -38,7 +38,7 @@ export const createAliESAFunction = async (
   }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  await applyPlugins(server, options, cache, deps, env);
+  await applyPlugins(server, options, deps, cache, env);
   await server.init();
   return (request: Request) => {
     return server.handle(request, {

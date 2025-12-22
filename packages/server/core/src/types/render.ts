@@ -41,6 +41,8 @@ export interface RenderOptions {
 
   nodeReq?: NodeRequest;
   contextForceCSR?: string;
+
+  bindings?: any;
 }
 
 export type Render = (

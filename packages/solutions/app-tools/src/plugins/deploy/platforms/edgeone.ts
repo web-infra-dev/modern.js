@@ -2,6 +2,7 @@ import path from 'node:path';
 import {
   ROUTE_SPEC_FILE,
   SERVER_DIR,
+  lodash as _,
   fs as fse,
   getMeta,
   removeModuleSyncFromExports,
@@ -20,22 +21,16 @@ import {
   getPluginsCode,
 } from '../utils';
 
-import type { CreatePreset } from './platform';
+import type { CreatePreset, Setup } from './platform';
 
-async function cleanDistDirectory(dir: string) {
-  try {
-    const items = await fse.readdir(dir);
-
-    for (const item of items) {
-      const fullPath = path.join(dir, item);
-      if (item !== 'static' && item !== '_redirects' && item !== 'html') {
-        await fse.remove(fullPath);
-      }
-    }
-  } catch (error) {
-    console.error('Error cleaning directory:', error);
-  }
-}
+export const setupEdgeOne: Setup = api => {
+  api.modifyRsbuildConfig(config => {
+    _.set(config, 'environments.node.source.entry.modern-server', [
+      require.resolve('@modern-js/prod-server/edgeone'),
+    ]);
+    return config;
+  });
+};
 
 export const createEdgeOnePreset: CreatePreset = (
   appContext,
@@ -52,10 +47,10 @@ export const createEdgeOnePreset: CreatePreset = (
     plugin.options,
   ]);
 
-  const eoOutput = path.join(appDirectory, '.edgeone');
-  const funcsDirectory = path.join(eoOutput, 'functions');
-  const funcContentDirectory = path.join(funcsDirectory, '__content__');
-  const entryFilePath = path.join(funcsDirectory, '[[default]].js');
+  const eoOutput = path.join(appDirectory, '.eo-output');
+  const funcsDirectory = path.join(eoOutput, 'node-functions');
+  const funcContentDirectory = path.join(funcsDirectory, '_content');
+  const handlerFilePath = path.join(funcContentDirectory, 'handler.js');
   const staticDirectory = path.join(eoOutput, 'static');
   return {
     async prepare() {
@@ -86,8 +81,8 @@ export const createEdgeOnePreset: CreatePreset = (
 
         // generate deps file
         await fse.writeFile(
-          path.join(funcsDirectory, 'deps.js'),
-          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./__content__/$1')")}`,
+          path.join(funcContentDirectory, 'deps.js'),
+          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./$1')")}`,
         );
 
         // generate static file list
@@ -98,7 +93,7 @@ export const createEdgeOnePreset: CreatePreset = (
           );
         });
         await fse.writeFile(
-          path.join(funcsDirectory, 'static-files-list.json'),
+          path.join(funcContentDirectory, 'static-files-list.json'),
           JSON.stringify(staticFilesList),
         );
       }
@@ -129,13 +124,13 @@ export const createEdgeOnePreset: CreatePreset = (
 
       const pluginsCode = getPluginsCode(plugins);
 
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './edgeone-edge-entry.js'))
+      let handlerCode = (
+        await fse.readFile(path.join(__dirname, './edgeone-handler.mjs'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
-      entryCode = entryCode
+      handlerCode = handlerCode
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTES', JSON.stringify(routes))
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
@@ -149,38 +144,14 @@ export const createEdgeOnePreset: CreatePreset = (
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
-    },
-    async end() {
-      if (process.env.NODE_ENV !== 'development') {
-        await cleanDistDirectory(distDirectory);
-      }
-      if (!needModernServer) {
-        return;
-      }
-      await handleDependencies({
-        appDir: appDirectory,
-        sourceDir: funcsDirectory,
-        includeEntries: [
-          require.resolve('@modern-js/prod-server'),
-          require.resolve('@modern-js/prod-server/edgeone'),
-        ],
-        copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
-        },
-        transformPackageJson: ({ pkgJSON }) => {
-          if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
-            return pkgJSON;
-          }
+      await fse.writeFile(handlerFilePath, handlerCode);
 
-          return {
-            ...pkgJSON,
-            exports: removeModuleSyncFromExports(
-              pkgJSON.exports as Record<string, any>,
-            ),
-          };
-        },
-      });
+      const entryCode = `import { handleRequest } from './_content/handler.js'; export const onRequest = handleRequest`;
+      await fse.writeFile(path.join(funcsDirectory, 'index.js'), entryCode);
+      await fse.writeFile(
+        path.join(funcsDirectory, '[[default]].js'),
+        entryCode,
+      );
     },
   };
 };

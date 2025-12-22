@@ -81,6 +81,7 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
     userAgent?: string;
     cookie?: string;
     cookieMap?: Record<string, string>;
+    bindings?: any;
   };
   response: BaseResponseLike;
   loadableStats: Record<string, any>;

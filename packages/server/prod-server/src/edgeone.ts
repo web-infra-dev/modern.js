@@ -2,26 +2,29 @@ import { createServerBase } from '@modern-js/server-core';
 import {
   getServerCliConfig,
   loadDeps,
-  serverStaticPlugin,
 } from '@modern-js/server-core/edge-function';
 import { OUTPUT_CONFIG_FILE } from '@modern-js/utils';
 import { applyPlugins } from './apply/edge-function';
 import type { BaseEnv, ProdServerOptions } from './types';
 
-export type { BaseEnv, ProdServerOptions } from './types';
+export type { ProdServerOptions, BaseEnv } from './types';
 
-interface EdgeOneEventContext {
+interface EOEventContext {
+  uuid: string;
+  params: any;
   request: Request;
-  params: Record<string, string>;
-  env: Record<string, string>;
-  waitUntil: (promise: Promise<unknown>) => void;
+  env: Record<string, unknown>;
+  clientIp: string;
+  server: {
+    region: string;
+    requestId: string;
+  };
+  geo: any;
 }
 
 export const createEdgeOneFunction = async (
   options: ProdServerOptions,
   deps: any,
-  staticFiles: string[],
-  env?: Record<string, unknown>,
 ) => {
   const serverBaseOptions = options;
 
@@ -36,11 +39,6 @@ export const createEdgeOneFunction = async (
 
   const serverRuntimeConfig = loadDeps(options.serverConfigPath, deps)?.content;
 
-  let finalEnv = { ...(env || {}) };
-  if (typeof globalThis !== 'undefined' && (globalThis as any).env) {
-    finalEnv = { ...(globalThis as any).env, ...finalEnv };
-  }
-
   if (serverRuntimeConfig) {
     serverBaseOptions.serverConfig = serverRuntimeConfig;
     serverBaseOptions.plugins = [
@@ -50,24 +48,14 @@ export const createEdgeOneFunction = async (
   }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  const staticPlugin = serverStaticPlugin(staticFiles);
-
-  const cache = await caches.open('MODERN_SERVER_CACHE');
-
-  await applyPlugins(server, options, cache, deps, finalEnv, [staticPlugin]);
+  await applyPlugins(server, options, deps);
   await server.init();
-  return (ctx: EdgeOneEventContext) => {
-    return server.handle(
-      ctx.request,
-      {
-        Bindings: {},
-        Variables: { ...finalEnv, ...ctx.env },
-      },
-      {
-        waitUntil: ctx.waitUntil,
-        passThroughOnException: () => {},
-        props: {},
-      },
-    );
+  return (ctx: EOEventContext) => {
+    return server.handle(ctx.request, {
+      env: ctx.env,
+      clientIp: ctx.clientIp,
+      server: ctx.server,
+      geo: ctx.geo,
+    });
   };
 };

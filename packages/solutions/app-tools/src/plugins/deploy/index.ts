@@ -5,20 +5,21 @@ import type {
   CliPlugin,
 } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
+import { createAliESAPreset } from './platforms/ali-esa';
+import { createEdgeOnePreset, setupEdgeOne } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
+import type { Setup } from './platforms/platform';
 import { createVercelPreset } from './platforms/vercel';
-import { createEdgeOnePreset } from './platforms/edgeone';
-import { createAliESAPreset } from './platforms/ali-esa';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
   node: typeof createNodePreset;
   vercel: typeof createVercelPreset;
   netlify: typeof createNetlifyPreset;
   ghPages: typeof createGhPagesPreset;
-  edgeone: typeof createEdgeOnePreset,
-  'ali-esa': typeof createAliESAPreset,
+  edgeone: typeof createEdgeOnePreset;
+  aliEsa: typeof createAliESAPreset;
 };
 
 type DeployTarget = keyof DeployPresetCreators;
@@ -29,7 +30,11 @@ const deployPresets: DeployPresetCreators = {
   netlify: createNetlifyPreset,
   ghPages: createGhPagesPreset,
   edgeone: createEdgeOnePreset,
-  'ali-esa': createAliESAPreset,
+  aliEsa: createAliESAPreset,
+};
+
+const setups: Partial<Record<DeployTarget, Setup>> = {
+  edgeone: setupEdgeOne,
 };
 
 async function getDeployPreset(
@@ -49,7 +54,7 @@ async function getDeployPreset(
 
   if (!createPreset) {
     throw new Error(
-      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' or 'ali-esa'.`,
+      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' or 'aliEsa'.`,
     );
   }
 
@@ -60,6 +65,8 @@ export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-deploy',
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
+
+    setups[deployTarget as DeployTarget]?.(api);
 
     api.deploy(async () => {
       const appContext = api.getAppContext();
