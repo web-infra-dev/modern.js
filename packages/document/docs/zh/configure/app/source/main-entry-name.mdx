@@ -5,18 +5,18 @@ title: mainEntryName
 # source.mainEntryName
 
 - **类型：** `string`
-- **默认值：** `'main'`
+- **默认值：** `'index'`
 
 该选项用于配置 Modern.js 的主入口名称。
 
-默认情况下，Modern.js 的默认主入口名称为 `main`，当使用单入口或者入口名称和 `package.json` 中 name 字段一致时，会将对应入口作为主入口，通过该配置可以修改主入口的名称。
+默认情况下，Modern.js 的默认主入口名称为 `index`，当使用单入口或者入口名称和 `package.json` 中 name 字段一致时，会将对应入口作为主入口，通过该配置可以修改主入口的名称。
 
-比如将主入口名称改为 index：
+比如将主入口名称改为 main：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   source: {
-    mainEntryName: 'index',
+    mainEntryName: 'main',
   },
 });
 ```

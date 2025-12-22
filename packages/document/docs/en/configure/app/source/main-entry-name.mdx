@@ -5,18 +5,18 @@ title: mainEntryName
 # source.mainEntryName
 
 - **Type:** `string`
-- **Default:** `'main'`
+- **Default:** `'index'`
 
 This option is used to configure the main entry name of Modern.js.
 
-By default, the default main entry name of Modern.js is `main`. When using a single entry or the entry name is the same as the `name` field in `package.json`, the corresponding entry will be used as the main entry. This configuration can be used to modify the name of the main entry.
+By default, the default main entry name of Modern.js is `index`. When using a single entry or the entry name is the same as the `name` field in `package.json`, the corresponding entry will be used as the main entry. This configuration can be used to modify the name of the main entry.
 
-For example, change the main entry name to index:
+For example, change the main entry name to main:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   source: {
-    mainEntryName: 'index',
+    mainEntryName: 'main',
   },
 });
 ```

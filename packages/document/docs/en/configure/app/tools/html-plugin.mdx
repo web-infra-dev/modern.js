@@ -17,7 +17,8 @@ const defaultOptions = {
   filename, // 基于 `output.distPath` 和 `entryName` 生成
   templateParameters, // 对应 `html.templateParameters` 配置
   chunks: [entryName],
-  minify: { // generated based on `output.minify`
+  minify: {
+    // generated based on `output.minify`
     removeComments: false,
     useShortDoctype: true,
     keepClosingSlash: true,
@@ -37,8 +38,7 @@ const defaultOptions = {
 SSR Application does not enable the `minify.removeComments` configuration, otherwise the SSR rendering will fail.
 :::
 
-
-The configs of [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) or [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) can be modified through `tools.htmlPlugin`.
+The configs of [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) can be modified through `tools.htmlPlugin`.
 
 import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
 
