@@ -35,10 +35,6 @@ export function resolveSSRMode(params: {
     } else {
       return 'string';
     }
-    if (appDirectory) {
-      return isReact18(appDirectory) ? 'stream' : 'string';
-    }
-    return 'stream';
   }
 
   // 2. Check user's explicit SSR config (server.ssr or server.ssrByEntries)
@@ -51,9 +47,9 @@ export function resolveSSRMode(params: {
       return false;
     }
     if (typeof ssr === 'boolean') {
-      return ssr ? 'string' : false;
+      return ssr ? 'stream' : false;
     }
-    return ssr.mode === 'stream' ? 'stream' : 'string';
+    return ssr.mode === 'string' ? 'string' : 'stream';
   }
 
   // 3. No SSR
