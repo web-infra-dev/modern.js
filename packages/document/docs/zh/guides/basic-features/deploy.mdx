@@ -288,6 +288,91 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 提交你的代码，使用 Vercel 平台部署即可。
 
+## 腾讯云 EdgeOne
+
+在腾讯云 EdgeOne 上部署，通常需要配置 `edgeone.json` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `edgeone.json` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── edgeone.json
+└── package.json
+```
+
+在 `edgeone.json` 中添加以下内容：
+
+```json title="edgeone.json"
+{
+  "nodeVersion": "22.11.0",
+  "buildCommand": "MODERNJS_DEPLOY=edgeone modern deploy",
+  "outputDirectory": ".eo-output"
+}
+```
+
+提交你的项目到 git，在 EdgeOne 平台上选择仓库，配置保持默认，部署即可。
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **EdgeOne Node Functions** 上。
+
+全栈项目除了按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json` 外，需要注意：
+
+1. 目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
+
+## Cloudflare Workers
+
+在 Cloudflare Workers 上部署，通常需要配置 `wrangler.jsonc` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `wrangler.jsonc` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── wrangler.jsonc
+└── package.json
+```
+
+在 `wrangler.jsonc` 中添加以下内容：
+
+```json title="wrangler.jsonc"
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2025-10-08",
+  "assets": {
+    "directory": "./.cf-workers/assets",
+    "binding": "ASSETS"
+  },
+  "build": {
+    "command": "MODERNJS_DEPLOY=cfWorkers modern deploy"
+  }
+}
+```
+
+如果你使用本地 Wrangler CLI 进行部署，还需要配置 `name` 字段，在其中填写你的 Cloudflare Workers 项目名称。
+
+提交你的项目到 git，在 Cloudflare Workers 平台上选择仓库，配置保持默认，部署即可。
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Cloudflare Workers** 上。
+
+全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `wrangler.jsonc` 外，需要额外添加以下内容：
+
+```json title="wrangler.jsonc"
+{
+	"compatibility_flags": ["nodejs_compat"],
+	"main": "./.cf-workers/functions/index.js",
+}
+```
+
 ## Github Pages
 
 如果你要为一个仓库常见 Github 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加

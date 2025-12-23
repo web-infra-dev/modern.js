@@ -1,60 +1,41 @@
 import path from 'node:path';
 import {
   ROUTE_SPEC_FILE,
-  SERVER_DIR,
   lodash as _,
   fs as fse,
   getMeta,
-  removeModuleSyncFromExports,
 } from '@modern-js/utils';
-import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
-  copyFileForEdge,
+  copyDeps,
+  generateHandler,
   getServerConfigPath,
-  normalizePath,
   serverAppContenxtTemplate,
-  walkDirectory,
 } from '../edge-utils';
 import {
   type PluginItem,
   genPluginImportsCode,
   getPluginsCode,
 } from '../utils';
-import type { CreatePreset } from './platform';
+import type { CreatePreset, Setup } from './platform';
 
-async function cleanDistDirectory(dir: string) {
-  try {
-    const items = await fse.readdir(dir);
-
-    for (const item of items) {
-      const fullPath = path.join(dir, item);
-      if (item !== 'static' && item !== '_redirects' && item !== 'html') {
-        await fse.remove(fullPath);
-      }
-    }
-  } catch (error) {
-    console.error('Error cleaning directory:', error);
-  }
-}
+export const setupAliESA: Setup = api => {
+  api.modifyRsbuildConfig(config => {
+    _.set(config, 'environments.node.source.entry.modern-server', [
+      require.resolve('@modern-js/prod-server/ali-esa'),
+    ]);
+    return config;
+  });
+};
 
 export const createAliESAPreset: CreatePreset = (
   appContext,
   modernConfig,
   needModernServer,
 ) => {
-  const {
-    appDirectory,
-    distDirectory,
-    entrypoints,
-    serverPlugins,
-    moduleType,
-    metaName,
-  } = appContext;
+  const { appDirectory, distDirectory, serverPlugins, metaName } = appContext;
 
   const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
   const { routes } = fse.readJSONSync(routeJSON);
-
-  const isEsmProject = moduleType === 'module';
 
   const plugins: PluginItem[] = serverPlugins.map(plugin => [
     plugin.name,
@@ -75,123 +56,23 @@ export const createAliESAPreset: CreatePreset = (
       await fse.copy(distStaticDirectory, esaDistOutput);
 
       if (needModernServer) {
-        const files: Record<string, string> = {};
         await fse.ensureDir(funcsDirectory);
-
-        // copy deps
-        await walkDirectory(distDirectory, async filePath => {
-          if (filePath.startsWith(distStaticDirectory)) {
-            return;
-          }
-          const relative = normalizePath(
-            path.relative(distDirectory, filePath),
-          );
-          const targetPath = path.join(funcsDirectory, relative);
-          if (false !== (await copyFileForEdge(filePath, targetPath))) {
-            files[relative] = `_MODERNJS_EDGE_REQUIRE_(${relative})`;
-          }
-        });
-
-        // generate deps file
-        await fse.writeFile(
-          path.join(funcsDirectory, 'deps.js'),
-          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./__content__/$1')")}`,
-        );
+        await copyDeps(distDirectory, funcsDirectory, distStaticDirectory);
       }
     },
     async genEntry() {
       if (!needModernServer) {
         return;
       }
-      const serverConfig = {
-        bff: {
-          prefix: modernConfig?.bff?.prefix,
-        },
-        output: {
-          distPath: {
-            root: '.',
-          },
-        },
-      };
-
-      const meta = getMeta(metaName);
-
-      const pluginImportCode = genPluginImportsCode(plugins || []);
-      const dynamicProdOptions = {
-        config: serverConfig,
-      };
-
-      const serverConfigPath = getServerConfigPath(meta);
-
-      const pluginsCode = getPluginsCode(plugins);
-
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './ali-esa-edge-entry.js'))
+      const handlerTemplate = (
+        await fse.readFile(path.join(__dirname, './ali-esa-entry.mjs'))
       ).toString();
-
-      const serverAppContext = serverAppContenxtTemplate(appContext);
-
-      entryCode = entryCode
-        .replace('p_genPluginImportsCode', pluginImportCode)
-        .replace('p_ROUTES', JSON.stringify(routes))
-        .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
-        .replace('p_plugins', pluginsCode)
-        .replace(
-          'p_bffRuntimeFramework',
-          `"${serverAppContext.bffRuntimeFramework}"`,
-        )
-        .replace('p_serverDirectory', serverConfigPath)
-        .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
-        .replace('p_apiDirectory', serverAppContext.apiDirectory)
-        .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
-
-      await fse.writeFile(entryFilePath, entryCode);
-    },
-    async end() {
-      if (process.env.NODE_ENV !== 'development') {
-        await cleanDistDirectory(distDirectory);
-      }
-      if (!needModernServer) {
-        return;
-      }
-      await handleDependencies({
-        appDir: appDirectory,
-        sourceDir: funcsDirectory,
-        includeEntries: [
-          require.resolve('@modern-js/prod-server'),
-          require.resolve('@modern-js/prod-server/ali-esa'),
-        ],
-        copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
-        },
-        transformPackageJson: ({ pkgJSON }) => {
-          if (!pkgJSON.exports || typeof pkgJSON.exports !== 'object') {
-            return pkgJSON;
-          }
-
-          return {
-            ...pkgJSON,
-            exports: removeModuleSyncFromExports(
-              pkgJSON.exports as Record<string, any>,
-            ),
-          };
-        },
-      });
-      // generate esa.jsonc
-      let esaConfig = {};
-      const esaConfigPath = path.join(appDirectory, 'esa.jsonc');
-      if (await fse.pathExists(esaConfigPath)) {
-        esaConfig = await fse.readJSON(esaConfigPath);
-      }
-      await fse.outputJSON(
-        esaConfigPath,
-        _.merge(esaConfig, {
-          entry: './functions/index.js',
-          assets: {
-            directory: './dist',
-          },
-        }),
+      const handlerCode = await generateHandler(
+        handlerTemplate,
+        appContext,
+        modernConfig,
       );
+      await fse.writeFile(entryFilePath, handlerCode);
     },
   };
 };

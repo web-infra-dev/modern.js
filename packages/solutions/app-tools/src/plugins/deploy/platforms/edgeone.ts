@@ -1,33 +1,28 @@
 import path from 'node:path';
+import { lodash as _, fs as fse } from '@modern-js/utils';
+import { isMainEntry } from '../../../utils/routes';
 import {
-  ROUTE_SPEC_FILE,
-  SERVER_DIR,
-  lodash as _,
-  fs as fse,
-  getMeta,
-  removeModuleSyncFromExports,
-} from '@modern-js/utils';
-import { nodeDepEmit as handleDependencies } from 'ndepe';
-import {
-  copyFileForEdge,
-  getServerConfigPath,
+  ESM_RESOLVE_CONDITIONS,
+  copyDeps,
+  generateHandler,
   normalizePath,
-  serverAppContenxtTemplate,
+  resolveESMDependency,
   walkDirectory,
 } from '../edge-utils';
-import {
-  type PluginItem,
-  genPluginImportsCode,
-  getPluginsCode,
-} from '../utils';
 
 import type { CreatePreset, Setup } from './platform';
 
-export const setupEdgeOne: Setup = api => {
+export const setupEdgeOne: Setup = async api => {
+  const dep = await resolveESMDependency('@modern-js/prod-server/edgeone');
   api.modifyRsbuildConfig(config => {
-    _.set(config, 'environments.node.source.entry.modern-server', [
-      require.resolve('@modern-js/prod-server/edgeone'),
-    ]);
+    if (_.get(config, 'environments.node')) {
+      _.set(config, 'environments.node.source.entry.modern-server', [dep]);
+      _.set(
+        config,
+        'environments.node.resolve.conditionNames',
+        ESM_RESOLVE_CONDITIONS,
+      );
+    }
     return config;
   });
 };
@@ -37,15 +32,7 @@ export const createEdgeOnePreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, serverPlugins, metaName } = appContext;
-
-  const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
-  const { routes } = fse.readJSONSync(routeJSON);
-
-  const plugins: PluginItem[] = serverPlugins.map(plugin => [
-    plugin.name,
-    plugin.options,
-  ]);
+  const { appDirectory, distDirectory, entrypoints } = appContext;
 
   const eoOutput = path.join(appDirectory, '.eo-output');
   const funcsDirectory = path.join(eoOutput, 'node-functions');
@@ -61,30 +48,28 @@ export const createEdgeOnePreset: CreatePreset = (
       const distStaticDirectory = path.join(distDirectory, `static`);
       await fse.copy(distStaticDirectory, staticDirectory);
 
-      if (needModernServer) {
-        const files: Record<string, string> = {};
-        await fse.ensureDir(funcContentDirectory);
-
-        // copy deps
-        await walkDirectory(distDirectory, async filePath => {
-          if (filePath.startsWith(distStaticDirectory)) {
-            return;
-          }
-          const relative = normalizePath(
-            path.relative(distDirectory, filePath),
+      if (!needModernServer) {
+        const {
+          source: { mainEntryName },
+        } = modernConfig;
+        for (const entry of entrypoints) {
+          const isMain = isMainEntry(entry.entryName, mainEntryName);
+          const entryFilePath = path.join(
+            distDirectory,
+            'html',
+            entry.entryName,
+            'index.html',
           );
-          const targetPath = path.join(funcContentDirectory, relative);
-          if (false !== (await copyFileForEdge(filePath, targetPath))) {
-            files[relative] = `_MODERNJS_EDGE_REQUIRE_(${relative})`;
-          }
-        });
-
-        // generate deps file
-        await fse.writeFile(
-          path.join(funcContentDirectory, 'deps.js'),
-          `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./$1')")}`,
+          const targetHtml = isMain ? 'index.html' : `${entry.entryName}.html`;
+          await fse.copyFile(entryFilePath, path.join(eoOutput, targetHtml));
+        }
+      } else {
+        await fse.ensureDir(funcContentDirectory);
+        await copyDeps(
+          distDirectory,
+          funcContentDirectory,
+          distStaticDirectory,
         );
-
         // generate static file list
         const staticFilesList: string[] = [];
         await walkDirectory(staticDirectory, filePath => {
@@ -102,50 +87,15 @@ export const createEdgeOnePreset: CreatePreset = (
       if (!needModernServer) {
         return;
       }
-      const serverConfig = {
-        bff: {
-          prefix: modernConfig?.bff?.prefix,
-        },
-        output: {
-          distPath: {
-            root: '.',
-          },
-        },
-      };
-
-      const meta = getMeta(metaName);
-
-      const pluginImportCode = genPluginImportsCode(plugins || []);
-      const dynamicProdOptions = {
-        config: serverConfig,
-      };
-
-      const serverConfigPath = getServerConfigPath(meta);
-
-      const pluginsCode = getPluginsCode(plugins);
-
-      let handlerCode = (
+      const handlerTemplate = (
         await fse.readFile(path.join(__dirname, './edgeone-handler.mjs'))
       ).toString();
-
-      const serverAppContext = serverAppContenxtTemplate(appContext);
-
-      handlerCode = handlerCode
-        .replace('p_genPluginImportsCode', pluginImportCode)
-        .replace('p_ROUTES', JSON.stringify(routes))
-        .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
-        .replace('p_plugins', pluginsCode)
-        .replace(
-          'p_bffRuntimeFramework',
-          `"${serverAppContext.bffRuntimeFramework}"`,
-        )
-        .replace('p_serverDirectory', serverConfigPath)
-        .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
-        .replace('p_apiDirectory', serverAppContext.apiDirectory)
-        .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
-
+      const handlerCode = await generateHandler(
+        handlerTemplate,
+        appContext,
+        modernConfig,
+      );
       await fse.writeFile(handlerFilePath, handlerCode);
-
       const entryCode = `import { handleRequest } from './_content/handler.js'; export const onRequest = handleRequest`;
       await fse.writeFile(path.join(funcsDirectory, 'index.js'), entryCode);
       await fse.writeFile(

@@ -1,6 +1,17 @@
 import path from 'path';
-import { SERVER_DIR, fs as fse } from '@modern-js/utils';
+import {
+  ROUTE_SPEC_FILE,
+  SERVER_DIR,
+  fs as fse,
+  getMeta,
+} from '@modern-js/utils';
+import { resolve } from '@vercel/nft';
+import { Job } from '@vercel/nft/out/node-file-trace';
+import type { AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
+import { type PluginItem, genPluginImportsCode, getPluginsCode } from './utils';
+
+export const ESM_RESOLVE_CONDITIONS = ['node', 'import', 'module', 'default'];
 
 export const isTextFile = (filePath: string) => {
   const textExtensions = ['.txt', '.html', '.css', '.svg', '.css'];
@@ -33,21 +44,19 @@ export const walkDirectory = async (
 
 export const normalizePath = (filePath: string) => filePath.replace(/\\/g, '/');
 
-export const copyFileForEdge = async (
-  sourcePath: string,
-  targetPath: string,
-) => {
+export const copyDepFile = async (sourcePath: string, targetPath: string) => {
   await fse.ensureDir(path.dirname(targetPath));
   const ext = path.extname(sourcePath);
   // console.log(`Copying ${ext} file: ${sourcePath} -> ${targetPath}`);
 
   // If it's a JS-like file, copy as is
   if (['.js', '.mjs', '.json'].includes(ext)) {
-    return fse.copyFile(sourcePath, targetPath);
+    await fse.copyFile(sourcePath, targetPath);
+    return targetPath;
   }
 
   if (!isTextFile(sourcePath)) {
-    return false;
+    return;
   }
 
   // Handle text files
@@ -66,7 +75,8 @@ export const _DEP_TEXT = \`${escapedContent}\`;
   // Keep the same filename but with .js extension
   const jsTargetPath = `${targetPath}.js`;
 
-  return fse.writeFile(jsTargetPath, jsContent);
+  await fse.writeFile(jsTargetPath, jsContent);
+  return jsTargetPath;
 };
 
 export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
@@ -93,3 +103,101 @@ export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
 
 export const getServerConfigPath = (meta: string) =>
   `"${normalizePath(path.join(SERVER_DIR, `${meta}.server`))}"`;
+
+export const copyDeps = async (
+  from: string,
+  to: string,
+  staticPrefix?: string,
+) => {
+  const files: Record<string, string> = {};
+  await walkDirectory(from, async filePath => {
+    // skip static files
+    if (staticPrefix && filePath.startsWith(staticPrefix)) {
+      return;
+    }
+
+    // skip map and LICENSE files
+    if (filePath.endsWith('.map') || filePath.endsWith('.LICENSE.txt')) {
+      return;
+    }
+
+    const relative = normalizePath(path.relative(from, filePath));
+    const targetPath = path.join(to, relative);
+    const finalPath = await copyDepFile(filePath, targetPath);
+    if (finalPath) {
+      const requirePath = normalizePath(path.relative(to, finalPath));
+      files[relative] = `_MODERNJS_EDGE_REQUIRE_(${requirePath})`;
+    }
+  });
+
+  // generate deps file
+  await fse.writeFile(
+    path.join(to, 'deps.js'),
+    `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./$1')")}`,
+  );
+};
+
+export const generateHandler = async (
+  template: string,
+  appContext: AppToolsContext,
+  config: AppToolsNormalizedConfig,
+) => {
+  const { distDirectory, serverPlugins, metaName } = appContext;
+
+  const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
+  const { routes } = fse.readJSONSync(routeJSON);
+
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
+
+  const serverConfig = {
+    bff: {
+      prefix: config?.bff?.prefix,
+    },
+    output: {
+      distPath: {
+        root: '.',
+      },
+    },
+  };
+
+  const meta = getMeta(metaName);
+
+  const pluginImportCode = genPluginImportsCode(plugins || []);
+  const dynamicProdOptions = {
+    config: serverConfig,
+  };
+
+  const serverConfigPath = getServerConfigPath(meta);
+
+  const pluginsCode = getPluginsCode(plugins);
+
+  const serverAppContext = serverAppContenxtTemplate(appContext);
+
+  return template
+    .replace('p_genPluginImportsCode', pluginImportCode)
+    .replace('p_ROUTES', JSON.stringify(routes))
+    .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+    .replace('p_plugins', pluginsCode)
+    .replace(
+      'p_bffRuntimeFramework',
+      `"${serverAppContext.bffRuntimeFramework}"`,
+    )
+    .replace('p_serverDirectory', serverConfigPath)
+    .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
+    .replace('p_apiDirectory', serverAppContext.apiDirectory)
+    .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
+};
+
+export const resolveESMDependency = async (entry: string) => {
+  const j = new Job({
+    conditions: ESM_RESOLVE_CONDITIONS,
+  });
+  const res = await resolve(entry, __filename, j);
+  if (Array.isArray(res)) {
+    return res[0];
+  }
+  return res;
+};

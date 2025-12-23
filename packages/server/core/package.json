@@ -25,6 +25,10 @@
       "types": "./dist/types/index.d.ts",
       "modern:source": "./src/index.ts",
       "jsnext:source": "./src/index.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
     },
     "./hono": {
@@ -42,6 +46,10 @@
       "types": "./dist/types/adapters/edge-function/index.d.ts",
       "modern:source": "./src/adapters/edge-function/index.ts",
       "jsnext:source": "./src/adapters/edge-function/index.ts",
+      "node": {
+        "import": "./dist/esm-node/adapters/edge-function/index.mjs",
+        "require": "./dist/cjs/adapters/edge-function/index.js"
+      },
       "default": "./dist/cjs/adapters/edge-function/index.js"
     }
   },

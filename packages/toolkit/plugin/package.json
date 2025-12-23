@@ -57,6 +57,7 @@
       "modern:source": "./src/server/index.ts",
       "jsnext:source": "./src/server/index.ts",
       "node": {
+        "import": "./dist/esm/server/index.mjs",
         "require": "./dist/cjs/server/index.js",
         "default": "./dist/cjs/server/index.js"
       },

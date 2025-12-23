@@ -1,4 +1,4 @@
-import { createAliESAFunction } from '@modern-js/prod-server/ali-esa';
+import { createAliESAFunction } from './bundles/modern-server';
 import { deps } from './deps';
 
 p_genPluginImportsCode;

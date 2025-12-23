@@ -1,18 +1,19 @@
-import path from 'node:path';
-import { createCloudflareWorkersFunction } from '@modern-js/prod-server/cloudflare-workers';
+import { createCFWorkersFunction } from './bundles/modern-server';
 
 p_genPluginImportsCode;
 
 let requestHandler = null;
 let handlerCreationPromise = null;
 
-async function initServer() {
+async function initServer(env) {
+  const { deps } = await import('./deps');
+
   const routes = p_ROUTES;
 
   const dynamicProdOptions = p_dynamicProdOptions;
 
   const prodServerOptions = {
-    pwd: '/bundle',
+    pwd: '/',
     routes,
     disableCustomHook: true,
     appContext: {
@@ -26,19 +27,20 @@ async function initServer() {
     ...dynamicProdOptions,
   };
 
-  const requestHandler = await createCloudflareWorkersFunction(
+  const requestHandler = await createCFWorkersFunction(
     prodServerOptions,
     deps,
+    env,
   );
 
   return requestHandler;
 }
 
-async function createHandler() {
+async function createHandler(env) {
   if (!handlerCreationPromise) {
     handlerCreationPromise = (async () => {
       try {
-        requestHandler = await initServer();
+        requestHandler = await initServer(env);
       } catch (error) {
         console.error('Error creating server:', error);
       }
@@ -48,13 +50,11 @@ async function createHandler() {
   return requestHandler;
 }
 
-createHandler();
-
 export default {
-  async fetch(request) {
+  async fetch(request, env, ctx) {
     if (!requestHandler) {
-      await createHandler();
+      await createHandler(env);
     }
-    return requestHandler(request);
+    return requestHandler(request, env, ctx);
   },
 };

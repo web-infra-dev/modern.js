@@ -5,7 +5,7 @@ import type {
   CliPlugin,
 } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
-import { createAliESAPreset } from './platforms/ali-esa';
+import { createCFWorkersPreset, setupCFWorkers } from './platforms/cf-workers';
 import { createEdgeOnePreset, setupEdgeOne } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
@@ -19,7 +19,8 @@ type DeployPresetCreators = {
   netlify: typeof createNetlifyPreset;
   ghPages: typeof createGhPagesPreset;
   edgeone: typeof createEdgeOnePreset;
-  aliEsa: typeof createAliESAPreset;
+  // aliEsa: typeof createAliESAPreset;
+  cfWorkers: typeof createCFWorkersPreset;
 };
 
 type DeployTarget = keyof DeployPresetCreators;
@@ -30,11 +31,14 @@ const deployPresets: DeployPresetCreators = {
   netlify: createNetlifyPreset,
   ghPages: createGhPagesPreset,
   edgeone: createEdgeOnePreset,
-  aliEsa: createAliESAPreset,
+  // aliEsa: createAliESAPreset,
+  cfWorkers: createCFWorkersPreset,
 };
 
 const setups: Partial<Record<DeployTarget, Setup>> = {
   edgeone: setupEdgeOne,
+  cfWorkers: setupCFWorkers,
+  // aliEsa: setupAliESA,
 };
 
 async function getDeployPreset(
@@ -54,7 +58,7 @@ async function getDeployPreset(
 
   if (!createPreset) {
     throw new Error(
-      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' or 'aliEsa'.`,
+      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' or 'cfWorkers'.`,
     );
   }
 
@@ -63,10 +67,10 @@ async function getDeployPreset(
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-deploy',
-  setup: api => {
+  setup: async api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 
-    setups[deployTarget as DeployTarget]?.(api);
+    await setups[deployTarget as DeployTarget]?.(api);
 
     api.deploy(async () => {
       const appContext = api.getAppContext();
