@@ -1,5 +1,13 @@
 # @modern-js/runtime-utils
 
+## 3.0.0-alpha.0
+
+### Patch Changes
+
+- Updated dependencies [952f6fe]
+  - @modern-js/types@3.0.0-alpha.0
+  - @modern-js/utils@3.0.0-alpha.0
+
 ## 2.68.1
 
 ### Patch Changes
