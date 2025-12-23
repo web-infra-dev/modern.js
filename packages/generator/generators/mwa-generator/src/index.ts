@@ -90,7 +90,7 @@ export const handleTemplateFile = async (
   const { packageName, packagePath, language, packageManager } = ans;
   const { packagesInfo } = context.config;
 
-  const bundler = `'rspack', // Set to 'webpack' to enable webpack`;
+  const bundler = `'rspack',`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
