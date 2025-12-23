@@ -8,10 +8,6 @@ Modern.js provides out-of-the-box data fetching capabilities. Developers can use
 
 ## What is Data Loader
 
-:::note
-In Modern.js v1 projects, data was fetched using `useLoader`. This is no longer the recommended approach; we suggest migrating to Data Loader.
-:::
-
 Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export a `loader` function, known as Data Loader, which executes before the corresponding route component renders to provide data for the component. Here is an example:
 
 ```bash
@@ -39,15 +35,18 @@ export const loader = async (): Promise<ProfileData> => {
 ```
 
 :::warning Compatibility
+
 - In previous versions, Data Loader was defined in a `.loader` file. In the current version, we recommend defining it in a `.data` file, while maintaining compatibility with `.loader` files.
 - In `.loader` files, the Data Loader can be exported as default. In `.data` files, it should be named `loader` export.
+
 ```ts
-  // xxx.loader.ts
-export default () => {}
+// xxx.loader.ts
+export default () => {};
 
 // xxx.data.ts
-export const loader = () => {}
+export const loader = () => {};
 ```
+
 :::
 
 In the route component, you can use the `useLoaderData` function to fetch data:
@@ -100,7 +99,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 `request` is an instance of [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request). A common use case is to get query parameters from `request`:
 
 ```tsx
-import { LoaderFunctionArgs } from '@modern-js/runtime/router;
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -146,20 +145,22 @@ In SSR applications, the `loader` function runs only on the server, hence it is 
 
 :::note
 Having the `loader` function run only on the server in SSR applications brings several benefits:
+
 - **Simplifies usage**: Guarantees consistent data-fetching methods in SSR applications, so developers don't have to distinguish between client and server code.
 - **Reduces client bundle size**: Moves logic code and dependencies from the client to the server.
 - **Improves maintainability**: Less direct influence of data logic on front-end UI and avoids issues of accidentally including server dependencies in the client bundle or vice versa.
 
 :::
 
-We recommend using the `fetch` API in `loader` functions to make requests. Since `fetch` works similarly on the client and server, you can fetch data in a consistent manner whether in CSR or SSR:
+We recommend using the `fetch` API in `loader` functions to make requests. Modern.js provides a default polyfill for the `fetch` API, allowing it to be used on the server side. This means you can fetch data in a consistent manner whether in CSR or SSR:
 
 ```tsx
 export async function loader() {
   const res = await fetch('URL_ADDRESS');
+  const data = await res.json();
   return {
-    message: res.message
-  }
+    message: data.message,
+  };
 }
 ```
 
@@ -204,14 +205,14 @@ In the following example, the page's status code will match this `response`, and
 // routes/user/profile/page.data.ts
 export async function loader() {
   const user = await fetchUser();
-  if(!user){
+  if (!user) {
     throw new Response('The user was not found', { status: 404 });
   }
   return user;
 }
 
 // routes/error.tsx
-import { useRouteError } from '@modern-js/runtime/router;
+import { useRouteError } from '@modern-js/runtime/router';
 const ErrorBoundary = () => {
   const error = useRouteError() as { data: string };
   return <div className="error">{error.data}</div>;
@@ -240,7 +241,7 @@ export function UserLayout() {
 }
 ```
 
-`useRouteLoaderData` accepts a parameter `routeId`. In conventional routing, Modern.js automatically generates the `routeId`, which is the path of the corresponding component relative to `src/routes`. In the example above, the `routeId` for fetching data from `routes/user/layout.tsx`'s loader is `user/layout`.
+`useRouteLoaderData` accepts a parameter `routeId`. In conventional routing, Modern.js automatically generates the `routeId`, which is the path of the corresponding component relative to `src/routes`. For example, in the example above, if a child component wants to get data returned by the loader in `routes/user/layout.tsx`, the `routeId` value is `user/layout`.
 
 In a multi-entry scenario, the `routeId` value needs to include the corresponding entry name, which is typically the directory name if not explicitly specified. For example, with the following directory structure:
 

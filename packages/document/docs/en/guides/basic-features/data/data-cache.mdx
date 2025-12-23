@@ -2,6 +2,7 @@
 title: Data Caching
 sidebar_position: 4
 ---
+
 # Data Caching
 
 The `cache` function allows you to cache the results of data fetching or computation, Compared to full-page [rendering cache](/guides/basic-features/render/ssr-cache), it provides more fine-grained control over data granularity and is applicable to various scenarios such as Client-Side Rendering (CSR), Server-Side Rendering (SSR), and API services (BFF).
@@ -20,7 +21,6 @@ If you use the `cache` function in BFF, you should import the cache funtion from
 
 :::
 
-
 ```ts
 import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';
@@ -28,13 +28,12 @@ import { fetchUserData } from './api';
 const getUser = cache(fetchUserData);
 
 const loader = async () => {
-  const user = await getUser(user); // When the parameters of the function changes, the function will be re-executed
+  const user = await getUser('123'); // When the parameters of the function changes, the function will be re-executed
   return {
     user,
   };
 };
 ```
-
 
 ### Parameters
 
@@ -44,7 +43,7 @@ const loader = async () => {
   - `maxAge`: Cache validity period (milliseconds)
   - `revalidate`: Time window for revalidating the cache (milliseconds), similar to HTTP Cache-Control's stale-while-revalidate functionality
   - `getKey`: Simplified cache key generation function based on function parameters
-  - `customKey`: Custom cache key function
+  - `customKey`: Custom cache key generation function, used to maintain cache when function references change
 
 The type of the `options` parameter is as follows:
 
@@ -62,7 +61,6 @@ interface CacheOptions {
 }
 ```
 
-
 ### Return Value
 
 The `cache` function returns a new function with caching capabilities. Multiple calls to this function will not re-execute the `fn` function.
@@ -76,7 +74,7 @@ EdenX's `cache` function can be used in any frontend or server-side code.
 
 ### Without options Parameter
 
-When no `options` parameter is provided, it's primarily useful in SSR projects, the cache lifecycle is limited to a single SSR rendering request. For example, when the same cachedFn is called in multiple data loaders, the cachedFn function won't be executed repeatedly. This allows data sharing between different data loaders while avoiding duplicate requests. EdenX will re-execute the `fn` function with each server request.
+When no `options` parameter is provided, it's primarily useful in SSR projects, the cache lifecycle is limited to a single SSR rendering request. For example, when the same cachedFn is called in multiple data loaders, the cachedFn function won't be executed repeatedly. This allows data sharing between different data loaders while avoiding duplicate requests. Modern.js will re-execute the `fn` function with each server request.
 
 :::info
 Without the `options` parameter, it can be considered a replacement for React's [`cache`](https://react.dev/reference/react/cache) function and can be used in any server-side code (such as in data loaders of SSR projects), not limited to server components.
@@ -96,7 +94,6 @@ const loader = async () => {
 };
 ```
 
-
 ### With options Parameter
 
 #### `maxAge` Parameter
@@ -113,11 +110,10 @@ const getDashboardStats = cache(
     return await fetchComplexStatistics();
   },
   {
-    maxAge: CacheTime.MINUTE * 2,  // Calling this function within 2 minutes will return cached data
-  }
+    maxAge: CacheTime.MINUTE * 2, // Calling this function within 2 minutes will return cached data
+  },
 );
 ```
-
 
 #### `revalidate` Parameter
 
@@ -139,10 +135,9 @@ const getDashboardStats = cache(
   {
     maxAge: CacheTime.MINUTE * 2,
     revalidate: CacheTime.MINUTE * 1,
-  }
+  },
 );
 ```
-
 
 #### `tag` Parameter
 
@@ -158,7 +153,7 @@ const getDashboardStats = cache(
   },
   {
     tag: 'dashboard',
-  }
+  },
 );
 
 const getComplexStatistics = cache(
@@ -167,12 +162,11 @@ const getComplexStatistics = cache(
   },
   {
     tag: 'dashboard',
-  }
+  },
 );
 
-await revalidateTag('dashboard-stats'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
+await revalidateTag('dashboard'); // Invalidates the cache for both getDashboardStats and getComplexStatistics functions
 ```
-
 
 #### `getKey` Parameter
 
@@ -193,15 +187,15 @@ const getUser = cache(
     maxAge: CacheTime.MINUTE * 5,
     // Only use the first parameter (userId) as the cache key
     getKey: (userId, options) => userId,
-  }
+  },
 );
 
 // The following two calls will share the cache because getKey only uses userId
-await getUser(123, { language: 'en' });
-await getUser(123, { language: 'fr' }); // Cache hit, won't request again
+await getUser(123, { language: 'zh' });
+await getUser(123, { language: 'en' }); // Cache hit, won't request again
 
 // Different userId will use different cache
-await getUser(456, { language: 'en' }); // Won't hit cache, will request again
+await getUser(456, { language: 'zh' }); // Won't hit cache, will request again
 ```
 
 You can also use Modern.js's `generateKey` function together with getKey to generate the cache key:
@@ -223,21 +217,18 @@ const getUser = cache(
   {
     maxAge: CacheTime.MINUTE * 5,
     getKey: (userId, options) => generateKey(userId),
-  }
+  },
 );
 ```
 
 Additionally, `getKey` can also return a numeric type as a cache key:
 
 ```ts
-const getUserById = cache(
-  fetchUserDataById,
-  {
-    maxAge: CacheTime.MINUTE * 5,
-    // Directly use the numeric ID as the cache key
-    getKey: (id) => id,
-  }
-);
+const getUserById = cache(fetchUserDataById, {
+  maxAge: CacheTime.MINUTE * 5,
+  // Directly use the numeric ID as the cache key
+  getKey: id => id,
+});
 
 await getUserById(42); // Uses 42 as the cache key
 ```
@@ -255,6 +246,7 @@ Its return value **directly becomes** the final cache key, **overriding** the de
 :::info
 
 Generally, the cache will be invalidated in the following scenarios:
+
 1. The function's input parameters change
 2. The maxAge condition is no longer satisfied
 3. The `revalidateTag` method has been called
@@ -270,16 +262,13 @@ import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';
 
 // Different function references, but share the same cache via customKey
-const getUserA = cache(
-  fetchUserData,
-  {
-    maxAge: CacheTime.MINUTE * 5,
-    customKey: ({ params }) => {
-      // Return a stable string as the cache key
-      return `user-${params[0]}`;
-    },
-  }
-);
+const getUserA = cache(fetchUserData, {
+  maxAge: CacheTime.MINUTE * 5,
+  customKey: ({ params }) => {
+    // Return a stable string as the cache key
+    return `user-${params[0]}`;
+  },
+});
 
 // Even if the function reference changes,
 // as long as customKey returns the same value, the cache will be hit
@@ -291,7 +280,7 @@ const getUserB = cache(
       // Return the same key as getUserA
       return `user-${params[0]}`;
     },
-  }
+  },
 );
 
 // Now you can share cache across different function implementations
@@ -299,12 +288,9 @@ await getUserA(123); // Fetches data and caches with key "user-123"
 await getUserB(123); // Cache hit, returns cached data
 
 // You can utilize the generatedKey parameter to modify the default key
-const getUserC = cache(
-  fetchUserData,
-  {
-    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
-  }
-);
+const getUserC = cache(fetchUserData, {
+  customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
+});
 
 // For predictable cache keys that can be managed externally
 const getUserD = cache(
@@ -314,7 +300,7 @@ const getUserD = cache(
   {
     maxAge: CacheTime.MINUTE * 5,
     customKey: ({ params }) => `app:user:${params[0]}`,
-  }
+  },
 );
 ```
 
@@ -331,30 +317,31 @@ const stats = {
   hits: 0,
   misses: 0,
   stales: 0,
-  hitRate: () => stats.hits / stats.total
+  hitRate: () => stats.hits / stats.total,
 };
 
-const getUser = cache(
-  fetchUserData,
-  {
-    maxAge: CacheTime.MINUTE * 5,
-    onCache({ status, key, params, result }) {
-      // status can be 'hit', 'miss', or 'stale'
-      stats.total++;
+const getUser = cache(fetchUserData, {
+  maxAge: CacheTime.MINUTE * 5,
+  onCache({ status, key, params, result }) {
+    // status can be 'hit', 'miss', or 'stale'
+    stats.total++;
 
-      if (status === 'hit') {
-        stats.hits++;
-      } else if (status === 'miss') {
-        stats.misses++;
-      } else if (status === 'stale') {
-        stats.stales++;
-      }
-
-      console.log(`Cache ${status} for key: ${String(key)}`);
-      console.log(`Current hit rate: ${stats.hitRate() * 100}%`);
+    if (status === 'hit') {
+      stats.hits++;
+    } else if (status === 'miss') {
+      stats.misses++;
+    } else if (status === 'stale') {
+      stats.stales++;
     }
-  }
-);
+
+    console.log(
+      `Cache ${
+        status === 'hit' ? 'hit' : status === 'miss' ? 'miss' : 'stale'
+      } for key: ${String(key)}`,
+    );
+    console.log(`Current hit rate: ${stats.hitRate() * 100}%`);
+  },
+});
 
 // Usage example
 await getUser(1); // Cache miss
@@ -375,6 +362,7 @@ The `onCache` callback receives an object with the following properties:
 This callback is only invoked when the `options` parameter is provided. When using the cache function without options, the `onCache` callback is not called.
 
 The `onCache` callback is useful for:
+
 - Monitoring cache performance
 - Calculating hit rates
 - Logging cache operations
@@ -432,7 +420,7 @@ configureCache({
 
 ##### Using `customKey` to Ensure Cache Key Stability
 
-:::note
+:::warning Important Recommendation
 
 When using custom storage containers (such as Redis), **it's recommended to configure `customKey`** to ensure cache key stability. This ensures:
 
@@ -461,7 +449,7 @@ const getUser = cache(
     maxAge: CacheTime.MINUTE * 5,
     // Use stable identifiers related to the cached function as cache keys
     customKey: () => `fetchUserData`,
-  }
+  },
 );
 ```
 
@@ -481,7 +469,7 @@ class RedisContainer implements Container {
   }
 
   async get(key: string): Promise<string | null> {
-    const value = await this.redis.get(key);
+    const value = await this.client.get(key);
     return value ? JSON.parse(value) : null;
   }
 
@@ -524,7 +512,7 @@ configureCache({
 });
 ```
 
-##### Important Notes
+##### Notes
 
 1. **Serialization**: All cached data will be serialized to strings for storage. The container only needs to handle string get/set operations.
 
