@@ -151,16 +151,16 @@ type ProxyOptions =
   | ProxyDetail;
 ```
 
-In addition to the http-proxy-middleware option, we also support the bypass and context configuration:
+In addition to the http-proxy-middleware options, two configuration items are also supported: bypass and context:
 
-- bypass: bypass the proxy based on the return value of a function.
-  - Return `null` or `undefined` to continue processing the request with proxy.
-  - Return `false` to produce a 404 error for the request.
-  - Return a path to serve from, instead of continuing to proxy the request.
-- context: If you want to proxy multiple, specific paths to the same target, you can use an array of one or more objects with a context property.
+- bypass: Bypass the proxy based on the return value of the function.
+  - Returning `null` or `undefined` will continue to process the request with proxy.
+  - Returning `false` will return a 404 error.
+  - Returning a specific service path will use this path to replace the original request path.
+- context: If you want to proxy multiple specific paths to the same target, you can use the context configuration item.
 
 ```js
-// custom bypass
+// Custom bypass method
 export default {
   tools: {
     devServer: {
@@ -181,7 +181,7 @@ export default {
 ```
 
 ```js
-// proxy multiple
+// Proxy multiple paths to the same target
 export default {
   tools: {
     devServer: {

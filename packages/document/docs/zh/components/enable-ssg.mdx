@@ -9,6 +9,7 @@ pnpm add @modern-js/plugin-ssg
 ```
 
 :::tip 版本一致性
+
 请确保 `@modern-js/plugin-ssg` 的版本与项目中 `@modern-js/app-tools` 的版本保持一致。Modern.js 的所有官方包使用统一版本号发布，版本不一致可能导致兼容性问题。
 
 请先查看 `@modern-js/app-tools` 的版本，然后安装相同版本的 `@modern-js/plugin-ssg`：
@@ -44,4 +45,5 @@ export default defineConfig({
 - 单入口请使用 `output.ssg`。
 - 多入口请使用 `output.ssgByEntries`。
 - 当仅设置 `output.ssg: true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
-  :::
+
+:::
