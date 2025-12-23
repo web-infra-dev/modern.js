@@ -31,7 +31,6 @@ export default defineConfig({
     moduleFederationPlugin(),
   ],
 });
-
 ```
 
 ## 生产者导出模块
@@ -205,7 +204,7 @@ export default defineConfig({
   },
   plugins: [
     appTools({
-      bundler: 'rspack', // Set to 'webpack' to enable webpack
+      bundler: 'rspack',
     }),
     moduleFederationPlugin(),
   ],

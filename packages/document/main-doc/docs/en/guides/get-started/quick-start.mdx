@@ -7,7 +7,7 @@ sidebar_position: 2
 
 ## Environment
 
-import Prerequisites from "@site-docs-en/components/prerequisites"
+import Prerequisites from '@site-docs-en/components/prerequisites';
 
 <Prerequisites />
 
@@ -30,13 +30,13 @@ npx @modern-js/create@latest myapp
 
 ## Initialize
 
-import InitApp from "@site-docs-en/components/init-app"
+import InitApp from '@site-docs-en/components/init-app';
 
 <InitApp />
 
 ## Development
 
-import DebugApp from "@site-docs-en/components/debug-app"
+import DebugApp from '@site-docs-en/components/debug-app';
 
 <DebugApp />
 
@@ -56,9 +56,11 @@ export default defineConfig({
   server: {
     ssr: true,
   },
-  plugins: [appTools({
-      bundler: 'rspack', // Set to 'webpack' to enable webpack
-  }),],
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+  ],
 });
 ```
 
@@ -152,6 +154,6 @@ Open `http://localhost:8080/` in the browser, and the content should be consiste
 
 ## Deployment
 
-import Deploy from "@site-docs-en/components/deploy"
+import Deploy from '@site-docs-en/components/deploy';
 
 <Deploy />

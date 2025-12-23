@@ -6,7 +6,7 @@ title: webpack
 
 import { Badge } from '@theme';
 
-<Badge type="danger" >仅支持 Webpack</Badge>
+<Badge type="danger">仅支持 Webpack</Badge>
 
 - **类型：** `Object | Function | undefined`
 - **默认值：** `undefined`
@@ -14,6 +14,10 @@ import { Badge } from '@theme';
 `tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
 
 > `tools.bundlerChain` 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.bundlerChain`。
+
+:::tip
+Modern.js 对于 webpack 的支持已经废弃，并将在下一个大版本中移除，推荐优先使用 Rspack 作为打包工具。
+:::
 
 ### Object 类型
 

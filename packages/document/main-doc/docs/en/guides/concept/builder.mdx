@@ -2,12 +2,12 @@
 sidebar_position: 2
 ---
 
-# Build Engine
+# Build Tool
 
-Modern.js internally encapsulates [Rsbuild](https://rsbuild.rs/), and supports seamless switching between Webpack and Rspack bundlers.
+Modern.js internally encapsulates [Rsbuild](https://rsbuild.rs/), and supports seamless switching between Rspack and webpack.
 
-::: tip What is Rsbuild?
-Rsbuild is a build tool based on Rspack. It is an enhanced Rspack CLI, easy-to-use, and ready-to-use out of the box.
+:::tip
+Modern.js has deprecated support for webpack, which will be removed in the next major version. It is recommended to use Rspack as the bundler.
 :::
 
 ## Build Architecture
@@ -16,7 +16,7 @@ From the building perspective, Modern.js can be divided into three-layers, from 
 
 - Upper-level framework: Modern.js (open source) and EdenX (internal).
 - Build tool: Rsbuild.
-- Bundler: Webpack and Rspack.
+- Bundler: Rspack and webpack.
 
 <img
   src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/build-layers-02193.png"
