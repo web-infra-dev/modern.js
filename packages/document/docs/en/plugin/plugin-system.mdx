@@ -64,7 +64,7 @@ const myPlugin: Plugin = {
   // The entry function of the plugin (required)
   setup(api) {
     // The core logic of the plugin, calling plugin APIs through the api object
-    api.modifyWebpackConfig(config => {
+    api.modifyRspackConfig(config => {
       /* ... */
     });
     api.onPrepare(() => {

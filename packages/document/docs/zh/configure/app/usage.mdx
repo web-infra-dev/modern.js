@@ -248,18 +248,6 @@ import type { AppUserConfig } from '@modern-js/app-tools';
 
 const config: AppUserConfig = {
   tools: {
-    webpack: {},
-  },
-};
-```
-
-当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `AppUserConfig` 指定 `` 泛型：
-
-```ts title="modern.config.ts"
-import type { AppUserConfig } from '@modern-js/app-tools';
-
-const config: AppUserConfig = {
-  tools: {
     rspack: {},
   },
 };

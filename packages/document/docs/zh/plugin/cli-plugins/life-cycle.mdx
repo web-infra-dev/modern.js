@@ -36,8 +36,6 @@ flowchart TD
     modifyBundlerChain(modifyBundlerChain)
     modifyRsbuildConfig(modifyRsbuildConfig)
     modifyRspackConfig(modifyRspackConfig)
-    modifyWebpackChain(modifyWebpackChain)
-    modifyWebpackConfig(modifyWebpackConfig)
 
     onBeforeBuild_rsbuild(onBeforeBuild)
     onAfterBuild_rsbuild(onAfterBuild)
@@ -63,8 +61,6 @@ flowchart TD
     registry_rsbuild_hooks --> modifyBundlerChain
     modifyBundlerChain --> modifyRsbuildConfig
     modifyRsbuildConfig --> modifyRspackConfig
-    modifyRspackConfig --> modifyWebpackChain
-    modifyWebpackChain --> modifyWebpackConfig
     registry_rsbuild_hooks --> onBeforeBuild_rsbuild
     onBeforeBuild_rsbuild --> onAfterBuild_rsbuild
     onAfterBuild_rsbuild --> onDevCompileDone

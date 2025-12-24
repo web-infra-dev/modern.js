@@ -190,12 +190,12 @@ api.config(() => {
 
 #### `api.modifyBundlerChain`
 
-Modify Webpack or Rspack configuration using the chain API.
+Modify Rspack configuration using the chain API.
 
-- **Type:** `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
+- **Type:** `api.modifyBundlerChain(modifyFn: (chain: RspackChain, utils: RspackUtils) => void | Promise<void>)`
 - **Parameters:**
-  - `modifyFn`: A modification function that receives a `webpack-chain` or `RspackChain` instance and utility functions as parameters.
-- **Execution Phase:** When generating the final Webpack or Rspack configuration.
+  - `modifyFn`: A modification function that receives a `RspackChain` instance and utility functions as parameters.
+- **Execution Phase:** When generating the final Rspack configuration.
 - **Corresponding Rsbuild Hook:** [modifyBundlerChain](https://rsbuild.rs/en/plugins/dev/hooks#modifybundlerchain)
 - **Example:**
 
@@ -250,65 +250,15 @@ api.modifyRspackConfig((config, utils) => {
 
 ---
 
-#### `api.modifyWebpackChain`
-
-Modify the Webpack configuration using [webpack-chain](https://github.com/neutrinojs/webpack-chain) (when using Webpack as the bundler).
-
-- **Type:** `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
-- **Parameters:**
-  - `modifyFn`: A modification function that receives a `webpack-chain` instance and utility functions as parameters.
-- **Execution Phase:** When generating the final Webpack configuration.
-- **Example:**
-
-```typescript
-api.modifyWebpackChain((chain, utils) => {
-  // Add a custom Webpack loader
-  chain.module
-    .rule('my-loader')
-    .test(/\.my-ext$/)
-    .use('my-loader')
-    .loader(require.resolve('./my-loader'));
-});
-```
-
----
-
-#### `api.modifyWebpackConfig`
-
-Directly modify the Webpack configuration object (when using Webpack as the bundler).
-
-- **Type:** `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
-- **Parameters:**
-  - `modifyFn`: A modification function that receives the Webpack configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
-- **Execution Phase:** When generating the final Webpack configuration.
-- **Example:**
-
-```typescript
-api.modifyWebpackConfig((config, utils) => {
-  // Disable source map
-  config.devtool = false;
-});
-```
-
 **Build Configuration Modification Order**
 
-- **Building with Rspack:**
-  ```
-  modifyRsbuildConfig
-  modifyBundlerChain
-  tools.bundlerChain
-  modifyRspackConfig
-  tools.rspack
-  ```
-- **Building with Webpack:**
-  ```
-  modifyBundlerChain
-  tools.bundlerChain
-  modifyWebpackChain
-  tools.webpackChain
-  modifyWebpackConfig
-  tools.webpack
-  ```
+```
+modifyRsbuildConfig
+modifyBundlerChain
+tools.bundlerChain
+modifyRspackConfig
+tools.rspack
+```
 
 ---
 
