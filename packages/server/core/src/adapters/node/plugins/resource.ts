@@ -170,15 +170,16 @@ export async function getRscSSRManifest(pwd: string) {
   return rscSSRManifest;
 }
 
-export const injectRscManifestPlugin = (): ServerPluginLegacy => ({
+export const injectRscManifestPlugin = (
+  enableRsc: boolean,
+): ServerPluginLegacy => ({
   name: '@modern-js/plugin-inject-rsc-manifest',
   setup(api) {
     return {
       async prepare() {
         const { middlewares, distDirectory: pwd } = api.useAppContext();
-        const config = api.useConfigContext();
         // only rsc project need inject rsc manifest
-        if (!config.server?.rsc) {
+        if (!enableRsc) {
           return;
         }
 

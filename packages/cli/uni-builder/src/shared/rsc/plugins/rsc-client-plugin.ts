@@ -48,7 +48,10 @@ export class RscClientPlugin {
       }
     }
 
-    const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
+    const getEntryModule = (
+      compilation: Webpack.Compilation,
+      type: 'finishMake' | 'jsParse',
+    ): Module[] => {
       const entryModules: Webpack.Module[] = [];
 
       for (const [, entryValue] of compilation.entries.entries()) {
@@ -72,9 +75,12 @@ export class RscClientPlugin {
       }
 
       if (entryModules.length === 0) {
-        compilation.errors.push(
-          new WebpackError(`Could not find any entries in the compilation.`),
-        );
+        if (type === 'finishMake') {
+          compilation.errors.push(
+            new WebpackError(`Could not find any entries in the compilation.`),
+          );
+        }
+
         return [];
       }
 
@@ -105,7 +111,7 @@ export class RscClientPlugin {
 
     compiler.hooks.finishMake.tap(RscClientPlugin.name, compilation => {
       if (compiler.watchMode) {
-        const entryModules = getEntryModule(compilation);
+        const entryModules = getEntryModule(compilation, 'finishMake');
 
         for (const entryModule of entryModules) {
           // Remove stale client references.
@@ -175,7 +181,7 @@ export class RscClientPlugin {
           parser: Webpack.javascript.JavascriptParser,
         ) => {
           parser.hooks.program.tap(RscClientPlugin.name, () => {
-            const entryModules = getEntryModule(compilation);
+            const entryModules = getEntryModule(compilation, 'jsParse');
 
             for (const entryModule of entryModules) {
               if (entryModule === parser.state.module) {
