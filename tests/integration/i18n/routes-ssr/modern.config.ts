@@ -7,6 +7,9 @@ export default defineConfig({
       mode: 'string',
     },
   },
+  performance: {
+    buildCache: false,
+  },
   plugins: [
     appTools(),
     i18nPlugin({
@@ -14,9 +17,6 @@ export default defineConfig({
         localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
-      },
-      performance: {
-        buildCache: false,
       },
     }),
   ],
