@@ -53,7 +53,7 @@ export const rsbuildRscPlugin = ({
 
   setup(api) {
     api.modifyBundlerChain({
-      handler: async (chain, { isServer, CHAIN_ID }) => {
+      handler: async (chain, { isServer, CHAIN_ID, isWebWorker }) => {
         if (!(await checkReactVersionAtLeast19(appDir))) {
           logger.error(
             'Enable react server component, please make sure the react and react-dom versions are greater than or equal to 19.0.0',
@@ -196,7 +196,7 @@ export const rsbuildRscPlugin = ({
           flightCssHandler();
           jsHandler();
           addServerRscPlugin();
-        } else {
+        } else if (!isWebWorker) {
           chain.name('client');
           chain.dependencies(['server']);
           addRscClientLoader();

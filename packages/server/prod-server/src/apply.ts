@@ -38,7 +38,9 @@ export async function applyPlugins(
   options: ProdServerOptions,
   nodeServer?: NodeServer | Http2SecureServer,
 ) {
-  const { pwd, appContext, config, logger: optLogger } = options;
+  const { pwd, appContext, config, logger: optLogger, serverConfig } = options;
+
+  const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
 
   const serverErrorHandler = options.serverConfig?.onError;
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
@@ -93,7 +95,7 @@ export async function applyPlugins(
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
     injectResourcePlugin(),
-    injectRscManifestPlugin(),
+    injectRscManifestPlugin(enableRsc),
     serverStaticPlugin(),
     faviconPlugin(),
     renderPlugin(),
