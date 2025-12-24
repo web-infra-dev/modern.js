@@ -171,14 +171,13 @@ export async function getRscSSRManifest(pwd: string) {
   return rscSSRManifest;
 }
 
-export const injectRscManifestPlugin = (): ServerPlugin => ({
+export const injectRscManifestPlugin = (enableRsc: boolean): ServerPlugin => ({
   name: '@modern-js/plugin-inject-rsc-manifest',
   setup(api) {
     api.onPrepare(() => {
       const { middlewares, distDirectory: pwd } = api.getServerContext();
-      const config = api.getServerConfig();
       // only rsc project need inject rsc manifest
-      if (!config.server?.rsc) {
+      if (!enableRsc) {
         return;
       }
 
