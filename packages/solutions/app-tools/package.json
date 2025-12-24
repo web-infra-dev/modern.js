@@ -122,6 +122,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "1.6.14",
+    "@rsbuild/plugin-node-polyfill": "^1.4.2",
     "@swc/helpers": "^0.5.17",
     "@vercel/nft": "^1.1.1",
     "es-module-lexer": "^1.7.0",

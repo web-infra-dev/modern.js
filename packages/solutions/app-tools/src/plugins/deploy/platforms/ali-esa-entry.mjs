@@ -1,3 +1,4 @@
+import { env } from 'node:process';
 import { createAliESAFunction } from './bundles/modern-server';
 import { deps } from './deps';
 
@@ -26,7 +27,11 @@ async function initServer() {
     ...dynamicProdOptions,
   };
 
-  const requestHandler = await createAliESAFunction(prodServerOptions, deps);
+  const requestHandler = await createAliESAFunction(
+    prodServerOptions,
+    deps,
+    env,
+  );
 
   return requestHandler;
 }
@@ -38,7 +43,6 @@ async function createHandler() {
         requestHandler = await initServer();
       } catch (error) {
         console.error('Error creating server:', error);
-        process.exit(1);
       }
     })();
   }

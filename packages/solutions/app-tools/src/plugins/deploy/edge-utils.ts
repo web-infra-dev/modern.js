@@ -1,4 +1,5 @@
 import path from 'path';
+import type { Entrypoint } from '@modern-js/plugin';
 import {
   ROUTE_SPEC_FILE,
   SERVER_DIR,
@@ -9,9 +10,55 @@ import { resolve } from '@vercel/nft';
 import { Job } from '@vercel/nft/out/node-file-trace';
 import type { AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
+import { isMainEntry } from '../../utils/routes';
 import { type PluginItem, genPluginImportsCode, getPluginsCode } from './utils';
 
 export const ESM_RESOLVE_CONDITIONS = ['node', 'import', 'module', 'default'];
+
+export const NODE_BUILTIN_MODULES = [
+  'assert',
+  'async_hooks',
+  'buffer',
+  'child_process',
+  'cluster',
+  'console',
+  'crypto',
+  'dgram',
+  'diagnostics_channel',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'fs/promises',
+  'http',
+  'http2',
+  'https',
+  'inspector',
+  'module',
+  'net',
+  'os',
+  'path',
+  'perf_hooks',
+  'process',
+  'punycode',
+  'querystring',
+  'readline',
+  'repl',
+  'stream',
+  'string_decoder',
+  'timers',
+  'tls',
+  'trace_events',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'wasi',
+  'worker_threads',
+  'zlib',
+  'constants',
+];
 
 export const isTextFile = (filePath: string) => {
   const textExtensions = ['.txt', '.html', '.css', '.svg', '.css'];
@@ -201,3 +248,42 @@ export const resolveESMDependency = async (entry: string) => {
   }
   return res;
 };
+
+export const copyEntriesHtml = async (
+  modernConfig: AppToolsNormalizedConfig,
+  entrypoints: Entrypoint[],
+  from: string,
+  to: string,
+) => {
+  const {
+    source: { mainEntryName },
+  } = modernConfig;
+  for (const entry of entrypoints) {
+    const isMain = isMainEntry(entry.entryName, mainEntryName);
+    const entryFilePath = path.join(
+      from,
+      'html',
+      entry.entryName,
+      'index.html',
+    );
+    const targetHtml = isMain ? 'index.html' : `${entry.entryName}.html`;
+    await fse.copyFile(entryFilePath, path.join(to, targetHtml));
+  }
+};
+
+export const externalPkgs = ({ request }: any, callback: any) => {
+  if (request) {
+    if (request.includes('compiled/debug/index.js')) {
+      return callback(undefined, 'var {debug:()=>{return () => {}}}');
+    }
+  }
+  callback();
+};
+
+export const generateNodeExternals = (
+  getExternal: (api: string) => string,
+  list: string[] = [],
+) => [
+  ...list.map(api => [api, getExternal(api)]),
+  ...list.map(api => [`node:${api}`, getExternal(api)]),
+];

@@ -320,9 +320,49 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **EdgeOne Node Functions** 上。
 
-全栈项目除了按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json` 外，需要注意：
+全栈项目除了按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json` 外，需要注意：目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
 
-1. 目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
+## 阿里云 ESA
+
+在腾讯云 ESA 上部署，通常需要配置 `esa.jsonc` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `esa.jsonc` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── esa.jsonc
+└── package.json
+```
+
+在 `esa.jsonc` 中添加以下内容：
+
+```json title="esa.jsonc"
+{
+  "buildCommand": "MODERNJS_DEPLOY=aliEsa modern deploy",
+  "assets": {
+    "directory": "./.ali-esa/dist"
+  }
+}
+```
+
+提交你的项目到 git，在阿里云 ESA 平台上选择仓库，配置保持默认，部署即可。
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **ESA Functions** 上。
+
+全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `esa.jsonc` 外，需要**额外**添加 `entry` 字段：
+
+
+```json title="esa.jsonc"
+{
+  "entry": "./.ali-esa/functions/index.js"
+}
+```
 
 ## Cloudflare Workers
 
@@ -364,7 +404,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Cloudflare Workers** 上。
 
-全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `wrangler.jsonc` 外，需要额外添加以下内容：
+全栈项目除了按照[纯前端项目](#纯前端项目-4)的方式配置 `wrangler.jsonc` 外，需要**额外**添加以下内容：
 
 ```json title="wrangler.jsonc"
 {

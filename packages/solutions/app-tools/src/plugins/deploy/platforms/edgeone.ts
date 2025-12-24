@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { lodash as _, fs as fse } from '@modern-js/utils';
-import { isMainEntry } from '../../../utils/routes';
 import {
   ESM_RESOLVE_CONDITIONS,
   copyDeps,
+  copyEntriesHtml,
   generateHandler,
   normalizePath,
   resolveESMDependency,
@@ -49,20 +49,12 @@ export const createEdgeOnePreset: CreatePreset = (
       await fse.copy(distStaticDirectory, staticDirectory);
 
       if (!needModernServer) {
-        const {
-          source: { mainEntryName },
-        } = modernConfig;
-        for (const entry of entrypoints) {
-          const isMain = isMainEntry(entry.entryName, mainEntryName);
-          const entryFilePath = path.join(
-            distDirectory,
-            'html',
-            entry.entryName,
-            'index.html',
-          );
-          const targetHtml = isMain ? 'index.html' : `${entry.entryName}.html`;
-          await fse.copyFile(entryFilePath, path.join(eoOutput, targetHtml));
-        }
+        await copyEntriesHtml(
+          modernConfig,
+          entrypoints,
+          distDirectory,
+          eoOutput,
+        );
       } else {
         await fse.ensureDir(funcContentDirectory);
         await copyDeps(

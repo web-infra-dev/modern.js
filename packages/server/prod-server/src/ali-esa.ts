@@ -1,4 +1,3 @@
-import { env } from 'node:process';
 import { createServerBase } from '@modern-js/server-core';
 import {
   getServerCliConfig,
@@ -15,6 +14,7 @@ export type { BaseEnv, ProdServerOptions } from './types';
 export const createAliESAFunction = async (
   options: ProdServerOptions,
   deps: any,
+  env: any,
 ) => {
   const serverBaseOptions = options;
 
@@ -38,12 +38,9 @@ export const createAliESAFunction = async (
   }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  await applyPlugins(server, options, deps, cache, env);
+  await applyPlugins(server, options, deps, undefined, env);
   await server.init();
   return (request: Request) => {
-    return server.handle(request, {
-      Bindings: {},
-      Variables: env,
-    });
+    return server.handle(request, env);
   };
 };
