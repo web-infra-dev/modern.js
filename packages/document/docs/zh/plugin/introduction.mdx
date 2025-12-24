@@ -18,9 +18,9 @@ Modern.js 提供了一套强大的插件体系，允许开发者通过编写插�
 
 Modern.js 提供了两种主要的插件类型：Modern.js 框架插件和 Rsbuild 构建插件。选择哪种插件取决于你的具体需求：
 
-- **Rsbuild 构建插件：** 如果你的需求与构建过程密切相关，特别是涉及到 Webpack 或 Rspack 配置的修改，那么你应该选择 Rsbuild 插件。例如：
+- **Rsbuild 构建插件：** 如果你的需求与构建过程密切相关，特别是涉及到 Rspack 配置的修改，那么你应该选择 Rsbuild 插件。例如：
 
-  - 修改 Webpack/Rspack 的 `loader` 或 `plugin` 配置。
+  - 修改 Rspack 的 `loader` 或 `plugin` 配置。
   - 处理新的文件类型。
   - 修改或编译文件内容。
   - 对构建产物进行优化或处理。
@@ -31,7 +31,7 @@ Modern.js 提供了两种主要的插件类型：Modern.js 框架插件和 Rsbui
   - 定制化应用的渲染过程（如 SSR）。
   - 添加服务端中间件或处理函数。
 
-简单来说，需要修改 Webpack/Rspack 配置时，使用 Rsbuild 插件；其他与框架相关的功能扩展，使用 Modern.js 插件。
+简单来说，需要修改 Rspack 配置时，使用 Rsbuild 插件；其他与框架相关的功能扩展，使用 Modern.js 插件。
 
 ## Modern.js 框架插件
 
@@ -101,12 +101,6 @@ export default defineServerConfig({
 });
 ```
 
-:::tip
-Modern.js 从 `MAJOR_VERSION.66.0` 起正式对外使用新的插件机制。
-
-如果你的当前版本低于 MAJOR_VERSION.66.0，可通过执行 `npx modern upgrade` 进行升级。
-:::
-
 ### 开发插件
 
 如果你需要开发 Modern.js 框架插件，请阅读 [Modern.js 插件系统](/plugin/plugin-system) 获取更多信息。
@@ -121,12 +115,6 @@ Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修�
 - 部署产物
 
 你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
-
-:::tip
-Modern.js 从 `MAJOR_VERSION.46.0` 起，底层构建工具升级为 [Rsbuild](https://rsbuild.rs/)。
-
-如果你的当前版本低于 MAJOR_VERSION.46.0，可通过执行 `npx modern upgrade` 进行升级。
-:::
 
 :::info
 可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.rs/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
