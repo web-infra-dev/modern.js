@@ -25,16 +25,15 @@ export const setupAliESA: Setup = async api => {
         'environments.node.resolve.conditionNames',
         ESM_RESOLVE_CONDITIONS,
       );
-      _.set(config, 'output.minify', false);
       // remove __non_webpack_require__
       _.set(
         config,
         'environments.node.source.define.__non_webpack_require__',
         'undefined',
       );
-      // polyfill loadable
+      // loadable use it
       _.set(config, 'environments.node.source.define.__dirname', "''");
-      // polyfill Helmet
+      // Helmet use it, but global object is not exists in ali-esa
       _.set(config, 'environments.node.source.define.global', 'globalThis');
     }
     return config;
@@ -55,11 +54,9 @@ export const setupAliESA: Setup = async api => {
   ];
   // used in some modules like rslog, we need to polyfill them
   const polyfillNodeBuiltin = ['os', 'tty'];
-  // other node builtin modules, we make sure they are not be used, so ignore them
+  // other node builtin modules, we have confirmed that they has not been actually used, so ignore them
   const otherBuiltin = NODE_BUILTIN_MODULES.filter(
-    x =>
-      !esaNodeModules.includes(x) &&
-      !(polyfillNodeBuiltin as string[]).includes(x),
+    x => !esaNodeModules.includes(x) && !polyfillNodeBuiltin.includes(x),
   );
   const esaExternals = Object.fromEntries([
     ...generateNodeExternals(
@@ -116,7 +113,6 @@ export const setupAliESA: Setup = async api => {
         _.set(options, 'externals', [esaExternals, externalPkgs]);
       }
     }
-    _.set(options, 'output.pathinfo', 'verbose');
   });
 };
 

@@ -162,7 +162,7 @@ export const createNetlifyPreset: CreatePreset = (
         );
       } else {
         await fse.copy(
-          path.join(__dirname, './netlify-entry.js'),
+          path.join(__dirname, './netlify-entry.cjs'),
           entryFilePath,
         );
       }

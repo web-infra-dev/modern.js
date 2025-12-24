@@ -1,19 +1,14 @@
 import path from 'path';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import type { Logger, ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import {
-  fs,
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
   NESTED_ROUTE_SPEC_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
-  compatibleRequire,
-  isProd,
 } from '@modern-js/utils';
 import type {
   Middleware,
-  MiddlewareHandler,
   ServerEnv,
   ServerManifest,
   ServerPlugin,
@@ -49,23 +44,6 @@ export function injectTemplates(
     await next();
   };
 }
-
-const loadBundle = async (filepath: string, logger: Logger) => {
-  if (!(await fs.pathExists(filepath))) {
-    return undefined;
-  }
-
-  try {
-    const module = await compatibleRequire(filepath, false);
-    return module;
-  } catch (e) {
-    logger.error(
-      `Load ${filepath} bundle failed, error = %s`,
-      e instanceof Error ? e.stack || e.message : e,
-    );
-    return undefined;
-  }
-};
 
 export async function getServerManifest(
   routes: ServerRoute[],
@@ -120,6 +98,7 @@ export function injectServerManifest(
   };
 }
 
+// not implemented for edge function now
 // export async function getRscServerManifest(pwd: string) {
 //   const rscServerManifest = await compatibleRequire(
 //     path.join(pwd, 'bundles', 'react-server-manifest.json'),

@@ -167,7 +167,7 @@ export const createVercelPreset: CreatePreset = (
         );
       } else {
         await fse.copy(
-          path.join(__dirname, './vercel-entry.js'),
+          path.join(__dirname, './vercel-entry.cjs'),
           entryFilePath,
         );
       }

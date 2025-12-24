@@ -88,7 +88,9 @@ export const createEdgeOnePreset: CreatePreset = (
         modernConfig,
       );
       await fse.writeFile(handlerFilePath, handlerCode);
-      const entryCode = `import { handleRequest } from './_content/handler.js'; export const onRequest = handleRequest`;
+      const entryCode = (
+        await fse.readFile(path.join(__dirname, './edgeone-entry.mjs'))
+      ).toString();
       await fse.writeFile(path.join(funcsDirectory, 'index.js'), entryCode);
       await fse.writeFile(
         path.join(funcsDirectory, '[[default]].js'),

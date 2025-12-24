@@ -1,4 +1,3 @@
-export { loadServerPlugins } from './loadPlugin';
 export { getServerCliConfig } from './loadConfig';
 export { loadDeps } from './loadDeps';
 export { createCacheContainer } from './cache';

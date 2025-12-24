@@ -7,7 +7,6 @@ export {
 
 export {
   getServerCliConfig,
-  loadServerPlugins,
   loadDeps,
   createCacheContainer,
 } from './helper';
