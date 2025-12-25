@@ -1,6 +1,6 @@
 # CLI Plugin API
 
-This document details the API for Modern.js CLI plugins. CLI plugins allow you to extend and customize the functionality of Modern.js projects during the build and development process.
+Modern.js's CLI plugins allow you to extend and customize the functionality of Modern.js projects during the build and development process.
 
 :::info
 
@@ -28,7 +28,8 @@ const myCliPlugin = (): CliPlugin<AppTools> => ({
 export default myCliPlugin;
 ```
 
-The `setup` function receives an `api` object, which provides all available CLI plugin APIs.
+- `name`: A unique identifier for the plugin.
+- The `setup` function receives an `api` object, which provides all available CLI plugin APIs.
 
 ## Information Retrieval
 
@@ -575,4 +576,3 @@ api.onBeforePrintInstructions(({ instructions }) => {
 ## Other Notes
 
 - Refer to [CLI Plugin Lifecycle](./life-cycle.mdx) to understand the execution order of plugin hooks.
-- Refer to [CLI Plugin Migration Guide](./migration.mdx) to learn how to migrate from the old version of plugins to the new version.

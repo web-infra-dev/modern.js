@@ -1,6 +1,6 @@
 # 插件 API
 
-本文档详细介绍了 Modern.js CLI 插件的 API。CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
+Modern.js 的 CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
 
 :::info
 
@@ -28,7 +28,8 @@ const myCliPlugin = (): CliPlugin<AppTools> => ({
 export default myCliPlugin;
 ```
 
-`setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
+- `name`： 插件的唯一标识符。
+- `setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
 
 ## 信息获取
 
@@ -571,4 +572,3 @@ api.onBeforePrintInstructions(({ instructions }) => {
 ## 其他说明
 
 - 可以参考 [CLI 插件生命周期](./life-cycle.mdx) 了解插件钩子的执行顺序。
-- 可以参考 [CLI 插件迁移指南](./migration.mdx) 了解如何从旧版插件迁移到新版。

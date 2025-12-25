@@ -13,6 +13,11 @@
   },
   {
     "type": "dir",
+    "name": "server-plugins",
+    "label": "server-plugins"
+  },
+  {
+    "type": "dir",
     "name": "official",
     "label": "official-plugins",
     "collapsed": true
