@@ -21,17 +21,14 @@ async function initServer() {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
       bffRuntimeFramework: p_bffRuntimeFramework,
+      appDependencies: deps,
     },
     plugins: p_plugins,
     serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
 
-  const requestHandler = await createAliESAFunction(
-    prodServerOptions,
-    deps,
-    env,
-  );
+  const requestHandler = await createAliESAFunction(prodServerOptions, env);
 
   return requestHandler;
 }

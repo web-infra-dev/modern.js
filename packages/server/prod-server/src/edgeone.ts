@@ -2,6 +2,7 @@ import { createServerBase } from '@modern-js/server-core';
 import {
   getServerCliConfig,
   loadDeps,
+  serverStaticPlugin,
 } from '@modern-js/server-core/edge-function';
 import { OUTPUT_CONFIG_FILE } from '@modern-js/utils';
 import { applyPlugins } from './apply/edge-function';
@@ -24,8 +25,10 @@ interface EOEventContext {
 
 export const createEdgeOneFunction = async (
   options: ProdServerOptions,
-  deps: any,
+  staticFiles: string[],
+  env: any,
 ) => {
+  const deps = options.appContext.appDependencies || {};
   const serverBaseOptions = options;
 
   const serverCliConfig = getServerCliConfig(
@@ -48,7 +51,9 @@ export const createEdgeOneFunction = async (
   }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  await applyPlugins(server, options, deps);
+  const staticPlugin = serverStaticPlugin(staticFiles);
+
+  await applyPlugins(server, options, undefined, env, [staticPlugin]);
   await server.init();
   return (ctx: EOEventContext) => {
     return server.handle(ctx.request, {

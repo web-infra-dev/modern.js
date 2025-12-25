@@ -1,5 +1,5 @@
 import path from 'path';
-import type { Entrypoint } from '@modern-js/plugin';
+import type { CLIPluginAPI, Entrypoint } from '@modern-js/plugin';
 import {
   ROUTE_SPEC_FILE,
   SERVER_DIR,
@@ -8,10 +8,10 @@ import {
 } from '@modern-js/utils';
 import { resolve } from '@vercel/nft';
 import { Job } from '@vercel/nft/out/node-file-trace';
-import type { AppToolsNormalizedConfig } from '../../types';
+import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 import { isMainEntry } from '../../utils/routes';
-import { type PluginItem, genPluginImportsCode, getPluginsCode } from './utils';
+import { type PluginItem, getPluginsCode } from './utils';
 
 export const ESM_RESOLVE_CONDITIONS = ['node', 'import', 'module', 'default'];
 
@@ -184,6 +184,31 @@ export const copyDeps = async (
   );
 };
 
+const genPluginImportsCode = (plugins: PluginItem[]) => {
+  return `import { ${plugins.map((_, index) => `plugin_${index}`).join(', ')} } from './bundles/modern-server'`;
+};
+
+export const getProdServerEntry = (internalDirectory: string) =>
+  path.join(internalDirectory, 'prod-server.mjs');
+
+export const generateProdServerEntry = async (
+  ctx: ReturnType<CLIPluginAPI<AppTools>['getAppContext']>,
+  serverType: string,
+) => {
+  const { internalDirectory, serverPlugins } = ctx;
+  const pluginCode = serverPlugins.map(
+    ({ name }, index) =>
+      `import * as plugin_${index}_ns from '${name}';\nexport const plugin_${index} = plugin_${index}_ns.default || plugin_${index}_ns;`,
+  );
+  const entry = await resolveESMDependency(
+    `@modern-js/prod-server/${serverType}`,
+  );
+  const serverCode = `export * from '${entry}';`;
+  const prodEntryPath = getProdServerEntry(internalDirectory);
+  await fse.writeFile(prodEntryPath, `${pluginCode}\n${serverCode}`);
+  return prodEntryPath;
+};
+
 export const generateHandler = async (
   template: string,
   appContext: AppToolsContext,
@@ -244,9 +269,9 @@ export const resolveESMDependency = async (entry: string) => {
   });
   const res = await resolve(entry, __filename, j);
   if (Array.isArray(res)) {
-    return res[0];
+    return normalizePath(res[0]);
   }
-  return res;
+  return normalizePath(res);
 };
 
 export const copyEntriesHtml = async (

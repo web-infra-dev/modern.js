@@ -13,9 +13,9 @@ export type { BaseEnv, ProdServerOptions } from './types';
 
 export const createAliESAFunction = async (
   options: ProdServerOptions,
-  deps: any,
   env: any,
 ) => {
+  const deps = options.appContext.appDependencies || {};
   const serverBaseOptions = options;
 
   const serverCliConfig = getServerCliConfig(
@@ -38,7 +38,7 @@ export const createAliESAFunction = async (
   }
   const server = createServerBase<BaseEnv>(serverBaseOptions);
 
-  await applyPlugins(server, options, deps, undefined, env);
+  await applyPlugins(server, options, cache, env);
   await server.init();
   return (request: Request) => {
     return server.handle(request, env);

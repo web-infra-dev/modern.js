@@ -31,12 +31,12 @@ export type ApplyPlugins = typeof applyPlugins;
 export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
-  deps: any,
   cache?: Cache,
   env?: Record<string, unknown>,
   plugins?: ServerPlugin[],
 ) {
   const { config, logger: optLogger } = options;
+  const deps = options.appContext.appDependencies || {};
 
   const cacheConfig: CacheConfig = {
     strategy: loadDeps('server/cache', deps)?.content,

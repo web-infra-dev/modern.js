@@ -21,6 +21,7 @@ async function initServer(env) {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
       bffRuntimeFramework: p_bffRuntimeFramework,
+      appDependencies: deps,
     },
     plugins: p_plugins,
     serverConfigPath: p_serverDirectory,
@@ -29,7 +30,6 @@ async function initServer(env) {
 
   const requestHandler = await createEdgeOneFunction(
     prodServerOptions,
-    deps,
     staticFilesList,
     env,
   );

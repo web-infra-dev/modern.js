@@ -1,8 +1,8 @@
 import path from 'node:path';
-import { RspackConfig } from '@modern-js/builder';
 import { lodash as _, fs as fse } from '@modern-js/utils';
-import { RsbuildConfig, type Rspack } from '@rsbuild/core';
+import type { Rspack } from '@rsbuild/core';
 import { builtinMappingResolved } from '@rsbuild/plugin-node-polyfill';
+import { getServerPlugins } from '../../../utils/loadPlugins';
 import {
   ESM_RESOLVE_CONDITIONS,
   NODE_BUILTIN_MODULES,
@@ -11,15 +11,22 @@ import {
   externalPkgs,
   generateHandler,
   generateNodeExternals,
-  resolveESMDependency,
+  generateProdServerEntry,
+  getProdServerEntry,
 } from '../edge-utils';
 import type { CreatePreset, Setup } from './platform';
 
 export const setupAliESA: Setup = async api => {
-  const dep = await resolveESMDependency('@modern-js/prod-server/ali-esa');
+  api.generateEntryCode(async () => {
+    await getServerPlugins(api);
+    await generateProdServerEntry(api.getAppContext(), 'ali-esa');
+  });
+
   api.modifyRsbuildConfig(config => {
     if (_.get(config, 'environments.node')) {
-      _.set(config, 'environments.node.source.entry.modern-server', [dep]);
+      _.set(config, 'environments.node.source.entry.modern-server', [
+        getProdServerEntry(api.getAppContext().internalDirectory),
+      ]);
       _.set(
         config,
         'environments.node.resolve.conditionNames',

@@ -21,17 +21,14 @@ async function initServer(env) {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
       bffRuntimeFramework: p_bffRuntimeFramework,
+      appDependencies: deps,
     },
     plugins: p_plugins,
     serverConfigPath: p_serverDirectory,
     ...dynamicProdOptions,
   };
 
-  const requestHandler = await createCFWorkersFunction(
-    prodServerOptions,
-    deps,
-    env,
-  );
+  const requestHandler = await createCFWorkersFunction(prodServerOptions, env);
 
   return requestHandler;
 }

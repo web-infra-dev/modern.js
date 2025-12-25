@@ -11,10 +11,10 @@ export type { ProdServerOptions, BaseEnv } from './types';
 
 export const createCFWorkersFunction = async (
   options: ProdServerOptions,
-  deps: any,
   env?: any,
 ) => {
   const serverBaseOptions = options;
+  const deps = options.appContext.appDependencies || {};
 
   const serverCliConfig = getServerCliConfig(
     options.config,
@@ -38,7 +38,7 @@ export const createCFWorkersFunction = async (
 
   const cache = await caches.open('MODERN_SERVER_CACHE');
 
-  await applyPlugins(server, options, deps, cache, env);
+  await applyPlugins(server, options, cache, env);
   await server.init();
   return (request: any, env: any, ctx: any) => {
     return server.handle(request, env, ctx);

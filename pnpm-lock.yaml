@@ -913,6 +913,9 @@ importers:
 
   packages/server/bff-core:
     dependencies:
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
