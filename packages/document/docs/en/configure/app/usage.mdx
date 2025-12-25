@@ -248,18 +248,6 @@ import type { AppUserConfig } from '@modern-js/app-tools';
 
 const config: AppUserConfig = {
   tools: {
-    webpack: {},
-  },
-};
-```
-
-When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify the ``generic for`AppUserConfig`:
-
-```ts title="modern.config.ts"
-import type { AppUserConfig } from '@modern-js/app-tools';
-
-const config: AppUserConfig = {
-  tools: {
     rspack: {},
   },
 };

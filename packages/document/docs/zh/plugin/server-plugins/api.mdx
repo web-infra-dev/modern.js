@@ -1,3 +1,212 @@
 # 插件 API
 
-敬请期待...
+Modern.js 的 Server 插件允许您在服务端请求处理阶段扩展和定制功能，例如添加中间件、修改请求响应等。
+
+:::info
+
+Server 插件需要通过 `server/modern.server.ts` 中的 `plugins` 字段配置。
+
+:::
+
+## 插件基础结构
+
+一个典型的 Server 插件结构如下：
+
+```typescript
+import type { ServerPlugin } from '@modern-js/server-runtime';
+
+const myServerPlugin = (): ServerPlugin => ({
+  name: '@my-org/my-server-plugin', // 插件名称，确保唯一性
+  setup: api => {
+    // 在这里使用 API 注册钩子、添加中间件等
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
+      middlewares?.push({
+        name: 'my-middleware',
+        handler: async (c, next) => {
+          console.log('处理请求...');
+          await next();
+        },
+      });
+    });
+  },
+});
+
+export default myServerPlugin;
+```
+
+- `name`： 插件的唯一标识符。
+- `setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 Server 插件 API。
+
+## 信息获取
+
+#### `api.getServerContext`
+
+获取 Modern.js 服务器的上下文信息。
+
+- **返回值：** `ServerContext` 对象，包含以下字段：
+
+| 字段名            | 类型                | 描述                           |
+| ----------------- | ------------------- | ------------------------------ |
+| `middlewares`     | `MiddlewareObj[]`   | 中间件列表                     |
+| `renderMiddlewares` | `MiddlewareObj[]` | 渲染中间件列表                 |
+| `routes`          | `ServerRoute[]`     | 服务器路由信息                 |
+| `appDirectory`    | `string`            | 项目根目录的绝对路径           |
+| `apiDirectory`    | `string`            | API 模块目录的绝对路径         |
+| `lambdaDirectory` | `string`            | Lambda 模块目录的绝对路径     |
+| `sharedDirectory` | `string`            | 公共模块目录的绝对路径         |
+| `distDirectory`   | `string`            | 项目产物输出目录的绝对路径     |
+| `plugins`         | `ServerPlugin[]`    | 当前已注册的插件列表           |
+
+- **示例：**
+
+```typescript
+api.onPrepare(() => {
+  const serverContext = api.getServerContext();
+  console.log(`应用目录：${serverContext.appDirectory}`);
+  console.log(`已注册 ${serverContext.plugins.length} 个插件`);
+});
+```
+
+:::info
+`getServerContext` 返回的上下文信息是只读的，如需修改请使用 `updateServerContext`。
+:::
+
+---
+
+#### `api.getServerConfig`
+
+获取用户在 `server/modern.server.ts` 文件中定义的服务器配置。
+
+- **返回值：** 用户定义的服务器配置对象。
+- **示例：**
+
+```typescript
+api.onPrepare(() => {
+  const serverConfig = api.getServerConfig();
+  if (serverConfig.middlewares) {
+    console.log('用户自定义了中间件配置');
+  }
+});
+```
+
+---
+
+#### `api.getHooks`
+
+获取所有已注册的钩子函数。
+
+- **返回值：** 包含所有钩子函数的对象。
+- **示例：**
+
+```typescript
+const hooks = api.getHooks();
+// 手动触发 onPrepare 钩子
+await hooks.onPrepare.call();
+```
+
+:::warning
+在自定义插件中，只能手动调用对应插件注册的钩子，不能调用官方钩子，以免影响正常应用的执行顺序。
+:::
+
+---
+
+
+## 上下文修改
+
+#### `api.updateServerContext`
+
+更新服务器上下文信息。
+
+- **类型：** `api.updateServerContext(updateContext: DeepPartial<ServerContext>)`
+- **参数：**
+  - `updateContext`： 要更新的上下文对象（部分更新）。
+- **执行阶段：** 可在任何阶段使用。
+- **示例：**
+
+```typescript
+api.onPrepare(() => {
+  const context = api.getServerContext();
+  api.updateServerContext({
+    middlewares: [
+      ...context.middlewares,
+      {
+        name: 'new-middleware',
+        handler: async (c, next) => {
+          await next();
+        },
+      },
+    ],
+  });
+});
+```
+
+---
+
+
+## 生命周期钩子
+
+#### `api.onPrepare`
+
+在服务器准备阶段添加额外的逻辑。
+
+- **类型：** `api.onPrepare(prepareFn: () => void | Promise<void>)`
+- **参数：**
+  - `prepareFn`： 准备函数，无参数，可异步。
+- **执行阶段：** 在服务器完成配置校验之后，应用中间件之前。
+- **示例：**
+
+```typescript
+api.onPrepare(async () => {
+  const { middlewares } = api.getServerContext();
+
+  // 添加自定义中间件
+  middlewares.push({
+    name: 'request-logger',
+    handler: async (c, next) => {
+      const start = Date.now();
+      await next();
+      const duration = Date.now() - start;
+      console.log(`请求耗时: ${duration}ms`);
+    },
+  });
+});
+```
+
+:::info
+在 `onPrepare` 钩子中，可以修改 `getServerContext()` 返回的上下文对象（如 `middlewares`、`renderMiddlewares`），这些修改会在服务器启动时生效。
+:::
+
+---
+
+#### `api.onReset`
+
+在服务器重置时添加额外的逻辑。
+
+- **类型：** `api.onReset(resetFn: (params: { event: ResetEvent }) => void | Promise<void>)`
+- **参数：**
+  - `resetFn`： 重置处理函数，接收重置事件参数。
+    - `event.type`： 事件类型，可能的值：
+      - `'repack'`： 重新打包事件
+      - `'file-change'`： 文件变化事件
+    - `event.payload`： 当 `type` 为 `'file-change'` 时，包含文件变化信息数组。
+- **执行阶段：** 当文件发生变化或需要重新打包时。
+- **示例：**
+
+```typescript
+api.onReset(async ({ event }) => {
+  if (event.type === 'file-change') {
+    console.log('检测到文件变化:', event.payload);
+    // 执行清理或重新初始化操作
+  } else if (event.type === 'repack') {
+  }
+});
+```
+
+---
+
+
+## 其他说明
+
+- 可以参考 [Server 插件生命周期](./life-cycle.mdx) 了解插件钩子的执行顺序。
+- 中间件的执行顺序可以通过 `order` 字段控制（`'pre'`、`'default'`、`'post'`），也可以通过 `before` 字段指定在其他中间件之前执行。

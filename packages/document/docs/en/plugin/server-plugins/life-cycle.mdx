@@ -1,3 +1,43 @@
 # Life Cycle
 
-Comming soon...
+import Mermaid from '@site/src/components/Mermaid';
+
+<Mermaid>
+{`
+flowchart TD
+    init{{"Server Initialization"}}
+    load_config(Load User Config File)
+    server_plugin(Load Server Plugins<br><sub>Plugins registered in config file<br>Server plugins registered by CLI plugins<br>Plugins used by plugins</sub>)
+    registry_hooks(Register Hooks Functions<br><sub>Execute plugin setup function, register Hooks defined in plugins, logic in plugin setup will also execute here</sub>)
+
+    modifyConfig(modifyConfig<br><sub>Modify server configuration</sub>)
+    onPrepare(onPrepare<br><sub>Execute after server completes configuration validation, before applying middleware</sub>)
+    apply_middlewares(Apply Middleware<br><sub>Apply middleware according to order and before rules</sub>)
+
+    init --> load_config
+    load_config --> server_plugin
+    server_plugin --> registry_hooks
+    registry_hooks --> modifyConfig
+    modifyConfig --> onPrepare
+    onPrepare --> apply_middlewares
+
+    style init fill:#FDE68A,font-size:10px;
+    style load_config stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style server_plugin stroke-dasharray:5 5,fill:#86EFAC,font-size:10px;
+    style registry_hooks stroke-dasharray:5 5,fill:#9CA3AF,font-size:10px;
+    style modifyConfig font-size:10px;
+    style onPrepare font-size:10px;
+    style apply_middlewares font-size:10px;
+`}
+</Mermaid>
+
+:::info
+
+**Runtime Hooks**
+
+The `onReset` hook is triggered at runtime when files change or code recompilation (rspack) is needed. It is not part of the initialization flow, so it is not shown in the diagram above.
+
+- **Trigger Timing**: File changes (`event.type: 'file-change'`) or code recompilation (rspack) completion (`event.type: 'repack'`)
+- **Use Cases**: Clearing cache, re-initializing resources, etc.
+
+:::

@@ -59,12 +59,12 @@ const myPlugin: Plugin = {
   usePlugins: [], // List of plugin instances used internally, defaults to an empty array
 
   // Register new Hooks (optional)
-  registryHook: {},
+  registryHooks: {},
 
   // The entry function of the plugin (required)
   setup(api) {
     // The core logic of the plugin, calling plugin APIs through the api object
-    api.modifyWebpackConfig(config => {
+    api.modifyRspackConfig(config => {
       /* ... */
     });
     api.onPrepare(() => {
@@ -221,7 +221,7 @@ const myPlugin = () => ({
 const myPlugin2 = () => ({
   name: 'my-plugin',
   setup: api => {
-    api.modifyRoutes(async routes => {
+    api.modifyRoutes(routes => {
       // Modify routes
       return routes;
     });

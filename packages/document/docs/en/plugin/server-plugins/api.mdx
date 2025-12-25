@@ -1,3 +1,212 @@
 # Plugin API
 
-Comming soon...
+Modern.js's Server plugins allow you to extend and customize functionality during the server-side request processing phase, such as adding middleware, modifying request responses, etc.
+
+:::info
+
+Server plugins need to be configured via the `plugins` field in `server/modern.server.ts`.
+
+:::
+
+## Plugin Basic Structure
+
+A typical Server plugin structure is as follows:
+
+```typescript
+import type { ServerPlugin } from '@modern-js/server-runtime';
+
+const myServerPlugin = (): ServerPlugin => ({
+  name: '@my-org/my-server-plugin', // Plugin name, ensure uniqueness
+  setup: api => {
+    // Use the API here to register hooks, add middleware, etc.
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
+      middlewares?.push({
+        name: 'my-middleware',
+        handler: async (c, next) => {
+          console.log('Processing request...');
+          await next();
+        },
+      });
+    });
+  },
+});
+
+export default myServerPlugin;
+```
+
+- `name`: A unique identifier for the plugin.
+- The `setup` function receives an `api` object, which provides all available Server plugin APIs.
+
+## Information Retrieval
+
+#### `api.getServerContext`
+
+Gets the context information of the Modern.js server.
+
+- **Returns:** A `ServerContext` object containing the following fields:
+
+| Field Name          | Type              | Description                           |
+| ------------------- | ----------------- | ------------------------------------- |
+| `middlewares`       | `MiddlewareObj[]` | Middleware list                       |
+| `renderMiddlewares` | `MiddlewareObj[]` | Render middleware list                |
+| `routes`            | `ServerRoute[]`   | Server routing information            |
+| `appDirectory`      | `string`          | Absolute path to the project root    |
+| `apiDirectory`      | `string`          | Absolute path to the API module dir  |
+| `lambdaDirectory`   | `string`          | Absolute path to the Lambda module dir|
+| `sharedDirectory`   | `string`          | Absolute path to the shared module dir|
+| `distDirectory`     | `string`          | Absolute path to the output directory|
+| `plugins`            | `ServerPlugin[]`  | List of currently registered plugins  |
+
+- **Example:**
+
+```typescript
+api.onPrepare(() => {
+  const serverContext = api.getServerContext();
+  console.log(`App directory: ${serverContext.appDirectory}`);
+  console.log(`${serverContext.plugins.length} plugins registered`);
+});
+```
+
+:::info
+The context information returned by `getServerContext` is read-only. Use `updateServerContext` if you need to modify it.
+:::
+
+---
+
+#### `api.getServerConfig`
+
+Gets the server configuration defined by the user in the `server/modern.server.ts` file.
+
+- **Returns:** The user-defined server configuration object.
+- **Example:**
+
+```typescript
+api.onPrepare(() => {
+  const serverConfig = api.getServerConfig();
+  if (serverConfig.middlewares) {
+    console.log('User has customized middleware configuration');
+  }
+});
+```
+
+---
+
+#### `api.getHooks`
+
+Gets all registered hook functions.
+
+- **Returns:** An object containing all hook functions.
+- **Example:**
+
+```typescript
+const hooks = api.getHooks();
+// Manually trigger the onPrepare hook
+await hooks.onPrepare.call();
+```
+
+:::warning
+In custom plugins, you can only manually call the hooks registered by the corresponding plugin and cannot call official hooks to avoid affecting the normal execution order of the application.
+:::
+
+---
+
+
+## Context Modification
+
+#### `api.updateServerContext`
+
+Updates the server context information.
+
+- **Type:** `api.updateServerContext(updateContext: DeepPartial<ServerContext>)`
+- **Parameters:**
+  - `updateContext`: The context object to update (partial update).
+- **Execution Phase:** Can be used at any stage.
+- **Example:**
+
+```typescript
+api.onPrepare(() => {
+  const context = api.getServerContext();
+  api.updateServerContext({
+    middlewares: [
+      ...context.middlewares,
+      {
+        name: 'new-middleware',
+        handler: async (c, next) => {
+          await next();
+        },
+      },
+    ],
+  });
+});
+```
+
+---
+
+
+## Lifecycle Hooks
+
+#### `api.onPrepare`
+
+Adds additional logic during the server preparation phase.
+
+- **Type:** `api.onPrepare(prepareFn: () => void | Promise<void>)`
+- **Parameters:**
+  - `prepareFn`: A preparation function, without parameters, can be asynchronous.
+- **Execution Phase:** After the server completes configuration validation and before applying middleware.
+- **Example:**
+
+```typescript
+api.onPrepare(async () => {
+  const { middlewares } = api.getServerContext();
+
+  // Add custom middleware
+  middlewares.push({
+    name: 'request-logger',
+    handler: async (c, next) => {
+      const start = Date.now();
+      await next();
+      const duration = Date.now() - start;
+      console.log(`Request duration: ${duration}ms`);
+    },
+  });
+});
+```
+
+:::info
+In the `onPrepare` hook, you can modify the context object returned by `getServerContext()` (such as `middlewares`, `renderMiddlewares`), and these modifications will take effect when the server starts.
+:::
+
+---
+
+#### `api.onReset`
+
+Adds additional logic when the server resets.
+
+- **Type:** `api.onReset(resetFn: (params: { event: ResetEvent }) => void | Promise<void>)`
+- **Parameters:**
+  - `resetFn`: A reset handler function that receives reset event parameters.
+    - `event.type`: Event type, possible values:
+      - `'repack'`: Repack event
+      - `'file-change'`: File change event
+    - `event.payload`: When `type` is `'file-change'`, contains an array of file change information.
+- **Execution Phase:** When files change or repack is needed.
+- **Example:**
+
+```typescript
+api.onReset(async ({ event }) => {
+  if (event.type === 'file-change') {
+    console.log('File changes detected:', event.payload);
+    // Perform cleanup or re-initialization operations
+  } else if (event.type === 'repack') {
+  }
+});
+```
+
+---
+
+
+## Other Notes
+
+- Refer to [Server Plugin Lifecycle](./life-cycle.mdx) to understand the execution order of plugin hooks.
+- The execution order of middleware can be controlled through the `order` field (`'pre'`, `'default'`, `'post'`), or through the `before` field to specify execution before other middleware.
