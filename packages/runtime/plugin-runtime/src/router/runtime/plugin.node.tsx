@@ -240,7 +240,6 @@ export const routerPlugin = (
                       useJsonScript={useJsonScript}
                     />
                   )}
-                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </>
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;

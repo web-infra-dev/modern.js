@@ -28,7 +28,6 @@ type Elements = Promise<ReactNode[]>;
 export const ElementsContext = createContext<Elements | null>(null);
 
 // For users to pass an element, not a Component.
-const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
 export const ServerElementsProvider = ({
   elements,
   children,
@@ -41,7 +40,6 @@ export const ServerElementsProvider = ({
       <ElementsContext.Provider value={elements}>
         {children}
       </ElementsContext.Provider>
-      {JSX_SHELL_STREAM_END_MARK}
     </>
   );
 };
