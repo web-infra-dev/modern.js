@@ -1,5 +1,20 @@
 # @modern-js/prod-server
 
+## 2.69.6
+
+### Patch Changes
+
+- e34ca06: chore: update rsc code to adapter other framework
+
+  chore: 更新 rsc 相关代码适配更多框架
+
+- Updated dependencies [36068e4]
+- Updated dependencies [36d8ed0]
+- Updated dependencies [e34ca06]
+  - @modern-js/server-core@2.69.6
+  - @modern-js/runtime-utils@2.69.6
+  - @modern-js/utils@2.69.6
+
 ## 2.69.5
 
 ### Patch Changes
