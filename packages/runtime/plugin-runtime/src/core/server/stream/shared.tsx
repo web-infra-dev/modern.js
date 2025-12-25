@@ -6,6 +6,7 @@ import type {
   ServerManifest as RscServerManifest,
 } from '@modern-js/types/server';
 import type React from 'react';
+import { JSX_SHELL_STREAM_END_MARK } from '../../../common';
 import type { RuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestConfig } from '../requestHandler';
@@ -81,8 +82,15 @@ export function createRenderStreaming(
       config.ssrByEntries,
     );
 
-    const RSCServerRoot = ({ children }: { children: React.ReactNode }) => {
-      return <>{children}</>;
+    const StreamServerRootWrapper = ({
+      children,
+    }: { children: React.ReactNode }) => {
+      return (
+        <>
+          {children}
+          {JSX_SHELL_STREAM_END_MARK}
+        </>
+      );
     };
 
     let rootElement = wrapRuntimeContextProvider(
@@ -90,7 +98,9 @@ export function createRenderStreaming(
       Object.assign(runtimeContext, { ssr: true }),
     );
 
-    rootElement = <RSCServerRoot>{rootElement}</RSCServerRoot>;
+    rootElement = (
+      <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
+    );
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
       config,
