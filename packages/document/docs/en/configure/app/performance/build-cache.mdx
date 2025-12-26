@@ -19,7 +19,7 @@ type BuildCacheConfig =
       cacheDigest?: Array<string | undefined>;
       /**
        * An arrays of additional code dependencies for the build.
-       * Rspack / webpack will use a hash of each of these items and all dependencies to invalidate the filesystem cache.
+       * Rspack will use a hash of each of these items and all dependencies to invalidate the filesystem cache.
        */
       buildDependencies?: string[];
     }

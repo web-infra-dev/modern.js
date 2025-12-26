@@ -9,10 +9,7 @@ title: include
 
 ```ts
 const defaultInclude = [
-  [
-    { not: /[\\/]node_modules[\\/]/ },
-    /\.(?:ts|tsx|jsx|mts|cts)$/,
-  ],
+  [{ not: /[\\/]node_modules[\\/]/ }, /\.(?:ts|tsx|jsx|mts|cts)$/],
 ];
 ```
 
@@ -28,10 +25,7 @@ const defaultInclude = [
 const defaultInclude = [
   [
     {
-      and: [
-        APP_ROOT,
-        { not: /[\\/]node_modules[\\/]/ }
-      ]
+      and: [APP_ROOT, { not: /[\\/]node_modules[\\/]/ }],
     },
     /\.(?:ts|tsx|jsx|mts|cts)$/,
   ],
@@ -41,14 +35,6 @@ const defaultInclude = [
 与新版本的差异是，非当前项目目录的 `.js`、`.mjs`、`.cjs` 文件不会被编译。
 :::
 
-## Rspack
-
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConfig configName="source.include" />
-
-## Webpack
-
-为了保证历史项目可以正常运行，Webpack 编译时，`source.include` 与 Rsbuild 1.4 版本前的默认值一致。
-
-

@@ -341,6 +341,53 @@ export default {
 };
 ```
 
+### tools.babel
+
+**变更内容**: 该配置已废弃，框架不再内置 Babel，请使用 [Rsbuild 的 Babel 插件](https://v0.rsbuild.rs/plugins/list/plugin-babel) 来启用支持。
+
+**迁移示例**:
+
+```typescript
+// v2
+tools: {
+  babel: {
+    plugins: [
+      [
+        'babel-plugin-import',
+        {
+          libraryName: 'xxx-components',
+          libraryDirectory: 'es',
+          style: true,
+        },
+      ],
+    ],
+  },
+}
+
+// v3
+import { pluginBabel } from '@rsbuild/plugin-babel';
+
+export default {
+  // ...
+  builderPlugins: [
+    pluginBabel({
+      babelLoaderOptions: {
+        plugins: [
+          [
+            'babel-plugin-import',
+            {
+              libraryName: 'my-components',
+              libraryDirectory: 'es',
+              style: true,
+            },
+          ],
+        ],
+      },
+    })
+  ];
+}
+```
+
 ### tools.tailwindcss
 
 **变更内容**: 该配置已废弃，请参考 [Tailwind 插件变更](/guides/upgrade/tailwindcss)，使用 Rsbuild 的方式来接入 Tailwind CSS。
@@ -734,6 +781,10 @@ export default {
 };
 ```
 
+import ConfigDeploy from '@site-docs/components/upgrade-config-deploy.mdx';
+
+<ConfigDeploy />
+
 ## plugins
 
 ### app-tools 插件
@@ -756,6 +807,12 @@ plugins: [
 ],
 ```
 
+## security
+
+### security.sri
+
+**变更内容**: `security.sri.hashLoading` 不再需要，可以直接移除。
+
 ## runtime
 
 ### runtime.router
@@ -766,7 +823,57 @@ plugins: [
 
 **变更内容**: 该配置被废弃，建议使用第三方状态管理库。
 
+### runtime.masterApp
+
+**变更内容**: 该配置被废弃，将该配置移动到 modern.runtime.ts 中的 masterApp 配置。
+
+**迁移示例**:
+
+```typescript
+// v2
+// modern.config.ts
+export default {
+  runtime: {
+    masterApp: {
+      apps: [
+        {
+          name: 'Table',
+          entry: 'http://localhost:8081',
+        },
+        {
+          name: 'Dashboard',
+          entry: 'http://localhost:8082',
+        },
+      ],
+    },
+  },
+};
+
+// v3
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  masterApp: {
+    apps: [
+      {
+        name: 'Table',
+        entry: 'http://localhost:8081',
+      },
+      {
+        name: 'Dashboard',
+        entry: 'http://localhost:8082',
+      },
+    ],
+  },
+});
+```
+
 ## performance
+
+### performance.bundleAnalyze
+
+**变更内容**: 该配置已废弃，建议使用 [Rsdoctor](https://rsbuild.rs/zh/guide/debug/rsdoctor) 来分析产物体积
 
 ### performance.transformLodash
 
