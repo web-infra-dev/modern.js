@@ -225,10 +225,10 @@ export default function DashboardPage() {
 
 每一级的路由组件（如 `layout.tsx`、`page.tsx`）可以独立选择是 Client Component 还是 Server Component：
 
-```ts
--routes -
-  layout.tsx - // 可以是 Client Component
-  page.tsx; // 可以是 Server Component
+```bash
+- routes
+    - layout.tsx  // 可以是 Client Component
+    - page.tsx    // 可以是 Server Component
 ```
 
 例如，假设 `layout.tsx` 是一个 Client Component（需要客户端交互），你仍然可以将 `page.tsx` 设置为 Server Component（用于数据获取和渲染）。这种方式提供了极大的灵活性，也使非 RSC 项目可以渐进式地迁移至 RSC 项目。
@@ -243,7 +243,7 @@ export default function DashboardPage() {
 
 如果你同时使用了 Streaming SSR 和 RSC，在 react19 中需要通过使用 `use`，而不再需要使用 `Await` 组件：
 
-```typescript
+```ts
 function NonCriticalUI({ p }: { p: Promise<string> }) {
   let value = React.use(p);
   return <h3>Non critical value {value}</h3>;
@@ -251,7 +251,7 @@ function NonCriticalUI({ p }: { p: Promise<string> }) {
 
 <React.Suspense fallback={<div>Loading...</div>}>
   <NonCriticalUI p={nonCriticalData} />
-</React.Suspense>;
+</React.Suspense>
 ```
 
 ## 最佳实践
