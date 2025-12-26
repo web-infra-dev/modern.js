@@ -1,0 +1,69 @@
+### 获取请求上下文
+
+在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，你可以通过 `useHonoContext` 来获取：
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server';
+
+export const get = async () => {
+  const c = useHonoContext();
+  console.info(`access url: ${c.req.url}`);
+  return 'Hello Modern.js';
+};
+```
+
+:::info
+详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
+:::
+
+### 定义 BFF 函数
+
+使用 Hono 作为运行时框架时，可以通过 [BFF 函数](/guides/advanced-features/bff/function.html#bff-函数) 定义接口：
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+### 使用中间件
+
+Hono 支持丰富的中间件生态，可以在 BFF 函数中使用中间件：
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Middleware } from '@modern-js/plugin-bff/server';
+
+export const getUser = Api(
+  Get('/user'),
+  Middleware(async (c, next) => {
+    // 在中间件中可以访问 Hono 的 Context
+    c.res.headers.set('X-Powered-By', 'Modern.js');
+    await next();
+  }),
+  async () => {
+    return {
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+### 更多 Hono 文档
+
+更多关于 Hono 的详细信息可查看 [Hono 官方文档](https://hono.dev/)。

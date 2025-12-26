@@ -7,20 +7,6 @@ title: 运行时框架
 
 Modern.js 以 [Hono.js](https://hono.dev/) 作为 BFF 和 Server 运行时框架，因此可以基于 Hono.js 生态[扩展 BFF Server](/guides/advanced-features/bff/extend-server.html)。
 
-## 获取请求上下文
+import Hono from '@site-docs/components/hono';
 
-在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，你可以通过 `useHonoContext` 来获取：
-
-```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/server'
-export const get = async () => {
-  const c = useHonoContext();
-  console.info(`access url: ${c.req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-:::info
-详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
-:::
-
+<Hono />

@@ -7,7 +7,7 @@ SSG (Static Site Generation) is a technical solution that generates complete sta
 
 ## Enabling SSG
 
-import EnableSSG from "@site-docs-en/components/enable-ssg";
+import EnableSSG from '@site-docs-en/components/enable-ssg';
 
 <EnableSSG />
 
@@ -70,7 +70,6 @@ Each route in **conventional routing** will generate a separate HTML file. Check
 
 After running `pnpm run serve` to start the project, inspect the returned document in the Network tab of the browser's development tools. The document includes the fully rendered content from the component.
 
-
 ## Using SSG in Manual Routing
 
 **Manual routing** defines routes through component code, requiring the application to run to obtain accurate route information. Therefore, you cannot use the SSG feature out of the box. Developers need to configure which routes require SSG.
@@ -109,11 +108,7 @@ In manual routing or conventional routing with dynamic segments (e.g., `/user/[i
 export default defineConfig({
   output: {
     ssg: {
-      routes: [
-        '/',
-        '/about',
-        '/user/modernjs',
-      ],
+      routes: ['/', '/about', '/user/modernjs'],
     },
   },
 });
@@ -149,14 +144,14 @@ export default defineConfig({
   output: {
     ssg: {
       headers: {
-        "x-tt-env": "ppe_modernjs"
+        'x-tt-env': 'ppe_modernjs',
       },
       routes: [
         '/',
         {
           url: '/about',
           headers: {
-            "from": "modern-website"
+            from: 'modern-website',
           },
         },
       ],

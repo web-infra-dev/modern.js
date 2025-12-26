@@ -1,0 +1,593 @@
+---
+sidebar_position: 2
+title: Creating Extensible BFF Functions
+---
+
+# Creating Extensible BFF Functions
+
+The previous section showed how to export a simple BFF function in a file. In more complex scenarios, each BFF function may need to do independent type validation, pre-logic, etc.
+
+Therefore, Modern.js exposes `Api`, which supports creating BFF functions through this API. BFF functions created in this way can be easily extended with functionality.
+
+## Example
+
+:::caution Note
+
+- The `Api` function can only be used in TypeScript projects, not in pure JavaScript projects.
+- Operator functions (such as `Get`, `Query`, etc. below) depend on [`zod`](https://www.npmjs.com/package/zod), which needs to be installed in the project first.
+
+```shell
+pnpm add zod
+```
+
+:::
+
+A BFF function created by the `Api` function consists of the following parts:
+
+- `Api()`, the function that defines the interface.
+- `Get(path?: string)`, specifies the interface route.
+- `Query(schema: T)`, `Redirect(url: string)`, extends the interface, such as specifying interface input parameters.
+- `Handler: (...args: any[]) => any | Promise<any>`, the function that handles the request logic of the interface.
+
+The server can define the input parameters and types of the interface. Based on the types, the server will automatically perform type validation at runtime:
+
+import BFFOperatorCode from '@site-docs/components/bff-operator-code';
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Post, Query, Data } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+const DataSchema = z.object({
+  phone: z.string(),
+});
+
+export const addUser = Api(
+  Post('/user'),
+  Query(UserSchema),
+  Data(DataSchema),
+  async ({ query, data }) => ({
+    name: query.name,
+    phone: data.phone,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+:::caution Note
+When using the `Api` function, ensure that all code logic is placed inside the function. Operations such as `console.log` or using `fs` outside the function are not allowed.
+
+:::
+
+The browser side can also use the integrated call method with static type hints:
+
+```typescript title="routes/page.tsx"
+import { addUser } from '@api/user';
+
+addUser({
+  query: {
+    name: 'modern.js',
+    email: 'modern.js@example.com',
+  },
+  data: {
+    phone: '12345',
+  },
+});
+```
+
+## Interface Route
+
+As shown in the example below, you can specify the route and HTTP Method through the `Get` function:
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, Data } from '@modern-js/plugin-bff/server';
+
+// Specify the interface route, Modern.js sets `bff.prefix` to `/api` by default,
+// so the interface route is `/api/user`, and the HTTP Method is GET.
+export const getHello = Api(
+  Get('/hello'),
+  Query(HelloSchema),
+  async ({ query }) => query,
+);
+```
+
+</BFFOperatorCode>
+
+When the route is not specified, the interface route is defined according to the file convention. As shown in the example below, with the function writing method, there is a code path `api/lambda/user.ts`, which will register the corresponding interface `/api/user`.
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, Data } from '@modern-js/plugin-bff/server';
+
+// No interface route specified, according to file convention and function name, the interface is api/user, HTTP Method is get.
+export const get = Api(Query(UserSchema), async ({ query }) => query);
+```
+
+</BFFOperatorCode>
+
+:::info
+Modern.js recommends defining interfaces based on file conventions to keep routes clear in the project. For specific rules, see [Function Routes](/guides/advanced-features/bff/function#function-routes).
+
+:::
+
+In addition to the `Get` function, you can use the following functions to define HTTP interfaces:
+
+| Function               | Description             |
+| :--------------------- | :---------------------- |
+| Get(path?: string)     | Accept GET requests     |
+| Post(path?: string)    | Accept POST requests    |
+| Put(path?: string)     | Accept PUT requests     |
+| Delete(path?: string)  | Accept DELETE requests  |
+| Patch(path?: string)   | Accept PATCH requests   |
+| Head(path?: string)    | Accept HEAD requests    |
+| Options(path?: string) | Accept OPTIONS requests |
+
+## Request
+
+The following are request-related operators. Operators can be combined, but must comply with HTTP protocol. For example, GET requests cannot use the Data operator.
+
+### Query Parameters
+
+Using the `Query` function, you can define the type of query. After using the `Query` function, the query information can be obtained in the input parameters of the interface processing function, and the `query` field can be added to the input parameters of the frontend request function:
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+// Server-side code
+import { Api, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(Query(UserSchema), async ({ query }) => ({
+  name: query.name,
+}));
+```
+
+</BFFOperatorCode>
+
+```typescript title="routes/page.tsx"
+// Frontend code
+get({
+  query: {
+    name: 'modern.js',
+    email: 'modern.js@example.com',
+  },
+});
+```
+
+### Pass Data
+
+Using the `Data` function, you can define the type of data passed by the interface. After using `Data`, the interface data information can be obtained in the input parameters of the interface processing function.
+
+:::caution
+If you use the Data function, you must follow the HTTP protocol. When the HTTP Method is GET or HEAD, the Data function cannot be used.
+
+:::
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Data } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const DataSchema = z.object({
+  name: z.string(),
+  phone: z.string(),
+});
+
+export const post = Api(Data(DataSchema), async ({ data }) => ({
+  name: data.name,
+  phone: data.phone,
+}));
+```
+
+</BFFOperatorCode>
+
+```typescript title="routes/page.tsx"
+// Frontend code
+post({
+  data: {
+    name: 'modern.js',
+    phone: '12345',
+  },
+});
+```
+
+### Route Parameters
+
+Route parameters can implement dynamic routes and get parameters from the path. You can specify path parameters through `Params<T>(schema: z.ZodType<T>)`
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, Params } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  id: z.string(),
+});
+
+export const queryUser = Api(
+  Get('/user/:id'),
+  Params(UserSchema),
+  async ({ params }) => ({
+    name: params.id,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+### Request Headers
+
+You can define the request headers required by the interface through the `Headers<T>(schema: z.ZodType<T>)` function and pass the request headers through integrated calls:
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Headers } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const headerSchema = z.object({
+  token: z.string(),
+});
+
+export const queryUser = Api(Headers(headerSchema), async ({ headers }) => ({
+  name: headers.token,
+}));
+```
+
+</BFFOperatorCode>
+
+## Parameter Validation
+
+As mentioned earlier, when using functions such as `Query` and `Data` to define interfaces, the server will automatically validate the data passed from the frontend based on the schema passed to these functions.
+
+When validation fails, you can catch errors through Try/Catch:
+
+```typescript
+try {
+  const res = await postUser({
+    query: {
+      user: 'modern.js',
+    },
+    data: {
+      message: 'hello',
+    },
+  });
+  return res;
+} catch (error) {
+  console.log(error.data.code); // VALIDATION_ERROR
+  console.log(JSON.parse(error.data.message));
+}
+```
+
+At the same time, you can get complete error information through `error.data.message`:
+
+```json
+[
+  {
+    code: 'invalid_string',
+    message: "Invalid email",
+    path: [0, 'user'],
+    validation: "email"
+  },
+];
+```
+
+## Middleware
+
+You can set function middleware through the `Middleware` operator. Function middleware will execute before validation and interface logic.
+
+:::info
+The `Middleware` operator can be configured multiple times, and the execution order of middleware is from top to bottom
+
+:::
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Middleware } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Middleware(async (c, next) => {
+    console.info(`access url: ${c.req.url}`);
+    await next();
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+## Data Transformation Pipe
+
+The `Pipe` operator can pass in a function that executes after middleware and validation are completed. It can be used in the following scenarios:
+
+1. Transform query parameters or data carried by the request.
+2. Perform custom validation on request data. If validation fails, you can choose to throw an exception or directly return error information.
+3. If you only want to do validation without executing interface logic (for example, the frontend does not do separate validation, uses the interface for validation, but in some scenarios you don't want the interface logic to execute), you can terminate subsequent execution in this function.
+
+`Pipe` defines a transformation function. The input parameters of the transformation function are `query`, `data`, and `headers` carried by the interface request. The return value will be passed to the next `Pipe` function or interface processing function as input parameters, so the data structure of the return value generally needs to be the same as the input parameters.
+
+:::info
+The `Pipe` operator can be configured multiple times. The execution order of functions is from top to bottom. The return value of the previous function is the input parameter of the next function.
+
+:::
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>(input => {
+    const { query } = input;
+    if (!query.email.includes('@')) {
+      query.email = `${query.email}@example.com`;
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+Also,
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>((input, end) => {
+    const { query } = input;
+    const { name, email } = query;
+    if (!email.startsWith(name)) {
+      return end({
+        message: 'email must start with name',
+      });
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+If you need to do more custom operations on the response, you can pass a function to the `end` function. The input parameter of the function is Hono's Context (`c`), and you can operate on `c.req` and `c.res`:
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>((input, end) => {
+    const { query } = input;
+    const { name, email } = query;
+    if (!email.startsWith(name)) {
+      return end(c => {
+        c.res.status = 400;
+        c.res.body = {
+          message: 'email must start with name',
+        };
+      });
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+## Response
+
+The following are response-related operators. Through response operators, you can process responses.
+
+### Status Code HttpCode
+
+You can specify the status code returned by the interface through the `HttpCode(statusCode: number)` function
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Data, HttpCode } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+const DataSchema = z.object({
+  phone: z.string(),
+});
+
+export const post = Api(
+  Query(UserSchema),
+  Data(DataSchema),
+  HttpCode(202),
+  async ({ query, data }) => {
+    someTask({
+      user: {
+        ...query,
+        ...data,
+      },
+    });
+  },
+);
+```
+
+</BFFOperatorCode>
+
+### Response Headers SetHeaders
+
+Supports setting response headers through the `SetHeaders(headers: Record<string, string>)` function
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, SetHeaders } from '@modern-js/plugin-bff/server';
+
+export default Api(
+  Get('/hello'),
+  SetHeaders({
+    'x-log-id': 'xxx',
+  }),
+  async () => 'Hello World!',
+);
+```
+
+</BFFOperatorCode>
+
+### Redirect
+
+Supports redirecting the interface through `Redirect(url: string)`:
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, Redirect } from '@modern-js/plugin-bff/server';
+
+export default Api(
+  Get('/hello'),
+  Redirect('https://modernjs.dev/'),
+  async () => 'Hello Modern.js!',
+);
+```
+
+</BFFOperatorCode>
+
+## Request Context
+
+As mentioned above, through operators, you can get `query`, `data`, `params`, etc. in the input parameters of the interface processing function. But sometimes we need to get more request context information. At this time, we can get it through [`useHonoContext`](/apis/app/runtime/bff/use-hono-context):
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, useHonoContext } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const queryUser = Api(
+  Get('/user'),
+  Query(UserSchema),
+  async ({ query }) => {
+    const c = useHonoContext();
+    const userAgent = c.req.header('user-agent');
+    return {
+      name: query.name,
+      userAgent,
+    };
+  },
+);
+```
+
+</BFFOperatorCode>
+
+## FAQ
+
+### Can I use TypeScript instead of zod schema
+
+If you want to use TypeScript instead of zod schema, you can use [ts-to-zod](https://www.npmjs.com/package/ts-to-zod) to convert TypeScript to zod schema first, and then use the converted schema.
+
+The reasons we chose zod instead of pure TypeScript to define input parameter type information are:
+
+- zod has a low learning curve.
+- In the validation scenario, zod schema has stronger expressiveness than TypeScript.
+- zod is easier to extend.
+- Solutions for obtaining TypeScript static type information at runtime are not mature enough.
+
+For specific comparisons of different solutions, you can refer to [Why Use Zod](https://bytedance.feishu.cn/wiki/wikcnrNnidvxHLY2SIT4nadXOCh#doxcnGoki68KEOiw8UD1fYd3lRh). If you have more ideas and questions, please feel free to contact us.
+
+## More Practices
+
+### Add HTTP Cache to Interface
+
+In frontend development, some server interfaces (such as some configuration interfaces) have long response times, but actually don't need to be updated for a long time. For such interfaces, we can set HTTP cache to improve page performance:
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, SetHeaders } from '@modern-js/plugin-bff/server';
+
+export const get = Api(
+  // Cache will only take effect when using integrated calls or fetch for requests
+  // Within 1s, the cache does not validate and directly returns the response
+  // Within 1s-60s, first return the old cache information, and at the same time re-initiate a validation request to fill the cache with new values
+  SetHeaders({
+    'Cache-Control': 'max-age=1, stale-while-revalidate=59',
+  }),
+  async () => {
+    await wait(500);
+    return 'Hello Modern.js';
+  },
+);
+```
+
+</BFFOperatorCode>

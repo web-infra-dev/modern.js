@@ -30,6 +30,7 @@ npm install react-server-dom-webpack
 ```
 
 :::warning Notes
+
 1. Currently, [Server Functions](https://react.dev/reference/rsc/server-functions) are not supported in SPA projects
 2. Currently, when building with Rspack, the output chunks and bundle size are not yet optimal. We will further optimize this in the near future
 
@@ -90,7 +91,7 @@ The `"use client"` directive creates a boundary: all code within the boundary wi
 :::
 
 ```tsx title="components/InteractiveCard.tsx"
-"use client"; // <--- This is where the Client Boundary starts
+'use client'; // <--- This is where the Client Boundary starts
 
 import { useState } from 'react';
 import Button from './Button'; // Button.tsx doesn't have "use client", but will be included in the client bundle
@@ -142,7 +143,7 @@ export default async function Page() {
 ```
 
 ```tsx title="routes/CounterButton.tsx"
-"use client"; // Client Component
+'use client'; // Client Component
 
 import { useState } from 'react';
 
@@ -163,7 +164,7 @@ However, there are two patterns to work around this limitation:
 You can pass Server Components as the `children` Prop to a Client Component. For example, an animated Tabs component where the tab switching logic is client-side, but the content of each tab might be static and fetched from the server.
 
 ```tsx title="app/components/Tabs.tsx"
-"use client"; // Client Component
+'use client'; // Client Component
 
 import React, { useState } from 'react';
 
@@ -198,7 +199,7 @@ import Analytics from '../components/Analytics'; // Server Component
 import UserSettings from '../components/UserSettings'; // Server Component
 
 export default function DashboardPage() {
-  const labels = ["Analytics", "Settings"];
+  const labels = ['Analytics', 'Settings'];
 
   return (
     <main>
@@ -225,9 +226,9 @@ Through this pattern, you can keep components on the server to the maximum exten
 Each level of route components (such as `layout.tsx`, `page.tsx`) can independently choose to be a Client Component or Server Component:
 
 ```ts
-- routes
-    - layout.tsx  // Can be a Client Component
-    - page.tsx    // Can be a Server Component
+-routes -
+  layout.tsx - // Can be a Client Component
+  page.tsx; // Can be a Server Component
 ```
 
 For example, if `layout.tsx` is a Client Component (requiring client-side interactivity), you can still set `page.tsx` as a Server Component (for data fetching and rendering). This approach provides great flexibility and allows non-RSC projects to gradually migrate to RSC projects.
@@ -250,33 +251,33 @@ function NonCriticalUI({ p }: { p: Promise<string> }) {
 
 <React.Suspense fallback={<div>Loading...</div>}>
   <NonCriticalUI p={nonCriticalData} />
-</React.Suspense>
+</React.Suspense>;
 ```
 
 ## Best Practices
 
 ### Data Fetching
 
-1. Whether it's an SSR or RSC project, it's recommended to use the `cache` function provided by edenx for data fetching logic executed on the server by default. This ensures that for each server-side render, no matter how many times the function is called, it will only execute once.
+1. Whether it's an SSR or RSC project, it's recommended to use the `cache` function provided by EdenX for data fetching logic executed on the server by default. This ensures that for each server-side render, no matter how many times the function is called, it will only execute once.
 
-> This is also the recommended usage by React.js, which provides the [cache](https://react.dev/reference/react/cache) function. EdenX's [cache](https://edenx.bytedance.net/guides/basic-features/data/data-cache.html) can be considered a superset of it.
+> This is also the recommended usage by React.js, which provides the [cache](https://react.dev/reference/react/cache) function. EdenX's [cache](/guides/basic-features/data/data-cache.html) can be considered a superset of it.
 
 ```typescript
-import { cache } from '@edenx/runtime/cache'
+import { cache } from '@modern-js/runtime/cache';
 
 const getCriticalCached = cache(getCritical);
 ```
 
-* Based on using the `cache` function, you no longer need to manage server-side state through `props`, `context`, etc. We recommend fetching data in the nearest Server Component where it's needed. With the `cache` function, even if the same function is called multiple times, this makes project state management, business logic, and performance optimization simpler.
+- Based on using the `cache` function, you no longer need to manage server-side state through `props`, `context`, etc. We recommend fetching data in the nearest Server Component where it's needed. With the `cache` function, even if the same function is called multiple times, this makes project state management, business logic, and performance optimization simpler.
 
 ```typescript
 // layout.tsx
-export default async function Layout(){
-    const criticalData = await getCriticalCached();
+export default async function Layout() {
+  const criticalData = await getCriticalCached();
 }
 
-export default async function Page(){
-    const criticalData = await getCriticalCached();
+export default async function Page() {
+  const criticalData = await getCriticalCached();
 }
 ```
 
@@ -295,7 +296,9 @@ export default async function PostsList() {
 
   return (
     <ul>
-      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
     </ul>
   );
 }
@@ -332,13 +335,15 @@ There's another scenario where data is consumed in Client Components. In this ca
 
 ```javascript
 // profile/components/PostsList.tsx
-'use client'
+'use client';
 export default function PostsList({ postsPromise }) {
   const posts = use(postsPromise);
 
   return (
     <ul>
-      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
     </ul>
   );
 }

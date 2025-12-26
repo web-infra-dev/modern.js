@@ -47,6 +47,10 @@ export default defineConfig({
       ..., // other paths,
       "@api/*": ["./api/lambda/*"]
     }
-  }
+  },
+  "include": [
+    ..., // 其他 include 目录
+    "api"  // 添加 api 目录
+  ]
 }
 ```
