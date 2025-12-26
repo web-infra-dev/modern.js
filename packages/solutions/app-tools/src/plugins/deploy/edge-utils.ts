@@ -309,13 +309,14 @@ export const modifyCommonConfig: Setup = api => {
       ]);
       _.set(
         config,
-        'environments.node.source.define["process.env.MODERN_SSR_NODE_STREAM"]',
-        'true',
-      );
-      _.set(
-        config,
         'environments.node.resolve.conditionNames',
         ESM_RESOLVE_CONDITIONS,
+      );
+      // use node:stream API
+      _.set(
+        config,
+        'environments.node.source.define["process.env.MODERN_SSR_NODE_STREAM"]',
+        'true',
       );
     }
     _.set(config, 'output.minify', false);
