@@ -1,11 +1,9 @@
-BFF combined with runtime framework provides file upload capabilities, supporting integrated calls and pure function manual calls.
-
 ### BFF Function
 
 First, create the `api/lambda/upload.ts` file:
 
 ```ts title="api/lambda/upload.ts"
-export const post = async ({ formData }: {formData: Record<string, any>}) => {
+export const post = async ({ formData }: { formData: Record<string, any> }) => {
   console.info('formData:', formData);
   // do somethings
   return {
@@ -15,10 +13,10 @@ export const post = async ({ formData }: {formData: Record<string, any>}) => {
   };
 };
 ```
+
 :::tip
 The `formData` parameter in the interface processing function can access files uploaded from the client side. It is an `Object` where the keys correspond to the field names used during the upload.
 :::
-
 
 ### Integrated Calling
 
@@ -61,8 +59,8 @@ export default (): JSX.Element => {
 Note: The input parameter type must be `{ formData: FormData }` for the upload to succeed.
 :::
 
-
 ### Manual Calling
+
 You can manually upload files using the `fetch API`, when calling `fetch`, set the `body` as `FormData` type and submit a post request.
 
 ```tsx title="routes/upload/page.tsx"

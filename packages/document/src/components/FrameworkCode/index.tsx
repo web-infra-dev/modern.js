@@ -313,12 +313,6 @@ const FrameworkCode: React.FC<PropsWithChildren<FrameworkCodeProps>> = ({
             const titleMatch = meta.match(/title="([^"]+)"/);
             const title = titleMatch?.[1] || node.props?.['data-title'];
 
-            console.log('Found code block directly:', {
-              language,
-              title,
-              codeLength: codeContent.length,
-            });
-
             blocks.push({
               meta,
               code: codeContent,
