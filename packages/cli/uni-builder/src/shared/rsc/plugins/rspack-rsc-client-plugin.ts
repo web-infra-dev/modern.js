@@ -36,7 +36,6 @@ export class RspackRscClientPlugin {
     const {
       EntryPlugin,
       RuntimeGlobals,
-      RuntimeModule,
       WebpackError,
       sources: { RawSource },
     } = compiler.webpack;
@@ -165,38 +164,6 @@ export class RspackRscClientPlugin {
             addClientReferencesChunks(compilation, entryModule, callback);
           }
         }
-      },
-    );
-
-    compiler.hooks.compilation.tap(
-      RspackRscClientPlugin.name,
-      (compilation, { normalModuleFactory }) => {
-        class EntryNameRuntimeModule extends RuntimeModule {
-          private entryName: string;
-          constructor(entryName: string) {
-            super('entry-name', 10); // Set a higher stage to ensure priority execution
-            this.entryName = entryName;
-          }
-
-          generate() {
-            return `window.__MODERN_JS_ENTRY_NAME="${this.entryName}";`;
-          }
-        }
-
-        compilation.hooks.runtimeRequirementInTree
-          .for(RuntimeGlobals.ensureChunk)
-          .tap(RspackRscClientPlugin.name, (chunk, set) => {
-            Array.from(compilation.entrypoints.entries()).forEach(
-              ([entryName, entrypoint]) => {
-                if (entrypoint.chunks.includes(chunk)) {
-                  compilation.addRuntimeModule(
-                    chunk,
-                    new EntryNameRuntimeModule(entryName),
-                  );
-                }
-              },
-            );
-          });
       },
     );
 
