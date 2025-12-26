@@ -47,6 +47,10 @@ To correctly recognize the `@api` alias in TypeScript, it is recommended to add 
       ..., // other paths,
       "@api/*": ["./api/lambda/*"]
     }
-  }
+  },
+  "include": [
+    ..., // other include directories
+    "api"  // Add api directory
+  ]
 }
 ```

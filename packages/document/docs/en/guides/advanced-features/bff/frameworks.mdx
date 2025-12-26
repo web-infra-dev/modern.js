@@ -7,19 +7,6 @@ title: Runtime Framework
 
 Modern.js uses [Hono.js](https://hono.dev/) as the BFF and Server runtime framework, so you can [extend BFF Server](/guides/advanced-features/bff/extend-server.html) based on the Hono.js ecosystem.
 
-## Getting Request Context
+import Hono from '@site-docs-en/components/hono';
 
-Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
-
-```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/server'
-export const get = async () => {
-  const c = useHonoContext();
-  console.info(`access url: ${c.req.url}`);
-  return 'Hello Modern.js'
-};
-```
-
-:::info
-For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
-:::
+<Hono />

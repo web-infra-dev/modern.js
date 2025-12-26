@@ -14,7 +14,6 @@ React Server Components (RSC) 是一种新的组件类型，允许在服务端�
 - **自动代码分割**：基于实际渲染的数据进行代码分割，而不仅仅是路由，实现更精细的代码优化
 - **更高的内聚性**：与数据、权限、缓存等紧密相关的逻辑可以留在 Server Component 中，组件内聚度更高，减少状态上浮和跨层级传递
 
-
 :::tip 前置阅读
 在开始之前，建议你阅读 React 官方的 [Server Components 文档](https://react.dev/reference/rsc/server-components)，对 Server Component 有一个基本的了解。
 
@@ -31,6 +30,7 @@ npm install react-server-dom-webpack
 ```
 
 :::warning 注意事项
+
 1. 目前暂不支持在 SPA 项目中使用 [Server Functions](https://react.dev/reference/rsc/server-functions)
 2. 目前在 Rspack 构建时，产物分片和体积还未达到最优状态，我们将在近期进一步优化
 
@@ -91,7 +91,7 @@ export default defineConfig({
 :::
 
 ```tsx title="components/InteractiveCard.tsx"
-"use client"; // <--- 这里是 Client Boundary 的起点
+'use client'; // <--- 这里是 Client Boundary 的起点
 
 import { useState } from 'react';
 import Button from './Button'; // Button.tsx 没有 "use client"，但会被包含在客户端 bundle 中
@@ -143,7 +143,7 @@ export default async function Page() {
 ```
 
 ```tsx title="routes/CounterButton.tsx"
-"use client"; // Client Component
+'use client'; // Client Component
 
 import { useState } from 'react';
 
@@ -164,7 +164,7 @@ export default function CounterButton() {
 你可以将 Server Components 作为 `children` Prop 传递给一个 Client Component。假设一个带动画的 Tabs 组件，Tabs 的切换逻辑本身是客户端的，但每个标签页的内容可能是静态的、从服务器获取的。
 
 ```tsx title="app/components/Tabs.tsx"
-"use client"; // Client Component
+'use client'; // Client Component
 
 import React, { useState } from 'react';
 
@@ -199,7 +199,7 @@ import Analytics from '../components/Analytics'; // Server Component
 import UserSettings from '../components/UserSettings'; // Server Component
 
 export default function DashboardPage() {
-  const labels = ["Analytics", "Settings"];
+  const labels = ['Analytics', 'Settings'];
 
   return (
     <main>
@@ -226,9 +226,9 @@ export default function DashboardPage() {
 每一级的路由组件（如 `layout.tsx`、`page.tsx`）可以独立选择是 Client Component 还是 Server Component：
 
 ```ts
-- routes
-    - layout.tsx  // 可以是 Client Component
-    - page.tsx    // 可以是 Server Component
+-routes -
+  layout.tsx - // 可以是 Client Component
+  page.tsx; // 可以是 Server Component
 ```
 
 例如，假设 `layout.tsx` 是一个 Client Component（需要客户端交互），你仍然可以将 `page.tsx` 设置为 Server Component（用于数据获取和渲染）。这种方式提供了极大的灵活性，也使非 RSC 项目可以渐进式地迁移至 RSC 项目。
@@ -237,9 +237,7 @@ export default function DashboardPage() {
 
 ### 旧 CSR 项目
 
-如果是 CSR 项目，且项目中使用了 EdenX  的 data loader，开启 RSC 后，data loader 默认是在服务端执行，这意味着需要先把所有的 `.data.ts` 文件改为`.data.client.ts`，才能和之前的行为保持一致。
-
-
+如果是 CSR 项目，且项目中使用了 EdenX 的 data loader，开启 RSC 后，data loader 默认是在服务端执行，这意味着需要先把所有的 `.data.ts` 文件改为`.data.client.ts`，才能和之前的行为保持一致。
 
 ### 使用 Streaming SSR 的项目
 
@@ -253,47 +251,39 @@ function NonCriticalUI({ p }: { p: Promise<string> }) {
 
 <React.Suspense fallback={<div>Loading...</div>}>
   <NonCriticalUI p={nonCriticalData} />
-</React.Suspense>
+</React.Suspense>;
 ```
-
-
 
 ## 最佳实践
 
 ### 获取数据
 
-1. 不管是 SSR 还是 RSC 项目，建议在服务端执行的数据获取逻辑默认使用 edenx 提供的 `cache` 函数，这样每一次服务端渲染，不管调用该函数多少次，只会执行一次。
+1. 不管是 SSR 还是 RSC 项目，建议在服务端执行的数据获取逻辑默认使用 Modern.js 提供的 `cache` 函数，这样每一次服务端渲染，不管调用该函数多少次，只会执行一次。
 
-> 这也是 react.js 推荐的用法，为此 react.js 提供了 [cache](https://react.dev/reference/react/cache) 函数，edenx 的 [cache](https://edenx.bytedance.net/guides/basic-features/data/data-cache.html) 可以视作其超集。
+> 这也是 react.js 推荐的用法，为此 react.js 提供了 [cache](https://react.dev/reference/react/cache), Modern.js 的 [cache](/guides/basic-features/data/data-cache.html) 可以视作其超集。
 
 ```typescript
-import { cache } from '@edenx/runtime/cache'
+import { cache } from '@modern-js/runtime/cache';
 
 const getCriticalCached = cache(getCritical);
 ```
 
-
-
-* 在使用 `cache` 函数的基础上，你不再需要通过 `props`，`context` 等管理服务端的状态，我们推荐哪个组件需要数据就在最近的 Server Component 中获取数据，通过 cache 函数，即使多次调用同一个函数，这样可以使项目的状态管理，业务逻辑，性能优化更简单。
+- 在使用 `cache` 函数的基础上，你不再需要通过 `props`，`context` 等管理服务端的状态，我们推荐哪个组件需要数据就在最近的 Server Component 中获取数据，通过 cache 函数，即使多次调用同一个函数，这样可以使项目的状态管理，业务逻辑，性能优化更简单。
 
 ```typescript
 // layout.tsx
-export default async function Layout(){
-    const criticalData = await getCriticalCached();
+export default async function Layout() {
+  const criticalData = await getCriticalCached();
 }
 
-export default async function Page(){
-    const criticalData = await getCriticalCached();
+export default async function Page() {
+  const criticalData = await getCriticalCached();
 }
 ```
-
-
 
 ### 最佳性能
 
 为了发挥 RSC 或 Streaming SSR 的优势，我们需要使尽可能多的组件流动起来，一个核心原则是使 Suspense 包裹的区域尽可能地小（这也是我们推荐使用 `cache` 函数的原因之一）
-
-
 
 对于直接消费数据的 Server Component，我们推荐在其上层包裹 Suspense：
 
@@ -306,7 +296,9 @@ export default async function PostsList() {
 
   return (
     <ul>
-      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
     </ul>
   );
 }
@@ -339,19 +331,19 @@ export default function ProfilePage() {
 }
 ```
 
-
-
 还有一种场景是在 Client Component 中消费数据，此时我们应避免在 Server Component 中使用 `await`，避免阻塞渲染：
 
 ```javascript
 // profile/components/PostsList.tsx
-'use client'
+'use client';
 export default function PostsList({ postsPromise }) {
   const posts = use(postsPromise);
 
   return (
     <ul>
-      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
     </ul>
   );
 }
@@ -386,10 +378,7 @@ export default function ProfilePage() {
     </div>
   );
 }
-
 ```
-
-
 
 ### Helmet
 
@@ -401,7 +390,6 @@ export default function ProfilePage() {
 
 项目中的 bundle 引入了非 19 的 react 版本，常见于 monorepo。请确保所有依赖都使用 React 19 版本。
 
-
 ## 相关链接
 
 - [React Server Components 官方文档](https://react.dev/reference/rsc/server-components)
@@ -409,5 +397,3 @@ export default function ProfilePage() {
 - [数据缓存](/guides/basic-features/data/data-cache)
 - [服务端渲染（SSR）](/guides/basic-features/render/ssr)
 - [Streaming SSR](/guides/basic-features/render/streaming-ssr)
-
-

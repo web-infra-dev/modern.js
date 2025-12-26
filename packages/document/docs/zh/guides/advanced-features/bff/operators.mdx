@@ -1,0 +1,593 @@
+---
+sidebar_position: 2
+title: 创建可扩展的 BFF 函数
+---
+
+# 创建可扩展的 BFF 函数
+
+上一小节展示了如何在文件中导出一个简单的 BFF 函数。在更复杂的场景下，每个 BFF 函数可能需要做独立的类型校验，前置逻辑等。
+
+因此，Modern.js 暴露了 `Api`，支持通过该 API 来创建 BFF 函数，通过这种方式创建的 BFF 函数能方便的进行功能拓展。
+
+## 示例
+
+:::caution 注意
+
+- `Api` 函数只能在 ts 项目中使用，无法在纯 js 项目中使用。
+- 操作符函数（如下述 `Get`，`Query` 等）依赖 [`zod`](https://www.npmjs.com/package/zod)，需要先在项目中安装。
+
+```shell
+pnpm add zod
+```
+
+:::
+
+一个由 `Api` 函数创建的 BFF 函数由以下几部分组成：
+
+- `Api()`，定义接口的函数。
+- `Get(path?: string)`，指定接口路由。
+- `Query(schema: T)`，`Redirect(url: string)`，扩展接口，如指定接口入参。
+- `Handler: (...args: any[]) => any | Promise<any>`，接口处理请求逻辑的函数。
+
+服务端可以定义接口的入参与类型，根据类型，服务端在运行时会做自动的类型校验：
+
+import BFFOperatorCode from '@site-docs/components/bff-operator-code';
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Post, Query, Data } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+const DataSchema = z.object({
+  phone: z.string(),
+});
+
+export const addUser = Api(
+  Post('/user'),
+  Query(UserSchema),
+  Data(DataSchema),
+  async ({ query, data }) => ({
+    name: query.name,
+    phone: data.phone,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+:::caution 注意
+使用 `Api` 函数的文件，要保证所有的代码逻辑都放在函数内。如函数外做 `console.log`、使用 `fs` 等操作都是不允许的。
+
+:::
+
+浏览器端同样可以使用一体化调用的方式，拥有静态类型提示：
+
+```typescript title="routes/page.tsx"
+import { addUser } from '@api/user';
+
+addUser({
+  query: {
+    name: 'modern.js',
+    email: 'modern.js@example.com',
+  },
+  data: {
+    phone: '12345',
+  },
+});
+```
+
+## 接口路由
+
+如下面示例，你可以通过 `Get` 函数指定路由和 HTTP Method：
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, Data } from '@modern-js/plugin-bff/server';
+
+// 指定接口路由，Modern.js 默认设置 `bff.prefix` 为 `/api`，
+// 因此该接口路由为 `/api/user`，Http Method 为 GET。
+export const getHello = Api(
+  Get('/hello'),
+  Query(HelloSchema),
+  async ({ query }) => query,
+);
+```
+
+</BFFOperatorCode>
+
+当未指定路由时，接口路由根据文件约定定义，如下面示例，函数写法下，有代码路径 `api/lambda/user.ts`，会注册相应的接口 `/api/user`。
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, Data } from '@modern-js/plugin-bff/server';
+
+// 未指定接口路由，根据文件约定和函数名，该接口为 api/user，Http Method 为 get。
+export const get = Api(Query(UserSchema), async ({ query }) => query);
+```
+
+</BFFOperatorCode>
+
+:::info
+Modern.js 推荐基于文件约定去定义接口，保持项目中路由清晰。具体规则可见[函数路由](/guides/advanced-features/bff/function#函数路由)。
+
+:::
+
+除了 `Get` 函数外，你可以使用以下函数定义 Http 接口：
+
+| 函数                   | 说明              |
+| :--------------------- | :---------------- |
+| Get(path?: string)     | 接受 Get 请求     |
+| Post(path?: string)    | 接受 POST 请求    |
+| Put(path?: string)     | 接受 PUT 请求     |
+| Delete(path?: string)  | 接受 DELETE 请求  |
+| Patch(path?: string)   | 接受 PATCH 请求   |
+| Head(path?: string)    | 接受 HEAD 请求    |
+| Options(path?: string) | 接受 OPTIONS 请求 |
+
+## 请求
+
+以下为请求相关的操作符，操作符可以组合使用，但需符合 Http 协议，如 get 请求无法使用 Data 操作符。
+
+### 查询参数 Query
+
+使用 `Query` 函数可以定义 query 的类型，使用 `Query` 函数后，接口处理函数的入参中就可以拿到 query 信息，前端请求函数的入参中可以加入 `query` 字段：
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+// 服务端代码
+import { Api, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(Query(UserSchema), async ({ query }) => ({
+  name: query.name,
+}));
+```
+
+</BFFOperatorCode>
+
+```typescript title="routes/page.tsx"
+// 前端代码
+get({
+  query: {
+    name: 'modern.js',
+    email: 'modern.js@example.com',
+  },
+});
+```
+
+### 传递数据 Data
+
+使用 `Data` 函数可以定义接口传递数据的类型，使用 `Data` 后，接口处理函数的入参中就可以拿到接口数据信息。
+
+:::caution
+使用 Data 函数的话，必须遵循 HTTP 协议，HTTP Method 为 Get 或 Head 时，无法使用 Data 函数。
+
+:::
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Data } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const DataSchema = z.object({
+  name: z.string(),
+  phone: z.string(),
+});
+
+export const post = Api(Data(DataSchema), async ({ data }) => ({
+  name: data.name,
+  phone: data.phone,
+}));
+```
+
+</BFFOperatorCode>
+
+```typescript title="routes/page.tsx"
+// 前端代码
+post({
+  data: {
+    name: 'modern.js',
+    phone: '12345',
+  },
+});
+```
+
+### 路由参数 Params
+
+路由参数可以实现动态路由，并且从路径中获取参数。可以通过 `Params<T>(schema: z.ZodType<T>)` 指定路径参数
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, Params } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  id: z.string(),
+});
+
+export const queryUser = Api(
+  Get('/user/:id'),
+  Params(UserSchema),
+  async ({ params }) => ({
+    name: params.id,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+### 请求头 Headers
+
+可以通过 `Headers<T>(schema: z.ZodType<T>)` 函数定义接口需要的请求头，并通过一体化调用传递请求头：
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Headers } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const headerSchema = z.object({
+  token: z.string(),
+});
+
+export const queryUser = Api(Headers(headerSchema), async ({ headers }) => ({
+  name: headers.token,
+}));
+```
+
+</BFFOperatorCode>
+
+## 参数校验
+
+如前面提到的，当使用 `Query`，`Data` 等函数定义接口时，服务端会根据这些函数传入的 schema，对前端传入的数据做自动的校验。
+
+当校验失败时，可以通过 Try/Catch 捕获错误：
+
+```typescript
+try {
+  const res = await postUser({
+    query: {
+      user: 'modern.js',
+    },
+    data: {
+      message: 'hello',
+    },
+  });
+  return res;
+} catch (error) {
+  console.log(error.data.code); // VALIDATION_ERROR
+  console.log(JSON.parse(error.data.message));
+}
+```
+
+同时，可以通过 `error.data.message` 获取完整的错误信息：
+
+```json
+[
+  {
+    code: 'invalid_string',
+    message: "Invalid email",
+    path: [0, 'user'],
+    validation: "email"
+  },
+];
+```
+
+## 中间件 Middleware
+
+可以通过 `Middleware` 操作符设置函数中间件，函数中间件会在校验和接口逻辑之前执行。
+
+:::info
+`Middleware` 操作符可以配置多次，中间件的执行顺序为从上至下
+
+:::
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Middleware } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Middleware(async (c, next) => {
+    console.info(`access url: ${c.req.url}`);
+    await next();
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+## 数据转换 Pipe
+
+`Pipe` 操作符可以传入一个函数，在中间件和校验完成之后执行，主要有以下场景可以使用：
+
+1. 对请求携带的查询参数或数据进行转换。
+2. 对请求的数据进行自定义校验，如果校验失败，可以选择抛出异常，或者直接返回错误的信息。
+3. 希望只做校验，不执行接口逻辑，（如前端不做单独的校验，使用接口做校验,但在一些场景下又不希望接口逻辑执行）可以在此函数中终止后续的执行。
+
+`Pipe` 定义转换函数，转换函数的入参是接口请求携带的 `query`，`data` 和 `headers`，返回值会传递给下一个 `Pipe` 函数或接口处理函数作为入参，所以返回值的数据结构一般需和入参相同。
+
+:::info
+`Pipe` 操作符可以配置多次，函数的执行顺序为从上至下，前一个函数的返回值，是后一个函数的入参。
+
+:::
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>(input => {
+    const { query } = input;
+    if (!query.email.includes('@')) {
+      query.email = `${query.email}@example.com`;
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+同时，
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>((input, end) => {
+    const { query } = input;
+    const { name, email } = query;
+    if (!email.startsWith(name)) {
+      return end({
+        message: 'email must start with name',
+      });
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+如果需要对响应做更多自定义操作，可以给 `end` 函数传入一个函数，函数的入参是 Hono 的 Context (`c`)，可以对 `c.req` 和 `c.res` 进行操作：
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>((input, end) => {
+    const { query } = input;
+    const { name, email } = query;
+    if (!email.startsWith(name)) {
+      return end(c => {
+        c.res.status = 400;
+        c.res.body = {
+          message: 'email must start with name',
+        };
+      });
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+</BFFOperatorCode>
+
+## 响应
+
+以下为响应相关操作符，通过响应操作符可以对响应进行处理。
+
+### 状态码 HttpCode
+
+可以通过 `HttpCode(statusCode: number)` 函数指定接口返回的状态码
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Query, Data, HttpCode } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+const DataSchema = z.object({
+  phone: z.string(),
+});
+
+export const post = Api(
+  Query(UserSchema),
+  Data(DataSchema),
+  HttpCode(202),
+  async ({ query, data }) => {
+    someTask({
+      user: {
+        ...query,
+        ...data,
+      },
+    });
+  },
+);
+```
+
+</BFFOperatorCode>
+
+### 响应头 SetHeaders
+
+支持通过 `SetHeaders(headers: Record<string, string>)` 函数设置响应头
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, SetHeaders } from '@modern-js/plugin-bff/server';
+
+export default Api(
+  Get('/hello'),
+  SetHeaders({
+    'x-log-id': 'xxx',
+  }),
+  async () => 'Hello World!',
+);
+```
+
+</BFFOperatorCode>
+
+### 重定向 Redirect
+
+支持通过 `Redirect(url: string)` 对接口做重定向：
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, Get, Redirect } from '@modern-js/plugin-bff/server';
+
+export default Api(
+  Get('/hello'),
+  Redirect('https://modernjs.dev/'),
+  async () => 'Hello Modern.js!',
+);
+```
+
+</BFFOperatorCode>
+
+## 请求上下文
+
+如上面所述，通过操作符可以执行接口处理函数的入参，获得 `query`，`data`，`params` 等。但有时我们需要获得更多请求上下文的信息，此时可以通过 [`useHonoContext`](/apis/app/runtime/bff/use-hono-context) 获取：
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query, useHonoContext } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const queryUser = Api(
+  Get('/user'),
+  Query(UserSchema),
+  async ({ query }) => {
+    const c = useHonoContext();
+    const userAgent = c.req.header('user-agent');
+    return {
+      name: query.name,
+      userAgent,
+    };
+  },
+);
+```
+
+</BFFOperatorCode>
+
+## 常见问题
+
+### 是否可以使用 ts 代替 zod schema
+
+如果你想使用 ts ，而不是 zod schema，可以使用 [ts-to-zod](https://www.npmjs.com/package/ts-to-zod)，先将 ts 转为 zod schema，然后使用转换后的 schema。
+
+我们选用 zod ，而不是纯粹的 ts 定义入参类型信息的原因是：
+
+- zod 学习成本足够低。
+- 在校验这个场景，zod schema 拥有比 ts 更强的表达能力。
+- zod 更容易扩展。
+- 在运行时获取 ts 静态类型信息的方案都不够成熟。
+
+具体可以参考不同方案的比较，可以参考[为什么使用 zod](https://bytedance.feishu.cn/wiki/wikcnrNnidvxHLY2SIT4nadXOCh#doxcnGoki68KEOiw8UD1fYd3lRh) ，如果有更多的想法和疑问，也欢迎联系我们。
+
+## 更多实践
+
+### 为接口添加 http 缓存
+
+在前端开发中，有些服务端接口（如一些配置接口）响应时间会比较久，但其实长时间无需更新，针对这类接口我们可以设置 HTTP 缓存以提高页面的性能：
+
+<BFFOperatorCode>
+
+```typescript
+import { Api, SetHeaders } from '@modern-js/plugin-bff/server';
+
+export const get = Api(
+  // 缓存使用一体化调用或者 fetch 进行请求才会生效
+  // 在 1s 内，缓存不做验证，直接返回响应
+  // 1s-60s 内获取先返回旧的缓存信息，同时重新发起验证请求，使用新值填充缓存
+  SetHeaders({
+    'Cache-Control': 'max-age=1, stale-while-revalidate=59',
+  }),
+  async () => {
+    await wait(500);
+    return 'Hello Modern.js';
+  },
+);
+```
+
+</BFFOperatorCode>
