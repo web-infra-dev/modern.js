@@ -418,7 +418,11 @@ async function csrRender(
   options: SSRRenderOptions,
 ): Promise<Response> {
   const { html, rscClientManifest } = options;
-  if (!rscClientManifest || process.env.MODERN_DISABLE_INJECT_RSC_DATA) {
+  if (
+    !rscClientManifest ||
+    process.env.MODERN_DISABLE_INJECT_RSC_DATA ||
+    !options.routeInfo.isRSC
+  ) {
     return new Response(html, {
       status: 200,
       headers: new Headers({
