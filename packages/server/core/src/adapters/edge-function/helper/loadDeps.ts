@@ -1,15 +1,8 @@
-interface DepInfo {
-  type: 'object' | 'string' | 'buffer';
-  content?: any;
-  text?: string;
-  buf?: Buffer;
-}
-
-export const loadDeps = (
+export const loadDeps = async <T = any>(
   keyParam: string,
-  deps: Record<string, any>,
-): DepInfo | undefined => {
-  if (typeof deps !== 'object') {
+  deps?: Record<string, Promise<any>>,
+): Promise<T | undefined> => {
+  if (!deps || typeof deps !== 'object') {
     return;
   }
 
@@ -28,27 +21,20 @@ export const loadDeps = (
     }
   }
 
-  if (typeof value === 'undefined') {
+  if (typeof value !== 'object' || !value.then) {
     return;
   }
 
-  if (typeof value === 'object') {
-    if (typeof value._DEP_TEXT === 'string') {
-      return {
-        type: 'string',
-        text: value._DEP_TEXT,
-      };
+  const finalValue = await value;
+
+  if (typeof finalValue === 'object') {
+    if (typeof finalValue._DEP_TEXT === 'string') {
+      return finalValue._DEP_TEXT;
     }
-    if (typeof value._DEP_BUF !== 'undefined') {
-      return {
-        type: 'buffer',
-        text: value._DEP_BUF,
-      };
+    if (typeof finalValue._DEP_BUF !== 'undefined') {
+      return finalValue._DEP_BUF;
     }
   }
 
-  return {
-    type: 'object',
-    content: value,
-  };
+  return finalValue;
 };

@@ -39,7 +39,7 @@ export class ApiRouter {
 
   private isBuild?: boolean;
 
-  private appDependencies?: Record<string, any>;
+  private appDependencies?: Record<string, Promise<any>>;
 
   constructor({
     appDir,
@@ -56,7 +56,7 @@ export class ApiRouter {
     prefix?: string;
     isBuild?: boolean;
     httpMethodDecider?: HttpMethodDecider;
-    appDependencies?: Record<string, any>;
+    appDependencies?: Record<string, Promise<any>>;
   }) {
     this.prefix = this.initPrefix(prefix);
     this.appDir = appDir;
@@ -292,10 +292,9 @@ export class ApiRouter {
   }
 
   private async getModuleInfo(filename: string) {
-    if (process.env.MODERN_SSR_ENV === 'edge' && this.appDependencies) {
-      const dep = loadDeps(filename, this.appDependencies);
-      if (dep) {
-        const mod = dep.content;
+    if (process.env.MODERN_SSR_ENV === 'edge') {
+      const mod = await loadDeps(filename, this.appDependencies);
+      if (mod) {
         return {
           filename,
           module: isFunction(mod) ? { default: mod } : mod,

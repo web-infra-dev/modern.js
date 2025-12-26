@@ -1,4 +1,5 @@
 import { createCFWorkersFunction } from './bundles/modern-server';
+import { deps } from './deps';
 
 p_genPluginImportsCode;
 
@@ -6,8 +7,6 @@ let requestHandler = null;
 let handlerCreationPromise = null;
 
 async function initServer(env) {
-  const { deps } = await import('./deps');
-
   const routes = p_ROUTES;
 
   const dynamicProdOptions = p_dynamicProdOptions;

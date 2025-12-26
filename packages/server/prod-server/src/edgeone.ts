@@ -28,19 +28,19 @@ export const createEdgeOneFunction = async (
   staticFiles: string[],
   env: any,
 ) => {
-  const deps = options.appContext.appDependencies || {};
+  const deps = options.appContext.appDependencies;
   const serverBaseOptions = options;
 
   const serverCliConfig = getServerCliConfig(
     options.config,
-    loadDeps(OUTPUT_CONFIG_FILE, deps)?.content,
+    await loadDeps(OUTPUT_CONFIG_FILE, deps),
   );
 
   if (serverCliConfig) {
     options.config = serverCliConfig;
   }
 
-  const serverRuntimeConfig = loadDeps(options.serverConfigPath, deps)?.content;
+  const serverRuntimeConfig = await loadDeps(options.serverConfigPath, deps);
 
   if (serverRuntimeConfig) {
     serverBaseOptions.serverConfig = serverRuntimeConfig;

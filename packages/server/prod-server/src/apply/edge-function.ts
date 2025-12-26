@@ -36,10 +36,10 @@ export async function applyPlugins(
   plugins?: ServerPlugin[],
 ) {
   const { config, logger: optLogger } = options;
-  const deps = options.appContext.appDependencies || {};
+  const deps = options.appContext.appDependencies;
 
   const cacheConfig: CacheConfig = {
-    strategy: loadDeps('server/cache', deps)?.content,
+    strategy: (await loadDeps('server/cache', deps)) || {},
     container: cache ? createCacheContainer(cache) : undefined,
   };
 

@@ -45,12 +45,10 @@ export default (): ServerPlugin => ({
 
       let apiMod: any;
       if (process.env.MODERN_SSR_ENV === 'edge') {
-        if (appDependencies) {
-          apiMod = loadDeps(
-            path.join(API_DIR, API_APP_NAME),
-            appDependencies,
-          )?.content;
-        }
+        apiMod = await loadDeps(
+          path.join(API_DIR, API_APP_NAME),
+          appDependencies,
+        );
       } else {
         const root = isProd() ? distDirectory : appDirectory;
         const apiPath = path.resolve(root || process.cwd(), API_DIR);

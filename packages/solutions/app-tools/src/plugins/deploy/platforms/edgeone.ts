@@ -1,13 +1,12 @@
 import path from 'node:path';
-import { lodash as _, fs as fse } from '@modern-js/utils';
+import { fs as fse } from '@modern-js/utils';
 import { getServerPlugins } from '../../../utils/loadPlugins';
 import {
-  ESM_RESOLVE_CONDITIONS,
   copyDeps,
   copyEntriesHtml,
   generateHandler,
   generateProdServerEntry,
-  getProdServerEntry,
+  modifyCommonConfig,
   normalizePath,
   walkDirectory,
 } from '../edge-utils';
@@ -18,28 +17,7 @@ export const setupEdgeOne: Setup = async api => {
     await getServerPlugins(api);
     await generateProdServerEntry(api.getAppContext(), 'edgeone');
   });
-  api.modifyConfig(config => {
-    _.set(
-      config,
-      'source.define[process.env.MODERN_SSR_ENV]',
-      JSON.stringify('edge'),
-    );
-    _.set(config, 'source.define[process.env.MODERN_SSR_NODE_STREAM]', 'true');
-    return config;
-  });
-  api.modifyRsbuildConfig(config => {
-    if (_.get(config, 'environments.node')) {
-      _.set(config, 'environments.node.source.entry.modern-server', [
-        getProdServerEntry(api.getAppContext().internalDirectory),
-      ]);
-      _.set(
-        config,
-        'environments.node.resolve.conditionNames',
-        ESM_RESOLVE_CONDITIONS,
-      );
-    }
-    return config;
-  });
+  modifyCommonConfig(api);
 };
 
 export const createEdgeOnePreset: CreatePreset = (

@@ -3,6 +3,7 @@ import type { CLIPluginAPI, Entrypoint } from '@modern-js/plugin';
 import {
   ROUTE_SPEC_FILE,
   SERVER_DIR,
+  lodash as _,
   fs as fse,
   getMeta,
 } from '@modern-js/utils';
@@ -11,6 +12,7 @@ import { Job } from '@vercel/nft/out/node-file-trace';
 import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 import { isMainEntry } from '../../utils/routes';
+import type { Setup } from './platforms/platform';
 import { type PluginItem, getPluginsCode } from './utils';
 
 export const ESM_RESOLVE_CONDITIONS = ['node', 'import', 'module', 'default'];
@@ -180,7 +182,7 @@ export const copyDeps = async (
   // generate deps file
   await fse.writeFile(
     path.join(to, 'deps.js'),
-    `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "require('./$1')")}`,
+    `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "() => import('./$1')")}`,
   );
 };
 
@@ -294,6 +296,39 @@ export const copyEntriesHtml = async (
     const targetHtml = isMain ? 'index.html' : `${entry.entryName}.html`;
     await fse.copyFile(entryFilePath, path.join(to, targetHtml));
   }
+};
+
+export const modifyCommonConfig: Setup = api => {
+  api.modifyConfig(config => {
+    _.set(
+      config,
+      'source.define[process.env.MODERN_SSR_ENV]',
+      JSON.stringify('edge'),
+    );
+    _.set(config, 'source.define[process.env.MODERN_SSR_NODE_STREAM]', 'true');
+    return config;
+  });
+  api.modifyRsbuildConfig(config => {
+    if (_.get(config, 'environments.node')) {
+      _.set(config, 'environments.node.source.entry.modern-server', [
+        getProdServerEntry(api.getAppContext().internalDirectory),
+      ]);
+      _.set(
+        config,
+        'environments.node.resolve.conditionNames',
+        ESM_RESOLVE_CONDITIONS,
+      );
+    }
+    // _.set(config, 'output.minify', false);
+    return config;
+  });
+  api.modifyRspackConfig(config => {
+    if (config.target === 'node') {
+      _.set(config, 'experiments.outputModule', true);
+      _.set(config, 'output.library.type', 'module');
+    }
+    // _.set(config, 'output.pathinfo', 'verbose');
+  });
 };
 
 export const externalPkgs = ({ request }: any, callback: any) => {

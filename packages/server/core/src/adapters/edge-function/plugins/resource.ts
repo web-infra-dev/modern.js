@@ -21,7 +21,7 @@ export async function getHtmlTemplates(routes: ServerRoute[], deps: any) {
 
   const htmls = await Promise.all(
     htmlRoutes.map(async route => {
-      const html = loadDeps(route.entryPath, deps)?.text;
+      const html = await loadDeps(route.entryPath, deps);
       return [uniqueKeyByRoute(route), html];
     }) || [],
   );
@@ -58,11 +58,11 @@ export async function getServerManifest(
       .map(async route => {
         const entryName = route.entryName || MAIN_ENTRY_NAME;
 
-        const renderBundle = loadDeps(route.bundle || '', deps)?.content;
-        const loaderBundle = loadDeps(
+        const renderBundle = await loadDeps(route.bundle || '', deps);
+        const loaderBundle = await loadDeps(
           path.join(SERVER_BUNDLE_DIRECTORY, `${entryName}-server-loaders.js`),
           deps,
-        )?.content;
+        );
 
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle &&
@@ -72,9 +72,9 @@ export async function getServerManifest(
       }),
   );
 
-  const loadableStats = loadDeps(LOADABLE_STATS_FILE, deps)?.content;
-  const routeManifest = loadDeps(ROUTE_MANIFEST_FILE, deps)?.content;
-  const nestedRoutesJson = loadDeps(NESTED_ROUTE_SPEC_FILE, deps)?.content;
+  const loadableStats = await loadDeps(LOADABLE_STATS_FILE, deps);
+  const routeManifest = await loadDeps(ROUTE_MANIFEST_FILE, deps);
+  const nestedRoutesJson = await loadDeps(NESTED_ROUTE_SPEC_FILE, deps);
 
   return {
     loaderBundles,

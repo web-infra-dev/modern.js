@@ -4,7 +4,6 @@ import type { Rspack } from '@rsbuild/core';
 import { builtinMappingResolved } from '@rsbuild/plugin-node-polyfill';
 import { getServerPlugins } from '../../../utils/loadPlugins';
 import {
-  ESM_RESOLVE_CONDITIONS,
   NODE_BUILTIN_MODULES,
   copyDeps,
   copyEntriesHtml,
@@ -12,7 +11,7 @@ import {
   generateHandler,
   generateNodeExternals,
   generateProdServerEntry,
-  getProdServerEntry,
+  modifyCommonConfig,
 } from '../edge-utils';
 import type { CreatePreset, Setup } from './platform';
 
@@ -21,27 +20,19 @@ export const setupAliESA: Setup = async api => {
     await getServerPlugins(api);
     await generateProdServerEntry(api.getAppContext(), 'ali-esa');
   });
-
+  modifyCommonConfig(api);
   api.modifyRsbuildConfig(config => {
     if (_.get(config, 'environments.node')) {
-      _.set(config, 'environments.node.source.entry.modern-server', [
-        getProdServerEntry(api.getAppContext().internalDirectory),
-      ]);
-      _.set(
-        config,
-        'environments.node.resolve.conditionNames',
-        ESM_RESOLVE_CONDITIONS,
+      [
+        // remove __non_webpack_require__
+        ['__non_webpack_require__', 'undefined'],
+        // loadable use it
+        ['__dirname', "''"],
+        // Helmet use it, but global object is not exists in ali-esa
+        ['global', 'globalThis'],
+      ].forEach(([key, value]) =>
+        _.set(config, `environments.node.source.define[${key}]`, value),
       );
-      // remove __non_webpack_require__
-      _.set(
-        config,
-        'environments.node.source.define.__non_webpack_require__',
-        'undefined',
-      );
-      // loadable use it
-      _.set(config, 'environments.node.source.define.__dirname', "''");
-      // Helmet use it, but global object is not exists in ali-esa
-      _.set(config, 'environments.node.source.define.global', 'globalThis');
     }
     return config;
   });
@@ -95,8 +86,6 @@ export const setupAliESA: Setup = async api => {
   };
   api.modifyRspackConfig(options => {
     if (options.target === 'node') {
-      _.set(options, 'experiments.outputModule', true);
-      _.set(options, 'output.library.type', 'module');
       // make sure that node builtin modules are polyfilled
       _.set(options, 'target', 'es2020');
       polyfillNodeBuiltin.forEach(moduleName => {
@@ -134,7 +123,7 @@ export const createAliESAPreset: CreatePreset = (
   const funcsDirectory = path.join(esaOutput, 'functions');
   const entryFilePath = path.join(funcsDirectory, 'index.js');
   const esaDistOutput = path.join(esaOutput, 'dist');
-  const staticDirectory = path.join(esaOutput, 'static');
+  const staticDirectory = path.join(esaDistOutput, 'static');
   return {
     async prepare() {
       await fse.remove(esaOutput);
