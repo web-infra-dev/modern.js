@@ -7,12 +7,14 @@ export default defineConfig({
   lib: rslibConfig.lib?.map(libConfig => {
     return {
       ...libConfig,
-      entry: {
-        index: [
-          './src/**',
-          '!./src/plugins/deploy/platforms/*.mjs',
-          '!./src/plugins/deploy/platforms/*.cjs',
-        ],
+      source: {
+        entry: {
+          index: [
+            './src/**',
+            '!src/plugins/deploy/platforms/*.mjs',
+            '!src/plugins/deploy/platforms/*.cjs',
+          ],
+        },
       },
       output: {
         ...libConfig.output,
