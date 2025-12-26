@@ -109,6 +109,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 ```
 
+### context
+
+`context` is a map that has practical uses in specific situations. For example, when deploying using Cloudflare Workers, you can retrieve [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/) through `context`:
+
+```tsx
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const bindings = context?.get('bindings');
+  if (bindings) {
+    return bindings.NAMESPACE.get("key");
+  }
+  // Not in Cloudflare Workers
+};
+```
+
 ### Return Value
 
 The return value of the `loader` function **must be one of two data structures**: a serializable data object or an instance of [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response).

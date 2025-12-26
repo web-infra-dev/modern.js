@@ -1,88 +1,16 @@
 ---
-sidebar_position: 15
+title: 第三方平台
 ---
 
-# 部署应用
+# 第三方平台
 
-目前，Modern.js 提供了两种部署方式：
-
-- 你可以将应用自行托管在包含 Node.js 环境的容器中，这为应用提供了部署的灵活性。
-- 你也可以通过平台部署应用，目前 Modern.js 官方支持了 [Netlify](https://www.netlify.com/), [Vercel](https://vercel.com/) 和 [Github pages](https://pages.github.com/) 平台。
-
-:::info
-目前 Modern.js 仅支持在 Node.js 环境中运行，未来将提供更多运行时环境的支持。
-:::
-
-## 构建部署产物
-
-执行 `modern deploy` 命令将自动输出部署产物。此过程包括优化 Bundler 构建产物及产物依赖，检测当前部署平台，并自动生成可以在该平台运行的产物。
-如果你希望在本地生成并测试特定部署平台的产物，可以通过设置环境变量来指定平台：
-
-```bash
-MODERNJS_DEPLOY=netlify npx modern deploy
-```
-
-:::info
-在 Modern.js 官方支持的部署平台中部署时，无需指定环境变量。
-:::
-
-## ModernJS 内置 Node.js 服务器
-
-### 单仓库项目
-
-默认情况下，如果未检测到 Modern.js 支持的部署平台，Modern.js 将生成可以在 Node.js 环境下运行的部署产物。
-
-你可以使用以下命令构建项目：
-
-```bash
-npx modern deploy
-```
-
-当执行 `modern deploy` 命令时，Modern.js 将生成可执行的部署产物，并在控制台输出以下内容：
-
-```bash
-Static directory: `.output/static`
-You can preview this build by `node .output/index`
-```
-
-现在，你可以通过执行 `node .output/index` 命令来运行服务器。在 `.output/static` 目录中，存放了页面运行所需的静态资源，你可以选择将这些资源上传到 CDN 以提高访问速度。
-
-:::info
-默认情况下，运行 Modern.js 服务器时会监听 8080 端口，如果你想修改监听的端口，可以指定 `PORT` 环境变量：
-
-```
-PORT=3000 node .output/index
-```
-
-:::
-
-### Monorepo
-
-对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。
-
-假设当前项目的 `package.json` 中的 name 为 `app`，以 pnpm 作为 Monorepo 管理工具为例，你可以在项目 `package.json` 中添加以下命令用于构建：
-
-```json title="app/package.json"
-{
-  "scripts": {
-    "build:packages": "pnpm --filter 'app^...' run build",
-    "deploy": "pnpm run build:packages && modern deploy"
-  }
-}
-```
-
-如果你使用 rush 作为 Monorepo 管理工具，可以在 `package.json` 中添加以下命令：
-
-```json
-{
-  "scripts": {
-    "build:packages": "rush rebuild --to-except app",
-    "deploy": "rushx build:packages && modern deploy"
-  }
-}
-```
-
-构建完成后，框架会将项目中所有的依赖生成在 `.output/node_modules` 目录下。你同样可以使用 `node .output/index` 运行 Modern.js 服务器。
+目前 Modern.js 官方支持了以下平台：
+* [Netlify](https://www.netlify.com/)
+* [Vercel](https://vercel.com/)
+* [腾讯云 EdgeOne](https://cloud.tencent.com/product/teo)
+* [阿里云 ESA](https://www.aliyun.com/product/esa)
+* [Cloudflare Workers](https://workers.cloudflare.com/)
+* [GitHub pages](https://pages.github.com/)
 
 ## Netlify
 
@@ -290,7 +218,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ## 腾讯云 EdgeOne
 
-在腾讯云 EdgeOne 上部署，通常需要配置 `edgeone.json` 文件，你可以根据项目复杂度，渐进地配置该文件。
+在腾讯云 EdgeOne 上部署，通常需要配置 `edgeone.json` 文件。
 
 ### 纯前端项目
 
@@ -318,15 +246,15 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ### 全栈项目
 
-全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **EdgeOne Node Functions** 上。
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
 
-全栈项目除了按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json` 外，需要注意：目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
+全栈项目请按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json`。需要注意：目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
 
 在 BFF 和 Data Loader 中，均可以使用类似于获取 Cloudflare Workers Bindings 的方式获取腾讯云 EdgeOne 的 EventContext。
 
 ## 阿里云 ESA
 
-在腾讯云 ESA 上部署，通常需要配置 `esa.jsonc` 文件，你可以根据项目复杂度，渐进地配置该文件。
+在阿里云 ESA 上部署，通常需要配置 `esa.jsonc` 文件，你可以根据项目复杂度，渐进地配置该文件。
 
 ### 纯前端项目
 
@@ -355,7 +283,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ### 全栈项目
 
-全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **ESA Functions** 上。
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
 
 全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `esa.jsonc` 外，需要**额外**添加 `entry` 字段：
 
@@ -404,7 +332,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ### 全栈项目
 
-全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Cloudflare Workers** 上。
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
 
 全栈项目除了按照[纯前端项目](#纯前端项目-4)的方式配置 `wrangler.jsonc` 外，需要**额外**添加以下内容：
 
@@ -417,9 +345,9 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 在 BFF 中，可以使用 useHonoContext 获取 bindings；在 Data Loader 中，可以使用 context 获取 bindings。详细方式请参见各自文档。
 
-## Github Pages
+## GitHub Pages
 
-如果你要为一个仓库常见 Github 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加
+如果你要为一个仓库常见 GitHub 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加
 以下配置：
 
 ```ts
@@ -436,7 +364,7 @@ export default defineConfig({
 });
 ```
 
-Github Pages 支持两种部署方式，通过分支部署或通过 Github Actions 部署，如果通过分支部署，可以使用以下步骤：
+GitHub Pages 支持两种部署方式，通过分支部署或通过 GitHub Actions 部署，如果通过分支部署，可以使用以下步骤：
 
 1. 在 github 仓库中，选择 `Settings > Pages > Source > Deploy from a branch`。
 2. 安装 `gh-pages` 依赖作为开发依赖。
@@ -450,112 +378,4 @@ Github Pages 支持两种部署方式，通过分支部署或通过 Github Actio
 
 :::
 
-如果通过 Github Actions 部署，可以选择 Settings > Pages > Source > GitHub Actions，并在项目中添加 workflow 文件，可参考[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
-
-## 自建 Node.js 服务器
-
-通常情况下，我们推荐使用 Modern.js 内置的 Node.js 服务器来部署应用，它支持托管纯前端项目或者全栈项目，并且保证在开发和生产环境下的表现一致。
-
-如果你的项目是纯前端项目，也可以通过自建 Node.js 服务器来部署应用，以下用一个 Koa 服务器的示例来演示如何托管一个纯前端项目的产物。
-
-例如你有一个 Node.js 服务器的仓库，你可以将项目的产物复制到该仓库下，现在结构如下：
-
-```bash
-.
-├── .output
-│   ├── html
-│   └── static
-└── server.js
-```
-
-在 `server.js` 中，假定有如下代码：
-
-```ts title="server.js"
-import Koa from 'koa';
-
-const app = new Koa();
-app.use(async (ctx, next) => {
-  ctx.body = 'Hello Modern.js';
-});
-app.listen(3000);
-```
-
-现在，你可以新增部分代码，将静态资源和 HTML 文件的访问逻辑添加到 `server.js` 中。这里需要通过 `mime-types` 包来获取静态资源的 MIME 类型，因此我们先安装依赖：
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add mime-types" />
-
-```ts title="server.js"
-const Koa = require('koa');
-const fs = require('fs');
-const path = require('path');
-const mime = require('mime-types');
-
-const app = new Koa();
-app.use(async (ctx, next) => {
-  if (ctx.path.startsWith('/static')) {
-    ctx.type = mime.lookup(ctx.path);
-    ctx.body = fs.createReadStream(
-      path.resolve(__dirname, `.output${ctx.path}`),
-    );
-  } else if (ctx.path === '/') {
-    ctx.type = 'html';
-    ctx.body = fs.createReadStream(
-      path.resolve(__dirname, '.output/html/main/index.html'),
-    );
-  }
-});
-app.listen(3000);
-```
-
-:::note
-以上代码是最基础的例子，你的应用可能是多入口的，需要根据不同的路径访问不同的 HTML 文件，自建 Node.js 服务器也会存在更多的逻辑。
-:::
-
-需要注意的是，如果你的项目中使用 Modern.js 约定式路由，或是使用 React Router 自行搭建了浏览器端路由，你必须通过正确的 `baseURL` 来访问 HTML 文件。
-
-在 Modern.js 中，默认的 `baseURL` 是 `'/'`，你可以通过在 `modern.config.ts` 中修改 [`server.baseUrl`](/configure/app/server/base-url) 来配置。
-
-:::danger
-存在浏览器路由的项目，永远无法通过 `/index.html` 路径来访问到 HTML 文件。
-:::
-
-## Nginx
-
-Nginx 是一个高性能的 HTTP 和反向代理服务器，它可以处理静态文件、反向代理、负载均衡等功能。在 Nginx 上部署，通常需要配置 `nginx.conf` 文件。
-
-如果你的项目是纯前端项目，也可以通过 Nginx 来部署应用，以下提供一个 Nginx 配置的示例来演示如何托管一个纯前端项目的产物。
-
-```nginx title="nginx.conf"
-# user [user] [group];
-worker_processes 1;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
-
-    server {
-        listen 8080;
-        server_name localhost;
-
-        location / {
-            # root [projectPath]/.output/html/main;
-            index index.html;
-            try_files $uri $uri/ =404;
-        }
-
-        location /static {
-          # alias [projectPath]/.output/static;
-        }
-    }
-}
-```
-
-在上述配置中，你需要将 `[projectPath]` 替换为你的项目路径，将 `[user]` 和 `[group]` 替换为你当前的用户和用户组。
-
-你可以将上述配置复制到 Nginx 安装目录的 `nginx.conf` 文件中，然后启动 Nginx 服务。你也可以通过 `nginx -c` 启动指定路径下的配置文件，此时你需要额外保证 `include` 指令配置的路径正确。
+如果通过 GitHub Actions 部署，可以选择 Settings > Pages > Source > GitHub Actions，并在项目中添加 workflow 文件，可参考[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
