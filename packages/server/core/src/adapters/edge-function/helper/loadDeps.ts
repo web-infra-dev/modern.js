@@ -21,20 +21,13 @@ export const loadDeps = async <T = any>(
     }
   }
 
-  if (typeof value !== 'object' || !value.then) {
+  if (typeof value !== 'function') {
     return;
   }
 
-  const finalValue = await value;
-
-  if (typeof finalValue === 'object') {
-    if (typeof finalValue._DEP_TEXT === 'string') {
-      return finalValue._DEP_TEXT;
-    }
-    if (typeof finalValue._DEP_BUF !== 'undefined') {
-      return finalValue._DEP_BUF;
-    }
+  try {
+    return await value();
+  } catch (e) {
+    console.error(e);
   }
-
-  return finalValue;
 };

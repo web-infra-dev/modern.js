@@ -112,7 +112,6 @@ const getHonoInput = async (c: Context) => {
     query: parse(c.req.query()),
     headers: c.req.header(),
     cookies: c.req.header('cookie'),
-    raw_context: c,
   };
 
   try {

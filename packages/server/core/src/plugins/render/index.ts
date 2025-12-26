@@ -90,6 +90,8 @@ function createRenderHandler(
     const bindings = c.env;
     const nodeReq = bindings.node?.req;
 
+    loaderContext.set('bindings', bindings);
+
     const res = await render(request, {
       nodeReq,
       monitors,
@@ -104,7 +106,6 @@ function createRenderHandler(
       matchEntryName,
       contextForceCSR,
       reporter,
-      bindings,
     });
 
     const { body, status, headers } = res;

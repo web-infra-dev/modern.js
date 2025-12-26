@@ -101,7 +101,6 @@ function createSSRContext(
     params,
     responseProxy,
     reporter,
-    bindings,
   } = options;
 
   const { nonce, useJsonScript } = config;
@@ -171,7 +170,6 @@ function createSSRContext(
       host,
       referer: headers.get('referer')!,
       raw: request,
-      bindings,
     },
     response: {
       setHeader(key, value) {

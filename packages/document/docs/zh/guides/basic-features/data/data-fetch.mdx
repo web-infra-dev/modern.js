@@ -111,6 +111,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 ```
 
+### context
+
+`context` 是一个 Map，在特定情况下有实际作用。例如，在使用 Cloudflare Workers 部署时，可以通过 `context` 获取 [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/)：
+
+```tsx
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const bindings = context?.get('bindings');
+  if (bindings) {
+    return bindings.NAMESPACE.get("key");
+  }
+  // Not in Cloudflare Workers
+};
+```
+
 ### 返回值
 
 `loader` 函数的返回值**只能是两种数据结构之一**，可序列化的数据对象或者 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例。

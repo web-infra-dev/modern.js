@@ -93,41 +93,6 @@ export const walkDirectory = async (
 
 export const normalizePath = (filePath: string) => filePath.replace(/\\/g, '/');
 
-export const copyDepFile = async (sourcePath: string, targetPath: string) => {
-  await fse.ensureDir(path.dirname(targetPath));
-  const ext = path.extname(sourcePath);
-  // console.log(`Copying ${ext} file: ${sourcePath} -> ${targetPath}`);
-
-  // If it's a JS-like file, copy as is
-  if (['.js', '.mjs', '.json'].includes(ext)) {
-    await fse.copyFile(sourcePath, targetPath);
-    return targetPath;
-  }
-
-  if (!isTextFile(sourcePath)) {
-    return;
-  }
-
-  // Handle text files
-  const content = await fse.readFile(sourcePath, 'utf-8');
-  // Escape quotes and backslashes in content
-  const escapedContent = content
-    .replace(/\\/g, '\\\\')
-    .replace(/`/g, '\\`')
-    .replace(/\$/g, '\\$');
-
-  const jsContent = `\
-// Automatically generated JS wrapper for ${path.basename(sourcePath)}
-export const _DEP_TEXT = \`${escapedContent}\`;
-`;
-
-  // Keep the same filename but with .js extension
-  const jsTargetPath = `${targetPath}.js`;
-
-  await fse.writeFile(jsTargetPath, jsContent);
-  return jsTargetPath;
-};
-
 export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
   const {
     appDirectory,
@@ -153,12 +118,47 @@ export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
 export const getServerConfigPath = (meta: string) =>
   `"${normalizePath(path.join(SERVER_DIR, `${meta}.server`))}"`;
 
+const copyDepFile = async (sourcePath: string, targetPath: string) => {
+  await fse.ensureDir(path.dirname(targetPath));
+  const ext = path.extname(sourcePath);
+  // console.log(`Copying ${ext} file: ${sourcePath} -> ${targetPath}`);
+
+  // If it's a JS-like file, copy as is
+  if (['.js', '.mjs', '.json'].includes(ext)) {
+    await fse.copyFile(sourcePath, targetPath);
+    return { path: targetPath };
+  }
+
+  if (!isTextFile(sourcePath)) {
+    return;
+  }
+
+  // Handle text files
+  const content = await fse.readFile(sourcePath, 'utf-8');
+  // Escape quotes and backslashes in content
+  const escapedContent = content
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$/g, '\\$');
+
+  const jsContent = `\
+// Automatically generated JS wrapper for ${path.basename(sourcePath)}
+export const _DEP_TEXT = \`${escapedContent}\`;
+`;
+
+  // Keep the same filename but with .js extension
+  const jsTargetPath = `${targetPath}.js`;
+
+  await fse.writeFile(jsTargetPath, jsContent);
+  return { path: jsTargetPath, wrapper: '_DEP_TEXT' };
+};
+
 export const copyDeps = async (
   from: string,
   to: string,
   staticPrefix?: string,
 ) => {
-  const files: Record<string, string> = {};
+  const codes = ['export const deps = {'];
   await walkDirectory(from, async filePath => {
     // skip static files
     if (staticPrefix && filePath.startsWith(staticPrefix)) {
@@ -172,18 +172,21 @@ export const copyDeps = async (
 
     const relative = normalizePath(path.relative(from, filePath));
     const targetPath = path.join(to, relative);
-    const finalPath = await copyDepFile(filePath, targetPath);
-    if (finalPath) {
-      const requirePath = normalizePath(path.relative(to, finalPath));
-      files[relative] = `_MODERNJS_EDGE_REQUIRE_(${requirePath})`;
+    const copyResult = await copyDepFile(filePath, targetPath);
+    if (copyResult) {
+      const requirePath = normalizePath(path.relative(to, copyResult.path));
+      const suffix = copyResult.wrapper
+        ? `.then(x => x.${copyResult.wrapper})`
+        : '';
+      codes.push(
+        `${JSON.stringify(relative)}: () => import(${JSON.stringify(`./${requirePath}`)})${suffix},`,
+      );
     }
   });
+  codes.push('}');
 
   // generate deps file
-  await fse.writeFile(
-    path.join(to, 'deps.js'),
-    `export const deps = ${JSON.stringify(files, undefined, 2).replace(/"_MODERNJS_EDGE_REQUIRE_\((.*?)\)"/g, "() => import('./$1')")}`,
-  );
+  await fse.writeFile(path.join(to, 'deps.js'), codes.join('\n'));
 };
 
 const genPluginImportsCode = (plugins: PluginItem[]) => {
@@ -299,15 +302,6 @@ export const copyEntriesHtml = async (
 };
 
 export const modifyCommonConfig: Setup = api => {
-  api.modifyConfig(config => {
-    _.set(
-      config,
-      'source.define[process.env.MODERN_SSR_ENV]',
-      JSON.stringify('edge'),
-    );
-    _.set(config, 'source.define[process.env.MODERN_SSR_NODE_STREAM]', 'true');
-    return config;
-  });
   api.modifyRsbuildConfig(config => {
     if (_.get(config, 'environments.node')) {
       _.set(config, 'environments.node.source.entry.modern-server', [
@@ -315,19 +309,34 @@ export const modifyCommonConfig: Setup = api => {
       ]);
       _.set(
         config,
+        'environments.node.source.define["process.env.MODERN_SSR_NODE_STREAM"]',
+        'true',
+      );
+      _.set(
+        config,
         'environments.node.resolve.conditionNames',
         ESM_RESOLVE_CONDITIONS,
       );
     }
-    // _.set(config, 'output.minify', false);
+    _.set(config, 'output.minify', false);
     return config;
   });
-  api.modifyRspackConfig(config => {
+  api.modifyBundlerChain((_c, { environments }) => {
+    // Use modifyBundlerChain API to ensure that the write priority of MODERN_SSR_ENV is higher than plugin-ssr
+    if (environments.node) {
+      _.set(
+        environments.node,
+        'config.source.define["process.env.MODERN_SSR_ENV"]',
+        "'edge'",
+      );
+    }
+  });
+  api.modifyRspackConfig((config, { rspack }) => {
     if (config.target === 'node') {
       _.set(config, 'experiments.outputModule', true);
       _.set(config, 'output.library.type', 'module');
     }
-    // _.set(config, 'output.pathinfo', 'verbose');
+    _.set(config, 'output.pathinfo', 'verbose');
   });
 };
 

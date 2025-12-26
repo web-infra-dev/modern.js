@@ -322,6 +322,8 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 全栈项目除了按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json` 外，需要注意：目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
 
+在 BFF 和 Data Loader 中，均可以使用类似于获取 Cloudflare Workers Bindings 的方式获取腾讯云 EdgeOne 的 EventContext。
+
 ## 阿里云 ESA
 
 在腾讯云 ESA 上部署，通常需要配置 `esa.jsonc` 文件，你可以根据项目复杂度，渐进地配置该文件。
@@ -412,6 +414,8 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 	"main": "./.cf-workers/functions/index.js",
 }
 ```
+
+在 BFF 中，可以使用 useHonoContext 获取 bindings；在 Data Loader 中，可以使用 context 获取 bindings。详细方式请参见各自文档。
 
 ## Github Pages
 
