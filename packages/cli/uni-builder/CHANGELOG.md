@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.69.6
+
+### Patch Changes
+
+- e34ca06: chore: update rsc code to adapter other framework
+
+  chore: 更新 rsc 相关代码适配更多框架
+
+  - @modern-js/babel-preset@2.69.6
+  - @modern-js/flight-server-transform-plugin@2.69.6
+  - @modern-js/utils@2.69.6
+
 ## 2.69.5
 
 ### Patch Changes

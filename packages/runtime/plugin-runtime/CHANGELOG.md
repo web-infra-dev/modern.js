@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.69.6
+
+### Patch Changes
+
+- fab2d96: refactor: update rsc, streaming ssr runtime code
+  refactor: 更新 rsc, streeaming ssr 运行时代码
+- Updated dependencies [fab2d96]
+  - @modern-js/render@2.69.6
+  - @modern-js/plugin-data-loader@2.69.6
+  - @modern-js/plugin-v2@2.69.6
+  - @modern-js/plugin@2.69.6
+  - @modern-js/runtime-utils@2.69.6
+  - @modern-js/types@2.69.6
+  - @modern-js/utils@2.69.6
+
 ## 2.69.5
 
 ### Patch Changes

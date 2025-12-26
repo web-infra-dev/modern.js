@@ -1,5 +1,24 @@
 # @modern-js/server-plugin
 
+## 2.69.6
+
+### Patch Changes
+
+- 36068e4: feat: add `urlPath` field to Hono context `route`, for later middleware use
+  feat: 在 Hono 上下文的 `route` 中添加 `urlPath` 字段，以供后续中间件使用
+- 36d8ed0: fix: escape special characters in static file routes to prevent regex syntax errors
+
+  fix: 转义静态文件路由中的特殊字符，防止正则表达式语法错误
+
+- e34ca06: chore: update rsc code to adapter other framework
+
+  chore: 更新 rsc 相关代码适配更多框架
+
+  - @modern-js/plugin-v2@2.69.6
+  - @modern-js/plugin@2.69.6
+  - @modern-js/runtime-utils@2.69.6
+  - @modern-js/utils@2.69.6
+
 ## 2.69.5
 
 ### Patch Changes
