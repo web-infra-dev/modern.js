@@ -48,6 +48,14 @@ function renderTemplate(template: string, data: Record<string, any>): string {
   return result;
 }
 
+function showVersion() {
+  const createPackageJson = path.resolve(__dirname, '..', 'package.json');
+  const createPackage = JSON.parse(fs.readFileSync(createPackageJson, 'utf-8'));
+  const version = createPackage.version || 'unknown';
+  console.log(i18n.t(localeKeys.version.message, { version }));
+  process.exit(0);
+}
+
 function showHelp() {
   console.log(i18n.t(localeKeys.help.title));
   console.log(i18n.t(localeKeys.help.description));
@@ -57,6 +65,7 @@ function showHelp() {
   console.log('');
   console.log(i18n.t(localeKeys.help.options));
   console.log(i18n.t(localeKeys.help.optionHelp));
+  console.log(i18n.t(localeKeys.help.optionVersion));
   console.log(i18n.t(localeKeys.help.optionLang));
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log('');
@@ -98,7 +107,22 @@ function detectSubprojectFlag(): boolean | null {
   return null;
 }
 
-async function getProjectName(): Promise<string> {
+function isDirectoryEmpty(dirPath: string): boolean {
+  if (!fs.existsSync(dirPath)) {
+    return false;
+  }
+  try {
+    const files = fs.readdirSync(dirPath);
+    return files.length === 0;
+  } catch {
+    return false;
+  }
+}
+
+async function getProjectName(): Promise<{
+  name: string;
+  useCurrentDir: boolean;
+}> {
   const args = process.argv.slice(2);
   const projectNameArg = args.find(
     (arg, index) =>
@@ -106,6 +130,8 @@ async function getProjectName(): Promise<string> {
       arg !== '-l' &&
       arg !== '--help' &&
       arg !== '-h' &&
+      arg !== '--version' &&
+      arg !== '-v' &&
       arg !== '--sub' &&
       arg !== '-s' &&
       arg !== '--no-sub' &&
@@ -114,13 +140,21 @@ async function getProjectName(): Promise<string> {
           args[index - 1] !== '-l' &&
           args[index - 1] !== '--help' &&
           args[index - 1] !== '-h' &&
+          args[index - 1] !== '--version' &&
+          args[index - 1] !== '-v' &&
           args[index - 1] !== '--sub' &&
           args[index - 1] !== '-s' &&
           args[index - 1] !== '--no-sub')),
   );
 
   if (projectNameArg) {
-    return projectNameArg;
+    return { name: projectNameArg, useCurrentDir: false };
+  }
+
+  // 如果当前目录为空，直接使用当前目录名作为项目名
+  const currentDir = process.cwd();
+  if (isDirectoryEmpty(currentDir)) {
+    return { name: path.basename(currentDir), useCurrentDir: true };
   }
 
   const projectName = await promptInput(i18n.t(localeKeys.prompt.projectName));
@@ -130,7 +164,7 @@ async function getProjectName(): Promise<string> {
     process.exit(1);
   }
 
-  return projectName;
+  return { name: projectName, useCurrentDir: false };
 }
 
 async function main() {
@@ -141,13 +175,18 @@ async function main() {
     return;
   }
 
-  console.log(i18n.t(localeKeys.message.welcome));
-  console.log('');
+  if (args.includes('--version') || args.includes('-v')) {
+    showVersion();
+    return;
+  }
 
-  const projectName = await getProjectName();
-  const targetDir = path.isAbsolute(projectName)
-    ? projectName
-    : path.resolve(process.cwd(), projectName);
+  console.log(i18n.t(localeKeys.message.welcome));
+  const { name: projectName, useCurrentDir } = await getProjectName();
+  const targetDir = useCurrentDir
+    ? process.cwd()
+    : path.isAbsolute(projectName)
+      ? projectName
+      : path.resolve(process.cwd(), projectName);
 
   if (fs.existsSync(targetDir)) {
     const files = fs.readdirSync(targetDir);

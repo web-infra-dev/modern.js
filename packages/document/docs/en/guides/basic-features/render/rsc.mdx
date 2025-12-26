@@ -1,0 +1,399 @@
+---
+title: React Server Components (RSC)
+---
+
+# React Server Components (RSC)
+
+React Server Components (RSC) is a new component type that allows components to be rendered in a server environment, bringing better performance and developer experience to modern web applications.
+
+## Core Advantages
+
+- **Zero Client JavaScript**: Server Components code is not bundled to the client, significantly reducing client bundle size
+- **Direct Access to Server Resources**: Can directly access server resources such as databases, file systems, and internal APIs without additional API layers
+- **Better Performance**: Data fetching is closer to the data source, reducing client-side data waterfalls and improving first-screen load speed
+- **Automatic Code Splitting**: Code splitting based on actual rendered data, not just routes, enabling more granular code optimization
+- **Higher Cohesion**: Logic closely related to data, permissions, caching, etc., can remain in Server Components, improving component cohesion and reducing state lifting and cross-level passing
+
+:::tip Prerequisite
+Before starting, we recommend reading React's official [Server Components documentation](https://react.dev/reference/rsc/server-components) to get a basic understanding of Server Components.
+
+:::
+
+## Quick Start
+
+1. **Ensure React and React DOM are upgraded to version 19** (recommended version 19.2.3 or above)
+
+2. **Install the `react-server-dom-webpack` dependency**
+
+```bash
+npm install react-server-dom-webpack
+```
+
+:::warning Notes
+
+1. Currently, [Server Functions](https://react.dev/reference/rsc/server-functions) are not supported in SPA projects
+2. Currently, when building with Rspack, the output chunks and bundle size are not yet optimal. We will further optimize this in the near future
+
+:::
+
+3. Set [`server.rsc`](/configure/app/server/rsc) to `true`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    rsc: true,
+  },
+});
+```
+
+:::info Migrating from Legacy CSR Projects
+If you have a CSR project that uses Modern.js data loaders, after enabling RSC, data loaders will execute on the server by default.
+To maintain consistency with the original behavior, you need to change all `.data.ts` files to `.data.client.ts` first.
+
+:::
+
+## Usage Guide
+
+### Default Behavior
+
+By default, when RSC is enabled, all components in Modern.js are **Server Components** by default. Server Components allow you to fetch data on the server and render UI. When you need interactivity (such as event handling, state management) or use browser APIs, you can use the `"use client"` directive to mark components as **Client Components**.
+
+### Component Type Selection
+
+#### When to Use Client Component
+
+When a component needs the following features, you need to use the `"use client"` directive to mark it as a Client Component:
+
+- **Interactivity**: Using [State](https://react.dev/learn/managing-state) and [event handlers](https://react.dev/learn/responding-to-events), such as `onClick`, `onChange`, `onSubmit`
+- **Lifecycle**: Using [lifecycle](https://react.dev/learn/lifecycle-of-reactive-effects)-related hooks, such as `useEffect`, `useLayoutEffect`
+- **Browser APIs**: Using browser APIs (such as `window`, `document`, `localStorage`, `navigator`, etc.)
+- **Custom Hooks**: Using [custom hooks](https://react.dev/learn/reusing-logic-with-custom-hooks), especially those that depend on client-side features
+
+#### When to Use Server Component
+
+The following scenarios should use Server Components (default behavior, no additional marking required):
+
+1. **Accessing Server Resources**: Using APIs available only on the server (such as Node.js APIs, file systems, consul, RPC, etc.)
+2. **Data Fetching**: Fetching data on the server to optimize performance and reduce client requests
+3. **Security**: Accessing private environment variables or API keys, avoiding exposure to the client
+4. **Reducing Bundle Size**: Using large dependency libraries that don't need to be included in the client bundle
+5. **Static Content**: Rendering static or infrequently changing content
+
+### Client Boundary
+
+Once a file is marked with `"use client"`, all other modules it imports (if they haven't been marked with `"use client"` yet) will also be considered client code and included in the client JavaScript bundle. This is the concept of **Client Boundary**.
+
+:::tip Understanding Client Boundary
+The `"use client"` directive creates a boundary: all code within the boundary will be bundled to the client. This means that even if the `Button` and `Tooltip` components don't have the `"use client"` directive themselves, they will become client code because they are imported by `InteractiveCard`.
+
+:::
+
+```tsx title="components/InteractiveCard.tsx"
+'use client'; // <--- This is where the Client Boundary starts
+
+import { useState } from 'react';
+import Button from './Button'; // Button.tsx doesn't have "use client", but will be included in the client bundle
+import Tooltip from './Tooltip'; // Tooltip.tsx also doesn't have "use client", and will be included
+
+export default function InteractiveCard() {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <div onClick={() => setIsActive(!isActive)}>
+      <p>Click me!</p>
+      <Button />
+      <Tooltip text="This is a card" />
+    </div>
+  );
+}
+```
+
+### How to Combine Both Component Types
+
+Server Components and Client Components don't exist in isolation; they need to work together. Remember the following two rules:
+
+#### Server Component Can Import Client Component
+
+This is the most common pattern. Your page body is a Server Component responsible for data fetching and layout, while interactive parts are embedded as Client Components.
+
+```tsx title="routes/page.tsx"
+// Server Component (default, no marking needed)
+import CounterButton from './CounterButton'; // This is a Client Component
+
+async function getPageData() {
+  // Fetch data on the server
+  const res = await fetch('https://api.example.com/data');
+  return res.json();
+}
+
+export default async function Page() {
+  const data = await getPageData();
+
+  return (
+    <div>
+      <h1>{data.title}</h1> {/* Server-side rendered */}
+      <p>This part is static.</p>
+      {/* Client Component can be seamlessly embedded in Server Component */}
+      <CounterButton />
+    </div>
+  );
+}
+```
+
+```tsx title="routes/CounterButton.tsx"
+'use client'; // Client Component
+
+import { useState } from 'react';
+
+export default function CounterButton() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>;
+}
+```
+
+#### Client Component Cannot Directly Import Server Component
+
+This may seem counterintuitive at first. The reason is that Server Component code doesn't exist on the client at all. When a Client Component renders in the browser, it cannot execute a function that only exists on the server.
+
+However, there are two patterns to work around this limitation:
+
+**1. Pass Server Component via `children` Prop**
+
+You can pass Server Components as the `children` Prop to a Client Component. For example, an animated Tabs component where the tab switching logic is client-side, but the content of each tab might be static and fetched from the server.
+
+```tsx title="app/components/Tabs.tsx"
+'use client'; // Client Component
+
+import React, { useState } from 'react';
+
+interface TabsProps {
+  tabLabels: string[];
+  children: React.ReactNode;
+}
+
+export default function Tabs({ tabLabels, children }: TabsProps) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div>
+      <nav>
+        {tabLabels.map((label, index) => (
+          <button key={label} onClick={() => setActiveTab(index)}>
+            {label}
+          </button>
+        ))}
+      </nav>
+      {/* React.Children.toArray ensures only the active child component is rendered */}
+      <div>{React.Children.toArray(children)[activeTab]}</div>
+    </div>
+  );
+}
+```
+
+```tsx title="app/dashboard/page.tsx"
+// Server Component (default)
+import Tabs from '../components/Tabs';
+import Analytics from '../components/Analytics'; // Server Component
+import UserSettings from '../components/UserSettings'; // Server Component
+
+export default function DashboardPage() {
+  const labels = ['Analytics', 'Settings'];
+
+  return (
+    <main>
+      <h1>Dashboard</h1>
+      {/*
+        Here, Tabs is a Client Component (handling interactive logic),
+        but Analytics and UserSettings are Server Components rendered on the server,
+        passed to the Tabs component as children props.
+        This maintains interactivity while maximizing the advantages of server-side rendering.
+      */}
+      <Tabs tabLabels={labels}>
+        <Analytics />
+        <UserSettings />
+      </Tabs>
+    </main>
+  );
+}
+```
+
+Through this pattern, you can keep components on the server to the maximum extent while maintaining interactivity, achieving optimal performance. This is one of the most powerful composition patterns in RSC.
+
+**2. Route Components Can Independently Choose Component Type**
+
+Each level of route components (such as `layout.tsx`, `page.tsx`) can independently choose to be a Client Component or Server Component:
+
+```ts
+-routes -
+  layout.tsx - // Can be a Client Component
+  page.tsx; // Can be a Server Component
+```
+
+For example, if `layout.tsx` is a Client Component (requiring client-side interactivity), you can still set `page.tsx` as a Server Component (for data fetching and rendering). This approach provides great flexibility and allows non-RSC projects to gradually migrate to RSC projects.
+
+## Notes
+
+### Legacy CSR Projects
+
+If you have a CSR project that uses EdenX data loaders, after enabling RSC, data loaders will execute on the server by default, which means you need to change all `.data.ts` files to `.data.client.ts` first to maintain consistency with the previous behavior.
+
+### Projects Using Streaming SSR
+
+If you're using both Streaming SSR and RSC, in React 19 you need to use `use` instead of the `Await` component:
+
+```typescript
+function NonCriticalUI({ p }: { p: Promise<string> }) {
+  let value = React.use(p);
+  return <h3>Non critical value {value}</h3>;
+}
+
+<React.Suspense fallback={<div>Loading...</div>}>
+  <NonCriticalUI p={nonCriticalData} />
+</React.Suspense>;
+```
+
+## Best Practices
+
+### Data Fetching
+
+1. Whether it's an SSR or RSC project, it's recommended to use the `cache` function provided by EdenX for data fetching logic executed on the server by default. This ensures that for each server-side render, no matter how many times the function is called, it will only execute once.
+
+> This is also the recommended usage by React.js, which provides the [cache](https://react.dev/reference/react/cache) function. EdenX's [cache](/guides/basic-features/data/data-cache.html) can be considered a superset of it.
+
+```typescript
+import { cache } from '@modern-js/runtime/cache';
+
+const getCriticalCached = cache(getCritical);
+```
+
+- Based on using the `cache` function, you no longer need to manage server-side state through `props`, `context`, etc. We recommend fetching data in the nearest Server Component where it's needed. With the `cache` function, even if the same function is called multiple times, this makes project state management, business logic, and performance optimization simpler.
+
+```typescript
+// layout.tsx
+export default async function Layout() {
+  const criticalData = await getCriticalCached();
+}
+
+export default async function Page() {
+  const criticalData = await getCriticalCached();
+}
+```
+
+### Optimal Performance
+
+To leverage the advantages of RSC or Streaming SSR, we need to make as many components as possible flow. A core principle is to make the area wrapped by Suspense as small as possible (this is also one of the reasons we recommend using the `cache` function).
+
+For Server Components that directly consume data, we recommend wrapping them with Suspense at a higher level:
+
+> In this scenario, Server Components are often asynchronous. There's another case where Server Components are synchronous and data is consumed by Client Components, described below.
+
+```javascript
+// profile/components/PostsList.tsx
+export default async function PostsList() {
+  const posts = await getUserPosts();
+
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```javascript
+// profile/page.tsx
+import { Suspense } from 'react';
+import UserInfo from './components/UserInfo';
+import PostsList from './components/PostsList';
+import PostsSkeleton from './components/PostsSkeleton';
+
+export default function ProfilePage() {
+  return (
+    <div>
+      <UserInfo />
+
+      <hr />
+
+      {/*
+        We wrap the slow PostsList in Suspense.
+        While PostsList is fetching data, users will see PostsSkeleton.
+        Once PostsList data is ready, it will automatically replace the skeleton.
+      */}
+      <Suspense fallback={<PostsSkeleton />}>
+        <PostsList posts={postsPromise} />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+There's another scenario where data is consumed in Client Components. In this case, we should avoid using `await` in Server Components to avoid blocking rendering:
+
+```javascript
+// profile/components/PostsList.tsx
+'use client';
+export default function PostsList({ postsPromise }) {
+  const posts = use(postsPromise);
+
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```javascript
+// profile/page.tsx
+import { Suspense } from 'react';
+import UserInfo from './components/UserInfo';
+import PostsList from './components/PostsList'; // Now a Client Component
+import PostsSkeleton from './components/PostsSkeleton';
+import { getUserPosts } from '../lib/data'; // Import data fetching function
+
+// Note: This component is not async
+export default function ProfilePage() {
+  // 1. Call the data fetching function on the server, but don't await it
+  // This immediately returns a Promise
+  const postsPromise = getUserPosts();
+
+  return (
+    <div>
+      <UserInfo />
+
+      <hr />
+
+      {/* 2. Suspense boundary is still required. It will catch
+          the Promise thrown by the `use` hook inside PostsList */}
+      <Suspense fallback={<PostsSkeleton />}>
+        {/* 3. Pass the Promise object itself as a prop to the client component */}
+        <PostsList postsPromise={postsPromise} />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+### Helmet
+
+When using React 19, you no longer need to use Helmet. We recommend directly using the [components](https://react.dev/reference/react-dom/components) provided by React.
+
+## Common Issues
+
+### `This entry point is not yet supported outside of experimental channels`
+
+The project's bundle has introduced a non-19 React version, commonly seen in monorepos. Please ensure all dependencies use React 19.
+
+## Related Links
+
+- [React Server Components Official Documentation](https://react.dev/reference/rsc/server-components)
+- [React Server Functions Documentation](https://react.dev/reference/rsc/server-functions)
+- [Data Cache](/guides/basic-features/data/data-cache)
+- [Server-Side Rendering (SSR)](/guides/basic-features/render/ssr)
+- [Streaming SSR](/guides/basic-features/render/streaming-ssr)

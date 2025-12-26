@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -104,7 +104,7 @@
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
     "lint-staged": "~13.3.0",
-    "@rslib/core": "0.18.3",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "typescript": "~5.0.4"
   },

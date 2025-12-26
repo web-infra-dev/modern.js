@@ -1,0 +1,30 @@
+---
+title: rsc
+---
+
+# server.rsc
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Enable React Server Components (RSC) configuration.
+
+When set to `true`, enables React Server Components support in Modern.js. This allows components to be rendered on the server, providing better performance and developer experience.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    rsc: true,
+  },
+});
+```
+
+:::tip Prerequisites
+Before enabling RSC, ensure:
+1. React and React DOM are upgraded to version 19 (recommended 19.2.3 or above)
+2. Install the `react-server-dom-webpack` dependency
+
+:::
+
+For more information about using RSC, see the [React Server Components guide](/guides/basic-features/render/rsc).
+

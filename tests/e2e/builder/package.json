@@ -7,24 +7,24 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-router-dom": "7.8.2",
-    "vue": "^3.5.25"
+    "vue": "^3.5.26"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.57.0",
-    "@rsbuild/core": "1.6.14",
+    "@rsbuild/core": "1.6.15",
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.21",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@types/serve-static": "^1.15.10",
     "connect": "^3.7.0",
-    "serve-static": "^1.16.2",
+    "serve-static": "^1.16.3",
     "typescript": "^5"
   }
 }

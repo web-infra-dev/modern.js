@@ -9,10 +9,6 @@ Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过�
 
 ## 什么是 Data Loader
 
-:::note
-Modern.js v1 项目通过 `useLoader` 获取数据，这已经不是我们推荐的用法，建议迁移到 Data Loader。
-:::
-
 Modern.js 推荐使用[约定式路由](/guides/basic-features/routes/routes)做路由的管理，每个路由组件（`layout.ts`，`page.ts` 或 `$.tsx`）都可以有一个同名的 `.data` 文件。这些文件可以导出一个 `loader` 函数，我们称为 Data Loader，它会在对应的路由组件渲染之前执行，为组件提供数据。如下面示例：
 
 ```bash
@@ -40,17 +36,19 @@ export const loader = async (): Promise<ProfileData> => {
 ```
 
 :::warning 兼容性
+
 - 在之前的版本中，Data Loader 是定义在 `.loader` 文件中的。当前版本中，我们推荐定义在 `.data` 文件中，同时我们会保持对 `.loader` 文件的兼容。
 - 在 `.loader` 文件中，Data Loader 可以默认导出。但在 `data` 文件中，Data Loader 需要以 `loader` 具名导出。
+
 ```ts
-  // xxx.loader.ts
-export default () => {}
+// xxx.loader.ts
+export default () => {};
 
 // xxx.data.ts
-export const loader = () => {}
+export const loader = () => {};
 ```
-:::
 
+:::
 
 在路由组件中，你可以通过 `useLoaderData` 函数获取数据：
 
@@ -176,9 +174,10 @@ SSR 应用的 `loader` 函数只在服务端执行可以带来以下好处：
 ```tsx
 export async function loader() {
   const res = await fetch('URL_ADDRESS');
+  const data = await res.json();
   return {
-    message: res.message
-  }
+    message: data.message,
+  };
 }
 ```
 
@@ -223,7 +222,7 @@ export default ErrorBoundary;
 // routes/user/profile/page.data.ts
 export async function loader() {
   const user = await fetchUser();
-  if(!user){
+  if (!user) {
     throw new Response('The user was not found', { status: 404 });
   }
   return user;
@@ -275,7 +274,6 @@ export function UserLayout() {
 ```
 
 如果想获取 `entry1/routes/layout.tsx` 中 `loader` 返回的数据，`routeId` 的值就是 `entry1_layout`。
-
 
 ## Loading UI (Experimental)
 

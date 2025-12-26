@@ -30,15 +30,44 @@ Modern.js 初始化的应用是单入口的，应用结构如下：
 └── tsconfig.json
 ```
 
-在 Modern.js 应用中，你可以很方便的将单入口切换成多入口。在应用目录下执行 `pnpm run new`，根据提示即可创建入口：
+在 Modern.js 应用中，你可以很方便的将单入口切换成多入口。手动创建多入口需要以下步骤：
+
+import NewEntryTooltip from '@site-docs/components/new-entry-tooltip.mdx';
+
+<NewEntryTooltip />
+
+1. **将原入口代码移动到以 `package.json` 中 `name` 命名的目录下**
+
+   假设 `package.json` 中的 `name` 为 `myapp`，需要将 `src/routes/` 目录移动到 `src/myapp/routes/`：
 
 ```bash
-? 请选择你想要的操作 创建工程元素
-? 请选择创建元素类型 新建「应用入口」
-? 请填写入口名称 new-entry
+# 创建新目录
+mkdir -p src/myapp
+# 移动原入口代码
+mv src/routes src/myapp/routes
 ```
 
-执行后，Modern.js 会自动生成一个新的入口目录，此时可以看到 `src/` 目录变成如下结构：
+2. **创建新的入口目录**
+
+   创建新的入口目录，例如 `new-entry`：
+
+```bash
+# 创建新入口目录
+mkdir -p src/new-entry/routes
+```
+
+3. **在新入口目录下创建必要的文件**
+
+   在新入口的 `routes/` 目录下创建基础文件：
+
+```bash
+# 创建基础文件（可根据需要调整内容）
+touch src/new-entry/routes/index.css
+touch src/new-entry/routes/layout.tsx
+touch src/new-entry/routes/page.tsx
+```
+
+完成上述步骤后，`src/` 目录结构如下：
 
 ```bash
 .
@@ -53,8 +82,6 @@ Modern.js 初始化的应用是单入口的，应用结构如下：
         ├── layout.tsx
         └── page.tsx
 ```
-
-原本的入口代码被移动到了和 `package.json` 中 `name` 同名的目录下，并创建了 `new-entry` 入口目录。
 
 Modern.js 会将与 `package.json` 文件中 `name` 字段同名的入口作为主入口，主入口的路由为 `/`，其他入口的路由为 `/{entryName}`。比如，`package.json` 中的 `name` 为 `myapp` 时，`src/myapp` 会作为应用的主入口。
 
@@ -110,21 +137,18 @@ src/
 
 组件对应关系
 
-| 文件 | 路由 | 说明 |
-|------|------|------|
-| `routes/layout.tsx` | 全局布局 | 所有页面的外层容器 |
-| `routes/page.tsx` | `/` | 首页 |
-| `routes/about/page.tsx` | `/about` | 关于页面 |
-| `routes/blog/[id]/page.tsx` | `/blog/:id` | 动态路由页面 |
-
-
+| 文件                        | 路由        | 说明               |
+| --------------------------- | ----------- | ------------------ |
+| `routes/layout.tsx`         | 全局布局    | 所有页面的外层容器 |
+| `routes/page.tsx`           | `/`         | 首页               |
+| `routes/about/page.tsx`     | `/about`    | 关于页面           |
+| `routes/blog/[id]/page.tsx` | `/blog/:id` | 动态路由页面       |
 
 详细内容可以参考[路由方案](/guides/basic-features/routes/routes#约定式路由)。
 
 ### 自控式路由
 
 如果入口中存在 `App.[jt]sx?` 文件，该入口就是自控式路由。这种方式给开发者完全的路由控制权。
-
 
 ```bash
 .
@@ -207,12 +231,12 @@ if (container) {
 }
 ```
 
-
 在该模式下，**将无法使用 Modern.js 框架的运行时能力**，比如：
 
 - 约定式路由，即基于 `src/routes` 下文件的路由
 - 服务端渲染（SSR）
-
+- 国际化能力（i18n）
+- 模块联邦能力（Module Federation）
 
 ## 在配置文件中指定入口
 
@@ -259,7 +283,7 @@ export default defineConfig({
 
 它们的对应关系如下：
 
-- 每个 webpack 网站项目可以包含多个入口
+- 每个网站项目可以包含多个入口
 - 每个入口包含若干个模块（源码文件）
 - 每个入口通常对应一个 HTML 文件产物和若干其它产物。
 - 每个 HTML 文件可以包含多个客户端路由方案（比如在页面中同时使用 `react-router` 和 `@tanstack/react-router`）。
@@ -282,7 +306,7 @@ export default defineConfig({
 
 而 Modern.js 在编译时仍会为每个入口生成包含 HTML 文件的完整的客户端产物，用于在服务端渲染失败时降级为客户端渲染使用。
 
-另一个特殊情况是使用静态站点生成（SSG）的项目，即使是使用约定式路由搭建的单入口 SSG 应用，Modern.js 也会在 webpack 的流程外为每个 `page.tsx` 文件生成一份单独的 HTML 文件。
+另一个特殊情况是使用静态站点生成（SSG）的项目，即使是使用约定式路由搭建的单入口 SSG 应用，Modern.js 也会在 Rspack 的流程外为每个 `page.tsx` 文件生成一份单独的 HTML 文件。
 
 需要注意的是即使开启服务端渲染，React 通常仍需要执行水合阶段并在前端执行 `react-router` 的路由。
 

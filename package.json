@@ -30,6 +30,8 @@
     "lint": "biome check",
     "change": "changeset add",
     "bump": "changeset version",
+    "pre:enter": "changeset pre enter",
+    "pre:exit": "changeset pre exit",
     "change-status": "changeset status",
     "gen-release-note": "cd ./scripts/release-note && pnpm start",
     "get-release-version": "cd ./scripts/release-version && pnpm start",
@@ -70,8 +72,8 @@
     "@commitlint/config-conventional": "^17.8.1",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
     "esbuild": "0.25.5",
@@ -79,12 +81,12 @@
     "lint-staged": "~13.3.0",
     "nx": "^17.3.2",
     "rimraf": "^6.1.2",
-    "@rstest/core": "0.7.0"
+    "@rstest/core": "0.7.5"
   },
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
-        "@mdx-js/react@^1.6.22>react": "18"
+        "react-side-effect@2.1.2>react": "19"
       }
     },
     "allowedDeprecatedVersions": {

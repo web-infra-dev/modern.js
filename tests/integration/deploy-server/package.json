@@ -14,8 +14,8 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "koa": "2.16.3",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "3.15.0",
     "zod": "^3.22.3"
@@ -25,8 +25,8 @@
     "@types/jest": "^29.5.14",
     "@types/koa": "2.15.0",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   }
 }

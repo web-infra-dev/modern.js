@@ -27,6 +27,15 @@ const plugin = (): CliPlugin<AppTools> => {
 export default applyBaseConfig({
   plugins: [plugin()],
   dev: {
+    server: {
+      cors: {
+        origin: ['http://localhost:3000', 'http://example.com'],
+      },
+      headers: {
+        'X-Server-Header': 'test-server-header',
+      },
+      historyApiFallback: true,
+    },
     setupMiddlewares: [
       (middlewares, _) => {
         middlewares.push((req, res, next) => {

@@ -1,5 +1,4 @@
 [
-  "rspack-start",
   {
     "type": "dir",
     "name": "bff",

@@ -173,14 +173,15 @@ export default {
 import styles from './index.module.scss';
 
 export default () => {
-  <div>
-    <div className={styles.pageHeader}>Page Header</div>
-  </div>;
+  return (
+    <div>
+      <div className={styles.pageHeader}>Page Header</div>
+    </div>
+  );
 };
 ```
 
-```scss
-// index.module.scss
+```scss title="src/index.module.scss"
 .page-header {
   color: black;
 }

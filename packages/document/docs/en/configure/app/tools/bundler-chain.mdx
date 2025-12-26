@@ -8,23 +8,23 @@ title: bundlerChain
 
 ```ts
 type BundlerChainFn = (
-  chain: RspackChain | webpackChain,
+  chain: RspackChain,
   utils: ModifyBundlerChainUtils,
 ) => Promise<void> | void;
 ```
 
 - **Default:** `undefined`
 
-You can modify the webpack and Rspack configuration by configuring `tools.bundlerChain` which is type of `Function`. The function receives two parameters, the first is the original bundler chain object, and the second is an object containing some utils.
+You can modify the Rspack configuration by configuring `tools.bundlerChain` which is type of `Function`. The function receives two parameters, the first is the original bundler chain object, and the second is an object containing some utils.
 
 :::tip What is BundlerChain
 
-Bundler chain is a subset of webpack chain, which contains part of the webpack chain API that you can use to modify both webpack and Rspack configuration.
+Bundler chain is a chainable configuration tool implemented based on the Rspack configuration API, which you can use to modify Rspack configuration.
 
-Configurations modified via bundler chain will work on both webpack and Rspack builds. Note that the bundler chain only supports modifying the configuration of the non-differentiated parts of webpack and Rspack. For example, modifying the devtool configuration option (webpack and Rspack have the same devtool property value type), or adding an [Rspack-compatible](https://rspack.rs/guide/compatibility/plugin) webpack plugin.
+Configurations modified via bundler chain will work on Rspack builds.
 
 :::
 
-> `tools.bundlerChain` is executed earlier than tools.webpackChain / tools.webpack / tools.rspack and thus will be overridden by changes in others.
+> `tools.bundlerChain` is executed earlier than tools.rspack and thus will be overridden by changes in tools.rspack.
 
 For more information, please refer to [Rsbuild#tools.bundlerChain](https://rsbuild.rs/config/tools/bundler-chain).

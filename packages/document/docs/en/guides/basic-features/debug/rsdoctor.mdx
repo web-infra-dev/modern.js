@@ -26,14 +26,14 @@ import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
 export default {
   // ...
   tools: {
-    rspack(config, { appendPlugins }) {
+    bundlerChain(chain) {
       // Only register the plugin when RSDOCTOR is true, as the plugin will increase build time.
       if (process.env.RSDOCTOR) {
-        appendPlugins(
-          new RsdoctorRspackPlugin({
+        chain.plugin('rsdoctor').use(RsdoctorRspackPlugin, [
+          {
             // Plugin options
-          }),
-        );
+          },
+        ]);
       }
     },
   },

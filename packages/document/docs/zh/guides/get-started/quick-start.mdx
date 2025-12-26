@@ -11,24 +11,7 @@ import Prerequisites from '@site-docs/components/prerequisites';
 
 <Prerequisites />
 
-## 安装
-
-Modern.js 提供了 `@modern-js/create` 工具来创建项目，不需要全局安装，直接使用 `npx` 按需运行即可。
-
-你可以在已有的空目录来创建项目：
-
-```bash
-mkdir myapp && cd myapp
-npx @modern-js/create@latest
-```
-
-也可以直接用新目录创建项目：
-
-```bash
-npx @modern-js/create@latest myapp
-```
-
-## 初始化项目
+## 创建项目
 
 import InitApp from '@site-docs/components/init-app';
 
@@ -64,7 +47,6 @@ export default defineConfig({
 在新创建的工程中，默认会安装 `@modern-js/app-tools` npm 包，它是 Modern.js 框架的核心包，主要提供以下能力：
 
 - 提供 `modern dev`, `modern build` 等常用的 CLI 命令。
-- 集成 Modern.js Core，提供配置解析、插件加载等能力。
 - 集成 Rsbuild，提供构建能力。
 - 集成 Modern.js Server，提供开发和生产服务器相关能力。
 
@@ -80,51 +62,9 @@ export default defineConfig({
 
 ## 构建项目
 
-在项目中执行 `pnpm run build` 即可构建项目生产环境产物：
+import BuildOutput from '@site-docs/components/build-output';
 
-```bash
-$ pnpm run build
-
-> modern build
-
-  Modern.js Framework
-
-info    Starting production build...
-info    Type checker is enabled. It may take some time.
-ready   Client compiled in 6.19 s
-info    Production file sizes:
-
-  File                                       Size        Gzipped
-  dist/routes-manifest.json                  0.74 kB     0.28 kB
-  dist/static/css/async/page.d7915515.css    1.4 kB      0.69 kB
-  dist/static/js/main.5ae469e7.js            3.0 kB      1.3 kB
-  dist/html/main/index.html                  6.0 kB      2.6 kB
-  dist/static/js/async/page.ddc8a4c1.js      19.2 kB     6.7 kB
-  dist/static/js/34.171fffdb.js              21.3 kB     7.1 kB
-  dist/static/js/lib-router.8995a55e.js      55.3 kB     18.1 kB
-  dist/static/js/lib-lodash.53ec3384.js      71.4 kB     24.8 kB
-  dist/static/js/lib-react.b5856db9.js       140.0 kB    45.2 kB
-  dist/static/js/lib-polyfill.86c452b3.js    213.3 kB    69.9 kB
-
-  Total size:  531.8 kB
-  Gzipped size:  176.7 kB
-```
-
-构建产物默认生成到 `dist/`，目录结构如下：
-
-```
-dist
-├── html
-│   └── main
-├── modern.config.json
-├── route.json
-├── routes-manifest.json
-└── static
-    ├── css
-    └── js
-```
-
-> 如果你需要自定义构建产物的目录，请参考 [构建产物目录](/guides/basic-features/output-files)。
+<BuildOutput />
 
 ## 本地验证
 
@@ -141,7 +81,7 @@ info    Starting production server...
   > Network:  http://192.168.0.1:8080/
 ```
 
-在浏览器中打开 `http://localhost:8000/`，内容应该和 `pnpm run dev` 时一致。
+在浏览器中打开 `http://localhost:8080/`，内容应该和 `pnpm run dev` 时一致。
 
 ## 部署
 

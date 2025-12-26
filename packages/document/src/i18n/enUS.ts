@@ -9,7 +9,7 @@ export const EN_US = {
 
   // Features
   feature1: 'Rust Bundler',
-  featureDesc1: 'Easily switch to Rspack bundler with faster build speed.',
+  featureDesc1: 'Built with Rspack bundler for faster build speed.',
   feature2: 'Integrated BFF',
   featureDesc2:
     'Develop BFF code in the same project, enjoy simple function calls.',
@@ -34,10 +34,8 @@ export const EN_US = {
   command: 'Command',
   runtime: 'Runtime',
   conventions: 'Conventions',
-  microFrontend: 'Micro Frontend',
-  stateManagement: 'State Management',
+  moduleFederation: 'Module Federation',
   pluginSystem: 'Plugin System',
-  projectGenerator: 'Project Generator',
   githubDiscussion: 'Github Discussion',
   changelog: 'Changelog',
 

@@ -7,32 +7,9 @@ SSG (Static Site Generation) is a technical solution that generates complete sta
 
 ## Enabling SSG
 
-First, we need to enable the SSG feature by running `pnpm run new`:
+import EnableSSG from '@site-docs-en/components/enable-ssg';
 
-```bash
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable SSG
-```
-
-After running the command, register the SSG plugin in `modern.config.ts`:
-
-```ts title="modern.config.ts"
-import { ssgPlugin } from '@modern-js/plugin-ssg';
-
-export default defineConfig({
-  output: {
-    ssg: true,
-  },
-  plugins: [..., ssgPlugin()],
-});
-```
-
-:::info
-- Use `output.ssg` for single-entry apps.
-- Use `output.ssgByEntries` for multi-entry apps.
-- If `output.ssg` is `true` and `output.ssgByEntries` is not set, all routes under all entries are treated as SSG routes.
-
-:::
+<EnableSSG />
 
 ## Development Debugging
 
@@ -93,7 +70,6 @@ Each route in **conventional routing** will generate a separate HTML file. Check
 
 After running `pnpm run serve` to start the project, inspect the returned document in the Network tab of the browser's development tools. The document includes the fully rendered content from the component.
 
-
 ## Using SSG in Manual Routing
 
 **Manual routing** defines routes through component code, requiring the application to run to obtain accurate route information. Therefore, you cannot use the SSG feature out of the box. Developers need to configure which routes require SSG.
@@ -132,11 +108,7 @@ In manual routing or conventional routing with dynamic segments (e.g., `/user/[i
 export default defineConfig({
   output: {
     ssg: {
-      routes: [
-        '/',
-        '/about',
-        '/user/modernjs',
-      ],
+      routes: ['/', '/about', '/user/modernjs'],
     },
   },
 });
@@ -172,14 +144,14 @@ export default defineConfig({
   output: {
     ssg: {
       headers: {
-        "x-tt-env": "ppe_modernjs"
+        'x-tt-env': 'ppe_modernjs',
       },
       routes: [
         '/',
         {
           url: '/about',
           headers: {
-            "from": "modern-website"
+            from: 'modern-website',
           },
         },
       ],

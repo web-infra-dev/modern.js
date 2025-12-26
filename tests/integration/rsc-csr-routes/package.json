@@ -11,16 +11,17 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "client-only": "^0.0.1",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-server-dom-webpack": "^19.2.3",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "cross-env": "^7.0.3",
     "typescript": "^5"
   }

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "files": [
     "dist",
     "hook.d.ts"
@@ -29,23 +29,24 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "^0.5.17",
-    "react-server-dom-webpack": "19.0.2"
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@rslib/core": "0.18.3",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-server-dom-webpack": "^19.2.3",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.2"
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2",
+    "react-server-dom-webpack": "^19.2.3"
   },
   "exports": {
     "./ssr": {

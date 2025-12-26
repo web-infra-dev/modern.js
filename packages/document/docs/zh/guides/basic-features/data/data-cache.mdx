@@ -2,13 +2,10 @@
 title: 数据缓存
 sidebar_position: 4
 ---
+
 # 数据缓存
 
 `cache` 函数可以让你缓存数据获取或计算的结果，相比整页[渲染缓存](/guides/basic-features/render/ssr-cache)，它提供了更精细的数据粒度控制，并且适用于客户端渲染(CSR)、服务端渲染（SSR）、API 服务(BFF)等多种场景。
-
-:::info
-需要 x.65.5 及以上版本
-:::
 
 ## 基本用法
 
@@ -27,7 +24,7 @@ import { fetchUserData } from './api';
 const getUser = cache(fetchUserData);
 
 const loader = async () => {
-  const user = await getUser(user); // 函数入参发生变化时，函数会重新执行
+  const user = await getUser('123'); // 函数入参发生变化时，函数会重新执行
   return {
     user,
   };
@@ -79,7 +76,6 @@ Modern.js 提供的 `cache` 函数可以在任意的前端或服务端的代码�
 无 `options` 参数时，可以看作是 react [`cache`](https://react.dev/reference/react/cache) 函数的替代品，可以在任意服务端代码中使用（比如可以在 SSR 项目的 data loader 中），不局限于 server component。
 :::
 
-
 ```ts
 import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';
@@ -108,8 +104,8 @@ const getDashboardStats = cache(
     return await fetchComplexStatistics();
   },
   {
-    maxAge: CacheTime.MINUTE * 2,  // 在 2 分钟内调用该函数会返回缓存的数据
-  }
+    maxAge: CacheTime.MINUTE * 2, // 在 2 分钟内调用该函数会返回缓存的数据
+  },
 );
 ```
 
@@ -117,8 +113,11 @@ const getDashboardStats = cache(
 
 `revalidate` 参数用于设置缓存过期后，重新验证缓存的时间窗口，可以和 `maxAge` 参数一起使用，类似与 HTTP Cache-Control 的 stale-while-revalidate 模式。
 
+如以下示例，缓存的行为会根据时间分为三个阶段：
 
-如以下示例，在缓存未过期的 2分钟内，如果调用 `getDashboardStats` 函数，会返回缓存的数据，如果缓存过期，2分到3分钟内，收到的请求会先返回旧数据，然后后台会重新请求数据，并更新缓存。
+1. **0 到 2 分钟（`maxAge` 内）**：缓存新鲜，直接返回缓存数据，不会重新请求
+2. **2 到 3 分钟（`maxAge` 到 `maxAge + revalidate` 之间）**：缓存过期但在重新验证窗口内，会立即返回旧数据，同时在后台重新请求数据并更新缓存
+3. **超过 3 分钟（超过 `maxAge + revalidate`）**：缓存完全过期，会重新执行函数获取新数据
 
 ```ts
 import { cache, CacheTime } from '@modern-js/runtime/cache';
@@ -130,7 +129,7 @@ const getDashboardStats = cache(
   {
     maxAge: CacheTime.MINUTE * 2,
     revalidate: CacheTime.MINUTE * 1,
-  }
+  },
 );
 ```
 
@@ -147,7 +146,7 @@ const getDashboardStats = cache(
   },
   {
     tag: 'dashboard',
-  }
+  },
 );
 
 const getComplexStatistics = cache(
@@ -156,10 +155,10 @@ const getComplexStatistics = cache(
   },
   {
     tag: 'dashboard',
-  }
+  },
 );
 
-await revalidateTag('dashboard-stats'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
+await revalidateTag('dashboard'); // 会使 getDashboardStats 函数和 getComplexStatistics 函数的缓存都失效
 ```
 
 #### `getKey` 参数
@@ -181,7 +180,7 @@ const getUser = cache(
     maxAge: CacheTime.MINUTE * 5,
     // 只使用第一个参数（userId）作为缓存键
     getKey: (userId, options) => userId,
-  }
+  },
 );
 
 // 下面两次调用会共享缓存，因为 getKey 只使用了 userId
@@ -211,10 +210,9 @@ const getUser = cache(
   {
     maxAge: CacheTime.MINUTE * 5,
     getKey: (userId, options) => generateKey(userId),
-  }
+  },
 );
 ```
-
 
 #### `customKey` 参数
 
@@ -229,6 +227,7 @@ const getUser = cache(
 :::info
 
 一般在以下场景，缓存会失效：
+
 1. 函数的入参发生变化
 2. 不满足 maxAge 条件
 3. 调用了 `revalidateTag`
@@ -244,16 +243,13 @@ import { cache } from '@modern-js/runtime/cache';
 import { fetchUserData } from './api';
 
 // 不同的函数引用，但是通过 customKey 可以使它们共享一个缓存
-const getUserA = cache(
-  fetchUserData,
-  {
-    maxAge: CacheTime.MINUTE * 5,
-    customKey: ({ params }) => {
-      // 返回一个稳定的字符串作为缓存的键
-      return `user-${params[0]}`;
-    },
-  }
-);
+const getUserA = cache(fetchUserData, {
+  maxAge: CacheTime.MINUTE * 5,
+  customKey: ({ params }) => {
+    // 返回一个稳定的字符串作为缓存的键
+    return `user-${params[0]}`;
+  },
+});
 
 // 即使函数引用变了，只要 customKey 返回相同的值，也会命中缓存
 const getUserB = cache(
@@ -264,7 +260,7 @@ const getUserB = cache(
       // 返回与 getUserA 相同的键
       return `user-${params[0]}`;
     },
-  }
+  },
 );
 
 // 现在你可以在不同的函数实现间共享缓存
@@ -272,12 +268,9 @@ await getUserA(123); // 获取数据并使用键 "user-123" 缓存
 await getUserB(123); // 缓存命中，返回缓存的数据
 
 // 可以利用 generatedKey 参数在默认键的基础上进行修改
-const getUserC = cache(
-  fetchUserData,
-  {
-    customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
-  }
-);
+const getUserC = cache(fetchUserData, {
+  customKey: ({ generatedKey }) => `prefix-${generatedKey}`,
+});
 
 // 用于可预测的缓存键，便于外部管理
 const getUserD = cache(
@@ -287,7 +280,7 @@ const getUserD = cache(
   {
     maxAge: CacheTime.MINUTE * 5,
     customKey: ({ params }) => `app:user:${params[0]}`,
-  }
+  },
 );
 ```
 
@@ -304,30 +297,31 @@ const stats = {
   hits: 0,
   misses: 0,
   stales: 0,
-  hitRate: () => stats.hits / stats.total
+  hitRate: () => stats.hits / stats.total,
 };
 
-const getUser = cache(
-  fetchUserData,
-  {
-    maxAge: CacheTime.MINUTE * 5,
-    onCache({ status, key, params, result }) {
-      // status 可以是 'hit'、'miss' 或 'stale'
-      stats.total++;
+const getUser = cache(fetchUserData, {
+  maxAge: CacheTime.MINUTE * 5,
+  onCache({ status, key, params, result }) {
+    // status 可以是 'hit'、'miss' 或 'stale'
+    stats.total++;
 
-      if (status === 'hit') {
-        stats.hits++;
-      } else if (status === 'miss') {
-        stats.misses++;
-      } else if (status === 'stale') {
-        stats.stales++;
-      }
-
-      console.log(`缓存${status === 'hit' ? '命中' : status === 'miss' ? '未命中' : '陈旧'}，键：${String(key)}`);
-      console.log(`当前命中率：${stats.hitRate() * 100}%`);
+    if (status === 'hit') {
+      stats.hits++;
+    } else if (status === 'miss') {
+      stats.misses++;
+    } else if (status === 'stale') {
+      stats.stales++;
     }
-  }
-);
+
+    console.log(
+      `缓存${
+        status === 'hit' ? '命中' : status === 'miss' ? '未命中' : '陈旧'
+      }，键：${String(key)}`,
+    );
+    console.log(`当前命中率：${stats.hitRate() * 100}%`);
+  },
+});
 
 // 使用示例
 await getUser(1); // 缓存未命中
@@ -348,6 +342,7 @@ await getUser(2); // 缓存未命中
 这个回调只在提供 `options` 参数时被调用。当使用无 options 的缓存函数时，不会调用 `onCache` 回调。
 
 `onCache` 回调对以下场景非常有用：
+
 - 监控缓存性能
 - 计算命中率
 - 记录缓存操作
@@ -405,11 +400,13 @@ configureCache({
 ##### 使用 `customKey` 确保缓存键稳定性
 
 :::warning 重要建议
+
 当使用自定义存储容器（如 Redis）时，**建议配置 `customKey`** 来确保缓存键的稳定性。这样可以确保：
 
 1. **跨进程共享**：不同服务器实例能够共享相同的缓存
 2. **应用重启后缓存有效**：重启应用后仍能命中之前的缓存
 3. **代码部署后缓存保持**：代码更新后相同逻辑的缓存仍然有效
+
 :::
 
 默认的缓存键生成机制基于函数引用，在分布式环境中可能不够稳定。建议使用 `customKey` 提供稳定的缓存键：
@@ -431,7 +428,7 @@ const getUser = cache(
     maxAge: CacheTime.MINUTE * 5,
     // 使用被缓存函数相关的稳定标识符作为缓存键
     customKey: () => `fetchUserData`,
-  }
+  },
 );
 ```
 
@@ -451,7 +448,7 @@ class RedisContainer implements Container {
   }
 
   async get(key: string): Promise<string | null> {
-    const value = await this.redis.get(key);
+    const value = await this.client.get(key);
     return value ? JSON.parse(value) : null;
   }
 
@@ -499,4 +496,3 @@ configureCache({
 1. **序列化**：所有的缓存数据都会被序列化为字符串存储，容器只需要处理字符串的存取操作。
 
 2. **TTL 支持**：如果你的存储后端支持 TTL（生存时间），可以在 `set` 方法中使用 `options.ttl` 参数（单位为秒）。
-

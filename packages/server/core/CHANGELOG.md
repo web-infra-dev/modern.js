@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 3.0.0-alpha.0
+
+### Patch Changes
+
+- eecb927: fix: should read html templates only in getHtmlTemplates function
+  fix: 在 getHtmlTemplates 函数中读取 html 模板
+- 952f6fe: perf: server monitor add more tags for timing/counter event
+  perf: server monitor 为 timing/couter 事件添加更多的 tags
+  - @modern-js/plugin@3.0.0-alpha.0
+  - @modern-js/runtime-utils@3.0.0-alpha.0
+  - @modern-js/utils@3.0.0-alpha.0
+
 ## 2.68.1
 
 ### Patch Changes

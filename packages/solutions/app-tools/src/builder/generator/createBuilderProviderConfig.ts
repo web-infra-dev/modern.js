@@ -29,6 +29,16 @@ export function createBuilderProviderConfig(
       return appContext.htmlTemplates[entryName];
     };
   }
+
+  const serverConfig: any = {
+    ...resolveConfig.server,
+  };
+
+  // If dev.cors is configured, map it to server.cors
+  if (resolveConfig.dev?.server?.cors !== undefined) {
+    serverConfig.cors = resolveConfig.dev?.server?.cors;
+  }
+
   const config = {
     ...resolveConfig,
     plugins: [],
@@ -39,7 +49,7 @@ export function createBuilderProviderConfig(
       ...resolveConfig.dev,
       port: appContext.port,
     },
-    server: resolveConfig.server,
+    server: serverConfig,
     html: htmlConfig,
     output: {
       ...resolveConfig.output,

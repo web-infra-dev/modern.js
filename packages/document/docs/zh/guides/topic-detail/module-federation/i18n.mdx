@@ -321,12 +321,6 @@ export default function Layout() {
 
 :::
 
-:::note
-
-当使用 Modern.js 路由时，必须在 `module-federation.config.ts` 中配置 `bridge.enableBridgeRouter: false`，以避免与 Modern.js 的路由系统冲突。
-
-:::
-
 :::info
 
 关于路由集成的详细说明，请参考[路由集成文档](/guides/advanced-features/international/routing)。
@@ -341,7 +335,7 @@ export default function Layout() {
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react/v19';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -368,10 +362,6 @@ export default createModuleFederationConfig({
   filename: 'remoteEntry.js',
   exposes: {
     './export-app': './src/export-app.tsx',
-  },
-  bridge: {
-    // 使用 Modern.js 路由时，必须设置为 false，避免与 Modern.js 路由系统冲突
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -437,12 +427,6 @@ export default defineRuntimeConfig({
 
 当消费者需要加载远程应用时，需要使用 Bridge API 来加载应用级别模块。
 
-:::note
-
-当使用 Modern.js 路由时，必须在 `module-federation.config.ts` 中配置 `bridge.enableBridgeRouter: false`，以避免与 Modern.js 的路由系统冲突。
-
-:::
-
 ### 配置 Module Federation
 
 首先，在消费者的 `module-federation.config.ts` 中配置远程应用：
@@ -455,10 +439,6 @@ export default createModuleFederationConfig({
   name: 'consumer',
   remotes: {
     AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
-  },
-  bridge: {
-    // 使用 Modern.js 路由时，必须设置为 false，避免与 Modern.js 路由系统冲突
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -480,7 +460,7 @@ export default createModuleFederationConfig({
 创建用于加载远程应用的组件：
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 
@@ -633,7 +613,6 @@ Module Federation 集成 i18n 的关键点：
 4. **路由管理**：生产者不支持路径重定向（`localePathRedirect`），需要在消费者统一管理路由和语言切换
 5. **依赖共享**：使用共享实例时，必须在生产者和消费者的 `module-federation.config.ts` 中都配置 `i18next` 和 `react-i18next` 为 singleton
 6. **名称唯一性**：`createModuleFederationConfig` 的 `name` 参数必须每个应用唯一，不能不同的 remote 使用相同的名称
-7. **Bridge 路由配置**：使用 Modern.js 路由时，必须在应用级别模块的生产者和消费者中都配置 `bridge.enableBridgeRouter: false`，避免与 Modern.js 路由系统冲突
 
 ## 相关文档
 

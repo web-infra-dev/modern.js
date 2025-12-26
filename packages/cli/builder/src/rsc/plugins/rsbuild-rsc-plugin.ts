@@ -8,6 +8,9 @@ import { RscServerPlugin as RspackRscServerPlugin } from './rspack-rsc-server-pl
 
 const CSS_RULE_NAMES = ['less', 'css', 'scss', 'sass'];
 
+const createVirtualModule = (content: string) =>
+  `data:text/javascript,${encodeURIComponent(content)}`;
+
 const checkReactVersionAtLeast19 = async (appDir: string) => {
   const packageJsonPath = path.resolve(appDir, 'package.json');
   const packageJson = await fse.readJSON(packageJsonPath);
@@ -53,7 +56,7 @@ export const rsbuildRscPlugin = ({
 
   setup(api) {
     api.modifyBundlerChain({
-      handler: async (chain, { isServer, CHAIN_ID }) => {
+      handler: async (chain, { isServer, CHAIN_ID, isWebWorker }) => {
         if (!(await checkReactVersionAtLeast19(appDir))) {
           logger.error(
             'Enable react server component, please make sure the react and react-dom versions are greater than or equal to 19.0.0',
@@ -196,9 +199,15 @@ export const rsbuildRscPlugin = ({
           flightCssHandler();
           jsHandler();
           addServerRscPlugin();
-        } else {
+        } else if (!isWebWorker) {
           chain.name('client');
           chain.dependencies(['server']);
+          const entries = chain.entryPoints.entries();
+          for (const entryName of Object.keys(entries)) {
+            const entryPoint = chain.entry(entryName);
+            const code = `window.__MODERN_JS_ENTRY_NAME="${entryName}";`;
+            entryPoint.add(createVirtualModule(code));
+          }
           addRscClientLoader();
           addRscClientPlugin();
         }

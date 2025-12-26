@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -80,7 +80,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.18.3",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^20",

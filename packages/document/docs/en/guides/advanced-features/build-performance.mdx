@@ -24,21 +24,35 @@ If you are not using Rspack yet, you can switch to Rspack build mode to improve 
 
 In general, updating Node.js to the latest [LTS release](https://github.com/nodejs/release#release-schedule) will help improve build performance.
 
-Especially for devices with Apple M1/M2 chips, it is recommended to use at least Node 18.
+Modern.js requires Node.js version >= 20.19.5. We strongly recommend using the latest LTS version (such as Node.js 22 LTS) for the best build performance.
 
-Node >= 16 provides Apple Silicon binaries by default, so the performance on M1/M2 models will be greatly improved than Node 14. According to our tests, **After switching from Node 14 to Node >= 16, the compilation speed can be improved by more than 100%**.
-
-You can switch to Node 18 by following steps:
+You can switch to the latest LTS version by following these steps:
 
 ```bash
-# Install Node v18
-nvm install 18
+# Install the latest LTS version (e.g., Node.js 22)
+nvm install --lts
 
-# switch to Node 18
-nvm use 18
+# Switch to the latest LTS version
+nvm use --lts
 
-# Set Node 18 as the default version
-nvm default 18
+# Set the latest LTS version as the default
+nvm alias default lts/*
+
+# View Node version
+node -v
+```
+
+Or install Node.js 22 LTS specifically:
+
+```bash
+# Install Node.js 22 LTS
+nvm install 22 --lts
+
+# Switch to Node.js 22
+nvm use 22
+
+# Set Node.js 22 as the default version
+nvm alias default 22
 
 # View Node version
 node -v
@@ -82,7 +96,7 @@ export default {
 };
 ```
 
-> For detailed differences between different Source Map formats, see [webpack - devtool](https://webpack.js.org/configuration/devtool/).
+> For detailed differences between different Source Map formats, see [rspack - devtool](https://rspack.rs/config/devtool).
 
 ### Adjust Browserslist for development
 

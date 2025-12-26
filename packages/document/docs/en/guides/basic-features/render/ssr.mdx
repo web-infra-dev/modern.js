@@ -1,25 +1,33 @@
 # Server-Side Rendering
 
-Server-Side Rendering (SSR) involves rendering the HTML content of a webpage server-side and then sending the fully-rendered page to the browser. The browser only needs to display the page without additional rendering.
+Server-Side Rendering (SSR) generates complete HTML pages on the server and sends them to the browser for direct display, without requiring additional client-side rendering.
 
-The main advantages are:
+## Core Advantages
 
-- **Improved First-Page Load Speed**: SSR generates a complete webpage on the server-side. The browser only needs to download the page content, avoiding additional rendering, thus improving the first-page load speed.
-- **SEO-Friendly**: SSR can generate complete HTML content that search engines can directly index, thereby improving the website's ranking.
+- **Faster First Screen**: Server-side pre-rendering allows the browser to display content directly without waiting for JavaScript execution
+- **Better SEO**: Search engines can directly index complete HTML content
+- **Out of the Box**: No need to write complex server-side logic or maintain separate services
 
-Developers might consider using SSR to render pages in the following scenarios:
+:::info Default Rendering Mode
+Modern.js SSR **uses streaming rendering (Streaming SSR) by default**, allowing pages to be returned progressively as they render, so users can see initial content faster.
 
-1. Websites that require high first-page load speed, such as e-commerce and news websites.
-2. Websites demanding high user experience, such as social networks and gaming websites.
-3. Websites with high SEO requirements, such as company websites and blogs.
+For detailed usage, refer to the [Streaming SSR](/guides/basic-features/render/streaming-ssr) documentation.
 
-In Modern.js, SSR is also available out of the box. Developers don't need to write complex server-side logic or worry about SSR maintenance or creating separate services.
+To switch to traditional SSR mode (waiting for all data to load before returning at once), you can configure:
 
-Apart from the out-of-the-box SSR service, Modern.js also offers:
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
 
-- Comprehensive SSR fallback strategies to ensure the page can run safely.
-- Automatic segmentation of sub-routes with on-demand loading, reducing first-page resource size.
-- Built-in caching system to address high server load issues.
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'string', // Traditional SSR mode
+    },
+  },
+});
+```
+
+:::
 
 ## Enabling SSR
 
@@ -30,20 +38,19 @@ import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   server: {
-    ssr: true,
+    ssr: true, // Streaming rendering enabled by default
   },
 });
 ```
 
 ## Data Fetching
 
-:::tip Prerequisite
-If you're unfamiliar with how to use Data Loader or the concept of Client Loader, please read [Data Fetching](/guides/basic-features/data/data-fetch) first.
+Modern.js provides Data Loader, enabling developers to fetch data isomorphically under both SSR and CSR. Each route module (such as `layout.tsx` and `page.tsx`) can define its own Data Loader:
+
+:::tip Learn More
+The following approach will not have streaming rendering effects. To achieve streaming rendering effects, refer to [Streaming SSR](/guides/basic-features/render/streaming-ssr).
+
 :::
-
-### Basic Usage
-
-Modern.js provides Data Loader, enabling developers to fetch data isomorphically under both SSR and CSR. Each route module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
 
 ```ts title="src/routes/page.data.ts"
 export const loader = () => {
@@ -53,7 +60,7 @@ export const loader = () => {
 };
 ```
 
-In components, you can use hook APIs to access the data returned by the `loader` function:
+Access data in components through Hooks API:
 
 ```tsx
 import { useLoaderData } from '@modern-js/runtime/router';
@@ -64,10 +71,6 @@ export default () => {
 ```
 
 ### Using Client Loader
-
-:::info
-This feature requires version x.36.0 or above. We recommend using the latest version of the framework.
-:::
 
 By default, in SSR applications, the `loader` function only executes on the server. However, in some scenarios, developers might want requests made on the client-side to bypass the SSR service and directly fetch data from the source. For example:
 
@@ -83,16 +86,13 @@ export async function loader({ params }) {
   if (cache.has(params.id)) {
     return cache.get(params.id);
   }
-  const res = await fetch('URL_ADDRESS?id={params.id}');
+  const res = await fetch(`URL_ADDRESS?id=${params.id}`);
+  const data = await res.json();
   return {
-    message: res.message,
+    message: data.message,
   }
 }
 ```
-
-:::warning
-To use Client Loader, there must be a corresponding Server Loader, and the Server Loader must be in a `.data` file, not a `.loader` file.
-:::
 
 ## SSR Fallback
 

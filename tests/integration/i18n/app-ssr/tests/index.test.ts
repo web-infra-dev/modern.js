@@ -9,6 +9,7 @@ import {
   modernBuild,
   modernServe,
 } from '../../../../utils/modernTestUtils';
+import { conditionalTest } from '../../test-utils';
 
 const projectDir = path.resolve(__dirname, '..');
 
@@ -92,27 +93,33 @@ describe('app-ssr-i18n', () => {
     expect(page.url()).toBe(`http://localhost:${appPort}/en`);
   });
 
-  test('should display Chinese content and switch to English', async () => {
-    await verifyPageContent(
-      page,
-      `http://localhost:${appPort}/zh`,
-      '你好，世界',
-    );
+  conditionalTest(
+    'should display Chinese content and switch to English',
+    async () => {
+      await verifyPageContent(
+        page,
+        `http://localhost:${appPort}/zh`,
+        '你好，世界',
+      );
 
-    await page.click('#en-button');
-    await waitForElementText(page, '#key', 'Hello World');
-  });
+      await page.click('#en-button');
+      await waitForElementText(page, '#key', 'Hello World');
+    },
+  );
 
-  test('should display English content and switch to Chinese', async () => {
-    await verifyPageContent(
-      page,
-      `http://localhost:${appPort}/en`,
-      'Hello World',
-    );
+  conditionalTest(
+    'should display English content and switch to Chinese',
+    async () => {
+      await verifyPageContent(
+        page,
+        `http://localhost:${appPort}/en`,
+        'Hello World',
+      );
 
-    await page.click('#zh-button');
-    await waitForElementText(page, '#key', '你好，世界');
-  });
+      await page.click('#zh-button');
+      await waitForElementText(page, '#key', '你好，世界');
+    },
+  );
 
   test('should serve static resources', async () => {
     const response = await page.goto(`http://localhost:${appPort}/text.txt`, {

@@ -9,97 +9,6 @@
 - [Tailwind CSS v3](https://rsbuild.rs/zh/guide/styling/tailwindcss-v3#tailwind-css-v3)
 - [Tailwind CSS v4](https://rsbuild.rs/zh/guide/styling/tailwindcss)
 
-## Tailwind 插件迁移
-
-### 迁移背景
-
-随着 Modern.js 不断演进，为了提供更统一的构建体验和更强的配置灵活性，我们对 Tailwind CSS 的支持方式进行了调整。Modern.js V3 推荐通过 Rsbuild 原生方式接入 Tailwind CSS，不再依赖 `@modern-js/plugin-tailwindcss` 插件，从而充分利用 Rsbuild 提供的更灵活的配置能力和更优的构建体验。
-
-### 迁移步骤
-
-以 Tailwind CSS V3 版本为例，提供迁移步骤如下：
-
-#### 1. 移除旧插件
-
-- 移除 `@modern-js/plugin-tailwindcss` 依赖
-- 移除 `modern.config.ts` 文件中 `@modern-js/plugin-tailwindcss` 插件的导入和使用
-
-#### 2. 配置 PostCSS
-
-创建或更新 `postcss.config.cjs` 文件。
-
-```js title="postcss.config.cjs"
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-  },
-};
-```
-
-#### 3. Tailwind CSS 配置迁移
-
-- **单一配置情况**：
-
-  - 若仅在 `tailwind.config.{ts,js}` 中配置，则无需额外处理
-  - 若仅在 `modern.config.ts` 中配置，需将 Tailwind 相关配置移植到 `tailwind.config.{ts,js}` 中
-
-- **双重配置情况**：若在 `tailwind.config.{ts,js}` 与 `modern.config.ts` 中都有配置，需要合并两者的配置内容，并将合并后的配置移植到 `tailwind.config.{ts,js}`
-
-- **特殊目录处理**：若项目中存在 storybook 或 config/html 目录，需在 `tailwind.config.{ts,js}` 的 `content` 中补充 `./storybook/**/*` 或 `./config/html/**/*.{html,ejs,hbs}`
-
-#### 4. CSS 样式引入
-
-- 变更为 @tailwind 指令方式
-
-```css
-/* 旧方式 */
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
-@import 'tailwindcss/utilities.css';
-
-/* 新方式 */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-#### 5. Twin.macro 集成
-
-若项目中有使用 twin.macro 需执行如下操作，未使用则忽略：
-
-- 手动安装依赖：`pnpm add twin.macro styled-components babel-plugin-macros -D`
-- 配置 `babel-plugin-macros` babel 插件：
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  plugins: [appTools()],
-  tools: {
-    babel: {
-      plugins: [
-        [
-          'babel-plugin-macros',
-          {
-            twin: {
-              preset: 'styled-components',
-              config: './tailwind.config.ts',
-            },
-          },
-        ],
-      ],
-    },
-  },
-});
-```
-
-#### Tailwind CSS V2 版本迁移
-
-如果你的项目仍使用 Tailwind CSS v2，我们推荐你升级到 v3 以支持 JIT 等能力。关于 Tailwind CSS v2 与 v3 版本之间的差异，请参考以下文章：
-
-- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
-- [Upgrade Guide](https://v3.tailwindcss.com/docs/upgrade-guide)
-
-Tailwind CSS v2 迁移同样参考上述步骤，但需要注意的是，原插件自动适配 Tailwind v2（purge 配置）与 v3（content 配置）的差异。移除后，需使用 `purge` 配置项来指定需要保留的 CSS 类名。
-
 ## Tailwind CSS 自动补全
 
 Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
@@ -111,9 +20,8 @@ Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tail
 
 ## 浏览器兼容性
 
-Tailwind CSS v2 和 v3 均不支持 IE 11 浏览器，相关背景请参考：
+Tailwind CSS v3 不支持 IE 11 浏览器，相关背景请参考：
 
 - [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support)。
-- [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 如果你在 IE 11 浏览器上使用 Tailwind CSS，可能会出现部分样式不可用的现象，请谨慎使用。

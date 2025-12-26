@@ -1,6 +1,6 @@
 # 插件 API
 
-本文档详细介绍了 Modern.js CLI 插件的 API。CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
+Modern.js 的 CLI 插件允许您在 Modern.js 项目的构建和开发过程中扩展和定制功能。
 
 :::info
 
@@ -28,7 +28,8 @@ const myCliPlugin = (): CliPlugin<AppTools> => ({
 export default myCliPlugin;
 ```
 
-`setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
+- `name`： 插件的唯一标识符。
+- `setup` 函数接收一个 `api` 对象，该对象提供了所有可用的 CLI 插件 API。
 
 ## 信息获取
 
@@ -54,7 +55,7 @@ export default myCliPlugin;
 | `plugins`              | `object[]`          | 当前已注册的插件列表                               | -                           |
 | `entrypoints`          | `object[]`          | 页面入口信息                                       | -                           |
 | `serverRoutes`         | `object[]`          | 服务端路由信息                                     | -                           |
-| `bundlerType`          | `webpack \| rspack` | 当前使用的打包工具类型 (`webpack` 或 `rspack`)     | `onPrepare` 之后            |
+| `bundlerType`          | `rspack`            | 当前使用的打包工具类型                             | `onPrepare` 之后            |
 | `metaName`             | `string`            | 框架内部名称                                       | -                           |
 | `apiDirectory`         | `string`            | API 模块目录的绝对路径 (BFF 使用)                  | -                           |
 | `lambdaDirectory`      | `string`            | Lambda 模块目录的绝对路径 (BFF 使用)               | -                           |
@@ -186,12 +187,12 @@ api.config(() => {
 
 #### `api.modifyBundlerChain`
 
-使用 chain API 修改 webpack 或者 Rspack 配置。
+使用 chain API 修改 Rspack 配置。
 
-- **类型：** `api.modifyBundlerChain(modifyFn: (chain: WebpackChain | RspackChain, utils: WebpackUtils | RspackUtils) => void | Promise<void>)`
+- **类型：** `api.modifyBundlerChain(modifyFn: (chain: RspackChain, utils: RspackUtils) => void | Promise<void>)`
 - **参数：**
-  - `modifyFn`： 修改函数，接收 `webpack-chain` 或 `RspackChain` 实例和实用工具作为参数。
-- **执行阶段：** 在生成最终的 Webpack 或 Rspack 配置时。
+  - `modifyFn`： 修改函数，接收 `RspackChain` 实例和实用工具作为参数。
+- **执行阶段：** 在生成最终的 Rspack 配置时。
 - **对应 Rsbuild Hook**： [modifybundlerchain](https://rsbuild.rs/zh/plugins/dev/hooks#modifybundlerchain)
 - **示例：**
 
@@ -236,7 +237,7 @@ api.modifyRsbuildConfig((config, utils) => {
 - **示例：**
 
 ```typescript
-api.modifyRspackConfig((config， utils) => {
+api.modifyRspackConfig((config, utils) => {
   config.builtins.minify = {
     enable: true,
     implementation: utils.rspack.SwcJsMinimizerRspackPlugin,
@@ -246,65 +247,15 @@ api.modifyRspackConfig((config， utils) => {
 
 ---
 
-#### `api.modifyWebpackChain`
-
-使用 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 修改 Webpack 配置。(当使用 Webpack 作为打包工具时)
-
-- **类型：** `api.modifyWebpackChain(modifyFn: (chain: WebpackChain, utils: WebpackUtils) => void | Promise<void>)`
-- **参数：**
-  - `modifyFn`： 修改函数，接收 `webpack-chain` 实例和实用工具作为参数。
-- **执行阶段：** 在生成最终的 Webpack 配置时。
-- **示例：**
-
-```typescript
-api.modifyWebpackChain((chain, utils) => {
-  // 添加一个自定义的 Webpack loader
-  chain.module
-    .rule('my-loader')
-    .test(/\.my-ext$/)
-    .use('my-loader')
-    .loader(require.resolve('./my-loader'));
-});
-```
-
----
-
-#### `api.modifyWebpackConfig`
-
-直接修改 Webpack 配置对象。(当使用 Webpack 作为打包工具时)
-
-- **类型：** `api.modifyWebpackConfig(modifyFn: (config: WebpackConfig, utils: WebpackUtils) => WebpackConfig | Promise<WebpackConfig> | void)`
-- **参数：**
-  - `modifyFn`： 修改函数，接收 Webpack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
-- **执行阶段：** 在生成最终的 Webpack 配置时。
-- **示例：**
-
-```typescript
-api.modifyWebpackConfig((config, utils) => {
-  // 禁用 source map
-  config.devtool = false;
-});
-```
-
 **构建配置修改顺序**
 
-- **使用 Rspack 构建**：
-  ```
-  modifyRsbuildConfig
-  modifyBundlerChain
-  tools.bundlerChain
-  modifyRspackConfig
-  tools.rspack
-  ```
-- **使用 Webpack 构建**：
-  ```
-  modifyBundlerChain
-  tools.bundlerChain
-  modifyWebpackChain
-  tools.webpackChain
-  modifyWebpackConfig
-  tools.webpack
-  ```
+```
+modifyRsbuildConfig
+modifyBundlerChain
+tools.bundlerChain
+modifyRspackConfig
+tools.rspack
+```
 
 ---
 
@@ -621,4 +572,3 @@ api.onBeforePrintInstructions(({ instructions }) => {
 ## 其他说明
 
 - 可以参考 [CLI 插件生命周期](./life-cycle.mdx) 了解插件钩子的执行顺序。
-- 可以参考 [CLI 插件迁移指南](./migration.mdx) 了解如何从旧版插件迁移到新版。

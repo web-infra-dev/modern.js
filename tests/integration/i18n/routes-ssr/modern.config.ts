@@ -3,7 +3,12 @@ import { i18nPlugin } from '@modern-js/plugin-i18n';
 
 export default defineConfig({
   server: {
-    ssr: true,
+    ssr: {
+      mode: 'string',
+    },
+  },
+  performance: {
+    buildCache: false,
   },
   plugins: [
     appTools(),
@@ -12,9 +17,6 @@ export default defineConfig({
         localePathRedirect: true,
         languages: ['zh', 'en'],
         fallbackLanguage: 'en',
-      },
-      performance: {
-        buildCache: false,
       },
     }),
   ],

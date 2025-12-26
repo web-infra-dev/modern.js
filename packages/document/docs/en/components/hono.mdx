@@ -1,0 +1,81 @@
+### Getting Request Context
+
+Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server';
+
+export const get = async () => {
+  const c = useHonoContext();
+  console.info(`access url: ${c.req.url}`);
+  return 'Hello Modern.js';
+};
+```
+
+You can obtain the request context for a specific platform using `env`. For example, when deploying with Cloudflare Workers, you can obtain it using [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/):
+
+``ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server'
+export const get = async () => {
+  const c = useHonoContext();
+  const data = await c.env.NAMESPACE.get("key");
+  console.info(`storage data: ${data}`);
+  return 'Hello Modern.js'
+};
+```
+
+:::info
+For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
+:::
+
+### Defining BFF Functions
+
+When using Hono as the runtime framework, you can define interfaces through [BFF Functions](/guides/advanced-features/bff/function.html#bff-functions):
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+### Using Middleware
+
+Hono supports a rich middleware ecosystem, and you can use middleware in BFF functions:
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Middleware } from '@modern-js/plugin-bff/server';
+
+export const getUser = Api(
+  Get('/user'),
+  Middleware(async (c, next) => {
+    // You can access Hono's Context in middleware
+    c.res.headers.set('X-Powered-By', 'Modern.js');
+    await next();
+  }),
+  async () => {
+    return {
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+### More Hono Documentation
+
+For more detailed information about Hono, please refer to the [Hono official documentation](https://hono.dev/).

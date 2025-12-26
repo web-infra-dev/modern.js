@@ -1,0 +1,211 @@
+---
+title: server
+---
+
+# dev.server
+
+- **类型：** `Object`
+- **默认值：** `{}`
+
+通过 `dev.server` 可以修改开发环境服务器的配置。
+
+### compress
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+是否对静态资源启用 gzip 压缩。
+
+如果你需要禁用 gzip 压缩，可以将 `compress` 设置为 `false`：
+
+```ts
+export default {
+  dev: {
+    server: {
+      compress: false,
+    },
+  },
+};
+```
+
+更多详细信息请参考 [Rsbuild - server.compress](https://rsbuild.rs/zh/config/server/compress) 文档。
+
+### headers
+
+- **类型：** `Record<string, string>`
+- **默认值：** `undefined`
+
+设置自定义响应头。
+
+```js
+export default {
+  dev: {
+    server: {
+      headers: {
+        'X-Custom-Foo': 'bar',
+      },
+    },
+  },
+};
+```
+
+更多详细信息请参考 [Rsbuild - server.headers](https://rsbuild.rs/zh/config/server/headers) 文档。
+
+### historyApiFallback
+
+- **类型：** `boolean | ConnectHistoryApiFallbackOptions`
+- **默认值：** `false`
+
+在需要对一些 404 响应或其他请求提供替代页面的场景，可通过 `dev.server.historyApiFallback` 进行设置：
+
+```js
+export default {
+  dev: {
+    server: {
+      historyApiFallback: true,
+    },
+  },
+};
+```
+
+更多配置选项请参考 [Rsbuild - server.historyApiFallback](https://rsbuild.rs/zh/config/server/history-api-fallback) 文档。
+
+### watch
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+是否监听 `mock/`、`server/`、`api/` 等目录的文件变化。
+
+更多详细信息请参考 [Rsbuild - dev.watchFiles](https://rsbuild.rs/zh/config/dev/watch-files) 文档。
+
+### cors
+
+- **类型:** `boolean | import('cors').CorsOptions`
+
+为开发服务器配置 CORS（跨域资源共享）。
+
+Modern.js 中 `cors` 的默认配置遵循 Rsbuild 的默认值：
+
+```ts
+const defaultAllowedOrigins =
+  /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/;
+
+const defaultOptions = {
+  // 默认允许：
+  // - localhost
+  // - 127.0.0.1
+  // - [::1]
+  origin: defaultAllowedOrigins,
+};
+```
+
+更多配置选项和详细用法请参考 [Rsbuild - server.cors](https://rsbuild.rs/zh/config/server/cors) 文档。
+
+### proxy
+
+- **类型：** `Record<string, string> | Record<string, ProxyDetail>`
+- **默认值：** `undefined`
+
+代理请求到指定的服务上。
+
+```js
+export default {
+  dev: {
+    server: {
+      proxy: {
+        '/api': 'http://localhost:3000',
+      },
+    },
+  },
+};
+```
+
+此时，/api/users 请求将会代理到 http://localhost:3000/api/users。
+
+如果你不想传递 /api，可以通过 `pathRewrite` 重写请求路径：
+
+```js
+export default {
+  dev: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          pathRewrite: { '^/api': '' },
+        },
+      },
+    },
+  },
+};
+```
+
+DevServer Proxy 基于 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) 实现。你可以使用 http-proxy-middleware 的所有配置项，具体可以查看文档。
+
+DevServer Proxy 完整类型定义为：
+
+```ts
+import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
+
+type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
+
+type ProxyDetail = HttpProxyOptions & {
+  bypass?: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    proxyOptions: ProxyOptions,
+  ) => string | undefined | null | false;
+  context?: Filter;
+};
+
+type ProxyOptions =
+  | Record<string, string>
+  | Record<string, ProxyDetail>
+  | ProxyDetail[]
+  | ProxyDetail;
+```
+
+除了 http-proxy-middleware 的选项外，还支持 bypass 和 context 两个配置项：
+
+- bypass：根据函数的返回值绕过代理。
+  - 返回 `null` 或 `undefined` 会继续用代理处理请求。
+  - 返回 `false` 会返回 404 错误。
+  - 返回一个具体的服务路径，将会使用此路径替代原请求路径。
+- context：如果你想代理多个特定的路径到同一个目标，你可以使用 context 配置项。
+
+```js
+// 自定义 bypass 方法
+export default {
+  dev: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          bypass: function (req, res, proxyOptions) {
+            if (req.headers.accept.indexOf('html') !== -1) {
+              console.log('Skipping proxy for browser request.');
+              return '/index.html';
+            }
+          },
+        },
+      },
+    },
+  },
+};
+```
+
+```js
+// 代理多个路径到同一个目标
+export default {
+  dev: {
+    server: {
+      proxy: [
+        {
+          context: ['/auth', '/api'],
+          target: 'http://localhost:3000',
+        },
+      ],
+    },
+  },
+};
+```

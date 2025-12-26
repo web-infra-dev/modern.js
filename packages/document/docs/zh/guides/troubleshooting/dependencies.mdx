@@ -14,24 +14,24 @@ sidebar_position: 1
 
 对于使用 npm 或 yarn 的项目，可以使用 `npm ls` 命令。
 
-比如执行 `npm ls @modern-js/core`，可以看到如下结果：
+比如执行 `npm ls @modern-js/plugin`，可以看到如下结果：
 
 ```
 project
 └─┬ @modern-js/app-tools@x.y.z
-  └── @modern-js/core@x.y.z
+  └── @modern-js/plugin@x.y.z
 ```
 
 **pnpm**
 
 对于使用 pnpm 的项目，可以使用 `pnpm ls` 命令。
 
-比如执行 `pnpm ls @modern-js/core --depth Infinity`，可以看到如下结果：
+比如执行 `pnpm ls @modern-js/plugin --depth Infinity`，可以看到如下结果：
 
 ```
 devDependencies:
 @modern-js/app-tools x.y.z
-└── @modern-js/core x.y.z
+└── @modern-js/plugin x.y.z
 ```
 
 ---
@@ -43,24 +43,24 @@ devDependencies:
 ```bash
 The engine "node" is incompatible with this module.
 
-Expected version ">=16.2.0". Got "12.20.1"
+Expected version ">=20.19.5". Got "16.20.1"
 ```
 
-使用 Modern.js 时，建议使用 [Node.js 18.x](https://nodejs.org/download/release/latest-v18.x/) 的最新版本。
+Modern.js 要求 Node.js 版本 >= 20.19.5，我们强烈推荐使用最新的 LTS 版本（如 [Node.js 22 LTS](https://nodejs.org/)）以获得最佳体验。
 
 如果当前环境的 Node.js 版本低于上述要求的版本，则可以使用 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 等工具进行版本切换。
 
 下面是使用 nvm 的示例：
 
-```
-# 安装 Node.js v14
-nvm install 14
+```bash
+# 安装 Node.js 22 LTS
+nvm install 22 --lts
 
-# 切换到 Node 14
-nvm use 14
+# 切换到 Node.js 22
+nvm use 22
 
-# 将 Node 14 设置为默认版本
-nvm default 14
+# 将 Node.js 22 设置为默认版本
+nvm alias default 22
 ```
 
 在本地开发环境推荐使用 [fnm](https://github.com/Schniz/fnm)，它的用法与 nvm 相似，但拥有比 nvm 更好的性能。
@@ -77,9 +77,9 @@ Type 'React.ReactNode' is not assignable to type 'import("/node_modules/@types/r
 Type '{}' is not assignable to type 'ReactNode'.
 ```
 
-出现这个问题的原因是 React 18 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
+出现这个问题的原因是 React 18+ 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
 
-解决方法为将项目中的 `@types/react` 和 `@types/react-dom` 锁定在统一的版本上，比如 `v17`。
+解决方法为将项目中的 `@types/react` 和 `@types/react-dom` 锁定在统一的版本上，比如 `v19`。
 
 ```json
 {
@@ -102,12 +102,10 @@ Type '{}' is not assignable to type 'ReactNode'.
 
 ### Modern.js 框架最低支持的 React 版本是多少？
 
-**Modern.js 框架推荐使用的 React 版本为 >= 18.0.0**，并且不同功能对 React 版本的要求有所不同。
+**Modern.js 框架要求使用的 React 版本为 >= 18.0.0**。
 
-- 如果你在使用 React 17，那么部分框架功能将无法使用，比如 Streaming SSR，因为它依赖 React 18 提供的新特性。
-- 如果你仍然在使用 React 16，那么将无法使用 Modern.js 的运行时或服务端能力。你可以考虑使用 Modern.js 的构建模式，即只使用 Modern.js 的构建能力，这种情况可以继续使用 React 16。
-
-在 Modern.js 未来的 major 版本中，我们会逐步移除对 React 16 和 React 17 的支持。因此，请尽快升级到 React 18 以上版本。
+- **如果使用 Modern.js 的 runtime 能力**（包括 SSR、Streaming SSR、数据加载、路由等），必须使用 React 18 或更高版本。React 16 和 React 17 不再支持。
+- **如果仅使用 Modern.js 的构建能力**（不使用 runtime），理论上可以使用 React 16 或 React 17，但强烈建议升级到 React 18 以上版本以获得最佳体验和完整功能支持。
 
 ---
 
@@ -118,6 +116,8 @@ Type 'CliPlugin<{}, {}, {}, {}>' is not assignable to type 'CliPlugin<any, {}, {
   Types of property 'setup' are incompatible.
 ```
 
-当你在使用 Modern.js 框架时配置文件出现以上报错，可能是由于 Modern.js 相关包的版本号未统一导致。可以通过 `npx modern upgrade` 命令对 modern.js 依赖进行升级和版本统一。
+当你在使用 Modern.js 框架时配置文件出现以上报错，可能是由于 Modern.js 相关包的版本号未统一导致。需要手动将所有 `@modern-js/**` 包的版本统一更新到相同版本。
 
 在 monorepo 中由于不同子项目所用的 Modern.js 框架版本不一致也可能出现以上问题。
+
+关于如何统一升级依赖版本，请参考[版本升级](/guides/get-started/upgrade)文档。

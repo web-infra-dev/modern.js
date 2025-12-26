@@ -8,32 +8,9 @@ SSG（Static Site Generation）是一种基于数据与模板，在构建时渲�
 
 ## 启用 SSG
 
-我们首先需要执行 `pnpm run new` 启用 SSG 功能：
+import EnableSSG from '@site-docs/components/enable-ssg';
 
-```bash
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用「SSG」功能
-```
-
-执行命令后，在 `modern.config.ts` 中注册 SSG 插件：
-
-```ts title="modern.config.ts"
-import { ssgPlugin } from '@modern-js/plugin-ssg';
-
-export default defineConfig({
-  output: {
-    ssg: true,
-  },
-  plugins: [..., ssgPlugin()],
-});
-```
-
-:::info 适用范围
-- 单入口请使用 `output.ssg`。
-- 多入口请使用 `output.ssgByEntries`。
-- 当仅设置 `output.ssg: true` 且未配置 `output.ssgByEntries` 时，所有入口下的所有路由都会作为 SSG 路由处理。
-
-:::
+<EnableSSG />
 
 ## 开发环境调试
 
@@ -94,7 +71,6 @@ export default () => {
 
 执行 `pnpm run serve` 启动项目后，访问页面，在浏览器我们工具的 Network 窗口，查看请求返回的文档，文档包含组件渲染后的完整页面内容。
 
-
 ## 在自控式路由中使用
 
 **自控式路由**是通过组件代码定义路由，需要应用运行起来才能获取准确的路由信息。因此，无法开箱即用的使用 SSG 功能。开发者需要通过配置告知 Modern.js 框架，哪些路由需要开启 SSG 功能。
@@ -133,11 +109,7 @@ export default defineConfig({
 export default defineConfig({
   output: {
     ssg: {
-      routes: [
-        '/',
-        '/about',
-        '/user/modernjs',
-      ],
+      routes: ['/', '/about', '/user/modernjs'],
     },
   },
 });
@@ -173,14 +145,14 @@ export default defineConfig({
   output: {
     ssg: {
       headers: {
-        "x-tt-env": "ppe_modernjs"
+        'x-tt-env': 'ppe_modernjs',
       },
       routes: [
         '/',
         {
           url: '/about',
           headers: {
-            "from": "modern-website"
+            from: 'modern-website',
           },
         },
       ],

@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 3.0.0-alpha.0
+
+### Patch Changes
+
+- 952f6fe: perf: server monitor add more tags for timing/counter event
+  perf: server monitor 为 timing/couter 事件添加更多的 tags
+
 ## 2.68.1
 
 ## 2.68.0

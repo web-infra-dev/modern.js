@@ -10,7 +10,7 @@ Modern.js 框架默认集成了一些社区中流行的库和开发工具。
 
 ## UI 库
 
-Modern.js 使用 [React 18](https://react.dev/) 来构建用户界面，同时也兼容 React 17。
+Modern.js 使用 [React 19](https://react.dev/) 来构建用户界面，同时也兼容 React 18。
 
 Modern.js 底层的 Rsbuild 支持构建 Vue 应用，如果你需要使用 Vue，可以参考 [Rsbuild - Vue](https://rsbuild.rs/zh/guide/framework/vue)。
 
@@ -28,23 +28,17 @@ Modern.js 可以与社区中任意的包管理器搭配使用，比如 [npm](htt
 
 ## 打包工具
 
-Modern.js 使用 [Webpack 5](https://webpack.js.org/) 或 [Rspack](https://rspack.rs/) 来打包你的 Web 应用。
-
-默认使用的打包工具为 Webpack 5，你可以参考 [使用 Rspack](/guides/advanced-features/rspack-start) 来切换到更快的 Rspack。
+Modern.js 使用 [Rspack](https://rspack.rs/) 来打包你的 Web 应用。
 
 ## 转译工具
 
-Modern.js 使用 [Babel](https://babeljs.io/)、[SWC](https://swc.rs/) 或 [esbuild](https://esbuild.github.io/) 作为 JS 转译工具，将 TypeScript 或 JSX 转义为可以在浏览器上运行的 JavaScript 代码，并进行语法降级。
+Modern.js 使用 [SWC](https://swc.rs/) 作为 JS 转译工具，将 TypeScript 或 JSX 转义为可以在浏览器上运行的 JavaScript 代码，并进行语法降级。
 
-- 使用 Webpack 打包时，默认为 Babel，支持切换到 SWC 或 esbuild。
-- 使用 Rspack 打包时，默认为 SWC，支持切换到 Babel。
+在启用 Rspack 构建时，`babel-loader` 默认不会被启用。如需添加 [Babel](https://babeljs.io/) 插件，可通过 `tools.babel` 配置，此时会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
 
 ## 压缩工具
 
-在生产环境构建时，Modern.js 使用 [Terser](https://github.com/terser/terser)、[SWC](https://swc.rs/) 或 [esbuild](https://esbuild.github.io/) 来压缩 JavaScript 代码，使用 [cssnano](https://cssnano.co/) 来压缩 CSS 代码。
-
-- 使用 Webpack 打包时，默认使用 Terser 压缩 JS 代码，支持切换到 SWC 或 esbuild。
-- 使用 Rspack 打包时，默认使用 SWC 压缩 JS 代码，暂不支持切换到其他工具。
+在生产环境构建时，Modern.js 使用 [SWC](https://swc.rs/) 压缩 JS 代码。
 
 ## CSS 转换
 

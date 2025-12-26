@@ -15,13 +15,12 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
   "module": "./dist/esm-node/cli.mjs",
   "exports": {
-    "./types": "./types.d.ts",
     ".": {
       "types": "./dist/types/cli.d.ts",
       "jsnext:source": "./src/cli.ts",
@@ -119,9 +118,9 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "1.6.14",
+    "@rsbuild/core": "1.6.15",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.3",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",

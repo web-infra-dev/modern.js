@@ -19,7 +19,6 @@ Options:
   -e --entry <entry>    指定入口，只编译特定的页面
   -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
   -h, --help            显示命令帮助
-  --analyze             分析构建产物体积，查看各个模块打包后的大小
   --web-only            仅启动 Web 服务
   --api-only            仅启动 API 接口服务
 ```
@@ -79,30 +78,7 @@ Options:
   -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
   -h, --help  显示命令帮助
   -w --watch  开启 watch 模式, 监听文件变更并重新构建
-  --analyze   分析构建产物体积，查看各个模块打包后的大小
 ```
-
-### 分析构建产物体积
-
-执行 `npx modern build --analyze` 命令，可以在打包生产环境代码的同时，产出一个分析构建产物体积的 HTML 文件：
-
-```
-Bundle Analyzer saved report to /example/dist/report.html
-
-info    Production file sizes:
-
-  File                                      Size         Gzipped
-  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
-  dist/html/main/index.html                 5.8 kB       2.5 kB
-  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
-  dist/static/css/main.03221f72.css         1.4 kB       741 B
-```
-
-手动在浏览器中打开上述 HTML 文件，可以看到打包产物的瓦片图，并进行包体积分析和优化：
-
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
-
-> 该功能基于 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 实现。
 
 ## modern new
 
@@ -174,7 +150,7 @@ Options:
 
 ## modern inspect
 
-`modern inspect` 命令用于查看项目的 Modern.js 配置、[Rsbuild 配置](https://rsbuild.rs/zh/config/index) 以及 webpack 或 Rspack 配置。
+`modern inspect` 命令用于查看项目的 Modern.js 配置、[Rsbuild 配置](https://rsbuild.rs/zh/config/index) 以及 Rspack 配置。
 
 ```bash
 Usage: modern inspect [options]
@@ -191,7 +167,7 @@ Options:
 
 - `modern.js.config.mjs`: 表示当前使用的 Modern.js 配置。
 - `rsbuild.config.mjs`: 表示在构建时使用的 Rsbuild 配置。
-- `webpack.config.web.mjs`: 表示在构建时使用的 webpack 配置。
+- `rspack.config.web.mjs`: 表示在构建时使用的 Rspack 配置。
 
 ```bash
 ➜ npx modern inspect
@@ -199,7 +175,7 @@ Options:
 Inspect config succeed, open following files to view the content:
 
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
   - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 
@@ -221,7 +197,7 @@ modern inspect --verbose
 
 ### SSR 构建配置
 
-如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.config.node.mjs` 文件，对应 SSR 构建时的 webpack 配置。
+如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `rspack.config.node.mjs` 文件，对应 SSR 构建时的 Rspack 配置。
 
 ```bash
 ➜ npx modern inspect
@@ -229,8 +205,8 @@ modern inspect --verbose
 Inspect config succeed, open following files to view the content:
 
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
-  - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
+  - Rspack Config (node): /root/my-project/dist/rspack.config.node.mjs
   - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 

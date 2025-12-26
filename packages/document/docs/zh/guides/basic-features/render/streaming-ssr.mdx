@@ -2,22 +2,40 @@
 title: 服务端流式渲染（Streaming SSR）
 ---
 
-# 服务端流式渲染（Streaming SSR）
+# 流式服务端渲染（Streaming SSR）
 
-流式渲染是一种新的渲染方式，它可以在用户与页面交互时，实时地更新页面内容，从而提高用户体验。
+流式渲染是一种先进的渲染方式，它可以在页面渲染过程中逐步返回内容，从而显著提升用户体验。
 
-在传统的渲染方式中，页面的渲染是一次性完成的，而在流式渲染中，页面的渲染是逐步完成的，在用户与页面交互时，逐步加载数据，而不是一次性加载所有数据。
+在传统的 SSR 渲染方式中，页面的渲染是一次性完成的，需要等待所有数据加载完成后才能返回完整的 HTML。而在流式渲染中，页面的渲染是逐步完成的，可以边渲染边返回，用户能够更快地看到初始内容。
 
-相比传统渲染：
+:::info 默认模式
+**Streaming SSR 是 Modern.js SSR 的默认渲染模式**。当你启用 SSR 时，无需额外配置即可使用流式渲染。
 
-- 拥有更快感知速度：流式渲染可以在渲染过程中逐步显示内容能够以最快的速度显示业务首页。
-- 拥有更好的用户体验：通过流式渲染，用户可以更快地看到页面上的内容，而不需要等待整个页面都渲染完成后才能交互。
-- 拥有更好的性能控制：流式渲染可以让开发者更好地控制页面加载的优先级和顺序，从而更好地优化性能和用户体验。
-- 更好的适应性：流式渲染可以更好地适应不同网络速度和设备性能，使得页面在各种环境下都能有更好的表现。
+如果你需要切换到传统的 SSR 模式（等待所有数据加载完成后一次性返回），可以配置 `server.ssr.mode` 为 `'string'`。详细说明请参考[服务端渲染（SSR）](/guides/basic-features/render/ssr)文档。
+:::
+
+相比传统 SSR 渲染：
+
+- **更快感知速度**：流式渲染可以在渲染过程中逐步显示内容，能够以最快的速度显示业务首页
+- **更好的用户体验**：通过流式渲染，用户可以更快地看到页面上的内容，而不需要等待整个页面都渲染完成后才能交互
+- **更好的性能控制**：流式渲染可以让开发者更好地控制页面加载的优先级和顺序，从而更好地优化性能和用户体验
+- **更好的适应性**：流式渲染可以更好地适应不同网络速度和设备性能，使得页面在各种环境下都能有更好的表现
 
 ## 开启流式渲染
 
-Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
+Modern.js 支持了 React 18+ 的流式渲染。当你启用 SSR 时，流式渲染默认开启：
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: true, // 默认启用流式渲染
+  },
+});
+```
+
+如果你需要显式指定流式渲染模式，可以配置：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -25,7 +43,7 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   server: {
     ssr: {
-      mode: 'stream',
+      mode: 'stream', // 显式指定流式渲染模式
     },
   },
 });
@@ -33,7 +51,6 @@ export default defineConfig({
 
 Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 
-- [`defer`](https://reactrouter.com/en/main/utils/defer)：在 Data Loader 中使用，用于支持异步获取数据。
 - [`Await`](https://reactrouter.com/en/main/components/await)：用于渲染 Data Loader 返回的异步数据。
 - [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value)：用于从最近的父级 `Await` 组件中获取数据。
 
@@ -224,7 +241,7 @@ function ErrorElement() {
 
 然而，当一个爬虫访问该页面时，它可能需要先加载所有内容，直接输出整个 HTML，而不是渐进式地加载它。
 
-Modern.js 使用 [isbot](https://www.npmjs.com/package/isbot) 对请求的 `uesr-agent`，以判断请求是否来自爬虫。
+Modern.js 使用 [isbot](https://www.npmjs.com/package/isbot) 对请求的 `user-agent`，以判断请求是否来自爬虫。
 
 
 import StreamSSRPerformance from '@site-docs/components/stream-ssr-performance';
@@ -233,5 +250,8 @@ import StreamSSRPerformance from '@site-docs/components/stream-ssr-performance';
 
 ## 相关文档
 
-1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
-2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+- [渲染模式总览](/guides/basic-features/render/overview)
+- [服务端渲染（SSR）](/guides/basic-features/render/ssr)
+- [渲染缓存](/guides/basic-features/render/ssr-cache)
+- [React Server Components（RSC）](/guides/basic-features/render/rsc) - 与 Streaming SSR 结合使用
+- [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37) - React 18 架构说明

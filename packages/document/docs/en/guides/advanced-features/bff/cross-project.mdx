@@ -7,7 +7,7 @@ Cross-project invocation consists of **producer** and **consumer** sides. The pr
 
 ## BFF Producer
 
-Upgrade Modern.js dependencies to version x.64.4 or higher, then enable cross-project invocation via configuration. Projects with BFF capabilities enabled can act as BFF producers, or you can create standalone BFF applications.
+Enable cross-project invocation via configuration. Projects with BFF capabilities enabled can act as BFF producers, or you can create standalone BFF applications.
 When executing `dev` or `build`, the following artifacts for consumers will be automatically generated:
 - API functions under the `dist/client` directory
 - Runtime configuration functions under the `dist/runtime` directory
@@ -37,12 +37,6 @@ To provide type hints for the integrated invocation SDK, enable the `declaration
     "declaration": true,
 }
 ```
-
-### Create BFF Application
-
-import CreateApi from "@site-docs-en/components/create-bff-api-app"
-
-<CreateApi/>
 
 ## BFF Consumer
 

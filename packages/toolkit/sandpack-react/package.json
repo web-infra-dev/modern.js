@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -47,19 +47,19 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",
     "@swc/helpers": "^0.5.17",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.3",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@types/recursive-readdir": "^2.2.4",
     "recursive-readdir": "^2.2.3",
     "ts-node": "^10.9.2",

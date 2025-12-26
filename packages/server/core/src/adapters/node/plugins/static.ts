@@ -63,6 +63,13 @@ export function createPublicMiddleware({
       const mimeType = getMimeType(filename);
 
       if (data !== null) {
+        // Hono's `Data` type does not accept Node.js `Buffer<ArrayBufferLike>` directly.
+        // Convert Buffer to `Uint8Array<ArrayBuffer>` without copying.
+        const body = new Uint8Array(
+          data.buffer as ArrayBuffer,
+          data.byteOffset,
+          data.byteLength,
+        );
         if (mimeType) {
           c.header('Content-Type', mimeType);
         }
@@ -71,7 +78,7 @@ export function createPublicMiddleware({
           c.header(k, v as string);
         });
 
-        return c.body(data, 200);
+        return c.body(body, 200);
       }
     }
 
@@ -203,7 +210,16 @@ export function createStaticMiddleware(
 
       // TODO: handle http range
       c.header('Content-Length', String(size));
-      return c.body(chunk, 200);
+      if (chunk === null) {
+        return next();
+      }
+      // See comment above: convert Buffer<ArrayBufferLike> to Uint8Array<ArrayBuffer>.
+      const body = new Uint8Array(
+        chunk.buffer as ArrayBuffer,
+        chunk.byteOffset,
+        chunk.byteLength,
+      );
+      return c.body(body, 200);
     } else {
       return createPublicMiddleware({ pwd, routes: routes || [] })(c, next);
     }

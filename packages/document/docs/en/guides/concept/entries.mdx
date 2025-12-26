@@ -30,15 +30,44 @@ The application initialized by Modern.js is a single-entry application with the 
 └── tsconfig.json
 ```
 
-In a Modern.js application, you can easily switch from single entry to multiple entries. Execute `pnpm run new` in the application directory and follow the prompts to create an entry:
+In a Modern.js application, you can easily switch from single entry to multiple entries. To manually create multiple entries, follow these steps:
+
+import NewEntryTooltip from '@site-docs-en/components/new-entry-tooltip.mdx';
+
+<NewEntryTooltip />
+
+1. **Move the original entry code to a directory named after the `name` field in `package.json`**
+
+   Assuming the `name` in `package.json` is `myapp`, you need to move the `src/routes/` directory to `src/myapp/routes/`:
 
 ```bash
-? Please select the operation you want: Create Element
-? Please select the type of element to create: New "entry"
-? Please fill in the entry name: new-entry
+# Create new directory
+mkdir -p src/myapp
+# Move original entry code
+mv src/routes src/myapp/routes
 ```
 
-After execution, Modern.js will automatically generate a new entry directory, and you can see that the `src/` directory has the following structure:
+2. **Create a new entry directory**
+
+   Create a new entry directory, for example `new-entry`:
+
+```bash
+# Create new entry directory
+mkdir -p src/new-entry/routes
+```
+
+3. **Create necessary files in the new entry directory**
+
+   Create basic files in the `routes/` directory of the new entry:
+
+```bash
+# Create basic files (adjust content as needed)
+touch src/new-entry/routes/index.css
+touch src/new-entry/routes/layout.tsx
+touch src/new-entry/routes/page.tsx
+```
+
+After completing the above steps, the `src/` directory structure will be as follows:
 
 ```bash
 .
@@ -53,8 +82,6 @@ After execution, Modern.js will automatically generate a new entry directory, an
         ├── layout.tsx
         └── page.tsx
 ```
-
-The original entry code has been moved to a directory with the same name as the `name` field in `package.json`, and a `new-entry` entry directory has been created.
 
 Modern.js will use the entry with the same name as the `name` field in `package.json` as the main entry. The route of the main entry is `/`, and the route of other entries is `/{entryName}`. For example, when the `name` in `package.json` is `myapp`, `src/myapp` will be the main entry of the application.
 
@@ -110,12 +137,12 @@ src/
 
 Component correspondence
 
-| File | Route | Description |
-|------|------|------|
-| `routes/layout.tsx` | Global layout | Outer container for all pages |
-| `routes/page.tsx` | `/` | Homepage |
-| `routes/about/page.tsx` | `/about` | About page |
-| `routes/blog/[id]/page.tsx` | `/blog/:id` | Dynamic route page |
+| File                        | Route         | Description                   |
+| --------------------------- | ------------- | ----------------------------- |
+| `routes/layout.tsx`         | Global layout | Outer container for all pages |
+| `routes/page.tsx`           | `/`           | Homepage                      |
+| `routes/about/page.tsx`     | `/about`      | About page                    |
+| `routes/blog/[id]/page.tsx` | `/blog/:id`   | Dynamic route page            |
 
 For more details, please refer to [Routing Solution](/guides/basic-features/routes/routes#convention-routing).
 
@@ -208,6 +235,8 @@ In this mode, **you will not be able to use Modern.js framework's runtime capabi
 
 - Convention routing, i.e., routing based on files under `src/routes`
 - Server-Side Rendering (SSR)
+- Internationalization (i18n)
+- Module Federation
 
 ## Specifying Entries in Configuration File
 
@@ -254,7 +283,7 @@ It's important to distinguish the relationships between concepts such as entry a
 
 Their corresponding relationships are as follows:
 
-- Each webpack website project can contain multiple entries
+- Each website project can contain multiple entries
 - Each entry contains several modules (source code files)
 - Each entry usually corresponds to one HTML file output and several other outputs
 - Each HTML file can contain multiple client-side routing solutions (for example, using both `react-router` and `@tanstack/react-router` in the same page)
@@ -277,7 +306,7 @@ When using server-side rendering applications, it is not necessary to generate a
 
 However, Modern.js will still generate a complete client-side output containing HTML files for each entry at build time, which can be used to downgrade to client-side rendering when server-side rendering fails.
 
-Another special case is a project using Static Site Generation (SSG). Even if it is a single-entry SSG application built with convention routing, Modern.js will generate a separate HTML file for each `page.tsx` file outside the webpack process.
+Another special case is a project using Static Site Generation (SSG). Even if it is a single-entry SSG application built with convention routing, Modern.js will generate a separate HTML file for each `page.tsx` file outside the Rspack process.
 
 It should be noted that even when server-side rendering is enabled, React usually still needs to execute the hydration phase and run `react-router` routing on the frontend.
 

@@ -30,6 +30,7 @@ export const EN_LOCALE = {
     usageExample: '  create [project-name] [options]',
     options: '⚙️  Options:',
     optionHelp: '  -h, --help     Display this help message',
+    optionVersion: '  -v, --version  Display version information',
     optionLang: '  -l, --lang     Set the language (zh or en)',
     optionSub: '  -s, --sub       Mark as a subproject (package in monorepo)',
     examples: '💡 Examples:',
@@ -38,5 +39,8 @@ export const EN_LOCALE = {
     example3: '  create my-app --sub',
     example4: '  create --help',
     moreInfo: '📚 Learn more: https://modernjs.dev',
+  },
+  version: {
+    message: '@modern-js/create version: {version}',
   },
 };

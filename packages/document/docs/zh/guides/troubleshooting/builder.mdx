@@ -18,21 +18,9 @@ Modern.js 内部基于 [Rsbuild](https://rsbuild.rs/) 封装了自身的构建�
 
 ---
 
-### 如何清空 webpack 编译缓存？
-
-默认情况下，Modern.js 的 webpack 编译缓存生成在 `./node_modules/.cache/webpack` 目录下。
-
-如果需要清空本地的编译缓存，可以执行以下命令：
-
-```bash
-rm -rf ./node_modules/.cache
-```
-
----
-
 ### 如何查看最终生成的 Rspack 配置?
 
-Modern.js 提供 [inspect 命令](/apis/app/commands.html) 用于查看项目最终生成的 Modern.js 配置以及 webpack / Rspack 配置。
+Modern.js 提供 [inspect 命令](/apis/app/commands.html) 用于查看项目最终生成的 Modern.js 配置以及 Rspack 配置。
 
 ```bash
 ➜ npx modern inspect
@@ -96,7 +84,7 @@ Error: ES Modules may not assign module.exports or exports.*, Use ESM export syn
 
 ### 编译进度条卡死，但终端无 Error 日志？
 
-当编译进度条卡死，但终端无 Error 日志时，通常是因为编译过程中出现了异常。在某些情况下，当 Error 被 webpack 或其他模块捕获后，错误日志不会被正确输出。最为常见的场景是 Babel 配置出现异常，抛出 Error 后被 webpack 捕获，而 webpack 在个别情况下吞掉了 Error。
+当编译进度条卡死，但终端无 Error 日志时，通常是因为编译过程中出现了异常。在某些情况下，当 Error 被构建工具或其他模块捕获后，错误日志不会被正确输出。最为常见的场景是 Babel 配置出现异常，抛出 Error 后被构建工具捕获，而构建工具在个别情况下吞掉了 Error。
 
 **解决方法：**
 
@@ -162,33 +150,6 @@ export default {
 
 ---
 
-### webpack 编译缓存未生效，应该如何排查？
-
-Modern.js 默认开启了 webpack 的持久化缓存。
-
-首次编译完成后，会自动生成缓存文件，并输出到 `./node_modules/.cache/webpack` 目录下。执行第二次编译时，会命中缓存，并大幅度提高编译速度。
-
-当 `package.json` 等配置文件被修改时，缓存会自动失效。
-
-如果项目中 webpack 编译缓存一直未生效，可以添加以下配置进行排查：
-
-```ts
-export default {
-  tools: {
-    webpack(config) {
-      config.infrastructureLogging = {
-        ...config.infrastructureLogging,
-        debug: /webpack\.cache/,
-      };
-    },
-  },
-};
-```
-
-添加以上配置后，webpack 会输出日志用于 debug，请参考 `PackFileCacheStrategy` 相关的日志来了解缓存失效的原因。
-
----
-
 ### 从 lodash 中引用类型后出现编译报错？
 
 当你的项目中安装了 `@types/lodash` 包时，你可能会从 `lodash` 中引用一些类型，比如引用 `DebouncedFunc` 类型：
@@ -221,7 +182,7 @@ import type { DebouncedFunc } from 'lodash';
 
 ### 升级 Modern.js 版本后，检查出新的 TypeScript 类型错误？
 
-从 MAJOR_VERSION.47.0 版本开始，Modern.js 优化了 Type Checker 的检查范围。在之前的版本中，Type Checker 只输出 src 目录的类型错误，导致其他目录的类型错误无法被正确输出。
+Modern.js 优化了 Type Checker 的检查范围。在之前的版本中，Type Checker 只输出 src 目录的类型错误，导致其他目录的类型错误无法被正确输出。
 
 在新版本中，Modern.js 的 Type Checker 对齐了原生 tsc 的类型检查范围（即 tsconfig.json 的 `include` 和 `exclude` 字段定义的范围），能够完整输出项目中的类型错误。
 

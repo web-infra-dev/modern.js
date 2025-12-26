@@ -19,7 +19,6 @@ Options:
   -e --entry <entry>    compiler by entry
   -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
-  --analyze             analyze the bundle and view size of each module
   --web-only            only start web service
   --api-only            only start API service
 ```
@@ -79,30 +78,7 @@ Options:
   -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
   -w --watch            turn on watch mode, watch for changes and rebuild
-  --analyze             analyze the bundle and view size of each module
 ```
-
-### Analyze Bundle
-
-execute `npx modern build --analyze` command, can produce an HTML file that analyzes the volume of the bundle while packaging the production code:
-
-```text
-Bundle Analyzer saved report to /example/dist/report.html
-
-info    Production file sizes:
-
-  File                                      Size         Gzipped
-  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
-  dist/html/main/index.html                 5.8 kB       2.5 kB
-  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
-  dist/static/css/main.03221f72.css         1.4 kB       741 B
-```
-
-Open the above HTML file in the browser, you can see the tile diagram of the bundled files, and perform package volume analysis and optimization:
-
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
-
-> this features based on [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer).
 
 ## modern new
 
@@ -174,7 +150,7 @@ Options:
 
 ## modern inspect
 
-The `modern inspect` command is used to view the Modern.js config, [Rsbuild config](https://rsbuild.rs/config/index) and webpack or Rspack config of the project.
+The `modern inspect` command is used to view the Modern.js config, [Rsbuild config](https://rsbuild.rs/config/index) and Rspack config of the project.
 
 ```bash
 Usage: modern inspect [options]
@@ -191,7 +167,7 @@ After executing the command `npx modern inspect` in the project root directory, 
 
 - `modern.js.config.mjs`:The Modern.js configuration currently used.
 - `rsbuild.config.mjs`: The Rsbuild config to use at build time.
-- `webpack.config.web.mjs`: The webpack config used by to use at build time.
+- `rspack.config.web.mjs`: The Rspack config used by to use at build time.
 
 ```bash
 ➜ npx modern inspect
@@ -199,7 +175,7 @@ After executing the command `npx modern inspect` in the project root directory, 
 Inspect config succeed, open following files to view the content:
 
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
   - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 
@@ -221,7 +197,7 @@ modern inspect --verbose
 
 ### SSR Configuration
 
-If the project has enabled SSR, an additional `webpack.config.node.mjs` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
+If the project has enabled SSR, an additional `rspack.config.node.mjs` file will be generated in the `dist/`, corresponding to the Rspack configuration at SSR build time.
 
 ```bash
 ➜ npx modern inspect
@@ -229,8 +205,8 @@ If the project has enabled SSR, an additional `webpack.config.node.mjs` file wil
 Inspect config succeed, open following files to view the content:
 
   - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
-  - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.mjs
+  - Rspack Config (node): /root/my-project/dist/rspack.config.node.mjs
   - Modern.js Config: /root/my-project/dist/modern.js.config.mjs
 ```
 

@@ -2,46 +2,54 @@
 sidebar_position: 3
 ---
 
-# Upgrading
-
-## Upgrade with command
-
-Modern.js provides the `upgrade` command to support upgrading the project to the latest version of Modern.js.
-
-Run the `upgrade` script in the project:
-
 import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="run upgrade" />
-
-```bash
-> modern upgrade
-
-[INFO] [Project Type]: Web App
-[INFO] [Modern.js Latest Version]: x.y.z
-[INFO] Upgrade Modern.js package version success!
-```
-
-You can see that the dependencies in the project's `package.json` have been updated to the latest version.
-
-:::tip
-If the `upgrade` command is not declared in the project's `package.json`, you can execute `npx modern upgrade` as an equivalent alternative.
-:::
-
-import UpgradeFaq from '@site-docs-en/components/upgrade-faq';
-
-<UpgradeFaq />
-
-## Upgrade to a specified version
-
-All packages of Modern.js are currently released with a **uniform version number**.
-
 import ReleaseNote from '@site-docs-en/components/release-note';
 
-<ReleaseNote />
+# Upgrading
+
+import Upgrade from '@site-docs/components/auto-upgrade';
+
+<Upgrade />
+
+## Manual Upgrade
+
+All Modern.js official packages are released with a **uniform version number**, so when upgrading, you need to update all `@modern-js/**` packages to the target version uniformly.
+
+### Upgrade Steps
+
+1. **Check the latest version**
+
+   You can check the latest version of Modern.js through the following methods:
+
+   - Visit [npm](https://www.npmjs.com/package/@modern-js/app-tools) to check the latest version of `@modern-js/app-tools`
+   - Check [GitHub Releases](https://github.com/web-infra-dev/modern.js/releases)
+
+   <ReleaseNote />
+
+2. **Update package.json**
+
+   In the project's `package.json`, update all `@modern-js/**` packages to the target version. For example:
+
+   ```json title="package.json"
+   {
+     "dependencies": {
+       "@modern-js/app-tools": "3.0.0",
+       "@modern-js/runtime": "3.0.0"
+     },
+     "devDependencies": {
+       "@modern-js/types": "3.0.0"
+     }
+   }
+   ```
+
+3. **Reinstall dependencies**
+
+   After updating `package.json`, reinstall dependencies:
+
+   <PackageManagerTabs command="install" />
 
 :::tip
-When upgrading, you need to upgrade all packages provided by Modern.js, rather than upgrading some dependencies.
+When upgrading, you need to upgrade all packages provided by Modern.js uniformly, rather than upgrading individual dependencies. Ensure that all `@modern-js/**` packages have the same version number.
 :::
 
 ## Version Management Strategy
@@ -57,7 +65,6 @@ In Modern.js projects, we recommend that all officially provided dependencies us
 ```
 
 This ensures that the versions of dependencies are fully determined, thereby guaranteeing build consistency and predictability.
-
 
 ## Lock nested dependency
 

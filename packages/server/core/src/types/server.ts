@@ -109,7 +109,7 @@ type ServerVariables = {
   /**
    * The current matched route, now only expose entryName field.
    */
-  route: Required<Pick<ServerRoute, 'entryName'>>;
+  route: Required<Pick<ServerRoute, 'entryName' | 'urlPath'>>;
   forceCSR?: string;
 };
 

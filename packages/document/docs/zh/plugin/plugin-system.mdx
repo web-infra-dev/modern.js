@@ -57,12 +57,12 @@ const myPlugin: Plugin = {
   usePlugins: [], // 内部使用的插件实例列表，默认为空数组
 
   // 注册新的 Hook (可选)
-  registryHook: {},
+  registryHooks: {},
 
   // 插件的入口函数（必需）
   setup(api) {
     // 插件的核心逻辑，通过 api 对象调用插件 API
-    api.modifyWebpackConfig(config => {
+    api.modifyRspackConfig(config => {
       /* ... */
     });
     api.onPrepare(() => {
@@ -173,7 +173,7 @@ const myPlugin2 = () => ({
   name: 'my-plugin-2',
   setup: api => {
     api.onAfterPrepare(async () => {
-      // TOOD
+      // TODO
     });
   },
 });
@@ -211,17 +211,6 @@ const myPlugin = () => ({
       // 在插件中使用注册的 Hooks
       const hooks = api.getHooks();
       const routesResult = hooks.modifyRoutes.call(routes);
-    });
-  },
-});
-
-// 其他插件使用 Hooks
-const myPlugin2 = () => ({
-  name: 'my-plugin',
-  setup: api => {
-    api.modifyRoutes(async routes => {
-      // 修改 routes
-      return routes;
     });
   },
 });

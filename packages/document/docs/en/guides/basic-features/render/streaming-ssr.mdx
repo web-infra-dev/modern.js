@@ -1,10 +1,16 @@
-# Streaming SSR
+# Streaming Server-Side Rendering
 
-Streaming SSR is a new rendering method that updates the page content in real-time as users interact with it, enhancing user experience.
+Streaming rendering is an advanced rendering method that progressively returns content during the page rendering process, significantly improving user experience.
 
-In conventional rendering, the page is rendered all at once. In streaming rendering, the page is rendered progressively, loading data step-by-step as users interact with the page instead of loading all data at once.
+In traditional SSR rendering, the page is rendered all at once, requiring all data to be loaded before returning the complete HTML. In streaming rendering, the page is rendered progressively, allowing content to be returned as it renders, so users can see initial content faster.
 
-Compared to traditional rendering:
+:::info Default Mode
+**Streaming SSR is the default rendering mode for Modern.js SSR**. When you enable SSR, streaming rendering is available without additional configuration.
+
+If you need to switch to traditional SSR mode (waiting for all data to load before returning at once), you can configure `server.ssr.mode` to `'string'`. For detailed information, refer to the [Server-Side Rendering (SSR)](/guides/basic-features/render/ssr) documentation.
+:::
+
+Compared to traditional SSR rendering:
 
 - **Faster Perceived Speed**: Streaming rendering can progressively display content, quickly rendering the home page.
 - **Enhanced User Experience**: Users can see page content faster and interact without waiting for the entire page to render.
@@ -13,7 +19,19 @@ Compared to traditional rendering:
 
 ## Enabling Streaming Rendering
 
-Modern.js supports React 18's streaming rendering, which can be enabled as follows:
+Modern.js supports React 18+ streaming rendering. When you enable SSR, streaming rendering is enabled by default:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: true, // Streaming rendering enabled by default
+  },
+});
+```
+
+If you need to explicitly specify streaming rendering mode, you can configure:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -21,7 +39,7 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   server: {
     ssr: {
-      mode: 'stream',
+      mode: 'stream', // Explicitly specify streaming rendering mode
     },
   },
 });
@@ -29,7 +47,6 @@ export default defineConfig({
 
 Modern.js streaming rendering is based on React Router and involves several key APIs:
 
-- [`defer`](https://reactrouter.com/en/main/utils/defer): Used in Data Loader to support asynchronous data fetching.
 - [`Await`](https://reactrouter.com/en/main/components/await): Used to render the asynchronous data returned by the Data Loader.
 - [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value): Used to fetch data from the nearest parent `Await` component.
 
@@ -226,5 +243,8 @@ import StreamSSRPerformance from '@site-docs-en/components/stream-ssr-performanc
 
 ## Related Documentation
 
-1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
-2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+- [Rendering Mode Overview](/guides/basic-features/render/overview)
+- [Server-Side Rendering (SSR)](/guides/basic-features/render/ssr)
+- [Rendering Cache](/guides/basic-features/render/ssr-cache)
+- [React Server Components (RSC)](/guides/basic-features/render/rsc) - Use with Streaming SSR
+- [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37) - React 18 Architecture Overview

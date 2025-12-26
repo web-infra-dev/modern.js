@@ -19,7 +19,7 @@
   "engines": {
     "node": ">=20"
   },
-  "version": "2.68.1",
+  "version": "3.0.0-alpha.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
-    "tsx": "^4.19.2",
-    "@rslib/core": "0.18.3",
+    "tsx": "^4.21.0",
+    "@rslib/core": "0.18.5",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"

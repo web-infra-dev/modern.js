@@ -4,14 +4,6 @@ Modern.js provides runtime APIs to quickly export application-level Module Feder
 
 We use the application created in [Using Module Federation](/guides/topic-detail/module-federation/usage) as an example to further explain how to import application-level modules.
 
-## Install Dependencies
-
-Building on the existing application, we need to install the `@module-federation/bridge-react` dependency to use Bridge for loading application-level modules.
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @module-federation/bridge-react" />
-
 ## Exporting Modules from Producer
 
 Unlike directly exporting component-level modules, we need to create a separate entry for application-level modules to be exported via `Module Federation`.
@@ -23,10 +15,10 @@ The filename can be arbitrary; Modern.js does not enforce a specific naming conv
 :::
 
 ```ts title="src/export-App.tsx"
-import '@modern-js/runtime/registry/main'; // This line must be included, it will import micro frontend runtime dependencies by default
+import '@modern-js/runtime/registry/index'; // This line must be included, it will import micro frontend runtime dependencies by default
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 
 const ModernRoot = createRoot();
 export const provider = createBridgeComponent({
@@ -36,6 +28,15 @@ export const provider = createBridgeComponent({
 
 export default provider;
 ```
+
+:::note
+Please select the corresponding import path based on the React version used in your project:
+
+- **React 19**: Use `@module-federation/modern-js/react-v19`
+- **React 18**: Use `@module-federation/modern-js/react-v18`
+
+You can check the React version in your project's `package.json` file to determine which import path to use.
+:::
 
 This file will pass the root component of the `main` entry application to the Bridge API and render it to the specified node via Bridge's render function.
 
@@ -47,7 +48,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'remote',
   manifest: {
-    filePath:'static',
+    filePath: 'static',
   },
   filename: 'static/remoteEntry.js',
   exposes: {
@@ -61,7 +62,7 @@ export default createModuleFederationConfig({
 ```
 
 :::info
-[`createBridgeComponent`](https://module-federation.io/zh/practice/bridge/react-bridge.html#createbridgecomponent) is used to export application-level modules. Modern.js related APIs can be found at [createRoot](/apis/app/runtime/core/create-root) and [render](/apis/app/runtime/core/render).
+[`createBridgeComponent`](https://module-federation.io/practice/bridge/react-bridge/export-app.html#createbridgecomponent-api-reference) is used to export application-level modules. Modern.js related APIs can be found at [createRoot](/apis/app/runtime/core/create-root) and [render](/apis/app/runtime/core/render).
 :::
 
 ## Using Modules in Consumer
@@ -75,7 +76,7 @@ If you are not familiar with the capabilities of `$.tsx`, please read [Wildcard 
 :::
 
 ```tsx title="src/routes/remote/$.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 
 const ErrorBoundary = (info?: { error: { message: string } }) => {
@@ -97,7 +98,7 @@ export default RemoteApp;
 ```
 
 :::info
-[`createRemoteAppComponent`](https://module-federation.io/practice/bridge/react-bridge.html#createremoteappcomponent) is used to load application-level modules.
+[`createRemoteAppComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/load-app.html#%E4%BB%80%E4%B9%88%E6%98%AF-createremoteappcomponent) is used to load application-level modules.
 :::
 
 ## Start the Application

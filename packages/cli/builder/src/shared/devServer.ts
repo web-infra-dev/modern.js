@@ -25,7 +25,14 @@ export const transformToRsbuildServerOptions = (
   rsbuildDev: DevConfig;
   rsbuildServer: ServerConfig;
 } => {
-  const { host, https, startUrl, beforeStartUrl, ...devConfig } = dev;
+  const {
+    host,
+    https,
+    startUrl,
+    beforeStartUrl,
+    server: devServerConfig,
+    ...devConfig
+  } = dev;
 
   const port = process.env.PORT
     ? Number(process.env.PORT)
@@ -35,7 +42,19 @@ export const transformToRsbuildServerOptions = (
   delete rsbuildDev.setupMiddlewares;
 
   // TODO: why devServer type is config chain?
-  const serverCofig = applyOptionsChain({}, devServer, {}, merge);
+  const legacyServerConfig = applyOptionsChain({}, devServer, {}, merge);
+
+  // Priority: dev.server > tools.devServer (soft compatibility)
+  // Note: watch is not a rsbuild ServerConfig option, so it's not passed to rsbuildServer
+  const serverCofig = {
+    compress: devServerConfig?.compress ?? legacyServerConfig.compress,
+    headers: devServerConfig?.headers ?? legacyServerConfig.headers,
+    historyApiFallback:
+      devServerConfig?.historyApiFallback ??
+      legacyServerConfig.historyApiFallback,
+    proxy: devServerConfig?.proxy ?? legacyServerConfig.proxy,
+  };
+
   const rsbuildServer: ServerConfig = isProd()
     ? {
         publicDir: false,
@@ -54,6 +73,7 @@ export const transformToRsbuildServerOptions = (
         port,
         https: https ? (https as ServerConfig['https']) : undefined,
         middlewareMode: true,
+        cors: server?.cors,
       };
 
   if (!isProd() && startUrl) {

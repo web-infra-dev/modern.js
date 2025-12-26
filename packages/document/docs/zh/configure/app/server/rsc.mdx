@@ -1,0 +1,30 @@
+---
+title: rsc
+---
+
+# server.rsc
+
+- **类型：** `boolean`
+- **默认值：** `false`
+
+启用 React Server Components (RSC) 配置。
+
+当设置为 `true` 时，启用 Modern.js 的 React Server Components 支持。这允许组件在服务端渲染，提供更好的性能和开发体验。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    rsc: true,
+  },
+});
+```
+
+:::tip 前置条件
+在启用 RSC 之前，请确保：
+1. React 和 React DOM 已升级到 19 版本（建议 19.2.3 以上版本）
+2. 已安装 `react-server-dom-webpack` 依赖
+
+:::
+
+有关使用 RSC 的更多信息，请参阅 [React Server Components 指南](/guides/basic-features/render/rsc)。
+

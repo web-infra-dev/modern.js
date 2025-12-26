@@ -4,17 +4,30 @@
 
 Modern.js 支持用户通过 [Middleware](/guides/advanced-features/web-server.html#middleware) 的方式来自由扩展 BFF Server。
 
-
 ## 使用中间件
 
-开发者可以在 `server/modern.server.ts` 中通过 配置 middlewares 来使用中间件。下面介绍如何手写一个 BFF 中间件，添加权限校验：
+:::tip 版本一致性
+在使用中间件之前，需要先安装 `@modern-js/server-runtime` 依赖。请确保 `@modern-js/server-runtime` 的版本与项目中 `@modern-js/app-tools` 的版本保持一致。Modern.js 的所有官方包使用统一版本号发布，版本不一致可能导致兼容性问题。
 
+请先查看 `@modern-js/app-tools` 的版本，然后安装相同版本的 `@modern-js/server-runtime`：
+
+```bash
+# 查看当前 @modern-js/app-tools 的版本
+pnpm list @modern-js/app-tools
+
+# 安装相同版本的 @modern-js/server-runtime
+pnpm add @modern-js/server-runtime@<版本号>
+```
+
+:::
+
+开发者可以在 `server/modern.server.ts` 中通过配置 middlewares 来使用中间件。下面介绍如何手写一个 BFF 中间件，添加权限校验：
 
 ```ts title="server/modern.server.ts"
 import {
   type MiddlewareHandler,
   defineServerConfig,
-  getCookie
+  getCookie,
 } from '@modern-js/server-runtime';
 
 const requireAuthForApi: MiddlewareHandler = async (c, next) => {
@@ -33,17 +46,20 @@ export default defineServerConfig({
       name: 'require-auth-for-api',
       handler: requireAuthForApi,
     },
-  ]
+  ],
 });
-
 ```
-
 
 然后添加一个普通的 BFF 函数 `api/lambda/hello.ts`：
 
 ```ts title="api/lambda/hello.ts"
-export default async () => {
-  return 'Hello Modern.js';
+import { useHonoContext } from '@modern-js/plugin-bff/server';
+
+export const get = async () => {
+  return {
+    code: 0,
+    message: 'Hello Modern.js',
+  };
 };
 ```
 

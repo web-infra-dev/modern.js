@@ -92,8 +92,17 @@ export const builderPluginAdapterSSR = (
 });
 
 const isStreamingSSR = (userConfig: AppNormalizedConfig): boolean => {
-  const isStreaming = (ssr: ServerUserConfig['ssr']) =>
-    ssr && typeof ssr === 'object' && ssr.mode === 'stream';
+  const isStreaming = (ssr: ServerUserConfig['ssr']) => {
+    if (!ssr) {
+      return false;
+    }
+    if (typeof ssr === 'boolean') {
+      // When ssr is boolean true, default mode is 'stream'
+      return ssr;
+    }
+    // When ssr is object, default mode is 'stream' unless explicitly set to 'string'
+    return ssr.mode !== 'string';
+  };
 
   const { server } = userConfig;
 

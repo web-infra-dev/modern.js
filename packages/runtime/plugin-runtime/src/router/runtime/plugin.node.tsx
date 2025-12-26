@@ -16,7 +16,6 @@ import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import { useContext } from 'react';
-import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import type { RuntimePlugin } from '../../core';
 import {
   InternalRuntimeContext,
@@ -237,7 +236,6 @@ export const routerPlugin = (
                       useJsonScript={useJsonScript}
                     />
                   )}
-                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </>
               );
               return App ? <App>{routerWrapper}</App> : routerWrapper;

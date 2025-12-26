@@ -1,37 +1,60 @@
-`@modern-js/create` provides an interactive Q & A interface to initialize the project based on the results, with initialization performed according to the default settings:
+Modern.js provides the `@modern-js/create` tool to create projects. It does not require global installation and can be run on-demand using `npx`.
+
+You can create a project in an existing empty directory:
 
 ```bash
-? Please select the programming language: TS
-? Please select the package manager: pnpm
+mkdir myapp && cd myapp
+npx @modern-js/create@latest
 ```
 
-After create the project, Modern.js will automatically install dependencies and create a git repository.
+You can also create a project directly in a new directory:
 
 ```bash
-[INFO] dependencies are automatically installed
-[INFO] git repository has been automatically created
-[INFO] Success！
-You can run the following command in the directory of the new project:
-pnpm run dev          # Starting dev server
-pnpm run build        # Build the app for production
-pnpm run serve        # Preview the production build locally
-pnpm run lint         # Run ESLint and automatically fix problems
-pnpm run new          # Enable optional features or add a new entry
+npx @modern-js/create@latest myapp
+```
+
+`@modern-js/create` will directly create the application without providing an interactive Q & A interface:
+
+```bash
+🚀 Welcome to Modern.js
+
+📦 Creating project "myapp"...
+
+✨ Project created successfully! 🎉
+
+📋 Next, you can run the following commands:
+
+📁 Enter the project directory:
+
+  cd myapp
+
+🔧 Initialize Git repository:
+
+  git init
+
+📥 Install project dependencies:
+
+  pnpm install
+
+⚡ Start the development server:
+
+  pnpm start
 ```
 
 Now, the project structure is as follows:
 
 ```
 .
+├── biome.json
+├── modern.config.ts
+├── package.json
+├── README.md
 ├── src
 │   ├── modern-app-env.d.ts
+│   ├── modern.runtime.ts
 │   └── routes
 │       ├── index.css
 │       ├── layout.tsx
 │       └── page.tsx
-├── modern.config.ts
-├── package.json
-├── pnpm-lock.yaml
-├── README.md
 └── tsconfig.json
 ```

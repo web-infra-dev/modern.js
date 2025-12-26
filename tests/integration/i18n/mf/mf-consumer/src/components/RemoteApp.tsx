@@ -1,4 +1,4 @@
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 

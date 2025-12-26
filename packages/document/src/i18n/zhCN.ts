@@ -11,7 +11,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
 
   // Features
   feature1: 'Rust 构建',
-  featureDesc1: '轻松切换到 Rspack 构建工具，编译飞快。',
+  featureDesc1: '基于 Rspack 构建工具，编译飞快。',
   feature2: '一体化开发',
   featureDesc2: '在同一项目中完成 BFF 开发，享受简洁的函数调用。',
   feature3: '嵌套路由',
@@ -34,10 +34,8 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   command: '命令',
   runtime: '运行时',
   conventions: '目录约定',
-  microFrontend: '微前端',
-  stateManagement: '状态管理',
+  moduleFederation: '模块联邦',
   pluginSystem: '插件系统',
-  projectGenerator: '项目生成器',
   githubDiscussion: 'Github 讨论区',
   changelog: '更新日志',
 

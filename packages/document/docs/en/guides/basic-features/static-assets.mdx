@@ -32,7 +32,7 @@ In JS files, you can directly import static assets in relative paths:
 // Import the logo.png image in the static directory
 import logo from './static/logo.png';
 
-export default = () => <img src={logo} />;
+export default () => <img src={logo} />;
 ```
 
 Import with [alias](/guides/basic-features/alias.html) are also supported:
@@ -40,7 +40,7 @@ Import with [alias](/guides/basic-features/alias.html) are also supported:
 ```tsx
 import logo from '@/static/logo.png';
 
-export default = () => <img src={logo} />;
+export default () => <img src={logo} />;
 ```
 
 ## Import Assets in CSS file

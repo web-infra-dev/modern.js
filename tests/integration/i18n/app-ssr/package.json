@@ -8,12 +8,12 @@
     "serve": "modern serve"
   },
   "dependencies": {
-    "i18next":"25.7.1",
+    "i18next":"25.7.3",
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

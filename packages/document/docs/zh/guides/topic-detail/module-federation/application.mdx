@@ -4,14 +4,6 @@ Modern.js 提供了运行时 API，支持快速从应用中导出应用级别的
 
 我们以 [使用模块联邦](/guides/topic-detail/module-federation/usage) 创建的应用为例，进一步说明如何导入应用级别模块。
 
-## 安装依赖
-
-在原本应用的基础上，我们需要安装 `@module-federation/bridge-react` 依赖，用于使用 Bridge 加载应用级别模块。
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @module-federation/bridge-react" />
-
 ## 生产者导出模块
 
 和直接导出组件级别的模块不同，我们需要为应用级别模块创建一个独立的入口来作为 `Module Federation` 的导出。
@@ -23,19 +15,29 @@ import { PackageManagerTabs } from '@theme';
 :::
 
 ```ts title="src/export-App.tsx"
-import '@modern-js/runtime/registry/main'; // 这一行必须引入，它会默认导入微前端运行时依赖
+import '@modern-js/runtime/registry/index'; // 这一行必须引入，它会默认导入微前端运行时依赖
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 
 const ModernRoot = createRoot();
 export const provider = createBridgeComponent({
   rootComponent: ModernRoot,
-  render: (Component, dom) => render(Component, dom),
+  render: (Component, dom) =>
+    render(Component as React.ReactElement<{ basename: string }>, dom),
 });
 
 export default provider;
 ```
+
+:::note
+请根据你项目中使用的 React 版本来选择对应的导入路径：
+
+- **React 19**：使用 `@module-federation/modern-js/react-v19`
+- **React 18**：使用 `@module-federation/modern-js/react-v18`
+
+你可以通过查看项目的 `package.json` 文件中的 `react` 依赖版本来确定应该使用哪个导入路径。
+:::
 
 该文件会将 `main` 入口的应用根组件传递给 Bridge API，并通过 Bridge 将调用渲染函数将其渲染到指定的节点上。
 
@@ -47,7 +49,7 @@ import { createModuleFederationConfig } from '@module-federation/modern-js';
 export default createModuleFederationConfig({
   name: 'remote',
   manifest: {
-    filePath:'static',
+    filePath: 'static',
   },
   filename: 'static/remoteEntry.js',
   exposes: {
@@ -61,7 +63,7 @@ export default createModuleFederationConfig({
 ```
 
 :::info
-[`createBridgeComponent`](https://module-federation.io/zh/practice/bridge/react-bridge.html#createbridgecomponent) 用于导出应用级别模块，Modern.js 相关 API 可以查看 [createRoot](/apis/app/runtime/core/create-root)、[render](/apis/app/runtime/core/render)。
+[`createBridgeComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/export-app.html#createbridgecomponent-api-%E5%8F%82%E8%80%83) 用于导出应用级别模块，Modern.js 相关 API 可以查看 [createRoot](/apis/app/runtime/core/create-root)、[render](/apis/app/runtime/core/render)。
 :::
 
 ## 消费者使用模块
@@ -75,7 +77,7 @@ export default createModuleFederationConfig({
 :::
 
 ```tsx title="src/routes/remote/$.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 
 const ErrorBoundary = (info?: { error: { message: string } }) => {
@@ -97,7 +99,7 @@ export default RemoteApp;
 ```
 
 :::info
-[`createRemoteAppComponent`](https://module-federation.io/zh/practice/bridge/react-bridge.html#createremoteappcomponent) 用于加载应用级别模块。
+[`createRemoteAppComponent`](https://module-federation.io/zh/practice/bridge/react-bridge/load-app.html#%E4%BB%80%E4%B9%88%E6%98%AF-createremoteappcomponent) 用于加载应用级别模块。
 :::
 
 ## 启动应用

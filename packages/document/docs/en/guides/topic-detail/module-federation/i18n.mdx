@@ -123,7 +123,7 @@ export default () => {
 };
 ```
 
-When using a shared instance, remote components will use the consumer's i18n instance. When the main application switches languages, the corresponding remote components will automatically update.
+When using a shared instance, remote components will use the consumer's i18n instance, and when the main application switches languages, the corresponding remote components will automatically update.
 
 ### Independent I18n Instance
 
@@ -195,6 +195,10 @@ const useSwitchLanguage = () => {
 
 export default useSwitchLanguage;
 ```
+
+:::note
+When using an independent I18n instance, the producer maintains its own language state. Consumers need to manually call the language switching hook to synchronize language changes between the main application and the remote component. This approach is useful when the producer needs to maintain its own language resources or has independent language switching logic.
+:::
 
 #### Configure Module Federation
 
@@ -289,7 +293,9 @@ export default function Layout() {
   const switchComponentLanguage = useSwitchComponentLanguage();
 
   const handleSwitchLanguage = (language: string) => {
+    // Switch language for the main application
     changeLanguage(language);
+    // Switch language for the remote component with independent instance
     switchComponentLanguage(language);
   };
 
@@ -311,6 +317,17 @@ For detailed API documentation of the `useModernI18n` Hook, please refer to the 
 
 :::
 
+:::note
+
+When using an independent I18n instance:
+
+- The producer and consumer maintain separate language states
+- Language switching must be synchronized manually by calling both the main application's `changeLanguage` and the remote component's language switching hook
+- This approach is recommended when the producer needs independent language resources or custom language switching logic
+- For component scenarios, we generally recommend using a shared I18n instance for better consistency
+
+:::
+
 ## Scenario 3: Producer - Application
 
 When the producer exports application-level modules, you need to use the Bridge API to export the application. For detailed information about application-level modules, please refer to [Application-Level Modules](/guides/topic-detail/module-federation/application).
@@ -318,12 +335,6 @@ When the producer exports application-level modules, you need to use the Bridge 
 :::warning
 
 Producers do not support enabling path redirection (`localePathRedirect`). Route and language switching need to be managed uniformly in the consumer.
-
-:::
-
-:::note
-
-When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in `module-federation.config.ts` to avoid conflicts with Modern.js's routing system.
 
 :::
 
@@ -341,7 +352,7 @@ First, you need to create an entry file to export the application:
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/bridge-react/v19';
+import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -368,10 +379,6 @@ export default createModuleFederationConfig({
   filename: 'remoteEntry.js',
   exposes: {
     './export-app': './src/export-app.tsx',
-  },
-  bridge: {
-    // When using Modern.js routing, this must be set to false to avoid conflicts with Modern.js routing system
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -423,6 +430,29 @@ When using a shared instance, `i18next` here does not need to call `init`. You c
 
 :::
 
+:::tip
+
+For applications with multiple entries, `defineRuntimeConfig` can accept a function that receives the `entryName` parameter, allowing you to return different configurations for different entries:
+
+```ts title="modern.runtime.tsx"
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18nextCustom from './custom/i18n';
+import i18nextMfAppProvider from './i18n-mf-app-provider/i18n';
+
+export default defineRuntimeConfig((entryName: string) => {
+  return {
+    i18n: {
+      i18nInstance:
+        entryName === 'custom' ? i18nextCustom : i18nextMfAppProvider,
+    },
+  };
+});
+```
+
+This is useful when you need different i18n instances for different entry points.
+
+:::
+
 :::info
 
 For detailed information about the `i18nInstance` configuration, please refer to the [Configuration Documentation](/guides/advanced-features/international/configuration#i18ninstance-配置).
@@ -437,12 +467,6 @@ For an independent I18n instance, no additional operations are needed. The produ
 
 When consumers need to load remote applications, they need to use the Bridge API to load application-level modules.
 
-:::note
-
-When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in `module-federation.config.ts` to avoid conflicts with Modern.js's routing system.
-
-:::
-
 ### Configure Module Federation
 
 First, configure the remote application in the consumer's `module-federation.config.ts`:
@@ -455,10 +479,6 @@ export default createModuleFederationConfig({
   name: 'consumer',
   remotes: {
     AppRemote: 'i18nAppProvider@http://localhost:3005/mf-manifest.json',
-  },
-  bridge: {
-    // When using Modern.js routing, this must be set to false to avoid conflicts with Modern.js routing system
-    enableBridgeRouter: false,
   },
   shared: {
     react: { singleton: true },
@@ -480,7 +500,7 @@ If the producer uses a shared I18n instance, the consumer must configure `shared
 Create a component for loading the remote application:
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/bridge-react';
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
 import { loadRemote } from '@module-federation/modern-js/runtime';
 import React from 'react';
 
@@ -511,6 +531,13 @@ const RemoteApp = createRemoteAppComponent({
 
 export default RemoteApp;
 ```
+
+:::tip
+The `export` parameter in `createRemoteAppComponent` specifies which export to use from the remote module:
+
+- When the producer uses `export default`, you can omit this parameter
+- When the producer uses named exports (e.g., `export const provider`), you must specify the export name
+  :::
 
 ### Using Remote Application in Routes
 
@@ -633,7 +660,6 @@ Key points for integrating i18n with Module Federation:
 4. **Route Management**: Producers do not support path redirection (`localePathRedirect`). Route and language switching need to be managed uniformly in the consumer
 5. **Dependency Sharing**: When using a shared instance, you must configure `i18next` and `react-i18next` as singletons in both the producer's and consumer's `module-federation.config.ts`
 6. **Name Uniqueness**: The `name` parameter of `createModuleFederationConfig` must be unique for each application and cannot be the same for different remotes
-7. **Bridge Router Configuration**: When using Modern.js routing, you must configure `bridge.enableBridgeRouter: false` in both the producer and consumer of application-level modules to avoid conflicts with Modern.js's routing system
 
 ## Related Documentation
 

@@ -4,16 +4,12 @@ When developing applications, sometimes we cache computation results using hooks
 
 Modern.js supports caching server-side rendering (SSR) results, reducing the computational and rendering time during subsequent requests. This accelerates page load time and improves user experience. Additionally, caching lowers server load, conserves computational resources, and speeds up user access.
 
-:::tip
-Requires version x.43.0+
-:::
-
 ## Configuration
 
 Create a `server/cache.[t|j]s` file in your application and export the `cacheOption` configuration to enable SSR rendering cache:
 
 ```ts title="server/cache.ts"
-import type { CacheOption } from '@modern-js/server-runtime;
+import type { CacheOption } from '@modern-js/server-runtime';
 
 export const cacheOption: CacheOption = {
   maxAge: 500, // ms
@@ -52,7 +48,7 @@ export type CacheOptionProvider = (
 Sometimes, developers need to use `req` to customize the cache key, or prevent caching for specific URLs. You can configure this as a function, as shown:
 
 ```ts title="server/cache.ts"
-import type { CacheOption, CacheOptionProvider } from '@modern-js/server-runtime;
+import type { CacheOption, CacheOptionProvider } from '@modern-js/server-runtime';
 
 const provider: CacheOptionProvider = (req) => {
   const { url, headers, ... } = req;
@@ -80,7 +76,7 @@ export type CacheOptions = Record<string, CacheControl | CacheOptionProvider>;
 Sometimes, different routes require different caching strategies. We also offer a mapping configuration method, as shown below:
 
 ```ts title="server/cache.ts"
-import type { CacheOption } from '@modern-js/server-runtime;
+import type { CacheOption } from '@modern-js/server-runtime';
 
 export const cacheOption: CacheOption = {
   '/home': {
@@ -147,7 +143,7 @@ Developers can implement a Redis cache container as shown below:
 
 ```ts
 import Redis from 'ioredis';
-import type { Container, CacheOption } from '@modern-js/server-runtime;
+import type { Container, CacheOption } from '@modern-js/server-runtime';
 
 class RedisContainer implements Container {
   redis = new Redis();

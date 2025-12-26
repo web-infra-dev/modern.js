@@ -121,6 +121,35 @@ export const generateCode = async (
     } = entrypoint;
     const { metaName } = api.getAppContext();
     if (isAutoMount) {
+      const config = api.getNormalizedConfig();
+      const ssr = getEntryOptions(
+        entryName,
+        isMainEntry,
+        config.server.ssr,
+        config.server.ssrByEntries,
+        packageName,
+      );
+
+      const ssrMode = resolveSSRMode({
+        entry: entrypoint.entryName,
+        config,
+        appDirectory: appContext.appDirectory,
+        nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+      });
+
+      // Check if non-convention-based routing (no nestedRoutesEntry) with non-string SSR mode
+      if (
+        !nestedRoutesEntry &&
+        ssrMode &&
+        ssrMode !== 'string' &&
+        !isUseRsc(config)
+      ) {
+        logger.error(
+          'Streaming SSR is only supported for convention-based routing (nested routes). Please set `server.ssr.mode` to `"string"` for non-convention-based routing projects.',
+        );
+        process.exit(1);
+      }
+
       // generate routes file for file system routes entrypoint.
       if (pageRoutesEntry || nestedRoutesEntry) {
         const initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
@@ -142,7 +171,6 @@ export const generateCode = async (
           (initialRoutes as Route[]).unshift(route);
         }
 
-        const config = api.getNormalizedConfig();
         const ssrByRouteIds = config.server.ssrByRouteIds || [];
         const clonedRoutes = cloneDeep(initialRoutes);
 
@@ -157,21 +185,6 @@ export const generateCode = async (
         const { routes } = await hooks.modifyFileSystemRoutes.call({
           entrypoint,
           routes: markedRoutes,
-        });
-
-        const ssr = getEntryOptions(
-          entryName,
-          isMainEntry,
-          config.server.ssr,
-          config.server.ssrByEntries,
-          packageName,
-        );
-
-        const ssrMode = resolveSSRMode({
-          entry: entrypoint.entryName,
-          config,
-          appDirectory: appContext.appDirectory,
-          nestedRoutesEntry: entrypoint.nestedRoutesEntry,
         });
 
         if (ssrMode === 'stream') {

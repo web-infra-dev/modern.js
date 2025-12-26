@@ -115,18 +115,6 @@
     "zh": "模块联邦",
     "en": "Module Federation"
   },
-  "generator": {
-    "zh": "项目生成器",
-    "en": "Project Generator"
-  },
-  "new-command": {
-    "zh": "New 命令",
-    "en": "New Command"
-  },
-  "generator-plugin": {
-    "zh": "生成器插件",
-    "en": "Generator Plugin"
-  },
   "examples": {
     "zh": "示例",
     "en": "Examples"
