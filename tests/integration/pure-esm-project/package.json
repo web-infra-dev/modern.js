@@ -17,7 +17,7 @@
     "lodash-es": "^4.17.22",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "zod": "^3.22.3"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

@@ -130,7 +130,7 @@
     "memfs": "^3.5.3",
     "ts-jest": "^29.4.6",
     "typescript": "^5",
-    "zod": "^3.22.3"
+    "zod": "^3.25.76"
   },
   "sideEffects": false,
   "publishConfig": {
