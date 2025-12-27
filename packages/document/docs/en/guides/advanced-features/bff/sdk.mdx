@@ -1,6 +1,6 @@
 # Extend Request SDK
 
-The unified invocation of BFF functions is isomorphic in both CSR and SSR. The request SDK encapsulated by Modern.js relies on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) on the browser side, and on [node-fetch](https://www.npmjs.com/package/node-fetch) on the server side. However, in actual business scenarios, additional processing may be required for requests or responses, such as:
+The unified invocation of BFF functions is isomorphic in both CSR and SSR. The request SDK encapsulated by Modern.js relies on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) on the browser side, on the server side, prioritize using the [built-in fetch function](https://nodejs.org/en/learn/getting-started/fetch), if it's not supported, then fall back to [node-fetch](https://www.npmjs.com/package/node-fetch). However, in actual business scenarios, additional processing may be required for requests or responses, such as:
 
 - Writing authentication information in the request headers
 - Uniform handling of response data or errors
