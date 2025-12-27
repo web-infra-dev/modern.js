@@ -4,13 +4,16 @@ title: 第三方平台
 
 # 第三方平台
 
-目前 Modern.js 官方支持了以下平台：
-* [Netlify](https://www.netlify.com/)
-* [Vercel](https://vercel.com/)
-* [腾讯云 EdgeOne](https://cloud.tencent.com/product/teo)
-* [阿里云 ESA](https://www.aliyun.com/product/esa)
-* [Cloudflare Workers](https://workers.cloudflare.com/)
-* [GitHub pages](https://pages.github.com/)
+目前 Modern.js 官方支持了以下平台（🚫表示不支持，❔表示未经验证）
+
+| 平台 | CSR/SSG | SSR(string) | SSR(stream) | BFF | RSC |
+| --- | --- | --- | --- | --- | --- |
+| [Netlify](https://www.netlify.com/) | ✅ | ✅ | ✅ | ✅ | ❔ |
+| [Vercel](https://vercel.com/) | ✅ | ✅ | ✅ | 🚫 | ❔ |
+| [腾讯云 EdgeOne](https://cloud.tencent.com/product/teo) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [阿里云 ESA](https://www.aliyun.com/product/esa) | ✅ | ✅ | ✅ | 🚫 | 🚫 |
+| [Cloudflare Workers](https://workers.cloudflare.com/) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [GitHub pages](https://pages.github.com/) | ✅ | 🚫 | 🚫 | 🚫 | 🚫 |
 
 ## Netlify
 
@@ -152,10 +155,9 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Vercel Functions** 上。
 
-全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，有两点需要注意：
+全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，需要注意：
 
-1. 当前，Modern.js 还不支持在 Vercel 平台上部署 BFF 项目，我们将在后续的版本中支持。
-2. 函数运行的 node.js 版本由项目在 Vercel 平台配置决定。
+1. 函数运行的 node.js 版本由项目在 Vercel 平台配置决定。
 
 :::info
 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。

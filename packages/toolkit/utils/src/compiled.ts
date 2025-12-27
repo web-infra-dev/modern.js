@@ -47,17 +47,11 @@ const getNodeRequire = () => {
   }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
-  return createRequire(/*#__PURE__*/ (import.meta as any).url);
+  return /*#__PURE__*/ createRequire((import.meta as any).url);
 };
-export const mime: typeof import('../compiled/mime-types') = Import.lazy(
-  '../compiled/mime-types',
-  getNodeRequire,
-);
-export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
-  '../compiled/chokidar',
-  getNodeRequire,
-);
-export const inquirer: typeof import('../compiled/inquirer') = Import.lazy(
-  '../compiled/inquirer',
-  getNodeRequire,
-);
+export const mime: typeof import('../compiled/mime-types') =
+  /*#__PURE__*/ Import.lazy('../compiled/mime-types', getNodeRequire);
+export const chokidar: typeof import('../compiled/chokidar') =
+  /*#__PURE__*/ Import.lazy('../compiled/chokidar', getNodeRequire);
+export const inquirer: typeof import('../compiled/inquirer') =
+  /*#__PURE__*/ Import.lazy('../compiled/inquirer', getNodeRequire);

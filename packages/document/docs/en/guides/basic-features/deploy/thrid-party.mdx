@@ -4,13 +4,16 @@ title: Third-party platform
 
 # Third-party platform
 
-Currently, Modern.js officially supports deployment on
-* [Netlify](https://www.netlify.com/)
-* [Vercel](https://vercel.com/)
-* [Tencent EdgeOne](https://edgeone.ai/)
-* [Alibaba Cloud ESA](https://www.alibabacloud.com/en/product/esa)
-* [Cloudflare Workers](https://workers.cloudflare.com/)
-* [GitHub pages](https://pages.github.com/)
+Currently, Modern.js officially supports deployment on (🚫 indicates not supported, ❔ indicates unverified)
+
+| Platform | CSR/SSG | SSR(string) | SSR(stream) | BFF | RSC |
+| --- | --- | --- | --- | --- | --- |
+| [Netlify](https://www.netlify.com/) | ✅ | ✅ | ✅ | ✅ | ❔ |
+| [Vercel](https://vercel.com/) | ✅ | ✅ | ✅ | 🚫 | ❔ |
+| [Tencent EdgeOne](https://edgeone.ai/) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [Alibaba Cloud ESA](https://www.alibabacloud.com/en/product/esa) | ✅ | ✅ | ✅ | 🚫 | 🚫 |
+| [Cloudflare Workers](https://workers.cloudflare.com/) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [GitHub pages](https://pages.github.com/) | ✅ | 🚫 | 🚫 | 🚫 | 🚫 |
 
 ## Netlify
 
@@ -158,10 +161,9 @@ You can refer to the [deployment project examples](https://github.com/web-infra-
 
 Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Vercel Functions**.
 
-In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
+In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), please note:
 
-1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
-2. The Node.js version for function execution is determined by the project configuration on the Vercel platform.
+1. The Node.js version for function execution is determined by the project configuration on the Vercel platform.
 
 :::info
 You can refer to the [deployment project examples](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr).
@@ -257,7 +259,7 @@ Now, submit your project to Git, select a repository on the EdgeOne platform, ke
 
 Full-stack projects refer to projects that use Custom Web Server, SSR or BFF.
 
-For full-stack projects, please configure `edgeone.json` as shown in [Pure Front-end Project](#Pure Front-end Project-2). Please note: Modern.js does not currently support deployment on EdgeOne Edge Functions; we will add support for this in future versions.
+For full-stack projects, please configure `edgeone.json` as shown in [Pure Front-end Project](#pure-front-end-project-2). Please note: Modern.js does not currently support deployment on EdgeOne Edge Functions; we will add support for this in future versions.
 
 In both BFF and Data Loader, the EventContext of Tencent EdgeOne can be obtained in a manner similar to obtaining Cloudflare Workers Bindings.
 
@@ -294,7 +296,7 @@ Now, submit your project to Git, select a repository on the Alibaba Cloud platfo
 
 Full-stack projects refer to projects that use Custom Web Server, SSR or BFF.
 
-In addition to configuring `esa.jsonc` as in [Pure Front-end Project](#Pure Front-end Project-3), full-stack projects need to **add** an `entry` field:
+In addition to configuring `esa.jsonc` as in [Pure Front-end Project](#pure-front-end-project-3), full-stack projects need to **add** an `entry` field:
 
 ```json title="esa.jsonc"
 {
@@ -342,7 +344,7 @@ Commit your project to Git, select a repository on the Cloudflare Workers platfo
 
 Full-stack projects refer to projects that use Custom Web Server, SSR or BFF.
 
-In addition to configuring `wrangler.jsonc` as in [Pure Front-end Project](#Pure Front-end Project-4), full-stack projects need to **add** an those fields:
+In addition to configuring `wrangler.jsonc` as in [Pure Front-end Project](#pure-front-end-project-4), full-stack projects need to **add** an those fields:
 
 
 ```json title="wrangler.jsonc"

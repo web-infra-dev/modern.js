@@ -64,7 +64,7 @@ export const setupAliESA: Setup = async api => {
     ...generateNodeExternals(() => 'var {}', otherBuiltin),
   ]);
   // make a rspack plugin to redirect "node:" prefix request to polyfill
-  const rspackPlugin: Rspack.RspackPluginInstance = {
+  const nodeSchemaPlugin: Rspack.RspackPluginInstance = {
     apply(compiler) {
       compiler.hooks.compilation.tap(
         'ESANodeModulePlugin',
@@ -84,8 +84,10 @@ export const setupAliESA: Setup = async api => {
       );
     },
   };
-  api.modifyRspackConfig(options => {
+  api.modifyRspackConfig((options, { rspack }) => {
     if (options.target === 'node') {
+      _.set(options, 'experiments.outputModule', true);
+      _.set(options, 'output.library.type', 'module');
       // make sure that node builtin modules are polyfilled
       _.set(options, 'target', 'es2020');
       polyfillNodeBuiltin.forEach(moduleName => {
@@ -97,10 +99,13 @@ export const setupAliESA: Setup = async api => {
           ],
         );
       });
+      const injectProcess = new rspack.ProvidePlugin({
+        process: ['node:process'],
+      });
       if (options.plugins) {
-        options.plugins.push(rspackPlugin);
+        options.plugins.push(nodeSchemaPlugin, injectProcess);
       } else {
-        _.set(options, 'plugins', [rspackPlugin]);
+        _.set(options, 'plugins', [nodeSchemaPlugin, injectProcess]);
       }
       const externals = _.get(options, 'externals');
       if (Array.isArray(externals)) {

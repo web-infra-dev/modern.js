@@ -319,7 +319,6 @@ export const modifyCommonConfig: Setup = api => {
         'true',
       );
     }
-    _.set(config, 'output.minify', false);
     return config;
   });
   api.modifyBundlerChain((_c, { environments }) => {
@@ -331,13 +330,6 @@ export const modifyCommonConfig: Setup = api => {
         "'edge'",
       );
     }
-  });
-  api.modifyRspackConfig((config, { rspack }) => {
-    if (config.target === 'node') {
-      _.set(config, 'experiments.outputModule', true);
-      _.set(config, 'output.library.type', 'module');
-    }
-    _.set(config, 'output.pathinfo', 'verbose');
   });
 };
 
