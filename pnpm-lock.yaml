@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -380,7 +378,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
 
   packages/cli/plugin-data-loader:
@@ -957,7 +955,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
 
   packages/server/bff-runtime:
@@ -2503,7 +2501,7 @@ importers:
         specifier: 3.15.0
         version: 3.15.0
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
@@ -2555,7 +2553,7 @@ importers:
         specifier: 3.15.0
         version: 3.15.0
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
@@ -2610,7 +2608,7 @@ importers:
         specifier: 3.15.0
         version: 3.15.0
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
@@ -2662,7 +2660,7 @@ importers:
         specifier: 3.15.0
         version: 3.15.0
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
@@ -2932,7 +2930,7 @@ importers:
         specifier: 3.15.0
         version: 3.15.0
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
@@ -3555,7 +3553,7 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(react@19.2.3)
       zod:
-        specifier: ^3.22.3
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@modern-js/app-tools':
