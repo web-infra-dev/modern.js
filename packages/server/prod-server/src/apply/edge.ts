@@ -7,7 +7,7 @@ import {
   createCacheContainer,
   injectResourcePlugin,
   loadDeps,
-} from '@modern-js/server-core/edge-function';
+} from '@modern-js/server-core/edge';
 import { createLogger } from '@modern-js/utils';
 import type { ProdServerOptions } from '../types';
 import { applyPlugins as baseApplyPlugins } from './base';

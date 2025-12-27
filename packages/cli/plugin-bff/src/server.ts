@@ -1,7 +1,7 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
-import { loadDeps } from '@modern-js/server-core/edge-function';
+import { loadDeps } from '@modern-js/server-core/edge';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,

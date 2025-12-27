@@ -24,6 +24,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
+      "import": "./dist/esm-node/index.mjs",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"

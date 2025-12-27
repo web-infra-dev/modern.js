@@ -3,9 +3,9 @@ import {
   getServerCliConfig,
   loadDeps,
   serverStaticPlugin,
-} from '@modern-js/server-core/edge-function';
+} from '@modern-js/server-core/edge';
 import { OUTPUT_CONFIG_FILE } from '@modern-js/utils';
-import { applyPlugins } from './apply/edge-function';
+import { applyPlugins } from './apply/edge';
 import type { BaseEnv, ProdServerOptions } from './types';
 
 export type { ProdServerOptions, BaseEnv } from './types';

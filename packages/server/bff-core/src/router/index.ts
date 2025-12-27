@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, isFunction, logger } from '@modern-js/utils';
 import 'reflect-metadata';
-import { loadDeps } from '@modern-js/server-core/edge-function';
+import { loadDeps } from '@modern-js/server-core/edge';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';
