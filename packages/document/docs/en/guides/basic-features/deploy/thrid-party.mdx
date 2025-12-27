@@ -301,6 +301,7 @@ In addition to configuring `esa.jsonc` as in [Pure Front-end Project](#pure-fron
 ```json title="esa.jsonc"
 {
   "entry": "./.ali-esa/functions/index.js"
+  /* Other configurations... */
 }
 ```
 
@@ -325,7 +326,7 @@ Add the following content to `wrangler.jsonc`:
 ```json title="wrangler.jsonc"
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2025-10-08",
+  "compatibility_date": "2025-10-08",
   "assets": {
     "directory": "./.cf-workers/assets",
     "binding": "ASSETS"
@@ -351,6 +352,7 @@ In addition to configuring `wrangler.jsonc` as in [Pure Front-end Project](#pure
 {
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "./.cf-workers/functions/index.js",
+  /* Other configurations... */
 }
 ```
 

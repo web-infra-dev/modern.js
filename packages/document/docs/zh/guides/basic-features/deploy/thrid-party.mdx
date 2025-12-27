@@ -293,6 +293,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ```json title="esa.jsonc"
 {
   "entry": "./.ali-esa/functions/index.js"
+  /* 其他配置 */
 }
 ```
 
@@ -317,7 +318,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ```json title="wrangler.jsonc"
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2025-10-08",
+  "compatibility_date": "2025-10-08",
   "assets": {
     "directory": "./.cf-workers/assets",
     "binding": "ASSETS"
@@ -342,6 +343,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 {
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "./.cf-workers/functions/index.js",
+  /* 其他配置 */
 }
 ```
 
