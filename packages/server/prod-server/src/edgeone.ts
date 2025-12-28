@@ -5,7 +5,7 @@ import {
   serverStaticPlugin,
 } from '@modern-js/server-core/edge';
 import { OUTPUT_CONFIG_FILE } from '@modern-js/utils';
-import { applyPlugins } from './apply/edge';
+import { applyPlugins } from './apply-plugins/edge';
 import type { BaseEnv, ProdServerOptions } from './types';
 
 export type { ProdServerOptions, BaseEnv } from './types';

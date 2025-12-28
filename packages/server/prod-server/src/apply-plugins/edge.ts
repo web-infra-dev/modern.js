@@ -39,7 +39,7 @@ export async function applyPlugins(
   const deps = options.appContext.appDependencies;
 
   const cacheConfig: CacheConfig = {
-    strategy: (await loadDeps('server/cache', deps)) || {},
+    strategy: (await loadDeps('server/cache', deps))?.default || {},
     container: cache ? createCacheContainer(cache) : undefined,
   };
 
