@@ -7,9 +7,9 @@ import {
   generateHandler,
   generateProdServerEntry,
   modifyCommonConfig,
-  normalizePath,
   walkDirectory,
 } from '../edge-utils';
+import { normalizePath } from '../utils';
 import type { CreatePreset, Setup } from './platform';
 
 export const setupEdgeOne: Setup = async api => {

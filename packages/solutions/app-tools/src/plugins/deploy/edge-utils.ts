@@ -13,7 +13,7 @@ import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 import { isMainEntry } from '../../utils/routes';
 import type { Setup } from './platforms/platform';
-import { type PluginItem, getPluginsCode } from './utils';
+import { type PluginItem, getPluginsCode, normalizePath } from './utils';
 
 export const ESM_RESOLVE_CONDITIONS = ['node', 'import', 'module', 'default'];
 
@@ -90,8 +90,6 @@ export const walkDirectory = async (
     }
   }
 };
-
-export const normalizePath = (filePath: string) => filePath.replace(/\\/g, '/');
 
 export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
   const {
