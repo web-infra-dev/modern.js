@@ -50,7 +50,6 @@ export interface ServerUserConfig {
    * @default false
    */
   disableHook?: boolean;
-  useClientLoader?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;
