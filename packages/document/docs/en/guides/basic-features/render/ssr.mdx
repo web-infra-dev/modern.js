@@ -95,7 +95,7 @@ export async function loader({ params }) {
 ```
 
 :::tip
-If developers can ensure that the data requested by the server from **all interfaces** is consistent with the data requested by the browser, then they can enable the [`config.server.ssr.useClientLoader`](/configure/app/server/ssr) option. When enabled, Modern.js will automatically use the loader from the `data` file on the browser side when there is no `data.client` file.
+If developers can ensure that **all the logic in the loaders** runs correctly on the browser side, and that the data structures on both ends are identical, then they can enable the [`server.ssr.useClientLoader`](/configure/app/server/ssr) option. When enabled, Modern.js will automatically use the loader from the `data` file on the browser side when there is no `data.client` file.
 :::
 
 ## SSR Fallback

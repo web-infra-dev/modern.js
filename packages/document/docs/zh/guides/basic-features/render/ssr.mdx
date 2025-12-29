@@ -101,7 +101,7 @@ export async function loader({ params }) {
 ```
 
 :::tip
-如果开发者可以确保**所有接口**的服务端请求与浏览器端请求的数据一致，那么可以开启 [`config.server.ssr.useClientLoader`](/configure/app/server/ssr) 选项。开启后，在没有 `data.client` 文件时，Modern.js 会在浏览器端自动使用 `data` 文件中的 loader。
+如果开发者可以确保**所有 loader 中**的逻辑均可以正常运行在浏览器端，且两端数据结构相同，那么可以开启 [`server.ssr.useClientLoader`](/configure/app/server/ssr) 选项。开启后，在没有 `data.client` 文件时，Modern.js 会在浏览器端自动使用 `data` 文件中的 loader。
 :::
 
 
