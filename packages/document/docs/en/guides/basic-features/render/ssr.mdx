@@ -94,6 +94,10 @@ export async function loader({ params }) {
 }
 ```
 
+:::tip
+If developers can ensure that the data requested by the server from **all interfaces** is consistent with the data requested by the browser, then they can enable the [`config.server.ssr.useClientLoader`](/configure/app/server/ssr) option. When enabled, Modern.js will automatically use the loader from the `data` file on the browser side when there is no `data.client` file.
+:::
+
 ## SSR Fallback
 
 In Modern.js, if an application encounters an error during SSR, it automatically falls back to CSR mode and re-fetches data, ensuring the page can display correctly. SSR fallback can occur for two main reasons:

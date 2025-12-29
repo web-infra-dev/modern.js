@@ -213,6 +213,23 @@ describe('nested routes', () => {
       },
       entryName: 'main',
       isMainEntry: true,
+      useClientLoader: false,
+    });
+    expect(route).toMatchSnapshot();
+  });
+
+  test('walk with useClientLoader', async () => {
+    const routesDir = path.join(fixtures, './nested-routes');
+    const route = await walk({
+      dirname: routesDir,
+      rootDir: routesDir,
+      alias: {
+        name: '@_modern_js_src',
+        basename: routesDir,
+      },
+      entryName: 'main',
+      isMainEntry: true,
+      useClientLoader: true,
     });
     expect(route).toMatchSnapshot();
   });

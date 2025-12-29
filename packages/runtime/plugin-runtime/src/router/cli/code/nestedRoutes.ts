@@ -122,8 +122,10 @@ export const walk = async (options: {
   };
   entryName: string;
   isMainEntry: boolean;
+  useClientLoader: boolean;
 }): Promise<NestedRouteForCli | NestedRouteForCli[] | null> => {
-  const { dirname, rootDir, alias, entryName, isMainEntry } = options;
+  const { dirname, rootDir, alias, entryName, isMainEntry, useClientLoader } =
+    options;
   if (!(await fs.pathExists(dirname))) {
     return null;
   }
@@ -186,6 +188,7 @@ export const walk = async (options: {
         alias,
         entryName,
         isMainEntry,
+        useClientLoader,
       });
       if (childRoute && !Array.isArray(childRoute)) {
         route.children?.push(childRoute);
@@ -229,6 +232,9 @@ export const walk = async (options: {
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
       pageLoaderFile = itemPathWithAlias;
+      if (useClientLoader && !pageClientData) {
+        pageClientData = itemPathWithAlias;
+      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {

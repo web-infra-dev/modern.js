@@ -19,6 +19,7 @@ export type SSR =
       inlineScript?: boolean;
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
+      useClientLoader?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;
@@ -49,6 +50,7 @@ export interface ServerUserConfig {
    * @default false
    */
   disableHook?: boolean;
+  useClientLoader?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;

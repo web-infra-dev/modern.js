@@ -31,7 +31,7 @@ When the value type is `Object`, the following properties can be configured:
 | forceCSR         | `boolean`                                 | `false`           | which is off by default for forcing CSR rendering. Configure `true` to force CSR by adding `?csr=true` or adding `x-modern-ssr-fallback` header when accessing the page |
 | unsafeHeaders    | `string[]`                                | `[]`              | For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected      |
 | loaderFailureMode| `clientRender \| errorBoundary`           | `errorBoundary`   | The default configuration is `'errorBoundary'`, when an error occurs in [data loader](/en/guides/basic-features/data/data-fetch.html#data-loader-recommended), it will default to rendering the [`Error`](/guides/basic-features/routes/routes#error-handling) component of the route. When configured as `'clientRender'`, if a loader throws an error, it switch to client-side rendering，you can use it with [Client Loader](/en/guides/basic-features/data/data-fetch.html#client-loader) |
-
+| useClientLoader | `boolean`                                  | `false`           | When configured as `true`, the loader in the `data` file will be automatically used on the browser side if the `data.client` file does not exist. |
 
 ```ts title="modern.config.ts"
 export default defineConfig({

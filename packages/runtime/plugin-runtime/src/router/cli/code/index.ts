@@ -40,10 +40,15 @@ import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 export async function generateRoutesForEntry(
   entrypoint: Entrypoint,
   appContext: AppToolsContext,
+  config?: AppNormalizedConfig,
 ): Promise<NestedRouteForCli[]> {
   const routes: NestedRouteForCli[] = [];
 
   if (entrypoint.nestedRoutesEntry) {
+    const ssr = config?.server?.ssr;
+    const useClientLoader = Boolean(
+      typeof ssr === 'object' && ssr.useClientLoader,
+    );
     const nestedRoutes = await walk({
       dirname: entrypoint.nestedRoutesEntry,
       rootDir: entrypoint.nestedRoutesEntry,
@@ -53,6 +58,7 @@ export async function generateRoutesForEntry(
       },
       entryName: entrypoint.entryName,
       isMainEntry: entrypoint.isMainEntry,
+      useClientLoader,
     });
 
     if (nestedRoutes) {
@@ -158,6 +164,7 @@ export const generateCode = async (
         const generatedRoutes = await generateRoutesForEntry(
           entrypoint,
           appContext,
+          config,
         );
 
         // Remove component fields from generated routes
