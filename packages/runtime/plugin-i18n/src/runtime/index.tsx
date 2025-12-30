@@ -4,6 +4,7 @@ import {
   useRuntimeContext,
 } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
+import { Helmet } from '@modern-js/runtime/head';
 import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -245,9 +246,11 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         );
 
         const appContent = (
-          <ModernI18nProvider value={contextValue}>
-            <App {...props} />
-          </ModernI18nProvider>
+          <Helmet htmlAttributes={{ lang }}>
+            <ModernI18nProvider value={contextValue}>
+              <App {...props} />
+            </ModernI18nProvider>
+          </Helmet>
         );
 
         if (!i18nInstance) {
