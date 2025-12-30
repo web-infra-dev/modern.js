@@ -131,13 +131,7 @@ export type BuilderInstance = RsbuildInstance;
 export async function createRspackBuilder(
   options: CreateBuilderOptions,
 ): Promise<BuilderInstance> {
-  const {
-    cwd = process.cwd(),
-    config,
-    rscClientRuntimePath,
-    rscServerRuntimePath,
-    ...rest
-  } = options;
+  const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
     ...rest,
