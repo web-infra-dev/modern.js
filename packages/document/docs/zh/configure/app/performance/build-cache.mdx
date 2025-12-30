@@ -19,7 +19,7 @@ type BuildCacheConfig =
       cacheDigest?: Array<string | undefined>;
       /**
        * 一个包含构建依赖的文件数组。
-       * Rspack / webpack 将使用其中每个文件的哈希值来判断持久化缓存是否失效。
+       * Rspack 将使用其中每个文件的哈希值来判断持久化缓存是否失效。
        */
       buildDependencies?: string[];
     }

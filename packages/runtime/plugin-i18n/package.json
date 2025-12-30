@@ -95,7 +95,7 @@
     "i18next-http-middleware": "^3.9.1",
     "i18next-fs-backend": "^2.6.1",
     "i18next-http-backend": "^3.0.2",
-    "i18next-chained-backend": "^4.6.2"
+    "i18next-chained-backend": "^4.6.3"
   },
   "peerDependencies": {
     "react": ">=17.0.2",
@@ -118,7 +118,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.18.5",
+    "@rslib/core": "0.19.0",
     "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",

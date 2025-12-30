@@ -34,7 +34,7 @@ Modern.js 使用 [Rspack](https://rspack.rs/) 来打包你的 Web 应用。
 
 Modern.js 使用 [SWC](https://swc.rs/) 作为 JS 转译工具，将 TypeScript 或 JSX 转义为可以在浏览器上运行的 JavaScript 代码，并进行语法降级。
 
-在启用 Rspack 构建时，`babel-loader` 默认不会被启用。如需添加 [Babel](https://babeljs.io/) 插件，可通过 `tools.babel` 配置，此时会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
+在启用 Rspack 构建时，`babel-loader` 默认不会被启用。如需添加 [Babel](https://babeljs.io/) 插件，可通过 [`babel plugin`](https://rsbuild.rs/plugins/list/plugin-babel#babel-plugin) 配置，此时会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
 
 ## 压缩工具
 
