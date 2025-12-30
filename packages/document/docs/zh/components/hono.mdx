@@ -16,6 +16,48 @@ export const get = async () => {
 详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
 :::
 
+### 获取 Cookie
+
+在 BFF 函数中获取 Cookie 时，需要通过 `useHonoContext` 获取请求上下文，然后使用 `c.req.header('cookie')` 获取 Cookie 字符串并手动解析：
+
+```ts title="api/lambda/cookies.ts"
+import { Api, Get, useHonoContext } from '@modern-js/plugin-bff/server';
+
+// 解析 Cookie 字符串的辅助函数
+function parseCookies(
+  cookieHeader: string | undefined,
+): Record<string, string> {
+  const cookies: Record<string, string> = {};
+  if (!cookieHeader) return cookies;
+
+  cookieHeader.split(';').forEach(cookie => {
+    const [name, ...rest] = cookie.trim().split('=');
+    if (name) {
+      cookies[name] = rest.join('=');
+    }
+  });
+
+  return cookies;
+}
+
+export const getCookies = Api(Get('/cookies'), async () => {
+  const c = useHonoContext();
+  const cookieHeader = c.req.header('cookie');
+  const cookies = parseCookies(cookieHeader);
+  const token = cookies.token;
+  const sessionId = cookies.sessionId;
+  return {
+    hasToken: !!token,
+    token: token || null,
+    sessionId: sessionId || null,
+  };
+});
+```
+
+:::caution 注意
+`c.req.cookie()` 方法在当前版本中不存在，需要使用 `c.req.header('cookie')` 获取 Cookie 字符串，然后手动解析。
+:::
+
 ### 定义 BFF 函数
 
 使用 Hono 作为运行时框架时，可以通过 [BFF 函数](/guides/advanced-features/bff/function.html#bff-函数) 定义接口：
@@ -41,6 +83,90 @@ export const getUser = Api(
 );
 ```
 
+### Query 参数类型转换
+
+URL query 参数默认是字符串类型，如果需要数字类型，需要使用 `z.coerce.number()` 进行类型转换：
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+  page: z.coerce.number().min(1).max(100), // 使用 z.coerce.number() 转换字符串到数字
+  status: z.enum(['active', 'inactive']),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      page: query.page, // page 是 number 类型
+      status: query.status,
+    };
+  },
+);
+```
+
+:::caution 注意
+URL query 参数都是字符串类型，如果需要数字类型，需要使用 `z.coerce.number()` 进行转换，而不是直接使用 `z.number()`。
+:::
+
+### 动态路由参数传递方式
+
+在使用 Hono 时，有两种路由方式，它们的参数传递方式不同：
+
+#### 简单文件系统路由
+
+使用文件系统路由时，动态路由参数会直接作为函数参数传递：
+
+```ts title="api/lambda/user/[id].ts"
+export default async (id: string) => {
+  return { path: `/api/user/${id}`, id };
+};
+```
+
+前端调用时直接传入参数：
+
+```tsx
+import userById from '@api/user/[id]';
+const result = await userById('123');
+```
+
+#### Api 函数路由
+
+使用 Api 函数定义路由时，需要通过 `Params` 操作符定义参数，并在函数中通过 `params` 对象获取：
+
+```ts title="api/lambda/user-api.ts"
+import { Api, Get, Params } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const ParamsSchema = z.object({
+  id: z.string(),
+});
+
+export const getUserByIdApi = Api(
+  Get('/user/api/:id'),
+  Params(ParamsSchema),
+  async ({ params }) => {
+    return { id: params.id };
+  },
+);
+```
+
+前端调用时需要传入 `params` 对象：
+
+```tsx
+import { getUserByIdApi } from '@api/user-api';
+const result = await getUserByIdApi({ params: { id: '123' } });
+```
+
+:::info
+简单文件系统路由和 Api 函数路由的参数传递方式不同，使用时需要注意区分。
+:::
+
 ### 使用中间件
 
 Hono 支持丰富的中间件生态，可以在 BFF 函数中使用中间件：
@@ -63,6 +189,125 @@ export const getUser = Api(
   },
 );
 ```
+
+### Pipe 操作符自定义响应状态码
+
+当需要设置自定义响应状态码时，建议使用 `HttpCode` 操作符：
+
+```ts title="api/lambda/user.ts"
+import { Api, Post, HttpCode } from '@modern-js/plugin-bff/server';
+
+export const createUser = Api(Post('/user'), HttpCode(201), async () => {
+  return { id: '123' };
+});
+```
+
+:::caution 注意
+在 Pipe 操作符中通过 `end` 函数设置的状态码可能不会生效，建议使用 `HttpCode` 操作符来设置状态码。
+:::
+
+如果需要在 Pipe 操作符中进行自定义校验，可以参考以下示例：
+
+```ts title="api/lambda/user.ts"
+import { Api, Query, Pipe } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string().min(2).max(10),
+  email: z.string().email(),
+});
+
+export const get = Api(
+  Query(UserSchema),
+  Pipe<{
+    query: z.infer<typeof UserSchema>;
+  }>((input, end) => {
+    const { query } = input;
+    const { name, email } = query;
+    // 使用大小写不敏感的比较
+    if (!email.toLowerCase().startsWith(name.toLowerCase())) {
+      return end({
+        message: 'email must start with name',
+      });
+    }
+    return input;
+  }),
+  async ({ query }) => ({
+    name: query.name,
+  }),
+);
+```
+
+:::tip
+在进行字符串比较时，建议使用大小写不敏感的比较方式，避免因大小写差异导致的问题。
+:::
+
+### 拦截器返回类型处理
+
+在使用拦截器时，需要注意拦截器可能返回 Response 对象，此时需要手动解析 JSON：
+
+```tsx title="routes/page.tsx"
+import { configure } from '@modern-js/plugin-bff/client';
+
+configure({
+  interceptor(request) {
+    return async (url, params) => {
+      // 请求前添加认证信息
+      const token = localStorage.getItem('token');
+      if (token) {
+        params.headers = {
+          ...params.headers,
+          Authorization: `Bearer ${token}`,
+        };
+      }
+
+      const res = await request(url, params);
+
+      // 响应后统一处理
+      // 拦截器可能返回 Response 对象，需要解析 JSON
+      if (res instanceof Response) {
+        const data = await res.json();
+        if (data.code !== 0) {
+          throw new Error(data.message);
+        }
+        return data.data;
+      }
+
+      // 如果已经是解析后的数据
+      if (res.code !== 0) {
+        throw new Error(res.message);
+      }
+
+      return res.data;
+    };
+  },
+});
+```
+
+### 路由冲突问题
+
+如果同时存在文件系统路由和 Api 函数路由映射到同一路径，可能会产生冲突。例如：
+
+```ts
+// api/lambda/user.ts
+export const get = async () => { ... };
+
+// api/lambda/user-api.ts
+export const getUser = Api(Get('/user'), ...);
+```
+
+两者都会映射到 `/api/user` GET 路由，可能产生冲突。
+
+可以通过以下方式避免冲突：
+
+1. **使用不同的路径**：
+
+   ```ts
+   // api/lambda/user-api.ts
+   export const getUser = Api(Get('/user/query'), ...);
+   ```
+
+2. **统一使用 Api 函数**：建议统一使用 Api 函数，避免混用文件系统路由和 Api 函数路由。
 
 ### 更多 Hono 文档
 
