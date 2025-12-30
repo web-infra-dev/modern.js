@@ -817,7 +817,31 @@ plugins: [
 
 ### runtime.router
 
-**变更内容**: 不再需要，可以直接移除。
+**变更内容**: 不再需要，可以直接移除。该配置移动到 modern.runtime.ts 中的 router 配置中。
+
+**迁移示例**:
+
+```typescript
+// v2
+// modern.config.ts
+export default {
+  runtime: {
+    router: {
+      // 路由配置
+    },
+  },
+};
+
+// v3
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    // 路由配置
+  },
+});
+```
 
 ### runtime.state
 
