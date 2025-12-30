@@ -2084,8 +2084,8 @@ importers:
         specifier: 6.3.0
         version: 6.3.0(rollup@3.29.5)(typescript@5.9.3)
       sass:
-        specifier: 1.94.2
-        version: 1.94.2
+        specifier: 1.97.1
+        version: 1.97.1
       semver:
         specifier: 7.7.3
         version: 7.7.3
@@ -14709,11 +14709,6 @@ packages:
   sass-embedded@1.97.1:
     resolution: {integrity: sha512-wH3CbOThHYGX0bUyqFf7laLKyhVWIFc2lHynitkqMIUCtX2ixH9mQh0bN7+hkUu5BFt/SXvEMjFbkEbBMpQiSQ==}
     engines: {node: '>=16.0.0'}
-    hasBin: true
-
-  sass@1.94.2:
-    resolution: {integrity: sha512-N+7WK20/wOr7CzA2snJcUSSNTCzeCGUTFY3OgeQP3mZ1aj9NMQ0mSTXwlrnd89j33zzQJGqIN52GIOmYrfq46A==}
-    engines: {node: '>=14.0.0'}
     hasBin: true
 
   sass@1.97.1:
@@ -27717,14 +27712,6 @@ snapshots:
       sass-embedded-win32-arm64: 1.97.1
       sass-embedded-win32-x64: 1.97.1
 
-  sass@1.94.2:
-    dependencies:
-      chokidar: 4.0.3
-      immutable: 5.1.4
-      source-map-js: 1.2.1
-    optionalDependencies:
-      '@parcel/watcher': 2.5.1
-
   sass@1.97.1:
     dependencies:
       chokidar: 4.0.3
@@ -27732,7 +27719,6 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
-    optional: true
 
   sax@1.4.3: {}
 
