@@ -2,7 +2,7 @@
   "private": true,
   "name": "integration-tailwindcss-v3",
   "version": "2.66.0",
-    "scripts": {
+  "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
@@ -11,11 +11,12 @@
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@rsbuild/plugin-babel": "1.0.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "twin.macro": "^3.4.1",
+    "styled-components": "^5.3.1",
     "tailwindcss": "^3.4.19",
-    "styled-components": "^5.3.1"
+    "twin.macro": "^3.4.1"
   },
   "devDependencies": {
     "babel-plugin-macros": "3.1.0"

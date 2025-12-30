@@ -4,10 +4,8 @@ import type {
   RsbuildInstance,
   RsbuildPlugin,
 } from '@rsbuild/core';
-import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { rsbuildRscPlugin } from './rsc/plugins/rsbuild-rsc-plugin';
 import { parseCommonConfig } from './shared/parseCommonConfig';
-import { castArray } from './shared/utils';
 import type {
   BuilderConfig,
   CreateBuilderCommonOptions,
@@ -51,58 +49,6 @@ export async function parseConfig(
     const { pluginPostcss } = await import('./plugins/postcss');
     rsbuildPlugins.push(
       pluginPostcss({ autoprefixer: builderConfig.tools?.autoprefixer }),
-    );
-  }
-
-  const hasEnvironmentBabelConfig = Object.values(
-    builderConfig.environments || {},
-  ).some(c => c.tools?.babel !== undefined);
-
-  if (hasEnvironmentBabelConfig) {
-    const mergeSharedBabelConfig = (
-      config: PluginBabelOptions['babelLoaderOptions'],
-    ) => {
-      if (builderConfig.tools?.babel) {
-        return castArray(config).concat(
-          ...castArray(builderConfig.tools?.babel),
-        );
-      }
-      return config;
-    };
-
-    const { pluginBabel } = await import('@rsbuild/plugin-babel');
-    const { pluginBabelPost } = await import('./plugins/babel-post');
-    Object.entries(builderConfig.environments!).forEach(([name, config]) => {
-      const environmentConfig = rsbuildConfig.environments?.[name];
-      if (!environmentConfig) {
-        return;
-      }
-      if (config.tools?.babel) {
-        environmentConfig.plugins ??= [];
-        environmentConfig.plugins.push(
-          pluginBabel({
-            babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
-          }),
-          pluginBabelPost(),
-        );
-      } else if (builderConfig.tools?.babel) {
-        environmentConfig.plugins ??= [];
-        environmentConfig.plugins.push(
-          pluginBabel({
-            babelLoaderOptions: builderConfig.tools?.babel,
-          }),
-          pluginBabelPost(),
-        );
-      }
-    });
-  } else if (builderConfig.tools?.babel) {
-    const { pluginBabel } = await import('@rsbuild/plugin-babel');
-    const { pluginBabelPost } = await import('./plugins/babel-post');
-    rsbuildPlugins.push(
-      pluginBabel({
-        babelLoaderOptions: builderConfig.tools?.babel,
-      }),
-      pluginBabelPost(),
     );
   }
 

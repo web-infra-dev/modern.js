@@ -53,7 +53,6 @@ export default (): CliPlugin<AppTools> => ({
 
       const { server } = modernConfig;
       const { alias } = modernConfig.source;
-      const { babel } = modernConfig.tools;
 
       if (sourceDirs.length > 0) {
         await compile(
@@ -61,7 +60,6 @@ export default (): CliPlugin<AppTools> => ({
           {
             server,
             alias,
-            babelConfig: babel,
           },
           {
             sourceDirs,

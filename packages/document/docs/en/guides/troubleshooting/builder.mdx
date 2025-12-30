@@ -56,19 +56,7 @@ Under normal circumstances, Modern.js will not use Babel to compile CommonJS mod
 There are two workarounds for this problem:
 
 1. Avoid adding CommonJS modules to Babel compilation.
-2. Set Babel's `sourceType` configuration option to `unambiguous`, for example:
-
-```js
-export default {
-  tools: {
-    babel(config) {
-      config.sourceType = 'unambiguous';
-    },
-  },
-};
-```
-
-Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
+2. Set Babel's `sourceType` configuration to `unambiguous`.
 
 ---
 
@@ -93,62 +81,7 @@ When the compilation progress bar is stuck, but there is no Error log on the ter
 If this problem occurs after you modify the Babel config, it is recommended to check for the following incorrect usages:
 
 1. You have configured a plugin or preset that does not exist, maybe the name is misspelled, or it is not installed correctly.
-
-```ts
-// wrong example
-export default {
-  tools: {
-    babel(config, { addPlugins }) {
-      // The plugin has the wrong name or is not installed
-      addPlugins('babel-plugin-not-exists');
-    },
-  },
-};
-```
-
 2. Whether multiple babel-plugin-imports are configured, but the name of each babel-plugin-import is not declared in the third item of the array.
-
-```ts
-// wrong example
-export default {
-  tools: {
-    babel(config, { addPlugins }) {
-      addPlugins([
-        [
-          'babel-plugin-import',
-          { libraryName: 'antd', libraryDirectory: 'es' },
-        ],
-        [
-          'babel-plugin-import',
-          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
-        ],
-      ]);
-    },
-  },
-};
-```
-
-```ts
-// correct example
-export default {
-  tools: {
-    babel(config, { addPlugins }) {
-      addPlugins([
-        [
-          'babel-plugin-import',
-          { libraryName: 'antd', libraryDirectory: 'es' },
-          'antd',
-        ],
-        [
-          'babel-plugin-import',
-          { libraryName: 'antd-mobile', libraryDirectory: 'es' },
-          'antd-mobile',
-        ],
-      ]);
-    },
-  },
-};
-```
 
 ---
 

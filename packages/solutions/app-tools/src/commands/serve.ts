@@ -62,6 +62,7 @@ export const serve = async (
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
+      tools: userConfig.tools as any,
       // server-core can't get RegExp & Function output.inlineScripts by JSON.stringy;
       output: {
         path: userConfig.output.distPath?.root,

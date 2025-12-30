@@ -53,7 +53,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const { server } = modernConfig;
       const { alias } = modernConfig.source;
       const { alias: resolveAlias } = modernConfig.resolve;
-      const { babel } = modernConfig.tools;
 
       if (sourceDirs.length > 0) {
         const combinedAlias = ([] as unknown[])
@@ -64,7 +63,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           {
             server,
             alias: combinedAlias,
-            babelConfig: babel,
           },
           {
             sourceDirs,

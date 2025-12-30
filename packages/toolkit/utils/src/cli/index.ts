@@ -3,7 +3,6 @@ export * from './get';
 export * from './is';
 export * from './alias';
 export * from './applyOptionsChain';
-export * from './babel';
 export * from './commands';
 export * from './common';
 export * from './ensure';
