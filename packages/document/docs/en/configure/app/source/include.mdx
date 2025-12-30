@@ -9,10 +9,7 @@ title: include
 
 ```ts
 const defaultInclude = [
-  [
-    { not: /[\\/]node_modules[\\/]/ },
-    /\.(?:ts|tsx|jsx|mts|cts)$/,
-  ],
+  [{ not: /[\\/]node_modules[\\/]/ }, /\.(?:ts|tsx|jsx|mts|cts)$/],
 ];
 ```
 
@@ -28,10 +25,7 @@ Before Rsbuild version 1.4, the default value of `source.include` was:
 const defaultInclude = [
   [
     {
-      and: [
-        APP_ROOT,
-        { not: /[\\/]node_modules[\\/]/ }
-      ]
+      and: [APP_ROOT, { not: /[\\/]node_modules[\\/]/ }],
     },
     /\.(?:ts|tsx|jsx|mts|cts)$/,
   ],
@@ -41,12 +35,6 @@ const defaultInclude = [
 The difference from the new version is that `.js`, `.mjs`, `.cjs` files only in the current directory will be compiled.
 :::
 
-## Rspack
-
 import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConfig configName="source.include" />
-
-## Webpack
-
-To ensure legacy projects can run properly, when using Webpack, the default value of `source.include` is the same as before Rsbuild version 1.4.
