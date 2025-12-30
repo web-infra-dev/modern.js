@@ -10,7 +10,7 @@ const ignoreDeps = [
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
-  .map(dep => `--ignore-dep '${dep}'`)
+  .map(dep => `--ignore-dep "${dep}"`)
   .join(' ')}`;
 
 console.log(`> ${command}`);
