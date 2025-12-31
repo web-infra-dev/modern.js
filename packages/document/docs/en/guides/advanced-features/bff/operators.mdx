@@ -169,6 +169,41 @@ get({
 });
 ```
 
+#### Query Parameter Type Conversion
+
+URL query parameters are strings by default. If you need numeric types, you need to use `z.coerce.number()` for type conversion:
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+  page: z.coerce.number().min(1).max(100), // Use z.coerce.number() to convert string to number
+  status: z.enum(['active', 'inactive']),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      page: query.page, // page is a number type
+      status: query.status,
+    };
+  },
+);
+```
+
+</BFFOperatorCode>
+
+:::caution Note
+URL query parameters are all string types. If you need numeric types, you need to use `z.coerce.number()` for conversion, not `z.number()` directly.
+:::
+
 ### Pass Data
 
 Using the `Data` function, you can define the type of data passed by the interface. After using `Data`, the interface data information can be obtained in the input parameters of the interface processing function.

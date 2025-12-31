@@ -122,25 +122,32 @@ const myMonitorPlugin = (): ServerPlugin => ({
     api.onPrepare(() => {
       const { middlewares } = api.getServerContext();
 
+      // 定义 monitor，确保只创建一次
+      const myMonitor = (event: MonitorEvent) => {
+        if (event.type === 'log') {
+          // 处理日志事件
+          console.log(`[${event.payload.level}] ${event.payload.message}`);
+        } else if (event.type === 'timing') {
+          // 处理性能指标事件
+          console.log(`Timing: ${event.payload.name} = ${event.payload.dur}ms`);
+        } else if (event.type === 'counter') {
+          // 处理计数事件
+          console.log(`Counter: ${event.payload.name}`);
+        }
+      };
+
+      // 使用标志确保 monitor 只注册一次
+      let monitorRegistered = false;
+
       middlewares.push({
         name: 'inject-monitor',
         handler: async (c, next) => {
           const monitors = c.get('monitors');
-          const myMonitor = (event: MonitorEvent) => {
-            if (event.type === 'log') {
-              // 处理日志事件
-              console.log(`[${event.payload.level}] ${event.payload.message}`);
-            } else if (event.type === 'timing') {
-              // 处理性能指标事件
-              console.log(
-                `Timing: ${event.payload.name} = ${event.payload.dur}ms`,
-              );
-            } else if (event.type === 'counter') {
-              // 处理计数事件
-              console.log(`Counter: ${event.payload.name}`);
-            }
-          };
-          monitors.push(myMonitor);
+          // 只在第一次请求时注册 monitor
+          if (!monitorRegistered) {
+            monitors.push(myMonitor);
+            monitorRegistered = true;
+          }
           await next();
         },
       });

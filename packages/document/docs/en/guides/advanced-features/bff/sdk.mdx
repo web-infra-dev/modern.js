@@ -17,9 +17,9 @@ import { configure } from '@modern-js/plugin-bff/client';
 
 configure({
   // ...
-})
+});
 
-const Index = () => <div>Hello world</div>
+const Index = () => <div>Hello world</div>;
 export default Index;
 ```
 
@@ -32,15 +32,15 @@ For example, imagine a project with a page URL `https://website.com`. This page 
 Currently, the following request headers are automatically passed through in Modern.js:
 
 ```ts
-['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress']
+['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress'];
 ```
 
 You can configure additional request headers using `configure`. For example, in the following snippet, Modern.js will automatically pass the `x-uid` information from the SSR page request to the BFF service:
 
 ```tsx
 configure({
-  allowedHeaders: ['x-uid']
-})
+  allowedHeaders: ['x-uid'],
+});
 ```
 
 ## Adding Interceptors
@@ -54,9 +54,14 @@ configure({
   interceptor(request) {
     return async (url, params) => {
       const res = await request(url, params);
-      return res.json();
+      // Interceptors may return Response objects, which need to be manually parsed as JSON
+      if (res instanceof Response) {
+        return res.json();
+      }
+      // If it's already parsed data, return directly
+      return res;
     };
-  }
+  },
 });
 ```
 
@@ -68,7 +73,10 @@ If configuring interceptors alone cannot meet your needs and you want to customi
 import nodeFetch from 'node-fetch';
 
 const customFetch = (input: RequestInfo | URL, init: RequestInit) => {
-  const curFetch = process.env.MODERN_TARGET !== 'node' ? fetch : nodeFetch as unknown as typeof fetch;
+  const curFetch =
+    process.env.MODERN_TARGET !== 'node'
+      ? fetch
+      : (nodeFetch as unknown as typeof fetch);
   return curFetch(input, init).then(async res => {
     const data = await res.json();
     data.hello = 'hello custom sdk';
@@ -97,7 +105,7 @@ configure({
   async request(...config: Parameters<typeof fetch>) {
     const [url, params] = config;
     const res = await axios({
-      url: url as string,  // Here we need to use `as` because fetch and axios types are somewhat incompatible
+      url: url as string, // Here we need to use `as` because fetch and axios types are somewhat incompatible
       method: params?.method as Method,
       data: params?.body,
       headers: params?.headers as Headers,

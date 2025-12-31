@@ -122,25 +122,34 @@ const myMonitorPlugin = (): ServerPlugin => ({
     api.onPrepare(() => {
       const { middlewares } = api.getServerContext();
 
+      // Define monitor, ensuring it's only created once
+      const myMonitor = (event: MonitorEvent) => {
+        if (event.type === 'log') {
+          // Handle log events
+          console.log(`[${event.payload.level}] ${event.payload.message}`);
+        } else if (event.type === 'timing') {
+          // Handle timing events
+          console.log(
+            `Timing: ${event.payload.name} = ${event.payload.dur}ms`,
+          );
+        } else if (event.type === 'counter') {
+          // Handle counter events
+          console.log(`Counter: ${event.payload.name}`);
+        }
+      };
+
+      // Use a flag to ensure monitor is only registered once
+      let monitorRegistered = false;
+
       middlewares.push({
         name: 'inject-monitor',
         handler: async (c, next) => {
           const monitors = c.get('monitors');
-          const myMonitor = (event: MonitorEvent) => {
-            if (event.type === 'log') {
-              // Handle log events
-              console.log(`[${event.payload.level}] ${event.payload.message}`);
-            } else if (event.type === 'timing') {
-              // Handle timing events
-              console.log(
-                `Timing: ${event.payload.name} = ${event.payload.dur}ms`,
-              );
-            } else if (event.type === 'counter') {
-              // Handle counter events
-              console.log(`Counter: ${event.payload.name}`);
-            }
-          };
-          monitors.push(myMonitor);
+          // Only register monitor on the first request
+          if (!monitorRegistered) {
+            monitors.push(myMonitor);
+            monitorRegistered = true;
+          }
           await next();
         },
       });
