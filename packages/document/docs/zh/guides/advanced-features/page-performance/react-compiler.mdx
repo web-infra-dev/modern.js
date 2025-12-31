@@ -30,20 +30,23 @@ npm install babel-plugin-react-compiler
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
+import { pluginBabel } from '@rsbuild/plugin-babel';
 
 export default defineConfig({
-  tools: {
-    babel(_, { addPlugins }) {
-      addPlugins([
-        [
-          'babel-plugin-react-compiler',
+  builderPlugins: [
+    pluginBabel({
+      babelLoaderOptions: (config, { addPlugins }) => {
+        addPlugins([
+          [
+            'babel-plugin-react-compiler',
           {
             target: '18', // 或 '17'，根据你使用的 React 版本
           },
-        ],
-      ]);
-    },
-  },
+          ],
+        ]);
+      },
+    });
+  ];
   plugins: [appTools()],
 });
 ```
