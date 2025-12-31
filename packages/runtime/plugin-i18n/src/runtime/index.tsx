@@ -53,6 +53,7 @@ export interface I18nPluginOptions {
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => void;
   initOptions?: I18nInitOptions;
+  htmlLangAttr?: boolean;
   [key: string]: any;
 }
 
@@ -70,6 +71,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       initOptions,
       localeDetection,
       backend,
+      htmlLangAttr = false,
     } = options;
     const {
       localePathRedirect = false,
@@ -247,7 +249,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
         const appContent = (
           <>
-            <Helmet htmlAttributes={{ lang }} />
+            {Boolean(htmlLangAttr) && <Helmet htmlAttributes={{ lang }} />}
             <ModernI18nProvider value={contextValue}>
               <App {...props} />
             </ModernI18nProvider>
