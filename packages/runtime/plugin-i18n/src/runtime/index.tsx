@@ -246,11 +246,12 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         );
 
         const appContent = (
-          <Helmet htmlAttributes={{ lang }}>
+          <>
+            <Helmet htmlAttributes={{ lang }} />
             <ModernI18nProvider value={contextValue}>
               <App {...props} />
             </ModernI18nProvider>
-          </Helmet>
+          </>
         );
 
         if (!i18nInstance) {
