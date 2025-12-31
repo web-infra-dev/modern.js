@@ -335,29 +335,20 @@ export default defineRuntimeConfig({
 
 ### i18nInstance 配置
 
-如果需要使用自定义的 i18next 实例，可以在运行时配置中提供：
+如果需要使用自定义的 i18n 实例，可以在运行时配置中提供：
 
-```ts
-import { defineRuntimeConfig } from '@modern-js/runtime';
-import i18next from 'i18next';
+import CustomInstanceCode from '@site-docs/components/international/custom-instance-code';
 
-// 创建自定义实例
-const customI18n = i18next.createInstance({
-  // 自定义配置
-});
-
-export default defineRuntimeConfig({
-  i18n: {
-    i18nInstance: customI18n,
-  },
-});
-```
+<CustomInstanceCode />
 
 ### initOptions 配置
 
-`initOptions` 会传递给 i18next 的 `init` 方法，支持所有 i18next 配置选项：
+import InitOptionsDesc from '@site-docs/components/international/init-options-desc';
+
+<InitOptionsDesc />
 
 :::info
+
 如果启用了 `localePathRedirect`，`detection` 配置应该在 CLI 配置中设置，而不是在 `initOptions` 中。这是因为服务端插件需要读取 CLI 配置中的 `detection` 选项来进行语言检测和路径重定向。
 :::
 
