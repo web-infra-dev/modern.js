@@ -1,9 +1,10 @@
+import { get } from '@api/index';
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 
 const Page = () => {
   const data = useLoaderData();
-
+  get().then(res => console.log(res));
   return (
     <div id="item">
       User info:

@@ -102,7 +102,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.28.5",
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/create-request": "workspace:*",
     "@modern-js/server-core": "workspace:*",
@@ -122,7 +121,6 @@
     "@scripts/jest-config": "workspace:*",
     "@rslib/core": "0.19.1",
     "@modern-js/rslib": "workspace:*",
-    "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/type-is": "^1.6.7",
