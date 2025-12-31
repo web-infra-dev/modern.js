@@ -1039,7 +1039,7 @@ exports[`builder environment compat > should generator environment config correc
         },
       ],
     },
-    "name": "web",
+    "name": "client",
     "optimization": {
       "minimize": false,
       "runtimeChunk": {
@@ -1158,7 +1158,7 @@ exports[`builder environment compat > should generator environment config correc
       ProgressPlugin {
         "_args": [
           {
-            "prefix": "web",
+            "prefix": "client",
           },
         ],
         "affectedHooks": undefined,
@@ -1972,7 +1972,7 @@ exports[`builder environment compat > should generator environment config correc
         },
       ],
     },
-    "name": "node",
+    "name": "server",
     "optimization": {
       "minimize": false,
       "splitChunks": false,
@@ -2018,7 +2018,7 @@ exports[`builder environment compat > should generator environment config correc
       ProgressPlugin {
         "_args": [
           {
-            "prefix": "node",
+            "prefix": "server",
           },
         ],
         "affectedHooks": undefined,

@@ -33,9 +33,9 @@ export const pluginEnvironmentDefaults = (
         };
       }
 
-      if (config.environments?.node) {
+      if (config.environments?.server) {
         compatConfig.environments ??= {};
-        compatConfig.environments.node = {
+        compatConfig.environments.server = {
           output: {
             // no need to emit assets for SSR bundles
             emitAssets: false,
@@ -58,7 +58,7 @@ export const pluginEnvironmentDefaults = (
     // https://github.com/web-infra-dev/rsbuild/issues/2956
     api.modifyRsbuildConfig({
       handler: config => {
-        const environmentNameOrder = ['web', 'node', 'workerSSR'];
+        const environmentNameOrder = ['client', 'server', 'workerSSR'];
 
         config.environments = Object.fromEntries(
           Object.entries(config.environments!).sort((a1, a2) =>

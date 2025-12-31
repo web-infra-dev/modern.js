@@ -277,25 +277,36 @@ export const createClientRouterFromPayload = (
         results[routeId] = result;
       });
 
+      if (!res.body) {
+        throw new Error('Response body is null');
+      }
+
       const payload = await createFromReadableStream(res.body);
 
-      if (typeof payload.type === 'undefined' || payload.type !== 'render') {
+      if (
+        typeof payload !== 'object' ||
+        payload === null ||
+        typeof (payload as any).type === 'undefined' ||
+        (payload as any).type !== 'render'
+      ) {
         throw new Error('Unexpected payload type');
       }
 
+      const serverPayload = payload as ServerPayload;
+
       matches.forEach(match => {
         const routeId = match.route.id;
-        const matchedRoute = payload.routes.find(
+        const matchedRoute = serverPayload.routes.find(
           (route: PayloadRoute) => route.id === routeId,
         );
         if (matchedRoute) {
           // @ts-ignore
           router.patchRoutes(matchedRoute.parentId, [matchedRoute], true);
         }
-        if (payload.loaderData?.[routeId]) {
+        if (serverPayload.loaderData?.[routeId]) {
           results[routeId] = {
             type: 'data',
-            result: payload.loaderData[routeId],
+            result: serverPayload.loaderData[routeId],
           };
         }
       });

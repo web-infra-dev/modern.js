@@ -1,3 +1,4 @@
+'use server-entry';
 import 'server-only';
 import { getRequest, redirect, setHeaders } from '@modern-js/runtime';
 import { setStatus } from '@modern-js/runtime';

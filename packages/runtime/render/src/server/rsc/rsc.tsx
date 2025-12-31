@@ -1,25 +1,24 @@
-export { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
+export { renderToReadableStream } from 'react-server-dom-rspack/server.node';
 import type { ClientManifest } from '@modern-js/types/server';
-import { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
-import { decodeReply } from 'react-server-dom-webpack/server.edge';
-export { createFromReadableStream } from 'react-server-dom-webpack/client.edge';
+import {
+  loadServerAction,
+  renderToReadableStream,
+} from 'react-server-dom-rspack/server.node';
+import { decodeReply } from 'react-server-dom-rspack/server.node';
+export { createFromReadableStream } from 'react-server-dom-rspack/client.node';
 export {
   registerClientReference,
   registerServerReference,
-} from 'react-server-dom-webpack/server';
+} from 'react-server-dom-rspack/server.node';
 
 declare const __webpack_require__: (path: string) => any;
 
 type RenderRscOptions = {
   element: React.ReactElement;
-  clientManifest: ClientManifest;
 };
 
 export const renderRsc = (options: RenderRscOptions) => {
-  const readable = renderToReadableStream(
-    options.element,
-    options.clientManifest,
-  );
+  const readable = renderToReadableStream(options.element);
   return readable;
 };
 
@@ -33,13 +32,11 @@ export const handleAction = async (
 ) => {
   const serverReference = req.headers.get('x-rsc-action');
   if (serverReference) {
-    const [filepath, name] = serverReference.split('#');
-    const action = __webpack_require__(filepath)[name || 'default'];
-    if (action.$$typeof !== Symbol.for('react.server.reference')) {
+    const action = loadServerAction(serverReference);
+    if (typeof action !== 'function') {
       throw new Error('Invalid action');
     }
 
-    const { clientManifest } = options;
     const contentType = req.headers.get('content-type');
 
     let args;
@@ -54,7 +51,6 @@ export const handleAction = async (
     const result = action.apply(null, args);
     const stream = renderRsc({
       element: result,
-      clientManifest,
     });
 
     const response = new Response(stream, {

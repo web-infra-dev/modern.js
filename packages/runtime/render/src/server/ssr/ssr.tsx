@@ -6,6 +6,7 @@ import type {
 import type { ReactNode } from 'react';
 import type { ReactDOMServerReadableStream } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server.edge';
+// import { rscManifest } from 'react-server-dom-rspack/server.node';
 import { ServerElementsProvider } from '../../client';
 
 type Options = {
@@ -32,9 +33,12 @@ export const renderSSRStream = async (
   children: React.ReactNode,
   options: Options & { rscRoot: React.ReactElement },
 ): Promise<ReturnType<typeof renderToReadableStream>> => {
-  const { clientManifest, ssrManifest, rscRoot } = options;
+  const { rscRoot } = options;
+  const clientManifest = __rspack_rsc_manifest__?.clientManifest;
+  const serverConsumerModuleMap =
+    __rspack_rsc_manifest__?.serverConsumerModuleMap;
 
-  if (!clientManifest || !ssrManifest) {
+  if (!clientManifest || !serverConsumerModuleMap) {
     return renderToReadableStream(children, options);
   }
 
@@ -42,24 +46,19 @@ export const renderSSRStream = async (
     const [{ renderRsc }, { createFromReadableStream }, { injectRSCPayload }] =
       await Promise.all([
         import('../rsc'),
-        import('react-server-dom-webpack/client.edge'),
+        import('react-server-dom-rspack/client.edge'),
         import('../../rsc-html-stream/server'),
       ]);
 
     // Allow render rsc stream from rscRoot, or from element
     const rscStream = await renderRsc({
       element: rscRoot || children,
-      clientManifest,
     });
 
     const [rscElementStream, rscPayloadStream] = rscStream.tee();
 
-    const elements: Promise<ReactNode[]> = createFromReadableStream(
-      rscElementStream,
-      {
-        serverConsumerManifest: ssrManifest,
-      },
-    );
+    const elements: Promise<ReactNode[]> =
+      createFromReadableStream(rscElementStream);
 
     const htmlStream = await renderToReadableStream(
       <ServerElementsProvider elements={elements}>
