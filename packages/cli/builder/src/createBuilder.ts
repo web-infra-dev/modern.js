@@ -227,15 +227,13 @@ export async function parseConfig(
 
   const enableRsc = builderConfig.server?.rsc ?? false;
   if (enableRsc) {
+    const routesFileReg = new RegExp(
+      `${options.internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
+    );
     rsbuildPlugins.push(
       pluginRSC({
         layers: {
-          rsc: [
-            '/Users/bytedance/Desktop/workspace/modern.js/tests/integration/rsc-ssr-app/node_modules/.modern-js/server-component-root/AppProxy.jsx',
-            '/Users/bytedance/Desktop/workspace/modern.js/tests/integration/rsc-ssr-app/node_modules/.modern-js/client-component-root/AppProxy.jsx',
-            /render[/\\].*[/\\]server[/\\]rsc/,
-            /AppProxy/,
-          ],
+          rsc: [/render[/\\].*[/\\]server[/\\]rsc/, /AppProxy/, routesFileReg],
         },
       }),
     );
