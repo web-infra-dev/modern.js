@@ -10,14 +10,9 @@ This guide will help you quickly integrate internationalization functionality in
 
 First, install the necessary dependencies:
 
-```bash
-pnpm add @modern-js/plugin-i18n i18next react-i18next
-```
+import InstallCommand from '@site-docs/components/international/install-command';
 
-:::info
-`i18next` and `react-i18next` are peer dependencies and need to be installed manually.
-
-:::
+<InstallCommand />
 
 ## Basic Configuration
 
@@ -56,32 +51,9 @@ export default defineConfig({
 
 ### Configure Runtime Options in `src/modern.runtime.ts`
 
-Create the `src/modern.runtime.ts` file and configure i18n runtime options:
+import InstanceCode from '@site-docs/components/international/instance-code';
 
-```ts
-import { defineRuntimeConfig } from '@modern-js/runtime';
-import i18next from 'i18next';
-
-// It's recommended to create a new i18next instance to avoid using the global default instance
-const i18nInstance = i18next.createInstance();
-
-export default defineRuntimeConfig({
-  i18n: {
-    i18nInstance: i18nInstance,
-    initOptions: {
-      fallbackLng: 'en',
-      supportedLngs: ['zh', 'en'],
-    },
-  },
-});
-```
-
-:::info
-`modern.runtime.ts` is a runtime configuration file used to configure i18next initialization options. Even for the most basic configuration, it's recommended to create this file to ensure the plugin works correctly.
-
-It's recommended to use `i18next.createInstance()` to create a new instance instead of directly using the default exported `i18next`. This avoids global state pollution and ensures each application has an independent i18n instance.
-
-:::
+<InstanceCode />
 
 ### Create Language Resource Files
 

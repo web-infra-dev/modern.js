@@ -13,15 +13,14 @@ BFF 函数的一体化调用在 CSR 和 SSR 是同构的。Modern.js 封装的�
 
 :::
 
-
 ```tsx title="routes/page.tsx"
 import { configure } from '@modern-js/plugin-bff/client';
 
 configure({
   // ...
-})
+});
 
-const Index = () => <div>Hello world</div>
+const Index = () => <div>Hello world</div>;
 export default Index;
 ```
 
@@ -34,15 +33,15 @@ export default Index;
 目前以下请求头在 Modernjs 中是自动透传的：
 
 ```ts
-['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress']
+['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress'];
 ```
 
 可以通过 `configure` 配置请求头。例如以下例子，Modern.js 会自动将 SSR 页面请求的 `x-uid` 信息透传给 BFF 服务：
 
 ```tsx
 configure({
-  allowedHeaders: ['x-uid']
-})
+  allowedHeaders: ['x-uid'],
+});
 ```
 
 ## 添加拦截器
@@ -53,12 +52,17 @@ configure({
 configure({
   // 这里的 request 是一体化默认的请求工具，interceptor 函数需返回一个新的 request。
   // 新 request 的出参必须是 parse body 之后的结果
-  interceptor(request){
-    return async(url, params) => {
+  interceptor(request) {
+    return async (url, params) => {
       const res = await request(url, params);
-      return res.json();
+      // 拦截器可能返回 Response 对象，需要手动解析 JSON
+      if (res instanceof Response) {
+        return res.json();
+      }
+      // 如果已经是解析后的数据，直接返回
+      return res;
     };
-  }
+  },
 });
 ```
 
@@ -70,7 +74,10 @@ configure({
 import nodeFetch from 'node-fetch';
 
 const customFetch = (input: RequestInfo | URL, init: RequestInit) => {
-  const curFetch = process.env.MODERN_TARGET !== 'node' ? fetch : nodeFetch as unknown as typeof fetch;
+  const curFetch =
+    process.env.MODERN_TARGET !== 'node'
+      ? fetch
+      : (nodeFetch as unknown as typeof fetch);
   return curFetch(input, init).then(async res => {
     const data = await res.json();
     data.hello = 'hello custom sdk';
@@ -99,7 +106,7 @@ configure({
   async request(...config: Parameters<typeof fetch>) {
     const [url, params] = config;
     const res = await axios({
-      url: url as string,  // 这里因为 fetch 和 axios 类型有些不兼容，需要使用 as
+      url: url as string, // 这里因为 fetch 和 axios 类型有些不兼容，需要使用 as
       method: params?.method as Method,
       data: params?.body,
       headers: params?.headers as Headers,

@@ -16,9 +16,51 @@ export const get = async () => {
 详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
 :::
 
+### 获取 Cookie
+
+在 BFF 函数中获取 Cookie 时，需要通过 `useHonoContext` 获取请求上下文，然后使用 `c.req.header('cookie')` 获取 Cookie 字符串并手动解析：
+
+```ts title="api/lambda/cookies.ts"
+import { Api, Get, useHonoContext } from '@modern-js/plugin-bff/server';
+
+// 解析 Cookie 字符串的辅助函数
+function parseCookies(
+  cookieHeader: string | undefined,
+): Record<string, string> {
+  const cookies: Record<string, string> = {};
+  if (!cookieHeader) return cookies;
+
+  cookieHeader.split(';').forEach(cookie => {
+    const [name, ...rest] = cookie.trim().split('=');
+    if (name) {
+      cookies[name] = rest.join('=');
+    }
+  });
+
+  return cookies;
+}
+
+export const getCookies = Api(Get('/cookies'), async () => {
+  const c = useHonoContext();
+  const cookieHeader = c.req.header('cookie');
+  const cookies = parseCookies(cookieHeader);
+  const token = cookies.token;
+  const sessionId = cookies.sessionId;
+  return {
+    hasToken: !!token,
+    token: token || null,
+    sessionId: sessionId || null,
+  };
+});
+```
+
+:::caution 注意
+`c.req.cookie()` 方法在当前版本中不存在，需要使用 `c.req.header('cookie')` 获取 Cookie 字符串，然后手动解析。
+:::
+
 ### 定义 BFF 函数
 
-使用 Hono 作为运行时框架时，可以通过 [BFF 函数](/guides/advanced-features/bff/function.html#bff-函数) 定义接口：
+使用 Hono 作为运行时框架时，可以通过 [Api 函数](/guides/advanced-features/bff/operators.html) 定义接口：
 
 ```ts title="api/lambda/user.ts"
 import { Api, Get, Query } from '@modern-js/plugin-bff/server';
@@ -40,6 +82,10 @@ export const getUser = Api(
   },
 );
 ```
+
+:::info
+更多关于 Api 函数和操作符的详细内容，可以参考 [创建可扩展的 BFF 函数](/guides/advanced-features/bff/operators.html)。
+:::
 
 ### 使用中间件
 
@@ -63,6 +109,10 @@ export const getUser = Api(
   },
 );
 ```
+
+:::info
+更多关于中间件的详细内容，可以参考 [创建可扩展的 BFF 函数](/guides/advanced-features/bff/operators.html#中间件-middleware)。
+:::
 
 ### 更多 Hono 文档
 

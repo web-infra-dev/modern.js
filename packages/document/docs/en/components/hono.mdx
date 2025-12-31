@@ -16,9 +16,51 @@ export const get = async () => {
 For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
 :::
 
+### Getting Cookies
+
+When getting cookies in BFF functions, you need to get the request context through `useHonoContext`, then use `c.req.header('cookie')` to get the Cookie string and parse it manually:
+
+```ts title="api/lambda/cookies.ts"
+import { Api, Get, useHonoContext } from '@modern-js/plugin-bff/server';
+
+// Helper function to parse Cookie string
+function parseCookies(
+  cookieHeader: string | undefined,
+): Record<string, string> {
+  const cookies: Record<string, string> = {};
+  if (!cookieHeader) return cookies;
+
+  cookieHeader.split(';').forEach(cookie => {
+    const [name, ...rest] = cookie.trim().split('=');
+    if (name) {
+      cookies[name] = rest.join('=');
+    }
+  });
+
+  return cookies;
+}
+
+export const getCookies = Api(Get('/cookies'), async () => {
+  const c = useHonoContext();
+  const cookieHeader = c.req.header('cookie');
+  const cookies = parseCookies(cookieHeader);
+  const token = cookies.token;
+  const sessionId = cookies.sessionId;
+  return {
+    hasToken: !!token,
+    token: token || null,
+    sessionId: sessionId || null,
+  };
+});
+```
+
+:::caution Note
+The `c.req.cookie()` method does not exist in the current version. You need to use `c.req.header('cookie')` to get the Cookie string and parse it manually.
+:::
+
 ### Defining BFF Functions
 
-When using Hono as the runtime framework, you can define interfaces through [BFF Functions](/guides/advanced-features/bff/function.html#bff-functions):
+When using Hono as the runtime framework, you can define interfaces through [Api functions](/guides/advanced-features/bff/operators.html):
 
 ```ts title="api/lambda/user.ts"
 import { Api, Get, Query } from '@modern-js/plugin-bff/server';
@@ -40,6 +82,10 @@ export const getUser = Api(
   },
 );
 ```
+
+:::info
+For more details about Api functions and operators, refer to [Creating Extensible BFF Functions](/guides/advanced-features/bff/operators.html).
+:::
 
 ### Using Middleware
 
@@ -63,6 +109,10 @@ export const getUser = Api(
   },
 );
 ```
+
+:::info
+For more details about middleware, refer to [Creating Extensible BFF Functions](/guides/advanced-features/bff/operators.html#middleware).
+:::
 
 ### More Hono Documentation
 

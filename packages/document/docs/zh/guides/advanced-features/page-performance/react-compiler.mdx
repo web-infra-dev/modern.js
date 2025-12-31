@@ -6,11 +6,25 @@ React Compiler 是 React 19 引入的一个实验性编译器，它可以自动�
 
 ## 如何使用
 
-在 Modern.js 中使用 React Compiler 的步骤如下：
+### React 19
 
-1. Modern.js 目前项目还未正式支持 React 19，可以在 React 17 或 18 项目中安装 `react-compiler-runtime@rc`，以允许编译后的代码在 19 之前的版本上运行。
+如果你使用的是 React 19，Modern.js 已内置支持 React Compiler，无需额外配置即可使用。
 
-2. 目前 React Compiler 仅提供了 Babel 插件，你需要安装 `babel-plugin-react-compiler`。
+### React 17 或 18
+
+如果你使用的是 React 17 或 18，需要按照以下步骤配置：
+
+1. 安装 `react-compiler-runtime`，以允许编译后的代码在 19 之前的版本上运行：
+
+```bash
+npm install react-compiler-runtime
+```
+
+2. 安装 `babel-plugin-react-compiler`：
+
+```bash
+npm install babel-plugin-react-compiler
+```
 
 3. 在你的 Modern.js 配置文件中注册 Babel 插件：
 
@@ -24,7 +38,7 @@ export default defineConfig({
         [
           'babel-plugin-react-compiler',
           {
-            target: '18',
+            target: '18', // 或 '17'，根据你使用的 React 版本
           },
         ],
       ]);

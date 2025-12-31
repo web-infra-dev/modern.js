@@ -2,6 +2,21 @@
 pnpm add @modern-js/plugin-i18n i18next react-i18next
 ```
 
+:::tip 版本一致性
+请确保 `@modern-js/plugin-i18n` 的版本与项目中 `@modern-js/app-tools` 的版本一致。所有 Modern.js 官方包都使用统一的版本号发布，版本不匹配可能会导致兼容性问题。
+
+请先检查 `@modern-js/app-tools` 的版本，然后安装相同版本的 `@modern-js/plugin-i18n`：
+
+```bash
+# 检查当前 @modern-js/app-tools 的版本
+pnpm list @modern-js/app-tools
+
+# 安装相同版本的 @modern-js/plugin-i18n
+pnpm add @modern-js/plugin-i18n@<version> i18next react-i18next
+```
+
+:::
+
 :::info
 `i18next` 和 `react-i18next` 是 peer dependencies，需要手动安装。
 

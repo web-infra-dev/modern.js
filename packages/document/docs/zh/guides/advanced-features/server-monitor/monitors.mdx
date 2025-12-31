@@ -73,11 +73,7 @@ Modern.js 内置了默认的 Monitor，不同的事件会触发内置 Monitor �
 
 ## 注册 Monitors
 
-开发者可以通过 Monitors 的 `push` API 注册自己的 Monitor，但只能在[服务端中间件](/guides/advanced-features/web-server#unstable-middleware)或服务端插件中注册，在 Data Loader、组件、init 函数中无法注册。
-
-:::note
-目前暂未开放服务端插件，后续会补充相关文档。
-:::
+开发者可以通过 Monitors 的 `push` API 注册自己的 Monitor，但只能在[服务端中间件](/guides/advanced-features/web-server#unstable-middleware)或[服务端插件](/plugin/server-plugins/api)中注册，在 Data Loader、组件、init 函数中无法注册。
 
 ```ts title="server/modern.server.ts"
 import {
@@ -111,6 +107,65 @@ export default defineServerConfig({
       handler: injectMonitorMiddleware,
     },
   ],
+});
+```
+
+在服务端插件中注册 Monitor：
+
+```ts title="server/plugins/my-monitor-plugin.ts"
+import type { ServerPlugin } from '@modern-js/server-runtime';
+import type { MonitorEvent } from '@modern-js/types';
+
+const myMonitorPlugin = (): ServerPlugin => ({
+  name: '@my-org/my-monitor-plugin',
+  setup(api) {
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
+
+      // 定义 monitor，确保只创建一次
+      const myMonitor = (event: MonitorEvent) => {
+        if (event.type === 'log') {
+          // 处理日志事件
+          console.log(`[${event.payload.level}] ${event.payload.message}`);
+        } else if (event.type === 'timing') {
+          // 处理性能指标事件
+          console.log(`Timing: ${event.payload.name} = ${event.payload.dur}ms`);
+        } else if (event.type === 'counter') {
+          // 处理计数事件
+          console.log(`Counter: ${event.payload.name}`);
+        }
+      };
+
+      // 使用标志确保 monitor 只注册一次
+      let monitorRegistered = false;
+
+      middlewares.push({
+        name: 'inject-monitor',
+        handler: async (c, next) => {
+          const monitors = c.get('monitors');
+          // 只在第一次请求时注册 monitor
+          if (!monitorRegistered) {
+            monitors.push(myMonitor);
+            monitorRegistered = true;
+          }
+          await next();
+        },
+      });
+    });
+  },
+});
+
+export default myMonitorPlugin;
+```
+
+然后在 `server/modern.server.ts` 中配置插件：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+import myMonitorPlugin from './plugins/my-monitor-plugin';
+
+export default defineServerConfig({
+  plugins: [myMonitorPlugin()],
 });
 ```
 

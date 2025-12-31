@@ -1,0 +1,16 @@
+```ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+import i18next from 'i18next';
+
+// 创建自定义实例
+const customI18n = i18next.createInstance({
+  // 自定义配置
+});
+
+export default defineRuntimeConfig({
+  i18n: {
+    i18nInstance: customI18n,
+  },
+});
+```
+
