@@ -45,5 +45,10 @@
   "alias",
   "env-vars",
   "output-files",
-  "deploy"
+  {
+    "type": "dir",
+    "name": "deploy",
+    "label": "deploy-app",
+    "collapsed": true
+  }
 ]

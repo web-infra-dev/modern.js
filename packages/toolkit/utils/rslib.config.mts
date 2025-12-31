@@ -102,7 +102,7 @@ const externals: Rspack.Configuration['externals'] = [
           );
         }
         if (test.test(request)) {
-          return callback(undefined, `node-commonjs ${request}/index.js`);
+          return callback(undefined, `module-import ${request}/index.js`);
         }
       }
     }

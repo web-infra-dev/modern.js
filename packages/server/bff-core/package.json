@@ -24,6 +24,11 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
+      "import": "./dist/esm-node/index.mjs",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
     }
   },
@@ -34,6 +39,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "koa-compose": "^4.1.0",

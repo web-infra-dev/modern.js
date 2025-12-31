@@ -18,6 +18,7 @@ export type ServerContext<Extends extends ServerPluginExtends> = {
   distDirectory?: string;
   metaName: string;
   plugins: ServerPlugin<Extends>[];
+  appDependencies?: Record<string, Promise<any>>;
 };
 
 export type InternalServerContext<Extends extends ServerPluginExtends> =

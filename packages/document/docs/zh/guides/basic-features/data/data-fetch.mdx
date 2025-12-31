@@ -78,7 +78,7 @@ export default function UserPage() {
 
 ## `loader` 函数
 
-`loader` 函数有两个入参，分别用于获取路由参数和请求信息。
+`loader` 函数有三个入参，分别用于获取路由参数、请求信息和额外上下文信息。
 
 ### params
 
@@ -106,6 +106,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const userId = url.searchParams.get('id');
   return queryUser(userId);
+};
+```
+
+### context
+
+`context` 是一个 Map，在特定情况下有实际作用。例如，在使用 Cloudflare Workers 部署时，可以通过 `context` 获取 [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/)：
+
+```tsx
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const bindings = context?.get('bindings');
+  if (bindings) {
+    return bindings.NAMESPACE.get("key");
+  }
+  // Not in Cloudflare Workers
 };
 ```
 

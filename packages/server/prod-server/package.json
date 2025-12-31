@@ -44,6 +44,33 @@
         "require": "./dist/cjs/netlify.js"
       },
       "default": "./dist/cjs/netlify.js"
+    },
+    "./ali-esa": {
+      "types": "./dist/types/ali-esa.d.ts",
+      "jsnext:source": "./src/ali-esa.ts",
+      "node": {
+        "import": "./dist/esm-node/ali-esa.mjs",
+        "require": "./dist/cjs/ali-esa.js"
+      },
+      "default": "./dist/cjs/ali-esa.js"
+    },
+    "./edgeone": {
+      "types": "./dist/types/edgeone.d.ts",
+      "jsnext:source": "./src/edgeone.ts",
+      "node": {
+        "import": "./dist/esm-node/edgeone.mjs",
+        "require": "./dist/cjs/edgeone.js"
+      },
+      "default": "./dist/cjs/edgeone.js"
+    },
+    "./cf-workers": {
+      "types": "./dist/types/cf-workers.d.ts",
+      "jsnext:source": "./src/cf-workers.ts",
+      "node": {
+        "import": "./dist/esm-node/cf-workers.mjs",
+        "require": "./dist/cjs/cf-workers.js"
+      },
+      "default": "./dist/cjs/cf-workers.js"
     }
   },
   "typesVersions": {
@@ -53,6 +80,15 @@
       ],
       "netlify": [
         "./dist/types/netlify.d.ts"
+      ],
+      "edgeone": [
+        "./dist/types/edgeone.d.ts"
+      ],
+      "ali-esa": [
+        "./dist/types/ali-esa.d.ts"
+      ],
+      "cf-workers": [
+        "./dist/types/cf-workers.d.ts"
       ]
     }
   },
@@ -96,6 +132,30 @@
           "require": "./dist/cjs/netlify.js"
         },
         "default": "./dist/cjs/netlify.js"
+      },
+      "./edgeone": {
+        "types": "./dist/types/edgeone.d.ts",
+        "node": {
+          "import": "./dist/esm-node/edgeone.mjs",
+          "require": "./dist/cjs/edgeone.js"
+        },
+        "default": "./dist/cjs/edgeone.js"
+      },
+      "./ali-esa": {
+        "types": "./dist/types/ali-esa.d.ts",
+        "node": {
+          "import": "./dist/esm-node/ali-esa.mjs",
+          "require": "./dist/cjs/ali-esa.js"
+        },
+        "default": "./dist/cjs/ali-esa.js"
+      },
+      "./cf-workers": {
+        "types": "./dist/types/cf-workers.d.ts",
+        "node": {
+          "import": "./dist/esm-node/cf-workers.mjs",
+          "require": "./dist/cjs/cf-workers.js"
+        },
+        "default": "./dist/cjs/cf-workers.js"
       }
     }
   }

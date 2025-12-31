@@ -12,6 +12,18 @@ export const get = async () => {
 };
 ```
 
+可以通过 `env` 获取特定平台的请求上下文。例如，在使用 Cloudflare Workers 部署时，可使用如下方式获取 [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/)：
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server'
+export const get = async () => {
+  const c = useHonoContext();
+  const data = await c.env.NAMESPACE.get("key");
+  console.info(`storage data: ${data}`);
+  return 'Hello Modern.js';
+};
+```
+
 :::info
 详细内容可以参考 [useHonoContext](/apis/app/runtime/bff/use-hono-context)。
 :::

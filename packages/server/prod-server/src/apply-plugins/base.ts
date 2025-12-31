@@ -1,8 +1,8 @@
-import type { Server as NodeServer } from 'node:http';
-import type { Http2SecureServer } from 'node:http2';
 import {
+  type CacheConfig,
   ErrorDigest,
   type ServerBase,
+  type ServerPlugin,
   createDefaultPlugins,
   createErrorHtml,
   faviconPlugin,
@@ -10,21 +10,15 @@ import {
   onError,
   renderPlugin,
 } from '@modern-js/server-core';
-import {
-  injectNodeSeverPlugin,
-  injectResourcePlugin,
-  injectRscManifestPlugin,
-  loadCacheConfig,
-  serverStaticPlugin,
-} from '@modern-js/server-core/node';
-import { createLogger, isProd, logger } from '@modern-js/utils';
-import type { ProdServerOptions } from './types';
+import { createLogger, logger } from '@modern-js/utils';
+import type { ProdServerOptions } from '../types';
 
 // Now we not use logger options, it can be implemented in the future
-function getLogger(_?: boolean | Record<string, unknown>) {
-  if (process.env.DEBUG || process.env.NODE_ENV === 'production') {
+type LogLevel = NonNullable<Parameters<typeof createLogger>[0]>['level'];
+export function getLogger(setLevel = false, level: LogLevel = 'verbose') {
+  if (setLevel) {
     return createLogger({
-      level: (process.env.MODERN_SERVER_LOG_LEVEL as any) || 'verbose',
+      level,
     });
   } else {
     return createLogger();
@@ -32,19 +26,18 @@ function getLogger(_?: boolean | Record<string, unknown>) {
 }
 
 export type ApplyPlugins = typeof applyPlugins;
+interface ApplyPluginOptions extends ProdServerOptions {
+  beforePlugins?: ServerPlugin[];
+  cacheConfig?: CacheConfig;
+}
 
 export async function applyPlugins(
   serverBase: ServerBase,
-  options: ProdServerOptions,
-  nodeServer?: NodeServer | Http2SecureServer,
+  options: ApplyPluginOptions,
 ) {
-  const { pwd, appContext, config, logger: optLogger, serverConfig } = options;
-
-  const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
+  const { config, logger: optLogger, cacheConfig } = options;
 
   const serverErrorHandler = options.serverConfig?.onError;
-  const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
-  const cacheConfig = await loadCacheConfig(loadCachePwd);
 
   serverBase.notFound(c => {
     const monitors = c.get('monitors');
@@ -85,18 +78,14 @@ export async function applyPlugins(
   const { middlewares, renderMiddlewares } = options.serverConfig || {};
 
   const plugins = [
-    ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
+    ...(options.beforePlugins || []),
     ...createDefaultPlugins({
       cacheConfig,
       staticGenerate: options.staticGenerate,
-      logger:
-        loggerOptions === false ? false : optLogger || getLogger(loggerOptions),
+      logger: loggerOptions === false ? false : optLogger || getLogger(),
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
-    injectResourcePlugin(),
-    injectRscManifestPlugin(enableRsc),
-    serverStaticPlugin(),
     faviconPlugin(),
     renderPlugin(),
   ];

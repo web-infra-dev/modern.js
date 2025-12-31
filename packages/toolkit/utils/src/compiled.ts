@@ -40,24 +40,18 @@ export type { ExecaError } from '../compiled/execa';
  * Lazy import some expensive modules that will slow down startup speed.
  * Notice that `csmith-tools build` can not bundle lazy imported modules.
  */
-const nodeRequire: (id: string) => unknown = (() => {
+const getNodeRequire = () => {
   const gRequire = (globalThis as any).require;
   if (typeof gRequire === 'function') {
     return gRequire;
   }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
-  return createRequire((import.meta as any).url);
-})();
-export const mime: typeof import('../compiled/mime-types') = Import.lazy(
-  '../compiled/mime-types',
-  nodeRequire,
-);
-export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
-  '../compiled/chokidar',
-  nodeRequire,
-);
-export const inquirer: typeof import('../compiled/inquirer') = Import.lazy(
-  '../compiled/inquirer',
-  nodeRequire,
-);
+  return /*#__PURE__*/ createRequire((import.meta as any).url);
+};
+export const mime: typeof import('../compiled/mime-types') =
+  /*#__PURE__*/ Import.lazy('../compiled/mime-types', getNodeRequire);
+export const chokidar: typeof import('../compiled/chokidar') =
+  /*#__PURE__*/ Import.lazy('../compiled/chokidar', getNodeRequire);
+export const inquirer: typeof import('../compiled/inquirer') =
+  /*#__PURE__*/ Import.lazy('../compiled/inquirer', getNodeRequire);

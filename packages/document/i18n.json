@@ -135,6 +135,10 @@
     "zh": "运行时",
     "en": "Runtime"
   },
+  "deploy-app": {
+    "zh": "部署应用",
+    "en": "Deploy Application"
+  },
   "blog": {
     "zh": "博客",
     "en": "Blog"

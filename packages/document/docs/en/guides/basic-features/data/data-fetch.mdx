@@ -77,7 +77,7 @@ When navigating on the client side, based on [conventional routing](/guides/basi
 
 ## `loader` Function
 
-The `loader` function has two parameters used for getting route parameters and request information.
+The `loader` function has three parameters used for getting route parameters, request information, and extra information.
 
 ### params
 
@@ -105,6 +105,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const userId = url.searchParams.get('id');
   return queryUser(userId);
+};
+```
+
+### context
+
+`context` is a map that has practical uses in specific situations. For example, when deploying using Cloudflare Workers, you can retrieve [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/) through `context`:
+
+```tsx
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const bindings = context?.get('bindings');
+  if (bindings) {
+    return bindings.NAMESPACE.get("key");
+  }
+  // Not in Cloudflare Workers
 };
 ```
 

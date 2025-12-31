@@ -25,7 +25,16 @@
       "types": "./dist/types/index.d.ts",
       "modern:source": "./src/index.ts",
       "jsnext:source": "./src/index.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
+    },
+    "./hono": {
+      "types": "./dist/types/hono.d.ts",
+      "jsnext:source": "./src/hono.ts",
+      "default": "./dist/cjs/hono.js"
     },
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
@@ -33,10 +42,15 @@
       "jsnext:source": "./src/adapters/node/index.ts",
       "default": "./dist/cjs/adapters/node/index.js"
     },
-    "./hono": {
-      "types": "./dist/types/hono.d.ts",
-      "jsnext:source": "./src/hono.ts",
-      "default": "./dist/cjs/hono.js"
+    "./edge": {
+      "types": "./dist/types/adapters/edge/index.d.ts",
+      "modern:source": "./src/adapters/edge/index.ts",
+      "jsnext:source": "./src/adapters/edge/index.ts",
+      "node": {
+        "import": "./dist/esm-node/adapters/edge/index.mjs",
+        "require": "./dist/cjs/adapters/edge/index.js"
+      },
+      "default": "./dist/cjs/adapters/edge/index.js"
     }
   },
   "typesVersions": {
@@ -46,6 +60,9 @@
       ],
       "node": [
         "./dist/types/adapters/node/index.d.ts"
+      ],
+      "edge": [
+        "./dist/types/adapters/edge/index.d.ts"
       ],
       "hono": [
         "./dist/types/hono.d.ts"
@@ -96,15 +113,20 @@
         "import": "./dist/esm-node/index.mjs",
         "default": "./dist/cjs/index.js"
       },
+      "./hono": {
+        "types": "./dist/types/hono.d.ts",
+        "import": "./dist/esm-node/hono.mjs",
+        "default": "./dist/cjs/hono.js"
+      },
       "./node": {
         "types": "./dist/types/adapters/node/index.d.ts",
         "import": "./dist/esm-node/adapters/node/index.mjs",
         "default": "./dist/cjs/adapters/node/index.js"
       },
-      "./hono": {
-        "types": "./dist/types/hono.d.ts",
-        "import": "./dist/esm-node/hono.mjs",
-        "default": "./dist/cjs/hono.js"
+      "./edge": {
+        "types": "./dist/types/adapters/edge/index.d.ts",
+        "import": "./dist/esm-node/adapters/edge/index.mjs",
+        "default": "./dist/cjs/adapters/edge/index.js"
       }
     }
   }

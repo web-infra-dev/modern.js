@@ -1,6 +1,7 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
+import { loadDeps } from '@modern-js/server-core/edge';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,
@@ -39,12 +40,23 @@ export default (): ServerPlugin => ({
 
     api.onPrepare(async () => {
       const appContext = api.getServerContext();
-      const { appDirectory, distDirectory, render } = appContext;
-      const root = isProd() ? distDirectory : appDirectory;
-      const apiPath = path.resolve(root || process.cwd(), API_DIR);
-      apiAppPath = path.resolve(apiPath, API_APP_NAME);
+      const { appDirectory, distDirectory, render, appDependencies } =
+        appContext;
 
-      const apiMod = await requireExistModule(apiAppPath);
+      let apiMod: any;
+      if (process.env.MODERN_SSR_ENV === 'edge') {
+        apiMod = await loadDeps(
+          path.join(API_DIR, API_APP_NAME),
+          appDependencies,
+        );
+      } else {
+        const root = isProd() ? distDirectory : appDirectory;
+        const apiPath = path.resolve(root || process.cwd(), API_DIR);
+        apiAppPath = path.resolve(apiPath, API_APP_NAME);
+
+        apiMod = await requireExistModule(apiAppPath);
+      }
+
       if (apiMod && typeof apiMod === 'function') {
         apiMod(transformAPI);
       }
@@ -107,9 +119,11 @@ export default (): ServerPlugin => ({
     api.onReset(async ({ event }) => {
       storage.reset();
       const appContext = api.getServerContext();
-      const newApiModule = await requireExistModule(apiAppPath);
-      if (newApiModule && typeof newApiModule === 'function') {
-        newApiModule(transformAPI);
+      if (process.env.MODERN_SSR_ENV !== 'edge') {
+        const newApiModule = await requireExistModule(apiAppPath);
+        if (newApiModule && typeof newApiModule === 'function') {
+          newApiModule(transformAPI);
+        }
       }
 
       const { middlewares } = storage;
@@ -134,13 +148,14 @@ export default (): ServerPlugin => ({
       const { pwd, prefix, httpMethodDecider } = input;
       const apiDir = path.resolve(pwd, API_DIR);
       const appContext = api.getServerContext();
-      const { apiDirectory, lambdaDirectory } = appContext;
+      const { apiDirectory, lambdaDirectory, appDependencies } = appContext;
       apiRouter = new ApiRouter({
         appDir: pwd,
         apiDir: (apiDirectory as string) || apiDir,
         lambdaDir: lambdaDirectory as string,
         prefix,
         httpMethodDecider,
+        appDependencies,
       });
       const apiHandlerInfos = await apiRouter.getApiHandlers();
       api.updateServerContext({

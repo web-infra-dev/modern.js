@@ -1,5 +1,3 @@
-// 用于 react-helmet 正则替换
-import { EOL } from 'os';
 import type { HelmetData } from 'react-helmet';
 import { safeReplace } from './utils';
 
@@ -54,7 +52,7 @@ export function helmetReplace(content: string, helmetData: HelmetData) {
     style,
     !existTitleTag ? title : '',
   ].reduce((pre, cur) => {
-    return pre + (cur.length > 0 ? `  ${cur}${EOL}` : '');
+    return pre + (cur.length > 0 ? `  ${cur}\n` : '');
   }, '');
 
   return safeReplace(result, RE_LAST_IN_HEAD, `${helmetStr}</head>`);

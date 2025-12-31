@@ -1,0 +1,182 @@
+---
+title: Deploy self-hosted applications
+---
+
+# Deploy Application
+
+You can host your application in a container that includes a Node.js environment on your own, which provides flexibility for the deployment of the application.
+
+## Build Deployment Products
+
+Running the `modern deploy` command will automatically produce deployment products. This process includes optimizing Bundler build products and their dependencies, detecting the current deployment platform, and automatically generating deployment products that can run on that platform.
+
+If you want to generate and test the output locally for a specific deployment platform, you can specify the platform by setting the environment variable: `modern deploy`:
+
+```bash
+MODERNJS_DEPLOY=netlify npx modern deploy
+```
+
+## Using ModernJS built-in Node.js Server
+
+### Single Repo
+
+By default, Modern.js outputs builds that can be run in a Node.js environment when no Modern.js-supported deployment platform is detected.
+
+Use the following command to build the project:
+
+```bash
+npx modern deploy
+```
+
+When running the `modern deploy` command, Modern.js will generate runnable products and output the following content in terminal:
+
+```bash
+Static directory: `.output/static`
+You can preview this build by `node .output/index`
+```
+
+At this point, you can run the entire server by `node .output/index`, and the static resources required for the page are in the `.output/static` directory. You can upload these static resources to a CDN yourself:
+
+:::info
+By default, when running Modern.js Server, it listens on port 8080. If you want to change the listening port, you can specify the `PORT` environment variable:
+
+```
+PORT=3000 node .output/index
+```
+
+:::
+
+### Monorepo
+
+For Monorepo projects, in addition to building the current project, it is also necessary to build other sub-projects in the repository that the current project depends on.
+
+Assume that the name in the `package.json` of the current project is `app`. Taking pnpm as an example of a monorepo management tool, you can add the following command to the `package.json` of the current project to build products for the current project:
+
+```json title="app/package.json"
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy"
+  }
+}
+```
+
+If you use Rush as your Monorepo management tool, you can add the following commands to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "build:packages": "rush rebuild --to-except app",
+    "deploy": "rushx build:packages && modern deploy"
+  }
+}
+```
+
+After the build is completed, Modern.js will generate all dependencies in the `.output/node_modules` directory of the project. Similarly, you can run the Modern.js server using `node .output/index`.
+
+## Using Self-Built Node.js Server
+
+Typically, we recommend using the built-in Node.js server of Modern.js to deploy applications. It supports hosting both pure frontend and full-stack projects, ensuring consistent performance in both development and production environments.
+
+If your project is purely frontend, you can also deploy the application to the self-built Node.js server. Below is an example of using a Koa server to host the output of a pure frontend project.
+
+For instance, if you have a Node.js server repository, you can copy the output of the project into this repository. The structure would look like this:
+
+```bash
+.
+├── .output
+│   ├── html
+│   └── static
+└── server.js
+```
+
+In `server.js`, assume you have the following code:
+
+```ts title="server.js"
+import Koa from 'koa';
+
+const app = new Koa();
+app.use(async (ctx, next) => {
+  ctx.body = 'Hello Modern.js';
+});
+app.listen(3000);
+```
+
+Now, you can add some code to include the logic for accessing static resources and HTML files in `server.js`. We need to use the `mime-types` package to get the MIME types of static resources, so let's install the dependency first:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add mime-types" />
+
+```ts title="server.js"
+const Koa = require('koa');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime-types');
+
+const app = new Koa();
+app.use(async (ctx, next) => {
+  if (ctx.path.startsWith('/static')) {
+    ctx.type = mime.lookup(ctx.path);
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, `.output${ctx.path}`),
+    );
+  } else if (ctx.path === '/') {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, '.output/html/main/index.html'),
+    );
+  }
+});
+app.listen(3000);
+```
+
+:::note
+The above code is a basic example. Your application might have multiple entry points and require different HTML files for different paths. A custom Node.js server would also involve more complex logic.
+
+Please note that if your project uses Modern.js conventional routing or if you have set up client-side routing with React Router, you must access HTML files through the correct `baseURL`.
+
+In Modern.js, the default `baseURL` is `'/'`. You can configure it by modifying [`server.baseUrl`](/configure/app/server/base-url) in `modern.config.ts`.
+
+:::danger
+For projects with client-side routing, you can never access HTML files through the `/index.html` path.
+:::
+
+## Nginx
+
+Nginx is a high-performance HTTP and reverse proxy server that can handle static files, reverse proxy, load balancing, and other functions. Deploying on Nginx typically requires configuring the `nginx.conf` file.
+
+If your project is a purely front-end project, you can also deploy the application through Nginx. Here is an example of an Nginx configuration to demonstrate how to host the output of a purely front-end project.
+
+```nginx title="nginx.conf"
+# user [user] [group];
+worker_processes 1;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    server {
+        listen 8080;
+        server_name localhost;
+
+        location / {
+            # root [projectPath]/.output/html/main;
+            index index.html;
+            try_files $uri $uri/ =404;
+        }
+
+        location /static {
+          # alias [projectPath]/.output/static;
+        }
+    }
+}
+```
+
+In the above configuration, you need to replace `[projectPath]` with your project path and `[user]` and `[group]` with your current user and user group.
+
+You can copy the above configuration into the `nginx.conf` file in the Nginx installation directory and then start the Nginx service. You can also start the configuration file in a specified path using `nginx -c`, in which case you need to ensure that the path configured in the `include` directive is correct.
