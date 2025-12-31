@@ -97,7 +97,7 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is cfWorkers', async () => {
-    await execa('npx modern deploy --skip-build', {
+    await execa('npx modern deploy', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
@@ -116,7 +116,7 @@ describe('deploy', () => {
     );
     const depsEntryFile = path.join(funcsDirectory, 'deps.js');
     const bootstrapFile = path.join(funcsDirectory, 'index.js');
-    const htmlFile = path.join(funcsDirectory, 'html/index/index.html.js');
+    const htmlFile = path.join(funcsDirectory, 'html/one/index.html.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
     expect(await fse.pathExists(serverEntryFile)).toBe(true);
@@ -126,7 +126,7 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is edgeone', async () => {
-    await execa('npx modern deploy --skip-build', {
+    await execa('npx modern deploy', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
@@ -148,10 +148,7 @@ describe('deploy', () => {
     const handlerFile = path.join(funcContentDirectory, 'handler.js');
     const bootstrapFile1 = path.join(funcsDirectory, 'index.js');
     const bootstrapFile2 = path.join(funcsDirectory, '[[default]].js');
-    const htmlFile = path.join(
-      funcContentDirectory,
-      'html/index/index.html.js',
-    );
+    const htmlFile = path.join(funcContentDirectory, 'html/one/index.html.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
     expect(await fse.pathExists(serverEntryFile)).toBe(true);
@@ -163,7 +160,7 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is aliEsa', async () => {
-    await execa('npx modern deploy --skip-build', {
+    await execa('npx modern deploy', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
@@ -182,7 +179,7 @@ describe('deploy', () => {
     );
     const depsEntryFile = path.join(funcsDirectory, 'deps.js');
     const bootstrapFile = path.join(funcsDirectory, 'index.js');
-    const htmlFile = path.join(funcsDirectory, 'html/index/index.html.js');
+    const htmlFile = path.join(funcsDirectory, 'html/one/index.html.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
     expect(await fse.pathExists(serverEntryFile)).toBe(true);
