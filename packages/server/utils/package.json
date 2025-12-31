@@ -45,7 +45,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/babel-plugin-module-resolver": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17"
   },

@@ -100,23 +100,26 @@ export default {
 2. 在 `modern.config.ts` 中配置 `babel-plugin-macros` 插件：
 
 ```ts title="modern.config.ts"
+import { pluginBabel } from '@rsbuild/plugin-babel';
+
 export default defineConfig({
-  plugins: [appTools()],
-  tools: {
-    babel: {
-      plugins: [
-        [
-          'babel-plugin-macros',
-          {
-            twin: {
-              preset: 'styled-components',
-              config: './tailwind.config.ts',
+  builderPlugins: [
+    pluginBabel({
+      babelLoaderOptions: {
+        plugins: [
+          [
+            'babel-plugin-macros',
+            {
+              twin: {
+                preset: 'styled-components',
+                config: './tailwind.config.js',
+              },
             },
-          },
+          ],
         ],
-      ],
-    },
-  },
+      },
+    }),
+  ],
 });
 ```
 

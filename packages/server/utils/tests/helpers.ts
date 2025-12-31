@@ -66,7 +66,6 @@ const deployDefaults = {
 };
 
 const toolsDefaults = {
-  babel: undefined,
   postcss: undefined,
   autoprefixer: undefined,
   lodash: undefined,
