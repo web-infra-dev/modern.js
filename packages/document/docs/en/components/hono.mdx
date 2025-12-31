@@ -1,3 +1,21 @@
+### Getting Request Context
+
+Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server';
+
+export const get = async () => {
+  const c = useHonoContext();
+  console.info(`access url: ${c.req.url}`);
+  return 'Hello Modern.js';
+};
+```
+
+:::info
+For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
+:::
+
 ### Getting Cookies
 
 When getting cookies in BFF functions, you need to get the request context through `useHonoContext`, then use `c.req.header('cookie')` to get the Cookie string and parse it manually:
@@ -38,6 +56,62 @@ export const getCookies = Api(Get('/cookies'), async () => {
 
 :::caution Note
 The `c.req.cookie()` method does not exist in the current version. You need to use `c.req.header('cookie')` to get the Cookie string and parse it manually.
+:::
+
+### Defining BFF Functions
+
+When using Hono as the runtime framework, you can define interfaces through [Api functions](/guides/advanced-features/bff/operators.html):
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+:::info
+For more details about Api functions and operators, refer to [Creating Extensible BFF Functions](/guides/advanced-features/bff/operators.html).
+:::
+
+### Using Middleware
+
+Hono supports a rich middleware ecosystem, and you can use middleware in BFF functions:
+
+```ts title="api/lambda/user.ts"
+import { Api, Get, Middleware } from '@modern-js/plugin-bff/server';
+
+export const getUser = Api(
+  Get('/user'),
+  Middleware(async (c, next) => {
+    // You can access Hono's Context in middleware
+    c.res.headers.set('X-Powered-By', 'Modern.js');
+    await next();
+  }),
+  async () => {
+    return {
+      name: 'Modern.js',
+      email: 'modernjs@bytedance.com',
+    };
+  },
+);
+```
+
+:::info
+For more details about middleware, refer to [Creating Extensible BFF Functions](/guides/advanced-features/bff/operators.html#middleware).
 :::
 
 ### Dynamic Route Parameter Passing
