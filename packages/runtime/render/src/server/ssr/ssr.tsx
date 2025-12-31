@@ -9,10 +9,25 @@ import { renderToReadableStream } from 'react-dom/server.edge';
 // import { rscManifest } from 'react-server-dom-rspack/server.node';
 import { ServerElementsProvider } from '../../client';
 
+function CSSLinks({ cssFiles }: { cssFiles: string[] }) {
+  if (cssFiles.length === 0) {
+    return null;
+  }
+  return (
+    <>
+      {cssFiles.map(css => (
+        <link key={css} href={css} rel="stylesheet" />
+      ))}
+    </>
+  );
+}
+
 type Options = {
   request: Request;
   clientManifest: ClientManifest;
   ssrManifest: SSRManifest;
+  // 路由相关信息，用于判断是否有路由
+  routes?: unknown[];
 } & Parameters<typeof renderToReadableStream>[1];
 
 function wrapStream(
@@ -33,10 +48,13 @@ export const renderSSRStream = async (
   children: React.ReactNode,
   options: Options & { rscRoot: React.ReactElement },
 ): Promise<ReturnType<typeof renderToReadableStream>> => {
-  const { rscRoot } = options;
+  const { rscRoot, routes } = options;
   const clientManifest = __rspack_rsc_manifest__?.clientManifest;
   const serverConsumerModuleMap =
     __rspack_rsc_manifest__?.serverConsumerModuleMap;
+  const entryCssFiles = __rspack_rsc_manifest__?.entryCssFiles;
+
+  const hasRoutes = Boolean(routes && routes.length > 0);
 
   if (!clientManifest || !serverConsumerModuleMap) {
     return renderToReadableStream(children, options);
@@ -60,21 +78,28 @@ export const renderSSRStream = async (
     const elements: Promise<ReactNode[]> =
       createFromReadableStream(rscElementStream);
 
+    // Collect all CSS files from entryCssFiles when there are no routes
+    let cssFiles: string[] = [];
+    if (!hasRoutes && entryCssFiles) {
+      cssFiles = Object.values(entryCssFiles).flat();
+    }
+
     const htmlStream = await renderToReadableStream(
       <ServerElementsProvider elements={elements}>
+        <CSSLinks cssFiles={cssFiles} />
         {children}
       </ServerElementsProvider>,
       options,
     );
 
-    return wrapStream(
-      htmlStream.pipeThrough(
-        injectRSCPayload(rscPayloadStream, {
-          injectClosingTags: false,
-        }),
-      ),
-      htmlStream,
+    // Create a pipeline that injects RSC payload
+    const stream = htmlStream.pipeThrough(
+      injectRSCPayload(rscPayloadStream, {
+        injectClosingTags: true,
+      }),
     );
+
+    return wrapStream(stream, htmlStream);
   } catch (error) {
     console.error(error);
     throw error;

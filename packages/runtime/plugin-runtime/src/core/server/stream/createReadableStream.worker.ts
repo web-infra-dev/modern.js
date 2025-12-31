@@ -41,6 +41,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         ssrManifest: options.rscSSRManifest!,
         nonce: config.nonce,
         rscRoot: rscRoot!,
+        routes: runtimeContext.routes,
         onError(error: unknown) {
           options.onError?.(error);
         },
