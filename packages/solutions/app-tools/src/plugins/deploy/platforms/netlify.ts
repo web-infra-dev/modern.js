@@ -134,7 +134,7 @@ export const createNetlifyPreset: CreatePreset = (
       const pluginsCode = getPluginsCode(plugins);
 
       let handlerCode = (
-        await fse.readFile(path.join(__dirname, './netlify-handler.js'))
+        await fse.readFile(path.join(__dirname, './netlify-handler.cjs'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
