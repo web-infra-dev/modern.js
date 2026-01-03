@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -621,8 +619,8 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2(encoding@0.1.13)
       i18next-http-middleware:
-        specifier: ^3.9.1
-        version: 3.9.1
+        specifier: ^3.9.2
+        version: 3.9.2
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -11552,8 +11550,8 @@ packages:
   i18next-http-backend@3.0.2:
     resolution: {integrity: sha512-PdlvPnvIp4E1sYi46Ik4tBYh/v/NbYfFFgTjkwFl0is8A18s7/bx9aXqsrOax9WUbeNS6mD2oix7Z0yGGf6m5g==}
 
-  i18next-http-middleware@3.9.1:
-    resolution: {integrity: sha512-i2h+aMA12g0vwPWAY81hzNv8SL/OE9S0wpTyDNb0z7ul/dXBG0mWxxI0tenxGJ4t7Ms8+SpuXbNQcsmkClXlOQ==}
+  i18next-http-middleware@3.9.2:
+    resolution: {integrity: sha512-vzd0Z89xR1yF2V2USVS2G6oOzNilTXsBkxQ16GFPGJO4whQI/LIreh4p4Qy7HXQlGrWVp83YaekuG36+t9anJA==}
 
   i18next@25.7.3:
     resolution: {integrity: sha512-2XaT+HpYGuc2uTExq9TVRhLsso+Dxym6PWaKpn36wfBmTI779OQ7iP/XaZHzrnGyzU4SHpFrTYLKfVyBfAhVNA==}
@@ -23932,7 +23930,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  i18next-http-middleware@3.9.1: {}
+  i18next-http-middleware@3.9.2: {}
 
   i18next@25.7.3(typescript@5.9.3):
     dependencies:
