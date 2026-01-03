@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1073,7 +1071,7 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       qs:
-        specifier: ^6.14.0
+        specifier: ^6.14.1
         version: 6.14.1
     devDependencies:
       '@modern-js/rslib':
