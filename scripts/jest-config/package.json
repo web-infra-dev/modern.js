@@ -4,7 +4,7 @@
   "version": "2.66.0",
   "main": "jest.config.js",
   "devDependencies": {
-    "@swc/core": "1.14.0",
+    "@swc/core": "1.15.8",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
