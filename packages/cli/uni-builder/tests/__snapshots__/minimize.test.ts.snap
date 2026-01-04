@@ -37,7 +37,7 @@ exports[`html minify > should not apply html minify in production when disableMi
       "inject": "head",
       "meta": {
         "charset": {
-          "charset": "UTF-8",
+          "charset": "utf-8",
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
@@ -46,7 +46,7 @@ exports[`html minify > should not apply html minify in production when disableMi
       "scriptLoading": "defer",
       "showErrors": true,
       "template": "",
-      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
       "xhtml": false,
@@ -61,14 +61,14 @@ exports[`html minify > should not apply html minify in production when disableMi
       "inject": "head",
       "meta": {
         "charset": {
-          "charset": "UTF-8",
+          "charset": "utf-8",
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
       "minify": false,
       "scriptLoading": "defer",
       "template": "",
-      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
       Symbol(entryName): "index",
@@ -169,7 +169,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "inject": "head",
       "meta": {
         "charset": {
-          "charset": "UTF-8",
+          "charset": "utf-8",
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
@@ -178,7 +178,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "scriptLoading": "defer",
       "showErrors": true,
       "template": "",
-      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
       "xhtml": false,
@@ -193,14 +193,14 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
       "inject": "head",
       "meta": {
         "charset": {
-          "charset": "UTF-8",
+          "charset": "utf-8",
         },
         "viewport": "width=device-width, initial-scale=1.0",
       },
       "minify": false,
       "scriptLoading": "defer",
       "template": "",
-      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
       "templateParameters": [Function],
       "title": "",
       Symbol(entryName): "index",
