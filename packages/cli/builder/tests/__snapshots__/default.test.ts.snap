@@ -25,14 +25,11 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       "type": "persistent",
       "version": "web-development",
     },
-    "inlineConst": false,
-    "inlineEnum": false,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -42,7 +39,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -241,6 +237,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": false,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -275,12 +275,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
                 },
               },
             },
@@ -309,6 +303,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": false,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -343,12 +341,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
                 },
               },
             },
@@ -873,6 +865,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -907,12 +903,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": false,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -949,6 +939,10 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -983,12 +977,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": false,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -1116,7 +1104,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -1124,7 +1112,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -1287,14 +1275,11 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "type": "persistent",
       "version": "node-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1309,7 +1294,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -1401,6 +1385,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "targets": [
                   "node >= 16",
@@ -1430,12 +1418,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -1461,6 +1443,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "targets": [
                   "node >= 16",
@@ -1490,12 +1476,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -1837,6 +1817,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -1866,12 +1850,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -1908,6 +1886,10 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -1937,12 +1919,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -2037,7 +2013,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -2162,14 +2138,11 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       "type": "persistent",
       "version": "web-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2179,7 +2152,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2377,6 +2349,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -2411,12 +2387,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -2445,6 +2415,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -2479,12 +2453,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -3009,6 +2977,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -3043,12 +3015,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -3085,6 +3051,10 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -3119,12 +3089,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -3245,7 +3209,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
@@ -3284,7 +3248,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -3293,7 +3257,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -3415,14 +3379,11 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "type": "persistent",
       "version": "workerSSR-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -3433,7 +3394,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -3525,6 +3485,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "mode": undefined,
                 "targets": [
@@ -3555,12 +3519,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -3586,6 +3544,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "mode": undefined,
                 "targets": [
@@ -3616,12 +3578,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "runtime": "automatic",
                   },
                   "useDefineForClassFields": false,
-                },
-              },
-              "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
                 },
               },
             },
@@ -3944,6 +3900,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "mode": undefined,
                     "targets": [
@@ -3974,12 +3934,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -4016,6 +3970,10 @@ exports[`builder rspack > should generator rspack config correctly when service-
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "mode": undefined,
                     "targets": [
@@ -4046,12 +4004,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                         "runtime": "automatic",
                       },
                       "useDefineForClassFields": false,
-                    },
-                  },
-                  "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
                     },
                   },
                 },
@@ -4145,7 +4097,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
