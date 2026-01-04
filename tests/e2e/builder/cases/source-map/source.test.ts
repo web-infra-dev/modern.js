@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, relative, sep } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 import sourceMap from 'source-map';
@@ -55,6 +55,10 @@ test('source-map', async () => {
   const AppContentIndex = jsContent.indexOf('Hello Builder!');
   const indexContentIndex = jsContent.indexOf('window.aa');
 
+  // The dist directory structure is: dist/static/js/
+  // So we need to go up 3 levels to get to the fixtures root
+  const distToFixtures = '../../../';
+
   const originalPositions = (
     await validateSourceMap(jsMapContent, [
       {
@@ -66,10 +70,25 @@ test('source-map', async () => {
         column: indexContentIndex,
       },
     ])
-  ).map(o => ({
-    ...o,
-    source: o.source!.split('webpack-builder-source-map/')[1] || o.source,
-  }));
+  ).map(o => {
+    let source = o.source!;
+
+    // Handle absolute paths (e.g., in CI environments)
+    // If the source path contains the fixtures directory, extract relative path
+    if (source.includes(fixtures)) {
+      const relativePath = relative(fixtures, source);
+      // Normalize path separators and prepend the dist-to-fixtures relative path
+      source = distToFixtures + relativePath.split(sep).join('/');
+    } else {
+      // Handle existing relative path normalization
+      source = source.split('webpack-builder-source-map/')[1] || source;
+    }
+
+    return {
+      ...o,
+      source,
+    };
+  });
 
   expect(originalPositions[0]).toEqual({
     source: '../../../src/App.jsx',

@@ -13,7 +13,7 @@ lto = true
 path-slash = "0.2.1"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.145"
-swc_core = { version = "46.0.2", features = [
+swc_core = { version = "54.0.0", features = [
   "common",
   "ecma_ast",
   "ecma_visit",
@@ -22,5 +22,5 @@ swc_core = { version = "46.0.2", features = [
   "ecma_plugin_transform",
   "testing",
 ] }
-swc_atoms = "8.0.2"
+swc_atoms = "9.0.0"
 
