@@ -53,9 +53,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@changesets/cli": "^2.29.5",
+    "@changesets/cli": "^2.29.8",
     "@changesets/git": "^2.0.0",
-    "@changesets/read": "^0.6.5",
+    "@changesets/read": "^0.6.6",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
