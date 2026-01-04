@@ -113,7 +113,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.0",
+    "@rslib/core": "0.19.1",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.13",
