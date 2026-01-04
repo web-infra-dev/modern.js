@@ -108,7 +108,7 @@
     "encoding": "^0.1.13",
     "node-fetch": "^2.7.0",
     "path-to-regexp": "^6.3.0",
-    "qs": "^6.14.0"
+    "qs": "^6.14.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

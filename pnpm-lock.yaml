@@ -1073,7 +1073,7 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       qs:
-        specifier: ^6.14.0
+        specifier: ^6.14.1
         version: 6.14.1
     devDependencies:
       '@modern-js/rslib':
