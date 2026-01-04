@@ -22,7 +22,7 @@ const ignoreDeps = [
   'rspress',
 ];
 
-const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
+const command = `npx check-dependency-version-consistency@5.0.1 . ${ignoreDeps
   .map(dep => `--ignore-dep '${dep}'`)
   .join(' ')}`;
 
