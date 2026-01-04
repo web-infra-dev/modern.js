@@ -1,0 +1,14 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@api/*": ["./api/*", "./api/lambda/*"]
+    }
+  },
+  "include": ["api", "src"]
+}

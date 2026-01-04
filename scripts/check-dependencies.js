@@ -1,6 +1,5 @@
 const ignoreDeps = [
   'fs-extra',
-  'glob',
   'react-router-dom',
   'tailwindcss',
   'tsconfig-paths',

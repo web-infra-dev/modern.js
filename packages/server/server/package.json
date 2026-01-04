@@ -57,8 +57,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.28.5",
-    "@babel/register": "^7.28.3",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
