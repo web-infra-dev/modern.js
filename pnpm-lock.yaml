@@ -499,8 +499,8 @@ importers:
   packages/cli/plugin-styled-components:
     dependencies:
       '@rsbuild/plugin-styled-components':
-        specifier: 1.5.0
-        version: 1.5.0(@rsbuild/core@1.7.1)
+        specifier: 1.6.0
+        version: 1.6.0(@rsbuild/core@1.7.1)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -7705,10 +7705,10 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-styled-components@1.5.0':
-    resolution: {integrity: sha512-OzxeQKz0PxQEiwaQ2tOytK/KZ2UjApqB9Mh+EU84d+17lZ67o2e0NU5Q4NXUx/71JajpOpBwlkUH+3bc1fVxzA==}
+  '@rsbuild/plugin-styled-components@1.6.0':
+    resolution: {integrity: sha512-yK4Yh+zqSPfNISks/kh1cks4UaYgWeB/Pb06TgVwuQdJ8zdR0yw6X6ac4UA1tFehfzpf/8cih9O3O12JaON4fw==}
     peerDependencies:
-      '@rsbuild/core': ^1.6.0 || ^1.4.0
+      '@rsbuild/core': ^1.7.0-beta.0 || ^1.7.0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -8282,8 +8282,8 @@ packages:
   '@swc/plugin-loadable-components@11.3.0':
     resolution: {integrity: sha512-bTeNtmdsv5H9m7/NZAAjGXKsSQgimrkuHyfiwJnma1a0EArKl9k7MglV1asqkpU+AF+w/nv7fDvnTRJ5iO/Ltw==}
 
-  '@swc/plugin-styled-components@10.0.0':
-    resolution: {integrity: sha512-IbnTXsJMBWiexuykaQy3mDiAo9l7V3b9oC7X1pXwYdu8nIeYJIH6if86o6xxALEVc3/logRhI0mHVnc7bct3KA==}
+  '@swc/plugin-styled-components@12.3.0':
+    resolution: {integrity: sha512-GjhVd6l5EqQXFcobTP3YZ6u9PNXj1TsNLHWdPm3xFEmCiEByh38etDr4lbXujp11iJ8grnX0csMqcJnbn5g0Qw==}
 
   '@swc/types@0.1.25':
     resolution: {integrity: sha512-iAoY/qRhNH8a/hBvm3zKj9qQ4oc2+3w1unPJa2XvTK3XjeLXtzcCingVPw/9e5mn1+0yPqxcBGp9Jf0pkfMb1g==}
@@ -19594,9 +19594,9 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.7.1
 
-  '@rsbuild/plugin-styled-components@1.5.0(@rsbuild/core@1.7.1)':
+  '@rsbuild/plugin-styled-components@1.6.0(@rsbuild/core@1.7.1)':
     dependencies:
-      '@swc/plugin-styled-components': 10.0.0
+      '@swc/plugin-styled-components': 12.3.0
       reduce-configs: 1.1.1
     optionalDependencies:
       '@rsbuild/core': 1.7.1
@@ -20284,7 +20284,7 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@swc/plugin-styled-components@10.0.0':
+  '@swc/plugin-styled-components@12.3.0':
     dependencies:
       '@swc/counter': 0.1.3
 
