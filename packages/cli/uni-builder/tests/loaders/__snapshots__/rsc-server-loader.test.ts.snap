@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`rscServerLoader > should handle inline actions correctly 1`] = `
-"/* @modern-js-rsc-metadata
-{\\"directive\\":null,\\"exportNames\\":[{\\"exportName\\":\\"foo\\"},{\\"exportName\\":\\"baz\\"},{\\"exportName\\":\\"qux\\"},{\\"exportName\\":\\"default\\"}]}*/ import { registerServerReference } from \\"@modern-js/runtime/rsc/server\\";
-import { z } from 'zod';
+"import { registerServerReference } from \\"@modern-js/runtime/rsc/server\\";
+/* @modern-js-rsc-metadata
+{\\"directive\\":null,\\"exportNames\\":[{\\"exportName\\":\\"foo\\"},{\\"exportName\\":\\"baz\\"},{\\"exportName\\":\\"qux\\"},{\\"exportName\\":\\"default\\"}]}*/ import { z } from 'zod';
 console.log('zod', z);
 export async function foo() {
     'use server';
