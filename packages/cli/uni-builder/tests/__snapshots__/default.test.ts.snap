@@ -25,14 +25,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "type": "persistent",
       "version": "web-development",
     },
-    "inlineConst": false,
-    "inlineEnum": false,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -42,7 +39,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": false,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -261,6 +257,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": false,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -308,10 +308,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -352,6 +348,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": false,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -399,10 +399,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -1000,6 +996,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -1047,10 +1047,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": false,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -1099,6 +1095,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": false,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -1146,10 +1146,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": false,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -1301,7 +1297,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -1309,7 +1305,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -1478,14 +1474,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       "type": "persistent",
       "version": "node-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1500,7 +1493,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -1592,6 +1584,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "targets": [
                   "node >= 14",
@@ -1635,10 +1631,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -1676,6 +1668,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "targets": [
                   "node >= 14",
@@ -1719,10 +1715,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -2097,6 +2089,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "targets": [
                       "node >= 14",
@@ -2140,10 +2136,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -2192,6 +2184,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "targets": [
                       "node >= 14",
@@ -2235,10 +2231,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -2345,7 +2337,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "library": {
@@ -2470,14 +2462,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "type": "persistent",
       "version": "web-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2487,7 +2476,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "parser": {
       "javascript": {
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -2705,6 +2693,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -2752,10 +2744,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -2796,6 +2784,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "coreJs": "3.47",
                 "mode": "entry",
@@ -2843,10 +2835,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -3444,6 +3432,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -3491,10 +3483,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -3543,6 +3531,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "coreJs": "3.47",
                     "mode": "entry",
@@ -3590,10 +3582,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -3738,7 +3726,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -3777,7 +3765,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -3786,7 +3774,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -3908,14 +3896,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "type": "persistent",
       "version": "workerSSR-production",
     },
-    "inlineConst": true,
-    "inlineEnum": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
       },
     },
-    "typeReexportsPresence": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -3926,7 +3911,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "javascript": {
         "dynamicImportMode": "eager",
         "exportsPresence": "error",
-        "inlineConst": true,
         "typeReexportsPresence": "tolerant",
       },
     },
@@ -4018,6 +4002,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "mode": undefined,
                 "targets": [
@@ -4062,10 +4050,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -4103,6 +4087,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "builtin:swc-loader",
             "options": {
+              "collectTypeScriptInfo": {
+                "exportedEnum": true,
+                "typeExports": true,
+              },
               "env": {
                 "mode": undefined,
                 "targets": [
@@ -4147,10 +4135,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 },
               },
               "rspackExperiments": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": true,
-                  "typeExports": true,
-                },
                 "import": [
                   {
                     "camelToDashComponentName": false,
@@ -4506,6 +4490,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "mode": undefined,
                     "targets": [
@@ -4550,10 +4538,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -4602,6 +4586,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               {
                 "loader": "builtin:swc-loader",
                 "options": {
+                  "collectTypeScriptInfo": {
+                    "exportedEnum": true,
+                    "typeExports": true,
+                  },
                   "env": {
                     "mode": undefined,
                     "targets": [
@@ -4646,10 +4634,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     },
                   },
                   "rspackExperiments": {
-                    "collectTypeScriptInfo": {
-                      "exportedEnum": true,
-                      "typeExports": true,
-                    },
                     "import": [
                       {
                         "camelToDashComponentName": false,
@@ -4755,7 +4739,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
@@ -6290,7 +6274,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -6299,7 +6283,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -6314,14 +6298,14 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
         "minify": false,
         "scriptLoading": "defer",
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         Symbol(entryName): "index",
@@ -7913,7 +7897,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -7960,7 +7944,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -7988,7 +7972,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "scriptLoading": "defer",
         "showErrors": true,
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
@@ -8003,7 +7987,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "inject": "head",
         "meta": {
           "charset": {
-            "charset": "UTF-8",
+            "charset": "utf-8",
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
@@ -8029,7 +8013,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         },
         "scriptLoading": "defer",
         "template": "",
-        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         Symbol(entryName): "index",
