@@ -26,14 +26,11 @@ exports[`uni-builder environment compat > should generator environment config co
         "type": "persistent",
         "version": "web-development",
       },
-      "inlineConst": false,
-      "inlineEnum": false,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
         },
       },
-      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -43,7 +40,6 @@ exports[`uni-builder environment compat > should generator environment config co
       "parser": {
         "javascript": {
           "exportsPresence": "error",
-          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -262,6 +258,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "coreJs": "3.47",
                   "mode": "entry",
@@ -309,10 +309,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -353,6 +349,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "coreJs": "3.47",
                   "mode": "entry",
@@ -400,10 +400,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -1001,6 +997,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "coreJs": "3.47",
                       "mode": "entry",
@@ -1048,10 +1048,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -1100,6 +1096,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "coreJs": "3.47",
                       "mode": "entry",
@@ -1147,10 +1147,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -1302,7 +1298,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "inject": "head",
           "meta": {
             "charset": {
-              "charset": "UTF-8",
+              "charset": "utf-8",
             },
             "viewport": "width=device-width, initial-scale=1.0",
           },
@@ -1310,7 +1306,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "scriptLoading": "defer",
           "showErrors": true,
           "template": "",
-          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+          "templateContent": "<!DOCTYPE html><html><head></head><body><div id=\\"root\\"></div></body></html>",
           "templateParameters": [Function],
           "title": "",
           "xhtml": false,
@@ -1451,14 +1447,11 @@ exports[`uni-builder environment compat > should generator environment config co
         "type": "persistent",
         "version": "node-development",
       },
-      "inlineConst": false,
-      "inlineEnum": false,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
         },
       },
-      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -1473,7 +1466,6 @@ exports[`uni-builder environment compat > should generator environment config co
       "parser": {
         "javascript": {
           "exportsPresence": "error",
-          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -1565,6 +1557,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "targets": [
                     "node >= 14",
@@ -1608,10 +1604,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -1649,6 +1641,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "targets": [
                     "node >= 14",
@@ -1692,10 +1688,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2070,6 +2062,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "targets": [
                         "node >= 14",
@@ -2113,10 +2109,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -2165,6 +2157,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "targets": [
                         "node >= 14",
@@ -2208,10 +2204,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -2282,7 +2274,7 @@ exports[`uni-builder environment compat > should generator environment config co
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+      "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "library": {
@@ -2383,14 +2375,11 @@ exports[`uni-builder environment compat > should generator environment config co
         "type": "persistent",
         "version": "workerSSR-development",
       },
-      "inlineConst": false,
-      "inlineEnum": false,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
         },
       },
-      "typeReexportsPresence": true,
     },
     "infrastructureLogging": {
       "level": "error",
@@ -2401,7 +2390,6 @@ exports[`uni-builder environment compat > should generator environment config co
         "javascript": {
           "dynamicImportMode": "eager",
           "exportsPresence": "error",
-          "inlineConst": false,
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -2493,6 +2481,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "mode": undefined,
                   "targets": [
@@ -2537,10 +2529,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2578,6 +2566,10 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "builtin:swc-loader",
               "options": {
+                "collectTypeScriptInfo": {
+                  "exportedEnum": false,
+                  "typeExports": true,
+                },
                 "env": {
                   "mode": undefined,
                   "targets": [
@@ -2622,10 +2614,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 "rspackExperiments": {
-                  "collectTypeScriptInfo": {
-                    "exportedEnum": false,
-                    "typeExports": true,
-                  },
                   "import": [
                     {
                       "camelToDashComponentName": false,
@@ -2981,6 +2969,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "mode": undefined,
                       "targets": [
@@ -3025,10 +3017,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -3077,6 +3065,10 @@ exports[`uni-builder environment compat > should generator environment config co
                 {
                   "loader": "builtin:swc-loader",
                   "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
                     "env": {
                       "mode": undefined,
                       "targets": [
@@ -3121,10 +3113,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       },
                     },
                     "rspackExperiments": {
-                      "collectTypeScriptInfo": {
-                        "exportedEnum": false,
-                        "typeExports": true,
-                      },
                       "import": [
                         {
                           "camelToDashComponentName": false,
@@ -3194,7 +3182,7 @@ exports[`uni-builder environment compat > should generator environment config co
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
-      "devtoolModuleFilenameTemplate": "[absolute-resource-path]",
+      "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
       "hashFunction": "xxhash64",
       "libraryTarget": "commonjs2",

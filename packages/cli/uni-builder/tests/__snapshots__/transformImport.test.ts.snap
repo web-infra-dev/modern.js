@@ -33,6 +33,10 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -80,10 +84,6 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
             },
           },
           "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
-            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -143,6 +143,10 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -187,12 +191,6 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -240,6 +238,10 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -287,10 +289,6 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
             },
           },
           "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
-            },
             "import": [
               {
                 "camelToDashComponentName": false,
@@ -350,6 +348,10 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -394,12 +396,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -447,6 +443,10 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -494,10 +494,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
             },
           },
           "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
-            },
             "import": [
               {
                 "libraryName": "foo",

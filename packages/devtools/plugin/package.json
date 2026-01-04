@@ -75,7 +75,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
-    "@rsbuild/core": "1.6.15",
+    "@rsbuild/core": "1.7.1",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "@types/node": "^18",
