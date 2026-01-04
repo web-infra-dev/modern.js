@@ -10,8 +10,8 @@
     "only-allow-pnpm": "./bin/onlyAllowPnpm.js"
   },
   "devDependencies": {
-    "@modern-js/core": "2.69.6",
-    "@modern-js/module-tools": "2.69.6",
+    "@modern-js/core": "2.69.7",
+    "@modern-js/module-tools": "2.69.7",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "typescript": "^5"
