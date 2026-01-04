@@ -28,5 +28,10 @@
     "type": "dir",
     "name": "troubleshooting",
     "label": "troubleshooting"
+  },
+  {
+    "type": "dir",
+    "name": "upgrade",
+    "label": "Upgrade"
   }
 ]
