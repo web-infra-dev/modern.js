@@ -2713,7 +2713,7 @@ importers:
         specifier: ^1.1.10
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-effects':
-        specifier: ^1.1.10
+        specifier: ^1.1.13
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-immutable':
         specifier: ^1.1.10
@@ -2798,7 +2798,7 @@ importers:
         specifier: ^1.1.10
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-effects':
-        specifier: ^1.1.10
+        specifier: ^1.1.13
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-immutable':
         specifier: ^1.1.10
