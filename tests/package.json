@@ -24,7 +24,7 @@
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/core": "1.15.8",
-    "@swc/jest": "^0.2.22",
+    "@swc/jest": "^0.2.39",
     "@types/jest": "^29",
     "@types/node": "^18",
     "cross-spawn": "^7.0.6",
