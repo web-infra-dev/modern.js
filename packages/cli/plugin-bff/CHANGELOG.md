@@ -1,5 +1,16 @@
 # @modern-js/plugin-bff
 
+## 2.69.7
+
+### Patch Changes
+
+- Updated dependencies [18d5d69]
+  - @modern-js/server-core@2.69.7
+  - @modern-js/server-utils@2.69.7
+  - @modern-js/bff-core@2.69.7
+  - @modern-js/create-request@2.69.7
+  - @modern-js/utils@2.69.7
+
 ## 2.69.6
 
 ### Patch Changes

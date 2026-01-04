@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.69.7
+
+### Patch Changes
+
+- 18d5d69: fix: MPA should apply csrRender function for every single page
+  fix: MPA 项目一个为每个单页面应用不同的 csrRender 逻辑
+  - @modern-js/plugin-v2@2.69.7
+  - @modern-js/plugin@2.69.7
+  - @modern-js/runtime-utils@2.69.7
+  - @modern-js/utils@2.69.7
+
 ## 2.69.6
 
 ### Patch Changes
