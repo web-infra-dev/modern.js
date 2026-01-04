@@ -2707,7 +2707,7 @@ importers:
   packages/runtime/plugin-state:
     dependencies:
       '@modern-js-reduck/plugin-auto-actions':
-        specifier: ^1.1.10
+        specifier: ^1.1.13
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-devtools':
         specifier: ^1.1.13
@@ -2795,7 +2795,7 @@ importers:
         specifier: ^29.5.0
         version: 29.6.3
       '@modern-js-reduck/plugin-auto-actions':
-        specifier: ^1.1.10
+        specifier: ^1.1.13
         version: 1.1.13(@modern-js-reduck/store@1.1.13)
       '@modern-js-reduck/plugin-effects':
         specifier: ^1.1.13

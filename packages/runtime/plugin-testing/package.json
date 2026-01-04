@@ -120,7 +120,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.22.15",
     "@jest/types": "^29.5.0",
-    "@modern-js-reduck/plugin-auto-actions": "^1.1.10",
+    "@modern-js-reduck/plugin-auto-actions": "^1.1.13",
     "@modern-js-reduck/plugin-effects": "^1.1.13",
     "@modern-js-reduck/plugin-immutable": "^1.1.13",
     "@modern-js-reduck/store": "^1.1.10",
