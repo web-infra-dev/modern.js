@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.69.7
+
+### Patch Changes
+
+- d64f8f6: fix: avoid possible **MODERN_JS_ENTRY_NAME conflict issues
+  fix: 避免添加 **MODERN_JS_ENTRY_NAME 时，不同 entry 可能的冲突问题
+  - @modern-js/babel-preset@2.69.7
+  - @modern-js/flight-server-transform-plugin@2.69.7
+  - @modern-js/utils@2.69.7
+
 ## 2.69.6
 
 ### Patch Changes
