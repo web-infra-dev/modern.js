@@ -5,13 +5,18 @@ import type {
 } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
 
-export type CreatePreset = (
-  appContext: AppToolsContext,
-  config: AppToolsNormalizedConfig,
-  needModernServer?: boolean,
-) => DeployPreset;
-
 export type Setup = NonNullable<CliPlugin<AppTools>['setup']>;
+
+export type PluginAPI = Parameters<Setup>[0];
+
+interface CreatePresetParams {
+  appContext: AppToolsContext;
+  modernConfig: AppToolsNormalizedConfig;
+  api: PluginAPI;
+  needModernServer?: boolean;
+}
+
+export type CreatePreset = (params: CreatePresetParams) => DeployPreset;
 
 type DeployPreset = {
   prepare?: () => Promise<void>;

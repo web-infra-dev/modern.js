@@ -1,5 +1,6 @@
-import { createCFWorkersFunction } from './bundles/modern-server';
-import { deps } from './deps';
+import { createCFWorkersFunction } from 'p_prodServerEntry';
+
+globalThis.__MODERN_DEPS__ = p_genDepCode;
 
 p_genPluginImportsCode;
 
@@ -20,7 +21,7 @@ async function initServer(env) {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
       bffRuntimeFramework: p_bffRuntimeFramework,
-      appDependencies: deps,
+      appDependencies: globalThis.__MODERN_DEPS__,
     },
     plugins: p_plugins,
     serverConfigPath: p_serverDirectory,

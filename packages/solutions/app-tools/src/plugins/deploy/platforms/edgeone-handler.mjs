@@ -1,6 +1,7 @@
 import { createEdgeOneFunction } from './bundles/modern-server';
 import { deps } from './deps';
-import staticFilesList from './static-files-list.json' assert { type: 'json' };
+
+const staticFilesList = p_genStaticFilesList;
 
 p_genPluginImportsCode;
 

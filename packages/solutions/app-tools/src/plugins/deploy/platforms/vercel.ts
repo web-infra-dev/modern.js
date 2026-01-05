@@ -16,11 +16,11 @@ import {
 } from '../utils';
 import type { CreatePreset } from './platform';
 
-export const createVercelPreset: CreatePreset = (
+export const createVercelPreset: CreatePreset = ({
   appContext,
   modernConfig,
   needModernServer,
-) => {
+}) => {
   const {
     appDirectory,
     distDirectory,

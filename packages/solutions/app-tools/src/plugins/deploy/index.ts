@@ -5,13 +5,13 @@ import type {
   CliPlugin,
 } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
-import { createAliESAPreset, setupAliESA } from './platforms/ali-esa';
+import { createAliESAPreset } from './platforms/ali-esa';
 import { createCFWorkersPreset, setupCFWorkers } from './platforms/cf-workers';
-import { createEdgeOnePreset, setupEdgeOne } from './platforms/edgeone';
+import { createEdgeOnePreset } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
-import type { Setup } from './platforms/platform';
+import type { PluginAPI, Setup } from './platforms/platform';
 import { createVercelPreset } from './platforms/vercel';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
@@ -37,15 +37,16 @@ const deployPresets: DeployPresetCreators = {
 };
 
 const setups: Partial<Record<DeployTarget, Setup>> = {
-  edgeone: setupEdgeOne,
+  // edgeone: setupEdgeOne,
   cfWorkers: setupCFWorkers,
-  aliEsa: setupAliESA,
+  // aliEsa: setupAliESA,
 };
 
 async function getDeployPreset(
   appContext: AppToolsContext,
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
+  api: PluginAPI,
 ) {
   const { appDirectory, distDirectory, metaName } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
@@ -63,7 +64,12 @@ async function getDeployPreset(
     );
   }
 
-  return createPreset(appContext, modernConfig, needModernServer);
+  return createPreset({
+    appContext,
+    modernConfig,
+    api,
+    needModernServer,
+  });
 }
 
 export default (): CliPlugin<AppTools> => ({
@@ -84,6 +90,7 @@ export default (): CliPlugin<AppTools> => ({
         appContext,
         modernConfig,
         deployTarget as DeployTarget,
+        api,
       );
 
       deployPreset?.prepare && (await deployPreset?.prepare());

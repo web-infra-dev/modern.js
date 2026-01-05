@@ -31,11 +31,11 @@ async function cleanDistDirectory(dir: string) {
   }
 }
 
-export const createNetlifyPreset: CreatePreset = (
+export const createNetlifyPreset: CreatePreset = ({
   appContext,
   modernConfig,
   needModernServer,
-) => {
+}) => {
   const {
     appDirectory,
     distDirectory,
