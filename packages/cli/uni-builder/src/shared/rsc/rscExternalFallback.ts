@@ -24,17 +24,9 @@ export function addRscExternalFallback(
     },
   ];
 
-  // Add plugin to define the global variable as empty object
-  rsbuildPlugins.push({
-    name: 'uni-builder:rsc-external-fallback',
-    setup(api) {
-      api.modifyBundlerChain((chain, { bundler }) => {
-        chain.plugin('rsc-external-fallback').use(bundler.DefinePlugin, [
-          {
-            __REACT_SERVER_DOM_WEBPACK_EMPTY__: '{}',
-          },
-        ]);
-      });
-    },
-  });
+  rsbuildConfig.source ??= {};
+  rsbuildConfig.source.define ??= {};
+  if (!('__REACT_SERVER_DOM_WEBPACK_EMPTY__' in rsbuildConfig.source.define)) {
+    rsbuildConfig.source.define.__REACT_SERVER_DOM_WEBPACK_EMPTY__ = '{}';
+  }
 }
