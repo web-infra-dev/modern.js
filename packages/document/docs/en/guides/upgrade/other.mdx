@@ -1,0 +1,83 @@
+# Other Important Changes
+
+This document introduces other important incompatible changes and related migration instructions when upgrading from Modern.js 2.0 to 3.0.
+
+## Webpack Build No Longer Supported
+
+Modern.js 3.0 no longer supports using webpack as a build tool, and uses Rspack as the default build bundler. Rspack is implemented in Rust, providing significant build speed improvements compared to webpack, while being highly compatible with webpack configuration, allowing most configurations to be migrated directly.
+
+If your project previously used webpack-specific configurations or plugins, you need to check if there are webpack-related custom configurations in the project and confirm whether the webpack plugins used have corresponding Rspack versions.
+
+:::tip
+Rspack is highly compatible with webpack configuration, and in most cases it can be used without modification.
+:::
+
+## Entry Name Change
+
+Modern.js 3.0 changed the default entry name to `index`, and the default built HTML file is `index.html`. `index.html` is the default homepage file for most web servers and requires no additional configuration.
+
+If your project's deployment configuration specifies a particular entry file name, you need to update it to `index.html`.
+
+## API Import Paths
+
+Modern.js 3.0 has adjusted some runtime paths, and related import paths need to be updated. The path mapping is as follows:
+
+| Old Path | New Path | Description |
+|---------|---------|------|
+| `@modern-js/runtime/bff` | `@modern-js/plugin-bff/runtime` | BFF runtime path |
+| `@modern-js/runtime/server` | `@modern-js/server-runtime` | Server-side runtime path |
+
+## Pages Directory Convention-Based Routing No Longer Supported
+
+Modern.js 3.0 no longer supports the `pages` directory convention-based routing introduced in Modern.js 1.0, and now uniformly uses the `routes` directory convention-based routing.
+
+If your project uses the `pages` directory, you need to rename the `src/pages` directory to `src/routes` and update all import paths in the project that reference the `pages` directory. For detailed migration steps, please refer to the [Convention-Based Routing documentation](/guides/basic-features/routes/routes).
+
+## SSR Mode Default Value Change
+
+Modern.js 3.0 changed the default value of `server.ssr.mode` from `'string'` to `'stream'`. This means that when SSR is enabled, streaming rendering is used by default instead of traditional string rendering.
+
+For React 18 and above projects, changing the value of `ssr.mode` from `'stream'` to `'string'` has no impact on the rendering result if you don't modify the code in Data Loader or use Suspense. If your project depends on React 17, please manually set the value of `ssr.mode` to `'string'`.
+
+## Using React Router v7
+
+Modern.js 3.0 uses React Router v7 as the default routing library. React Router v7 has only a few [incompatible changes](https://reactrouter.com/upgrading/v6) compared to v6.
+
+If you need to use React Router v5 or React Router v6, you need to use **self-controlled routing** mode. Self-controlled routing allows you to fully control routing configuration without being limited by Modern.js convention-based routing.
+
+## Using @modern-js/create to Create Monorepo and Modern.js Module
+
+Modern.js 3.0 no longer supports creating Monorepo projects and Modern.js Module projects through `@modern-js/create`.
+
+**Changes**:
+
+- In [v2.53.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.53.0), the functionality to create Monorepo projects using `@modern-js/create` was removed
+- In [v2.61.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.61.0), the functionality to create Modern.js Module projects using `@modern-js/create` and `modern new` commands was removed
+
+**Handling**:
+
+- **Monorepo Projects**: The Monorepo solution previously provided by Modern.js was based on [pnpm Workspace](https://pnpm.io/workspaces) and did not provide substantial Monorepo management capabilities. It is recommended to directly use community-provided Monorepo solutions such as [Turborepo](https://turbo.build/), [Nx](https://nx.dev/), etc.
+- **Modern.js Module Projects**: It is recommended to use [Rslib](https://rslib.rs/) to create and manage JavaScript library and UI component projects. Rslib is a library development tool based on Rsbuild, providing a simple and intuitive way to create JavaScript libraries. For detailed usage, please refer to the [Rslib official documentation](https://rslib.rs/).
+
+## new and upgrade Commands Removed
+
+Modern.js 3.0 removed the `modern new` and `modern upgrade` commands, and you need to perform operations manually according to the documentation.
+
+**Changes**:
+
+- The `modern new` command is no longer supported in Modern.js 3.0, and you cannot add entries or enable features through commands
+- The `modern upgrade` command is no longer supported in Modern.js 3.0, and you cannot automatically upgrade dependencies through commands
+
+**Handling**:
+
+- **Adding Entries**: You need to manually create entry directories and files according to the documentation. For detailed steps, please refer to the [Page Entries documentation](/guides/concept/entries).
+- **Enabling Features**: You need to manually install dependencies and configure according to the corresponding feature documentation. For example, to enable BFF functionality, you need to install the `@modern-js/plugin-bff` plugin and configure it in `modern.config.ts`.
+- **Upgrading Dependencies**: You need to manually update the versions of all `@modern-js/**` packages in `package.json`, then reinstall dependencies. For detailed steps, please refer to the [Version Upgrade documentation](/guides/get-started/upgrade).
+
+:::info Note
+The purpose of removing these commands is to make the documentation more aligned with the default implementation approach of AI Agents, not encapsulating operations, so that developers can more clearly understand the specific steps of each operation, and it is also convenient for AI Agents to directly execute corresponding operations according to the documentation.
+:::
+
+## ESLint Rule Sets
+
+Modern.js previously provided complete ESLint rule sets, covering @modern-js (Lint rules for Node.js projects) and @modern-js-app (Lint rules for frontend projects). In [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0), we officially removed these rule sets. We encourage developers to choose appropriate code specification tools according to their needs, directly use ESLint combined with community-recommended rules, or use Biome to improve code formatting performance.
