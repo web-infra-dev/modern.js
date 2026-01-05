@@ -2406,7 +2406,7 @@ importers:
         specifier: 0.0.1-next.16
         version: 0.0.1-next.16(@rsbuild-image/core@0.0.1-next.16(ipx@3.1.1(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1))(ipx@3.1.1(ioredis@5.6.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.34.1)
       ipx:
-        specifier: ^3.0.3
+        specifier: ^3.1.1
         version: 3.1.1(ioredis@5.6.1)
       sharp:
         specifier: ^0.34.1
