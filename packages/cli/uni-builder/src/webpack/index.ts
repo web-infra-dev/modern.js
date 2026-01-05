@@ -9,6 +9,7 @@ import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginPostcss } from '../shared/plugins/postcss';
 import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
+import { addRscExternalFallback } from '../shared/rsc/rscExternalFallback';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -116,6 +117,8 @@ export async function parseConfig(
         internalDirectory,
       }),
     );
+  } else {
+    addRscExternalFallback(rsbuildConfig, rsbuildPlugins);
   }
 
   if (uniBuilderConfig.tools?.tsLoader) {
