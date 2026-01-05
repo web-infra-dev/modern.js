@@ -1,13 +1,6 @@
-import type {
-  AppTools,
-  AppToolsNormalizedConfig,
-  CliPlugin,
-} from '../../../types';
+import type { AppToolsNormalizedConfig } from '../../../types';
 import type { AppToolsContext } from '../../../types/plugin';
-
-export type Setup = NonNullable<CliPlugin<AppTools>['setup']>;
-
-export type PluginAPI = Parameters<Setup>[0];
+import type { PluginAPI } from '../types';
 
 interface CreatePresetParams {
   appContext: AppToolsContext;

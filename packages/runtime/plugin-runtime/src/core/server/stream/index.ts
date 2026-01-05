@@ -1,7 +1,7 @@
 import { createRenderStreaming } from './shared';
 
 const createReadableStreamFromElement =
-  process.env.MODERN_SSR_ENV !== 'edge' || process.env.MODERN_SSR_NODE_STREAM
+  process.env.MODERN_SSR_ENV !== 'edge'
     ? import('./createReadableStream').then(
         m => m.createReadableStreamFromElement,
       )

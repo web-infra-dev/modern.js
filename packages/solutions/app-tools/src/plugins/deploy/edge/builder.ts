@@ -7,11 +7,9 @@ import {
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import { lodash as _, fs as fse } from '@modern-js/utils';
 import type { AppTools } from '../../../types';
-import type { Setup } from '../platforms/platform';
-import { applyRspackPlugin } from './apply-rspack-plugin';
 import { ESM_RESOLVE_CONDITIONS } from './constant';
 
-export const externalPkgs = ({ request }: any, callback: any) => {
+export const externalDebug = ({ request }: any, callback: any) => {
   if (request) {
     if (request.includes('compiled/debug/index.js')) {
       return callback(undefined, 'var {debug:()=>{return () => {}}}');
@@ -28,32 +26,27 @@ export const generateNodeExternals = (
   ...list.map(api => [`node:${api}`, getExternal(api)]),
 ];
 
-export const modifyCommonConfig: Setup = api => {
-  applyRspackPlugin(api);
-};
-
 export const bundleSSR = async (
-  entryCode: string,
+  handlerCode: string,
   api: CLIPluginAPI<AppTools>,
   config: BuilderConfig,
   modifyBuilder?: (builder: BuilderInstance) => Promise<void>,
 ) => {
-  const entry = path.join(
+  const handlerPath = path.join(
     api.getAppContext().internalDirectory,
-    'edge-entry.mjs',
+    'edge-handler.mjs',
   );
-  await fse.writeFile(entry, entryCode);
+  await fse.writeFile(handlerPath, handlerCode);
   const defaultConfig: BuilderConfig = {
     source: {
       entry: {
-        index: {
-          import: entry,
+        handler: {
+          import: handlerPath,
           html: false,
         },
       },
       define: {
         'process.env.NODE_ENV': '"production"',
-        'process.env.MODERN_SSR_NODE_STREAM': 'true',
         'process.env.MODERN_SSR_ENV': '"edge"',
       },
     },
@@ -90,9 +83,11 @@ export const bundleSSR = async (
       },
     },
   };
+  const finalConfig = _.merge({}, defaultConfig, config);
+  console.log('finalConfig', finalConfig);
   const builder = await createBuilder({
     bundlerType: 'rspack',
-    config: _.merge({}, defaultConfig, config),
+    config: finalConfig,
   });
   if (modifyBuilder) {
     await modifyBuilder(builder);

@@ -1,51 +1,32 @@
 import path from 'node:path';
+import { lodash as _ } from '@modern-js/utils';
 import type { Rspack } from '@rsbuild/core';
-import type { PluginAPI } from '../platforms/platform';
-import { normalizePath } from '../utils';
+import type { PluginAPI } from '../../types';
+import { normalizePath } from '../../utils';
+import { generateNodeExternals } from '../builder';
+import { NODE_BUILTIN_MODULES } from '../constant';
+import { generateChunkLoading } from './chunk-loader';
 
-const generateChunkLoading = (
-  chunkId: string,
-  chunkMap: Record<string, string>,
-) => {
-  return `var installedChunks = {"${chunkId}": 1};
-var loadingChunks = {};
-var chunkMap = ${JSON.stringify(chunkMap)};
-var installChunk = (chunk) => {
-	var moreModules = chunk.modules, chunkIds = chunk.ids, runtime = chunk.runtime;
-	for (var moduleId in moreModules) {
-		if (__webpack_require__.o(moreModules, moduleId)) {
-		 __webpack_require__.m[moduleId] = moreModules[moduleId];
-		}
-	}
-	if (runtime) runtime(__webpack_require__);
-	for (var i = 0; i < chunkIds.length; i++) installedChunks[chunkIds[i]] = 1;
-};
-__webpack_require__.f.edgeChunkLoad = (chunkId, promises) => {
-  if (installedChunks[chunkId]) {
-    return;
-  }
-  if (!loadingChunks[chunkId]) {
-    var g = global || globalThis;
-    loadingChunks[chunkId] = new Promise((resolve, reject) => {
-      var p = g.__MODERN_DEPS__[chunkMap[chunkId]];
-      if (!p) {
-        reject(new Error('chunk ' + chunkId + ' is not available'));
-        return;
-      }
-      p().then(d => {
-        installChunk(d.default || d);
-        resole();
-      }).catch(reject)
-    });
-  }
-  promises.push(loadingChunks[chunkId]);
-};`;
-};
+export interface ApplyConfigParams {
+  rsbuild?: Parameters<PluginAPI['modifyRsbuildConfig']>[0];
+  rspack?: Parameters<PluginAPI['modifyRspackConfig']>[0];
+}
 
-export const applyRspackPlugin = (api: PluginAPI) => {
+export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
   let baseDistPath: string;
 
-  api.modifyRsbuildConfig(config => {
+  api.modifyBundlerChain((_c, { environments }) => {
+    // Use modifyBundlerChain API to ensure that the write priority of MODERN_SSR_ENV is higher than plugin-ssr
+    if (environments.node) {
+      _.set(
+        environments.node,
+        'config.source.define["process.env.MODERN_SSR_ENV"]',
+        "'edge'",
+      );
+    }
+  });
+
+  api.modifyRsbuildConfig((config, utils) => {
     if (!config.environments?.node) {
       return;
     }
@@ -55,17 +36,29 @@ export const applyRspackPlugin = (api: PluginAPI) => {
       appDirectory,
       userConfig.output?.distPath?.root || 'dist',
     );
+    options?.rsbuild?.(config, utils);
   });
 
-  api.modifyRspackConfig(config => {
+  const nodeExternals = Object.fromEntries(
+    generateNodeExternals(
+      api => `module-import node:${api}`,
+      NODE_BUILTIN_MODULES,
+    ),
+  );
+
+  api.modifyRspackConfig((config, utils) => {
     const outputPath = config.output?.path;
     if (config.target !== 'node' || !baseDistPath || !outputPath) {
       return;
     }
 
+    config.target = 'es2020';
+
     if (config.output) {
       config.output.chunkLoading = 'edgeChunkLoad';
     }
+
+    const isESM = Boolean(config.output?.module);
 
     const instance: Rspack.RspackPluginInstance = {
       apply(compiler) {
@@ -102,7 +95,14 @@ export const applyRspackPlugin = (api: PluginAPI) => {
               );
               chunkMap[refChunk.id] = relativePath;
             });
-            return generateChunkLoading(chunk.id, chunkMap);
+            // rspack declared a wrong type of RuntimeGlobals, they fixed in a newer version
+            // @see https://github.com/web-infra-dev/rspack/blob/v1.6.8/packages/rspack/src/RuntimeGlobals.ts#L679
+            return generateChunkLoading(
+              chunk.id,
+              chunkMap,
+              RuntimeGlobals as any,
+              isESM,
+            );
           }
         }
 
@@ -119,10 +119,19 @@ export const applyRspackPlugin = (api: PluginAPI) => {
       },
     };
 
+    if (Array.isArray(config.externals)) {
+      config.externals.push(nodeExternals);
+    } else {
+      config.externals = [nodeExternals];
+    }
+
     if (config.plugins) {
       config.plugins.push(instance);
     } else {
       config.plugins = [instance];
     }
+
+    console.log('\n\n\n\n', 'config', config.resolve, '\n\n\n\n');
+    options?.rspack?.(config, utils);
   });
 };

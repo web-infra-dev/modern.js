@@ -109,20 +109,10 @@ describe('deploy', () => {
 
     const outputDirectory = path.join(appDir, '.cf-workers');
     const staticDirectory = path.join(outputDirectory, 'assets/static');
-    const funcsDirectory = path.join(outputDirectory, 'functions');
-    const serverEntryFile = path.join(
-      funcsDirectory,
-      'bundles/modern-server.js',
-    );
-    const depsEntryFile = path.join(funcsDirectory, 'deps.js');
-    const bootstrapFile = path.join(funcsDirectory, 'index.js');
-    const htmlFile = path.join(funcsDirectory, 'html/one/index.html.js');
+    const handlerFile = path.join(outputDirectory, 'functions/handler.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
-    expect(await fse.pathExists(serverEntryFile)).toBe(true);
-    expect(await fse.pathExists(depsEntryFile)).toBe(true);
-    expect(await fse.pathExists(bootstrapFile)).toBe(true);
-    expect(await fse.pathExists(htmlFile)).toBe(true);
+    expect(await fse.pathExists(handlerFile)).toBe(true);
   });
 
   test('support server when deploy target is edgeone', async () => {
@@ -139,24 +129,14 @@ describe('deploy', () => {
     const outputDirectory = path.join(appDir, '.eo-output');
     const staticDirectory = path.join(outputDirectory, 'static');
     const funcsDirectory = path.join(outputDirectory, 'node-functions');
-    const funcContentDirectory = path.join(funcsDirectory, '_content');
-    const serverEntryFile = path.join(
-      funcContentDirectory,
-      'bundles/modern-server.js',
-    );
-    const depsEntryFile = path.join(funcContentDirectory, 'deps.js');
-    const handlerFile = path.join(funcContentDirectory, 'handler.js');
+    const handlerFile = path.join(funcsDirectory, 'handler.js');
     const bootstrapFile1 = path.join(funcsDirectory, 'index.js');
     const bootstrapFile2 = path.join(funcsDirectory, '[[default]].js');
-    const htmlFile = path.join(funcContentDirectory, 'html/one/index.html.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
-    expect(await fse.pathExists(serverEntryFile)).toBe(true);
-    expect(await fse.pathExists(depsEntryFile)).toBe(true);
     expect(await fse.pathExists(handlerFile)).toBe(true);
     expect(await fse.pathExists(bootstrapFile1)).toBe(true);
     expect(await fse.pathExists(bootstrapFile2)).toBe(true);
-    expect(await fse.pathExists(htmlFile)).toBe(true);
   });
 
   test('support server when deploy target is aliEsa', async () => {
@@ -172,19 +152,9 @@ describe('deploy', () => {
 
     const outputDirectory = path.join(appDir, '.ali-esa');
     const staticDirectory = path.join(outputDirectory, 'dist/static');
-    const funcsDirectory = path.join(outputDirectory, 'functions');
-    const serverEntryFile = path.join(
-      funcsDirectory,
-      'bundles/modern-server.js',
-    );
-    const depsEntryFile = path.join(funcsDirectory, 'deps.js');
-    const bootstrapFile = path.join(funcsDirectory, 'index.js');
-    const htmlFile = path.join(funcsDirectory, 'html/one/index.html.js');
+    const handlerFile = path.join(outputDirectory, 'functions/handler.js');
 
     expect(await fse.pathExists(staticDirectory)).toBe(true);
-    expect(await fse.pathExists(serverEntryFile)).toBe(true);
-    expect(await fse.pathExists(depsEntryFile)).toBe(true);
-    expect(await fse.pathExists(bootstrapFile)).toBe(true);
-    expect(await fse.pathExists(htmlFile)).toBe(true);
+    expect(await fse.pathExists(handlerFile)).toBe(true);
   });
 });

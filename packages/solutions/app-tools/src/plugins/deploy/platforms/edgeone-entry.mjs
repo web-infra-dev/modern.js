@@ -1,3 +1,3 @@
-import { handleRequest } from './_content/handler.js';
+import { handleRequest } from './handler.js';
 
 export const onRequest = handleRequest;

@@ -1,6 +1,7 @@
 import { env } from 'node:process';
-import { createAliESAFunction } from './bundles/modern-server';
-import { deps } from './deps';
+import { createAliESAFunction } from 'p_prodServerEntry';
+
+globalThis.__MODERN_DEPS__ = p_genDepCode;
 
 p_genPluginImportsCode;
 

@@ -1,6 +1,7 @@
 export const loadDeps = async <T = any>(
   keyParam: string,
   deps?: Record<string, Promise<any>>,
+  interop = true,
 ): Promise<T | undefined> => {
   if (!deps || typeof deps !== 'object') {
     return;
@@ -26,7 +27,11 @@ export const loadDeps = async <T = any>(
   }
 
   try {
-    return await value();
+    const res = await value();
+    if (interop) {
+      return res.default || res;
+    }
+    return res;
   } catch (e) {
     console.error(e);
   }

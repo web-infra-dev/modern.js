@@ -285,6 +285,12 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ### 全栈项目
 
+:::info
+注意：
+* 目前仅支持 TypeScript、ES 项目的全栈项目部署至阿里云 ESA。
+* 对全栈项目部署至阿里云 ESA 的支持尚处于实验阶段，我们暂时不保证其可用性；如果遇到问题，请通过 issue 反馈。
+:::
+
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
 
 全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `esa.jsonc` 外，需要**额外**添加 `entry` 字段：
@@ -292,7 +298,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ```json title="esa.jsonc"
 {
-  "entry": "./.ali-esa/functions/index.js"
+  "entry": "./.ali-esa/functions/handler.js"
   /* 其他配置 */
 }
 ```
@@ -335,6 +341,10 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 
 ### 全栈项目
 
+:::info
+注意：目前仅支持 TypeScript、ES 项目的全栈项目部署至 Cloudflare Workers。
+:::
+
 全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
 
 全栈项目除了按照[纯前端项目](#纯前端项目-4)的方式配置 `wrangler.jsonc` 外，需要**额外**添加以下内容：
@@ -342,7 +352,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
 ```json title="wrangler.jsonc"
 {
   "compatibility_flags": ["nodejs_compat"],
-  "main": "./.cf-workers/functions/index.js",
+  "main": "./.cf-workers/functions/handler.js",
   /* 其他配置 */
 }
 ```

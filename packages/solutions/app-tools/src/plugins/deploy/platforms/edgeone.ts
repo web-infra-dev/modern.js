@@ -1,30 +1,33 @@
 import path from 'node:path';
 import { fs as fse } from '@modern-js/utils';
 import {
+  NODE_BUILTIN_MODULES,
+  applyConfig,
+  bundleSSR,
   copyEntriesHtml,
   generateHandler,
-  modifyCommonConfig,
+  generateNodeExternals,
   scanDeps,
   walkDirectory,
 } from '../edge';
+import type { Setup } from '../types';
 import { normalizePath } from '../utils';
-import type { CreatePreset, Setup } from './platform';
+import type { CreatePreset } from './platform';
 
 export const setupEdgeOne: Setup = async api => {
-  modifyCommonConfig(api);
+  applyConfig(api);
 };
 
 export const createEdgeOnePreset: CreatePreset = ({
   appContext,
   modernConfig,
+  api,
   needModernServer,
 }) => {
   const { appDirectory, distDirectory, entrypoints } = appContext;
 
   const eoOutput = path.join(appDirectory, '.eo-output');
   const funcsDirectory = path.join(eoOutput, 'node-functions');
-  const funcContentDirectory = path.join(funcsDirectory, '_content');
-  const handlerFilePath = path.join(funcContentDirectory, 'handler.js');
   const staticDirectory = path.join(eoOutput, 'static');
   const distStaticDirectory = path.join(distDirectory, `static`);
   return {
@@ -42,8 +45,6 @@ export const createEdgeOnePreset: CreatePreset = ({
           distDirectory,
           eoOutput,
         );
-      } else {
-        await fse.ensureDir(funcContentDirectory);
       }
     },
     async genEntry() {
@@ -79,7 +80,23 @@ export const createEdgeOnePreset: CreatePreset = ({
         'p_genStaticFilesList',
         JSON.stringify(staticFilesList),
       );
-      await fse.writeFile(handlerFilePath, handlerCode);
+
+      const nodeExternals = Object.fromEntries(
+        generateNodeExternals(
+          api => `module-import node:${api}`,
+          NODE_BUILTIN_MODULES,
+        ),
+      );
+      await bundleSSR(handlerCode, api, {
+        output: {
+          externals: [nodeExternals],
+          distPath: {
+            root: funcsDirectory,
+            js: '.',
+          },
+        },
+      });
+
       const entryCode = (
         await fse.readFile(path.join(__dirname, './edgeone-entry.mjs'))
       ).toString();

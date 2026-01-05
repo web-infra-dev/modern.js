@@ -2,17 +2,18 @@ import path from 'node:path';
 import { fs as fse } from '@modern-js/utils';
 import {
   NODE_BUILTIN_MODULES,
+  applyConfig,
   bundleSSR,
   copyEntriesHtml,
   generateHandler,
   generateNodeExternals,
-  modifyCommonConfig,
   scanDeps,
 } from '../edge';
-import type { CreatePreset, Setup } from './platform';
+import type { Setup } from '../types';
+import type { CreatePreset } from './platform';
 
 export const setupCFWorkers: Setup = async api => {
-  modifyCommonConfig(api);
+  applyConfig(api);
 };
 
 export const createCFWorkersPreset: CreatePreset = ({
@@ -56,9 +57,9 @@ export const createCFWorkersPreset: CreatePreset = ({
         distStaticDirectory,
       );
       const entryTemplate = (
-        await fse.readFile(path.join(__dirname, './cf-workers-entry.mjs'))
+        await fse.readFile(path.join(__dirname, './cf-workers-handler.mjs'))
       ).toString();
-      const entryCode = await generateHandler(
+      const handlerCode = await generateHandler(
         entryTemplate,
         appContext,
         modernConfig,
@@ -71,7 +72,7 @@ export const createCFWorkersPreset: CreatePreset = ({
           NODE_BUILTIN_MODULES,
         ),
       );
-      await bundleSSR(entryCode, api, {
+      await bundleSSR(handlerCode, api, {
         output: {
           externals: [nodeExternals],
           distPath: {

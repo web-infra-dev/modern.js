@@ -3,3 +3,4 @@ export * from './builder';
 export * from './file-handler';
 export * from './generator';
 export * from './utils';
+export { applyConfig } from './config/apply';

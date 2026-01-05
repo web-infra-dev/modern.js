@@ -11,8 +11,8 @@ import { createEdgeOnePreset } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
-import type { PluginAPI, Setup } from './platforms/platform';
 import { createVercelPreset } from './platforms/vercel';
+import type { PluginAPI, Setup } from './types';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
   node: typeof createNodePreset;
