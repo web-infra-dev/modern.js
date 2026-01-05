@@ -21,13 +21,16 @@ export const initAppContext = ({
 }) => {
   const { apiDir = 'api', sharedDir = 'shared' } = options || {};
   const pkgPath = path.resolve(appDirectory, './package.json');
+
+  const moduleType = fs.existsSync(pkgPath)
+    ? fs.readJSONSync(pkgPath).type || 'commonjs'
+    : 'commonjs';
+
   return {
     runtimeConfigFile,
     ip: address.ip(),
     port: 0,
-    moduleType: fs.existsSync(pkgPath)
-      ? require(pkgPath).type || 'commonjs'
-      : 'commonjs',
+    moduleType,
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
     sharedDirectory: path.resolve(appDirectory, sharedDir),

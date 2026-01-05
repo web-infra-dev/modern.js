@@ -1,9 +1,7 @@
 import * as os from 'os';
 import path, { dirname, posix } from 'path';
-import {
-  type MatchPath,
-  createMatchPath,
-} from '@modern-js/utils/tsconfig-paths';
+import type { MatchPath } from '@modern-js/utils/tsconfig-paths';
+import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import * as ts from 'typescript';
 
 const isRegExpKey = (str: string) => {

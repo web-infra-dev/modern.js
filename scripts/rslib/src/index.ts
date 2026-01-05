@@ -1,7 +1,7 @@
 import { pluginReact } from '@rsbuild/plugin-react';
 import type { RslibConfig } from '@rslib/core';
 
-export const rslibConfig: RslibConfig = {
+export const jsRslibConfig: RslibConfig = {
   plugins: [pluginReact()],
   performance: {
     buildCache: false,
@@ -19,8 +19,17 @@ export const rslibConfig: RslibConfig = {
         },
         target: 'node' as const,
       },
-      dts: {
-        distPath: 'dist/types',
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"esm"',
+        },
+      },
+      shims: {
+        esm: {
+          require: true,
+          __dirname: true,
+          __filename: true,
+        },
       },
     },
     {
@@ -28,12 +37,17 @@ export const rslibConfig: RslibConfig = {
       syntax: 'es2021' as const,
       bundle: false,
       outBase: './src',
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"esm"',
+        },
+      },
       /**
        * which file (xxx.js or xxx.server.js) should be bundled should be decided by rspack.
        */
       redirect: {
         js: {
-          extension: false,
+          extension: true,
           path: false,
         },
       },
@@ -44,15 +58,17 @@ export const rslibConfig: RslibConfig = {
         },
         target: 'web' as const,
       },
-      dts: {
-        distPath: 'dist/types',
-      },
     },
     {
       format: 'cjs' as const,
       syntax: 'es2021' as const,
       bundle: false,
       outBase: './src',
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"cjs"',
+        },
+      },
       output: {
         distPath: {
           root: './dist/cjs',
@@ -61,4 +77,16 @@ export const rslibConfig: RslibConfig = {
       },
     },
   ],
+};
+
+export const rslibConfig: RslibConfig = {
+  ...jsRslibConfig,
+  lib: jsRslibConfig.lib.map(config => {
+    return {
+      ...config,
+      dts: {
+        distPath: 'dist/types',
+      },
+    };
+  }),
 };

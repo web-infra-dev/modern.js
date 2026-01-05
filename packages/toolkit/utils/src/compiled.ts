@@ -28,8 +28,11 @@ export { default as stripAnsi } from '../compiled/strip-ansi';
 export { default as dotenvExpand } from '../compiled/dotenv-expand';
 export { default as browserslist } from '../compiled/browserslist';
 
-export { program, Command } from '../compiled/commander';
-export { Signale } from '../compiled/signale';
+export { Command, program } from '../compiled/commander';
+
+import _signale from '../compiled/signale';
+export const { Signale } = _signale;
+
 export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
@@ -41,13 +44,25 @@ export type { ExecaError } from '../compiled/execa';
  * Notice that `csmith-tools build` can not bundle lazy imported modules.
  */
 const getNodeRequire = () => {
-  const gRequire = (globalThis as any).require;
-  if (typeof gRequire === 'function') {
-    return gRequire;
+  if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+    if (
+      typeof global === 'object' &&
+      typeof (global as any).require === 'function'
+    ) {
+      return (global as any).require;
+    }
+    if (
+      typeof globalThis === 'object' &&
+      typeof (globalThis as any).require === 'function'
+    ) {
+      return (globalThis as any).require;
+    }
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
-  return /*#__PURE__*/ createRequire((import.meta as any).url);
+  if (process.env.MODERN_LIB_FORMAT === 'esm') {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
+    return /*#__PURE__*/ createRequire(import.meta.url);
+  }
 };
 export const mime: typeof import('../compiled/mime-types') =
   /*#__PURE__*/ Import.lazy('../compiled/mime-types', getNodeRequire);

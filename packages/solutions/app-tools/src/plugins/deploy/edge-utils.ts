@@ -1,4 +1,5 @@
-import path from 'path';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import type { CLIPluginAPI, Entrypoint } from '@modern-js/plugin';
 import {
   ROUTE_SPEC_FILE,
@@ -7,8 +8,7 @@ import {
   fs as fse,
   getMeta,
 } from '@modern-js/utils';
-import { resolve } from '@vercel/nft';
-import { Job } from '@vercel/nft/out/node-file-trace';
+import { moduleResolve } from 'import-meta-resolve';
 import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 import { isMainEntry } from '../../utils/routes';
@@ -163,7 +163,7 @@ export const copyDeps = async (
       return;
     }
 
-    // skip map and LICENSE files
+    // Skip map and LICENSE files, they will increase server bundle size
     if (filePath.endsWith('.map') || filePath.endsWith('.LICENSE.txt')) {
       return;
     }
@@ -203,9 +203,7 @@ export const generateProdServerEntry = async (
     ({ name }, index) =>
       `import * as plugin_${index}_ns from '${name}';\nexport const plugin_${index} = plugin_${index}_ns.default || plugin_${index}_ns;`,
   );
-  const entry = await resolveESMDependency(
-    `@modern-js/prod-server/${serverType}`,
-  );
+  const entry = resolveESMDependency(`@modern-js/prod-server/${serverType}`);
   const serverCode = `export * from '${entry}';`;
   const prodEntryPath = getProdServerEntry(internalDirectory);
   await fse.writeFile(prodEntryPath, `${pluginCode}\n${serverCode}`);
@@ -266,15 +264,20 @@ export const generateHandler = async (
     .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 };
 
-export const resolveESMDependency = async (entry: string) => {
-  const j = new Job({
-    conditions: ESM_RESOLVE_CONDITIONS,
-  });
-  const res = await resolve(entry, __filename, j);
-  if (Array.isArray(res)) {
-    return normalizePath(res[0]);
+export const resolveESMDependency = (entry: string) => {
+  const conditions = new Set(['node', 'import', 'module', 'default']);
+  try {
+    return normalizePath(
+      moduleResolve(
+        entry,
+        pathToFileURL(`${__dirname}/`),
+        conditions,
+        false,
+      ).href.replace(/^file:[\/]+/, ''),
+    );
+  } catch (err) {
+    // ignore
   }
-  return normalizePath(res);
 };
 
 export const copyEntriesHtml = async (

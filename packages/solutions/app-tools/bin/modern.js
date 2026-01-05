@@ -7,7 +7,23 @@ if (!process.env.MODERN_JS_VERSION) {
   process.env.MODERN_JS_VERSION = version;
 }
 
-require('../dist/cjs/run/index.js').run({
+// is esm project?
+let isEsm = false;
+try {
+  const { readFileSync } = require('fs');
+  const { join } = require('path');
+  const { cwd } = require('process');
+  const pkg = JSON.parse(
+    readFileSync(join(cwd(), 'package.json'), { encoding: 'utf-8' }),
+  );
+  isEsm = pkg.type === 'module';
+} catch (e) {
+  // ignore
+}
+
+require(
+  isEsm ? '../dist/esm-node/run/index.mjs' : '../dist/cjs/run/index.js',
+).run({
   internalPlugins: INTERNAL_RUNTIME_PLUGINS,
   version,
 });

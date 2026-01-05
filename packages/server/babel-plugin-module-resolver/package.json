@@ -19,21 +19,21 @@
   "jsnext:source": "./src/index.js",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/esm/index.mjs",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.js",
-        "import": "./dist/esm-node/index.js",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm/index.mjs"
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
@@ -48,6 +48,8 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/preset-env": "^7.28.5",
+    "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.0",
     "@scripts/build": "workspace:*",
     "common-tags": "^1.8.2"
   },

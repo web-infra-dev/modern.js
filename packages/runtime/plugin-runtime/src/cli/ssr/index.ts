@@ -7,8 +7,13 @@ import type {
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
-import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
+import {
+  LOADABLE_STATS_FILE,
+  isUseSSRBundle,
+  tryResolve,
+} from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import LoadableBundlerPlugin from './loadable-bundler-plugin';
 import { resolveSSRMode } from './mode';
 
 const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
@@ -113,7 +118,6 @@ const ssrBuilderPlugin = (
         tools: {
           bundlerChain: useLoadablePlugin
             ? chain => {
-                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
                   .plugin('loadable')
                   .use(LoadableBundlerPlugin, [

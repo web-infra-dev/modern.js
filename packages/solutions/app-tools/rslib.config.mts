@@ -8,6 +8,7 @@ export default defineConfig({
     return {
       ...libConfig,
       source: {
+        ...libConfig.source,
         entry: {
           index: [
             './src/**',

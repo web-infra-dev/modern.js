@@ -1,6 +1,6 @@
-import Module from 'module';
-import { builtinModules } from 'module';
-import path from 'path';
+import Module from 'node:module';
+import { builtinModules } from 'node:module';
+import path from 'node:path';
 import type {
   AppTools,
   CliPlugin,
@@ -433,13 +433,14 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     }
 
     api.config(() => {
-      const documentPath = require.resolve('../');
+      const documentPath = path.join(__dirname, '..', 'index.mjs');
       return {
         resolve: {
           alias: {
-            '@meta/runtime/document$': documentPath
-              .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
-              .replace(/.js$/, '.mjs'),
+            '@meta/runtime/document$': documentPath.replace(
+              `${path.sep}cjs${path.sep}`,
+              `${path.sep}esm${path.sep}`,
+            ),
           },
         },
         tools: {
