@@ -31,6 +31,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     },
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1321,6 +1326,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     DefinePlugin {
       "_args": [
         {
+          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -1480,6 +1486,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       },
     },
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2358,6 +2369,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     DefinePlugin {
       "_args": [
         {
+          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -2468,6 +2480,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     },
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -3790,6 +3807,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     DefinePlugin {
       "_args": [
         {
+          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -3902,6 +3920,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       },
     },
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -4758,6 +4781,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     DefinePlugin {
       "_args": [
         {
+          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -4866,6 +4890,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -6319,6 +6348,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
     DefinePlugin {
       "definitions": {
+        "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
         "import.meta.env": {
           "ASSET_PREFIX": """",
           "BASE_URL": "\\"/\\"",
@@ -6460,6 +6490,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "externals": [
+    {
+      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
+    },
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -8027,6 +8062,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
     DefinePlugin {
       "definitions": {
+        "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
         "import.meta.env": {
           "ASSET_PREFIX": """",
           "BASE_URL": "\\"/\\"",

@@ -4,6 +4,7 @@ exports[`plugin-global-vars > 'globalVars function' 1`] = `
 [
   DefinePlugin {
     "definitions": {
+      "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
       "import.meta.env": {
         "ASSET_PREFIX": """",
         "BASE_URL": "\\"/\\"",
@@ -28,6 +29,7 @@ exports[`plugin-global-vars > 'globalVars' 1`] = `
 [
   DefinePlugin {
     "definitions": {
+      "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
       "import.meta.env": {
         "ASSET_PREFIX": """",
         "BASE_URL": "\\"/\\"",
