@@ -1,5 +1,14 @@
 # @modern-js/server-utils
 
+## 3.0.0-alpha.1
+
+### Patch Changes
+
+- @modern-js/utils@3.0.0-alpha.1
+- @modern-js/babel-preset@3.0.0-alpha.1
+- @modern-js/babel-plugin-module-resolver@3.0.0-alpha.1
+- @modern-js/babel-compiler@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Patch Changes
