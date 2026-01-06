@@ -44,7 +44,11 @@ export type { ExecaError } from '../compiled/execa';
  * Notice that `csmith-tools build` can not bundle lazy imported modules.
  */
 const getNodeRequire = () => {
-  if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+  if (process.env.MODERN_LIB_FORMAT === 'esm') {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
+    return /*#__PURE__*/ createRequire(import.meta.url);
+  } else {
     if (
       typeof global === 'object' &&
       typeof (global as any).require === 'function'
@@ -57,11 +61,7 @@ const getNodeRequire = () => {
     ) {
       return (globalThis as any).require;
     }
-  }
-  if (process.env.MODERN_LIB_FORMAT === 'esm') {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
-    return /*#__PURE__*/ createRequire(import.meta.url);
+    return require;
   }
 };
 export const mime: typeof import('../compiled/mime-types') =

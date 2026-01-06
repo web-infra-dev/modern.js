@@ -5,4 +5,5 @@ module.exports = {
   ...sharedConfig,
   testEnvironment: 'node',
   rootDir: __dirname,
+  setupFiles: ['../../../tests/setEnvVars.js'],
 };

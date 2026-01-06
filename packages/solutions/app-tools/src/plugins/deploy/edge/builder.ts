@@ -84,7 +84,6 @@ export const bundleSSR = async (
     },
   };
   const finalConfig = _.merge({}, defaultConfig, config);
-  console.log('finalConfig', finalConfig);
   const builder = await createBuilder({
     bundlerType: 'rspack',
     config: finalConfig,

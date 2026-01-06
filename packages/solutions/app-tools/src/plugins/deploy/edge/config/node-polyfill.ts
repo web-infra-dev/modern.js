@@ -14,13 +14,13 @@ export const createNodePolyfill = (polyfill: Array<BuiltinModules>) => {
             builtinMappingResolved[moduleName]!,
           ]),
         );
-        console.log('add fallback', o);
+        // console.log('add fallback', o);
         chain.resolve.fallback.merge(o);
       });
 
-      api.modifyRspackConfig(config => {
-        console.log('rspack config', config);
-      });
+      // api.modifyRspackConfig(config => {
+      //   console.log('rspack config', config);
+      // });
     },
   };
   return plugin;

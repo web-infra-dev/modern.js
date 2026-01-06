@@ -131,7 +131,7 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
       config.plugins = [instance];
     }
 
-    console.log('\n\n\n\n', 'config', config.resolve, '\n\n\n\n');
+    // console.log('\n\n\n\n', 'config', config.resolve, '\n\n\n\n');
     options?.rspack?.(config, utils);
   });
 };

@@ -40,9 +40,7 @@ export async function compatibleRequire(
   if (process.env.MODERN_LIB_FORMAT === 'esm') {
     requiredModule = await importPath(path);
     return interop ? requiredModule.default : requiredModule;
-  }
-
-  if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+  } else {
     try {
       requiredModule = require(path);
     } catch (err: any) {
@@ -70,9 +68,7 @@ export async function loadFromProject(moduleName: string, appDir: string) {
     if (process.env.MODERN_LIB_FORMAT === 'esm') {
       const moduleUrl = pathToFileURL(modulePath).href;
       requiredModule = await import(moduleUrl);
-    }
-
-    if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+    } else {
       requiredModule = require(modulePath);
     }
 
@@ -112,7 +108,7 @@ export const requireExistModule = async (
 };
 
 export const cleanRequireCache = (filelist: string[]) => {
-  if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+  if (process.env.MODERN_LIB_FORMAT !== 'esm') {
     filelist.forEach(filepath => {
       if (typeof require !== 'undefined' && require.cache) {
         delete require.cache[filepath];
@@ -122,14 +118,13 @@ export const cleanRequireCache = (filelist: string[]) => {
 };
 
 export function deleteRequireCache(path: string) {
-  if (process.env.MODERN_LIB_FORMAT === 'cjs') {
-    if (require.cache[path]) {
-      delete require.cache[path];
-    }
-  }
   if (process.env.MODERN_LIB_FORMAT === 'esm') {
     if (module.children) {
       module.children = module.children.filter(item => item.filename !== path);
+    }
+  } else {
+    if (require.cache[path]) {
+      delete require.cache[path];
     }
   }
 }
@@ -163,8 +158,7 @@ export const tryResolve = (name: string, ...resolvePath: string[]) => {
   try {
     if (process.env.MODERN_LIB_FORMAT === 'esm') {
       filePath = tryResolveESM(name, ...resolvePath);
-    }
-    if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+    } else {
       filePath = require.resolve(name, { paths: resolvePath });
       delete require.cache[filePath];
     }

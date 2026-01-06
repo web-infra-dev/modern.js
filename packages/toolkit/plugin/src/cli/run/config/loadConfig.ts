@@ -66,8 +66,7 @@ async function loadConfigContent<T>(configFile: string): Promise<T> {
     // Dynamically load the configuration file using jiti
     if (process.env.MODERN_LIB_FORMAT === 'esm') {
       config = await jiti.import(configFile, {});
-    }
-    if (process.env.MODERN_LIB_FORMAT === 'cjs') {
+    } else {
       config = jiti(configFile);
     }
 
