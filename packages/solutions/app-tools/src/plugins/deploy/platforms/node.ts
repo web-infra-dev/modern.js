@@ -67,7 +67,7 @@ export const createNodePreset: CreatePreset = ({
       const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './node-entry.js'))
+        await fse.readFile(path.join(__dirname, './node-entry.cjs'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
