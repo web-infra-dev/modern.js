@@ -1,0 +1,936 @@
+# Configuration Changes
+
+This document mainly introduces incompatible configuration changes and recommended migration methods when upgrading from Modern.js 2.0 to 3.0.
+
+## dev
+
+### dev.port
+
+**Change**: This configuration has been removed and replaced with `server.port`.
+
+**Migration Example**:
+
+```typescript
+// Before
+dev: {
+  port: 8080;
+}
+
+// After
+server: {
+  port: process.env.NODE_ENV === 'development' ? 8080 : undefined;
+}
+```
+
+## html
+
+### html.appIcon
+
+**Change**: String format is no longer supported, object format must be used.
+
+**V2 Type**:
+
+```typescript
+type AppIconItem = {
+  src: string;
+  size: number;
+  target?: 'apple-touch-icon' | 'web-app-manifest';
+};
+
+type AppIcon =
+  | string
+  | {
+      name?: string;
+      icons: AppIconItem[];
+      filename?: string;
+    };
+```
+
+**V3 Type**:
+
+```typescript
+type AppIconItem = {
+  src: string;
+  size: number;
+  target?: 'apple-touch-icon' | 'web-app-manifest';
+};
+
+type AppIcon = {
+  name?: string;
+  icons: AppIconItem[];
+  filename?: string;
+};
+```
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  html: {
+    appIcon: './src/assets/icon.png',
+  },
+};
+
+// v3
+export default {
+  html: {
+    appIcon: {
+      icons: [
+        {
+          src: './src/assets/icon.png',
+          size: 180,
+        },
+      ],
+    },
+  },
+};
+```
+
+### html.xxxByEntries
+
+**Change**: Configurations such as `metaByEntries`, `templateParametersByEntries`, `injectByEntries`, `tagsByEnties`, `faviconByEntries`, `templateByEnties`, `titleByEntries` have been deprecated and need to be replaced with function syntax.
+
+**Migration Steps**:
+
+1. Remove related configurations
+2. Use the function syntax of `html.xxx` instead
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  html: {
+    metaByEntries: {
+      foo: {
+        description: 'TikTok',
+      },
+      // Other configurations...
+    },
+  },
+};
+
+// v3
+export default {
+  html: {
+    meta({ entryName }) {
+      switch (entryName) {
+        case 'foo':
+          return {
+            description: 'TikTok',
+          };
+        // Other configurations...
+      }
+    },
+  },
+};
+```
+
+### html.disableHtmlFolder
+
+**Change**: This configuration has been deprecated, use `html.outputStructure` instead.
+
+**Migration Example**:
+
+```typescript
+// v2 - equivalent to html.outputStructure configured as nested
+export default {
+  html: {
+    disableHtmlFolder: true,
+  },
+};
+
+// v3
+export default {
+  html: {
+    outputStructure: 'flat',
+  },
+};
+```
+
+## tools
+
+### tools.esbuild
+
+**Change**: This configuration has been deprecated, you need to manually switch to esbuild minification.
+
+```typescript
+// This configuration has been deprecated, please refer to [Switching Minifier](https://rsbuild.rs/config/output/minify#switching-minifier) to manually switch to esbuild minification
+// tools: {
+//   esbuild: { /* configuration */ }
+// },
+```
+
+### tools.terser
+
+**Change**: This configuration has been deprecated, you need to manually switch to Terser minification.
+
+```typescript
+// This configuration has been deprecated, please refer to [Switching Minifier](https://rsbuild.rs/config/output/minify#switching-minifier) to manually switch to Terser minification
+// tools: {
+//   terser: { /* configuration */ }
+// },
+```
+
+### tools.devServer
+
+**Change 1**: `after`, `before`, `devMiddleware` configurations have been deprecated, use `dev` configuration instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      before: [...],
+      after: [...],
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
+};
+
+// v3
+export default {
+  dev: {
+    setupMiddlewares: [...],
+    writeToDisk: true
+  }
+};
+```
+
+**Change 2**: `client`, `https`, `liveReload` configurations have been deprecated, use corresponding `dev.client`, `dev.https`, `dev.liveReload` configurations instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      client: {
+        port: 8081,
+      },
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    client: {
+      port: 8081,
+    },
+  },
+};
+```
+
+**Change 3**: `hot` configuration has been deprecated, use `dev.hmr` configuration instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      hot: false,
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    hmr: false,
+  },
+};
+```
+
+**Change 4**: `compress`, `headers`, `historyApiFallback`, `watch` configurations have been deprecated, use `dev.server.compress`, `dev.server.headers`, `dev.server.historyApiFallback`, `dev.server.watch` configurations instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  tools: {
+    devServer: {
+      compress: true,
+      headers: {
+        'X-Custom-Header': 'custom-value',
+      },
+      historyApiFallback: true,
+      watch: true,
+    },
+  },
+};
+
+// v3
+export default {
+  dev: {
+    server: {
+      compress: true,
+      headers: {
+        'X-Custom-Header': 'custom-value',
+      },
+      historyApiFallback: true,
+      watch: true,
+    },
+  },
+};
+```
+
+### tools.pug
+
+**Change**: This configuration has been deprecated, use Rsbuild's [Pug plugin](https://github.com/rspack-contrib/rsbuild-plugin-pug) to enable support.
+
+**Migration Example**:
+
+```typescript
+// v2
+tools: {
+  pug: true,
+},
+
+// v3
+import { pluginPug } from "@rsbuild/plugin-pug";
+
+export default {
+  builderPlugins: [pluginPug()],
+};
+```
+
+### tools.rsdoctor
+
+**Change**: This configuration has been deprecated, please refer to the [Rsdoctor documentation](/guides/basic-features/debug/rsdoctor) and use Rspack's [Rsdoctor plugin] to enable support.
+
+**Migration Example**:
+
+```typescript
+// v2
+tools: {
+  rsdoctor: {
+    disableClientServer: true,
+    features: ['bundle', 'loader', 'plugins', 'resolver'],
+  },
+},
+
+// v3
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
+
+export default {
+  // ...
+  tools: {
+    bundlerChain(chain) {
+      // Only register the plugin when RSDOCTOR is true, as the plugin will increase build time
+      if (process.env.RSDOCTOR) {
+        chain.plugin('rsdoctor').use(RsdoctorRspackPlugin, [
+          {
+            // Plugin options
+            disableClientServer: true,
+            features: ['bundle', 'loader', 'plugins', 'resolver'],
+          },
+        ]);
+      }
+    },
+  },
+};
+```
+
+### tools.babel
+
+**Change**: This configuration has been deprecated, the framework no longer includes Babel by default. Please use [Rsbuild's Babel plugin](https://v0.rsbuild.rs/plugins/list/plugin-babel) to enable support.
+
+**Migration Example**:
+
+```typescript
+// v2
+tools: {
+  babel: {
+    plugins: [
+      [
+        'babel-plugin-import',
+        {
+          libraryName: 'xxx-components',
+          libraryDirectory: 'es',
+          style: true,
+        },
+      ],
+    ],
+  },
+}
+
+// v3
+import { pluginBabel } from '@rsbuild/plugin-babel';
+
+export default {
+  // ...
+  builderPlugins: [
+    pluginBabel({
+      babelLoaderOptions: {
+        plugins: [
+          [
+            'babel-plugin-import',
+            {
+              libraryName: 'my-components',
+              libraryDirectory: 'es',
+              style: true,
+            },
+          ],
+        ],
+      },
+    })
+  ];
+}
+```
+
+### tools.tailwindcss
+
+**Change**: This configuration has been deprecated, please refer to [Tailwind Plugin Changes](/guides/upgrade/tailwindcss) and use Rsbuild's approach to integrate Tailwind CSS.
+
+### tools.tsLoader
+
+**Change**: Since Rspack does not support `tsLoader`, this configuration has been deprecated. The [Rspack experiments.typeReexportsPresence configuration](https://rspack.rs/config/experiments#experimentstypereexportspresence) can be used to improve recognition of TypeScript type exports, which can assist with ts-loader migration.
+
+```typescript
+// This configuration has been deprecated
+// tools: {
+//   tsLoader: { /* configuration */ }
+// },
+```
+
+### tools.webpackChain
+
+**Change**: This configuration has been deprecated, please migrate to `tools.bundlerChain`.
+
+```typescript
+// v2
+tools: {
+  webpackChain: (chain, { env }) => {
+    if (env === 'development') {
+      chain.devtool('cheap-module-eval-source-map');
+    }
+  };
+}
+
+// v3
+tools: {
+  bundlerChain: (chain, { env }) => {
+    if (env === 'development') {
+      chain.devtool('cheap-module-eval-source-map');
+    }
+  };
+}
+```
+
+### tools.webpack
+
+**Change**: This configuration has been deprecated, please migrate webpack configuration to `tools.rspack`.
+
+```typescript
+// v2
+tools: {
+  webpack: (chain, { env }) => {
+    {
+      /* configuration */
+    }
+  };
+}
+
+// v3
+tools: {
+  rspack: (chain, { env }) => {
+    {
+      /* configuration */
+    }
+  };
+}
+```
+
+## source
+
+### source.resolveMainFields
+
+**Change**: This configuration has been deprecated, use `resolve.mainFields` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+source: {
+  resolveMainFields: ['custom', 'module', 'main'];
+}
+
+// v3
+resolve: {
+  mainFields: ['custom', 'module', 'main'];
+}
+```
+
+### source.resolveExtensionPrefix
+
+**Change**: This configuration has been deprecated, use `resolve.extensions` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+source: {
+  resolveExtensionPrefix: ['.ts', '.tsx', '.js'];
+}
+
+// v3
+resolve: {
+  extensions: ['.ts', '.tsx', '.js'];
+}
+```
+
+### source.moduleScopes
+
+**Change**: This configuration has been deprecated, remove it directly.
+
+### source.enableCustomEntry
+
+**Change**: This configuration has been deprecated, remove it directly.
+
+### source.disableEntryDirs
+
+**Change**: This configuration has been deprecated, remove it directly.
+
+### source.alias
+
+**Change**: This configuration no longer applies to code in custom Server and BFF. Aliases configured for server-side code need to be migrated to tsconfig.json.
+
+**Migration Example**:
+
+```typescript
+// v2
+source: {
+  alias: {
+    '@api/*': './api/*',
+  },
+},
+
+// v3 tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@api/*": ["./api/*"]
+    },
+  },
+}
+```
+
+### server.routes
+
+**Change**: The default route has changed from `main` to `index`. If `index` exists in the `server.routes` configuration, migrate as follows.
+
+**Migration Example**:
+
+```typescript
+// v2
+server: {
+  routes: {
+    main: '/new',
+  },
+},
+
+// v3
+server: {
+  routes: {
+    index: '/new',
+  },
+},
+```
+
+## output
+
+### output.overrideBrowserslist
+
+**Change**: Needs to be handled based on the project's existing configuration.
+
+**Migration Steps**:
+
+1. Check if there is a `.browserslistrc` file in the project
+2. Check if `output.overrideBrowserslist` is configured in `modern.config.[ts|js]`
+3. Check if browserslist is configured in package.json
+
+If none of the above exist, create a `.browserslistrc` file with the following content for browsers supporting ES6:
+
+```typescript
+chrome >= 51;
+edge >= 15;
+firefox >= 54;
+safari >= 10;
+ios_saf >= 10;
+```
+
+### output.enableAssetFallback
+
+**Change**: This configuration has been deprecated, comment it out and add a note.
+
+```typescript
+// This configuration has been deprecated, if you encounter issues please contact oncall for resolution
+// output: {
+//   enableAssetFallback: true,
+// },
+```
+
+### output.cssModuleLocalIdentName
+
+**Change**: This configuration has been deprecated, use `output.cssModules.localIdentName` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    cssModuleLocalIdentName: '[path][name]__[local]-[hash:base64:6]',
+  },
+};
+
+// v3
+export default {
+  output: {
+    cssModules: {
+      localIdentName: '[path][name]__[local]-[hash:base64:6]',
+    },
+  },
+};
+```
+
+### output.disableCssExtract
+
+**Change**: This configuration has been deprecated, use `output.injectStyles` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    disableCssExtract: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    injectStyles: true,
+  },
+};
+```
+
+### output.disableFilenameHash
+
+**Change**: This configuration has been deprecated, use `output.filenameHash` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    disableFilenameHash: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    filenameHash: false,
+  },
+};
+```
+
+### output.disableMinimize
+
+**Change**: This configuration has been deprecated, use `output.minify` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    disableMinimize: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    minify: false,
+  },
+};
+```
+
+### output.disableSourceMap
+
+**Change**: This configuration has been deprecated, use `output.sourceMap` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    disableSourceMap: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    sourceMap: false,
+  },
+};
+```
+
+### output.enableInlineScripts
+
+**Change**: This configuration has been deprecated, use `output.inlineScripts` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    enableInlineScripts: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    inlineScripts: true,
+  },
+};
+```
+
+### output.enableInlineStyles
+
+**Change**: This configuration has been deprecated, use `output.inlineStyles` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    enableInlineStyles: true,
+  },
+};
+
+// v3
+export default {
+  output: {
+    inlineStyles: true,
+  },
+};
+```
+
+### output.enableLatestDecorators
+
+**Change**: This configuration has been deprecated, use `source.decorators` instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    enableLatestDecorators: true,
+  },
+};
+
+// v3
+export default {
+  source: {
+    decorators: {
+      version: '2022-03',
+    },
+  },
+};
+```
+
+### output.disableNodePolyfill
+
+**Change**: This configuration has been deprecated, use `pluginNodePolyfill` plugin instead.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  output: {
+    disableNodePolyfill: false,
+  },
+};
+
+// v3
+import { pluginNodePolyfill } from '@rsbuild/plugin-node-polyfill';
+export default {
+  builderPlugins: [pluginNodePolyfill()],
+};
+```
+
+## plugins
+
+### app-tools plugin
+
+**Change**: This plugin does not require any parameters.
+
+**Migration Example**:
+
+```typescript
+// v2
+plugins: [
+  appTools({
+    bundler: 'rspack'
+  })
+],
+
+// v3
+plugins: [
+  appTools()
+],
+```
+
+## security
+
+### security.sri
+
+**Change**: `security.sri.hashLoading` is no longer needed and can be removed directly.
+
+## runtime
+
+### runtime.router
+
+**Change**: No longer needed, can be removed directly. This configuration has been moved to the router configuration in modern.runtime.ts.
+
+**Migration Example**:
+
+```typescript
+// v2
+// modern.config.ts
+export default {
+  runtime: {
+    router: {
+      // Router configuration
+    },
+  },
+};
+
+// v3
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  router: {
+    // Router configuration
+  },
+});
+```
+
+### runtime.state
+
+**Change**: This configuration has been deprecated, it is recommended to use a third-party state management library.
+
+### runtime.masterApp
+
+**Change**: This configuration has been deprecated, move this configuration to the masterApp configuration in modern.runtime.ts.
+
+**Migration Example**:
+
+```typescript
+// v2
+// modern.config.ts
+export default {
+  runtime: {
+    masterApp: {
+      apps: [
+        {
+          name: 'Table',
+          entry: 'http://localhost:8081',
+        },
+        {
+          name: 'Dashboard',
+          entry: 'http://localhost:8082',
+        },
+      ],
+    },
+  },
+};
+
+// v3
+// modern.runtime.ts
+import { defineRuntimeConfig } from '@modern-js/runtime';
+
+export default defineRuntimeConfig({
+  masterApp: {
+    apps: [
+      {
+        name: 'Table',
+        entry: 'http://localhost:8081',
+      },
+      {
+        name: 'Dashboard',
+        entry: 'http://localhost:8082',
+      },
+    ],
+  },
+});
+```
+
+## performance
+
+### performance.bundleAnalyze
+
+**Change**: This configuration has been deprecated, it is recommended to use [Rsdoctor](https://rsbuild.rs/guide/debug/rsdoctor) to analyze bundle size.
+
+### performance.transformLodash
+
+**Change**: No longer needed, can be removed directly.
+
+**Migration Example**:
+
+```typescript
+// v2
+export default {
+  performance: {
+    transformLodash: true,
+  },
+};
+
+// v3 - Remove this configuration directly
+export default {
+  // Configuration...
+};
+```
+
+## experiments
+
+### experiments.lazyCompilation
+
+**Change**: This configuration has been deprecated, changed to `dev.lazyCompilation`.
+
+**Migration Example**:
+
+```typescript
+// v2
+experiments: {
+  lazyCompilation: true;
+}
+
+// v3
+dev: {
+  lazyCompilation: true;
+}
+```

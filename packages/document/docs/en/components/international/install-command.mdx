@@ -2,8 +2,22 @@
 pnpm add @modern-js/plugin-i18n i18next react-i18next
 ```
 
+:::tip Version Consistency
+Make sure the version of `@modern-js/plugin-i18n` matches the version of `@modern-js/app-tools` in your project. All Modern.js official packages are released with a uniform version number, and version mismatches may cause compatibility issues.
+
+Check the version of `@modern-js/app-tools` first, then install the same version of `@modern-js/plugin-i18n`:
+
+```bash
+# Check the current version of @modern-js/app-tools
+pnpm list @modern-js/app-tools
+
+# Install the same version of @modern-js/plugin-i18n
+pnpm add @modern-js/plugin-i18n@<version> i18next react-i18next
+```
+
+:::
+
 :::info
 `i18next` and `react-i18next` are peer dependencies and need to be installed manually.
 
 :::
-

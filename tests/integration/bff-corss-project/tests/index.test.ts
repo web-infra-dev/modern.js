@@ -247,7 +247,7 @@ describe('corss project bff', () => {
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
-    test('basic usage with csr', async () => {
+    conditionalTest('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
       await new Promise(resolve => setTimeout(resolve, 2000));
       const text1 = await page.$eval('.hello', el => el?.textContent);
@@ -317,7 +317,7 @@ describe('corss project bff', () => {
       expect(text).toBe('hello：Hello get bff-api-app');
     });
 
-    test('basic usage with csr', async () => {
+    conditionalTest('basic usage with csr', async () => {
       await page.goto(`${host}:${port}/${SSR_PAGE}`);
       const text1 = await page.$eval('.hello', el => el?.textContent);
       expect(text1).toBe('node-fetch：Hello get bff-api-app');

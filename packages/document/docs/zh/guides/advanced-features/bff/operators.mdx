@@ -169,6 +169,41 @@ get({
 });
 ```
 
+#### Query 参数类型转换
+
+URL query 参数默认是字符串类型，如果需要数字类型，需要使用 `z.coerce.number()` 进行类型转换：
+
+<BFFOperatorCode>
+
+```typescript title="api/lambda/user.ts"
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { z } from 'zod';
+
+const QuerySchema = z.object({
+  id: z.string(),
+  page: z.coerce.number().min(1).max(100), // 使用 z.coerce.number() 转换字符串到数字
+  status: z.enum(['active', 'inactive']),
+});
+
+export const getUser = Api(
+  Get('/user'),
+  Query(QuerySchema),
+  async ({ query }) => {
+    return {
+      id: query.id,
+      page: query.page, // page 是 number 类型
+      status: query.status,
+    };
+  },
+);
+```
+
+</BFFOperatorCode>
+
+:::caution 注意
+URL query 参数都是字符串类型，如果需要数字类型，需要使用 `z.coerce.number()` 进行转换，而不是直接使用 `z.number()`。
+:::
+
 ### 传递数据 Data
 
 使用 `Data` 函数可以定义接口传递数据的类型，使用 `Data` 后，接口处理函数的入参中就可以拿到接口数据信息。

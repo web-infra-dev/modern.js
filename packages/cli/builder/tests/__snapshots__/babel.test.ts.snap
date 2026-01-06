@@ -32,6 +32,10 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -66,12 +70,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -163,6 +161,10 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -197,12 +199,6 @@ exports[`plugin-babel (rspack mode) > should merge environment and shared babel 
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -286,6 +282,10 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -320,12 +320,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -372,6 +366,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -406,12 +404,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -495,6 +487,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -529,12 +525,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },
@@ -618,6 +608,10 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
       {
         "loader": "builtin:swc-loader",
         "options": {
+          "collectTypeScriptInfo": {
+            "exportedEnum": false,
+            "typeExports": true,
+          },
           "env": {
             "coreJs": "3.47",
             "mode": "entry",
@@ -652,12 +646,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when environment b
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
-            },
-          },
-          "rspackExperiments": {
-            "collectTypeScriptInfo": {
-              "exportedEnum": false,
-              "typeExports": true,
             },
           },
         },

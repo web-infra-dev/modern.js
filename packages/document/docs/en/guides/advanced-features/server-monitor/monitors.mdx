@@ -73,11 +73,7 @@ Modern.js comes with a built-in default Monitor, where different events trigger 
 
 ## Register Monitors
 
-Developers can register their own Monitors using the `push` API, but this can only be done in [server middleware](/guides/advanced-features/web-server#unstable-middleware) or server plugins. Registration is not available in Data Loaders, components, or init functions.
-
-:::note
-Server plugins are currently not available, and documentation will be added in the future.
-:::
+Developers can register their own Monitors using the `push` API, but this can only be done in [server middleware](/guides/advanced-features/web-server#unstable-middleware) or [server plugins](/plugin/server-plugins/api). Registration is not available in Data Loaders, components, or init functions.
 
 ```ts title="server/modern.server.ts"
 import {
@@ -111,6 +107,67 @@ export default defineServerConfig({
       handler: injectMonitorMiddleware,
     },
   ],
+});
+```
+
+Register Monitor in server plugins:
+
+```ts title="server/plugins/my-monitor-plugin.ts"
+import type { ServerPlugin } from '@modern-js/server-runtime';
+import type { MonitorEvent } from '@modern-js/types';
+
+const myMonitorPlugin = (): ServerPlugin => ({
+  name: '@my-org/my-monitor-plugin',
+  setup(api) {
+    api.onPrepare(() => {
+      const { middlewares } = api.getServerContext();
+
+      // Define monitor, ensuring it's only created once
+      const myMonitor = (event: MonitorEvent) => {
+        if (event.type === 'log') {
+          // Handle log events
+          console.log(`[${event.payload.level}] ${event.payload.message}`);
+        } else if (event.type === 'timing') {
+          // Handle timing events
+          console.log(
+            `Timing: ${event.payload.name} = ${event.payload.dur}ms`,
+          );
+        } else if (event.type === 'counter') {
+          // Handle counter events
+          console.log(`Counter: ${event.payload.name}`);
+        }
+      };
+
+      // Use a flag to ensure monitor is only registered once
+      let monitorRegistered = false;
+
+      middlewares.push({
+        name: 'inject-monitor',
+        handler: async (c, next) => {
+          const monitors = c.get('monitors');
+          // Only register monitor on the first request
+          if (!monitorRegistered) {
+            monitors.push(myMonitor);
+            monitorRegistered = true;
+          }
+          await next();
+        },
+      });
+    });
+  },
+});
+
+export default myMonitorPlugin;
+```
+
+Then configure the plugin in `server/modern.server.ts`:
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig } from '@modern-js/server-runtime';
+import myMonitorPlugin from './plugins/my-monitor-plugin';
+
+export default defineServerConfig({
+  plugins: [myMonitorPlugin()],
 });
 ```
 

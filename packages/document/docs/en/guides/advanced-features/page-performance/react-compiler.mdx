@@ -6,11 +6,25 @@ Before starting to use the React Compiler, it is recommended to read the [React 
 
 ## How to Use
 
-The steps to use the React Compiler in Modern.js are as follows:
+### React 19
 
-1. Modern.js does not officially support React 19 yet, but you can install `react-compiler-runtime@rc` in React 17 or 18 projects to allow the compiled code to run on versions before 19.
+If you are using React 19, Modern.js has built-in support for React Compiler, and no additional configuration is required.
 
-2. Currently, the React Compiler only provides a Babel plugin, so you need to install `babel-plugin-react-compiler`.
+### React 17 or 18
+
+If you are using React 17 or 18, you need to configure it as follows:
+
+1. Install `react-compiler-runtime` to allow the compiled code to run on versions before 19:
+
+```bash
+npm install react-compiler-runtime
+```
+
+2. Install `babel-plugin-react-compiler`:
+
+```bash
+npm install babel-plugin-react-compiler
+```
 
 3. Register the Babel plugin in your Modern.js configuration file:
 
@@ -24,7 +38,7 @@ export default defineConfig({
         [
           'babel-plugin-react-compiler',
           {
-            target: '18',
+            target: '18', // or '17', depending on your React version
           },
         ],
       ]);

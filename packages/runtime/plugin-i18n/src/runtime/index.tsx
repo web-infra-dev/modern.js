@@ -4,6 +4,7 @@ import {
   useRuntimeContext,
 } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
+import { Helmet } from '@modern-js/runtime/head';
 import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -52,6 +53,7 @@ export interface I18nPluginOptions {
   i18nInstance?: I18nInstance;
   changeLanguage?: (lang: string) => void;
   initOptions?: I18nInitOptions;
+  htmlLangAttr?: boolean;
   [key: string]: any;
 }
 
@@ -69,6 +71,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
       initOptions,
       localeDetection,
       backend,
+      htmlLangAttr = false,
     } = options;
     const {
       localePathRedirect = false,
@@ -245,9 +248,12 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
         );
 
         const appContent = (
-          <ModernI18nProvider value={contextValue}>
-            <App {...props} />
-          </ModernI18nProvider>
+          <>
+            {Boolean(htmlLangAttr) && <Helmet htmlAttributes={{ lang }} />}
+            <ModernI18nProvider value={contextValue}>
+              <App {...props} />
+            </ModernI18nProvider>
+          </>
         );
 
         if (!i18nInstance) {

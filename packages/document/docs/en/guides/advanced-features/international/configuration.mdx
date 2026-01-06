@@ -105,6 +105,7 @@ i18nPlugin({
 1. **If you configure `loadPath` or `addPath`**: The backend will be automatically enabled (`enabled: true`) without checking for locales directory, since you've already specified the resource path.
 
 2. **If you don't configure backend**: The plugin will automatically detect if a `locales` directory exists in:
+
    - Project root: `{projectRoot}/locales`
    - Config public directory: `{projectRoot}/config/public/locales`
    - Public directory configured via `server.publicDir`: `{projectRoot}/{publicDir}/locales`
@@ -331,27 +332,17 @@ export default defineRuntimeConfig({
 
 ### i18nInstance Configuration
 
-If you need to use a custom i18next instance, you can provide it in runtime configuration:
+If you need to use a custom i18n instance, you can provide it in runtime configuration:
 
-```ts
-import { defineRuntimeConfig } from '@modern-js/runtime';
-import i18next from 'i18next';
+import CustomInstanceCode from '@site-docs/components/international/custom-instance-code';
 
-// Create custom instance
-const customI18n = i18next.createInstance({
-  // Custom configuration
-});
-
-export default defineRuntimeConfig({
-  i18n: {
-    i18nInstance: customI18n,
-  },
-});
-```
+<CustomInstanceCode />
 
 ### initOptions Configuration
 
-`initOptions` will be passed to i18next's `init` method and supports all i18next configuration options:
+import InitOptionsDesc from '@site-docs/components/international/init-options-desc';
+
+<InitOptionsDesc />
 
 :::info
 If `localePathRedirect` is enabled, the `detection` configuration should be set in CLI configuration, not in `initOptions`. This is because the server-side plugin needs to read the `detection` option from CLI configuration to perform language detection and path redirection.

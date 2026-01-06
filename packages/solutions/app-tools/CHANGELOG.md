@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 3.0.0-alpha.1
+
+### Major Changes
+
+- ef4288c: feat: release Modern.js 3.0
+
+  feat: 发布 Modern.js 3.0
+
+### Patch Changes
+
+- Updated dependencies [eecb927]
+- Updated dependencies [952f6fe]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0-alpha.1
+  - @modern-js/types@3.0.0-alpha.1
+  - @modern-js/plugin-data-loader@3.0.0-alpha.1
+  - @modern-js/prod-server@3.0.0-alpha.1
+  - @modern-js/server@3.0.0-alpha.1
+  - @modern-js/server-utils@3.0.0-alpha.1
+  - @modern-js/builder@3.0.0-alpha.1
+  - @modern-js/plugin@3.0.0-alpha.1
+  - @modern-js/utils@3.0.0-alpha.1
+  - @modern-js/i18n-utils@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Major Changes

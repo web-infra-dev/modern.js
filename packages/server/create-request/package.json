@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "jsnext:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -108,12 +108,12 @@
     "encoding": "^0.1.13",
     "node-fetch": "^2.7.0",
     "path-to-regexp": "^6.3.0",
-    "qs": "^6.14.0"
+    "qs": "^6.14.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.0",
+    "@rslib/core": "0.19.1",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.13",

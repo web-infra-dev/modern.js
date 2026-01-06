@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -60,7 +60,7 @@
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.19.0",
+    "@rslib/core": "0.19.1",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/jest": "^29.5.14",

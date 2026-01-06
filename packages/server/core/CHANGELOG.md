@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 3.0.0-alpha.1
+
+### Patch Changes
+
+- eecb927: fix: should read html templates only in getHtmlTemplates function
+  fix: 在 getHtmlTemplates 函数中读取 html 模板
+- 952f6fe: perf: server monitor add more tags for timing/counter event
+  perf: server monitor 为 timing/couter 事件添加更多的 tags
+- 79f0efd: fix: MPA should apply csrRender function for every single page
+  fix: MPA 项目一个为每个单页面应用不同的 csrRender 逻辑
+  - @modern-js/plugin@3.0.0-alpha.1
+  - @modern-js/runtime-utils@3.0.0-alpha.1
+  - @modern-js/utils@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Patch Changes
