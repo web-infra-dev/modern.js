@@ -56,9 +56,11 @@ import { render } from '@${metaName}/runtime/browser';
 
 ${
   enableRsc
-    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@${metaName}/runtime/rsc/client';`
+    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer, setServerCallback } from '@${metaName}/runtime/rsc/client';`
     : ''
 }
+
+${enableRsc ? `setServerCallback(callServer);` : ''}
 
 ${
   enableRsc

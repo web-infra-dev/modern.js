@@ -14,8 +14,8 @@ describe('builder environment compat', () => {
       bundlerType: 'rspack',
       config: {
         environments: {
-          web: {},
-          node: {
+          client: {},
+          server: {
             output: {
               target: 'node',
             },
@@ -35,8 +35,8 @@ describe('builder environment compat', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs.map(c => c.name)).toEqual([
-      'web',
-      'node',
+      'client',
+      'server',
       'workerSSR',
     ]);
 

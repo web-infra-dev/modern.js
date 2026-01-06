@@ -1,8 +1,11 @@
-import type { ReactServerValue } from 'react-server-dom-webpack';
 import {
   createFromFetch,
+  createTemporaryReferenceSet,
   encodeReply,
-} from 'react-server-dom-webpack/client.browser';
+  setServerCallback,
+} from 'react-server-dom-rspack/client.browser';
+
+type ReactServerValue = unknown;
 
 class CallServerError extends Error {
   readonly #statusCode: number;
@@ -49,7 +52,8 @@ class CallServerError extends Error {
 
 export async function requestCallServer(id: string, args: ReactServerValue) {
   const entryName = window.__MODERN_JS_ENTRY_NAME;
-  const url = entryName === 'main' ? '/' : `/${entryName}`;
+  const url =
+    entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
 
   try {
     const response = await fetch(url, {
@@ -87,9 +91,7 @@ export async function callServer(
   args: ReactServerValue,
 ): Promise<any> {
   const response = requestCallServer(id, args);
-  const res = createFromFetch(response, {
-    callServer,
-  });
+  const res = createFromFetch(response);
 
   return res;
 }

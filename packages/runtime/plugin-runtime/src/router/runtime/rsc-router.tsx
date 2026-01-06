@@ -14,6 +14,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import React from 'react';
 import type { PayloadRoute, ServerPayload } from '../../core/context';
+import { CSSLinks } from './CSSLinks';
 
 // There is no `use` method in the following version of react19.
 // In order to avoid errors, it is compatible here.
@@ -24,10 +25,44 @@ const safeUse = (promise: any) => {
   return null;
 };
 
+/**
+ * Collect CSS files from matched routes
+ */
+function collectCssFilesFromRoutes(
+  matches: StaticHandlerContext['matches'],
+  routes: RouteObject[],
+): string[] {
+  const cssFiles: string[] = [];
+
+  for (const match of matches) {
+    // Use findRouteInTree to recursively find nested routes
+    const route = findRouteInTree(routes, match.route.id);
+    if (!route) continue;
+
+    // Try to get entryCssFiles from Component property
+    const component = (route as any).Component;
+    if (
+      component &&
+      typeof component === 'function' &&
+      'entryCssFiles' in component
+    ) {
+      const css = (component as any).entryCssFiles;
+      if (Array.isArray(css)) {
+        cssFiles.push(...css);
+      }
+    }
+  }
+
+  // Remove duplicates and return
+  return Array.from(new Set(cssFiles));
+}
+
 export const createServerPayload = (
   routerContext: StaticHandlerContext,
   routes: RouteObject[],
 ): ServerPayload => {
+  const cssFiles = collectCssFilesFromRoutes(routerContext.matches, routes);
+
   return {
     type: 'render' as const,
     actionData: routerContext.actionData,
@@ -42,7 +77,7 @@ export const createServerPayload = (
 
       if (element) {
         const ElementComponent = element.type;
-        processedElement = React.createElement(ElementComponent, {
+        const elementProps = {
           loaderData: routerContext?.loaderData?.[(match.route as any).id],
           actionData: routerContext?.actionData?.[(match.route as any).id],
           params: match.params,
@@ -56,7 +91,28 @@ export const createServerPayload = (
               handle: route.handle,
             };
           }),
-        });
+        };
+
+        const routeElement = React.createElement(
+          ElementComponent,
+          elementProps,
+        );
+
+        // Inject CSS Links for the leaf route (last matched route)
+        // This ensures CSS is included in the RSC payload
+        const isLeafRoute = index === routerContext.matches.length - 1;
+        if (isLeafRoute && cssFiles.length > 0) {
+          // Wrap CSS Links and route element together
+          // React will automatically hoist the link tags to head
+          processedElement = React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(CSSLinks, { cssFiles }),
+            routeElement,
+          );
+        } else {
+          processedElement = routeElement;
+        }
       }
 
       return {
@@ -277,25 +333,36 @@ export const createClientRouterFromPayload = (
         results[routeId] = result;
       });
 
+      if (!res.body) {
+        throw new Error('Response body is null');
+      }
+
       const payload = await createFromReadableStream(res.body);
 
-      if (typeof payload.type === 'undefined' || payload.type !== 'render') {
+      if (
+        typeof payload !== 'object' ||
+        payload === null ||
+        typeof (payload as any).type === 'undefined' ||
+        (payload as any).type !== 'render'
+      ) {
         throw new Error('Unexpected payload type');
       }
 
+      const serverPayload = payload as ServerPayload;
+
       matches.forEach(match => {
         const routeId = match.route.id;
-        const matchedRoute = payload.routes.find(
+        const matchedRoute = serverPayload.routes.find(
           (route: PayloadRoute) => route.id === routeId,
         );
         if (matchedRoute) {
           // @ts-ignore
           router.patchRoutes(matchedRoute.parentId, [matchedRoute], true);
         }
-        if (payload.loaderData?.[routeId]) {
+        if (serverPayload.loaderData?.[routeId]) {
           results[routeId] = {
             type: 'data',
-            result: payload.loaderData[routeId],
+            result: serverPayload.loaderData[routeId],
           };
         }
       });

@@ -58,7 +58,7 @@ describe('builder rspack', () => {
       bundlerType: 'rspack',
       config: {
         environments: {
-          node: {
+          server: {
             output: {
               target: 'node',
             },

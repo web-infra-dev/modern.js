@@ -4,7 +4,7 @@ import type {
   RsbuildInstance,
   RsbuildPlugin,
 } from '@rsbuild/core';
-import { rsbuildRscPlugin } from './rsc/plugins/rsbuild-rsc-plugin';
+import { RSC_LAYERS_NAMES, pluginRSC } from 'rsbuild-plugin-rsc';
 import { parseCommonConfig } from './shared/parseCommonConfig';
 import { rscClientBrowserFallbackPlugin } from './shared/rsc/rscClientBrowserFallback';
 import type {
@@ -12,6 +12,164 @@ import type {
   CreateBuilderCommonOptions,
   CreateBuilderOptions,
 } from './types';
+
+const createVirtualModule = (content: string) =>
+  `data:text/javascript,${encodeURIComponent(content)}`;
+
+/**
+ * Unified plugin for RSC (React Server Components) configuration
+ * Handles:
+ * 1. Adding layer configuration to server-side entries
+ * 2. Excluding /universal[/\\]async_storage/ from react-server-components layer
+ * 3. Adding rsc-common layer for /universal[/\\]async_storage/
+ * 4. Adding entry name virtual module for client-side entries
+ * 5. Adding 'use server-entry' directive to route components
+ */
+const pluginRscConfig = (): RsbuildPlugin => ({
+  name: 'builder:rsc-config',
+  setup(api) {
+    // Add 'use server-entry' directive to route components
+    // Match:
+    // 1. layout.[tj]sx, page.[tj]sx, and $.[tj]sx files in routes directory (conventional routing)
+    // 2. App.[tj]sx files anywhere (self-controlled routing)
+    api.modifyBundlerChain({
+      handler: (chain, { isServer }) => {
+        if (isServer) {
+          // Pattern 1: Match route files in routes directory (conventional routing)
+          // Matches: layout.tsx, layout.ts, layout.jsx, layout.js
+          //         page.tsx, page.ts, page.jsx, page.js
+          //         $.tsx, $.ts, $.jsx, $.js
+          const routeFilePattern = /routes[/\\].*\/(layout|page|\$)\.[tj]sx?$/;
+
+          // Pattern 2: Match App.[tj]sx files anywhere (self-controlled routing)
+          // Matches: App.tsx, App.ts, App.jsx, App.js in any directory
+          // Note: node_modules is already excluded by the exclude rule
+          const appFilePattern = /[/\\]App\.[tj]sx?$/;
+
+          // Combine both patterns
+          const combinedPattern = new RegExp(
+            `(${routeFilePattern.source}|${appFilePattern.source})`,
+          );
+
+          chain.module
+            .rule('rsc-server-entry')
+            .test(/\.(tsx?|jsx?)$/)
+            .resource(combinedPattern)
+            .exclude.add(/node_modules/)
+            .end()
+            .use('rsc-server-entry-loader')
+            .loader(require.resolve('./rsc/rsc-server-entry-loader'))
+            .end();
+        }
+      },
+      // Use 'pre' order to ensure it runs before other loaders process the files
+      order: 'pre',
+    });
+
+    api.modifyRspackConfig((config, utils) => {
+      // Check if this is a server build by checking target or environment name
+      const isServer =
+        config.target === 'node' ||
+        (utils as any).isServer ||
+        (utils as any).environment === 'server';
+
+      if (!isServer) {
+        return;
+      }
+
+      // 1. Add layer configuration to server-side entries
+      if (config.entry) {
+        const entries = config.entry;
+        const newEntries: Record<
+          string,
+          string | string[] | { import: string | string[]; layer: string }
+        > = {};
+
+        for (const [entryName, entryValue] of Object.entries(entries)) {
+          if (typeof entryValue === 'string') {
+            newEntries[entryName] = {
+              import: entryValue,
+              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+            };
+          } else if (Array.isArray(entryValue)) {
+            newEntries[entryName] = {
+              import: entryValue,
+              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+            };
+          } else if (typeof entryValue === 'object' && entryValue !== null) {
+            // If already an object, add or update layer
+            newEntries[entryName] = {
+              ...entryValue,
+              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+            };
+          } else {
+            newEntries[entryName] = entryValue;
+          }
+        }
+
+        config.entry = newEntries;
+      }
+
+      // 2. Exclude /universal[/\\]async_storage/ from react-server-components layer
+      // 3. Add rsc-common layer for /universal[/\\]async_storage/
+      if (config.module?.rules) {
+        const asyncStoragePattern = /universal[/\\]async_storage/;
+        const rules = config.module.rules as any[];
+
+        // Find and modify rules that have layer: 'react-server-components'
+        for (const rule of rules) {
+          // Check if this rule has layer: 'react-server-components'
+          if (rule.layer === RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS) {
+            // Add exclude to the rule
+            if (!rule.exclude) {
+              rule.exclude = [];
+            } else if (!Array.isArray(rule.exclude)) {
+              rule.exclude = [rule.exclude];
+            }
+
+            // Check if the exclude pattern already exists
+            const hasExclude = rule.exclude.some(
+              (exclude: any) =>
+                (typeof exclude === 'string' &&
+                  exclude.includes('universal') &&
+                  exclude.includes('async_storage')) ||
+                (exclude instanceof RegExp &&
+                  exclude.source.includes('universal') &&
+                  exclude.source.includes('async_storage')),
+            );
+
+            if (!hasExclude) {
+              rule.exclude.push(asyncStoragePattern);
+            }
+          }
+        }
+
+        // Ensure module.rules is an array
+        if (!Array.isArray(config.module.rules)) {
+          config.module.rules = [];
+        }
+
+        // Add rsc-common rule
+        config.module.rules.push({
+          resource: asyncStoragePattern,
+          layer: 'rsc-common',
+        });
+      }
+    });
+
+    // 4. Add entry name virtual module for client-side entries
+    api.modifyBundlerChain((chain, { isServer, isWebWorker }) => {
+      if (!isServer && !isWebWorker) {
+        const entries = chain.entryPoints.entries();
+        for (const entryName of Object.keys(entries)) {
+          const entryPoint = chain.entry(entryName);
+          const code = `window.__MODERN_JS_ENTRY_NAME="${entryName}";`;
+          entryPoint.add(createVirtualModule(code));
+        }
+      }
+    });
+  },
+});
 
 export async function parseConfig(
   builderConfig: BuilderConfig,
@@ -55,19 +213,22 @@ export async function parseConfig(
 
   const enableRsc = builderConfig.server?.rsc ?? false;
   if (enableRsc) {
-    const { rscClientRuntimePath, rscServerRuntimePath, internalDirectory } =
-      options;
+    const routesFileReg = new RegExp(
+      `${options.internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
+    );
     rsbuildPlugins.push(
-      rsbuildRscPlugin({
-        appDir: options.cwd,
-        rscClientRuntimePath,
-        rscServerRuntimePath,
-        internalDirectory,
+      pluginRSC({
+        layers: {
+          rsc: [/render[/\\].*[/\\]server[/\\]rsc/, /AppProxy/, routesFileReg],
+        },
       }),
     );
   } else {
     rsbuildPlugins.push(rscClientBrowserFallbackPlugin());
   }
+
+  // Add unified RSC configuration plugin
+  rsbuildPlugins.push(pluginRscConfig());
 
   return {
     rsbuildConfig,
