@@ -1,5 +1,12 @@
 # @modern-js/builder
 
+## 3.0.0-alpha.1
+
+### Patch Changes
+
+- @modern-js/utils@3.0.0-alpha.1
+- @modern-js/flight-server-transform-plugin@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Patch Changes

@@ -35,7 +35,9 @@ describe('app-csr-html-lang', () => {
 
   test('should update html lang attribute when language changes', async () => {
     // Check initial load (fallback or detected)
-    await page.goto(`http://localhost:${appPort}/lang/en`);
+    await page.goto(`http://localhost:${appPort}/lang/en`, {
+      waitUntil: 'networkidle0',
+    });
     await page.waitForSelector('#root');
     const langEn = await page.evaluate(() =>
       document.documentElement.getAttribute('lang'),
@@ -43,7 +45,9 @@ describe('app-csr-html-lang', () => {
     expect(langEn).toBe('en');
 
     // Change to zh
-    await page.goto(`http://localhost:${appPort}/lang/zh`);
+    await page.goto(`http://localhost:${appPort}/lang/zh`, {
+      waitUntil: 'networkidle0',
+    });
     await page.waitForSelector('#root');
     const langZh = await page.evaluate(() =>
       document.documentElement.getAttribute('lang'),
