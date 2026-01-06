@@ -4,15 +4,15 @@ title: router
 
 # router
 
-- **类型：** `boolean | Object`
-- **默认值：** `false`
+- **类型：** `Object`
+- **默认值：** `{}`
 
-该值在项目创建时被设置为 `true`，支持使用 Modern.js 默认提供的[约定式路由](/guides/concept/entries.html#约定式路由)进行路由管理。
-
-如果希望使用[自控式路由](/guides/concept/entries.html#自控式路由)，请移除该值，或将该值设置为 `false`。
+该配置项用于配置客户端路由，支持使用 Modern.js 默认提供的[约定式路由](/guides/concept/entries.html#约定式路由)进行路由管理。
 
 :::note
-`router` 的所有子配置都只会在使用约定式路由时生效。
+`router` 配置项**仅在使用约定式路由入口时生效**（即入口中存在 `routes/` 目录）。对于自控式路由入口或自定义入口，该配置不会生效。
+
+在多入口应用中，可以通过 `defineRuntimeConfig` 的函数形式为不同入口配置不同的路由行为，详见[运行时配置介绍](/configure/app/runtime/0-intro#多入口配置)。
 :::
 
 ## basename
