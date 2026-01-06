@@ -12,7 +12,7 @@ export const resolveESMDependency = (entry: string) => {
         pathToFileURL(`${__dirname}/`),
         conditions,
         false,
-      ).href.replace(/^file:[\/]+/, ''),
+      ).pathname.replace(/^\/(\w)\:/, '$1:'),
     );
   } catch (err) {
     // ignore
