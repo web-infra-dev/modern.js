@@ -1,16 +1,8 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
-import { loadDeps } from '@modern-js/server-core/edge';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
-import {
-  API_DIR,
-  isProd,
-  isWebOnly,
-  requireExistModule,
-} from '@modern-js/utils';
-import { isFunction } from '@modern-js/utils';
-import { API_APP_NAME } from './constants';
+import { API_DIR, isFunction, isWebOnly } from '@modern-js/utils';
 import { HonoAdapter } from './runtime/hono/adapter';
 
 type SF = (args: any) => void;
@@ -33,7 +25,6 @@ export default (): ServerPlugin => ({
   setup: api => {
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
-    let apiAppPath = '';
     let apiRouter: ApiRouter;
 
     const honoAdapter = new HonoAdapter(api);
@@ -42,24 +33,6 @@ export default (): ServerPlugin => ({
       const appContext = api.getServerContext();
       const { appDirectory, distDirectory, render, appDependencies } =
         appContext;
-
-      let apiMod: any;
-      if (process.env.MODERN_SSR_ENV === 'edge') {
-        apiMod = await loadDeps(
-          path.join(API_DIR, API_APP_NAME),
-          appDependencies,
-        );
-      } else {
-        const root = isProd() ? distDirectory : appDirectory;
-        const apiPath = path.resolve(root || process.cwd(), API_DIR);
-        apiAppPath = path.resolve(apiPath, API_APP_NAME);
-
-        apiMod = await requireExistModule(apiAppPath);
-      }
-
-      if (apiMod && typeof apiMod === 'function') {
-        apiMod(transformAPI);
-      }
 
       const { middlewares } = storage;
       api.updateServerContext({
@@ -119,12 +92,6 @@ export default (): ServerPlugin => ({
     api.onReset(async ({ event }) => {
       storage.reset();
       const appContext = api.getServerContext();
-      if (process.env.MODERN_SSR_ENV !== 'edge') {
-        const newApiModule = await requireExistModule(apiAppPath);
-        if (newApiModule && typeof newApiModule === 'function') {
-          newApiModule(transformAPI);
-        }
-      }
 
       const { middlewares } = storage;
       api.updateServerContext({
