@@ -333,7 +333,7 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
   "buildCommand": "MODERNJS_DEPLOY=aliEsa modern deploy",
   "assets": {
     "directory": "./.ali-esa/dist"
-  }
+  },
   /* 上述配置与纯前端项目相同，保持不变，增加下面的配置 */
   "entry": "./.ali-esa/functions/handler.js"
 }
@@ -406,9 +406,9 @@ Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的�
   },
   "build": {
     "command": "MODERNJS_DEPLOY=cfWorkers modern deploy"
-  }
+  },
   /* 上述配置与纯前端项目相同，保持不变，增加下面的配置 */
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "main": "./.cf-workers/functions/handler.js",
 }
 ```

@@ -9,15 +9,6 @@ import { lodash as _, fs as fse } from '@modern-js/utils';
 import type { AppTools } from '../../../types';
 import { ESM_RESOLVE_CONDITIONS } from './constant';
 
-export const externalDebug = ({ request }: any, callback: any) => {
-  if (request) {
-    if (request.includes('compiled/debug/index.js')) {
-      return callback(undefined, 'var {debug:()=>{return () => {}}}');
-    }
-  }
-  callback();
-};
-
 export const generateNodeExternals = (
   getExternal: (api: string) => string,
   list: string[] = [],
@@ -54,7 +45,7 @@ export const bundleSSR = async (
       conditionNames: ESM_RESOLVE_CONDITIONS,
     },
     output: {
-      target: 'web-worker',
+      target: 'web',
       cleanDistPath: true,
       polyfill: 'off',
       sourceMap: false,
@@ -65,6 +56,11 @@ export const bundleSSR = async (
         js: '[name].js',
       },
       // minify: false,
+    },
+    performance: {
+      chunkSplit: {
+        strategy: 'all-in-one',
+      },
     },
     tools: {
       rspack: {

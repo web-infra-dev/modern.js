@@ -6,11 +6,11 @@ import {
   applyConfig,
   bundleSSR,
   copyEntriesHtml,
-  externalDebug,
   generateHandler,
   generateNodeExternals,
   scanDeps,
 } from '../edge';
+import { externalDebug, externalGlobby } from '../edge/config/externals';
 import { injectProcessPlugin } from '../edge/config/inject-process';
 import {
   type BuiltinModules,
@@ -126,7 +126,7 @@ export const createAliESAPreset: CreatePreset = ({
       );
       await bundleSSR(handlerCode, api, {
         output: {
-          externals: [esaExternals, externalDebug],
+          externals: [esaExternals, externalDebug, externalGlobby],
           distPath: {
             root: funcsDirectory,
             js: '.',

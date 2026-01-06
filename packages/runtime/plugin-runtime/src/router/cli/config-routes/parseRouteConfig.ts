@@ -217,7 +217,7 @@ export async function parseConfigRoutesFile(
   fileRoutes?: NestedRouteForCli[],
 ): Promise<ConfigRouteFile> {
   const { loadTypeScriptFile } = await import('@modern-js/plugin/run');
-  const configModule = await loadTypeScriptFile(filePath);
+  const configModule = loadTypeScriptFile(filePath);
 
   if (!configModule.default || typeof configModule.default !== 'function') {
     throw new Error(

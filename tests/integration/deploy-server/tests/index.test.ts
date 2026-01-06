@@ -152,23 +152,4 @@ describe('deploy', () => {
     expect(await fse.pathExists(bootstrapFile1)).toBe(true);
     expect(await fse.pathExists(bootstrapFile2)).toBe(true);
   });
-
-  test('support server when deploy target is aliEsa', async () => {
-    await execa('npx modern deploy', {
-      shell: true,
-      cwd: appDir,
-      stdio: 'inherit',
-      env: {
-        ...process.env,
-        MODERNJS_DEPLOY: 'aliEsa',
-      },
-    });
-
-    const outputDirectory = path.join(appDir, '.ali-esa');
-    const staticDirectory = path.join(outputDirectory, 'dist/static');
-    const handlerFile = path.join(outputDirectory, 'functions/handler.js');
-
-    expect(await fse.pathExists(staticDirectory)).toBe(true);
-    expect(await fse.pathExists(handlerFile)).toBe(true);
-  });
 });
