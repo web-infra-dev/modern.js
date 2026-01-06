@@ -4,6 +4,7 @@ import { fs, minimist, semver } from '../../compiled';
 import { getArgv } from '../commands';
 import { createDebugger } from '../common';
 import { ensureArray } from '../ensure';
+import { tryResolve } from '../require';
 
 const debug = createDebugger('judge-depExists');
 
@@ -20,7 +21,7 @@ export const isDepExists = (appDirectory: string, name: string): boolean => {
     debug(`can't find package.json under: %s`, appDirectory);
     return false;
   }
-  const json = require(pkgPath);
+  const json = fs.readJSONSync(pkgPath);
 
   const { dependencies = {}, devDependencies = {} } = json;
 
@@ -37,7 +38,7 @@ export const isPackageInstalled = (
   resolvePaths: string | string[],
 ) => {
   try {
-    require.resolve(name, { paths: ensureArray(resolvePaths) });
+    tryResolve(name, ...ensureArray(resolvePaths));
     return true;
   } catch (err) {
     return false;
@@ -100,7 +101,7 @@ export const getReactVersion = (cwd: string): string | false => {
     return false;
   }
   try {
-    const reactPath = require.resolve('react/package.json', { paths: [cwd] });
+    const reactPath = tryResolve('react/package.json', cwd);
 
     const reactVersion = JSON.parse(fs.readFileSync(reactPath, 'utf8')).version;
 

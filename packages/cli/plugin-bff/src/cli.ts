@@ -212,7 +212,9 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
             );
 
             const name = isServer ? 'server' : 'client';
-            const loaderPath = require.resolve('./loader');
+            const sourceExt =
+              process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
+            const loaderPath = path.join(__dirname, `loader.${sourceExt}`);
             chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
             chain.module
               .rule('js-bff-api')

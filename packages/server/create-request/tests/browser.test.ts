@@ -12,12 +12,6 @@ describe('configure', () => {
     },
   };
 
-  beforeAll(async () => {
-    delete (global as any).fetch;
-    // @ts-expect-error
-    await import('isomorphic-fetch');
-  });
-
   // TODO: 如果 disableNetConnect 之后，会影响到其他的 testcase 偶发性的出现 NetConnectNotAllowedError: Nock: Disallowed net connect for "127.0.0.1:49552/" 的错误
   // beforeEach(() => {
   //   nock.disableNetConnect();

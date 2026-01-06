@@ -16,7 +16,10 @@ import {
 } from '../utils';
 import type { CreatePreset } from './platform';
 
-export const createNodePreset: CreatePreset = (appContext, config) => {
+export const createNodePreset: CreatePreset = ({
+  appContext,
+  modernConfig,
+}) => {
   const { appDirectory, distDirectory, serverPlugins, moduleType, metaName } =
     appContext;
   const isEsmProject = moduleType === 'module';
@@ -42,7 +45,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
           port: 8080,
         },
         bff: {
-          prefix: config?.bff?.prefix,
+          prefix: modernConfig?.bff?.prefix,
         },
         output: {
           distPath: {
@@ -64,7 +67,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './node-entry.js'))
+        await fse.readFile(path.join(__dirname, './node-entry.cjs'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);

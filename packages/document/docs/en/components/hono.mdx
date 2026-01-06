@@ -12,6 +12,19 @@ export const get = async () => {
 };
 ```
 
+You can obtain the request context for a specific platform using `env`. For example, when deploying with Cloudflare Workers, you can obtain it using [bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/):
+
+```ts title="api/lambda/hello.ts"
+import { useHonoContext } from '@modern-js/plugin-bff/server';
+
+export const get = async () => {
+  const c = useHonoContext();
+  const data = await c.env.NAMESPACE.get("key");
+  console.info(`storage data: ${data}`);
+  return 'Hello Modern.js';
+};
+```
+
 :::info
 For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-context).
 :::

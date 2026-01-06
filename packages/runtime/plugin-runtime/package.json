@@ -92,6 +92,10 @@
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
+      "node": {
+        "require": "./dist/cjs/cli/index.js",
+        "import": "./dist/esm-node/cli/index.mjs"
+      },
       "default": "./dist/cjs/cli/index.js"
     },
     "./router": {

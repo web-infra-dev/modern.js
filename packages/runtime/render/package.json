@@ -22,8 +22,8 @@
   ],
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "dev": "modern-lib build --watch",
-    "build": "modern-lib build",
+    "dev": "rslib build --watch",
+    "build": "rslib build",
     "test": "rstest --passWithNoTests"
   },
   "dependencies": {
@@ -52,17 +52,17 @@
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
       "jsnext:source": "./src/server/ssr/index.ts",
-      "default": "./dist/esm/server/ssr/index.js"
+      "default": "./dist/esm/server/ssr/index.mjs"
     },
     "./rsc": {
       "types": "./dist/types/server/rsc/index.d.ts",
       "jsnext:source": "./src/server/rsc/index.ts",
-      "default": "./dist/esm/server/rsc/index.js"
+      "default": "./dist/esm/server/rsc/index.mjs"
     },
     "./client": {
       "types": "./dist/types/client/index.d.ts",
       "jsnext:source": "./src/client/index.tsx",
-      "default": "./dist/esm/client/index.js"
+      "default": "./dist/esm/client/index.mjs"
     }
   },
   "typesVersions": {

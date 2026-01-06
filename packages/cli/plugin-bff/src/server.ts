@@ -2,14 +2,7 @@ import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
-import {
-  API_DIR,
-  isProd,
-  isWebOnly,
-  requireExistModule,
-} from '@modern-js/utils';
-import { isFunction } from '@modern-js/utils';
-import { API_APP_NAME } from './constants';
+import { API_DIR, isFunction, isWebOnly } from '@modern-js/utils';
 import { HonoAdapter } from './runtime/hono/adapter';
 
 type SF = (args: any) => void;
@@ -32,22 +25,14 @@ export default (): ServerPlugin => ({
   setup: api => {
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
-    let apiAppPath = '';
     let apiRouter: ApiRouter;
 
     const honoAdapter = new HonoAdapter(api);
 
     api.onPrepare(async () => {
       const appContext = api.getServerContext();
-      const { appDirectory, distDirectory, render } = appContext;
-      const root = isProd() ? distDirectory : appDirectory;
-      const apiPath = path.resolve(root || process.cwd(), API_DIR);
-      apiAppPath = path.resolve(apiPath, API_APP_NAME);
-
-      const apiMod = await requireExistModule(apiAppPath);
-      if (apiMod && typeof apiMod === 'function') {
-        apiMod(transformAPI);
-      }
+      const { appDirectory, distDirectory, render, appDependencies } =
+        appContext;
 
       const { middlewares } = storage;
       api.updateServerContext({
@@ -107,10 +92,6 @@ export default (): ServerPlugin => ({
     api.onReset(async ({ event }) => {
       storage.reset();
       const appContext = api.getServerContext();
-      const newApiModule = await requireExistModule(apiAppPath);
-      if (newApiModule && typeof newApiModule === 'function') {
-        newApiModule(transformAPI);
-      }
 
       const { middlewares } = storage;
       api.updateServerContext({
@@ -134,13 +115,14 @@ export default (): ServerPlugin => ({
       const { pwd, prefix, httpMethodDecider } = input;
       const apiDir = path.resolve(pwd, API_DIR);
       const appContext = api.getServerContext();
-      const { apiDirectory, lambdaDirectory } = appContext;
+      const { apiDirectory, lambdaDirectory, appDependencies } = appContext;
       apiRouter = new ApiRouter({
         appDir: pwd,
         apiDir: (apiDirectory as string) || apiDir,
         lambdaDir: lambdaDirectory as string,
         prefix,
         httpMethodDecider,
+        appDependencies,
       });
       const apiHandlerInfos = await apiRouter.getApiHandlers();
       api.updateServerContext({

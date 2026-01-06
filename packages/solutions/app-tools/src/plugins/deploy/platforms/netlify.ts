@@ -31,11 +31,11 @@ async function cleanDistDirectory(dir: string) {
   }
 }
 
-export const createNetlifyPreset: CreatePreset = (
+export const createNetlifyPreset: CreatePreset = ({
   appContext,
   modernConfig,
   needModernServer,
-) => {
+}) => {
   const {
     appDirectory,
     distDirectory,
@@ -134,7 +134,7 @@ export const createNetlifyPreset: CreatePreset = (
       const pluginsCode = getPluginsCode(plugins);
 
       let handlerCode = (
-        await fse.readFile(path.join(__dirname, './netlify-handler.js'))
+        await fse.readFile(path.join(__dirname, './netlify-handler.cjs'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
@@ -162,7 +162,7 @@ export const createNetlifyPreset: CreatePreset = (
         );
       } else {
         await fse.copy(
-          path.join(__dirname, './netlify-entry.js'),
+          path.join(__dirname, './netlify-entry.cjs'),
           entryFilePath,
         );
       }

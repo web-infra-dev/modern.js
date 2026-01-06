@@ -1,0 +1,453 @@
+---
+title: 第三方平台
+---
+
+# 第三方平台
+
+目前 Modern.js 官方支持了以下平台（🚫表示不支持，❔表示未经验证）
+
+| 平台 | CSR/SSG | SSR(string) | SSR(stream) | BFF | RSC |
+| --- | --- | --- | --- | --- | --- |
+| [Netlify](https://www.netlify.com/) | ✅ | ✅ | ✅ | ✅ | ❔ |
+| [Vercel](https://vercel.com/) | ✅ | ✅ | ✅ | 🚫 | ❔ |
+| [腾讯云 EdgeOne](https://cloud.tencent.com/product/teo) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [阿里云 ESA](https://www.aliyun.com/product/esa) | ✅ | ✅ | ✅ | 🚫 | 🚫 |
+| [Cloudflare Workers](https://workers.cloudflare.com/) | ✅ | ✅ | ✅ | ✅ | 🚫 |
+| [GitHub pages](https://pages.github.com/) | ✅ | 🚫 | 🚫 | 🚫 | 🚫 |
+
+## Netlify
+
+Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `netlify.toml` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── netlify.toml
+└── package.json
+```
+
+在 `netlify.toml` 中添加以下内容：
+
+```toml
+[build]
+  publish = "dist"
+  command = "modern deploy"
+```
+
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+:::
+
+在 Netlify 平台上添加项目，部署即可。
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Netlify Functions** 上。你需要基于上述的 `netlify.toml` 文件，添加以下配置：
+
+```toml title="netlify.toml"
+[build]
+  publish = "dist"
+  command = "modern deploy"
+
+[functions]
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+
+```
+
+:::info
+
+1. 目前 Modern.js 还不支持在 Netlify Edge Functions 进行部署，我们将在后续的版本中支持。
+2. 你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
+
+:::
+
+### Monorepo 项目
+
+:::info
+以下指南主要针对于全栈项目，对于纯 CSR 的项目，只需要按照[纯前端项目](#纯前端项目)部署即可。
+:::
+
+对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。这里以一个 pnpm Monorepo 仓库为例，在 Netlify 上对 Monorepo 项目进行部署。
+
+假设 Monorepo 仓库目录结构如下：
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+你需要在 Netlify 平台上配置 **Base directory** 为 `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/netlify-monorepo-basedir.png?x-resource-account=public" />
+
+在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy"
+  }
+}
+```
+
+在 `netlify.toml` 配置构建命令：
+
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+
+[functions]
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+```
+
+提交你的代码，使用 Netlify 平台部署即可。
+
+## Vercel
+
+Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的功能，支持部署静态网站，服务端渲染应用等。在 Vercel 上部署，通常需要配置 `vercel.json` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `vercel.json` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── vercel.json
+└── package.json
+```
+
+在 `vercel.json` 中添加以下内容：
+
+```json title="vercel.json"
+{
+  "buildCommand": "modern deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+提交你的项目到 git，在 Vercel 平台上选择 Frmeworkwork Preset 为 `Other`，部署即可。
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
+
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+:::
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Vercel Functions** 上。
+
+全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，需要注意：
+
+1. 函数运行的 node.js 版本由项目在 Vercel 平台配置决定。
+
+:::info
+你可参考部署[项目示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-ssr)。
+
+:::
+
+### Monorepo 项目
+
+:::info
+以下指南主要针对于全栈项目，对于纯 CSR 的项目，只需要按照[纯前端项目](#纯前端项目-1)部署即可。
+:::
+
+对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。这里以一个 pnpm Monorepo 仓库为例，在 Vercel 上对 Monorepo 项目进行部署。
+
+假设 Monorepo 仓库目录结构如下：
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+首先，你需要在 Vercel 平台上配置 **Root Directory** 为 `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+将 Node.js 运行时设置为 `20.x`：
+
+```json title="package.json"
+"engines": {
+  "node": "20.x"
+},
+```
+
+在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy"
+  }
+}
+```
+
+在 `packages/app/vercel.json` 文件中添加以下内容：
+
+```json title="vercel.json"
+{
+  "buildCommand": "npm run deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+提交你的代码，使用 Vercel 平台部署即可。
+
+## 腾讯云 EdgeOne
+
+在腾讯云 EdgeOne 上部署，通常需要配置 `edgeone.json` 文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `edgeone.json` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── edgeone.json
+└── package.json
+```
+
+在 `edgeone.json` 中添加以下内容：
+
+```json title="edgeone.json"
+{
+  "nodeVersion": "22.11.0",
+  "buildCommand": "MODERNJS_DEPLOY=edgeone modern deploy",
+  "outputDirectory": ".eo-output"
+}
+```
+
+配置完成后，你可以选择使用 EdgeOne CLI 进行部署：
+
+* 在本地或全局安装 [EdgeOne CLI](https://edgeone.cloud.tencent.com/pages/document/162936923278893056)，并完成账号登录
+* 在 `edgeone.json` 中配置 `name` 字段，在其中填写你的项目名称。
+* 在项目根目录下运行 `edgeone pages deploy` 命令进行部署。
+
+或者，你也可以在腾讯云控制台上创建项目：
+
+* 方式一：平台部署
+  * 打开腾讯云 EdgeOne 控制台，在 Pages 中，点击“创建项目”，选择“导入 Git 仓库”。
+  * 按提示绑定账号，并选择你的仓库。
+  * 构建配置、环境配置均保持默认。
+  * 点击开始部署。
+* 方式二：手动上传
+  * 在本地使用 `MODERNJS_DEPLOY=edgeone modern deploy` 命令完成打包。
+  * 进入项目下的 `.eo-output` 目录，将所有文件及文件夹压缩为 `.zip` 文件。
+  * 打开腾讯云 EdgeOne 控制台，在 Pages 中，点击“创建项目”，选择“直接上传”。
+  * 上传前述步骤中的压缩文件。
+  * 点击开始部署。
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
+
+全栈项目请按照[纯前端项目](#纯前端项目-2)的方式配置 `edgeone.json`。部署方式与纯前端项目完全相同。
+
+需要注意：目前 Modern.js 还不支持在 EdgeOne Edge Functions 进行部署，我们将在后续的版本中支持。
+
+在 BFF 和 Data Loader 中，均可以使用类似于获取 Cloudflare Workers Bindings 的方式获取腾讯云 EdgeOne 的 EventContext。
+
+## 阿里云 ESA
+
+在阿里云 ESA 上部署，通常需要配置 `esa.jsonc` 文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `esa.jsonc` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── esa.jsonc
+└── package.json
+```
+
+在 `esa.jsonc` 中添加以下内容：
+
+```json title="esa.jsonc"
+{
+  "buildCommand": "MODERNJS_DEPLOY=aliEsa modern deploy",
+  "assets": {
+    "directory": "./.ali-esa/dist"
+  }
+}
+```
+
+配置完成后，你可以选择使用 ESA CLI 进行部署：
+
+* 在本地或全局安装 [ESA CLI](https://help.aliyun.com/zh/edge-security-acceleration/esa/user-guide/functions-and-pages-cli-tool)，并完成账号登录
+* 在 `esa.jsonc` 中配置 `name` 字段，在其中填写你的项目名称。
+* 在项目根目录下运行 `esa deploy` 命令进行部署。
+
+或者，你也可以提交到 Git，在阿里云控制台上创建项目：
+
+* 打开阿里云 ESA 控制台，在左侧菜单中选择 边缘计算 > 函数和Pages，点击“创建”。
+* 选择“导入 Github 仓库”，按提示绑定 GitHub 账号，并选择你的仓库。
+* 按需选择你的安装命令，构建命令和部署命令均保持默认。
+* 点击开始部署。
+
+### 全栈项目
+
+:::info
+
+* 目前仅支持 TypeScript、ES 项目的全栈项目部署至阿里云 ESA。
+* 对全栈项目部署至阿里云 ESA 的支持尚处于实验阶段，我们暂时不保证其可用性；如果遇到问题，请通过 issue 反馈。
+
+:::
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
+
+全栈项目除了按照[纯前端项目](#纯前端项目-3)的方式配置 `esa.jsonc` 外，需要**额外**添加 `entry` 字段：
+
+
+```json title="esa.jsonc"
+{
+  "buildCommand": "MODERNJS_DEPLOY=aliEsa modern deploy",
+  "assets": {
+    "directory": "./.ali-esa/dist"
+  },
+  /* 上述配置与纯前端项目相同，保持不变，增加下面的配置 */
+  "entry": "./.ali-esa/functions/handler.js"
+}
+```
+
+配置完成后，部署步骤与[纯前端项目](#纯前端项目-3)相同。
+
+## Cloudflare Workers
+
+在 Cloudflare Workers 上部署，通常需要配置 `wrangler.jsonc` 文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `wrangler.jsonc` 文件：
+
+```bash
+./
+├── src
+├── modern.config.ts
+├── wrangler.jsonc
+└── package.json
+```
+
+在 `wrangler.jsonc` 中添加以下内容：
+
+```json title="wrangler.jsonc"
+{
+  "compatibility_date": "2025-10-08",
+  "assets": {
+    "directory": "./.cf-workers/assets",
+    "binding": "ASSETS"
+  },
+  "build": {
+    "command": "MODERNJS_DEPLOY=cfWorkers modern deploy"
+  }
+}
+```
+
+配置完成后，你可以选择使用 Wrangler CLI 进行部署：
+
+* 在本地或全局安装 [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
+* 在 `wrangler.jsonc` 中配置 `name` 字段，在其中填写你的 Cloudflare Workers 项目名称。
+* 在项目根目录下运行 `wrangler deploy` 命令进行部署。
+
+或者，你也可以提交到 GitHub，在 Cloudflare 平台上创建项目：
+
+* 打开 Cloudflare 仪表盘，在左侧菜单中选择 计算和AI > Workers 和 Pages，点击右上角“创建应用程序”。
+* 选择 Continue with GitHub，按提示绑定 GitHub 账号，并选择你的仓库。
+* 构建命令和部署命令均保持默认。
+* 点击部署。
+
+### 全栈项目
+
+:::info
+
+注意：目前仅支持 TypeScript、ES 项目的全栈项目部署至 Cloudflare Workers。
+
+:::
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目。
+
+全栈项目除了按照[纯前端项目](#纯前端项目-4)的方式配置 `wrangler.jsonc` 外，需要**额外**添加以下内容：
+
+```json title="wrangler.jsonc"
+{
+  "compatibility_date": "2025-10-08",
+  "assets": {
+    "directory": "./.cf-workers/assets",
+    "binding": "ASSETS"
+  },
+  "build": {
+    "command": "MODERNJS_DEPLOY=cfWorkers modern deploy"
+  },
+  /* 上述配置与纯前端项目相同，保持不变，增加下面的配置 */
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "main": "./.cf-workers/functions/handler.js",
+}
+```
+
+配置完成后，部署步骤与[纯前端项目](#纯前端项目-4)相同。
+
+在 BFF 中，可以使用 useHonoContext 获取 bindings；在 Data Loader 中，可以使用 context 获取 bindings。详细方式请参见各自文档。
+
+## GitHub Pages
+
+如果你要为一个仓库创建 GitHub 页面，并且你没有自定义域名，则该页面的 URL 将会是以下格式：`http://<username>.github.io/<repository-name>`，所以需要在 `modern.config.ts` 中添加
+以下配置：
+
+```ts
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  //...
+  server: {
+    baseUrl: '/<repository-name>',
+  },
+  output: {
+    assetPrefix: '/<repository-name>',
+  },
+});
+```
+
+GitHub Pages 支持两种部署方式，通过分支部署或通过 GitHub Actions 部署，如果通过分支部署，可以使用以下步骤：
+
+1. 在 github 仓库中，选择 `Settings > Pages > Source > Deploy from a branch`。
+2. 安装 `gh-pages` 依赖作为开发依赖。
+3. 在 package.json 的 `scripts` 中添加 `"deploy:gh-pages": "MODERNJS_DEPLOY=ghPages modern deploy && gh-pages -d .output"`。
+4. 执行 `npm run deploy:gh-pages`。
+
+:::info
+
+1. 执行 `MODERNJS_DEPLOY=ghPages modern deploy`，Modern.js 会把可用于 github 部署的产物构建到 `.output` 目录。
+2. 可以参考项目[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。
+
+:::
+
+如果通过 GitHub Actions 部署，可以选择 Settings > Pages > Source > GitHub Actions，并在项目中添加 workflow 文件，可参考[示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/modern-js-deploy-csr)。

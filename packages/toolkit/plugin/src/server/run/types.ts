@@ -13,6 +13,7 @@ export type ServerCreateOptions = {
     apiDirectory?: string;
     lambdaDirectory?: string;
     bffRuntimeFramework?: string;
+    appDependencies?: Record<string, Promise<any>>;
   };
 };
 

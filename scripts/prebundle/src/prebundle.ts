@@ -22,6 +22,11 @@ function emitIndex(code: string, distPath: string) {
   fs.outputFileSync(distIndex, code);
 }
 
+function emitESMIndex(code: string, distPath: string) {
+  const distIndex = join(distPath, 'index.mjs');
+  fs.outputFileSync(distIndex, code);
+}
+
 function fixTypeExternalPath(
   file: string,
   task: ParsedTask,
@@ -161,13 +166,28 @@ export async function prebundle(task: ParsedTask) {
   }
 
   const { code, assets } = await ncc(task.depEntry, {
-    minify: task.minify,
     externals: {
       ...DEFAULT_EXTERNALS,
       ...task.externals,
     },
     assetBuilds: false,
+    minify: task.minify,
+    esm: false,
   });
+
+  if (task.depEsmEntry) {
+    console.log('=== Start prebundle ESM ===', task.depName, task.depEsmEntry);
+    const { code: esmCode } = await ncc(task.depEsmEntry, {
+      externals: {
+        ...DEFAULT_EXTERNALS,
+        ...task.externals,
+      },
+      assetBuilds: false,
+      minify: task.minify,
+      esm: true,
+    });
+    emitESMIndex(esmCode, task.distPath);
+  }
 
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);

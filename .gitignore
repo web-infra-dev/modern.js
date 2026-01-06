@@ -50,6 +50,9 @@ playground/
 .output/
 .vercel/
 .netlify/
+.eo-output/
+.cf-workers/
+.ali-esa/
 
 .swc/
 

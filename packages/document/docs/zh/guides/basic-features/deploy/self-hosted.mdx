@@ -1,0 +1,182 @@
+---
+title: 部署自托管应用
+---
+
+# 部署应用
+
+你可以将应用自行托管在包含 Node.js 环境的容器中，这为应用提供了部署的灵活性。
+
+## 构建部署产物
+
+执行 `modern deploy` 命令将自动输出部署产物。此过程包括优化 Bundler 构建产物及产物依赖，检测当前部署平台，并自动生成可以在该平台运行的产物。
+如果你希望在本地生成并测试特定部署平台的产物，可以通过设置环境变量来指定平台：
+
+```bash
+MODERNJS_DEPLOY=netlify npx modern deploy
+```
+
+## ModernJS 内置 Node.js 服务器
+
+### 单仓库项目
+
+默认情况下，如果未检测到 Modern.js 支持的部署平台，Modern.js 将生成可以在 Node.js 环境下运行的部署产物。
+
+你可以使用以下命令构建项目：
+
+```bash
+npx modern deploy
+```
+
+当执行 `modern deploy` 命令时，Modern.js 将生成可执行的部署产物，并在控制台输出以下内容：
+
+```bash
+Static directory: `.output/static`
+You can preview this build by `node .output/index`
+```
+
+现在，你可以通过执行 `node .output/index` 命令来运行服务器。在 `.output/static` 目录中，存放了页面运行所需的静态资源，你可以选择将这些资源上传到 CDN 以提高访问速度。
+
+:::info
+默认情况下，运行 Modern.js 服务器时会监听 8080 端口，如果你想修改监听的端口，可以指定 `PORT` 环境变量：
+
+```
+PORT=3000 node .output/index
+```
+
+:::
+
+### Monorepo
+
+对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。
+
+假设当前项目的 `package.json` 中的 name 为 `app`，以 pnpm 作为 Monorepo 管理工具为例，你可以在项目 `package.json` 中添加以下命令用于构建：
+
+```json title="app/package.json"
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy"
+  }
+}
+```
+
+如果你使用 rush 作为 Monorepo 管理工具，可以在 `package.json` 中添加以下命令：
+
+```json
+{
+  "scripts": {
+    "build:packages": "rush rebuild --to-except app",
+    "deploy": "rushx build:packages && modern deploy"
+  }
+}
+```
+
+构建完成后，框架会将项目中所有的依赖生成在 `.output/node_modules` 目录下。你同样可以使用 `node .output/index` 运行 Modern.js 服务器。
+
+## 自建 Node.js 服务器
+
+通常情况下，我们推荐使用 Modern.js 内置的 Node.js 服务器来部署应用，它支持托管纯前端项目或者全栈项目，并且保证在开发和生产环境下的表现一致。
+
+如果你的项目是纯前端项目，也可以通过自建 Node.js 服务器来部署应用，以下用一个 Koa 服务器的示例来演示如何托管一个纯前端项目的产物。
+
+例如你有一个 Node.js 服务器的仓库，你可以将项目的产物复制到该仓库下，现在结构如下：
+
+```bash
+.
+├── .output
+│   ├── html
+│   └── static
+└── server.js
+```
+
+在 `server.js` 中，假定有如下代码：
+
+```ts title="server.js"
+import Koa from 'koa';
+
+const app = new Koa();
+app.use(async (ctx, next) => {
+  ctx.body = 'Hello Modern.js';
+});
+app.listen(3000);
+```
+
+现在，你可以新增部分代码，将静态资源和 HTML 文件的访问逻辑添加到 `server.js` 中。这里需要通过 `mime-types` 包来获取静态资源的 MIME 类型，因此我们先安装依赖：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add mime-types" />
+
+```ts title="server.js"
+const Koa = require('koa');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime-types');
+
+const app = new Koa();
+app.use(async (ctx, next) => {
+  if (ctx.path.startsWith('/static')) {
+    ctx.type = mime.lookup(ctx.path);
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, `.output${ctx.path}`),
+    );
+  } else if (ctx.path === '/') {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(
+      path.resolve(__dirname, '.output/html/main/index.html'),
+    );
+  }
+});
+app.listen(3000);
+```
+
+:::note
+以上代码是最基础的例子，你的应用可能是多入口的，需要根据不同的路径访问不同的 HTML 文件，自建 Node.js 服务器也会存在更多的逻辑。
+:::
+
+需要注意的是，如果你的项目中使用 Modern.js 约定式路由，或是使用 React Router 自行搭建了浏览器端路由，你必须通过正确的 `baseURL` 来访问 HTML 文件。
+
+在 Modern.js 中，默认的 `baseURL` 是 `'/'`，你可以通过在 `modern.config.ts` 中修改 [`server.baseUrl`](/configure/app/server/base-url) 来配置。
+
+:::danger
+存在浏览器路由的项目，永远无法通过 `/index.html` 路径来访问到 HTML 文件。
+:::
+
+## Nginx
+
+Nginx 是一个高性能的 HTTP 和反向代理服务器，它可以处理静态文件、反向代理、负载均衡等功能。在 Nginx 上部署，通常需要配置 `nginx.conf` 文件。
+
+如果你的项目是纯前端项目，也可以通过 Nginx 来部署应用，以下提供一个 Nginx 配置的示例来演示如何托管一个纯前端项目的产物。
+
+```nginx title="nginx.conf"
+# user [user] [group];
+worker_processes 1;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    server {
+        listen 8080;
+        server_name localhost;
+
+        location / {
+            # root [projectPath]/.output/html/main;
+            index index.html;
+            try_files $uri $uri/ =404;
+        }
+
+        location /static {
+          # alias [projectPath]/.output/static;
+        }
+    }
+}
+```
+
+在上述配置中，你需要将 `[projectPath]` 替换为你的项目路径，将 `[user]` 和 `[group]` 替换为你当前的用户和用户组。
+
+你可以将上述配置复制到 Nginx 安装目录的 `nginx.conf` 文件中，然后启动 Nginx 服务。你也可以通过 `nginx -c` 启动指定路径下的配置文件，此时你需要额外保证 `include` 指令配置的路径正确。

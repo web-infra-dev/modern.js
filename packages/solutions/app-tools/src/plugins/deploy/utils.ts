@@ -16,6 +16,8 @@ export type ServerAppContext = {
   bffRuntimeFramework: string;
 };
 
+export const normalizePath = (filePath: string) => filePath.replace(/\\/g, '/');
+
 export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
   const {
     appDirectory,
@@ -26,17 +28,14 @@ export const serverAppContenxtTemplate = (appContext: AppToolsContext) => {
     bffRuntimeFramework,
   } = appContext;
   return {
-    sharedDirectory: `path.join(__dirname, "${path.relative(
-      appDirectory,
-      sharedDirectory,
+    sharedDirectory: `path.join(__dirname, "${normalizePath(
+      path.relative(appDirectory, sharedDirectory),
     )}")`,
-    apiDirectory: `path.join(__dirname, "${path.relative(
-      appDirectory,
-      apiDirectory,
+    apiDirectory: `path.join(__dirname, "${normalizePath(
+      path.relative(appDirectory, apiDirectory),
     )}")`,
-    lambdaDirectory: `path.join(__dirname, "${path.relative(
-      appDirectory,
-      lambdaDirectory,
+    lambdaDirectory: `path.join(__dirname, "${normalizePath(
+      path.relative(appDirectory, lambdaDirectory),
     )}")`,
     metaName,
     bffRuntimeFramework: bffRuntimeFramework || 'hono',

@@ -19,8 +19,8 @@ interface LoadablePluginOptions {
   filename: string;
   path?: string;
   writeToDisk?: any;
-  outputAsset: boolean;
-  chunkLoadingGlobal: string;
+  outputAsset?: boolean;
+  chunkLoadingGlobal?: string;
 }
 
 type Compiler = Rspack.Compiler;
@@ -137,4 +137,4 @@ class LoadablePlugin {
   }
 }
 
-module.exports = LoadablePlugin;
+export default LoadablePlugin;

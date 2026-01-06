@@ -35,6 +35,7 @@ export type TaskConfig = {
 export type ParsedTask = {
   depPath: string;
   depEntry: string;
+  depEsmEntry?: string;
   distPath: string;
   importPath: string;
   packageDir: string;

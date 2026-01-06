@@ -1,6 +1,7 @@
 import path from 'path';
-import { fs, logger } from '@modern-js/utils';
+import { fs, isFunction, logger } from '@modern-js/utils';
 import 'reflect-metadata';
+import { loadDeps } from '@modern-js/server-core/edge';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';
@@ -38,6 +39,8 @@ export class ApiRouter {
 
   private isBuild?: boolean;
 
+  private appDependencies?: Record<string, Promise<any>>;
+
   constructor({
     appDir,
     apiDir,
@@ -45,6 +48,7 @@ export class ApiRouter {
     prefix,
     isBuild,
     httpMethodDecider = 'functionName',
+    appDependencies,
   }: {
     appDir?: string;
     apiDir: string;
@@ -52,17 +56,28 @@ export class ApiRouter {
     prefix?: string;
     isBuild?: boolean;
     httpMethodDecider?: HttpMethodDecider;
+    appDependencies?: Record<string, Promise<any>>;
   }) {
-    this.validateAbsolute(apiDir, 'apiDir');
-    this.validateAbsolute(lambdaDir, 'lambdaDir');
-
     this.prefix = this.initPrefix(prefix);
     this.appDir = appDir;
     this.apiDir = apiDir;
     this.httpMethodDecider = httpMethodDecider;
     this.isBuild = isBuild;
     this.lambdaDir = this.getExactLambdaDir(this.apiDir, lambdaDir);
-    this.existLambdaDir = fs.existsSync(this.lambdaDir);
+    this.appDependencies = appDependencies;
+    if (process.env.MODERN_SSR_ENV === 'edge') {
+      if (lambdaDir && appDependencies) {
+        this.existLambdaDir = Object.keys(appDependencies).some(x =>
+          x.startsWith(lambdaDir),
+        );
+      } else {
+        this.existLambdaDir = false;
+      }
+    } else {
+      this.validateAbsolute(apiDir, 'apiDir');
+      this.validateAbsolute(lambdaDir, 'lambdaDir');
+      this.existLambdaDir = fs.existsSync(this.lambdaDir);
+    }
     debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
   }
 
@@ -214,6 +229,14 @@ export class ApiRouter {
     if (!this.existLambdaDir) {
       return [];
     }
+    if (process.env.MODERN_SSR_ENV === 'edge') {
+      if (!this.appDependencies) {
+        return [];
+      }
+      return Object.keys(this.appDependencies).filter(x =>
+        x.startsWith(this.lambdaDir),
+      );
+    }
     const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
     return apiFiles;
   }
@@ -269,6 +292,16 @@ export class ApiRouter {
   }
 
   private async getModuleInfo(filename: string) {
+    if (process.env.MODERN_SSR_ENV === 'edge') {
+      const mod = await loadDeps(filename, this.appDependencies);
+      if (mod) {
+        return {
+          filename,
+          module: isFunction(mod) ? { default: mod } : mod,
+        };
+      }
+      return null;
+    }
     try {
       const module = await requireHandlerModule(filename);
       return {

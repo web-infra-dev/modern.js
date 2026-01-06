@@ -21,6 +21,16 @@ const realAllowedHeaders: Map<string, string[]> = new Map();
 
 const domainMap: Map<string, string> = new Map();
 
+const getFetch = () => {
+  if (global && typeof global.fetch === 'function') {
+    return global.fetch as unknown as Fetch;
+  }
+  if (globalThis && typeof globalThis.fetch === 'function') {
+    return globalThis.fetch as unknown as Fetch;
+  }
+  return nodeFetch;
+};
+
 const originFetch = (...params: Parameters<typeof nodeFetch>) => {
   const [, init] = params;
 
@@ -28,7 +38,7 @@ const originFetch = (...params: Parameters<typeof nodeFetch>) => {
     init.body = undefined;
   }
 
-  return nodeFetch(...params).then(handleRes);
+  return getFetch()(...params).then(handleRes);
 };
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {

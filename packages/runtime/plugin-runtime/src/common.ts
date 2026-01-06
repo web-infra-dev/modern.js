@@ -1,7 +1,9 @@
 import type { RuntimePlugin } from './core/plugin';
 
 export const isBrowser = () =>
-  typeof window !== 'undefined' && window.name !== 'nodejs';
+  typeof window !== 'undefined' &&
+  window.name !== 'nodejs' &&
+  typeof document !== 'undefined';
 
 export interface RuntimeConfig {
   plugins?: RuntimePlugin[];

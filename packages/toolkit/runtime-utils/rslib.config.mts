@@ -11,6 +11,7 @@ export default defineConfig({
       ...(isWebTarget && {
         source: {
           define: {
+            ...(libConfig.source?.define || {}),
             IS_WEB: 'true',
           },
         },

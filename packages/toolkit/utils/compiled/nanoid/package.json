@@ -1,1 +1,1 @@
-{"name":"nanoid","author":"Andrey Sitnik <andrey@sitnik.ru>","version":"3.3.11","funding":[{"type":"github","url":"https://github.com/sponsors/ai"}],"license":"MIT","types":"./index.d.ts"}
+{"name":"nanoid","author":"Andrey Sitnik <andrey@sitnik.ru>","version":"3.3.11","funding":[{"type":"github","url":"https://github.com/sponsors/ai"}],"license":"MIT","types":"./index.d.ts","main":"index.js","module":"index.mjs"}

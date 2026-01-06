@@ -1,6 +1,6 @@
 # 扩展一体化调用 SDK
 
-BFF 函数的一体化调用在 CSR 和 SSR 是同构的。Modern.js 封装的请求 SDK，在浏览器端依赖了 [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)，在服务端依赖了 [node-fetch](https://www.npmjs.com/package/node-fetch)。但在实际业务场景下，有时需要对请求或响应做一些额外的处理，例如：
+BFF 函数的一体化调用在 CSR 和 SSR 是同构的。Modern.js 封装的请求 SDK，在浏览器端依赖了 [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)；在服务端优先使用[内置 fetch](https://nodejs.org/en/learn/getting-started/fetch)，若不支持，则降级至 [node-fetch](https://www.npmjs.com/package/node-fetch)。但在实际业务场景下，有时需要对请求或响应做一些额外的处理，例如：
 
 - 在请求头中写入鉴权信息
 - 对响应的数据或错误进行统一的处理

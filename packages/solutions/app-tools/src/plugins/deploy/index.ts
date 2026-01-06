@@ -5,16 +5,23 @@ import type {
   CliPlugin,
 } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
+import { createAliESAPreset, setupAliESA } from './platforms/ali-esa';
+import { createCFWorkersPreset, setupCFWorkers } from './platforms/cf-workers';
+import { createEdgeOnePreset, setupEdgeOne } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
+import type { PluginAPI, Setup } from './types';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
   node: typeof createNodePreset;
   vercel: typeof createVercelPreset;
   netlify: typeof createNetlifyPreset;
   ghPages: typeof createGhPagesPreset;
+  edgeone: typeof createEdgeOnePreset;
+  aliEsa: typeof createAliESAPreset;
+  cfWorkers: typeof createCFWorkersPreset;
 };
 
 type DeployTarget = keyof DeployPresetCreators;
@@ -24,12 +31,22 @@ const deployPresets: DeployPresetCreators = {
   vercel: createVercelPreset,
   netlify: createNetlifyPreset,
   ghPages: createGhPagesPreset,
+  edgeone: createEdgeOnePreset,
+  aliEsa: createAliESAPreset,
+  cfWorkers: createCFWorkersPreset,
+};
+
+const setups: Partial<Record<DeployTarget, Setup>> = {
+  edgeone: setupEdgeOne,
+  cfWorkers: setupCFWorkers,
+  aliEsa: setupAliESA,
 };
 
 async function getDeployPreset(
   appContext: AppToolsContext,
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
+  api: PluginAPI,
 ) {
   const { appDirectory, distDirectory, metaName } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
@@ -43,17 +60,24 @@ async function getDeployPreset(
 
   if (!createPreset) {
     throw new Error(
-      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', or 'netlify'.`,
+      `Unknown deploy target: '${deployTarget}'. MODERNJS_DEPLOY should be 'node', 'vercel', 'netlify', 'edgeone' ,'cfWorkers' or 'aliEsa'.`,
     );
   }
 
-  return createPreset(appContext, modernConfig, needModernServer);
+  return createPreset({
+    appContext,
+    modernConfig,
+    api,
+    needModernServer,
+  });
 }
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-deploy',
-  setup: api => {
+  setup: async api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
+
+    await setups[deployTarget as DeployTarget]?.(api);
 
     api.deploy(async () => {
       const appContext = api.getAppContext();
@@ -66,6 +90,7 @@ export default (): CliPlugin<AppTools> => ({
         appContext,
         modernConfig,
         deployTarget as DeployTarget,
+        api,
       );
 
       deployPreset?.prepare && (await deployPreset?.prepare());

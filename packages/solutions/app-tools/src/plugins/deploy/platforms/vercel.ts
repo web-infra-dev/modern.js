@@ -16,11 +16,11 @@ import {
 } from '../utils';
 import type { CreatePreset } from './platform';
 
-export const createVercelPreset: CreatePreset = (
+export const createVercelPreset: CreatePreset = ({
   appContext,
   modernConfig,
   needModernServer,
-) => {
+}) => {
   const {
     appDirectory,
     distDirectory,
@@ -145,7 +145,7 @@ export const createVercelPreset: CreatePreset = (
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
       let handlerCode = (
-        await fse.readFile(path.join(__dirname, './vercel-handler.js'))
+        await fse.readFile(path.join(__dirname, './vercel-handler.cjs'))
       ).toString();
 
       handlerCode = handlerCode
@@ -167,7 +167,7 @@ export const createVercelPreset: CreatePreset = (
         );
       } else {
         await fse.copy(
-          path.join(__dirname, './vercel-entry.js'),
+          path.join(__dirname, './vercel-entry.cjs'),
           entryFilePath,
         );
       }

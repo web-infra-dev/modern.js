@@ -73,11 +73,13 @@ export const registerCompiler = async (
 
   const { MODERN_NODE_LOADER } = process.env;
   if (MODERN_NODE_LOADER === 'esbuild' || !isTsProject) {
-    await registerEsbuild({
-      isTsProject,
-      tsConfig,
-      distDir,
-    });
+    if (process.env.MODERN_LIB_FORMAT !== 'esm') {
+      await registerEsbuild({
+        isTsProject,
+        tsConfig,
+        distDir,
+      });
+    }
   } else {
     try {
       const tsNode = await loadFromProject('ts-node', appDir);
@@ -106,10 +108,9 @@ export const registerCompiler = async (
     }
   }
 
-  const tsConfigPaths = (await import('@modern-js/utils/tsconfig-paths'))
-    .default;
+  const { register } = await import('@modern-js/utils/tsconfig-paths');
   if (await fs.pathExists(appDir)) {
-    tsConfigPaths.register({
+    register({
       baseUrl: absoluteBaseUrl || './',
       paths: tsPaths,
     });
