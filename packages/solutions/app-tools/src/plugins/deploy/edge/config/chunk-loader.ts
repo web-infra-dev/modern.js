@@ -25,12 +25,28 @@ var installChunk = (data) => {
   }
 };`;
 
+// @see https://github.com/web-infra-dev/rspack/blob/v1.6.8/crates/rspack_plugin_runtime/src/runtime_module/runtime/require_chunk_loading.ejs
+const cjsChunkInstaller = (globals: Record<string, string>) => `
+var installChunk = (chunk) => {
+	var moreModules = chunk.modules, chunkIds = chunk.ids, runtime = chunk.runtime;
+	for (var moduleId in moreModules) {
+		if (${globals.hasOwnProperty}(moreModules, moduleId)) {
+		  ${globals.moduleFactories}[moduleId] = moreModules[moduleId];
+		}
+	}
+	if (runtime) runtime(${globals.require});
+	for (var i = 0; i < chunkIds.length; i++) installedChunks[chunkIds[i]] = 1;
+};`;
+
 export const generateChunkLoading = (
   chunkId: string,
   chunkMap: Record<string, string>,
   runtimeGlobals: Record<string, string>,
+  isESM?: boolean,
 ) => {
-  const installer = esmChunkInstaller(runtimeGlobals);
+  const installer = isESM
+    ? esmChunkInstaller(runtimeGlobals)
+    : cjsChunkInstaller(runtimeGlobals);
   return `var installedChunks = {"${chunkId}": 1};
 var loadingChunks = {};
 var chunkMap = ${JSON.stringify(chunkMap)};

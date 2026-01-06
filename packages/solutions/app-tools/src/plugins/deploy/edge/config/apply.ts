@@ -53,12 +53,17 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
       return;
     }
 
+    const isTsProject = Boolean(config.resolve?.tsConfig);
+    const isEsmProject = Boolean(config.output?.module);
+
     config.target = 'es2020';
-    _.set(config, 'output.chunkFormat', 'module');
-    _.set(config, 'output.chunkLoading', 'edgeChunkLoad');
-    _.set(config, 'output.module', true);
-    _.set(config, 'output.library.type', 'module');
-    _.set(config, 'experiments.outputModule', true);
+    if (isTsProject || isEsmProject) {
+      _.set(config, 'output.chunkFormat', 'module');
+      _.set(config, 'output.chunkLoading', 'edgeChunkLoad');
+      _.set(config, 'output.module', true);
+      _.set(config, 'output.library.type', 'module');
+      _.set(config, 'experiments.outputModule', true);
+    }
 
     const instance: Rspack.RspackPluginInstance = {
       apply(compiler) {
@@ -101,6 +106,7 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
               chunk.id,
               chunkMap,
               RuntimeGlobals as any,
+              isTsProject || isEsmProject,
             );
           }
         }
