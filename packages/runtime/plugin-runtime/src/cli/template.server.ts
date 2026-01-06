@@ -55,8 +55,7 @@ export const requestHandler = createRequestHandler(handleRequest, {
 const handleRSCRequest = async (request, ServerRoot, options) => {
   const { serverPayload } = options;
   const stream = renderRsc({
-    element: options.rscRoot,
-    clientManifest: options.rscClientManifest!,
+    element: options.rscRoot
   });
 
   return new Response(stream);
@@ -99,7 +98,6 @@ export const entryForCSRWithRSC = ({
   const handleCSRRender = async (request, ServerRoot, options) => {
     const rscPayloadStream = renderRsc({
       element: options.rscRoot,
-      clientManifest: options.rscClientManifest!,
     });
     const stream = new ReadableStream({
       start(controller) {
@@ -129,7 +127,6 @@ export const entryForCSRWithRSC = ({
   const handleRequest = async (request, ServerRoot, options) => {
     const stream = renderRsc({
             element: options.rscRoot,
-      clientManifest: options.rscClientManifest!,
     });
 
     return new Response(stream);

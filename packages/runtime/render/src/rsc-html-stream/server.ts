@@ -121,3 +121,94 @@ function writeChunk(
 function escapeScript(script: string): string {
   return script.replace(/<!--/g, '<\\!--').replace(/<\/(script)/gi, '</\\$1');
 }
+
+/**
+ * Inject CSS link tags into HTML stream before closing head tag
+ */
+export function injectCSS(
+  cssFiles: string[],
+  {
+    injectClosingTags = true,
+  }: {
+    injectClosingTags?: boolean;
+  } = {},
+): TransformStream {
+  if (cssFiles.length === 0) {
+    // Return a pass-through stream if no CSS files
+    return new TransformStream({
+      transform(chunk, controller) {
+        controller.enqueue(chunk);
+      },
+      flush(controller) {
+        if (injectClosingTags) {
+          controller.enqueue(encoder.encode('</body></html>'));
+        }
+      },
+    });
+  }
+
+  const decoder = new TextDecoder();
+  const headTrailer = '</head>';
+  const bodyTrailer = '</body>';
+
+  // Buffer all HTML chunks enqueued during the current tick of the event loop (roughly)
+  // and write them to the output stream all at once. This ensures that we don't generate
+  // invalid HTML by injecting CSS in between two partial chunks of HTML.
+  const buffered: Uint8Array[] = [];
+  let timeout: NodeJS.Timeout | null = null;
+  let cssInjected = false;
+
+  const cssLinks = cssFiles
+    .map(css => `<link href="${css}" rel="stylesheet" />`)
+    .join('');
+
+  function flushBufferedChunks(
+    controller: TransformStreamDefaultController<Uint8Array>,
+  ) {
+    for (const chunk of buffered) {
+      let buf = decoder.decode(chunk);
+
+      // Try to inject CSS before </head> first
+      if (!cssInjected && buf.includes(headTrailer)) {
+        buf = buf.replace(headTrailer, `${cssLinks}${headTrailer}`);
+        cssInjected = true;
+      }
+
+      controller.enqueue(encoder.encode(buf));
+    }
+
+    buffered.length = 0;
+    timeout = null;
+  }
+
+  return new TransformStream({
+    transform(
+      chunk: Uint8Array,
+      controller: TransformStreamDefaultController<Uint8Array>,
+    ) {
+      buffered.push(chunk);
+      if (timeout) {
+        return;
+      }
+
+      timeout = setTimeout(() => {
+        flushBufferedChunks(controller);
+      }, 0);
+    },
+    async flush(controller: TransformStreamDefaultController<Uint8Array>) {
+      if (timeout) {
+        clearTimeout(timeout);
+        flushBufferedChunks(controller);
+      }
+
+      // If CSS hasn't been injected yet, inject it before closing tags
+      if (!cssInjected) {
+        controller.enqueue(encoder.encode(cssLinks));
+      }
+
+      if (injectClosingTags) {
+        controller.enqueue(encoder.encode('</body></html>'));
+      }
+    },
+  });
+}

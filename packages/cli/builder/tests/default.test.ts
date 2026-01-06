@@ -53,7 +53,7 @@ describe('builder rspack', () => {
     process.env.NODE_ENV = NODE_ENV;
   });
 
-  it('should generator rspack config correctly when node', async () => {
+  it('should generator rspack config correctly when server', async () => {
     const { NODE_ENV } = process.env;
     process.env.NODE_ENV = 'production';
 
@@ -61,7 +61,7 @@ describe('builder rspack', () => {
       bundlerType: 'rspack',
       config: {
         environments: {
-          node: {
+          server: {
             output: {
               target: 'node',
             },
