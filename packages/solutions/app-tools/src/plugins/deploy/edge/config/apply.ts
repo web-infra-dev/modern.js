@@ -5,6 +5,7 @@ import type { PluginAPI } from '../../types';
 import { normalizePath } from '../../utils';
 import { generateNodeExternals } from '../builder';
 import { NODE_BUILTIN_MODULES } from '../constant';
+import { appendTo } from '../utils';
 import { generateChunkLoading } from './chunk-loader';
 
 export interface ApplyConfigParams {
@@ -53,12 +54,11 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
     }
 
     config.target = 'es2020';
-
-    if (config.output) {
-      config.output.chunkLoading = 'edgeChunkLoad';
-    }
-
-    const isESM = Boolean(config.output?.module);
+    _.set(config, 'output.chunkFormat', 'module');
+    _.set(config, 'output.chunkLoading', 'edgeChunkLoad');
+    _.set(config, 'output.module', true);
+    _.set(config, 'output.library.type', 'module');
+    _.set(config, 'experiments.outputModule', true);
 
     const instance: Rspack.RspackPluginInstance = {
       apply(compiler) {
@@ -101,7 +101,6 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
               chunk.id,
               chunkMap,
               RuntimeGlobals as any,
-              isESM,
             );
           }
         }
@@ -119,19 +118,14 @@ export const applyConfig = (api: PluginAPI, options?: ApplyConfigParams) => {
       },
     };
 
-    if (Array.isArray(config.externals)) {
-      config.externals.push(nodeExternals);
-    } else {
-      config.externals = [nodeExternals];
-    }
+    appendTo(config, 'externals', nodeExternals);
+    appendTo(config, 'plugins', instance);
 
-    if (config.plugins) {
-      config.plugins.push(instance);
-    } else {
-      config.plugins = [instance];
+    try {
+      options?.rspack?.(config, utils);
+    } catch (e) {
+      console.error(e);
     }
-
-    // console.log('\n\n\n\n', 'config', config.resolve, '\n\n\n\n');
-    options?.rspack?.(config, utils);
+    // console.log('\n\n\n\n', 'config 222', config, '\n\n\n\n');
   });
 };

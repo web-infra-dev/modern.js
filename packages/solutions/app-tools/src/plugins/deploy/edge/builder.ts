@@ -54,8 +54,7 @@ export const bundleSSR = async (
       conditionNames: ESM_RESOLVE_CONDITIONS,
     },
     output: {
-      target: 'node',
-      module: true,
+      target: 'web-worker',
       cleanDistPath: true,
       polyfill: 'off',
       sourceMap: false,
@@ -65,7 +64,7 @@ export const bundleSSR = async (
       filename: {
         js: '[name].js',
       },
-      minify: false,
+      // minify: false,
     },
     tools: {
       rspack: {
@@ -75,7 +74,7 @@ export const bundleSSR = async (
           library: {
             type: 'module',
           },
-          pathinfo: true,
+          // pathinfo: true,
         },
         experiments: {
           outputModule: true,

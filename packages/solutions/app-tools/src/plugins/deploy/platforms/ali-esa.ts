@@ -1,9 +1,8 @@
 import path from 'node:path';
 import { lodash as _, fs as fse } from '@modern-js/utils';
-import type { RsbuildPlugin } from '@rsbuild/core';
-import { builtinMappingResolved } from '@rsbuild/plugin-node-polyfill';
 import {
   NODE_BUILTIN_MODULES,
+  appendTo,
   applyConfig,
   bundleSSR,
   copyEntriesHtml,
@@ -65,25 +64,13 @@ export const setupAliESA: Setup = async api => {
       ].forEach(([key, value]) =>
         _.set(config, `environments.node.source.define[${key}]`, value),
       );
-      const plugins = _.get(config, 'environments.node.plugins');
-      if (plugins) {
-        plugins.push(injectProcessPlugin);
-      } else {
-        _.set(config, 'environments.node.plugins', [injectProcessPlugin]);
-      }
+      appendTo(config, 'environments.node.plugins', injectProcessPlugin);
+      1;
     },
     rspack: options => {
-      if (options.plugins) {
-        options.plugins.push(nodeSchemaPlugin);
-      } else {
-        _.set(options, 'plugins', [nodeSchemaPlugin]);
-      }
-      const externals = _.get(options, 'externals');
-      if (Array.isArray(externals)) {
-        externals.push(esaExternals, externalDebug);
-      } else {
-        _.set(options, 'externals', [esaExternals, externalDebug]);
-      }
+      appendTo(options, 'plugins', nodeSchemaPlugin);
+      appendTo(options, 'externals', esaExternals);
+      appendTo(options, 'externals', externalDebug);
     },
   });
 };

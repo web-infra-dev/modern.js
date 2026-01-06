@@ -5,9 +5,9 @@ import type {
   CliPlugin,
 } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
-import { createAliESAPreset } from './platforms/ali-esa';
+import { createAliESAPreset, setupAliESA } from './platforms/ali-esa';
 import { createCFWorkersPreset, setupCFWorkers } from './platforms/cf-workers';
-import { createEdgeOnePreset } from './platforms/edgeone';
+import { createEdgeOnePreset, setupEdgeOne } from './platforms/edgeone';
 import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
@@ -37,9 +37,9 @@ const deployPresets: DeployPresetCreators = {
 };
 
 const setups: Partial<Record<DeployTarget, Setup>> = {
-  // edgeone: setupEdgeOne,
+  edgeone: setupEdgeOne,
   cfWorkers: setupCFWorkers,
-  // aliEsa: setupAliESA,
+  aliEsa: setupAliESA,
 };
 
 async function getDeployPreset(
