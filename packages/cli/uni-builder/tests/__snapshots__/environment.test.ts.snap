@@ -2503,7 +2503,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "typeExports": true,
                 },
                 "env": {
-                  "mode": undefined,
                   "targets": [
                     "node >= 14",
                   ],
@@ -2588,7 +2587,6 @@ exports[`uni-builder environment compat > should generator environment config co
                   "typeExports": true,
                 },
                 "env": {
-                  "mode": undefined,
                   "targets": [
                     "node >= 14",
                   ],
@@ -2991,7 +2989,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "typeExports": true,
                     },
                     "env": {
-                      "mode": undefined,
                       "targets": [
                         "node >= 14",
                       ],
@@ -3087,7 +3084,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "typeExports": true,
                     },
                     "env": {
-                      "mode": undefined,
                       "targets": [
                         "node >= 14",
                       ],

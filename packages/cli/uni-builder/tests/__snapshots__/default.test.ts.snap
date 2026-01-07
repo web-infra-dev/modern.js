@@ -4030,7 +4030,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "typeExports": true,
               },
               "env": {
-                "mode": undefined,
                 "targets": [
                   "node >= 14",
                 ],
@@ -4115,7 +4114,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "typeExports": true,
               },
               "env": {
-                "mode": undefined,
                 "targets": [
                   "node >= 14",
                 ],
@@ -4518,7 +4516,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     "typeExports": true,
                   },
                   "env": {
-                    "mode": undefined,
                     "targets": [
                       "node >= 14",
                     ],
@@ -4614,7 +4611,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                     "typeExports": true,
                   },
                   "env": {
-                    "mode": undefined,
                     "targets": [
                       "node >= 14",
                     ],
