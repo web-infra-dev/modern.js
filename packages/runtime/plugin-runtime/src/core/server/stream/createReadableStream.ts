@@ -3,7 +3,6 @@ import {
   createReadableStreamFromReadable,
   storage,
 } from '@modern-js/runtime-utils/node';
-import checkIsBot from 'isbot';
 import type { ReactElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
@@ -14,6 +13,7 @@ import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
   getReadableStreamFromString,
+  resolveStreamingMode,
 } from './shared';
 import { getTemplates } from './template';
 
@@ -35,12 +35,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     const forceStream2String = Boolean(process.env.MODERN_JS_STREAM_TO_STRING);
     // When a crawler visit the page, we should waiting for entrie content of page
 
-    const isbot = checkIsBot(request.headers.get('user-agent'));
-    const isSsgRender = request.headers.get('x-modern-ssg-render') === 'true';
-    const onReady =
-      isbot || isSsgRender || forceStream2String
-        ? 'onAllReady'
-        : 'onShellReady';
+    const { onReady } = resolveStreamingMode(request, forceStream2String);
 
     const internalRuntimeContext = getGlobalInternalRuntimeContext();
     const hooks = internalRuntimeContext.hooks;

@@ -235,14 +235,33 @@ function ErrorElement() {
 }
 ```
 
-## 为爬虫等待所有内容加载完毕
+## 控制是否等待全部内容再输出
 
-流式传输可以提高用户体验，因为当页面内容可用时，用户可以及时感知到它们。
+流式传输可以提高用户体验，因为当页面内容可用时，用户可以及时感知到它们。但在部分场景下（例如 SEO 爬虫、特定 AB 实验或合规页面）希望等所有内容完成后再一次性输出。
 
-然而，当一个爬虫访问该页面时，它可能需要先加载所有内容，直接输出整个 HTML，而不是渐进式地加载它。
+Modern.js 默认行为的判定优先级为：
 
 Modern.js 使用 [isbot](https://www.npmjs.com/package/isbot) 对请求的 `user-agent`，以判断请求是否来自爬虫。
 
+1. 请求头 `x-should-stream-all`（中间件可写）。
+2. 环境变量 `MODERN_JS_STREAM_TO_STRING`（强制全量）。
+3. [isbot](https://www.npmjs.com/package/isbot) 检测 `user-agent`（爬虫全量）。
+4. 默认流式（先 shell 后内容）。
+
+你可以在自定义中间件里按请求动态写入标记，控制是否等待全部内容：
+
+```ts title="middleware 示例"
+export const middleware = async (ctx, next) => {
+  const ua = ctx.req.header('user-agent') || '';
+  const shouldWaitAll =
+    /Lighthouse|Googlebot/i.test(ua) || ctx.req.path === '/marketing';
+
+  // 写入布尔值字符串，true 表示使用 onAllReady，false 表示使用 onShellReady
+  ctx.req.headers.set('x-should-stream-all', String(shouldWaitAll));
+
+  await next();
+};
+```
 
 import StreamSSRPerformance from '@site-docs/components/stream-ssr-performance';
 
