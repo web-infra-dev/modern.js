@@ -13,6 +13,11 @@ test('security.sri', async ({ page }) => {
       },
     },
   });
+  // SKIP for webpack
+  // sri plugin no longer applied for webpack in rsbuild
+  if (process.env.PROVIDE_TYPE !== 'rspack') {
+    return;
+  }
 
   const files = await builder.unwrapOutputJSON();
   const htmlFileName = Object.keys(files).find(f => f.endsWith('.html'))!;
