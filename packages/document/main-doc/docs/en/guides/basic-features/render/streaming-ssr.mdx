@@ -212,13 +212,30 @@ function ErrorElement() {
 }
 ```
 
-## Waiting for All Content to Load for Crawlers
+## Controlling When to Wait for Full HTML
 
-Streaming can enhance user experience by allowing users to perceive content as it becomes available.
+Streaming improves perceived speed, but in some cases (SEO crawlers, A/B buckets, compliance pages) you may want to wait for all content before sending the response.
 
-However, when a crawler visits the page, it might need to load all content and output the entire HTML at once, rather than progressively loading it.
+Modern.js decides the streaming mode with this priority:
 
-Modern.js uses [isbot](https://www.npmjs.com/package/isbot) to determine if a request is from a crawler based on the `user-agent` header.
+1. Request header `x-should-stream-all` (set per-request in middleware).
+2. Env `MODERN_JS_STREAM_TO_STRING` (forces full HTML).
+3. [isbot](https://www.npmjs.com/package/isbot) check on `user-agent` (bots get full HTML).
+4. Default: stream shell first.
+
+Set the header in your middleware to choose the behavior dynamically:
+
+```ts title="middleware example"
+export const middleware = async (ctx, next) => {
+  const ua = ctx.req.header('user-agent') || '';
+  const shouldWaitAll = /Lighthouse|Googlebot/i.test(ua) || ctx.req.path === '/marketing';
+
+  // Write a boolean string: true -> onAllReady, false -> onShellReady
+  ctx.req.headers.set('x-should-stream-all', String(shouldWaitAll));
+
+  await next();
+};
+```
 
 import StreamSSRPerformance from '@site-docs-en/components/stream-ssr-performance';
 
