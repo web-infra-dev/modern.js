@@ -2168,7 +2168,6 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "mode": undefined,
                   "targets": [
                     "node >= 16",
                   ],
@@ -2227,7 +2226,6 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "mode": undefined,
                   "targets": [
                     "node >= 16",
                   ],
@@ -2583,7 +2581,6 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "mode": undefined,
                       "targets": [
                         "node >= 16",
                       ],
@@ -2653,7 +2650,6 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "mode": undefined,
                       "targets": [
                         "node >= 16",
                       ],

@@ -3490,7 +3490,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "typeExports": true,
               },
               "env": {
-                "mode": undefined,
                 "targets": [
                   "node >= 16",
                 ],
@@ -3549,7 +3548,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "typeExports": true,
               },
               "env": {
-                "mode": undefined,
                 "targets": [
                   "node >= 16",
                 ],
@@ -3905,7 +3903,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "typeExports": true,
                   },
                   "env": {
-                    "mode": undefined,
                     "targets": [
                       "node >= 16",
                     ],
@@ -3975,7 +3972,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "typeExports": true,
                   },
                   "env": {
-                    "mode": undefined,
                     "targets": [
                       "node >= 16",
                     ],
