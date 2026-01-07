@@ -1,5 +1,13 @@
 # @modern-js/uni-builder
 
+## 2.70.0
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.70.0
+- @modern-js/flight-server-transform-plugin@2.70.0
+- @modern-js/utils@2.70.0
+
 ## 2.69.7
 
 ### Patch Changes
