@@ -18,7 +18,7 @@ export default async function loader(
   source: string,
 ) {
   this.cacheable();
-  const target = this._compiler?.options.target;
+  const { target, output } = this._compiler?.options || {};
 
   const shouldSkip = (compileTarget: string) => {
     return (
@@ -30,7 +30,10 @@ export default async function loader(
   if (
     shouldSkip('node') ||
     shouldSkip('webworker') ||
-    shouldSkip('async-node')
+    shouldSkip('async-node') ||
+    // edge environment set target to es2020, but it actually runs on the server, use chunkLoading to detect
+    // @see solutions/app-tools/src/plugins/deploy/edge/config/apply.ts
+    output?.chunkLoading === 'edgeChunkLoad'
   ) {
     return source;
   }
