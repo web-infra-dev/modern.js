@@ -249,7 +249,7 @@
     "@types/node": "^18",
     "jest": "^29",
     "typescript": "^5",
-    "webpack": "^5.103.0"
+    "webpack": "^5.104.1"
   },
   "sideEffects": false
 }

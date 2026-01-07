@@ -90,13 +90,13 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.7.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@rsbuild/core": "1.7.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
@@ -107,7 +107,7 @@
     "memfs": "^3.5.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.103.0",
+    "webpack": "^5.104.1",
     "zod": "^3.22.3"
   },
   "sideEffects": false,

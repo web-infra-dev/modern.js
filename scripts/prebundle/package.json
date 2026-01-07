@@ -17,7 +17,7 @@
     "dts-packer": "0.0.3",
     "postcss": "^8.5.6",
     "typescript": "^5",
-    "webpack": "^5.103.0"
+    "webpack": "^5.104.1"
   },
   "devDependencies": {
     "@rollup/plugin-json": "6.1.0",

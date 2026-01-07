@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@rsbuild/plugin-sass": "1.4.0",
-    "@shikijs/transformers": "^3.4.2",
-    "@rspress/shared": "2.0.0-beta.16",
     "@rspress/plugin-llms": "2.0.0-beta.16",
+    "@rspress/shared": "2.0.0-beta.16",
+    "@shikijs/transformers": "^3.4.2",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16",
     "classnames": "^2.5.1",

@@ -75,7 +75,7 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.2.0",
     "typescript": "^5",
-    "webpack": "^5.103.0",
+    "webpack": "^5.104.1",
     "websocket": "^1.0.35"
   },
   "peerDependencies": {

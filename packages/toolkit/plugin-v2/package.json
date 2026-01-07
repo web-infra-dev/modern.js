@@ -87,11 +87,11 @@
   },
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@rsbuild/core": "1.7.2",
     "@swc/helpers": "^0.5.17",
-    "jiti": "1.21.7",
-    "@rsbuild/core": "1.7.1"
+    "jiti": "1.21.7"
   },
   "devDependencies": {
     "@modern-js/uni-builder": "workspace:*",
