@@ -22,6 +22,8 @@ describe('deploy', () => {
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
     await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(path.join(appDir, '.dist-cf'));
+    await fse.remove(path.join(appDir, '.dist-eo'));
   });
 
   test('support server when deploy target is node', async () => {
@@ -118,6 +120,7 @@ describe('deploy', () => {
       env: {
         ...process.env,
         MODERNJS_DEPLOY: 'cfWorkers',
+        MODERN_DIST_ROOT: 'dist-cf',
       },
     });
 
@@ -137,6 +140,7 @@ describe('deploy', () => {
       env: {
         ...process.env,
         MODERNJS_DEPLOY: 'edgeone',
+        MODERN_DIST_ROOT: 'dist-eo',
       },
     });
 

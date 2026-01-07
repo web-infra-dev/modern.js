@@ -1,15 +1,10 @@
 import path from 'path';
 import { execa, fs as fse, isVersionAtLeast1819 } from '@modern-js/utils';
-import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
 if (isVersionAtLeast1819()) {
   describe('deploy', () => {
-    beforeAll(async () => {
-      await modernBuild(appDir, [], {});
-    });
-
     afterEach(async () => {
       // local test will copy some lib files to /compiled, this is a mistake, we will manually delete it temporarily.
       await fse.remove(path.join(appDir, 'compiled'));
@@ -22,16 +17,19 @@ if (isVersionAtLeast1819()) {
       await fse.remove(path.join(appDir, '.vercel'));
       await fse.remove(path.join(appDir, '.netlify'));
       await fse.remove(path.join(appDir, '.output'));
+      await fse.remove(path.join(appDir, '.dist-cf'));
+      await fse.remove(path.join(appDir, '.dist-eo'));
     });
 
     test('pure-esm-project deploy target is node', async () => {
-      await execa('npx modern deploy --skip-build', {
+      await execa('npx modern deploy', {
         shell: true,
         cwd: appDir,
         stdio: 'inherit',
         env: {
           ...process.env,
           MODERNJS_DEPLOY: 'node',
+          MODERN_DIST_ROOT: 'dist-deploy',
         },
       });
       const outputDirectory = path.join(appDir, '.output');
@@ -56,6 +54,7 @@ if (isVersionAtLeast1819()) {
         env: {
           ...process.env,
           MODERNJS_DEPLOY: 'cfWorkers',
+          MODERN_DIST_ROOT: 'dist-cf',
         },
       });
 
@@ -75,6 +74,7 @@ if (isVersionAtLeast1819()) {
         env: {
           ...process.env,
           MODERNJS_DEPLOY: 'edgeone',
+          MODERN_DIST_ROOT: 'dist-eo',
         },
       });
 

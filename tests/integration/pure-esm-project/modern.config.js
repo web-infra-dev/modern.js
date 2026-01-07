@@ -14,6 +14,9 @@ export default applyBaseConfig({
   },
   output: {
     disableTsChecker: true,
+    distPath: {
+      root: process.env.MODERN_DIST_ROOT || 'dist',
+    },
   },
   plugins: [bffPlugin()],
 });

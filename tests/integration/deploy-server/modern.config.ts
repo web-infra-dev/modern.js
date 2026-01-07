@@ -10,4 +10,9 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  output: {
+    distPath: {
+      root: process.env.MODERN_DIST_ROOT || 'dist',
+    },
+  },
 });
