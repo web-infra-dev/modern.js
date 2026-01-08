@@ -1412,7 +1412,7 @@ exports[`uni-builder environment compat > should generator environment config co
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-webpack/client.browser": false,
       },
       "tsConfig": {
         "configFile": "tsconfig.json",
@@ -2346,7 +2346,7 @@ exports[`uni-builder environment compat > should generator environment config co
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-webpack/client.browser": false,
       },
       "tsConfig": {
         "configFile": "tsconfig.json",
@@ -3251,7 +3251,7 @@ exports[`uni-builder environment compat > should generator environment config co
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-webpack/client.browser": false,
       },
       "tsConfig": {
         "configFile": "tsconfig.json",

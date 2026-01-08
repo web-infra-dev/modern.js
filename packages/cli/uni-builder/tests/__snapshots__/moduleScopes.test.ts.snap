@@ -25,7 +25,7 @@ exports[`plugin-module-scopes > should set entry correctly 1`] = `
     ".json",
   ],
   "fallback": {
-    "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+    "react-server-dom-webpack/client.browser": false,
   },
   "plugins": [
     TsconfigPathsPlugin {
