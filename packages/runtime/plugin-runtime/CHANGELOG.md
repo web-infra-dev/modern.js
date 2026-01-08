@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.70.0
+
+### Minor Changes
+
+- d4491f1: feat: enhance streaming ssr control for SEO and compliance by introducing dynamic wait options
+  feat: 通过引入动态等待选项，增强 streaming SSR 控制，以提升 SEO.
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.70.0
+- @modern-js/render@2.70.0
+- @modern-js/plugin@2.70.0
+- @modern-js/plugin-v2@2.70.0
+- @modern-js/runtime-utils@2.70.0
+- @modern-js/types@2.70.0
+- @modern-js/utils@2.70.0
+
 ## 2.69.7
 
 ### Patch Changes

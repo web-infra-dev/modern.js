@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.70.0
+
+### Patch Changes
+
+- 82682db: feat: update rsbuild version
+
+  feat: 更新 rsbuild 版本
+
+  - @modern-js/core@2.70.0
+  - @modern-js/plugin-data-loader@2.70.0
+  - @modern-js/plugin-i18n@2.70.0
+  - @modern-js/rsbuild-plugin-esbuild@2.70.0
+  - @modern-js/uni-builder@2.70.0
+  - @modern-js/server-core@2.70.0
+  - @modern-js/prod-server@2.70.0
+  - @modern-js/server@2.70.0
+  - @modern-js/server-utils@2.70.0
+  - @modern-js/node-bundle-require@2.70.0
+  - @modern-js/plugin@2.70.0
+  - @modern-js/plugin-v2@2.70.0
+  - @modern-js/types@2.70.0
+  - @modern-js/utils@2.70.0
+
 ## 2.69.7
 
 ### Patch Changes
