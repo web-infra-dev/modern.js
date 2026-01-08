@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.70.1
+
+### Patch Changes
+
+- f8ec6dc: fix: handle the import of react-server-dom-webpack
+  fix: 处理对 react-server-dom-webpack 的导入
+  - @modern-js/babel-preset@2.70.1
+  - @modern-js/flight-server-transform-plugin@2.70.1
+  - @modern-js/utils@2.70.1
+
 ## 2.70.0
 
 ### Patch Changes

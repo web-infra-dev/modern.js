@@ -1,5 +1,7 @@
 # @modern-js/flight-server-transform-plugin
 
+## 2.70.1
+
 ## 2.70.0
 
 ## 2.69.7
