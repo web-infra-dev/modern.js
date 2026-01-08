@@ -82,7 +82,6 @@ exports[`html minify > should not apply html minify in production when disableMi
   },
   DefinePlugin {
     "definitions": {
-      "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
       "import.meta.env": {
         "ASSET_PREFIX": """",
         "BASE_URL": "\\"/\\"",
@@ -215,7 +214,6 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
   },
   DefinePlugin {
     "definitions": {
-      "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
       "import.meta.env": {
         "ASSET_PREFIX": """",
         "BASE_URL": "\\"/\\"",
@@ -288,7 +286,6 @@ exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = 
   },
   DefinePlugin {
     "definitions": {
-      "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
       "import.meta.env": {
         "ASSET_PREFIX": """",
         "BASE_URL": "\\"/\\"",
