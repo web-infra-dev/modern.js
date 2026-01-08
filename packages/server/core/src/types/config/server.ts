@@ -37,7 +37,7 @@ export interface ServerUserConfig {
   baseUrl?: string | string[];
   port?: number;
   watchOptions?: WatchOptions;
-  compiler?: 'babel' | 'typescript';
+  compiler?: 'typescript';
   /**
    * @description use json script tag instead of inline script
    * @default false

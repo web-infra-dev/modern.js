@@ -38,7 +38,7 @@ export default function Footer() {
         },
         {
           label: t('advancedFeatures'),
-          to: useUrl('/guides/advanced-features/rspack-start'),
+          to: useUrl('/guides/advanced-features/bff'),
         },
       ],
     },

@@ -19,7 +19,6 @@ import type {
   ToolsConfig,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
-import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
@@ -135,13 +134,6 @@ export type BuilderExtraConfig = {
      * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
      */
     minifyCss?: PluginCssMinimizerOptions['pluginOptions'];
-    /**
-     * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
-     * When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
-     * When `tools.babel`'s type is `Object`, the config will be shallow merged with default config by `Object.assign`.
-     * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
-     */
-    babel?: PluginBabelOptions['babelLoaderOptions'];
     /**
      * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
      */
@@ -322,13 +314,6 @@ export type BuilderConfig = {
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildPlugins;
   environments?: {
-    [key: string]: EnvironmentConfig & {
-      tools?: {
-        /**
-         * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
-         */
-        babel?: PluginBabelOptions['babelLoaderOptions'];
-      };
-    };
+    [key: string]: EnvironmentConfig;
   };
 } & BuilderExtraConfig;
