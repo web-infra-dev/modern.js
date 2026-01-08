@@ -1411,7 +1411,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "tsConfig": {
       "configFile": "tsconfig.json",
@@ -2430,7 +2430,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "tsConfig": {
       "configFile": "tsconfig.json",
@@ -3865,7 +3865,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "tsConfig": {
       "configFile": "tsconfig.json",
@@ -4832,7 +4832,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "tsConfig": {
       "configFile": "tsconfig.json",
@@ -6409,7 +6409,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "plugins": [
       TsconfigPathsPlugin {
@@ -8111,7 +8111,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       ".json",
     ],
     "fallback": {
-      "react-server-dom-webpack/client.browser": "<ROOT>/src/shared/rsc/rscEmptyModule",
+      "react-server-dom-webpack/client.browser": false,
     },
     "plugins": [
       TsconfigPathsPlugin {
