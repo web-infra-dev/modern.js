@@ -1930,6 +1930,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../packages/toolkit/utils
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2(debug@4.3.7)
     devDependencies:
       '@types/node':
         specifier: ^20
