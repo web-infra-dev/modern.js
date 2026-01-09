@@ -8,7 +8,7 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { rsbuildRscPlugin } from '../shared/rsc/plugins/rsbuild-rsc-plugin';
-import { addRscExternalFallback } from '../shared/rsc/rscExternalFallback';
+import { rscClientBrowserFallbackPlugin } from '../shared/rsc/rscClientBrowserFallback';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -144,7 +144,7 @@ export async function parseConfig(
       }),
     );
   } else {
-    addRscExternalFallback(rsbuildConfig, rsbuildPlugins);
+    rsbuildPlugins.push(rscClientBrowserFallbackPlugin());
   }
 
   return {

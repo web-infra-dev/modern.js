@@ -32,11 +32,6 @@ exports[`uni-builder environment compat > should generator environment config co
         },
       },
     },
-    "externals": [
-      {
-        "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-      },
-    ],
     "infrastructureLogging": {
       "level": "error",
     },
@@ -1327,7 +1322,6 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
-            "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
             "import.meta.env": {
               "ASSET_PREFIX": """",
               "BASE_URL": "\\"/\\"",
@@ -1417,6 +1411,9 @@ exports[`uni-builder environment compat > should generator environment config co
         ".jsx",
         ".json",
       ],
+      "fallback": {
+        "react-server-dom-webpack/client.browser": false,
+      },
       "tsConfig": {
         "configFile": "tsconfig.json",
         "references": "auto",
@@ -1459,11 +1456,6 @@ exports[`uni-builder environment compat > should generator environment config co
         },
       },
     },
-    "externals": [
-      {
-        "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-      },
-    ],
     "infrastructureLogging": {
       "level": "error",
     },
@@ -2306,7 +2298,6 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
-            "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
             "import.meta.env": {
               "ASSET_PREFIX": """",
               "BASE_URL": "\\"/\\"",
@@ -2354,6 +2345,9 @@ exports[`uni-builder environment compat > should generator environment config co
         ".jsx",
         ".json",
       ],
+      "fallback": {
+        "react-server-dom-webpack/client.browser": false,
+      },
       "tsConfig": {
         "configFile": "tsconfig.json",
         "references": "auto",
@@ -2393,11 +2387,6 @@ exports[`uni-builder environment compat > should generator environment config co
         },
       },
     },
-    "externals": [
-      {
-        "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-      },
-    ],
     "infrastructureLogging": {
       "level": "error",
     },
@@ -3214,7 +3203,6 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
-            "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
             "import.meta.env": {
               "ASSET_PREFIX": """",
               "BASE_URL": "\\"/\\"",
@@ -3262,6 +3250,9 @@ exports[`uni-builder environment compat > should generator environment config co
         ".jsx",
         ".json",
       ],
+      "fallback": {
+        "react-server-dom-webpack/client.browser": false,
+      },
       "tsConfig": {
         "configFile": "tsconfig.json",
         "references": "auto",

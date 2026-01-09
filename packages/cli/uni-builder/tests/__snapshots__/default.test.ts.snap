@@ -31,11 +31,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     },
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1326,7 +1321,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     DefinePlugin {
       "_args": [
         {
-          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -1416,6 +1410,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "tsConfig": {
       "configFile": "tsconfig.json",
       "references": "auto",
@@ -1452,6 +1449,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:css-minimizer",
   "uni-builder:postcss-plugins",
   "rsbuild:styled-components",
+  "uni-builder:rsc-client-browser-fallback",
   "user-plugin",
 ]
 `;
@@ -1486,11 +1484,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       },
     },
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2369,7 +2362,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     DefinePlugin {
       "_args": [
         {
-          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -2437,6 +2429,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "tsConfig": {
       "configFile": "tsconfig.json",
       "references": "auto",
@@ -2480,11 +2475,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     },
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -3807,7 +3797,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     DefinePlugin {
       "_args": [
         {
-          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -3875,6 +3864,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "tsConfig": {
       "configFile": "tsconfig.json",
       "references": "auto",
@@ -3920,11 +3912,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       },
     },
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -4777,7 +4764,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     DefinePlugin {
       "_args": [
         {
-          "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
           "import.meta.env": {
             "ASSET_PREFIX": """",
             "BASE_URL": "\\"/\\"",
@@ -4845,6 +4831,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "tsConfig": {
       "configFile": "tsconfig.json",
       "references": "auto",
@@ -4886,11 +4875,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -6344,7 +6328,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
     DefinePlugin {
       "definitions": {
-        "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
         "import.meta.env": {
           "ASSET_PREFIX": """",
           "BASE_URL": "\\"/\\"",
@@ -6425,6 +6408,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "plugins": [
       TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
@@ -6486,11 +6472,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "experiments": {
     "asyncWebAssembly": true,
   },
-  "externals": [
-    {
-      "react-server-dom-webpack": "__REACT_SERVER_DOM_WEBPACK_EMPTY__",
-    },
-  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -8058,7 +8039,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
     DefinePlugin {
       "definitions": {
-        "__REACT_SERVER_DOM_WEBPACK_EMPTY__": "{}",
         "import.meta.env": {
           "ASSET_PREFIX": """",
           "BASE_URL": "\\"/\\"",
@@ -8130,6 +8110,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": false,
+    },
     "plugins": [
       TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
