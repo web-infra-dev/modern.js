@@ -239,7 +239,7 @@
     "@remix-run/router": "1.20.0",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
-    "react-router-dom": "6.27.0",
+    "react-router-dom": "6.30.3",
     "serialize-javascript": "^6.0.0"
   },
   "peerDependencies": {
