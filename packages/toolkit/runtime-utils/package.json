@@ -236,7 +236,7 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@remix-run/router": "1.20.0",
+    "@remix-run/router": "1.23.2",
     "@swc/helpers": "^0.5.17",
     "lru-cache": "^10.4.3",
     "react-router-dom": "6.30.3",

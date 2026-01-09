@@ -4402,8 +4402,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@remix-run/router':
-        specifier: 1.20.0
-        version: 1.20.0
+        specifier: 1.23.2
+        version: 1.23.2
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -13088,10 +13088,6 @@ packages:
     resolution: {integrity: sha512-X34S/rC8S/M1BIrkYD1mJ5f8vlH0BDqxXrs96cvxSBo4FhMdbhU+GUGsmNYov1xjSyLMHgo8NYrUG8bNX7525g==}
     peerDependencies:
       redux: ^3.1.0 || ^4.0.0 || ^5.0.0
-
-  '@remix-run/router@1.20.0':
-    resolution: {integrity: sha512-mUnk8rPJBI9loFDZ+YzPGdeniYK+FTmRD1TMCz7ev2SNIozyKKpnGgsxO34u6Z4z/t0ITuu7voi/AshfsGsgFg==}
-    engines: {node: '>=14.0.0'}
 
   '@remix-run/router@1.23.2':
     resolution: {integrity: sha512-Ic6m2U/rMjTkhERIa/0ZtXJP17QUi2CbWE7cqx4J58M8aA3QTfW+2UlQ4psvTX9IO1RfNVhK3pcpdjej7L+t2w==}
@@ -31752,8 +31748,6 @@ snapshots:
       '@babel/runtime': 7.27.0
       immutable: 4.3.7
       redux: 4.2.1
-
-  '@remix-run/router@1.20.0': {}
 
   '@remix-run/router@1.23.2': {}
 

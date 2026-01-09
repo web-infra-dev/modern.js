@@ -7,7 +7,10 @@ import {
   StaticRouterProvider,
   createStaticRouter,
 } from '@modern-js/runtime-utils/node/router';
-import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
+import {
+  type AgnosticRouteObject,
+  createStaticHandler,
+} from '@modern-js/runtime-utils/remix-router';
 import {
   type RouteObject,
   createRoutesFromElements,
@@ -132,7 +135,7 @@ export const routerPlugin = (
 
         routes = hooks.modifyRoutes.call(routes);
 
-        const { query } = createStaticHandler(routes, {
+        const { query } = createStaticHandler(routes as AgnosticRouteObject[], {
           basename: _basename,
         });
 
