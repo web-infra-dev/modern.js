@@ -9,7 +9,7 @@
     "directory": "packages/document/module-doc"
   },
   "license": "MIT",
-  "version": "2.70.0",
+  "version": "2.70.1",
   "main": "index.js",
   "scripts": {
     "dev": "rspress dev",
