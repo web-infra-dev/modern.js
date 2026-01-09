@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@changesets/read": "^0.6.6"
+    "@changesets/read": "^0.6.6",
+    "axios": "^1.13.2"
   },
   "devDependencies": {
     "@types/node": "^20",

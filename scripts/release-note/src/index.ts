@@ -1,6 +1,7 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
-import { fs, execa } from '@modern-js/utils';
+import { execa } from '@modern-js/utils';
+import axios from 'axios';
 
 // Commit 类型和相关常量
 const CommitTypeTitle: Record<string, string> = {
@@ -32,6 +33,8 @@ interface CommitObj {
   summary_zh: string;
 }
 
+const AuthorMap = new Map();
+
 function getCommitType(message: string): CommitType {
   if (message.startsWith('perf')) return 'performance';
   if (message.startsWith('feat')) return 'features';
@@ -44,6 +47,28 @@ function getCommitType(message: string): CommitType {
 async function getReleaseInfo(commit: string, commitObj: CommitObj) {
   const commitRegex = /(.*)\(#(\d*)\)/;
   const [commitId, message, email] = commit.split('--');
+  const author = AuthorMap.get(email);
+  if (author) {
+    commitObj.author = author;
+  } else if (process.env.GITHUB_TOKEN) {
+    try {
+      const res = await axios.get(
+        `https://api.github.com/repos/web-infra-dev/modern.js/commits/${commitId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          },
+        },
+      );
+      const author = res.data.author.login;
+      commitObj.author = author;
+      AuthorMap.set(email, author);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
   if ((message || commitObj.summary).match(commitRegex)) {
     const [, messageShort, pullRequestId] = (
       message || commitObj.summary
@@ -97,7 +122,7 @@ async function genReleaseNote() {
     let commitObj: CommitObj = {
       id,
       type: getCommitType(changeset.summary || message),
-      repository: repoDir,
+      repository: 'web-infra-dev/modern.js',
       message: (message || changeset.summary).trim(),
       summary: firstLine,
       summary_zh: futureLines.filter(l => Boolean(l)).join('\n'),
