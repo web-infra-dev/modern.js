@@ -15,6 +15,11 @@ declare global {
   }
 }
 
+/**
+ * React context used by child client components to trigger a re-render of the root
+ * by invoking the provided `setRoot` callback with a new `ReactNode`. Defaults to
+ * `undefined` when no reset handler is available.
+ */
 export const ResetRootContext = createContext<
   | {
       setRoot: (root: React.ReactNode) => void;
