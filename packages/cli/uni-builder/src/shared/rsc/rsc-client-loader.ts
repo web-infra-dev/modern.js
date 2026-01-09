@@ -83,7 +83,7 @@ export default async function rscClientLoader(
       if (name === 'default') {
         return `export default createServerReference("${moduleId}", callServer);`;
       } else {
-        return `export const ${name} = createServerReference("${moduleId}#${name}", callServer);`;
+        return `export var ${name} = createServerReference("${moduleId}#${name}", callServer);`;
       }
     })
     .join('\n');
