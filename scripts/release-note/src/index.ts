@@ -50,7 +50,7 @@ async function getReleaseInfo(commit: string, commitObj: CommitObj) {
   const author = AuthorMap.get(email);
   if (author) {
     commitObj.author = author;
-  } else if (process.env.GITHUB_TOKEN) {
+  } else if (process.env.GITHUB_AUTH_TOKEN) {
     try {
       const res = await axios.get(
         `https://api.github.com/repos/web-infra-dev/modern.js/commits/${commitId}`,
@@ -58,7 +58,7 @@ async function getReleaseInfo(commit: string, commitObj: CommitObj) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+            Authorization: `Bearer ${process.env.GITHUB_AUTH_TOKEN}`,
           },
         },
       );
