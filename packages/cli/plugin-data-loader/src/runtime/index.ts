@@ -5,6 +5,7 @@ import {
 } from '@modern-js/runtime-utils/node';
 import { storage } from '@modern-js/runtime-utils/node';
 import {
+  type AgnosticRouteObject,
   DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
   createStaticHandler,
@@ -101,9 +102,12 @@ export const handleRequest: ServerLoaderBundle['handleRequest'] = async ({
     },
     async () => {
       const routes = transformNestedRoutes(routesConfig);
-      const { queryRoute } = createStaticHandler(routes, {
-        basename,
-      });
+      const { queryRoute } = createStaticHandler(
+        routes as AgnosticRouteObject[],
+        {
+          basename,
+        },
+      );
 
       const requestContext = createRequestContext(loaderContext);
       // TODO: we may remove it or put it to other runtime plugins in next version
