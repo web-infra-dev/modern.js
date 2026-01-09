@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ReactNode, createContext, useState } from 'react';
+import { type ReactNode, createContext, useContext, useState } from 'react';
 import {
   createFromReadableStream,
   createServerReference,
@@ -15,12 +15,23 @@ declare global {
   }
 }
 
+export const ResetRootContext = createContext<
+  | {
+      setRoot: (root: React.ReactNode) => void;
+    }
+  | undefined
+>(undefined);
+
 export function RscClientRoot({
   rscPayload,
 }: { rscPayload: Promise<React.ReactNode> }) {
   const elements = React.use(rscPayload);
   const [root, setRoot] = useState<React.ReactNode>(elements);
-  return <>{root}</>;
+  return (
+    <ResetRootContext.Provider value={{ setRoot }}>
+      {root}
+    </ResetRootContext.Provider>
+  );
 }
 
 type Elements = Promise<ReactNode[]>;
