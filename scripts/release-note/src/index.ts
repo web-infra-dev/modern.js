@@ -20,7 +20,7 @@ const CommitTypeTitle: Record<string, string> = {
   bugFix: 'Bug Fixes 🐞',
   doc: 'Docs update 📄',
   dependencies: 'Rsbuild Update 📦',
-  other: 'Other Changes',
+  other: 'Other Changes ✨',
 };
 
 const CommitTypeZhTitle: Record<string, string> = {
@@ -29,7 +29,7 @@ const CommitTypeZhTitle: Record<string, string> = {
   bugFix: 'Bug 修复 🐞',
   doc: '文档更新 📄',
   dependencies: 'Rsbuild 更新 📦',
-  other: '其他变更',
+  other: '其他变更 ✨',
 };
 
 const ChangesTitle = `What's Changed`;
