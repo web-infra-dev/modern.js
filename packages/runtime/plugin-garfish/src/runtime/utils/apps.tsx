@@ -38,6 +38,42 @@ export function pathJoin(...args: string[]) {
   return res || '/';
 }
 
+function deepEqualExcludeFunctions(prev: any, next: any): boolean {
+  if (prev === next) return true;
+  if (!prev || !next) return false;
+  if (typeof prev !== 'object' || typeof next !== 'object') return false;
+
+  const prevKeys = Object.keys(prev).filter(
+    key => typeof prev[key] !== 'function',
+  );
+  const nextKeys = Object.keys(next).filter(
+    key => typeof next[key] !== 'function',
+  );
+
+  if (prevKeys.length !== nextKeys.length) return false;
+
+  for (const key of prevKeys) {
+    if (!nextKeys.includes(key)) return false;
+
+    const prevVal = prev[key];
+    const nextVal = next[key];
+
+    if (typeof prevVal === 'function' || typeof nextVal === 'function') {
+      continue;
+    }
+
+    if (typeof prevVal === 'object' && typeof nextVal === 'object') {
+      if (!deepEqualExcludeFunctions(prevVal, nextVal)) {
+        return false;
+      }
+    } else if (prevVal !== nextVal) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function getAppInstance(
   options: typeof Garfish.options,
   appInfo: ModulesInfo[number],
@@ -48,21 +84,32 @@ function getAppInstance(
   // It will be shared by all MicroApp component instances to store the state setter of the currently active component
   const componentSetterRegistry = {
     current: null as React.Dispatch<
-      React.SetStateAction<{ component: React.ComponentType<any> | null }>
+      React.SetStateAction<{
+        component: React.ComponentType<any> | null;
+        isFromJupiter?: boolean;
+      }>
     > | null,
   };
 
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
     const locationHrefRef = useRef('');
+    const propsRef = useRef<MicroProps>(props);
+    const previousPropsRef = useRef<MicroProps>(props);
+    const propsUpdateCounterRef = useRef(0);
 
     const domId = generateSubAppContainerKey(appInfo);
-    const [{ component: SubModuleComponent }, setSubModuleComponent] =
-      useState<{
-        component: React.ComponentType<any> | null;
-      }>({
-        component: null,
-      });
+    const [
+      { component: SubModuleComponent, isFromJupiter },
+      setSubModuleComponent,
+    ] = useState<{
+      component: React.ComponentType<any> | null;
+      isFromJupiter?: boolean;
+    }>({
+      component: null,
+      isFromJupiter: false,
+    });
+    const [propsUpdateKey, setPropsUpdateKey] = useState(0);
     const context = useContext(RuntimeReactContext);
     const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
     const useMatches = props.useMatches ?? context?.router?.useMatches;
@@ -158,10 +205,35 @@ or directly pass the "basename":
     }, [locationPathname]);
 
     useEffect(() => {
+      const prevPropsForCompare = { ...previousPropsRef.current };
+      const currentPropsForCompare = { ...props };
+
+      Object.keys(prevPropsForCompare).forEach(key => {
+        if (typeof prevPropsForCompare[key] === 'function') {
+          delete prevPropsForCompare[key];
+        }
+      });
+      Object.keys(currentPropsForCompare).forEach(key => {
+        if (typeof currentPropsForCompare[key] === 'function') {
+          delete currentPropsForCompare[key];
+        }
+      });
+
+      if (
+        !deepEqualExcludeFunctions(prevPropsForCompare, currentPropsForCompare)
+      ) {
+        previousPropsRef.current = props;
+        propsRef.current = props;
+        propsUpdateCounterRef.current += 1;
+        setPropsUpdateKey(prev => prev + 1);
+      }
+    }, [props, appInfo.name]);
+
+    useEffect(() => {
       // [MODIFIED] Register the current instance's state setter when the component mounts
       componentSetterRegistry.current = setSubModuleComponent;
 
-      const { setLoadingState, ...userProps } = props;
+      const { setLoadingState, ...userProps } = propsRef.current;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         cache: true,
@@ -184,6 +256,8 @@ or directly pass the "basename":
             jupiter_submodule_app_key,
           } = provider;
           const SubComponent = SubModuleComponent || jupiter_submodule_app_key;
+          const isFromJupiter =
+            !SubModuleComponent && !!jupiter_submodule_app_key;
           const componetRenderMode = manifest?.componentRender;
           return {
             mount: (...props) => {
@@ -191,7 +265,10 @@ or directly pass the "basename":
                 // [MODIFIED] Get and call the current state setter from the registry center
                 // This way, even if the mount method is cached, it can still call the setter of the latest component instance
                 if (componentSetterRegistry.current) {
-                  componentSetterRegistry.current({ component: SubComponent });
+                  componentSetterRegistry.current({
+                    component: SubComponent,
+                    isFromJupiter,
+                  });
                 } else {
                   logger(
                     `[Garfish] MicroApp for "${appInfo.name}" tried to mount, but no active component setter was found.`,
@@ -278,12 +355,44 @@ or directly pass the "basename":
           }
         }
       };
-    }, []);
+    }, [basename, domId, appInfo.name]);
+
+    useEffect(() => {
+      if (appRef.current?.appInfo) {
+        const { setLoadingState, ...updatedProps } = props;
+        const updatedPropsWithKey = {
+          ...appInfo.props,
+          ...updatedProps,
+          _garfishPropsUpdateKey: propsUpdateKey,
+        };
+        appRef.current.appInfo.props = updatedPropsWithKey;
+      }
+    }, [propsUpdateKey, props]);
+
+    // Remove setLoadingState from props
+    const { setLoadingState, ...renderProps } = props;
+
+    // Create the final props that include _garfishPropsUpdateKey
+    const finalRenderProps = {
+      ...renderProps,
+      _garfishPropsUpdateKey: propsUpdateKey,
+    };
+
+    // Use propsUpdateKey as part of the key
+    // If the component is from jupiter_submodule_app_key, don't use the update key calculation logic
+    const componentKey = isFromJupiter
+      ? undefined
+      : `${appInfo.name}-${propsUpdateKey}`;
 
     return (
       <>
         <div id={domId}>
-          {SubModuleComponent && <SubModuleComponent {...props} />}
+          {SubModuleComponent && (
+            <SubModuleComponent
+              {...(componentKey ? { key: componentKey } : {})}
+              {...finalRenderProps}
+            />
+          )}
         </div>
       </>
     );
