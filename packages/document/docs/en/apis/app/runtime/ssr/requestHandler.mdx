@@ -12,9 +12,10 @@ Used to customize the Server-Side Rendering entry to return the `requestHandler`
 import {
   renderString,
   createRequestHandler,
+  type HandleRequest,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, ServerRoot, options) => {
+const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   const body = await renderString(request, <ServerRoot />, options);
 
   return new Response(body, {
