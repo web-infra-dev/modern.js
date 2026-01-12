@@ -513,8 +513,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0
       portfinder:
-        specifier: ^1.0.37
-        version: 1.0.37
+        specifier: ^1.0.38
+        version: 1.0.38
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -21383,8 +21383,8 @@ packages:
     resolution: {integrity: sha512-OBatVyC/N7SCW/FaDHrSd+vn0o5cS855TOmYi4OkdWUMSJCET/xip//ch8xGUvtr3i44X9LVyWwQlRMTN3pwSA==}
     engines: {node: '>=10'}
 
-  portfinder@1.0.37:
-    resolution: {integrity: sha512-yuGIEjDAYnnOex9ddMnKZEMFE0CcGo6zbfzDklkmT1m5z734ss6JMzN9rNB3+RR7iS+F10D4/BVIaXOyh8PQKw==}
+  portfinder@1.0.38:
+    resolution: {integrity: sha512-rEwq/ZHlJIKw++XtLAO8PPuOQA/zaPJOZJ37BVuN97nLpMJeuDVLVGRwbFoBgLudgdTMP2hdRJP++H+8QOA3vg==}
     engines: {node: '>= 10.12'}
 
   possible-typed-array-names@1.1.0:
@@ -43560,7 +43560,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.27.0
 
-  portfinder@1.0.37:
+  portfinder@1.0.38:
     dependencies:
       async: 3.2.6
       debug: 4.3.7(supports-color@5.5.0)
