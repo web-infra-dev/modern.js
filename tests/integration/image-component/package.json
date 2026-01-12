@@ -19,7 +19,7 @@
     "@rsdoctor/rspack-plugin": "^1.4.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   },

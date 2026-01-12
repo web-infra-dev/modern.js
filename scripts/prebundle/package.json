@@ -29,7 +29,7 @@
     "@types/inquirer": "8.2.12",
     "@types/js-yaml": "4.0.9",
     "@types/less": "3.0.8",
-    "@types/lodash": "^4.17.21",
+    "@types/lodash": "^4.17.23",
     "@types/mime-types": "2.1.4",
     "@types/minimist": "1.2.5",
     "@types/normalize-path": "3.0.2",
