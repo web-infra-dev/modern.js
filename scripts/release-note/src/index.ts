@@ -1,11 +1,17 @@
+import fs from 'fs';
 import path from 'path';
 import readChangesets from '@changesets/read';
-import { execa } from '@modern-js/utils';
+import { execa, semver } from '@modern-js/utils';
 import axios from 'axios';
 
 const REPO_OWNER = 'web-infra-dev';
 const REPO_NAME = 'modern.js';
 const REPO_FULL_NAME = `${REPO_OWNER}/${REPO_NAME}`;
+const RSBUILD_REPO_OWNER = 'web-infra-dev';
+const RSBUILD_REPO_NAME = 'rsbuild';
+const APP_TOOLS_PACKAGE_NAME = '@modern-js/app-tools';
+const RSBUILD_PACKAGE_NAME = '@rsbuild/core';
+const APP_TOOLS_PACKAGE_PATH = 'packages/solutions/app-tools/package.json';
 
 // Commit types
 const CommitTypeTitle: Record<string, string> = {
@@ -13,6 +19,7 @@ const CommitTypeTitle: Record<string, string> = {
   features: 'New Features 🎉',
   bugFix: 'Bug Fixes 🐞',
   doc: 'Docs update 📄',
+  dependencies: 'Rsbuild Update 📦',
   other: 'Other Changes',
 };
 
@@ -21,13 +28,20 @@ const CommitTypeZhTitle: Record<string, string> = {
   features: '新特性 🎉',
   bugFix: 'Bug 修复 🐞',
   doc: '文档更新 📄',
+  dependencies: 'Rsbuild 更新 📦',
   other: '其他变更',
 };
 
 const ChangesTitle = `What's Changed`;
 const ChangesZhTitle = '更新内容';
 
-type CommitType = 'performance' | 'features' | 'bugFix' | 'doc' | 'other';
+type CommitType =
+  | 'performance'
+  | 'features'
+  | 'bugFix'
+  | 'doc'
+  | 'dependencies'
+  | 'other';
 
 interface CommitObj {
   id: string;
@@ -134,6 +148,158 @@ function getReleaseNoteLine(commit: CommitObj, lang: 'en' | 'zh' = 'en') {
   }\n`;
 }
 
+/**
+ * Get the current version of @modern-js/app-tools from package.json
+ */
+function getAppToolsVersion(repoDir: string): string | undefined {
+  try {
+    const packageJsonPath = path.join(repoDir, APP_TOOLS_PACKAGE_PATH);
+    if (!fs.existsSync(packageJsonPath)) {
+      return undefined;
+    }
+    const packageJson = JSON.parse(
+      fs.readFileSync(packageJsonPath, 'utf-8'),
+    ) as { version?: string };
+    return packageJson.version;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get the current @rsbuild/core version from app-tools package.json
+ */
+function getCurrentRsbuildVersion(repoDir: string): string | undefined {
+  try {
+    const packageJsonPath = path.join(repoDir, APP_TOOLS_PACKAGE_PATH);
+    if (!fs.existsSync(packageJsonPath)) {
+      return undefined;
+    }
+    const packageJson = JSON.parse(
+      fs.readFileSync(packageJsonPath, 'utf-8'),
+    ) as {
+      dependencies?: Record<string, string>;
+    };
+    const rsbuildVersion = packageJson.dependencies?.[RSBUILD_PACKAGE_NAME];
+    // Remove version range prefixes like ^, ~
+    return rsbuildVersion?.replace(/^[\^~]/, '');
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get the @rsbuild/core version from published @modern-js/app-tools package
+ */
+async function getPublishedRsbuildVersion(
+  packageVersion: string,
+): Promise<string | undefined> {
+  try {
+    // Use npm view command to get the dependency version
+    const { stdout } = await execa('npm', [
+      'view',
+      `${APP_TOOLS_PACKAGE_NAME}@${packageVersion}`,
+      'dependencies.@rsbuild/core',
+    ]);
+    const version = stdout.trim();
+    // Remove version range prefixes like ^, ~
+    return version ? version.replace(/^[\^~]/, '') : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Compare two semver versions
+ * Returns true if newVersion > oldVersion
+ */
+function isVersionUpgraded(oldVersion: string, newVersion: string): boolean {
+  try {
+    return semver.gt(newVersion, oldVersion);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Get all versions between oldVersion (exclusive) and newVersion (inclusive)
+ */
+function getVersionsBetween(oldVersion: string, newVersion: string): string[] {
+  const versions: string[] = [];
+
+  try {
+    // Start from the next patch version after oldVersion
+    let currentVersion = semver.inc(oldVersion, 'patch');
+    if (!currentVersion) {
+      return [newVersion];
+    }
+
+    // Generate all versions up to and including newVersion
+    while (currentVersion && semver.lte(currentVersion, newVersion)) {
+      versions.push(currentVersion);
+      const nextVersion: string | null = semver.inc(currentVersion, 'patch');
+      if (!nextVersion || semver.gt(nextVersion, newVersion)) {
+        break;
+      }
+      currentVersion = nextVersion;
+    }
+
+    // Ensure newVersion is included if it's not already in the list
+    if (versions.length === 0 || versions[versions.length - 1] !== newVersion) {
+      versions.push(newVersion);
+    }
+
+    return versions;
+  } catch {
+    return [newVersion];
+  }
+}
+
+/**
+ * Format rsbuild upgrade note
+ */
+function formatRsbuildUpgradeNote(
+  oldVersion: string,
+  newVersion: string,
+  lang: 'en' | 'zh' = 'en',
+): CommitObj {
+  const versions = getVersionsBetween(oldVersion, newVersion);
+  const releaseLinks = versions.map(version => {
+    const releaseUrl = `https://github.com/${RSBUILD_REPO_OWNER}/${RSBUILD_REPO_NAME}/releases/tag/v${version}`;
+    return `[v${version}](${releaseUrl})`;
+  });
+
+  let linksText: string;
+  if (releaseLinks.length === 1) {
+    linksText = releaseLinks[0];
+  } else {
+    const lastLink = releaseLinks[releaseLinks.length - 1];
+    const otherLinks = releaseLinks.slice(0, -1);
+    if (lang === 'en') {
+      linksText = `${otherLinks.join(', ')}, and ${lastLink}`;
+    } else {
+      linksText = `${otherLinks.join('、')}和${lastLink}`;
+    }
+  }
+
+  if (lang === 'en') {
+    return {
+      id: '',
+      type: 'dependencies',
+      message: `Upgrade ${RSBUILD_PACKAGE_NAME}`,
+      summary: `Upgrade ${RSBUILD_PACKAGE_NAME} from v${oldVersion} to v${newVersion}. See ${linksText} for details.`,
+      summary_zh: `升级 ${RSBUILD_PACKAGE_NAME} 从 v${oldVersion} 到 v${newVersion}，查看 ${linksText} 了解详情。`,
+    };
+  }
+  return {
+    id: '',
+    type: 'dependencies',
+    message: `升级 ${RSBUILD_PACKAGE_NAME}`,
+    summary: `Upgrade ${RSBUILD_PACKAGE_NAME} from v${oldVersion} to v${newVersion}. See ${linksText} for details.`,
+    summary_zh: `升级 ${RSBUILD_PACKAGE_NAME} 从 v${oldVersion} 到 v${newVersion}，查看 ${linksText} 了解详情。`,
+  };
+}
+
 async function genReleaseNote() {
   const cwd = process.cwd();
   const repoDir = path.join(cwd, '../../');
@@ -150,6 +316,7 @@ async function genReleaseNote() {
       features: { en: [], zh: [] },
       bugFix: { en: [], zh: [] },
       doc: { en: [], zh: [] },
+      dependencies: { en: [], zh: [] },
       other: { en: [], zh: [] },
     };
 
@@ -185,6 +352,32 @@ async function genReleaseNote() {
     }
   }
 
+  // Check for rsbuild version upgrade
+  try {
+    const appToolsVersion = getAppToolsVersion(repoDir);
+    if (appToolsVersion) {
+      const publishedRsbuildVersion =
+        await getPublishedRsbuildVersion(appToolsVersion);
+      const currentRsbuildVersion = getCurrentRsbuildVersion(repoDir);
+
+      if (
+        publishedRsbuildVersion &&
+        currentRsbuildVersion &&
+        isVersionUpgraded(publishedRsbuildVersion, currentRsbuildVersion)
+      ) {
+        const upgradeNote = formatRsbuildUpgradeNote(
+          publishedRsbuildVersion,
+          currentRsbuildVersion,
+          'en',
+        );
+        releaseNote.dependencies.en.push(upgradeNote);
+        releaseNote.dependencies.zh.push(upgradeNote);
+      }
+    }
+  } catch {
+    // Silently ignore errors
+  }
+
   const result = {
     en: `## ${ChangesTitle}\n\n`,
     zh: `## ${ChangesZhTitle}\n\n`,
@@ -192,7 +385,17 @@ async function genReleaseNote() {
 
   let hasZh = false;
 
-  for (const type of Object.keys(releaseNote) as CommitType[]) {
+  // Define the order: dependencies should be last
+  const typeOrder: CommitType[] = [
+    'performance',
+    'features',
+    'bugFix',
+    'doc',
+    'other',
+    'dependencies',
+  ];
+
+  for (const type of typeOrder) {
     const { en, zh } = releaseNote[type];
 
     if (en.length > 0) {
