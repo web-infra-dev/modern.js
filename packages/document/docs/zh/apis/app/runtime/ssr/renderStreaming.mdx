@@ -12,9 +12,10 @@ title: renderStreaming
 import {
   renderStreaming,
   createRequestHandler,
+  type HandleRequest,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, ServerRoot, options) => {
+const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   const stream = await renderStreaming(request, <ServerRoot />, options);
 
   return new Response(stream, {
@@ -43,9 +44,10 @@ export type RenderStreaming = (
 import {
   renderStreaming,
   createRequestHandler,
+  type HandleRequest,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, ServerRoot, options) => {
+const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
   // do something before render
   const stream = await renderStreaming(request, <ServerRoot />, options);
 
