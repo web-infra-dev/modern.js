@@ -6,18 +6,19 @@
 
 基于服务端运行逻辑，Modern.js 在内部提供了以下日志事件：
 
-| 阶段          | 消息                                         | Level |
-| ------------- | -------------------------------------------- | ----- |
-| RENDER_HTML   | App Render To HTML                           | error |
-| RENDER_STREAM | An error occurs during streaming SSR         | error |
-| RENDER_SHELL  | An error occurs during streaming render shell | error |
+| 阶段           | 消息                                          | Level |
+| -------------- | --------------------------------------------- | ----- |
+| RENDER_HTML    | App Render To HTML                            | error |
+| RENDER_STREAM  | An error occurs during streaming SSR          | error |
+| RENDER_SHELL   | An error occurs during streaming render shell | error |
+| RENDER_DEGRADE | SSR Fallback Triggered                        | debug |
 
 Modern.js 也保留了旧版本中使用 `useLoader` 获取数据时的 SSR 日志：
 
-| 阶段          | 消息                                         | Level |
-| ------------- | -------------------------------------------- | ----- |
-| PRERENDER   | App Prerender                          | error |
-| USE_LOADER | App run useLoader         | error |
+| 阶段       | 消息              | Level |
+| ---------- | ----------------- | ----- |
+| PRERENDER  | App Prerender     | error |
+| USE_LOADER | App run useLoader | error |
 
 :::tip
 `useLoader` API 目前已经废弃，建议迁移到约定式路由并使用 Data Loader 进行数据获取。已经使用 Data Loader 的应用，可以开启 [`ssr.disablePrerender`](/configure/app/server/ssr.html#object-类型)，禁止预渲染，提升 SSR 性能。
@@ -28,5 +29,3 @@ Modern.js 也保留了旧版本中使用 `useLoader` 获取数据时的 SSR 日�
 import InternalLogger from '@site-docs/components/internal-logger.mdx';
 
 <InternalLogger />
-
-
