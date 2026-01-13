@@ -164,7 +164,7 @@ export async function createRender({
       });
 
       monitors.debug(
-        `SSR Fallback Triggered - reason = %s, req.url = %s`,
+        `SSR Fallback to CSR - reason = %s, req.url = %s`,
         reason,
         forMatchpathname,
       );
