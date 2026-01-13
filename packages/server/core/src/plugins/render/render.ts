@@ -160,7 +160,14 @@ export async function createRender({
 
       monitors?.counter(SSR_FALLBACK_COUNTER_NAME, {
         fallback_type: reason,
+        pathname: forMatchpathname,
       });
+
+      monitors.debug(
+        `SSR Fallback Triggered - reason = %s, req.url = %s`,
+        reason,
+        forMatchpathname,
+      );
 
       return onFallback?.(reason, { logger, reporter, metrics }, error);
     };
