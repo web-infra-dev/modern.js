@@ -16,6 +16,7 @@ export function createProvider(
     customBootstrap,
     beforeRender,
     disableComponentCompat,
+    basename: customBasename,
   }: {
     customBootstrap?: (
       App: React.ComponentType,
@@ -26,6 +27,7 @@ export function createProvider(
       props?: Record<string, any>,
     ) => Promise<any>;
     disableComponentCompat?: boolean;
+    basename?: string;
   } = {},
 ) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
@@ -60,21 +62,34 @@ export function createProvider(
         props: any;
         appName?: string;
       }) {
+        const finalBasename = customBasename || basename;
         const ModernRoot = createRoot(null);
         const mountNode = generateRootDom(dom, id || 'root');
         if (customBootstrap) {
           root = await customBootstrap(ModernRoot, () =>
             render(
-              <ModernRoot basename={basename} appName={appName} {...props} />,
+              <ModernRoot
+                basename={finalBasename}
+                appName={appName}
+                {...props}
+              />,
               mountNode,
             ),
           );
         } else {
           if (beforeRender) {
-            await beforeRender(ModernRoot, { basename, appName, ...props });
+            await beforeRender(ModernRoot, {
+              basename: finalBasename,
+              appName,
+              ...props,
+            });
           }
           root = await render(
-            <ModernRoot basename={basename} appName={appName} {...props} />,
+            <ModernRoot
+              basename={finalBasename}
+              appName={appName}
+              {...props}
+            />,
             mountNode,
           );
         }
