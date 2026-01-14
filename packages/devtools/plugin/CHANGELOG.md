@@ -1,5 +1,14 @@
 # @modern-js/plugin-devtools
 
+## 2.70.2
+
+### Patch Changes
+
+- @modern-js/runtime@2.70.2
+- @modern-js/devtools-kit@2.70.2
+- @modern-js/devtools-client@2.70.2
+- @modern-js/utils@2.70.2
+
 ## 2.70.1
 
 ### Patch Changes

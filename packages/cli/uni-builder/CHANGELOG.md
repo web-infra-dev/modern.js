@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.70.2
+
+### Patch Changes
+
+- 96e1135: fix: provide a reset for sub client-component
+  fix: 给子 client-component 提供 reset 函数
+  - @modern-js/babel-preset@2.70.2
+  - @modern-js/flight-server-transform-plugin@2.70.2
+  - @modern-js/utils@2.70.2
+
 ## 2.70.1
 
 ### Patch Changes
