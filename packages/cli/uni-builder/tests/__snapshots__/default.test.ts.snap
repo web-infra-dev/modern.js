@@ -1378,6 +1378,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "injectEntry": true,
         "injectLoader": true,
         "overlay": false,
+        "reactRefreshLoader": "builtin:react-refresh-loader",
         "reloadOnRuntimeErrors": false,
         "resourceQuery": {
           "not": /\\^\\\\\\?raw\\$/,
