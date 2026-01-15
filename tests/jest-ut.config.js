@@ -94,7 +94,6 @@ module.exports = {
         '<rootDir>/packages/server/bff-core/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/server/server/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/server/utils/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/solutions/app-tools/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/runtime/plugin-runtime/',
       ],
     },

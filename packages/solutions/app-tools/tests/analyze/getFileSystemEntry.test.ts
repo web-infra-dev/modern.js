@@ -86,7 +86,7 @@ describe('get entrypoints from file system', () => {
   test(`should have no entry`, async () => {
     const appContext = { appDirectory: path.resolve(fixtures, './no-entry') };
     await setup(appContext);
-    expect(
+    await expect(
       getFileSystemEntry(
         await pluginAPI.getHooks(),
         appContext as AppToolsContext,
