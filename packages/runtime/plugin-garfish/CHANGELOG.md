@@ -1,5 +1,21 @@
 # @modern-js/plugin-garfish
 
+## 2.70.2
+
+### Patch Changes
+
+- 24a3e22: fix: upgrade react-router to solve CVES
+  fix: 升级 react-router 解决 CVES
+- 22b66af: fix: garfish plugin component render not update props
+
+  fix: 修复 garfish 插件组件渲染时没更新子应用 props
+
+- Updated dependencies [24a3e22]
+  - @modern-js/runtime-utils@2.70.2
+  - @modern-js/runtime@2.70.2
+  - @modern-js/plugin-v2@2.70.2
+  - @modern-js/utils@2.70.2
+
 ## 2.70.1
 
 ### Patch Changes

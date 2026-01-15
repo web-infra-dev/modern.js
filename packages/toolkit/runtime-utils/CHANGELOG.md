@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.70.2
+
+### Patch Changes
+
+- 24a3e22: fix: upgrade react-router to solve CVES
+  fix: 升级 react-router 解决 CVES
+  - @modern-js/types@2.70.2
+  - @modern-js/utils@2.70.2
+
 ## 2.70.1
 
 ### Patch Changes

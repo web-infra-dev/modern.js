@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-babel",
-  "version": "2.70.1",
+  "version": "2.70.2",
   "description": "The babel plugin of Modern.js Module",
   "keywords": [
     "react",
@@ -40,7 +40,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.70.1"
+    "@modern-js/module-tools": "workspace:^2.70.2"
   },
   "publishConfig": {
     "access": "public",
