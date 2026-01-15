@@ -1064,9 +1064,7 @@ exports[`builder environment compat > should generator environment config correc
       "chunkFilename": "static/js/async/[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "static/js/[name].js",
-      "hashFunction": "xxhash64",
       "path": "<WORKSPACE>/packages/cli/builder/dist",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
@@ -1225,7 +1223,7 @@ exports[`builder environment compat > should generator environment config correc
     },
     "target": [
       "web",
-      "es2017",
+      "browserslist:chrome >= 87,edge >= 88,firefox >= 78,safari >= 14",
     ],
     "watchOptions": {
       "aggregateTimeout": 0,
@@ -1254,6 +1252,7 @@ exports[`builder environment compat > should generator environment config correc
         "type": "persistent",
         "version": "node-development",
       },
+      "outputModule": true,
       "rspackFuture": {
         "bundlerInfo": {
           "force": false,
@@ -1949,6 +1948,10 @@ exports[`builder environment compat > should generator environment config correc
       ],
     },
     "name": "node",
+    "node": {
+      "__dirname": false,
+      "__filename": false,
+    },
     "optimization": {
       "minimize": false,
       "splitChunks": false,
@@ -1956,16 +1959,18 @@ exports[`builder environment compat > should generator environment config correc
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
+      "chunkFormat": "module",
+      "chunkLoading": "import",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
       "library": {
-        "type": "commonjs2",
+        "type": "module",
       },
+      "module": true,
       "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
+      "workerChunkLoading": "import",
     },
     "performance": {
       "hints": false,
@@ -2737,10 +2742,8 @@ exports[`builder environment compat > should generator environment config correc
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
       "libraryTarget": "commonjs2",
       "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },

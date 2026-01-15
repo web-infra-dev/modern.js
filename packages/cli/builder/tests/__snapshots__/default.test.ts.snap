@@ -1063,9 +1063,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "chunkFilename": "static/js/async/[name].js",
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
-    "hashFunction": "xxhash64",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
-    "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
@@ -1224,7 +1222,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "target": [
     "web",
-    "es2017",
+    "browserslist:chrome >= 87,edge >= 88,firefox >= 78,safari >= 14",
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
@@ -1275,6 +1273,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "type": "persistent",
       "version": "node-production",
     },
+    "outputModule": true,
     "rspackFuture": {
       "bundlerInfo": {
         "force": false,
@@ -1970,59 +1969,29 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     ],
   },
   "name": "node",
+  "node": {
+    "__dirname": false,
+    "__filename": false,
+  },
   "optimization": {
-    "minimize": true,
-    "minimizer": [
-      SwcJsMinimizerRspackPlugin {
-        "_args": [
-          {
-            "extractComments": true,
-            "minimizerOptions": {
-              "format": {
-                "asciiOnly": true,
-              },
-            },
-          },
-        ],
-        "affectedHooks": "compilation",
-        "name": "SwcJsMinimizerRspackPlugin",
-      },
-      CssMinimizerPlugin {
-        "options": {
-          "exclude": undefined,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "preset": [
-                "default",
-                {
-                  "mergeLonghand": false,
-                },
-              ],
-            },
-          },
-          "parallel": true,
-          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-          "warningsFilter": [Function],
-        },
-      },
-    ],
+    "minimize": false,
     "splitChunks": false,
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "[name].js",
+    "chunkFormat": "module",
+    "chunkLoading": "import",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
-    "hashFunction": "xxhash64",
     "library": {
-      "type": "commonjs2",
+      "type": "module",
     },
+    "module": true,
     "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
-    "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
+    "workerChunkLoading": "import",
   },
   "performance": {
     "hints": false,
@@ -3156,25 +3125,22 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
-      CssMinimizerPlugin {
-        "options": {
-          "exclude": undefined,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "preset": [
-                "default",
-                {
-                  "mergeLonghand": false,
-                },
+      LightningCssMinimizerRspackPlugin {
+        "_args": [
+          {
+            "minimizerOptions": {
+              "errorRecovery": true,
+              "targets": [
+                "chrome >= 87",
+                "edge >= 88",
+                "firefox >= 78",
+                "safari >= 14",
               ],
             },
           },
-          "parallel": true,
-          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-          "warningsFilter": [Function],
-        },
+        ],
+        "affectedHooks": undefined,
+        "name": "LightningCssMinimizerRspackPlugin",
       },
     ],
     "runtimeChunk": {
@@ -3211,9 +3177,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
-    "hashFunction": "xxhash64",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
-    "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },
@@ -3347,7 +3311,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "target": [
     "web",
-    "es2017",
+    "browserslist:chrome >= 87,edge >= 88,firefox >= 78,safari >= 14",
   ],
   "watchOptions": {
     "aggregateTimeout": 0,
@@ -4067,25 +4031,19 @@ exports[`builder rspack > should generator rspack config correctly when service-
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
-      CssMinimizerPlugin {
-        "options": {
-          "exclude": undefined,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "preset": [
-                "default",
-                {
-                  "mergeLonghand": false,
-                },
+      LightningCssMinimizerRspackPlugin {
+        "_args": [
+          {
+            "minimizerOptions": {
+              "errorRecovery": true,
+              "targets": [
+                "node >= 16",
               ],
             },
           },
-          "parallel": true,
-          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-          "warningsFilter": [Function],
-        },
+        ],
+        "affectedHooks": undefined,
+        "name": "LightningCssMinimizerRspackPlugin",
       },
     ],
     "splitChunks": false,
@@ -4095,10 +4053,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
     "chunkFilename": "[name].js",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
-    "hashFunction": "xxhash64",
     "libraryTarget": "commonjs2",
     "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
-    "pathinfo": false,
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
   },

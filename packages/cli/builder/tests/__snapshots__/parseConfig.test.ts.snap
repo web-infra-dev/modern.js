@@ -53,7 +53,6 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },
@@ -107,7 +106,6 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },
@@ -166,7 +164,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },
