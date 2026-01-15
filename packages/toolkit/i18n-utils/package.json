@@ -43,6 +43,7 @@
     },
     "./language-detector": {
       "node": {
+        "modern:source": "./src/languageDetector.ts",
         "jsnext:source": "./src/languageDetector.ts",
         "import": "./dist/esm-node/languageDetector.mjs",
         "require": "./dist/cjs/languageDetector.js"
