@@ -71,7 +71,7 @@
     "react-dom": "^19.2.3",
     "supertest": "^6.3.4",
     "typescript": "^5",
-    "@rsbuild/core": "1.7.2"
+    "@rsbuild/core": "2.0.0-alpha.0"
   },
   "peerDependencies": {
     "react": ">=17.0.2"
