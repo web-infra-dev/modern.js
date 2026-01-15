@@ -120,11 +120,11 @@ importers:
         specifier: 1.5.1
         version: 1.5.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-check-syntax':
-        specifier: 1.6.0
-        version: 1.6.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
+        specifier: 1.6.1
+        version: 1.6.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-css-minimizer':
-        specifier: 1.1.0
-        version: 1.1.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(esbuild@0.25.5)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))
+        specifier: 1.1.1
+        version: 1.1.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(esbuild@0.25.5)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))
       '@rsbuild/plugin-less':
         specifier: 1.5.1
         version: 1.5.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
@@ -132,23 +132,23 @@ importers:
         specifier: 1.4.3
         version: 1.4.3(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-rem':
-        specifier: 1.0.4
-        version: 1.0.4(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
+        specifier: 1.0.5
+        version: 1.0.5(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-sass':
         specifier: 1.4.1
         version: 1.4.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-source-build':
-        specifier: 1.0.3
-        version: 1.0.3(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
+        specifier: 1.0.4
+        version: 1.0.4(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@rsbuild/plugin-svgr':
         specifier: 1.2.4
         version: 1.2.4(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(typescript@5.9.3)
       '@rsbuild/plugin-type-check':
-        specifier: 1.3.2
-        version: 1.3.2(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(@rspack/core@1.7.2(@swc/helpers@0.5.17))(typescript@5.9.3)
+        specifier: 1.3.3
+        version: 1.3.3(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(@rspack/core@1.7.2(@swc/helpers@0.5.17))(typescript@5.9.3)
       '@rsbuild/plugin-typed-css-modules':
-        specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
+        specifier: 1.2.1
+        version: 1.2.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))
       '@swc/core':
         specifier: 1.15.8
         version: 1.15.8(@swc/helpers@0.5.17)
@@ -7037,18 +7037,18 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-check-syntax@1.6.0':
-    resolution: {integrity: sha512-VVZ5cyKovh7nDt4lp0KppohcLMFIyneZf+1VJsMPg/UU8j45FCYxVw0o25gALUU3ofzl7C7iPrY4eLiUnHM3dA==}
+  '@rsbuild/plugin-check-syntax@1.6.1':
+    resolution: {integrity: sha512-26xtEYN0QjZYoyt0lWnvIztBWjEZJvcfw7MN4f5B4SpNggmnF7F7aNPrgkY3EccXVFx1VGQBhnCkBV//OoS07Q==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-css-minimizer@1.1.0':
-    resolution: {integrity: sha512-0TWbShl8qPVKYTRaz5yrEUlkDtvWbS4mNZaxwcxe3wwhDgYB5TmBem0B1Zkim3jWMlHG2huzOXB4MVI+vpZKZw==}
+  '@rsbuild/plugin-css-minimizer@1.1.1':
+    resolution: {integrity: sha512-cTEAqiCR8X6iJ4+r0Gl0bC+bW8MUAqqXNyVBu7N0DrEatr9gsqo4e3x2d8gCyOnOUNsF6W35LvDWREsCCzDRHg==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -7063,10 +7063,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-rem@1.0.4':
-    resolution: {integrity: sha512-ioBafyxyPafrzyHV95MUoIsMurCvWLWZnqgmbqOD5q7Yp5/D5DphLR6cb4AzGF1ZNt/86VsdfaRi7sXD6YaLeg==}
+  '@rsbuild/plugin-rem@1.0.5':
+    resolution: {integrity: sha512-5I1J7WiNGjblk3LbzJ46ZMbCCUVoTPvmAGj254auKM5lzOt/i78jDgN70UtVJswWY9AAEND6E4MLMDTWjlV5yQ==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -7076,10 +7076,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-source-build@1.0.3':
-    resolution: {integrity: sha512-b+BWbx5eqSV3Ydq0gH265ov0LsVfV7ho0q4FT5zgxt+ZIPU5W5TB14tAt3enHXGOATMFBrjTL85XNpqQS6aExA==}
+  '@rsbuild/plugin-source-build@1.0.4':
+    resolution: {integrity: sha512-t0oKUYpx4lhKW0JssIeRiji5X+uT6n2VYxpDRroE4cnudMVtKbLG1qGtnZeMK4VRc4qwxth1hjX2cHuQaALqYA==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -7097,18 +7097,18 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-type-check@1.3.2':
-    resolution: {integrity: sha512-8+N0Xbbh6d4yMxD4WeUXIywc72hJgMTdK9TDWuXvpeVfxPgmNTjS5rq0Y2nqhDdwwIzyW8sn3u0U6N7xvX0sIQ==}
+  '@rsbuild/plugin-type-check@1.3.3':
+    resolution: {integrity: sha512-V+WfrfofOy3zaCZ/CqR6TZDF/jTHqlL9DlwivlsmBjzT3A2zr86e9bzmzprrUwrqZNTAXQBpXiXJP1lJAFJ8Gw==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-typed-css-modules@1.2.0':
-    resolution: {integrity: sha512-EUL9SaEXZRy6uVwmsvkceHq4RrPpZrlmbczgiJAMaulGiI6MIIUde1NE3sc8JIKk/M0fKgKUjKcA2oJwGbH9Dw==}
+  '@rsbuild/plugin-typed-css-modules@1.2.1':
+    resolution: {integrity: sha512-PTiL6t7T5Z7riPAhyJcmYgwhWl/pNjQqpHYMojO3qKnNcFZJicUbFzKkwXCPTqNl9oCWKJAWNtyXAjQQyoINNw==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -18291,7 +18291,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
-  '@rsbuild/plugin-check-syntax@1.6.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
+  '@rsbuild/plugin-check-syntax@1.6.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
     dependencies:
       acorn: 8.15.0
       browserslist-to-es-version: 1.2.0
@@ -18301,7 +18301,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.0.0-alpha.0(core-js@3.47.0)
 
-  '@rsbuild/plugin-css-minimizer@1.1.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(esbuild@0.25.5)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))':
+  '@rsbuild/plugin-css-minimizer@1.1.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(esbuild@0.25.5)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))':
     dependencies:
       css-minimizer-webpack-plugin: 7.0.2(esbuild@0.25.5)(webpack@5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))
       reduce-configs: 1.1.1
@@ -18338,7 +18338,7 @@ snapshots:
     transitivePeerDependencies:
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-rem@1.0.4(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
+  '@rsbuild/plugin-rem@1.0.5(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
     dependencies:
       deepmerge: 4.3.1
       terser: 5.44.1
@@ -18363,7 +18363,7 @@ snapshots:
       reduce-configs: 1.1.1
       sass-embedded: 1.97.1
 
-  '@rsbuild/plugin-source-build@1.0.3(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
+  '@rsbuild/plugin-source-build@1.0.4(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
     dependencies:
       fast-glob: 3.3.3
       json5: 2.2.3
@@ -18392,7 +18392,7 @@ snapshots:
       - typescript
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-type-check@1.3.2(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(@rspack/core@1.7.2(@swc/helpers@0.5.17))(typescript@5.9.3)':
+  '@rsbuild/plugin-type-check@1.3.3(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))(@rspack/core@1.7.2(@swc/helpers@0.5.17))(typescript@5.9.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
@@ -18404,7 +18404,7 @@ snapshots:
       - '@rspack/core'
       - typescript
 
-  '@rsbuild/plugin-typed-css-modules@1.2.0(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
+  '@rsbuild/plugin-typed-css-modules@1.2.1(@rsbuild/core@2.0.0-alpha.0(core-js@3.47.0))':
     optionalDependencies:
       '@rsbuild/core': 2.0.0-alpha.0(core-js@3.47.0)
 
