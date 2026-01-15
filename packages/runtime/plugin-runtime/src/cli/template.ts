@@ -103,8 +103,11 @@ export const entryForCSRWithRSC = ({
     isRedirectResponse,
     rscStream,
     callServer,
+    setServerCallback,
     createFromReadableStream
   } from '@${metaName}/runtime/rsc/client';
+
+  setServerCallback(callServer);
 
   const handleRedirectResponse = (res: Response) => {
     const { headers } = res;

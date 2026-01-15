@@ -10,8 +10,6 @@ export {
   registerServerReference,
 } from 'react-server-dom-rspack/server.node';
 
-declare const __webpack_require__: (path: string) => any;
-
 type RenderRscOptions = {
   element: React.ReactElement;
 };
