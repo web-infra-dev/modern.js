@@ -721,14 +721,14 @@ importers:
         specifier: 1.4.3
         version: 1.4.3(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-rem':
-        specifier: 1.0.4
-        version: 1.0.4(@rsbuild/core@1.7.2)
+        specifier: 1.0.5
+        version: 1.0.5(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-sass':
         specifier: 1.4.1
         version: 1.4.1(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-source-build':
-        specifier: 1.0.3
-        version: 1.0.3(@rsbuild/core@1.7.2)
+        specifier: 1.0.4
+        version: 1.0.4(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-styled-components':
         specifier: 1.6.0
         version: 1.6.0(@rsbuild/core@1.7.2)
@@ -739,14 +739,14 @@ importers:
         specifier: 1.1.2
         version: 1.1.2(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-type-check':
-        specifier: 1.3.2
-        version: 1.3.2(@rsbuild/core@1.7.2)(@rspack/core@1.7.1(@swc/helpers@0.5.17))(typescript@5.6.3)
+        specifier: 1.3.3
+        version: 1.3.3(@rsbuild/core@1.7.2)(@rspack/core@1.7.1(@swc/helpers@0.5.17))(typescript@5.6.3)
       '@rsbuild/plugin-typed-css-modules':
-        specifier: 1.2.0
-        version: 1.2.0(@rsbuild/core@1.7.2)
+        specifier: 1.2.1
+        version: 1.2.1(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-yaml':
-        specifier: 1.0.3
-        version: 1.0.3(@rsbuild/core@1.7.2)
+        specifier: 1.0.4
+        version: 1.0.4(@rsbuild/core@1.7.2)
       '@rsbuild/webpack':
         specifier: 1.6.1
         version: 1.6.1(@rsbuild/core@1.7.2)(@rspack/core@1.7.1(@swc/helpers@0.5.17))(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5)
@@ -3822,8 +3822,8 @@ importers:
         specifier: 1.7.2
         version: 1.7.2
       '@rsbuild/plugin-node-polyfill':
-        specifier: 1.4.2
-        version: 1.4.2(@rsbuild/core@1.7.2)
+        specifier: 1.4.3
+        version: 1.4.3(@rsbuild/core@1.7.2)
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
@@ -4824,7 +4824,7 @@ importers:
         version: 4.0.1(postcss@8.5.6)
       postcss-load-config:
         specifier: 6.0.1
-        version: 6.0.1(jiti@2.6.1)(postcss@8.5.6)(yaml@2.8.0)
+        version: 6.0.1(jiti@2.6.1)(postcss@8.5.6)(yaml@2.8.2)
       postcss-media-minmax:
         specifier: 5.0.0
         version: 5.0.0(postcss@8.5.6)
@@ -13418,10 +13418,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-node-polyfill@1.4.2':
-    resolution: {integrity: sha512-Vq1So9ZQa0nz9scgDfAa/t7bLPl7lYBQw6n3Qhd8hGUpPXacSjr0xLdJ2c20EDihOO4qJKN4zlomBYVjCHPy0A==}
+  '@rsbuild/plugin-node-polyfill@1.4.3':
+    resolution: {integrity: sha512-VzJCgv5UxI0JZDC/UhAQ6Bzu3JaY7LPw18S6yrJFtvfF3Qn3SCLJILspeV1VolbfvfdfomhmdQkcFgliczLcSw==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13444,10 +13444,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-rem@1.0.4':
-    resolution: {integrity: sha512-ioBafyxyPafrzyHV95MUoIsMurCvWLWZnqgmbqOD5q7Yp5/D5DphLR6cb4AzGF1ZNt/86VsdfaRi7sXD6YaLeg==}
+  '@rsbuild/plugin-rem@1.0.5':
+    resolution: {integrity: sha512-5I1J7WiNGjblk3LbzJ46ZMbCCUVoTPvmAGj254auKM5lzOt/i78jDgN70UtVJswWY9AAEND6E4MLMDTWjlV5yQ==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13462,10 +13462,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
-  '@rsbuild/plugin-source-build@1.0.3':
-    resolution: {integrity: sha512-b+BWbx5eqSV3Ydq0gH265ov0LsVfV7ho0q4FT5zgxt+ZIPU5W5TB14tAt3enHXGOATMFBrjTL85XNpqQS6aExA==}
+  '@rsbuild/plugin-source-build@1.0.4':
+    resolution: {integrity: sha512-t0oKUYpx4lhKW0JssIeRiji5X+uT6n2VYxpDRroE4cnudMVtKbLG1qGtnZeMK4VRc4qwxth1hjX2cHuQaALqYA==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13491,18 +13491,18 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-type-check@1.3.2':
-    resolution: {integrity: sha512-8+N0Xbbh6d4yMxD4WeUXIywc72hJgMTdK9TDWuXvpeVfxPgmNTjS5rq0Y2nqhDdwwIzyW8sn3u0U6N7xvX0sIQ==}
+  '@rsbuild/plugin-type-check@1.3.3':
+    resolution: {integrity: sha512-V+WfrfofOy3zaCZ/CqR6TZDF/jTHqlL9DlwivlsmBjzT3A2zr86e9bzmzprrUwrqZNTAXQBpXiXJP1lJAFJ8Gw==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
 
-  '@rsbuild/plugin-typed-css-modules@1.2.0':
-    resolution: {integrity: sha512-EUL9SaEXZRy6uVwmsvkceHq4RrPpZrlmbczgiJAMaulGiI6MIIUde1NE3sc8JIKk/M0fKgKUjKcA2oJwGbH9Dw==}
+  '@rsbuild/plugin-typed-css-modules@1.2.1':
+    resolution: {integrity: sha512-PTiL6t7T5Z7riPAhyJcmYgwhWl/pNjQqpHYMojO3qKnNcFZJicUbFzKkwXCPTqNl9oCWKJAWNtyXAjQQyoINNw==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -13513,10 +13513,10 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-yaml@1.0.3':
-    resolution: {integrity: sha512-W+YjfSnqhsFM/5jHnriKv3PM8qRWw+ZjNjTyztgFSMAkOu1Y7Pj5/S8W5RuGeXqGmk/iYXUDH2p0OuNtC58+tw==}
+  '@rsbuild/plugin-yaml@1.0.4':
+    resolution: {integrity: sha512-AqVvUjcPzE7RNnVB78+PF41KFOnKmVAP2JY+AuMMRKv4Nm8D/mk/1Rv2b9Rw8F9678j8xR8ikDtes5hFI6/R/A==}
     peerDependencies:
-      '@rsbuild/core': 1.x
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
@@ -24328,11 +24328,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  terser@5.43.1:
-    resolution: {integrity: sha512-+6erLbBm0+LROX2sPXlUYx/ux5PyE9K/a92Wrt6oA+WDAoFTdpHE5tCYCI5PNzq2y8df4rA+QgHLJuR4jNymsg==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   terser@5.44.1:
     resolution: {integrity: sha512-t/R3R/n0MSwnnazuPpPNVO60LX0SKL45pyl9YlvxIdkH0Of7D5qM2EVe+yASRIlY5pZ73nclYJfNANGWPwFDZw==}
     engines: {node: '>=10'}
@@ -25598,8 +25593,8 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
-  yaml@2.8.0:
-    resolution: {integrity: sha512-4lLa/EcQCB0cJkyts+FpIRx5G/llPxfP6VQU5KByHEhLxY3IJCH0f0Hy1MHI8sClTvsIb8qwRJ6R/ZdlDJ/leQ==}
+  yaml@2.8.2:
+    resolution: {integrity: sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -25945,7 +25940,7 @@ snapshots:
 
   '@babel/core@7.12.9':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@babel/generator': 7.28.0
       '@babel/helper-module-transforms': 7.27.3(@babel/core@7.12.9)
       '@babel/helpers': 7.28.2
@@ -25987,7 +25982,7 @@ snapshots:
   '@babel/core@7.28.0':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@babel/generator': 7.28.0
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-module-transforms': 7.27.3(@babel/core@7.28.0)
@@ -28448,7 +28443,7 @@ snapshots:
 
   '@babel/template@7.27.2':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@babel/parser': 7.28.0
       '@babel/types': 7.28.2
 
@@ -28472,7 +28467,7 @@ snapshots:
 
   '@babel/traverse@7.28.0':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@babel/generator': 7.28.0
       '@babel/helper-globals': 7.28.0
       '@babel/parser': 7.28.0
@@ -33152,7 +33147,7 @@ snapshots:
       deepmerge: 4.3.1
       reduce-configs: 1.1.1
 
-  '@rsbuild/plugin-node-polyfill@1.4.2(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-node-polyfill@1.4.3(@rsbuild/core@1.7.2)':
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
@@ -33205,10 +33200,10 @@ snapshots:
     transitivePeerDependencies:
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-rem@1.0.4(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-rem@1.0.5(@rsbuild/core@1.7.2)':
     dependencies:
       deepmerge: 4.3.1
-      terser: 5.43.1
+      terser: 5.44.1
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
@@ -33239,11 +33234,11 @@ snapshots:
       reduce-configs: 1.1.1
       sass-embedded: 1.97.2
 
-  '@rsbuild/plugin-source-build@1.0.3(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-source-build@1.0.4(@rsbuild/core@1.7.2)':
     dependencies:
       fast-glob: 3.3.3
       json5: 2.2.3
-      yaml: 2.8.0
+      yaml: 2.8.2
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
@@ -33274,7 +33269,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
-  '@rsbuild/plugin-type-check@1.3.2(@rsbuild/core@1.7.2)(@rspack/core@1.7.1(@swc/helpers@0.5.17))(typescript@5.6.3)':
+  '@rsbuild/plugin-type-check@1.3.3(@rsbuild/core@1.7.2)(@rspack/core@1.7.1(@swc/helpers@0.5.17))(typescript@5.6.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
@@ -33286,7 +33281,7 @@ snapshots:
       - '@rspack/core'
       - typescript
 
-  '@rsbuild/plugin-typed-css-modules@1.2.0(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-typed-css-modules@1.2.1(@rsbuild/core@1.7.2)':
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
@@ -33301,7 +33296,7 @@ snapshots:
       picocolors: 1.1.1
       semver: 7.7.2
 
-  '@rsbuild/plugin-yaml@1.0.3(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-yaml@1.0.4(@rsbuild/core@1.7.2)':
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
@@ -44632,13 +44627,13 @@ snapshots:
       postcss: 8.5.6
       ts-node: 10.9.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(@types/node@25.0.3)(typescript@5.6.3)
 
-  postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.6)(yaml@2.8.0):
+  postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.6)(yaml@2.8.2):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 2.6.1
       postcss: 8.5.6
-      yaml: 2.8.0
+      yaml: 2.8.2
 
   postcss-media-minmax@5.0.0(postcss@8.5.6):
     dependencies:
@@ -48602,13 +48597,6 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  terser@5.43.1:
-    dependencies:
-      '@jridgewell/source-map': 0.3.6
-      acorn: 8.15.0
-      commander: 2.20.3
-      source-map-support: 0.5.21
-
   terser@5.44.1:
     dependencies:
       '@jridgewell/source-map': 0.3.11
@@ -48758,7 +48746,7 @@ snapshots:
 
   ts-checker-rspack-plugin@1.2.1(@rspack/core@1.7.1(@swc/helpers@0.5.17))(typescript@5.6.3):
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@rspack/lite-tapable': 1.1.0
       chokidar: 3.6.0
       is-glob: 4.0.3
@@ -50241,7 +50229,7 @@ snapshots:
 
   yaml@2.6.1: {}
 
-  yaml@2.8.0: {}
+  yaml@2.8.2: {}
 
   yargs-parser@20.2.9: {}
 
