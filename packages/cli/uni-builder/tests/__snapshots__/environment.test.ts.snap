@@ -1379,6 +1379,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "injectEntry": true,
           "injectLoader": true,
           "overlay": false,
+          "reactRefreshLoader": "builtin:react-refresh-loader",
           "reloadOnRuntimeErrors": false,
           "resourceQuery": {
             "not": /\\^\\\\\\?raw\\$/,
