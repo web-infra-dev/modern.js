@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -223,8 +221,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3
       terser:
-        specifier: ^5.44.1
-        version: 5.44.1
+        specifier: ^5.46.0
+        version: 5.46.0
       typescript:
         specifier: ^5.3.0
         version: 5.9.3
@@ -6519,6 +6517,7 @@ packages:
 
   '@module-federation/data-prefetch@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-knLlwi93KEK9S/VDjZO8UbJxLp6s6rpnl8IXTJ5ELhljD5s6gN1VqtfOXxYYChB2DaUu4EMf/rCApcDoTekuCg==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -6534,6 +6533,7 @@ packages:
 
   '@module-federation/enhanced@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-s0nQ7295n30dIQwhBHjUEcPvdgjl5e82r7aH9oOe8g/XUePI3blsedVVinrCGaQEW1y5MzrpQY6OBQwsmcjYrQ==}
+    deprecated: Pre-release version deprecated
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0
@@ -6558,6 +6558,7 @@ packages:
 
   '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-EwxEnSKm5vegoBXf4QOKdvhbtHhSMAGK0KEIe8Dn1s3prlAabXVYICrhZmkLx7rm7KBZJeQKcSgeJR9jdX+fmQ==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@module-federation/runtime-tools': 0.0.0-feat-modern-3-0-20251120074204
 
@@ -6566,6 +6567,7 @@ packages:
 
   '@module-federation/manifest@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-7S/PikFR7sy3yh5PUZELNsupujsLXNheADU1O1T73lCKRUSlJEHNsakCAOrf6v/znTYC8BIf3pkrr6xauDn5zg==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/modern-js@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-RbS0GymeY63c9rgqESPn2iTa+YHAps5cgUlKWA67IvFTHOpluKtdOsYdCJOjyKQgcPmO6jjBxpZElA+KZPWg5w==}
@@ -6604,6 +6606,7 @@ packages:
   '@module-federation/rsbuild-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-XZsYL/PvmRgxjxFgEEoi+gtTOjzImLX/dlZEOzbxmwg4DLXoaUYbKNshF3+zNaC2K2VWWnHFCs+aws1Dw3pjzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@rsbuild/core': ^1.6.7
     peerDependenciesMeta:
@@ -6624,6 +6627,7 @@ packages:
 
   '@module-federation/runtime-core@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-MfWQE41lutPqbcY9pPk2CSLMU2mT/kXlGNQirm4Y6QhKB/0KRWQ+7FD9yCHIeIqM0fbLJVtA/RDihw/kS2qRyQ==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime-core@0.21.6':
     resolution: {integrity: sha512-5Hd1Y5qp5lU/aTiK66lidMlM/4ji2gr3EXAtJdreJzkY+bKcI5+21GRcliZ4RAkICmvdxQU5PHPL71XmNc7Lsw==}
@@ -6642,6 +6646,7 @@ packages:
 
   '@module-federation/runtime@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-LVoGjJQyN+UIoc7hdrKNSzJEpQ9xEFjYytnkKiXUAPrIwXw8zLNkktKJVyJI0hb3aO1Gy0/Su1L6qTWZ4pq5kw==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime@0.21.6':
     resolution: {integrity: sha512-+caXwaQqwTNh+CQqyb4mZmXq7iEemRDrTZQGD+zyeH454JAYnJ3s/3oDFizdH6245pk+NiqDyOOkHzzFQorKhQ==}
@@ -6663,6 +6668,7 @@ packages:
 
   '@module-federation/webpack-bundler-runtime@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-ADgapHbMfyGnfM8DuFJjgGtGu5xEXIiGXz+igel0cMuHcSwzvLL4WW0Z3N99LvmJjObt4Lebpgidw8jyjmwxmg==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/webpack-bundler-runtime@0.21.6':
     resolution: {integrity: sha512-7zIp3LrcWbhGuFDTUMLJ2FJvcwjlddqhWGxi/MW3ur1a+HaO8v5tF2nl+vElKmbG1DFLU/52l3PElVcWf/YcsQ==}
@@ -14686,8 +14692,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.44.1:
-    resolution: {integrity: sha512-t/R3R/n0MSwnnazuPpPNVO60LX0SKL45pyl9YlvxIdkH0Of7D5qM2EVe+yASRIlY5pZ73nclYJfNANGWPwFDZw==}
+  terser@5.46.0:
+    resolution: {integrity: sha512-jTwoImyr/QbOWFFso3YoU3ik0jBBDJ6JTOQiy/J2YxVJdZCc+5u7skhNwiOR3FQIygFqVUPHl7qbbxtjW2K3Qg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -17412,7 +17418,7 @@ snapshots:
       style-inject: 0.3.0
       sucrase: 3.29.0
       tapable: 2.2.1
-      terser: 5.44.1
+      terser: 5.46.0
       tsconfig-paths-webpack-plugin: 4.1.0
     optionalDependencies:
       typescript: 5.9.3
@@ -18261,7 +18267,7 @@ snapshots:
   '@rsbuild/plugin-rem@1.0.5(@rsbuild/core@1.7.2)':
     dependencies:
       deepmerge: 4.3.1
-      terser: 5.44.1
+      terser: 5.46.0
     optionalDependencies:
       '@rsbuild/core': 1.7.2
 
@@ -22665,7 +22671,7 @@ snapshots:
       entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.44.1
+      terser: 5.46.0
 
   html-parse-stringify@3.0.1:
     dependencies:
@@ -27409,7 +27415,7 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       serialize-javascript: 6.0.2
-      terser: 5.44.1
+      terser: 5.46.0
       webpack: 5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5)
     optionalDependencies:
       '@swc/core': 1.15.8(@swc/helpers@0.5.17)
@@ -27421,13 +27427,13 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       serialize-javascript: 6.0.2
-      terser: 5.44.1
+      terser: 5.46.0
       webpack: 5.104.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.25.5)
     optionalDependencies:
       '@swc/core': 1.15.8(@swc/helpers@0.5.18)
       esbuild: 0.25.5
 
-  terser@5.44.1:
+  terser@5.46.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.15.0
