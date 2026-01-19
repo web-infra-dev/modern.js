@@ -51,8 +51,6 @@ module.exports = {
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',
       testMatch: [
-        '<rootDir>/packages/toolkit/utils/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/toolkit/node-bundle-require/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/cli/plugin-bff/tests/**/*.test.[jt]s?(x)',
       ],
     },

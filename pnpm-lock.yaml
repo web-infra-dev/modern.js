@@ -1577,18 +1577,12 @@ importers:
       '@rslib/core':
         specifier: 0.19.2
         version: 0.19.2(typescript@5.9.3)
-      '@scripts/jest-config':
+      '@scripts/rstest-config':
         specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
+        version: link:../../../scripts/rstest-config
       '@types/node':
         specifier: ^20
         version: 20.19.27
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.19.27)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.15.8(@swc/helpers@0.5.17))(@types/node@20.19.27)(typescript@5.9.3))
       typescript:
         specifier: ^5
         version: 5.9.3

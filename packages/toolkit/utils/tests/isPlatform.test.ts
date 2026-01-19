@@ -2,7 +2,7 @@ import { isBrowser } from '../src';
 
 describe('validate platform', () => {
   it('should validate browser correctly', () => {
-    const windowSpy = jest.spyOn(window, 'window', 'get');
+    const windowSpy = rstest.spyOn(window, 'window', 'get');
 
     windowSpy.mockImplementation((): any => undefined);
     expect(isBrowser()).toBeFalsy();

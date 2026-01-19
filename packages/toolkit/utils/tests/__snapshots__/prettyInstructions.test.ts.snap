@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`prettyInstructions The src directory does not exist 1`] = `
+exports[`prettyInstructions > The src directory does not exist 1`] = `
 "
   > Local:    http://localhost:8080/api
   > Network:  http://11.11.111.11:8080/api
@@ -8,7 +8,7 @@ exports[`prettyInstructions The src directory does not exist 1`] = `
 "
 `;
 
-exports[`prettyInstructions basic usage 1`] = `
+exports[`prettyInstructions > basic usage 1`] = `
 "
   > Local:    http://localhost:8080/
   > Network:  http://11.11.111.11:8080/
@@ -16,7 +16,7 @@ exports[`prettyInstructions basic usage 1`] = `
 "
 `;
 
-exports[`prettyInstructions custom entry 1`] = `
+exports[`prettyInstructions > custom entry 1`] = `
 "
   > Local:  http://localhost:8080
   > Network:  http://11.11.111.11:8080
@@ -27,13 +27,13 @@ exports[`prettyInstructions custom entry 1`] = `
 "
 `;
 
-exports[`prettyInstructions should print host correctly 1`] = `
+exports[`prettyInstructions > should print host correctly 1`] = `
 "
   > Network:  http://my-host:8080/
 "
 `;
 
-exports[`prettyInstructions should print https URLs 1`] = `
+exports[`prettyInstructions > should print https URLs 1`] = `
 "
   > Local:    https://localhost:8080/
   > Network:  https://11.11.111.11:8080/

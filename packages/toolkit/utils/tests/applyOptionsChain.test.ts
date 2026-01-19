@@ -88,7 +88,7 @@ describe('apply options chain', () => {
 
   test(`should log warning about function result`, () => {
     const outputs: string[] = [];
-    const spy = jest
+    const spy = rstest
       .spyOn(logger, 'warn' as any)
       .mockImplementation((input: any) => {
         outputs.push(String(input));
