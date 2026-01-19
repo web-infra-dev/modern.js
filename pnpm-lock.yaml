@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1604,11 +1602,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core':
-        specifier: 2.70.1
-        version: 2.70.1
+        specifier: 2.70.2
+        version: 2.70.2
       '@modern-js/module-tools':
-        specifier: 2.70.1
-        version: 2.70.1(@types/node@20.19.27)(typescript@5.9.3)
+        specifier: 2.70.2
+        version: 2.70.2(@types/node@20.19.27)(typescript@5.9.3)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -4813,16 +4811,8 @@ packages:
     resolution: {integrity: sha512-JYgintcMjRiCvS8mMECzaEn+m3PfoQiyqukOMCCVQtoJGYJw8j/8LBJEiqkHLkfwCcs74E3pbAUFNg7d9VNJ+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/compat-data@7.28.5':
-    resolution: {integrity: sha512-6uFXyCayocRbqhZOB+6XcuZbkMNimwfVGFji8CTZnCzOHVGvDqzvitu1re2AU5LROliz7eQPhB8CpAMvnx9EjA==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/compat-data@7.28.6':
     resolution: {integrity: sha512-2lfu57JtzctfIrcGMz992hyLlByuzgIk58+hhGCxjKZ3rWI82NnVLjXcaTqkI2NvlcvOskZaiZ5kjUALo3Lpxg==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/core@7.28.5':
-    resolution: {integrity: sha512-e7jT4DxYvIDLk1ZHmU/m/mB19rex9sv0c2ftBtjSBv+kVM/902eh0fINUzD7UwLLNR+jU585GxUJ8/EBfAM5fw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/core@7.28.6':
@@ -4839,10 +4829,6 @@ packages:
 
   '@babel/helper-annotate-as-pure@7.27.3':
     resolution: {integrity: sha512-fXSwMQqitTGeHLBC08Eq5yXz2m37E4pJX1qAU1+2cNedz/ifv/bVXft90VeSav5nFO61EcNgwr0aJxbyPaWBPg==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-compilation-targets@7.27.2':
-    resolution: {integrity: sha512-2+1thGUUWWjLTYTHZWK1n8Yga0ijBz1XAhUXcKy81rd5g6yh7hGqMp45v7cadSbEHc9G3OTv45SyneRN3ps4DQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helper-compilation-targets@7.28.6':
@@ -4870,12 +4856,6 @@ packages:
   '@babel/helper-module-imports@7.28.6':
     resolution: {integrity: sha512-l5XkZK7r7wa9LucGw9LwZyyCUscb4x37JWTPz7swwFE/0FMQAGpiWUZn8u9DzkSBWEcK25jmvubfpw2dnAMdbw==}
     engines: {node: '>=6.9.0'}
-
-  '@babel/helper-module-transforms@7.28.3':
-    resolution: {integrity: sha512-gytXUbs8k2sXS9PnQptz5o0QnpLL51SwASIORY6XaBKF88nsOT0Zw9szLqlSGQDP/4TljBAD5y98p2U1fqkdsw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
 
   '@babel/helper-module-transforms@7.28.6':
     resolution: {integrity: sha512-67oXFAYr2cDLDVGLXTEABjdBJZ6drElUSI7WKp70NrpyISso3plG9SAGEF6y7zbha/wOzUByWWTJvEDVNIUGcA==}
@@ -4915,10 +4895,6 @@ packages:
 
   '@babel/helper-validator-option@7.27.1':
     resolution: {integrity: sha512-YvjJow9FxbhFFKDSuFnVCe2WxXk1zWc22fFePVNEaWJEu8IrZVlda6N0uHwzZrUM1il7NC9Mlp4MaJYbYd9JSg==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helpers@7.28.4':
-    resolution: {integrity: sha512-HFN59MmQXGHVyYadKLVumYsA9dBFun/ldYxipEjzA4196jpLZd8UjEEBLkbEkvfYreDqJhZxYAWFPtrfhNpj4w==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helpers@7.28.6':
@@ -6442,11 +6418,11 @@ packages:
   '@modern-js/codesmith@2.6.8':
     resolution: {integrity: sha512-CPIuW5Pj4psVfnZG4ZRCBSZHEcbxIpY6kpqb2IHog+tg1EFxs8dpc1DmW6ejtfM6HbyQGgd8no3LZ4YkjNolXw==}
 
-  '@modern-js/core@2.70.1':
-    resolution: {integrity: sha512-CiTuMr+kpZ8Ydeh7TmURaZPXbwlL4OKB6Wp101NjcnEW8O5n0MT7QbCWLoaWSpErKTuY1e+jKSxs7d1JkSBR3g==}
+  '@modern-js/core@2.70.2':
+    resolution: {integrity: sha512-T70htvP35ccBfliHg/qi5LrV8gtT0ZfFF0ZezRtWBazIP9d6BsBSr2Ug5hBHH71eIWRZoDtTQnSLsnWjjAqGmQ==}
 
-  '@modern-js/module-tools@2.70.1':
-    resolution: {integrity: sha512-uTGgUY0WGJ0eVbkIt11g3f5V0j7K3eg4tRBv5nPmFkZd6ax5OaI0h9/iIxV2x3DjBZq1N/D/siOEmmygGw3jAw==}
+  '@modern-js/module-tools@2.70.2':
+    resolution: {integrity: sha512-haBqJHd4AxVekeO9h+/HOCavspoLCZ0dwnlmHgfCxtw+2hzGXdstinzaA2Zt90+pefMoscWW5fG4UmZQPRUCXg==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -6458,17 +6434,17 @@ packages:
   '@modern-js/node-bundle-require@0.0.0-canary-20251119023553':
     resolution: {integrity: sha512-LCVN5tKl2W+MHTGPjtsMsqoctbQXcdMp0CHhKcE+fqbbGqu9b7k7rBjHfg+6RM0UkZjZxx6k74aH+g7GxBsiFA==}
 
-  '@modern-js/node-bundle-require@2.70.1':
-    resolution: {integrity: sha512-IYuMO1J6qeEc6hcqcc+5fAKelgSFN/tNqEpb5tTMDRBWmbAeaTt1AsP6g2wksyy6ik3ahz/YBlR/wt9CJYTsow==}
+  '@modern-js/node-bundle-require@2.70.2':
+    resolution: {integrity: sha512-QCcxbUukKhvK8/Q+GZLalUvhjtM+Qn8yUTLuo8spbg8phPTML/394NyN5c99t2oD4D728Bq4gmjslHMWD7iDpg==}
 
-  '@modern-js/plugin-changeset@2.70.1':
-    resolution: {integrity: sha512-E9xmwGDoMfuUGFEGozpq2HJXizTxiYKuC5eiRycO5vVf2J7cuREUaUMBXzWH9vl+gem1uPNQVDL4BUIqOYEVjg==}
+  '@modern-js/plugin-changeset@2.70.2':
+    resolution: {integrity: sha512-M+jVUYvWOtCvc8QI8AD0tJRdOvz/9Z4wENG4P2nl6tZ/FYXp+eX1rEpz3AfXcYjpL+uRUh5qVJL392xdISKwVg==}
 
-  '@modern-js/plugin-i18n@2.70.1':
-    resolution: {integrity: sha512-6PcKI/zmooyWnAmzs/cGbtPVkd3JtV816AWaAUkiXhUEb8G+plr4TSs2kiQyIcISjIzVhxkiJDKUHsrWTSQWoQ==}
+  '@modern-js/plugin-i18n@2.70.2':
+    resolution: {integrity: sha512-DilbXQQEvEhMbYtmi008NQ1Gq6UT403SfPIBmGMETZdiaSNNZa2yudRAPKoa3OHlWXAZ07NyxcsZpjZ8DZj4Sg==}
 
-  '@modern-js/plugin@2.70.1':
-    resolution: {integrity: sha512-KAE87HykP8ITMin4coKETwcTxtsW77FdyL8IQ0S5gQvgjb3vCvOZcH+NgUWjqyId+omJaLfRkN84rjIBkNpSDQ==}
+  '@modern-js/plugin@2.70.2':
+    resolution: {integrity: sha512-xR/dkhKdLnL5JxUtPP/rn+123VMjI6QxmV5PZC+hIHcahbT41Vfie1R1pG7kV3I1ByeuKGBjZnoD8HeMNQAAJQ==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -6531,8 +6507,8 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.70.1':
-    resolution: {integrity: sha512-C33Sh2Cl0Ks6n5iMYfdGxr5vThWW+3vWxDOilArjEAEf59wlvPGgTtIGGzKVYIKsaMeBrwof0tMgK4c0iGC7Zw==}
+  '@modern-js/types@2.70.2':
+    resolution: {integrity: sha512-/MD+6tXRWwI/HkAabx1I0pAuIfFCieWq6tQbv1mYZVEK4L/XE9dy1ehXqB1Wh5wtSlJchtuUuGhd6NsSJvY8Tg==}
 
   '@modern-js/utils@0.0.0-canary-20251119023553':
     resolution: {integrity: sha512-XjnFzp8/++26oMR8jfXiULWpdwC0CCKK8efe3edRrEC2srk5Yp+uX44edUSkWsvQ8j03ys+mw0hq4AOqFD9uPQ==}
@@ -6545,8 +6521,8 @@ packages:
       react-dom:
         optional: true
 
-  '@modern-js/utils@2.70.1':
-    resolution: {integrity: sha512-JZhmQFeYK0P++lYpXywNzpmzamYy/Ihxq2RGjaIno4Ofop9pGmKPBKCf6lg4UmQ9emRnIFM78vLn1zJ60xN7Uw==}
+  '@modern-js/utils@2.70.2':
+    resolution: {integrity: sha512-EH8crEVMKn8siNEJIFbwGgjC3W7vNBjs1v/OwlmlxHRBH7YBO4zXrNPuRYF+AndgQWz6j9SfJ5te7MeiA2O/3Q==}
 
   '@module-federation/bridge-react-webpack-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-8r6jLxBW35mVs1j1vHjhHctsEOv8emPE/GezQiGokOrGHB22mEDMX9hMs9ZZA6VsSB36NL79k7lWT8jxVyEvgQ==}
@@ -11995,9 +11971,6 @@ packages:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
 
-  magic-string@0.30.17:
-    resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
-
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -15679,29 +15652,7 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
-  '@babel/compat-data@7.28.5': {}
-
   '@babel/compat-data@7.28.6': {}
-
-  '@babel/core@7.28.5':
-    dependencies:
-      '@babel/code-frame': 7.27.1
-      '@babel/generator': 7.28.5
-      '@babel/helper-compilation-targets': 7.27.2
-      '@babel/helper-module-transforms': 7.28.3(@babel/core@7.28.5)
-      '@babel/helpers': 7.28.4
-      '@babel/parser': 7.28.6
-      '@babel/template': 7.27.2
-      '@babel/traverse': 7.28.6(supports-color@5.5.0)
-      '@babel/types': 7.28.6
-      '@jridgewell/remapping': 2.3.5
-      convert-source-map: 2.0.0
-      debug: 4.4.3(supports-color@5.5.0)
-      gensync: 1.0.0-beta.2
-      json5: 2.2.3
-      semver: 6.3.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@babel/core@7.28.6':
     dependencies:
@@ -15742,14 +15693,6 @@ snapshots:
   '@babel/helper-annotate-as-pure@7.27.3':
     dependencies:
       '@babel/types': 7.28.6
-
-  '@babel/helper-compilation-targets@7.27.2':
-    dependencies:
-      '@babel/compat-data': 7.28.5
-      '@babel/helper-validator-option': 7.27.1
-      browserslist: 4.28.1
-      lru-cache: 5.1.1
-      semver: 6.3.1
 
   '@babel/helper-compilation-targets@7.28.6':
     dependencies:
@@ -15795,15 +15738,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/helper-module-transforms@7.28.3(@babel/core@7.28.5)':
-    dependencies:
-      '@babel/core': 7.28.5
-      '@babel/helper-module-imports': 7.27.1(supports-color@5.5.0)
-      '@babel/helper-validator-identifier': 7.28.5
-      '@babel/traverse': 7.28.6(supports-color@5.5.0)
-    transitivePeerDependencies:
-      - supports-color
-
   '@babel/helper-module-transforms@7.28.6(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
@@ -15842,11 +15776,6 @@ snapshots:
   '@babel/helper-validator-identifier@7.28.5': {}
 
   '@babel/helper-validator-option@7.27.1': {}
-
-  '@babel/helpers@7.28.4':
-    dependencies:
-      '@babel/template': 7.27.2
-      '@babel/types': 7.28.6
 
   '@babel/helpers@7.28.6':
     dependencies:
@@ -17538,32 +17467,32 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.70.1':
+  '@modern-js/core@2.70.2':
     dependencies:
-      '@modern-js/node-bundle-require': 2.70.1
-      '@modern-js/plugin': 2.70.1
-      '@modern-js/utils': 2.70.1
+      '@modern-js/node-bundle-require': 2.70.2
+      '@modern-js/plugin': 2.70.2
+      '@modern-js/utils': 2.70.2
       '@swc/helpers': 0.5.18
 
-  '@modern-js/module-tools@2.70.1(@types/node@20.19.27)(typescript@5.9.3)':
+  '@modern-js/module-tools@2.70.2(@types/node@20.19.27)(typescript@5.9.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.35.0
-      '@babel/core': 7.28.5
+      '@babel/core': 7.28.6
       '@babel/types': 7.28.6
-      '@modern-js/core': 2.70.1
-      '@modern-js/plugin': 2.70.1
-      '@modern-js/plugin-changeset': 2.70.1(@types/node@20.19.27)
-      '@modern-js/plugin-i18n': 2.70.1
+      '@modern-js/core': 2.70.2
+      '@modern-js/plugin': 2.70.2
+      '@modern-js/plugin-changeset': 2.70.2(@types/node@20.19.27)
+      '@modern-js/plugin-i18n': 2.70.2
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.18)
-      '@modern-js/types': 2.70.1
-      '@modern-js/utils': 2.70.1
+      '@modern-js/types': 2.70.2
+      '@modern-js/utils': 2.70.2
       '@rollup/pluginutils': 4.2.1
       '@swc/helpers': 0.5.18
       convert-source-map: 1.9.0
       enhanced-resolve: 5.17.1
       esbuild: 0.19.2
-      magic-string: 0.30.17
+      magic-string: 0.30.21
       postcss: 8.5.6
       postcss-modules: 4.3.1(postcss@8.5.6)
       safe-identifier: 0.4.2
@@ -17589,19 +17518,19 @@ snapshots:
       - react
       - react-dom
 
-  '@modern-js/node-bundle-require@2.70.1':
+  '@modern-js/node-bundle-require@2.70.2':
     dependencies:
-      '@modern-js/utils': 2.70.1
+      '@modern-js/utils': 2.70.2
       '@swc/helpers': 0.5.18
       esbuild: 0.25.5
 
-  '@modern-js/plugin-changeset@2.70.1(@types/node@20.19.27)':
+  '@modern-js/plugin-changeset@2.70.2(@types/node@20.19.27)':
     dependencies:
       '@changesets/cli': 2.29.8(@types/node@20.19.27)
       '@changesets/git': 2.0.0
       '@changesets/read': 0.6.6
-      '@modern-js/plugin-i18n': 2.70.1
-      '@modern-js/utils': 2.70.1
+      '@modern-js/plugin-i18n': 2.70.2
+      '@modern-js/utils': 2.70.2
       '@swc/helpers': 0.5.18
       axios: 1.13.2(debug@4.3.7)
       resolve-from: 5.0.0
@@ -17609,14 +17538,14 @@ snapshots:
       - '@types/node'
       - debug
 
-  '@modern-js/plugin-i18n@2.70.1':
+  '@modern-js/plugin-i18n@2.70.2':
     dependencies:
-      '@modern-js/utils': 2.70.1
+      '@modern-js/utils': 2.70.2
       '@swc/helpers': 0.5.18
 
-  '@modern-js/plugin@2.70.1':
+  '@modern-js/plugin@2.70.2':
     dependencies:
-      '@modern-js/utils': 2.70.1
+      '@modern-js/utils': 2.70.2
       '@swc/helpers': 0.5.18
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -17703,7 +17632,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.18
 
-  '@modern-js/types@2.70.1': {}
+  '@modern-js/types@2.70.2': {}
 
   '@modern-js/utils@0.0.0-canary-20251119023553(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
@@ -17715,7 +17644,7 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@modern-js/utils@2.70.1':
+  '@modern-js/utils@2.70.2':
     dependencies:
       '@swc/helpers': 0.5.18
       caniuse-lite: 1.0.30001761
@@ -24247,10 +24176,6 @@ snapshots:
   luxon@3.7.2: {}
 
   lz-string@1.5.0: {}
-
-  magic-string@0.30.17:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
 
   magic-string@0.30.21:
     dependencies:
