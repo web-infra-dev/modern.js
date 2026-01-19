@@ -9,7 +9,7 @@
     "start": "pnpm build && node ./dist/index.js"
   },
   "dependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^7.28.6",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/node": "^20",

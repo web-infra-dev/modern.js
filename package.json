@@ -65,8 +65,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
-    "@babel/core": "^7.28.5",
-    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@babel/core": "^7.28.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.28.6",
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
