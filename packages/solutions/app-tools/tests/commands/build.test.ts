@@ -1,38 +1,38 @@
 import { type Plugin, createPluginManager } from '@modern-js/plugin';
 import { build } from '../../src/commands/build';
 
-const mockGenerateRoutes = jest.fn();
+const mockGenerateRoutes = rstest.fn();
 
-jest.mock('../../src/utils/routes', () => ({
+rstest.mock('../../src/utils/routes', () => ({
   __esModule: true,
   generateRoutes: () => mockGenerateRoutes(),
 }));
 
 describe('command build', () => {
   afterAll(() => {
-    jest.resetAllMocks();
+    rstest.resetAllMocks();
   });
 
   test('hooks should be invoke correctly', async () => {
-    const mockBeforeBuild = { call: jest.fn() };
-    const mockAfterBuild = { call: jest.fn() };
+    const mockBeforeBuild = { call: rstest.fn() };
+    const mockAfterBuild = { call: rstest.fn() };
     const mockInternalServerPlugins = {
-      call: jest.fn(() => ({ plugins: [] })),
+      call: rstest.fn(() => ({ plugins: [] })),
     };
 
     const mockAPI = {
-      getAppContext: jest.fn((): any => ({
+      getAppContext: rstest.fn((): any => ({
         apiOnly: true,
         distDirectory: '',
         appDirectory: '',
       })),
-      getNormalizedConfig: jest.fn(),
+      getNormalizedConfig: rstest.fn(),
       getHooks: (): any => ({
         onAfterBuild: mockAfterBuild,
         onBeforeBuild: mockBeforeBuild,
         _internalServerPlugins: mockInternalServerPlugins,
       }),
-      updateAppContext: jest.fn(),
+      updateAppContext: rstest.fn(),
     };
 
     const pluginManager = createPluginManager();

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "declaration": true,
     "jsx": "preserve",
+    "module": "ESNext",
     "baseUrl": "./",
     "outDir": "./out",
     "emitDeclarationOnly": true,
@@ -10,6 +11,6 @@
     "paths": {
       "@/*": ["../src/*"]
     },
-    "types": ["node", "jest"]
+    "types": ["node", "@rstest/core/globals"]
   }
 }

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`create builder Options test create builder environments config 1`] = `
+exports[`create builder Options > test create builder environments config 1`] = `
 {
   "builderConfig": {},
   "environments": {
@@ -24,7 +24,7 @@ exports[`create builder Options test create builder environments config 1`] = `
 }
 `;
 
-exports[`create builder Options test create builder environments config 2`] = `
+exports[`create builder Options > test create builder environments config 2`] = `
 {
   "builderConfig": {},
   "environments": {
@@ -64,7 +64,7 @@ exports[`create builder Options test create builder environments config 2`] = `
 }
 `;
 
-exports[`create builder Options test create builder environments config 3`] = `
+exports[`create builder Options > test create builder environments config 3`] = `
 {
   "builderConfig": {
     "output": {},
@@ -112,7 +112,7 @@ exports[`create builder Options test create builder environments config 3`] = `
 }
 `;
 
-exports[`create builder provider config should add default config 1`] = `
+exports[`create builder provider config > should add default config 1`] = `
 {
   "dev": {
     "port": undefined,
@@ -129,7 +129,7 @@ exports[`create builder provider config should add default config 1`] = `
         "to": "yyy",
       },
       {
-        "context": "<ROOT>/tests/fixtures/config/upload",
+        "context": "<WORKSPACE>/packages/solutions/app-tools/tests/fixtures/config/upload",
         "from": "**/*",
         "noErrorOnMissing": true,
         "to": "upload",
