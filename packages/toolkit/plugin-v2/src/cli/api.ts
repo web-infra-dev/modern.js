@@ -1,4 +1,4 @@
-import { assign } from '@modern-js/utils/lodash';
+import { merge } from '@modern-js/utils/lodash';
 import type { PluginHook } from '../types';
 import type {
   AllKeysForCLIPluginExtendsAPI,
@@ -75,7 +75,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
   }
 
   function updateAppContext(updateContext: DeepPartial<AppContext<Extends>>) {
-    context = assign(context, updateContext);
+    context = merge(context, updateContext);
   }
 
   const pluginAPI = {
