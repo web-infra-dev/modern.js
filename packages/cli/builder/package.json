@@ -58,7 +58,7 @@
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
-    "rspack-manifest-plugin": "5.2.0",
+    "rspack-manifest-plugin": "5.2.1",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {

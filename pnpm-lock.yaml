@@ -198,8 +198,8 @@ importers:
         specifier: 3.0.4
         version: 3.0.4(postcss@8.5.6)
       rspack-manifest-plugin:
-        specifier: 5.2.0
-        version: 5.2.0(@rspack/core@1.7.1(@swc/helpers@0.5.17))
+        specifier: 5.2.1
+        version: 5.2.1(@rspack/core@1.7.1(@swc/helpers@0.5.17))
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
@@ -14024,10 +14024,10 @@ packages:
   rslog@1.3.2:
     resolution: {integrity: sha512-1YyYXBvN0a2b1MSIDLwDTqqgjDzRKxUg/S/+KO6EAgbtZW1B3fdLHAMhEEtvk1patJYMqcRvlp3HQwnxj7AdGQ==}
 
-  rspack-manifest-plugin@5.2.0:
-    resolution: {integrity: sha512-W4fIoDE7cGiN7iBh2Zs71W/P+iRSvUi2jIcyzcvDvjgoPbqYw15AL0bZMgQ88OzEocYwtFcsn/iQFFv8h+XRAg==}
+  rspack-manifest-plugin@5.2.1:
+    resolution: {integrity: sha512-H3qyCumiEiWy9zhcPIYPr3J3SWyvypVJJY5wxjG5L8gYny6dfNHfk0gyICg1tGO+g4uQzvVHER875ek/I/J8UA==}
     peerDependencies:
-      '@rspack/core': 0.x || 1.x
+      '@rspack/core': ^1.0.0 || ^2.0.0-0
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -26648,7 +26648,7 @@ snapshots:
 
   rslog@1.3.2: {}
 
-  rspack-manifest-plugin@5.2.0(@rspack/core@1.7.1(@swc/helpers@0.5.17)):
+  rspack-manifest-plugin@5.2.1(@rspack/core@1.7.1(@swc/helpers@0.5.17)):
     dependencies:
       '@rspack/lite-tapable': 1.1.0
     optionalDependencies:
