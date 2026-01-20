@@ -548,9 +548,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.2
         version: 0.19.2(typescript@5.9.3)
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -1468,9 +1465,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.2
         version: 0.19.2(typescript@5.9.3)
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -1586,33 +1580,6 @@ importers:
       tsx:
         specifier: ^3.14.0
         version: 3.14.0
-
-  scripts/jest-config:
-    devDependencies:
-      '@swc/core':
-        specifier: 1.15.8
-        version: 1.15.8(@swc/helpers@0.5.18)
-      '@swc/jest':
-        specifier: ^0.2.39
-        version: 0.2.39(@swc/core@1.15.8(@swc/helpers@0.5.18))
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20
-        version: 20.19.27
-      enhanced-resolve:
-        specifier: 5.18.4
-        version: 5.18.4
-      esbuild:
-        specifier: 0.25.5
-        version: 0.25.5
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.19.27)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(@types/node@20.5.1)(typescript@5.9.3))
-      path-serializer:
-        specifier: 0.5.1
-        version: 0.5.1
 
   scripts/lint-package-json:
     dependencies:

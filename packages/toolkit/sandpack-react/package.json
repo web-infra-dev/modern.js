@@ -54,7 +54,6 @@
     "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
-    "@scripts/jest-config": "workspace:*",
     "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",

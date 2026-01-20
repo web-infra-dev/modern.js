@@ -55,4 +55,4 @@ jobs:
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: pnpm run test:rstest
+        run: pnpm run test:ut
