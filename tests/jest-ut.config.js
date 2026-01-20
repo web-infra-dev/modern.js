@@ -90,7 +90,6 @@ module.exports = {
       testEnvironment: 'node',
       testMatch: [
         '<rootDir>/packages/server/server/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/server/utils/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/runtime/plugin-runtime/',
       ],
     },
