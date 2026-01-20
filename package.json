@@ -26,7 +26,7 @@
     "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --maxParallel=4",
     "prepare": "npm run prepare-build && husky install",
     "prepare-build-continue": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --nxBail=false --maxParallel=4 || echo 'Build completed with some failures, continuing...'",
-    "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/builder",
+    "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/builder @modern-js/bff-core",
     "lint": "biome check",
     "change": "changeset add",
     "bump": "changeset version",

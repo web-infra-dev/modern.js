@@ -67,7 +67,7 @@ const isFunction = (input: any): input is (...args: any) => any =>
 export const requireHandlerModule = async (modulePath: string) => {
   // 测试环境不走缓存，因为缓存的 handler 文件，会被 mockAPI 函数进行 mock，升级 jest28，setupFilesAfterEnv 能做异步操作的话，可解此问题
   const originRequire =
-    process.env.NODE_ENV === 'test' ? jest.requireActual : compatibleRequire;
+    process.env.NODE_ENV === 'test' ? require : compatibleRequire;
 
   const module = await originRequire(modulePath, false);
   if (isFunction(module)) {
