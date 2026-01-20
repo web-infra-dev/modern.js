@@ -149,9 +149,6 @@ async function loadRouteModule(
   try {
     await Promise.all(
       chunkIds.map(chunkId => {
-        if (process.env.NODE_ENV === 'test') {
-          return __webpack_chunk_load__?.(chunkId);
-        }
         // @ts-ignore
         return WEBPACK_CHUNK_LOAD?.(chunkId);
       }),

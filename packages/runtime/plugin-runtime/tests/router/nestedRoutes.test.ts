@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import path from 'path';
 import type { NestedRouteForCli } from '@modern-js/types';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';

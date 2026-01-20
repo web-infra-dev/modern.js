@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`nested routes walk 1`] = `
+exports[`nested routes > walk 1`] = `
 [
   {
     "_component": "@_modern_js_src/layout",
