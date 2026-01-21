@@ -68,14 +68,14 @@ export const createNetlifyPreset: CreatePreset = (
       }[] = [];
       const {
         source: { mainEntryName },
-        html: { disableHtmlFolder, outputStructure },
+        html: { outputStructure },
       } = modernConfig;
 
       if (!needModernServer) {
         entrypoints.forEach(entry => {
           const isMain = isMainEntry(entry.entryName, mainEntryName);
           const htmlPath =
-            disableHtmlFolder || outputStructure === 'flat'
+            outputStructure === 'flat'
               ? `/html/${entry.entryName}.html`
               : `/html/${entry.entryName}/index.html`;
           routes.push({
