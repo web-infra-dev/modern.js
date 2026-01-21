@@ -46,7 +46,7 @@ Gets the context information of the Modern.js application.
 | `isProd`               | `boolean`           | Whether it is in production mode                                 | -                            |
 | `appDirectory`         | `string`            | The absolute path to the project root directory                  | -                            |
 | `srcDirectory`         | `string`            | The absolute path to the project source code directory           | -                            |
-| `distDirectory`        | `string`            | The absolute path to the project output directory                | After `modifyResolvedConfig` |
+| `distDirectory`        | `string`            | The absolute path to the project output directory                | In `onPrepare` (and later)   |
 | `sharedDirectory`      | `string`            | The absolute path to the shared modules directory                | -                            |
 | `nodeModulesDirectory` | `string`            | The absolute path to the `node_modules` directory                | -                            |
 | `ip`                   | `string`            | The IPv4 address of the current machine                          | -                            |
@@ -106,18 +106,13 @@ api.onPrepare(() => {
 Gets the final configuration after internal processing by Modern.js and modifications by plugins (normalized configuration).
 
 - **Returns:** The normalized configuration object.
-- **When Available:** Must be used after the `modifyResolvedConfig` hook.
+- **When Available:** Must be used in `onPrepare` (and later hooks, such as `onBeforeBuild`).
 - **Example:**
 
 ```typescript
-api.modifyResolvedConfig(resolvedConfig => {
-  // ... Modify the configuration ...
-  return resolvedConfig;
-});
-
-api.onBeforeBuild(() => {
+api.onPrepare(() => {
   const finalConfig = api.getNormalizedConfig();
-  console.log('Final build configuration:', finalConfig);
+  console.log('Final configuration:', finalConfig);
 });
 ```
 

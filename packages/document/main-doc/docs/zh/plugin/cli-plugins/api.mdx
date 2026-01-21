@@ -46,7 +46,7 @@ export default myCliPlugin;
 | `isProd`               | `boolean`           | 是否为生产模式                                     | -                           |
 | `appDirectory`         | `string`            | 项目根目录的绝对路径                               | -                           |
 | `srcDirectory`         | `string`            | 项目源码目录的绝对路径                             | -                           |
-| `distDirectory`        | `string`            | 项目产物输出目录的绝对路径                         | `modifyResolvedConfig` 之后 |
+| `distDirectory`        | `string`            | 项目产物输出目录的绝对路径                         | `onPrepare`（及之后）       |
 | `sharedDirectory`      | `string`            | 公共模块目录的绝对路径                             | -                           |
 | `nodeModulesDirectory` | `string`            | `node_modules` 目录的绝对路径                      | -                           |
 | `ip`                   | `string`            | 当前机器的 IPv4 地址                               | -                           |
@@ -102,18 +102,13 @@ api.onPrepare(() => {
 获取经过 Modern.js 内部处理和插件修改后的最终配置（归一化配置）。
 
 - **返回值：** 归一化后的配置对象。
-- **何时可用：** 必须在 `modifyResolvedConfig` 钩子之后使用。
+- **何时可用：** 必须在 `onPrepare`（及之后的 hook，例如 `onBeforeBuild`）中使用。
 - **示例：**
 
 ```typescript
-api.modifyResolvedConfig(resolvedConfig => {
-  // ... 修改配置 ...
-  return resolvedConfig;
-});
-
-api.onBeforeBuild(() => {
+api.onPrepare(() => {
   const finalConfig = api.getNormalizedConfig();
-  console.log('最终构建配置：', finalConfig);
+  console.log('最终配置：', finalConfig);
 });
 ```
 
