@@ -86,7 +86,10 @@ export const pluginEnvironmentDefaults = (
         environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
       if (isServiceWorker) {
-        chain.output.libraryTarget('commonjs2');
+        chain.output.library({
+          ...(chain.output.get('library') || {}),
+          type: 'commonjs2',
+        });
       }
     });
   },

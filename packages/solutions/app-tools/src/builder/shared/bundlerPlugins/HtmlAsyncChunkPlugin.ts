@@ -13,7 +13,9 @@ export class HtmlAsyncChunkPlugin {
 
   apply(compiler: Rspack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
-      const hooks = this.htmlWebpackPlugin.getHooks(compilation as any);
+      const hooks = this.htmlWebpackPlugin.getCompilationHooks(
+        compilation as any,
+      );
 
       hooks.alterAssetTagGroups.tap(this.name, assets => {
         const headTags: typeof assets.headTags = [];
