@@ -2,7 +2,6 @@
   "name": "@modern-js/plugin-i18n",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
-  "type": "module",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
     "type": "git",
@@ -20,9 +19,9 @@
   "engines": {
     "node": ">=20"
   },
-  "types": "./src/cli/index.ts",
-  "main": "./dist/cjs/cli/index.cjs",
-  "module": "./dist/esm/cli/index.js",
+  "types": "./dist/types/cli/index.d.ts",
+  "main": "./dist/cjs/cli/index.js",
+  "module": "./dist/esm/cli/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/cli/index.d.ts",
@@ -31,25 +30,38 @@
     "./package.json": "./package.json",
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
-      "default": "./dist/cjs/cli/index.cjs"
+      "node": {
+        "require": "./dist/cjs/cli/index.js",
+        "import": "./dist/esm-node/cli/index.mjs"
+      },
+      "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "import": "./dist/esm/runtime/index.js",
-      "node": "./dist/esm-node/runtime/index.js",
-      "default": "./dist/esm/runtime/index.js"
+      "node": {
+        "require": "./dist/cjs/runtime/index.js",
+        "import": "./dist/esm-node/runtime/index.mjs"
+      },
+      "import": "./dist/esm/runtime/index.mjs",
+      "default": "./dist/cjs/runtime/index.js"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
-      "import": "./dist/esm/server/index.js",
-      "node": "./dist/esm-node/server/index.js",
-      "default": "./dist/esm/server/index.js"
+      "node": {
+        "require": "./dist/cjs/server/index.js",
+        "import": "./dist/esm-node/server/index.mjs"
+      },
+      "import": "./dist/esm/server/index.mjs",
+      "default": "./dist/cjs/server/index.js"
     },
     "./i18n": {
       "types": "./dist/types/runtime/i18n/index.d.ts",
-      "import": "./dist/esm/runtime/i18n/index.js",
-      "node": "./dist/esm-node/runtime/i18n/index.js",
-      "default": "./dist/esm/runtime/i18n/index.js"
+      "node": {
+        "require": "./dist/cjs/runtime/i18n/index.js",
+        "import": "./dist/esm-node/runtime/i18n/index.mjs"
+      },
+      "import": "./dist/esm/runtime/i18n/index.mjs",
+      "default": "./dist/cjs/runtime/i18n/index.js"
     }
   },
   "typesVersions": {

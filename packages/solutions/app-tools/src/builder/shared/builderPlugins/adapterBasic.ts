@@ -20,12 +20,15 @@ export const builderPluginAdapterBasic = (
 
       if (target === 'web') {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
+        const depExt = process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
         chain.module
           .rule('bare-server-module')
           .test(bareServerModuleReg)
           .use('server-module-loader')
-          .loader(require.resolve('../loaders/serverModuleLoader'));
+          .loader(
+            path.join(__dirname, `../loaders/serverModuleLoader.${depExt}`),
+          );
       }
 
       const { appContext } = options;

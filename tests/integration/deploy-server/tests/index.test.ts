@@ -10,6 +10,17 @@ describe('deploy', () => {
     await modernBuild(appDir, [], {});
   });
 
+  afterEach(async () => {
+    // local test will copy some lib files to /compiled, this is a mistake, we will manually delete it temporarily.
+    await fse.remove(path.join(appDir, 'compiled'));
+  });
+
+  afterAll(async () => {
+    await fse.remove(path.join(appDir, '.vercel'));
+    await fse.remove(path.join(appDir, '.netlify'));
+    await fse.remove(path.join(appDir, '.output'));
+  });
+
   test('support server when deploy target is node', async () => {
     await execa('npx modern deploy --skip-build', {
       shell: true,

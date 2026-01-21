@@ -52,6 +52,10 @@
     "./universal": {
       "modern:source": "./src/universal/index.ts",
       "import": "./dist/esm/universal/index.mjs",
+      "node": {
+        "require": "./dist/cjs/universal/index.js",
+        "import": "./dist/esm-node/universal/index.mjs"
+      },
       "default": "./dist/cjs/universal/index.js"
     },
     "./universal/constants": {
@@ -64,14 +68,20 @@
       "import": "./dist/esm/universal/pluginDagSort.mjs",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
-    "./commander": "./compiled/commander/index.js",
+    "./commander": {
+      "import": "./compiled/commander/index.mjs",
+      "default": "./compiled/commander/index.js"
+    },
     "./ora": "./compiled/ora/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
     "./execa": "./compiled/execa/index.js",
     "./json5": "./compiled/json5/index.js",
     "./semver": "./compiled/semver/index.js",
-    "./lodash": "./compiled/lodash/index.js",
+    "./lodash": {
+      "import": "./compiled/lodash/index.mjs",
+      "default": "./compiled/lodash/index.js"
+    },
     "./globby": "./compiled/globby/index.js",
     "./fs-extra": "./compiled/fs-extra/index.js",
     "./fast-glob": "./compiled/fast-glob/index.js",
@@ -79,66 +89,15 @@
     "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js",
     "./browserslist": "./compiled/browserslist/index.js",
-    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
+    "./tsconfig-paths": {
+      "import": "./compiled/tsconfig-paths/index.mjs",
+      "default": "./compiled/tsconfig-paths/index.js"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts",
-    "exports": {
-      ".": {
-        "types": "./dist/types/index.d.ts",
-        "import": "./dist/esm-node/index.mjs",
-        "default": "./dist/cjs/index.js"
-      },
-      "./logger": {
-        "types": "./dist/types/cli/logger.d.ts",
-        "default": "./dist/cjs/cli/logger.js"
-      },
-      "./require": {
-        "import": "./dist/esm/cli/require.js",
-        "default": "./dist/cjs/cli/require.js"
-      },
-      "./env": {
-        "import": "./dist/esm/cli/is/env.js",
-        "default": "./dist/cjs/cli/is/env.js"
-      },
-      "./chain-id": {
-        "types": "./dist/types/cli/constants/chainId.d.ts",
-        "default": "./dist/cjs/cli/constants/chainId.js"
-      },
-      "./universal": {
-        "types": "./dist/types/universal/index.d.ts",
-        "import": "./dist/esm/universal/index.mjs",
-        "default": "./dist/cjs/universal/index.js"
-      },
-      "./universal/constants": {
-        "types": "./dist/types/universal/constants.d.ts",
-        "import": "./dist/esm/universal/constants.mjs",
-        "default": "./dist/cjs/universal/constants.js"
-      },
-      "./universal/plugin-dag-sort": {
-        "types": "./dist/types/universal/pluginDagSort.d.ts",
-        "import": "./dist/esm/universal/pluginDagSort.mjs",
-        "default": "./dist/cjs/universal/pluginDagSort.js"
-      },
-      "./commander": "./dist/compiled/commander/index.js",
-      "./ora": "./dist/compiled/ora/index.js",
-      "./glob": "./dist/compiled/glob/index.js",
-      "./chalk": "./dist/compiled/chalk/index.js",
-      "./execa": "./dist/compiled/execa/index.js",
-      "./json5": "./dist/compiled/json5/index.js",
-      "./semver": "./dist/compiled/semver/index.js",
-      "./lodash": "./dist/compiled/lodash/index.js",
-      "./globby": "./dist/compiled/globby/index.js",
-      "./fs-extra": "./dist/compiled/fs-extra/index.js",
-      "./fast-glob": "./dist/compiled/fast-glob/index.js",
-      "./gzip-size": "./dist/compiled/gzip-size/index.js",
-      "./mime-types": "./dist/compiled/mime-types/index.js",
-      "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
-      "./browserslist": "./dist/compiled/browserslist/index.js",
-      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js"
-    }
+    "types": "./dist/types/index.d.ts"
   },
   "typesVersions": {
     "*": {
@@ -222,7 +181,9 @@
   "dependencies": {
     "@swc/helpers": "^0.5.17",
     "caniuse-lite": "^1.0.30001520",
+    "import-meta-resolve": "^4.2.0",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.22",
     "rslog": "^1.3.2"
   },
   "devDependencies": {

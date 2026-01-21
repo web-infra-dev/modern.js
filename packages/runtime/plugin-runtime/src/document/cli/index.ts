@@ -433,13 +433,14 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     }
 
     api.config(() => {
-      const documentPath = require.resolve('../');
+      const documentPath = path.join(__dirname, '..', 'index.mjs');
       return {
         resolve: {
           alias: {
-            '@meta/runtime/document$': documentPath
-              .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
-              .replace(/.js$/, '.mjs'),
+            '@meta/runtime/document$': documentPath.replace(
+              `${path.sep}cjs${path.sep}`,
+              `${path.sep}esm${path.sep}`,
+            ),
           },
         },
         tools: {

@@ -4,7 +4,7 @@
   "version": "2.66.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS='--no-experimental-require-module' modern dev",
+    "dev": "modern dev",
     "dev:bff": "modern dev --api-only",
     "build": "modern build",
     "serve": "modern serve",

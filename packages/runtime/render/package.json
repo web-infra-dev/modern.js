@@ -51,14 +51,26 @@
   "exports": {
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
+      "node": {
+        "import": "./dist/esm-node/server/ssr/index.mjs",
+        "require": "./dist/cjs/server/ssr/index.js"
+      },
       "default": "./dist/esm/server/ssr/index.js"
     },
     "./rsc": {
       "types": "./dist/types/server/rsc/index.d.ts",
+      "node": {
+        "import": "./dist/esm-node/server/rsc/index.mjs",
+        "require": "./dist/cjs/server/rsc/index.js"
+      },
       "default": "./dist/esm/server/rsc/index.js"
     },
     "./client": {
       "types": "./dist/types/client/index.d.ts",
+      "node": {
+        "import": "./dist/esm-node/client/index.mjs",
+        "require": "./dist/cjs/client/index.js"
+      },
       "default": "./dist/esm/client/index.js"
     }
   },

@@ -6,7 +6,7 @@ import type {
 import type { ReactNode } from 'react';
 import type { ReactDOMServerReadableStream } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server.edge';
-import { ServerElementsProvider } from '../../client';
+import { ServerElementsProvider } from '../../client/index';
 
 type Options = {
   request: Request;
@@ -41,7 +41,7 @@ export const renderSSRStream = async (
   try {
     const [{ renderRsc }, { createFromReadableStream }, { injectRSCPayload }] =
       await Promise.all([
-        import('../rsc'),
+        import('../rsc/index'),
         import('react-server-dom-webpack/client.edge'),
         import('../../rsc-html-stream/server'),
       ]);

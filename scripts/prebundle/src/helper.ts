@@ -1,5 +1,8 @@
 import { dirname, join } from 'path';
+import { pathToFileURL } from 'url';
 import fs from 'fs-extra';
+import { moduleResolve } from 'import-meta-resolve';
+import pkgUp from 'pkg-up';
 import { DIST_DIR, PACKAGES_DIR, TASKS } from './constant';
 import type { ParsedTask } from './types';
 
@@ -17,21 +20,54 @@ export function findDepPath(name: string) {
   return entry;
 }
 
-export function parseTasks() {
+const resolveESMDependency = (entry: string) => {
+  const conditions = new Set(['node', 'import', 'module', 'default']);
+  try {
+    return moduleResolve(
+      entry,
+      pathToFileURL(`${__dirname}/`),
+      conditions,
+      false,
+    ).pathname.replace(/^\/(\w)\:/, '$1:');
+  } catch (err) {
+    // ignore
+  }
+};
+
+export async function parseTasks() {
   const result: ParsedTask[] = [];
 
-  TASKS.forEach(({ packageName, packageDir, dependencies }) => {
-    dependencies.forEach(dep => {
+  for (const { packageName, packageDir, dependencies } of TASKS) {
+    for (const dep of dependencies) {
       const depName = typeof dep === 'string' ? dep : dep.name;
       const importPath = join(packageName, DIST_DIR, depName);
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, depName);
       const depPath = findDepPath(depName);
       const depEntry = require.resolve(depName);
+      const resolvedEsmEntry = resolveESMDependency(depName);
+
+      let depEsmEntry = '';
+      if (resolvedEsmEntry) {
+        if (resolvedEsmEntry !== depEntry) {
+          depEsmEntry = resolvedEsmEntry;
+        } else {
+          // is esm package?
+          const pkg = await pkgUp({ cwd: dirname(resolvedEsmEntry) });
+          if (pkg) {
+            const pkgJson = await fs.readJSON(pkg);
+            if (pkgJson.type === 'module') {
+              depEsmEntry = resolvedEsmEntry;
+            }
+          }
+        }
+      }
+
       const info = {
         depName,
         depPath,
         depEntry,
+        depEsmEntry,
         distPath,
         importPath,
         packageDir,
@@ -61,8 +97,8 @@ export function parseTasks() {
           ...info,
         });
       }
-    });
-  });
+    }
+  }
 
   return result;
 }

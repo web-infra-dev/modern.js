@@ -48,7 +48,6 @@
     "browserslist": "4.28.1",
     "cssnano": "6.1.2",
     "html-minifier-terser": "^7.2.0",
-    "jiti": "1.21.7",
     "lodash": "^4.17.21",
     "postcss": "^8.5.6",
     "postcss-custom-properties": "13.3.12",

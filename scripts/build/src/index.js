@@ -69,7 +69,7 @@ const universalBuildConfig = [
   {
     buildType: 'bundleless',
     format: 'esm',
-    target: 'es5',
+    target: 'es2019',
     dts: false,
     outDir: './dist/esm',
     externalHelpers,
@@ -83,6 +83,7 @@ const universalBuildConfig = [
     outDir: './dist/esm-node',
     externalHelpers,
     transformLodash,
+    autoExtension: true,
   },
   skipDts
     ? null
