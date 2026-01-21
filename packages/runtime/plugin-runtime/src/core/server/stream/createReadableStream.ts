@@ -34,6 +34,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const root = sheet.collectStyles(rootElement);
 
+    // Create request-level Helmet context for react-helmet-async
+    const helmetContext = {};
+
     return new Promise(resolve => {
       const { pipe: reactStreamingPipe } = renderToPipeableStream(root, {
         nonce: config.nonce,
@@ -52,6 +55,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             config,
             entryName,
             styledComponentsStyleTags,
+            helmetContext,
           }).then(({ shellAfter, shellBefore }) => {
             const pendingScripts: string[] = [];
             const body = new Transform({
@@ -161,6 +165,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             runtimeContext,
             entryName,
             config,
+            helmetContext,
           }).then(({ shellAfter, shellBefore }) => {
             const fallbackHtml = `${shellBefore}${shellAfter}`;
 

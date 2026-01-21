@@ -30,6 +30,7 @@ export type CreateReadableStreamFromElementOptions = {
   onShellError?: (error: unknown) => void;
   onAllReady?: () => void;
   onError: OnError;
+  helmetContext?: Record<string, unknown>;
 };
 
 export type CreateReadableStreamFromElement = (
