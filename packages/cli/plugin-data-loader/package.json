@@ -19,19 +19,16 @@
   "engines": {
     "node": ">=20"
   },
-  "jsnext:source": "./src/runtime/index.ts",
   "types": "./src/runtime/index.ts",
   "main": "./dist/cjs/runtime/index.js",
   "module": "./dist/esm/runtime/index.mjs",
   "exports": {
     "./loader": {
       "types": "./dist/types/cli/loader.d.ts",
-      "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.mjs"
     }
   },

@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm-node/index.mjs",
@@ -24,18 +23,15 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "modern:source": "./src/index.ts",
-      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
       "modern:source": "./src/adapters/node/index.ts",
-      "jsnext:source": "./src/adapters/node/index.ts",
       "default": "./dist/cjs/adapters/node/index.js"
     },
     "./hono": {
       "types": "./dist/types/hono.d.ts",
-      "jsnext:source": "./src/hono.ts",
       "default": "./dist/cjs/hono.js"
     }
   },
