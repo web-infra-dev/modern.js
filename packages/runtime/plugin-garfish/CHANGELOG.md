@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 2.70.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.70.3
+- @modern-js/plugin-v2@2.70.3
+- @modern-js/runtime-utils@2.70.3
+- @modern-js/utils@2.70.3
+
 ## 2.70.2
 
 ### Patch Changes
