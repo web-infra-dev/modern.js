@@ -1,4 +1,3 @@
-import type { AliasOption } from '@modern-js/utils';
 import type {
   ConfigChain,
   ConfigChainWithContext,
@@ -169,8 +168,6 @@ export type BuilderExtraConfig = {
   };
   source?: {
     transformImport?: SourceConfig['transformImport'] | false;
-    // TODO: need to support rsbuild alias type in server/utils
-    alias?: AliasOption;
     /**
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
