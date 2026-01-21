@@ -35,7 +35,7 @@ export default {
           name: 'plugin-runtime-node',
           setup: api => {
             api.transform(
-              { test: /document\/cli\/index.ts$/ },
+              { test: /document[\\/]+cli[\\/]+index\.ts$/ },
               ({ code }: { code: string }) => {
                 return code.replace(
                   "require.resolve('../')",
