@@ -20,39 +20,33 @@
   "engines": {
     "node": ">=20"
   },
-  "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.cjs",
   "module": "./dist/esm/cli/index.js",
   "exports": {
     ".": {
       "types": "./dist/types/cli/index.d.ts",
-      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.cjs"
     },
     "./package.json": "./package.json",
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
-      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.cjs"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
       "import": "./dist/esm/runtime/index.js",
       "node": "./dist/esm-node/runtime/index.js",
       "default": "./dist/esm/runtime/index.js"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
-      "jsnext:source": "./src/server/index.ts",
       "import": "./dist/esm/server/index.js",
       "node": "./dist/esm-node/server/index.js",
       "default": "./dist/esm/server/index.js"
     },
     "./i18n": {
       "types": "./dist/types/runtime/i18n/index.d.ts",
-      "jsnext:source": "./src/runtime/i18n/index.ts",
       "import": "./dist/esm/runtime/i18n/index.js",
       "node": "./dist/esm-node/runtime/i18n/index.js",
       "default": "./dist/esm/runtime/i18n/index.js"
@@ -81,7 +75,7 @@
     "dev": "rslib build --watch",
     "prepublishOnly": "only-allow-pnpm",
     "build": "rslib build",
-    "test": "jest"
+    "test": "rstest"
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
@@ -117,8 +111,7 @@
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",

@@ -32,7 +32,7 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
@@ -51,17 +51,14 @@
   "exports": {
     "./ssr": {
       "types": "./dist/types/server/ssr/index.d.ts",
-      "jsnext:source": "./src/server/ssr/index.ts",
       "default": "./dist/esm/server/ssr/index.js"
     },
     "./rsc": {
       "types": "./dist/types/server/rsc/index.d.ts",
-      "jsnext:source": "./src/server/rsc/index.ts",
       "default": "./dist/esm/server/rsc/index.js"
     },
     "./client": {
       "types": "./dist/types/client/index.d.ts",
-      "jsnext:source": "./src/client/index.tsx",
       "default": "./dist/esm/client/index.js"
     }
   },

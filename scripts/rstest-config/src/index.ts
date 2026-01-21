@@ -17,6 +17,14 @@ export const testPreset = defineConfig({
 });
 
 export const withTestPreset = (config: RstestConfig) => {
+  if (config.projects?.length) {
+    return defineConfig({
+      ...config,
+      projects: config.projects.map(projectConfig =>
+        mergeRstestConfig(testPreset, projectConfig),
+      ),
+    });
+  }
   const mergedConfig = mergeRstestConfig(testPreset, config);
   return defineConfig(mergedConfig);
 };

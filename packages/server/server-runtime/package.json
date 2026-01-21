@@ -16,14 +16,13 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
+      "modern:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -32,7 +31,6 @@
     },
     "./cache": {
       "types": "./dist/types/cache.d.ts",
-      "jsnext:source": "./src/cache.ts",
       "node": {
         "import": "./dist/esm-node/cache.mjs",
         "require": "./dist/cjs/cache.js"
@@ -65,7 +63,7 @@
   "devDependencies": {
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

@@ -16,7 +16,7 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/node.ts",
+  "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
   "module": "./dist/esm/node.mjs",
@@ -28,22 +28,22 @@
   "exports": {
     ".": {
       "types": "./dist/types/browser.d.ts",
-      "jsnext:source": "./src/browser.ts",
+      "modern:source": "./src/browser.ts",
       "node": "./dist/esm-node/node.mjs",
       "default": "./dist/esm/browser.mjs"
     },
     "./client": {
       "types": "./dist/types/browser.d.ts",
-      "jsnext:source": "./src/browser.ts",
+      "modern:source": "./src/browser.ts",
       "default": "./dist/esm/browser.mjs"
     },
     "./modern": {
-      "jsnext:source": "./src/browser.ts",
+      "modern:source": "./src/browser.ts",
       "default": "./dist/esm-node/browser.mjs"
     },
     "./server": {
       "types": "./dist/types/node.d.ts",
-      "jsnext:source": "./src/node.ts",
+      "modern:source": "./src/node.ts",
       "node": {
         "import": "./dist/esm-node/node.mjs",
         "require": "./dist/cjs/node.js"
@@ -52,12 +52,12 @@
     },
     "./browser": {
       "types": "./dist/types/browser.d.ts",
-      "jsnext:source": "./src/browser.ts",
+      "modern:source": "./src/browser.ts",
       "default": "./dist/esm/browser.mjs"
     },
     "./default": {
       "types": "./dist/types/node.d.ts",
-      "jsnext:source": "./src/node.ts",
+      "modern:source": "./src/node.ts",
       "node": {
         "import": "./dist/esm-node/node.mjs",
         "require": "./dist/cjs/node.js"
@@ -66,7 +66,7 @@
     },
     "./qs": {
       "types": "./dist/types/qs.d.ts",
-      "jsnext:source": "./src/qs.ts",
+      "modern:source": "./src/qs.ts",
       "default": "./dist/cjs/qs.js"
     }
   },
@@ -113,7 +113,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.13",

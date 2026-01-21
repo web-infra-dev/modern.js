@@ -24,7 +24,6 @@
     },
     "./server": {
       "types": "./server/index.d.ts",
-      "jsnext:source": "./server/index.d.ts",
       "default": "./server/index.d.ts"
     }
   },

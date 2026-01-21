@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -34,7 +33,6 @@
     ".": {
       "node": {
         "modern:source": "./src/index.ts",
-        "jsnext:source": "./src/index.ts",
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
@@ -43,7 +41,7 @@
     },
     "./language-detector": {
       "node": {
-        "jsnext:source": "./src/languageDetector.ts",
+        "modern:source": "./src/languageDetector.ts",
         "import": "./dist/esm-node/languageDetector.mjs",
         "require": "./dist/cjs/languageDetector.js"
       },
@@ -62,7 +60,7 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",

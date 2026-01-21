@@ -6,7 +6,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "paths": {},
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": ["src"]
 }

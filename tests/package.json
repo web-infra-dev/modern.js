@@ -10,7 +10,6 @@
     "test:builder:rspack": "cd e2e/builder && pnpm test",
     "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
     "test": "pnpm test:framework",
-    "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "prepare": "node node_modules/puppeteer/install.mjs"
   },
   "devDependencies": {
@@ -30,7 +29,7 @@
     "jest-environment-node": "^29.7.0",
     "jest-puppeteer": "^11.0.0",
     "kill-port": "^2.0.1",
-    "puppeteer": "^24.34.0",
+    "puppeteer": "^24.35.0",
     "rimraf": "^6.1.2",
     "tree-kill": "^1.2.2",
     "ts-node": "^10.9.2",

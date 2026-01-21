@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import path from 'path';
 import { hasAction, hasLoader } from '../../src/router/cli/code/utils';
 

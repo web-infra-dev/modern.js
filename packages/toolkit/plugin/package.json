@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm-node/index.mjs",
@@ -25,7 +24,6 @@
       "types": "./dist/types/index.d.ts",
       "node": {
         "modern:source": "./src/index.ts",
-        "jsnext:source": "./src/index.ts",
         "import": "./dist/esm/index.mjs",
         "require": "./dist/cjs/index.js"
       },
@@ -33,19 +31,16 @@
     },
     "./run": {
       "types": "./dist/types/cli/run/index.d.ts",
-      "jsnext:source": "./src/cli/run/index.ts",
       "default": "./dist/cjs/cli/run/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "modern:source": "./src/cli/index.ts",
-      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "modern:source": "./src/runtime/index.tsx",
-      "jsnext:source": "./src/runtime/index.tsx",
       "node": {
         "import": "./dist/esm/runtime/index.mjs",
         "require": "./dist/cjs/runtime/index.js"
@@ -55,7 +50,6 @@
     "./server": {
       "types": "./dist/types/server/index.d.ts",
       "modern:source": "./src/server/index.ts",
-      "jsnext:source": "./src/server/index.ts",
       "node": {
         "require": "./dist/cjs/server/index.js",
         "default": "./dist/cjs/server/index.js"
@@ -100,7 +94,7 @@
     "@modern-js/builder": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.2.8",
-    "@rslib/core": "0.19.1",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },

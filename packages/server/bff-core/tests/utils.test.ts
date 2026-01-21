@@ -7,7 +7,7 @@ describe('utils', () => {
       '@api': '/api/lambda',
       '@api/service': '/api/service',
     };
-    const spy = jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+    const spy = rstest.spyOn(fs, 'existsSync').mockReturnValue(true);
     const matchPath = createMatchPath(mockPaths);
     const helloPath = matchPath('@api/hello');
     expect(helloPath).toBe('/api/lambda/hello');

@@ -16,14 +16,12 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -32,7 +30,6 @@
     },
     "./builder": {
       "types": "./dist/types/builder/index.d.ts",
-      "jsnext:source": "./src/builder/index.ts",
       "node": {
         "import": "./dist/esm-node/builder/index.mjs",
         "require": "./dist/cjs/builder/index.js"
@@ -41,7 +38,6 @@
     },
     "./cli": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -50,7 +46,6 @@
     },
     "./cli/run": {
       "types": "./dist/types/run/index.d.ts",
-      "jsnext:source": "./src/run/index.ts",
       "node": {
         "import": "./dist/esm-node/run/index.mjs",
         "require": "./dist/cjs/run/index.js"
@@ -59,12 +54,10 @@
     },
     "./types": {
       "types": "./lib/types.d.ts",
-      "jsnext:source": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
     },
     "./server": {
       "types": "./dist/types/exports/server.d.ts",
-      "jsnext:source": "./src/exports/server.ts",
       "node": {
         "import": "./dist/esm-node/exports/server.mjs",
         "require": "./dist/cjs/exports/server.js"
@@ -105,12 +98,12 @@
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
     "build": "rslib build",
-    "test": "jest --passWithNoTests"
+    "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.28.5",
-    "@babel/traverse": "^7.28.5",
-    "@babel/types": "^7.28.5",
+    "@babel/parser": "^7.28.6",
+    "@babel/traverse": "^7.28.6",
+    "@babel/types": "^7.28.6",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
@@ -128,18 +121,16 @@
     "esbuild-register": "^3.6.0",
     "flatted": "^3.3.3",
     "mlly": "^1.8.0",
-    "ndepe": "^0.1.12",
+    "ndepe": "^0.1.13",
     "pkg-types": "^1.3.1",
     "std-env": "^3.10.0"
   },
   "devDependencies": {
-    "@scripts/jest-config": "workspace:*",
-    "@rslib/core": "0.19.1",
+    "@scripts/rstest-config": "workspace:*",
+    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__traverse": "7.28.0",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5"

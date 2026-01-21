@@ -58,7 +58,7 @@
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
-    "rspack-manifest-plugin": "5.2.0",
+    "rspack-manifest-plugin": "5.2.1",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.23",
     "react": "^19.2.3",
-    "terser": "^5.44.1",
+    "terser": "^5.46.0",
     "typescript": "^5.3.0"
   },
   "publishConfig": {

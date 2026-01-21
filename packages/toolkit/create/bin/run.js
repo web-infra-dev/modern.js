@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const require = createRequire(import.meta.url);
 
 const pkgInfo = require(path.join(__dirname, '../package.json'));
-const srcPath = pkgInfo['jsnext:source'];
+const srcPath = pkgInfo['modern:source'];
 const distPath = pkgInfo.main;
 const project = path.join(__dirname, '../tsconfig.json');
 

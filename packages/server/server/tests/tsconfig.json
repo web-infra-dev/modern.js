@@ -4,8 +4,11 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
+    "noEmit": true,
     "isolatedModules": true,
-    "sourceMap": true
+    "allowImportingTsExtensions": true,
+    "sourceMap": true,
+    "types": ["@rstest/core/globals"]
   },
   "paths": {},
   "exclude": ["src/__test__/fixtures/**"]

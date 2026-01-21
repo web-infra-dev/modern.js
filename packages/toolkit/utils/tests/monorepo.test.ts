@@ -3,7 +3,7 @@ import { isPnpmWorkspaces } from '../src';
 
 describe('isPnpmWorkspaces', () => {
   test('should return correct result', () => {
-    const mockExistsSync = jest
+    const mockExistsSync = rstest
       .spyOn(fs, 'existsSync')
       .mockImplementation(
         input =>

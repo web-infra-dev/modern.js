@@ -7,7 +7,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "sourceMap": true,
-    "types": ["node", "jest"],
+    "types": ["node", "@rstest/core/globals"],
     "paths": {}
   }
 }
