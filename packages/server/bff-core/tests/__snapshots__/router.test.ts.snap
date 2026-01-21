@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`test api router getAllApiHandlers 1`] = `
+exports[`test api router > getAllApiHandlers 1`] = `
 [
   "/normal/origin/bar",
   "/normal/origin/bar",

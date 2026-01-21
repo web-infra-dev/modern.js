@@ -16,14 +16,12 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     }
   },
@@ -31,7 +29,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "dev": "rslib build --watch",
     "build": "rslib build",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
@@ -42,11 +40,9 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29.5.14",
+    "@scripts/rstest-config": "workspace:*",
     "@types/koa-compose": "^3.2.9",
     "@types/node": "^20",
-    "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "@rslib/core": "0.19.2",

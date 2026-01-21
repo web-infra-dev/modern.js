@@ -99,7 +99,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "test": "jest --passWithNoTests"
+    "test": "rstest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/bff-core": "workspace:*",
@@ -118,15 +118,12 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "1.7.2",
-    "@scripts/jest-config": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/type-is": "^1.6.7",
-    "jest": "^29.7.0",
     "memfs": "^3.5.3",
-    "ts-jest": "^29.4.6",
     "typescript": "^5",
     "zod": "^3.25.76"
   },

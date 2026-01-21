@@ -1,10 +1,12 @@
 import type { RouteLegacy } from '@modern-js/types/cli';
+import * as utils from '@modern-js/utils' with { rstest: 'importActual' };
+
 import {
   fileSystemRoutes,
   routesForServer,
 } from '../../src/router/cli/code/templates';
 
-jest.mock('@modern-js/utils', () => {
+rstest.mock('@modern-js/utils', () => {
   const fs = {
     writeFile() {},
     writeJSON() {},
@@ -12,7 +14,7 @@ jest.mock('@modern-js/utils', () => {
   };
   return {
     __esModule: true,
-    ...jest.requireActual('@modern-js/utils'),
+    ...utils,
     fs,
   };
 });

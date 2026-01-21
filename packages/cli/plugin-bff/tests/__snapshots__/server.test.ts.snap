@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`bff server plugin prepareApiServer should work well 1`] = `
+exports[`bff server plugin > prepareApiServer > should work well 1`] = `
 [
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/hello.ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/hello.ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",
@@ -11,7 +11,7 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
     "routePath": "/hello",
   },
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/upload.ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/upload.ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",
@@ -19,7 +19,7 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
     "routePath": "/upload",
   },
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/user/[id].ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/user/[id].ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",
@@ -29,10 +29,10 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
 ]
 `;
 
-exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
+exports[`bff server plugin > prepareApiServer > should work well with prefix 1`] = `
 [
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/hello.ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/hello.ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",
@@ -40,7 +40,7 @@ exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
     "routePath": "/api/hello",
   },
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/upload.ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/upload.ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",
@@ -48,7 +48,7 @@ exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
     "routePath": "/api/upload",
   },
   {
-    "filename": "<ROOT>/fixtures/function/api/lambda/user/[id].ts",
+    "filename": "<WORKSPACE>/packages/cli/plugin-bff/tests/fixtures/function/api/lambda/user/[id].ts",
     "handler": [Function],
     "httpMethod": "GET",
     "name": "get",

@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import {
   type LoaderFunctionArgs,
   RouterProvider,
@@ -8,14 +5,13 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import React, { act } from 'react';
-import {
-  InternalRuntimeContext,
-  type TInternalRuntimeContext,
-} from '../../src/core/context';
+import { InternalRuntimeContext } from '../../src/core/context';
 import { Link } from '../../src/router';
 
 declare global {
-  var __webpack_chunk_load__: ((chunkId: string) => Promise<void>) | undefined;
+  var __webpack_chunk_load_test__:
+    | ((chunkId: string) => Promise<void>)
+    | undefined;
   var _SSR_DATA: unknown;
 }
 
@@ -33,26 +29,31 @@ const mockRoutes = [
   },
 ];
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
+rstest.mock('react', () => {
+  const originalModule = rstest.requireActual('react');
   const originContext = originalModule.useContext;
+  const mockedUseContext = (context: unknown) => {
+    // Mock both contexts using string comparison as fallback
+    const contextString = context.toString();
+
+    if (
+      context === InternalRuntimeContext ||
+      contextString.includes('InternalRuntimeContext')
+    ) {
+      return {
+        routes: mockRoutes,
+        routeManifest: mockRouteManifest,
+      };
+    }
+
+    return originContext(context);
+  };
   return {
     ...originalModule,
-    useContext: (context: unknown) => {
-      // Mock both contexts using string comparison as fallback
-      const contextString = context.toString();
-
-      if (
-        context === InternalRuntimeContext ||
-        contextString.includes('InternalRuntimeContext')
-      ) {
-        return {
-          routes: mockRoutes,
-          routeManifest: mockRouteManifest,
-        };
-      }
-
-      return originContext(context);
+    useContext: mockedUseContext,
+    default: {
+      ...originalModule,
+      useContext: mockedUseContext,
     },
   };
 });
@@ -73,10 +74,10 @@ const mockRouteManifest = {
 describe('prefetch', () => {
   const intentEvents = ['focus', 'mouseEnter', 'touchStart'] as const;
   beforeEach(() => {
-    jest.useFakeTimers();
-    jest.resetModules();
-    jest.clearAllMocks();
-    global.__webpack_chunk_load__ = jest.fn();
+    rstest.useFakeTimers();
+    rstest.resetModules();
+    rstest.clearAllMocks();
+    global.__webpack_chunk_load_test__ = rstest.fn();
     global._SSR_DATA = {};
   });
 
@@ -93,10 +94,10 @@ describe('prefetch', () => {
       fireEvent.mouseEnter(container.firstChild!);
 
       act(() => {
-        jest.runAllTimers();
+        rstest.runAllTimers();
       });
 
-      expect(global.__webpack_chunk_load__).toBeCalledTimes(1);
+      expect(global.__webpack_chunk_load_test__).toBeCalledTimes(1);
       const dataHref = document.head
         .querySelector('link[rel="prefetch"][as="fetch"]')
         ?.getAttribute('href');
@@ -122,23 +123,6 @@ describe('prefetch', () => {
       },
     ];
 
-    jest.mock('react', () => {
-      const originalModule = jest.requireActual('react');
-      const originContext = originalModule.useContext;
-      return {
-        ...originalModule,
-        useContext: (context: unknown) => {
-          if (context === InternalRuntimeContext) {
-            return {
-              routes: mockRoutes,
-              routeManifest: mockRouteManifest,
-            };
-          }
-          return originContext(context);
-        },
-      };
-    });
-
     let router;
     act(() => {
       router = createMemoryRouter(mockRoutes);
@@ -148,11 +132,13 @@ describe('prefetch', () => {
     );
 
     act(() => {
-      jest.runAllTimers();
+      rstest.runAllTimers();
     });
 
+    rstest.useRealTimers();
+
     await waitFor(() => {
-      expect(global.__webpack_chunk_load__).toBeCalledTimes(1);
+      expect(global.__webpack_chunk_load_test__).toBeCalledTimes(1);
       const dataHref = document.head
         .querySelector('link[rel="prefetch"][as="fetch"]')
         ?.getAttribute('href');

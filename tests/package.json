@@ -10,7 +10,6 @@
     "test:builder:rspack": "cd e2e/builder && pnpm test",
     "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
     "test": "pnpm test:framework",
-    "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "prepare": "node node_modules/puppeteer/install.mjs"
   },
   "devDependencies": {

@@ -9,7 +9,6 @@ import {
 } from '@modern-js/server-core';
 import { assign } from '@modern-js/utils/lodash';
 import plugin from '../src/server';
-import './helper';
 
 const noop = () => {};
 

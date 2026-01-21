@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`client generateClient should support cross croject invocation 1`] = `
+exports[`client > generateClient should support cross project invocation 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/client';
 
 export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName', requestId: 'tests'});
@@ -9,7 +9,7 @@ export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port:
       "
 `;
 
-exports[`client generateClient should support operator 1`] = `
+exports[`client > generateClient should support operator 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/client';
 
 export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port: 3000,httpMethodDecider: 'functionName'});
@@ -18,7 +18,7 @@ export var DELETE = createRequest({path: '/normal/origin',method: 'DELETE',port:
       "
 `;
 
-exports[`client generateClient should works correctly 1`] = `
+exports[`client > generateClient should works correctly 1`] = `
 "import { createRequest } from '@modern-js/plugin-bff/client';
 
 export var get = createRequest({path: '/api/:id/origin/foo',method: 'GET',port: 3000,httpMethodDecider: 'functionName'});

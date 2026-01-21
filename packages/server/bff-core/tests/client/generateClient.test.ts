@@ -5,17 +5,6 @@ import { generateClient } from '../../src/client/generateClient';
 const PWD = path.resolve(__dirname, '../fixtures/function');
 
 describe('client', () => {
-  beforeAll(() => {
-    jest.mock(
-      '@modern-js/create-request',
-      () => ({
-        __esModule: true,
-        createRequest: () => {},
-      }),
-      { virtual: true },
-    );
-  });
-
   test('generateClient should works correctly', async () => {
     const prefix = '/api';
     const port = 3000;
@@ -44,7 +33,7 @@ describe('client', () => {
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,
-      '../fixtures/function/lambda/normal/origin/index.ts',
+      '../fixtures/function/lambda/normal/origin/index.js',
     );
     const source = await fs.readFile(resourcePath, 'utf-8');
 
@@ -62,12 +51,12 @@ describe('client', () => {
     expect(result.value).toMatchSnapshot();
   });
 
-  test('generateClient should support cross croject invocation', async () => {
+  test('generateClient should support cross project invocation', async () => {
     const prefix = '/';
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,
-      '../fixtures/function/lambda/normal/origin/index.ts',
+      '../fixtures/function/lambda/normal/origin/index.js',
     );
     const source = await fs.readFile(resourcePath, 'utf-8');
 

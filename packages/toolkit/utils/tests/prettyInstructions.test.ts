@@ -60,8 +60,8 @@ const mockServerRoute = {
   isSSR: false,
 };
 
-jest.mock('os', () => {
-  const originalModule = jest.requireActual('os');
+rstest.mock('os', () => {
+  const originalModule = rstest.requireActual('os');
   return {
     __esModule: true,
     ...originalModule,
@@ -73,14 +73,22 @@ jest.mock('os', () => {
   };
 });
 
-jest.mock('../compiled/chalk', () => {
+rstest.mock('../compiled/chalk', () => {
   return {
-    blue: jest.fn(str => str),
-    bold: jest.fn(str => str),
-    green: jest.fn(str => str),
-    red: jest.fn(str => str),
-    yellow: jest.fn(str => str),
-    cyanBright: jest.fn(str => str),
+    default: {
+      blue: rstest.fn(str => str),
+      bold: rstest.fn(str => str),
+      green: rstest.fn(str => str),
+      red: rstest.fn(str => str),
+      yellow: rstest.fn(str => str),
+      cyanBright: rstest.fn(str => str),
+    },
+    blue: rstest.fn(str => str),
+    bold: rstest.fn(str => str),
+    green: rstest.fn(str => str),
+    red: rstest.fn(str => str),
+    yellow: rstest.fn(str => str),
+    cyanBright: rstest.fn(str => str),
   };
 });
 

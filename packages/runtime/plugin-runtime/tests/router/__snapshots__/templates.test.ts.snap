@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`fileSystemRoutes generate code 1`] = `
+exports[`fileSystemRoutes > generate code 1`] = `
 
     
     import { lazy } from "react";
@@ -72,7 +72,7 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
   
 `;
 
-exports[`fileSystemRoutes generate code for legacy router 1`] = `
+exports[`fileSystemRoutes > generate code for legacy router 1`] = `
 
     
     import { lazy } from "react";
@@ -104,7 +104,7 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
   
 `;
 
-exports[`routesForServer generate code for server 1`] = `
+exports[`routesForServer > generate code for server 1`] = `
 
     import loader_0 from "@_modern_js_src/routes/user/[id]/page.loader.ts";
 import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
