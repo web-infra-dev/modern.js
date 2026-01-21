@@ -67,7 +67,7 @@ export async function parseCommonConfig(
       ...outputConfig
     } = {},
     html: { outputStructure, appIcon, ...htmlConfig } = {},
-    source: { alias, globalVars, transformImport, ...sourceConfig } = {},
+    source: { globalVars, transformImport, ...sourceConfig } = {},
     dev = {},
     server = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
