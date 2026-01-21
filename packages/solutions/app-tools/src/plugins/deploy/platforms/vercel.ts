@@ -65,13 +65,18 @@ export const createVercelPreset: CreatePreset = (
       if (!needModernServer) {
         const {
           source: { mainEntryName },
+          html: { disableHtmlFolder, outputStructure },
         } = modernConfig;
         entrypoints.forEach(entry => {
           const isMain = isMainEntry(entry.entryName, mainEntryName);
+          const htmlPath =
+            disableHtmlFolder || outputStructure === 'flat'
+              ? `/html/${entry.entryName}.html`
+              : `/html/${entry.entryName}/index.html`;
           config.routes.push({
             src: `/${isMain ? '' : entry.entryName}(?:/.*)?`,
             headers: { 'cache-control': 's-maxage=0' },
-            dest: `/html/${entry.entryName}/index.html`,
+            dest: htmlPath,
           });
         });
       } else {
