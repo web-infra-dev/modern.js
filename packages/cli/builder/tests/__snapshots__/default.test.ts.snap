@@ -2,7 +2,18 @@
 
 exports[`builder rspack > should generator rspack config correctly 1`] = `
 {
-  "cache": true,
+  "cache": {
+    "buildDependencies": [
+      "<WORKSPACE>/packages/cli/builder/package.json",
+      "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+    ],
+    "storage": {
+      "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+      "type": "filesystem",
+    },
+    "type": "persistent",
+    "version": "web-development",
+  },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "cheap-module-source-map",
   "entry": {
@@ -13,23 +24,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "cache": {
-      "buildDependencies": [
-        "<WORKSPACE>/packages/cli/builder/package.json",
-        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-      ],
-      "storage": {
-        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-        "type": "filesystem",
-      },
-      "type": "persistent",
-      "version": "web-development",
-    },
-    "rspackFuture": {
-      "bundlerInfo": {
-        "force": false,
-      },
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1060,6 +1054,9 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "bundlerInfo": {
+      "force": false,
+    },
     "chunkFilename": "static/js/async/[name].js",
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
@@ -1251,7 +1248,18 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
 
 exports[`builder rspack > should generator rspack config correctly when node 1`] = `
 {
-  "cache": true,
+  "cache": {
+    "buildDependencies": [
+      "<WORKSPACE>/packages/cli/builder/package.json",
+      "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+    ],
+    "storage": {
+      "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+      "type": "filesystem",
+    },
+    "type": "persistent",
+    "version": "node-production",
+  },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "source-map",
   "entry": {
@@ -1261,24 +1269,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "cache": {
-      "buildDependencies": [
-        "<WORKSPACE>/packages/cli/builder/package.json",
-        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-      ],
-      "storage": {
-        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-        "type": "filesystem",
-      },
-      "type": "persistent",
-      "version": "node-production",
-    },
     "outputModule": true,
-    "rspackFuture": {
-      "bundlerInfo": {
-        "force": false,
-      },
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1979,6 +1970,9 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "bundlerInfo": {
+      "force": false,
+    },
     "chunkFilename": "[name].js",
     "chunkFormat": "module",
     "chunkLoading": "import",
@@ -2084,7 +2078,18 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
 
 exports[`builder rspack > should generator rspack config correctly when prod 1`] = `
 {
-  "cache": true,
+  "cache": {
+    "buildDependencies": [
+      "<WORKSPACE>/packages/cli/builder/package.json",
+      "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+    ],
+    "storage": {
+      "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+      "type": "filesystem",
+    },
+    "type": "persistent",
+    "version": "web-production",
+  },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "hidden-source-map",
   "entry": {
@@ -2095,23 +2100,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "cache": {
-      "buildDependencies": [
-        "<WORKSPACE>/packages/cli/builder/package.json",
-        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-      ],
-      "storage": {
-        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-        "type": "filesystem",
-      },
-      "type": "persistent",
-      "version": "web-production",
-    },
-    "rspackFuture": {
-      "bundlerInfo": {
-        "force": false,
-      },
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -3125,22 +3113,25 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
-      LightningCssMinimizerRspackPlugin {
-        "_args": [
-          {
-            "minimizerOptions": {
-              "errorRecovery": true,
-              "targets": [
-                "chrome >= 87",
-                "edge >= 88",
-                "firefox >= 78",
-                "safari >= 14",
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
               ],
             },
           },
-        ],
-        "affectedHooks": undefined,
-        "name": "LightningCssMinimizerRspackPlugin",
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
       },
     ],
     "runtimeChunk": {
@@ -3174,6 +3165,9 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "bundlerInfo": {
+      "force": false,
+    },
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "static/js/[name].[contenthash:8].js",
@@ -3321,7 +3315,18 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
 
 exports[`builder rspack > should generator rspack config correctly when service-worker 1`] = `
 {
-  "cache": true,
+  "cache": {
+    "buildDependencies": [
+      "<WORKSPACE>/packages/cli/builder/package.json",
+      "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+    ],
+    "storage": {
+      "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+      "type": "filesystem",
+    },
+    "type": "persistent",
+    "version": "workerSSR-production",
+  },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "hidden-source-map",
   "entry": {
@@ -3331,23 +3336,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "cache": {
-      "buildDependencies": [
-        "<WORKSPACE>/packages/cli/builder/package.json",
-        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-      ],
-      "storage": {
-        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-        "type": "filesystem",
-      },
-      "type": "persistent",
-      "version": "workerSSR-production",
-    },
-    "rspackFuture": {
-      "bundlerInfo": {
-        "force": false,
-      },
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -4031,29 +4019,40 @@ exports[`builder rspack > should generator rspack config correctly when service-
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
-      LightningCssMinimizerRspackPlugin {
-        "_args": [
-          {
-            "minimizerOptions": {
-              "errorRecovery": true,
-              "targets": [
-                "node >= 16",
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
               ],
             },
           },
-        ],
-        "affectedHooks": undefined,
-        "name": "LightningCssMinimizerRspackPlugin",
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
       },
     ],
     "splitChunks": false,
   },
   "output": {
     "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "bundlerInfo": {
+      "force": false,
+    },
     "chunkFilename": "[name].js",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
-    "libraryTarget": "commonjs2",
+    "library": {
+      "type": "commonjs2",
+    },
     "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
