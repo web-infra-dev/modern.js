@@ -1,0 +1,21 @@
+{
+  "name": "routes-redirect",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@modern-js/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5"
+  }
+}
