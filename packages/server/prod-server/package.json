@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm-node/index.mjs",
@@ -29,7 +28,6 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "modern:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
@@ -39,7 +37,6 @@
     },
     "./netlify": {
       "types": "./dist/types/netlify.d.ts",
-      "jsnext:source": "./src/netlify.ts",
       "node": {
         "import": "./dist/esm-node/netlify.mjs",
         "require": "./dist/cjs/netlify.js"

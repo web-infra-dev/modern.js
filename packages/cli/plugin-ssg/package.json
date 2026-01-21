@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -33,7 +32,6 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -42,7 +40,6 @@
     },
     "./cli": {
       "types": "./dist/types/index.d.ts",
-      "jsnext:source": "./src/index.ts",
       "node": {
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
@@ -51,7 +48,6 @@
     },
     "./types": {
       "types": "./dist/types/types.d.ts",
-      "jsnext:source": "./src/types.ts",
       "node": {
         "import": "./dist/esm-node/types.mjs",
         "require": "./dist/cjs/types.js"

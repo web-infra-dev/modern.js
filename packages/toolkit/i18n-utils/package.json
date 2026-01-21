@@ -16,7 +16,6 @@
     "modern.js"
   ],
   "version": "3.0.0-alpha.1",
-  "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -34,7 +33,6 @@
     ".": {
       "node": {
         "modern:source": "./src/index.ts",
-        "jsnext:source": "./src/index.ts",
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
@@ -44,7 +42,6 @@
     "./language-detector": {
       "node": {
         "modern:source": "./src/languageDetector.ts",
-        "jsnext:source": "./src/languageDetector.ts",
         "import": "./dist/esm-node/languageDetector.mjs",
         "require": "./dist/cjs/languageDetector.js"
       },
