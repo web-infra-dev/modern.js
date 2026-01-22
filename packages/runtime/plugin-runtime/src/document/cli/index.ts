@@ -51,13 +51,13 @@ interface PartialsContent {
   partialsBody: string;
 }
 
-interface HtmlWebpackPluginTags {
+interface HtmlRspackPluginTags {
   headTags: Array<{ tagName: string; toString(): string }>;
   bodyTags: { toString(): string };
 }
 
-interface HtmlWebpackPlugin {
-  tags: HtmlWebpackPluginTags;
+interface HtmlRspackPlugin {
+  tags: HtmlRspackPluginTags;
 }
 
 interface ExternalRequest {
@@ -525,23 +525,23 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     };
 
     const extractHtmlTags = (
-      htmlWebpackPlugin: HtmlWebpackPlugin,
+      htmlPlugin: HtmlRspackPlugin,
       templateParameters: Record<string, unknown>,
     ) => {
       const scripts = [
-        htmlWebpackPlugin.tags.headTags
+        htmlPlugin.tags.headTags
           .filter(item => item.tagName === 'script')
           .join(''),
-        htmlWebpackPlugin.tags.bodyTags.toString(),
+        htmlPlugin.tags.bodyTags.toString(),
       ].join('');
 
-      const links = htmlWebpackPlugin.tags.headTags
+      const links = htmlPlugin.tags.headTags
         .filter(item => item.tagName === 'link')
         .join('');
 
       const metas = [
         templateParameters.meta,
-        htmlWebpackPlugin.tags.headTags
+        htmlPlugin.tags.headTags
           .filter(
             item =>
               item.tagName !== 'script' &&
@@ -551,7 +551,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           .join(''),
       ].join('');
 
-      const titles: string = htmlWebpackPlugin.tags.headTags
+      const titles: string = htmlPlugin.tags.headTags
         .filter(item => item.tagName === 'title')
         .join('')
         .replace('<title>', '')
@@ -607,9 +607,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         return null;
       }
       // Don't know why we can't use htmlRspackPlugin, it can't get the tags.
-      return async ({
-        htmlPlugin,
-      }: { [option: string]: HtmlWebpackPlugin }) => {
+      return async ({ htmlPlugin }: { [option: string]: HtmlRspackPlugin }) => {
         const config = api.getNormalizedConfig();
         const documentParams = getDocParams({
           config: config as NormalizedConfig,
