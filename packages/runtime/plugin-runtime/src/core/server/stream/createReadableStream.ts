@@ -1,8 +1,5 @@
-import { PassThrough, Transform } from 'stream';
-import {
-  createReadableStreamFromReadable,
-  storage,
-} from '@modern-js/runtime-utils/node';
+import { PassThrough, Readable, Transform } from 'stream';
+import { storage } from '@modern-js/runtime-utils/node';
 import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
@@ -101,7 +98,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
             // Transform the Node.js readable stream to a Web ReadableStream
             // For modern.js depend on hono.js, and we use Web standard
-            const stream = createReadableStreamFromReadable(body);
+            const stream = Readable.toWeb(body) as ReadableStream<Uint8Array>;
             resolve(stream);
 
             // Transform the react pipe to a readable stream

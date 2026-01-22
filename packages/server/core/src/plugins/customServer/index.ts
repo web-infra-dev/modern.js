@@ -252,20 +252,16 @@ async function createMiddlewareContextFromHono(
   const method = rawRequest.method.toUpperCase();
 
   if (!['GET', 'HEAD'].includes(method) && !rawRequest.body && c.env.node.req) {
-    // Using vars on purpose.
-    // Otherwise the esbuild will build the node api into bundle.
-    const streamModulePath = '../../adapters/node/polyfills/stream.js';
+    const { Readable } = await import('stream');
 
-    const { createReadableStreamFromReadable } = await import(streamModulePath);
-
-    const init: RequestInit = {
-      body: createReadableStreamFromReadable(c.env.node.req),
+    const body = Readable.toWeb(c.env.node.req);
+    const init = {
+      body,
       headers: rawRequest.headers,
       signal: rawRequest.signal,
       method: rawRequest.method,
-    };
-
-    (init as { duplex: 'half' }).duplex = 'half';
+      duplex: 'half' as const,
+    } as RequestInit;
 
     c.req.raw = new Request(rawRequest.url, init);
   }
