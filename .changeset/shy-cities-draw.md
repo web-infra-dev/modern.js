@@ -1,5 +1,5 @@
 ---
-'@modern-js/render': major
+'@modern-js/render': patch
 ---
 
 fix: add XSS protection for csr + rsc projects
