@@ -53,6 +53,7 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
+      module = false,
       enableCssModuleTSDeclaration,
       disableCssModuleExtension,
       disableTsChecker,
@@ -99,6 +100,7 @@ export async function parseCommonConfig(
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
       dataUriLimit,
       sourceMap,
+      module,
       ...outputConfig,
     },
     resolve: {

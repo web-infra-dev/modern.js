@@ -1269,7 +1269,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "outputModule": true,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1960,10 +1959,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     ],
   },
   "name": "node",
-  "node": {
-    "__dirname": false,
-    "__filename": false,
-  },
   "optimization": {
     "minimize": false,
     "splitChunks": false,
@@ -1974,18 +1969,14 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "force": false,
     },
     "chunkFilename": "[name].js",
-    "chunkFormat": "module",
-    "chunkLoading": "import",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "library": {
-      "type": "module",
+      "type": "commonjs2",
     },
-    "module": true,
     "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
     "publicPath": "/",
     "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
-    "workerChunkLoading": "import",
   },
   "performance": {
     "hints": false,
