@@ -1,5 +1,5 @@
-import head from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
-export default head;
+export default Helmet;
 
-export * from 'react-helmet';
+export * from 'react-helmet-async';

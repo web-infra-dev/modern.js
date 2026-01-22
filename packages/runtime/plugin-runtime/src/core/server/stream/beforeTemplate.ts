@@ -1,6 +1,6 @@
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { matchRoutes } from '@modern-js/runtime-utils/router';
-import ReactHelmet, { type HelmetData } from 'react-helmet';
+import type { HelmetServerState } from 'react-helmet-async';
 import type { RuntimeContext } from '../../context';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
@@ -41,19 +41,29 @@ export interface BuildShellBeforeTemplateOptions {
   entryName: string;
   config: HandleRequestConfig;
   styledComponentsStyleTags?: string;
+  helmetContext?: Record<string, unknown>;
 }
 
 export async function buildShellBeforeTemplate(
   beforeAppTemplate: string,
   options: BuildShellBeforeTemplateOptions,
 ) {
-  const { config, runtimeContext, styledComponentsStyleTags, entryName } =
-    options;
+  const {
+    config,
+    runtimeContext,
+    styledComponentsStyleTags,
+    entryName,
+    helmetContext,
+  } = options;
 
-  const helmetData: HelmetData = ReactHelmet.renderStatic();
+  // Get helmet data from request-level context
+  const helmetServerState = helmetContext
+    ? ((helmetContext as { helmet?: HelmetServerState })
+        .helmet as HelmetServerState)
+    : undefined;
 
   const callbacks: BuildHtmlCb[] = [
-    createReplaceHelemt(helmetData),
+    createReplaceHelemt(helmetServerState),
     // @TODO: prefetch scripts of lazy component
     template => injectCss(template, entryName, styledComponentsStyleTags),
   ];

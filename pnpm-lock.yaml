@@ -2606,9 +2606,6 @@ importers:
       '@types/loadable__component':
         specifier: ^5.13.4
         version: 5.13.9
-      '@types/react-helmet':
-        specifier: ^6.1.2
-        version: 6.1.11
       '@types/styled-components':
         specifier: ^5.1.14
         version: 5.1.34
@@ -2627,9 +2624,9 @@ importers:
       isbot:
         specifier: 3.7.1
         version: 3.7.1
-      react-helmet:
-        specifier: ^6.1.0
-        version: 6.1.0(react@18.3.1)
+      react-helmet-async:
+        specifier: 2.0.5
+        version: 2.0.5(react@18.3.1)
       react-is:
         specifier: ^18
         version: 18.3.1
@@ -7837,6 +7834,37 @@ importers:
       axios:
         specifier: ^1.7.4
         version: 1.12.0(debug@4.3.7)
+
+  tests/integration/ssr/fixtures/async-helmet:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-router-v7':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-router-v7
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.5(@types/react@18.3.18)
+      typescript:
+        specifier: ^5
+        version: 5.6.3
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -14900,9 +14928,6 @@ packages:
     resolution: {integrity: sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA==}
     peerDependencies:
       '@types/react': ^19.0.0
-
-  '@types/react-helmet@6.1.11':
-    resolution: {integrity: sha512-0QcdGLddTERotCXo3VFlUSWO3ztraw8nZ6e3zJSgG7apwV5xt+pJUS8ewPBqT4NYB1optGLprNQzFleIY84u/g==}
 
   '@types/react-loadable@5.5.11':
     resolution: {integrity: sha512-/tq2IJ853MoIFRBmqVOxnGsRRjER5TmEKzsZtaAkiXAWoDeKgR/QNOT1vd9k0p9h/F616X21cpNh3hu4RutzRQ==}
@@ -22649,8 +22674,8 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
-  react-fast-compare@3.2.0:
-    resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+  react-fast-compare@3.2.2:
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
   react-focus-lock@2.13.5:
     resolution: {integrity: sha512-HjHuZFFk2+j6ZT3LDQpyqffue541HrxUG/OFchCEwis9nstgNg0rREVRAxHBcB1lHJ5Fsxtx1qya/5xFwxDb4g==}
@@ -22667,10 +22692,10 @@ packages:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
 
-  react-helmet@6.1.0:
-    resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
+  react-helmet-async@2.0.5:
+    resolution: {integrity: sha512-rYUYHeus+i27MvFE+Jaa4WsyBKGkL6qVgbJvSBoX8mbsWoABJXdEO0bZyi0F6i+4f0NuIb8AvqPMj3iXFHkMwg==}
     peerDependencies:
-      react: '>=16.3.0'
+      react: ^16.6.0 || ^17.0.0 || ^18.0.0
 
   react-icons@4.12.0:
     resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
@@ -35438,10 +35463,6 @@ snapshots:
     dependencies:
       '@types/react': 19.0.8
 
-  '@types/react-helmet@6.1.11':
-    dependencies:
-      '@types/react': 18.3.18
-
   '@types/react-loadable@5.5.11':
     dependencies:
       '@types/react': 18.3.18
@@ -46310,7 +46331,7 @@ snapshots:
       '@babel/runtime': 7.27.0
       react: 18.3.1
 
-  react-fast-compare@3.2.0: {}
+  react-fast-compare@3.2.2: {}
 
   react-focus-lock@2.13.5(@types/react@19.0.8)(react@18.3.1):
     dependencies:
@@ -46343,16 +46364,15 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-fast-compare: 3.2.0
+      react-fast-compare: 3.2.2
       shallowequal: 1.1.0
 
-  react-helmet@6.1.0(react@18.3.1):
+  react-helmet-async@2.0.5(react@18.3.1):
     dependencies:
-      object-assign: 4.1.1
-      prop-types: 15.8.1
+      invariant: 2.2.4
       react: 18.3.1
-      react-fast-compare: 3.2.0
-      react-side-effect: 2.1.2(react@18.3.1)
+      react-fast-compare: 3.2.2
+      shallowequal: 1.1.0
 
   react-icons@4.12.0(react@18.3.1):
     dependencies:

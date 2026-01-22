@@ -2,9 +2,9 @@ import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
-import type React from 'react';
+import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import ReactHelmet from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
 import { RenderLevel } from '../../constants';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
@@ -93,13 +93,21 @@ export const renderString: RenderString = async (
     Object.assign(runtimeContext, { ssr: true }),
   );
 
+  // Create request-level Helmet context for react-helmet-async
+  const helmetContext = {};
+
   const html = await generateHtml(
-    rootElement,
+    React.createElement(
+      HelmetProvider,
+      { context: helmetContext },
+      rootElement,
+    ),
     htmlTemplate,
     chunkSet,
     collectors,
     runtimeContext.ssrContext?.htmlModifiers || [],
     tracer,
+    helmetContext,
   );
 
   return html;
@@ -112,9 +120,10 @@ async function generateHtml(
   collectors: Collector[],
   htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
+  helmetContext: Record<string, unknown>,
 ): Promise<string> {
   let html = '';
-  let helmetData;
+  let helmetServerState;
 
   const finalApp = collectors.reduce(
     (pre, creator) => creator.collect?.(pre) || pre,
@@ -127,7 +136,8 @@ async function generateHtml(
       html = ReactDomServer.renderToString(finalApp);
       chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     }
-    helmetData = ReactHelmet.renderStatic();
+    // Get helmet data from request-level context
+    helmetServerState = (helmetContext as { helmet?: unknown }).helmet;
 
     const cost = end();
     onTiming(SSRTimings.RENDER_HTML, cost);
@@ -146,7 +156,9 @@ async function generateHtml(
     createReplaceChunkJs(jsChunk),
     createReplaceChunkCss(cssChunk),
     createReplaceSSRDataScript(ssrScripts),
-    createReplaceHelemt(helmetData),
+    createReplaceHelemt(
+      helmetServerState as Parameters<typeof createReplaceHelemt>[0],
+    ),
     ...htmlModifiers,
   ]);
 
