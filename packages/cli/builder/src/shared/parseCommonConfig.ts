@@ -1,4 +1,5 @@
 import {
+  type ResolveConfig,
   type RsbuildConfig,
   type RsbuildPlugin,
   type ToolsConfig,
@@ -67,7 +68,7 @@ export async function parseCommonConfig(
       ...outputConfig
     } = {},
     html: { outputStructure, appIcon, ...htmlConfig } = {},
-    source: { globalVars, transformImport, ...sourceConfig } = {},
+    source: { alias, globalVars, transformImport, ...sourceConfig } = {},
     dev = {},
     server = {},
     security: { checkSyntax, sri, ...securityConfig } = {},
@@ -93,7 +94,10 @@ export async function parseCommonConfig(
       sourceMap,
       ...outputConfig,
     },
-    resolve,
+    resolve: {
+      alias: alias as unknown as ResolveConfig['alias'],
+      ...resolve,
+    },
     source: sourceConfig,
     performance: performanceConfig,
     html: htmlConfig,

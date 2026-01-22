@@ -15,12 +15,10 @@ test.describe('source configure multi', () => {
       },
       runServer: true,
       builderConfig: {
-        resolve: {
+        source: {
           alias: {
             '@common': './src/common',
           },
-        },
-        source: {
           preEntry: ['./src/pre.js'],
         },
       },
@@ -104,7 +102,7 @@ test('tsconfig paths should work and override the alias config', async ({
     },
     runServer: true,
     builderConfig: {
-      resolve: {
+      source: {
         alias: {
           '@common': './src/common2',
         },
@@ -131,10 +129,12 @@ test('tsconfig paths should not work when aliasStrategy is "prefer-alias"', asyn
     },
     runServer: true,
     builderConfig: {
-      resolve: {
+      source: {
         alias: {
           '@/common': './src/common2',
         },
+      },
+      resolve: {
         aliasStrategy: 'prefer-alias',
       },
     },
