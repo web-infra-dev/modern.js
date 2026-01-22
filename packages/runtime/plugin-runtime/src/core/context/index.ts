@@ -3,7 +3,7 @@ import type { NestedRoute, PageRoute } from '@modern-js/types';
 import type React from 'react';
 import type { AppConfig } from '../../common';
 import type { RuntimeExtends } from '../plugin/types';
-import type { ServerPayload } from './serverPayload/index';
+import type { ServerPayload } from './serverPayload';
 
 export {
   type RuntimeContext,
@@ -11,7 +11,7 @@ export {
   getInitialContext,
 } from './runtime';
 
-export type { ServerPayload, PayloadRoute } from './serverPayload/index';
+export type { ServerPayload, PayloadRoute } from './serverPayload';
 
 interface GlobalContext {
   entryName?: string;
@@ -51,7 +51,7 @@ const globalContext: GlobalContext = {};
 export {
   getServerPayload,
   setServerPayload,
-} from './serverPayload/index';
+} from './serverPayload';
 
 export function getGlobalIsRscClient() {
   return globalContext.isRscClient;

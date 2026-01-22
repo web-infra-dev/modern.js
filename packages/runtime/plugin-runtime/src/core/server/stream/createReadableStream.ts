@@ -19,8 +19,14 @@ import { getTemplates } from './template';
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
     const { renderToPipeableStream } = await import('react-dom/server');
-    const { runtimeContext, htmlTemplate, config, ssrConfig, entryName } =
-      options;
+    const {
+      runtimeContext,
+      htmlTemplate,
+      config,
+      ssrConfig,
+      entryName,
+      helmetContext,
+    } = options;
     let shellChunkStatus = ShellChunkStatus.START;
 
     let renderLevel = RenderLevel.SERVER_RENDER;
@@ -52,6 +58,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             config,
             entryName,
             styledComponentsStyleTags,
+            helmetContext,
           }).then(({ shellAfter, shellBefore }) => {
             const pendingScripts: string[] = [];
             const body = new Transform({
@@ -161,6 +168,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             runtimeContext,
             entryName,
             config,
+            helmetContext,
           }).then(({ shellAfter, shellBefore }) => {
             const fallbackHtml = `${shellBefore}${shellAfter}`;
 
