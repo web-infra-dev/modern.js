@@ -1,5 +1,6 @@
 import assert from 'assert';
 import type { PathLike } from 'node:fs';
+import net from 'node:net';
 import { join } from 'path';
 import { URL } from 'url';
 import type {
@@ -35,6 +36,44 @@ export interface StaticServerOptions {
   port?: number;
 }
 
+function isPortAvailable(port: number) {
+  try {
+    const server = net.createServer().listen(port);
+    return new Promise(resolve => {
+      server.on('listening', () => {
+        server.close();
+        resolve(true);
+      });
+      server.on('error', () => {
+        resolve(false);
+      });
+    });
+  } catch {
+    return false;
+  }
+}
+
+const portMap = new Map();
+
+/**
+ * Get a random port
+ * Available port ranges: 1024 ～ 65535
+ * `10080` is not available on macOS CI, `> 50000` get 'permission denied' on Windows.
+ * so we use `15000` ~ `45000`.
+ */
+export async function getRandomPort(
+  defaultPort = Math.ceil(Math.random() * 30000) + 15000,
+) {
+  let port = defaultPort;
+  while (true) {
+    if (!portMap.get(port) && (await isPortAvailable(port))) {
+      portMap.set(port, 1);
+      return port;
+    }
+    port++;
+  }
+}
+
 export async function runStaticServer(
   root: string,
   options?: StaticServerOptions,
@@ -43,7 +82,7 @@ export async function runStaticServer(
 
   server.use(serveStaticMiddle(root));
 
-  const port = await getPort(options?.port || '8080');
+  const port = await getPort(options?.port || (await getRandomPort()));
   const hostname = options?.hostname ?? '127.0.0.1';
   const listener = server.listen(port, hostname);
 
@@ -101,23 +140,6 @@ export const createBuilder = async (
 
   return builder;
 };
-
-const portMap = new Map();
-
-// Available port ranges: 1024 ～ 65535
-// `10080` is not available in macOS CI, `> 50000` get 'permission denied' in Windows.
-// so we use `15000` ~ `45000`.
-function getRandomPort(defaultPort = Math.ceil(Math.random() * 30000) + 15000) {
-  let port = defaultPort;
-  while (true) {
-    if (!portMap.get(port)) {
-      portMap.set(port, 1);
-      return port;
-    } else {
-      port++;
-    }
-  }
-}
 
 const updateConfigForTest = (
   config: BuilderConfig,
