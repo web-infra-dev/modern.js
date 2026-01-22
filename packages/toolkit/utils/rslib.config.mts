@@ -143,21 +143,16 @@ const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
           // remove import-meta-resolve from cjs bundle to solve jest error
           'import-meta-resolve': 'var {}',
         },
+        copy: [
+          {
+            from: './compiled',
+            to: '../compiled',
+          },
+        ],
       },
     };
   }
-  return {
-    ...config,
-    output: {
-      ...config.output,
-      copy: [
-        {
-          from: './compiled',
-          to: '../compiled',
-        },
-      ],
-    },
-  };
+  return config;
 });
 
 export default defineConfig({
