@@ -1889,7 +1889,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-react':
         specifier: 1.4.3
-        version: 1.4.3(@rsbuild/core@1.7.1)
+        version: 1.4.3(@rsbuild/core@2.0.0-alpha.1(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0))
       '@rslib/core':
         specifier: 0.19.2
         version: 0.19.2(typescript@5.9.3)
@@ -2038,6 +2038,9 @@ importers:
       serve-static:
         specifier: ^1.16.3
         version: 1.16.3
+      tailwindcss:
+        specifier: ^3.4.19
+        version: 3.4.19(tsx@4.21.0)(yaml@2.8.2)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -18506,14 +18509,6 @@ snapshots:
   '@rsbuild/plugin-react@1.4.3(@rsbuild/core@1.6.15)':
     dependencies:
       '@rsbuild/core': 1.6.15
-      '@rspack/plugin-react-refresh': 1.5.3(react-refresh@0.18.0)
-      react-refresh: 0.18.0
-    transitivePeerDependencies:
-      - webpack-hot-middleware
-
-  '@rsbuild/plugin-react@1.4.3(@rsbuild/core@1.7.1)':
-    dependencies:
-      '@rsbuild/core': 1.7.1
       '@rspack/plugin-react-refresh': 1.5.3(react-refresh@0.18.0)
       react-refresh: 0.18.0
     transitivePeerDependencies:
