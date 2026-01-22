@@ -1,7 +1,7 @@
 import { loadableReady } from '@loadable/component';
-import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type React from 'react';
 import type { Root } from 'react-dom/client';
+import { HelmetProvider } from '../../exports/head';
 import { RenderLevel } from '../constants';
 import type { RuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
@@ -48,10 +48,20 @@ export function hydrateRoot(
         <WithCallback callback={callback}>{App}</WithCallback>
       );
       return ModernHydrate(
-        wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+        wrapRuntimeContextProvider(
+          <HelmetProvider>
+            <SSRApp />
+          </HelmetProvider>,
+          hydrateContext,
+        ),
       );
     } else {
-      return ModernRender(wrapRuntimeContextProvider(App, context));
+      return ModernRender(
+        wrapRuntimeContextProvider(
+          <HelmetProvider>{App}</HelmetProvider>,
+          context,
+        ),
+      );
     }
   }
 
@@ -63,7 +73,12 @@ export function hydrateRoot(
       renderLevel === RenderLevel.CLIENT_RENDER ||
       renderLevel === RenderLevel.SERVER_PREFETCH
     ) {
-      return ModernRender(wrapRuntimeContextProvider(App, context));
+      return ModernRender(
+        wrapRuntimeContextProvider(
+          <HelmetProvider>{App}</HelmetProvider>,
+          context,
+        ),
+      );
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
       return new Promise<Root | HTMLElement>(resolve => {
         if (isReact18()) {
@@ -73,7 +88,12 @@ export function hydrateRoot(
               <WithCallback callback={callback}>{App}</WithCallback>
             );
             ModernHydrate(
-              wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+              wrapRuntimeContextProvider(
+                <HelmetProvider>
+                  <SSRApp />
+                </HelmetProvider>,
+                hydrateContext,
+              ),
             ).then(root => {
               resolve(root);
             });
@@ -81,7 +101,10 @@ export function hydrateRoot(
         } else {
           loadableReady(() => {
             ModernHydrate(
-              wrapRuntimeContextProvider(App, hydrateContext),
+              wrapRuntimeContextProvider(
+                <HelmetProvider>{App}</HelmetProvider>,
+                hydrateContext,
+              ),
               callback,
             ).then(root => {
               resolve(root);
@@ -92,7 +115,12 @@ export function hydrateRoot(
     } else {
       // unknown renderlevel or renderlevel is server prefetch.
       console.warn(`unknow render level: ${renderLevel}, execute render()`);
-      return ModernRender(wrapRuntimeContextProvider(App, context));
+      return ModernRender(
+        wrapRuntimeContextProvider(
+          <HelmetProvider>{App}</HelmetProvider>,
+          context,
+        ),
+      );
     }
   }
 }

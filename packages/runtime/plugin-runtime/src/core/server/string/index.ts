@@ -2,7 +2,7 @@ import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
-import type React from 'react';
+import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
 import { RenderLevel } from '../../constants';
@@ -97,7 +97,11 @@ export const renderString: RenderString = async (
   const helmetContext = {};
 
   const html = await generateHtml(
-    <HelmetProvider context={helmetContext}>{rootElement}</HelmetProvider>,
+    React.createElement(
+      HelmetProvider,
+      { context: helmetContext },
+      rootElement,
+    ),
     htmlTemplate,
     chunkSet,
     collectors,

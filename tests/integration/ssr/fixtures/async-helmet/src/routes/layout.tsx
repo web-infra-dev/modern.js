@@ -11,17 +11,8 @@ export default function Layout() {
       </Helmet>
       Root layout
       <div>
-        <Link to="/user/1" id="user-btn">
-          Go User 1
-        </Link>
-        <Link to="/about" id="about-btn">
-          Go About
-        </Link>
         <Link to="/products" id="products-btn">
           Go Products
-        </Link>
-        <Link to="/home" id="home-btn">
-          Go Home
         </Link>
       </div>
       <Outlet />

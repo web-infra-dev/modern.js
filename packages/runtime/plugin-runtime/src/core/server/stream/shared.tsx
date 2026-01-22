@@ -7,6 +7,7 @@ import type {
 } from '@modern-js/types/server';
 import checkIsBot from 'isbot';
 import type React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { JSX_SHELL_STREAM_END_MARK } from '../../../common';
 import type { RuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
@@ -139,13 +140,18 @@ export function createRenderStreaming(
       );
     };
 
+    // Create request-level Helmet context for react-helmet-async
+    const helmetContext = {};
+
     let rootElement = wrapRuntimeContextProvider(
       serverRoot,
       Object.assign(runtimeContext, { ssr: true }),
     );
 
     rootElement = (
-      <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
+      <HelmetProvider context={helmetContext}>
+        <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
+      </HelmetProvider>
     );
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
@@ -158,6 +164,7 @@ export function createRenderStreaming(
       rscSSRManifest: options.rscSSRManifest,
       rscServerManifest: options.rscServerManifest,
       rscRoot: options.rscRoot,
+      helmetContext,
       onShellReady() {
         const cost = end();
         onTiming(SSRTimings.RENDER_SHELL, cost);
