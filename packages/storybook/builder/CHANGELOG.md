@@ -1,5 +1,15 @@
 # @modern-js/storybook-builder
 
+## 2.70.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.70.3
+- @modern-js/plugin-state@2.70.3
+- @modern-js/core@2.70.3
+- @modern-js/uni-builder@2.70.3
+- @modern-js/utils@2.70.3
+
 ## 2.70.2
 
 ### Patch Changes
