@@ -1,7 +1,7 @@
 import { loadableReady } from '@loadable/component';
 import type React from 'react';
 import type { Root } from 'react-dom/client';
-import { HelmetProvider } from '../../exports/head';
+import { HelmetProvider } from 'react-helmet-async';
 import { RenderLevel } from '../constants';
 import type { RuntimeContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
