@@ -5,6 +5,7 @@
     "emitDecoratorMetadata": true,
     "declaration": false,
     "isolatedModules": true,
-    "strict": true
+    "strict": true,
+    "types": ["@rstest/core/globals"]
   }
 }
