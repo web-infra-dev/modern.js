@@ -19,8 +19,14 @@ import { getTemplates } from './template';
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
     const { renderToPipeableStream } = await import('react-dom/server');
-    const { runtimeContext, htmlTemplate, config, ssrConfig, entryName } =
-      options;
+    const {
+      runtimeContext,
+      htmlTemplate,
+      config,
+      ssrConfig,
+      entryName,
+      helmetContext,
+    } = options;
     let shellChunkStatus = ShellChunkStatus.START;
 
     let renderLevel = RenderLevel.SERVER_RENDER;
@@ -33,9 +39,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     const chunkVec: Buffer[] = [];
 
     const root = sheet.collectStyles(rootElement);
-
-    // Create request-level Helmet context for react-helmet-async
-    const helmetContext = {};
 
     return new Promise(resolve => {
       const { pipe: reactStreamingPipe } = renderToPipeableStream(root, {
