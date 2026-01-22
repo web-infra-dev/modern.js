@@ -608,7 +608,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       }
       // Don't know why we can't use htmlRspackPlugin, it can't get the tags.
       return async ({
-        htmlWebpackPlugin,
+        htmlPlugin,
       }: { [option: string]: HtmlWebpackPlugin }) => {
         const config = api.getNormalizedConfig();
         const documentParams = getDocParams({
@@ -625,7 +625,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         const { partialsByEntrypoint } = api.getAppContext();
         html = processPartials(html, entryName, partialsByEntrypoint || {});
         const { scripts, links, metas, titles } = extractHtmlTags(
-          htmlWebpackPlugin,
+          htmlPlugin,
           templateParameters,
         );
 
