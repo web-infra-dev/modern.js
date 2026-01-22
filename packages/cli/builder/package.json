@@ -46,6 +46,7 @@
     "@swc/helpers": "^0.5.17",
     "autoprefixer": "10.4.23",
     "browserslist": "4.28.1",
+    "core-js": "^3.48.0",
     "cssnano": "6.1.2",
     "html-minifier-terser": "^7.2.0",
     "jiti": "1.21.7",
