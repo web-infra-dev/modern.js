@@ -163,6 +163,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "security": {},
   "server": {
+    "host": "0.0.0.0",
     "htmlFallback": false,
     "middlewareMode": true,
     "port": 8080,

@@ -237,7 +237,7 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "coreJs": "3.47",
+                  "coreJs": "3.48",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -303,7 +303,7 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "coreJs": "3.47",
+                  "coreJs": "3.48",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -865,7 +865,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -939,7 +939,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
