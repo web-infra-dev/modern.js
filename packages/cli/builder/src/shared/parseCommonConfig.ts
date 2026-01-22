@@ -86,6 +86,10 @@ export async function parseCommonConfig(
     resolve = {},
   } = builderConfig;
 
+  const combinedAlias = ([] as unknown[])
+    .concat(alias ?? [])
+    .concat(resolve.alias ?? []) as ResolveConfig['alias'];
+
   const rsbuildConfig: RsbuildConfig = {
     plugins,
     output: {
@@ -95,8 +99,8 @@ export async function parseCommonConfig(
       ...outputConfig,
     },
     resolve: {
-      alias: alias as unknown as ResolveConfig['alias'],
       ...resolve,
+      alias: combinedAlias,
     },
     source: sourceConfig,
     performance: performanceConfig,
