@@ -1217,6 +1217,9 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+    },
     "tsConfig": {
       "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
@@ -1247,6 +1250,7 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:svgr",
   "rsbuild:css-minimizer",
   "builder:postcss-plugins",
+  "builder:rsc-client-browser-fallback",
   "user-plugin",
 ]
 `;
@@ -2101,6 +2105,9 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+    },
     "tsConfig": {
       "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
@@ -3340,6 +3347,9 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+    },
     "tsConfig": {
       "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
@@ -4179,6 +4189,9 @@ exports[`builder rspack > should generator rspack config correctly when service-
       ".jsx",
       ".json",
     ],
+    "fallback": {
+      "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+    },
     "tsConfig": {
       "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
       "references": "auto",
