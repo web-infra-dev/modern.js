@@ -25,7 +25,8 @@
   "exports": {
     ".": {
       "types": "./dist/types/cli/index.d.ts",
-      "default": "./dist/cjs/cli/index.cjs"
+      "import": "./dist/esm/cli/index.mjs",
+      "default": "./dist/cjs/cli/index.js"
     },
     "./package.json": "./package.json",
     "./cli": {
