@@ -103,9 +103,8 @@ for (const item of dependencies) {
   };
 }
 
-const externals: Rspack.Configuration['externals'] = [
-  // externalize pre-bundled dependencies
-  ({ request }, callback) => {
+// externalize pre-bundled dependencies
+const createExternals = (type: string, noESM = false): Rspack.ExternalItem => ({ request }, callback) => {
     const entries = Object.entries(externalsMap);
     if (request) {
       for (const [name, { regex, esm }] of entries) {
@@ -115,14 +114,13 @@ const externals: Rspack.Configuration['externals'] = [
           );
         }
         if (regex.test(request)) {
-          const index = esm ? 'index.mjs' : 'index.js';
-          return callback(undefined, `module-import ${request}/${index}`);
+          const index = esm && !noESM ? 'index.mjs' : 'index.js';
+          return callback(undefined, `${type} ${request}/${index}`);
         }
       }
     }
     callback();
-  },
-];
+};
 
 const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
   if (config.format === 'esm') {
@@ -130,7 +128,7 @@ const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
       ...config,
       output: {
         ...config.output,
-        externals,
+        externals: [createExternals('module-import')],
       },
     };
   }
@@ -139,10 +137,7 @@ const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
       ...config,
       output: {
         ...config.output,
-        externals: {
-          // remove import-meta-resolve from cjs bundle to solve jest error
-          'import-meta-resolve': 'var {}',
-        },
+        externals: [createExternals('commonjs', true)],
         copy: [
           {
             from: './compiled',

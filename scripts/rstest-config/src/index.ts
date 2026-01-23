@@ -12,7 +12,7 @@ export const testPreset = defineConfig({
   restoreMocks: true,
   resolve: {
     // Make sure to resolve modern.js packages to their source code in tests because modern.js packages are build slowly in CI.
-    conditionNames: ['modern:source', 'require', 'node', 'default'],
+    // conditionNames: ['modern:source', 'require', 'node', 'default'],
   },
 });
 
