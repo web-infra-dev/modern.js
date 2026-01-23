@@ -6,6 +6,7 @@ import type {
 } from '@rsbuild/core';
 import { rsbuildRscPlugin } from './rsc/plugins/rsbuild-rsc-plugin';
 import { parseCommonConfig } from './shared/parseCommonConfig';
+import { rscClientBrowserFallbackPlugin } from './shared/rsc/rscClientBrowserFallback';
 import type {
   BuilderConfig,
   CreateBuilderCommonOptions,
@@ -64,6 +65,8 @@ export async function parseConfig(
         internalDirectory,
       }),
     );
+  } else {
+    rsbuildPlugins.push(rscClientBrowserFallbackPlugin());
   }
 
   return {
