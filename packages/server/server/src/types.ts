@@ -77,11 +77,6 @@ export type ExtraOptions = {
 
   runCompile?: boolean;
 
-  /**
-   * The existing compiler can be used here.
-   */
-  compiler?: Rspack.Compiler | Rspack.MultiCompiler;
-
   serverConfigPath: string;
 
   builder?: BuilderInstance;

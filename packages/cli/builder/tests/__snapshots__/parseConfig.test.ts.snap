@@ -26,6 +26,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "distPath": {
       "html": "html",
     },
+    "module": false,
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
@@ -33,7 +34,9 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "alias": undefined,
+  },
   "security": {},
   "server": {
     "compress": false,
@@ -53,7 +56,6 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },
@@ -92,6 +94,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "distPath": {
       "html": "html",
     },
+    "module": false,
     "polyfill": "entry",
     "sourceMap": {
       "css": false,
@@ -99,7 +102,9 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "alias": undefined,
+  },
   "security": {},
   "server": {
     "htmlFallback": false,
@@ -107,7 +112,6 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },
@@ -149,6 +153,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "distPath": {
       "html": "html",
     },
+    "module": false,
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
@@ -156,9 +161,12 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "performance": {},
   "plugins": [],
-  "resolve": {},
+  "resolve": {
+    "alias": undefined,
+  },
   "security": {},
   "server": {
+    "host": "0.0.0.0",
     "htmlFallback": false,
     "middlewareMode": true,
     "port": 8080,
@@ -166,7 +174,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "publicDir": false,
   },
   "source": {
-    "alias": undefined,
     "decorators": {
       "version": "legacy",
     },

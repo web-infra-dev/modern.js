@@ -15,8 +15,7 @@ describe('builder rspack with cache', () => {
       origin: { bundlerConfigs },
     } = await rsbuild.inspectConfig();
 
-    expect(bundlerConfigs[0].cache).toBeTruthy();
-    expect(bundlerConfigs[0].experiments?.cache).toMatchSnapshot();
+    expect(bundlerConfigs[0].cache).toMatchSnapshot();
   });
 
   it('should generator rspack config correctly with cache', async () => {
@@ -35,7 +34,6 @@ describe('builder rspack with cache', () => {
       origin: { bundlerConfigs },
     } = await rsbuild.inspectConfig();
 
-    expect(bundlerConfigs[0].cache).toBeTruthy();
-    expect(bundlerConfigs[0].experiments?.cache).toMatchSnapshot();
+    expect(bundlerConfigs[0].cache).toMatchSnapshot();
   });
 });

@@ -15,8 +15,5 @@ export default applyBaseConfig({
         .add(path.resolve(__dirname, 'node_modules'))
         .add('node_modules');
     },
-    rspack(config, { appendPlugins }) {
-      config.optimization.sideEffects = false;
-    },
   },
 });

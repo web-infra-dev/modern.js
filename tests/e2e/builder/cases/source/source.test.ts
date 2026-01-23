@@ -133,6 +133,8 @@ test('tsconfig paths should not work when aliasStrategy is "prefer-alias"', asyn
         alias: {
           '@/common': './src/common2',
         },
+      },
+      resolve: {
         aliasStrategy: 'prefer-alias',
       },
     },

@@ -3,7 +3,18 @@
 exports[`builder environment compat > should generator environment config correctly 1`] = `
 [
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "web-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -14,23 +25,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "web-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -243,7 +237,7 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "coreJs": "3.47",
+                  "coreJs": "3.48",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -309,7 +303,7 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "coreJs": "3.47",
+                  "coreJs": "3.48",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -871,7 +865,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -945,7 +939,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -1061,12 +1055,13 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "static/js/async/[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "static/js/[name].js",
-      "hashFunction": "xxhash64",
       "path": "<WORKSPACE>/packages/cli/builder/dist",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
@@ -1228,14 +1223,25 @@ exports[`builder environment compat > should generator environment config correc
     },
     "target": [
       "web",
-      "es2017",
+      "browserslist:chrome >= 87,edge >= 88,firefox >= 78,safari >= 14",
     ],
     "watchOptions": {
       "aggregateTimeout": 0,
     },
   },
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "node-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -1245,23 +1251,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "node-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -1958,15 +1947,16 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
       "library": {
         "type": "commonjs2",
       },
       "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
@@ -2041,7 +2031,18 @@ exports[`builder environment compat > should generator environment config correc
     },
   },
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "workerSSR-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -2051,23 +2052,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "workerSSR-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -2740,13 +2724,16 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
-      "libraryTarget": "commonjs2",
+      "library": {
+        "type": "commonjs2",
+      },
       "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },

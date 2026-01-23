@@ -30,7 +30,7 @@
   "dependencies": {
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "1.7.2",
+    "@rsbuild/core": "2.0.0-alpha.2",
     "@rsbuild/plugin-assets-retry": "1.5.1",
     "@rsbuild/plugin-check-syntax": "1.6.1",
     "@rsbuild/plugin-css-minimizer": "1.1.1",
@@ -46,6 +46,7 @@
     "@swc/helpers": "^0.5.17",
     "autoprefixer": "10.4.23",
     "browserslist": "4.28.1",
+    "core-js": "^3.48.0",
     "cssnano": "6.1.2",
     "html-minifier-terser": "^7.2.0",
     "jiti": "1.21.7",

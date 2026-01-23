@@ -16,7 +16,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.57.0",
-    "@rsbuild/core": "1.7.2",
+    "@rsbuild/core": "2.0.0-alpha.2",
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.23",
     "@types/node": "^20",
@@ -25,6 +25,7 @@
     "@types/serve-static": "^1.15.10",
     "connect": "^3.7.0",
     "serve-static": "^1.16.3",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5"
   }
 }

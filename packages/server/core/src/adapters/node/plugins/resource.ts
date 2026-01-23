@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import type { Logger, ServerRoute } from '@modern-js/types';
+import type { Logger, Monitors, ServerRoute } from '@modern-js/types';
 import {
   fs,
   LOADABLE_STATS_FILE,
@@ -59,7 +59,7 @@ export function injectTemplates(
   };
 }
 
-const loadBundle = async (filepath: string, logger: Logger) => {
+const loadBundle = async (filepath: string, monitors: Monitors) => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
@@ -68,7 +68,7 @@ const loadBundle = async (filepath: string, logger: Logger) => {
     const module = await compatibleRequire(filepath, false);
     return module;
   } catch (e) {
-    logger.error(
+    monitors.error(
       `Load ${filepath} bundle failed, error = %s`,
       e instanceof Error ? e.stack || e.message : e,
     );
@@ -79,7 +79,7 @@ const loadBundle = async (filepath: string, logger: Logger) => {
 export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
-  logger: Logger,
+  monitors: Monitors,
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -96,8 +96,8 @@ export async function getServerManifest(
           `${entryName}-server-loaders.js`,
         );
 
-        const renderBundle = await loadBundle(renderBundlePath, logger);
-        const loaderBundle = await loadBundle(loaderBundlePath, logger);
+        const renderBundle = await loadBundle(renderBundlePath, monitors);
+        const loaderBundle = await loadBundle(loaderBundlePath, monitors);
 
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle &&
@@ -139,9 +139,9 @@ export function injectServerManifest(
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
-      const logger = c.get('logger');
+      const monitors = c.get('monitors');
       const serverManifest = await (manifestPromise ||
-        getServerManifest(pwd, routes, logger));
+        getServerManifest(pwd, routes, monitors));
 
       c.set('serverManifest', serverManifest);
     }
@@ -223,7 +223,11 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       let manifestPromise: Promise<ServerManifest> | undefined;
 
       if (isProd()) {
-        manifestPromise = getServerManifest(pwd!, routes || [], console);
+        manifestPromise = getServerManifest(
+          pwd!,
+          routes || [],
+          console as unknown as Monitors,
+        );
         htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
       }
 

@@ -122,11 +122,6 @@ export const rsbuildRscPlugin = ({
         };
 
         const layerHandler = () => {
-          chain.experiments({
-            ...chain.get('experiments'),
-            layers: true,
-          });
-
           const routesFileReg = new RegExp(
             `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );

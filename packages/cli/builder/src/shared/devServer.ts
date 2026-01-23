@@ -26,7 +26,7 @@ export const transformToRsbuildServerOptions = (
   rsbuildServer: ServerConfig;
 } => {
   const {
-    host,
+    host = '0.0.0.0',
     https,
     startUrl,
     beforeStartUrl,
