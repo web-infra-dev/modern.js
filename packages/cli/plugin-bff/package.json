@@ -110,7 +110,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-alpha.1",
+    "@rsbuild/core": "2.0.0-alpha.2",
     "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
