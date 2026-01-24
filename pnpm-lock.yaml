@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -174,7 +172,7 @@ importers:
         specifier: 1.21.7
         version: 1.21.7
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.17.23
         version: 4.17.23
       postcss:
         specifier: ^8.5.6
@@ -1514,7 +1512,7 @@ importers:
         specifier: ^1.0.30001520
         version: 1.0.30001761
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.17.23
         version: 4.17.23
       react:
         specifier: ^19.2.3
@@ -1987,7 +1985,7 @@ importers:
   tests/e2e/builder:
     dependencies:
       lodash:
-        specifier: ^4.17.21
+        specifier: ^4.17.23
         version: 4.17.23
       react:
         specifier: ^19.2.3
@@ -3332,7 +3330,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       lodash-es:
-        specifier: ^4.17.22
+        specifier: ^4.17.23
         version: 4.17.23
       react:
         specifier: ^19.2.3
@@ -11979,9 +11977,6 @@ packages:
 
   lodash.upperfirst@4.3.1:
     resolution: {integrity: sha512-sReKOYJIJf74dhJONhU4e0/shzi1trVbSWDOhKYE5XV2O+H7Sb2Dihwuc7xWxVl+DgFPyTqIN3zMfT9cq5iWDg==}
-
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
   lodash@4.17.23:
     resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
@@ -20911,7 +20906,7 @@ snapshots:
   chevrotain-allstar@0.3.1(chevrotain@11.0.3):
     dependencies:
       chevrotain: 11.0.3
-      lodash-es: 4.17.22
+      lodash-es: 4.17.23
 
   chevrotain@11.0.3:
     dependencies:
@@ -21641,7 +21636,7 @@ snapshots:
   dagre-d3-es@7.0.13:
     dependencies:
       d3: 7.9.0
-      lodash-es: 4.17.22
+      lodash-es: 4.17.23
 
   dargs@7.0.0: {}
 
@@ -21794,7 +21789,7 @@ snapshots:
       get-port: 3.2.0
       glob: 7.2.3
       is-valid-domain: 0.1.6
-      lodash: 4.17.21
+      lodash: 4.17.23
       mkdirp: 0.5.6
       password-prompt: 1.1.3
       rimraf: 2.7.1
@@ -24572,8 +24567,6 @@ snapshots:
   lodash.uniq@4.5.0: {}
 
   lodash.upperfirst@4.3.1: {}
-
-  lodash@4.17.21: {}
 
   lodash@4.17.23: {}
 

@@ -6,7 +6,7 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "7.12.0",
