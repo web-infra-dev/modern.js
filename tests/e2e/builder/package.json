@@ -10,7 +10,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "7.12.0",
-    "vue": "^3.5.26"
+    "vue": "^3.5.27"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
