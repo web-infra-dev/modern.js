@@ -34,5 +34,8 @@ export const EN_LOCALE = {
       output: 'specify inspect content output path',
       verbose: 'show full function definitions in output',
     },
+    info: {
+      describe: 'show project information',
+    },
   },
 };

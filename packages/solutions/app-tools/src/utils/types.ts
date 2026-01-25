@@ -25,3 +25,8 @@ export type InspectOptions = {
   output: string;
   verbose?: boolean;
 };
+
+export type InfoOptions = {
+  config?: string;
+  json?: boolean;
+};

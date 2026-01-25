@@ -65,6 +65,7 @@ export async function createRunOptions({
     'start',
     'serve',
     'inspect',
+    'info',
     'upgrade',
   ];
 
