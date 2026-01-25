@@ -7,7 +7,11 @@ import type {
 } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
-import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
+import {
+  LOADABLE_STATS_FILE,
+  isUseSSRBundle,
+  tryResolve,
+} from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import LoadableBundlerPlugin from './loadable-bundler-plugin';
 import { resolveSSRMode } from './mode';
@@ -135,9 +139,13 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
   setup: api => {
     const appContext = api.getAppContext();
     const exportLoadablePath = `@${appContext.metaName}/runtime/loadable`;
-    const runtimeUtilsPath = require.resolve('@modern-js/runtime-utils/node');
+    const runtimeUtilsPath = tryResolve(
+      '@modern-js/runtime-utils/node',
+      __dirname,
+    );
     const aliasPath = runtimeUtilsPath
-      .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
+      .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm-node${path.sep}`)
+      .replace(`${path.sep}esm${path.sep}`, `${path.sep}esm-node${path.sep}`)
       .replace(/\.js$/, '.mjs');
 
     api.config(() => {
