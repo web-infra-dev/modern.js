@@ -229,6 +229,18 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
   setup: api => {
     api.onPrepare(() => {
       const { middlewares, routes } = api.getServerContext();
+
+      // Collect all non-root entry paths for cross-entry path detection
+      const entryPaths = new Set<string>();
+      routes.forEach(route => {
+        if (route.entryName && route.urlPath && route.urlPath !== '/') {
+          const pathSegments = route.urlPath.split('/').filter(Boolean);
+          if (pathSegments.length > 0) {
+            entryPaths.add(`/${pathSegments[0]}`);
+          }
+        }
+      });
+
       routes.map(route => {
         const { entryName } = route;
         if (!entryName) {
@@ -277,6 +289,17 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
                   return await next();
                 }
 
+                // If basePath is '/', check if path belongs to another entry
+                if (originUrlPath === '/') {
+                  const pathSegments = pathname.split('/').filter(Boolean);
+                  if (pathSegments.length > 0) {
+                    const firstSegment = `/${pathSegments[0]}`;
+                    if (entryPaths.has(firstSegment)) {
+                      return await next();
+                    }
+                  }
+                }
+
                 return detectorHandler(c, next);
               },
             });
@@ -305,6 +328,17 @@ export const i18nServerPlugin = (options: I18nPluginOptions): ServerPlugin => ({
                 shouldIgnoreRedirect(pathname, urlPath, ignoreRedirectRoutes)
               ) {
                 return await next();
+              }
+
+              // If basePath is '/', check if path belongs to another entry
+              if (originUrlPath === '/') {
+                const pathSegments = pathname.split('/').filter(Boolean);
+                if (pathSegments.length > 0) {
+                  const firstSegment = `/${pathSegments[0]}`;
+                  if (entryPaths.has(firstSegment)) {
+                    return await next();
+                  }
+                }
               }
 
               const language = getLanguageFromPath(c.req, urlPath, languages);

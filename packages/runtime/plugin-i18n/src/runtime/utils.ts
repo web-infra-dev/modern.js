@@ -77,9 +77,21 @@ export const detectLanguageFromPath = (
     return { detected: false };
   }
 
-  const relativePath = pathname.replace(getEntryPath(), '');
+  const entryPath = getEntryPath();
+  const relativePath = pathname.replace(entryPath, '');
   const segments = relativePath.split('/').filter(Boolean);
-  const firstSegment = segments[0];
+
+  // If entryPath is empty and first segment is not a language,
+  // it might be an entry path (e.g., /lang/en -> lang is entry, en is language)
+  const segmentsToCheck =
+    !entryPath &&
+    segments.length > 1 &&
+    segments[0] &&
+    !languages.includes(segments[0])
+      ? segments.slice(1) // Skip the first segment (entry path) and check the second segment
+      : segments;
+
+  const firstSegment = segmentsToCheck[0];
 
   if (firstSegment && languages.includes(firstSegment)) {
     return { detected: true, language: firstSegment };
