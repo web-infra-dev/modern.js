@@ -6,6 +6,7 @@ import type { SdkBackend } from './i18n/backend/sdk-backend';
 import { cacheUserLanguage } from './i18n/detection';
 import {
   buildLocalizedUrl,
+  detectLanguageFromPath,
   getEntryPath,
   shouldIgnoreRedirect,
   useRouterHooks,
@@ -123,6 +124,18 @@ export const useModernI18n = (): UseModernI18nReturn => {
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
 
+          // Check if the path already contains the target language
+          const pathLanguage = detectLanguageFromPath(
+            currentPath,
+            languages || [],
+            localePathRedirect,
+          );
+
+          // If path already has the target language, skip redirect
+          if (pathLanguage.detected && pathLanguage.language === newLang) {
+            return;
+          }
+
           if (
             !shouldIgnoreRedirect(
               relativePath,
@@ -144,6 +157,18 @@ export const useModernI18n = (): UseModernI18nReturn => {
           const currentPath = window.location.pathname;
           const entryPath = getEntryPath();
           const relativePath = currentPath.replace(entryPath, '');
+
+          // Check if the path already contains the target language
+          const pathLanguage = detectLanguageFromPath(
+            currentPath,
+            languages || [],
+            localePathRedirect,
+          );
+
+          // If path already has the target language, skip redirect
+          if (pathLanguage.detected && pathLanguage.language === newLang) {
+            return;
+          }
 
           if (
             !shouldIgnoreRedirect(
