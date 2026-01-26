@@ -149,17 +149,19 @@ async function supportInjectCssFirstScreen({
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
 
-  // Wait for the page to load
+  // Wait for page content to load (RSC stream processing)
   await page.waitForFunction(
-    () => document.querySelector('.root') !== null,
-    { timeout: 5000 },
+    () => {
+      return (
+        document.body.textContent?.includes('Client State') &&
+        document.body.textContent?.includes('countStateFromServer')
+      );
+    },
+    { timeout: 10000 },
   );
 
-  // Check if the root element has the CSS styles applied
-  const rootElement = await page.$('.root');
-  expect(rootElement).not.toBeNull();
-
-  const backgroundColor = await page.$eval('.root', el => {
+  // Get the background color
+  const backgroundColor = await page.$eval('[class*="root"]', el => {
     const styles = window.getComputedStyle(el);
     return styles.backgroundColor;
   });

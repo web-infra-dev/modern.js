@@ -92,31 +92,13 @@ export const entryForCSRWithRSC = ({
   import {
     createRequestHandler,
   } from '@${metaName}/runtime/ssr/server';
-  import { renderRsc, processRSCStream } from '@${metaName}/runtime/rsc/server'
+  import { renderCSRWithRSC, renderRsc } from '@${metaName}/runtime/rsc/server';
   export { handleAction } from '@${metaName}/runtime/rsc/server';
 
   const handleCSRRender = async (request, ServerRoot, options) => {
-    const rscPayloadStream = renderRsc({
-      element: options.rscRoot,
-    });
-    const stream = new ReadableStream({
-      start(controller) {
-        const encoder = new TextEncoder();
-
-        controller.enqueue(encoder.encode(options.html));
-
-      processRSCStream(rscPayloadStream, controller, encoder)
-        .catch(err => {
-          controller.error(err);
-        });
-      }
-    });
-
-    return new Response(stream, {
-      status: 200,
-      headers: new Headers({
-        'content-type': 'text/html; charset=UTF-8',
-      }),
+    return renderCSRWithRSC({
+      html: options.html,
+      rscRoot: options.rscRoot,
     });
   }
 
