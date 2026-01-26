@@ -71,7 +71,7 @@
     "@commitlint/config-conventional": "^17.8.1",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^19.2.8",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
