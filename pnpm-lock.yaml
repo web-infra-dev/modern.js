@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -33,7 +31,7 @@ importers:
         version: link:packages/tsconfig
       '@rstest/core':
         specifier: 0.7.9
-        version: 0.7.9(happy-dom@20.3.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.7.9(happy-dom@20.3.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -1542,8 +1540,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.0.11
-        version: 20.3.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^20.3.9
+        version: 20.3.9(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -10839,8 +10837,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@20.3.4:
-    resolution: {integrity: sha512-rfbiwB6OKxZFIFQ7SRnCPB2WL9WhyXsFoTfecYgeCeFSOBxvkWLaXsdv5ehzJrfqwXQmDephAKWLRQoFoJwrew==}
+  happy-dom@20.3.9:
+    resolution: {integrity: sha512-OIoj0PcK2JaxQuANHxWkxFRSNXAuSgO1vCzCT66KItE0W/ieZLG+/iW8OetlxB+F9EaPB7DoFYKAubFG1f4Mvw==}
     engines: {node: '>=20.0.0'}
 
   hard-rejection@2.1.0:
@@ -19188,13 +19186,13 @@ snapshots:
       lodash-es: 4.17.22
       unified: 11.0.5
 
-  '@rstest/core@0.7.9(happy-dom@20.3.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.7.9(happy-dom@20.3.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 1.7.1
       '@types/chai': 5.2.3
       tinypool: 1.1.1
     optionalDependencies:
-      happy-dom: 20.3.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 20.3.9(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
 
   '@selderee/plugin-htmlparser2@0.11.0':
@@ -22954,7 +22952,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@20.3.4(bufferutil@4.1.0)(utf-8-validate@5.0.10):
+  happy-dom@20.3.9(bufferutil@4.1.0)(utf-8-validate@5.0.10):
     dependencies:
       '@types/node': 20.19.27
       '@types/whatwg-mimetype': 3.0.2
