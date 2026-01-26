@@ -1,13 +1,13 @@
 import {
+  RuntimeContext,
   type RuntimePlugin,
   isBrowser,
-  useRuntimeContext,
 } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { Helmet } from '@modern-js/runtime/head';
 import type { TInternalRuntimeContext } from '@modern-js/runtime/internal';
 import type React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { use, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   BaseBackendOptions,
   BaseLocaleDetectionOptions,
@@ -179,7 +179,7 @@ export const i18nPlugin = (options: I18nPluginOptions): RuntimePlugin => ({
 
     api.wrapRoot(App => {
       return props => {
-        const runtimeContext = useRuntimeContext() as RuntimeContextWithI18n;
+        const runtimeContext = use(RuntimeContext) as RuntimeContextWithI18n;
         const i18nInstance = runtimeContext.i18nInstance;
         const initialLang = useMemo(
           () =>

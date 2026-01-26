@@ -8,11 +8,13 @@ const initPlugin = (): RuntimePlugin => {
         const { request } = context.context!;
 
         if (context.isBrowser && !context?.initialData?.name) {
-          return {
+          context.initialData = {
+            ...context.initialData,
             name: 'client',
           };
         } else if (!request.query.browser) {
-          return {
+          context.initialData = {
+            ...(context.initialData || {}),
             name: 'server',
           };
         }

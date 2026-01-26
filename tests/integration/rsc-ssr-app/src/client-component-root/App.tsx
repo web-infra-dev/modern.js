@@ -6,7 +6,6 @@ import {
   redirect,
   setHeaders,
   setStatus,
-  useRuntimeContext,
 } from '@modern-js/runtime';
 import './App.css';
 import { use } from 'react';

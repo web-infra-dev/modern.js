@@ -48,8 +48,7 @@ describe('init with SSR', () => {
     expect(body).toMatch('Byte-Dance');
   });
 
-  // FIXME: Skipped because this test often times out
-  test.skip(`use ssr init data`, async () => {
+  test(`use ssr init data`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -59,8 +58,7 @@ describe('init with SSR', () => {
     expect(targetText).toMatch('server');
   });
 
-  // FIXME: Skipped because this test often times out
-  test.skip(`use ssr init data`, async () => {
+  test(`use ssr init data`, async () => {
     await page.goto(`http://localhost:${appPort}?browser=true`, {
       waitUntil: ['networkidle0'],
     });
