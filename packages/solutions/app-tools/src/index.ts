@@ -13,6 +13,7 @@ import {
   buildCommand,
   deployCommand,
   devCommand,
+  infoCommand,
   inspectCommand,
   serverCommand,
 } from './commands';
@@ -90,6 +91,7 @@ export const appTools = (): CliPlugin<AppTools> => ({
       serverCommand(program, api);
       deployCommand(program, api);
       inspectCommand(program, api);
+      infoCommand(program, api);
       deprecatedCommands(program);
     });
 

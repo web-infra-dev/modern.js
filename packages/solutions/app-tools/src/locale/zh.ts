@@ -33,5 +33,8 @@ export const ZH_LOCALE = {
       output: '指定在 dist 目录下输出的路径',
       verbose: '在结果中展示函数的完整内容',
     },
+    info: {
+      describe: '展示项目信息',
+    },
   },
 };
