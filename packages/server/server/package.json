@@ -70,7 +70,7 @@
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "@types/connect-history-api-fallback": "^1.5.4",
     "@types/minimatch": "^3.0.5",

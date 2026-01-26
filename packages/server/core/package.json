@@ -73,7 +73,7 @@
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",

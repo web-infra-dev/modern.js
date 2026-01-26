@@ -111,7 +111,7 @@
     "react-i18next": "15.7.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",

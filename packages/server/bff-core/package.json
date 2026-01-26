@@ -45,7 +45,7 @@
     "@types/node": "^20",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "typescript": "^5",
     "zod": "^3.25.76"

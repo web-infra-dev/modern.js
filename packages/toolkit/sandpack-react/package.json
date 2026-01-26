@@ -52,7 +52,7 @@
     "@modern-js/create": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.8",
     "@modern-js/codesmith-utils": "2.6.8",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19.2.9",

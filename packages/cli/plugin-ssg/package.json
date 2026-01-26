@@ -80,7 +80,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "@types/node": "^20",
     "react": "^19.2.3",

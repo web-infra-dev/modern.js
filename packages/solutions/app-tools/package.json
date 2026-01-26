@@ -127,7 +127,7 @@
   },
   "devDependencies": {
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
+    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
     "@types/babel__traverse": "7.28.0",
     "@types/node": "^20",
