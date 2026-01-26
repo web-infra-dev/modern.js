@@ -22,7 +22,7 @@
     "@modern-js/builder": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.2.8",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "cross-env": "^7.0.3",
     "isomorphic-fetch": "^3.0.0",
