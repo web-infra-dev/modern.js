@@ -75,13 +75,18 @@ export const rsbuildRscPlugin = ({
         }
         const jsHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
-          const useBabel = originalJsRule.uses.has(CHAIN_ID.USE.BABEL);
-          const JSRule = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
+          const originalJsMainRule = originalJsRule.oneOfs.get(
+            CHAIN_ID.ONE_OF.JS_MAIN,
+          );
+          const useBabel = originalJsMainRule.uses.has(CHAIN_ID.USE.BABEL);
+          const jsLoader = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
 
           if (originalJsRule) {
-            const jsLoaderOptions = originalJsRule.use(JSRule).get('options');
-            const jsLoaderPath = originalJsRule.use(JSRule).get('loader');
-            originalJsRule.uses.delete(JSRule);
+            const jsLoaderOptions = originalJsMainRule
+              .use(jsLoader)
+              .get('options');
+            const jsLoaderPath = originalJsMainRule.use(jsLoader).get('loader');
+            originalJsRule.oneOfs.delete(CHAIN_ID.ONE_OF.JS_MAIN);
 
             chain.module
               .rule(CHAIN_ID.RULE.JS)
@@ -98,7 +103,7 @@ export const rsbuildRscPlugin = ({
                 internalDirectory,
               })
               .end()
-              .use(JSRule)
+              .use(jsLoader)
               .loader(jsLoaderPath)
               .options(jsLoaderOptions)
               .end()
@@ -113,7 +118,7 @@ export const rsbuildRscPlugin = ({
                 internalDirectory,
               })
               .end()
-              .use(JSRule)
+              .use(jsLoader)
               .loader(jsLoaderPath)
               .options(jsLoaderOptions)
               .end()
