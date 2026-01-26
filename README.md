@@ -16,6 +16,8 @@
 
 English | [简体中文](./README.zh-CN.md)
 
+<!-- MCP Demo: Test PR creation -->
+
 ## Introduction
 
 The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.
