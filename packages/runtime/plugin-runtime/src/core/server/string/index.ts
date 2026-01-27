@@ -1,10 +1,7 @@
-import type { OnError, OnTiming } from '@modern-js/app-tools';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
-import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
-import React from 'react';
+import type React from 'react';
 import ReactDomServer from 'react-dom/server';
-import { HelmetProvider } from 'react-helmet-async';
 import { RenderLevel } from '../../constants';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
@@ -87,21 +84,17 @@ export const renderString: RenderString = async (
       useJsonScript: config.useJsonScript,
     }),
   ];
+  // Create request-level Helmet context for react-helmet-async
+  const helmetContext = {};
 
   const rootElement = wrapRuntimeContextProvider(
     serverRoot,
     Object.assign(runtimeContext, { ssr: true }),
+    helmetContext,
   );
 
-  // Create request-level Helmet context for react-helmet-async
-  const helmetContext = {};
-
   const html = await generateHtml(
-    React.createElement(
-      HelmetProvider,
-      { context: helmetContext },
-      rootElement,
-    ),
+    rootElement,
     htmlTemplate,
     chunkSet,
     collectors,

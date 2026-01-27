@@ -7,7 +7,6 @@ import type {
 } from '@modern-js/types/server';
 import checkIsBot from 'isbot';
 import type React from 'react';
-import { HelmetProvider } from 'react-helmet-async';
 import { JSX_SHELL_STREAM_END_MARK } from '../../../common';
 import type { RuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
@@ -146,12 +145,11 @@ export function createRenderStreaming(
     let rootElement = wrapRuntimeContextProvider(
       serverRoot,
       Object.assign(runtimeContext, { ssr: true }),
+      helmetContext,
     );
 
     rootElement = (
-      <HelmetProvider context={helmetContext}>
-        <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
-      </HelmetProvider>
+      <StreamServerRootWrapper>{rootElement}</StreamServerRootWrapper>
     );
 
     const stream = await createReadableStreamFromElement(request, rootElement, {
