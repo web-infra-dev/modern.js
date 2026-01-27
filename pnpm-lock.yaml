@@ -107,6 +107,9 @@ importers:
 
   packages/cli/builder:
     dependencies:
+      '@compiled/postcss-load-config':
+        specifier: file:./compiled/postcss-load-config
+        version: postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config
       '@modern-js/flight-server-transform-plugin':
         specifier: workspace:*
         version: link:../flight-server-transform-plugin
@@ -207,12 +210,15 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
     devDependencies:
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
+      '@rslib/core':
+        specifier: 0.19.3
+        version: 0.19.3(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -749,6 +755,9 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1330,9 +1339,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1410,9 +1416,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1614,9 +1617,6 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../build
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -13059,6 +13059,9 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config:
+    resolution: {directory: packages/cli/builder/compiled/postcss-load-config, type: directory}
 
   postcss-media-minmax@5.0.0:
     resolution: {integrity: sha512-yDUvFf9QdFZTuCUg0g0uNSHVlJ5X1lSzDZjPSFaiCWvjgsvu8vEVxtahPrLMinIDEEGnx6cBe6iqdx5YWz08wQ==}
@@ -25910,6 +25913,8 @@ snapshots:
       postcss: 8.5.6
       tsx: 4.21.0
       yaml: 2.8.2
+
+  postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config: {}
 
   postcss-media-minmax@5.0.0(postcss@8.5.6):
     dependencies:

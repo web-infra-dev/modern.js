@@ -11,23 +11,24 @@
   "type": "commonjs",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/cjs/index.js"
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "compiled",
     "dist"
   ],
   "scripts": {
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "rslib build",
+    "dev": "rslib build --watch",
     "test": "rstest run",
     "test:watch": "rstest watch"
   },
   "dependencies": {
+    "@compiled/postcss-load-config": "file:./compiled/postcss-load-config",
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.0-alpha.4",
@@ -63,8 +64,9 @@
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@modern-js/types": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.23",
