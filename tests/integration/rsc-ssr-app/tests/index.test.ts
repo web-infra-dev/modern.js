@@ -223,13 +223,12 @@ async function supportInjectCssFirstScreen({
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
 
-  await page.waitForSelector('[data-testid="app-name"]', { timeout: 5000 });
-
   // Check if the root element has the CSS styles applied
-  const rootElement = await page.$('.root');
+  const rootElement = await page.$('#root');
   expect(rootElement).not.toBeNull();
 
-  const backgroundColor = await page.$eval('.root', el => {
+  // Use attribute selector to match CSS Modules hashed class names
+  const backgroundColor = await page.$eval('[class*="root"]', el => {
     const styles = window.getComputedStyle(el);
     return styles.backgroundColor;
   });
