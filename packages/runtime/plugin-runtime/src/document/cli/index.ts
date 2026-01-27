@@ -7,7 +7,7 @@ import type {
   AppNormalizedConfig as NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types/cli';
-import { fs, createDebugger, findExists } from '@modern-js/utils';
+import { fs, createDebugger, findExists, logger } from '@modern-js/utils';
 import type { Rspack, RspackChain } from '@rsbuild/core';
 import { decodeHTML } from 'entities';
 
@@ -181,9 +181,11 @@ const requireFromString = (code: string, filename: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore private API used intentionally
   m.paths = Module.Module._nodeModulePaths(path.dirname(filename));
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore private API _compile
   m._compile(code, filename);
+
   return m.exports;
 };
 
@@ -253,12 +255,15 @@ const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
 };
 
 const generateEntryCode = (docPath: string, _entryName: string): string => {
-  return `var React = require('react');
-var ReactDomServer = require('react-dom/server');
-var exp = require(${JSON.stringify(docPath)});
-var DocumentContext = require('@meta/runtime/document').DocumentContext;
+  const runtimeAPI = require.resolve('../');
+  const esmRuntimeAPI = runtimeAPI
+    .replace(`cjs`, `esm`)
+    .replace(/.js$/, '.mjs');
 
-var Document = exp && exp.default;
+  return `import React from 'react';
+import ReactDomServer from 'react-dom/server';
+import Document from ${JSON.stringify(docPath)};
+import { DocumentContext } from '${esmRuntimeAPI}';
 
 // expose to global for host to consume
 var g = (typeof globalThis !== 'undefined' ? globalThis : global);
@@ -275,7 +280,7 @@ function render(documentParams) {
 
 g.__MODERN_DOC_RENDERERS__[${JSON.stringify(_entryName)}] = render;
 
-module.exports = { render: render };`;
+export default { render: render };`;
 };
 
 const processChildCompilation = async (
@@ -331,7 +336,12 @@ const processChildCompilation = async (
             _entries?: any,
             childCompilation?: Compilation,
           ) => {
-            if (err) return reject(err);
+            if (err) {
+              logger.error(
+                `Document child compiler failed for entry "${entryName}": ${err.message}`,
+              );
+              return reject(err);
+            }
             try {
               if (!childCompilation) {
                 throw new Error('Child compilation is undefined');
@@ -347,22 +357,33 @@ const processChildCompilation = async (
                     : asset?.buffer?.().toString?.() || '';
 
               if (!code) {
-                debug('Document child compiler: empty asset for %s', entryName);
-              } else {
-                entryName2DocCode.set(entryName, code);
-                debug(
-                  'Document child compiler: cached injected bundle for %s',
-                  entryName,
-                );
+                const errorMsg = `Document child compiler produced empty output for entry "${entryName}". Please check your Document component for syntax errors.`;
+                logger.error(errorMsg);
+                reject(new Error(errorMsg));
+                return;
               }
+
+              entryName2DocCode.set(entryName, code);
+              debug(
+                'Document child compiler: cached injected bundle for %s',
+                entryName,
+              );
               resolve();
             } catch (e) {
-              reject(e as Error);
+              const err = e as Error;
+              logger.error(
+                `Document child compiler failed to process output for entry "${entryName}": ${err.message}`,
+              );
+              reject(err);
             }
           },
         );
       } catch (e) {
-        reject(e as Error);
+        const err = e as Error;
+        logger.error(
+          `Document child compiler failed to initialize for entry "${entryName}": ${err.message}`,
+        );
+        reject(err);
       }
     };
 
@@ -373,9 +394,19 @@ const processChildCompilation = async (
           return fs.writeFile(tempEntry, entryCode);
         })
         .then(finalize)
-        .catch((e: unknown) => reject(e as Error));
+        .catch((e: unknown) => {
+          const err = e as Error;
+          logger.error(
+            `Document child compiler failed to prepare entry file for "${entryName}": ${err.message}`,
+          );
+          reject(err);
+        });
     } catch (e) {
-      reject(e as Error);
+      const err = e as Error;
+      logger.error(
+        `Document child compiler failed to create entry directory for "${entryName}": ${err.message}`,
+      );
+      reject(err);
     }
   });
 };
@@ -425,7 +456,10 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
               }
               await Promise.all(tasks);
             } catch (e) {
+              const err = e as Error;
+              logger.error(`Document child compiler failed: ${err.message}`);
               debug('Document child compiler make hook failed: %o', e);
+              throw err;
             }
           },
         );
@@ -433,15 +467,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     }
 
     api.config(() => {
-      const documentPath = require.resolve('../');
       return {
-        resolve: {
-          alias: {
-            '@meta/runtime/document$': documentPath
-              .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
-              .replace(/.js$/, '.mjs'),
-          },
-        },
         tools: {
           bundlerChain: (chain: RspackChain) => {
             chain
@@ -471,7 +497,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     const loadRender = async (
       entryName: string,
       internalDirectory: string,
-    ): Promise<{ renderer?: (p: DocumentParams) => string }> => {
+    ): Promise<{ renderer: (p: DocumentParams) => string }> => {
       const renderers = getGlobalDocRenderers();
       const globalRenderer = renderers[entryName];
       if (globalRenderer) {
@@ -481,7 +507,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       const cached = entryName2DocCode.get(entryName);
       if (!cached) {
         throw new Error(
-          `Failed to load Document bundle for entry "${entryName}". This is likely because the Document component compilation failed or the bundle was not generated correctly. Please check your Document component implementation.`,
+          `Document bundle not found for entry "${entryName}". The Document component compilation may have failed.`,
         );
       }
 
@@ -492,7 +518,14 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
 
       requireFromString(cached, filename);
 
-      return { renderer: renderers[entryName] };
+      const renderer = renderers[entryName];
+      if (!renderer) {
+        throw new Error(
+          `Document renderer not found for entry "${entryName}". Please ensure your Document component exports a valid default component.`,
+        );
+      }
+
+      return { renderer };
     };
 
     const processPartials = (
@@ -615,8 +648,17 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           templateParameters,
         });
 
-        const { renderer } = await loadRender(entryName, internalDirectory);
-        let html = renderer?.(documentParams) as string;
+        let html: string;
+        try {
+          const { renderer } = await loadRender(entryName, internalDirectory);
+          html = renderer(documentParams);
+        } catch (error) {
+          const err = error as Error;
+          logger.error(
+            `Failed to render Document for entry "${entryName}": ${err.message}`,
+          );
+          throw err;
+        }
 
         debug("entry %s's document jsx rendered html: %o", entryName, html);
 
