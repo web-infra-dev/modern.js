@@ -28,7 +28,8 @@ async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
   }
 
   const { default: postcssrc } = await import(
-    '../../compiled/postcss-load-config'
+    // @ts-ignore
+    '../../../compiled/postcss-load-config/index.js'
   );
 
   const promise = postcssrc({}, root).catch((err: Error) => {

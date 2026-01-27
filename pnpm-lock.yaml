@@ -207,12 +207,15 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
     devDependencies:
+      '@modern-js/rslib':
+        specifier: workspace:*
+        version: link:../../../scripts/rslib
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
+      '@rslib/core':
+        specifier: 0.19.3
+        version: 0.19.3(typescript@5.9.3)
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -749,6 +752,9 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1330,9 +1336,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1410,9 +1413,6 @@ importers:
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       '@scripts/rstest-config':
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
@@ -1614,9 +1614,6 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../build
       '@types/node':
         specifier: ^20
         version: 20.19.27

@@ -32,6 +32,7 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
+    "@scripts/build": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@rslib/core": "0.19.3",
