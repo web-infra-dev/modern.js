@@ -9,7 +9,6 @@ import {
   requireExistModule,
 } from '@modern-js/utils';
 import { isFunction } from '@modern-js/utils';
-import { API_APP_NAME } from './constants';
 import { HonoAdapter } from './runtime/hono/adapter';
 
 type SF = (args: any) => void;
@@ -21,33 +20,17 @@ class Storage {
   }
 }
 
-const createTransformAPI = (storage: Storage) => ({
-  addMiddleware(fn: SF) {
-    storage.middlewares.push(fn);
-  },
-});
-
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     const storage = new Storage();
-    const transformAPI = createTransformAPI(storage);
-    let apiAppPath = '';
     let apiRouter: ApiRouter;
 
     const honoAdapter = new HonoAdapter(api);
 
     api.onPrepare(async () => {
       const appContext = api.getServerContext();
-      const { appDirectory, distDirectory, render } = appContext;
-      const root = isProd() ? distDirectory : appDirectory;
-      const apiPath = path.resolve(root || process.cwd(), API_DIR);
-      apiAppPath = path.resolve(apiPath, API_APP_NAME);
-
-      const apiMod = await requireExistModule(apiAppPath);
-      if (apiMod && typeof apiMod === 'function') {
-        apiMod(transformAPI);
-      }
+      const { render } = appContext;
 
       const { middlewares } = storage;
       api.updateServerContext({
@@ -107,10 +90,6 @@ export default (): ServerPlugin => ({
     api.onReset(async ({ event }) => {
       storage.reset();
       const appContext = api.getServerContext();
-      const newApiModule = await requireExistModule(apiAppPath);
-      if (newApiModule && typeof newApiModule === 'function') {
-        newApiModule(transformAPI);
-      }
 
       const { middlewares } = storage;
       api.updateServerContext({
