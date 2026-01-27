@@ -88,6 +88,9 @@
         "react-side-effect@2.1.2>react": "19"
       }
     },
+    "overrides": {
+      "@rsbuild/core@2.0.0-alpha.3>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-dcb96bee-20260127053038"
+    },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",
       "@babel/plugin-proposal-private-property-in-object": "7.21.0",

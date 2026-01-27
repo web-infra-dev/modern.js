@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import type { Logger, Monitors, ServerRoute } from '@modern-js/types';
+import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
   fs,
   LOADABLE_STATS_FILE,
@@ -59,7 +59,7 @@ export function injectTemplates(
   };
 }
 
-const loadBundle = async (filepath: string, monitors: Monitors) => {
+const loadBundle = async (filepath: string, monitors?: Monitors) => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
@@ -68,10 +68,18 @@ const loadBundle = async (filepath: string, monitors: Monitors) => {
     const module = await compatibleRequire(filepath, false);
     return module;
   } catch (e) {
-    monitors.error(
-      `Load ${filepath} bundle failed, error = %s`,
-      e instanceof Error ? e.stack || e.message : e,
-    );
+    if (monitors) {
+      monitors.error(
+        `Load ${filepath} bundle failed, error = %s`,
+        e instanceof Error ? e.stack || e.message : e,
+      );
+    } else {
+      console.error(
+        `Load ${filepath} bundle failed, error = ${
+          e instanceof Error ? e.stack || e.message : e
+        }`,
+      );
+    }
     return undefined;
   }
 };
@@ -79,7 +87,7 @@ const loadBundle = async (filepath: string, monitors: Monitors) => {
 export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
-  monitors: Monitors,
+  monitors?: Monitors,
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -223,11 +231,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       let manifestPromise: Promise<ServerManifest> | undefined;
 
       if (isProd()) {
-        manifestPromise = getServerManifest(
-          pwd!,
-          routes || [],
-          console as unknown as Monitors,
-        );
+        manifestPromise = getServerManifest(pwd!, routes || [], undefined);
         htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
       }
 
