@@ -11,7 +11,7 @@
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rsbuild/plugin-babel": "2.0.0-alpha.3",
+    "@rsbuild/plugin-babel": "1.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "styled-components": "^5.3.1",

@@ -55,11 +55,12 @@
     "path-to-regexp": "^6.3.0"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@scripts/rstest-config": "workspace:*",
+    "@rsbuild/core": "2.0.0-alpha.4",
     "@rslib/core": "0.19.3",
-    "@modern-js/rslib": "workspace:*",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",
     "isomorphic-fetch": "^3.0.0",
@@ -67,8 +68,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "supertest": "^6.3.4",
-    "typescript": "^5",
-    "@rsbuild/core": "2.0.0-alpha.3"
+    "typescript": "^5"
   },
   "peerDependencies": {
     "react": ">=17.0.2"

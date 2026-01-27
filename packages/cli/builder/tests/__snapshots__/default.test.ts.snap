@@ -54,7 +54,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -127,7 +126,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
               "preferRelative": true,
             },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -343,7 +341,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -374,7 +372,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -405,7 +403,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -453,12 +451,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -548,11 +542,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -657,12 +647,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -744,11 +730,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -845,7 +827,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -1313,7 +1295,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1335,7 +1316,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "preferRelative": true,
             },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1483,7 +1463,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "emit": false,
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -1516,7 +1496,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "emit": false,
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -1549,7 +1529,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "emit": false,
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -1610,12 +1590,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1654,11 +1630,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1713,12 +1685,8 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1749,11 +1717,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1801,7 +1765,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
               "emit": false,
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -2137,7 +2101,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2210,7 +2173,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
               "preferRelative": true,
             },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -2425,7 +2387,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -2456,7 +2418,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -2487,7 +2449,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -2535,12 +2497,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2630,11 +2588,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -2739,12 +2693,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2826,11 +2776,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -2927,7 +2873,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -3381,7 +3327,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
             },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -3403,7 +3348,6 @@ exports[`builder rspack > should generator rspack config correctly when service-
               "preferRelative": true,
             },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -3550,7 +3494,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -3581,7 +3525,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -3612,7 +3556,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -3660,12 +3604,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -3704,11 +3644,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -3763,12 +3699,8 @@ exports[`builder rspack > should generator rspack config correctly when service-
         },
         "oneOf": [
           {
-            "dependency": {
-              "not": "url",
-            },
             "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -3799,11 +3731,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "type": "asset/source",
           },
           {
-            "dependency": {
-              "not": "url",
-            },
             "sideEffects": true,
-            "type": "javascript/auto",
             "use": [
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -3850,7 +3778,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {

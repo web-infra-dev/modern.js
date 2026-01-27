@@ -13,7 +13,6 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -47,7 +46,6 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -99,7 +97,6 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -149,7 +146,6 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -217,7 +213,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -294,7 +289,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -384,12 +378,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     },
     "oneOf": [
       {
-        "dependency": {
-          "not": "url",
-        },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -483,11 +473,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "type": "asset/source",
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -601,12 +587,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     },
     "oneOf": [
       {
-        "dependency": {
-          "not": "url",
-        },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -692,11 +674,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "type": "asset/source",
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -807,7 +785,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -870,7 +847,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -946,12 +922,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     },
     "oneOf": [
       {
-        "dependency": {
-          "not": "url",
-        },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1031,11 +1003,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         "type": "asset/source",
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -1135,12 +1103,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     },
     "oneOf": [
       {
-        "dependency": {
-          "not": "url",
-        },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1212,11 +1176,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         "type": "asset/source",
       },
       {
-        "dependency": {
-          "not": "url",
-        },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -1313,7 +1273,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1386,7 +1345,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
@@ -1477,7 +1435,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
         },
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1663,7 +1620,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
           "preferRelative": true,
         },
         "sideEffects": true,
-        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",

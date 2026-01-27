@@ -242,6 +242,8 @@
     }
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/ioredis-mock": "^8.2.6",
@@ -250,8 +252,6 @@
     "ioredis-mock": "^8.13.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "@rslib/core": "0.19.3",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false

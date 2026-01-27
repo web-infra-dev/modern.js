@@ -71,14 +71,14 @@
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@scripts/rstest-config": "workspace:*",
     "@rslib/core": "0.19.3",
+    "@scripts/rstest-config": "workspace:*",
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
     "http-proxy-middleware": "^2.0.9",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false,

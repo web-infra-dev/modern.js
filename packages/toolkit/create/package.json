@@ -40,10 +40,10 @@
   },
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
-    "tsx": "^4.21.0",
-    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@types/node": "^20",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   },
   "publishConfig": {
