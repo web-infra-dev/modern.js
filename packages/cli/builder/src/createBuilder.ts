@@ -4,7 +4,7 @@ import type {
   RsbuildInstance,
   RsbuildPlugin,
 } from '@rsbuild/core';
-import { RSC_LAYERS_NAMES, pluginRSC } from 'rsbuild-plugin-rsc';
+import { Layers, pluginRSC } from 'rsbuild-plugin-rsc';
 import { parseCommonConfig } from './shared/parseCommonConfig';
 import { rscClientBrowserFallbackPlugin } from './shared/rsc/rscClientBrowserFallback';
 import type {
@@ -89,18 +89,18 @@ const pluginRscConfig = (): RsbuildPlugin => ({
           if (typeof entryValue === 'string') {
             newEntries[entryName] = {
               import: entryValue,
-              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+              layer: Layers.ssr,
             };
           } else if (Array.isArray(entryValue)) {
             newEntries[entryName] = {
               import: entryValue,
-              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+              layer: Layers.ssr,
             };
           } else if (typeof entryValue === 'object' && entryValue !== null) {
             // If already an object, add or update layer
             newEntries[entryName] = {
               ...entryValue,
-              layer: RSC_LAYERS_NAMES.SERVER_SIDE_RENDERING,
+              layer: Layers.ssr,
             };
           } else {
             newEntries[entryName] = entryValue;
@@ -119,7 +119,7 @@ const pluginRscConfig = (): RsbuildPlugin => ({
         // Find and modify rules that have layer: 'react-server-components'
         for (const rule of rules) {
           // Check if this rule has layer: 'react-server-components'
-          if (rule.layer === RSC_LAYERS_NAMES.REACT_SERVER_COMPONENTS) {
+          if (rule.layer === Layers.rsc) {
             // Add exclude to the rule
             if (!rule.exclude) {
               rule.exclude = [];

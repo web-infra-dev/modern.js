@@ -89,7 +89,7 @@
       }
     },
     "overrides": {
-      "@rspack/core": "npm:@rspack-canary/core@1.7.0-canary-26c11d24-20260106061518"
+      "@rsbuild/core@2.0.0-alpha.3>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-dcb96bee-20260127053038"
     },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",
