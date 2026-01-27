@@ -28,6 +28,7 @@
     "test:watch": "rstest watch"
   },
   "dependencies": {
+    "@compiled/postcss-load-config": "file:./compiled/postcss-load-config",
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.0-alpha.4",
