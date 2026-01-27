@@ -55,7 +55,6 @@ exports[`builder environment compat > should generator environment config correc
               },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -128,7 +127,6 @@ exports[`builder environment compat > should generator environment config correc
                 "preferRelative": true,
               },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -344,7 +342,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -375,7 +373,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -406,7 +404,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -454,12 +452,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -549,11 +543,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -658,12 +648,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -745,11 +731,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
@@ -846,7 +828,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1291,7 +1273,6 @@ exports[`builder environment compat > should generator environment config correc
               },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1313,7 +1294,6 @@ exports[`builder environment compat > should generator environment config correc
                 "preferRelative": true,
               },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1461,7 +1441,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1494,7 +1474,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1527,7 +1507,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1588,12 +1568,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1632,11 +1608,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1691,12 +1663,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1727,11 +1695,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -1779,7 +1743,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2092,7 +2056,6 @@ exports[`builder environment compat > should generator environment config correc
               },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2114,7 +2077,6 @@ exports[`builder environment compat > should generator environment config correc
                 "preferRelative": true,
               },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -2261,7 +2223,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2292,7 +2254,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2323,7 +2285,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2371,12 +2333,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2415,11 +2373,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -2474,12 +2428,8 @@ exports[`builder environment compat > should generator environment config correc
           },
           "oneOf": [
             {
-              "dependency": {
-                "not": "url",
-              },
               "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2510,11 +2460,7 @@ exports[`builder environment compat > should generator environment config correc
               "type": "asset/source",
             },
             {
-              "dependency": {
-                "not": "url",
-              },
               "sideEffects": true,
-              "type": "javascript/auto",
               "use": [
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
@@ -2561,7 +2507,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
