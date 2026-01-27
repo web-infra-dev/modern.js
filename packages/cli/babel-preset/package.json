@@ -61,7 +61,7 @@
     "@babel/preset-typescript": "^7.26.0",
     "@babel/runtime": "^7.26.0",
     "@babel/types": "^7.26.0",
-    "@rsbuild/plugin-babel": "1.0.7",
+    "@rsbuild/plugin-babel": "1.1.0",
     "@swc/helpers": "^0.5.17",
     "@types/babel__core": "^7.20.5",
     "babel-plugin-dynamic-import-node": "2.3.3",
