@@ -43,11 +43,7 @@ export const dev = async (
     .concat(normalizedConfig?.resolve?.alias ?? [])
     .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
-  if (
-    appContext.moduleType &&
-    appContext.moduleType === 'module' &&
-    process.env.MODERN_LIB_FORMAT !== 'esm'
-  ) {
+  if (appContext.moduleType && appContext.moduleType === 'module') {
     const { registerEsm } = await import('../esm/register-esm.mjs');
     await registerEsm({
       appDir: appContext.appDirectory,

@@ -43,18 +43,20 @@ export const registerEsm = async ({ appDir, distDir, alias }) => {
       },
     });
   } else {
-    process.env.MODERN_NODE_LOADER = 'esbuild';
-    let tsConfig = {};
-    if (hasTsconfig) {
-      tsConfig = readTsConfigByFile(tsconfigPath);
+    if (process.env.MODERN_LIB_FORMAT !== 'esm') {
+      process.env.MODERN_NODE_LOADER = 'esbuild';
+      let tsConfig = {};
+      if (hasTsconfig) {
+        tsConfig = readTsConfigByFile(tsconfigPath);
+      }
+      register('./esbuild-loader.mjs', import.meta.url, {
+        data: {
+          appDir,
+          distDir,
+          alias,
+          tsconfigPath,
+        },
+      });
     }
-    register('./esbuild-loader.mjs', import.meta.url, {
-      data: {
-        appDir,
-        distDir,
-        alias,
-        tsconfigPath,
-      },
-    });
   }
 };

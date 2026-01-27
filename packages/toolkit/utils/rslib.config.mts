@@ -104,7 +104,9 @@ for (const item of dependencies) {
 }
 
 // externalize pre-bundled dependencies
-const createExternals = (type: string, noESM = false): Rspack.ExternalItem => ({ request }, callback) => {
+const createExternals =
+  (type: string, noESM = false): Rspack.ExternalItem =>
+  ({ request }, callback) => {
     const entries = Object.entries(externalsMap);
     if (request) {
       for (const [name, { regex, esm }] of entries) {
@@ -120,7 +122,7 @@ const createExternals = (type: string, noESM = false): Rspack.ExternalItem => ({
       }
     }
     callback();
-};
+  };
 
 const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
   if (config.format === 'esm') {
@@ -137,7 +139,12 @@ const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
       ...config,
       output: {
         ...config.output,
-        externals: [createExternals('commonjs', true)],
+        externals: [
+          createExternals('commonjs', true),
+          {
+            'import-meta-resolve': 'var {}',
+          },
+        ],
         copy: [
           {
             from: './compiled',

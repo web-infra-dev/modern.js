@@ -20,42 +20,52 @@ async function importPath(path: string, options?: any) {
  * @param path - File to required.
  * @returns module export object.
  */
-export async function compatibleRequire(
+
+async function compatibleRequireESM(
   path: string,
   interop = true,
 ): Promise<any> {
   if (path.endsWith('.json')) {
-    if (process.env.MODERN_LIB_FORMAT === 'esm') {
-      const res = await importPath(path, {
-        with: { type: 'json' },
-      });
-      return res.default;
-    } else {
-      return require(path);
-    }
+    const res = await importPath(path, {
+      with: { type: 'json' },
+    });
+    return res.default;
   }
 
-  let requiredModule;
+  const requiredModule = await importPath(path);
+  return interop ? requiredModule.default : requiredModule;
+}
 
-  if (process.env.MODERN_LIB_FORMAT === 'esm') {
-    requiredModule = await importPath(path);
-    return interop ? requiredModule.default : requiredModule;
-  } else {
-    try {
-      requiredModule = require(path);
-    } catch (err: any) {
-      if (err.code === 'ERR_REQUIRE_ESM') {
-        requiredModule = await importPath(
-          isAbsolute(path) ? pathToFileURL(path).href : path,
-        );
-        return interop ? requiredModule.default : requiredModule;
-      } else {
-        throw err;
-      }
-    }
+async function compatibleRequireCJS(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (path.endsWith('.json')) {
+    return require(path);
+  }
+
+  try {
+    const requiredModule = require(path);
     return interop && requiredModule?.__esModule
       ? requiredModule.default
       : requiredModule;
+  } catch (err: any) {
+    if (err.code === 'ERR_REQUIRE_ESM') {
+      return await compatibleRequireESM(path, interop);
+    } else {
+      throw err;
+    }
+  }
+}
+
+export async function compatibleRequire(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (process.env.MODERN_LIB_FORMAT === 'esm') {
+    return await compatibleRequireESM(path, interop);
+  } else {
+    return await compatibleRequireCJS(path, interop);
   }
 }
 
@@ -117,18 +127,6 @@ export const cleanRequireCache = (filelist: string[]) => {
   }
 };
 
-export function deleteRequireCache(path: string) {
-  if (process.env.MODERN_LIB_FORMAT === 'esm') {
-    if (module.children) {
-      module.children = module.children.filter(item => item.filename !== path);
-    }
-  } else {
-    if (require.cache[path]) {
-      delete require.cache[path];
-    }
-  }
-}
-
 /**
  * Try to resolve npm package entry file path.
  * @param name - Package name.
@@ -153,6 +151,7 @@ const tryResolveESM = (name: string, ...resolvePath: string[]) => {
   (err as any).code = 'MODULE_NOT_FOUND';
   throw err;
 };
+
 export const tryResolve = (name: string, ...resolvePath: string[]) => {
   let filePath = '';
   try {

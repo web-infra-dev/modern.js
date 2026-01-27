@@ -8,7 +8,7 @@ if (!process.env.MODERN_JS_VERSION) {
 }
 
 // is esm project?
-let isEsm = false;
+let isESM = false;
 try {
   const { readFileSync } = require('fs');
   const { join } = require('path');
@@ -16,14 +16,21 @@ try {
   const pkg = JSON.parse(
     readFileSync(join(cwd(), 'package.json'), { encoding: 'utf-8' }),
   );
-  isEsm = pkg.type === 'module';
+  isESM = pkg.type === 'module';
 } catch (e) {
   // ignore
 }
 
-require(
-  isEsm ? '../dist/esm-node/run/index.mjs' : '../dist/cjs/run/index.js',
-).run({
-  internalPlugins: INTERNAL_RUNTIME_PLUGINS,
-  version,
-});
+if (isESM) {
+  import('../dist/esm-node/run/index.mjs').then(({ run }) => {
+    run({
+      internalPlugins: INTERNAL_RUNTIME_PLUGINS,
+      version,
+    });
+  });
+} else {
+  require('../dist/cjs/run/index.js').run({
+    internalPlugins: INTERNAL_RUNTIME_PLUGINS,
+    version,
+  });
+}

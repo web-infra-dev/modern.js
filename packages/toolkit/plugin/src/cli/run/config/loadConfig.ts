@@ -97,7 +97,7 @@ async function loadConfigContent<T>(configFile: string): Promise<T> {
 export const loadTypeScriptFile = (filePath: string): any => {
   const jiti = createJiti(__filename, {
     requireCache: false,
-    interopDefault: false,
+    interopDefault: true,
   });
 
   if (!fs.existsSync(filePath)) {

@@ -176,7 +176,6 @@ export async function prebundle(task: ParsedTask) {
   });
 
   if (task.depEsmEntry) {
-    console.log('=== Start prebundle ESM ===', task.depName, task.depEsmEntry);
     const { code: esmCode } = await ncc(task.depEsmEntry, {
       externals: {
         ...DEFAULT_EXTERNALS,
