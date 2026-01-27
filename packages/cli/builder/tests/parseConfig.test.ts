@@ -1,13 +1,11 @@
 import type { OutputConfig } from '@rsbuild/core';
-import { afterAll, afterEach, describe, expect, test } from '@rstest/core';
+import { afterAll, afterEach, describe, expect, rs, test } from '@rstest/core';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 import type { BuilderConfig } from '../src/types';
 
 describe('parseCommonConfig', () => {
-  const env = process.env.NODE_ENV;
-
-  afterAll(() => {
-    process.env.NODE_ENV = env;
+  afterEach(() => {
+    rs.unstubAllEnvs();
   });
 
   test('merge config', async () => {
@@ -69,7 +67,7 @@ describe('parseCommonConfig', () => {
   });
 
   test('dev.xxx', async () => {
-    process.env.NODE_ENV = 'development';
+    rs.stubEnv('NODE_ENV', 'development');
     expect(
       (
         await parseCommonConfig({
@@ -97,7 +95,7 @@ describe('parseCommonConfig', () => {
       ).rsbuildConfig,
     ).toMatchSnapshot();
 
-    process.env.NODE_ENV = 'production';
+    rs.stubEnv('NODE_ENV', 'production');
     expect(
       (
         await parseCommonConfig({
@@ -137,12 +135,6 @@ describe('parseCommonConfig', () => {
   });
 
   describe('CSS source map configuration', () => {
-    const originalEnv = process.env.NODE_ENV;
-
-    afterEach(() => {
-      process.env.NODE_ENV = originalEnv;
-    });
-
     test('should not set css source map when output.sourceMap is true', async () => {
       const config = await parseCommonConfig({
         output: {
@@ -193,7 +185,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to true when output.sourceMap.css is undefined in development', async () => {
-      process.env.NODE_ENV = 'development';
+      rs.stubEnv('NODE_ENV', 'development');
 
       const config = await parseCommonConfig({
         output: {
@@ -210,7 +202,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to false when output.sourceMap.css is undefined in production', async () => {
-      process.env.NODE_ENV = 'production';
+      rs.stubEnv('NODE_ENV', 'production');
 
       const config = await parseCommonConfig({
         output: {
@@ -227,7 +219,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to true when output.sourceMap is undefined in development', async () => {
-      process.env.NODE_ENV = 'development';
+      rs.stubEnv('NODE_ENV', 'development');
 
       const config = await parseCommonConfig({
         output: {},
@@ -239,7 +231,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should set css source map to false when output.sourceMap is undefined in production', async () => {
-      process.env.NODE_ENV = 'production';
+      rs.stubEnv('NODE_ENV', 'production');
 
       const config = await parseCommonConfig({
         output: {},
@@ -251,7 +243,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should respect explicitly set css source map in development', async () => {
-      process.env.NODE_ENV = 'development';
+      rs.stubEnv('NODE_ENV', 'development');
 
       const config = await parseCommonConfig({
         output: {
@@ -268,7 +260,7 @@ describe('parseCommonConfig', () => {
     });
 
     test('should respect explicitly set css source map in production', async () => {
-      process.env.NODE_ENV = 'production';
+      rs.stubEnv('NODE_ENV', 'production');
 
       const config = await parseCommonConfig({
         output: {

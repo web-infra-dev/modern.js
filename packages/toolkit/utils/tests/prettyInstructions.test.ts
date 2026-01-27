@@ -1,3 +1,4 @@
+import { after } from '../compiled/lodash';
 import { prettyInstructions } from '../src';
 
 const mockNetworkInterfaces = {
@@ -93,6 +94,9 @@ rstest.mock('../compiled/chalk', () => {
 });
 
 describe('prettyInstructions', () => {
+  afterEach(() => {
+    rstest.unstubAllEnvs();
+  });
   test('basic usage', () => {
     const mockAppContext = {
       entrypoints: mockEntrypoints,
@@ -116,8 +120,7 @@ describe('prettyInstructions', () => {
   });
 
   test('should print https URLs', () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'development';
+    rs.stubEnv('NODE_ENV', 'development');
 
     const mockAppContext = {
       entrypoints: mockEntrypoints,
@@ -133,12 +136,10 @@ describe('prettyInstructions', () => {
     });
 
     expect(message).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 
   test('should print host correctly', () => {
-    process.env.NODE_ENV = 'development';
+    rs.stubEnv('NODE_ENV', 'development');
 
     const mockAppContext = {
       entrypoints: mockEntrypoints,
