@@ -1,11 +1,14 @@
 import { join } from 'path';
-import { describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rstest } from '@rstest/core';
+import { after } from 'lodash';
 import { createBuilder } from '../src';
 
 describe('builder environment compat', () => {
+  afterEach(() => {
+    rstest.unstubAllEnvs();
+  });
   it('should generator environment config correctly', async () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'development';
+    rstest.stubEnv('NODE_ENV', 'development');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -38,7 +41,5 @@ describe('builder environment compat', () => {
     ]);
 
     expect(bundlerConfigs).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 });

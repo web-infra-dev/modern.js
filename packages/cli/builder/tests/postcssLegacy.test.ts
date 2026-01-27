@@ -1,8 +1,12 @@
-import { describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { createBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
 describe('plugin-postcssLegacy', () => {
+  afterEach(() => {
+    rs.unstubAllEnvs();
+  });
+
   it('should register postcss plugin by browserslist', async () => {
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -49,9 +53,7 @@ describe('plugin-postcssLegacy', () => {
   });
 
   it('should register postcss plugin correctly when injectStyles is enabled in dev environment', async () => {
-    const originalNodeEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'development';
-
+    rs.stubEnv('NODE_ENV', 'development');
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
       config: {
@@ -65,13 +67,10 @@ describe('plugin-postcssLegacy', () => {
     const config = await unwrapConfig(rsbuild);
 
     expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
-
-    process.env.NODE_ENV = originalNodeEnv;
   });
 
   it('should register postcss plugin correctly when injectStyles is enabled in production environment', async () => {
-    const originalNodeEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    rs.stubEnv('NODE_ENV', 'production');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -86,8 +85,6 @@ describe('plugin-postcssLegacy', () => {
     const config = await unwrapConfig(rsbuild);
 
     expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
-
-    process.env.NODE_ENV = originalNodeEnv;
   });
 });
 

@@ -2,6 +2,9 @@ import path from 'path';
 import { defaults, getBrowserslist } from '../src';
 
 describe('get browserslist', () => {
+  afterEach(() => {
+    rstest.unstubAllEnvs();
+  });
   const fixture = path.resolve(__dirname, './fixtures/browserlist');
 
   test(`should load browserslist from package.json`, () => {
@@ -20,7 +23,7 @@ describe('get browserslist', () => {
   });
 
   test(`should load browserslist base on environment`, () => {
-    process.env.NODE_ENV = 'development';
+    rstest.stubEnv('NODE_ENV', 'development');
     expect(getBrowserslist(path.join(fixture, 'develop'))).toEqual([
       'last 1 chrome version',
     ]);
