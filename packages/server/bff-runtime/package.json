@@ -41,9 +41,9 @@
     "farrow-schema": "^1.12.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@rslib/core": "0.19.3",
     "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
+    "@types/node": "^20",
     "typescript": "^5"
   },
   "publishConfig": {

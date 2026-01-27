@@ -84,18 +84,18 @@
   },
   "dependencies": {
     "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@rsbuild/core": "2.0.0-alpha.4",
     "@swc/helpers": "^0.5.17",
-    "jiti": "1.21.7",
-    "@rsbuild/core": "2.0.0-alpha.4"
+    "jiti": "1.21.7"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
+    "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@types/node": "^20",
     "@types/react": "^19.2.9",
-    "@rslib/core": "0.19.3",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false,

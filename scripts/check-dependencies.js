@@ -6,10 +6,6 @@ const ignoreDeps = [
   'typescript',
   'lru-cache',
   'tsx',
-  // Can be removed after upgrading Rslib
-  '@rsbuild/plugin-react',
-  // Can be removed after upgrading Rspress
-  '@rsbuild/plugin-sass',
 ];
 
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps

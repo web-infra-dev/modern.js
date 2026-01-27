@@ -6,8 +6,8 @@
   "typings": "src/index.ts",
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
-    "path-serializer": "0.5.1",
     "@types/node": "^20",
+    "path-serializer": "0.5.1",
     "typescript": "^5"
   }
 }

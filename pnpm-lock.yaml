@@ -458,8 +458,8 @@ importers:
         version: 11.12.2
     devDependencies:
       '@rsbuild/plugin-sass':
-        specifier: 1.4.1
-        version: 1.4.1(@rsbuild/core@1.6.15)
+        specifier: 1.5.0
+        version: 1.5.0(@rsbuild/core@1.6.15)
       '@rspress/core':
         specifier: 2.0.0-rc.0
         version: 2.0.0-rc.0(@types/react@19.2.9)
@@ -7040,11 +7040,6 @@ packages:
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
-
-  '@rsbuild/plugin-sass@1.4.1':
-    resolution: {integrity: sha512-M6ljbB21iBKasKL1M2P46L7X9ChW/q/Qb/5X3SNOFf6NgiEgBtj3/1K7irBk4O2KXkDR3HMcxuzZjkXd0+Zwuw==}
-    peerDependencies:
-      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
   '@rsbuild/plugin-sass@1.5.0':
     resolution: {integrity: sha512-m9eLjN8KQe43obVAevy8ivbcAVWJkChxooWev9m+7JZYSDPW1Fr3Zmc5ZBkroQUy8NxGTj/eWc434TmtzL2Mrw==}
@@ -18599,7 +18594,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.0.0-alpha.4(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0)
 
-  '@rsbuild/plugin-sass@1.4.1(@rsbuild/core@1.6.15)':
+  '@rsbuild/plugin-sass@1.5.0(@rsbuild/core@1.6.15)':
     dependencies:
       '@rsbuild/core': 1.6.15
       deepmerge: 4.3.1

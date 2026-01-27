@@ -61,13 +61,13 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
     "lint-staged": "~13.3.0",
-    "@rslib/core": "0.19.3",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "~5.0.4"
   },
   "sideEffects": [],

@@ -7,13 +7,13 @@
     "build": "modern build"
   },
   "dependencies": {
-    "i18next":"25.7.4",
-    "react-i18next": "15.7.4",
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20251120074204",
+    "i18next": "25.7.4",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "react-i18next": "15.7.4"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
