@@ -4,8 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1457,11 +1455,11 @@ importers:
         version: 19.2.3(react@19.2.3)
     devDependencies:
       '@modern-js/codesmith-api-handlebars':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.8)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/create':
         specifier: workspace:*
         version: link:../create
@@ -6334,13 +6332,16 @@ packages:
   '@mermaid-js/parser@0.6.3':
     resolution: {integrity: sha512-lnjOhe7zyHjc+If7yT4zoedx2vo4sHaTmtkl1+or8BRTnCtDmcTpAjpzDSfCZrshM5bCoz0GyidzadJAH1xobA==}
 
-  '@modern-js/codesmith-api-handlebars@2.6.8':
-    resolution: {integrity: sha512-8P8UeZlpiIQZXeQpMYOP4GMwsQf/lwlsNgSrs6gmB6XCp6tp7ae5QP/GK0XJtdg6QlAtsP+GIg59yX/gaPVG1A==}
+  '@modern-js/codesmith-api-handlebars@2.6.9':
+    resolution: {integrity: sha512-wfTJ1vHr7aq2xMrja03xjy1JQ5gTQDUK+degP9kFdU5iGpw3AwIBZOLq6gyDtDBJYj2bk2KSaoXlFOQl1UYGzQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
   '@modern-js/codesmith-utils@2.6.8':
     resolution: {integrity: sha512-YeYxvaduiSS9gQti0wVKbUvW43YDfOaI3CV+ZZ7VdHYqn7jeJT2dw3zR38j2408xMuybcpb6h4iZzF6THwhIZw==}
+
+  '@modern-js/codesmith-utils@2.6.9':
+    resolution: {integrity: sha512-vv7A0ZynHxu//vLq1Rn3BK8JiczJocNSpxgsdLCVpP7WQ/MmgkHe3GtHu7nuB1DyZvZAebpzTv+BfqL8mGUPLA==}
 
   '@modern-js/codesmith@2.6.8':
     resolution: {integrity: sha512-CPIuW5Pj4psVfnZG4ZRCBSZHEcbxIpY6kpqb2IHog+tg1EFxs8dpc1DmW6ejtfM6HbyQGgd8no3LZ4YkjNolXw==}
@@ -13828,6 +13829,7 @@ packages:
   react-server-dom-webpack@19.2.3:
     resolution: {integrity: sha512-ifo7aqqdNJyV6U2zuvvWX4rRQ51pbleuUFNG7ZYhIuSuWZzQPbfmYv11GNsyJm/3uGNbt8buJ9wmoISn/uOAfw==}
     engines: {node: '>=0.10.0'}
+    deprecated: High Security Vulnerability in React Server Components
     peerDependencies:
       react: ^19.2.3
       react-dom: ^19.2.3
@@ -17544,7 +17546,7 @@ snapshots:
     dependencies:
       langium: 3.3.1
 
-  '@modern-js/codesmith-api-handlebars@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-handlebars@2.6.9(@modern-js/codesmith@2.6.8)':
     dependencies:
       '@modern-js/codesmith': 2.6.8
       '@swc/helpers': 0.5.1
@@ -17565,6 +17567,22 @@ snapshots:
       lodash.merge: 4.6.2
       ora: 5.4.1
       semver: 7.6.0
+
+  '@modern-js/codesmith-utils@2.6.9':
+    dependencies:
+      '@swc/helpers': 0.5.1
+      chalk: 4.1.2
+      execa: 5.1.1
+      fs-extra: 10.0.1
+      glob: 7.2.0
+      lodash.flattendeep: 4.4.0
+      lodash.get: 4.4.2
+      lodash.isfunction: 3.0.9
+      lodash.isobject: 3.0.2
+      lodash.isstring: 4.0.1
+      lodash.merge: 4.6.2
+      ora: 5.4.1
+      semver: 7.7.3
 
   '@modern-js/codesmith@2.6.8':
     dependencies:
