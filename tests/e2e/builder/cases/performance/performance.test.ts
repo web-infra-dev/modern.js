@@ -16,7 +16,6 @@ test.describe('performance configure multi', () => {
       },
       builderConfig: {
         performance: {
-          bundleAnalyze: {},
           chunkSplit: {
             strategy: 'all-in-one',
           },
@@ -25,14 +24,6 @@ test.describe('performance configure multi', () => {
     });
 
     files = await builder.unwrapOutputJSON();
-  });
-
-  test('bundleAnalyze', async () => {
-    const filePaths = Object.keys(files).filter(file =>
-      file.endsWith('report-web.html'),
-    );
-
-    expect(filePaths.length).toBe(1);
   });
 
   test('chunkSplit all-in-one', async () => {

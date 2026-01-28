@@ -4,16 +4,16 @@ import { RUNTIME_CHUNK_REGEX } from '@modern-js/builder';
 export class HtmlAsyncChunkPlugin {
   name: string;
 
-  htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin;
+  htmlPlugin: typeof Rspack.HtmlRspackPlugin;
 
-  constructor(htmlWebpackPlugin: typeof Rspack.HtmlRspackPlugin) {
+  constructor(htmlPlugin: typeof Rspack.HtmlRspackPlugin) {
     this.name = 'HtmlAsyncChunkPlugin';
-    this.htmlWebpackPlugin = htmlWebpackPlugin;
+    this.htmlPlugin = htmlPlugin;
   }
 
   apply(compiler: Rspack.Compiler) {
     compiler.hooks.compilation.tap(this.name, compilation => {
-      const hooks = this.htmlWebpackPlugin.getHooks(compilation as any);
+      const hooks = this.htmlPlugin.getCompilationHooks(compilation as any);
 
       hooks.alterAssetTagGroups.tap(this.name, assets => {
         const headTags: typeof assets.headTags = [];

@@ -119,17 +119,16 @@ export class RouterPlugin {
     const placeholder = `<!--<?- ${ROUTE_MANIFEST_HOLDER} ?>-->`;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      this.HtmlBundlerPlugin.getHooks(compilation).beforeEmit.tapAsync(
-        'RouterManifestPlugin',
-        (data, callback) => {
-          const { outputName } = data;
-          const { chunks } = data.plugin.options!;
-          chunksToHtmlName.set(chunks, outputName);
+      this.HtmlBundlerPlugin.getCompilationHooks(
+        compilation,
+      ).beforeEmit.tapAsync('RouterManifestPlugin', (data, callback) => {
+        const { outputName } = data;
+        const { chunks } = data.plugin.options!;
+        chunksToHtmlName.set(chunks, outputName);
 
-          data.html = data.html.replace('</script>', `</script>${placeholder}`);
-          callback(null, data);
-        },
-      );
+        data.html = data.html.replace('</script>', `</script>${placeholder}`);
+        callback(null, data);
+      });
 
       compilation.hooks.processAssets.tapPromise(
         {

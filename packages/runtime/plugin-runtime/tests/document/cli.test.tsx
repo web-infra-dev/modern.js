@@ -88,7 +88,7 @@ describe('plugin runtime cli', () => {
     const htmlPluginFn = result.templateContent;
 
     const html = await htmlPluginFn({
-      htmlWebpackPlugin: {
+      htmlPlugin: {
         tags: {
           headTags: [],
           bodyTags: '',

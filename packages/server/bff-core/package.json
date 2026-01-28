@@ -44,14 +44,14 @@
     "type-fest": "2.19.0"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/koa-compose": "^3.2.9",
     "@types/node": "^20",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "@rslib/core": "0.19.2",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "^5",
     "zod": "^3.25.76"
   },

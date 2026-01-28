@@ -27,9 +27,7 @@ async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
     return clonePostCSSConfig(await cached);
   }
 
-  const { default: postcssrc } = await import(
-    '../../compiled/postcss-load-config'
-  );
+  const { default: postcssrc } = await import('@compiled/postcss-load-config');
 
   const promise = postcssrc({}, root).catch((err: Error) => {
     // ignore the config not found error

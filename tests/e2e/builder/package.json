@@ -10,21 +10,22 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "7.12.0",
-    "vue": "^3.5.26"
+    "vue": "^3.5.27"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.57.0",
-    "@rsbuild/core": "1.7.2",
+    "@rsbuild/core": "2.0.0-alpha.4",
     "@types/connect": "^3.4.38",
     "@types/lodash": "^4.17.23",
     "@types/node": "^20",
-    "@types/react": "^19.2.8",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "@types/serve-static": "^1.15.10",
     "connect": "^3.7.0",
     "serve-static": "^1.16.3",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5"
   }
 }

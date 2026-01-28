@@ -3,7 +3,18 @@
 exports[`builder environment compat > should generator environment config correctly 1`] = `
 [
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "web-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -14,23 +25,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "web-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -54,164 +48,158 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
-          "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 1,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
+              "resolve": {
+                "preferRelative": true,
               },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
                       ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
                     },
-                  ],
+                    "sourceMap": true,
+                  },
                 },
-                "sourceMap": true,
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
               },
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 1,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
             },
           ],
-        },
-        {
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
           "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 1,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
-                      ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
-                    },
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.css\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -224,68 +212,68 @@ exports[`builder environment compat > should generator environment config correc
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
             /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
           ],
-          "resolve": {
-            "alias": {
-              "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-            },
-          },
-          "resourceQuery": {
-            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          },
-          "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "builtin:swc-loader",
-              "options": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
-                },
-                "env": {
-                  "coreJs": "3.47",
-                  "mode": "entry",
-                  "targets": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "isModule": "unknown",
-                "jsc": {
-                  "experimental": {
-                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
-                    "keepImportAttributes": true,
-                  },
-                  "externalHelpers": true,
-                  "output": {
-                    "charset": "ascii",
-                  },
-                  "parser": {
-                    "decorators": true,
-                    "syntax": "typescript",
-                    "tsx": true,
-                  },
-                  "transform": {
-                    "decoratorMetadata": true,
-                    "legacyDecorator": true,
-                    "react": {
-                      "development": true,
-                      "refresh": true,
-                      "runtime": "automatic",
-                    },
-                    "useDefineForClassFields": false,
-                  },
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "resolve": {
+                "alias": {
+                  "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
                 },
               },
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "builtin:swc-loader",
+                  "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
+                    },
+                    "env": {
+                      "coreJs": "3.48",
+                      "mode": "entry",
+                      "targets": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "isModule": "unknown",
+                    "jsc": {
+                      "experimental": {
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
+                        "keepImportAttributes": true,
+                      },
+                      "externalHelpers": true,
+                      "output": {
+                        "charset": "ascii",
+                      },
+                      "parser": {
+                        "decorators": true,
+                        "syntax": "typescript",
+                        "tsx": true,
+                      },
+                      "transform": {
+                        "decoratorMetadata": true,
+                        "legacyDecorator": true,
+                        "react": {
+                          "development": true,
+                          "refresh": true,
+                          "runtime": "automatic",
+                        },
+                        "useDefineForClassFields": false,
+                      },
+                    },
+                  },
+                },
+              ],
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "asset/source",
         },
         {
           "mimetype": {
@@ -309,7 +297,7 @@ exports[`builder environment compat > should generator environment config correc
                   "typeExports": true,
                 },
                 "env": {
-                  "coreJs": "3.47",
+                  "coreJs": "3.48",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -354,7 +342,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -385,7 +373,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -416,7 +404,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -462,385 +450,377 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 3,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 3,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 3,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
-                      ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
-                    },
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 3,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
-                      ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
-                    },
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 2,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+                    "postcssOptions": {
+                      "config": false,
+                      "plugins": [
+                        {
+                          "Once": [Function],
+                          "postcssPlugin": "postcss-flexbugs-fixes",
+                        },
+                        {
+                          "Declaration": [Function],
+                          "postcssPlugin": "postcss-page-break",
+                        },
+                        {
+                          "AtRule": {
+                            "custom-media": [Function],
+                            "media": [Function],
+                          },
+                          "postcssPlugin": "postcss-media-minmax",
+                        },
+                        {
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
+                        },
+                        {
+                          "browsers": [
+                            "chrome >= 87",
+                            "edge >= 88",
+                            "firefox >= 78",
+                            "safari >= 14",
+                          ],
+                          "info": [Function],
+                          "options": {
+                            "flexbox": "no-2009",
+                            "overrideBrowserslist": [
+                              "chrome >= 87",
+                              "edge >= 88",
+                              "firefox >= 78",
+                              "safari >= 14",
+                            ],
+                          },
+                          "postcssPlugin": "autoprefixer",
+                          "prepare": [Function],
+                        },
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 2,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
-                      ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
-                    },
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 2,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-                "postcssOptions": {
-                  "config": false,
-                  "plugins": [
-                    {
-                      "Once": [Function],
-                      "postcssPlugin": "postcss-flexbugs-fixes",
-                    },
-                    {
-                      "Declaration": [Function],
-                      "postcssPlugin": "postcss-page-break",
-                    },
-                    {
-                      "AtRule": {
-                        "custom-media": [Function],
-                        "media": [Function],
-                      },
-                      "postcssPlugin": "postcss-media-minmax",
-                    },
-                    {
-                      "Rule": [Function],
-                      "postcssPlugin": "postcss-nesting",
-                    },
-                    {
-                      "browsers": [
-                        "chrome >= 87",
-                        "edge >= 88",
-                        "firefox >= 78",
-                        "safari >= 14",
-                      ],
-                      "info": [Function],
-                      "options": {
-                        "flexbox": "no-2009",
-                        "overrideBrowserslist": [
-                          "chrome >= 87",
-                          "edge >= 88",
-                          "firefox >= 78",
-                          "safari >= 14",
-                        ],
-                      },
-                      "postcssPlugin": "autoprefixer",
-                      "prepare": [Function],
-                    },
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
         },
         {
           "oneOf": [
@@ -848,7 +828,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -871,7 +851,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -945,7 +925,7 @@ exports[`builder environment compat > should generator environment config correc
                       "typeExports": true,
                     },
                     "env": {
-                      "coreJs": "3.47",
+                      "coreJs": "3.48",
                       "mode": "entry",
                       "targets": [
                         "chrome >= 87",
@@ -1061,12 +1041,13 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "static/js/async/[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "static/js/[name].js",
-      "hashFunction": "xxhash64",
       "path": "<WORKSPACE>/packages/cli/builder/dist",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
@@ -1186,6 +1167,7 @@ exports[`builder environment compat > should generator environment config correc
           "injectEntry": true,
           "injectLoader": true,
           "overlay": false,
+          "reactRefreshLoader": "builtin:react-refresh-loader",
           "reloadOnRuntimeErrors": false,
           "resourceQuery": {
             "not": /\\^\\\\\\?raw\\$/,
@@ -1228,14 +1210,25 @@ exports[`builder environment compat > should generator environment config correc
     },
     "target": [
       "web",
-      "es2017",
+      "browserslist:chrome >= 87,edge >= 88,firefox >= 78,safari >= 14",
     ],
     "watchOptions": {
       "aggregateTimeout": 0,
     },
   },
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "node-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -1245,23 +1238,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "node-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -1290,63 +1266,57 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
-          "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 0,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
+              "resolve": {
+                "preferRelative": true,
+              },
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 0,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
                 },
-                "sourceMap": true,
-              },
+              ],
             },
-          ],
-        },
-        {
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 0,
-                "modules": false,
-                "sourceMap": true,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
               },
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 0,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -1358,58 +1328,58 @@ exports[`builder environment compat > should generator environment config correc
             },
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
-          "resourceQuery": {
-            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          },
-          "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "builtin:swc-loader",
-              "options": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
-                },
-                "env": {
-                  "targets": [
-                    "node >= 16",
-                  ],
-                },
-                "isModule": "unknown",
-                "jsc": {
-                  "experimental": {
-                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
-                    "keepImportAttributes": true,
-                  },
-                  "externalHelpers": true,
-                  "output": {
-                    "charset": "ascii",
-                  },
-                  "parser": {
-                    "decorators": true,
-                    "syntax": "typescript",
-                    "tsx": true,
-                  },
-                  "transform": {
-                    "decoratorMetadata": true,
-                    "legacyDecorator": true,
-                    "react": {
-                      "development": true,
-                      "refresh": false,
-                      "runtime": "automatic",
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "builtin:swc-loader",
+                  "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
                     },
-                    "useDefineForClassFields": false,
+                    "env": {
+                      "targets": [
+                        "node >= 16",
+                      ],
+                    },
+                    "isModule": "unknown",
+                    "jsc": {
+                      "experimental": {
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
+                        "keepImportAttributes": true,
+                      },
+                      "externalHelpers": true,
+                      "output": {
+                        "charset": "ascii",
+                      },
+                      "parser": {
+                        "decorators": true,
+                        "syntax": "typescript",
+                        "tsx": true,
+                      },
+                      "transform": {
+                        "decoratorMetadata": true,
+                        "legacyDecorator": true,
+                        "react": {
+                          "development": true,
+                          "refresh": false,
+                          "runtime": "automatic",
+                        },
+                        "useDefineForClassFields": false,
+                      },
+                    },
                   },
                 },
-              },
+              ],
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "asset/source",
         },
         {
           "mimetype": {
@@ -1471,7 +1441,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1504,7 +1474,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1537,7 +1507,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1596,183 +1566,175 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 2,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 2,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 2,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 1,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 1,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 1,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
         },
         {
           "oneOf": [
@@ -1781,7 +1743,7 @@ exports[`builder environment compat > should generator environment config correc
                 "emit": false,
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1958,15 +1920,16 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
       "library": {
         "type": "commonjs2",
       },
       "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },
@@ -2041,7 +2004,18 @@ exports[`builder environment compat > should generator environment config correc
     },
   },
   {
-    "cache": true,
+    "cache": {
+      "buildDependencies": [
+        "<WORKSPACE>/packages/cli/builder/package.json",
+        "<WORKSPACE>/packages/cli/builder/tsconfig.json",
+      ],
+      "storage": {
+        "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
+        "type": "filesystem",
+      },
+      "type": "persistent",
+      "version": "workerSSR-development",
+    },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
@@ -2051,23 +2025,6 @@ exports[`builder environment compat > should generator environment config correc
     },
     "experiments": {
       "asyncWebAssembly": true,
-      "cache": {
-        "buildDependencies": [
-          "<WORKSPACE>/packages/cli/builder/package.json",
-          "<WORKSPACE>/packages/cli/builder/tsconfig.json",
-        ],
-        "storage": {
-          "directory": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/rspack",
-          "type": "filesystem",
-        },
-        "type": "persistent",
-        "version": "workerSSR-development",
-      },
-      "rspackFuture": {
-        "bundlerInfo": {
-          "force": false,
-        },
-      },
     },
     "infrastructureLogging": {
       "level": "error",
@@ -2092,63 +2049,57 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
-          "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 0,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
+              "resolve": {
+                "preferRelative": true,
+              },
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 0,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
                 },
-                "sourceMap": true,
-              },
+              ],
             },
-          ],
-        },
-        {
-          "resolve": {
-            "preferRelative": true,
-          },
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.css\\$/,
-          "type": "javascript/auto",
-          "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 0,
-                "modules": false,
-                "sourceMap": true,
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "resolve": {
+                "preferRelative": true,
               },
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 0,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.css\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -2160,58 +2111,58 @@ exports[`builder environment compat > should generator environment config correc
             },
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
-          "resourceQuery": {
-            "not": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          },
-          "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "javascript/auto",
-          "use": [
+          "oneOf": [
             {
-              "loader": "builtin:swc-loader",
-              "options": {
-                "collectTypeScriptInfo": {
-                  "exportedEnum": false,
-                  "typeExports": true,
-                },
-                "env": {
-                  "targets": [
-                    "node >= 16",
-                  ],
-                },
-                "isModule": "unknown",
-                "jsc": {
-                  "experimental": {
-                    "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
-                    "keepImportAttributes": true,
-                  },
-                  "externalHelpers": true,
-                  "output": {
-                    "charset": "ascii",
-                  },
-                  "parser": {
-                    "decorators": true,
-                    "syntax": "typescript",
-                    "tsx": true,
-                  },
-                  "transform": {
-                    "decoratorMetadata": true,
-                    "legacyDecorator": true,
-                    "react": {
-                      "development": true,
-                      "refresh": false,
-                      "runtime": "automatic",
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "type": "javascript/auto",
+              "use": [
+                {
+                  "loader": "builtin:swc-loader",
+                  "options": {
+                    "collectTypeScriptInfo": {
+                      "exportedEnum": false,
+                      "typeExports": true,
                     },
-                    "useDefineForClassFields": false,
+                    "env": {
+                      "targets": [
+                        "node >= 16",
+                      ],
+                    },
+                    "isModule": "unknown",
+                    "jsc": {
+                      "experimental": {
+                        "cacheRoot": "<WORKSPACE>/packages/cli/builder/node_modules/.cache/.swc",
+                        "keepImportAttributes": true,
+                      },
+                      "externalHelpers": true,
+                      "output": {
+                        "charset": "ascii",
+                      },
+                      "parser": {
+                        "decorators": true,
+                        "syntax": "typescript",
+                        "tsx": true,
+                      },
+                      "transform": {
+                        "decoratorMetadata": true,
+                        "legacyDecorator": true,
+                        "react": {
+                          "development": true,
+                          "refresh": false,
+                          "runtime": "automatic",
+                        },
+                        "useDefineForClassFields": false,
+                      },
+                    },
                   },
                 },
-              },
+              ],
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-          "type": "asset/source",
         },
         {
           "mimetype": {
@@ -2272,7 +2223,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/image/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2303,7 +2254,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/media/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2334,7 +2285,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/font/[name].[contenthash:8][ext]",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2380,183 +2331,175 @@ exports[`builder environment compat > should generator environment config correc
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 2,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 2,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+                  "options": {
+                    "join": [Function],
+                    "sourceMap": false,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+                  "options": {
+                    "api": "modern-compiler",
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                    "sassOptions": {
+                      "quietDeps": true,
+                      "silenceDeprecations": [
+                        "import",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 2,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 2,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-              "options": {
-                "join": [Function],
-                "sourceMap": false,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-              "options": {
-                "api": "modern-compiler",
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-                "sassOptions": {
-                  "quietDeps": true,
-                  "silenceDeprecations": [
-                    "import",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
             "not": "url",
           },
+          "oneOf": [
+            {
+              "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "exportType": "string",
+                    "importLoaders": 1,
+                    "modules": false,
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+            {
+              "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+              "type": "asset/source",
+            },
+            {
+              "sideEffects": true,
+              "use": [
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+                  "options": {
+                    "importLoaders": 1,
+                    "modules": {
+                      "auto": true,
+                      "exportGlobals": false,
+                      "exportLocalsConvention": "camelCase",
+                      "exportOnlyLocals": true,
+                      "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                      "namedExport": false,
+                    },
+                    "sourceMap": true,
+                  },
+                },
+                {
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+                  "options": {
+                    "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                    "lessOptions": {
+                      "javascriptEnabled": true,
+                      "paths": [
+                        "<WORKSPACE>/packages/cli/builder/node_modules",
+                      ],
+                    },
+                    "sourceMap": true,
+                  },
+                },
+              ],
+            },
+          ],
           "resolve": {
             "preferRelative": true,
           },
-          "resourceQuery": {
-            "not": [
-              /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-              /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-            ],
-          },
-          "sideEffects": true,
           "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "importLoaders": 1,
-                "modules": {
-                  "auto": true,
-                  "exportGlobals": false,
-                  "exportLocalsConvention": "camelCase",
-                  "exportOnlyLocals": true,
-                  "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-                  "namedExport": false,
-                },
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-          "sideEffects": true,
-          "test": /\\\\\\.less\\$/,
-          "use": [
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-              "options": {
-                "exportType": "string",
-                "importLoaders": 1,
-                "modules": false,
-                "sourceMap": true,
-              },
-            },
-            {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-              "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-                "lessOptions": {
-                  "javascriptEnabled": true,
-                  "paths": [
-                    "<WORKSPACE>/packages/cli/builder/node_modules",
-                  ],
-                },
-                "sourceMap": true,
-              },
-            },
-          ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
         },
         {
           "oneOf": [
@@ -2564,7 +2507,7 @@ exports[`builder environment compat > should generator environment config correc
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2740,13 +2683,16 @@ exports[`builder environment compat > should generator environment config correc
     },
     "output": {
       "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "bundlerInfo": {
+        "force": false,
+      },
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": "[relative-resource-path]",
       "filename": "[name].js",
-      "hashFunction": "xxhash64",
-      "libraryTarget": "commonjs2",
+      "library": {
+        "type": "commonjs2",
+      },
       "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
-      "pathinfo": false,
       "publicPath": "/",
       "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
     },

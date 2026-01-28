@@ -86,6 +86,7 @@ export async function render(
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
       ssrContext: ssrData.context,
+      initialData: ssrData.data?.initialData,
     });
 
     await runBeforeRender(context);

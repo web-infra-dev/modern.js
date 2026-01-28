@@ -73,11 +73,11 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
-    "@modern-js/rslib": "workspace:*",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^20",
     "@types/ua-parser-js": "^0.7.39",

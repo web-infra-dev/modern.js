@@ -1,12 +1,15 @@
 import { join } from 'path';
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { describe, expect, it } from '@rstest/core';
+import { afterEach, describe, expect, it, rs } from '@rstest/core';
 import { createBuilder } from '../src';
 
 describe('builder rspack', () => {
+  afterEach(() => {
+    rs.unstubAllEnvs();
+  });
+
   it('should generator rspack config correctly', async () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'development';
+    rs.stubEnv('NODE_ENV', 'development');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -30,13 +33,10 @@ describe('builder rspack', () => {
     expect(
       rsbuildConfig.plugins?.map(p => (p as RsbuildPlugin)?.name),
     ).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 
   it('should generator rspack config correctly when prod', async () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'production';
+    rs.stubEnv('NODE_ENV', 'production');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -49,13 +49,10 @@ describe('builder rspack', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 
   it('should generator rspack config correctly when node', async () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'production';
+    rs.stubEnv('NODE_ENV', 'production');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -76,13 +73,10 @@ describe('builder rspack', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 
   it('should generator rspack config correctly when service-worker', async () => {
-    const { NODE_ENV } = process.env;
-    process.env.NODE_ENV = 'production';
+    rs.stubEnv('NODE_ENV', 'production');
 
     const rsbuild = await createBuilder({
       bundlerType: 'rspack',
@@ -103,7 +97,5 @@ describe('builder rspack', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
-
-    process.env.NODE_ENV = NODE_ENV;
   });
 });

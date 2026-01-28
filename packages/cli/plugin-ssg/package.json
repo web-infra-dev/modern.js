@@ -78,10 +78,10 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/types": "workspace:*",
-    "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@rslib/core": "0.19.3",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

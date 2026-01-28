@@ -60,9 +60,8 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
-    "@scripts/build": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"

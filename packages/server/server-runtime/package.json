@@ -61,10 +61,10 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
+    "@modern-js/rslib": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@rslib/core": "0.19.2",
-    "@modern-js/rslib": "workspace:*",
     "typescript": "^5"
   },
   "sideEffects": false,

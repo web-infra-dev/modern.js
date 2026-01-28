@@ -17,18 +17,18 @@
     "build": "rslib build"
   },
   "dependencies": {
-    "@swc/helpers": "^0.5.17",
-    "@rsbuild/plugin-styled-components": "1.6.0"
+    "@rsbuild/plugin-styled-components": "1.6.1",
+    "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
-    "@types/styled-components": "^5.1.36",
-    "styled-components": "^5.3.1",
+    "@modern-js/runtime": "workspace:*",
+    "@rslib/core": "0.19.3",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
+    "@types/styled-components": "^5.1.36",
+    "styled-components": "^5.3.1",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {

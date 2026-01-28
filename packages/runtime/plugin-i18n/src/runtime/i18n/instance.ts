@@ -48,7 +48,7 @@ export function getActualI18nextInstance(instance: I18nInstance | any): any {
 
 export interface I18nInstance {
   language: string;
-  isInitialized: boolean;
+  isInitialized?: boolean;
   init: {
     (callback?: (error: any, t: any) => void): Promise<any>;
     (
@@ -62,7 +62,7 @@ export interface I18nInstance {
   ) => Promise<any>;
   setLang?: (lang: string) => void | Promise<void>;
   use: (plugin: any) => void;
-  createInstance: (options?: I18nInitOptions) => I18nInstance;
+  createInstance?: (options?: I18nInitOptions) => I18nInstance;
   cloneInstance?: () => I18nInstance; // ssr need
   // i18next store (may not be in type definition but exists at runtime)
   store?: I18nResourceStore;
@@ -159,7 +159,7 @@ async function createI18nextInstance(): Promise<I18nInstance | null> {
     if (!i18next) {
       return null;
     }
-    return i18next.createInstance({
+    return i18next.createInstance?.({
       initImmediate: false,
     }) as unknown as I18nInstance;
   } catch (error) {

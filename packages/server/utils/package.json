@@ -48,10 +48,10 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@modern-js/server-core": "workspace:*",
-    "@scripts/rstest-config": "workspace:*",
-    "@rslib/core": "0.19.2",
     "@modern-js/rslib": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@rslib/core": "0.19.3",
+    "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "typescript": "^5"
   },

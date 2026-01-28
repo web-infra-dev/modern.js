@@ -6,86 +6,80 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 1,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
+        "resolve": {
+          "preferRelative": true,
+        },
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 1,
+              "modules": false,
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
-        },
+          {
+            "loader": "builtin:lightningcss-loader",
+            "options": {
+              "errorRecovery": true,
+              "targets": [
+                "chrome >= 87",
+                "edge >= 88",
+                "firefox >= 78",
+                "safari >= 14",
+              ],
+            },
+          },
+        ],
       },
       {
-        "loader": "builtin:lightningcss-loader",
-        "options": {
-          "errorRecovery": true,
-          "targets": [
-            "chrome >= 87",
-            "edge >= 88",
-            "firefox >= 78",
-            "safari >= 14",
-          ],
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
         },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "builtin:lightningcss-loader",
+            "options": {
+              "errorRecovery": true,
+              "targets": [
+                "chrome >= 87",
+                "edge >= 88",
+                "firefox >= 78",
+                "safari >= 14",
+              ],
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
     "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 1,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "builtin:lightningcss-loader",
-        "options": {
-          "errorRecovery": true,
-          "targets": [
-            "chrome >= 87",
-            "edge >= 88",
-            "firefox >= 78",
-            "safari >= 14",
-          ],
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -96,118 +90,112 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 2,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
+        "resolve": {
+          "preferRelative": true,
+        },
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 2,
+              "modules": false,
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "builtin:lightningcss-loader",
-        "options": {
-          "errorRecovery": true,
-          "targets": [
-            "chrome >= 87",
-            "edge >= 88",
-            "firefox >= 78",
-            "safari >= 14",
-          ],
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
+          {
+            "loader": "builtin:lightningcss-loader",
+            "options": {
+              "errorRecovery": true,
+              "targets": [
+                "chrome >= 87",
+                "edge >= 88",
+                "firefox >= 78",
+                "safari >= 14",
+              ],
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
               },
-            ],
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
         },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "builtin:lightningcss-loader",
+            "options": {
+              "errorRecovery": true,
+              "targets": [
+                "chrome >= 87",
+                "edge >= 88",
+                "firefox >= 78",
+                "safari >= 14",
+              ],
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
     "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 2,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "builtin:lightningcss-loader",
-        "options": {
-          "errorRecovery": true,
-          "targets": [
-            "chrome >= 87",
-            "edge >= 88",
-            "firefox >= 78",
-            "safari >= 14",
-          ],
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -218,172 +206,166 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 1,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
+        "resolve": {
+          "preferRelative": true,
         },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 1,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
                 ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
               },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
         },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
     "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 1,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -394,209 +376,205 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "dependency": {
       "not": "url",
     },
+    "oneOf": [
+      {
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 3,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 3,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-        "options": {
-          "join": [Function],
-          "sourceMap": false,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-        "options": {
-          "api": "modern-compiler",
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-          "sassOptions": {
-            "quietDeps": true,
-            "silenceDeprecations": [
-              "import",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 3,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-        "options": {
-          "join": [Function],
-          "sourceMap": false,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-        "options": {
-          "api": "modern-compiler",
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-          "sassOptions": {
-            "quietDeps": true,
-            "silenceDeprecations": [
-              "import",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -607,193 +585,189 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "dependency": {
       "not": "url",
     },
+    "oneOf": [
+      {
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 2,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": {},
+                    "postcssPlugin": "postcss-plugin-test",
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
     "test": /\\\\\\.less\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 2,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-          "lessOptions": {
-            "javascriptEnabled": true,
-            "paths": [
-              "node_modules",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
-    "test": /\\\\\\.less\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 2,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-              {
-                "AtRule": {},
-                "postcssPlugin": "postcss-plugin-test",
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-          "lessOptions": {
-            "javascriptEnabled": true,
-            "paths": [
-              "node_modules",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.less\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -804,144 +778,138 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 1,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
+        "resolve": {
+          "preferRelative": true,
         },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 1,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
                 ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
               },
-            ],
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
         },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
     "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 1,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -952,181 +920,177 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     "dependency": {
       "not": "url",
     },
+    "oneOf": [
+      {
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 3,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 3,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-        "options": {
-          "join": [Function],
-          "sourceMap": false,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-        "options": {
-          "api": "modern-compiler",
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-          "sassOptions": {
-            "quietDeps": true,
-            "silenceDeprecations": [
-              "import",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 3,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
-        "options": {
-          "join": [Function],
-          "sourceMap": false,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
-        "options": {
-          "api": "modern-compiler",
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
-          "sassOptions": {
-            "quietDeps": true,
-            "silenceDeprecations": [
-              "import",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -1137,165 +1101,161 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     "dependency": {
       "not": "url",
     },
+    "oneOf": [
+      {
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 2,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
     "resolve": {
       "preferRelative": true,
     },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
     "test": /\\\\\\.less\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 2,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-          "lessOptions": {
-            "javascriptEnabled": true,
-            "paths": [
-              "node_modules",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
-    "test": /\\\\\\.less\\$/,
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 2,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
-          "lessOptions": {
-            "javascriptEnabled": true,
-            "paths": [
-              "node_modules",
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.less\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -1306,164 +1266,158 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 1,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": true,
+        "resolve": {
+          "preferRelative": true,
         },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 1,
+              "modules": false,
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
                 ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
               },
-            ],
+              "sourceMap": true,
+            },
           },
-          "sourceMap": true,
+        ],
+      },
+      {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
         },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
       },
     ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
     "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 1,
-          "modules": false,
-          "sourceMap": true,
-        },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
-          },
-          "sourceMap": true,
-        },
-      },
-    ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-    "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;
@@ -1474,390 +1428,384 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
     "dependency": {
       "not": "url",
     },
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": {
-      "not": [
-        /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-      ],
-    },
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
+    "oneOf": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "importLoaders": 1,
-          "modules": {
-            "auto": true,
-            "exportGlobals": false,
-            "exportLocalsConvention": "camelCase",
-            "localIdentName": "[local]-[hash:base64:6]",
-            "namedExport": false,
-          },
-          "sourceMap": false,
+        "resolve": {
+          "preferRelative": true,
         },
-      },
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
-              },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              Processor {
+        "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "exportType": "string",
+              "importLoaders": 1,
+              "modules": false,
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
                 "plugins": [
                   {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-comments",
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
                   },
                   {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-minify-gradients",
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
                   },
                   {
-                    "postcssPlugin": "postcss-reduce-initial",
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  Processor {
+                    "plugins": [
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-comments",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-minify-gradients",
+                      },
+                      {
+                        "postcssPlugin": "postcss-reduce-initial",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-svgo",
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-display-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-reduce-transforms",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-colormin",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-timing-functions",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-calc",
+                      },
+                      {
+                        "postcssPlugin": "postcss-convert-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-ordered-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-minify-selectors",
+                      },
+                      {
+                        "postcssPlugin": "postcss-minify-params",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-charset",
+                      },
+                      {
+                        "postcssPlugin": "postcss-discard-overridden",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-string",
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-unicode",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-minify-font-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-repeat-style",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-positions",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-whitespace",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-duplicates",
+                      },
+                      {
+                        "postcssPlugin": "postcss-merge-rules",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-empty",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-unique-selectors",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "css-declaration-sorter",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "cssnano-util-raw-cache",
+                      },
+                    ],
+                    "version": "8.5.6",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-svgo",
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-display-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-reduce-transforms",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-colormin",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-timing-functions",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-calc",
-                  },
-                  {
-                    "postcssPlugin": "postcss-convert-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-ordered-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-minify-selectors",
-                  },
-                  {
-                    "postcssPlugin": "postcss-minify-params",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-charset",
-                  },
-                  {
-                    "postcssPlugin": "postcss-discard-overridden",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-string",
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-unicode",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-minify-font-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-repeat-style",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-positions",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-whitespace",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-duplicates",
-                  },
-                  {
-                    "postcssPlugin": "postcss-merge-rules",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-empty",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-unique-selectors",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "css-declaration-sorter",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "cssnano-util-raw-cache",
                   },
                 ],
-                "version": "8.5.6",
               },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
+              "sourceMap": false,
+            },
           },
-          "sourceMap": false,
-        },
-      },
-    ],
-  },
-  {
-    "resolve": {
-      "preferRelative": true,
-    },
-    "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
-    "sideEffects": true,
-    "test": /\\\\\\.css\\$/,
-    "type": "javascript/auto",
-    "use": [
-      {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
-        "options": {
-          "exportType": "string",
-          "importLoaders": 1,
-          "modules": false,
-          "sourceMap": false,
-        },
+        ],
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
-        "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
-          "postcssOptions": {
-            "config": false,
-            "plugins": [
-              {
-                "Once": [Function],
-                "postcssPlugin": "postcss-flexbugs-fixes",
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "type": "asset/source",
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/style-loader/index.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
-              {
-                "Declaration": [Function],
-                "postcssPlugin": "postcss-page-break",
-              },
-              {
-                "AtRule": {
-                  "custom-media": [Function],
-                  "media": [Function],
-                },
-                "postcssPlugin": "postcss-media-minmax",
-              },
-              {
-                "Rule": [Function],
-                "postcssPlugin": "postcss-nesting",
-              },
-              Processor {
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+              "postcssOptions": {
+                "config": false,
                 "plugins": [
                   {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-comments",
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
                   },
                   {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-minify-gradients",
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
                   },
                   {
-                    "postcssPlugin": "postcss-reduce-initial",
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
+                  Processor {
+                    "plugins": [
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-comments",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-minify-gradients",
+                      },
+                      {
+                        "postcssPlugin": "postcss-reduce-initial",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-svgo",
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-display-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-reduce-transforms",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-colormin",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-timing-functions",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-calc",
+                      },
+                      {
+                        "postcssPlugin": "postcss-convert-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-ordered-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-minify-selectors",
+                      },
+                      {
+                        "postcssPlugin": "postcss-minify-params",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-charset",
+                      },
+                      {
+                        "postcssPlugin": "postcss-discard-overridden",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-string",
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-unicode",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-minify-font-values",
+                        "prepare": [Function],
+                      },
+                      {
+                        "postcssPlugin": "postcss-normalize-repeat-style",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-positions",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-normalize-whitespace",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-duplicates",
+                      },
+                      {
+                        "postcssPlugin": "postcss-merge-rules",
+                        "prepare": [Function],
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-discard-empty",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "postcss-unique-selectors",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "css-declaration-sorter",
+                      },
+                      {
+                        "OnceExit": [Function],
+                        "postcssPlugin": "cssnano-util-raw-cache",
+                      },
+                    ],
+                    "version": "8.5.6",
+                  },
+                  {
+                    "browsers": [
+                      "chrome >= 87",
+                      "edge >= 88",
+                      "firefox >= 78",
+                      "safari >= 14",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "chrome >= 87",
+                        "edge >= 88",
+                        "firefox >= 78",
+                        "safari >= 14",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-svgo",
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-display-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-reduce-transforms",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-colormin",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-timing-functions",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-calc",
-                  },
-                  {
-                    "postcssPlugin": "postcss-convert-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-ordered-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-minify-selectors",
-                  },
-                  {
-                    "postcssPlugin": "postcss-minify-params",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-charset",
-                  },
-                  {
-                    "postcssPlugin": "postcss-discard-overridden",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-string",
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-unicode",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-minify-font-values",
-                    "prepare": [Function],
-                  },
-                  {
-                    "postcssPlugin": "postcss-normalize-repeat-style",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-positions",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-normalize-whitespace",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-duplicates",
-                  },
-                  {
-                    "postcssPlugin": "postcss-merge-rules",
-                    "prepare": [Function],
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-discard-empty",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "postcss-unique-selectors",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "css-declaration-sorter",
-                  },
-                  {
-                    "OnceExit": [Function],
-                    "postcssPlugin": "cssnano-util-raw-cache",
                   },
                 ],
-                "version": "8.5.6",
               },
-              {
-                "browsers": [
-                  "chrome >= 87",
-                  "edge >= 88",
-                  "firefox >= 78",
-                  "safari >= 14",
-                ],
-                "info": [Function],
-                "options": {
-                  "flexbox": "no-2009",
-                  "overrideBrowserslist": [
-                    "chrome >= 87",
-                    "edge >= 88",
-                    "firefox >= 78",
-                    "safari >= 14",
-                  ],
-                },
-                "postcssPlugin": "autoprefixer",
-                "prepare": [Function],
-              },
-            ],
+              "sourceMap": false,
+            },
           },
-          "sourceMap": false,
-        },
+        ],
       },
     ],
-  },
-  {
-    "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
     "test": /\\\\\\.css\\$/,
-    "type": "asset/source",
   },
 ]
 `;

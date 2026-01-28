@@ -1,7 +1,8 @@
-import { type RuntimeContext, useRuntimeContext } from '@modern-js/runtime';
+import { RuntimeContext } from '@modern-js/runtime';
+import { use } from 'react';
 
 const App = () => {
-  const { initialData } = useRuntimeContext();
+  const { initialData } = use(RuntimeContext);
 
   return (
     <div className="text-center" id="data">

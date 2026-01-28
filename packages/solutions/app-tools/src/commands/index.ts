@@ -6,6 +6,7 @@ import type {
   BuildOptions,
   DeployOptions,
   DevOptions,
+  InfoOptions,
   InspectOptions,
 } from '../utils/types';
 
@@ -106,5 +107,18 @@ export const inspectCommand = (
     .action(async (options: InspectOptions) => {
       const { inspect } = await import('./inspect.js');
       inspect(api, options);
+    });
+};
+
+export const infoCommand = (program: Command, api: CLIPluginAPI<AppTools>) => {
+  program
+    .command('info')
+    .usage('[options]')
+    .description(i18n.t(localeKeys.command.info.describe))
+    .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--json', 'output as JSON format for machine reading')
+    .action(async (options: InfoOptions) => {
+      const { info } = await import('./info.js');
+      await info(api, options);
     });
 };

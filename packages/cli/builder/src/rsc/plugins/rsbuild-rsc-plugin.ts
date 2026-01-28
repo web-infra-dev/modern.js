@@ -75,58 +75,68 @@ export const rsbuildRscPlugin = ({
         }
         const jsHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
-          const useBabel = originalJsRule.uses.has(CHAIN_ID.USE.BABEL);
-          const JSRule = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
-
-          if (originalJsRule) {
-            const jsLoaderOptions = originalJsRule.use(JSRule).get('options');
-            const jsLoaderPath = originalJsRule.use(JSRule).get('loader');
-            originalJsRule.uses.delete(JSRule);
-
-            chain.module
-              .rule(CHAIN_ID.RULE.JS)
-              .oneOf('rsc-server')
-              .issuerLayer(rspackRscLayerName)
-              .exclude.add(/universal[/\\]async_storage/)
-              .end()
-              .use('rsc-server-loader')
-              .loader(require.resolve('../rsc-server-loader'))
-              .options({
-                entryPath2Name,
-                appDir,
-                runtimePath: rscServerRuntimePath,
-                internalDirectory,
-              })
-              .end()
-              .use(JSRule)
-              .loader(jsLoaderPath)
-              .options(jsLoaderOptions)
-              .end()
-              .end()
-              .oneOf('rsc-ssr')
-              .exclude.add(/universal[/\\]async_storage/)
-              .end()
-              .use('rsc-ssr-loader')
-              .loader(require.resolve('../rsc-ssr-loader'))
-              .options({
-                entryPath2Name,
-                internalDirectory,
-              })
-              .end()
-              .use(JSRule)
-              .loader(jsLoaderPath)
-              .options(jsLoaderOptions)
-              .end()
-              .end();
+          if (!originalJsRule) {
+            throw new Error(
+              'Original JS rule not found when setup RSC plugin.',
+            );
           }
+
+          const originalJsMainRule = originalJsRule.oneOfs.get(
+            CHAIN_ID.ONE_OF.JS_MAIN,
+          );
+          if (!originalJsMainRule) {
+            throw new Error(
+              'Original JS main rule not found when setup RSC plugin.',
+            );
+          }
+
+          const useBabel = originalJsMainRule.uses.has(CHAIN_ID.USE.BABEL);
+          const jsLoader = useBabel ? CHAIN_ID.USE.BABEL : CHAIN_ID.USE.SWC;
+
+          const jsLoaderOptions = originalJsMainRule
+            .use(jsLoader)
+            .get('options');
+          const jsLoaderPath = originalJsMainRule.use(jsLoader).get('loader');
+          originalJsRule.oneOfs.delete(CHAIN_ID.ONE_OF.JS_MAIN);
+
+          chain.module
+            .rule(CHAIN_ID.RULE.JS)
+            .oneOf('rsc-server')
+            .issuerLayer(rspackRscLayerName)
+            .exclude.add(/universal[/\\]async_storage/)
+            .end()
+            .use('rsc-server-loader')
+            .loader(require.resolve('../rsc-server-loader'))
+            .options({
+              entryPath2Name,
+              appDir,
+              runtimePath: rscServerRuntimePath,
+              internalDirectory,
+            })
+            .end()
+            .use(jsLoader)
+            .loader(jsLoaderPath)
+            .options(jsLoaderOptions)
+            .end()
+            .end()
+            .oneOf('rsc-ssr')
+            .exclude.add(/universal[/\\]async_storage/)
+            .end()
+            .use('rsc-ssr-loader')
+            .loader(require.resolve('../rsc-ssr-loader'))
+            .options({
+              entryPath2Name,
+              internalDirectory,
+            })
+            .end()
+            .use(jsLoader)
+            .loader(jsLoaderPath)
+            .options(jsLoaderOptions)
+            .end()
+            .end();
         };
 
         const layerHandler = () => {
-          chain.experiments({
-            ...chain.get('experiments'),
-            layers: true,
-          });
-
           const routesFileReg = new RegExp(
             `${internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
           );

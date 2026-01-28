@@ -11,7 +11,6 @@
   "dependencies": {
     "@babel/core": "^7.28.6",
     "@modern-js/tsconfig": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@types/node": "^20",
     "@vercel/ncc": "0.38.4",
     "dts-packer": "0.0.3",
@@ -80,7 +79,7 @@
     "react-is": "^18.3.1",
     "rollup": "^3.29.5",
     "rollup-plugin-dts": "6.3.0",
-    "sass": "1.97.2",
+    "sass": "1.97.3",
     "semver": "7.7.3",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",

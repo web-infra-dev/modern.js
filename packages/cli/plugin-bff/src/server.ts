@@ -2,7 +2,13 @@ import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { MiddlewareHandler, ServerPlugin } from '@modern-js/server-core';
 import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
-import { API_DIR, isFunction, isWebOnly } from '@modern-js/utils';
+import {
+  API_DIR,
+  isProd,
+  isWebOnly,
+  requireExistModule,
+} from '@modern-js/utils';
+import { isFunction } from '@modern-js/utils';
 import { HonoAdapter } from './runtime/hono/adapter';
 
 type SF = (args: any) => void;
@@ -14,17 +20,10 @@ class Storage {
   }
 }
 
-const createTransformAPI = (storage: Storage) => ({
-  addMiddleware(fn: SF) {
-    storage.middlewares.push(fn);
-  },
-});
-
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     const storage = new Storage();
-    const transformAPI = createTransformAPI(storage);
     let apiRouter: ApiRouter;
 
     const honoAdapter = new HonoAdapter(api);
