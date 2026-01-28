@@ -21,7 +21,7 @@ export function findDepPath(name: string) {
 }
 
 const resolveESMDependency = (entry: string) => {
-  const conditions = new Set(['node', 'import', 'module', 'default']);
+  const conditions = new Set(['import', 'module', 'default']);
   try {
     return moduleResolve(
       entry,
