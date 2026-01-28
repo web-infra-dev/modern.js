@@ -23,6 +23,10 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "modern:source": "./src/index.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
       "default": "./dist/cjs/index.js"
     },
     "./node": {
@@ -85,23 +89,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts",
-    "exports": {
-      ".": {
-        "types": "./dist/types/index.d.ts",
-        "import": "./dist/esm-node/index.mjs",
-        "default": "./dist/cjs/index.js"
-      },
-      "./node": {
-        "types": "./dist/types/adapters/node/index.d.ts",
-        "import": "./dist/esm-node/adapters/node/index.mjs",
-        "default": "./dist/cjs/adapters/node/index.js"
-      },
-      "./hono": {
-        "types": "./dist/types/hono.d.ts",
-        "import": "./dist/esm-node/hono.mjs",
-        "default": "./dist/cjs/hono.js"
-      }
-    }
+    "types": "./dist/types/index.d.ts"
   }
 }

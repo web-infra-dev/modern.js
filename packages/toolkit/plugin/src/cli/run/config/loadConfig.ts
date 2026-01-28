@@ -1,7 +1,7 @@
 import type { Stats } from 'fs';
 import path from 'path';
-import { fs, globby } from '@modern-js/utils';
-import jiti from 'jiti';
+import { fs, compatibleRequire, globby } from '@modern-js/utils';
+import { createJiti } from 'jiti';
 
 export const getConfigFilePath = (
   appDirectory: string,
@@ -46,10 +46,12 @@ export const clearFilesOverTime = async (
  * @param {string} configFile - Path to the configuration file (absolute or relative)
  * @returns {any} - The loaded configuration object
  */
-function loadConfigContent<T>(configFile: string): T {
+async function loadConfigContent<T>(configFile: string): Promise<T> {
+  const jitiFrom =
+    // @ts-ignore
+    process.env.MODERN_LIB_FORMAT === 'esm' ? import.meta.url : __filename;
   // Create a jiti instance
-  const _require = jiti(__filename, {
-    esmResolve: true,
+  const jiti = createJiti(jitiFrom, {
     // disable require cache to support restart CLI and read the new config
     requireCache: false,
     interopDefault: true,
@@ -61,7 +63,13 @@ function loadConfigContent<T>(configFile: string): T {
 
   try {
     // Dynamically load the configuration file using jiti
-    const config = _require(configFile);
+    let config: any;
+    // Dynamically load the configuration file using jiti
+    if (process.env.MODERN_LIB_FORMAT === 'esm') {
+      config = await jiti.import(configFile, {});
+    } else {
+      config = jiti(configFile);
+    }
 
     // If the file exports as ESM, access the `default` property
     return config.default || config;
@@ -87,8 +95,7 @@ function loadConfigContent<T>(configFile: string): T {
  * @returns {any} - The loaded module object
  */
 export const loadTypeScriptFile = (filePath: string): any => {
-  const _require = jiti(__filename, {
-    esmResolve: true,
+  const jiti = createJiti(__filename, {
     requireCache: false,
     interopDefault: true,
   });
@@ -98,7 +105,7 @@ export const loadTypeScriptFile = (filePath: string): any => {
   }
 
   try {
-    return _require(filePath);
+    return jiti(filePath);
   } catch (e: any) {
     if (e instanceof Error) {
       e.message = `Get Error while loading TypeScript file: ${filePath}, please check it and retry.\n${
@@ -118,14 +125,15 @@ export const loadConfig = async <T>(
   config?: T;
   pkgConfig?: T;
 }> => {
-  const packageName = require(
+  const pkg = await compatibleRequire(
     path.resolve(appDirectory, './package.json'),
-  ).name;
+  );
+  const packageName = pkg.name;
 
   let config: T | undefined;
 
   if (configFile) {
-    config = loadConfigContent<T>(configFile);
+    config = await loadConfigContent<T>(configFile);
   }
 
   return {

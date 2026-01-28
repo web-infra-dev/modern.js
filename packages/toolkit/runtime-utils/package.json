@@ -22,155 +22,97 @@
       "types": "./dist/types/router.d.ts",
       "modern:source": "./src/router.ts",
       "require": "./dist/cjs/router.js",
+      "import": "./dist/esm/router.mjs",
       "default": "./dist/esm/router.mjs"
     },
     "./router/rsc": {
       "types": "./dist/types/rsc.d.ts",
       "modern:source": "./src/rsc.ts",
       "require": "./dist/cjs/rsc.js",
+      "import": "./dist/esm/rsc.mjs",
       "default": "./dist/esm/rsc.mjs"
     },
     "./browser": {
       "types": "./dist/types/browser/index.d.ts",
       "modern:source": "./src/browser/index.ts",
       "require": "./dist/cjs/browser/index.js",
+      "import": "./dist/esm/browser/index.mjs",
       "default": "./dist/esm/browser/index.mjs"
     },
     "./node": {
       "types": "./dist/types/node/index.d.ts",
       "modern:source": "./src/node/index.ts",
-      "node": {
-        "require": "./dist/cjs/node/index.js",
-        "import": "./dist/esm/node/index.mjs"
-      },
-      "default": "./dist/esm-node/node/index.mjs"
+      "import": "./dist/esm/node/index.mjs",
+      "default": "./dist/esm/node/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
       "modern:source": "./src/server/index.ts",
       "require": "./dist/cjs/server/index.js",
+      "import": "./dist/esm/server/index.mjs",
       "default": "./dist/esm/server/index.mjs"
     },
     "./time": {
       "types": "./dist/types/time.d.ts",
       "modern:source": "./src/time.ts",
       "require": "./dist/cjs/time.js",
+      "import": "./dist/esm/time.mjs",
       "default": "./dist/esm/time.mjs"
     },
     "./universal/request": {
       "types": "./dist/universal/request.d.ts",
       "modern:source": "./src/universal/request.ts",
       "require": "./dist/cjs/universal/request.js",
+      "import": "./dist/esm/universal/request.mjs",
       "default": "./dist/esm/universal/request.mjs"
     },
     "./parsed": {
       "types": "./dist/types/parsed.d.ts",
       "modern:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
+      "import": "./dist/esm/parsed.mjs",
       "default": "./dist/esm/parsed.mjs"
     },
     "./storer": {
       "types": "./dist/types/node/storer/index.d.ts",
       "modern:source": "./src/node/storer/index.ts",
       "require": "./dist/cjs/node/storer/index.js",
+      "import": "./dist/esm/node/storer/index.mjs",
       "default": "./dist/esm/node/storer/index.mjs"
     },
     "./fileReader": {
       "modern:source": "./src/node/fileReader.ts",
       "types": "./dist/types/node/fileReader.d.ts",
       "require": "./dist/cjs/node/fileReader.js",
+      "import": "./dist/esm/node/fileReader.mjs",
       "default": "./dist/esm/node/fileReader.mjs"
     },
     "./url": {
       "types": "./dist/types/url.d.ts",
       "modern:source": "./src/url.ts",
       "require": "./dist/cjs/url.js",
+      "import": "./dist/esm/url.mjs",
       "default": "./dist/esm/url.mjs"
     },
     "./merge": {
       "types": "./dist/types/merge.d.ts",
       "modern:source": "./src/merge.ts",
       "require": "./dist/cjs/merge.js",
+      "import": "./dist/esm/merge.mjs",
       "default": "./dist/esm/merge.mjs"
     },
     "./cache": {
       "types": "./dist/types/universal/cache.d.ts",
       "modern:source": "./src/universal/cache.ts",
       "require": "./dist/cjs/universal/cache.js",
+      "import": "./dist/esm/universal/cache.mjs",
       "default": "./dist/esm/universal/cache.mjs"
     }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts",
-    "exports": {
-      "./router": {
-        "types": "./dist/types/router.d.ts",
-        "require": "./dist/cjs/router.js",
-        "default": "./dist/esm/router.mjs"
-      },
-      "./router/rsc": {
-        "types": "./dist/types/rsc.d.ts",
-        "require": "./dist/cjs/rsc.js",
-        "default": "./dist/esm/rsc.js"
-      },
-      "./browser": {
-        "types": "./dist/types/browser/index.d.ts",
-        "require": "./dist/cjs/browser/index.js",
-        "default": "./dist/esm/browser/index.mjs"
-      },
-      "./node": {
-        "types": "./dist/types/node/index.d.ts",
-        "require": "./dist/cjs/node/index.js",
-        "default": "./dist/esm-node/node/index.mjs"
-      },
-      "./server": {
-        "types": "./dist/types/server/index.d.ts",
-        "require": "./dist/cjs/server/index.js",
-        "default": "./dist/esm/server/index.mjs"
-      },
-      "./universal/request": {
-        "types": "./dist/universal/request.d.ts",
-        "require": "./dist/cjs/universal/request.js",
-        "default": "./dist/esm/universal/request.mjs"
-      },
-      "./time": {
-        "types": "./dist/types/time.d.ts",
-        "require": "./dist/cjs/time.js",
-        "default": "./dist/esm/time.mjs"
-      },
-      "./parsed": {
-        "types": "./dist/types/parsed.d.ts",
-        "require": "./dist/cjs/parsed.js",
-        "default": "./dist/esm/parsed.mjs"
-      },
-      "./storer": {
-        "types": "./dist/types/node/storer/index.d.ts",
-        "require": "./dist/cjs/node/storer/index.js",
-        "default": "./dist/esm/node/storer/index.mjs"
-      },
-      "./fileReader": {
-        "types": "./dist/types/node/fileReader.d.ts",
-        "require": "./dist/cjs/node/fileReader.js",
-        "default": "./dist/esm/node/fileReader.mjs"
-      },
-      "./url": {
-        "types": "./dist/types/url.d.ts",
-        "require": "./dist/cjs/url.js",
-        "default": "./dist/esm/url.mjs"
-      },
-      "./merge": {
-        "types": "./dist/types/merge.d.ts",
-        "require": "./dist/cjs/merge.js",
-        "default": "./dist/esm/merge.mjs"
-      },
-      "./cache": {
-        "types": "./dist/types/universal/cache.d.ts",
-        "require": "./dist/cjs/universal/cache.js",
-        "default": "./dist/esm/universal/cache.mjs"
-      }
-    }
+    "types": "./dist/types/index.d.ts"
   },
   "typesVersions": {
     "*": {

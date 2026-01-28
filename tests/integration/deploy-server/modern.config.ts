@@ -7,4 +7,7 @@ export default defineConfig({
   performance: {
     buildCache: false,
   },
+  server: {
+    ssr: true,
+  },
 });

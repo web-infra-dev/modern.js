@@ -6,13 +6,19 @@ const dependencies = [
   'address',
   'filesize',
   'minimist',
-  'commander',
+  {
+    name: 'commander',
+    esm: true,
+  },
   'import-lazy',
   'dotenv',
   'dotenv-expand',
   'url-join',
   'slash',
-  'nanoid',
+  {
+    name: 'nanoid',
+    esm: true,
+  },
   'lodash',
   {
     name: 'upath',
@@ -20,7 +26,10 @@ const dependencies = [
   // a few dependencies
   'debug',
   'semver',
-  'js-yaml',
+  {
+    name: 'js-yaml',
+    esm: true,
+  },
   'mime-types',
   'strip-ansi',
   'gzip-size',
@@ -70,6 +79,7 @@ const dependencies = [
   },
   {
     name: 'tsconfig-paths',
+    esm: true,
     externals: {
       json5: '../json5',
       minimist: '../minimist',
@@ -77,7 +87,7 @@ const dependencies = [
   },
 ];
 
-const regexpMap: Record<string, RegExp> = {};
+const externalsMap: Record<string, { esm: boolean; regex: RegExp }> = {};
 
 for (const item of dependencies) {
   const depName = typeof item === 'string' ? item : item.name;
@@ -87,28 +97,32 @@ for (const item of dependencies) {
     continue;
   }
 
-  regexpMap[depName] = new RegExp(`compiled[\\/]${depName}(?:[\\/]|$)`);
+  externalsMap[depName] = {
+    esm: Boolean(typeof item === 'object' && item.esm),
+    regex: new RegExp(`compiled[\\/]${depName}(?:[\\/]|$)`),
+  };
 }
 
-const externals: Rspack.Configuration['externals'] = [
-  // externalize pre-bundled dependencies
+// externalize pre-bundled dependencies
+const createExternals =
+  (type: string, noESM = false): Rspack.ExternalItem =>
   ({ request }, callback) => {
-    const entries = Object.entries(regexpMap);
+    const entries = Object.entries(externalsMap);
     if (request) {
-      for (const [name, test] of entries) {
+      for (const [name, { regex, esm }] of entries) {
         if (request === name) {
           throw new Error(
             `"${name}" is not allowed to be imported, use "../compiled/${name}/index.js" instead.`,
           );
         }
-        if (test.test(request)) {
-          return callback(undefined, `node-commonjs ${request}/index.js`);
+        if (regex.test(request)) {
+          const index = esm && !noESM ? 'index.mjs' : 'index.js';
+          return callback(undefined, `${type} ${request}/${index}`);
         }
       }
     }
     callback();
-  },
-];
+  };
 
 const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
   if (config.format === 'esm') {
@@ -116,22 +130,31 @@ const lib: RslibConfig['lib'] = rslibConfig.lib.map((config, index) => {
       ...config,
       output: {
         ...config.output,
-        externals,
+        externals: [createExternals('module-import')],
       },
     };
   }
-  return {
-    ...config,
-    output: {
-      ...config.output,
-      copy: [
-        {
-          from: './compiled',
-          to: '../compiled',
-        },
-      ],
-    },
-  };
+  if (config.format === 'cjs') {
+    return {
+      ...config,
+      output: {
+        ...config.output,
+        externals: [
+          createExternals('commonjs', true),
+          {
+            'import-meta-resolve': 'var {}',
+          },
+        ],
+        copy: [
+          {
+            from: './compiled',
+            to: '../compiled',
+          },
+        ],
+      },
+    };
+  }
+  return config;
 });
 
 export default defineConfig({

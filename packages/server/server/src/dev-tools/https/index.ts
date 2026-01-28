@@ -1,5 +1,5 @@
 import type Buffer from 'buffer';
-import { chalk, getPackageManager, logger } from '@modern-js/utils';
+import { chalk, getPackageManager, logger, tryResolve } from '@modern-js/utils';
 import type { DevServerHttpsOptions } from '../../types';
 
 export const genHttpsOptions = async (
@@ -16,7 +16,7 @@ export const genHttpsOptions = async (
     let devcertPath: string;
 
     try {
-      devcertPath = require.resolve('devcert', { paths: [pwd, __dirname] });
+      devcertPath = tryResolve('devcert', pwd, __dirname);
     } catch (err) {
       const packageManager = await getPackageManager(pwd);
       const command = chalk.yellow.bold(

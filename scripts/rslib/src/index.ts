@@ -22,6 +22,11 @@ export const rslibConfig: RslibConfig = {
       dts: {
         distPath: 'dist/types',
       },
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"esm"',
+        },
+      },
       shims: {
         esm: {
           require: true,
@@ -35,12 +40,17 @@ export const rslibConfig: RslibConfig = {
       syntax: 'es2021' as const,
       bundle: false,
       outBase: './src',
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"esm"',
+        },
+      },
       /**
        * which file (xxx.js or xxx.server.js) should be bundled should be decided by rspack.
        */
       redirect: {
         js: {
-          extension: false,
+          extension: true,
           path: false,
         },
       },
@@ -65,6 +75,11 @@ export const rslibConfig: RslibConfig = {
           root: './dist/cjs',
         },
         target: 'node' as const,
+      },
+      source: {
+        define: {
+          'process.env.MODERN_LIB_FORMAT': '"cjs"',
+        },
       },
     },
   ],

@@ -90,7 +90,6 @@ export default (): ServerPlugin => ({
     api.onReset(async ({ event }) => {
       storage.reset();
       const appContext = api.getServerContext();
-
       const { middlewares } = storage;
       api.updateServerContext({
         ...appContext,

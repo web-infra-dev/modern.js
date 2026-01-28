@@ -29,7 +29,10 @@ export { default as dotenvExpand } from '../compiled/dotenv-expand';
 export { default as browserslist } from '../compiled/browserslist';
 
 export { program, Command } from '../compiled/commander';
-export { Signale } from '../compiled/signale';
+
+import _signale from '../compiled/signale';
+export const { Signale } = _signale;
+
 export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
@@ -40,24 +43,33 @@ export type { ExecaError } from '../compiled/execa';
  * Lazy import some expensive modules that will slow down startup speed.
  * Notice that `csmith-tools build` can not bundle lazy imported modules.
  */
-const nodeRequire: (id: string) => unknown = (() => {
-  const gRequire = (globalThis as any).require;
-  if (typeof gRequire === 'function') {
-    return gRequire;
+const getNodeRequire = () => {
+  if (
+    typeof global === 'object' &&
+    typeof (global as any).require === 'function'
+  ) {
+    return (global as any).require;
   }
+  if (
+    typeof globalThis === 'object' &&
+    typeof (globalThis as any).require === 'function'
+  ) {
+    return (globalThis as any).require;
+  }
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
-  return createRequire((import.meta as any).url);
-})();
+  return /*#__PURE__*/ createRequire(import.meta.url);
+};
 export const mime: typeof import('../compiled/mime-types') = Import.lazy(
   '../compiled/mime-types',
-  nodeRequire,
+  getNodeRequire,
 );
 export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
   '../compiled/chokidar',
-  nodeRequire,
+  getNodeRequire,
 );
 export const inquirer: typeof import('../compiled/inquirer') = Import.lazy(
   '../compiled/inquirer',
-  nodeRequire,
+  getNodeRequire,
 );

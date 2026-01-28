@@ -24,34 +24,44 @@
       "types": "./dist/types/index.d.ts",
       "node": {
         "modern:source": "./src/index.ts",
-        "import": "./dist/esm/index.mjs",
+        "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.mjs"
     },
     "./run": {
       "types": "./dist/types/cli/run/index.d.ts",
+      "node": {
+        "modern:source": "./src/cli/run/index.ts",
+        "import": "./dist/esm-node/cli/run/index.mjs",
+        "require": "./dist/cjs/cli/run/index.js"
+      },
       "default": "./dist/cjs/cli/run/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
-      "modern:source": "./src/cli/index.ts",
+      "node": {
+        "modern:source": "./src/cli/index.ts",
+        "import": "./dist/esm-node/cli/index.mjs",
+        "require": "./dist/cjs/cli/index.js"
+      },
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "modern:source": "./src/runtime/index.tsx",
       "node": {
-        "import": "./dist/esm/runtime/index.mjs",
+        "modern:source": "./src/runtime/index.tsx",
+        "import": "./dist/esm-node/runtime/index.mjs",
         "require": "./dist/cjs/runtime/index.js"
       },
       "default": "./dist/esm/runtime/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
-      "modern:source": "./src/server/index.ts",
       "node": {
+        "modern:source": "./src/server/index.ts",
         "require": "./dist/cjs/server/index.js",
+        "import": "./dist/esm-node/server/index.mjs",
         "default": "./dist/cjs/server/index.js"
       },
       "default": "./dist/esm/server/index.mjs"
@@ -88,7 +98,7 @@
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.0-alpha.4",
     "@swc/helpers": "^0.5.17",
-    "jiti": "1.21.7"
+    "jiti": "2.6.1"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",

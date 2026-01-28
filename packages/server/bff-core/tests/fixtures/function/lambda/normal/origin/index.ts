@@ -1,6 +1,4 @@
-import pkg from '@modern-js/bff-core';
-
-const { Api, Put } = pkg;
+import { Api, Put } from '@modern-js/bff-core';
 
 const getOrigin = ({ query: { id } }: { query: { id: string } }) => ({ id });
 

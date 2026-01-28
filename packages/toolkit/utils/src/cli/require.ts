@@ -1,13 +1,42 @@
 import { isAbsolute } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { moduleResolve } from 'import-meta-resolve';
 import { findExists } from './fs';
+
+async function importPath(path: string, options?: any) {
+  const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
+  if (process.env.NODE_ENV === 'development') {
+    const timestamp = Date.now();
+    // @ts-ignore
+    return await import(`${modulePath}?t=${timestamp}`, options);
+  } else {
+    // @ts-ignore
+    return await import(modulePath, options);
+  }
+}
 
 /**
  * Require function compatible with esm and cjs module.
  * @param path - File to required.
  * @returns module export object.
  */
-export async function compatibleRequire(
+
+async function compatibleRequireESM(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (path.endsWith('.json')) {
+    const res = await importPath(path, {
+      with: { type: 'json' },
+    });
+    return res.default;
+  }
+
+  const requiredModule = await importPath(path);
+  return interop ? requiredModule.default : requiredModule;
+}
+
+async function compatibleRequireCJS(
   path: string,
   interop = true,
 ): Promise<any> {
@@ -15,28 +44,29 @@ export async function compatibleRequire(
     return require(path);
   }
 
-  let requiredModule;
   try {
-    requiredModule = require(path);
+    const requiredModule = require(path);
+    return interop && requiredModule?.__esModule
+      ? requiredModule.default
+      : requiredModule;
   } catch (err: any) {
     if (err.code === 'ERR_REQUIRE_ESM') {
-      const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
-      if (process.env.NODE_ENV === 'development') {
-        const timestamp = Date.now();
-
-        requiredModule = await import(`${modulePath}?t=${timestamp}`);
-      } else {
-        requiredModule = await import(modulePath);
-      }
-      return interop ? requiredModule.default : requiredModule;
+      return await compatibleRequireESM(path, interop);
     } else {
       throw err;
     }
   }
+}
 
-  return interop && requiredModule?.__esModule
-    ? requiredModule.default
-    : requiredModule;
+export async function compatibleRequire(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (process.env.MODERN_LIB_FORMAT === 'esm') {
+    return await compatibleRequireESM(path, interop);
+  } else {
+    return await compatibleRequireCJS(path, interop);
+  }
 }
 
 export async function loadFromProject(moduleName: string, appDir: string) {
@@ -44,17 +74,12 @@ export async function loadFromProject(moduleName: string, appDir: string) {
   const paths = [appDir, process.cwd()];
 
   try {
-    if (typeof require !== 'undefined') {
-      const modulePath = require.resolve(moduleName, { paths });
-      requiredModule = require(modulePath);
-    } else {
-      //@ts-ignore
-      const { createRequire } = await import('node:module');
-      //@ts-ignore
-      const require = createRequire(import.meta.url);
-      const modulePath = require.resolve(moduleName, { paths });
+    const modulePath = tryResolve(moduleName, ...paths);
+    if (process.env.MODERN_LIB_FORMAT === 'esm') {
       const moduleUrl = pathToFileURL(modulePath).href;
       requiredModule = await import(moduleUrl);
+    } else {
+      requiredModule = require(modulePath);
     }
 
     return requiredModule.default || requiredModule;
@@ -93,21 +118,14 @@ export const requireExistModule = async (
 };
 
 export const cleanRequireCache = (filelist: string[]) => {
-  filelist.forEach(filepath => {
-    if (typeof require !== 'undefined' && require.cache) {
-      delete require.cache[filepath];
-    }
-  });
+  if (process.env.MODERN_LIB_FORMAT !== 'esm') {
+    filelist.forEach(filepath => {
+      if (typeof require !== 'undefined' && require.cache) {
+        delete require.cache[filepath];
+      }
+    });
+  }
 };
-
-export function deleteRequireCache(path: string) {
-  if (require.cache[path]) {
-    delete require.cache[path];
-  }
-  if (module.children) {
-    module.children = module.children.filter(item => item.filename !== path);
-  }
-}
 
 /**
  * Try to resolve npm package entry file path.
@@ -115,11 +133,34 @@ export function deleteRequireCache(path: string) {
  * @param resolvePath - Path to resolve dependencies.
  * @returns Resolved file path.
  */
-export const tryResolve = (name: string, resolvePath: string) => {
+const tryResolveESM = (name: string, ...resolvePath: string[]) => {
+  const conditions = new Set(['node', 'import', 'module', 'default']);
+  for (const p of resolvePath) {
+    try {
+      return moduleResolve(
+        name,
+        pathToFileURL(`${p}/`),
+        conditions,
+        false,
+      ).pathname.replace(/^\/(\w)\:/, '$1:');
+    } catch (err) {
+      // ignore
+    }
+  }
+  const err = new Error(`Can not find module ${name}.`);
+  (err as any).code = 'MODULE_NOT_FOUND';
+  throw err;
+};
+
+export const tryResolve = (name: string, ...resolvePath: string[]) => {
   let filePath = '';
   try {
-    filePath = require.resolve(name, { paths: [resolvePath] });
-    delete require.cache[filePath];
+    if (process.env.MODERN_LIB_FORMAT === 'esm') {
+      filePath = tryResolveESM(name, ...resolvePath);
+    } else {
+      filePath = require.resolve(name, { paths: resolvePath });
+      delete require.cache[filePath];
+    }
   } catch (err) {
     if ((err as any).code === 'MODULE_NOT_FOUND') {
       throw new Error(`Can not find module ${name}.`);
