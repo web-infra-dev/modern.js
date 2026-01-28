@@ -5,11 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:rspack": "pnpm test:builder:rspack && pnpm test:framework",
+    "test": "pnpm test:builder && pnpm test:framework",
     "test:framework": "cross-env MODERN_SERVER_LOG_LEVEL=info jest",
-    "test:builder:rspack": "cd e2e/builder && pnpm test",
-    "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
-    "test": "pnpm test:framework",
+    "test:builder": "cd e2e/builder && pnpm test",
     "prepare": "node node_modules/puppeteer/install.mjs"
   },
   "devDependencies": {

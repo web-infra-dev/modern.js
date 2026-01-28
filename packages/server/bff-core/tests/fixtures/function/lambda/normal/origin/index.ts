@@ -1,10 +1,10 @@
 import { Api, Put } from '@modern-js/bff-core';
 
-const getOrigin = ({ query: { id } }) => ({ id });
+const getOrigin = ({ query: { id } }: { query: { id: string } }) => ({ id });
 
 export default getOrigin;
 
-export const DELETE = ({ data: { id } }) => ({ id });
+export const DELETE = ({ data: { id } }: { data: { id: string } }) => ({ id });
 
 export const handler = () => 'Hello Jupiter';
 

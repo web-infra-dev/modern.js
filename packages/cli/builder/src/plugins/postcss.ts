@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import { applyOptionsChain, isProd } from '@modern-js/utils';
 import type { PostCSSLoaderOptions, RsbuildPlugin } from '@rsbuild/core';
 import type { Options } from 'cssnano';
@@ -6,6 +7,11 @@ import type { ToolsAutoprefixerConfig } from '../types';
 
 type PostCSSConfig = NonNullable<PostCSSLoaderOptions['postcssOptions']>;
 type PostCSSOptions = Exclude<PostCSSConfig, (loader: any) => any>;
+
+const require = createRequire(import.meta.url);
+
+const importPostcssPlugin = (name: string) =>
+  Promise.resolve(require(name)) as Promise<any>;
 
 const userPostcssrcCache = new Map<
   string,
@@ -88,26 +94,32 @@ export const pluginPostcss = (
         ],
       };
 
-      const plugins = [
-        require('postcss-flexbugs-fixes'),
-        !cssSupport.customProperties && require('postcss-custom-properties'),
-        !cssSupport.initial && require('postcss-initial'),
-        !cssSupport.pageBreak && require('postcss-page-break'),
-        !cssSupport.fontVariant && require('postcss-font-variant'),
-        !cssSupport.mediaMinmax && require('postcss-media-minmax'),
-        require('postcss-nesting'),
-        enableCssMinify ? require('cssnano')(cssnanoOptions) : false,
+      const plugins = await Promise.all([
+        importPostcssPlugin('postcss-flexbugs-fixes'),
+        !cssSupport.customProperties &&
+          importPostcssPlugin('postcss-custom-properties'),
+        !cssSupport.initial && importPostcssPlugin('postcss-initial'),
+        !cssSupport.pageBreak && importPostcssPlugin('postcss-page-break'),
+        !cssSupport.fontVariant && importPostcssPlugin('postcss-font-variant'),
+        !cssSupport.mediaMinmax && importPostcssPlugin('postcss-media-minmax'),
+        importPostcssPlugin('postcss-nesting'),
+        enableCssMinify &&
+          importPostcssPlugin('cssnano').then(cssnano =>
+            cssnano(cssnanoOptions),
+          ),
         // The last insert autoprefixer
-        require('autoprefixer')(
-          applyOptionsChain(
-            {
-              flexbox: 'no-2009',
-              overrideBrowserslist: config.output.overrideBrowserslist!,
-            },
-            autoprefixer,
+        importPostcssPlugin('autoprefixer').then(autoprefixerPlugin =>
+          autoprefixerPlugin(
+            applyOptionsChain(
+              {
+                flexbox: 'no-2009',
+                overrideBrowserslist: config.output.overrideBrowserslist!,
+              },
+              autoprefixer,
+            ),
           ),
         ),
-      ].filter(Boolean);
+      ]).then(results => results.filter(Boolean));
 
       const userOptions = await loadUserPostcssrc(api.context.rootPath);
 

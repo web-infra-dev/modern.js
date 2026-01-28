@@ -44,4 +44,4 @@ jobs:
         run: cd ./tests/e2e/builder && pnpx playwright install chromium
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run test:builder
