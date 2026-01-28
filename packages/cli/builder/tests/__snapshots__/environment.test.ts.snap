@@ -13,7 +13,7 @@ exports[`builder environment compat > should generator environment config correc
         "type": "filesystem",
       },
       "type": "persistent",
-      "version": "web-development",
+      "version": "client-development",
     },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
@@ -21,6 +21,7 @@ exports[`builder environment compat > should generator environment config correc
       "index": [
         "data:text/javascript,import%20%22core-js%22%3B",
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
+        "data:text/javascript,window.__MODERN_JS_ENTRY_NAME%3D%22index%22%3B",
       ],
     },
     "experiments": {
@@ -88,8 +89,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -168,8 +169,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -487,8 +488,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -585,8 +586,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -683,8 +684,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -773,8 +774,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "Rule": [Function],
-                          "postcssPlugin": "postcss-nesting",
+                          "__esModule": true,
+                          "default": [Function],
                         },
                         {
                           "browsers": [
@@ -1227,14 +1228,17 @@ exports[`builder environment compat > should generator environment config correc
         "type": "filesystem",
       },
       "type": "persistent",
-      "version": "node-development",
+      "version": "server-development",
     },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
     "entry": {
-      "index": [
-        "<WORKSPACE>/packages/cli/builder/src/index.ts",
-      ],
+      "index": {
+        "import": [
+          "<WORKSPACE>/packages/cli/builder/src/index.ts",
+        ],
+        "layer": "server-side-rendering",
+      },
     },
     "experiments": {
       "asyncWebAssembly": true,
@@ -1431,6 +1435,18 @@ exports[`builder environment compat > should generator environment config correc
                   },
                 },
               },
+            },
+          ],
+        },
+        {
+          "exclude": [
+            /node_modules/,
+          ],
+          "resource": /\\(routes\\[/\\\\\\\\\\]\\.\\*\\\\/\\(layout\\|page\\|\\\\\\$\\)\\\\\\.\\[tj\\]sx\\?\\$\\|\\[/\\\\\\\\\\]App\\\\\\.\\[tj\\]sx\\?\\$\\)/,
+          "test": /\\\\\\.\\(tsx\\?\\|jsx\\?\\)\\$/,
+          "use": [
+            {
+              "loader": "<WORKSPACE>/packages/cli/builder/src/rsc/rsc-server-entry-loader",
             },
           ],
         },
@@ -1910,6 +1926,10 @@ exports[`builder environment compat > should generator environment config correc
             },
           ],
           "test": /\\\\\\.svg\\$/,
+        },
+        {
+          "layer": "rsc-common",
+          "resource": /universal\\[/\\\\\\\\\\]async_storage/,
         },
       ],
     },

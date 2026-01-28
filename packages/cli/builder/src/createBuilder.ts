@@ -1,3 +1,4 @@
+import path from 'path';
 import { createRsbuild } from '@rsbuild/core';
 import type {
   RsbuildConfig,
@@ -51,6 +52,19 @@ const pluginRscConfig = (): RsbuildPlugin => ({
             `(${routeFilePattern.source}|${appFilePattern.source})`,
           );
 
+          // Use path.resolve to handle both TypeScript source and compiled JavaScript
+          // Try require.resolve first, fallback to path.resolve if it fails
+          let loaderPath: string;
+          try {
+            loaderPath = require.resolve('./rsc/rsc-server-entry-loader');
+          } catch {
+            // Fallback for test environments where require.resolve may not work with TS files
+            loaderPath = path.resolve(
+              __dirname,
+              './rsc/rsc-server-entry-loader',
+            );
+          }
+
           chain.module
             .rule('rsc-server-entry')
             .test(/\.(tsx?|jsx?)$/)
@@ -58,7 +72,7 @@ const pluginRscConfig = (): RsbuildPlugin => ({
             .exclude.add(/node_modules/)
             .end()
             .use('rsc-server-entry-loader')
-            .loader(require.resolve('./rsc/rsc-server-entry-loader'))
+            .loader(loaderPath)
             .end();
         }
       },
