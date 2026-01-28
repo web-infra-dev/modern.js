@@ -15,9 +15,7 @@
   "scripts": {
     "setup": "npm run reset && pnpm install",
     "reset": "npx rimraf --glob ./**/node_modules",
-    "test": "npm run test:ut",
-    "test:rspack": "cd tests && pnpm run test:rspack",
-    "test:rstest": "rstest",
+    "test": "cd tests && pnpm run test",
     "test:ut": "rstest",
     "test:ut:update": "rstest -u",
     "test:e2e": "cd tests && npm run test",
