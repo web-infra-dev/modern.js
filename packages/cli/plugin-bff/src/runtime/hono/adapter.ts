@@ -6,7 +6,7 @@ import type {
   ServerMiddleware,
   ServerPluginAPI,
 } from '@modern-js/server-core';
-import { Hono } from '@modern-js/server-core';
+import { Hono, run } from '@modern-js/server-core';
 
 import { isProd, logger } from '@modern-js/utils';
 import createHonoRoutes from '../../utils/createHonoRoutes';
@@ -49,6 +49,7 @@ export class HonoAdapter {
       return;
     }
     this.apiServer = new Hono();
+    this.apiServer.use('*', run);
     this.apiMiddleware.forEach(({ path = '*', method = 'all', handler }) => {
       const handlers = this.wrapInArray(handler);
       if (handlers.length === 0) {

@@ -12,7 +12,7 @@ export { AGGRED_DIR } from './constants';
 
 export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
-export { useHonoContext } from './context';
+export { run, useHonoContext } from './context';
 export { Hono } from 'hono';
 
 export type {
