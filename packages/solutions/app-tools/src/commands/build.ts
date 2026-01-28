@@ -4,7 +4,7 @@ import { fs, type Alias, logger } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
-import { registerCompiler } from '../utils/register';
+import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
@@ -65,16 +65,18 @@ export const build = async (
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
+  // Register Node.js module hooks for ESM TypeScript support
   if (appContext.moduleType && appContext.moduleType === 'module') {
-    const { registerEsm } = await import('../esm/register-esm.mjs');
-    await registerEsm({
+    const { registerModuleHooks } = await import('../esm/register-esm.mjs');
+    await registerModuleHooks({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
       alias: {},
     });
   }
 
-  await registerCompiler(
+  // Setup ts-node and tsconfig-paths for TypeScript runtime support
+  await setupTsRuntime(
     appContext.appDirectory,
     appContext.distDirectory,
     combinedAlias,
