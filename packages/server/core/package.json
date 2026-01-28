@@ -67,7 +67,7 @@
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
     "flatted": "^3.3.3",
-    "hono": "^4.10.4",
+    "hono": "^4.11.7",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
