@@ -31,7 +31,7 @@
     "mermaid": "^11.4.1"
   },
   "devDependencies": {
-    "@rsbuild/plugin-sass": "1.4.1",
+    "@rsbuild/plugin-sass": "1.5.0",
     "@shikijs/transformers": "^3.4.2",
     "@rspress/shared": "2.0.0-beta.16",
     "@rspress/plugin-llms": "2.0.0-beta.16",

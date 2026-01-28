@@ -667,6 +667,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -763,11 +768,6 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -879,6 +879,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -969,17 +974,12 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
-        },
-        {
           "oneOf": [
             {
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -1917,6 +1917,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -1952,11 +1957,6 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -2008,6 +2008,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -2037,18 +2042,13 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
-        },
-        {
           "oneOf": [
             {
               "generator": {
                 "emit": false,
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {
@@ -2826,6 +2826,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -2861,11 +2866,6 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
           ],
-        },
-        {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-          "type": "asset/source",
         },
         {
           "dependency": {
@@ -2917,6 +2917,11 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+          "test": /\\\\\\.less\\$/,
+          "type": "asset/source",
+        },
+        {
           "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
           "sideEffects": true,
           "test": /\\\\\\.less\\$/,
@@ -2946,17 +2951,12 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
-          "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-          "test": /\\\\\\.less\\$/,
-          "type": "asset/source",
-        },
-        {
           "oneOf": [
             {
               "generator": {
                 "filename": "static/svg/[name].[contenthash:8].svg",
               },
-              "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+              "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
             },
             {

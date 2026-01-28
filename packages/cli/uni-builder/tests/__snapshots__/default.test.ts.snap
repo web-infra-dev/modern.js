@@ -666,6 +666,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -762,11 +767,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -878,6 +878,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -968,17 +973,12 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -1945,6 +1945,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -1980,11 +1985,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -2036,6 +2036,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -2065,18 +2070,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "emit": false,
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -3110,6 +3110,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -3206,11 +3211,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -3322,6 +3322,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -3412,17 +3417,12 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -4351,6 +4351,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -4386,11 +4391,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -4442,6 +4442,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -4471,17 +4476,12 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -5589,6 +5589,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -5685,11 +5690,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -5801,6 +5801,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -5891,17 +5896,12 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
@@ -7191,6 +7191,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
@@ -7287,11 +7292,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
         ],
-      },
-      {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-        "type": "asset/source",
       },
       {
         "dependency": {
@@ -7403,6 +7403,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
+        "test": /\\\\\\.less\\$/,
+        "type": "asset/source",
+      },
+      {
         "resourceQuery": /\\[\\?&\\]inline\\(\\?:&\\|=\\|\\$\\)/,
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
@@ -7493,17 +7498,12 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
-        "resourceQuery": /\\[\\?&\\]raw\\(\\?:&\\|=\\|\\$\\)/,
-        "test": /\\\\\\.less\\$/,
-        "type": "asset/source",
-      },
-      {
         "oneOf": [
           {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "resourceQuery": /\\^\\\\\\?\\(__inline=false\\|url\\)\\$/,
+            "resourceQuery": /\\^\\\\\\?url\\$/,
             "type": "asset/resource",
           },
           {
