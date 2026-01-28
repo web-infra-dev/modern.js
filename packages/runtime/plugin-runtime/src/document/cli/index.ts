@@ -263,7 +263,7 @@ const generateEntryCode = (docPath: string, _entryName: string): string => {
   return `import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import Document from ${JSON.stringify(docPath)};
-import { DocumentContext } from '${esmRuntimeAPI}';
+import { DocumentContext } from ${JSON.stringify(esmRuntimeAPI)};
 
 // expose to global for host to consume
 var g = (typeof globalThis !== 'undefined' ? globalThis : global);
