@@ -14,7 +14,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-runtime": "workspace:*",
-    "hono": "^4.10.4",
+    "hono": "^4.11.7",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "ts-node": "^10.9.2",
