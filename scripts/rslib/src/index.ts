@@ -22,6 +22,13 @@ export const rslibConfig: RslibConfig = {
       dts: {
         distPath: 'dist/types',
       },
+      shims: {
+        esm: {
+          require: true,
+          __dirname: true,
+          __filename: true,
+        },
+      },
     },
     {
       format: 'esm' as const,

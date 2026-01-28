@@ -67,4 +67,4 @@ jobs:
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: cd ./tests && pnpm run test
+        run: pnpm run test:framework

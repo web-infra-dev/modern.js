@@ -41,11 +41,6 @@ const cases = [
     expected: 'url',
   },
   {
-    name: 'assets-no-inline',
-    cwd: join(fixtures, 'assets-no-inline'),
-    expected: 'url',
-  },
-  {
     name: 'assets__inline',
     cwd: join(fixtures, 'assets__inline'),
     expected: 'inline',

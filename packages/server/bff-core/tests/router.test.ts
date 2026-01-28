@@ -93,7 +93,7 @@ describe('test api router', () => {
 
   test('getSingleModuleHandlers', async () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
-    const apiFile = path.join(apiDir, 'lambda/normal/origin/index');
+    const apiFile = path.join(apiDir, 'lambda/normal/origin/index.ts');
     const apiRouter = new ApiRouter({
       apiDir,
       lambdaDir: path.join(apiDir, 'lambda'),
