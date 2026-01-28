@@ -51,7 +51,7 @@
     "test:watch": "vitest dev"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.28.6",
     "@babel/plugin-proposal-decorators": "^7.24.7",
     "@babel/plugin-proposal-export-default-from": "^7.24.7",
     "@babel/plugin-proposal-partial-application": "^7.24.7",

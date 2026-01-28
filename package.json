@@ -69,11 +69,11 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.22.15",
+    "@babel/core": "^7.28.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.28.6",
     "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
     "@modern-js/monorepo-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -86,11 +86,20 @@
     "esbuild": "0.25.5",
     "husky": "^8.0.3",
     "lint-staged": "~13.3.0",
-    "nx": "^17.3.2",
+    "nx": "^22.4.2",
     "rimraf": "^6.0.1",
     "vitest": "^3.0.0"
   },
   "pnpm": {
+    "overrides": {
+      "h3": "^1.15.5",
+      "tar": "^7.5.6",
+      "micromatch": "^4.0.8",
+      "debug": "^4.3.7",
+      "diff": "^5.1.0",
+      "tmp": "^0.2.3",
+      "read-yaml-file>js-yaml": "3.14.2"
+    },
     "peerDependencyRules": {
       "allowedVersions": {
         "@mdx-js/react@^1.6.22>react": "18"
@@ -108,7 +117,6 @@
       "string-similarity": "4.0.4",
       "source-map-resolve": "0.6.0 || 0.5.3",
       "@formatjs/intl-utils": "3.8.4",
-      "debug": "4.1.1",
       "uuid": "3.4.0",
       "trim": "0.0.1"
     }

@@ -238,7 +238,7 @@
   "dependencies": {
     "@swc/helpers": "^0.5.17",
     "caniuse-lite": "^1.0.30001520",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "rslog": "^1.1.0"
   },
   "devDependencies": {

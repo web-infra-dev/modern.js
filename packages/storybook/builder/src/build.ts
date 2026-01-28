@@ -91,7 +91,8 @@ export const start: StorybookBuilder['start'] = async ({
 
   router.use(rsbuildServer.middlewares);
 
-  rsbuildServer.connectWebSocket({ server: storybookServer });
+  // Type assertion: storybookServer is compatible with HTTPServer (Server | Http2SecureServer)
+  rsbuildServer.connectWebSocket({ server: storybookServer as any });
 
   await rsbuildServer.afterListen();
 

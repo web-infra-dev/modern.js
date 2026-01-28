@@ -43,8 +43,8 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.6.8",
-    "@modern-js/codesmith-utils": "2.6.8",
+    "@modern-js/codesmith": "2.6.9",
+    "@modern-js/codesmith-utils": "2.6.9",
     "@modern-js/mwa-generator": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",
