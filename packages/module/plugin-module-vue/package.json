@@ -25,7 +25,7 @@
     "prepublishOnly": "only-allow-pnpm"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.28.6",
     "@babel/plugin-syntax-typescript": "7.25.9",
     "@modern-js/plugin-module-babel": "workspace:*",
     "@swc/helpers": "^0.5.17",

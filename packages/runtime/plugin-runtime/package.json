@@ -209,7 +209,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.28.6",
     "@babel/types": "^7.26.0",
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",

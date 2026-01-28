@@ -42,7 +42,7 @@
     "test:watch": "vitest dev"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.28.6",
     "@babel/preset-react": "^7.22.15",
     "@babel/types": "^7.26.0",
     "@modern-js/babel-preset": "workspace:*",
@@ -81,7 +81,7 @@
     "html-minifier-terser": "^7.2.0",
     "html-webpack-plugin": "5.6.6",
     "jiti": "1.21.7",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "magic-string": "0.30.21",
     "picocolors": "^1.1.1",
     "postcss": "^8.5.6",

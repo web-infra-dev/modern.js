@@ -116,7 +116,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.28.6",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.22.15",
     "@jest/types": "^29.5.0",
