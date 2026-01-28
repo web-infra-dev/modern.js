@@ -36,7 +36,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/codesmith-utils": "2.6.8",
+    "@modern-js/codesmith-utils": "2.6.9",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@swc/helpers": "^0.5.17",
@@ -45,7 +45,7 @@
     "json5": "2.2.3"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.6.8",
+    "@modern-js/codesmith": "2.6.9",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/glob": "7.2.0",

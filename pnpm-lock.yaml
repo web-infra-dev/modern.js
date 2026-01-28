@@ -333,7 +333,7 @@ importers:
         version: 0.5.17
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       resolve-from:
         specifier: ^5.0.0
         version: 5.0.0
@@ -1321,8 +1321,8 @@ importers:
   packages/generator/generator-common:
     dependencies:
       '@modern-js/codesmith-formily':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -1331,14 +1331,14 @@ importers:
         version: 0.5.17
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1361,8 +1361,8 @@ importers:
   packages/generator/generator-utils:
     dependencies:
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -1383,8 +1383,8 @@ importers:
         version: 2.2.3
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1413,14 +1413,14 @@ importers:
   packages/generator/generators/base-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1449,17 +1449,17 @@ importers:
   packages/generator/generators/bff-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1491,17 +1491,17 @@ importers:
   packages/generator/generators/dependence-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1533,17 +1533,17 @@ importers:
   packages/generator/generators/entry-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-handlebars':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1578,14 +1578,14 @@ importers:
         specifier: workspace:*
         version: link:../base-generator
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1626,17 +1626,17 @@ importers:
   packages/generator/generators/packages-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1665,14 +1665,14 @@ importers:
   packages/generator/generators/router-v5-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1707,17 +1707,17 @@ importers:
   packages/generator/generators/server-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1749,14 +1749,14 @@ importers:
   packages/generator/generators/ssg-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1791,14 +1791,14 @@ importers:
   packages/generator/generators/storybook-next-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1833,17 +1833,17 @@ importers:
   packages/generator/generators/tailwindcss-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1875,17 +1875,17 @@ importers:
   packages/generator/generators/upgrade-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-api-app':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1917,14 +1917,14 @@ importers:
   packages/generator/new-action:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-formily':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -1982,11 +1982,11 @@ importers:
         specifier: workspace:*
         version: link:../generators/base-generator
       '@modern-js/codesmith-api-handlebars':
-        specifier: 2.6.8
-        version: 2.6.8(@modern-js/codesmith@2.6.8)
+        specifier: 2.6.9
+        version: 2.6.9(@modern-js/codesmith@2.6.9)
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/entry-generator':
         specifier: workspace:*
         version: link:../generators/entry-generator
@@ -3598,7 +3598,7 @@ importers:
         version: 0.5.17
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -4206,11 +4206,11 @@ importers:
   packages/toolkit/create:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/mwa-generator':
         specifier: workspace:*
         version: link:../../generator/generators/mwa-generator
@@ -4478,11 +4478,11 @@ importers:
   packages/toolkit/upgrade:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/codesmith-utils':
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -5673,7 +5673,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -6158,7 +6158,7 @@ importers:
         version: 18.19.74
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -7358,7 +7358,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -7531,7 +7531,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -7596,7 +7596,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -7627,7 +7627,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -7833,7 +7833,7 @@ importers:
         version: 18.19.74
       axios:
         specifier: ^1.7.4
-        version: 1.12.0(debug@4.3.7)
+        version: 1.12.0
 
   tests/integration/ssr/fixtures/async-helmet:
     dependencies:
@@ -10716,6 +10716,10 @@ packages:
     resolution: {integrity: sha512-DrRBIPvlqGr7+xQ/74MY/j7WSbUzvWeHOsjfXTIllbijKAdUm+DovpQuHMXR16I3gnuQ8CvyMzCizP9RKVnhzw==}
     engines: {npm: '>=3.0.0'}
 
+  '@formily/path@2.3.7':
+    resolution: {integrity: sha512-uDqXlW3TwJ8dImi5FrKze/yAbnxqpE/z1ZzJLNSlNr+T4bJRrC7Ya2veOOYeDaM9EK6eQNQCXST55REj5DKVmQ==}
+    engines: {npm: '>=3.0.0'}
+
   '@formily/reactive@2.2.24':
     resolution: {integrity: sha512-b3+43v7pmUCC8C57XO27M0x+2aE8k6lNndaOuo15Du+tLQyr+g+JBpEZsbIJfy9ScgdK6mIttxIhJiU+xUAmvg==}
     engines: {npm: '>=3.0.0'}
@@ -10724,8 +10728,16 @@ packages:
     resolution: {integrity: sha512-PU3gBgbybSU6yv/Act2fn5sYnYTuiVJtpiYEMQGyn7wuWguOQfOpIkuaVim4h64PARO8WmnjENeDl5R5evgIYQ==}
     engines: {npm: '>=3.0.0'}
 
+  '@formily/shared@2.3.7':
+    resolution: {integrity: sha512-Xccuay6CP1CNvieyTjAniFG08biUVA+xBZZuZboCzdxoUO1gOCzUz9A2U7cvw0Xw+Hm4uI1sgISE95lCD5R3fQ==}
+    engines: {npm: '>=3.0.0'}
+
   '@formily/validator@2.2.24':
     resolution: {integrity: sha512-EDZiArnLdDbp2k7/PHknjkX5FgsJXoqWbBrrhXCyzwC2ebBG4VTxWZUB+MWGT17A77Tl7xPsY7JPpJohcuQ+4Q==}
+    engines: {npm: '>=3.0.0'}
+
+  '@formily/validator@2.3.7':
+    resolution: {integrity: sha512-/bIZL0YoEhi/AxwbJz1FxkcAXI4tyzaMF8j7LTJigKgjrJLGCiLEU1GtSk+9OmUSRDHblr73jM/TWMlb/L3EuA==}
     engines: {npm: '>=3.0.0'}
 
   '@garfish/browser-snapshot@1.8.1':
@@ -11369,49 +11381,49 @@ packages:
   '@modern-js/babel-preset@2.59.0':
     resolution: {integrity: sha512-TJAMXlt8w5geaYnUKwdyiQ2XuGdm+wB7tysMhHGPWOtrYaZJ0UMgKnQ3gLCFRDIBi6KzkjxBxc5NvSAnq5TN5g==}
 
-  '@modern-js/codesmith-api-app@2.6.8':
-    resolution: {integrity: sha512-+5Ztl3hIcJlJclyBo2A/Ikf6DknP3q1/2iuWmT0kHVQ9zljZTxZ3pWErt1JGhtkZz+5jxnIF3JLb1TMhhO+nHw==}
+  '@modern-js/codesmith-api-app@2.6.9':
+    resolution: {integrity: sha512-q4UxvG6AePTaBJBJdz9UHd5qMZMImEUdoTKoe2WSkN5TiGqjgCR0Cnj9WHD07dwkMhxT5xluZ2AwAC6rLnUNDg==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-api-ejs@2.6.8':
-    resolution: {integrity: sha512-HQj/Idjbd/A713wUQY2BuCZcdH7FYEbbiBH82Q4pUN7+GfRM0bW9F0XNEjsSIS1Co3kqvS+xV5njM+B+VeoFqw==}
+  '@modern-js/codesmith-api-ejs@2.6.9':
+    resolution: {integrity: sha512-hFkArpNop+ClOowVu/XqoUgA5kZZTjhqx2N1pyu13wxxhPBI7OGz8cJTzCWX2ZLggSrzn7w2/jr0Ai9Yoay4Yw==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-api-fs@2.6.8':
-    resolution: {integrity: sha512-tqk4gpea5LZI1RPx0QLjJkpd/XK7Oc0oTbXfV+rZxK2WGSWPivL/6d9V5aiuKpLJWZAzxYMxqiQQpaPcNIBLig==}
+  '@modern-js/codesmith-api-fs@2.6.9':
+    resolution: {integrity: sha512-TFnfPl1n/rFOhORxqiAxPxyYvb2T+Vrqmn1BqiCc6cwz/asCIRjmHvvygT989+fom4rO0SvA/s2b+NUogC3U1w==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-api-git@2.6.8':
-    resolution: {integrity: sha512-zdCGlwS7S9Z1V7b0q29k5BRi+tEQlME6bcNrFBsC1wxI+ugmPRiVSv21GURpfeG7oDUelfuAxUoJAd7V9j6s7g==}
+  '@modern-js/codesmith-api-git@2.6.9':
+    resolution: {integrity: sha512-BbOon4sTghBilC7BrM/8jtJhNKl8blTqU4LI620ogXRG/wzS3vEGghoexUIa81bRyS0dPsZ9PkoD+uOtxtQm8A==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-api-handlebars@2.6.8':
-    resolution: {integrity: sha512-8P8UeZlpiIQZXeQpMYOP4GMwsQf/lwlsNgSrs6gmB6XCp6tp7ae5QP/GK0XJtdg6QlAtsP+GIg59yX/gaPVG1A==}
+  '@modern-js/codesmith-api-handlebars@2.6.9':
+    resolution: {integrity: sha512-wfTJ1vHr7aq2xMrja03xjy1JQ5gTQDUK+degP9kFdU5iGpw3AwIBZOLq6gyDtDBJYj2bk2KSaoXlFOQl1UYGzQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-api-json@2.6.8':
-    resolution: {integrity: sha512-7twDKqOLD/e3sxIk5Jt9QkQrEv6usE/vCSCfgpqTc39esNTRz/6LcLQeosmdEecCqzLyDPKhbE2C4kas6Fmeqg==}
+  '@modern-js/codesmith-api-json@2.6.9':
+    resolution: {integrity: sha512-sVniSxG4TuPwgSvDApMEIj66mH3qhtnQmLy2sbJ9ffDLsVFegsqWa7YC/4aBtngDIt7MGuuuynGw9saTmcr7uA==}
 
-  '@modern-js/codesmith-api-npm@2.6.8':
-    resolution: {integrity: sha512-2xQeCdvV1H9/PRZyi1BKFcIK+rQbGVaJWJOoivfrPe+886R3MMy6vSybd0NXw5teIBnV06jPGZesBB9jEE1hCQ==}
+  '@modern-js/codesmith-api-npm@2.6.9':
+    resolution: {integrity: sha512-BHxGw1EkT+BYoIL0xaEFJE29g9bMbowbxyyu9ZkjG+9szGwd/FllJJAvEknVMGHQbZqFj3QwvpvLYIwEhDPk+g==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-formily@2.6.8':
-    resolution: {integrity: sha512-U0i+UDw9jA698s7Mq/xWeH97Wf/vVna5JKmOTj4yHuxYWFx7TZ27AsMzyZ5rqDrVUHVIVACLYGxB5GmIuYnbSg==}
+  '@modern-js/codesmith-formily@2.6.9':
+    resolution: {integrity: sha512-TQgkITNH5EttEaiKwLkY49uFBczBVs7LWpzROzdZQjTJCoO4hovCYxbkWY/y5IVocEj3MdepjGH8O24rLfN3QQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.6.8
+      '@modern-js/codesmith': ^2.6.9
 
-  '@modern-js/codesmith-utils@2.6.8':
-    resolution: {integrity: sha512-YeYxvaduiSS9gQti0wVKbUvW43YDfOaI3CV+ZZ7VdHYqn7jeJT2dw3zR38j2408xMuybcpb6h4iZzF6THwhIZw==}
+  '@modern-js/codesmith-utils@2.6.9':
+    resolution: {integrity: sha512-vv7A0ZynHxu//vLq1Rn3BK8JiczJocNSpxgsdLCVpP7WQ/MmgkHe3GtHu7nuB1DyZvZAebpzTv+BfqL8mGUPLA==}
 
-  '@modern-js/codesmith@2.6.8':
-    resolution: {integrity: sha512-CPIuW5Pj4psVfnZG4ZRCBSZHEcbxIpY6kpqb2IHog+tg1EFxs8dpc1DmW6ejtfM6HbyQGgd8no3LZ4YkjNolXw==}
+  '@modern-js/codesmith@2.6.9':
+    resolution: {integrity: sha512-SGg3GRPqPDJOYpkErAm+qX+BAnkMO1dpFJphoyTKCQ+faffOloPdqeUq3duNAa1Ji+0VfIKC9sI80Nq0o6a56A==}
 
   '@modern-js/core@2.67.11':
     resolution: {integrity: sha512-v10HHMSLpnPIBOSTLkOUxJfhjafoPPuYJ+IyL3CGyevpWvHgOe1IqV52MmMxI8AanaPL4KZ80c2LBdeoJ765nQ==}
@@ -11441,11 +11453,11 @@ packages:
   '@modern-js/plugin-changeset@2.67.11':
     resolution: {integrity: sha512-ATk44qNQv0pBWlNa2AWqBNBj/s7kyGjQAM+xn7q73HUv028StpvzUo0oVb4jqS4kfPsHKEbsis72AKytCwDorw==}
 
-  '@modern-js/plugin-i18n@2.60.3':
-    resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
-
   '@modern-js/plugin-i18n@2.67.11':
     resolution: {integrity: sha512-Q/djhU0ubpdPtmBiNgfG87X7YHsKqizW/LA0HvDcyeMgMj+H/sDlZtk6C6AQ4+5XH+W0TKvNc38BXsmrT9QEfA==}
+
+  '@modern-js/plugin-i18n@2.70.3':
+    resolution: {integrity: sha512-GAqTpKfY/Zs4s1wnmiUMiZXRPTpmS9cefnse1a1tII/fEJykQGlnIqRc5ivoryCO6rclKD5RegoQaligTRt9+Q==}
 
   '@modern-js/plugin@2.67.11':
     resolution: {integrity: sha512-LgsgnK5HmhKpAWq32JfxL+hULeooULB+fzJWmPCjol08sPHQg+BqQpwfUCgAaZCbCDu8WimhgPS97KreNlz6Jg==}
@@ -11517,11 +11529,11 @@ packages:
   '@modern-js/utils@2.58.1':
     resolution: {integrity: sha512-JemTkJ4UqqFbJ72NqBXzMFG0dqw70HTGDoX7VAXdYPrEmn8LRvSqHlSCIeX5KF1U+KNa0a7OEdsb9Q56UESjdQ==}
 
-  '@modern-js/utils@2.60.3':
-    resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
-
   '@modern-js/utils@2.67.11':
     resolution: {integrity: sha512-HM8RgCqEnLZLI0/vfK0Fv5TsF8IFTjNZruM9hm9tGinnRhVCG/oV5wabjXtTScOKzzoP2nMngXiB5qHgbBYpsQ==}
+
+  '@modern-js/utils@2.70.3':
+    resolution: {integrity: sha512-VFNjai9oDfnh17cIYqp0O5E6OULfywmz/WimLbnA8+A9QrKZnQFO7j1I2v3AjmYaKKEKMQk1yD6zQGi5wXIF+w==}
 
   '@module-federation/error-codes@0.13.0':
     resolution: {integrity: sha512-4soAMLr7qcVWuvCsyRmBbiBfuhxmnDeyl+qzjMx8VurQgL+XQDQJapM9RXngNGT4g8FoCq9o7rM5YWNgFFNUiw==}
@@ -14353,9 +14365,6 @@ packages:
   '@swc/helpers@0.5.1':
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
 
-  '@swc/helpers@0.5.13':
-    resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
-
   '@swc/helpers@0.5.17':
     resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
 
@@ -15667,6 +15676,9 @@ packages:
 
   axios@1.12.0:
     resolution: {integrity: sha512-oXTDccv8PcfjZmPGlWsPSwtOJCZ/b6W5jAMCNcfwJbCzDckwG0jrYJFaWH1yvivfCXjVzV/SPDEhMB3Q+DSurg==}
+
+  axios@1.13.4:
+    resolution: {integrity: sha512-1wVkUaAO6WyaYtCkcYCOx12ZgpGf9Zif+qXa4n+oYzK558YryKqiL6UWwd5DqiH3VRW0GYhTZQ/vlgJrCoNQlg==}
 
   b-tween@0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
@@ -19074,10 +19086,6 @@ packages:
   inquirer@8.1.3:
     resolution: {integrity: sha512-Ga5u7VbdPgTSUAy3bdOGlJqO/qpKGyYcbCmwu8KEXMXG8J/B3b4vTgeMc8+ALuvb9nejZu/LIag0bhSejzJnPQ==}
     engines: {node: '>=8.0.0'}
-
-  inquirer@8.2.6:
-    resolution: {integrity: sha512-M1WuAmb7pn9zdFRtQYk26ZBoY043Sse0wVDdk4Bppr+JOXyQYybdtvK+l9wUibhtjdjvtoiNy8tk+EgsYIUqKg==}
-    engines: {node: '>=12.0.0'}
 
   inquirer@8.2.7:
     resolution: {integrity: sha512-UjOaSel/iddGZJ5xP/Eixh6dY1XghiBw4XK13rCCIJcJfyhhoul/7KhLLUGtebEj6GDYM6Vnx/mVsjx2L/mFIA==}
@@ -23605,11 +23613,6 @@ packages:
 
   semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
-  semver@7.6.0:
-    resolution: {integrity: sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -28722,6 +28725,8 @@ snapshots:
 
   '@formily/path@2.2.24': {}
 
+  '@formily/path@2.3.7': {}
+
   '@formily/reactive@2.2.24': {}
 
   '@formily/shared@2.2.24':
@@ -28734,9 +28739,23 @@ snapshots:
       pascal-case: 3.1.2
       upper-case: 2.0.2
 
+  '@formily/shared@2.3.7':
+    dependencies:
+      '@formily/path': 2.3.7
+      camel-case: 4.1.2
+      lower-case: 2.0.2
+      no-case: 3.0.4
+      param-case: 3.0.4
+      pascal-case: 3.1.2
+      upper-case: 2.0.2
+
   '@formily/validator@2.2.24':
     dependencies:
       '@formily/shared': 2.2.24
+
+  '@formily/validator@2.3.7':
+    dependencies:
+      '@formily/shared': 2.3.7
 
   '@garfish/browser-snapshot@1.8.1':
     dependencies:
@@ -29789,75 +29808,77 @@ snapshots:
       - '@rsbuild/core'
       - supports-color
 
-  '@modern-js/codesmith-api-app@2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)':
+  '@modern-js/codesmith-api-app@2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
-      '@modern-js/codesmith-api-ejs': 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-api-fs': 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-api-git': 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-api-handlebars': 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-api-npm': 2.6.8(@modern-js/codesmith@2.6.8)
-      '@modern-js/codesmith-formily': 2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)
-      '@modern-js/codesmith-utils': 2.6.8
-      '@modern-js/plugin-i18n': 2.60.3
+      '@modern-js/codesmith': 2.6.9
+      '@modern-js/codesmith-api-ejs': 2.6.9(@modern-js/codesmith@2.6.9)
+      '@modern-js/codesmith-api-fs': 2.6.9(@modern-js/codesmith@2.6.9)
+      '@modern-js/codesmith-api-git': 2.6.9(@modern-js/codesmith@2.6.9)
+      '@modern-js/codesmith-api-handlebars': 2.6.9(@modern-js/codesmith@2.6.9)
+      '@modern-js/codesmith-api-npm': 2.6.9(@modern-js/codesmith@2.6.9)
+      '@modern-js/codesmith-formily': 2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)
+      '@modern-js/codesmith-utils': 2.6.9
+      '@modern-js/plugin-i18n': 2.70.3
       '@swc/helpers': 0.5.1
       comment-json: 4.2.3
       extra: 0.2.1
       inquirer: 8.1.3
     transitivePeerDependencies:
+      - '@types/node'
       - typescript
 
-  '@modern-js/codesmith-api-ejs@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-ejs@2.6.9(@modern-js/codesmith@2.6.9)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
+      '@modern-js/codesmith': 2.6.9
       '@swc/helpers': 0.5.1
       ejs: 3.1.10
 
-  '@modern-js/codesmith-api-fs@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-fs@2.6.9(@modern-js/codesmith@2.6.9)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
-      '@modern-js/codesmith-utils': 2.6.8
+      '@modern-js/codesmith': 2.6.9
+      '@modern-js/codesmith-utils': 2.6.9
       '@swc/helpers': 0.5.1
 
-  '@modern-js/codesmith-api-git@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-git@2.6.9(@modern-js/codesmith@2.6.9)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
-      '@modern-js/codesmith-utils': 2.6.8
+      '@modern-js/codesmith': 2.6.9
+      '@modern-js/codesmith-utils': 2.6.9
       '@swc/helpers': 0.5.1
 
-  '@modern-js/codesmith-api-handlebars@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-handlebars@2.6.9(@modern-js/codesmith@2.6.9)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
+      '@modern-js/codesmith': 2.6.9
       '@swc/helpers': 0.5.1
       handlebars: 4.7.8
 
-  '@modern-js/codesmith-api-json@2.6.8':
+  '@modern-js/codesmith-api-json@2.6.9':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
+      '@modern-js/codesmith': 2.6.9
       '@swc/helpers': 0.5.1
       comment-json: 4.2.3
       declaration-update: 0.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/codesmith-api-npm@2.6.8(@modern-js/codesmith@2.6.8)':
+  '@modern-js/codesmith-api-npm@2.6.9(@modern-js/codesmith@2.6.9)':
     dependencies:
-      '@modern-js/codesmith': 2.6.8
-      '@modern-js/codesmith-utils': 2.6.8
+      '@modern-js/codesmith': 2.6.9
+      '@modern-js/codesmith-utils': 2.6.9
       '@swc/helpers': 0.5.1
 
-  '@modern-js/codesmith-formily@2.6.8(@modern-js/codesmith@2.6.8)(typescript@5.6.3)':
+  '@modern-js/codesmith-formily@2.6.9(@modern-js/codesmith@2.6.9)(@types/node@18.19.74)(typescript@5.6.3)':
     dependencies:
       '@formily/json-schema': 2.2.24(typescript@5.6.3)
-      '@formily/validator': 2.2.24
-      '@modern-js/codesmith': 2.6.8
-      '@modern-js/codesmith-utils': 2.6.8
+      '@formily/validator': 2.3.7
+      '@modern-js/codesmith': 2.6.9
+      '@modern-js/codesmith-utils': 2.6.9
       '@swc/helpers': 0.5.1
-      inquirer: 8.2.6
+      inquirer: 8.2.7(@types/node@18.19.74)
     transitivePeerDependencies:
+      - '@types/node'
       - typescript
 
-  '@modern-js/codesmith-utils@2.6.8':
+  '@modern-js/codesmith-utils@2.6.9':
     dependencies:
       '@swc/helpers': 0.5.1
       chalk: 4.1.2
@@ -29871,15 +29892,15 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.merge: 4.6.2
       ora: 5.4.1
-      semver: 7.6.0
+      semver: 7.7.3
 
-  '@modern-js/codesmith@2.6.8':
+  '@modern-js/codesmith@2.6.9':
     dependencies:
-      '@modern-js/codesmith-utils': 2.6.8
+      '@modern-js/codesmith-utils': 2.6.9
       '@swc/helpers': 0.5.1
-      axios: 1.12.0(debug@4.3.7)
+      axios: 1.13.4(debug@4.3.7)
       debug: 4.3.7(supports-color@5.5.0)
-      tar: 6.2.1
+      tar: 7.5.3
     transitivePeerDependencies:
       - supports-color
 
@@ -29953,20 +29974,20 @@ snapshots:
       '@modern-js/plugin-i18n': 2.67.11
       '@modern-js/utils': 2.67.11
       '@swc/helpers': 0.5.18
-      axios: 1.12.0(debug@4.3.7)
+      axios: 1.12.0
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - '@types/node'
       - debug
 
-  '@modern-js/plugin-i18n@2.60.3':
-    dependencies:
-      '@modern-js/utils': 2.60.3
-      '@swc/helpers': 0.5.13
-
   '@modern-js/plugin-i18n@2.67.11':
     dependencies:
       '@modern-js/utils': 2.67.11
+      '@swc/helpers': 0.5.18
+
+  '@modern-js/plugin-i18n@2.70.3':
+    dependencies:
+      '@modern-js/utils': 2.70.3
       '@swc/helpers': 0.5.18
 
   '@modern-js/plugin@2.67.11':
@@ -30067,19 +30088,19 @@ snapshots:
       lodash: 4.17.23
       rslog: 1.2.3
 
-  '@modern-js/utils@2.60.3':
-    dependencies:
-      '@swc/helpers': 0.5.13
-      caniuse-lite: 1.0.30001762
-      lodash: 4.17.23
-      rslog: 1.2.3
-
   '@modern-js/utils@2.67.11':
     dependencies:
       '@swc/helpers': 0.5.18
       caniuse-lite: 1.0.30001762
       lodash: 4.17.23
       rslog: 1.2.3
+
+  '@modern-js/utils@2.70.3':
+    dependencies:
+      '@swc/helpers': 0.5.18
+      caniuse-lite: 1.0.30001762
+      lodash: 4.17.23
+      rslog: 1.3.0
 
   '@module-federation/error-codes@0.13.0': {}
 
@@ -34069,10 +34090,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@swc/helpers@0.5.13':
-    dependencies:
-      tslib: 2.8.1
-
   '@swc/helpers@0.5.17':
     dependencies:
       tslib: 2.8.1
@@ -35807,7 +35824,15 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.12.0(debug@4.3.7):
+  axios@1.12.0:
+    dependencies:
+      follow-redirects: 1.15.11(debug@4.3.7)
+      form-data: 4.0.4
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.13.4(debug@4.3.7):
     dependencies:
       follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
@@ -39983,28 +40008,10 @@ snapshots:
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
-      rxjs: 7.8.1
+      rxjs: 7.8.2
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
-
-  inquirer@8.2.6:
-    dependencies:
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      cli-cursor: 3.1.0
-      cli-width: 3.0.0
-      external-editor: 3.1.0
-      figures: 3.2.0
-      lodash: 4.17.23
-      mute-stream: 0.0.8
-      ora: 5.4.1
-      run-async: 2.4.1
-      rxjs: 7.8.1
-      string-width: 4.2.3
-      strip-ansi: 6.0.1
-      through: 2.3.8
-      wrap-ansi: 6.2.0
 
   inquirer@8.2.7(@types/node@18.19.74):
     dependencies:
@@ -43118,7 +43125,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.12.0(debug@4.3.7)
+      axios: 1.12.0
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -46753,10 +46760,6 @@ snapshots:
     dependencies:
       lru-cache: 6.0.0
 
-  semver@7.6.0:
-    dependencies:
-      lru-cache: 6.0.0
-
   semver@7.7.1: {}
 
   semver@7.7.2: {}
@@ -48951,7 +48954,7 @@ snapshots:
 
   wait-on@8.0.3:
     dependencies:
-      axios: 1.12.0(debug@4.3.7)
+      axios: 1.12.0
       joi: 17.13.3
       lodash: 4.17.23
       minimist: 1.2.8

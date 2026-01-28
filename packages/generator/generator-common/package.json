@@ -37,14 +37,14 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/codesmith-formily": "2.6.8",
+    "@modern-js/codesmith-formily": "2.6.9",
     "@modern-js/plugin-i18n": "workspace:*",
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.6.8",
-    "@modern-js/codesmith-api-app": "2.6.8",
-    "@modern-js/codesmith-utils": "2.6.8",
+    "@modern-js/codesmith": "2.6.9",
+    "@modern-js/codesmith-api-app": "2.6.9",
+    "@modern-js/codesmith-utils": "2.6.9",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
