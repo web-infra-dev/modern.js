@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-import",
-  "version": "2.70.3",
+  "version": "2.70.4",
   "description": "The import plugin of Modern.js Module.",
   "keywords": [
     "react",
@@ -47,7 +47,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.70.3"
+    "@modern-js/module-tools": "workspace:^2.70.4"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

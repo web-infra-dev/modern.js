@@ -1,5 +1,14 @@
 # @modern-js/render
 
+## 2.70.4
+
+### Patch Changes
+
+- b9f6a45: fix: add XSS protection for csr + rsc projects
+  fix: 为 csr + rsc 应用添加 xss 防护
+  - @modern-js/types@2.70.4
+  - @modern-js/utils@2.70.4
+
 ## 2.70.3
 
 ### Patch Changes
