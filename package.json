@@ -97,7 +97,7 @@
       "micromatch": "^4.0.8",
       "debug": "^4.3.7",
       "diff": "^5.1.0",
-      "tmp": "^0.2.3",
+      "tmp": "^0.2.4",
       "read-yaml-file>js-yaml": "3.14.2"
     },
     "peerDependencyRules": {
