@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/builder';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 import type { BuilderOptions } from '../types';
