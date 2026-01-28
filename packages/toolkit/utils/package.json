@@ -69,29 +69,29 @@
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
     "./commander": {
-      "import": "./compiled/commander/index.mjs",
-      "default": "./compiled/commander/index.js"
+      "import": "./dist/compiled/commander/index.mjs",
+      "default": "./dist/compiled/commander/index.js"
     },
-    "./ora": "./compiled/ora/index.js",
-    "./glob": "./compiled/glob/index.js",
-    "./chalk": "./compiled/chalk/index.js",
-    "./execa": "./compiled/execa/index.js",
-    "./json5": "./compiled/json5/index.js",
-    "./semver": "./compiled/semver/index.js",
+    "./ora": "./dist/compiled/ora/index.js",
+    "./glob": "./dist/compiled/glob/index.js",
+    "./chalk": "./dist/compiled/chalk/index.js",
+    "./execa": "./dist/compiled/execa/index.js",
+    "./json5": "./dist/compiled/json5/index.js",
+    "./semver": "./dist/compiled/semver/index.js",
     "./lodash": {
-      "import": "./compiled/lodash/index.mjs",
-      "default": "./compiled/lodash/index.js"
+      "import": "./dist/compiled/lodash/index.mjs",
+      "default": "./dist/compiled/lodash/index.js"
     },
-    "./globby": "./compiled/globby/index.js",
-    "./fs-extra": "./compiled/fs-extra/index.js",
-    "./fast-glob": "./compiled/fast-glob/index.js",
-    "./gzip-size": "./compiled/gzip-size/index.js",
-    "./mime-types": "./compiled/mime-types/index.js",
-    "./strip-ansi": "./compiled/strip-ansi/index.js",
-    "./browserslist": "./compiled/browserslist/index.js",
+    "./globby": "./dist/compiled/globby/index.js",
+    "./fs-extra": "./dist/compiled/fs-extra/index.js",
+    "./fast-glob": "./dist/compiled/fast-glob/index.js",
+    "./gzip-size": "./dist/compiled/gzip-size/index.js",
+    "./mime-types": "./dist/compiled/mime-types/index.js",
+    "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
+    "./browserslist": "./dist/compiled/browserslist/index.js",
     "./tsconfig-paths": {
-      "import": "./compiled/tsconfig-paths/index.mjs",
-      "default": "./compiled/tsconfig-paths/index.js"
+      "import": "./dist/compiled/tsconfig-paths/index.mjs",
+      "default": "./dist/compiled/tsconfig-paths/index.js"
     }
   },
   "publishConfig": {

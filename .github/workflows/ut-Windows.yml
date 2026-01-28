@@ -46,23 +46,13 @@ jobs:
           node-version: "22"
           cache: 'pnpm'
 
-      - name: Nx Cache
-        id: nx-cache
-        uses: actions/cache@v3
-        with:
-          path: .nx/cache
-          key: nx-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ github.ref_name }}-
-            nx-
-
       - name: Install Dependencies
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
-      - name: Prepare
+      - name: Build Required Pkg
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: pnpm run prepare
+        run: pnpm run build:required
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
