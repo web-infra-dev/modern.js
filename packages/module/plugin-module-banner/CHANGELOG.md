@@ -1,5 +1,11 @@
 # @modern-js/plugin-module-banner
 
+## 2.70.4
+
+### Patch Changes
+
+- @modern-js/module-tools@2.70.4
+
 ## 2.70.3
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.70.4
+
+### Patch Changes
+
+- 94675d5: fix: HelmetProvider should add unity in wrapRuntimeContextProvider
+  fix: HelmetProvider 应该统一加在 wrapRuntimeContextProvider
+- a0ae8e5: perf: migrate from react-helmet to react-helmet-async for async head management
+  perf: 从 react-helmet 迁移至 react-helmet-async 为了更好的异步管理
+- Updated dependencies [b9f6a45]
+  - @modern-js/render@2.70.4
+  - @modern-js/plugin-data-loader@2.70.4
+  - @modern-js/plugin@2.70.4
+  - @modern-js/plugin-v2@2.70.4
+  - @modern-js/runtime-utils@2.70.4
+  - @modern-js/types@2.70.4
+  - @modern-js/utils@2.70.4
+
 ## 2.70.3
 
 ### Patch Changes
