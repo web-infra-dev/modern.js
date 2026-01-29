@@ -82,7 +82,10 @@
       "default": "./dist/compiled/lodash/index.js"
     },
     "./globby": "./dist/compiled/globby/index.js",
-    "./fs-extra": "./dist/compiled/fs-extra/index.js",
+    "./fs-extra": {
+      "import": "./dist/compiled/fs-extra/index.mjs",
+      "default": "./dist/compiled/fs-extra/index.js"
+    },
     "./fast-glob": "./dist/compiled/fast-glob/index.js",
     "./gzip-size": "./dist/compiled/gzip-size/index.js",
     "./mime-types": "./dist/compiled/mime-types/index.js",

@@ -1740,8 +1740,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
       fs-extra:
-        specifier: 10.1.0
-        version: 10.1.0
+        specifier: 11.3.3
+        version: 11.3.3
       glob:
         specifier: 7.2.3
         version: 7.2.3
@@ -1905,7 +1905,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-react':
         specifier: 1.4.3
-        version: 1.4.3(@rsbuild/core@2.0.0-alpha.4(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0))
+        version: 1.4.3(@rsbuild/core@1.7.2)
       '@rslib/core':
         specifier: 0.19.3
         version: 0.19.3(typescript@5.9.3)
@@ -17630,6 +17630,14 @@ snapshots:
   '@rsbuild/plugin-react@1.4.3(@rsbuild/core@1.6.15)':
     dependencies:
       '@rsbuild/core': 1.6.15
+      '@rspack/plugin-react-refresh': 1.6.0(react-refresh@0.18.0)
+      react-refresh: 0.18.0
+    transitivePeerDependencies:
+      - webpack-hot-middleware
+
+  '@rsbuild/plugin-react@1.4.3(@rsbuild/core@1.7.2)':
+    dependencies:
+      '@rsbuild/core': 1.7.2
       '@rspack/plugin-react-refresh': 1.6.0(react-refresh@0.18.0)
       react-refresh: 0.18.0
     transitivePeerDependencies:

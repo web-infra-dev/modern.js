@@ -85,7 +85,13 @@ export const TASKS: TaskConfig[] = [
         packageJsonField: ['options'],
       },
       'execa',
-      'fs-extra',
+      {
+        name: 'fs-extra',
+        esmAlias: 'fs-extra/esm',
+        externals: {
+          'graceful-fs': 'node:fs',
+        },
+      },
       'browserslist',
       'chokidar',
       'fast-glob',

@@ -45,7 +45,8 @@ export async function parseTasks() {
       const distPath = join(packagePath, DIST_DIR, depName);
       const depPath = findDepPath(depName);
       const depEntry = require.resolve(depName);
-      const resolvedEsmEntry = resolveESMDependency(depName);
+      const esmEntry = typeof dep === 'string' ? dep : dep.esmAlias || dep.name;
+      const resolvedEsmEntry = resolveESMDependency(esmEntry);
 
       let depEsmEntry = '';
       if (resolvedEsmEntry) {

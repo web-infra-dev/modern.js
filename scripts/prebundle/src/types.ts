@@ -6,6 +6,7 @@ export type ImportMap = {
 export type DependencyConfig = {
   /** Name of dependency */
   name: string;
+  esmAlias?: string;
   /** Whether to minify the code. */
   minify?: boolean;
   /** Externals to leave as requires of the build. */

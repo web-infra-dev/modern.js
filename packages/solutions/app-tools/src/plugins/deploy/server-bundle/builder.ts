@@ -105,9 +105,6 @@ export const bundleServer = async (
         experiments: {
           outputModule: true,
         },
-        stats: {
-          preset: 'verbose',
-        },
       },
     },
   };
@@ -142,7 +139,13 @@ export const bundleServer = async (
   builder.onAfterBuild(async ({ stats }) => {
     await fse.writeFile(
       path.join(finalConfig.output.distPath!.root!, 'stats.json'),
-      JSON.stringify(stats?.toJson({}), null, 2),
+      JSON.stringify(
+        stats?.toJson({
+          preset: 'verbose',
+        }),
+        null,
+        2,
+      ),
     );
   });
 

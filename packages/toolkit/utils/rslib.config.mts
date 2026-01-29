@@ -52,7 +52,10 @@ const dependencies = [
     packageJsonField: ['options'],
   },
   'execa',
-  'fs-extra',
+  {
+    name: 'fs-extra',
+    esm: true,
+  },
   'browserslist',
   'chokidar',
   'fast-glob',
