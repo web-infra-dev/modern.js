@@ -359,9 +359,6 @@ importers:
       '@types/supertest':
         specifier: ^2.0.16
         version: 2.0.16
-      isomorphic-fetch:
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
       memfs:
         specifier: ^3.5.3
         version: 3.6.0
@@ -976,12 +973,9 @@ importers:
       '@types/qs':
         specifier: ^6.14.0
         version: 6.14.0
-      isomorphic-fetch:
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
       nock:
-        specifier: ^13.5.6
-        version: 13.5.6
+        specifier: ^14.0.10
+        version: 14.0.10
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -1275,6 +1269,9 @@ importers:
       flatted:
         specifier: ^3.3.3
         version: 3.3.3
+      import-meta-resolve:
+        specifier: ^4.2.0
+        version: 4.2.0
       mlly:
         specifier: ^1.8.0
         version: 1.8.0
@@ -3602,9 +3599,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      isomorphic-fetch:
-        specifier: ^3.0.0
-        version: 3.0.0(encoding@0.1.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -6093,6 +6087,7 @@ packages:
 
   '@module-federation/data-prefetch@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-knLlwi93KEK9S/VDjZO8UbJxLp6s6rpnl8IXTJ5ELhljD5s6gN1VqtfOXxYYChB2DaUu4EMf/rCApcDoTekuCg==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -6108,6 +6103,7 @@ packages:
 
   '@module-federation/enhanced@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-s0nQ7295n30dIQwhBHjUEcPvdgjl5e82r7aH9oOe8g/XUePI3blsedVVinrCGaQEW1y5MzrpQY6OBQwsmcjYrQ==}
+    deprecated: Pre-release version deprecated
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0
@@ -6132,6 +6128,7 @@ packages:
 
   '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-EwxEnSKm5vegoBXf4QOKdvhbtHhSMAGK0KEIe8Dn1s3prlAabXVYICrhZmkLx7rm7KBZJeQKcSgeJR9jdX+fmQ==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@module-federation/runtime-tools': 0.0.0-feat-modern-3-0-20251120074204
 
@@ -6140,6 +6137,7 @@ packages:
 
   '@module-federation/manifest@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-7S/PikFR7sy3yh5PUZELNsupujsLXNheADU1O1T73lCKRUSlJEHNsakCAOrf6v/znTYC8BIf3pkrr6xauDn5zg==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/modern-js@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-RbS0GymeY63c9rgqESPn2iTa+YHAps5cgUlKWA67IvFTHOpluKtdOsYdCJOjyKQgcPmO6jjBxpZElA+KZPWg5w==}
@@ -6178,6 +6176,7 @@ packages:
   '@module-federation/rsbuild-plugin@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-XZsYL/PvmRgxjxFgEEoi+gtTOjzImLX/dlZEOzbxmwg4DLXoaUYbKNshF3+zNaC2K2VWWnHFCs+aws1Dw3pjzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@rsbuild/core': ^1.6.7
     peerDependenciesMeta:
@@ -6198,6 +6197,7 @@ packages:
 
   '@module-federation/runtime-core@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-MfWQE41lutPqbcY9pPk2CSLMU2mT/kXlGNQirm4Y6QhKB/0KRWQ+7FD9yCHIeIqM0fbLJVtA/RDihw/kS2qRyQ==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime-core@0.21.6':
     resolution: {integrity: sha512-5Hd1Y5qp5lU/aTiK66lidMlM/4ji2gr3EXAtJdreJzkY+bKcI5+21GRcliZ4RAkICmvdxQU5PHPL71XmNc7Lsw==}
@@ -6216,6 +6216,7 @@ packages:
 
   '@module-federation/runtime@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-LVoGjJQyN+UIoc7hdrKNSzJEpQ9xEFjYytnkKiXUAPrIwXw8zLNkktKJVyJI0hb3aO1Gy0/Su1L6qTWZ4pq5kw==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime@0.21.6':
     resolution: {integrity: sha512-+caXwaQqwTNh+CQqyb4mZmXq7iEemRDrTZQGD+zyeH454JAYnJ3s/3oDFizdH6245pk+NiqDyOOkHzzFQorKhQ==}
@@ -6237,12 +6238,17 @@ packages:
 
   '@module-federation/webpack-bundler-runtime@0.0.0-feat-modern-3-0-20251120074204':
     resolution: {integrity: sha512-ADgapHbMfyGnfM8DuFJjgGtGu5xEXIiGXz+igel0cMuHcSwzvLL4WW0Z3N99LvmJjObt4Lebpgidw8jyjmwxmg==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/webpack-bundler-runtime@0.21.6':
     resolution: {integrity: sha512-7zIp3LrcWbhGuFDTUMLJ2FJvcwjlddqhWGxi/MW3ur1a+HaO8v5tF2nl+vElKmbG1DFLU/52l3PElVcWf/YcsQ==}
 
   '@module-federation/webpack-bundler-runtime@0.22.0':
     resolution: {integrity: sha512-aM8gCqXu+/4wBmJtVeMeeMN5guw3chf+2i6HajKtQv7SJfxV/f4IyNQJUeUQu9HfiAZHjqtMV5Lvq/Lvh8LdyA==}
+
+  '@mswjs/interceptors@0.39.8':
+    resolution: {integrity: sha512-2+BzZbjRO7Ct61k8fMNHEtoKjeWI9pIlHFTqBwZ5icHpqszIgEZbjb1MW5Z0+bITTCTl3gk4PDBxs9tA/csXvA==}
+    engines: {node: '>=18'}
 
   '@napi-rs/wasm-runtime@0.2.4':
     resolution: {integrity: sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ==}
@@ -6318,6 +6324,12 @@ packages:
 
   '@open-draft/deferred-promise@2.2.0':
     resolution: {integrity: sha512-CecwLWx3rhxVQF6V4bAgPS5t+So2sTbPgAzafKkVizyi7tlwpcFpdFqq+wqF2OwNBmqFuu6tOyouTuxgpMfzmA==}
+
+  '@open-draft/logger@0.3.0':
+    resolution: {integrity: sha512-X2g45fzhxH238HKO4xbSr7+wBS8Fvw6ixhTDuvLd5mqh6bJJCFAPwU9mPDxbcrRtfxv4u5IHCEH77BmxvXmmxQ==}
+
+  '@open-draft/until@2.1.0':
+    resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
 
   '@paralleldrive/cuid2@2.3.1':
     resolution: {integrity: sha512-XO7cAxhnTZl0Yggq6jOgjiOHhbgcO4NqFqwSmQpjK3b6TEE6Uj/jfSk6wzYyemh3+I0sHirKSetjQwn5cZktFw==}
@@ -10633,6 +10645,9 @@ packages:
     resolution: {integrity: sha512-2HvIEKRoqS62guEC+qBjpvRubdX910WCMuJTZ+I9yvqKU2/12eSL549HMwtabb4oupdj2sMP50k+XJfB/8JE6w==}
     engines: {node: '>=8'}
 
+  is-node-process@1.2.0:
+    resolution: {integrity: sha512-Vg4o6/fqPxIjtxgUH5QLJhwZ7gW5diGCVlXpuUfELC62CuxM1iHcRe51f2W1FDy04Ai4KJkagKjx3XaqyfRKXw==}
+
   is-number@7.0.0:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
@@ -10737,9 +10752,6 @@ packages:
   isobject@3.0.1:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
-
-  isomorphic-fetch@3.0.0:
-    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
 
   isomorphic-ws@5.0.0:
     resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
@@ -11766,9 +11778,9 @@ packages:
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
-  nock@13.5.6:
-    resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
-    engines: {node: '>= 10.13'}
+  nock@14.0.10:
+    resolution: {integrity: sha512-Q7HjkpyPeLa0ZVZC5qpxBt5EyLczFJ91MEewQiIi9taWuA0KB/MDJlUWtON+7dGouVdADTQsf9RA7TZk6D8VMw==}
+    engines: {node: '>=18.20.0 <20 || >=20.12.1'}
 
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
@@ -11946,6 +11958,9 @@ packages:
 
   outvariant@1.4.0:
     resolution: {integrity: sha512-AlWY719RF02ujitly7Kk/0QlV+pXGFDHrHf9O2OKqyqgBieaPOIeuSkL8sRK6j2WK+/ZAURq2kZsY0d8JapUiw==}
+
+  outvariant@1.4.3:
+    resolution: {integrity: sha512-+Sl2UErvtsoajRDKCE5/dBz4DIvHXQQnAxtQTF04OJxY0+DyZXSo5P5Bb7XYWOh81syohlYL24hbDwxedPUJCA==}
 
   p-cancelable@2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
@@ -13137,6 +13152,7 @@ packages:
   react-server-dom-webpack@19.2.3:
     resolution: {integrity: sha512-ifo7aqqdNJyV6U2zuvvWX4rRQ51pbleuUFNG7ZYhIuSuWZzQPbfmYv11GNsyJm/3uGNbt8buJ9wmoISn/uOAfw==}
     engines: {node: '>=0.10.0'}
+    deprecated: High Security Vulnerability in React Server Components
     peerDependencies:
       react: ^19.2.3
       react-dom: ^19.2.3
@@ -13816,6 +13832,9 @@ packages:
 
   strict-event-emitter@0.4.6:
     resolution: {integrity: sha512-12KWeb+wixJohmnwNFerbyiBrAlq5qJLwIt38etRtKtmmHyDSoGlIqFE9wx+4IwG0aDjI7GV8tc8ZccjWZZtTg==}
+
+  strict-event-emitter@0.5.1:
+    resolution: {integrity: sha512-vMgjE/GGEPEFnhFub6pa4FmJBRBVOLpIII2hvCZ8Kzb7K0hlHo7mQv6xYrBvCL2LtAIBwFUK8wvuJgTVSQ5MFQ==}
 
   string-argv@0.3.2:
     resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
@@ -15130,22 +15149,22 @@ snapshots:
   '@babel/plugin-syntax-async-generators@7.8.4(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-bigint@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-class-properties@7.12.13(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-class-static-block@7.14.5(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-decorators@7.28.6(@babel/core@7.28.6)':
     dependencies:
@@ -15155,17 +15174,17 @@ snapshots:
   '@babel/plugin-syntax-import-attributes@7.27.1(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-import-meta@7.10.4(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.28.6)':
     dependencies:
@@ -15175,42 +15194,42 @@ snapshots:
   '@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-nullish-coalescing-operator@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-numeric-separator@7.10.4(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-object-rest-spread@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-optional-catch-binding@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-optional-chaining@7.8.3(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-private-property-in-object@7.14.5(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@7.28.6)':
     dependencies:
       '@babel/core': 7.28.6
-      '@babel/helper-plugin-utils': 7.27.1
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-syntax-typescript@7.27.1(@babel/core@7.28.6)':
     dependencies:
@@ -17197,6 +17216,15 @@ snapshots:
       '@module-federation/runtime': 0.22.0
       '@module-federation/sdk': 0.22.0
 
+  '@mswjs/interceptors@0.39.8':
+    dependencies:
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/logger': 0.3.0
+      '@open-draft/until': 2.1.0
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      strict-event-emitter: 0.5.1
+
   '@napi-rs/wasm-runtime@0.2.4':
     dependencies:
       '@emnapi/core': 1.7.1
@@ -17255,6 +17283,13 @@ snapshots:
     optional: true
 
   '@open-draft/deferred-promise@2.2.0': {}
+
+  '@open-draft/logger@0.3.0':
+    dependencies:
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+
+  '@open-draft/until@2.1.0': {}
 
   '@paralleldrive/cuid2@2.3.1':
     dependencies:
@@ -22273,6 +22308,8 @@ snapshots:
 
   is-interactive@1.0.0: {}
 
+  is-node-process@1.2.0: {}
+
   is-number@7.0.0: {}
 
   is-obj@2.0.0: {}
@@ -22353,13 +22390,6 @@ snapshots:
   isexe@2.0.0: {}
 
   isobject@3.0.1: {}
-
-  isomorphic-fetch@3.0.0(encoding@0.1.13):
-    dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
-      whatwg-fetch: 3.6.20
-    transitivePeerDependencies:
-      - encoding
 
   isomorphic-ws@5.0.0(ws@8.18.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)):
     dependencies:
@@ -23993,13 +24023,11 @@ snapshots:
       lower-case: 2.0.2
       tslib: 2.8.1
 
-  nock@13.5.6:
+  nock@14.0.10:
     dependencies:
-      debug: 4.4.3(supports-color@5.5.0)
+      '@mswjs/interceptors': 0.39.8
       json-stringify-safe: 5.0.1
       propagate: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   node-addon-api@7.1.1: {}
 
@@ -24213,6 +24241,8 @@ snapshots:
   outdent@0.5.0: {}
 
   outvariant@1.4.0: {}
+
+  outvariant@1.4.3: {}
 
   p-cancelable@2.1.1: {}
 
@@ -26241,6 +26271,8 @@ snapshots:
       - react-native-b4a
 
   strict-event-emitter@0.4.6: {}
+
+  strict-event-emitter@0.5.1: {}
 
   string-argv@0.3.2: {}
 

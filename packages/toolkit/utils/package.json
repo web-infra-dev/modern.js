@@ -59,6 +59,14 @@
       "import": "./dist/esm/universal/pluginDagSort.mjs",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
+    "./cli": {
+      "import": "./dist/esm/cli.mjs",
+      "default": "./dist/cjs/cli.js"
+    },
+    "./cli/constants": {
+      "import": "./dist/esm/cli/constants.mjs",
+      "default": "./dist/cjs/cli/constants.js"
+    },
     "./commander": {
       "import": "./dist/compiled/commander/index.mjs",
       "default": "./dist/compiled/commander/index.js"
@@ -112,6 +120,12 @@
       ],
       "universal/plugin-dag-sort": [
         "./dist/types/universal/pluginDagSort.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "cli/constants": [
+        "./dist/types/cli/constants.d.ts"
       ],
       "execa": [
         "./dist/compiled/execa/index.d.ts"

@@ -1,4 +1,5 @@
-import { type Readable, Stream } from 'stream';
+import { nextTick } from 'node:process';
+import { type Readable, Stream } from 'node:stream';
 
 export const createReadableStreamFromReadable = (
   source: Readable & { readableHighWaterMark?: number },
@@ -63,7 +64,7 @@ class StreamPump {
       this.stream.destroy(reason);
     }
 
-    process.nextTick(() => {
+    nextTick(() => {
       this.stream.off('data', this.enqueue);
       this.stream.off('error', this.error);
       this.stream.off('end', this.close);

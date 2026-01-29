@@ -15,6 +15,16 @@ import { getUploadPayload } from './utiles';
 
 type Fetch = typeof nodeFetch;
 
+const getFetch = () => {
+  if (global && typeof global.fetch === 'function') {
+    return global.fetch as unknown as Fetch;
+  }
+  if (globalThis && typeof globalThis.fetch === 'function') {
+    return globalThis.fetch as unknown as Fetch;
+  }
+  return nodeFetch;
+};
+
 const realRequest: Map<string, Fetch> = new Map();
 
 const realAllowedHeaders: Map<string, string[]> = new Map();
@@ -28,7 +38,7 @@ const originFetch = (...params: Parameters<typeof nodeFetch>) => {
     init.body = undefined;
   }
 
-  return nodeFetch(...params).then(handleRes);
+  return getFetch()(...params).then(handleRes);
 };
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {
