@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 import { applyOptionsChain, isProd } from '@modern-js/utils';
 import type { PostCSSLoaderOptions, RsbuildPlugin } from '@rsbuild/core';
 import type { Options } from 'cssnano';
@@ -33,7 +34,9 @@ async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
     return clonePostCSSConfig(await cached);
   }
 
-  const { default: postcssrc } = await import('@compiled/postcss-load-config');
+  // Use compiled postcss-load-config from dist/compiled
+  const compiledPath = require.resolve('../../compiled/postcss-load-config');
+  const { default: postcssrc } = await import(pathToFileURL(compiledPath).href);
 
   const promise = postcssrc({}, root).catch((err: Error) => {
     // ignore the config not found error

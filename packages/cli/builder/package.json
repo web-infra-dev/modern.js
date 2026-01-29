@@ -29,7 +29,6 @@
     "test:watch": "rstest watch"
   },
   "dependencies": {
-    "@compiled/postcss-load-config": "file:./compiled/postcss-load-config",
     "@modern-js/flight-server-transform-plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "2.0.0-alpha.4",
@@ -61,7 +60,8 @@
     "postcss-nesting": "12.1.5",
     "postcss-page-break": "3.0.4",
     "rspack-manifest-plugin": "5.2.1",
-    "ts-deepmerge": "7.0.3"
+    "ts-deepmerge": "7.0.3",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",

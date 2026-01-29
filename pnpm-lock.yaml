@@ -120,9 +120,6 @@ importers:
 
   packages/cli/builder:
     dependencies:
-      '@compiled/postcss-load-config':
-        specifier: file:./compiled/postcss-load-config
-        version: postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config
       '@modern-js/flight-server-transform-plugin':
         specifier: workspace:*
         version: link:../flight-server-transform-plugin
@@ -219,6 +216,9 @@ importers:
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -12354,9 +12354,6 @@ packages:
         optional: true
       yaml:
         optional: true
-
-  postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config:
-    resolution: {directory: packages/cli/builder/compiled/postcss-load-config, type: directory}
 
   postcss-media-minmax@5.0.0:
     resolution: {integrity: sha512-yDUvFf9QdFZTuCUg0g0uNSHVlJ5X1lSzDZjPSFaiCWvjgsvu8vEVxtahPrLMinIDEEGnx6cBe6iqdx5YWz08wQ==}
@@ -24582,8 +24579,6 @@ snapshots:
       postcss: 8.5.6
       tsx: 4.21.0
       yaml: 2.8.2
-
-  postcss-load-config@file:packages/cli/builder/compiled/postcss-load-config: {}
 
   postcss-media-minmax@5.0.0(postcss@8.5.6):
     dependencies:
