@@ -106,7 +106,6 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
-    "node-fetch": "^2.7.0",
     "path-to-regexp": "^6.3.0",
     "qs": "^6.14.1"
   },
@@ -116,10 +115,8 @@
     "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@types/node-fetch": "^2.6.13",
     "@types/qs": "^6.14.0",
-    "isomorphic-fetch": "^3.0.0",
-    "nock": "^13.5.6",
+    "nock": "^14.0.10",
     "typescript": "^5"
   },
   "sideEffects": false,

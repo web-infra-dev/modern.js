@@ -1,6 +1,5 @@
 import type { IncomingHttpHeaders } from 'http';
 import { storage } from '@modern-js/runtime-utils/node';
-import nodeFetch from 'node-fetch';
 import { type Key, compile, pathToRegexp } from 'path-to-regexp';
 import { stringify } from 'qs';
 import { handleRes } from './handleRes';
@@ -13,7 +12,7 @@ import type {
 } from './types';
 import { getUploadPayload } from './utiles';
 
-type Fetch = typeof nodeFetch;
+type Fetch = typeof fetch;
 
 const realRequest: Map<string, Fetch> = new Map();
 
@@ -21,17 +20,17 @@ const realAllowedHeaders: Map<string, string[]> = new Map();
 
 const domainMap: Map<string, string> = new Map();
 
-const originFetch = (...params: Parameters<typeof nodeFetch>) => {
+const originFetch = (...params: Parameters<Fetch>) => {
   const [, init] = params;
 
   if (init?.method?.toLowerCase() === 'get') {
     init.body = undefined;
   }
 
-  return nodeFetch(...params).then(handleRes);
+  return fetch(...params).then(handleRes);
 };
 
-export const configure = (options: IOptions<typeof nodeFetch>) => {
+export const configure = (options: IOptions<Fetch>) => {
   const {
     request,
     interceptor,
@@ -41,7 +40,7 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
   } = options;
   let configuredRequest = (request as Fetch) || originFetch;
   if (interceptor && !request) {
-    configuredRequest = interceptor(nodeFetch);
+    configuredRequest = interceptor(fetch);
   }
   if (Array.isArray(allowedHeaders)) {
     realAllowedHeaders.set(requestId, allowedHeaders);
@@ -57,7 +56,7 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
   realRequest.set(requestId, configuredRequest);
 };
 
-export const createRequest: RequestCreator<typeof nodeFetch> = ({
+export const createRequest: RequestCreator<Fetch> = ({
   path,
   method,
   port,

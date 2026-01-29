@@ -9,7 +9,6 @@ import {
   modernBuild,
   modernServe,
 } from '../../../utils/modernTestUtils';
-import 'isomorphic-fetch';
 
 // Skip flaky tests on CI, but run them locally
 const conditionalTest = process.env.LOCAL_TEST === 'true' ? test : test.skip;

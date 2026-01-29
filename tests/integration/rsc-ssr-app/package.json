@@ -25,7 +25,6 @@
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "cross-env": "^7.0.3",
-    "isomorphic-fetch": "^3.0.0",
     "typescript": "^5"
   }
 }

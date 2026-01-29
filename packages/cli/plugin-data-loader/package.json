@@ -63,7 +63,6 @@
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",
-    "isomorphic-fetch": "^3.0.0",
     "memfs": "^3.5.3",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
