@@ -34,8 +34,7 @@ async function loadUserPostcssrc(root: string): Promise<PostCSSOptions> {
     return clonePostCSSConfig(await cached);
   }
 
-  // Use compiled postcss-load-config (copied to dist/compiled during build)
-  // From dist/cjs/plugins/ or dist/esm-node/plugins/, go up two levels to dist/, then compiled/
+  // Use compiled postcss-load-config from dist/compiled
   const compiledPath = require.resolve('../../compiled/postcss-load-config');
   const { default: postcssrc } = await import(pathToFileURL(compiledPath).href);
 
