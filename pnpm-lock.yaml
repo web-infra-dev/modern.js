@@ -273,6 +273,9 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.17
+      qs:
+        specifier: ^6.14.1
+        version: 6.14.1
       type-is:
         specifier: ^1.6.18
         version: 1.6.18
@@ -307,6 +310,9 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.27
+      '@types/qs':
+        specifier: ^6.14.0
+        version: 6.14.0
       '@types/type-is':
         specifier: ^1.6.7
         version: 1.6.7

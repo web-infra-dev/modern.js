@@ -45,15 +45,6 @@ export const rslibConfig: RslibConfig = {
           'process.env.MODERN_LIB_FORMAT': '"esm"',
         },
       },
-      /**
-       * which file (xxx.js or xxx.server.js) should be bundled should be decided by rspack.
-       */
-      redirect: {
-        js: {
-          extension: true,
-          path: false,
-        },
-      },
       autoExtension: true,
       output: {
         distPath: {

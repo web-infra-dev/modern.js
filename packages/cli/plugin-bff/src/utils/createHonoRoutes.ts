@@ -6,8 +6,8 @@ import {
   ValidationError,
   isWithMetaHandler,
 } from '@modern-js/bff-core';
-import { parse } from '@modern-js/create-request/qs';
 import type { Context, Next } from '@modern-js/server-core';
+import { parse } from 'qs';
 import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];

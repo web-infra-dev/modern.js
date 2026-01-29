@@ -11,7 +11,20 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.mjs",
+  "export": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "node": {
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime.d.ts",
+      "default": "./dist/esm/runtime.mjs"
+    }
+  },
   "scripts": {
     "dev": "rslib build --watch",
     "build": "rslib build"
@@ -46,22 +59,14 @@
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.mjs"
+      "default": "./dist/cjs/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime.d.ts",
-      "node": {
-        "import": "./dist/esm-node/runtime.mjs",
-        "require": "./dist/cjs/runtime.js"
-      },
       "default": "./dist/esm/runtime.mjs"
     },
     "./styled": {
       "types": "./dist/types/styled.d.ts",
-      "node": {
-        "import": "./dist/esm-node/styled.mjs",
-        "require": "./dist/cjs/styled.js"
-      },
       "default": "./dist/esm/styled.mjs"
     }
   },

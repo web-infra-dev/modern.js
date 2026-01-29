@@ -24,40 +24,26 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "node": {
-        "require": "./dist/cjs/index.js",
-        "import": "./dist/esm-node/index.mjs"
+        "import": "./dist/esm-node/index.mjs",
+        "require": "./dist/cjs/index.js"
       },
-      "import": "./dist/esm-node/index.mjs",
       "default": "./dist/cjs/index.js"
     },
-    "./logger": {
-      "import": "./dist/esm-node/cli/logger.mjs",
-      "default": "./dist/cjs/cli/logger.js"
-    },
-    "./chain-id": "./dist/cjs/cli/constants/chainId.js",
-    "./require": {
-      "import": "./dist/esm/cli/require.js",
-      "default": "./dist/cjs/cli/require.js"
-    },
-    "./env": {
-      "import": "./dist/esm/cli/is/env.js",
-      "default": "./dist/cjs/cli/is/env.js"
-    },
     "./universal": {
-      "import": "./dist/esm/universal/index.mjs",
       "node": {
-        "require": "./dist/cjs/universal/index.js",
-        "import": "./dist/esm-node/universal/index.mjs"
+        "module": "./dist/esm/universal/index.mjs",
+        "import": "./dist/esm-node/universal/index.mjs",
+        "require": "./dist/cjs/universal/index.js"
       },
-      "default": "./dist/cjs/universal/index.js"
+      "default": "./dist/esm/universal/index.mjs"
     },
     "./universal/constants": {
-      "import": "./dist/esm/universal/constants.mjs",
-      "default": "./dist/cjs/universal/constants.js"
-    },
-    "./universal/plugin-dag-sort": {
-      "import": "./dist/esm/universal/pluginDagSort.mjs",
-      "default": "./dist/cjs/universal/pluginDagSort.js"
+      "node": {
+        "module": "./dist/esm/universal/constants.mjs",
+        "import": "./dist/esm-node/universal/constants.mjs",
+        "require": "./dist/cjs/universal/constants.js"
+      },
+      "default": "./dist/esm/universal/constants.mjs"
     },
     "./commander": {
       "import": "./dist/compiled/commander/index.mjs",
@@ -92,26 +78,11 @@
   },
   "typesVersions": {
     "*": {
-      "logger": [
-        "./dist/types/cli/logger.d.ts"
-      ],
-      "chain-id": [
-        "./dist/types/cli/constants/chainId.d.ts"
-      ],
-      "require": [
-        "./dist/types/cli/require.d.ts"
-      ],
-      "env": [
-        "./dist/types/cli/is/env.d.ts"
-      ],
       "universal": [
         "./dist/types/universal/index.d.ts"
       ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"
-      ],
-      "universal/plugin-dag-sort": [
-        "./dist/types/universal/pluginDagSort.d.ts"
       ],
       "execa": [
         "./dist/compiled/execa/index.d.ts"

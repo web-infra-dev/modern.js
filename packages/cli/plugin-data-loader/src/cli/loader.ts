@@ -1,5 +1,5 @@
 import { promisify } from 'util';
-import { logger } from '@modern-js/utils/logger';
+import { logger } from '@modern-js/utils';
 import type { Rspack } from '@rsbuild/core';
 import { generateClient } from './generateClient';
 
