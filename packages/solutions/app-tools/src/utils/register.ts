@@ -32,8 +32,6 @@ export const setupTsRuntime = async (
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = checkDepExist('ts-node', appDir);
 
-  console.log('hasTsNode', hasTsNode);
-
   if (!isTsProject || !hasTsNode) {
     return;
   }
