@@ -313,9 +313,9 @@ export default defineConfig({
 When the `modern build` command is executed, the
 
 - Clear the output directory according to `buildConfig.outDir`.
+- Handle Copy tasks.
 - Compile `js/ts` source code to generate the JS build artifacts for bundle/bundleless.
 - Generate bundle/bundleless type files using `tsc`.
-- Handle Copy tasks.
 
 ## Build errors
 

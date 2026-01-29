@@ -309,9 +309,9 @@ export default defineConfig({
 当执行 `modern build` 命令的时候，会发生
 
 - 根据 `buildConfig.outDir` 清理产物目录。
+- 处理 `copy` 任务。
 - 编译 `js/ts` 源代码生成 bundle / bundleless 的 JS 构建产物。
 - 使用 `tsc` 生成 bundle / bundleless 的类型文件。
-- 处理 `copy` 任务。
 
 ## 构建报错
 
