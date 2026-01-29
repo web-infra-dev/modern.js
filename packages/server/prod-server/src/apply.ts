@@ -14,6 +14,7 @@ import {
   injectNodeSeverPlugin,
   injectResourcePlugin,
   injectRscManifestPlugin,
+  loadBundledCacheConfig,
   loadCacheConfig,
   serverStaticPlugin,
 } from '@modern-js/server-core/node';
@@ -33,18 +34,30 @@ function getLogger(_?: boolean | Record<string, unknown>) {
 
 export type ApplyPlugins = typeof applyPlugins;
 
+export type ExtraApplyConfig = Partial<{
+  nodeServer: NodeServer | Http2SecureServer;
+  noStaticServer: boolean;
+}>;
+
 export async function applyPlugins(
   serverBase: ServerBase,
-  options: ProdServerOptions,
-  nodeServer?: NodeServer | Http2SecureServer,
+  serverOptions: ProdServerOptions,
+  extra: ExtraApplyConfig = {},
 ) {
-  const { pwd, appContext, config, logger: optLogger, serverConfig } = options;
+  const {
+    pwd,
+    appContext,
+    config,
+    logger: optLogger,
+    serverConfig,
+  } = serverOptions;
 
   const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
 
-  const serverErrorHandler = options.serverConfig?.onError;
-  const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
-  const cacheConfig = await loadCacheConfig(loadCachePwd);
+  const serverErrorHandler = serverOptions.serverConfig?.onError;
+  const cacheConfig = await (process.env.MODERN_SERVER_BUNDLE
+    ? loadBundledCacheConfig(serverOptions.appContext?.dependencies)
+    : loadCacheConfig(isProd() ? pwd : appContext.appDirectory || pwd));
 
   serverBase.notFound(c => {
     const monitors = c.get('monitors');
@@ -82,23 +95,26 @@ export async function applyPlugins(
   });
 
   const loggerOptions = config.server.logger;
-  const { middlewares, renderMiddlewares } = options.serverConfig || {};
+  const { middlewares, renderMiddlewares } = serverOptions.serverConfig || {};
 
   const plugins = [
-    ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
+    ...(extra.nodeServer
+      ? [injectNodeSeverPlugin({ nodeServer: extra.nodeServer })]
+      : []),
     ...createDefaultPlugins({
       cacheConfig,
-      staticGenerate: options.staticGenerate,
+      staticGenerate: serverOptions.staticGenerate,
       logger:
         loggerOptions === false ? false : optLogger || getLogger(loggerOptions),
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
-    ...(options.plugins || []),
+    ...(serverOptions.plugins || []),
     injectResourcePlugin(),
     injectRscManifestPlugin(enableRsc),
-    serverStaticPlugin(),
+    ...(extra.noStaticServer ? [] : [serverStaticPlugin()]),
     faviconPlugin(),
     renderPlugin(),
   ];
+
   serverBase.addPlugins(plugins);
 }

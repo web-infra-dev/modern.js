@@ -60,6 +60,7 @@ export const bundleServer = async (
             },
           },
           define: {
+            'process.env.MODERN_SERVER_BUNDLE': 'true',
             'process.env.NODE_ENV': '"production"',
             'process.env.MODERN_SSR_ENV': '"edge"',
           },
@@ -104,6 +105,9 @@ export const bundleServer = async (
         experiments: {
           outputModule: true,
         },
+        stats: {
+          preset: 'verbose',
+        },
       },
     },
   };
@@ -129,10 +133,17 @@ export const bundleServer = async (
   builder.modifyRsbuildConfig(config => {
     const { output } = config;
     if (Array.isArray(output?.externals)) {
-      output.externals = output.externals.filter(
+      output!.externals = output!.externals.filter(
         x => typeof x !== 'object' || !('@modern-js/plugin-bff/server' in x),
       );
     }
+  });
+
+  builder.onAfterBuild(async ({ stats }) => {
+    await fse.writeFile(
+      path.join(finalConfig.output.distPath!.root!, 'stats.json'),
+      JSON.stringify(stats?.toJson({}), null, 2),
+    );
   });
 
   if (options?.modifyBuilder) {

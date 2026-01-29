@@ -7,21 +7,11 @@ import {
   ensureAbsolutePath,
   requireExistModule,
 } from '@modern-js/utils';
-import { parse } from 'flatted';
+import { fromJSON, parse } from 'flatted';
 import type { CliConfig, ServerConfig, UserConfig } from '../../../types';
+import { getBundledDep } from './getBundledDep';
 
-const requireConfig = async (
-  serverConfigPath: string,
-): Promise<ServerConfig | undefined> => {
-  if (fs.pathExistsSync(serverConfigPath)) {
-    return compatibleRequire(serverConfigPath);
-  }
-  return undefined;
-};
-
-async function loadServerConfigNew(
-  serverConfigPath: string,
-): Promise<ServerConfig | undefined> {
+export async function loadServerRuntimeConfig(serverConfigPath: string) {
   const mod: ServerConfig | null = await requireExistModule(serverConfigPath);
 
   if (mod) {
@@ -30,24 +20,21 @@ async function loadServerConfigNew(
   return undefined;
 }
 
-async function loadServerConfigOld(
-  pwd: string,
-  configFile: string,
+export async function loadBundledServerRuntimeConfig(
+  serverConfigPath: string,
+  deps?: Record<string, Promise<any>>,
 ): Promise<ServerConfig | undefined> {
-  const serverConfigPath = path.join(pwd, `${configFile}.cjs`);
-  const serverConfig = await requireConfig(serverConfigPath);
-  return serverConfig;
+  const mod = await getBundledDep(serverConfigPath, deps);
+  if (mod) {
+    return mod;
+  }
+  return undefined;
 }
 
-export async function loadServerRuntimeConfig(serverConfigPath: string) {
-  const newServerConfig = await loadServerConfigNew(serverConfigPath);
-  return newServerConfig;
-}
-
-export function loadServerCliConfig(
+export async function loadServerCliConfig(
   pwd: string,
   defaultConfig: UserConfig = {},
-): CliConfig {
+): Promise<CliConfig> {
   const cliConfigPath = ensureAbsolutePath(
     pwd,
     path.join(
@@ -68,9 +55,36 @@ export function loadServerCliConfig(
   };
 
   try {
-    const content = fs.readFileSync(cliConfigPath, 'utf-8');
+    const content = await fs.readFile(cliConfigPath, 'utf-8');
 
     cliConfig = parse(content);
+  } catch (_) {
+    // ignore
+  }
+
+  const mergedCliConfig = _.merge(defaultConfig, cliConfig);
+
+  return mergedCliConfig;
+}
+
+export async function loadBundledServerCliConfig(
+  defaultConfig: UserConfig = {},
+  deps?: Record<string, Promise<any>>,
+): Promise<CliConfig> {
+  let cliConfig: CliConfig = {
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    security: {},
+    bff: {},
+    html: {},
+    dev: {},
+  };
+
+  try {
+    const inputConfig = await getBundledDep(OUTPUT_CONFIG_FILE, deps);
+    cliConfig = fromJSON(inputConfig);
   } catch (_) {
     // ignore
   }

@@ -1,8 +1,6 @@
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { SERVER_ENTRY_POINT_FILE_NAME } from '@modern-js/utils/cli/constants';
 import fse from '@modern-js/utils/fs-extra';
-import { SERVER_BUNDLE_DEP_VARNAME } from '@modern-js/utils/universal/constants';
 import type { AppToolsContext } from '../../../types/plugin';
 import { getServerCombinedModuleFile } from '../../analyze/utils';
 import { normalizePath } from '../utils';
@@ -68,11 +66,11 @@ export const generateHandler = async (options: GenerateHandlerOptions) => {
     );
     const hasServerLoaders = await fse.pathExists(serverLoadersEntry);
     const serverLoadersCode = hasServerLoaders
-      ? `serverLoadersContent: () => import(${JSON.stringify(pathToFileURL(serverLoadersEntry))}).then(x => x.default || x),`
+      ? `serverLoadersContent: () => import(${JSON.stringify(serverLoadersEntry)}).then(x => x.default || x),`
       : '';
     const baseRouteCode = JSON.stringify(route);
     routesCode.push(`${baseRouteCode.substring(0, baseRouteCode.length - 1)},
-      bundleContent: () => import(${JSON.stringify(pathToFileURL(bundleEntry))}).then(x => x.default || x),
+      bundleContent: () => import(${JSON.stringify(bundleEntry)}).then(x => x.default || x),
       ${serverLoadersCode}
     }`);
   }
@@ -96,9 +94,5 @@ export const generateHandler = async (options: GenerateHandlerOptions) => {
 
   return code
     .replace('p_genDepCode', depCode)
-    .replace('p_bundleDepVarName', JSON.stringify(SERVER_BUNDLE_DEP_VARNAME))
-    .replace(
-      'p_prodServerEntry',
-      String(pathToFileURL(normalizePath(prodServerEntry))),
-    );
+    .replace('p_prodServerEntry', String(normalizePath(prodServerEntry)));
 };

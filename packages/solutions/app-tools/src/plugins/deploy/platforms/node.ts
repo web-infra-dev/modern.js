@@ -55,9 +55,7 @@ export const createNodePreset: CreatePreset = ({
         return;
       }
 
-      const handlerTemplate = await readTemplate(
-        'node-entry-single-bundle.mjs',
-      );
+      const handlerTemplate = await readTemplate('node-entry-bundle.mjs');
 
       const { code: depCode } = await scanDeps(
         distDirectory,

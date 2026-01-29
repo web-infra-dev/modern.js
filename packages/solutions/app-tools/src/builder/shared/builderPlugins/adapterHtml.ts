@@ -1,4 +1,7 @@
-import { isHtmlDisabled } from '@modern-js/builder';
+import {
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+  isHtmlDisabled,
+} from '@modern-js/builder';
 import { removeTailSlash } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import type {
@@ -23,6 +26,13 @@ export const builderPluginAdapterHtml = (
         { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin, environment },
       ) => {
         const builderConfig = environment.config;
+
+        const isServiceWorker =
+          environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+        if (isServiceWorker) {
+          return;
+        }
 
         if (!isHtmlDisabled(builderConfig, target)) {
           applyBottomHtmlPlugin({

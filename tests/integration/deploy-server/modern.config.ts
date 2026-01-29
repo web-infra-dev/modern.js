@@ -1,3 +1,5 @@
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 import AppToolsPlugin, { defineConfig } from '@modern-js/app-tools';
 import bff from '@modern-js/plugin-bff';
 
@@ -8,6 +10,11 @@ export default defineConfig({
     buildCache: false,
   },
   server: {
-    ssr: true,
+    ssr: {
+      bundleServer: true,
+    },
+  },
+  output: {
+    minify: false,
   },
 });

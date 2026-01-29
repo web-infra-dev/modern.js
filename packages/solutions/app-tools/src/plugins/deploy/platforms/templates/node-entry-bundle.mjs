@@ -1,6 +1,6 @@
 import { createProdServer } from 'p_prodServerEntry';
 
-globalThis[p_bundleDepVarName] = p_genDepCode;
+const dependencies = p_genDepCode;
 
 p_genPluginImportsCode;
 
@@ -21,6 +21,7 @@ async function main() {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
       bffRuntimeFramework: p_bffRuntimeFramework,
+      dependencies,
     },
     plugins: p_plugins,
     serverConfigPath: p_serverDirectory,
