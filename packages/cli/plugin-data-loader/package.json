@@ -21,7 +21,6 @@
   },
   "types": "./src/runtime/index.ts",
   "main": "./dist/cjs/runtime/index.js",
-  "module": "./dist/esm/runtime/index.mjs",
   "exports": {
     "./loader": {
       "types": "./dist/types/cli/loader.d.ts",

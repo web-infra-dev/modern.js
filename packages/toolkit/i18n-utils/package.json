@@ -18,7 +18,6 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.mjs",
   "typesVersions": {
     "*": {
       ".": [
@@ -31,22 +30,22 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "node": {
         "modern:source": "./src/index.ts",
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/esm/index.mjs"
+      "default": "./dist/cjs/index.js"
     },
     "./language-detector": {
+      "types": "./dist/types/languageDetector.d.ts",
       "node": {
         "modern:source": "./src/languageDetector.ts",
         "import": "./dist/esm-node/languageDetector.mjs",
         "require": "./dist/cjs/languageDetector.js"
       },
-      "types": "./dist/types/languageDetector.d.ts",
-      "default": "./dist/esm/languageDetector.mjs"
+      "default": "./dist/cjs/languageDetector.js"
     }
   },
   "scripts": {
@@ -73,20 +72,20 @@
     "types": "./dist/types/index.d.ts",
     "exports": {
       ".": {
+        "types": "./dist/types/index.d.ts",
         "node": {
           "import": "./dist/esm-node/index.mjs",
           "require": "./dist/cjs/index.js"
         },
-        "types": "./dist/types/index.d.ts",
-        "default": "./dist/esm/index.mjs"
+        "default": "./dist/cjs/index.js"
       },
       "./language-detector": {
+        "types": "./dist/types/languageDetector.d.ts",
         "node": {
           "import": "./dist/esm-node/languageDetector.mjs",
           "require": "./dist/cjs/languageDetector.js"
         },
-        "types": "./dist/types/languageDetector.d.ts",
-        "default": "./dist/esm/languageDetector.mjs"
+        "default": "./dist/cjs/languageDetector.js"
       }
     }
   }

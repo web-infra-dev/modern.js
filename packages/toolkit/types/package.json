@@ -32,9 +32,6 @@
       ".": [
         "./index.d.ts"
       ],
-      "hoist-non-react-statics": [
-        "./packages/hoist-non-react-statics.d.ts"
-      ],
       "server": [
         "./server/index.d.ts"
       ]

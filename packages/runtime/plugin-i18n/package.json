@@ -21,48 +21,42 @@
   },
   "types": "./dist/types/cli/index.d.ts",
   "main": "./dist/cjs/cli/index.js",
-  "module": "./dist/esm/cli/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/cli/index.d.ts",
-      "import": "./dist/esm/cli/index.mjs",
+      "node": {
+        "import": "./dist/esm-node/cli/index.mjs",
+        "require": "./dist/cjs/cli/index.js"
+      },
       "default": "./dist/cjs/cli/index.js"
     },
     "./package.json": "./package.json",
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "node": {
-        "require": "./dist/cjs/cli/index.js",
-        "import": "./dist/esm-node/cli/index.mjs"
+        "import": "./dist/esm-node/cli/index.mjs",
+        "require": "./dist/cjs/cli/index.js"
       },
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "node": {
-        "require": "./dist/cjs/runtime/index.js",
-        "import": "./dist/esm-node/runtime/index.mjs"
+        "module": "./dist/esm/runtime/index.mjs"
       },
-      "import": "./dist/esm/runtime/index.mjs",
-      "default": "./dist/cjs/runtime/index.js"
+      "default": "./dist/esm/runtime/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
       "node": {
-        "require": "./dist/cjs/server/index.js",
-        "import": "./dist/esm-node/server/index.mjs"
+        "import": "./dist/esm-node/server/index.mjs",
+        "require": "./dist/cjs/server/index.js"
       },
-      "import": "./dist/esm/server/index.mjs",
       "default": "./dist/cjs/server/index.js"
     },
     "./i18n": {
       "types": "./dist/types/runtime/i18n/index.d.ts",
-      "node": {
-        "require": "./dist/cjs/runtime/i18n/index.js",
-        "import": "./dist/esm-node/runtime/i18n/index.mjs"
-      },
-      "import": "./dist/esm/runtime/i18n/index.mjs",
-      "default": "./dist/cjs/runtime/i18n/index.js"
+      "default": "./dist/esm/runtime/i18n/index.mjs"
     }
   },
   "typesVersions": {

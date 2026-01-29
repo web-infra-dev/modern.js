@@ -1,3 +1,4 @@
+/* @modern-js/create-request will auto select server or client implementation */
 import {
   configure,
   createRequest,
