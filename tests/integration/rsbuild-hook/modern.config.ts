@@ -33,9 +33,6 @@ const MyPlugin = (): CliPlugin<AppTools> => ({
 });
 export default defineConfig({
   plugins: [appTools(), MyPlugin()],
-  server: {
-    ssr: true,
-  },
   performance: {
     buildCache: false,
   },
