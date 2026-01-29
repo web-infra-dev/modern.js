@@ -18,7 +18,7 @@ import type { AppNormalizedConfig, AppTools } from '../types';
 import { setServer } from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
-import { registerCompiler } from '../utils/register';
+import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
 
@@ -43,16 +43,18 @@ export const dev = async (
     .concat(normalizedConfig?.resolve?.alias ?? [])
     .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
+  // Register Node.js module hooks for ESM TypeScript support
   if (appContext.moduleType && appContext.moduleType === 'module') {
-    const { registerEsm } = await import('../esm/register-esm.mjs');
-    await registerEsm({
+    const { registerModuleHooks } = await import('../esm/register-esm.mjs');
+    await registerModuleHooks({
       appDir: appContext.appDirectory,
       distDir: appContext.distDirectory,
       alias: {},
     });
   }
 
-  await registerCompiler(
+  // Setup ts-node and tsconfig-paths for TypeScript runtime support
+  await setupTsRuntime(
     appContext.appDirectory,
     appContext.distDirectory,
     combinedAlias,
