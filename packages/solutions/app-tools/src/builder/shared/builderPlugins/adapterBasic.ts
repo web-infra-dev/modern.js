@@ -18,7 +18,7 @@ export const builderPluginAdapterBasic = (
         applyNodeCompat(isServiceWorker, chain);
       }
 
-      if (target === 'web') {
+      if (target === 'web' && !isServiceWorker) {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         const depExt = process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
