@@ -18,11 +18,7 @@ test('should import with template config', async () => {
           },
         ],
       },
-      performance: {
-        chunkSplit: {
-          strategy: 'all-in-one',
-        },
-      },
+      splitChunks: false,
     },
   });
   const files = await builder.unwrapOutputJSON(false);

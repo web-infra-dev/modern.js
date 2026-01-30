@@ -1014,11 +1014,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     },
     "splitChunks": {
       "cacheGroups": {
-        "lib-axios": {
-          "name": "lib-axios",
-          "priority": 0,
-          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
-        },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
@@ -3096,11 +3091,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     },
     "splitChunks": {
       "cacheGroups": {
-        "lib-axios": {
-          "name": "lib-axios",
-          "priority": 0,
-          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
-        },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,

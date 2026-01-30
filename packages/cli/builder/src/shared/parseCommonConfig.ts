@@ -51,6 +51,7 @@ export async function parseCommonConfig(
 
   const {
     plugins: [...plugins] = [],
+    splitChunks,
     performance: { ...performanceConfig } = {},
     output: {
       module = false,
@@ -96,6 +97,7 @@ export async function parseCommonConfig(
 
   const rsbuildConfig: RsbuildConfig = {
     plugins,
+    splitChunks,
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
       dataUriLimit,

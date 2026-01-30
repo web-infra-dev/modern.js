@@ -73,5 +73,6 @@
     "label": "experiments",
     "collapsed": true
   },
-  "app/builder-plugins"
+  "app/builder-plugins",
+  "app/split-chunks"
 ]

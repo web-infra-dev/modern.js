@@ -15,18 +15,14 @@ test.describe('performance configure multi', () => {
         main: join(basicFixtures, 'src/index.ts'),
       },
       builderConfig: {
-        performance: {
-          chunkSplit: {
-            strategy: 'all-in-one',
-          },
-        },
+        splitChunks: false,
       },
     });
 
     files = await builder.unwrapOutputJSON();
   });
 
-  test('chunkSplit all-in-one', async () => {
+  test('Disable split chunks', async () => {
     // expect only one bundle (end with .js)
     const filePaths = Object.keys(files).filter(file => file.endsWith('.js'));
 
@@ -34,17 +30,15 @@ test.describe('performance configure multi', () => {
   });
 });
 
-test('should generate vendor chunk when chunkSplit is "single-vendor"', async () => {
+test('should generate vendor chunk when splitChunks.preset is "single-vendor"', async () => {
   const builder = await build({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic/src/index.ts'),
     },
     builderConfig: {
-      performance: {
-        chunkSplit: {
-          strategy: 'single-vendor',
-        },
+      splitChunks: {
+        preset: 'single-vendor',
       },
     },
   });

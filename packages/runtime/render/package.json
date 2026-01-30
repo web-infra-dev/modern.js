@@ -32,10 +32,10 @@
     "@swc/helpers": "^0.5.17"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@rslib/core": "0.19.3",
+    "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
