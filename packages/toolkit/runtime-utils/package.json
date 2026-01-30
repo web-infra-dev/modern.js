@@ -40,22 +40,22 @@
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
+      "modern:source": "./src/server/index.ts",
       "node": {
         "module": "./dist/esm/server/index.mjs",
         "import": "./dist/esm-node/server/index.mjs",
         "require": "./dist/cjs/server/index.js"
       },
-      "modern:source": "./src/server/index.ts",
       "default": "./dist/esm/server/index.mjs"
     },
     "./time": {
       "types": "./dist/types/time.d.ts",
+      "modern:source": "./src/time.ts",
       "node": {
         "module": "./dist/esm/time.mjs",
         "import": "./dist/esm-node/time.mjs",
         "require": "./dist/cjs/time.js"
       },
-      "modern:source": "./src/time.ts",
       "default": "./dist/esm/time.mjs"
     },
     "./universal/request": {
