@@ -1,5 +1,15 @@
 # @modern-js/plugin-v2
 
+## 3.0.0-alpha.2
+
+### Patch Changes
+
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+  - @modern-js/runtime-utils@3.0.0-alpha.2
+  - @modern-js/types@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes

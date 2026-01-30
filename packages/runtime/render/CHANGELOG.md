@@ -1,5 +1,19 @@
 # @modern-js/render
 
+## 3.0.0-alpha.2
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 4c5b645: refactor: update rsc, streaming ssr runtime code
+  refactor: 更新 rsc, streeaming ssr 运行时代码
+- Updated dependencies [952f6fe]
+  - @modern-js/types@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes
