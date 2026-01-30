@@ -3,4 +3,3 @@ export * from './builder';
 export * from './dep-generator';
 export * from './generator';
 export * from './utils';
-export { applyConfig } from './config/apply';

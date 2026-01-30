@@ -2,15 +2,14 @@ import path from 'node:path';
 import {
   type BuilderConfig,
   type BuilderInstance,
-  SERVICE_WORKER_ENVIRONMENT_NAME,
   createBuilder,
 } from '@modern-js/builder';
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import { lodash as _, fs as fse } from '@modern-js/utils';
-import { applyBuilderPlugins } from '../../../builder/generator';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import { createBuilderProviderConfig } from '../../../builder/generator/createBuilderProviderConfig';
 import type { AppTools } from '../../../types';
-import { ESM_RESOLVE_CONDITIONS } from './constant';
+import { ESM_RESOLVE_CONDITIONS, NODE_BUILTIN_MODULES } from './constant';
 
 export const generateNodeExternals = (
   getExternal: (api: string) => string,
@@ -24,6 +23,7 @@ export interface BundleSSROptions {
   config?: BuilderConfig;
   modifyBuilder?: (builder: BuilderInstance) => Promise<void>;
   forceESM?: boolean;
+  nodeExternal?: string[];
 }
 
 export const bundleServer = async (
@@ -49,9 +49,18 @@ export const bundleServer = async (
     appContext,
   );
 
+  const nodeExternal = options?.nodeExternal
+    ? Object.fromEntries(
+        generateNodeExternals(
+          api => `module-import node:${api}`,
+          NODE_BUILTIN_MODULES,
+        ),
+      )
+    : undefined;
+
   const defaultConfig: BuilderConfig = {
     environments: {
-      [SERVICE_WORKER_ENVIRONMENT_NAME]: {
+      [SERVER_BUNDLE_NAME]: {
         source: {
           entry: {
             bundle: {
@@ -72,6 +81,7 @@ export const bundleServer = async (
     },
     output: {
       target: 'web',
+      module: true,
       emitAssets: false,
       cleanDistPath: true,
       polyfill: 'off',
@@ -86,6 +96,7 @@ export const bundleServer = async (
         js: '[name].mjs',
       },
       minify,
+      externals: nodeExternal ? [nodeExternal] : undefined,
     },
     performance: {
       chunkSplit: {
@@ -93,19 +104,26 @@ export const bundleServer = async (
       },
     },
     tools: {
-      rspack: {
-        target: 'es2020',
-        output: {
-          asyncChunks: false,
-          library: {
-            type: 'module',
+      rspack: [
+        {
+          name: SERVER_BUNDLE_NAME,
+          target: 'es2021',
+          output: {
+            chunkFormat: 'module',
+            asyncChunks: false,
+            pathinfo: !minify,
+            library: {
+              type: 'module',
+            },
           },
-          pathinfo: !minify,
+          experiments: {
+            outputModule: true,
+          },
         },
-        experiments: {
-          outputModule: true,
+        config => {
+          console.log(config);
         },
-      },
+      ],
     },
   };
 
@@ -121,13 +139,13 @@ export const bundleServer = async (
     config: finalConfig,
   });
 
-  await applyBuilderPlugins(builder, {
-    normalizedConfig,
-    appContext,
-  });
+  const plugins = api.getAppContext().builder?.getPlugins();
+  if (plugins) {
+    builder.addPlugins(plugins);
+  }
 
-  // remove bff server external
   builder.modifyRsbuildConfig(config => {
+    // remove bff server external
     const { output } = config;
     if (Array.isArray(output?.externals)) {
       output!.externals = output!.externals.filter(

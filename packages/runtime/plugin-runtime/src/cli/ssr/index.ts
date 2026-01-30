@@ -8,6 +8,7 @@ import type {
 import type { CLIPluginAPI } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import LoadableBundlerPlugin from './loadable-bundler-plugin';
 import { resolveSSRMode } from './mode';
@@ -82,7 +83,9 @@ const ssrBuilderPlugin = (
   setup(api) {
     api.modifyEnvironmentConfig((config, { name, mergeEnvironmentConfig }) => {
       const isServerEnvironment =
-        config.output.target === 'node' || name === 'workerSSR';
+        config.output.target === 'node' ||
+        name === 'workerSSR' ||
+        name === SERVER_BUNDLE_NAME;
       const userConfig = modernAPI.getNormalizedConfig();
 
       // Maybe we can enable it for node 18 and above, but we can't ensure it in the compilation.

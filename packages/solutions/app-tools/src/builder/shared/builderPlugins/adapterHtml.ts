@@ -4,6 +4,7 @@ import {
 } from '@modern-js/builder';
 import { removeTailSlash } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import type {
   ChainIdentifier,
   RsbuildPlugin,
@@ -29,8 +30,9 @@ export const builderPluginAdapterHtml = (
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+        const isServerBundle = environment.name === SERVER_BUNDLE_NAME;
 
-        if (isServiceWorker) {
+        if (isServiceWorker || isServerBundle) {
           return;
         }
 

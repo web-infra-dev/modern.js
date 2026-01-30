@@ -8,7 +8,6 @@ import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
   NODE_BUILTIN_MODULES,
   bundleServer,
-  generateNodeExternals,
   generateHandler as generateSingleBundleHandler,
 } from '../server-bundle';
 import { scanDeps } from '../server-bundle/dep-generator';
@@ -72,16 +71,10 @@ export const createNodePreset: CreatePreset = ({
         depCode,
         serverType: 'node',
       });
-      const nodeExternals = Object.fromEntries(
-        generateNodeExternals(
-          api => `module-import node:${api}`,
-          NODE_BUILTIN_MODULES,
-        ),
-      );
       await bundleServer(code, api, {
+        nodeExternal: NODE_BUILTIN_MODULES,
         config: {
           output: {
-            externals: [nodeExternals],
             distPath: {
               root: join(outputDirectory, 'server-bundle'),
               js: '.',
