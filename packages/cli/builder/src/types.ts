@@ -306,6 +306,7 @@ export type BuilderConfig = {
     port?: number;
     cors?: ServerConfig['cors'];
   };
+  splitChunks?: RsbuildConfig['splitChunks'];
   performance?: RsbuildConfig['performance'];
   security?: Omit<SecurityConfig, 'sri'>;
   tools?: Omit<ToolsConfig, 'htmlPlugin'>;

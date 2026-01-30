@@ -1,0 +1,17 @@
+# splitChunks
+
+- **类型：**
+
+```ts
+type SplitChunksConfig =
+  | (Rspack.OptimizationSplitChunksOptions & {
+      preset?: SplitChunksPreset;
+    })
+  | false;
+```
+
+`splitChunks` 用于配置 Rsbuild 的 chunk 拆分策略。
+
+import RsbuildConfig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="splitChunks" />

@@ -42,6 +42,7 @@ export interface AppToolsUserConfig {
   builderPlugins?: Array<RsbuildPlugin>;
   performance?: PerformanceUserConfig;
   environments?: RsbuildConfig['environments'];
+  splitChunks?: RsbuildConfig['splitChunks'];
   plugins?: CliPlugin<AppTools>[];
 }
 

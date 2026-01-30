@@ -11,10 +11,6 @@ export default defineConfig({
     polyfill: 'off',
     disableTsChecker: true,
   },
-  performance: {
-    chunkSplit: {
-      strategy: 'all-in-one',
-    },
-  },
+  splitChunks: false,
   plugins: [appTools(), ssgPlugin()],
 });

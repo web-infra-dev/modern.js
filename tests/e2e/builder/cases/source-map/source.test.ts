@@ -35,11 +35,7 @@ test('source-map', async () => {
       output: {
         legalComments: 'none',
       },
-      performance: {
-        chunkSplit: {
-          strategy: 'all-in-one',
-        },
-      },
+      splitChunks: false,
     },
   });
 

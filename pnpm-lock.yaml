@@ -2058,12 +2058,6 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  tests/e2e/builder/cases/moment:
-    dependencies:
-      moment:
-        specifier: ^2.30.1
-        version: 2.30.1
-
   tests/e2e/builder/cases/source-map:
     dependencies:
       react:
@@ -23960,7 +23954,8 @@ snapshots:
 
   modern-normalize@1.1.0: {}
 
-  moment@2.30.1: {}
+  moment@2.30.1:
+    optional: true
 
   mri@1.2.0: {}
 
