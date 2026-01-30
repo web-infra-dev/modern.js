@@ -1,7 +1,5 @@
 import { storage } from '@modern-js/runtime-utils/node';
 import nock from 'nock';
-import fetch from 'node-fetch';
-import { Response } from 'node-fetch';
 import { configure, createRequest } from '../src/node';
 
 describe('configure', () => {

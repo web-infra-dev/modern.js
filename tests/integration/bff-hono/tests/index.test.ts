@@ -9,7 +9,6 @@ import {
   modernBuild,
   modernServe,
 } from '../../../utils/modernTestUtils';
-import 'isomorphic-fetch';
 
 dns.setDefaultResultOrder('ipv4first');
 
