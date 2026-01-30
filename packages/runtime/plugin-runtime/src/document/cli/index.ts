@@ -255,8 +255,8 @@ const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
 };
 
 const generateEntryCode = (docPath: string, _entryName: string): string => {
-  const runtimeAPI = require.resolve('../');
-  const esmRuntimeAPI = runtimeAPI
+  const esmRuntimeAPI = require
+    .resolve('../')
     .replace(`cjs`, `esm`)
     .replace(/.js$/, '.mjs');
 
