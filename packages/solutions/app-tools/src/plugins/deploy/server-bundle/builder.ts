@@ -119,9 +119,7 @@ export const bundleServer = async (
           experiments: {
             outputModule: true,
           },
-        },
-        config => {
-          console.log(config);
+          ignoreWarnings: [/__dirname/, /dependency is an expression/],
         },
       ],
     },
@@ -140,8 +138,9 @@ export const bundleServer = async (
   });
 
   const plugins = api.getAppContext().builder?.getPlugins();
+  const hasPlugins = builder.getPlugins().map(x => x.name);
   if (plugins) {
-    builder.addPlugins(plugins);
+    builder.addPlugins(plugins.filter(x => !hasPlugins.includes(x.name)));
   }
 
   builder.modifyRsbuildConfig(config => {
@@ -154,18 +153,19 @@ export const bundleServer = async (
     }
   });
 
-  builder.onAfterBuild(async ({ stats }) => {
-    await fse.writeFile(
-      path.join(finalConfig.output.distPath!.root!, 'stats.json'),
-      JSON.stringify(
-        stats?.toJson({
-          preset: 'verbose',
-        }),
-        null,
-        2,
-      ),
-    );
-  });
+  // output stats to debug tree shaking
+  // builder.onAfterBuild(async ({ stats }) => {
+  //   await fse.writeFile(
+  //     path.join(finalConfig.output.distPath!.root!, 'stats.json'),
+  //     JSON.stringify(
+  //       stats?.toJson({
+  //         preset: 'verbose',
+  //       }),
+  //       null,
+  //       2,
+  //     ),
+  //   );
+  // });
 
   if (options?.modifyBuilder) {
     await options.modifyBuilder(builder);

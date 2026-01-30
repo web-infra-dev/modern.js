@@ -120,7 +120,7 @@ export const createNodePreset: CreatePreset = ({
       if (isBundleServer) {
         console.log(
           `You can preview this build by`,
-          chalk.blue(`node .output/server-bundle/index`),
+          chalk.blue(`node .output/server-bundle/bundle.mjs`),
         );
       } else {
         console.log(
