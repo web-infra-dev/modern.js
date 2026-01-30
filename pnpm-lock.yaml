@@ -1706,9 +1706,6 @@ importers:
       address:
         specifier: 1.2.2
         version: 1.2.2
-      browserslist:
-        specifier: 4.28.1
-        version: 4.28.1
       chalk:
         specifier: 4.1.2
         version: 4.1.2

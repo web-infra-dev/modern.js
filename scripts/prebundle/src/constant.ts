@@ -87,7 +87,6 @@ export const TASKS: TaskConfig[] = [
           'graceful-fs': 'node:fs',
         },
       },
-      'browserslist',
       'chokidar',
       'fast-glob',
       {

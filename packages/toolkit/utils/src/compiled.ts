@@ -24,7 +24,6 @@ export { default as filesize } from '../compiled/filesize';
 export { default as gzipSize } from '../compiled/gzip-size';
 export { default as stripAnsi } from '../compiled/strip-ansi';
 export { default as dotenvExpand } from '../compiled/dotenv-expand';
-export { default as browserslist } from '../compiled/browserslist';
 
 export { program, Command } from '../compiled/commander';
 

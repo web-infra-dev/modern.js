@@ -49,7 +49,6 @@ const dependencies = [
     name: 'fs-extra',
     esm: true,
   },
-  'browserslist',
   'chokidar',
   'fast-glob',
   {

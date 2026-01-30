@@ -89,7 +89,6 @@
     "./gzip-size": "./dist/compiled/gzip-size/index.js",
     "./mime-types": "./dist/compiled/mime-types/index.js",
     "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
-    "./browserslist": "./dist/compiled/browserslist/index.js",
     "./tsconfig-paths": {
       "import": "./dist/compiled/tsconfig-paths/index.mjs",
       "default": "./dist/compiled/tsconfig-paths/index.js"
@@ -164,9 +163,6 @@
       ],
       "strip-ansi": [
         "./dist/compiled/strip-ansi/index.d.ts"
-      ],
-      "browserslist": [
-        "./dist/compiled/browserslist/index.d.ts"
       ],
       "tsconfig-paths": [
         "./dist/compiled/tsconfig-paths/lib/index.d.ts"
