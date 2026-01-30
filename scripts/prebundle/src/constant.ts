@@ -81,6 +81,8 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'fs-extra',
         esmAlias: 'fs-extra/esm',
+        esmOutput: 'esm.mjs',
+        clear: false,
         externals: {
           'graceful-fs': 'node:fs',
         },

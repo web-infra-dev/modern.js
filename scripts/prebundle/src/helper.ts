@@ -64,7 +64,10 @@ export async function parseTasks() {
         }
       }
 
-      const info = {
+      const info: Omit<
+        ParsedTask,
+        'minify' | 'externals' | 'emitFiles' | 'packageJsonField'
+      > = {
         depName,
         depPath,
         depEntry,
@@ -75,6 +78,10 @@ export async function parseTasks() {
         packagePath,
         packageName,
       };
+
+      if (typeof dep === 'object') {
+        info.depConfig = dep;
+      }
 
       if (typeof dep === 'string') {
         result.push({

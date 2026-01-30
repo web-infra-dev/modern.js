@@ -83,7 +83,7 @@ export const bundleServer = async (
         server: '.',
       },
       filename: {
-        js: '[name].js',
+        js: '[name].mjs',
       },
       minify,
     },
