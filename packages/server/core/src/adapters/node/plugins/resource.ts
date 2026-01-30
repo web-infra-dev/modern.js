@@ -324,7 +324,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
 
       middlewares.push({
         name: 'inject-html',
-        handler: injectTemplates(getHtmlTemplatesFn),
+        handler: injectTemplates(getHtmlTemplatesFn, routes),
       });
     });
   },

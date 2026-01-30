@@ -64,16 +64,17 @@ export const isHandler = (input: any): input is Handler<any, any> =>
 const isFunction = (input: any): input is (...args: any) => any =>
   input && {}.toString.call(input) === '[object Function]';
 
+export const interopHandlerModule = (mod: any) =>
+  isFunction(mod) ? { default: module } : mod;
+
 export const requireHandlerModule = async (modulePath: string) => {
   // 测试环境不走缓存，因为缓存的 handler 文件，会被 mockAPI 函数进行 mock，升级 jest28，setupFilesAfterEnv 能做异步操作的话，可解此问题
   const originRequire =
     process.env.NODE_ENV === 'test' ? require : compatibleRequire;
 
-  const module = await originRequire(modulePath, false);
-  if (isFunction(module)) {
-    return { default: module };
-  }
-  return module;
+  const mod = await originRequire(modulePath, false);
+
+  return interopHandlerModule(mod);
 };
 
 const routeValue = (routePath: string) => {
