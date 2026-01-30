@@ -727,8 +727,8 @@ importers:
         specifier: 1.3.2
         version: 1.3.2(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-react':
-        specifier: 1.4.3
-        version: 1.4.3(@rsbuild/core@1.7.2)
+        specifier: 1.4.4
+        version: 1.4.4(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-rem':
         specifier: 1.0.5
         version: 1.0.5(@rsbuild/core@1.7.2)
@@ -4154,10 +4154,10 @@ importers:
         version: link:../../toolkit/utils
       '@storybook/react':
         specifier: ~7.6.1
-        version: 7.6.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.6.3)
+        version: 7.6.20(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.6.3)
       storybook:
         specifier: ~7.6.1
-        version: 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+        version: 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
     devDependencies:
       '@storybook/types':
         specifier: ~7.6.12
@@ -13409,8 +13409,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x
 
-  '@rsbuild/plugin-react@1.4.3':
-    resolution: {integrity: sha512-Uf9FkKk2TqYDbsypXHgjdivPmEoYFvBTHJT5fPmjCf0Sc3lR2BHtlc0WMdZTCKUJ5jTxREygMs9LbnehX98L8g==}
+  '@rsbuild/plugin-react@1.4.4':
+    resolution: {integrity: sha512-tWOjyV4ZpUgwKT7sXHtGs24EYeyfY/THpTraLgikUUk0yLDeNHlDT5XPHOfLIbLIB3L8763AfgASFyhiqFw76g==}
     peerDependencies:
       '@rsbuild/core': ^1.0.0 || ^2.0.0-0
 
@@ -31625,7 +31625,7 @@ snapshots:
     transitivePeerDependencies:
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-react@1.4.3(@rsbuild/core@1.7.2)':
+  '@rsbuild/plugin-react@1.4.4(@rsbuild/core@1.7.2)':
     dependencies:
       '@rsbuild/core': 1.7.2
       '@rspack/plugin-react-refresh': 1.6.0(react-refresh@0.18.0)
@@ -31685,7 +31685,7 @@ snapshots:
   '@rsbuild/plugin-svgr@1.3.0(@rsbuild/core@1.7.2)(typescript@5.6.3)':
     dependencies:
       '@rsbuild/core': 1.7.2
-      '@rsbuild/plugin-react': 1.4.3(@rsbuild/core@1.7.2)
+      '@rsbuild/plugin-react': 1.4.4(@rsbuild/core@1.7.2)
       '@svgr/core': 8.1.0(typescript@5.6.3)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0(typescript@5.6.3))
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0(typescript@5.6.3))(typescript@5.6.3)
@@ -32639,7 +32639,7 @@ snapshots:
       '@storybook/components': 7.6.20(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/core-events': 7.6.20
       '@storybook/csf': 0.1.11
-      '@storybook/docs-tools': 7.6.20
+      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/preview-api': 7.6.20
@@ -32665,7 +32665,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@7.6.20':
+  '@storybook/builder-manager@7.6.20(encoding@0.1.13)':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -32696,7 +32696,7 @@ snapshots:
       telejson: 7.2.0
       tiny-invariant: 1.3.3
 
-  '@storybook/cli@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@storybook/cli@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/core': 7.28.6
       '@babel/preset-env': 7.26.9(@babel/core@7.28.6)
@@ -32705,10 +32705,10 @@ snapshots:
       '@storybook/codemod': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
-      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@storybook/csf-tools': 7.6.20
       '@storybook/node-logger': 7.6.20
-      '@storybook/telemetry': 7.6.20
+      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
       '@storybook/types': 7.6.20
       '@types/semver': 7.7.0
       '@yarnpkg/fslib': 2.10.3
@@ -32841,11 +32841,11 @@ snapshots:
     dependencies:
       ts-dedent: 2.2.0
 
-  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
       '@aw-web-design/x-default-browser': 1.4.126
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 7.6.20
+      '@storybook/builder-manager': 7.6.20(encoding@0.1.13)
       '@storybook/channels': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
@@ -32856,7 +32856,7 @@ snapshots:
       '@storybook/manager': 7.6.20
       '@storybook/node-logger': 7.6.20
       '@storybook/preview-api': 7.6.20
-      '@storybook/telemetry': 7.6.20
+      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
       '@storybook/types': 7.6.20
       '@types/detect-port': 1.3.5
       '@types/node': 18.19.74
@@ -32917,7 +32917,7 @@ snapshots:
 
   '@storybook/docs-mdx@0.1.0': {}
 
-  '@storybook/docs-tools@7.6.20':
+  '@storybook/docs-tools@7.6.20(encoding@0.1.13)':
     dependencies:
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/preview-api': 7.6.20
@@ -33011,11 +33011,11 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@storybook/react@7.6.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.6.3)':
+  '@storybook/react@7.6.20(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.6.3)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-client': 7.6.20
-      '@storybook/docs-tools': 7.6.20
+      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
       '@storybook/global': 5.0.0
       '@storybook/preview-api': 7.6.20
       '@storybook/react-dom-shim': 7.6.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -33048,7 +33048,7 @@ snapshots:
       memoizerific: 1.11.3
       qs: 6.14.1
 
-  '@storybook/telemetry@7.6.20':
+  '@storybook/telemetry@7.6.20(encoding@0.1.13)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -46207,9 +46207,9 @@ snapshots:
 
   store2@2.14.3: {}
 
-  storybook@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+  storybook@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10):
     dependencies:
-      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - encoding
