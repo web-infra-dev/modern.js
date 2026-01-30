@@ -77,13 +77,6 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       'glob',
       'chalk',
-      {
-        name: 'signale',
-        externals: {
-          chalk: '../chalk',
-        },
-        packageJsonField: ['options'],
-      },
       'execa',
       {
         name: 'fs-extra',

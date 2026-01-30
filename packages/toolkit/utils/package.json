@@ -71,7 +71,6 @@
       "import": "./dist/compiled/commander/index.mjs",
       "default": "./dist/compiled/commander/index.js"
     },
-    "./ora": "./dist/compiled/ora/index.js",
     "./glob": "./dist/compiled/glob/index.js",
     "./chalk": "./dist/compiled/chalk/index.js",
     "./execa": "./dist/compiled/execa/index.js",
@@ -174,9 +173,6 @@
       ],
       "commander": [
         "./dist/compiled/commander/typings/index.d.ts"
-      ],
-      "ora": [
-        "./dist/compiled/ora/index.d.ts"
       ]
     }
   },
