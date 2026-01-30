@@ -16,7 +16,7 @@ export const pluginRuntimeChunk = (
       const { chunkSplit } = config.performance;
 
       // should not extract runtime chunk when strategy is `all-in-one`
-      if (chunkSplit.strategy !== 'all-in-one') {
+      if (chunkSplit?.strategy !== 'all-in-one') {
         chain.optimization.runtimeChunk({
           name: RUNTIME_CHUNK_NAME,
         });
