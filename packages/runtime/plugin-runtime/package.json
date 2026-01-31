@@ -57,11 +57,6 @@
       "types": "./dist/types/exports/head.d.ts",
       "default": "./dist/esm/exports/head.mjs"
     },
-    "./server": {
-      "types": "./dist/types/exports/server.d.ts",
-      "node": "./dist/cjs/exports/server.js",
-      "default": "./dist/esm/exports/server.mjs"
-    },
     "./ssr": {
       "types": "./dist/types/core/server/index.d.ts",
       "default": "./dist/esm/core/server/index.mjs"
@@ -72,15 +67,13 @@
     },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
-      "require": "./dist/cjs/document/index.js",
-      "import": "./dist/esm/document/index.mjs",
       "default": "./dist/esm/document/index.mjs"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "node": {
-        "require": "./dist/cjs/cli/index.js",
-        "import": "./dist/esm-node/cli/index.mjs"
+        "import": "./dist/esm-node/cli/index.mjs",
+        "require": "./dist/cjs/cli/index.js"
       },
       "default": "./dist/cjs/cli/index.js"
     },
@@ -106,8 +99,11 @@
     },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",
-      "node": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js",
-      "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.mjs"
+      "node": {
+        "import": "./dist/esm-node/cli/ssr/loadable-bundler-plugin.mjs",
+        "require": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
+      },
+      "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
     },
     "./rsc/server": {
       "types": "./dist/types/rsc/server.d.ts",
@@ -119,12 +115,14 @@
     },
     "./cache": {
       "types": "./dist/types/cache/index.d.ts",
-      "require": "./dist/cjs/cache/index.js",
       "default": "./dist/esm/cache/index.mjs"
     },
     "./config-routes": {
       "types": "./dist/types/exports/config-routes.d.ts",
-      "require": "./dist/cjs/exports/config-routes.js",
+      "node": {
+        "import": "./dist/esm-node/exports/config-routes.mjs",
+        "require": "./dist/cjs/exports/config-routes.js"
+      },
       "default": "./dist/cjs/exports/config-routes.js"
     }
   },
@@ -168,9 +166,6 @@
       ],
       "router": [
         "./dist/types/router/index.d.ts"
-      ],
-      "router/rsc": [
-        "./dist/types/router/runtime/rsc.d.ts"
       ],
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
@@ -235,7 +230,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@remix-run/web-fetch": "^4.1.3",
-    "@rsbuild/core": "2.0.0-alpha.4",
+    "@rsbuild/core": "2.0.0-beta.0",
     "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@testing-library/dom": "^10.4.1",

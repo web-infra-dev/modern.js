@@ -18,7 +18,6 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
-  "module": "./dist/esm/cli.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/cli.d.ts",
@@ -26,7 +25,7 @@
         "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/esm/cli.mjs"
+      "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "types": "./dist/types/cli.d.ts",
@@ -34,7 +33,7 @@
         "import": "./dist/esm-node/cli.mjs",
         "require": "./dist/cjs/cli.js"
       },
-      "default": "./dist/esm/cli.mjs"
+      "default": "./dist/cjs/cli.js"
     },
     "./server": {
       "types": "./dist/types/index.d.ts",
@@ -42,7 +41,7 @@
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.mjs"
+      "default": "./dist/cjs/index.js"
     }
   },
   "typesVersions": {

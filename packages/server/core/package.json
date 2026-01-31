@@ -18,7 +18,6 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -32,10 +31,18 @@
     "./node": {
       "types": "./dist/types/adapters/node/index.d.ts",
       "modern:source": "./src/adapters/node/index.ts",
+      "node": {
+        "import": "./dist/esm-node/adapters/node/index.mjs",
+        "require": "./dist/cjs/adapters/node/index.js"
+      },
       "default": "./dist/cjs/adapters/node/index.js"
     },
     "./hono": {
       "types": "./dist/types/hono.d.ts",
+      "node": {
+        "import": "./dist/esm-node/hono.mjs",
+        "require": "./dist/cjs/hono.js"
+      },
       "default": "./dist/cjs/hono.js"
     }
   },

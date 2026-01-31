@@ -8,5 +8,5 @@ export default applyBaseConfig({
     filenameHash: false,
     disableInlineRuntimeChunk: true,
   },
-  performance: { chunkSplit: { strategy: 'all-in-one' } },
+  splitChunks: false,
 });

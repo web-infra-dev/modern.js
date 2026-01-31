@@ -18,7 +18,6 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -32,10 +31,11 @@
     "./cache": {
       "types": "./dist/types/cache.d.ts",
       "node": {
+        "module": "./dist/esm/cache.mjs",
         "import": "./dist/esm-node/cache.mjs",
         "require": "./dist/cjs/cache.js"
       },
-      "default": "./dist/cjs/cache.js"
+      "default": "./dist/esm/cache.mjs"
     }
   },
   "typesVersions": {

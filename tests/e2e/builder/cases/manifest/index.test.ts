@@ -15,11 +15,7 @@ test('enableAssetManifest', async () => {
         enableAssetManifest: true,
         legalComments: 'none',
       },
-      performance: {
-        chunkSplit: {
-          strategy: 'all-in-one',
-        },
-      },
+      splitChunks: false,
     },
   });
 

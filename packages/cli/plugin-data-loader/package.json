@@ -21,7 +21,6 @@
   },
   "types": "./src/runtime/index.ts",
   "main": "./dist/cjs/runtime/index.js",
-  "module": "./dist/esm/runtime/index.mjs",
   "exports": {
     "./loader": {
       "types": "./dist/types/cli/loader.d.ts",
@@ -58,7 +57,7 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-alpha.4",
+    "@rsbuild/core": "2.0.0-beta.0",
     "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",

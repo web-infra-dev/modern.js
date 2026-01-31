@@ -37,8 +37,6 @@ export type GenClientOptions = {
   domain?: string;
 };
 
-export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
-
 export const INNER_CLIENT_REQUEST_CREATOR = '@modern-js/plugin-bff/client';
 
 export const generateClient = async ({

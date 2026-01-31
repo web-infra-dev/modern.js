@@ -1,8 +1,0 @@
-{
-  "private": true,
-  "name": "@e2e/webpack-builder-test-moment",
-  "version": "2.66.0",
-  "dependencies": {
-    "moment": "^2.30.1"
-  }
-}

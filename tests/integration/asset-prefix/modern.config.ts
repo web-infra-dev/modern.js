@@ -27,9 +27,5 @@ export default applyBaseConfig({
   output: {
     // assetPrefix: '/my-prefix',
   },
-  performance: {
-    chunkSplit: {
-      strategy: 'all-in-one',
-    },
-  },
+  splitChunks: false,
 });

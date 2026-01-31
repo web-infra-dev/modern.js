@@ -1,0 +1,17 @@
+# splitChunks
+
+- **Type:**
+
+```ts
+type SplitChunksConfig =
+  | (Rspack.OptimizationSplitChunksOptions & {
+      preset?: SplitChunksPreset;
+    })
+  | false;
+```
+
+`splitChunks` is used to configure Rsbuild's chunk splitting strategy.
+
+import RsbuildConfig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConfig configName="splitChunks" />

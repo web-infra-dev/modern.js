@@ -8,13 +8,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "default": "./dist/index.cjs"
     },
     "./runtime": {
       "types": "./dist/runtime.d.ts",
-      "import": "./dist/runtime.js",
-      "require": "./dist/runtime.cjs"
+      "default": "./dist/runtime.js"
     },
     "./types": {
       "types": "./dist/types.d.ts"

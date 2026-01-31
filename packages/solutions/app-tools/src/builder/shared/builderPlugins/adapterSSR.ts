@@ -293,6 +293,7 @@ function applySSRDataLoader(chain: RspackChain, options: BuilderOptions) {
     .rule('ssr-data-loader')
     .test(reg)
     .use('data-loader')
+    // TODO: support ESM
     .loader(require.resolve('@modern-js/plugin-data-loader/loader'))
     .end();
 }

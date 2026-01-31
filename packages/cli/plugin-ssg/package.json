@@ -18,14 +18,10 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.mjs",
   "typesVersions": {
     "*": {
       ".": [
         "./dist/types/index.d.ts"
-      ],
-      "types": [
-        "./dist/types/types.d.ts"
       ]
     }
   },
@@ -36,7 +32,7 @@
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.mjs"
+      "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "types": "./dist/types/index.d.ts",
@@ -44,15 +40,7 @@
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm/index.mjs"
-    },
-    "./types": {
-      "types": "./dist/types/types.d.ts",
-      "node": {
-        "import": "./dist/esm-node/types.mjs",
-        "require": "./dist/cjs/types.js"
-      },
-      "default": "./dist/esm/types.mjs"
+      "default": "./dist/cjs/index.js"
     }
   },
   "scripts": {

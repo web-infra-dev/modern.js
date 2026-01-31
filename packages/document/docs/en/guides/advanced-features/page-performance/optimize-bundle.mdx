@@ -99,18 +99,3 @@ See details in [plugin-image-compress](https://github.com/rspack-contrib/rsbuild
 A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
 
 A variety of [chunk splitting strategies](https://rsbuild.rs/guide/optimization/split-chunk) are built into Modern.js, which can meet the needs of most applications. You can also customize the chunk splitting config according to your own business scenarios.
-
-For example, split the `axios` library under node_modules into `axios.js`:
-
-```js
-export default {
-  performance: {
-    chunkSplit: {
-      strategy: 'split-by-experience',
-      forceSplitting: {
-        axios: /node_modules\/axios/,
-      },
-    },
-  },
-};
-```

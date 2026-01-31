@@ -18,7 +18,6 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
-  "module": "./dist/esm-node/cli.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/cli.d.ts",
@@ -44,14 +43,6 @@
       },
       "default": "./dist/cjs/server.js"
     },
-    "./loader": {
-      "types": "./dist/types/loader.d.ts",
-      "node": {
-        "import": "./dist/esm-node/loader.mjs",
-        "require": "./dist/cjs/loader.js"
-      },
-      "default": "./dist/cjs/loader.js"
-    },
     "./server": {
       "types": "./dist/types/runtime/hono/index.d.ts",
       "node": {
@@ -61,12 +52,8 @@
       "default": "./dist/cjs/runtime/hono/index.js"
     },
     "./client": {
-      "types": "./dist/types/create-request/index.d.ts",
-      "node": {
-        "import": "./dist/esm-node/runtime/create-request/index.mjs",
-        "require": "./dist/cjs/runtime/create-request/index.js"
-      },
-      "default": "./dist/cjs/runtime/create-request/index.js"
+      "types": "./dist/types/runtime/create-request/index.d.ts",
+      "default": "./dist/esm/runtime/create-request/index.mjs"
     }
   },
   "typesVersions": {
@@ -102,6 +89,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
+    "qs": "^6.14.1",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
@@ -111,10 +99,11 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-alpha.4",
+    "@rsbuild/core": "2.0.0-beta.0",
     "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
+    "@types/qs": "^6.14.0",
     "@types/type-is": "^1.6.7",
     "memfs": "^3.5.3",
     "typescript": "^5",

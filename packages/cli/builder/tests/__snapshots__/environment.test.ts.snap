@@ -1015,11 +1015,6 @@ exports[`builder environment compat > should generator environment config correc
       },
       "splitChunks": {
         "cacheGroups": {
-          "lib-axios": {
-            "name": "lib-axios",
-            "priority": 0,
-            "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
-          },
           "lib-polyfill": {
             "name": "lib-polyfill",
             "priority": 0,

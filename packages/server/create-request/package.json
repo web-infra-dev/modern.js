@@ -19,8 +19,6 @@
   "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
-  "module": "./dist/esm/node.mjs",
-  "browser": "./dist/esm/browser.mjs",
   "files": [
     "dist",
     "hook.d.ts"
@@ -29,7 +27,7 @@
     ".": {
       "types": "./dist/types/browser.d.ts",
       "modern:source": "./src/browser.ts",
-      "node": "./dist/esm-node/node.mjs",
+      "node": "./dist/esm/node.mjs",
       "default": "./dist/esm/browser.mjs"
     },
     "./client": {
@@ -37,37 +35,10 @@
       "modern:source": "./src/browser.ts",
       "default": "./dist/esm/browser.mjs"
     },
-    "./modern": {
-      "modern:source": "./src/browser.ts",
-      "default": "./dist/esm-node/browser.mjs"
-    },
     "./server": {
       "types": "./dist/types/node.d.ts",
       "modern:source": "./src/node.ts",
-      "node": {
-        "import": "./dist/esm-node/node.mjs",
-        "require": "./dist/cjs/node.js"
-      },
-      "default": "./dist/cjs/node.js"
-    },
-    "./browser": {
-      "types": "./dist/types/browser.d.ts",
-      "modern:source": "./src/browser.ts",
-      "default": "./dist/esm/browser.mjs"
-    },
-    "./default": {
-      "types": "./dist/types/node.d.ts",
-      "modern:source": "./src/node.ts",
-      "node": {
-        "import": "./dist/esm-node/node.mjs",
-        "require": "./dist/cjs/node.js"
-      },
-      "default": "./dist/cjs/node.js"
-    },
-    "./qs": {
-      "types": "./dist/types/qs.d.ts",
-      "modern:source": "./src/qs.ts",
-      "default": "./dist/cjs/qs.js"
+      "default": "./dist/esm/node.mjs"
     }
   },
   "typesVersions": {
@@ -78,19 +49,7 @@
       "client": [
         "./dist/types/browser.d.ts"
       ],
-      "modern": [
-        "./dist/types/browser.d.ts"
-      ],
       "server": [
-        "./dist/types/node.d.ts"
-      ],
-      "qs": [
-        "./dist/types/qs.d.ts"
-      ],
-      "browser": [
-        "./dist/types/browser.d.ts"
-      ],
-      "default": [
         "./dist/types/node.d.ts"
       ]
     }
@@ -106,7 +65,6 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "encoding": "^0.1.13",
-    "node-fetch": "^2.7.0",
     "path-to-regexp": "^6.3.0",
     "qs": "^6.14.1"
   },
@@ -116,7 +74,6 @@
     "@rslib/core": "0.19.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@types/node-fetch": "^2.6.13",
     "@types/qs": "^6.14.0",
     "nock": "^14.0.10",
     "typescript": "^5"

@@ -18,12 +18,12 @@
   "version": "3.0.0-alpha.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm-node/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "modern:source": "./src/index.ts",
       "node": {
-        "modern:source": "./src/index.ts",
+        "module": "./dist/esm/index.mjs",
         "import": "./dist/esm-node/index.mjs",
         "require": "./dist/cjs/index.js"
       },
@@ -31,8 +31,8 @@
     },
     "./run": {
       "types": "./dist/types/cli/run/index.d.ts",
+      "modern:source": "./src/cli/run/index.ts",
       "node": {
-        "modern:source": "./src/cli/run/index.ts",
         "import": "./dist/esm-node/cli/run/index.mjs",
         "require": "./dist/cjs/cli/run/index.js"
       },
@@ -40,8 +40,8 @@
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
+      "modern:source": "./src/cli/index.ts",
       "node": {
-        "modern:source": "./src/cli/index.ts",
         "import": "./dist/esm-node/cli/index.mjs",
         "require": "./dist/cjs/cli/index.js"
       },
@@ -49,22 +49,17 @@
     },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "node": {
-        "modern:source": "./src/runtime/index.tsx",
-        "import": "./dist/esm-node/runtime/index.mjs",
-        "require": "./dist/cjs/runtime/index.js"
-      },
+      "modern:source": "./src/runtime/index.tsx",
       "default": "./dist/esm/runtime/index.mjs"
     },
     "./server": {
       "types": "./dist/types/server/index.d.ts",
+      "modern:source": "./src/server/index.ts",
       "node": {
-        "modern:source": "./src/server/index.ts",
-        "require": "./dist/cjs/server/index.js",
         "import": "./dist/esm-node/server/index.mjs",
-        "default": "./dist/cjs/server/index.js"
+        "require": "./dist/cjs/server/index.js"
       },
-      "default": "./dist/esm/server/index.mjs"
+      "default": "./dist/cjs/server/index.js"
     }
   },
   "typesVersions": {
@@ -96,7 +91,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.0-alpha.4",
+    "@rsbuild/core": "2.0.0-beta.0",
     "@swc/helpers": "^0.5.17",
     "jiti": "2.6.1"
   },

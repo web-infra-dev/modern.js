@@ -1,6 +1,4 @@
-import type { Response as NodeResponse } from 'node-fetch';
-
-const handleRes = async (res: Response | NodeResponse) => {
+const handleRes = async (res: Response) => {
   const contentType = res.headers.get('content-type');
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
