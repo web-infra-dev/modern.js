@@ -12,8 +12,8 @@
     "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20260130025803",
     "@module-federation/runtime": "0.0.0-feat-modern-3-0-20260130025803",
     "i18next": "25.7.4",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-i18next": "15.7.4"
   },
   "devDependencies": {
