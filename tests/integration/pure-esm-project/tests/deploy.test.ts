@@ -1,5 +1,6 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
+import { setTimeout } from 'timers/promises';
 import {
   getPort,
   killApp,
@@ -37,11 +38,18 @@ describe('deploy', () => {
   const apps = new Set();
 
   beforeAll(async () => {
-    await modernBuild(appDir, [], {});
+    await modernBuild(appDir, [], {
+      env: {
+        TEST_DIST: 'dist-deploy',
+        TEST_BUNDLE_SERVER: 'false',
+      },
+    });
   });
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
+    await fse.remove(path.join(appDir, 'dist-deploy'));
+    await fse.remove(path.join(appDir, 'dist-deploy-bundle'));
     await fse.remove(path.join(appDir, '.output'));
     await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
@@ -53,6 +61,7 @@ describe('deploy', () => {
       stdio: 'inherit',
       env: {
         ...process.env,
+        TEST_DIST: 'dist-deploy',
         TEST_BUNDLE_SERVER: 'false',
         MODERNJS_DEPLOY: 'node',
       },
@@ -92,6 +101,7 @@ describe('deploy', () => {
       stdio: 'inherit',
       env: {
         ...process.env,
+        TEST_DIST: 'dist-deploy-bundle',
         TEST_BUNDLE_SERVER: 'true',
         MODERNJS_DEPLOY: 'node',
       },
@@ -111,6 +121,7 @@ describe('deploy', () => {
       waitMessage: /Server is listening on/i,
     });
     apps.add(app);
+    // await setTimeout(3000000);
     await checkAppRun(`http://localhost:${port}`);
     await killApp(app, true);
     apps.delete(app);

@@ -39,6 +39,7 @@ describe('deploy', () => {
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
+    await fse.remove(path.join(appDir, 'dist-bundle'));
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
     await fse.remove(path.join(appDir, '.output'));
@@ -91,6 +92,7 @@ describe('deploy', () => {
       stdio: 'inherit',
       env: {
         ...process.env,
+        TEST_DIST: 'dist-bundle',
         TEST_BUNDLE_SERVER: 'true',
         MODERNJS_DEPLOY: 'node',
       },
