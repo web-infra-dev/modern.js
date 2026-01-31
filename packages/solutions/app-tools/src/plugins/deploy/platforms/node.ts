@@ -40,9 +40,7 @@ export const createNodePreset: CreatePreset = ({
     },
     async genEntry() {
       if (!isBundleServer) {
-        const handlerTemplate = await readTemplate(
-          `node-entry.${isEsmProject ? 'mjs' : 'cjs'}`,
-        );
+        const handlerTemplate = await readTemplate('node-entry.cjs');
 
         const code = await generateHandler({
           template: handlerTemplate,
@@ -50,7 +48,14 @@ export const createNodePreset: CreatePreset = ({
           config: modernConfig,
         });
 
-        await fse.writeFile(entryFilePath, code);
+        if (isEsmProject) {
+          // We have not test all the packages in esm mode
+          const cjsEntryFilePath = path.join(outputDirectory, 'index.cjs');
+          await fse.writeFile(cjsEntryFilePath, code);
+          await fse.writeFile(entryFilePath, `import('./index.cjs');`);
+        } else {
+          await fse.writeFile(entryFilePath, code);
+        }
         return;
       }
 
