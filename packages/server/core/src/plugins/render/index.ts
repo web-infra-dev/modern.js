@@ -107,10 +107,7 @@ function createRenderHandler(
     const contextForceCSR = c.get('forceCSR');
 
     const request = c.req.raw;
-    const bindings = c.env;
-    const nodeReq = bindings.node?.req;
-
-    loaderContext.set('bindings', bindings);
+    const nodeReq = c.env.node?.req;
 
     const res = await render(request, {
       nodeReq,

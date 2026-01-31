@@ -61,7 +61,6 @@ export type SSRServerContext = Pick<
 };
 
 export type RequestContext = {
-  loaderContext?: BaseSSRServerContext['loaderContext'];
   request: BaseSSRServerContext['request'];
   response: BaseSSRServerContext['response'];
 };

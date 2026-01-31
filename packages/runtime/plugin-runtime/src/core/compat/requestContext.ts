@@ -10,7 +10,6 @@ export const makeRequestContext = (
   const baseSSRContext = context.ssrContext;
   if (baseSSRContext) {
     return {
-      loaderContext: baseSSRContext.loaderContext,
       request: baseSSRContext.request,
       response: baseSSRContext.response,
     };
