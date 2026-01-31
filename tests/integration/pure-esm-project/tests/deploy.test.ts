@@ -16,7 +16,7 @@ async function checkAppRun(host: string) {
   expect(await page.text()).toContain('<div id="item">');
 
   // Loader
-  const loader = await fetch(`${host}/one?__loader=page&name=name`);
+  const loader = await fetch(`${host}/?__loader=page&name=name`);
   expect(loader.status).toBe(200);
   expect(await loader.text()).toContain(
     JSON.stringify({ name: 'name', age: 18 }),
@@ -42,8 +42,8 @@ describe('deploy', () => {
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x)));
-    await fse.remove(path.join(appDir, '.output'));
-    await fse.remove(path.join(appDir, '.output-server-bundle'));
+    // await fse.remove(path.join(appDir, '.output'));
+    // await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
 
   test('support server when deploy target is node', async () => {
