@@ -76,7 +76,7 @@ export const createNodePreset: CreatePreset = ({
         config: {
           output: {
             distPath: {
-              root: join(outputDirectory, 'server-bundle'),
+              root: join(appDirectory, '.output-server-bundle'),
               js: '.',
             },
           },
@@ -120,7 +120,7 @@ export const createNodePreset: CreatePreset = ({
       if (isBundleServer) {
         console.log(
           `You can preview this build by`,
-          chalk.blue(`node .output/server-bundle/bundle.mjs`),
+          chalk.blue(`node .output-server-bundle/bundle.mjs`),
         );
       } else {
         console.log(

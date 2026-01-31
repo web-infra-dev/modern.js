@@ -119,6 +119,7 @@ export default (): ServerPlugin => ({
         lambdaDir: lambdaDirectory as string,
         prefix,
         httpMethodDecider,
+        dependencies,
       });
       const apiHandlerInfos = await apiRouter.getApiHandlers();
       api.updateServerContext({

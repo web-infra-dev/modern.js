@@ -68,6 +68,7 @@ export class ApiRouter {
 
     if (process.env.MODERN_SERVER_BUNDLE) {
       if (lambdaDir && dependencies) {
+        this.dependencies = dependencies;
         this.existLambdaDir = Object.keys(dependencies).some(x =>
           x.startsWith(lambdaDir),
         );
@@ -304,7 +305,10 @@ export class ApiRouter {
       }
       const mod = await getBundledDep(filename, this.dependencies);
       if (mod) {
-        return interopHandlerModule(mod);
+        return {
+          filename,
+          module: interopHandlerModule(mod),
+        };
       }
       return null;
     }
