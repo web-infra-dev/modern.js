@@ -41,8 +41,8 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",
     "@swc/helpers": "^0.5.17",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@modern-js/codesmith-api-handlebars": "2.6.9",
