@@ -10,7 +10,7 @@
   "dependencies": {
     "@changesets/read": "^0.6.6",
     "@modern-js/utils": "workspace:*",
-    "axios": "^1.13.2"
+    "axios": "^1.13.4"
   },
   "devDependencies": {
     "@types/node": "^20",
