@@ -41,9 +41,9 @@ describe('deploy', () => {
   });
 
   afterAll(async () => {
-    await Promise.all([...apps].map(x => killApp(x)));
-    // await fse.remove(path.join(appDir, '.output'));
-    // await fse.remove(path.join(appDir, '.output-server-bundle'));
+    await Promise.all([...apps].map(x => killApp(x, true)));
+    await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
 
   test('support server when deploy target is node', async () => {
@@ -81,7 +81,7 @@ describe('deploy', () => {
     });
     apps.add(app);
     await checkAppRun(`http://localhost:${port}`);
-    await killApp(app);
+    await killApp(app, true);
     apps.delete(app);
   });
 
@@ -112,7 +112,7 @@ describe('deploy', () => {
     });
     apps.add(app);
     await checkAppRun(`http://localhost:${port}`);
-    await killApp(app);
+    await killApp(app, true);
     apps.delete(app);
   });
 });

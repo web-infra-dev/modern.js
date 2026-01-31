@@ -207,7 +207,7 @@ function modernServe(dir, port, opts = {}) {
   });
 }
 
-async function killApp(instance) {
+async function killApp(instance, ignoreError = false) {
   await new Promise((resolve, reject) => {
     if (!instance) {
       resolve();
@@ -228,7 +228,9 @@ async function killApp(instance) {
           // Reason: There is no running instance of the task.
           return resolve();
         }
-        return reject(err);
+        if (!ignoreError) {
+          return reject(err);
+        }
       }
       return resolve();
     });

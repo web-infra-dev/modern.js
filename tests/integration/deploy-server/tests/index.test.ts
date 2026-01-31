@@ -38,7 +38,7 @@ describe('deploy', () => {
   });
 
   afterAll(async () => {
-    await Promise.all([...apps].map(x => killApp(x)));
+    await Promise.all([...apps].map(x => killApp(x, true)));
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
     await fse.remove(path.join(appDir, '.output'));
@@ -80,7 +80,7 @@ describe('deploy', () => {
     });
     apps.add(app);
     await checkAppRun(`http://localhost:${port}`);
-    await killApp(app);
+    await killApp(app, true);
     apps.delete(app);
   });
 
@@ -111,7 +111,7 @@ describe('deploy', () => {
     });
     apps.add(app);
     await checkAppRun(`http://localhost:${port}`);
-    await killApp(app);
+    await killApp(app, true);
     apps.delete(app);
   });
 
