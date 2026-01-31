@@ -92,7 +92,7 @@
       "cross-spawn": ">=6.0.6",
       "lodash-es": ">=4.17.23",
       "esbuild": ">=0.25.0",
-      "tmp": ">=0.2.4"
+      "tmp": ">=0.2.5"
     },
     "peerDependencyRules": {
       "allowedVersions": {
