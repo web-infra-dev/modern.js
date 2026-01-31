@@ -9,6 +9,7 @@ import {
   NODE_BUILTIN_MODULES,
   bundleServer,
   generateHandler as generateSingleBundleHandler,
+  resolveESMDependency,
 } from '../server-bundle';
 import { scanDeps } from '../server-bundle/dep-generator';
 import { readTemplate } from '../utils';
@@ -40,22 +41,18 @@ export const createNodePreset: CreatePreset = ({
     },
     async genEntry() {
       if (!isBundleServer) {
-        const handlerTemplate = await readTemplate('node-entry.cjs');
+        const handlerTemplate = await readTemplate(
+          `node-entry.${isEsmProject ? 'mjs' : 'cjs'}`,
+        );
 
         const code = await generateHandler({
           template: handlerTemplate,
           appContext,
           config: modernConfig,
+          isESM: isEsmProject,
         });
 
-        if (isEsmProject) {
-          // We have not test all the packages in esm mode
-          const cjsEntryFilePath = path.join(outputDirectory, 'index.cjs');
-          await fse.writeFile(cjsEntryFilePath, code);
-          await fse.writeFile(entryFilePath, `import('./index.cjs');`);
-        } else {
-          await fse.writeFile(entryFilePath, code);
-        }
+        await fse.writeFile(entryFilePath, code);
         return;
       }
 
@@ -96,10 +93,16 @@ export const createNodePreset: CreatePreset = ({
           );
         };
         // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
+        const entry = isEsmProject
+          ? await resolveESMDependency('@modern-js/prod-server')
+          : require.resolve('@modern-js/prod-server');
+        if (!entry) {
+          throw new Error('Cannot find @modern-js/prod-server');
+        }
         await handleDependencies({
           appDir: appDirectory,
           sourceDir: outputDirectory,
-          includeEntries: [require.resolve('@modern-js/prod-server')],
+          includeEntries: [entry],
           copyWholePackage(pkgName) {
             return pkgName === '@modern-js/utils';
           },
@@ -120,7 +123,9 @@ export const createNodePreset: CreatePreset = ({
       }
       console.log(
         'Static directory:',
-        chalk.blue(path.relative(appDirectory, staticDirectory)),
+        chalk.blue(
+          path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
+        ),
       );
       if (isBundleServer) {
         console.log(

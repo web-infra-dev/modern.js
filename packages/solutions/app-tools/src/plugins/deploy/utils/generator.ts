@@ -37,14 +37,14 @@ export const serverAppContextTemplate = (appContext: AppToolsContext) => {
 
 export type PluginItem = [string, Record<string, any> | undefined];
 
-export const genPluginImportsCode = (plugins: PluginItem[]) => {
+export const genPluginImportsCode = (plugins: PluginItem[], isESM = false) => {
   return plugins
-    .map(
-      ([name, options], index) => `
-      let plugin_${index} = require('${name}')
-      plugin_${index} = plugin_${index}.default || plugin_${index}
-      `,
-    )
+    .map(([name, options], index) => {
+      const im = isESM
+        ? `import * as plugin_${index}_ns from '${name}'`
+        : `const plugin_${index}_ns = require('${name}')`;
+      return `${im};const plugin_${index} = plugin_${index}_ns.default || plugin_${index}_ns`;
+    })
     .join(';\n');
 };
 
@@ -68,6 +68,7 @@ export interface GenerateHandlerOptions {
   genAppContextTemplate?: typeof serverAppContextTemplate;
   genPluginImports?: typeof genPluginImportsCode;
   routesCode?: string;
+  isESM?: boolean;
 }
 export const generateHandler = async ({
   template,
@@ -77,6 +78,7 @@ export const generateHandler = async ({
   genAppContextTemplate = serverAppContextTemplate,
   genPluginImports = genPluginImportsCode,
   routesCode,
+  isESM,
 }: GenerateHandlerOptions) => {
   const { serverPlugins, metaName, serverRoutes } = appContext;
 
@@ -101,7 +103,7 @@ export const generateHandler = async ({
 
   const meta = getMeta(metaName);
 
-  const pluginImportCode = genPluginImports(plugins || []);
+  const pluginImportCode = genPluginImports(plugins || [], Boolean(isESM));
   const dynamicProdOptions = {
     config: serverConfig,
   };

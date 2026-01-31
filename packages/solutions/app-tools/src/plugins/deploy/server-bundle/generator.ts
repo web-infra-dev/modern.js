@@ -75,7 +75,7 @@ export const generateHandler = async (options: GenerateHandlerOptions) => {
     }`);
   }
 
-  const prodServerEntry = resolveESMDependency(
+  const prodServerEntry = await resolveESMDependency(
     serverType === 'node'
       ? '@modern-js/prod-server'
       : `@modern-js/prod-server/${serverType}`,

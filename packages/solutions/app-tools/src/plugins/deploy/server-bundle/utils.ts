@@ -1,11 +1,12 @@
 import { pathToFileURL } from 'node:url';
 import { get, set } from '@modern-js/utils/lodash';
-import { moduleResolve } from 'import-meta-resolve';
 import { normalizePath } from '../utils';
 
-export const resolveESMDependency = (entry: string) => {
+export const resolveESMDependency = async (entry: string) => {
   const conditions = new Set(['node', 'import', 'module', 'default']);
+
   try {
+    const { moduleResolve } = await import('import-meta-resolve');
     return normalizePath(
       moduleResolve(
         entry,

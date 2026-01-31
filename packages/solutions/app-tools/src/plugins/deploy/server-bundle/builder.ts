@@ -123,7 +123,11 @@ export const bundleServer = async (
           experiments: {
             outputModule: true,
           },
-          ignoreWarnings: [/__dirname/, /dependency is an expression/],
+          node: {
+            __dirname: 'mock',
+            __filename: 'mock',
+          },
+          ignoreWarnings: [/dependency is an expression/],
         },
       ],
     },
