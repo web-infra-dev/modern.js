@@ -51,7 +51,7 @@
     "@modern-js/rslib": "workspace:*",
     "@rslib/core": "0.19.3",
     "@types/node": "^20",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@types/recursive-readdir": "^2.2.4",
     "recursive-readdir": "^2.2.3",
