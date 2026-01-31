@@ -100,7 +100,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "2.0.0-beta.0",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.14.0",

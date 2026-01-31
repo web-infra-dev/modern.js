@@ -75,7 +75,7 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^20",

@@ -49,7 +49,7 @@
     "@modern-js/codesmith-utils": "2.6.9",
     "@modern-js/create": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@types/node": "^20",
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
