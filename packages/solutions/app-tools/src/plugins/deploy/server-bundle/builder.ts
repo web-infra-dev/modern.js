@@ -19,17 +19,16 @@ export const generateNodeExternals = (
   ...list.map(api => [`node:${api}`, getExternal(api)]),
 ];
 
-export interface BundleSSROptions {
+export interface BundleServerOptions {
   config?: BuilderConfig;
   modifyBuilder?: (builder: BuilderInstance) => Promise<void>;
-  forceESM?: boolean;
   nodeExternal?: string[];
 }
 
 export const bundleServer = async (
   handlerCode: string,
   api: CLIPluginAPI<AppTools>,
-  options?: BundleSSROptions,
+  options?: BundleServerOptions,
 ) => {
   const normalizedConfig = api.getNormalizedConfig();
   const appContext = api.getAppContext();
