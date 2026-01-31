@@ -69,7 +69,7 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/lodash": "^4.17.23",

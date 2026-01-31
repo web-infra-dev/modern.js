@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@types/node": "^20",
     "typescript": "^5"
   },
