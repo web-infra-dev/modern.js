@@ -80,6 +80,11 @@ export const bundleServer = async (
       conditionNames: ESM_RESOLVE_CONDITIONS,
     },
     output: {
+      /**
+       * web: worked, but should use SERVER_BUNDLE_NAME in plugins to mark this as a server-side build
+       * node: generally worked, but can not polyfill node builtin modules
+       * web-worker: node externals not take effect
+       */
       target: 'web',
       module: true,
       emitAssets: false,
