@@ -10,6 +10,7 @@ export default applyBaseConfig({
   server: {
     ssr: {
       mode: 'stream',
+      bundleServer: process.env.TEST_BUNDLE_SERVER === 'true',
     },
   },
   output: {
