@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
-import { getBundledDep } from '@modern-js/server-core/node';
+import { getBundledDep } from '@modern-js/server-core/bundled';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';

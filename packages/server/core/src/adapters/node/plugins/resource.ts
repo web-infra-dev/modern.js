@@ -19,7 +19,6 @@ import type {
   ServerPlugin,
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
-import { getBundledDep } from '../helper';
 
 export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   // Only process routes with entryName, which are HTML template routes.
@@ -44,31 +43,15 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   return templates;
 }
 
-export async function getBundledHtmlTemplates(
-  deps: Record<string, Promise<any>>,
-  routes: ServerRoute[],
-) {
-  const htmlRoutes = routes.filter(route => route.entryName);
-
-  const htmls = await Promise.all(
-    htmlRoutes.map(async route => {
-      const html = await getBundledDep(route.entryPath, deps);
-      return [uniqueKeyByRoute(route), html];
-    }) || [],
-  );
-
-  const templates: Record<string, string> = Object.fromEntries(htmls);
-
-  return templates;
-}
-
 export function injectTemplates(
-  getHtmlTemplatesFn: () => ReturnType<typeof getHtmlTemplates>,
+  pwd: string,
   routes?: ServerRoute[],
+  htmlTemplatePromise?: ReturnType<typeof getHtmlTemplates>,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('templates')) {
-      const templates = await getHtmlTemplatesFn();
+      const templates = await (htmlTemplatePromise ||
+        getHtmlTemplates(pwd, routes));
       c.set('templates', templates);
     }
 
@@ -149,65 +132,16 @@ export async function getServerManifest(
   };
 }
 
-export async function getBundledServerManifest(
-  deps: Record<string, Promise<any>>,
-  routes: ServerRoute[],
-): Promise<ServerManifest> {
-  const loaderBundles: Record<string, any> = {};
-  const renderBundles: Record<string, any> = {};
-
-  await Promise.all(
-    routes
-      .filter(route => Boolean(route.bundle))
-      .map(async route => {
-        const entryName = route.entryName || MAIN_ENTRY_NAME;
-        if (!route.bundleContent) {
-          throw new Error(
-            `Bundle content is not defined for route ${route.entryName}`,
-          );
-        }
-
-        const renderBundle = await route.bundleContent();
-        const loaderBundle = route.serverLoadersContent
-          ? await route.serverLoadersContent()
-          : undefined;
-
-        renderBundle && (renderBundles[entryName] = renderBundle);
-        loaderBundle &&
-          (loaderBundles[entryName] = loaderBundle?.loadModules
-            ? await loaderBundle?.loadModules()
-            : loaderBundle);
-      }),
-  );
-
-  const loadableStats = await getBundledDep(LOADABLE_STATS_FILE, deps).catch(
-    _ => ({}),
-  );
-  const routeManifest = await getBundledDep(ROUTE_MANIFEST_FILE, deps).catch(
-    _ => ({}),
-  );
-  const nestedRoutesJson = await getBundledDep(
-    NESTED_ROUTE_SPEC_FILE,
-    deps,
-  ).catch(_ => ({}));
-
-  return {
-    loaderBundles,
-    renderBundles,
-    loadableStats,
-    routeManifest,
-    nestedRoutesJson,
-  };
-}
-
 export function injectServerManifest(
-  getManifest: (monitors: Monitors) => Promise<ServerManifest>,
+  pwd: string,
   routes?: ServerRoute[],
+  manifestPromise?: Promise<ServerManifest>,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
       const monitors = c.get('monitors');
-      const serverManifest = await getManifest(monitors);
+      const serverManifest = await (manifestPromise ||
+        getServerManifest(pwd, routes, monitors));
 
       c.set('serverManifest', serverManifest);
     }
@@ -282,49 +216,31 @@ export const injectResourcePlugin = (): ServerPlugin => ({
         middlewares,
         routes,
         distDirectory: pwd,
-        dependencies,
       } = api.getServerContext();
 
       // In Production, should warmup server bundles on prepare.
-      // let htmlTemplatePromise: ReturnType<typeof getHtmlTemplates> | undefined;
-      let getManifest: (c: Monitors) => Promise<ServerManifest>;
-      let getHtmlTemplatesFn: () => ReturnType<typeof getHtmlTemplates>;
+      let htmlTemplatePromise: ReturnType<typeof getHtmlTemplates> | undefined;
+      let manifestPromise: Promise<ServerManifest> | undefined;
 
       if (isProd()) {
-        if (process.env.MODERN_SERVER_BUNDLE && dependencies) {
-          const manifestPromise = getBundledServerManifest(
-            dependencies,
-            routes || [],
-          );
-          getManifest = () => manifestPromise;
-          const htmlTemplatePromise = getBundledHtmlTemplates(
-            dependencies,
-            routes || [],
-          );
-          getHtmlTemplatesFn = () => htmlTemplatePromise;
-        } else {
-          const manifestPromise = getServerManifest(
-            pwd!,
-            routes || [],
-            console as unknown as Monitors,
-          );
-          getManifest = () => manifestPromise;
-          const htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
-          getHtmlTemplatesFn = () => htmlTemplatePromise;
-        }
-      } else {
-        getManifest = c => getServerManifest(pwd!, routes || [], c);
-        getHtmlTemplatesFn = () => getHtmlTemplates(pwd!, routes || []);
+        manifestPromise = getServerManifest(
+          pwd!,
+          routes || [],
+          console as unknown as Monitors,
+        );
+        htmlTemplatePromise = getHtmlTemplates(pwd!, routes || []);
       }
 
       middlewares.push({
         name: 'inject-server-manifest',
-        handler: injectServerManifest(getManifest, routes),
+
+        handler: injectServerManifest(pwd!, routes, manifestPromise),
       });
 
       middlewares.push({
         name: 'inject-html',
-        handler: injectTemplates(getHtmlTemplatesFn, routes),
+
+        handler: injectTemplates(pwd!, routes, htmlTemplatePromise),
       });
     });
   },

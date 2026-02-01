@@ -11,10 +11,14 @@ import {
   renderPlugin,
 } from '@modern-js/server-core';
 import {
+  injectResourcePlugin as injectBundledResourcePlugin,
+  injectRscManifestPlugin as injectBundledRscManifestPlugin,
+  loadBundledCacheConfig,
+} from '@modern-js/server-core/bundled';
+import {
   injectNodeSeverPlugin,
   injectResourcePlugin,
   injectRscManifestPlugin,
-  loadBundledCacheConfig,
   loadCacheConfig,
   serverStaticPlugin,
 } from '@modern-js/server-core/node';
@@ -52,10 +56,12 @@ export async function applyPlugins(
     serverConfig,
   } = serverOptions;
 
+  const isBundled = Boolean(process.env.MODERN_SERVER_BUNDLE);
+
   const enableRsc = config.server?.rsc ?? serverConfig?.server?.rsc ?? false;
 
   const serverErrorHandler = serverOptions.serverConfig?.onError;
-  const cacheConfig = await (process.env.MODERN_SERVER_BUNDLE
+  const cacheConfig = await (isBundled
     ? loadBundledCacheConfig(serverOptions.appContext?.dependencies)
     : loadCacheConfig(isProd() ? pwd : appContext.appDirectory || pwd));
 
@@ -109,8 +115,10 @@ export async function applyPlugins(
     }),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(serverOptions.plugins || []),
-    injectResourcePlugin(),
-    injectRscManifestPlugin(enableRsc),
+    isBundled ? injectBundledResourcePlugin() : injectResourcePlugin(),
+    isBundled
+      ? injectBundledRscManifestPlugin(enableRsc)
+      : injectRscManifestPlugin(enableRsc),
     ...(extra.noStaticServer ? [] : [serverStaticPlugin()]),
     faviconPlugin(),
     renderPlugin(),

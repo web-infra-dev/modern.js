@@ -7,7 +7,7 @@ export const getBundledDep = async <T = any>(
     return;
   }
 
-  let key = keyParam;
+  let key = keyParam.replace(/\\/g, '/');
   if (key.startsWith('/')) {
     key = key.substring(1);
   }

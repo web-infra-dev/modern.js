@@ -2,6 +2,8 @@ import { createServerBase } from '@modern-js/server-core';
 import {
   loadBundledServerCliConfig,
   loadBundledServerRuntimeConfig,
+} from '@modern-js/server-core/bundled';
+import {
   loadServerCliConfig,
   loadServerEnv,
   loadServerRuntimeConfig,
