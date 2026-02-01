@@ -145,9 +145,10 @@ export const bundleServer = async (
     config: finalConfig,
   });
 
+  // copy plugins to make sure build process is same as default
   const plugins = api.getAppContext().builder?.getPlugins();
-  const hasPlugins = builder.getPlugins().map(x => x.name);
   if (plugins) {
+    const hasPlugins = builder.getPlugins().map(x => x.name);
     builder.addPlugins(plugins.filter(x => !hasPlugins.includes(x.name)));
   }
 

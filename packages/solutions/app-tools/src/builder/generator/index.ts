@@ -74,7 +74,7 @@ export async function generateBuilder(
   return builder;
 }
 
-export async function applyBuilderPlugins(
+async function applyBuilderPlugins(
   builder: BuilderInstance,
   options: BuilderOptions,
 ) {

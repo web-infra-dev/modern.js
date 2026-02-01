@@ -127,17 +127,13 @@ export const createNodePreset: CreatePreset = ({
           path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
         ),
       );
-      if (isBundleServer) {
-        console.log(
-          `You can preview this build by`,
-          chalk.blue(`node .output-server-bundle/bundle.mjs`),
-        );
-      } else {
-        console.log(
-          `You can preview this build by`,
-          chalk.blue(`node .output/index`),
-        );
-      }
+      const previewPath = isBundleServer
+        ? '.output-server-bundle/bundle.mjs'
+        : '.output/index';
+      console.log(
+        `You can preview this build by`,
+        chalk.blue(`node ${previewPath}`),
+      );
     },
   };
 };
