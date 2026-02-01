@@ -7,7 +7,14 @@ export default defineConfig({
   performance: {
     buildCache: false,
   },
+  output: {
+    distPath: {
+      root: process.env.TEST_DIST || 'dist',
+    },
+  },
   server: {
-    ssr: true,
+    ssr: {
+      bundleServer: process.env.TEST_BUNDLE_SERVER === 'true',
+    },
   },
 });

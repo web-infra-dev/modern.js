@@ -2,7 +2,6 @@ import { createRequire } from 'node:module';
 import { Import } from './import';
 
 export { default as fs } from '../compiled/fs-extra';
-export { default as ora } from '../compiled/ora';
 export { default as glob } from '../compiled/glob';
 export { default as yaml } from '../compiled/js-yaml';
 export { default as chalk } from '../compiled/chalk';
@@ -18,7 +17,6 @@ export { default as dotenv } from '../compiled/dotenv';
 export { default as lodash } from '../compiled/lodash';
 export { default as globby } from '../compiled/globby';
 export { default as address } from '../compiled/address';
-export { default as signale } from '../compiled/signale';
 export { default as urlJoin } from '../compiled/url-join';
 export { default as minimist } from '../compiled/minimist';
 export { default as fastGlob } from '../compiled/fast-glob';
@@ -26,14 +24,9 @@ export { default as filesize } from '../compiled/filesize';
 export { default as gzipSize } from '../compiled/gzip-size';
 export { default as stripAnsi } from '../compiled/strip-ansi';
 export { default as dotenvExpand } from '../compiled/dotenv-expand';
-export { default as browserslist } from '../compiled/browserslist';
 
 export { program, Command } from '../compiled/commander';
 
-import _signale from '../compiled/signale';
-export const { Signale } = _signale;
-
-export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
@@ -61,15 +54,9 @@ const getNodeRequire = () => {
   // @ts-ignore - import.meta is only valid in ESM, but we only execute this in ESM
   return /*#__PURE__*/ createRequire(import.meta.url);
 };
-export const mime: typeof import('../compiled/mime-types') = Import.lazy(
-  '../compiled/mime-types',
-  getNodeRequire,
-);
-export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
-  '../compiled/chokidar',
-  getNodeRequire,
-);
-export const inquirer: typeof import('../compiled/inquirer') = Import.lazy(
-  '../compiled/inquirer',
-  getNodeRequire,
-);
+export const mime: typeof import('../compiled/mime-types') =
+  /*#__PURE__*/ Import.lazy('../compiled/mime-types', getNodeRequire);
+export const chokidar: typeof import('../compiled/chokidar') =
+  /*#__PURE__*/ Import.lazy('../compiled/chokidar', getNodeRequire);
+export const inquirer: typeof import('../compiled/inquirer') =
+  /*#__PURE__*/ Import.lazy('../compiled/inquirer', getNodeRequire);

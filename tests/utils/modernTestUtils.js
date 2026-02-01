@@ -9,6 +9,63 @@ const kModernAppTools = path.join(
   '../node_modules/@modern-js/app-tools/bin/modern.js',
 );
 
+function runContinuousTask(argv, stdOut, options = {}) {
+  const { cwd } = options;
+  const env = {
+    ...process.env,
+    ...options.env,
+  };
+
+  return new Promise((resolve, reject) => {
+    const instance = spawn(process.execPath, argv, {
+      cwd,
+      env,
+    });
+
+    let didResolve = false;
+
+    function handleStdout(data) {
+      const message = data.toString();
+
+      if (options.errorMessage?.test(message)) {
+        if (!didResolve) {
+          didResolve = true;
+          reject(new Error(message));
+        }
+      }
+
+      if (options.waitMessage.test(message)) {
+        if (!didResolve) {
+          didResolve = true;
+          resolve(stdOut ? message : instance);
+        }
+      }
+
+      if (typeof options.onStdout === 'function') {
+        options.onStdout(message);
+      }
+
+      if (stdOut !== false && options.stdout !== false) {
+        process.stdout.write(message);
+      }
+    }
+
+    instance.stdout.on('data', handleStdout);
+
+    instance.on('error', error => {
+      reject(error);
+    });
+
+    instance.on('close', () => {
+      instance.stdout.removeListener('data', handleStdout);
+      if (!didResolve) {
+        didResolve = true;
+        resolve();
+      }
+    });
+  });
+}
+
 function runModernCommand(argv, options = {}) {
   const { cwd, rejectOnCompileError = true } = options;
   const cmd = argv[0];
@@ -83,64 +140,20 @@ function runModernCommand(argv, options = {}) {
 }
 
 function runModernCommandDev(argv, stdOut, options = {}) {
-  const { cwd, rejectOnCompileError = true } = options;
-  const env = {
-    ...process.env,
-    ...options.env,
+  const { rejectOnCompileError = true } = options;
+
+  const bootupMarkers = {
+    dev: /> Local:/i,
+    serve: /> Local:/i,
   };
+  const compileErrorMarker = /Compile error/i;
 
-  return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [kModernAppTools, ...argv], {
-      cwd,
-      env,
-    });
+  const errorMessage = rejectOnCompileError ? compileErrorMarker : undefined;
 
-    let didResolve = false;
-
-    function handleStdout(data) {
-      const message = data.toString();
-      const bootupMarkers = {
-        dev: /> Local:/i,
-        serve: /> Local:/i,
-      };
-      const compileErrorMarker = /Compile error/i;
-
-      if (rejectOnCompileError && compileErrorMarker.test(message)) {
-        if (!didResolve) {
-          didResolve = true;
-          reject(new Error(message));
-        }
-      }
-
-      if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
-        if (!didResolve) {
-          didResolve = true;
-          resolve(stdOut ? message : instance);
-        }
-      }
-
-      if (typeof options.onStdout === 'function') {
-        options.onStdout(message);
-      }
-
-      if (stdOut !== false && options.stdout !== false) {
-        process.stdout.write(message);
-      }
-    }
-
-    instance.stdout.on('data', handleStdout);
-
-    instance.on('error', error => {
-      reject(error);
-    });
-
-    instance.on('close', () => {
-      instance.stdout.removeListener('data', handleStdout);
-      if (!didResolve) {
-        didResolve = true;
-        resolve();
-      }
-    });
+  return runContinuousTask([kModernAppTools, ...argv], stdOut, {
+    ...options,
+    waitMessage: bootupMarkers[options.modernServe ? 'serve' : 'dev'],
+    errorMessage,
   });
 }
 
@@ -194,7 +207,7 @@ function modernServe(dir, port, opts = {}) {
   });
 }
 
-async function killApp(instance) {
+async function killApp(instance, ignoreError = false) {
   await new Promise((resolve, reject) => {
     if (!instance) {
       resolve();
@@ -215,7 +228,9 @@ async function killApp(instance) {
           // Reason: There is no running instance of the task.
           return resolve();
         }
-        return reject(err);
+        if (!ignoreError) {
+          return reject(err);
+        }
       }
       return resolve();
     });
@@ -239,6 +254,7 @@ function sleep(t) {
 }
 
 module.exports = {
+  runContinuousTask,
   runModernCommand,
   runModernCommandDev,
   modernBuild,

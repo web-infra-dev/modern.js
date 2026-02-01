@@ -9,6 +9,7 @@ import { createGhPagesPreset } from './platforms/gh-pages';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
+import type { PluginAPI } from './types';
 import { getProjectUsage } from './utils';
 type DeployPresetCreators = {
   node: typeof createNodePreset;
@@ -30,6 +31,7 @@ async function getDeployPreset(
   appContext: AppToolsContext,
   modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
+  api: PluginAPI,
 ) {
   const { appDirectory, distDirectory, metaName } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
@@ -47,7 +49,7 @@ async function getDeployPreset(
     );
   }
 
-  return createPreset(appContext, modernConfig, needModernServer);
+  return createPreset({ appContext, modernConfig, needModernServer, api });
 }
 
 export default (): CliPlugin<AppTools> => ({
@@ -66,6 +68,7 @@ export default (): CliPlugin<AppTools> => ({
         appContext,
         modernConfig,
         deployTarget as DeployTarget,
+        api,
       );
 
       deployPreset?.prepare && (await deployPreset?.prepare());

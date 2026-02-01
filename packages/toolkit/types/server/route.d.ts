@@ -21,4 +21,8 @@ export interface ServerRoute {
   bundle?: string;
   // response header for routes
   responseHeaders?: Record<string, unknown>;
+
+  // in server-bundle mode, the bundle content will inject to entry
+  bundleContent?: () => Promise<any>;
+  serverLoadersContent?: () => Promise<any>;
 }

@@ -73,9 +73,9 @@ export const compileByTs: CompileFunc = async (
     rootNames,
     projectReferences,
     options: {
+      ...options,
       rootDir: appDirectory,
       outDir: distDir,
-      ...options,
     },
   });
 

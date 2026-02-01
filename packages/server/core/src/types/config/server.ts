@@ -19,6 +19,7 @@ export type SSR =
       inlineScript?: boolean;
       unsafeHeaders?: string[];
       loaderFailureMode?: 'clientRender' | 'errorBoundary';
+      bundleServer?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;

@@ -50,3 +50,8 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
 
 export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
 export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
+
+/**
+ * Server bundle mode
+ */
+export const SERVER_BUNDLE_NAME = 'ServerBundle';
