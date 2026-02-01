@@ -1,5 +1,18 @@
 # @modern-js/server-runtime
 
+## 3.0.0-alpha.2
+
+### Patch Changes
+
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0-alpha.2
+  - @modern-js/runtime-utils@3.0.0-alpha.2
+  - @modern-js/types@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes

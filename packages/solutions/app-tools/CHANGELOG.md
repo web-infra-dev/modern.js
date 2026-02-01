@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 3.0.0-alpha.2
+
+### Major Changes
+
+- ef4288c: feat: release Modern.js 3.0
+
+  feat: 发布 Modern.js 3.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 76d0fc2: feat(app-tools): add info command to display project entries information
+  feat(app-tools): 新增 info 命令，用于展示项目的 entries 信息
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0-alpha.2
+  - @modern-js/i18n-utils@3.0.0-alpha.2
+  - @modern-js/types@3.0.0-alpha.2
+  - @modern-js/plugin-data-loader@3.0.0-alpha.2
+  - @modern-js/prod-server@3.0.0-alpha.2
+  - @modern-js/server@3.0.0-alpha.2
+  - @modern-js/server-utils@3.0.0-alpha.2
+  - @modern-js/plugin@3.0.0-alpha.2
+  - @modern-js/builder@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Major Changes

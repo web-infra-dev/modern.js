@@ -1,5 +1,17 @@
 # @modern-js/create-request
 
+## 3.0.0-alpha.2
+
+### Minor Changes
+
+- e21ac60: feat: use node native fetch
+
+### Patch Changes
+
+- Updated dependencies [ecd247c]
+  - @modern-js/runtime-utils@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes
