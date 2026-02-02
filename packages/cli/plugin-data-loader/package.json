@@ -63,8 +63,8 @@
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",
     "memfs": "^3.5.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "supertest": "^6.3.4",
     "typescript": "^5"
   },
