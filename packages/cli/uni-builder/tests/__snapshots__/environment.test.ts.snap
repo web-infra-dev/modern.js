@@ -1238,6 +1238,16 @@ exports[`uni-builder environment compat > should generator environment config co
             "priority": 0,
             "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
           },
+          "react": {
+            "name": "lib-react",
+            "priority": 0,
+            "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          },
+          "router": {
+            "name": "lib-router",
+            "priority": 0,
+            "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          },
         },
         "chunks": "all",
       },
