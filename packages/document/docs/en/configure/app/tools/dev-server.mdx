@@ -87,110 +87,23 @@ For more options and information, see the [connect-history-api-fallback](https:/
 #### proxy
 
 :::warning
-**Deprecated**: This configuration is deprecated, please use [dev.server.proxy](https://modernjs.dev/en/configure/app/dev/server) instead.
+**Deprecated**: This configuration is deprecated, use [dev.server.proxy](https://modernjs.dev/en/configure/app/dev/server) instead.
 :::
 
-- **Type:** `Record<string, string> | Record<string, ProxyDetail>`
+- **Type:** `ProxyOptions[] | Record<string, string | ProxyOptions>`
 - **Default:** `undefined`
 
-Proxying some URLs.
+Configure proxy rules for the dev server, and forward requests to the specified service.
 
 ```js
 export default {
   tools: {
     devServer: {
       proxy: {
-        '/api': 'http://localhost:3000',
+        // https://example.com/api -> https://example.com/api
+        // https://example.com/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com/api',
       },
-    },
-  },
-};
-```
-
-A request to /api/users will now proxy the request to http://localhost:3000/api/users.
-
-If you don't want /api to be passed along, we need to rewrite the path:
-
-```js
-export default {
-  tools: {
-    devServer: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          pathRewrite: { '^/api': '' },
-        },
-      },
-    },
-  },
-};
-```
-
-The DevServer Proxy makes use of the [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) package. Check out its documentation for more advanced usages.
-
-The full type definition of DevServer Proxy is:
-
-```ts
-import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
-
-type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
-
-type ProxyDetail = HttpProxyOptions & {
-  bypass?: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    proxyOptions: ProxyOptions,
-  ) => string | undefined | null | false;
-  context?: Filter;
-};
-
-type ProxyOptions =
-  | Record<string, string>
-  | Record<string, ProxyDetail>
-  | ProxyDetail[]
-  | ProxyDetail;
-```
-
-In addition to the http-proxy-middleware options, two configuration items are also supported: bypass and context:
-
-- bypass: Bypass the proxy based on the return value of the function.
-  - Returning `null` or `undefined` will continue to process the request with proxy.
-  - Returning `false` will return a 404 error.
-  - Returning a specific service path will use this path to replace the original request path.
-- context: If you want to proxy multiple specific paths to the same target, you can use the context configuration item.
-
-```js
-// Custom bypass method
-export default {
-  tools: {
-    devServer: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          bypass: function (req, res, proxyOptions) {
-            if (req.headers.accept.indexOf('html') !== -1) {
-              console.log('Skipping proxy for browser request.');
-              return '/index.html';
-            }
-          },
-        },
-      },
-    },
-  },
-};
-```
-
-```js
-// Proxy multiple paths to the same target
-export default {
-  tools: {
-    devServer: {
-      proxy: [
-        {
-          context: ['/auth', '/api'],
-          target: 'http://localhost:3000',
-        },
-      ],
     },
   },
 };

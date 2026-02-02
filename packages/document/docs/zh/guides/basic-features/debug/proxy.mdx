@@ -4,7 +4,9 @@ sidebar_position: 6
 
 # 网络代理
 
-Modern.js 在 [`dev.server.proxy`](/configure/app/dev/server) 中提供了配置开发环境代理的方式。例如，将本地开发接口，代理到线上某个地址：
+Modern.js 在 [`dev.server.proxy`](/configure/app/dev/server) 中提供了配置开发环境代理的方式。
+
+例如，将本地开发接口代理到其他地址：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -13,16 +15,11 @@ export default defineConfig({
   dev: {
     server: {
       proxy: {
-        '/go/api': 'http://www.example.com/',
+        // https://example.com/api -> https://example.com/api
+        // https://example.com/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com/api',
       },
     },
   },
 });
 ```
-
-请求 `http://localhost:8080/go/api` 时，会从 [http://www.example.com/](http://www.example.com/) 返回响应内容。
-
-:::info 补充信息
-配置格式可参考：[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)。
-
-:::
