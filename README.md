@@ -82,6 +82,7 @@ Some implementations of Modern.js are modified from existing projects, such as [
 - `@modern-js/plugin-testing`: the jest runner is referenced from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 - `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix).
 - `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver).
+- [Netlify](https://www.netlify.com/) for hosting this site, Thanks for the great service and support for open source.
 
 ## License
 
