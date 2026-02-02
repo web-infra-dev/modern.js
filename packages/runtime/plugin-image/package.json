@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@types/node": "^20",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

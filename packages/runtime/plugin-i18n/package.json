@@ -117,7 +117,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.4",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "i18next": "25.7.4",
