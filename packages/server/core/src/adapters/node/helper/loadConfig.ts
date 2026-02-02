@@ -44,10 +44,10 @@ export async function loadServerRuntimeConfig(serverConfigPath: string) {
   return newServerConfig;
 }
 
-export function loadServerCliConfig(
+export async function loadServerCliConfig(
   pwd: string,
   defaultConfig: UserConfig = {},
-): CliConfig {
+): Promise<CliConfig> {
   const cliConfigPath = ensureAbsolutePath(
     pwd,
     path.join(
@@ -68,7 +68,7 @@ export function loadServerCliConfig(
   };
 
   try {
-    const content = fs.readFileSync(cliConfigPath, 'utf-8');
+    const content = await fs.readFile(cliConfigPath, 'utf-8');
 
     cliConfig = parse(content);
   } catch (_) {

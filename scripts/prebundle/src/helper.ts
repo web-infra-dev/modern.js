@@ -45,7 +45,8 @@ export async function parseTasks() {
       const distPath = join(packagePath, DIST_DIR, depName);
       const depPath = findDepPath(depName);
       const depEntry = require.resolve(depName);
-      const resolvedEsmEntry = resolveESMDependency(depName);
+      const esmEntry = typeof dep === 'string' ? dep : dep.esmAlias || dep.name;
+      const resolvedEsmEntry = resolveESMDependency(esmEntry);
 
       let depEsmEntry = '';
       if (resolvedEsmEntry) {
@@ -63,7 +64,10 @@ export async function parseTasks() {
         }
       }
 
-      const info = {
+      const info: Omit<
+        ParsedTask,
+        'minify' | 'externals' | 'emitFiles' | 'packageJsonField'
+      > = {
         depName,
         depPath,
         depEntry,
@@ -74,6 +78,10 @@ export async function parseTasks() {
         packagePath,
         packageName,
       };
+
+      if (typeof dep === 'object') {
+        info.depConfig = dep;
+      }
 
       if (typeof dep === 'string') {
         result.push({

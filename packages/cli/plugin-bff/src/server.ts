@@ -112,13 +112,14 @@ export default (): ServerPlugin => ({
       const { pwd, prefix, httpMethodDecider } = input;
       const apiDir = path.resolve(pwd, API_DIR);
       const appContext = api.getServerContext();
-      const { apiDirectory, lambdaDirectory } = appContext;
+      const { apiDirectory, lambdaDirectory, dependencies } = appContext;
       apiRouter = new ApiRouter({
         appDir: pwd,
         apiDir: (apiDirectory as string) || apiDir,
         lambdaDir: lambdaDirectory as string,
         prefix,
         httpMethodDecider,
+        dependencies,
       });
       const apiHandlerInfos = await apiRouter.getApiHandlers();
       api.updateServerContext({

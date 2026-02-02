@@ -13,6 +13,7 @@ import {
   SHARED_DIR,
   normalizeOutputPath,
 } from '@modern-js/utils';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import type { ConfigChain } from '@rsbuild/core';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
@@ -185,7 +186,10 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
           devServer: {
             compress,
           },
-          bundlerChain: (chain, { CHAIN_ID, isServer }) => {
+          bundlerChain: (
+            chain,
+            { CHAIN_ID, isServer: rIsServer, environment },
+          ) => {
             const { port, appDirectory, apiDirectory, lambdaDirectory } =
               api.getAppContext();
             const modernConfig = api.getNormalizedConfig();
@@ -209,6 +213,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
               normalizeOutputPath(`${apiDirectory}${path.sep}.*(.[tj]s)$`),
             );
 
+            const isServer =
+              rIsServer || environment.name === SERVER_BUNDLE_NAME;
             const name = isServer ? 'server' : 'client';
             const sourceExt =
               process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';

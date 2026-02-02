@@ -1,30 +1,33 @@
-import path from 'node:path';
+import path, { join } from 'node:path';
 import {
-  ROUTE_SPEC_FILE,
-  SERVER_DIR,
   chalk,
   fs as fse,
-  getMeta,
   removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
-  type PluginItem,
-  genPluginImportsCode,
-  getPluginsCode,
-  serverAppContenxtTemplate,
-} from '../utils';
+  NODE_BUILTIN_MODULES,
+  bundleServer,
+  generateHandler as generateSingleBundleHandler,
+  resolveESMDependency,
+} from '../server-bundle';
+import { scanDeps } from '../server-bundle/dep-generator';
+import { readTemplate } from '../utils';
+import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
-export const createNodePreset: CreatePreset = (appContext, config) => {
+export const createNodePreset: CreatePreset = ({
+  appContext,
+  modernConfig,
+  api,
+}) => {
   const { appDirectory, distDirectory, serverPlugins, moduleType, metaName } =
     appContext;
   const isEsmProject = moduleType === 'module';
 
-  const plugins: PluginItem[] = serverPlugins.map(plugin => [
-    plugin.name,
-    plugin.options,
-  ]);
+  const isBundleServer =
+    typeof modernConfig?.server?.ssr === 'object' &&
+    modernConfig.server.ssr.bundleServer;
 
   const outputDirectory = path.join(appDirectory, '.output');
   const staticDirectory = path.join(outputDirectory, 'static');
@@ -37,98 +40,100 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       await fse.copy(distDirectory, outputDirectory);
     },
     async genEntry() {
-      const serverConfig = {
-        server: {
-          port: 8080,
-        },
-        bff: {
-          prefix: config?.bff?.prefix,
-        },
-        output: {
-          distPath: {
-            root: '.',
+      if (!isBundleServer) {
+        const handlerTemplate = await readTemplate(
+          `node-entry.${isEsmProject ? 'mjs' : 'cjs'}`,
+        );
+
+        const code = await generateHandler({
+          template: handlerTemplate,
+          appContext,
+          config: modernConfig,
+          isESM: isEsmProject,
+        });
+
+        await fse.writeFile(entryFilePath, code);
+        return;
+      }
+
+      const handlerTemplate = await readTemplate('node-entry-bundle.mjs');
+
+      const { code: depCode } = await scanDeps(
+        distDirectory,
+        appContext.internalDirectory,
+        [
+          path.join(distDirectory, 'static'),
+          path.join(distDirectory, 'bundles'),
+        ],
+      );
+      const code = await generateSingleBundleHandler({
+        template: handlerTemplate,
+        appContext,
+        config: modernConfig,
+        depCode,
+        serverType: 'node',
+      });
+      await bundleServer(code, api, {
+        nodeExternal: NODE_BUILTIN_MODULES,
+        config: {
+          output: {
+            distPath: {
+              root: join(appDirectory, '.output-server-bundle'),
+              js: '.',
+            },
           },
         },
-      };
-
-      const pluginImportCode = genPluginImportsCode(plugins || []);
-
-      const dynamicProdOptions = {
-        config: serverConfig,
-      };
-
-      const meta = getMeta(metaName);
-
-      const serverConfigPath = `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
-
-      const pluginsCode = getPluginsCode(plugins);
-
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './node-entry.js'))
-      ).toString();
-
-      const serverAppContext = serverAppContenxtTemplate(appContext);
-
-      entryCode = entryCode
-        .replace('p_genPluginImportsCode', pluginImportCode)
-        .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
-        .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
-        .replace('p_plugins', pluginsCode)
-        .replace('p_serverDirectory', serverConfigPath)
-        .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
-        .replace('p_apiDirectory', serverAppContext.apiDirectory)
-        .replace(
-          'p_bffRuntimeFramework',
-          `"${serverAppContext.bffRuntimeFramework}"`,
-        )
-        .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
-
-      if (isEsmProject) {
-        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
-        const cjsEntryFilePath = path.join(outputDirectory, 'index.cjs');
-        await fse.writeFile(cjsEntryFilePath, entryCode);
-        await fse.writeFile(entryFilePath, `import('./index.cjs');`);
-      } else {
-        await fse.writeFile(entryFilePath, entryCode);
-      }
+      });
     },
     async end() {
+      if (!isBundleServer) {
+        const filter = (filePath: string) => {
+          return (
+            !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
+          );
+        };
+        // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
+        const entry = isEsmProject
+          ? await resolveESMDependency('@modern-js/prod-server')
+          : require.resolve('@modern-js/prod-server');
+        if (!entry) {
+          throw new Error('Cannot find @modern-js/prod-server');
+        }
+        await handleDependencies({
+          appDir: appDirectory,
+          sourceDir: outputDirectory,
+          includeEntries: [entry],
+          copyWholePackage(pkgName) {
+            return pkgName === '@modern-js/utils';
+          },
+          entryFilter: filter,
+          transformPackageJson: ({ pkgJSON }) => {
+            if (!pkgJSON.exports) {
+              return pkgJSON;
+            }
+
+            return {
+              ...pkgJSON,
+              exports: removeModuleSyncFromExports(
+                pkgJSON.exports as Record<string, any>,
+              ),
+            };
+          },
+        });
+      }
       console.log(
         'Static directory:',
-        chalk.blue(path.relative(appDirectory, staticDirectory)),
+        chalk.blue(
+          path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
+        ),
       );
+      const previewPath = isBundleServer
+        ? '.output-server-bundle/bundle.mjs'
+        : '.output/index';
       console.log(
         `You can preview this build by`,
-        chalk.blue(`node .output/index`),
+        chalk.blue(`node ${previewPath}`),
       );
-
-      const filter = (filePath: string) => {
-        return (
-          !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
-        );
-      };
-      // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      await handleDependencies({
-        appDir: appDirectory,
-        sourceDir: outputDirectory,
-        includeEntries: [require.resolve('@modern-js/prod-server')],
-        copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
-        },
-        entryFilter: filter,
-        transformPackageJson: ({ pkgJSON }) => {
-          if (!pkgJSON.exports) {
-            return pkgJSON;
-          }
-
-          return {
-            ...pkgJSON,
-            exports: removeModuleSyncFromExports(
-              pkgJSON.exports as Record<string, any>,
-            ),
-          };
-        },
-      });
     },
   };
 };

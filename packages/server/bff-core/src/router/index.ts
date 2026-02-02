@@ -1,6 +1,7 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
+import { getBundledDep } from '@modern-js/server-core/bundled';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
 import { INPUT_PARAMS_DECIDER, debug } from '../utils';
@@ -13,6 +14,7 @@ import type { APIHandlerInfo, ApiHandler, ModuleInfo } from './types';
 import {
   getFiles,
   getPathFromFilename,
+  interopHandlerModule,
   requireHandlerModule,
   sortRoutes,
 } from './utils';
@@ -38,6 +40,8 @@ export class ApiRouter {
 
   private isBuild?: boolean;
 
+  private dependencies?: Record<string, Promise<any>>;
+
   constructor({
     appDir,
     apiDir,
@@ -45,6 +49,7 @@ export class ApiRouter {
     prefix,
     isBuild,
     httpMethodDecider = 'functionName',
+    dependencies,
   }: {
     appDir?: string;
     apiDir: string;
@@ -52,17 +57,30 @@ export class ApiRouter {
     prefix?: string;
     isBuild?: boolean;
     httpMethodDecider?: HttpMethodDecider;
+    dependencies?: Record<string, Promise<any>>;
   }) {
-    this.validateAbsolute(apiDir, 'apiDir');
-    this.validateAbsolute(lambdaDir, 'lambdaDir');
-
     this.prefix = this.initPrefix(prefix);
     this.appDir = appDir;
     this.apiDir = apiDir;
     this.httpMethodDecider = httpMethodDecider;
     this.isBuild = isBuild;
     this.lambdaDir = this.getExactLambdaDir(this.apiDir, lambdaDir);
-    this.existLambdaDir = fs.existsSync(this.lambdaDir);
+
+    if (process.env.MODERN_SERVER_BUNDLE) {
+      if (lambdaDir && dependencies) {
+        this.dependencies = dependencies;
+        this.existLambdaDir = Object.keys(dependencies).some(x =>
+          x.startsWith(lambdaDir),
+        );
+      } else {
+        this.existLambdaDir = false;
+      }
+    } else {
+      this.validateAbsolute(apiDir, 'apiDir');
+      this.validateAbsolute(lambdaDir, 'lambdaDir');
+      this.existLambdaDir = fs.existsSync(this.lambdaDir);
+    }
+
     debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
   }
 
@@ -214,8 +232,20 @@ export class ApiRouter {
     if (!this.existLambdaDir) {
       return [];
     }
-    const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
-    return apiFiles;
+    if (process.env.MODERN_SERVER_BUNDLE) {
+      if (!this.dependencies) {
+        return [];
+      }
+      return Object.keys(this.dependencies).filter(x =>
+        x.startsWith(this.lambdaDir),
+      );
+    } else {
+      const apiFiles = (this.apiFiles = getFiles(
+        this.lambdaDir,
+        API_FILE_RULES,
+      ));
+      return apiFiles;
+    }
   }
 
   public getApiFiles() {
@@ -269,6 +299,19 @@ export class ApiRouter {
   }
 
   private async getModuleInfo(filename: string) {
+    if (process.env.MODERN_SERVER_BUNDLE) {
+      if (!this.dependencies) {
+        return null;
+      }
+      const mod = await getBundledDep(filename, this.dependencies);
+      if (mod) {
+        return {
+          filename,
+          module: interopHandlerModule(mod),
+        };
+      }
+      return null;
+    }
     try {
       const module = await requireHandlerModule(filename);
       return {

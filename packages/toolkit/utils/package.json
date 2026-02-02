@@ -45,11 +45,18 @@
       },
       "default": "./dist/esm/universal/constants.mjs"
     },
+    "./cli": {
+      "import": "./dist/esm/cli.mjs",
+      "default": "./dist/cjs/cli.js"
+    },
+    "./cli/constants": {
+      "import": "./dist/esm/cli/constants.mjs",
+      "default": "./dist/cjs/cli/constants.js"
+    },
     "./commander": {
       "import": "./dist/compiled/commander/index.mjs",
       "default": "./dist/compiled/commander/index.js"
     },
-    "./ora": "./dist/compiled/ora/index.js",
     "./glob": "./dist/compiled/glob/index.js",
     "./chalk": "./dist/compiled/chalk/index.js",
     "./execa": "./dist/compiled/execa/index.js",
@@ -60,12 +67,14 @@
       "default": "./dist/compiled/lodash/index.js"
     },
     "./globby": "./dist/compiled/globby/index.js",
-    "./fs-extra": "./dist/compiled/fs-extra/index.js",
+    "./fs-extra": {
+      "import": "./dist/compiled/fs-extra/index.mjs",
+      "default": "./dist/compiled/fs-extra/index.js"
+    },
     "./fast-glob": "./dist/compiled/fast-glob/index.js",
     "./gzip-size": "./dist/compiled/gzip-size/index.js",
     "./mime-types": "./dist/compiled/mime-types/index.js",
     "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
-    "./browserslist": "./dist/compiled/browserslist/index.js",
     "./tsconfig-paths": {
       "import": "./dist/compiled/tsconfig-paths/index.mjs",
       "default": "./dist/compiled/tsconfig-paths/index.js"
@@ -83,6 +92,12 @@
       ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "cli/constants": [
+        "./dist/types/cli/constants.d.ts"
       ],
       "execa": [
         "./dist/compiled/execa/index.d.ts"
@@ -120,17 +135,11 @@
       "strip-ansi": [
         "./dist/compiled/strip-ansi/index.d.ts"
       ],
-      "browserslist": [
-        "./dist/compiled/browserslist/index.d.ts"
-      ],
       "tsconfig-paths": [
         "./dist/compiled/tsconfig-paths/lib/index.d.ts"
       ],
       "commander": [
         "./dist/compiled/commander/typings/index.d.ts"
-      ],
-      "ora": [
-        "./dist/compiled/ora/index.d.ts"
       ]
     }
   },

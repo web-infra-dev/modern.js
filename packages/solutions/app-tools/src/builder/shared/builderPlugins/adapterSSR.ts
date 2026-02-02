@@ -5,12 +5,13 @@ import {
   isHtmlDisabled,
 } from '@modern-js/builder';
 import { fs, isUseRsc, isUseSSRBundle } from '@modern-js/utils';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import {
   type RsbuildPlugin,
   type RspackChain,
   mergeRsbuildConfig,
 } from '@rsbuild/core';
-import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
+import { getServerCombinedModuleFile } from '../../../plugins/analyze/utils';
 import type {
   AppNormalizedConfig,
   SSGMultiEntryOptions,
@@ -65,8 +66,9 @@ export const builderPluginAdapterSSR = (
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+        const isServerBundle = environment.name === SERVER_BUNDLE_NAME;
 
-        if (target === 'node' || isServiceWorker) {
+        if (target === 'node' || isServiceWorker || isServerBundle) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
@@ -79,7 +81,7 @@ export const builderPluginAdapterSSR = (
           applySSRDataLoader(chain, options);
         }
 
-        if (!isHtmlDisabled(builderConfig, target)) {
+        if (!isHtmlDisabled(builderConfig, target) && !isServerBundle) {
           applyAsyncChunkHtmlPlugin({
             chain,
             modernConfig: options.normalizedConfig,
@@ -243,7 +245,7 @@ async function applySSRLoaderEntry(
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const { entryName } = entrypoint;
-      const serverLoadersFile = getServerCombinedModueFile(
+      const serverLoadersFile = getServerCombinedModuleFile(
         internalDirectory,
         entryName,
       );
