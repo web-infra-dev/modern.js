@@ -6,9 +6,9 @@
 
 ### dev.port
 
-**变更内容**: 该配置已被移除，改为 `server.port`。
+**变更内容**：该配置已被移除，改为 `server.port`。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // 改动前
@@ -26,7 +26,7 @@ server: {
 
 ### html.appIcon
 
-**变更内容**: 不再支持字符串形式，必须使用对象格式。
+**变更内容**：不再支持字符串形式，必须使用对象格式。
 
 **V2 类型**:
 
@@ -62,7 +62,7 @@ type AppIcon = {
 };
 ```
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -89,14 +89,14 @@ export default {
 
 ### html.xxxByEntries
 
-**变更内容**: `metaByEntries`、`templateParametersByEntries`、`injectByEntries`、`tagsByEnties`、`faviconByEntries`、`templateByEnties`、`titleByEntries` 等配置已废弃，需要使用函数语法代替。
+**变更内容**：`metaByEntries`、`templateParametersByEntries`、`injectByEntries`、`tagsByEnties`、`faviconByEntries`、`templateByEnties`、`titleByEntries` 等配置已废弃，需要使用函数语法代替。
 
 **处理步骤**:
 
 1. 移除相关配置
 2. 使用 `html.xxx` 的函数用法代替
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -129,9 +129,9 @@ export default {
 
 ### html.disableHtmlFolder
 
-**变更内容**: 该配置已废弃，使用 `html.outputStructure` 代替。
+**变更内容**：该配置已废弃，使用 `html.outputStructure` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2 - 等同于 html.outputStructure 配置为 nested
@@ -153,7 +153,7 @@ export default {
 
 ### tools.esbuild
 
-**变更内容**: 该配置已废弃，需要手动切换到 esbuild 压缩。
+**变更内容**：该配置已废弃，需要手动切换到 esbuild 压缩。
 
 ```typescript
 // 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 esbuild 压缩
@@ -164,7 +164,7 @@ export default {
 
 ### tools.terser
 
-**变更内容**: 该配置已废弃，需要手动切换到 Terser 压缩。
+**变更内容**：该配置已废弃，需要手动切换到 Terser 压缩。
 
 ```typescript
 // 该配置已废弃，请参考 [切换压缩器](https://rsbuild.rs/zh/config/output/minify#%E5%88%87%E6%8D%A2%E5%8E%8B%E7%BC%A9%E5%99%A8) 来手动切换到 Terser 压缩
@@ -175,9 +175,9 @@ export default {
 
 ### tools.devServer
 
-**变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev` 配置代替。
+**变更内容 1**: `after`、`before`、`devMiddleware` 配置已废弃，使用 `dev.setupDevMiddlewares` 配置代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -204,7 +204,7 @@ export default {
 
 **变更内容 2**: `client`、`https`、`liveReload` 配置已废弃，使用对应的 `dev.client`、`dev.https`、`dev.liveReload` 配置代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -230,7 +230,7 @@ export default {
 
 **变更内容 3**: `hot` 配置已废弃，使用 `dev.hmr` 配置代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -252,7 +252,7 @@ export default {
 
 **变更内容 4**: `compress`、`headers`、`historyApiFallback`、`watch` 配置已废弃，使用 `dev.server.compress`、`dev.server.headers`、`dev.server.historyApiFallback`、`dev.server.watch` 配置代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -286,9 +286,9 @@ export default {
 
 ### tools.pug
 
-**变更内容**: 该配置已废弃，使用 Rsbuild 的 [Pug 插件](https://github.com/rspack-contrib/rsbuild-plugin-pug) 来启用支持。
+**变更内容**：该配置已废弃，使用 Rsbuild 的 [Pug 插件](https://github.com/rspack-contrib/rsbuild-plugin-pug) 来启用支持。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -306,9 +306,9 @@ export default {
 
 ### tools.rsdoctor
 
-**变更内容**: 该配置已废弃，请参考 [Rsdoctor 文档](/guides/basic-features/debug/rsdoctor)，使用 Rspack 的 [Rsdoctor 插件]来启用支持。
+**变更内容**：该配置已废弃，请参考 [Rsdoctor 文档](/guides/basic-features/debug/rsdoctor)，使用 Rspack 的 [Rsdoctor 插件](https://rsdoctor.dev/)来启用支持。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -343,9 +343,9 @@ export default {
 
 ### tools.babel
 
-**变更内容**: 该配置已废弃，框架不再内置 Babel，请使用 [Rsbuild 的 Babel 插件](https://v0.rsbuild.rs/plugins/list/plugin-babel) 来启用支持。
+**变更内容**：该配置已废弃，框架不再内置 Babel，请使用 [Rsbuild 的 Babel 插件](https://v0.rsbuild.rs/plugins/list/plugin-babel) 来启用支持。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -390,11 +390,11 @@ export default {
 
 ### tools.tailwindcss
 
-**变更内容**: 该配置已废弃，请参考 [Tailwind 插件变更](/guides/upgrade/tailwindcss)，使用 Rsbuild 的方式来接入 Tailwind CSS。
+**变更内容**：该配置已废弃，请参考 [Tailwind 插件变更](/guides/upgrade/tailwindcss)，使用 Rsbuild 的方式来接入 Tailwind CSS。
 
 ### tools.tsLoader
 
-**变更内容**: 由于 Rspack 不支持 `tsLoader` 因此该配置已废弃，[Rspack experiments.typeReexportsPresence 配置](https://rspack.rs/zh/config/experiments#experimentstypereexportspresence)，可以用于改进对 Typescript 类型导出的识别。可以辅助 ts-loader 迁移。
+**变更内容**：由于 Rspack 不支持 `tsLoader` 因此该配置已废弃，[Rspack experiments.typeReexportsPresence 配置](https://rspack.rs/zh/config/experiments#experimentstypereexportspresence)，可以用于改进对 Typescript 类型导出的识别。可以辅助 ts-loader 迁移。
 
 ```typescript
 // 该配置已废弃
@@ -405,7 +405,7 @@ export default {
 
 ### tools.webpackChain
 
-**变更内容**: 该配置已废弃，请迁移到 `tools.bundlerChain`。
+**变更内容**：该配置已废弃，请迁移到 `tools.bundlerChain`。
 
 ```typescript
 // v2
@@ -429,7 +429,7 @@ tools: {
 
 ### tools.webpack
 
-**变更内容**: 该配置已废弃，请将 webpack 配置迁移到 `tools.rspack`。
+**变更内容**：该配置已废弃，请将 webpack 配置迁移到 `tools.rspack`。
 
 ```typescript
 // v2
@@ -455,9 +455,9 @@ tools: {
 
 ### source.resolveMainFields
 
-**变更内容**: 该配置已废弃，使用 `resolve.mainFields` 代替。
+**变更内容**：该配置已废弃，使用 `resolve.mainFields` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -473,9 +473,9 @@ resolve: {
 
 ### source.resolveExtensionPrefix
 
-**变更内容**: 该配置已废弃，使用 `resolve.extensions` 代替。
+**变更内容**：该配置已废弃，使用 `resolve.extensions` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -491,21 +491,21 @@ resolve: {
 
 ### source.moduleScopes
 
-**变更内容**: 该配置已废弃，直接移除。
+**变更内容**：该配置已废弃，直接移除。
 
 ### source.enableCustomEntry
 
-**变更内容**: 该配置已废弃，直接移除。
+**变更内容**：该配置已废弃，直接移除。
 
 ### source.disableEntryDirs
 
-**变更内容**: 该配置已废弃，直接移除。
+**变更内容**：该配置已废弃，直接移除。
 
 ### source.alias
 
-**变更内容**: 该配置不再作用于自定义 Server 和 BFF 中的代码，为服务端代码配置的 alias 需要迁移到 tsconfig.json 中。
+**变更内容**：该配置不再作用于自定义 Server 和 BFF 中的代码，为服务端代码配置的 alias 需要迁移到 tsconfig.json 中。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -527,9 +527,9 @@ source: {
 
 ### server.routes
 
-**变更内容**: 默认路由由 `main` 变更为 `index`，如果 `server.routes` 配置中存在 `index` 则按如下迁移。
+**变更内容**：默认路由由 `main` 变更为 `index`，如果 `server.routes` 配置中存在 `index` 则按如下迁移。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -551,7 +551,7 @@ server: {
 
 ### output.overrideBrowserslist
 
-**变更内容**: 需要根据项目现有配置情况处理。
+**变更内容**：需要根据项目现有配置情况处理。
 
 **处理步骤**:
 
@@ -571,7 +571,7 @@ ios_saf >= 10;
 
 ### output.enableAssetFallback
 
-**变更内容**: 该配置已废弃，注释掉并添加说明。
+**变更内容**：该配置已废弃，注释掉并添加说明。
 
 ```typescript
 // 该配置已废弃，如有问题请咨询 oncall 解决
@@ -582,9 +582,9 @@ ios_saf >= 10;
 
 ### output.cssModuleLocalIdentName
 
-**变更内容**: 该配置已废弃，使用 `output.cssModules.localIdentName` 代替。
+**变更内容**：该配置已废弃，使用 `output.cssModules.localIdentName` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -606,9 +606,9 @@ export default {
 
 ### output.disableCssExtract
 
-**变更内容**: 该配置已废弃，使用 `output.injectStyles` 代替。
+**变更内容**：该配置已废弃，使用 `output.injectStyles` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -628,9 +628,9 @@ export default {
 
 ### output.disableFilenameHash
 
-**变更内容**: 该配置已废弃，使用 `output.filenameHash` 代替。
+**变更内容**：该配置已废弃，使用 `output.filenameHash` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -650,9 +650,9 @@ export default {
 
 ### output.disableMinimize
 
-**变更内容**: 该配置已废弃，使用 `output.minify` 代替。
+**变更内容**：该配置已废弃，使用 `output.minify` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -672,9 +672,9 @@ export default {
 
 ### output.disableSourceMap
 
-**变更内容**: 该配置已废弃，使用 `output.sourceMap` 代替。
+**变更内容**：该配置已废弃，使用 `output.sourceMap` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -694,9 +694,9 @@ export default {
 
 ### output.enableInlineScripts
 
-**变更内容**: 该配置已废弃，使用 `output.inlineScripts` 代替。
+**变更内容**：该配置已废弃，使用 `output.inlineScripts` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -716,9 +716,9 @@ export default {
 
 ### output.enableInlineStyles
 
-**变更内容**: 该配置已废弃，使用 `output.inlineStyles` 代替。
+**变更内容**：该配置已废弃，使用 `output.inlineStyles` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -738,9 +738,9 @@ export default {
 
 ### output.enableLatestDecorators
 
-**变更内容**: 该配置已废弃，使用 `source.decorators` 代替。
+**变更内容**：该配置已废弃，使用 `source.decorators` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -762,9 +762,9 @@ export default {
 
 ### output.disableNodePolyfill
 
-**变更内容**: 该配置已废弃，通过注册 `pluginNodePolyfill` 代替。
+**变更内容**：该配置已废弃，通过注册 `pluginNodePolyfill` 代替。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -789,9 +789,9 @@ import ConfigDeploy from '@site-docs/components/upgrade-config-deploy.mdx';
 
 ### app-tools 插件
 
-**变更内容**: 该插件不需要传入任何参数。
+**变更内容**：该插件不需要传入任何参数。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -811,15 +811,15 @@ plugins: [
 
 ### security.sri
 
-**变更内容**: `security.sri.hashLoading` 不再需要，可以直接移除。
+**变更内容**：`security.sri.hashLoading` 不再需要，可以直接移除。
 
 ## runtime
 
 ### runtime.router
 
-**变更内容**: 不再需要，可以直接移除。该配置移动到 modern.runtime.ts 中的 router 配置中。
+**变更内容**：不再需要，可以直接移除。该配置移动到 modern.runtime.ts 中的 router 配置中。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -845,13 +845,13 @@ export default defineRuntimeConfig({
 
 ### runtime.state
 
-**变更内容**: 该配置被废弃，建议使用第三方状态管理库。
+**变更内容**：该配置被废弃，建议使用第三方状态管理库。
 
 ### runtime.masterApp
 
-**变更内容**: 该配置被废弃，将该配置移动到 modern.runtime.ts 中的 masterApp 配置。
+**变更内容**：该配置被废弃，将该配置移动到 modern.runtime.ts 中的 masterApp 配置。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -897,13 +897,13 @@ export default defineRuntimeConfig({
 
 ### performance.bundleAnalyze
 
-**变更内容**: 该配置已废弃，建议使用 [Rsdoctor](https://rsbuild.rs/zh/guide/debug/rsdoctor) 来分析产物体积
+**变更内容**：该配置已废弃，建议使用 [Rsdoctor](https://rsbuild.rs/zh/guide/debug/rsdoctor) 来分析产物体积
 
 ### performance.transformLodash
 
-**变更内容**: 不再需要，可以直接移除。
+**变更内容**：不再需要，可以直接移除。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2
@@ -923,9 +923,9 @@ export default {
 
 ### experiments.lazyCompilation
 
-**变更内容**: 该配置已废弃，改为 `dev.lazyCompilation`。
+**变更内容**：该配置已废弃，改为 `dev.lazyCompilation`。
 
-**迁移示例**:
+**迁移示例**：
 
 ```typescript
 // v2

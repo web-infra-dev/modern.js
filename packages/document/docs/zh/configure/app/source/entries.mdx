@@ -47,7 +47,7 @@ export default defineConfig({
 });
 ```
 
-默认情况下，配置的入口等价于 `App.[jt]sx`，即指定的入口文件**只需要导出应用的根组件**。
+默认情况下，配置的入口等价于 `App.tsx`，即指定的入口文件**只需要导出应用的根组件**。
 
 例如以下目录结构：
 
@@ -104,7 +104,7 @@ export default defineConfig({
 
 ### 禁用入口文件生成
 
-默认情况下，配置的入口等价于 `App.[jt]sx`，Modern.js 会自动生成一个入口文件来引用你配置的入口。
+默认情况下，配置的入口等价于 `App.tsx`，Modern.js 会自动生成一个入口文件来引用你配置的入口。
 
 如果你希望禁用 Modern.js 自动生成入口文件的逻辑，可以将 `disableMount` 属性设置为 `true`。
 

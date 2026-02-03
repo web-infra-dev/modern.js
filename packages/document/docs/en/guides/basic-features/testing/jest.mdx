@@ -6,17 +6,17 @@ To use Jest in Modern.js, you need to install the dependencies first. You can ru
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command={{ 
-  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
-  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+<PackageManagerTabs command={{
+  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom",
+  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom",
   pnpm: "pnpm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom"
 }} />
 
-Next, you can run the following commands to automatically initialize Jest in your project and generate a basic `jest.config.[jt]s` configuration:
+Next, you can run the following commands to automatically initialize Jest in your project and generate a basic `jest.config.ts` configuration:
 
-<PackageManagerTabs command={{ 
-  npm: "npm init jest@latest", 
-  yarn: "yarn create jest@latest", 
+<PackageManagerTabs command={{
+  npm: "npm init jest@latest",
+  yarn: "yarn create jest@latest",
   pnpm: "pnpm create jest@latest"
 }} />
 
@@ -28,9 +28,9 @@ This section will use `.ts` files for Jest testing.
 
 Compared to other testing frameworks, Jest requires more configuration at the build level, such as handling JSX and ESM syntax. Therefore, you need to install some additional dependencies:
 
-<PackageManagerTabs command={{ 
-  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
-  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+<PackageManagerTabs command={{
+  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript",
+  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript",
   pnpm: "pnpm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript"
 }} />
 

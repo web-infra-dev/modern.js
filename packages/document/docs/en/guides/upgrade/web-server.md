@@ -67,9 +67,27 @@ const middleware: MiddlewareHandler = async (c, next) => {
 
 ## afterRender Hook
 
-`afterRender` is only used for HTML processing after page rendering is complete.
+The `afterRender` Hook is used to process HTML after page rendering is complete. In the new version, you need to use `renderMiddlewares` to achieve the same functionality.
+
+### Core Differences
+
+- **File Structure**: `server/index.ts` → `server/modern.server.ts`
+- **Export Method**: `afterRender` in `hook` object → `renderMiddlewares` in `defineServerConfig`
+- **Processing Method**: Direct HTML string modification → Get and modify response through middleware
+
+### Migration Example
 
 ```typescript
+// Legacy - server/index.ts
+export const afterRender = (ctx, next) => {
+  ctx.template = ctx.template
+    .replace('<head>', '<head><meta name="author" content="ByteDance">')
+    .replace('<body>', '<body><div id="loading">Loading...</div>')
+    .replace('</body>', '<script>console.log("Page loaded")</script></body>');
+  next();
+};
+
+// New - server/modern.server.ts
 import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
 
 const renderMiddleware: MiddlewareHandler = async (c, next) => {

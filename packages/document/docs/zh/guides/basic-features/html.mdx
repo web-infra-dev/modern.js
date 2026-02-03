@@ -9,7 +9,7 @@ Modern.js 提供了 **JSX 语法**和 **HTML(EJS) 语法**两种方式用于自�
 
 ## JSX 语法
 
-Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.[jt]sx` 文件并默认导出组件，该组件的渲染结果可以作为入口的 HTML 模板。
+Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.tsx` 文件并默认导出组件，该组件的渲染结果可以作为入口的 HTML 模板。
 
 例如以下目录结构：
 
@@ -25,12 +25,12 @@ Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.[jt]sx
     └── modern-app-env.d.ts
 ```
 
-`entry-a` 会优先使用当前入口下的 `Document.[jt]sx` 文件。如果当前入口没有 `Document.[jt]sx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.[jt]sx` 文件。
+`entry-a` 会优先使用当前入口下的 `Document.tsx` 文件。如果当前入口没有 `Document.tsx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.tsx` 文件。
 
 如果未找到，将会使用 Modern.js 的默认模板。
 
 :::tip
-`Document.[jt]sx` 模块将会被使用 esbuild 编译为 Node.js 产物、并在编译时以 `renderToStaticMarkup` 渲染为字符串以作为 HTML 模板的内容，其行为类似[静态站点生成](/guides/basic-features/render/ssg.html)。HTML 模板模块不会经过 Bundler 编译打包，因此组件中的 React Hooks 不会在浏览器运行时被执行，也不支持导入 JavaScript 以外的图片等资源模块。
+`Document.tsx` 模块将会被使用 esbuild 编译为 Node.js 产物、并在编译时以 `renderToStaticMarkup` 渲染为字符串以作为 HTML 模板的内容，其行为类似[静态站点生成](/guides/basic-features/render/ssg.html)。HTML 模板模块不会经过 Bundler 编译打包，因此组件中的 React Hooks 不会在浏览器运行时被执行，也不支持导入 JavaScript 以外的图片等资源模块。
 :::
 
 ### HTML 组件
@@ -57,7 +57,7 @@ import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
 
 ### 模板参数
 
-因为是 JSX 形式，`Document.[jt]sx` 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
+因为是 JSX 形式，`Document.tsx` 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
 
 Modern.js 也提供了 `DocumentContext` 来提供一些配置、环境参数，方便直接获取。主要以下参数：
 

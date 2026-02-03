@@ -1,15 +1,15 @@
 ---
-title: entry.[tj]s
+title: entry.ts
 sidebar_position: 4
 ---
 
-# entry.[tj]sx
+# entry.tsx
 
-通常情况下[`routes/`](/apis/app/hooks/src/routes.html) 和 [`App.[tj]sx`](/apis/app/hooks/src/app) 钩子文件已经能满足我们的需求，当我们需要在组件渲染之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `entry.[tj]s`。下面分两种情况进行讨论。
+通常情况下[`routes/`](/apis/app/hooks/src/routes.html) 和 [`App.tsx`](/apis/app/hooks/src/app) 钩子文件已经能满足我们的需求，当我们需要在组件渲染之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `entry.ts`。下面分两种情况进行讨论。
 
 ## 在组件渲染前添加自定义行为
 
-在 `src/entry.[tj]s` 中这样实现：
+在 `src/entry.ts` 中这样实现：
 
 ```js title=src/entry.tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -28,7 +28,7 @@ beforeRender().then(() => {
 
 ## 完全接管 webpack 入口
 
-当项目未安装 `@modern-js/runtime` 依赖时， `src/entry.[tj]sx?` 即为真正的 webpack 打包入口文件, 可以直接像使用 create-react-app 等脚手架一样组织代码：
+当项目未安装 `@modern-js/runtime` 依赖时， `src/entry.tsx?` 即为真正的 webpack 打包入口文件, 可以直接像使用 create-react-app 等脚手架一样组织代码：
 
 ```js title=src/entry.jsx
 import React from 'react';

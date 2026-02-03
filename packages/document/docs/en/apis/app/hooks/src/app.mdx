@@ -1,8 +1,8 @@
-# App.[tj]sx
+# App.tsx
 
 The entry identifier when using [Self-controlled Routing](/guides/concept/entries.html#self-controlled-routing) in the application.
 
-`App.[tj]sx` is not the actual application entry; Modern.js will automatically generate the real entry file, which is roughly as follows:
+`App.tsx` is not the actual application entry; Modern.js will automatically generate the real entry file, which is roughly as follows:
 
 ```js
 // runtime-global-context
@@ -26,5 +26,5 @@ render(<ModernRoot />, 'root');
 When `createRoot` is executed, it will retrieve the registered Global App and generate the actual React component.
 
 :::note
-In scenarios with multiple entry points, each entry can have its own independent `App.[jt]sx`. For more details, see [Entry Points](/guides/concept/entries).
+In scenarios with multiple entry points, each entry can have its own independent `App.tsx`. For more details, see [Entry Points](/guides/concept/entries).
 :::

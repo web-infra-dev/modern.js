@@ -1,0 +1,94 @@
+# Rstest
+
+Rstest 是由 Rspack 团队开发的测试框架，基于 Rspack 构建，具有极快的测试执行速度。
+
+在 Modern.js 中使用 Rstest 需要先安装依赖，可以执行以下命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{
+  npm: "npm install -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  yarn: "yarn add -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  pnpm: "pnpm install -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  bun: "bun add -D @rstest/core jsdom @testing-library/react @testing-library/dom"
+}} />
+
+接下来，你需要创建一个 Rstest 配置文件 `rstest.config.ts`，内容如下：
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+
+export default defineConfig({
+  environment: 'jsdom',
+});
+```
+
+更多关于 Rstest 配置的信息，可以参考 [Rstest 配置文档](https://rstest.rs/config)。
+
+你可以选择性的将 `rstest` 命令添加到 `package.json` 中：
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "rstest"
+  }
+}
+```
+
+运行该命令后，Rstest 会自动监听你的文件变化，并重新运行用例。
+
+## 创建单元测试
+
+首先，创建一个简单的页面用于测试：
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+添加测试用例，检测页面中是否有预期的文本：
+
+```tsx title="__tests__/page.test.tsx"
+import { expect, test } from '@rstest/core';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+test('Page', () => {
+  render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+  expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
+});
+```
+
+上述用例中，我们从 `@modern-js/runtime/router` 引入了 `<Router>` 组件，这是因为 React Router 在渲染部分路由相关组件时，必须要有对应的上下文。
+
+:::note
+直接在 Modern.js 应用中运行时，`<Router>` 组件会自动注入。
+:::
+
+## 运行测试用例
+
+执行上述 `test` 命令，运行测试用例：
+
+```bash
+✓ src/__tests__/page.test.tsx (1)
+  ✓ Page
+
+Test Files  1 passed (1)
+    Tests  1 passed (1)
+  Duration  500ms
+
+PASS  Waiting for file changes...
+```

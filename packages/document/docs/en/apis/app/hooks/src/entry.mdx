@@ -1,15 +1,15 @@
 ---
-title: entry.[tj]s
+title: entry.ts
 sidebar_position: 4
 ---
 
-# entry.[tj]sx
+# entry.tsx
 
-Normally, the [`routes/`](/apis/app/hooks/src/routes.html) and [`App.[tj]sx`](/apis/app/hooks/src/app) hook files can meet our needs. When we need to add custom behavior before component rendering or take full control of the webpack packaging entry, we can create `entry.[tj]s` file in the src or entry directory. Here are two cases for discussion。
+Normally, the [`routes/`](/apis/app/hooks/src/routes.html) and [`App.tsx`](/apis/app/hooks/src/app) hook files can meet our needs. When we need to add custom behavior before component rendering or take full control of the webpack packaging entry, we can create `entry.ts` file in the src or entry directory. Here are two cases for discussion。
 
 ## Add custom behavior before Render
 
-This is implemented in `src/entry.[tj]s` as follows:
+This is implemented in `src/entry.ts` as follows:
 
 ```js title=src/entry.tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -28,7 +28,7 @@ beforeRender().then(() => {
 
 ## Take full control of the webpack entry
 
-When the project does not install the `@modern-js/runtime` dependency, `src/entry.[tj]sx?` is the real webpack packaging entry file, and you can directly organize the code like using create-react-app and other scaffolds:
+When the project does not install the `@modern-js/runtime` dependency, `src/entry.tsx?` is the real webpack packaging entry file, and you can directly organize the code like using create-react-app and other scaffolds:
 
 ```js title=src/entry.jsx
 import React from 'react';

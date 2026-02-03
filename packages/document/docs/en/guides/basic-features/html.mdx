@@ -8,7 +8,7 @@ Modern.js provides **JSX syntax** and **HTML(EJS) syntax** to customize the HTML
 
 ## JSX Syntax
 
-According to Modern.js conventions, you can create a `Document.[jt]sx` file under `src/` or the entry directory and default export a component. The rendering result of this component can be used as the HTML template of the entry.
+According to Modern.js conventions, you can create a `Document.tsx` file under `src/` or the entry directory and default export a component. The rendering result of this component can be used as the HTML template of the entry.
 
 For example, consider the following directory structure:
 
@@ -24,12 +24,12 @@ For example, consider the following directory structure:
     └── modern-app-env.d.ts
 ```
 
-`entry-a` will use the `Document.[jt]sx` file under the current entry as the template. If there is no `Document.[jt]sx` file under the current entry, like `entry-b`, it will look for the `Document.[jt]sx` file under the root directory.
+`entry-a` will use the `Document.tsx` file under the current entry as the template. If there is no `Document.tsx` file under the current entry, like `entry-b`, it will look for the `Document.tsx` file under the root directory.
 
 If not found, default template will be used.
 
 :::tip
-The `Document.[jt]sx` module will be compiled by esbuild and rendered to a string as the HTML template content, similar to [Static Site Generation](/guides/basic-features/render/ssg.html). The HTML template module will not be compiled by the Bundler. The React Hooks in the component also will not be executed at browser runtime, and JavaScript resources such as images cannot be resolved and imported.
+The `Document.tsx` module will be compiled by esbuild and rendered to a string as the HTML template content, similar to [Static Site Generation](/guides/basic-features/render/ssg.html). The HTML template module will not be compiled by the Bundler. The React Hooks in the component also will not be executed at browser runtime, and JavaScript resources such as images cannot be resolved and imported.
 :::
 
 ### HTML Components
@@ -54,7 +54,7 @@ import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
 
 ### Template Parameters
 
-Because it is in JSX format, various variables can be used freely in the component to assign values to various custom components in `Document.[jt]sx`.
+Because it is in JSX format, various variables can be used freely in the component to assign values to various custom components in `Document.tsx`.
 
 Modern.js also provides `DocumentContext` to provide some configuration and environment parameters for easy access. The main parameters are:
 
