@@ -1,4 +1,4 @@
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export default async () => {
   const ctx = useHonoContext();

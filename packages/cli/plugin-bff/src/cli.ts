@@ -20,7 +20,6 @@ import runtimeGenerator from './utils/runtimeGenerator';
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/client';
-const RUNTIME_HONO = '@modern-js/plugin-bff/server';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
@@ -171,10 +170,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
     };
 
     api.config(async () => {
-      const honoRuntimePath = isHono()
-        ? { [RUNTIME_HONO]: RUNTIME_HONO }
-        : undefined;
-
       const devServer = api.getConfig()?.tools?.devServer;
       const prefix = api.getConfig()?.bff?.prefix || DEFAULT_API_PREFIX;
 
@@ -232,9 +227,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                 httpMethodDecider,
               });
           },
-        },
-        output: {
-          externals: honoRuntimePath,
         },
       };
     });

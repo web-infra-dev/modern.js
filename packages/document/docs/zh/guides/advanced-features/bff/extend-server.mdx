@@ -53,7 +53,7 @@ export default defineServerConfig({
 然后添加一个普通的 BFF 函数 `api/lambda/hello.ts`：
 
 ```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export const get = async () => {
   return {

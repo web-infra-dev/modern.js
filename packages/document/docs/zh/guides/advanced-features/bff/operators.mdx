@@ -561,7 +561,8 @@ export default Api(
 <BFFOperatorCode>
 
 ```typescript title="api/lambda/user.ts"
-import { Api, Get, Query, useHonoContext } from '@modern-js/plugin-bff/server';
+import { Api, Get, Query } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 import { z } from 'zod';
 
 const UserSchema = z.object({
