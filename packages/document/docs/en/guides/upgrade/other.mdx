@@ -27,6 +27,48 @@ Modern.js 3.0 has adjusted some runtime paths, and related import paths need to 
 | `@modern-js/runtime/bff` | `@modern-js/plugin-bff/runtime` | BFF runtime path |
 | `@modern-js/runtime/server` | `@modern-js/server-runtime` | Server-side runtime path |
 
+## useRuntimeContext Deprecated
+
+In Modern.js 3.0, the `useRuntimeContext` Hook has been deprecated. It is recommended to use `use(RuntimeContext)` or `useContext(RuntimeContext)` instead.
+
+**Migration Example**:
+
+```tsx
+// Modern.js 2.0
+import { useRuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context } = useRuntimeContext();
+
+  // isBrowser is inside context
+  if (context.isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+```tsx
+// Modern.js 3.0
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context, isBrowser } = use(RuntimeContext);
+  if (isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+**Main Changes**:
+
+- API changed from `useRuntimeContext()` to `use(RuntimeContext)` or `useContext(RuntimeContext)`
+- `isBrowser` moved from `context.isBrowser` to the top level of the return value
+- `context` structure simplified: only contains `request` and `response`, no longer includes `logger`, `metrics`, etc.
+- Return value includes new properties: `initialData`, `routes`, etc.
+
+For detailed API documentation, please refer to the [RuntimeContext documentation](/apis/app/runtime/core/runtime-context).
+
 ## Pages Directory Convention-Based Routing No Longer Supported
 
 Modern.js 3.0 no longer supports the `pages` directory convention-based routing introduced in Modern.js 1.0, and now uniformly uses the `routes` directory convention-based routing.

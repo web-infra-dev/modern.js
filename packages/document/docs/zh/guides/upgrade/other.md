@@ -27,6 +27,48 @@ Modern.js 3.0 对部分运行时进行了调整，需要更新相关的导入路
 | `@modern-js/runtime/bff` | `@modern-js/plugin-bff/runtime` | BFF 运行时路径 |
 | `@modern-js/runtime/server` | `@modern-js/server-runtime` | 服务端运行时路径 |
 
+## useRuntimeContext 已废弃
+
+Modern.js 3.0 中，`useRuntimeContext` Hook 已被废弃，推荐使用 `use(RuntimeContext)` 或 `useContext(RuntimeContext)` 替代。
+
+**迁移示例**：
+
+```tsx
+// Modern.js 2.0
+import { useRuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context } = useRuntimeContext();
+
+  // isBrowser 在 context 内部
+  if (context.isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+```tsx
+// Modern.js 3.0
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context, isBrowser } = use(RuntimeContext);
+  if (isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+**主要变化**：
+
+- API 从 `useRuntimeContext()` 改为 `use(RuntimeContext)` 或 `useContext(RuntimeContext)`
+- `isBrowser` 从 `context.isBrowser` 移到返回值顶层
+- `context` 结构简化：只包含 `request` 和 `response`，不再包含 `logger`、`metrics` 等
+- 返回值新增 `initialData`、`routes` 等属性
+
+详细 API 文档请参考 [RuntimeContext 文档](/apis/app/runtime/core/runtime-context)。
+
 ## 不再支持 pages 目录的约定式路由
 
 Modern.js 3.0 不再支持 Modern.js 1.0 版本引入的 `pages` 目录的约定式路由，统一使用 `routes` 目录的约定式路由。
