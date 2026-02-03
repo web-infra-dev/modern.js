@@ -122,7 +122,7 @@ describe('deploy', () => {
 
   // netlify will clean dist, so we need to build again
   test('support server when deploy target is netlify', async () => {
-    await execa('npx modern deploy --skip-build', {
+    await execa('npx modern deploy', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
