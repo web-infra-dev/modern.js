@@ -183,6 +183,9 @@ importers:
       html-minifier-terser:
         specifier: ^7.2.0
         version: 7.2.0
+      jiti:
+        specifier: ^2.6.1
+        version: 2.6.1
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -216,9 +219,6 @@ importers:
       ts-deepmerge:
         specifier: 7.0.3
         version: 7.0.3
-      tsx:
-        specifier: ^4.21.0
-        version: 4.21.0
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -1371,7 +1371,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       jiti:
-        specifier: 2.6.1
+        specifier: ^2.6.1
         version: 2.6.1
     devDependencies:
       '@modern-js/builder':
