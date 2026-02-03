@@ -1,6 +1,5 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
-import { setTimeout } from 'timers/promises';
 import {
   getPort,
   killApp,

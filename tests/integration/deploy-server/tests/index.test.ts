@@ -1,6 +1,11 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
-import { modernBuild } from '../../../utils/modernTestUtils';
+import {
+  getPort,
+  killApp,
+  modernBuild,
+  runContinuousTask,
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -26,11 +31,14 @@ async function checkAppRun(host: string) {
 
 // bff project's dependencies is more complex, so use bff project to test
 describe('deploy', () => {
+  const apps = new Set();
+
   beforeAll(async () => {
     await modernBuild(appDir, [], {});
   });
 
   afterAll(async () => {
+    await Promise.all([...apps].map(x => killApp(x, true)));
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
     await fse.remove(path.join(appDir, '.output'));
