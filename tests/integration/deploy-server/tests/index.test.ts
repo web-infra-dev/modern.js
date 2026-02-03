@@ -4,6 +4,26 @@ import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
+async function checkAppRun(host: string) {
+  // Page render
+  const onePage = await fetch(`${host}/one`);
+  expect(onePage.status).toBe(200);
+  expect(await onePage.text()).toContain('<div id="item">');
+
+  // Loader
+  const oneLoader = await fetch(`${host}/one?__loader=one_page`);
+  expect(oneLoader.status).toBe(200);
+  expect(await oneLoader.text()).toContain('Hello Modern.js');
+
+  // API
+  const api = await fetch(`${host}/api/context`);
+  expect(api.status).toBe(200);
+  expect(api.headers.get('x-id')).toBe('1');
+  expect(await api.json()).toEqual({
+    message: 'Hello Modern.js',
+  });
+}
+
 // bff project's dependencies is more complex, so use bff project to test
 describe('deploy', () => {
   beforeAll(async () => {
@@ -36,6 +56,22 @@ describe('deploy', () => {
     expect(await fse.pathExists(htmlDirectory)).toBe(true);
     expect(await fse.pathExists(apiFile)).toBe(true);
     expect(await fse.pathExists(bootstrapPath)).toBe(true);
+
+    // check server run
+    const port = await getPort();
+    const app = await runContinuousTask(['.output/index.js'], undefined, {
+      cwd: appDir,
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+        PORT: port,
+      },
+      waitMessage: /Server is listening on/i,
+    });
+    apps.add(app);
+    await checkAppRun(`http://localhost:${port}`);
+    await killApp(app, true);
+    apps.delete(app);
   });
 
   test('support server when deploy target is vercel', async () => {

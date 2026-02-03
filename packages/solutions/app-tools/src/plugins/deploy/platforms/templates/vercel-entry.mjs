@@ -1,6 +1,9 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { createProdServer } = require('@modern-js/prod-server');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createProdServer } from '@modern-js/prod-server';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 p_genPluginImportsCode;
 
@@ -66,11 +69,9 @@ async function createHandler() {
 
 createHandler();
 
-const handler = async (req, res) => {
+export default async (req, res) => {
   if (!requestHandler) {
     await createHandler();
   }
   return requestHandler(req, res);
 };
-
-module.exports = { handler };
