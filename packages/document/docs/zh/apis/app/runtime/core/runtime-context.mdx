@@ -1,0 +1,160 @@
+---
+title: RuntimeContext
+---
+# RuntimeContext
+
+`RuntimeContext` 是一个 React Context，用于在组件中获取 Runtime 上下文信息。该 Context 可以通过 React 的 `use` 或 `useContext` API 访问。
+
+:::warning
+
+`useRuntimeContext` Hook 已废弃，请使用 `use(RuntimeContext)` 替代。`useRuntimeContext` 内部实现为 `useContext(RuntimeContext)`，而 `use(RuntimeContext)` 是 React 19 推荐的新方式。
+
+:::
+
+## 使用姿势
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+export function App() {
+  const runtimeContext = use(RuntimeContext); // 也可以使用 useContext(RuntimeContext)
+  return <div>Hello World</div>
+}
+```
+
+## 类型定义
+
+```ts
+type TRuntimeContext = {
+  initialData?: Record<string, unknown>;
+  isBrowser: boolean;
+  routes?: RouteObject[];
+  requestContext: RequestContext;
+  /**
+   * @deprecated Use `requestContext` instead
+   */
+  context: RequestContext;
+  [key: string]: unknown;
+};
+```
+
+### 属性说明
+
+- `isBrowser`：标识当前运行环境是否为浏览器
+- `routes`：路由配置信息
+- `requestContext`：请求上下文，包含 `request` 和 `response` 对象
+- `context`：已废弃，请使用 `requestContext` 替代
+
+### RequestContext
+
+`RequestContext` 是 `requestContext` 属性的类型，包含请求和响应相关的信息：
+
+```ts
+type RequestContext = {
+  request: {
+    params: Record<string, string>;      // 路由参数
+    pathname: string;                    // 路径名
+    query: Record<string, string>;       // 查询参数
+    headers: IncomingHttpHeaders;        // 请求头
+    host: string;                        // 主机名
+    url: string;                         // 完整 URL
+    referer?: string;                    // 来源页面
+    userAgent?: string;                  // 用户代理
+    cookie?: string;                     // Cookie 字符串
+    cookieMap?: Record<string, string>;  // Cookie 映射对象
+  };
+  response: {
+    setHeader: (key: string, value: string) => void;  // 设置响应头（仅服务端）
+    status: (code: number) => void;                    // 设置状态码（仅服务端）
+    locals: Record<string, any>;                       // 本地数据
+  };
+};
+```
+
+**注意事项**：
+
+- `response.setHeader` 和 `response.status` 仅在服务端（SSR）可用
+- 在浏览器端，`response` 对象可能不包含这些方法
+- `request` 对象在服务端和浏览器端都可用，但服务端信息更完整
+
+## 使用示例
+
+### 区分运行环境
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context, isBrowser } = use(RuntimeContext);
+
+  if (isBrowser === true) {
+    // 浏览器端执行逻辑
+    console.log('browser render')
+  } else {
+    // 服务器端执行逻辑
+    // 注意：logger 等功能需要通过 Runtime 插件注入到 context 中
+    console.log('server render')
+  }
+}
+```
+
+### 获取请求上下文
+
+开启 SSR 时，在 Node 环境和浏览器端环境可以获取到同构的请求上下文。
+
+稍有不同的是 Node 环境还支持设置响应头、响应码，并提供了 Logger 日志与 Metrics 打点。
+
+:::tip
+
+当 SSR 未开启时，仅包含可在浏览器端获取的部分信息。
+
+:::
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const runtimeContext = use(RuntimeContext);
+  const { request, response } = runtimeContext.requestContext || {};
+
+  // 访问请求信息
+  const userAgent = request?.userAgent || request?.headers?.['user-agent'];
+  const url = request?.url;
+  const query = request?.query;
+  const params = request?.params;
+
+  // 服务端可以设置响应头
+  if (!runtimeContext.isBrowser && response) {
+    response.setHeader('X-Custom-Header', 'value');
+    response.status(200);
+  }
+
+  return (
+    <div>
+      <div>User Agent: {userAgent}</div>
+      <div>URL: {url}</div>
+      <div>Query: {JSON.stringify(query)}</div>
+    </div>
+  );
+}
+```
+
+### 访问注入的全局数据
+
+通过 Runtime 插件的 `onBeforeRender` 钩子可以向 `RuntimeContext` 中注入全局数据：
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+export default function MyComponent() {
+  const context = use(RuntimeContext);
+  const { message } = context;
+
+  return <div>{message}</div>;
+}
+```
+
