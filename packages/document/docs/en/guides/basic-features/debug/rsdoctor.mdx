@@ -2,23 +2,15 @@ import { PackageManagerTabs } from '@theme';
 
 # Using Rsdoctor
 
-Rsdoctor is a build analysis tool that supports both Webpack and Rspack. In Modern.js, we recommend using Rsdoctor to diagnose and analyze the build process and build outputs.
+Rsdoctor is a Rspack build analysis tool. In Modern.js, we recommend using Rsdoctor to diagnose and analyze the build process and build outputs.
 
 ## Install Dependencies
 
-Depending on whether your project uses Rspack or Webpack, choose the corresponding plugin installation.
-
-### Rspack Plugin
-
 <PackageManagerTabs command="add @rsdoctor/rspack-plugin -D" />
-
-### Webpack Plugin
-
-<PackageManagerTabs command="add @rsdoctor/webpack-plugin -D" />
 
 ## Register Plugin
 
-In `modern.config.ts`, you can register the Rspack or Webpack plugin via `tools.bundlerChain`. Refer to the example below:
+In `modern.config.ts`, you can register the Rspack plugin via `tools.bundlerChain`. Refer to the example below:
 
 ```ts title="modern.config.ts"
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
@@ -39,10 +31,6 @@ export default {
   },
 };
 ```
-
-:::note
-The above code is an example of using Rspack. If you are using Webpack, please switch the plugin accordingly.
-:::
 
 ## Execute Build
 

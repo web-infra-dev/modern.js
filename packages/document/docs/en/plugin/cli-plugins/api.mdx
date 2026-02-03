@@ -463,7 +463,7 @@ Add additional logic before creating the compiler instance.
 - **Type:** `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
 - **Parameters:**
   - `createFn`: A function to be executed before creation, without parameters, can be asynchronous.
-- **Execution Phase:** Before creating the Webpack or Rspack compiler instance.
+- **Execution Phase:** Before creating the Rspack compiler instance.
 - **Corresponding Rsbuild Hook:** [onBeforeCreateCompiler](https://rsbuild.rs/en/plugins/dev/hooks#onbeforecreatecompiler)
 - **Example:**
 
@@ -482,7 +482,7 @@ Add additional logic after creating the compiler instance.
 - **Type:** `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
 - **Parameters:**
   - `createFn`: A function to be executed after creation, without parameters, can be asynchronous.
-- **Execution Phase:** After creating the Webpack or Rspack compiler instance.
+- **Execution Phase:** After creating the Rspack compiler instance.
 - **Corresponding Rsbuild Hook:** [onAfterCreateCompiler](https://rsbuild.rs/en/plugins/dev/hooks#onaftercreatecompiler)
 - **Example:**
 
