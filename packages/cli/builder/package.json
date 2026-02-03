@@ -64,7 +64,7 @@
     "postcss-page-break": "3.0.4",
     "rspack-manifest-plugin": "5.2.1",
     "ts-deepmerge": "7.0.3",
-    "jiti": "2.6.1"
+    "jiti": "^2.6.1"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
