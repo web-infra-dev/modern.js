@@ -100,8 +100,8 @@ Modern.js supports three entry types, each with different use cases and characte
 Modern.js automatically scans directories to identify entries that meet the criteria. A directory is recognized as an entry if it meets **one of the following three conditions**:
 
 1. **Has a `routes/` directory** → Convention routing entry
-2. **Has an `App.[jt]sx?` file** → Self-controlled routing entry
-3. **Has an `entry.[jt]sx?` file** → Custom entry
+2. **Has an `App.tsx?` file** → Self-controlled routing entry
+3. **Has an `entry.tsx?` file** → Custom entry
 
 import EntryScanLogic from '@site-docs/components/entry-scan-logic.mdx';
 
@@ -148,7 +148,7 @@ For more details, please refer to [Routing Solution](/guides/basic-features/rout
 
 ### Self-controlled Routing
 
-If there is an `App.[jt]sx?` file in the entry, this entry is a self-controlled routing entry. This method gives developers complete routing control.
+If there is an `App.tsx?` file in the entry, this entry is a self-controlled routing entry. This method gives developers complete routing control.
 
 ```bash
 .
@@ -186,7 +186,7 @@ Custom entries can coexist with convention routing and self-controlled routing e
 
 :::
 
-If there is an `entry.[jt]sx` file in the entry, Modern.js will no longer control the application's rendering process. You can call the `createRoot` and `render` functions in the `entry.[jt]sx` file to complete the application entry logic.
+If there is an `entry.tsx` file in the entry, Modern.js will no longer control the application's rendering process. You can call the `createRoot` and `render` functions in the `entry.tsx` file to complete the application entry logic.
 
 ```tsx title="src/entry.tsx"
 import { createRoot } from '@modern-js/runtime/react';

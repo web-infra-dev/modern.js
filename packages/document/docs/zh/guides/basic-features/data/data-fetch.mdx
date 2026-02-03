@@ -35,21 +35,6 @@ export const loader = async (): Promise<ProfileData> => {
 };
 ```
 
-:::warning 兼容性
-
-- 在之前的版本中，Data Loader 是定义在 `.loader` 文件中的。当前版本中，我们推荐定义在 `.data` 文件中，同时我们会保持对 `.loader` 文件的兼容。
-- 在 `.loader` 文件中，Data Loader 可以默认导出。但在 `data` 文件中，Data Loader 需要以 `loader` 具名导出。
-
-```ts
-// xxx.loader.ts
-export default () => {};
-
-// xxx.data.ts
-export const loader = () => {};
-```
-
-:::
-
 在路由组件中，你可以通过 `useLoaderData` 函数获取数据：
 
 ```ts title="routes/user/page.tsx"
@@ -66,15 +51,15 @@ export default function UserPage() {
 路由组件和 `.data` 文件共享类型，要使用 `import type` 语法，避免引入预期之外的副作用。
 :::
 
-在 CSR 项目中，`loader` 函数会在客户端执行，`loader` 函数内可以使用浏览器的 API（但通常不需要，也不推荐）。
+在 CSR 项目中，`loader` 函数会在客户端执行，`loader` 函数内可以使用浏览器的 API。
 
-在 SSR 项目中，不管是首屏，还是在客户端的导航，`loader` 函数只会在服务端执行，这里可以调用任意的 Node.js API，同时这里使用的任何依赖和代码都不会包含在客户端的 bundle 中。
-
-:::tip
-在以后的版本中，Modern.js 可能会支持在 CSR 环境下，`loader` 函数也在服务端运行，以提高性能和安全性，所以这里建议尽可能地保证 `loader` 的纯粹，只做数据获取的场景。
-:::
+在 SSR 项目中，不管是首屏还是在客户端的导航，`loader` 函数只会在服务端执行，这里可以调用任意的 Node.js API，同时这里使用的任何依赖和代码都不会包含在客户端的 bundle 中。
 
 当在浏览器端导航时，基于[约定式路由](/guides/basic-features/routes/routes)，Modern.js 能够支持所有的 `loader` 函数并行执行（请求）。即当访问 `/user/profile` 时，`/user` 和 `/user/profile` 下的 `loader` 函数都会并行执行（请求），这种方式解决了部分请求、渲染瀑布流的问题，较大的提升了页面性能。
+
+:::tip
+`loader` 的职责是数据获取，入参已提供路由参数和请求信息，一般无需访问浏览器 API。建议保持环境无关性，以便未来使用 SSR。
+:::
 
 ## `loader` 函数
 
@@ -111,7 +96,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 ### 返回值
 
-`loader` 函数的返回值**只能是两种数据结构之一**，可序列化的数据对象或者 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例。
+`loader` 函数的返回值**只能是两种数据结构之一**，可序列化的数据对象或者 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例：
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -221,6 +206,10 @@ const ErrorBoundary = () => {
 
 export default ErrorBoundary;
 ```
+
+:::tip
+`throw` 和上文介绍的 `return` Response 都可以修改状态码，区别是 `throw` 会进入 `ErrorBoundary`，而 `return` 不会。
+:::
 
 ## 获取上层组件的数据
 
@@ -357,7 +346,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 ```
 
 :::tip
-`shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/en/main/route/should-revalidate)。
+`shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/start/data/route-object#shouldrevalidate)。
 :::
 
 ## 错误用法
@@ -429,4 +418,4 @@ export const loader = async (): Promise<ProfileData> => {
 
 在 CSR 项目中，`loader` 在浏览器端执行，在 `loader` 可以直接调用 BFF 函数进行接口请求。
 
-在 SSR 项目中，每个 `loader` 也是一个服务端接口。我们推荐使用 `loader` 替代 http method 为 `get` 的 BFF 函数，避免多一层转发和执行。
+在 SSR 项目中，每个 `loader` 也是一个服务端接口。我们推荐使用 `loader` 替代 HTTP Method 为 GET 的 BFF 函数，避免多一层转发和执行。

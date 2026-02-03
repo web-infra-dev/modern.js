@@ -459,7 +459,7 @@ api.onDevCompileDone(() => {
 - **类型：** `api.onBeforeCreateCompiler(createFn: () => void | Promise<void>)`
 - **参数：**
   - `createFn`： 创建前执行的函数，无参数，可异步。
-- **执行阶段：** 在创建 Webpack 或 Rspack 编译器实例之前。
+- **执行阶段：** 在创建 Rspack 编译器实例之前。
 - **对应 Rsbuild Hook**： [onBeforeCreateCompiler](https://rsbuild.rs/zh/plugins/dev/hooks#onbeforecreatecompiler)
 - **示例：**
 
@@ -478,7 +478,7 @@ api.onBeforeCreateCompiler(() => {
 - **类型：** `api.onAfterCreateCompiler(createFn: () => void | Promise<void>)`
 - **参数：**
   - `createFn`： 创建后执行的函数，无参数，可异步。
-- **执行阶段：** 在创建 Webpack 或 Rspack 编译器实例之后。
+- **执行阶段：** 在创建 Rspack 编译器实例之后。
 - **对应 Rsbuild Hook**： [onAfterCreateCompiler](https://rsbuild.rs/zh/plugins/dev/hooks#onaftercreatecompiler)
 - **示例：**
 

@@ -5,13 +5,13 @@ sidebar_position: 4
 
 # 数据缓存
 
-`cache` 函数可以让你缓存数据获取或计算的结果，相比整页[渲染缓存](/guides/basic-features/render/ssr-cache)，它提供了更精细的数据粒度控制，并且适用于客户端渲染(CSR)、服务端渲染（SSR）、API 服务(BFF)等多种场景。
+`cache` 函数可以让你缓存数据获取或计算的结果，相比整页[渲染缓存](/guides/basic-features/render/ssr-cache)，它提供了更精细的数据粒度控制，并且适用于客户端渲染（CSR）、服务端渲染（SSR）、API 服务（BFF）等多种场景。
 
 ## 基本用法
 
 :::note
 
-如果在 BFF 中使用 `cache` 函数，应该从 `@modern-js/server-runtime/cache` 导入相关函数
+如果在 BFF 中使用 `cache` 函数，应该从 `@modern-js/server-runtime/cache` 导入相关函数：
 
 `import { cache } from '@modern-js/server-runtime/cache'`
 
@@ -33,13 +33,13 @@ const loader = async () => {
 
 ### 参数
 
-- `fn`: 需要缓存的数据获取或计算的函数
-- `options`（可选）: 缓存配置
-  - `tag`: 用于标识缓存的标签，可以基于这个标签使缓存失效
-  - `maxAge`: 缓存的有效期 (毫秒)
-  - `revalidate`: 重新验证缓存的时间窗口（毫秒），与 HTTP Cache-Control 的 stale-while-revalidate 功能一致
-  - `getKey`: 简化的缓存键生成函数，根据函数参数生成缓存键
-  - `customKey`: 自定义缓存键生成函数，用于在函数引用变化时保持缓存
+- `fn`：需要缓存的数据获取或计算的函数
+- `options`（可选）：缓存配置
+  - `tag`：用于标识缓存的标签，可以基于这个标签使缓存失效
+  - `maxAge`：缓存的有效期 (毫秒)
+  - `revalidate`：重新验证缓存的时间窗口（毫秒），与 HTTP Cache-Control 的 stale-while-revalidate 功能一致
+  - `getKey`：简化的缓存键生成函数，根据函数参数生成缓存键
+  - `customKey`：自定义缓存键生成函数，用于在函数引用变化时保持缓存
 
 `options` 参数的类型如下：
 

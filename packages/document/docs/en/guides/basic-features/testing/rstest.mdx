@@ -1,0 +1,94 @@
+# Rstest
+
+Rstest is a testing framework developed by the Rspack team, built on Rspack with extremely fast test execution.
+
+To use Rstest in Modern.js, you need to install the dependencies first by running the following command:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{
+  npm: "npm install -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  yarn: "yarn add -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  pnpm: "pnpm install -D @rstest/core jsdom @testing-library/react @testing-library/dom",
+  bun: "bun add -D @rstest/core jsdom @testing-library/react @testing-library/dom"
+}} />
+
+Next, you need to create a Rstest configuration file `rstest.config.ts` with the following content:
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+
+export default defineConfig({
+  environment: 'jsdom',
+});
+```
+
+For more information about Rstest configuration, refer to the [Rstest configuration documentation](https://rstest.rs/config).
+
+You can optionally add the `rstest` command to `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "rstest"
+  }
+}
+```
+
+After running this command, Rstest will automatically watch for file changes and re-run the tests.
+
+## Creating Unit Tests
+
+First, create a simple page for testing:
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+Add a test case to check if the page contains the expected text:
+
+```tsx title="__tests__/page.test.tsx"
+import { expect, test } from '@rstest/core';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+test('Page', () => {
+  render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+  expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
+});
+```
+
+In the above test case, we imported the `<Router>` component from `@modern-js/runtime/router` because React Router requires the corresponding context when rendering route-related components.
+
+:::note
+When running directly in a Modern.js application, the `<Router>` component is automatically injected.
+:::
+
+## Running Test Cases
+
+Execute the `test` command above to run the test cases:
+
+```bash
+✓ src/__tests__/page.test.tsx (1)
+  ✓ Page
+
+Test Files  1 passed (1)
+    Tests  1 passed (1)
+  Duration  500ms
+
+PASS  Waiting for file changes...
+```
