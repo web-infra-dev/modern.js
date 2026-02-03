@@ -8,6 +8,7 @@
     "build": "modern build",
     "serve": "modern serve",
     "start:bff": "modern serve --api-only",
+    "deploy": "modern deploy",
     "new": "modern new"
   },
   "dependencies": {
