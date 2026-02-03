@@ -98,6 +98,8 @@ const renderMiddleware: MiddlewareHandler = async (c, next) => {
   const html = await res.text();
 
   const modified = html
+    .replace('<head>', '<head><meta name="author" content="ByteDance">')
+    .replace('<body>', '<body><div id="loading">Loading...</div>')
     .replace('</body>', '<script>console.log("Page loaded")</script></body>');
 
   c.res = c.body(modified, { status: res.status, headers: res.headers });

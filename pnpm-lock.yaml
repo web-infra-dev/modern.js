@@ -2279,6 +2279,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/server/server-runtime
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -2331,6 +2334,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/server/server-runtime
       axios:
         specifier: ^1.13.4
         version: 1.13.4(debug@4.4.3)
@@ -3338,6 +3344,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../packages/server/server-runtime
       lodash-es:
         specifier: '>=4.17.23'
         version: 4.17.23
