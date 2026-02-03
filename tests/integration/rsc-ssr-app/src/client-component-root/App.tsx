@@ -52,7 +52,7 @@ const App = () => {
       <div className="container">
         <main>
           <div className="user-agent">
-            {typeof context.context?.request?.userAgent}
+            {typeof context.requestContext?.request?.userAgent}
           </div>
           <div className="logo">
             <img

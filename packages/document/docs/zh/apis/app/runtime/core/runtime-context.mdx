@@ -30,6 +30,10 @@ type TRuntimeContext = {
   initialData?: Record<string, unknown>;
   isBrowser: boolean;
   routes?: RouteObject[];
+  requestContext: RequestContext;
+  /**
+   * @deprecated Use `requestContext` instead
+   */
   context: RequestContext;
   [key: string]: unknown;
 };
@@ -39,11 +43,12 @@ type TRuntimeContext = {
 
 - `isBrowser`：标识当前运行环境是否为浏览器
 - `routes`：路由配置信息
-- `context`：请求上下文，包含 `request` 和 `response` 对象
+- `requestContext`：请求上下文，包含 `request` 和 `response` 对象
+- `context`：已废弃，请使用 `requestContext` 替代
 
 ### RequestContext
 
-`RequestContext` 是 `context` 属性的类型，包含请求和响应相关的信息：
+`RequestContext` 是 `requestContext` 属性的类型，包含请求和响应相关的信息：
 
 ```ts
 type RequestContext = {
@@ -112,8 +117,8 @@ import { use } from 'react';
 import { RuntimeContext } from '@modern-js/runtime';
 
 function App() {
-  const { context } = use(RuntimeContext);
-  const { request, response } = context.context || {};
+  const runtimeContext = use(RuntimeContext);
+  const { request, response } = runtimeContext.requestContext || {};
 
   // 访问请求信息
   const userAgent = request?.userAgent || request?.headers?.['user-agent'];
@@ -122,7 +127,7 @@ function App() {
   const params = request?.params;
 
   // 服务端可以设置响应头
-  if (!context.isBrowser && response) {
+  if (!runtimeContext.isBrowser && response) {
     response.setHeader('X-Custom-Header', 'value');
     response.status(200);
   }

@@ -5,7 +5,7 @@ const initPlugin = (): RuntimePlugin => {
     name: 'init-plugin',
     setup: api => {
       api.onBeforeRender(async context => {
-        const { request } = context.context!;
+        const { request } = context.requestContext!;
 
         if (context.isBrowser && !context?.initialData?.name) {
           context.initialData = {
