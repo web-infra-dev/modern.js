@@ -2668,6 +2668,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../packages/server/server-runtime
       koa:
         specifier: 2.16.3
         version: 2.16.3
