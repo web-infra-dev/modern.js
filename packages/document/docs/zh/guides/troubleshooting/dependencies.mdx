@@ -77,7 +77,7 @@ Type 'React.ReactNode' is not assignable to type 'import("/node_modules/@types/r
 Type '{}' is not assignable to type 'ReactNode'.
 ```
 
-出现这个问题的原因是 React 18+ 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
+出现这个问题的原因是 React 18/19 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
 
 解决方法为将项目中的 `@types/react` 和 `@types/react-dom` 锁定在统一的版本上，比如 `v19`。
 
