@@ -104,108 +104,25 @@ const defaultOptions = {
 
 ### proxy
 
-- **类型：** `Record<string, string> | Record<string, ProxyDetail>`
+- **类型：** `ProxyOptions[] | Record<string, string | ProxyOptions>`
 - **默认值：** `undefined`
 
-代理请求到指定的服务上。
+为开发服务器配置代理规则，把请求转发到指定服务。
 
 ```js
 export default {
   dev: {
     server: {
       proxy: {
-        '/api': 'http://localhost:3000',
+        // http://localhost:8080/api -> https://example.com/api
+        // http://localhost:8080/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com/api',
       },
     },
   },
 };
 ```
 
-此时，/api/users 请求将会代理到 http://localhost:3000/api/users。
-
-如果你不想传递 /api，可以通过 `pathRewrite` 重写请求路径：
-
-```js
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          pathRewrite: { '^/api': '' },
-        },
-      },
-    },
-  },
-};
-```
-
-DevServer Proxy 基于 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x) 实现。你可以使用 http-proxy-middleware 的所有配置项，具体可以查看文档。
-
-DevServer Proxy 完整类型定义为：
-
-```ts
-import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
-
-type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
-
-type ProxyDetail = HttpProxyOptions & {
-  bypass?: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    proxyOptions: ProxyOptions,
-  ) => string | undefined | null | false;
-  context?: Filter;
-};
-
-type ProxyOptions =
-  | Record<string, string>
-  | Record<string, ProxyDetail>
-  | ProxyDetail[]
-  | ProxyDetail;
-```
-
-除了 http-proxy-middleware 的选项外，还支持 bypass 和 context 两个配置项：
-
-- bypass：根据函数的返回值绕过代理。
-  - 返回 `null` 或 `undefined` 会继续用代理处理请求。
-  - 返回 `false` 会返回 404 错误。
-  - 返回一个具体的服务路径，将会使用此路径替代原请求路径。
-- context：如果你想代理多个特定的路径到同一个目标，你可以使用 context 配置项。
-
-```js
-// 自定义 bypass 方法
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          bypass: function (req, res, proxyOptions) {
-            if (req.headers.accept.indexOf('html') !== -1) {
-              console.log('Skipping proxy for browser request.');
-              return '/index.html';
-            }
-          },
-        },
-      },
-    },
-  },
-};
-```
-
-```js
-// 代理多个路径到同一个目标
-export default {
-  dev: {
-    server: {
-      proxy: [
-        {
-          context: ['/auth', '/api'],
-          target: 'http://localhost:3000',
-        },
-      ],
-    },
-  },
-};
-```
+:::tip
+该选项与 Rsbuild 的 `server.proxy` 选项一致，更多用法请参考 [Rsbuild - server.proxy](https://v2.rsbuild.rs/zh/config/server/proxy)。
+:::

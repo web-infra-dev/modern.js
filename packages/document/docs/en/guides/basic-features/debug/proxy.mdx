@@ -4,7 +4,9 @@ sidebar_position: 6
 
 # Network Proxy
 
-Modern.js provides a way to configure the development proxy in [`dev.server.proxy`](/configure/app/dev/server). For example, to proxy the local interface to an online address:
+Modern.js provides a way to configure the development proxy in [`dev.server.proxy`](/configure/app/dev/server).
+
+For example, to proxy the local interface to another address:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -13,15 +15,11 @@ export default defineConfig({
   dev: {
     server: {
       proxy: {
-        '/go/api': 'http://www.example.com/',
+        // http://localhost:8080/api -> https://example.com/api
+        // http://localhost:8080/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com/api',
       },
     },
   },
 });
 ```
-
-When accessing `http://localhost:8080/go/api`, the response content will be returned from [http://www.example.com/](http://www.example.com/).
-
-:::info
-For configuration format, please refer to: [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware).
-:::

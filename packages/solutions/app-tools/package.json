@@ -99,7 +99,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.0",
+    "@rsbuild/core": "2.0.0-beta.1",
     "@swc/helpers": "^0.5.17",
     "es-module-lexer": "^1.7.0",
     "esbuild": "0.25.5",
