@@ -8,7 +8,7 @@ Used to obtain Hono context in an integrated BFF function.
 ## Usage
 
 ```ts
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 ```
 
 ## Function Signature
@@ -20,7 +20,7 @@ import { useHonoContext } from '@modern-js/plugin-bff/server';
 Developers can use `context` to obtain more request information, such as setting response headers:
 
 ```ts
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export async function get() {
   const c = useHonoContext();

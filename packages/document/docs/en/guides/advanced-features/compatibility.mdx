@@ -14,13 +14,10 @@ Modern.js supports setting the range of browsers that a web application needs to
 
 When you create a new Modern.js project, a default `.browserslistrc` configuration is included, which indicates that JavaScript code will be compiled to ES6 format.
 
-```yaml title=".browserslistrc"
-chrome >= 51
-edge >= 15
-firefox >= 54
-safari >= 10
-ios_saf >= 10
-```
+import DefaultBrowserslist from '@site-docs/components/default-browserslist';
+
+<DefaultBrowserslist />
+
 
 When the `overrideBrowserslist` configuration is not specified in the project, this `.browserslistrc` file will take effect.
 
@@ -31,7 +28,7 @@ You can also configure browserslist by setting the `browserslist` field in the `
 ```json title="package.json"
 {
   "browserslist": [
-    "chrome >= 51"
+    "chrome >= 87"
     // Other browser configurations...
   ]
 }
@@ -45,7 +42,7 @@ You can also configure browserslist by setting the [`output.overrideBrowserslist
 export default {
   output: {
     overrideBrowserslist: [
-      'chrome >= 51',
+      'chrome >= 87',
       // Other browser configurations...
     ],
   },

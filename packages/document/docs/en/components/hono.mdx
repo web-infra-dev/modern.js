@@ -3,7 +3,7 @@
 Sometimes in BFF functions, it's necessary to obtain the request context to handle more logic. In such cases, you can use `useHonoContext` to get it:
 
 ```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export const get = async () => {
   const c = useHonoContext();
@@ -21,7 +21,8 @@ For more details, refer to [useHonoContext](/apis/app/runtime/bff/use-hono-conte
 When getting cookies in BFF functions, you need to get the request context through `useHonoContext`, then use `c.req.header('cookie')` to get the Cookie string and parse it manually:
 
 ```ts title="api/lambda/cookies.ts"
-import { Api, Get, useHonoContext } from '@modern-js/plugin-bff/server';
+import { Api, Get } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 // Helper function to parse Cookie string
 function parseCookies(

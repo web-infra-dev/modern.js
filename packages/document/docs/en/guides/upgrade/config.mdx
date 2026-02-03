@@ -561,13 +561,9 @@ server: {
 
 If none of the above exist, create a `.browserslistrc` file with the following content for browsers supporting ES6:
 
-```typescript
-chrome >= 51;
-edge >= 15;
-firefox >= 54;
-safari >= 10;
-ios_saf >= 10;
-```
+import DefaultBrowserslist from '@site-docs/components/default-browserslist';
+
+<DefaultBrowserslist />
 
 ### output.enableAssetFallback
 
