@@ -70,7 +70,7 @@ Modern.js 提供的 `cache` 函数可以在任意的前端或服务端的代码�
 
 ### 无 `options` 参数
 
-当无 `options` 参数传入时，主要可以用于 SSR 项目，缓存的生命周期是单次 ssr 渲染的请求，如可以在多个 data loader 中调用同一个 cachedFn 时，不会重复执行 cachedFn 函数。这样可以在不同的 data loader 中共享数据，同时避免重复的请求，EdenX 会在每次收到服务端请求时，重新执行 `fn` 函数。
+当无 `options` 参数传入时，主要可以用于 SSR 项目，缓存的生命周期是单次 ssr 渲染的请求，如可以在多个 data loader 中调用同一个 cachedFn 时，不会重复执行 cachedFn 函数。这样可以在不同的 data loader 中共享数据，同时避免重复的请求，MODERN.js 会在每次收到服务端请求时，重新执行 `fn` 函数。
 
 :::info
 无 `options` 参数时，可以看作是 react [`cache`](https://react.dev/reference/react/cache) 函数的替代品，可以在任意服务端代码中使用（比如可以在 SSR 项目的 data loader 中），不局限于 server component。

@@ -237,7 +237,7 @@ For example, if `layout.tsx` is a Client Component (requiring client-side intera
 
 ### Legacy CSR Projects
 
-If you have a CSR project that uses EdenX data loaders, after enabling RSC, data loaders will execute on the server by default, which means you need to change all `.data.ts` files to `.data.client.ts` first to maintain consistency with the previous behavior.
+If you have a CSR project that uses MODERN.js data loaders, after enabling RSC, data loaders will execute on the server by default, which means you need to change all `.data.ts` files to `.data.client.ts` first to maintain consistency with the previous behavior.
 
 ### Projects Using Streaming SSR
 
@@ -258,9 +258,9 @@ function NonCriticalUI({ p }: { p: Promise<string> }) {
 
 ### Data Fetching
 
-1. Whether it's an SSR or RSC project, it's recommended to use the `cache` function provided by EdenX for data fetching logic executed on the server by default. This ensures that for each server-side render, no matter how many times the function is called, it will only execute once.
+1. Whether it's an SSR or RSC project, it's recommended to use the `cache` function provided by MODERN.js for data fetching logic executed on the server by default. This ensures that for each server-side render, no matter how many times the function is called, it will only execute once.
 
-> This is also the recommended usage by React.js, which provides the [cache](https://react.dev/reference/react/cache) function. EdenX's [cache](/guides/basic-features/data/data-cache.html) can be considered a superset of it.
+> This is also the recommended usage by React.js, which provides the [cache](https://react.dev/reference/react/cache) function. MODERN.js's [cache](/guides/basic-features/data/data-cache.html) can be considered a superset of it.
 
 ```typescript
 import { cache } from '@modern-js/runtime/cache';
