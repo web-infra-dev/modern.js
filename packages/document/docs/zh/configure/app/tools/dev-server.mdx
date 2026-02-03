@@ -100,8 +100,8 @@ export default {
   tools: {
     devServer: {
       proxy: {
-        // https://example.com/api -> https://example.com/api
-        // https://example.com/api/foo -> https://example.com/api/foo
+        // http://localhost:8080/api -> https://example.com/api
+        // http://localhost:8080/api/foo -> https://example.com/api/foo
         '/api': 'https://example.com/api',
       },
     },
