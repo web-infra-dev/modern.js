@@ -1,5 +1,4 @@
 export { renderToReadableStream } from 'react-server-dom-rspack/server.node';
-import { logger } from '@modern-js/utils';
 import {
   loadServerAction,
   renderToReadableStream,
@@ -29,8 +28,8 @@ export const handleAction = async (req: Request) => {
 
     const action = loadServerAction(serverReference);
     if (typeof action !== 'function') {
-      logger.error(
-        '[RSC] Invalid action: server reference is not a function, serverReference: %s',
+      console.error(
+        '[RSC] Invalid action: server reference is not a function, serverReference:',
         serverReference,
       );
       return new Response('Invalid action', { status: 400 });
@@ -48,9 +47,10 @@ export const handleAction = async (req: Request) => {
         args = await decodeReply(text);
       }
     } catch (error) {
-      logger.error(
-        '[RSC] Failed to decode request arguments, error: %s, contentType: %s',
+      console.error(
+        '[RSC] Failed to decode request arguments, error:',
         error instanceof Error ? error.message : String(error),
+        'contentType:',
         contentType || 'unknown',
       );
       return new Response('Failed to decode request arguments', {
@@ -75,8 +75,8 @@ export const handleAction = async (req: Request) => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
-    logger.error(
-      '[RSC] Error handling server action, error: %s%s',
+    console.error(
+      '[RSC] Error handling server action, error:',
       errorMessage,
       errorStack ? `\n${errorStack}` : '',
     );

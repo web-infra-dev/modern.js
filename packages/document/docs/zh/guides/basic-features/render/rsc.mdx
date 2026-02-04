@@ -233,6 +233,91 @@ export default function DashboardPage() {
 
 例如，假设 `layout.tsx` 是一个 Client Component（需要客户端交互），你仍然可以将 `page.tsx` 设置为 Server Component（用于数据获取和渲染）。这种方式提供了极大的灵活性，也使非 RSC 项目可以渐进式地迁移至 RSC 项目。
 
+## Server Component API
+
+在 RSC 场景下，Modern.js 提供了一系列服务端 API，允许你在 Server Component 中直接操作 HTTP 请求和响应。这些 API 只能在 Server Component 中使用。
+
+### getRequest
+
+获取当前请求的 `Request` 对象，用于访问请求信息（如 URL、查询参数、请求头等）。
+
+```tsx title="routes/page.tsx"
+import { getRequest } from '@modern-js/runtime';
+
+export default async function Page() {
+  const request = getRequest();
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const query = searchParams.get('q');
+
+  return <div>Search query: {query}</div>;
+}
+```
+
+### setHeaders
+
+设置 HTTP 响应头。可以用于设置自定义响应头，如缓存控制、CORS 等。
+
+```tsx title="routes/page.tsx"
+import { setHeaders } from '@modern-js/runtime';
+
+export default async function Page() {
+  setHeaders({
+    'X-Custom-Header': 'custom-value',
+    'Cache-Control': 'public, max-age=3600',
+  });
+
+  return <div>Page content</div>;
+}
+```
+
+### setStatus
+
+设置 HTTP 响应状态码。常用于返回错误状态码（如 404、500）或成功状态码（如 201）。
+
+```tsx title="routes/page.tsx"
+import { setStatus } from '@modern-js/runtime';
+
+export default async function Page() {
+  setStatus(201);
+  return <div>Resource created</div>;
+}
+```
+
+### redirect
+
+执行 HTTP 重定向。可以指定重定向的状态码（默认为 307）和额外的响应头。
+
+```tsx title="routes/page.tsx"
+import { redirect } from '@modern-js/runtime';
+
+export default async function Page() {
+  // 简单重定向，使用默认状态码 307
+  redirect('/new-path');
+
+  // 指定状态码
+  redirect('/new-path', 301);
+
+  // 指定状态码和响应头
+  redirect('/new-path', {
+    status: 301,
+    headers: {
+      'X-Redirect-From': '/old-path',
+    },
+  });
+
+  return null; // redirect 后不会执行到这里
+}
+```
+
+:::warning 注意事项
+
+1. 这些 API 只能在 **Server Component** 中使用，在 Client Component 中调用不会产生任何效果
+2. `redirect` 会立即终止当前组件的渲染，后续代码不会执行
+3. 这些 API 应该在组件的顶层调用，而不是在条件分支或循环中调用，以确保行为可预测
+
+:::
+
 ## 注意事项
 
 ### 旧 CSR 项目

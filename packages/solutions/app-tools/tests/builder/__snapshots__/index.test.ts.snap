@@ -28,9 +28,9 @@ exports[`create builder Options > test create builder environments config 2`] = 
 {
   "builderConfig": {},
   "environments": {
-    "server": {
+    "client": {
       "output": {
-        "target": "node",
+        "target": "web",
       },
       "source": {
         "entry": {
@@ -44,9 +44,9 @@ exports[`create builder Options > test create builder environments config 2`] = 
         },
       },
     },
-    "client": {
+    "server": {
       "output": {
-        "target": "web",
+        "target": "node",
       },
       "source": {
         "entry": {
