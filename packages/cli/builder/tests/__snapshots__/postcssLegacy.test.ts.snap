@@ -246,8 +246,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -330,8 +330,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -413,8 +413,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -515,8 +515,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -622,8 +622,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -716,8 +716,8 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -814,8 +814,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -884,8 +884,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -953,8 +953,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1041,8 +1041,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1134,8 +1134,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1214,8 +1214,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1306,8 +1306,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1386,8 +1386,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   {
                     "browsers": [
@@ -1468,8 +1468,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   Processor {
                     "plugins": [
@@ -1661,8 +1661,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin correctly when in
                     "postcssPlugin": "postcss-media-minmax",
                   },
                   {
-                    "__esModule": true,
-                    "default": [Function],
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
                   },
                   Processor {
                     "plugins": [

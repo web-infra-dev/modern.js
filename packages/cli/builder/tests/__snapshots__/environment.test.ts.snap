@@ -89,8 +89,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -169,8 +169,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -488,8 +488,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -586,8 +586,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -684,8 +684,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -774,8 +774,8 @@ exports[`builder environment compat > should generator environment config correc
                           "postcssPlugin": "postcss-media-minmax",
                         },
                         {
-                          "__esModule": true,
-                          "default": [Function],
+                          "Rule": [Function],
+                          "postcssPlugin": "postcss-nesting",
                         },
                         {
                           "browsers": [
@@ -1441,7 +1441,7 @@ exports[`builder environment compat > should generator environment config correc
           "test": /\\\\\\.\\(tsx\\?\\|jsx\\?\\)\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/packages/cli/builder/src/rsc/rsc-server-entry-loader",
+              "loader": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rsc-server-entry-loader",
             },
           ],
         },
