@@ -1,5 +1,17 @@
 # @modern-js/runtime-utils
 
+## 3.0.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- Updated dependencies [952f6fe]
+  - @modern-js/types@3.0.0
+  - @modern-js/utils@3.0.0
+
 ## 3.0.0-alpha.2
 
 ### Minor Changes
