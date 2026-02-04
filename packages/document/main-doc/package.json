@@ -21,7 +21,7 @@
     "build": "rspress build",
     "preview": "rspress preview"
   },
-  "version": "2.70.4",
+  "version": "2.70.5",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
