@@ -232,7 +232,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
@@ -277,7 +277,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
@@ -321,7 +321,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
@@ -384,7 +384,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
@@ -452,7 +452,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
@@ -507,7 +507,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test",
+                    "postcssPlugin": "postcss-plugin-test1",
                   },
                 ],
               },
