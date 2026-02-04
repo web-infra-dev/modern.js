@@ -232,7 +232,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
@@ -277,7 +277,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
@@ -321,7 +321,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
@@ -384,7 +384,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
@@ -452,7 +452,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
@@ -507,7 +507,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "plugins": [
                   {
                     "AtRule": {},
-                    "postcssPlugin": "postcss-plugin-test1",
+                    "postcssPlugin": "postcss-plugin-test-override",
                   },
                 ],
               },
