@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.70.5
+
+### Patch Changes
+
+- 116ff4d: refactor: replace custom stream conversion with Node.js native API
+  refactor: 使用 node.js 原生 API 替代流转换函数
+  - @modern-js/types@2.70.5
+  - @modern-js/utils@2.70.5
+
 ## 2.70.4
 
 ### Patch Changes
