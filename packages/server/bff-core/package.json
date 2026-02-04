@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
   "exports": {

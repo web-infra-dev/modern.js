@@ -1,5 +1,28 @@
 # @modern-js/plugin-bff
 
+## 3.0.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 96b5424: fix: dev hono context error
+  fix: 修复 dev 环境 hono context
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [e21ac60]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0
+  - @modern-js/bff-core@3.0.0
+  - @modern-js/create-request@3.0.0
+  - @modern-js/server-utils@3.0.0
+  - @modern-js/builder@3.0.0
+  - @modern-js/utils@3.0.0
+
 ## 3.0.0-alpha.2
 
 ### Minor Changes

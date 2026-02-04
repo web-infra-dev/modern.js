@@ -1,5 +1,15 @@
 # @modern-js/bff-core
 
+## 3.0.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- @modern-js/utils@3.0.0
+
 ## 3.0.0-alpha.2
 
 ### Minor Changes
