@@ -67,7 +67,7 @@
     "@types/merge-deep": "^3.0.3",
     "@types/node": "^20",
     "lint-staged": "~13.3.0",
-    "typescript": "~5"
+    "typescript": "^5"
   },
   "sideEffects": [],
   "engines": {

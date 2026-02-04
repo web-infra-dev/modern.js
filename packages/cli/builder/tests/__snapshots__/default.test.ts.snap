@@ -20,6 +20,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "index": [
       "data:text/javascript,import%20%22core-js%22%3B",
       "<WORKSPACE>/packages/cli/builder/src/index.ts",
+      "data:text/javascript,window.__MODERN_JS_ENTRY_NAME%3D%22index%22%3B",
     ],
   },
   "experiments": {
@@ -87,8 +88,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -167,8 +168,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -486,8 +487,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -584,8 +585,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -682,8 +683,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -772,8 +773,8 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -1228,6 +1229,7 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:css-minimizer",
   "builder:postcss-plugins",
   "builder:rsc-client-browser-fallback",
+  "builder:rsc-config",
   "user-plugin",
 ]
 `;
@@ -1244,14 +1246,17 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "type": "filesystem",
     },
     "type": "persistent",
-    "version": "node-production",
+    "version": "server-production",
   },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "source-map",
   "entry": {
-    "index": [
-      "<WORKSPACE>/packages/cli/builder/src/index.ts",
-    ],
+    "index": {
+      "import": [
+        "<WORKSPACE>/packages/cli/builder/src/index.ts",
+      ],
+      "layer": "server-side-rendering",
+    },
   },
   "experiments": {
     "asyncWebAssembly": true,
@@ -1448,6 +1453,18 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 },
               },
             },
+          },
+        ],
+      },
+      {
+        "exclude": [
+          /node_modules/,
+        ],
+        "resource": /\\(routes\\[/\\\\\\\\\\]\\.\\*\\\\/\\(layout\\|page\\|\\\\\\$\\)\\\\\\.\\[tj\\]sx\\?\\$\\|\\[/\\\\\\\\\\]App\\\\\\.\\[tj\\]sx\\?\\$\\)/,
+        "test": /\\\\\\.\\(tsx\\?\\|jsx\\?\\)\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/cli/builder/src/rsc/rsc-server-entry-loader",
           },
         ],
       },
@@ -1928,9 +1945,13 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
         "test": /\\\\\\.svg\\$/,
       },
+      {
+        "layer": "rsc-common",
+        "resource": /universal\\[/\\\\\\\\\\]async_storage/,
+      },
     ],
   },
-  "name": "node",
+  "name": "server",
   "optimization": {
     "minimize": false,
     "splitChunks": false,
@@ -1977,7 +1998,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     ProgressPlugin {
       "_args": [
         {
-          "prefix": "node",
+          "prefix": "server",
         },
       ],
       "affectedHooks": undefined,
@@ -2062,6 +2083,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "index": [
       "data:text/javascript,import%20%22core-js%22%3B",
       "<WORKSPACE>/packages/cli/builder/src/index.ts",
+      "data:text/javascript,window.__MODERN_JS_ENTRY_NAME%3D%22index%22%3B",
     ],
   },
   "experiments": {
@@ -2129,8 +2151,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -2209,8 +2231,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -2527,8 +2549,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -2625,8 +2647,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -2723,8 +2745,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [
@@ -2813,8 +2835,8 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                         "postcssPlugin": "postcss-media-minmax",
                       },
                       {
-                        "Rule": [Function],
-                        "postcssPlugin": "postcss-nesting",
+                        "__esModule": true,
+                        "default": [Function],
                       },
                       {
                         "browsers": [

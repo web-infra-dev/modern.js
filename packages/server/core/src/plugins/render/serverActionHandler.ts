@@ -19,9 +19,5 @@ export const serverActionHandler = async (
     return new Response('Cannot find server action handler', { status: 500 });
   }
 
-  if (!rscClientManifest) {
-    return new Response('Cannot find rsc client manifest', { status: 500 });
-  }
-
-  return handleAction(req, { clientManifest: rscClientManifest });
+  return handleAction(req);
 };

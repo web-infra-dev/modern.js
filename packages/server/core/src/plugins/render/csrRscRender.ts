@@ -63,10 +63,6 @@ export const csrRscRender = async (req: Request, options: SSRRenderOptions) => {
     return new Response('Cannot find render handler for RSC', { status: 500 });
   }
 
-  if (!rscClientManifest) {
-    return new Response('Cannot find rsc client manifest', { status: 500 });
-  }
-
   const response = await renderRscStreamHandler(req, requestHandlerOptions);
 
   return response;

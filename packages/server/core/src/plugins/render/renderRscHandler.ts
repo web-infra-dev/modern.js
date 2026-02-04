@@ -63,9 +63,5 @@ export const renderRscHandler = async (
     return new Response('Cannot find request handler for RSC', { status: 500 });
   }
 
-  if (!rscClientManifest) {
-    return new Response('Cannot find rsc client manifest', { status: 500 });
-  }
-
   return rscPayloadHandler(req, requestHandlerOptions);
 };

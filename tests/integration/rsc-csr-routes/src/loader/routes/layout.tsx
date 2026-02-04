@@ -1,5 +1,7 @@
 import 'server-only';
 import { Link, Outlet } from '@modern-js/runtime/router';
+import './layout.css';
+
 export default function Layout() {
   return (
     <div className="root-layout">

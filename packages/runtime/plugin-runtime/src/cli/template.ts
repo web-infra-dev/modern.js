@@ -56,9 +56,11 @@ import { render } from '@${metaName}/runtime/browser';
 
 ${
   enableRsc
-    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer } from '@${metaName}/runtime/rsc/client';`
+    ? `import { RscClientRoot, createFromReadableStream, rscStream, callServer, setServerCallback } from '@${metaName}/runtime/rsc/client';`
     : ''
 }
+
+${enableRsc ? `setServerCallback(callServer);` : ''}
 
 ${
   enableRsc
@@ -101,8 +103,11 @@ export const entryForCSRWithRSC = ({
     isRedirectResponse,
     rscStream,
     callServer,
+    setServerCallback,
     createFromReadableStream
   } from '@${metaName}/runtime/rsc/client';
+
+  setServerCallback(callServer);
 
   const handleRedirectResponse = (res: Response) => {
     const { headers } = res;

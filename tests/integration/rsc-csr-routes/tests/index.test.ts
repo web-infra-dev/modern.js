@@ -91,6 +91,12 @@ function runTests({ mode }: TestConfig) {
 
       it('support redirect on first screen load', () =>
         supportRedirectOnFirstScreenLoad({ baseUrl, appPort, page }));
+
+      it('support inject first screen css', () =>
+        supportInjectCssFirstScreen({ baseUrl, appPort, page }));
+
+      it('support load css when navigation', () =>
+        loadCssWhenNavigation({ baseUrl, appPort, page }));
     });
 
     describe('csr-rsc-routes-with-fetch', () => {
@@ -250,6 +256,62 @@ async function shouldRenderWithFetchCorrectly({
   await page.waitForSelector('.message', { timeout: 5000 });
   const message2 = await page.$eval('.message', el => el.textContent);
   expect(message2).toBe('root page from server');
+}
+
+async function supportInjectCssFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-layout', { timeout: 5000 });
+
+  const rootLayoutColor = await page.$eval('.root-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isRed = rootLayoutColor === 'rgb(255, 0, 0)';
+
+  expect(isRed).toBe(true);
+
+  await page.goto(`http://localhost:${appPort}${baseUrl}/user`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+}
+
+async function loadCssWhenNavigation({ baseUrl, appPort, page }: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.click('.user-link');
+  await page.waitForSelector('.user-data', { timeout: 5000 });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+
+  const userPageColor = await page.$eval('.user-page', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isGreen = userPageColor === 'rgb(0, 128, 0)';
+  expect(isGreen).toBe(true);
 }
 
 runTests({ mode: 'dev' });

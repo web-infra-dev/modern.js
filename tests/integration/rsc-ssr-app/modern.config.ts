@@ -11,6 +11,9 @@ export default applyBaseConfig({
   output: {
     minify: false,
   },
+  performance: {
+    buildCache: false,
+  },
   tools: {
     bundlerChain(chain) {
       chain.resolve.modules

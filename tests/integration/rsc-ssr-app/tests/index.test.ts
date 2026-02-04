@@ -92,6 +92,8 @@ function runTests({ mode }: TestConfig) {
         supportServerAction({ baseUrl, appPort, page }));
       it('should support response api', () =>
         supportResponseAPIForServerRoot({ baseUrl, appPort, page }));
+      it('support inject first screen css', () =>
+        supportInjectCssFirstScreen({ baseUrl, appPort, page }));
     });
   });
 }
@@ -210,6 +212,32 @@ async function supportResponseAPIForClientRoot({
     '/server-component-root',
   );
   expect(redirectWithHeadersRes.headers.get('x-redirect-test')).toBe('test');
+}
+
+async function supportInjectCssFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  // Check if the root element has the CSS styles applied
+  const rootElement = await page.$('#root');
+  expect(rootElement).not.toBeNull();
+
+  // Use attribute selector to match CSS Modules hashed class names
+  const backgroundColor = await page.$eval('[class*="root"]', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.backgroundColor;
+  });
+
+  // Check if the background color matches the CSS (rgb(195, 255, 0))
+  const isCorrectColor =
+    backgroundColor === 'rgb(195, 255, 0)' ||
+    backgroundColor === 'rgba(195, 255, 0, 1)';
+  expect(isCorrectColor).toBe(true);
 }
 
 runTests({ mode: 'dev' });

@@ -3,11 +3,12 @@ import { type ReactNode, createContext, useContext, useState } from 'react';
 import {
   createFromReadableStream,
   createServerReference,
-} from 'react-server-dom-webpack/client.browser';
+  setServerCallback,
+} from 'react-server-dom-rspack/client.browser';
 export { rscStream } from '../rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 export { callServer } from './callServer';
-export { createFromFetch } from 'react-server-dom-webpack/client.browser';
+export { createFromFetch } from 'react-server-dom-rspack/client.browser';
 
 declare global {
   interface Window {
@@ -21,6 +22,8 @@ export const ResetRootContext = createContext<
     }
   | undefined
 >(undefined);
+
+export { setServerCallback };
 
 export function RscClientRoot({
   rscPayload,
