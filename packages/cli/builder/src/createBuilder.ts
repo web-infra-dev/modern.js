@@ -188,10 +188,12 @@ const pluginRscConfig = (): RsbuildPlugin => ({
     api.modifyBundlerChain((chain, { isServer, isWebWorker }) => {
       if (!isServer && !isWebWorker) {
         const entries = chain.entryPoints.entries();
-        for (const entryName of Object.keys(entries)) {
-          const entryPoint = chain.entry(entryName);
-          const code = `window.${ENTRY_NAME_VAR}="${entryName}";`;
-          entryPoint.add(createVirtualModule(code));
+        if (entries && typeof entries === 'object') {
+          for (const entryName of Object.keys(entries)) {
+            const entryPoint = chain.entry(entryName);
+            const code = `window.${ENTRY_NAME_VAR}="${entryName}";`;
+            entryPoint.add(createVirtualModule(code));
+          }
         }
       }
     });
