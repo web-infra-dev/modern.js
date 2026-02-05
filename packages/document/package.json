@@ -1,6 +1,7 @@
 {
   "name": "@modern-js/main-doc",
   "description": "Documentation of modern.js framework",
+  "type": "module",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
@@ -32,9 +33,9 @@
   },
   "devDependencies": {
     "@rsbuild/plugin-sass": "1.5.0",
-    "@rspress/core": "2.0.0-rc.0",
-    "@rspress/plugin-llms": "2.0.0-rc.0",
-    "@rspress/shared": "2.0.0-rc.0",
+    "@rspress/core": "2.0.2",
+    "@rspress/plugin-llms": "2.0.2",
+    "@rspress/shared": "2.0.2",
     "@shikijs/transformers": "^3.21.0",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^20",

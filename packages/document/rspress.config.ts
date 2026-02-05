@@ -1,13 +1,13 @@
 import path from 'path';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { defineConfig } from '@rspress/core';
-import { pluginLlms } from '@rspress/plugin-llms';
 import { transformerNotationHighlight } from '@shikijs/transformers';
 
 const docPath = path.join(__dirname, 'docs');
 
 export default defineConfig({
   root: docPath,
+  llms: true,
   title: 'Modern.js',
   description:
     'The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.',
@@ -22,7 +22,6 @@ export default defineConfig({
       transformers: [transformerNotationHighlight()],
     },
   },
-  plugins: [pluginLlms()],
   search: {
     codeBlocks: true,
   },
