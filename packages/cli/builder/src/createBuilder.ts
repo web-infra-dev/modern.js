@@ -6,7 +6,6 @@ import type {
   RsbuildPlugin,
   Rspack,
 } from '@rsbuild/core';
-import { Layers, pluginRSC } from 'rsbuild-plugin-rsc';
 import { parseCommonConfig } from './shared/parseCommonConfig';
 import { rscClientBrowserFallbackPlugin } from './shared/rsc/rscClientBrowserFallback';
 import type {
@@ -35,6 +34,19 @@ const ENTRY_NAME_VAR = '__MODERN_JS_ENTRY_NAME';
 const pluginRscConfig = (): RsbuildPlugin => ({
   name: 'builder:rsc-config',
   setup(api) {
+    // Cache for dynamically imported Layers to avoid multiple imports
+    let layersCache: { ssr: string; rsc: string } | null = null;
+    const getLayers = async () => {
+      if (!layersCache) {
+        // Dynamically import Layers to avoid CJS -> ESM require() issue
+        // rsbuild-plugin-rsc is a pure ESM module (type: "module")
+        // Static import in CJS code causes issues in e2e test environments
+        const { Layers } = await import('rsbuild-plugin-rsc');
+        layersCache = Layers;
+      }
+      return layersCache;
+    };
+
     // Add 'use server-entry' directive to route components
     // Match:
     // 1. layout.[tj]sx, page.[tj]sx, and $.[tj]sx files in routes directory (conventional routing)
@@ -88,7 +100,7 @@ const pluginRscConfig = (): RsbuildPlugin => ({
       order: 'pre',
     });
 
-    api.modifyRspackConfig((config, utils) => {
+    api.modifyRspackConfig(async (config, utils) => {
       // Check if this is a server build by checking target or environment name
       const isServer =
         config.target === 'node' ||
@@ -98,6 +110,9 @@ const pluginRscConfig = (): RsbuildPlugin => ({
       if (!isServer) {
         return;
       }
+
+      // Dynamically import Layers to avoid CJS -> ESM require() issue
+      const Layers = await getLayers();
 
       // 1. Add layer configuration to server-side entries
       if (config.entry) {
@@ -245,6 +260,10 @@ export async function parseConfig(
     const routesFileReg = new RegExp(
       `${options.internalDirectory!.replace(/[/\\]/g, '[/\\\\]')}[/\\\\][^/\\\\]*[/\\\\]routes`,
     );
+    // Dynamically import pluginRSC to avoid CJS -> ESM require() issue(e2e test cases in CI)
+    // rsbuild-plugin-rsc is a pure ESM module (type: "module")
+    // Static import in CJS code causes issues in e2e test environments
+    const { pluginRSC } = await import('rsbuild-plugin-rsc');
     rsbuildPlugins.push(
       pluginRSC({
         layers: {
