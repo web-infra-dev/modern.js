@@ -1,5 +1,16 @@
 # @modern-js/builder
 
+## 3.0.1
+
+### Patch Changes
+
+- 7a278a6: fix(builder)!: align postcss object behavior with Rsbuild, make postcss object override instead of merge
+
+  fix(builder)!: postcss 对象的行为与 Rsbuild 对齐，变为覆盖而不是合并
+
+  - @modern-js/flight-server-transform-plugin@3.0.1
+  - @modern-js/utils@3.0.1
+
 ## 3.0.0
 
 ### Patch Changes
