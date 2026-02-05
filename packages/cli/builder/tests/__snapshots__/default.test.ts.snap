@@ -20,7 +20,6 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
     "index": [
       "data:text/javascript,import%20%22core-js%22%3B",
       "<WORKSPACE>/packages/cli/builder/src/index.ts",
-      "data:text/javascript,window.__MODERN_JS_ENTRY_NAME%3D%22index%22%3B",
     ],
   },
   "experiments": {
@@ -1229,7 +1228,6 @@ exports[`builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:css-minimizer",
   "builder:postcss-plugins",
   "builder:rsc-client-browser-fallback",
-  "builder:rsc-config",
   "user-plugin",
 ]
 `;
@@ -1251,12 +1249,9 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "source-map",
   "entry": {
-    "index": {
-      "import": [
-        "<WORKSPACE>/packages/cli/builder/src/index.ts",
-      ],
-      "layer": "server-side-rendering",
-    },
+    "index": [
+      "<WORKSPACE>/packages/cli/builder/src/index.ts",
+    ],
   },
   "experiments": {
     "asyncWebAssembly": true,
@@ -1453,18 +1448,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 },
               },
             },
-          },
-        ],
-      },
-      {
-        "exclude": [
-          /node_modules/,
-        ],
-        "resource": /\\(routes\\[/\\\\\\\\\\]\\.\\*\\\\/\\(layout\\|page\\|\\\\\\$\\)\\\\\\.\\[tj\\]sx\\?\\$\\|\\[/\\\\\\\\\\]App\\\\\\.\\[tj\\]sx\\?\\$\\)/,
-        "test": /\\\\\\.\\(tsx\\?\\|jsx\\?\\)\\$/,
-        "use": [
-          {
-            "loader": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rsc-server-entry-loader",
           },
         ],
       },
@@ -1945,10 +1928,6 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
         ],
         "test": /\\\\\\.svg\\$/,
       },
-      {
-        "layer": "rsc-common",
-        "resource": /universal\\[/\\\\\\\\\\]async_storage/,
-      },
     ],
   },
   "name": "server",
@@ -2083,7 +2062,6 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
     "index": [
       "data:text/javascript,import%20%22core-js%22%3B",
       "<WORKSPACE>/packages/cli/builder/src/index.ts",
-      "data:text/javascript,window.__MODERN_JS_ENTRY_NAME%3D%22index%22%3B",
     ],
   },
   "experiments": {
