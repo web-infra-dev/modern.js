@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0",
+  "version": "3.0.1",
   "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
