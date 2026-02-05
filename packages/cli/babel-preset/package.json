@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/babel-preset",
-  "version": "2.70.5",
+  "version": "2.70.6",
   "description": "The babel config of Modern.js.",
   "repository": {
     "type": "git",

@@ -1,5 +1,13 @@
 # @modern-js/plugin-v2
 
+## 2.70.6
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.70.6
+- @modern-js/types@2.70.6
+- @modern-js/utils@2.70.6
+
 ## 2.70.5
 
 ### Patch Changes
