@@ -49,8 +49,8 @@ export default defineConfig({
 ```
 
 :::info 旧 CSR 项目迁移
-如果是 CSR 项目，且项目中使用了 Modern.js 的 data loader，开启 RSC 后，data loader 默认会在服务端执行。
-为了与原有行为保持一致，需要先将所有的 `.data.ts` 文件改为 `.data.client.ts`。
+如果是 CSR 项目，且项目中使用了 Modern.js 的 Data Loader，开启 RSC 后，Data Loader 默认会在服务端执行。
+详细的迁移指南请参考 [CSR 项目迁移到 RSC](#csr-项目迁移到-rsc)。
 
 :::
 
@@ -233,6 +233,97 @@ export default function DashboardPage() {
 
 例如，假设 `layout.tsx` 是一个 Client Component（需要客户端交互），你仍然可以将 `page.tsx` 设置为 Server Component（用于数据获取和渲染）。这种方式提供了极大的灵活性，也使非 RSC 项目可以渐进式地迁移至 RSC 项目。
 
+## Server Component 与 Data Loader
+
+在 RSC 项目中，你有两种方式获取数据：在 Server Component 中直接获取，或使用 [Data Loader](/guides/basic-features/data/data-fetch)。两种方式各有优势，可以根据场景灵活选择。
+
+### 两种数据获取方式对比
+
+| 特性 | Server Component 中获取 | Data Loader 中获取 |
+| --- | --- | --- |
+| 避免请求瀑布 | 需要手动优化 | ✅ 自动并行执行 |
+| 组件内聚性 | ✅ 数据和 UI 在同一处 | 数据逻辑分离到单独文件 |
+| 维护性 | ✅ 更易理解和维护 | 需要维护额外文件 |
+| 类型安全 | ✅ 天然类型推断 | 需要手动管理类型 |
+
+**一般情况下，我们推荐在 Server Component 中获取数据**，因为在服务端瀑布请求对性能的影响较小，这种方式使组件更加内聚，数据获取逻辑和 UI 渲染在同一处，更易于理解和维护。但如果你的页面有多个独立的数据源，且希望完全避免请求瀑布问题，Data Loader 的并行执行特性会更有优势。
+
+### RSC 项目中 Data Loader 的执行环境
+
+在 RSC 项目中，Data Loader 的执行环境与文件命名有关：
+
+- **`*.data.ts`**：只在**服务端**执行，Client Component 和 Server Component 都可以消费其数据
+- **`*.data.client.ts`**：只在**客户端**执行
+
+```bash
+.
+└── routes
+    └── user
+        ├── page.tsx           # 路由组件（可以是 Server 或 Client Component）
+        ├── page.data.ts       # 服务端执行，数据可被任何组件消费
+        └── page.data.client.ts # 客户端执行
+```
+
+在 Modern.js RSC 项目中，Server Component 可以通过 `loaderData` prop 接收 Data Loader 返回的数据：
+
+```tsx title="routes/user/page.tsx"
+// Server Component 通过 props 接收 loaderData
+export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+  return <div>Welcome, {loaderData.name}</div>;
+}
+```
+
+```tsx title="routes/user/page.tsx"
+'use client';
+// Client Component 同样可以通过 props 接收 loaderData
+export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+  return <div>Welcome, {loaderData.name}</div>;
+}
+```
+
+### Data Loader 返回 Server Component
+
+在 Modern.js RSC 项目中，Data Loader 有一个强大的特性：**可以返回 Server Component**。这对于渐进式迁移非常有帮助，允许你在 Client Component 中渲染服务端生成的内容。
+
+```tsx title="routes/user/layout.data.tsx"
+// Server Component 定义在 data loader 文件中
+function UserProfile() {
+  return <div>User Profile (Server Rendered)</div>;
+}
+
+export const loader = async () => {
+  const userData = await fetchUserData();
+
+  return {
+    user: userData,
+    // 返回一个 Server Component 作为数据的一部分
+    ProfileComponent: <UserProfile />,
+  };
+};
+```
+
+```tsx title="routes/user/layout.tsx"
+'use client';
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function UserLayout({
+  loaderData,
+}: {
+  loaderData: { user: any; ProfileComponent: React.ReactNode };
+}) {
+  const { user, ProfileComponent } = loaderData;
+
+  return (
+    <div>
+      {/* 在 Client Component 中直接渲染 Server Component */}
+      {ProfileComponent}
+      <div>User: {user.name}</div>
+      <Outlet />
+    </div>
+  );
+}
+```
+
 ## Server Component API
 
 在 RSC 场景下，Modern.js 提供了一系列服务端 API，允许你在 Server Component 中直接操作 HTTP 请求和响应。这些 API 只能在 Server Component 中使用。
@@ -318,11 +409,49 @@ export default async function Page() {
 
 :::
 
+## CSR 项目迁移指南
+
+Modern.js 的 RSC 能力，不仅支持 SSR 项目也支持 CSR 项目。对于现有的 CSR 项目，如果希望渐进式迁移到 RSC，推荐按照以下步骤：
+
+1. **开启 RSC 配置**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    rsc: true,
+  },
+});
+```
+
+2. **将所有路由组件标记为 `'use client'`**
+
+这确保现有组件的行为不变，它们仍然作为 Client Component 运行。
+
+```tsx title="routes/page.tsx"
+'use client';
+
+export default function Page() {
+  // 现有的客户端逻辑保持不变
+}
+```
+
+3. **将所有 `*.data.ts` 重命名为 `*.data.client.ts`**
+
+由于 RSC 项目中 `*.data.ts` 默认在服务端执行，为了保持与 CSR 项目一致的行为（Data Loader 在客户端执行），需要将文件重命名。
+
+```bash
+# 重命名前
+routes/user/page.data.ts
+
+# 重命名后
+routes/user/page.data.client.ts
+```
+
+完成以上步骤后，你可以逐步将组件迁移为 Server Component，享受 RSC 带来的性能优势。
+
 ## 注意事项
-
-### 旧 CSR 项目
-
-如果是 CSR 项目，且项目中使用了 Modern.js 的 data loader，开启 RSC 后，data loader 默认是在服务端执行，这意味着需要先把所有的 `.data.ts` 文件改为`.data.client.ts`，才能和之前的行为保持一致。
 
 ### 使用 Streaming SSR 的项目
 
