@@ -81,6 +81,9 @@ function runTests({ mode }: TestConfig) {
 
       it(`should support ${mode === 'dev' ? 'client and ' : ''}server actions`, () =>
         supportServerAction({ baseUrl, appPort, page }));
+
+      it('support inject first screen css', () =>
+        supportInjectCssFirstScreen({ baseUrl, appPort, page }));
     });
   });
 }
@@ -135,6 +138,39 @@ async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
   );
   serverCount = await page.$eval('.server-count', el => el.textContent);
   expect(serverCount).toBe('1');
+}
+
+async function supportInjectCssFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  // Wait for page content to load (RSC stream processing)
+  await page.waitForFunction(
+    () => {
+      return (
+        document.body.textContent?.includes('Client State') &&
+        document.body.textContent?.includes('countStateFromServer')
+      );
+    },
+    { timeout: 10000 },
+  );
+
+  // Get the background color
+  const backgroundColor = await page.$eval('[class*="root"]', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.backgroundColor;
+  });
+
+  // Check if the background color matches the CSS (rgb(195, 255, 0))
+  const isCorrectColor =
+    backgroundColor === 'rgb(195, 255, 0)' ||
+    backgroundColor === 'rgba(195, 255, 0, 1)';
+  expect(isCorrectColor).toBe(true);
 }
 
 runTests({ mode: 'dev' });

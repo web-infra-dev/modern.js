@@ -10,6 +10,7 @@ export type PayloadRoute = {
   hasAction: boolean;
   hasErrorBoundary: boolean;
   hasLoader: boolean;
+  hasClientLoader?: boolean;
   id: string;
   index?: boolean;
   params: Record<string, string>;

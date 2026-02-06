@@ -8,7 +8,7 @@ test('should compile Node addons correctly', async () => {
     entry: { index: path.resolve(__dirname, './src/index.js') },
     builderConfig: {
       environments: {
-        node: {
+        server: {
           output: {
             target: 'node',
           },
