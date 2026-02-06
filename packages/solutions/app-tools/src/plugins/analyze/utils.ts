@@ -53,7 +53,7 @@ export const parseModule = async ({
   return await parse(content);
 };
 
-export const getServerCombinedModueFile = (
+export const getServerCombinedModuleFile = (
   internalDirectory: string,
   entryName: string,
 ) => {

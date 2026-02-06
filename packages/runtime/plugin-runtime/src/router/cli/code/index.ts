@@ -32,7 +32,7 @@ import { resolveSSRMode } from '../../../cli/ssr/mode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { walk } from './nestedRoutes';
 import * as templates from './templates';
-import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
+import { getServerCombinedModuleFile, getServerLoadersFile } from './utils';
 
 /**
  * Generate routing information for a single entry point (can be reused by the routes inspect feature)
@@ -262,7 +262,7 @@ export const generateCode = async (
           appContext,
         );
         if (serverLoaderCombined) {
-          const serverLoaderFile = getServerCombinedModueFile(
+          const serverLoaderFile = getServerCombinedModuleFile(
             internalDirectory,
             entryName,
           );
