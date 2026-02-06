@@ -72,41 +72,60 @@ export async function buildShellBeforeTemplate(
     return safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
 
     async function getCssChunks() {
-      const { routeManifest, routerContext, routes } = runtimeContext;
-      if (!routeManifest || !routerContext || !routes) {
+      const {
+        routeManifest,
+        routerContext,
+        routes,
+        tanstackMatchedModernRouteIds,
+      } = runtimeContext;
+      if (!routeManifest) {
         return '';
       }
 
       const { routeAssets } = routeManifest;
 
-      const matches = matchRoutes(
-        routes,
-        routerContext.location,
-        routerContext.basename,
-      );
-      const matchedRouteManifests = matches
-        ?.map((match, index) => {
-          if (!index) {
-            return;
-          }
+      type RouteManifest = {
+        referenceCssAssets?: string[];
+      };
 
-          const routeId = match.route.id;
-          if (routeId) {
-            const routeManifest = routeAssets[routeId];
-            return routeManifest;
-          }
-        })
-        .filter(Boolean);
-      const asyncEntry = routeAssets[`async-${entryName}`];
+      let matchedRouteManifests: RouteManifest[] | undefined = undefined;
+
+      if (tanstackMatchedModernRouteIds && tanstackMatchedModernRouteIds.length) {
+        matchedRouteManifests = tanstackMatchedModernRouteIds
+          .map(routeId => routeAssets[routeId] as RouteManifest | undefined)
+          .filter(Boolean) as RouteManifest[];
+      } else if (routerContext && routes) {
+        const matches = matchRoutes(
+          routes,
+          routerContext.location,
+          routerContext.basename,
+        );
+        matchedRouteManifests = matches
+          ?.map((match, index) => {
+            if (!index) {
+              return;
+            }
+
+            const routeId = match.route.id;
+            if (routeId) {
+              return routeAssets[routeId] as RouteManifest | undefined;
+            }
+          })
+          .filter(Boolean) as RouteManifest[];
+      } else {
+        return '';
+      }
+
+      const asyncEntry = routeAssets[`async-${entryName}`] as
+        | RouteManifest
+        | undefined;
       if (asyncEntry) {
         matchedRouteManifests?.push(asyncEntry);
       }
 
       const cssChunks: string[] = matchedRouteManifests
-        ? matchedRouteManifests?.reduce((chunks, routeManifest) => {
-            const { referenceCssAssets = [] } = routeManifest as {
-              referenceCssAssets?: string[];
-            };
+        ? matchedRouteManifests.reduce((chunks, routeManifest) => {
+            const { referenceCssAssets = [] } = routeManifest;
             const _cssChunks = referenceCssAssets.filter(
               (asset?: string) =>
                 asset?.endsWith('.css') && !template.includes(asset),

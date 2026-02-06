@@ -13,6 +13,24 @@ npx @modern-js/create@latest
 npx @modern-js/create@latest myapp
 ```
 
+初始化 TanStack Router 模板：
+
+```bash
+npx @modern-js/create@latest myapp --router tanstack
+```
+
+初始化 Tailwind CSS v4 模板：
+
+```bash
+npx @modern-js/create@latest myapp --tailwind
+```
+
+同时初始化 TanStack Router + Tailwind CSS v4：
+
+```bash
+npx @modern-js/create@latest myapp --router tanstack --tailwind
+```
+
 `@modern-js/create` 会直接创建应用，不再提供问答界面：
 
 ```bash
@@ -58,3 +76,5 @@ npx @modern-js/create@latest myapp
 │       └── page.tsx
 └── tsconfig.json
 ```
+
+当启用 `--tailwind` 时，项目根目录会额外生成 `postcss.config.mjs` 和 `tailwind.config.ts`。

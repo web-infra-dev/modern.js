@@ -21,13 +21,17 @@
     "pre-commit": "npx lint-staged"
   }{{/unless}},
   "dependencies": {
-    "@modern-js/runtime": "{{version}}",
+    "@modern-js/runtime": "{{version}}"{{#if isTanstackRouter}},
+    "@tanstack/react-router": "1.158.1"{{/if}},
     "react": "^19.2.3",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "{{version}}",
-    "@modern-js/tsconfig": "{{version}}"{{#unless isSubproject}},
+    "@modern-js/tsconfig": "{{version}}"{{#if enableTailwind}},
+    "@tailwindcss/postcss": "^4.1.18",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"{{/if}}{{#unless isSubproject}},
     "@biomejs/biome": "1.9.4"{{/unless}},
     "typescript": "~5.7.3",
     "@types/node": "^20",
