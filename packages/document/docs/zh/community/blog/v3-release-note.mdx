@@ -1,0 +1,626 @@
+---
+title: Modern.js v3 发布
+---
+
+# Modern.js v3 发布：全面拥抱 Rspack
+
+> 发表于 2025.02.06
+
+## 前言
+
+[Modern.js 2.0 发布](./v2-release-note.mdx) 至今，已过去三年时间，感谢社区开发者们对 Modern.js 的使用和信任。Modern.js 一直保持稳定的迭代，累计发布了超过 100 个版本。
+
+在这三年中，我们不断扩充新特性，持续进行代码重构与优化，也收到了非常多的社区反馈，这些经验成为了 3.0 版本改进的重要参考。经过慎重考虑，我们决定发布 Modern.js 3.0，对框架进行一次全面的升级。
+
+## Modern.js 2.0 到 3.0 的演变
+
+从 Modern.js 2.0 到 3.0，有两个核心转变：
+
+**更聚焦，专注于 Web 框架**
+
+- Modern.js 2.0：包含 Modern.js App、Modern.js Module、Modern.js Doc
+- Modern.js 3.0：只代表 Modern.js App，Modern.js Module 和 Modern.js Doc 已孵化为 [Rslib](https://rslib.rs) 与 [Rspress](https://rspress.dev)
+
+**更开放，积极面向社区工具**
+
+- Modern.js 2.0：内置各类工具、框架独特的 API 设计
+- Modern.js 3.0：强化插件体系，完善接入能力，推荐社区优质方案
+
+---
+
+## Modern.js 3.0 新特性
+
+### React Server Component
+
+:::tip TL;DR
+Modern.js 3.0 集成 React Server Component，支持 CSR 和 SSR 项目，并支持渐进式迁移。
+:::
+
+![rsc](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.png)
+
+#### 什么是 React Server Component
+
+React Server Components（服务端组件）是一种新的组件类型，它允许**组件逻辑完全在服务端执行**，并直接将渲染后的 UI 流式传输到客户端。与传统的客户端组件相比，服务端组件带来了以下特性：
+
+| 特性 | 说明 |
+| --- | --- |
+| 零客户端包体积 | 组件代码不包含在客户端 JS Bundle 中，仅在服务端执行，加快首屏加载与渲染速度 |
+| 更高的内聚性 | 组件可直接连接数据库、调用内部 API、读取本地文件，提高开发效率 |
+| 渐进增强 | 可与客户端组件无缝混合使用，按需下放交互逻辑到客户端，在保持高性能的同时，支持复杂交互体验 |
+
+需要明确的是，RSC 和 SSR 是**截然不同的概念**：
+
+- **RSC**：描述的是**组件类型**，即组件在哪里执行（服务端 vs 客户端）
+- **SSR**：描述的是**渲染模式**，即 HTML 在哪里生成（服务端 vs 客户端）
+
+两者可以组合使用：Server Component 可以在 SSR 项目下使用，也可以在 CSR 项目下使用。在 Modern.js 3.0 中，我们同时支持这两种模式，开发者可以根据需求选择。
+
+![rsc+ssr](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc-ssr.png)
+
+#### 开箱即用
+
+在 Modern.js 3.0 中，只需在配置中启用 RSC 能力：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    rsc: true,
+  }
+});
+```
+
+:::info
+配置启用后，所有的路由组件都会默认成为 Server Component。项目中可能存在无法在服务端运行的组件，你可以先为这些组件添加 `'use client'` 标记，以保持原有行为，再逐步迁移。
+:::
+
+<video src="https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc.mp4" controls autoplay loop muted style={{ width: '100%', borderRadius: 8 }} />
+
+#### Modern.js 3.0 的 RSC 特性
+
+Modern.js 一直选择 React Router 作为路由解决方案。去年，React Router v7 [宣布支持](https://remix.run/blog/rsc-preview) React Server Component，这为 Modern.js 提供了在 SPA 应用下实现 RSC 的基础。
+
+相比于社区其他框架，Modern.js 对 RSC 做了几点优化：
+
+- 使用 Rspack 最新的 RSC 插件构建，显著提升 RSC 项目构建速度；并进一步优化了产物体积。
+- 不同于社区主流框架只支持 RSC + SSR，Modern.js 3.0 的 RSC 同样支持 CSR 项目
+- 在路由跳转时，框架会自动将多个 Data Loader 和 Server Component 的请求合并为单个请求，并流式返回，提升页面性能
+- 在嵌套路由场景下，路由组件类型不受父路由组件类型的影响，开发者可以从任意路由层级开始采用 Server Component
+
+#### 渐进式迁移
+
+基于灵活的组件边界控制能力，Modern.js 3.0 提供了渐进式的迁移方式。Modern.js 3.0 允许基于**路由组件维度**的 Server Component 迁移，无需迁移整条组件树链路。
+
+![rsc-mig](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rsc-migrate.png)
+
+:::info
+更多 React Server Component 的详细内容，可以参考：[React Server Component](/guides/basic-features/render/rsc)
+:::
+
+---
+
+### 拥抱 Rspack
+
+:::tip TL;DR
+Modern.js 3.0 移除了对 webpack 的支持，全面拥抱 Rspack，并升级到最新的 Rspack & Rsbuild 2.0。
+:::
+
+在 2023 年，我们开源了 Rspack，并在 Modern.js 中支持将 Rspack 作为可选的打包工具。在字节内部，超过 60% 的 Modern.js 项目已经切换到 Rspack 构建。
+
+经过两年多发展，Rspack 在社区中的月下载量已超过 1000 万次，成长为行业内被广泛使用的打包工具；同时，Modern.js 的 Rspack 构建模式也得到持续完善。
+
+![rspack](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/rspack.png)
+
+在 Modern.js 3.0 中，我们决定移除对 webpack 的支持，从而使 Modern.js 变得更加轻量和高效，并能更充分地利用 Rspack 的新特性。
+
+#### 更顺畅的开发体验
+
+Modern.js 3.0 在移除 webpack 后，能够更好地遵循 Rspack 最佳实践，在构建性能、安装速度等方面均有提升：
+
+**底层依赖升级**
+
+Modern.js 3.0 将底层依赖的 Rspack 和 Rsbuild 升级至 2.0 版本，并基于新版本优化了默认构建配置，使整体行为更加一致。
+
+参考以下文档了解底层行为变化：
+
+- [Rsbuild 2.0 升级指南](https://rsbuild.dev/zh/guide/upgrade/v1-to-v2)
+- [Rspack 2.0 不兼容更新](https://github.com/web-infra-dev/rspack/discussions/9270)
+
+**更快的构建速度**
+
+Modern.js 通过 Rspack 的多项特性来减少构建耗时：
+
+- 默认启用 Barrel 文件优化：构建组件库速度提升 20%
+- 默认启用持久化缓存：非首次构建的速度提升 50%+
+
+**更快的安装速度**
+
+移除 webpack 相关依赖后，Modern.js 3.0 的构建依赖数量和体积均明显减少：
+
+- npm 依赖数量减少 40%
+- 安装体积减少 31 MB
+
+#### 更小的构建产物
+
+Modern.js 现在默认启用 Rspack 的多项产物优化策略，能够比 webpack 生成更小的产物体积，例如：
+
+**增强 Tree shaking**
+
+增强了 tree shaking 分析能力，可以处理更多动态导入语法，例如解构赋值：
+
+```ts
+// 参数中的解构访问
+import('./module').then(({ value }) => {
+  console.log(value);
+});
+
+// 函数体内的解构访问
+import('./module').then((mod) => {
+  const { value } = mod;
+  console.log(value);
+});
+```
+
+**常量内联**
+
+对常量进行跨模块内联，有助于压缩工具进行更准确的静态分析，从而消除无用的代码分支：
+
+```ts
+// constants.js
+export const ENABLED = true;
+
+// index.js
+import { ENABLED } from './constants';
+if (ENABLED) {
+  doSomething();
+} else {
+  doSomethingElse();
+}
+
+// 构建产物 - 无用分支被消除
+doSomething();
+```
+
+---
+
+### 全链路可扩展
+
+:::tip TL;DR
+Modern.js 3.0 正式开放完整插件体系，提供运行时、服务端插件，同时支持灵活处理应用入口。
+:::
+
+Modern.js 2.0 提供了 CLI 插件与内测版本的运行时插件，允许开发者对项目进行扩展。但在实践过程中，我们发现现有的能力不足以支撑复杂的业务场景。
+
+Modern.js 3.0 提供了更灵活的定制能力，允许为应用编写全流程的插件，帮助团队统一业务逻辑、减少重复代码：
+
+- **CLI 插件**：在构建阶段扩展功能，如添加命令、修改配置
+- **Runtime 插件**：在渲染阶段扩展功能，如数据预取、组件封装
+- **Server 插件**：在服务端扩展功能，如添加中间件、修改请求响应
+
+#### 运行时插件
+
+运行时插件在 CSR 与 SSR 过程中都会运行，新版本提供了两个核心钩子：
+
+- `onBeforeRender`：在渲染前执行逻辑，可用于数据预取、注入全局数据
+- `wrapRoot`：封装根组件，添加全局 Provider、布局组件等
+
+你可以在 `src/modern.runtime.ts` 中注册插件，相比在入口手动引入高阶组件，运行时插件可插拔、易更新，在多入口场景下无需重复引入：
+
+```ts title="src/modern.runtime.tsx"
+import { defineRuntimeConfig } from "@modern-js/runtime";
+
+export default defineRuntimeConfig({
+  plugins: [
+    {
+      name: "my-runtime-plugin",
+      setup: (api) => {
+        api.onBeforeRender((context) => {
+          context.globalData = { theme: "dark" };
+        });
+        api.wrapRoot((App) => (props) => <App {...props} />);
+      },
+    },
+  ],
+});
+```
+
+:::info
+更多 Runtime 插件使用方式，请查看文档：[Runtime 插件](/plugin/runtime-plugins/api)
+:::
+
+#### 服务端中间件
+
+在实践过程中我们发现，部分项目需要扩展 Web Server，例如鉴权、数据预取、降级处理、动态 HTML 脚本注入等。
+
+在 Modern.js 3.0 中，我们使用 [Hono](https://hono.dev) 重构了 Web Server，并正式开放了服务端中间件与插件的能力。开发者可以使用 Hono 的中间件来完成需求：
+
+```ts title="server/modern.server.ts"
+import { defineServerConfig, type MiddlewareHandler } from "@modern-js/server-runtime";
+
+const timingMiddleware: MiddlewareHandler = async (c, next) => {
+  const start = Date.now();
+  await next();
+  const duration = Date.now() - start;
+  c.header('X-Response-Time', `${duration}ms`);
+};
+
+const htmlMiddleware: MiddlewareHandler = async (c, next) => {
+  await next();
+  const html = await c.res.text();
+  const modified = html.replace(
+    "<head>",
+    '<head><meta name="generator" content="Modern.js">'
+  );
+  c.res = c.body(modified, { status: c.res.status, headers: c.res.headers });
+};
+
+export default defineServerConfig({
+  middlewares: [timingMiddleware],
+  renderMiddlewares: [htmlMiddleware],
+});
+```
+
+:::info
+更多服务端插件使用方式，可以查看文档：[自定义 Web Server](/guides/advanced-features/web-server)
+:::
+
+#### 自定义入口
+
+在 Modern.js 3.0 中，我们重构了自定义入口，相比于旧版 API 更加清晰灵活：
+
+```ts title="src/entry.tsx"
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+  // 渲染前的异步操作，如初始化 SDK、获取用户信息等
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+
+:::info
+更多入口使用方式，请查看文档：[入口](/guides/concept/entries)
+:::
+
+---
+
+### 路由优化
+
+:::tip TL;DR
+Modern.js 3.0 内置 React Router v7，提供配置式路由能力与 AI 友好的调试方式。
+:::
+
+#### 内置 React Router v7
+
+在 Modern.js 3.0 中，我们统一升级到 React Router v7，并废弃了对 v5 和 v6 的内置支持。这一决策基于以下考虑：
+
+**版本演进与稳定性**
+
+React Router v6 是一个重要的过渡版本，它引入了许多新特性（如数据加载、错误边界等）。而 v7 在保持 v6 API 兼容性的基础上，进一步优化了性能、稳定性和开发体验。随着 React Router 团队将 Remix 定位为独立框架，React Router 核心库可能会在 v7 版本上长期维护，使其成为更可靠的选择。
+
+**升级路径**
+
+- **从 v6 升级**：React Router v7 对 v6 开发者来说是无破坏性变更的升级。在 Modern.js 2.0 中，我们已提供了 React Router v7 插件支持，你可以通过插件方式渐进式升级，验证兼容性后再迁移到 Modern.js 3.0。
+- **从 v5 升级**：v5 到 v7 存在较大的 API 变化，建议参考 [React Router 官方迁移指南](https://reactrouter.com/upgrading/v5) 进行迁移。
+
+#### 配置式路由
+
+在 Modern.js 中，我们推荐使用约定式路由来组织代码。但在实际业务中，开发者偶尔遇到以下场景：
+
+- 多路径指向同一组件
+- 灵活的路由控制
+- 条件性路由
+- 遗留项目迁移
+
+因此，Modern.js 3.0 提供了完整的配置式路由支持，可以与约定式路由一起使用，或两者分别单独使用。
+
+```ts title="src/modern.routes.ts"
+import { defineRoutes } from "@modern-js/runtime/config-routes";
+
+export default defineRoutes(({ route, layout, page }) => {
+  return [
+    route("home.tsx", "/"),
+    route("about.tsx", "about"),
+    route("blog.tsx", "blog/:id"),
+  ];
+});
+```
+
+:::info
+更多配置式路由使用方式，请查看文档：[配置式路由](/guides/basic-features/routes/config-routes)
+:::
+
+#### 路由调试
+
+运行 `npx modern routes` 命令即可在 `dist/routes-inspect.json` 文件中生成完整的路由结构分析报告。
+
+报告中会显示每个路由的路径、组件文件、数据加载器、错误边界、Loading 组件等完整信息，帮助开发者快速了解项目的路由配置，快速定位和排查路由相关问题。结构化的 JSON 格式也便于 AI agent 理解和分析路由结构，提升 AI 辅助开发的效率。
+
+:::info
+具体使用方式，请查看文档：[路由调试](/guides/basic-features/routes/config-routes#调试路由)
+:::
+
+---
+
+### 服务端渲染
+
+:::tip TL;DR
+Modern.js 3.0 重做了 SSG 能力，提供了灵活的缓存能力，对降级策略也进行了进一步的完善。
+:::
+
+#### 静态站点生成（SSG）
+
+在 Modern.js 2.0 中，我们提供了静态站点生成的能力。这个能力非常适合用在可以静态渲染的页面中，能极大的提升页面首屏性能。
+
+在新版本中，我们对 SSG 进行了重新设计：
+
+- 数据获取使用 Data Loader，与非 SSG 场景保持一致
+- 简化了 API，降低理解成本
+- 与约定式路由更好地结合
+
+
+在新版本中，你可以通过  data loader 进行数据获取，与非 SSG 场景保持一致。然后在 ssg.routes 配置中即可直接指定要渲染的路由：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  output: {
+    ssg: {
+      routes: ['/blog'],
+    },
+  },
+});
+```
+
+```ts title="routes/blog/page.data.ts"
+export const loader = async () => {
+  const articles = await fetchArticles();
+  return { articles };
+};
+```
+
+:::info
+更多 SSG 的使用方式，请查看文档：[SSG](/guides/basic-features/render/ssg)
+:::
+
+#### 缓存机制
+
+Modern.js 3.0 中提供了不同维度的缓存机制，帮助项目提升首屏性能。所有缓存均支持灵活配置，比如可以支持类似 HTTP 的 `stale-while-revalidate` 策略：
+
+**渲染缓存**
+
+支持将 SSR 结果进行整页的缓存，在 `server/cache.ts` 中配置：
+
+```ts title="server/cache.ts"
+import type { CacheOption } from '@modern-js/server-runtime';
+
+export const cacheOption: CacheOption = {
+  maxAge: 500, // ms
+  staleWhileRevalidate: 1000, // ms
+};
+```
+
+:::info
+使用渲染缓存，请查看文档：[渲染缓存](/guides/basic-features/render/ssr-cache)
+:::
+
+**数据缓存**
+
+我们在新版本中提供了 `cache` 函数，相比渲染缓存它提供了更精细的数据粒度控制。当多个数据请求依赖同一份数据时，`cache` 可以避免重复请求：
+
+```ts title="server/loader.ts"
+import { cache } from "@modern-js/runtime/cache";
+import { fetchUserData, fetchUserProjects, fetchUserTeam } from "./api";
+
+// 缓存用户数据，避免重复请求
+const getUser = cache(fetchUserData);
+
+const getProjects = async () => {
+  const user = await getUser("test-user");
+  return fetchUserProjects(user.id);
+};
+
+const getTeam = async () => {
+  const user = await getUser("test-user"); // 复用缓存，不会重复请求
+  return fetchUserTeam(user.id);
+};
+
+export const loader = async () => {
+  // getProjects 和 getTeam 都依赖 getUser，但 getUser 只会执行一次
+  const [projects, team] = await Promise.all([getProjects(), getTeam()]);
+  return { projects, team };
+};
+```
+
+:::info
+更多数据缓存的使用方式，请查看文档：[数据缓存](/guides/basic-features/data/data-cache)
+:::
+
+#### 灵活的降级策略
+
+在实践过程中，我们沉淀了多维度的降级策略：
+
+| 类型 | 触发方式 | 降级行为 | 使用场景 |
+| --- | --- | --- | --- |
+| 异常降级 | Data Loader 执行报错 | 触发 ErrorBoundary | 数据请求异常兜底 |
+| 组件渲染报错 | 服务端渲染异常 | 降级到 CSR，复用已有数据渲染 | 服务端渲染异常兜底 |
+| 业务降级 | Loader 抛出 `throw Response` | 触发 ErrorBoundary，返回对应 HTTP 状态码 | 404、权限校验等业务场景 |
+| 配置 Client Loader | 配置 Client Loader | 绕过 SSR，直接请求数据源 | 需要在客户端直接获取数据的场景 |
+| 强制降级 | Query 参数 `?__csr=true` | 跳过 SSR，返回 CSR 页面 | 调试、临时降级 |
+| 强制降级 | 请求头 `x-modern-ssr-fallback` | 跳过 SSR，返回 CSR 页面 | 网关层控制降级 |
+
+---
+
+### 轻量 BFF
+
+:::tip TL;DR
+Modern.js 3.0 基于 Hono 重构了 Web Server，提供基于 Hono 的一体化函数，同时支持跨项目调用。
+:::
+
+#### Hono 一体化函数
+
+在 Modern.js 3.0 中，我们使用 [Hono](https://hono.dev) 作为 BFF 的运行时框架，开发者可以基于 Hono 生态扩展 BFF Server，享受 Hono 轻量、高性能的优势。
+
+通过 `useHonoContext` 可以获取完整的 Hono 上下文，访问请求信息、设置响应头等：
+
+```ts title="api/lambda/user.ts"
+import { useHonoContext } from '@modern-js/server-runtime';
+
+export const get = async () => {
+  const c = useHonoContext();
+  const token = c.req.header('Authorization');
+  c.header('X-Custom-Header', 'modern-js');
+  const id = c.req.query('id');
+
+  return { userId: id, authenticated: !!token };
+};
+```
+
+#### 跨项目调用
+
+在过去，Modern.js BFF 只能在当前项目中使用，而我们陆续收到开发者反馈，希望能够在不同项目中使用。这多数情况是由于开发者的迁移成本、运维成本造成的，相比于抽出原有代码再部署一个，显然复用已有服务更加合理。
+
+为了保证开发者能得到与当前项目一体化调用类似的体验，我们提供了跨项目调用的能力。
+
+:::info
+更多 BFF 的使用方式，请查看文档：[BFF](/guides/advanced-features/bff)
+:::
+
+---
+
+### Module Federation 深度集成
+
+:::tip TL;DR
+Modern.js 3.0 与 [Module Federation 2.0](https://module-federation.io) 深度集成，支持 MF SSR 和应用级别模块导出。
+:::
+
+#### MF SSR
+
+Modern.js 3.0 支持在 SSR 应用中使用 Module Federation，组合使用模块联邦和服务端渲染能力，为用户提供更好的首屏性能体验。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'stream',
+    },
+  },
+});
+```
+
+配合 Module Federation 的[数据获取](https://module-federation.io/zh/guide/basic/data-fetch/index.html)能力，每个远程模块都可以定义自己的数据获取逻辑：
+
+```ts title="src/components/Button.data.ts"
+export const fetchData = async () => {
+  return {
+    data: `Server time: ${new Date().toISOString()}`,
+  };
+};
+```
+
+```tsx title="src/components/Button.tsx"
+export const Button = (props: { mfData: { data: string } }) => {
+  return <button>{props.mfData?.data}</button>;
+};
+```
+
+#### 应用级别模块
+
+不同于传统的组件级别共享，Modern.js 3.0 支持导出**应用级别模块**——具备完整路由能力、可以像独立应用一样运行的模块。这是微前端场景中的重要能力。
+
+**生产者导出应用**
+
+```ts title="src/export-App.tsx"
+import '@modern-js/runtime/registry/index';
+import { render } from '@modern-js/runtime/browser';
+import { createRoot } from '@modern-js/runtime/react';
+import { createBridgeComponent } from '@module-federation/modern-js/react';
+
+const ModernRoot = createRoot();
+export const provider = createBridgeComponent({
+  rootComponent: ModernRoot,
+  render: (Component, dom) => render(Component, dom),
+});
+
+export default provider;
+```
+
+**消费者加载应用**
+
+```tsx title="src/routes/remote/$.tsx"
+import { createRemoteAppComponent } from '@module-federation/modern-js/react';
+import { loadRemote } from '@module-federation/modern-js/runtime';
+
+const RemoteApp = createRemoteAppComponent({
+  loader: () => loadRemote('remote/app'),
+  fallback: ({ error }) => <div>Error: {error.message}</div>,
+  loading: <div>Loading...</div>,
+});
+
+export default RemoteApp;
+```
+
+通过通配路由 `$.tsx`，所有访问 `/remote/*` 的请求都会进入远程应用，远程应用内部的路由也能正常工作。
+
+:::info
+更多 Module Federation 的使用方式，请查看文档：[Module Federation](/guides/topic-detail/module-federation/introduce)
+:::
+
+---
+
+### 技术栈更新
+
+:::tip TL;DR
+Modern.js 3.0 升级 React 19，最低支持 Node.js 20。
+:::
+
+#### React 19
+
+Modern.js 3.0 新项目默认使用 React 19，最低支持 React 18。
+
+如果你的项目仍在使用 React 16 或 React 17，请先参考 [React 19 官方升级指南](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) 完成版本升级。
+
+#### Node.js 20
+
+随着 Node.js 不断推进版本演进，Node.js 18 已经 EOL。在 Modern.js 3.0 中，推荐使用 Node.js 22 LTS，不再保证对 Node.js 18 的支持。
+
+#### Storybook Rsbuild
+
+在 Modern.js 3.0 中，我们基于 [Storybook Rsbuild](https://github.com/rspack-contrib/storybook-rsbuild) 实现了使用 Storybook 构建 Modern.js 应用。
+
+通过 Storybook Addon，我们将 Modern.js 配置转换合并为 Rsbuild 配置，并通过 Storybook Rsbuild 驱动构建，让 Storybook 调试与开发命令保持配置对齐。
+
+:::info
+更多 Storybook 使用方式，请查看文档：[使用 Storybook](/guides/basic-features/debug/using-storybook)
+:::
+
+#### 使用 Biome
+
+随着社区技术不断发展，更快、更简洁的工具链已经成熟。在 Modern.js 3.0 中，新项目默认使用 [Biome](https://biomejs.dev/) 作为代码检查和格式化工具。
+
+---
+
+## 从 Modern.js 2.0 升级到 3.0
+
+### 主要变更
+
+升级 Modern.js 3.0 意味着拥抱更轻量、更标准的现代化开发范式。通过全面对齐 Rspack 与 React 19 等主流生态，彻底解决历史包袱带来的维护痛点，显著提升构建与运行性能。
+
+未来，我们也会基于 Modern.js 3.0 提供更多的 AI 集成与最佳实践，配合灵活的全栈插件系统，让开发者能以极低的学习成本复用社区经验，实现开发效率的质变与应用架构的现代化升级。
+
+:::info
+更多改进与变更，请查看文档：[升级指南](/guides/upgrade/overview)
+:::
+
+## 反馈和社区
+
+最后，再次感谢每一位给予我们反馈和支持的开发者，我们将继续与大家保持沟通，在相互支持中共同成长。
+
+如果你在使用过程中遇到问题，欢迎通过以下方式反馈：
+
+- [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues)
+- [Discord](https://discord.gg/qPCqYg38De)
+- [Lark](https://applink.larkoffice.com/client/chat/chatter/add_by_link?link_token=d21hc667-9403-48a9-ba32-bc1440a80279)
