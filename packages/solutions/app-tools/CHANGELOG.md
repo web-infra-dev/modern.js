@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.70.6
+
+### Patch Changes
+
+- 90ad904: feat: update @rsbuild/plugin-node-polyfill version
+
+  feat: 更新 @rsbuild/plugin-node-polyfill 版本
+
+  - @modern-js/core@2.70.6
+  - @modern-js/plugin-data-loader@2.70.6
+  - @modern-js/plugin-i18n@2.70.6
+  - @modern-js/rsbuild-plugin-esbuild@2.70.6
+  - @modern-js/uni-builder@2.70.6
+  - @modern-js/server-core@2.70.6
+  - @modern-js/prod-server@2.70.6
+  - @modern-js/server@2.70.6
+  - @modern-js/server-utils@2.70.6
+  - @modern-js/node-bundle-require@2.70.6
+  - @modern-js/plugin@2.70.6
+  - @modern-js/plugin-v2@2.70.6
+  - @modern-js/types@2.70.6
+  - @modern-js/utils@2.70.6
+
 ## 2.70.5
 
 ### Patch Changes

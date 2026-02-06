@@ -1,6 +1,6 @@
 {
   "name": "bundle-diff-benchmark",
-  "version": "2.70.5",
+  "version": "2.70.6",
   "private": true,
   "scripts": {
     "dev": "modern dev",
