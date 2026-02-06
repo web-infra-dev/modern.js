@@ -9,6 +9,20 @@ const ENTRY_NAME_VAR = '__MODERN_JS_ENTRY_NAME';
 const createVirtualModule = (content: string) =>
   `data:text/javascript,${encodeURIComponent(content)}`;
 
+const isAsyncStorageExclude = (exclude: unknown) => {
+  if (typeof exclude === 'string') {
+    return ASYNC_STORAGE_PATTERN.test(exclude);
+  }
+  if (exclude instanceof RegExp) {
+    // Check semantic equivalence instead of relying on `source` string matching
+    return (
+      exclude.test('universal/async_storage') ||
+      exclude.test('universal\\async_storage')
+    );
+  }
+  return false;
+};
+
 /**
  * Unified plugin for RSC (React Server Components) configuration
  * Handles:
@@ -153,21 +167,7 @@ export function pluginRscConfig(): RsbuildPlugin {
               }
 
               // Check if the exclude pattern already exists
-              const hasExclude = rule.exclude.some(exclude => {
-                if (typeof exclude === 'string') {
-                  return (
-                    exclude.includes('universal') &&
-                    exclude.includes('async_storage')
-                  );
-                }
-                if (exclude instanceof RegExp) {
-                  return (
-                    exclude.source.includes('universal') &&
-                    exclude.source.includes('async_storage')
-                  );
-                }
-                return false;
-              });
+              const hasExclude = rule.exclude.some(isAsyncStorageExclude);
 
               if (!hasExclude) {
                 rule.exclude.push(ASYNC_STORAGE_PATTERN);
