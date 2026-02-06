@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "routes-tanstack-mf-remote",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@module-federation/modern-js": "0.0.0-feat-modern-3-0-20260130025803",
+    "@module-federation/runtime": "0.0.0-feat-modern-3-0-20260130025803",
+    "@tanstack/react-router": "1.158.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*"
+  }
+}

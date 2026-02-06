@@ -1,6 +1,7 @@
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { BaseSSRServerContext } from '@modern-js/types';
+import type { AnyRouter } from '@tanstack/react-router';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createContext, useContext } from 'react';
 import type { RouteManifest } from '../../router/runtime/types';
@@ -24,6 +25,18 @@ export interface TRuntimeContext {
 export interface TInternalRuntimeContext extends TRuntimeContext {
   routeManifest?: RouteManifest;
   routerContext?: StaticHandlerContext;
+  /**
+   * TanStack Router instance (when `router.framework === 'tanstack'`).
+   */
+  tanstackRouter?: AnyRouter;
+  /**
+   * SSR bootstrap script for TanStack Router hydration.
+   */
+  tanstackSsrScript?: string;
+  /**
+   * Matched Modern route ids (for CSS injection, etc).
+   */
+  tanstackMatchedModernRouteIds?: string[];
   unstable_getBlockNavState?: () => boolean;
   ssrContext?: SSRServerContext;
   _internalContext?: any;

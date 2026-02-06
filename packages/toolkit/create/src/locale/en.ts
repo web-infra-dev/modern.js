@@ -6,6 +6,8 @@ export const EN_LOCALE = {
     projectNameEmpty: 'Error: Project name cannot be empty',
     directoryExists:
       'Error: Directory "{projectName}" already exists and is not empty',
+    invalidRouter:
+      'Error: Unsupported router "{router}". Use "react-router" or "tanstack".',
     createFailed: 'Error creating project:',
   },
   message: {
@@ -32,12 +34,18 @@ export const EN_LOCALE = {
     optionHelp: '  -h, --help     Display this help message',
     optionVersion: '  -v, --version  Display version information',
     optionLang: '  -l, --lang     Set the language (zh or en)',
+    optionRouter:
+      '  -r, --router   Select router framework (react-router or tanstack)',
+    optionTailwind:
+      '      --tailwind Enable Tailwind CSS v4 scaffold (PostCSS + starter styles)',
     optionSub: '  -s, --sub       Mark as a subproject (package in monorepo)',
     examples: '💡 Examples:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
     example4: '  create --help',
+    example5: '  create my-app --router tanstack',
+    example6: '  create my-app --router tanstack --tailwind',
     moreInfo: '📚 Learn more: https://modernjs.dev',
   },
   version: {

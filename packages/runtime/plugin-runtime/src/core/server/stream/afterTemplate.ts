@@ -114,6 +114,11 @@ function createReplaceSSRData(options: {
     ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
     : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
 
+  const tanstackSsrScript = runtimeContext.tanstackSsrScript;
+  const ssrScripts = tanstackSsrScript
+    ? `${ssrDataScript}\n${tanstackSsrScript}`
+    : ssrDataScript;
+
   return (template: string) =>
-    safeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);
+    safeReplace(template, SSR_DATA_PLACEHOLDER, ssrScripts);
 }

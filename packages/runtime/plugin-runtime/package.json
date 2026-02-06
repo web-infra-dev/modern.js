@@ -109,6 +109,10 @@
       },
       "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
     },
+    "./tanstack-router": {
+      "types": "./dist/types/exports/tanstack-router.d.ts",
+      "default": "./dist/esm/exports/tanstack-router.mjs"
+    },
     "./rsc/server": {
       "types": "./dist/types/rsc/server.d.ts",
       "default": "./dist/esm/rsc/server.mjs"
@@ -186,6 +190,9 @@
       "loadable-bundler-plugin": [
         "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
       ],
+      "tanstack-router": [
+        "./dist/types/exports/tanstack-router.d.ts"
+      ],
       "rsc/server": [
         "./dist/types/rsc/server.d.ts"
       ],
@@ -218,6 +225,7 @@
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
     "@swc/plugin-loadable-components": "^11.4.0",
+    "@tanstack/react-router": "1.158.1",
     "@types/loadable__component": "^5.13.10",
     "@types/react-helmet": "^6.1.11",
     "cookie": "0.7.2",

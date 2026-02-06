@@ -3,14 +3,14 @@ import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
-import type { TRuntimeContext } from '../../context';
+import type { TInternalRuntimeContext } from '../../context';
 import type { SSRContainer, SSRServerContext } from '../../types';
 import type { SSRConfig } from '../shared';
 import { attributesToString, serializeErrors } from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
-  runtimeContext: TRuntimeContext;
+  runtimeContext: TInternalRuntimeContext;
   request: Request;
   chunkSet: ChunkSet;
   ssrContext: SSRServerContext;
@@ -89,6 +89,7 @@ export class SSRDataCollector implements Collector {
     routerData?: Record<string, any>,
   ) {
     const { nonce, useJsonScript = false } = this.#options;
+    const { tanstackSsrScript } = this.#options.runtimeContext;
     const serializeSSRData = serializeJson(ssrData);
     const attrsStr = attributesToString({ nonce });
 
@@ -102,6 +103,11 @@ export class SSRDataCollector implements Collector {
         ? `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`
         : `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`;
     }
+
+    if (tanstackSsrScript) {
+      ssrDataScripts += `\n${tanstackSsrScript}`;
+    }
+
     return ssrDataScripts;
   }
 }

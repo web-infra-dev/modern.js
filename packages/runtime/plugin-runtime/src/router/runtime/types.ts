@@ -23,6 +23,12 @@ export type SingleRouteConfig = RouteProps & {
 };
 
 export type RouterConfig = {
+  /**
+   * Select the router implementation used by Modern.js conventional routing.
+   * - `react-router` (default): React Router v7 based integration
+   * - `tanstack`: TanStack Router integration
+   */
+  framework?: 'react-router' | 'tanstack';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
     routes?: (NestedRoute | PageRoute)[];
