@@ -13,7 +13,7 @@ exports[`builder environment compat > should generator environment config correc
         "type": "filesystem",
       },
       "type": "persistent",
-      "version": "web-development",
+      "version": "client-development",
     },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
@@ -1007,7 +1007,7 @@ exports[`builder environment compat > should generator environment config correc
         },
       ],
     },
-    "name": "web",
+    "name": "client",
     "optimization": {
       "minimize": false,
       "runtimeChunk": {
@@ -1122,7 +1122,7 @@ exports[`builder environment compat > should generator environment config correc
       ProgressPlugin {
         "_args": [
           {
-            "prefix": "web",
+            "prefix": "client",
           },
         ],
         "affectedHooks": undefined,
@@ -1222,7 +1222,7 @@ exports[`builder environment compat > should generator environment config correc
         "type": "filesystem",
       },
       "type": "persistent",
-      "version": "node-development",
+      "version": "server-development",
     },
     "context": "<WORKSPACE>/packages/cli/builder",
     "devtool": "cheap-module-source-map",
@@ -1908,7 +1908,7 @@ exports[`builder environment compat > should generator environment config correc
         },
       ],
     },
-    "name": "node",
+    "name": "server",
     "optimization": {
       "minimize": false,
       "splitChunks": false,
@@ -1955,7 +1955,7 @@ exports[`builder environment compat > should generator environment config correc
       ProgressPlugin {
         "_args": [
           {
-            "prefix": "node",
+            "prefix": "server",
           },
         ],
         "affectedHooks": undefined,

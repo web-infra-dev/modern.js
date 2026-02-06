@@ -1244,7 +1244,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "type": "filesystem",
     },
     "type": "persistent",
-    "version": "node-production",
+    "version": "server-production",
   },
   "context": "<WORKSPACE>/packages/cli/builder",
   "devtool": "source-map",
@@ -1930,7 +1930,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       },
     ],
   },
-  "name": "node",
+  "name": "server",
   "optimization": {
     "minimize": false,
     "splitChunks": false,
@@ -1977,7 +1977,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
     ProgressPlugin {
       "_args": [
         {
-          "prefix": "node",
+          "prefix": "server",
         },
       ],
       "affectedHooks": undefined,

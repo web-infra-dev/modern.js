@@ -41,7 +41,7 @@ export function getBuilderEnvironments(
   }
 
   const environments: RsbuildConfig['environments'] = {
-    web: {
+    client: {
       output: {
         target: 'web',
       },
@@ -51,9 +51,9 @@ export function getBuilderEnvironments(
     },
   };
 
-  // copy config should only works in main (web) environment
+  // copy config should only works in main (client) environment
   if (tempBuilderConfig.output?.copy) {
-    environments.web.output!.copy = tempBuilderConfig.output.copy;
+    environments.client.output!.copy = tempBuilderConfig.output.copy;
 
     delete tempBuilderConfig.output.copy;
   }
@@ -63,7 +63,7 @@ export function getBuilderEnvironments(
     (isProd() ? isUseSSRBundle(normalizedConfig) : isSSR(normalizedConfig));
 
   if (useNodeTarget) {
-    environments.node = {
+    environments.server = {
       output: {
         target: 'node',
       },

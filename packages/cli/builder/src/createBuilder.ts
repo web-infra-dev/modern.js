@@ -4,7 +4,7 @@ import type {
   RsbuildInstance,
   RsbuildPlugin,
 } from '@rsbuild/core';
-import { rsbuildRscPlugin } from './rsc/plugins/rsbuild-rsc-plugin';
+import { getRscPlugins } from './plugins/rscConfig';
 import { parseCommonConfig } from './shared/parseCommonConfig';
 import { rscClientBrowserFallbackPlugin } from './shared/rsc/rscClientBrowserFallback';
 import type {
@@ -55,16 +55,11 @@ export async function parseConfig(
 
   const enableRsc = builderConfig.server?.rsc ?? false;
   if (enableRsc) {
-    const { rscClientRuntimePath, rscServerRuntimePath, internalDirectory } =
-      options;
-    rsbuildPlugins.push(
-      rsbuildRscPlugin({
-        appDir: options.cwd,
-        rscClientRuntimePath,
-        rscServerRuntimePath,
-        internalDirectory,
-      }),
+    const rscPlugins = await getRscPlugins(
+      enableRsc,
+      options.internalDirectory!,
     );
+    rsbuildPlugins.push(...rscPlugins);
   } else {
     rsbuildPlugins.push(rscClientBrowserFallbackPlugin());
   }

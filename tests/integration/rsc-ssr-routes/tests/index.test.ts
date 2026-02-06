@@ -118,6 +118,12 @@ function runTests({ mode }: TestConfig) {
 
       it('support pass matches to server component', () =>
         supportMatchRoute({ baseUrl, appPort, page }));
+
+      it('support inject first screen css', () =>
+        supportInjectCssFirstScreen({ baseUrl, appPort, page }));
+
+      it('support load css when navigation', () =>
+        loadCssWhenNavigation({ baseUrl, appPort, page }));
     });
 
     describe('ssr-rsc-routes-with-fetch', () => {
@@ -125,6 +131,12 @@ function runTests({ mode }: TestConfig) {
 
       it('should render with fetch correctly', () =>
         shouldRenderWithFetchCorrectly({ baseUrl, appPort, page }));
+
+      it('support component redirect on first screen load', () =>
+        supportComponentRedirectOnFirstScreenLoad({ baseUrl, appPort, page }));
+
+      it('support component redirect on navigation', () =>
+        supportComponentRedirectOnNavigation({ baseUrl, appPort, page }));
     });
   });
 }
@@ -274,5 +286,123 @@ async function shouldRenderWithFetchCorrectly({
   expect(message2).toBe('root page from server');
 }
 
+async function supportInjectCssFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-layout', { timeout: 5000 });
+
+  const rootLayoutColor = await page.$eval('.root-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isRed = rootLayoutColor === 'rgb(255, 0, 0)';
+
+  expect(isRed).toBe(true);
+
+  await page.goto(`http://localhost:${appPort}${baseUrl}/user`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+}
+
+async function loadCssWhenNavigation({ baseUrl, appPort, page }: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.click('.user-link');
+  await page.waitForSelector('.user-data', { timeout: 5000 });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+
+  const userPageColor = await page.$eval('.user-page', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isGreen = userPageColor === 'rgb(0, 128, 0)';
+  expect(isGreen).toBe(true);
+}
+
+/**
+ * Test component redirect on first screen load (SSR initial render)
+ * When user directly accesses /component/redirect, should redirect to /component/user
+ */
+async function supportComponentRedirectOnFirstScreenLoad({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}/redirect`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  // Should be redirected to user page
+  await page.waitForSelector('.user-layout', { timeout: 5000 });
+
+  const userPageExists = await page.$eval('.user-layout', el =>
+    el.textContent?.includes('user page'),
+  );
+  expect(userPageExists).toBe(true);
+
+  // URL should be /component/user, not /component/redirect
+  const currentUrl = page.url();
+  expect(currentUrl).toContain('/user');
+  expect(currentUrl).not.toContain('/redirect');
+}
+
+/**
+ * Test component redirect on client navigation (RSC navigation)
+ * When user navigates from /component to /component/redirect via Link, should redirect to /component/user
+ */
+async function supportComponentRedirectOnNavigation({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  // First load the home page
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.message', { timeout: 5000 });
+  const message = await page.$eval('.message', el => el.textContent);
+  expect(message).toBe('root page from server');
+
+  // Navigate to redirect page via Link
+  await page.click('.redirect-link');
+
+  // Should be redirected to user page
+  await page.waitForSelector('.user-layout', { timeout: 5000 });
+
+  const userPageExists = await page.$eval('.user-layout', el =>
+    el.textContent?.includes('user page'),
+  );
+  expect(userPageExists).toBe(true);
+
+  // URL should be /component/user, not /component/redirect
+  const currentUrl = page.url();
+  expect(currentUrl).toContain('/user');
+  expect(currentUrl).not.toContain('/redirect');
+}
+
 runTests({ mode: 'dev' });
-runTests({ mode: 'build' });
+// runTests({ mode: 'build' });

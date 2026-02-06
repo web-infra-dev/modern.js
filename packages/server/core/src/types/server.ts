@@ -51,10 +51,7 @@ export type RscPayloadHandlerOptions = Omit<
 
 type ServerRenderBundle = {
   requestHandler?: Promise<BundleRequestHandler>;
-  handleAction?: (
-    req: Request,
-    options: { clientManifest: RscClientManifest },
-  ) => Promise<Response>;
+  handleAction?: (req: Request) => Promise<Response>;
   rscPayloadHandler?: (
     req: Request,
     options: RscPayloadHandlerOptions,

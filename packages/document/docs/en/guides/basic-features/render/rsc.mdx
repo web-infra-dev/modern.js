@@ -21,12 +21,12 @@ Before starting, we recommend reading React's official [Server Components docume
 
 ## Quick Start
 
-1. **Ensure React and React DOM are upgraded to version 19** (recommended version 19.2.3 or above)
+1. **Ensure React and React DOM are upgraded to version 19** (recommended version 19.2.4 or above)
 
-2. **Install the `react-server-dom-webpack` dependency**
+2. **Install the `react-server-dom-rspack@0.0.1-beta.0` dependency**
 
 ```bash
-npm install react-server-dom-webpack
+npm install react-server-dom-rspack@0.0.1-beta.0
 ```
 
 :::warning Notes
@@ -49,8 +49,8 @@ export default defineConfig({
 ```
 
 :::info Migrating from Legacy CSR Projects
-If you have a CSR project that uses Modern.js data loaders, after enabling RSC, data loaders will execute on the server by default.
-To maintain consistency with the original behavior, you need to change all `.data.ts` files to `.data.client.ts` first.
+If you have a CSR project that uses Modern.js Data Loaders, after enabling RSC, Data Loaders will execute on the server by default.
+For detailed migration guide, please refer to [CSR Project Migration to RSC](#csr-project-migration-guide).
 
 :::
 
@@ -233,11 +233,140 @@ Each level of route components (such as `layout.tsx`, `page.tsx`) can independen
 
 For example, if `layout.tsx` is a Client Component (requiring client-side interactivity), you can still set `page.tsx` as a Server Component (for data fetching and rendering). This approach provides great flexibility and allows non-RSC projects to gradually migrate to RSC projects.
 
+## Server Component and Data Loader
+
+In RSC projects, you have two ways to fetch data: directly in Server Components, or using [Data Loader](/guides/basic-features/data/data-fetch). Both approaches have their advantages, and you can choose flexibly based on your scenario.
+
+### Comparison of Two Data Fetching Approaches
+
+| Feature | Fetching in Server Component | Fetching in Data Loader |
+| --- | --- | --- |
+| Avoid Request Waterfall | Requires manual optimization | ✅ Automatically parallel execution |
+| Component Cohesion | ✅ Data and UI in the same place | Data logic separated into separate files |
+| Maintainability | ✅ Easier to understand and maintain | Requires maintaining additional files |
+| Type Safety | ✅ Natural type inference | Requires manual type management |
+
+**Generally, we recommend fetching data in Server Components**, because waterfall requests have less performance impact on the server, and this approach makes components more cohesive, with data fetching logic and UI rendering in the same place, making it easier to understand and maintain. However, if your page has multiple independent data sources and you want to completely avoid request waterfall issues, Data Loader's parallel execution feature will be more advantageous.
+
+### Data Loader Execution Environment in RSC Projects
+
+In RSC projects, the execution environment of Data Loaders is related to file naming:
+
+- **`*.data.ts`**: Executes only on the **server**, and data can be consumed by both Client Components and Server Components
+- **`*.data.client.ts`**: Executes only on the **client**
+
+```bash
+.
+└── routes
+    └── user
+        ├── page.tsx           # Route component (can be Server or Client Component)
+        ├── page.data.ts       # Executes on server, data can be consumed by any component
+        └── page.data.client.ts # Executes on client
+```
+
+In Modern.js RSC projects, Server Components can receive data returned by Data Loaders through the `loaderData` prop:
+
+```tsx title="routes/user/page.tsx"
+// Server Component receives loaderData through props
+export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+  return <div>Welcome, {loaderData.name}</div>;
+}
+```
+
+```tsx title="routes/user/page.tsx"
+'use client';
+// Client Component can also receive loaderData through props
+export default function UserPage({ loaderData }: { loaderData: { name: string } }) {
+  return <div>Welcome, {loaderData.name}</div>;
+}
+```
+
+### Data Loader Returning Server Component
+
+In Modern.js RSC projects, Data Loaders have a powerful feature: **they can return Server Components**. This is very helpful for gradual migration, allowing you to render server-generated content in Client Components.
+
+```tsx title="routes/user/layout.data.tsx"
+// Server Component defined in data loader file
+function UserProfile() {
+  return <div>User Profile (Server Rendered)</div>;
+}
+
+export const loader = async () => {
+  const userData = await fetchUserData();
+
+  return {
+    user: userData,
+    // Return a Server Component as part of the data
+    ProfileComponent: <UserProfile />,
+  };
+};
+```
+
+```tsx title="routes/user/layout.tsx"
+'use client';
+import { Outlet } from '@modern-js/runtime/router';
+
+export default function UserLayout({
+  loaderData,
+}: {
+  loaderData: { user: any; ProfileComponent: React.ReactNode };
+}) {
+  const { user, ProfileComponent } = loaderData;
+
+  return (
+    <div>
+      {/* Directly render Server Component in Client Component */}
+      {ProfileComponent}
+      <div>User: {user.name}</div>
+      <Outlet />
+    </div>
+  );
+}
+```
+
+## CSR Project Migration Guide
+
+Modern.js's RSC capability supports both SSR and CSR projects. For existing CSR projects, if you want to gradually migrate to RSC, we recommend following these steps:
+
+1. **Enable RSC Configuration**
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    rsc: true,
+  },
+});
+```
+
+2. **Mark All Route Components with `'use client'`**
+
+This ensures that existing components maintain their behavior and continue to run as Client Components.
+
+```tsx title="routes/page.tsx"
+'use client';
+
+export default function Page() {
+  // Existing client-side logic remains unchanged
+}
+```
+
+3. **Rename All `*.data.ts` to `*.data.client.ts`**
+
+Since `*.data.ts` in RSC projects executes on the server by default, to maintain consistency with CSR project behavior (Data Loaders execute on the client), you need to rename the files.
+
+```bash
+# Before renaming
+routes/user/page.data.ts
+
+# After renaming
+routes/user/page.data.client.ts
+```
+
+After completing these steps, you can gradually migrate components to Server Components and enjoy the performance benefits of RSC.
+
 ## Notes
-
-### Legacy CSR Projects
-
-If you have a CSR project that uses Modern.js data loaders, after enabling RSC, data loaders will execute on the server by default, which means you need to change all `.data.ts` files to `.data.client.ts` first to maintain consistency with the previous behavior.
 
 ### Projects Using Streaming SSR
 
