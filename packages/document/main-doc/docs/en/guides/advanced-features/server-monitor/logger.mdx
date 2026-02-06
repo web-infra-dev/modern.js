@@ -6,18 +6,19 @@ Log events are distributed by Modern.js as events of type `log`.
 
 Based on server-side runtime logic, Modern.js provides the following log events:
 
-| Stage           | Message                                      | Level |
-| --------------- | -------------------------------------------- | ----- |
-| RENDER_HTML     | App Render To HTML                           | error |
-| RENDER_STREAM   | An error occurs during streaming SSR         | error |
-| RENDER_SHELL    | An error occurs during streaming render shell | error |
+| Stage          | Message                                       | Level |
+| -------------- | --------------------------------------------- | ----- |
+| RENDER_HTML    | App Render To HTML                            | error |
+| RENDER_STREAM  | An error occurs during streaming SSR          | error |
+| RENDER_SHELL   | An error occurs during streaming render shell | error |
+| RENDER_DEGRADE | SSR Fallback to CSR                           | debug |
 
 Modern.js also retains SSR logs from legacy versions using `useLoader`:
 
-| Stage         | Message                         | Level |
-| ------------- | ------------------------------- | ----- |
-| PRERENDER     | App Prerender                   | error |
-| USE_LOADER    | App run useLoader               | error |
+| Stage      | Message           | Level |
+| ---------- | ----------------- | ----- |
+| PRERENDER  | App Prerender     | error |
+| USE_LOADER | App run useLoader | error |
 
 :::tip
 The `useLoader` API is now deprecated. We recommend migrating to convention-based routing and using Data Loaders for data fetching. Applications already using Data Loaders can enable [`ssr.disablePrerender`](/configure/app/server/ssr.html#object-type) to disable prerendering and improve SSR performance.
