@@ -7,13 +7,28 @@ import { i18n, localeKeys } from './locale';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const templateDir = path.resolve(__dirname, '..', 'template');
+type RouterFramework = 'react-router' | 'tanstack';
+
+function getOptionValue(args: string[], names: string[]): string | undefined {
+  for (const name of names) {
+    const prefix = `${name}=`;
+    const byEquals = args.find(arg => arg.startsWith(prefix));
+    if (byEquals) {
+      return byEquals.slice(prefix.length);
+    }
+
+    const index = args.findIndex(arg => arg === name);
+    if (index !== -1 && args[index + 1] && !args[index + 1].startsWith('-')) {
+      return args[index + 1];
+    }
+  }
+
+  return undefined;
+}
 
 const detectLanguage = (): 'zh' | 'en' => {
-  const langIndex = process.argv.findIndex(
-    arg => arg === '--lang' || arg === '-l',
-  );
-  if (langIndex !== -1 && process.argv[langIndex + 1]) {
-    const lang = process.argv[langIndex + 1];
+  const lang = getOptionValue(process.argv.slice(2), ['--lang', '-l']);
+  if (lang) {
     return lang === 'zh' ? 'zh' : 'en';
   }
 
@@ -27,8 +42,40 @@ const detectLanguage = (): 'zh' | 'en' => {
 
 i18n.changeLanguage({ locale: detectLanguage() });
 
+function detectRouterFramework(): RouterFramework {
+  const args = process.argv.slice(2);
+  if (args.includes('--tanstack')) {
+    return 'tanstack';
+  }
+
+  const routerValue = getOptionValue(args, ['--router', '-r']);
+  if (!routerValue || routerValue === 'react-router') {
+    return 'react-router';
+  }
+
+  if (routerValue === 'tanstack') {
+    return 'tanstack';
+  }
+
+  console.error(
+    i18n.t(localeKeys.error.invalidRouter, {
+      router: routerValue,
+    }),
+  );
+  process.exit(1);
+}
+
 function renderTemplate(template: string, data: Record<string, any>): string {
   let result = template;
+
+  const ifRegex = /\{\{#if\s+(\w+)\}\}([\s\S]*?)\{\{\/if\}\}/g;
+  result = result.replace(ifRegex, (match, condition, content) => {
+    const value = data[condition];
+    if (value) {
+      return content;
+    }
+    return '';
+  });
 
   const unlessRegex = /\{\{#unless\s+(\w+)\}\}([\s\S]*?)\{\{\/unless\}\}/g;
   result = result.replace(unlessRegex, (match, condition, content) => {
@@ -67,6 +114,10 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.optionHelp));
   console.log(i18n.t(localeKeys.help.optionVersion));
   console.log(i18n.t(localeKeys.help.optionLang));
+  console.log(i18n.t(localeKeys.help.optionRouter));
+  if (localeKeys.help.optionTailwind) {
+    console.log(i18n.t(localeKeys.help.optionTailwind));
+  }
   console.log(i18n.t(localeKeys.help.optionSub));
   console.log('');
   console.log(i18n.t(localeKeys.help.examples));
@@ -75,6 +126,12 @@ function showHelp() {
   console.log(i18n.t(localeKeys.help.example3));
   if (localeKeys.help.example4) {
     console.log(i18n.t(localeKeys.help.example4));
+  }
+  if (localeKeys.help.example5) {
+    console.log(i18n.t(localeKeys.help.example5));
+  }
+  if (localeKeys.help.example6) {
+    console.log(i18n.t(localeKeys.help.example6));
   }
   console.log('');
   console.log(i18n.t(localeKeys.help.moreInfo));
@@ -107,6 +164,11 @@ function detectSubprojectFlag(): boolean | null {
   return null;
 }
 
+function detectTailwindFlag(): boolean {
+  const args = process.argv.slice(2);
+  return args.includes('--tailwind');
+}
+
 function isDirectoryEmpty(dirPath: string): boolean {
   if (!fs.existsSync(dirPath)) {
     return false;
@@ -124,28 +186,40 @@ async function getProjectName(): Promise<{
   useCurrentDir: boolean;
 }> {
   const args = process.argv.slice(2);
-  const projectNameArg = args.find(
-    (arg, index) =>
-      arg !== '--lang' &&
-      arg !== '-l' &&
-      arg !== '--help' &&
-      arg !== '-h' &&
-      arg !== '--version' &&
-      arg !== '-v' &&
-      arg !== '--sub' &&
-      arg !== '-s' &&
-      arg !== '--no-sub' &&
-      (index === 0 ||
-        (args[index - 1] !== '--lang' &&
-          args[index - 1] !== '-l' &&
-          args[index - 1] !== '--help' &&
-          args[index - 1] !== '-h' &&
-          args[index - 1] !== '--version' &&
-          args[index - 1] !== '-v' &&
-          args[index - 1] !== '--sub' &&
-          args[index - 1] !== '-s' &&
-          args[index - 1] !== '--no-sub')),
-  );
+  const optionWithValue = new Set(['--lang', '-l', '--router', '-r']);
+  const optionWithoutValue = new Set([
+    '--help',
+    '-h',
+    '--version',
+    '-v',
+    '--sub',
+    '-s',
+    '--no-sub',
+    '--tanstack',
+    '--tailwind',
+  ]);
+  const positionalArgs: string[] = [];
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    if (optionWithoutValue.has(arg)) {
+      continue;
+    }
+
+    if (optionWithValue.has(arg)) {
+      i += 1;
+      continue;
+    }
+
+    if (arg.startsWith('--lang=') || arg.startsWith('--router=')) {
+      continue;
+    }
+
+    positionalArgs.push(arg);
+  }
+
+  const projectNameArg = positionalArgs[0];
 
   if (projectNameArg) {
     return { name: projectNameArg, useCurrentDir: false };
@@ -205,11 +279,15 @@ async function main() {
 
   const subprojectFlag = detectSubprojectFlag();
   const isSubproject = subprojectFlag === true;
+  const routerFramework = detectRouterFramework();
+  const enableTailwind = detectTailwindFlag();
 
   copyTemplate(templateDir, targetDir, {
     packageName: projectName,
     version,
     isSubproject,
+    routerFramework,
+    enableTailwind,
   });
 
   const targetPackageJson = path.join(targetDir, 'package.json');
@@ -259,6 +337,8 @@ function copyTemplate(
     packageName: string;
     version: string;
     isSubproject: boolean;
+    routerFramework: RouterFramework;
+    enableTailwind: boolean;
   },
 ) {
   fs.mkdirSync(dest, { recursive: true });
@@ -291,7 +371,16 @@ function copyTemplate(
             packageName: options.packageName,
             version: options.version,
             isSubproject: options.isSubproject,
+            isTanstackRouter: options.routerFramework === 'tanstack',
+            enableTailwind: options.enableTailwind,
+            routerImportPath:
+              options.routerFramework === 'tanstack'
+                ? 'tanstack-router'
+                : 'router',
           });
+          if (rendered.trim().length === 0) {
+            continue;
+          }
           destPath = destPath.replace(/\.handlebars$/, '');
           fs.writeFileSync(destPath, rendered, 'utf-8');
         } else {

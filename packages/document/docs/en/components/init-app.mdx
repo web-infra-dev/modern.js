@@ -13,6 +13,24 @@ You can also create a project directly in a new directory:
 npx @modern-js/create@latest myapp
 ```
 
+To initialize a TanStack Router template:
+
+```bash
+npx @modern-js/create@latest myapp --router tanstack
+```
+
+To initialize with Tailwind CSS v4 scaffold:
+
+```bash
+npx @modern-js/create@latest myapp --tailwind
+```
+
+To initialize TanStack Router with Tailwind CSS v4:
+
+```bash
+npx @modern-js/create@latest myapp --router tanstack --tailwind
+```
+
 `@modern-js/create` will directly create the application without providing an interactive Q & A interface:
 
 ```bash
@@ -58,3 +76,5 @@ Now, the project structure is as follows:
 │       └── page.tsx
 └── tsconfig.json
 ```
+
+When `--tailwind` is enabled, `postcss.config.mjs` and `tailwind.config.ts` are generated in the project root.

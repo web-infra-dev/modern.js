@@ -21,6 +21,7 @@
   },
   "version": "3.0.1",
   "types": "./src/index.ts",
+  "modern:source": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
     "create": "./bin/run.js"

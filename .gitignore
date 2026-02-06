@@ -36,6 +36,9 @@ local-test-project/*
 # Dynamically generated
 .runtime-exports/
 
+# Generated TanStack Router type files (Modern.js TanStack integration)
+modern-tanstack/
+
 # website
 .docusaurus
 website/main/build

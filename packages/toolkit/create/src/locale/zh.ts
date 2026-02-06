@@ -5,6 +5,7 @@ export const ZH_LOCALE = {
   error: {
     projectNameEmpty: '错误: 项目名称不能为空',
     directoryExists: '错误: 目录 "{projectName}" 已存在且不为空',
+    invalidRouter: '错误: 不支持的路由器 "{router}"，请使用 "react-router" 或 "tanstack"',
     createFailed: '创建项目时出错:',
   },
   message: {
@@ -31,12 +32,17 @@ export const ZH_LOCALE = {
     optionHelp: '  -h, --help     显示帮助信息',
     optionVersion: '  -v, --version  显示版本信息',
     optionLang: '  -l, --lang     设置语言 (zh 或 en)',
+    optionRouter: '  -r, --router   选择路由框架 (react-router 或 tanstack)',
+    optionTailwind:
+      '      --tailwind 启用 Tailwind CSS v4 模板（PostCSS + 示例样式）',
     optionSub: '  -s, --sub       标记为子项目（monorepo 中的子包）',
     examples: '💡 示例:',
     example1: '  create my-app',
     example2: '  create my-app --lang zh',
     example3: '  create my-app --sub',
     example4: '  create --help',
+    example5: '  create my-app --router tanstack',
+    example6: '  create my-app --router tanstack --tailwind',
     moreInfo: '📚 更多信息: https://modernjs.dev',
   },
   version: {

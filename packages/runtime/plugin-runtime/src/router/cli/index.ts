@@ -6,7 +6,7 @@ import type {
   PageRoute,
   ServerRoute,
 } from '@modern-js/types';
-import { fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { findExists, fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
 import { isRouteEntry } from './entry';
 import {
@@ -17,6 +17,34 @@ import {
 
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
+
+const JS_OR_TS_EXTS = [
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.mjs',
+  '.mts',
+  '.cjs',
+  '.cts',
+] as const;
+
+function hasRouterConfigInRuntimeFile(runtimeConfigBase: string) {
+  const runtimeConfigFile = findExists(
+    JS_OR_TS_EXTS.map(ext => `${runtimeConfigBase}${ext}`),
+  );
+
+  if (!runtimeConfigFile) {
+    return false;
+  }
+
+  try {
+    const content = fs.readFileSync(runtimeConfigFile, 'utf-8');
+    return /router\s*:/.test(content);
+  } catch {
+    return false;
+  }
+}
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
@@ -41,7 +69,15 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
 
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
       const { nestedRoutesEntry } = entrypoint as Entrypoint;
-      const { serverRoutes, metaName } = api.getAppContext();
+      const { serverRoutes, metaName, srcDirectory, runtimeConfigFile } =
+        api.getAppContext();
+      const normalizedConfig = api.getNormalizedConfig() as any;
+      const hasUserRouterConfig =
+        normalizedConfig.router &&
+        Object.keys(normalizedConfig.router).length > 0;
+      const hasRuntimeRouterConfig = hasRouterConfigInRuntimeFile(
+        path.join(srcDirectory, runtimeConfigFile),
+      );
       const serverBase = serverRoutes
         .filter(
           (route: ServerRoute) => route.entryName === entrypoint.entryName,
@@ -49,7 +85,11 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         .map(route => route.urlPath)
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
 
-      if (nestedRoutesEntry) {
+      if (
+        nestedRoutesEntry ||
+        hasUserRouterConfig ||
+        hasRuntimeRouterConfig
+      ) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,

@@ -4,12 +4,17 @@ sidebar_position: 2
 
 # 路由基础
 
-Modern.js 的路由基于 [React Router 7](https://reactrouter.com/en/main)，提供了基于文件约定的路由能力，并支持了业界流行的约定式路由模式：**嵌套路由**。当入口被识别为 [约定式路由](/guides/concept/entries.html#约定式路由) 时，Modern.js 会自动基于文件系统，生成对应的路由结构。
+Modern.js 的约定式路由支持基于 [React Router 7](https://reactrouter.com/en/main) 和 [TanStack Router](https://tanstack.com/router) 两套框架，提供基于文件约定的路由能力，并支持业界流行的约定式路由模式：**嵌套路由**。当入口被识别为 [约定式路由](/guides/concept/entries.html#约定式路由) 时，Modern.js 会自动基于文件系统，生成对应的路由结构。
 
 :::note
 
 本小节提到的路由，都是约定式路由。
 
+:::
+
+:::tip
+本页示例默认使用 React Router 的导出路径（`@modern-js/runtime/router`）。  
+如果你的项目通过 `--router tanstack` 创建，请改用 `@modern-js/runtime/tanstack-router`。
 :::
 
 ## 什么是嵌套路由
@@ -495,13 +500,19 @@ import Motivation from '@site-docs/components/convention-routing-motivation';
 
 ## 常见问题
 
-1. 为什么要提供 `@modern-js/runtime/router` 来导出 React Router API ?
+1. 为什么要通过 `@modern-js/runtime/router` 或 `@modern-js/runtime/tanstack-router` 引入 API？
 
-可以发现，在文档中所有的代码用例都是使用 `@modern-js/runtime/router` 包导出的 API，而不是直接使用 React Router 包导出的 API。那两者有什么区别呢？
+Modern.js 提供了按路由框架区分的运行时导出：
 
-首先，在 `@modern-js/runtime/router` 中导出的 API 和 React Router 包的 API 是完全一致的，如果某个 API 使用出现问题，请先检查 React Router 的文档和 Issues。
+- React Router 模式使用 `@modern-js/runtime/router`。
+- TanStack Router 模式使用 `@modern-js/runtime/tanstack-router`。
 
-在使用约定式路由的情况下，务必使用 `@modern-js/runtime/router` 中的 API，不直接使用 React Router 的 API。因为 Modern.js 内部会安装 React Router，如果应用中使用了 React Router 的 API，可能会导致两个版本的 React Router 同时存在，出现不符合预期的行为。
+建议优先使用与当前路由方案对应的 Modern.js 运行时导出，而不是直接从上游路由包中引入。这样可以避免依赖重复，并确保与 Modern.js 的路由生成和运行时行为保持一致。
+
+如果遇到 API 使用问题，可以分别参考上游文档：
+
+- `@modern-js/runtime/router` 对应 React Router 文档。
+- `@modern-js/runtime/tanstack-router` 对应 TanStack Router 文档。
 
 :::note
 
