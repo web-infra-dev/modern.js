@@ -14,7 +14,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/core": "1.15.10",
+    "@swc/core": "1.15.11",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
