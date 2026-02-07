@@ -17,8 +17,6 @@ overrides:
   esbuild: '>=0.25.0'
   tmp: '>=0.2.5'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1714,8 +1712,8 @@ importers:
         specifier: '>=4.3.1'
         version: 4.4.3(supports-color@5.5.0)
       dotenv:
-        specifier: 17.2.3
-        version: 17.2.3
+        specifier: 17.2.4
+        version: 17.2.4
       dotenv-expand:
         specifier: 11.0.7
         version: 11.0.7
@@ -6068,6 +6066,7 @@ packages:
 
   '@module-federation/data-prefetch@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-7J+a+YZ+wzH6hEzXMzaI4VvzVHRyNd4obnwRAIdaTiIj/22ptq/m85tT8B0aQcpUEF+5AGF0Y+dBIwJwN/jZhw==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -6088,6 +6087,7 @@ packages:
 
   '@module-federation/enhanced@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-I9QiIErFKrBAnZ0XWkv3aGSJ4czYA7EEVeLfDBEE4DRpP2KvwXiW/Ri7TU/FN4d0zY+XFrxE9z0cQceKnUqSCw==}
+    deprecated: Pre-release version deprecated
     hasBin: true
     peerDependencies:
       typescript: ^4.9.0 || ^5.0.0
@@ -6109,6 +6109,7 @@ packages:
 
   '@module-federation/inject-external-runtime-core-plugin@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-jN2+XAx7nIFK2CmS1WW/4OIRgcKgBzE+SzLTEv1FkdenkTeqTbKUduPov1TWz34HxgGuO4c5WBzLjR2pYmuxKw==}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@module-federation/runtime-tools': 0.0.0-feat-modern-3-0-20260130025803
 
@@ -6117,6 +6118,7 @@ packages:
 
   '@module-federation/manifest@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-pq81w1w8yVj+GXgJRrHYLe1RY11JqboOQ1BSlKgNwEeEXXIaU4GyUp9ZVGwgBkDX2uEeYUpI0ydqzvxVWR/c9A==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/modern-js@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-EhYbOUn464ZBR5MP+r0Q0ua44VGJtRpkuBxZPB9lwcQLhaEcApAtPswCSZM1N77ydICgRLaT+f79Agm+NRXl6A==}
@@ -6148,6 +6150,7 @@ packages:
   '@module-federation/rsbuild-plugin@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-+/I/nwd6qUVS8eLh1GSGHu55cQxgYA/+k+Xe36us7Asf8mgwPZJ21osTAnPB6uJBqVsfFsxieVMRw0majCIekQ==}
     engines: {node: '>=16.0.0'}
+    deprecated: Pre-release version deprecated
     peerDependencies:
       '@rsbuild/core': 2.0.0-alpha.4
     peerDependenciesMeta:
@@ -6168,6 +6171,7 @@ packages:
 
   '@module-federation/runtime-core@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-ij96qfO9QdfeapsP+s/48uM47my0qJpNJgQvbx55ecakcJ5YlkfazmZ/I+MgQzuWUshF3gr6AO3nYrMOUiBXJA==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime-core@0.22.0':
     resolution: {integrity: sha512-GR1TcD6/s7zqItfhC87zAp30PqzvceoeDGYTgF3Vx2TXvsfDrhP6Qw9T4vudDQL3uJRne6t7CzdT29YyVxlgIA==}
@@ -6180,6 +6184,7 @@ packages:
 
   '@module-federation/runtime@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-Ffsvn3I/Hr4TZ4vjbJxdcjEpygDK6ZuLXVy7mO4g5X0myNVAJ6pohByD9XqvHXro4ylrZR/0hPFuw4UoqJ1H0g==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/runtime@0.22.0':
     resolution: {integrity: sha512-38g5iPju2tPC3KHMPxRKmy4k4onNp6ypFPS1eKGsNLUkXgHsPMBFqAjDw96iEcjri91BrahG4XcdyKi97xZzlA==}
@@ -6195,6 +6200,7 @@ packages:
 
   '@module-federation/webpack-bundler-runtime@0.0.0-feat-modern-3-0-20260130025803':
     resolution: {integrity: sha512-9xpWK8CCkyVBrec1Rrha1ATkC3wDunXdwLb5dwr2mUxCV5txAuAVmtOxE5BxEQrmYPQIEIHAe03XJ9Qslny8cQ==}
+    deprecated: Pre-release version deprecated
 
   '@module-federation/webpack-bundler-runtime@0.22.0':
     resolution: {integrity: sha512-aM8gCqXu+/4wBmJtVeMeeMN5guw3chf+2i6HajKtQv7SJfxV/f4IyNQJUeUQu9HfiAZHjqtMV5Lvq/Lvh8LdyA==}
@@ -9347,8 +9353,8 @@ packages:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
-  dotenv@17.2.3:
-    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
+  dotenv@17.2.4:
+    resolution: {integrity: sha512-mudtfb4zRB4bVvdj0xRo+e6duH1csJRM8IukBqfTRvHotn9+LBXB8ynAidP9zHqoRC/fsllXgk4kCKlR21fIhw==}
     engines: {node: '>=12'}
 
   dts-packer@0.0.3:
@@ -10011,6 +10017,7 @@ packages:
 
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@13.0.0:
@@ -10019,15 +10026,15 @@ packages:
 
   glob@7.1.6:
     resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -20609,7 +20616,7 @@ snapshots:
 
   dotenv@16.6.1: {}
 
-  dotenv@17.2.3: {}
+  dotenv@17.2.4: {}
 
   dts-packer@0.0.3:
     dependencies:
