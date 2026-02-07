@@ -17,7 +17,7 @@
     "@modern-js/runtime": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.2.10",
+    "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   }
