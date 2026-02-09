@@ -217,7 +217,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "@swc/plugin-loadable-components": "^11.4.0",
+    "@swc/plugin-loadable-components": "^11.5.0",
     "@types/loadable__component": "^5.13.10",
     "@types/react-helmet": "^6.1.11",
     "cookie": "0.7.2",
