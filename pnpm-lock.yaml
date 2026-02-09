@@ -51,11 +51,11 @@ importers:
         specifier: workspace:*
         version: link:scripts/build
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       check-dependency-version-consistency:
         specifier: 4.1.1
         version: 4.1.1
@@ -103,11 +103,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       prettier:
         specifier: ~2.8.8
         version: 2.8.8
@@ -476,10 +476,10 @@ importers:
         version: 1.5.0(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0))
       '@rspress/core':
         specifier: 2.0.2
-        version: 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.48.0)
+        version: 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.13)(core-js@3.48.0)
       '@rspress/plugin-llms':
         specifier: 2.0.2
-        version: 2.0.2(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.48.0))
+        version: 2.0.2(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.13)(core-js@3.48.0))
       '@rspress/shared':
         specifier: 2.0.2
         version: 2.0.2(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0)
@@ -716,7 +716,7 @@ importers:
         version: 10.4.1
       '@testing-library/react':
         specifier: ^16.3.2
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@types/cookie':
         specifier: 0.6.0
         version: 0.6.0
@@ -770,11 +770,11 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/rstest-config
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -1382,8 +1382,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -1474,11 +1474,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       '@types/recursive-readdir':
         specifier: ^2.2.4
         version: 2.2.4
@@ -2029,11 +2029,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       '@types/serve-static':
         specifier: ^1.15.10
         version: 1.15.10
@@ -2084,11 +2084,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2118,11 +2118,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2168,11 +2168,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2199,11 +2199,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2254,11 +2254,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2309,11 +2309,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2367,11 +2367,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2416,11 +2416,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2466,11 +2466,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2497,11 +2497,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2547,11 +2547,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2578,11 +2578,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2609,11 +2609,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2640,11 +2640,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2689,11 +2689,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2732,11 +2732,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -2763,11 +2763,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3196,11 +3196,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3288,11 +3288,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3319,11 +3319,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3365,11 +3365,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
 
   tests/integration/routes:
     dependencies:
@@ -3399,11 +3399,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3436,11 +3436,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3491,11 +3491,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3534,11 +3534,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3583,11 +3583,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3626,11 +3626,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3699,11 +3699,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3730,11 +3730,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3773,11 +3773,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3838,11 +3838,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3934,11 +3934,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4081,11 +4081,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4109,11 +4109,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4137,11 +4137,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4168,11 +4168,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4214,11 +4214,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4242,11 +4242,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4285,11 +4285,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4313,11 +4313,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4353,11 +4353,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4384,11 +4384,11 @@ importers:
         specifier: workspace:*
         version: link:../../../../../packages/tsconfig
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4497,11 +4497,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4528,11 +4528,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -4559,11 +4559,11 @@ importers:
         specifier: ^20
         version: 20.19.27
       '@types/react':
-        specifier: ^19.2.10
-        version: 19.2.10
+        specifier: ^19.2.13
+        version: 19.2.13
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.10)
+        version: 19.2.3(@types/react@19.2.13)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -7720,8 +7720,8 @@ packages:
   '@types/react-helmet@6.1.11':
     resolution: {integrity: sha512-0QcdGLddTERotCXo3VFlUSWO3ztraw8nZ6e3zJSgG7apwV5xt+pJUS8ewPBqT4NYB1optGLprNQzFleIY84u/g==}
 
-  '@types/react@19.2.10':
-    resolution: {integrity: sha512-WPigyYuGhgZ/cTPRXB2EwUw+XvsRA3GqHlsP4qteqrnnjDrApbS7MxcGr/hke5iUoeB7E/gQtrs9I37zAJ0Vjw==}
+  '@types/react@19.2.13':
+    resolution: {integrity: sha512-KkiJeU6VbYbUOp5ITMIc7kBfqlYkKA5KhEHVrGMmUUMt7NeaZg65ojdPk+FtNrBAOXNVM5QM72jnADjM+XVRAQ==}
 
   '@types/recursive-readdir@2.2.4':
     resolution: {integrity: sha512-84REEGT3lcgopvpkmGApzmU5UEG0valme5rQS/KGiguTkJ70/Au8UYZTyrzoZnY9svuX9351+1uvrRPzWDD/uw==}
@@ -16444,10 +16444,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/react@3.1.1(@types/react@19.2.10)(react@19.2.4)':
+  '@mdx-js/react@3.1.1(@types/react@19.2.13)(react@19.2.4)':
     dependencies:
       '@types/mdx': 2.0.13
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
       react: 19.2.4
 
   '@mermaid-js/parser@0.6.3':
@@ -17924,10 +17924,10 @@ snapshots:
       html-entities: 2.6.0
       react-refresh: 0.18.0
 
-  '@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.48.0)':
+  '@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.13)(core-js@3.48.0)':
     dependencies:
       '@mdx-js/mdx': 3.1.1
-      '@mdx-js/react': 3.1.1(@types/react@19.2.10)(react@19.2.4)
+      '@mdx-js/react': 3.1.1(@types/react@19.2.13)(react@19.2.4)
       '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0)
       '@rsbuild/plugin-react': 1.4.5(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0))
       '@rspress/shared': 2.0.2(@module-federation/runtime-tools@0.22.0)(core-js@3.48.0)
@@ -17975,9 +17975,9 @@ snapshots:
       - supports-color
       - webpack-hot-middleware
 
-  '@rspress/plugin-llms@2.0.2(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.48.0))':
+  '@rspress/plugin-llms@2.0.2(@rspress/core@2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.13)(core-js@3.48.0))':
     dependencies:
-      '@rspress/core': 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.10)(core-js@3.48.0)
+      '@rspress/core': 2.0.2(@module-federation/runtime-tools@0.22.0)(@types/react@19.2.13)(core-js@3.48.0)
       remark-mdx: 3.1.1
       remark-parse: 11.0.0
       remark-stringify: 11.0.0
@@ -18347,15 +18347,15 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 10.4.1
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
     optionalDependencies:
-      '@types/react': 19.2.10
-      '@types/react-dom': 19.2.3(@types/react@19.2.10)
+      '@types/react': 19.2.13
+      '@types/react-dom': 19.2.3(@types/react@19.2.13)
 
   '@tootallnate/once@2.0.0': {}
 
@@ -18650,9 +18650,9 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/hoist-non-react-statics@3.3.7(@types/react@19.2.10)':
+  '@types/hoist-non-react-statics@3.3.7(@types/react@19.2.13)':
     dependencies:
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
       hoist-non-react-statics: 3.3.2
 
   '@types/html-minifier-terser@7.0.2': {}
@@ -18730,11 +18730,11 @@ snapshots:
 
   '@types/loadable__component@5.13.10':
     dependencies:
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
 
   '@types/loadable__server@5.12.11':
     dependencies:
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
 
   '@types/lodash-es@4.17.12':
     dependencies:
@@ -18788,15 +18788,15 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
-  '@types/react-dom@19.2.3(@types/react@19.2.10)':
+  '@types/react-dom@19.2.3(@types/react@19.2.13)':
     dependencies:
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
 
   '@types/react-helmet@6.1.11':
     dependencies:
-      '@types/react': 19.2.10
+      '@types/react': 19.2.13
 
-  '@types/react@19.2.10':
+  '@types/react@19.2.13':
     dependencies:
       csstype: 3.2.3
 
@@ -18844,8 +18844,8 @@ snapshots:
 
   '@types/styled-components@5.1.36':
     dependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.10)
-      '@types/react': 19.2.10
+      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.13)
+      '@types/react': 19.2.13
       csstype: 3.2.3
 
   '@types/superagent@8.1.9':
