@@ -22,7 +22,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@rsdoctor/rspack-plugin": "^1.5.1",
+    "@rsdoctor/rspack-plugin": "^1.5.2",
     "@types/node": "^20",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
