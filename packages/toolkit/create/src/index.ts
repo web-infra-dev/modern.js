@@ -238,9 +238,11 @@ async function main() {
   console.log(i18n.t(localeKeys.message.success));
   console.log(i18n.t(localeKeys.message.nextSteps));
   console.log('');
-  console.log(i18n.t(localeKeys.message.step1Desc));
-  console.log(i18n.t(localeKeys.message.step1, { projectName }));
-  console.log('');
+  if (!useCurrentDir) {
+    console.log(i18n.t(localeKeys.message.step1Desc));
+    console.log(i18n.t(localeKeys.message.step1, { projectName }));
+    console.log('');
+  }
   console.log(i18n.t(localeKeys.message.step2Desc));
   console.log(i18n.t(localeKeys.message.step2));
   console.log('');
