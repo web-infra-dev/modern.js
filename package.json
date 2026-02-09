@@ -92,6 +92,7 @@
       "cross-spawn": ">=6.0.6",
       "lodash-es": ">=4.17.23",
       "esbuild": ">=0.25.0",
+      "@rsbuild/core@^2.0.0>@rspack/core": "npm:@rspack-canary/core@2.0.0-canary-c4c98775-20260206111442",
       "tmp": ">=0.2.5"
     },
     "peerDependencyRules": {
