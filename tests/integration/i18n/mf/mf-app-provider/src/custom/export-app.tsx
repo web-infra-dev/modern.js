@@ -1,7 +1,7 @@
 import '@modern-js/runtime/registry/custom';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
+import { createBridgeComponent } from '@module-federation/modern-js-v3/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();

@@ -1,5 +1,5 @@
-import { createRemoteAppComponent } from '@module-federation/modern-js/react';
-import { loadRemote } from '@module-federation/modern-js/runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
 import React from 'react';
 
 const FallbackErrorComp = (info: any) => {

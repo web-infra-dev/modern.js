@@ -1,6 +1,6 @@
 # Server-Side Rendering
 
-`@module-federation/modern-js` offers powerful capabilities, enabling developers to easily combine Module Federation with server-side rendering (SSR) in Modern.js applications.
+`@module-federation/modern-js-v3` offers powerful capabilities, enabling developers to easily combine Module Federation with server-side rendering (SSR) in Modern.js applications.
 
 ## Enable SSR
 
@@ -35,7 +35,7 @@ Module Federation now supports [data fetching](https://module-federation.io/zh/g
 In Modern.js, data fetching can be used with SSR. Using the example in the previous chapter, create a data fetching file:
 
 ```ts title="src/components/Button.data.ts"
-import type { DataFetchParams } from '@module-federation/modern-js/react';
+import type { DataFetchParams } from '@module-federation/modern-js-v3/react';
 
 export type Data = {
   data: string;
@@ -74,11 +74,11 @@ Consumers must use [`createLazyComponent`](https://module-federation.io/practice
 
 ```tsx title="src/routes/page.tsx"
 import type { JSX } from 'react';
-import { getInstance } from '@module-federation/modern-js/runtime';
+import { getInstance } from '@module-federation/modern-js-v3/runtime';
 import {
   ERROR_TYPE,
   lazyLoadComponentPlugin,
-} from '@module-federation/modern-js/react';
+} from '@module-federation/modern-js-v3/react';
 
 const instance = getInstance();
 instance!.registerPlugins([lazyLoadComponentPlugin()]);

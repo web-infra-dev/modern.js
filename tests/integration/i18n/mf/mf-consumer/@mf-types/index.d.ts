@@ -24,7 +24,7 @@ Y ;
       export function loadRemote<T extends RemoteKeys,Y>(packageName: T): Promise<PackageType<T, Y>>;
       export function loadRemote<T extends string,Y>(packageName: T): Promise<PackageType<T, Y>>;
     }
-declare module "@module-federation/modern-js/runtime" {
+declare module "@module-federation/modern-js-v3/runtime" {
       type RemoteKeys = RemoteKeys_0 | RemoteKeys_1;
       type PackageType<T, Y=any> = T extends RemoteKeys_0 ? PackageType_0<T> :
 T extends RemoteKeys_1 ? PackageType_1<T> :

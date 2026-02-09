@@ -14,7 +14,7 @@ For the consumer of Module Federation, its connection with the producer is the r
 For example, if the producer is deployed under the domain `https://my-remote-module`, the developer needs to modify the consumer's configuration file:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -76,7 +76,7 @@ This configuration will also affect the access path of the producer's `mf-manife
 At this point, the consumer needs to configure the following address when configuring the remote module:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',

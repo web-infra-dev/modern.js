@@ -1,5 +1,5 @@
-import { createLazyComponent } from '@module-federation/modern-js/react';
-import { getInstance } from '@module-federation/modern-js/runtime';
+import { createLazyComponent } from '@module-federation/modern-js-v3/react';
+import { getInstance } from '@module-federation/modern-js-v3/runtime';
 import { useTranslation } from 'react-i18next';
 
 const RemoteSSRComponent = createLazyComponent({
