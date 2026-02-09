@@ -18,7 +18,7 @@ The filename can be arbitrary; Modern.js does not enforce a specific naming conv
 import '@modern-js/runtime/registry/index'; // This line must be included, it will import micro frontend runtime dependencies by default
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
+import { createBridgeComponent } from '@module-federation/modern-js-v3/react-v19';
 
 const ModernRoot = createRoot();
 export const provider = createBridgeComponent({
@@ -32,8 +32,8 @@ export default provider;
 :::note
 Please select the corresponding import path based on the React version used in your project:
 
-- **React 19**: Use `@module-federation/modern-js/react-v19`
-- **React 18**: Use `@module-federation/modern-js/react-v18`
+- **React 19**: Use `@module-federation/modern-js-v3/react-v19`
+- **React 18**: Use `@module-federation/modern-js-v3/react-v18`
 
 You can check the React version in your project's `package.json` file to determine which import path to use.
 :::
@@ -43,7 +43,7 @@ This file will pass the root component of the `main` entry application to the Br
 Next, we configure `module-federation.config.ts` to modify the export to `src/export-App.tsx`:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -76,8 +76,8 @@ If you are not familiar with the capabilities of `$.tsx`, please read [Wildcard 
 :::
 
 ```tsx title="src/routes/remote/$.tsx"
-import { createRemoteAppComponent } from '@module-federation/modern-js/react';
-import { loadRemote } from '@module-federation/modern-js/runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
 
 const ErrorBoundary = (info?: { error: { message: string } }) => {
   return (

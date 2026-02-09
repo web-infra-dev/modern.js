@@ -18,7 +18,7 @@ Modern.js 提供了运行时 API，支持快速从应用中导出应用级别的
 import '@modern-js/runtime/registry/index'; // 这一行必须引入，它会默认导入微前端运行时依赖
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
+import { createBridgeComponent } from '@module-federation/modern-js-v3/react-v19';
 
 const ModernRoot = createRoot();
 export const provider = createBridgeComponent({
@@ -33,8 +33,8 @@ export default provider;
 :::note
 请根据你项目中使用的 React 版本来选择对应的导入路径：
 
-- **React 19**：使用 `@module-federation/modern-js/react-v19`
-- **React 18**：使用 `@module-federation/modern-js/react-v18`
+- **React 19**：使用 `@module-federation/modern-js-v3/react-v19`
+- **React 18**：使用 `@module-federation/modern-js-v3/react-v18`
 
 你可以通过查看项目的 `package.json` 文件中的 `react` 依赖版本来确定应该使用哪个导入路径。
 :::
@@ -44,7 +44,7 @@ export default provider;
 接下来，我们配置 `module-federation.config.ts`，将导出修改为 `src/export-App.tsx`：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -77,8 +77,8 @@ export default createModuleFederationConfig({
 :::
 
 ```tsx title="src/routes/remote/$.tsx"
-import { createRemoteAppComponent } from '@module-federation/modern-js/react';
-import { loadRemote } from '@module-federation/modern-js/runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
 
 const ErrorBoundary = (info?: { error: { message: string } }) => {
   return (

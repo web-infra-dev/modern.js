@@ -38,7 +38,7 @@ Both producers and consumers need to enable i18n capability first.
 In Module Federation scenarios, you need to install both the i18n plugin and the Module Federation plugin:
 
 ```bash
-pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-js
+pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-js-v3
 ```
 
 :::info
@@ -54,7 +54,7 @@ Configure both the i18n plugin and the Module Federation plugin in `modern.confi
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { i18nPlugin } from '@modern-js/plugin-i18n';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   plugins: [appTools(), i18nPlugin(), moduleFederationPlugin()],
@@ -84,7 +84,7 @@ Both producers and consumers need to configure `shared` in `module-federation.co
 #### Configure Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -203,7 +203,7 @@ When using an independent I18n instance, the producer maintains its own language
 #### Configure Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -229,7 +229,7 @@ When consumers need to load remote components, they need to configure accordingl
 First, configure the remote module in the consumer's `module-federation.config.ts`:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -258,8 +258,8 @@ If the producer uses a shared I18n instance, the consumer must configure `shared
 When the producer uses a shared I18n instance, the consumer can directly load the remote component without additional configuration:
 
 ```tsx title="src/routes/page.tsx"
-import { createLazyComponent } from '@module-federation/modern-js/react';
-import { getInstance } from '@module-federation/modern-js/runtime';
+import { createLazyComponent } from '@module-federation/modern-js-v3/react';
+import { getInstance } from '@module-federation/modern-js-v3/runtime';
 
 const RemoteComponent = createLazyComponent({
   instance: getInstance(),
@@ -352,7 +352,7 @@ First, you need to create an entry file to export the application:
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
+import { createBridgeComponent } from '@module-federation/modern-js-v3/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -371,7 +371,7 @@ export default provider;
 #### Configure Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -472,7 +472,7 @@ When consumers need to load remote applications, they need to use the Bridge API
 First, configure the remote application in the consumer's `module-federation.config.ts`:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // The name parameter must be unique and cannot be the same as other applications (including different remotes)
@@ -500,8 +500,8 @@ If the producer uses a shared I18n instance, the consumer must configure `shared
 Create a component for loading the remote application:
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/modern-js/react';
-import { loadRemote } from '@module-federation/modern-js/runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
 import React from 'react';
 
 const FallbackErrorComp = (info: any) => {

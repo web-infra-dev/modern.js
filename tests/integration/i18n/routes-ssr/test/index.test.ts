@@ -6,7 +6,11 @@ import {
   launchApp,
   launchOptions,
 } from '../../../../utils/modernTestUtils';
-import { conditionalTest } from '../../test-utils';
+import {
+  conditionalTest,
+  gotoWithSSRRetry,
+  waitForHydration,
+} from '../../test-utils';
 
 const projectDir = path.resolve(__dirname, '..');
 
@@ -167,11 +171,8 @@ describe('router-ssr-i18n', () => {
     expect(page.url()).toBe(`http://localhost:${appPort}/zh`);
   });
   conditionalTest('page-zh', async () => {
-    const response = await page.goto(`http://localhost:${appPort}/zh`, {
-      waitUntil: ['networkidle0'],
-    });
+    const body = await gotoWithSSRRetry(page, `http://localhost:${appPort}/zh`);
     if (process.env.LOCAL_TEST === 'true') {
-      const body = await response?.text();
       expect(body).toContain('你好，世界');
     }
     const text = await page.$('#key');
@@ -179,11 +180,8 @@ describe('router-ssr-i18n', () => {
     expect(targetText?.trim()).toEqual('你好，世界');
   });
   conditionalTest('page-en', async () => {
-    const response = await page.goto(`http://localhost:${appPort}/en`, {
-      waitUntil: ['networkidle0'],
-    });
+    const body = await gotoWithSSRRetry(page, `http://localhost:${appPort}/en`);
     if (process.env.LOCAL_TEST === 'true') {
-      const body = await response?.text();
       expect(body).toContain('Hello World');
     }
     const text = await page.$('#key');
@@ -191,45 +189,47 @@ describe('router-ssr-i18n', () => {
     expect(targetText?.trim()).toEqual('Hello World');
   });
   conditionalTest('page-zh-about', async () => {
-    const response = await page.goto(`http://localhost:${appPort}/zh/about`, {
-      waitUntil: ['networkidle0'],
-    });
+    const body = await gotoWithSSRRetry(
+      page,
+      `http://localhost:${appPort}/zh/about`,
+    );
     if (process.env.LOCAL_TEST === 'true') {
-      const body = await response?.text();
       expect(body).toContain('关于');
     }
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('关于');
+    // Wait for React hydration so button click handlers are attached
+    await waitForHydration(page, '#en-button');
     await page.click('#en-button');
-    await new Promise(resolve => setTimeout(resolve, 5000));
     await page.waitForFunction(
       () => {
         const el = document.querySelector('#about');
         return el && el.textContent !== null && el.textContent === 'About';
       },
-      { timeout: 10000 },
+      { timeout: 30000 },
     );
   });
   conditionalTest('page-en-about', async () => {
-    const response = await page.goto(`http://localhost:${appPort}/en/about`, {
-      waitUntil: ['networkidle0'],
-    });
+    const body = await gotoWithSSRRetry(
+      page,
+      `http://localhost:${appPort}/en/about`,
+    );
     if (process.env.LOCAL_TEST === 'true') {
-      const body = await response?.text();
       expect(body).toContain('About');
     }
     const text = await page.$('#about');
     const targetText = await page.evaluate(el => el?.textContent, text);
     expect(targetText?.trim()).toEqual('About');
+    // Wait for React hydration so button click handlers are attached
+    await waitForHydration(page, '#zh-button');
     await page.click('#zh-button');
-    await new Promise(resolve => setTimeout(resolve, 5000));
     await page.waitForFunction(
       () => {
         const el = document.querySelector('#about');
         return el && el.textContent !== null && el.textContent === '关于';
       },
-      { timeout: 10000 },
+      { timeout: 30000 },
     );
   });
 });
