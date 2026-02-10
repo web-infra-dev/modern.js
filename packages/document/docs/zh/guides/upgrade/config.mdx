@@ -151,6 +151,34 @@ export default {
 
 ## tools
 
+### toos.postcss
+
+**变更内容**：对象式配置会覆盖 Modern.js 内置的 PostCSS 配置。如果需要在内置配置基础上进行扩展，请使用函数式配置。
+
+```typescript
+// v2
+export default {
+  tools: {
+    postcss: {
+      postcssOptions: {
+        plugins: [tailwindcssPlugin],
+      },
+    },
+  },
+};
+```
+
+```typescript
+// v3
+export default {
+  tools: {
+    postcss: (opts, { addPlugins }) => {
+      addPlugins(tailwindcssPlugin);
+    },
+  },
+};
+```
+
 ### tools.esbuild
 
 **变更内容**：该配置已废弃，需要手动切换到 esbuild 压缩。

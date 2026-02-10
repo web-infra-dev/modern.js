@@ -151,6 +151,34 @@ export default {
 
 ## tools
 
+### toos.postcss
+
+**Change**: The object configuration will override the built-in PostCSS configuration of Modern.js. If you need to extend based on the built-in configuration, please use the function configuration.
+
+```typescript
+// v2
+export default {
+  tools: {
+    postcss: {
+      postcssOptions: {
+        plugins: [tailwindcssPlugin],
+      },
+    },
+  },
+};
+```
+
+```typescript
+// v3
+export default {
+  tools: {
+    postcss: (opts, { addPlugins }) => {
+      addPlugins(tailwindcssPlugin);
+    },
+  },
+};
+```
+
 ### tools.esbuild
 
 **Change**: This configuration has been deprecated, you need to manually switch to esbuild minification.
