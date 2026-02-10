@@ -5,8 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm test:builder && pnpm test:framework",
+    "test": "pnpm test:builder && pnpm test:framework && pnpm test:rstest",
     "test:framework": "cross-env MODERN_SERVER_LOG_LEVEL=info jest",
+    "test:rstest": "rstest",
     "test:builder": "cd e2e/builder && pnpm test",
     "prepare": "node node_modules/puppeteer/install.mjs"
   },

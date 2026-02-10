@@ -7,7 +7,7 @@ module.exports = {
     '<rootDir>/integration/**/*.(spec|test).[tj]s?(x)',
     '!**/module/**/*.(spec|test).[tj]s?(x)',
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/api/tests'],
+  testPathIgnorePatterns: ['/node_modules/', '/api/tests', '/basic-app-rstest'],
   transform: {
     '^.+.tsx?$': 'ts-jest',
   },
