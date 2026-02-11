@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { Head, useLocation } from 'rspress/runtime';
+import { Head, useLang, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';
@@ -8,8 +8,15 @@ import SecondaryTitle from '../components/SecondaryTitle';
 import { useI18n, useUrl } from '../i18n';
 import styles from './index.module.scss';
 
+const UPGRADE_LINKS = {
+  zh: 'https://modernjs.dev/zh',
+  en: 'https://modernjs.dev/',
+} as const;
+
 const HomepageHeader = () => {
   const t = useI18n();
+  const lang = useLang();
+  const upgradeHref = UPGRADE_LINKS[lang === 'zh' ? 'zh' : 'en'];
 
   return (
     <div className={styles.header}>
@@ -36,6 +43,18 @@ const HomepageHeader = () => {
             className={styles.rightButton}
           >
             {t('quickStart')}
+          </a>
+          <a
+            href={upgradeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.upgradeBanner}
+          >
+            <span className={styles.upgradeBannerNew}>
+              {t('upgradeBannerTag')}
+            </span>
+            {t('upgradeBanner')}
+            <span className={styles.upgradeBannerArrow}>→</span>
           </a>
         </div>
       </header>

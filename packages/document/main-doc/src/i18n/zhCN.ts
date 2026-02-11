@@ -1,6 +1,8 @@
 import type { EN_US } from './enUS';
 
 export const ZH_CN: Record<keyof typeof EN_US, string> = {
+  upgradeBanner: 'Modern.js 3.0 发布',
+  upgradeBannerTag: '新',
   introduction: '介绍',
   quickStart: '快速上手',
 
