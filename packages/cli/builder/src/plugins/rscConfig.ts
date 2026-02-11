@@ -60,8 +60,9 @@ export function pluginRscConfig(): RsbuildPlugin {
             // Matches: layout.tsx, layout.ts, layout.jsx, layout.js
             //         page.tsx, page.ts, page.jsx, page.js
             //         $.tsx, $.ts, $.jsx, $.js
+            // Use [/\\] before filename so both Unix (/) and Windows (\) paths match
             const routeFilePattern =
-              /routes[/\\].*\/(layout|page|\$)\.[tj]sx?$/;
+              /routes[/\\].*[/\\](layout|page|\$)\.[tj]sx?$/;
 
             // Pattern 2: Match App.[tj]sx files anywhere (self-controlled routing)
             // Matches: App.tsx, App.ts, App.jsx, App.js in any directory
