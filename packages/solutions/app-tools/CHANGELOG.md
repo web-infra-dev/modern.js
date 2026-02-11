@@ -1,5 +1,25 @@
 # @modern-js/app-tools
 
+## 2.70.7
+
+### Patch Changes
+
+- a7623cb: chore: no change version
+  - @modern-js/core@2.70.7
+  - @modern-js/plugin-data-loader@2.70.7
+  - @modern-js/plugin-i18n@2.70.7
+  - @modern-js/rsbuild-plugin-esbuild@2.70.7
+  - @modern-js/uni-builder@2.70.7
+  - @modern-js/server-core@2.70.7
+  - @modern-js/prod-server@2.70.7
+  - @modern-js/server@2.70.7
+  - @modern-js/server-utils@2.70.7
+  - @modern-js/node-bundle-require@2.70.7
+  - @modern-js/plugin@2.70.7
+  - @modern-js/plugin-v2@2.70.7
+  - @modern-js/types@2.70.7
+  - @modern-js/utils@2.70.7
+
 ## 2.70.6
 
 ### Patch Changes
