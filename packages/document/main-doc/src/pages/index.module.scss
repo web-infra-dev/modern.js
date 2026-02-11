@@ -31,6 +31,71 @@
   padding-top: 20vh;
 }
 
+.upgradeBanner {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 49px;
+  padding: 0 20px;
+  margin-left: 32px;
+  border: 1px solid rgba(78, 202, 255, 0.7);
+  border-radius: 39px;
+  background: linear-gradient(274.85deg, rgba(78, 202, 255, 0.25) 3%, rgba(100, 207, 222, 0.25) 97.17%);
+  color: #b0e6ff;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(274.85deg, rgba(78, 202, 255, 0.35) 3%, rgba(100, 207, 222, 0.35) 97.17%);
+    border-color: #84daff;
+    color: #d0f0ff;
+    text-decoration: none;
+  }
+}
+
+.upgradeBannerNew {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  padding: 2px 10px 2px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  color: #000;
+  background: linear-gradient(135deg, #ffcf5c 0%, #ff8a44 100%);
+  border-radius: 0 4px 4px 0;
+  letter-spacing: 0.5px;
+  transform: rotate(-12deg);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 8px solid #000;
+  }
+
+}
+
+.upgradeBannerArrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+
+  .upgradeBanner:hover & {
+    transform: translateX(3px);
+  }
+}
+
 .title {
   font-style: normal;
   font-weight: bold;
@@ -145,6 +210,11 @@
   .rightButton {
     margin-left: 0;
     margin-top: 32px;
+  }
+  .upgradeBanner {
+    margin-left: 0;
+    margin-top: 32px;
+    width: 100%;
   }
   .singleImg {
     max-width: 100%;

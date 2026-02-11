@@ -1,4 +1,6 @@
 export const EN_US = {
+  upgradeBanner: 'Modern.js 3.0 Release',
+  upgradeBannerTag: 'New',
   introduction: 'Introduction',
   quickStart: 'Quick Start',
 
