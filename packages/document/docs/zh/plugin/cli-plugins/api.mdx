@@ -188,7 +188,7 @@ api.config(() => {
 - **参数：**
   - `modifyFn`： 修改函数，接收 `RspackChain` 实例和实用工具作为参数。
 - **执行阶段：** 在生成最终的 Rspack 配置时。
-- **对应 Rsbuild Hook**： [modifybundlerchain](https://rsbuild.rs/zh/plugins/dev/hooks#modifybundlerchain)
+- **对应 Rsbuild Hook**： [modifybundlerchain](https://v2.rsbuild.dev/zh/plugins/dev/hooks#modifybundlerchain)
 - **示例：**
 
 ```typescript
@@ -208,7 +208,7 @@ api.modifyBundlerChain((chain, utils) => {
 - **参数：**
   - `modifyFn`： 修改函数，接收 Rsbuild 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
 - **执行阶段：** 在生成最终的 Rsbuild 配置时。
-- **对应 Rsbuild Hook**： [modifyRsbuildConfig](https://rsbuild.rs/zh/plugins/dev/hooks#modifyrsbuildconfig)
+- **对应 Rsbuild Hook**： [modifyRsbuildConfig](https://v2.rsbuild.dev/zh/plugins/dev/hooks#modifyrsbuildconfig)
 - **示例：**
 
 ```typescript
@@ -228,7 +228,7 @@ api.modifyRsbuildConfig((config, utils) => {
 - **参数：**
   - `modifyFn`： 修改函数，接收 Rspack 配置对象和实用工具作为参数，可以返回修改后的配置对象、Promise 或不返回（直接修改原对象）。
 - **执行阶段：** 在生成最终的 Rspack 配置时。
-- **对应 Rsbuild Hook**： [modifyRspackConfig](https://rsbuild.rs/zh/plugins/dev/hooks#modifyrspackconfig)
+- **对应 Rsbuild Hook**： [modifyRspackConfig](https://v2.rsbuild.dev/zh/plugins/dev/hooks#modifyrspackconfig)
 - **示例：**
 
 ```typescript
@@ -403,7 +403,7 @@ api.onFileChanged(({ filename, eventType }) => {
 - **参数：**
   - `buildFn`： 构建前执行的函数，无参数，可异步。
 - **执行阶段：** 在执行构建流程之前。
-- **对应 Rsbuild Hook**： [onBeforeBuild](https://rsbuild.rs/zh/plugins/dev/hooks#onbeforebuild)
+- **对应 Rsbuild Hook**： [onBeforeBuild](https://v2.rsbuild.dev/zh/plugins/dev/hooks#onbeforebuild)
 - **示例：**
 
 ```typescript
@@ -422,7 +422,7 @@ api.onBeforeBuild(() => {
 - **参数：**
   - `buildFn`： 构建后执行的函数，无参数，可异步。
 - **执行阶段：** 在执行构建流程之后。
-- **对应 Rsbuild Hook**： [onAfterBuild](https://rsbuild.rs/zh/plugins/dev/hooks#onafterbuild)
+- **对应 Rsbuild Hook**： [onAfterBuild](https://v2.rsbuild.dev/zh/plugins/dev/hooks#onafterbuild)
 - **示例：**
 
 ```typescript
@@ -441,7 +441,7 @@ api.onAfterBuild(() => {
 - **参数：**
   - `compileFn`： 编译完成后执行的函数。
 - **执行阶段：** 开发服务器启动，且首次编译完成后。
-- **对应 Rsbuild Hook**： [onDevCompileDone](https://rsbuild.rs/zh/plugins/dev/hooks#ondevcompiledone)
+- **对应 Rsbuild Hook**： [onDevCompileDone](https://v2.rsbuild.dev/zh/plugins/dev/hooks#ondevcompiledone)
 - **示例：**
 
 ```typescript
@@ -460,7 +460,7 @@ api.onDevCompileDone(() => {
 - **参数：**
   - `createFn`： 创建前执行的函数，无参数，可异步。
 - **执行阶段：** 在创建 Rspack 编译器实例之前。
-- **对应 Rsbuild Hook**： [onBeforeCreateCompiler](https://rsbuild.rs/zh/plugins/dev/hooks#onbeforecreatecompiler)
+- **对应 Rsbuild Hook**： [onBeforeCreateCompiler](https://v2.rsbuild.dev/zh/plugins/dev/hooks#onbeforecreatecompiler)
 - **示例：**
 
 ```typescript
@@ -479,7 +479,7 @@ api.onBeforeCreateCompiler(() => {
 - **参数：**
   - `createFn`： 创建后执行的函数，无参数，可异步。
 - **执行阶段：** 在创建 Rspack 编译器实例之后。
-- **对应 Rsbuild Hook**： [onAfterCreateCompiler](https://rsbuild.rs/zh/plugins/dev/hooks#onaftercreatecompiler)
+- **对应 Rsbuild Hook**： [onAfterCreateCompiler](https://v2.rsbuild.dev/zh/plugins/dev/hooks#onaftercreatecompiler)
 - **示例：**
 
 ```typescript
@@ -517,7 +517,7 @@ api.onBeforeDev(async () => {
 - **参数：**
   - `devFn`： 开发服务器启动后执行的函数。
 - **执行阶段：** 开发服务器成功启动后。
-- **对应 Rsbuild Hook**： [onAfterStartDevServer](https://rsbuild.rs/zh/plugins/dev/hooks#onafterstartdevserver)
+- **对应 Rsbuild Hook**： [onAfterStartDevServer](https://v2.rsbuild.dev/zh/plugins/dev/hooks#onafterstartdevserver)
 - **示例：**
 
 ```typescript
