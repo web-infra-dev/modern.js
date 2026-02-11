@@ -11,7 +11,7 @@ export default defineConfig({
   title: 'Modern.js',
   description:
     'The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.',
-  base: '/',
+  base: '/v2/',
   logo: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
   icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
   lang: 'en',
