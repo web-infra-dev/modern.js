@@ -99,7 +99,7 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.3",
+    "@rsbuild/core": "2.0.0-beta.4",
     "@rslib/core": "0.19.5",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
