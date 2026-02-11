@@ -16,7 +16,7 @@ const HomepageHeader = () => {
         <div className={styles.mask} />
         <h1 className={styles.title}>
           <span className={clsx([styles.titleGradient, styles.mainTitle])}>
-            Modern.js
+            Modern.js 3.0
           </span>
           <div>{t('slogan')}</div>
         </h1>

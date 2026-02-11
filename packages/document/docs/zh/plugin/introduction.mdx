@@ -117,7 +117,7 @@ Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修�
 你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
 
 :::info
-可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.rs/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
+可以阅读 [Rsbuild 官网 - 插件](https://v2.rsbuild.dev/plugins/list/index) 了解更多 Rsbuild 插件体系内容。
 :::
 
 ### 官方插件
@@ -128,9 +128,9 @@ Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修�
 
 | 插件                                                                                 | 介绍                                                                                   | Modern.js 链接                                                                                                                        |
 | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [React 插件](https://rsbuild.rs/zh/plugins/list/plugin-react)                        | 提供对 React 的支持                                                                    | -                                                                                                                                     |
-| [SVGR 插件](https://rsbuild.rs/zh/plugins/list/plugin-svgr)                          | 支持将 SVG 图片转换为一个 React 组件                                                   | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
-| [Assets Retry 插件](https://rsbuild.rs/zh/plugins/list/plugin-assets-retry)          | 用于在静态资源加载失败时自动发起重试请求                                               | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
+| [React 插件](https://v2.rsbuild.dev/zh/plugins/list/plugin-react)                        | 提供对 React 的支持                                                                    | -                                                                                                                                     |
+| [SVGR 插件](https://v2.rsbuild.dev/zh/plugins/list/plugin-svgr)                          | 支持将 SVG 图片转换为一个 React 组件                                                   | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [Assets Retry 插件](https://github.com/rstackjs/rsbuild-plugin-assets-retry)          | 用于在静态资源加载失败时自动发起重试请求                                               | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
 | [Type Check 插件](https://github.com/rspack-contrib/rsbuild-plugin-type-check)       | 用于在单独的进程中运行 TypeScript 类型检查                                             | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
 | [Source Build 插件](https://github.com/rspack-contrib/rsbuild-plugin-source-build)   | 用于 monorepo 场景，支持引用其他子目录的源代码，并完成构建和热更新                     | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
 | [Check Syntax 插件](https://github.com/rspack-contrib/rsbuild-plugin-check-syntax)   | 用于分析产物的语法兼容性，判断是否存在导致兼容性问题的高级语法                         | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
@@ -142,7 +142,7 @@ Rsbuild 是 Modern.js 底层的构建工具，通过添加 Rsbuild 插件可修�
 以下是未在 Modern.js 中内置的 Rsbuild 官方插件：
 
 - [Image Compress 插件](https://github.com/rspack-contrib/rsbuild-plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
-- [Stylus 插件](https://rsbuild.rs/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
+- [Stylus 插件](https://v2.rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
 - [UMD 插件](https://github.com/rspack-contrib/rsbuild-plugin-umd)：用于构建 UMD 格式的产物。
 - [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml)：用于引用 YAML 文件，并将其转换为 JavaScript 对象。
 - [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml)：用于引用 TOML 文件，并将其转换为 JavaScript 对象。
