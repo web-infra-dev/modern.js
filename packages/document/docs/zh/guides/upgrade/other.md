@@ -121,6 +121,56 @@ Modern.js 3.0 移除了 `modern new` 和 `modern upgrade` 命令，需要按照�
 移除这些命令的目的是让文档更贴合 AI Agent 的默认实现方式，不把操作做封装，使开发者能够更清晰地了解每个操作的具体步骤，也便于 AI Agent 根据文档直接执行相应的操作。
 :::
 
+## 不再内置 Arco/Antd 支持
+
+Modern.js 2.0 内置了对 [Arco Design](https://arco.design/) 和 [Ant Design](https://ant.design/) 的按需引入支持，3.0 版本不再内置该能力，需要用户自行配置 `source.transformImport`。
+
+如果项目中使用了 Arco Design 或 Ant Design，请手动添加对应的 `source.transformImport` 配置。
+
+**Arco Design 迁移示例**：
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: '@arco-design/web-react',
+        libraryDirectory: 'es',
+        camelToDashComponentName: false,
+        style: 'css',
+      },
+      {
+        libraryName: '@arco-design/web-react/icon',
+        libraryDirectory: 'react-icon',
+        camelToDashComponentName: false,
+      },
+    ],
+  },
+};
+```
+
+**Ant Design 迁移示例**（antd v4 及以下版本）：
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  },
+};
+```
+
+:::tip
+antd v5 使用了 CSS-in-JS 方案，已原生支持按需加载，无需配置 `source.transformImport`。
+
+更多用法请参考 [Rsbuild - source.transformImport](https://rsbuild.dev/config/source/transform-import)。
+:::
+
 ## Eslint 规则集
 
 Modern.js 之前提供了 ESLint 的完整规则集，涵盖了 @modern-js（针对 Node.js 项目的 Lint 规则）和 @modern-js-app（针对前端项目的 Lint 规则）。在 [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0) 版本中，我们正式移除了这些规则集。我们鼓励开发者根据自身需求选择合适的代码规范工具，直接使用 ESLint 并结合社区推荐的规则，或使用 Biome 以提升代码格式化的性能。
