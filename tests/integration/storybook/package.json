@@ -1,0 +1,115 @@
+{
+  "private": true,
+  "name": "integration-storybook",
+  "version": "2.65.2",
+  "scripts": {
+    "build": "modern build",
+    "build:storybook": "storybook build",
+    "dev": "modern dev",
+    "new": "modern new",
+    "reset": "npx rimraf node_modules ./**/node_modules",
+    "serve": "modern serve",
+    "start": "modern start",
+    "storybook": "storybook dev -p 6006",
+    "proxy": "eden-proxy -c ./src/stories/eden.proxy.ts",
+    "dev:api": "modern dev --api-only",
+    "upgrade": "modern upgrade"
+  },
+  "dependencies": {
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "antd": "^5.29.3",
+    "hono": "^4.11.7",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "3.15.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@rsbuild/core": "2.0.0-beta.4",
+    "@rsbuild/plugin-node-polyfill": "^1.4.4",
+    "@storybook/addon-docs": "^10.0.0",
+    "@storybook/addon-onboarding": "^10.0.0",
+    "@storybook/react": "^10.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "storybook": "^10.0.0",
+    "storybook-addon-modernjs": "3.2.2",
+    "storybook-react-rsbuild": "3.2.2",
+    "tsconfig-paths": "~3.15.0",
+    "typescript": "^5"
+  },
+  "exports": {
+    "./context/index": {
+      "import": "./dist/client/context/index.js",
+      "types": "./dist/api/context/index.d.ts"
+    },
+    "./index": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/api/index.d.ts"
+    },
+    "./upload": {
+      "import": "./dist/client/upload.js",
+      "types": "./dist/api/upload.d.ts"
+    },
+    "./server-plugin": "./dist/server-plugin/index.js",
+    "./runtime": {
+      "import": "./dist/runtime/index.js",
+      "types": "./dist/runtime/index.d.ts"
+    },
+    "./plugin": {
+      "require": "./dist/plugin/index.js",
+      "types": "./dist/plugin/index.d.ts"
+    },
+    "./api/context/index": {
+      "import": "./dist/client/context/index.js",
+      "types": "./dist/client/context/index.d.ts"
+    },
+    "./api/index": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./api/upload": {
+      "import": "./dist/client/upload.js",
+      "types": "./dist/client/upload.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "context/index": [
+        "./dist/api/context/index.d.ts"
+      ],
+      "index": [
+        "./dist/api/index.d.ts"
+      ],
+      "upload": [
+        "./dist/api/upload.d.ts"
+      ],
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ],
+      "plugin": [
+        "./dist/plugin/index.d.ts"
+      ],
+      "api/context/index": [
+        "./dist/client/context/index.d.ts"
+      ],
+      "api/index": [
+        "./dist/client/index.d.ts"
+      ],
+      "api/upload": [
+        "./dist/client/upload.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/client/**/*",
+    "dist/runtime/**/*",
+    "dist/plugin/**/*"
+  ]
+}
