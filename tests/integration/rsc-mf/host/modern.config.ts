@@ -6,6 +6,10 @@ export default defineConfig({
   server: {
     rsc: true,
   },
+  // Keep RSC server entries synchronous for MF+RSC handlers.
+  source: {
+    enableAsyncEntry: false,
+  },
   output: {
     polyfill: 'off',
     disableTsChecker: true,
