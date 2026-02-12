@@ -34,10 +34,10 @@
   border-radius: 999px;
   background: linear-gradient(
     150.85deg,
-    rgba(124, 178, 250, 0.18) 3%,
+    rgba(124, 178, 250, 0.15) 3%,
     rgba(124, 178, 250, 0.08) 97.17%
   );
-  border: 1px solid rgba(124, 178, 250, 0.25);
+  border: 1px solid rgba(124, 178, 250, 0.4);
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -48,11 +48,29 @@
   &:hover {
     background: linear-gradient(
       150.85deg,
+      rgba(124, 178, 250, 0.25) 3%,
+      rgba(124, 178, 250, 0.15) 97.17%
+    );
+    border-color: rgba(124, 178, 250, 0.55);
+    text-decoration: none;
+  }
+}
+
+:global(.dark) .announcement {
+  background: linear-gradient(
+    150.85deg,
+    rgba(124, 178, 250, 0.18) 3%,
+    rgba(124, 178, 250, 0.08) 97.17%
+  );
+  border-color: rgba(124, 178, 250, 0.25);
+
+  &:hover {
+    background: linear-gradient(
+      150.85deg,
       rgba(124, 178, 250, 0.28) 3%,
       rgba(124, 178, 250, 0.14) 97.17%
     );
     border-color: rgba(124, 178, 250, 0.4);
-    text-decoration: none;
   }
 }
 
@@ -72,17 +90,25 @@
 .announcementText {
   font-size: 14px;
   font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+:global(.dark) .announcementText {
   color: rgba(255, 255, 255, 0.85);
 }
 
 .announcementArrow {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.45);
   transition: transform 0.3s ease;
 
   .announcement:hover & {
     transform: translateX(2px);
   }
+}
+
+:global(.dark) .announcementArrow {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .title {
