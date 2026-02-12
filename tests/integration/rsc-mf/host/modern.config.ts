@@ -19,6 +19,12 @@ export default defineConfig({
   },
   tools: {
     bundlerChain(chain) {
+      const target = chain.get('target');
+      const targets = Array.isArray(target) ? target : [target];
+      if (targets.some(item => String(item).includes('node'))) {
+        chain.target('async-node');
+      }
+
       chain.resolve.modules
         .clear()
         .add(path.resolve(__dirname, 'node_modules'))
