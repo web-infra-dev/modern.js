@@ -16,8 +16,6 @@ const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
 const HOST_RSC_URL = '/server-component-root';
-const RSC_RUNTIME_BLOCKER_PATTERN =
-  /Cannot find (render handler|server bundle) for RSC/;
 
 type Mode = 'dev' | 'build';
 
@@ -56,16 +54,14 @@ function createHostEnv(remotePort: number) {
 async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const response = await fetch(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`);
   const html = await response.text();
-  if (RSC_RUNTIME_BLOCKER_PATTERN.test(html)) {
-    return {
-      blocked: true,
-      html,
-    };
-  }
-
   expect(html).toContain('Host RSC Module Federation');
   expect(html).toContain('Remote Federated Tree');
   expect(html).toContain('remote-server-only-ok');
+  expect(html).toContain('remote-server-only-default-ok');
+  expect(html).toContain('remote-meta-default');
+  expect(html).toContain('rsc|mf|actions');
+  expect(html).toContain('remote-async-server-info-ok');
+  expect(html).toContain('Remote Default Server Card');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -75,11 +71,24 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostRemoteServerOnly).toBe('remote-server-only-ok');
-
-  return {
-    blocked: false,
-    html,
-  };
+  const hostRemoteServerOnlyDefault = await page.$eval(
+    '.host-remote-server-only-default',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteServerOnlyDefault).toBe('remote-server-only-default-ok');
+  const hostRemoteMetaKind = await page.$eval('.host-remote-meta-kind', el =>
+    el.textContent?.trim(),
+  );
+  expect(hostRemoteMetaKind).toBe('remote-meta-default');
+  const hostRemoteMetaLabel = await page.$eval('.host-remote-meta-label', el =>
+    el.textContent?.trim(),
+  );
+  expect(hostRemoteMetaLabel).toBe('rsc|mf|actions');
+  const hostRemoteAsyncServerInfo = await page.$eval(
+    '.remote-async-server-info',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteAsyncServerInfo).toBe('remote-async-server-info-ok');
 }
 
 async function supportRemoteClientAndServerActions({
@@ -129,6 +138,31 @@ async function supportRemoteClientAndServerActions({
       remoteAction?.textContent?.trim() === 'remote-action:from-client'
     );
   });
+
+  let badgeValue = await page.$eval('.remote-client-badge-value', el =>
+    el.textContent?.trim(),
+  );
+  expect(badgeValue).toBe('remote-client-badge-initial');
+  await page.click('.remote-client-badge-toggle');
+  badgeValue = await page.$eval('.remote-client-badge-value', el =>
+    el.textContent?.trim(),
+  );
+  expect(badgeValue).toBe('remote-client-badge-toggled');
+
+  await page.click('.host-remote-run-actions');
+  await page.waitForFunction(() => {
+    const defaultActionResult = document.querySelector(
+      '.host-remote-default-action-result',
+    );
+    const echoActionResult = document.querySelector(
+      '.host-remote-echo-action-result',
+    );
+    return (
+      defaultActionResult?.textContent?.trim() ===
+        'default-action:from-host-client' &&
+      echoActionResult?.textContent?.trim() === 'remote-action:from-host-client'
+    );
+  });
 }
 
 function runTests({ mode }: TestConfig) {
@@ -140,8 +174,6 @@ function runTests({ mode }: TestConfig) {
     let page: Page;
     let browser: Browser;
     const runtimeErrors: string[] = [];
-    let runtimeBlocked = false;
-    let runtimeBlockerHtml = '';
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -206,24 +238,11 @@ function runTests({ mode }: TestConfig) {
       }
     });
 
-    it('should render remote RSC content in host app', async () => {
-      const renderResult = await renderRemoteRscIntoHost({ hostPort, page });
-      runtimeBlocked = renderResult.blocked;
-      runtimeBlockerHtml = renderResult.html;
+    it('should render remote RSC content in host app', () =>
+      renderRemoteRscIntoHost({ hostPort, page }));
 
-      if (runtimeBlocked) {
-        expect(runtimeBlockerHtml).toMatch(RSC_RUNTIME_BLOCKER_PATTERN);
-      }
-    });
-
-    it('should support remote use client and server actions', async () => {
-      if (runtimeBlocked) {
-        expect(runtimeBlockerHtml).toMatch(RSC_RUNTIME_BLOCKER_PATTERN);
-        return;
-      }
-
-      await supportRemoteClientAndServerActions({ hostPort, page });
-    });
+    it('should support remote use client and server actions', () =>
+      supportRemoteClientAndServerActions({ hostPort, page }));
 
     if (mode === 'build') {
       it('should have no browser runtime errors', () => {
