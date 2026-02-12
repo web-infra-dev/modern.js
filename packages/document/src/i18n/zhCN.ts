@@ -1,6 +1,10 @@
 import type { EN_US } from './enUS';
 
 export const ZH_CN: Record<keyof typeof EN_US, string> = {
+  // Announcement
+  announcementLabel: 'NEW',
+  announcementText: 'Modern.js 3.0 正式发布！',
+
   introduction: '介绍',
   quickStart: '快速上手',
 

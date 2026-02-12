@@ -1,4 +1,8 @@
 export const EN_US = {
+  // Announcement
+  announcementLabel: 'NEW',
+  announcementText: 'Modern.js 3.0 is released!',
+
   introduction: 'Introduction',
   quickStart: 'Quick Start',
 
