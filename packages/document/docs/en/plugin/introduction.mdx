@@ -117,7 +117,7 @@ Rsbuild is the underlying build tool for Modern.js. By adding Rsbuild plugins, y
 You can register Rsbuild plugins in `modern.config.ts` via the `builderPlugins` option. See [builderPlugins](/configure/app/builder-plugins.html) for details.
 
 :::info
-You can read [Rsbuild Official Website - Plugins](https://v2.rsbuild.dev/plugins/list/index) to learn more about the Rsbuild plugin system.
+You can read [Rsbuild Official Website - Plugins](https://v2.rsbuild.rs/plugins/list/index) to learn more about the Rsbuild plugin system.
 :::
 
 ### Official Plugins
@@ -128,8 +128,8 @@ The following are official Rsbuild plugins that are already built into Modern.js
 
 | Plugin                                                                                 | Description                                                                                                                                     | Modern.js Link                                                                                                                        |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [React Plugin](https://v2.rsbuild.dev/plugins/list/plugin-react)                        | Provides support for React                                                                                                                      | -                                                                                                                                     |
-| [SVGR Plugin](https://v2.rsbuild.dev/plugins/list/plugin-svgr)                          | Supports converting SVG images into React components                                                                                            | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [React Plugin](https://v2.rsbuild.rs/plugins/list/plugin-react)                        | Provides support for React                                                                                                                      | -                                                                                                                                     |
+| [SVGR Plugin](https://v2.rsbuild.rs/plugins/list/plugin-svgr)                          | Supports converting SVG images into React components                                                                                            | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
 | [Assets Retry Plugin](https://github.com/rstackjs/rsbuild-plugin-assets-retry)          | Automatically retries requests when static asset loading fails                                                                                  | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
 | [Type Check Plugin](https://github.com/rspack-contrib/rsbuild-plugin-type-check)       | Runs TypeScript type checking in a separate process                                                                                             | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
 | [Source Build Plugin](https://github.com/rspack-contrib/rsbuild-plugin-source-build)   | For monorepo scenarios, supports referencing source code from other subdirectories and completing builds and hot updates                        | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
@@ -142,7 +142,7 @@ The following are official Rsbuild plugins that are already built into Modern.js
 The following are official Rsbuild plugins that are not built into Modern.js:
 
 - [Image Compress Plugin](https://github.com/rspack-contrib/rsbuild-plugin-image-compress): Compresses image resources used in the project.
-- [Stylus Plugin](https://v2.rsbuild.dev/plugins/list/plugin-stylus): Uses Stylus as the CSS preprocessor.
+- [Stylus Plugin](https://v2.rsbuild.rs/plugins/list/plugin-stylus): Uses Stylus as the CSS preprocessor.
 - [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd): Used to build UMD format artifacts.
 - [YAML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml): Used to reference YAML files and convert them to JavaScript objects.
 - [TOML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml): Used to reference TOML files and convert them to JavaScript objects.

@@ -21,7 +21,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   feature3: '嵌套路由',
   featureDesc3: '文件系统即路由，附赠全套性能优化。',
   feature4: '多渲染模式',
-  featureDesc4: 'SSR、SSG、SPR 等多种渲染模式，通通开箱即用。',
+  featureDesc4: 'RSC、SSR、SSG 等多种渲染模式，通通开箱即用。',
   feature5: 'CSS 方案',
   featureDesc5: 'CSS Modules、CSS-in-JS、Tailwind CSS，任你挑选。',
   feature6: '易于配置',

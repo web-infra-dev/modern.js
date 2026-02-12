@@ -168,7 +168,7 @@ export default {
 :::tip
 antd v5 使用了 CSS-in-JS 方案，已原生支持按需加载，无需配置 `source.transformImport`。
 
-更多用法请参考 [Rsbuild - source.transformImport](https://rsbuild.dev/config/source/transform-import)。
+更多用法请参考 [Rsbuild - source.transformImport](https://v2.rsbuild.rs/config/source/transform-import)。
 :::
 
 ## Eslint 规则集
