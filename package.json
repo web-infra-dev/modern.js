@@ -87,6 +87,7 @@
       "read-yaml-file>js-yaml": "3.14.2",
       "@remix-run/router": ">=1.23.2",
       "h3": ">=1.15.5",
+      "@rspack/core@2.0.0-beta.2": "npm:@rspack-canary/core@2.0.0-canary-032bd1ff-20260212021235",
       "tar": ">=7.5.4",
       "diff": ">=4.0.4",
       "debug": ">=4.3.1",
