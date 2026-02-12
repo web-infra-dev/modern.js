@@ -1,5 +1,7 @@
 # @modern-js/upgrade-generator
 
+## 3.7.73
+
 ## 3.7.72
 
 ## 3.7.71
