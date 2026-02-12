@@ -1,4 +1,3 @@
-'use server-entry';
 import 'server-only';
 import { Suspense } from 'react';
 import { RemoteNestedMixed } from 'rscRemote/RemoteNestedMixed';

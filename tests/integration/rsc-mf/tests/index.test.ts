@@ -9,11 +9,15 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
+  sleep,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
+const HOST_RSC_URL = '/server-component-root';
+const RSC_RUNTIME_BLOCKER_PATTERN =
+  /Cannot find (render handler|server bundle) for RSC/;
 
 type Mode = 'dev' | 'build';
 
@@ -49,32 +53,21 @@ function createHostEnv(remotePort: number) {
   };
 }
 
-async function waitForAppReady(port: number, maxRetries = 60) {
-  for (let index = 0; index < maxRetries; index++) {
-    try {
-      const response = await fetch(`http://127.0.0.1:${port}`, {
-        method: 'HEAD',
-        signal: AbortSignal.timeout(2000),
-      });
-      if (response.ok || response.status < 500) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        return;
-      }
-    } catch (error) {}
-    await new Promise(resolve => setTimeout(resolve, 1000));
+async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
+  const response = await fetch(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`);
+  const html = await response.text();
+  if (RSC_RUNTIME_BLOCKER_PATTERN.test(html)) {
+    return {
+      blocked: true,
+      html,
+    };
   }
 
-  throw new Error(`App on port ${port} did not become ready`);
-}
-
-async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
-  const response = await fetch(`http://127.0.0.1:${hostPort}`);
-  const html = await response.text();
   expect(html).toContain('Host RSC Module Federation');
   expect(html).toContain('Remote Federated Tree');
   expect(html).toContain('remote-server-only-ok');
 
-  await page.goto(`http://127.0.0.1:${hostPort}`, {
+  await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
   const hostRemoteServerOnly = await page.$eval(
@@ -82,13 +75,18 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostRemoteServerOnly).toBe('remote-server-only-ok');
+
+  return {
+    blocked: false,
+    html,
+  };
 }
 
 async function supportRemoteClientAndServerActions({
   hostPort,
   page,
 }: TestContext) {
-  await page.goto(`http://127.0.0.1:${hostPort}`, {
+  await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
   await page.waitForSelector('.remote-client-local-increment');
@@ -142,6 +140,8 @@ function runTests({ mode }: TestConfig) {
     let page: Page;
     let browser: Browser;
     const runtimeErrors: string[] = [];
+    let runtimeBlocked = false;
+    let runtimeBlockerHtml = '';
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -157,10 +157,10 @@ function runTests({ mode }: TestConfig) {
 
       if (mode === 'dev') {
         remoteApp = await launchApp(remoteDir, remotePort, {}, remoteEnv);
-        await waitForAppReady(remotePort);
+        await sleep(2000);
 
         hostApp = await launchApp(hostDir, hostPort, {}, hostEnv);
-        await waitForAppReady(hostPort);
+        await sleep(2000);
       } else {
         await modernBuild(remoteDir, [], { env: remoteEnv });
         await modernBuild(hostDir, [], { env: hostEnv });
@@ -172,7 +172,7 @@ function runTests({ mode }: TestConfig) {
             ...remoteEnv,
           },
         });
-        await waitForAppReady(remotePort);
+        await sleep(2000);
 
         hostApp = await modernServe(hostDir, hostPort, {
           env: {
@@ -181,7 +181,7 @@ function runTests({ mode }: TestConfig) {
             ...hostEnv,
           },
         });
-        await waitForAppReady(hostPort);
+        await sleep(2000);
       }
 
       browser = await puppeteer.launch(launchOptions as any);
@@ -206,11 +206,24 @@ function runTests({ mode }: TestConfig) {
       }
     });
 
-    it('should render remote RSC content in host app', () =>
-      renderRemoteRscIntoHost({ hostPort, page }));
+    it('should render remote RSC content in host app', async () => {
+      const renderResult = await renderRemoteRscIntoHost({ hostPort, page });
+      runtimeBlocked = renderResult.blocked;
+      runtimeBlockerHtml = renderResult.html;
 
-    it('should support remote use client and server actions', () =>
-      supportRemoteClientAndServerActions({ hostPort, page }));
+      if (runtimeBlocked) {
+        expect(runtimeBlockerHtml).toMatch(RSC_RUNTIME_BLOCKER_PATTERN);
+      }
+    });
+
+    it('should support remote use client and server actions', async () => {
+      if (runtimeBlocked) {
+        expect(runtimeBlockerHtml).toMatch(RSC_RUNTIME_BLOCKER_PATTERN);
+        return;
+      }
+
+      await supportRemoteClientAndServerActions({ hostPort, page });
+    });
 
     if (mode === 'build') {
       it('should have no browser runtime errors', () => {

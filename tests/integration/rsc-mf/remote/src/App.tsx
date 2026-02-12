@@ -1,4 +1,3 @@
-'use server-entry';
 import { RemoteNestedMixed } from './components/RemoteNestedMixed';
 
 const App = () => {

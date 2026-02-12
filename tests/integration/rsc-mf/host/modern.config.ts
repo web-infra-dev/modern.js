@@ -4,9 +4,6 @@ import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   server: {
-    ssr: {
-      mode: 'stream',
-    },
     rsc: true,
   },
   output: {
@@ -24,5 +21,5 @@ export default defineConfig({
         .add('node_modules');
     },
   },
-  plugins: [appTools(), moduleFederationPlugin()],
+  plugins: [appTools(), moduleFederationPlugin({ ssr: true })],
 });

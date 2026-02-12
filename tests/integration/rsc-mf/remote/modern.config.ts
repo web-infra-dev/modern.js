@@ -6,9 +6,6 @@ const remotePort = process.env.RSC_MF_REMOTE_PORT || process.env.PORT || '3008';
 
 export default defineConfig({
   server: {
-    ssr: {
-      mode: 'stream',
-    },
     rsc: true,
   },
   output: {
@@ -27,5 +24,5 @@ export default defineConfig({
         .add('node_modules');
     },
   },
-  plugins: [appTools(), moduleFederationPlugin()],
+  plugins: [appTools(), moduleFederationPlugin({ ssr: true })],
 });
