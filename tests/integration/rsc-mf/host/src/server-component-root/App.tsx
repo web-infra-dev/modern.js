@@ -13,6 +13,10 @@ import getServerOnlyDefaultInfo from 'rscRemote/remoteServerOnlyDefault';
 import styles from './App.module.less';
 import HostRemoteActionRunner from './HostRemoteActionRunner';
 import {
+  proxyBundledDefaultRemoteAction,
+  proxyBundledIncrementRemoteCount,
+  proxyBundledNestedRemoteAction,
+  proxyBundledRemoteActionEcho,
   proxyDefaultRemoteAction,
   proxyIncrementRemoteCount,
   proxyNestedRemoteAction,
@@ -46,19 +50,19 @@ const App = () => {
       ],
       [
         getServerActionId(remoteActionBundle.bundledIncrementRemoteCount),
-        getServerActionId(proxyIncrementRemoteCount),
+        getServerActionId(proxyBundledIncrementRemoteCount),
       ],
       [
         getServerActionId(remoteActionBundle.bundledRemoteActionEcho),
-        getServerActionId(proxyRemoteActionEcho),
+        getServerActionId(proxyBundledRemoteActionEcho),
       ],
       [
         getServerActionId(remoteActionBundle.bundledNestedRemoteAction),
-        getServerActionId(proxyNestedRemoteAction),
+        getServerActionId(proxyBundledNestedRemoteAction),
       ],
       [
         getServerActionId(remoteActionBundle.bundledDefaultRemoteAction),
-        getServerActionId(proxyDefaultRemoteAction),
+        getServerActionId(proxyBundledDefaultRemoteAction),
       ],
     ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1])),
   );
@@ -101,6 +105,10 @@ const App = () => {
         <form action={proxyRemoteActionEcho} />
         <form action={proxyNestedRemoteAction} />
         <form action={proxyDefaultRemoteAction} />
+        <form action={proxyBundledIncrementRemoteCount} />
+        <form action={proxyBundledRemoteActionEcho} />
+        <form action={proxyBundledNestedRemoteAction} />
+        <form action={proxyBundledDefaultRemoteAction} />
       </div>
       <HostRemoteActionRunner
         remoteActionIdToHostProxyActionId={remoteActionIdToHostProxyActionId}

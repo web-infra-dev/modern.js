@@ -22,3 +22,26 @@ export async function proxyDefaultRemoteAction(value: string) {
   const remote = await import('rscRemote/defaultAction');
   return remote.defaultRemoteAction(value);
 }
+
+export async function proxyBundledIncrementRemoteCount(
+  previousState: number,
+  formData: FormData,
+) {
+  const remote = await import('rscRemote/actionBundle');
+  return remote.bundledIncrementRemoteCount(previousState, formData);
+}
+
+export async function proxyBundledRemoteActionEcho(value: string) {
+  const remote = await import('rscRemote/actionBundle');
+  return remote.bundledRemoteActionEcho(value);
+}
+
+export async function proxyBundledNestedRemoteAction(value: string) {
+  const remote = await import('rscRemote/actionBundle');
+  return remote.bundledNestedRemoteAction(value);
+}
+
+export async function proxyBundledDefaultRemoteAction(value: string) {
+  const remote = await import('rscRemote/actionBundle');
+  return remote.bundledDefaultRemoteAction(value);
+}
