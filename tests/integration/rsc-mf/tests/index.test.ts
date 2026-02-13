@@ -293,11 +293,9 @@ function runTests({ mode }: TestConfig) {
     it('should support remote use client and server actions', () =>
       supportRemoteClientAndServerActions({ hostPort, page }));
 
-    if (mode === 'build') {
-      it('should have no browser runtime errors', () => {
-        expect(runtimeErrors).toEqual([]);
-      });
-    }
+    it('should have no browser runtime errors', () => {
+      expect(runtimeErrors).toEqual([]);
+    });
   });
 }
 
