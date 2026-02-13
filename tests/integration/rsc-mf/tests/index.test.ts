@@ -219,11 +219,36 @@ function runTests({ mode }: TestConfig) {
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
 
-      if (mode === 'build') {
-        page.on('pageerror', error => {
-          runtimeErrors.push((error as Error).message);
-        });
-      }
+      page.on('pageerror', error => {
+        const err = error as Error;
+        const message = err.message;
+        runtimeErrors.push(message);
+        // Debugging aid for flaky integration failures.
+        console.log(`[pageerror:${mode}] ${message}`);
+        if (err.stack) {
+          console.log(`[pageerror:${mode}:stack] ${err.stack}`);
+        }
+      });
+      page.on('console', msg => {
+        if (msg.type() === 'error') {
+          const location = msg.location();
+          const suffix = location?.url
+            ? ` @ ${location.url}:${location.lineNumber}:${location.columnNumber}`
+            : '';
+          console.log(`[browser:${mode}] ${msg.text()}${suffix}`);
+        }
+      });
+      page.on('response', async response => {
+        if (response.status() >= 400 && response.url().includes(HOST_RSC_URL)) {
+          console.log(
+            `[response:${mode}] ${response.status()} ${response.url()}`,
+          );
+          const body = await response.text().catch(() => '');
+          if (body) {
+            console.log(`[response:${mode}:body] ${body}`);
+          }
+        }
+      });
     });
 
     afterAll(async () => {
