@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { remoteActionEcho } from 'rscRemote/actions';
 import defaultRemoteAction from 'rscRemote/defaultAction';
 
@@ -25,6 +26,7 @@ export default function HostRemoteActionRunner() {
 
   return (
     <div className="host-remote-action-runner">
+      <RemoteClientBadge initialLabel="remote-client-badge-initial" />
       <button
         className="host-remote-run-actions"
         disabled={isPending}

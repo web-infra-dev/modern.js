@@ -1,4 +1,70 @@
+import path from 'path';
 import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
+
+const LAYERS = {
+  ssr: 'server-side-rendering',
+  rsc: 'react-server-components',
+} as const;
+
+const reactServerPath = path.join(
+  path.dirname(require.resolve('react/package.json')),
+  'react.react-server.js',
+);
+
+const layeredShared = [
+  {
+    react: {
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'default',
+    },
+    'react-dom': {
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'default',
+    },
+  },
+  {
+    react: {
+      import: 'react',
+      shareKey: 'react',
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'ssr',
+      layer: LAYERS.ssr,
+      issuerLayer: LAYERS.ssr,
+    },
+    'react-dom': {
+      import: 'react-dom',
+      shareKey: 'react-dom',
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'ssr',
+      layer: LAYERS.ssr,
+      issuerLayer: LAYERS.ssr,
+    },
+  },
+  {
+    react: {
+      import: reactServerPath,
+      shareKey: 'react',
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'rsc',
+      layer: LAYERS.rsc,
+      issuerLayer: LAYERS.rsc,
+    },
+    'react-dom': {
+      import: 'react-dom',
+      shareKey: 'react-dom',
+      singleton: true,
+      requiredVersion: false,
+      shareScope: 'rsc',
+      layer: LAYERS.rsc,
+      issuerLayer: LAYERS.rsc,
+    },
+  },
+] as const;
 
 export default createModuleFederationConfig({
   name: 'rscRemote',
@@ -7,23 +73,56 @@ export default createModuleFederationConfig({
   },
   filename: 'static/remoteEntry.js',
   exposes: {
-    './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
-    './RemoteClientBadge': './src/components/RemoteClientBadge.tsx',
-    './RemoteServerCard': './src/components/RemoteServerCard.tsx',
-    './RemoteServerDefault': './src/components/RemoteServerDefault.tsx',
-    './AsyncRemoteServerInfo': './src/components/AsyncRemoteServerInfo.tsx',
-    './RemoteNestedMixed': './src/components/RemoteNestedMixed.tsx',
-    './remoteServerOnly': './src/components/serverOnly.ts',
-    './remoteServerOnlyDefault': './src/components/serverOnlyDefault.ts',
-    './remoteMeta': './src/components/remoteMeta.ts',
-    './actions': './src/components/actions.ts',
-    './nestedActions': './src/components/nestedActions.ts',
-    './defaultAction': './src/components/defaultAction.ts',
+    './RemoteClientCounter': {
+      import: './src/components/RemoteClientCounter.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './RemoteClientBadge': {
+      import: './src/components/RemoteClientBadge.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './RemoteServerCard': {
+      import: './src/components/RemoteServerCard.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './RemoteServerDefault': {
+      import: './src/components/RemoteServerDefault.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './AsyncRemoteServerInfo': {
+      import: './src/components/AsyncRemoteServerInfo.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './RemoteNestedMixed': {
+      import: './src/components/RemoteNestedMixed.tsx',
+      layer: LAYERS.rsc,
+    } as any,
+    './remoteServerOnly': {
+      import: './src/components/serverOnly.ts',
+      layer: LAYERS.rsc,
+    } as any,
+    './remoteServerOnlyDefault': {
+      import: './src/components/serverOnlyDefault.ts',
+      layer: LAYERS.rsc,
+    } as any,
+    './remoteMeta': {
+      import: './src/components/remoteMeta.ts',
+      layer: LAYERS.rsc,
+    } as any,
+    './actions': {
+      import: './src/components/actions.ts',
+      layer: LAYERS.rsc,
+    } as any,
+    './nestedActions': {
+      import: './src/components/nestedActions.ts',
+      layer: LAYERS.rsc,
+    } as any,
+    './defaultAction': {
+      import: './src/components/defaultAction.ts',
+      layer: LAYERS.rsc,
+    } as any,
   },
-  shared: {
-    react: { singleton: true },
-    'react-dom': { singleton: true },
-  },
+  shared: layeredShared as any,
   dts: false,
   experiments: {
     asyncStartup: true,

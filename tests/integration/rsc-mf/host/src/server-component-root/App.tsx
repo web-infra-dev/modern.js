@@ -1,7 +1,6 @@
 import 'server-only';
 import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
-import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteNestedMixed } from 'rscRemote/RemoteNestedMixed';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
@@ -31,7 +30,6 @@ const App = () => {
       <Suspense fallback={<div>Loading Remote RSC...</div>}>
         <RemoteNestedMixed label="Remote Federated Tree" />
       </Suspense>
-      <RemoteClientBadge initialLabel="remote-client-badge-initial" />
       <HostRemoteActionRunner />
     </div>
   );
