@@ -1,4 +1,4 @@
-import { setServerCallback } from 'react-server-dom-rspack/client.browser';
+import { setServerCallback } from 'rsc-mf-react-server-dom-client-browser';
 
 type CallServer = (id: string, args: unknown[]) => Promise<unknown>;
 
