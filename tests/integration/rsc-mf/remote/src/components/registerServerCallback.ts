@@ -1,13 +1,29 @@
-import { setServerCallback } from 'rsc-mf-react-server-dom-client-browser';
+import {
+  createFromFetch,
+  createTemporaryReferenceSet,
+  encodeReply,
+  setServerCallback,
+} from 'rsc-mf-react-server-dom-client-browser';
 
-type CallServer = (id: string, args: unknown[]) => Promise<unknown>;
+let registeredRemoteOrigin = '';
 
-let hasRegisteredRemoteServerCallback = false;
-
-export function registerRemoteServerCallback(callServer: CallServer) {
-  if (hasRegisteredRemoteServerCallback) {
+export function registerRemoteServerCallback(remoteOrigin: string) {
+  if (!remoteOrigin || registeredRemoteOrigin === remoteOrigin) {
     return;
   }
-  setServerCallback(callServer as any);
-  hasRegisteredRemoteServerCallback = true;
+
+  const remoteActionUrl = new URL('/', remoteOrigin).toString();
+  setServerCallback(async (id, args) => {
+    const temporaryReferences = createTemporaryReferenceSet();
+    const response = fetch(remoteActionUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/x-component',
+        'x-rsc-action': id,
+      },
+      body: await encodeReply(args, { temporaryReferences }),
+    });
+    return createFromFetch(response, { temporaryReferences });
+  });
+  registeredRemoteOrigin = remoteOrigin;
 }

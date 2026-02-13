@@ -2,13 +2,23 @@ import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
+const serverOnlyEmptyPath = path.join(
+  path.dirname(require.resolve('server-only')),
+  'empty.js',
+);
+const remoteOrigin = `http://127.0.0.1:${process.env.RSC_MF_REMOTE_PORT || '3008'}`;
+
 export default defineConfig({
   server: {
     rsc: true,
+    port: Number(process.env.PORT || 3007),
   },
   // Keep RSC server entries synchronous for MF+RSC handlers.
   source: {
     enableAsyncEntry: false,
+    define: {
+      __RSC_MF_REMOTE_ORIGIN__: JSON.stringify(remoteOrigin),
+    },
   },
   output: {
     polyfill: 'off',
@@ -25,29 +35,10 @@ export default defineConfig({
         chain.target('async-node');
         chain.resolve.conditionNames
           .clear()
-          .add('react-server')
           .add('require')
           .add('import')
           .add('default');
-        chain.module
-          .rule('rsc-mf-ssr-no-react-server')
-          .test(/\.[cm]?[jt]sx?$/)
-          .issuerLayer('server-side-rendering')
-          .resolve.conditionNames.clear()
-          .add('require')
-          .add('import')
-          .add('default');
-        chain.module
-          .rule('rsc-mf-host-runtime-react-alias')
-          .resource(
-            /packages[\\/]runtime[\\/]plugin-runtime[\\/]dist[\\/]esm[\\/]core[\\/].*\.mjs$/,
-          )
-          .resolve.alias.set('react$', require.resolve('react'))
-          .set('react/jsx-runtime$', require.resolve('react/jsx-runtime'))
-          .set(
-            'react/jsx-dev-runtime$',
-            require.resolve('react/jsx-dev-runtime'),
-          );
+        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
       }
 
       chain.resolve.modules
