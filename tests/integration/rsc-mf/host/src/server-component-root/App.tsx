@@ -17,32 +17,30 @@ import {
   proxyRemoteActionEcho,
 } from './remoteActionProxy';
 
-const App = () => {
-  const remoteActionIdToHostProxyActionId: Record<string, string> = {};
-  const remoteIncrementActionId = (incrementRemoteCount as any)?.$$id;
-  const remoteEchoActionId = (remoteActionEcho as any)?.$$id;
-  const remoteNestedActionId = (nestedRemoteAction as any)?.$$id;
-  const remoteDefaultActionId = (defaultRemoteAction as any)?.$$id;
-  const proxyIncrementActionId = (proxyIncrementRemoteCount as any)?.$$id;
-  const proxyEchoActionId = (proxyRemoteActionEcho as any)?.$$id;
-  const proxyNestedActionId = (proxyNestedRemoteAction as any)?.$$id;
-  const proxyDefaultActionId = (proxyDefaultRemoteAction as any)?.$$id;
+const getServerActionId = (action: unknown) =>
+  (action as { $$id?: string } | undefined)?.$$id;
 
-  if (remoteIncrementActionId && proxyIncrementActionId) {
-    remoteActionIdToHostProxyActionId[remoteIncrementActionId] =
-      proxyIncrementActionId;
-  }
-  if (remoteEchoActionId && proxyEchoActionId) {
-    remoteActionIdToHostProxyActionId[remoteEchoActionId] = proxyEchoActionId;
-  }
-  if (remoteNestedActionId && proxyNestedActionId) {
-    remoteActionIdToHostProxyActionId[remoteNestedActionId] =
-      proxyNestedActionId;
-  }
-  if (remoteDefaultActionId && proxyDefaultActionId) {
-    remoteActionIdToHostProxyActionId[remoteDefaultActionId] =
-      proxyDefaultActionId;
-  }
+const App = () => {
+  const remoteActionIdToHostProxyActionId = Object.fromEntries(
+    [
+      [
+        getServerActionId(incrementRemoteCount),
+        getServerActionId(proxyIncrementRemoteCount),
+      ],
+      [
+        getServerActionId(remoteActionEcho),
+        getServerActionId(proxyRemoteActionEcho),
+      ],
+      [
+        getServerActionId(nestedRemoteAction),
+        getServerActionId(proxyNestedRemoteAction),
+      ],
+      [
+        getServerActionId(defaultRemoteAction),
+        getServerActionId(proxyDefaultRemoteAction),
+      ],
+    ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1])),
+  );
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
@@ -64,7 +62,7 @@ const App = () => {
       <Suspense fallback={<div>Loading Remote RSC...</div>}>
         <RemoteServerDefault label="Remote Federated Tree" />
       </Suspense>
-      <div style={{ display: 'none' }}>
+      <div hidden>
         <form action={proxyIncrementRemoteCount} />
         <form action={proxyRemoteActionEcho} />
         <form action={proxyNestedRemoteAction} />
