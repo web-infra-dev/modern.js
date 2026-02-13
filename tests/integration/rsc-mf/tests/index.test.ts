@@ -230,7 +230,7 @@ function runTests({ mode }: TestConfig) {
         }
       });
       page.on('console', msg => {
-        if (msg.type() === 'error') {
+        if (msg.type() === 'error' || msg.text().includes('[rsc-mf]')) {
           const location = msg.location();
           const suffix = location?.url
             ? ` @ ${location.url}:${location.lineNumber}:${location.columnNumber}`
