@@ -2,6 +2,9 @@ import 'server-only';
 import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
+import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
+import { defaultRemoteAction } from 'rscRemote/defaultAction';
+import { nestedRemoteAction } from 'rscRemote/nestedActions';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
 import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
 import getServerOnlyDefaultInfo from 'rscRemote/remoteServerOnlyDefault';
@@ -15,6 +18,32 @@ import {
 } from './remoteActionProxy';
 
 const App = () => {
+  const remoteActionIdToHostProxyActionId: Record<string, string> = {};
+  const remoteIncrementActionId = (incrementRemoteCount as any)?.$$id;
+  const remoteEchoActionId = (remoteActionEcho as any)?.$$id;
+  const remoteNestedActionId = (nestedRemoteAction as any)?.$$id;
+  const remoteDefaultActionId = (defaultRemoteAction as any)?.$$id;
+  const proxyIncrementActionId = (proxyIncrementRemoteCount as any)?.$$id;
+  const proxyEchoActionId = (proxyRemoteActionEcho as any)?.$$id;
+  const proxyNestedActionId = (proxyNestedRemoteAction as any)?.$$id;
+  const proxyDefaultActionId = (proxyDefaultRemoteAction as any)?.$$id;
+
+  if (remoteIncrementActionId && proxyIncrementActionId) {
+    remoteActionIdToHostProxyActionId[remoteIncrementActionId] =
+      proxyIncrementActionId;
+  }
+  if (remoteEchoActionId && proxyEchoActionId) {
+    remoteActionIdToHostProxyActionId[remoteEchoActionId] = proxyEchoActionId;
+  }
+  if (remoteNestedActionId && proxyNestedActionId) {
+    remoteActionIdToHostProxyActionId[remoteNestedActionId] =
+      proxyNestedActionId;
+  }
+  if (remoteDefaultActionId && proxyDefaultActionId) {
+    remoteActionIdToHostProxyActionId[remoteDefaultActionId] =
+      proxyDefaultActionId;
+  }
+
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();
@@ -41,7 +70,9 @@ const App = () => {
         <form action={proxyNestedRemoteAction} />
         <form action={proxyDefaultRemoteAction} />
       </div>
-      <HostRemoteActionRunner />
+      <HostRemoteActionRunner
+        remoteActionIdToHostProxyActionId={remoteActionIdToHostProxyActionId}
+      />
     </div>
   );
 };
