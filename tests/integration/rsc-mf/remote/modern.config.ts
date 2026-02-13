@@ -3,7 +3,6 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 const remotePort = process.env.RSC_MF_REMOTE_PORT || process.env.PORT || '3008';
-const enableRemoteServeSsr = Boolean(process.env.PORT);
 const serverOnlyEmptyPath = path.join(
   path.dirname(require.resolve('server-only')),
   'empty.js',
@@ -24,7 +23,7 @@ const reactServerDomClientBrowserPath = require.resolve(
 export default defineConfig({
   server: {
     rsc: true,
-    ssr: enableRemoteServeSsr,
+    ssr: true,
     port: Number(remotePort),
   },
   // Keep RSC server entries synchronous for MF+RSC handlers.

@@ -44,8 +44,7 @@ const proxyRemoteRscAction: MiddlewareHandler = async (c, next) => {
     return;
   }
 
-  const reqUrl = new URL(c.req.url);
-  const remoteUrl = `http://127.0.0.1:${remotePort}${reqUrl.pathname}${reqUrl.search}`;
+  const remoteUrl = `http://127.0.0.1:${remotePort}/`;
   const headers = new Headers(request.headers);
   headers.delete('host');
   const body = await request.arrayBuffer();
