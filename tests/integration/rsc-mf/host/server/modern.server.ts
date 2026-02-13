@@ -66,7 +66,7 @@ const getProxyActionIds = async () => {
   > = {};
   Object.values(REMOTE_ACTION_ID_TO_PROXY_EXPORT).forEach(exportName => {
     const pattern = new RegExp(
-      `registerServerReference\\\\(${exportName},\\\\s*"([^"]+)"`,
+      `registerServerReference\\\\)\\\\(${exportName},\\\\s*"([^"]+)"`,
     );
     const match = serverBundleCode.match(pattern);
     if (match?.[1]) {
