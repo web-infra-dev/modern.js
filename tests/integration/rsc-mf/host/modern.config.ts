@@ -23,6 +23,10 @@ export default defineConfig({
       const targets = Array.isArray(target) ? target : [target];
       if (targets.some(item => String(item).includes('node'))) {
         chain.target('async-node');
+        chain.resolve.conditionNames
+          .add('require')
+          .add('import')
+          .add('default');
       }
 
       chain.resolve.modules
