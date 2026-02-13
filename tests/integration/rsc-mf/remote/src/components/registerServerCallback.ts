@@ -12,7 +12,7 @@ export function registerRemoteServerCallback(remoteOrigin: string) {
     return;
   }
 
-  const remoteActionUrl = new URL('/', remoteOrigin).toString();
+  const remoteActionUrl = new URL(remoteOrigin).toString();
   console.log(`[rsc-mf] registerRemoteServerCallback -> ${remoteActionUrl}`);
   setServerCallback(async (id, args) => {
     console.log(`[rsc-mf] remote callback action id -> ${id}`);

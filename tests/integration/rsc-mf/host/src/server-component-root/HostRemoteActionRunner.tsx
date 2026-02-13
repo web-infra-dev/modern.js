@@ -16,7 +16,9 @@ export default function HostRemoteActionRunner() {
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
-    registerRemoteServerCallback(window.location.origin);
+    registerRemoteServerCallback(
+      `${window.location.origin}/server-component-root`,
+    );
   }, []);
 
   const runActions = async () => {
