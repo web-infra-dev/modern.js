@@ -3,10 +3,7 @@
 import { useEffect, useState } from 'react';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
-import {
-  bundledDefaultRemoteAction,
-  bundledRemoteActionEcho,
-} from 'rscRemote/actionBundle';
+import * as remoteActionBundle from 'rscRemote/actionBundle';
 import { remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
 import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
@@ -42,8 +39,12 @@ export default function HostRemoteActionRunner({
         await Promise.all([
           defaultRemoteAction('from-host-client'),
           remoteActionEcho('from-host-client'),
-          bundledDefaultRemoteAction('from-host-client-bundled'),
-          bundledRemoteActionEcho('from-host-client-bundled'),
+          remoteActionBundle.bundledDefaultRemoteAction(
+            'from-host-client-bundled',
+          ),
+          remoteActionBundle.bundledRemoteActionEcho(
+            'from-host-client-bundled',
+          ),
         ]);
       setDefaultResult(defaultValue);
       setEchoResult(echoValue);
