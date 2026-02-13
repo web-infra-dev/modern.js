@@ -54,20 +54,10 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
-        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
-        chain.module
-          .rule('rsc-mf-rsc-issuer-react-server')
-          .issuerLayer('react-server-components')
-          .resolve.conditionNames.clear()
-          .add('react-server')
-          .add('require')
-          .add('import')
-          .add('default');
-        chain.module
-          .rule('rsc-mf-rsc-issuer-react-runtime')
-          .issuerLayer('react-server-components')
-          .resolve.alias.set('react/jsx-runtime$', reactJsxRuntimeServerPath)
+        chain.resolve.alias
+          .set('react/jsx-runtime$', reactJsxRuntimeServerPath)
           .set('react/jsx-dev-runtime$', reactJsxDevRuntimeServerPath);
+        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/bundles/`);
         chain.module
           .rule('rsc-mf-remote-components-layer')
