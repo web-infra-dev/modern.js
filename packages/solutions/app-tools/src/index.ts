@@ -16,6 +16,7 @@ import {
   infoCommand,
   inspectCommand,
   serverCommand,
+  storybookCommand,
 } from './commands';
 import { compatPlugin } from './compat';
 import { DEFAULT_RUNTIME_CONFIG_FILE } from './constants';
@@ -92,6 +93,7 @@ export const appTools = (): CliPlugin<AppTools> => ({
       deployCommand(program, api);
       inspectCommand(program, api);
       infoCommand(program, api);
+      await storybookCommand(program, api);
       deprecatedCommands(program);
     });
 

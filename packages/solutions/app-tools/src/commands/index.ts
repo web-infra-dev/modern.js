@@ -122,3 +122,5 @@ export const infoCommand = (program: Command, api: CLIPluginAPI<AppTools>) => {
       await info(api, options);
     });
 };
+
+export * from './storybook';
