@@ -1,5 +1,5 @@
 'use server';
 
-export default async function defaultRemoteAction(value: string) {
+export async function defaultRemoteAction(value: string) {
   return `default-action:${value}`;
 }

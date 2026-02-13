@@ -5,27 +5,47 @@ import {
   setServerCallback,
 } from 'rsc-mf-react-server-dom-client-browser';
 
-let registeredRemoteOrigin = '';
+let registeredCallbackKey = '';
+const getHostActionId = (rawActionId: string, remoteAlias: string) => {
+  if (rawActionId.startsWith('remote:')) {
+    return rawActionId;
+  }
 
-export function registerRemoteServerCallback(remoteOrigin: string) {
-  if (!remoteOrigin || registeredRemoteOrigin === remoteOrigin) {
+  return `remote:${remoteAlias}:${rawActionId}`;
+};
+
+export function registerRemoteServerCallback(
+  remoteOrigin: string,
+  remoteAlias = 'rscRemote',
+  remoteActionIdToHostProxyActionId?: Record<string, string>,
+) {
+  if (!remoteOrigin) {
+    return;
+  }
+  const callbackKey = JSON.stringify({
+    remoteAlias,
+    remoteOrigin,
+    remoteActionIdToHostProxyActionId,
+  });
+  if (registeredCallbackKey === callbackKey) {
     return;
   }
 
   const remoteActionUrl = new URL(remoteOrigin).toString();
-  console.log(`[rsc-mf] registerRemoteServerCallback -> ${remoteActionUrl}`);
   setServerCallback(async (id, args) => {
-    console.log(`[rsc-mf] remote callback action id -> ${id}`);
+    const hostActionId =
+      remoteActionIdToHostProxyActionId?.[id] ||
+      getHostActionId(id, remoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
       method: 'POST',
       headers: {
         Accept: 'text/x-component',
-        'x-rsc-action': id,
+        'x-rsc-action': hostActionId,
       },
       body: await encodeReply(args, { temporaryReferences }),
     });
     return createFromFetch(response, { temporaryReferences });
   });
-  registeredRemoteOrigin = remoteOrigin;
+  registeredCallbackKey = callbackKey;
 }

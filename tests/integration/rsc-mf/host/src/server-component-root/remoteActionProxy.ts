@@ -1,24 +1,24 @@
 'use server';
 
-let proxyRemoteCountState = 0;
-
 export async function proxyIncrementRemoteCount(
-  _previousState: number,
+  previousState: number,
   formData: FormData,
 ) {
-  const count = Number(formData.get('count') || 1);
-  proxyRemoteCountState += count;
-  return proxyRemoteCountState;
+  const remote = await import('rscRemote/actions');
+  return remote.incrementRemoteCount(previousState, formData);
 }
 
 export async function proxyRemoteActionEcho(value: string) {
-  return `remote-action:${value}`;
+  const remote = await import('rscRemote/actions');
+  return remote.remoteActionEcho(value);
 }
 
 export async function proxyNestedRemoteAction(value: string) {
-  return `nested-action:${value}`;
+  const remote = await import('rscRemote/nestedActions');
+  return remote.nestedRemoteAction(value);
 }
 
 export async function proxyDefaultRemoteAction(value: string) {
-  return `default-action:${value}`;
+  const remote = await import('rscRemote/defaultAction');
+  return remote.defaultRemoteAction(value);
 }

@@ -15,11 +15,6 @@ import {
 } from './remoteActionProxy';
 
 const App = () => {
-  // Ensure host action manifest includes proxy action IDs.
-  void proxyIncrementRemoteCount;
-  void proxyRemoteActionEcho;
-  void proxyNestedRemoteAction;
-  void proxyDefaultRemoteAction;
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();
@@ -40,6 +35,12 @@ const App = () => {
       <Suspense fallback={<div>Loading Remote RSC...</div>}>
         <RemoteServerDefault label="Remote Federated Tree" />
       </Suspense>
+      <div style={{ display: 'none' }}>
+        <form action={proxyIncrementRemoteCount} />
+        <form action={proxyRemoteActionEcho} />
+        <form action={proxyNestedRemoteAction} />
+        <form action={proxyDefaultRemoteAction} />
+      </div>
       <HostRemoteActionRunner />
     </div>
   );
