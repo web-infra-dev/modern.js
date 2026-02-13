@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
 import { remoteActionEcho } from 'rscRemote/actions';
 import defaultRemoteAction from 'rscRemote/defaultAction';
+import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
 
 export default function HostRemoteActionRunner() {
   // Keep this import in the client graph so federated RSC bridge IDs
@@ -13,6 +14,10 @@ export default function HostRemoteActionRunner() {
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
   const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    registerRemoteServerCallback(window.location.origin);
+  }, []);
 
   const runActions = async () => {
     setIsPending(true);
