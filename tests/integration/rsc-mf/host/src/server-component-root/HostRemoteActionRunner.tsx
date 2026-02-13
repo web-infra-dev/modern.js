@@ -20,6 +20,8 @@ export default function HostRemoteActionRunner({
   const [echoResult, setEchoResult] = useState('');
   const [bundledDefaultResult, setBundledDefaultResult] = useState('');
   const [bundledEchoResult, setBundledEchoResult] = useState('');
+  const [bundledNestedResult, setBundledNestedResult] = useState('');
+  const [bundledIncrementResult, setBundledIncrementResult] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
@@ -35,21 +37,36 @@ export default function HostRemoteActionRunner({
   const runActions = async () => {
     setIsPending(true);
     try {
-      const [defaultValue, echoValue, bundledDefaultValue, bundledEchoValue] =
-        await Promise.all([
-          defaultRemoteAction('from-host-client'),
-          remoteActionEcho('from-host-client'),
-          remoteActionBundle.bundledDefaultRemoteAction(
-            'from-host-client-bundled',
-          ),
-          remoteActionBundle.bundledRemoteActionEcho(
-            'from-host-client-bundled',
-          ),
-        ]);
+      const bundledIncrementFormData = new FormData();
+      bundledIncrementFormData.set('count', '1');
+      const [
+        defaultValue,
+        echoValue,
+        bundledDefaultValue,
+        bundledEchoValue,
+        bundledNestedValue,
+        bundledIncrementValue,
+      ] = await Promise.all([
+        defaultRemoteAction('from-host-client'),
+        remoteActionEcho('from-host-client'),
+        remoteActionBundle.bundledDefaultRemoteAction(
+          'from-host-client-bundled',
+        ),
+        remoteActionBundle.bundledRemoteActionEcho('from-host-client-bundled'),
+        remoteActionBundle.bundledNestedRemoteAction(
+          'from-host-client-bundled',
+        ),
+        remoteActionBundle.bundledIncrementRemoteCount(
+          0,
+          bundledIncrementFormData,
+        ),
+      ]);
       setDefaultResult(defaultValue);
       setEchoResult(echoValue);
       setBundledDefaultResult(bundledDefaultValue);
       setBundledEchoResult(bundledEchoValue);
+      setBundledNestedResult(bundledNestedValue);
+      setBundledIncrementResult(String(bundledIncrementValue));
     } finally {
       setIsPending(false);
     }
@@ -73,6 +90,12 @@ export default function HostRemoteActionRunner({
       </p>
       <p className="host-remote-bundled-echo-action-result">
         {bundledEchoResult}
+      </p>
+      <p className="host-remote-bundled-nested-action-result">
+        {bundledNestedResult}
+      </p>
+      <p className="host-remote-bundled-increment-action-result">
+        {bundledIncrementResult}
       </p>
     </div>
   );

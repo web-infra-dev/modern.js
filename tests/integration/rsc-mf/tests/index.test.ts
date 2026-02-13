@@ -207,6 +207,12 @@ async function supportRemoteClientAndServerActions({
     const bundledEchoActionResult = document.querySelector(
       '.host-remote-bundled-echo-action-result',
     );
+    const bundledNestedActionResult = document.querySelector(
+      '.host-remote-bundled-nested-action-result',
+    );
+    const bundledIncrementActionResult = document.querySelector(
+      '.host-remote-bundled-increment-action-result',
+    );
     return (
       defaultActionResult?.textContent?.trim() ===
         'default-action:from-host-client' &&
@@ -215,7 +221,10 @@ async function supportRemoteClientAndServerActions({
       bundledDefaultActionResult?.textContent?.trim() ===
         'default-action:from-host-client-bundled' &&
       bundledEchoActionResult?.textContent?.trim() ===
-        'remote-action:from-host-client-bundled'
+        'remote-action:from-host-client-bundled' &&
+      bundledNestedActionResult?.textContent?.trim() ===
+        'nested-action:from-host-client-bundled' &&
+      bundledIncrementActionResult?.textContent?.trim() === '2'
     );
   });
 }
