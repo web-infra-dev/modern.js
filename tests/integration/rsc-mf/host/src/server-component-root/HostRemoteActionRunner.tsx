@@ -1,6 +1,5 @@
 'use client';
 
-import { callServer as hostCallServer } from '@modern-js/runtime/rsc/client';
 import { useState } from 'react';
 import {
   createFromFetch,
@@ -10,9 +9,8 @@ import {
 } from 'react-server-dom-rspack/client.browser';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
-import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
+import { remoteActionEcho } from 'rscRemote/actions';
 import defaultRemoteAction from 'rscRemote/defaultAction';
-import { nestedRemoteAction } from 'rscRemote/nestedActions';
 
 let hasConfiguredRemoteActionRouting = false;
 
@@ -21,25 +19,8 @@ function configureRemoteActionRouting() {
     return;
   }
 
-  const remoteActionIds = new Set(
-    [
-      defaultRemoteAction,
-      incrementRemoteCount,
-      nestedRemoteAction,
-      remoteActionEcho,
-    ]
-      .map(action => (action as any)?.$$id)
-      .filter((id): id is string => typeof id === 'string'),
-  );
-  if (remoteActionIds.size === 0) {
-    return;
-  }
-
   const remoteActionUrl = `${__RSC_MF_REMOTE_ORIGIN__}/`;
   setServerCallback(async (id, args) => {
-    if (!remoteActionIds.has(id)) {
-      return hostCallServer(id, args);
-    }
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
       method: 'POST',
