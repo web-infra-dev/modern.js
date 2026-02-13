@@ -10,9 +10,23 @@ const serverOnlyEmptyPath = path.join(
 const remoteDistStaticDir = path.resolve(__dirname, '../remote/dist/static');
 const REMOTE_COUNTER_ALIAS_MODULE =
   'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx';
-const REMOTE_COUNTER_SOURCE_MODULE = './src/components/RemoteClientCounter.tsx';
-const createRemoteNestedMixedAliasChunk = () =>
-  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__("${REMOTE_COUNTER_SOURCE_MODULE}");}}]);`;
+const createRemoteNestedMixedAliasChunk = (remoteCounterModuleId: string) =>
+  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__(${JSON.stringify(remoteCounterModuleId)});}}]);`;
+
+const resolveRemoteCounterModuleId = (chunkText: string) => {
+  const marker = 'remote-client-server-count';
+  const markerIndex = chunkText.indexOf(marker);
+  if (markerIndex < 0) {
+    return './src/components/RemoteClientCounter.tsx';
+  }
+
+  const prefix = chunkText.slice(0, markerIndex);
+  const moduleMatches = [
+    ...prefix.matchAll(/(\d+)\(e,[^)]*\)\{/g),
+  ] as RegExpMatchArray[];
+  const moduleId = moduleMatches[moduleMatches.length - 1]?.[1];
+  return moduleId || './src/components/RemoteClientCounter.tsx';
+};
 
 const copyRemoteExposeAssets = async (subDir: 'js' | 'css') => {
   const remoteAsyncDir = path.join(remoteDistStaticDir, subDir, 'async');
@@ -40,9 +54,12 @@ const copyRemoteExposeAssets = async (subDir: 'js' | 'css') => {
         }
 
         const chunkText = await fs.readFile(sourceFile, 'utf-8');
+        const remoteCounterModuleId = resolveRemoteCounterModuleId(chunkText);
         await fs.writeFile(
           targetFile,
-          `${chunkText}${createRemoteNestedMixedAliasChunk()}`,
+          `${chunkText}${createRemoteNestedMixedAliasChunk(
+            remoteCounterModuleId,
+          )}`,
           'utf-8',
         );
       }),
