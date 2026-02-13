@@ -2,6 +2,12 @@ import 'server-only';
 import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
+import {
+  bundledDefaultRemoteAction,
+  bundledIncrementRemoteCount,
+  bundledNestedRemoteAction,
+  bundledRemoteActionEcho,
+} from 'rscRemote/actionBundle';
 import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
 import {
@@ -46,6 +52,22 @@ const App = () => {
       ],
       [
         getServerActionId(defaultRemoteAction),
+        getServerActionId(proxyDefaultRemoteAction),
+      ],
+      [
+        getServerActionId(bundledIncrementRemoteCount),
+        getServerActionId(proxyIncrementRemoteCount),
+      ],
+      [
+        getServerActionId(bundledRemoteActionEcho),
+        getServerActionId(proxyRemoteActionEcho),
+      ],
+      [
+        getServerActionId(bundledNestedRemoteAction),
+        getServerActionId(proxyNestedRemoteAction),
+      ],
+      [
+        getServerActionId(bundledDefaultRemoteAction),
         getServerActionId(proxyDefaultRemoteAction),
       ],
     ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1])),
