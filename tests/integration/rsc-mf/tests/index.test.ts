@@ -309,6 +309,11 @@ function runTests({ mode }: TestConfig) {
           url.startsWith(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`),
         ),
       ).toBe(true);
+      expect(
+        actionRequestUrls.every(
+          url => !url.startsWith(`http://127.0.0.1:${remotePort}`),
+        ),
+      ).toBe(true);
     });
 
     it('should have no browser runtime errors', () => {
