@@ -3,9 +3,6 @@ import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
 import { RemoteNestedMixed } from 'rscRemote/RemoteNestedMixed';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
-import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
-import defaultRemoteAction from 'rscRemote/defaultAction';
-import { nestedRemoteAction } from 'rscRemote/nestedActions';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
 import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
 import getServerOnlyDefaultInfo from 'rscRemote/remoteServerOnlyDefault';
@@ -13,12 +10,6 @@ import styles from './App.module.less';
 import HostRemoteActionRunner from './HostRemoteActionRunner';
 
 const App = () => {
-  // Keep remote server actions in the server graph so host RSC manifests
-  // include action IDs needed for POST action resolution.
-  void incrementRemoteCount;
-  void nestedRemoteAction;
-  void remoteActionEcho;
-  void defaultRemoteAction;
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();

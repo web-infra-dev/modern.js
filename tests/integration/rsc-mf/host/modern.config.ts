@@ -6,7 +6,6 @@ const serverOnlyEmptyPath = path.join(
   path.dirname(require.resolve('server-only')),
   'empty.js',
 );
-const remoteOrigin = `http://127.0.0.1:${process.env.RSC_MF_REMOTE_PORT || '3008'}`;
 
 export default defineConfig({
   server: {
@@ -16,9 +15,6 @@ export default defineConfig({
   // Keep RSC server entries synchronous for MF+RSC handlers.
   source: {
     enableAsyncEntry: false,
-    define: {
-      __RSC_MF_REMOTE_ORIGIN__: JSON.stringify(remoteOrigin),
-    },
   },
   output: {
     polyfill: 'off',
