@@ -8,10 +8,18 @@ const serverOnlyEmptyPath = path.join(
   'empty.js',
 );
 const remoteDistStaticDir = path.resolve(__dirname, '../remote/dist/static');
-const REMOTE_COUNTER_ALIAS_MODULE =
-  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx';
+const REMOTE_COUNTER_ALIAS_MODULES = [
+  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx',
+  'remote-module:rscRemote:./RemoteClientCounter',
+  'remote-module:rscRemote:./RemoteClientCounter.tsx',
+];
 const createRemoteNestedMixedAliasChunk = (remoteCounterModuleId: string) =>
-  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__(${JSON.stringify(remoteCounterModuleId)});}}]);`;
+  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{${REMOTE_COUNTER_ALIAS_MODULES.map(
+    aliasModule =>
+      `"${aliasModule}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__(${JSON.stringify(
+        remoteCounterModuleId,
+      )});}`,
+  ).join(',')}}]);`;
 
 const resolveRemoteCounterModuleId = (chunkText: string) => {
   const marker = 'remote-client-server-count';

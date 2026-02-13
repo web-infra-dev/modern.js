@@ -19,8 +19,11 @@ const shouldProxyRemoteAsset = (pathname: string) => {
   return false;
 };
 
-const REMOTE_COUNTER_ALIAS_MODULE =
-  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx';
+const REMOTE_COUNTER_ALIAS_MODULES = [
+  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx',
+  'remote-module:rscRemote:./RemoteClientCounter',
+  'remote-module:rscRemote:./RemoteClientCounter.tsx',
+];
 const REMOTE_COUNTER_SOURCE_MODULE = './src/components/RemoteClientCounter.tsx';
 const REMOTE_ACTION_ID_TO_PROXY_ACTION_ID = {
   '606c30f35d74d843171a8a71358eda595991e4ee16270e9f052af3faef57a19999':
@@ -34,7 +37,10 @@ const REMOTE_ACTION_ID_TO_PROXY_ACTION_ID = {
 } as const;
 const PROXY_REQUEST_HEADER = 'x-rsc-mf-proxy-action';
 const createRemoteNestedMixedAliasChunk = () =>
-  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__("${REMOTE_COUNTER_SOURCE_MODULE}");}}]);`;
+  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{${REMOTE_COUNTER_ALIAS_MODULES.map(
+    aliasModule =>
+      `"${aliasModule}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__("${REMOTE_COUNTER_SOURCE_MODULE}");}`,
+  ).join(',')}}]);`;
 
 const proxyRemoteRscAction: MiddlewareHandler = async (c, next) => {
   const request = c.req.raw;
