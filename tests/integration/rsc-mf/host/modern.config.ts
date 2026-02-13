@@ -8,6 +8,11 @@ const serverOnlyEmptyPath = path.join(
   'empty.js',
 );
 const remoteDistStaticDir = path.resolve(__dirname, '../remote/dist/static');
+const REMOTE_COUNTER_ALIAS_MODULE =
+  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx';
+const REMOTE_COUNTER_SOURCE_MODULE = './src/components/RemoteClientCounter.tsx';
+const createRemoteNestedMixedAliasChunk = () =>
+  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__("${REMOTE_COUNTER_SOURCE_MODULE}");}}]);`;
 
 const copyRemoteExposeAssets = async (subDir: 'js' | 'css') => {
   const remoteAsyncDir = path.join(remoteDistStaticDir, subDir, 'async');
@@ -21,12 +26,26 @@ const copyRemoteExposeAssets = async (subDir: 'js' | 'css') => {
   await Promise.all(
     remoteFiles
       .filter(file => file.startsWith('__federation_expose_'))
-      .map(file =>
-        fs.copyFile(
-          path.join(remoteAsyncDir, file),
-          path.join(hostAsyncDir, file),
-        ),
-      ),
+      .map(async file => {
+        const sourceFile = path.join(remoteAsyncDir, file);
+        const targetFile = path.join(hostAsyncDir, file);
+        const shouldPatchNestedMixedChunk =
+          subDir === 'js' &&
+          file.startsWith('__federation_expose_RemoteNestedMixed') &&
+          file.endsWith('.js');
+
+        if (!shouldPatchNestedMixedChunk) {
+          await fs.copyFile(sourceFile, targetFile);
+          return;
+        }
+
+        const chunkText = await fs.readFile(sourceFile, 'utf-8');
+        await fs.writeFile(
+          targetFile,
+          `${chunkText}${createRemoteNestedMixedAliasChunk()}`,
+          'utf-8',
+        );
+      }),
   );
 };
 
