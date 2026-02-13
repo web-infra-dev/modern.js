@@ -48,6 +48,7 @@ export default defineConfig({
           .test(/src[\\/]components[\\/].*\.[tj]sx?$/)
           .layer('react-server-components');
       } else {
+        chain.optimization.splitChunks(false);
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/`);
       }
 
