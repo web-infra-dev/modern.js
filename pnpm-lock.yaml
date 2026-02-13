@@ -3583,6 +3583,9 @@ importers:
       '@module-federation/runtime':
         specifier: https://pkg.pr.new/module-federation/core/@module-federation/runtime@73bd1ddb2266002f586a872ddae8020052c5457c
         version: https://pkg.pr.new/module-federation/core/@module-federation/runtime@73bd1ddb2266002f586a872ddae8020052c5457c
+      '@module-federation/runtime-core':
+        specifier: https://pkg.pr.new/module-federation/core/@module-federation/runtime-core@73bd1ddb2266002f586a872ddae8020052c5457c
+        version: https://pkg.pr.new/module-federation/core/@module-federation/runtime-core@73bd1ddb2266002f586a872ddae8020052c5457c
       client-only:
         specifier: ^0.0.1
         version: 0.0.1
@@ -3638,6 +3641,9 @@ importers:
       '@module-federation/runtime':
         specifier: https://pkg.pr.new/module-federation/core/@module-federation/runtime@73bd1ddb2266002f586a872ddae8020052c5457c
         version: https://pkg.pr.new/module-federation/core/@module-federation/runtime@73bd1ddb2266002f586a872ddae8020052c5457c
+      '@module-federation/runtime-core':
+        specifier: https://pkg.pr.new/module-federation/core/@module-federation/runtime-core@73bd1ddb2266002f586a872ddae8020052c5457c
+        version: https://pkg.pr.new/module-federation/core/@module-federation/runtime-core@73bd1ddb2266002f586a872ddae8020052c5457c
       client-only:
         specifier: ^0.0.1
         version: 0.0.1
