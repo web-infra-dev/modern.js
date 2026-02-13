@@ -24,13 +24,7 @@ export default defineConfig({
       if (targets.some(item => String(item).includes('node'))) {
         chain.target('async-node');
         chain.resolve.conditionNames
-          .add('require')
-          .add('import')
-          .add('default');
-        chain.module
-          .rule('rsc-mf-ssr-resolve')
-          .issuerLayer('server-side-rendering')
-          .resolve.conditionNames.clear()
+          .clear()
           .add('require')
           .add('import')
           .add('default');
