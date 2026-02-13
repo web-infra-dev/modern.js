@@ -110,7 +110,9 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
   }
 
   const shouldPatchNestedMixed =
-    pathname === '/static/js/async/__federation_expose_RemoteNestedMixed.js';
+    pathname.startsWith(
+      '/static/js/async/__federation_expose_RemoteNestedMixed',
+    ) && pathname.endsWith('.js');
   if (shouldPatchNestedMixed) {
     let chunkText = await upstream.text();
     chunkText = `${chunkText}${createRemoteNestedMixedAliasChunk()}`;
