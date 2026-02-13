@@ -13,7 +13,9 @@ export function registerRemoteServerCallback(remoteOrigin: string) {
   }
 
   const remoteActionUrl = new URL('/', remoteOrigin).toString();
+  console.log(`[rsc-mf] registerRemoteServerCallback -> ${remoteActionUrl}`);
   setServerCallback(async (id, args) => {
+    console.log(`[rsc-mf] remote callback action id -> ${id}`);
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
       method: 'POST',
