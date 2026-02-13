@@ -131,10 +131,6 @@ export default createModuleFederationConfig({
       import: './src/components/AsyncRemoteServerInfo.tsx',
       layer: LAYERS.rsc,
     } as any,
-    './RemoteNestedMixed': {
-      import: './src/components/RemoteNestedMixed.tsx',
-      layer: LAYERS.rsc,
-    } as any,
     './remoteServerOnly': {
       import: './src/components/serverOnly.ts',
       layer: LAYERS.rsc,
