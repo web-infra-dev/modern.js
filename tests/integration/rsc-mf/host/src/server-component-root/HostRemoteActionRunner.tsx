@@ -1,17 +1,65 @@
 'use client';
 
+import { callServer as hostCallServer } from '@modern-js/runtime/rsc/client';
 import { useState } from 'react';
+import {
+  createFromFetch,
+  createTemporaryReferenceSet,
+  encodeReply,
+  setServerCallback,
+} from 'react-server-dom-rspack/client.browser';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
-import { remoteActionEcho } from 'rscRemote/actions';
+import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
 import defaultRemoteAction from 'rscRemote/defaultAction';
-import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
+import { nestedRemoteAction } from 'rscRemote/nestedActions';
+
+let hasConfiguredRemoteActionRouting = false;
+
+function configureRemoteActionRouting() {
+  if (hasConfiguredRemoteActionRouting) {
+    return;
+  }
+
+  const remoteActionIds = new Set(
+    [
+      defaultRemoteAction,
+      incrementRemoteCount,
+      nestedRemoteAction,
+      remoteActionEcho,
+    ]
+      .map(action => (action as any)?.$$id)
+      .filter((id): id is string => typeof id === 'string'),
+  );
+  if (remoteActionIds.size === 0) {
+    return;
+  }
+
+  const remoteActionUrl = `${__RSC_MF_REMOTE_ORIGIN__}/`;
+  setServerCallback(async (id, args) => {
+    if (!remoteActionIds.has(id)) {
+      return hostCallServer(id, args);
+    }
+    const temporaryReferences = createTemporaryReferenceSet();
+    const response = fetch(remoteActionUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/x-component',
+        'x-rsc-action': id,
+      },
+      body: await encodeReply(args, { temporaryReferences }),
+    });
+    return createFromFetch(response, { temporaryReferences });
+  });
+
+  hasConfiguredRemoteActionRouting = true;
+}
 
 export default function HostRemoteActionRunner() {
   // Keep this import in the client graph so federated RSC bridge IDs
   // can map back to a concrete remote module factory at runtime.
   void RemoteClientCounterBridge;
-  registerRemoteServerCallback(__RSC_MF_REMOTE_ORIGIN__);
+  configureRemoteActionRouting();
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
   const [isPending, setIsPending] = useState(false);
