@@ -137,10 +137,14 @@ export default defineServerConfig({
     {
       name: 'proxy-remote-rsc-action',
       handler: proxyRemoteRscAction,
+      order: 'pre',
+      before: ['server-static'],
     },
     {
       name: 'proxy-remote-federation-asset',
       handler: proxyRemoteFederationAsset,
+      order: 'pre',
+      before: ['server-static'],
     },
   ],
 });
