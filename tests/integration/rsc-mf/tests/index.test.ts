@@ -64,6 +64,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('Remote Default Server Card');
   expect(html).toContain('host-remote-bundled-server-only');
   expect(html).toContain('host-remote-bundled-meta-kind');
+  expect(html).toContain('host-proxy-action-id-count');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -108,6 +109,11 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostRemoteBundledMetaLabel).toBe('rsc|mf|actions');
+  const hostProxyActionIdCount = await page.$eval(
+    '.host-proxy-action-id-count',
+    el => el.textContent?.trim(),
+  );
+  expect(hostProxyActionIdCount).toBe('8');
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),

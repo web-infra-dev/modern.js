@@ -27,6 +27,18 @@ const getServerActionId = (action: unknown) =>
   (action as { $$id?: string } | undefined)?.$$id;
 
 const App = () => {
+  const hostProxyActionIds = [
+    getServerActionId(proxyIncrementRemoteCount),
+    getServerActionId(proxyRemoteActionEcho),
+    getServerActionId(proxyNestedRemoteAction),
+    getServerActionId(proxyDefaultRemoteAction),
+    getServerActionId(proxyBundledIncrementRemoteCount),
+    getServerActionId(proxyBundledRemoteActionEcho),
+    getServerActionId(proxyBundledNestedRemoteAction),
+    getServerActionId(proxyBundledDefaultRemoteAction),
+  ].filter((actionId): actionId is string => Boolean(actionId));
+  const uniqueHostProxyActionIdsCount = new Set(hostProxyActionIds).size;
+
   // Map remote action IDs to host-local proxy action IDs so client-side
   // callbacks can always post a host-resolvable action id. This keeps
   // remote action execution in-process on the host via proxy imports.
@@ -92,6 +104,9 @@ const App = () => {
         {remoteInfoBundle.bundledRemoteMeta.kind}
       </p>
       <p className="host-remote-bundled-meta-label">{bundledRemoteMetaLabel}</p>
+      <p className="host-proxy-action-id-count">
+        {uniqueHostProxyActionIdsCount}
+      </p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
       </Suspense>
