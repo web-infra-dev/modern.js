@@ -37,6 +37,7 @@ export default function HostRemoteActionRunner() {
 
   return (
     <div className="host-remote-action-runner">
+      <RemoteClientCounterBridge />
       <RemoteClientBadge initialLabel="remote-client-badge-initial" />
       <button
         className="host-remote-run-actions"

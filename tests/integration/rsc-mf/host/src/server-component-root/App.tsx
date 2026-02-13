@@ -1,7 +1,6 @@
 import 'server-only';
 import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
-import { RemoteServerCard } from 'rscRemote/RemoteServerCard';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
 import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
@@ -39,7 +38,7 @@ const App = () => {
       </Suspense>
       <RemoteServerDefault label="Remote Default Server Card" />
       <Suspense fallback={<div>Loading Remote RSC...</div>}>
-        <RemoteServerCard label="Remote Federated Tree" />
+        <RemoteServerDefault label="Remote Federated Tree" />
       </Suspense>
       <HostRemoteActionRunner />
     </div>
