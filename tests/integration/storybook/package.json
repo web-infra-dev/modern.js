@@ -10,7 +10,8 @@
     "reset": "npx rimraf node_modules ./**/node_modules",
     "serve": "modern serve",
     "start": "modern start",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "start:proxy": "node start-proxy.js",
     "proxy": "eden-proxy -c ./src/stories/eden.proxy.ts",
     "dev:api": "modern dev --api-only",
     "upgrade": "modern upgrade"
@@ -38,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
+    "http-proxy": "^1.18.1",
     "storybook": "^10.0.0",
     "storybook-addon-modernjs": "3.2.2",
     "storybook-react-rsbuild": "3.2.2",
