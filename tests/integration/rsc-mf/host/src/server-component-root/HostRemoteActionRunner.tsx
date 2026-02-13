@@ -20,6 +20,8 @@ export default function HostRemoteActionRunner({
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
+    // Register once with host endpoint + id mapping so remote client-side
+    // server actions are routed through host proxy actions.
     registerRemoteServerCallback(
       `${window.location.origin}/server-component-root`,
       'rscRemote',

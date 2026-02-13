@@ -21,6 +21,9 @@ const getServerActionId = (action: unknown) =>
   (action as { $$id?: string } | undefined)?.$$id;
 
 const App = () => {
+  // Map remote action IDs to host-local proxy action IDs so client-side
+  // callbacks can always post a host-resolvable action id. This keeps
+  // remote action execution in-process on the host via proxy imports.
   const remoteActionIdToHostProxyActionId = Object.fromEntries(
     [
       [
@@ -62,6 +65,7 @@ const App = () => {
       <Suspense fallback={<div>Loading Remote RSC...</div>}>
         <RemoteServerDefault label="Remote Federated Tree" />
       </Suspense>
+      {/* Anchor host proxy actions in the server action manifest. */}
       <div hidden>
         <form action={proxyIncrementRemoteCount} />
         <form action={proxyRemoteActionEcho} />
