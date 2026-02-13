@@ -115,12 +115,21 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
     return;
   }
 
-  const shouldPatchNestedMixed =
-    pathname.startsWith(
-      '/static/js/async/__federation_expose_RemoteNestedMixed',
-    ) && pathname.endsWith('.js');
-  if (shouldPatchNestedMixed) {
+  const shouldPatchCounterAlias =
+    pathname.startsWith('/static/js/async/__federation_expose_') &&
+    pathname.endsWith('.js');
+  if (shouldPatchCounterAlias) {
     let chunkText = await upstream.text();
+    if (!chunkText.includes('remote-client-server-count')) {
+      c.res = new Response(chunkText, {
+        status: upstream.status,
+        headers: {
+          'content-type': 'application/javascript; charset=utf-8',
+        },
+      });
+      return;
+    }
+
     chunkText = `${chunkText}${createRemoteNestedMixedAliasChunk()}`;
 
     c.res = new Response(chunkText, {

@@ -51,17 +51,22 @@ const copyRemoteExposeAssets = async (subDir: 'js' | 'css') => {
       .map(async file => {
         const sourceFile = path.join(remoteAsyncDir, file);
         const targetFile = path.join(hostAsyncDir, file);
-        const shouldPatchNestedMixedChunk =
+        const shouldPatchCounterAliasChunk =
           subDir === 'js' &&
-          file.startsWith('__federation_expose_RemoteNestedMixed') &&
+          file.startsWith('__federation_expose_') &&
           file.endsWith('.js');
 
-        if (!shouldPatchNestedMixedChunk) {
+        if (!shouldPatchCounterAliasChunk) {
           await fs.copyFile(sourceFile, targetFile);
           return;
         }
 
         const chunkText = await fs.readFile(sourceFile, 'utf-8');
+        if (!chunkText.includes('remote-client-server-count')) {
+          await fs.copyFile(sourceFile, targetFile);
+          return;
+        }
+
         const remoteCounterModuleId = resolveRemoteCounterModuleId(chunkText);
         await fs.writeFile(
           targetFile,
