@@ -4,6 +4,12 @@ import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
 import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
+import {
+  bundledRemoteMeta,
+  getBundledRemoteMetaLabel,
+  getBundledServerOnlyDefaultInfo,
+  getBundledServerOnlyInfo,
+} from 'rscRemote/infoBundle';
 import { nestedRemoteAction } from 'rscRemote/nestedActions';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
 import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
@@ -48,6 +54,9 @@ const App = () => {
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();
+  const bundledServerOnlyInfo = getBundledServerOnlyInfo();
+  const bundledServerOnlyDefaultInfo = getBundledServerOnlyDefaultInfo();
+  const bundledRemoteMetaLabel = getBundledRemoteMetaLabel();
 
   return (
     <div className={styles.root}>
@@ -58,6 +67,12 @@ const App = () => {
       </p>
       <p className="host-remote-meta-kind">{remoteMeta.kind}</p>
       <p className="host-remote-meta-label">{remoteMetaLabel}</p>
+      <p className="host-remote-bundled-server-only">{bundledServerOnlyInfo}</p>
+      <p className="host-remote-bundled-server-only-default">
+        {bundledServerOnlyDefaultInfo}
+      </p>
+      <p className="host-remote-bundled-meta-kind">{bundledRemoteMeta.kind}</p>
+      <p className="host-remote-bundled-meta-label">{bundledRemoteMetaLabel}</p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
       </Suspense>

@@ -62,6 +62,8 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('rsc|mf|actions');
   expect(html).toContain('remote-async-server-info-ok');
   expect(html).toContain('Remote Default Server Card');
+  expect(html).toContain('host-remote-bundled-server-only');
+  expect(html).toContain('host-remote-bundled-meta-kind');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -84,6 +86,28 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el.textContent?.trim(),
   );
   expect(hostRemoteMetaLabel).toBe('rsc|mf|actions');
+  const hostRemoteBundledServerOnly = await page.$eval(
+    '.host-remote-bundled-server-only',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteBundledServerOnly).toBe('remote-server-only-ok');
+  const hostRemoteBundledServerOnlyDefault = await page.$eval(
+    '.host-remote-bundled-server-only-default',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteBundledServerOnlyDefault).toBe(
+    'remote-server-only-default-ok',
+  );
+  const hostRemoteBundledMetaKind = await page.$eval(
+    '.host-remote-bundled-meta-kind',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteBundledMetaKind).toBe('remote-meta-default');
+  const hostRemoteBundledMetaLabel = await page.$eval(
+    '.host-remote-bundled-meta-label',
+    el => el.textContent?.trim(),
+  );
+  expect(hostRemoteBundledMetaLabel).toBe('rsc|mf|actions');
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),
