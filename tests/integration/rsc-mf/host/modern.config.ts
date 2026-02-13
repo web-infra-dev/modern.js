@@ -37,6 +37,17 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
+        chain.module
+          .rule('rsc-mf-host-runtime-react-alias')
+          .resource(
+            /packages[\\/]runtime[\\/]plugin-runtime[\\/]dist[\\/]esm[\\/]core[\\/].*\.mjs$/,
+          )
+          .resolve.alias.set('react$', require.resolve('react'))
+          .set('react/jsx-runtime$', require.resolve('react/jsx-runtime'))
+          .set(
+            'react/jsx-dev-runtime$',
+            require.resolve('react/jsx-dev-runtime'),
+          );
       }
 
       chain.resolve.modules
