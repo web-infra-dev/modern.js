@@ -223,6 +223,7 @@ function runTests({ mode }: TestConfig) {
     let page: Page;
     let browser: Browser;
     const runtimeErrors: string[] = [];
+    const actionRequestUrls: string[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -273,6 +274,14 @@ function runTests({ mode }: TestConfig) {
         const message = err.message;
         runtimeErrors.push(message);
       });
+
+      page.on('request', request => {
+        const headers = request.headers();
+        if (request.method() !== 'POST' || !headers['x-rsc-action']) {
+          return;
+        }
+        actionRequestUrls.push(request.url());
+      });
     });
 
     afterAll(async () => {
@@ -292,6 +301,15 @@ function runTests({ mode }: TestConfig) {
 
     it('should support remote use client and server actions', () =>
       supportRemoteClientAndServerActions({ hostPort, page }));
+
+    it('should route remote actions through host endpoint', () => {
+      expect(actionRequestUrls.length).toBeGreaterThan(0);
+      expect(
+        actionRequestUrls.every(url =>
+          url.startsWith(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`),
+        ),
+      ).toBe(true);
+    });
 
     it('should have no browser runtime errors', () => {
       expect(runtimeErrors).toEqual([]);
