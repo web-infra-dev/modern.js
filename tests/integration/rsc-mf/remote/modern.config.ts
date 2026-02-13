@@ -65,7 +65,6 @@ export default defineConfig({
           .layer('react-server-components');
       } else {
         chain.optimization.splitChunks(false);
-        chain.output.chunkLoadingGlobal('chunk_rscHost');
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/`);
       }
 
