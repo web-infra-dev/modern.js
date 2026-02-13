@@ -53,8 +53,8 @@ const getProxyActionIds = async () => {
   }
 
   const serverBundlePath = path.resolve(
-    __dirname,
-    '../dist/bundles/server-component-root.js',
+    process.cwd(),
+    'dist/bundles/server-component-root.js',
   );
   const serverBundleCode = await fs.readFile(serverBundlePath, 'utf-8');
 
