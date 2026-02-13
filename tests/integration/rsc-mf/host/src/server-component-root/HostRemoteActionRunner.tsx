@@ -1,11 +1,18 @@
 'use client';
 
+import { callServer } from '@modern-js/runtime/rsc/client';
 import { useState } from 'react';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
+import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
 import { remoteActionEcho } from 'rscRemote/actions';
 import defaultRemoteAction from 'rscRemote/defaultAction';
+import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
 
 export default function HostRemoteActionRunner() {
+  // Keep this import in the client graph so federated RSC bridge IDs
+  // can map back to a concrete remote module factory at runtime.
+  void RemoteClientCounterBridge;
+  registerRemoteServerCallback(callServer as any);
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
   const [isPending, setIsPending] = useState(false);

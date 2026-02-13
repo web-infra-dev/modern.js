@@ -155,6 +155,10 @@ export default createModuleFederationConfig({
       import: './src/components/defaultAction.ts',
       layer: LAYERS.rsc,
     } as any,
+    './registerServerCallback': {
+      import: './src/components/registerServerCallback.ts',
+      layer: LAYERS.rsc,
+    } as any,
   },
   shared: sharedByScope as any,
   dts: false,
