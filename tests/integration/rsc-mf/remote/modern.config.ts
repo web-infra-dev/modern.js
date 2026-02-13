@@ -8,15 +8,6 @@ const serverOnlyEmptyPath = path.join(
   path.dirname(require.resolve('server-only')),
   'empty.js',
 );
-const reactRuntimeDir = path.dirname(require.resolve('react'));
-const reactJsxRuntimeServerPath = path.join(
-  reactRuntimeDir,
-  'jsx-runtime.react-server.js',
-);
-const reactJsxDevRuntimeServerPath = path.join(
-  reactRuntimeDir,
-  'jsx-dev-runtime.react-server.js',
-);
 const reactServerDomClientBrowserPath = require.resolve(
   'react-server-dom-rspack/client.browser',
 );
@@ -54,10 +45,7 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
-        chain.resolve.alias
-          .set('react/jsx-runtime$', reactJsxRuntimeServerPath)
-          .set('react/jsx-dev-runtime$', reactJsxDevRuntimeServerPath)
-          .set('server-only$', serverOnlyEmptyPath);
+        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/bundles/`);
         chain.module
           .rule('rsc-mf-remote-components-layer')
