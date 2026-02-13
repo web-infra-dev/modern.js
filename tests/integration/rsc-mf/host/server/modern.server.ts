@@ -19,6 +19,12 @@ const shouldProxyRemoteAsset = (pathname: string) => {
   return false;
 };
 
+const REMOTE_COUNTER_ALIAS_MODULE =
+  'remote-module:rscRemote:./src/components/RemoteClientCounter.tsx';
+const REMOTE_COUNTER_SOURCE_MODULE = './src/components/RemoteClientCounter.tsx';
+const createRemoteNestedMixedAliasChunk = () =>
+  `\n;(globalThis["chunk_rscHost"] = globalThis["chunk_rscHost"] || []).push([["__federation_expose_RemoteNestedMixed_alias"],{"${REMOTE_COUNTER_ALIAS_MODULE}":function(module,__unused,__webpack_require__){module.exports=__webpack_require__("${REMOTE_COUNTER_SOURCE_MODULE}");}}]);`;
+
 const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
   const reqUrl = new URL(c.req.url);
   const pathname = reqUrl.pathname;
@@ -39,6 +45,19 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
 
   if (!upstream || !upstream.ok) {
     await next();
+    return;
+  }
+
+  if (
+    pathname === '/static/js/async/__federation_expose_RemoteNestedMixed.js'
+  ) {
+    const chunkText = await upstream.text();
+    c.res = new Response(`${chunkText}${createRemoteNestedMixedAliasChunk()}`, {
+      status: upstream.status,
+      headers: {
+        'content-type': 'application/javascript; charset=utf-8',
+      },
+    });
     return;
   }
 
