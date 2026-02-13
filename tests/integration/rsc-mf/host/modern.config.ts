@@ -25,6 +25,7 @@ export default defineConfig({
         chain.target('async-node');
         chain.resolve.conditionNames
           .clear()
+          .add('react-server')
           .add('require')
           .add('import')
           .add('default');
