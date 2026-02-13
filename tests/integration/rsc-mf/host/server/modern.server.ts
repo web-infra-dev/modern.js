@@ -2,7 +2,6 @@ import {
   type MiddlewareHandler,
   defineServerConfig,
 } from '@modern-js/server-runtime';
-import { loadServerAction } from 'react-server-dom-rspack/server.node';
 
 const shouldProxyRemoteAsset = (pathname: string) => {
   if (pathname.startsWith('/static/js/async/')) {
@@ -37,16 +36,6 @@ const proxyRemoteRscAction: MiddlewareHandler = async (c, next) => {
   if (!actionId) {
     await next();
     return;
-  }
-
-  try {
-    const localAction = loadServerAction(actionId);
-    if (typeof localAction === 'function') {
-      await next();
-      return;
-    }
-  } catch (_error) {
-    // Unknown host action ID: forward to remote server below.
   }
 
   const remotePort = process.env.RSC_MF_REMOTE_PORT;
