@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
+import {
+  bundledDefaultRemoteAction,
+  bundledRemoteActionEcho,
+} from 'rscRemote/actionBundle';
 import { remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
 import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
@@ -17,6 +21,8 @@ export default function HostRemoteActionRunner({
   void RemoteClientCounterBridge;
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
+  const [bundledDefaultResult, setBundledDefaultResult] = useState('');
+  const [bundledEchoResult, setBundledEchoResult] = useState('');
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
@@ -32,12 +38,17 @@ export default function HostRemoteActionRunner({
   const runActions = async () => {
     setIsPending(true);
     try {
-      const [defaultValue, echoValue] = await Promise.all([
-        defaultRemoteAction('from-host-client'),
-        remoteActionEcho('from-host-client'),
-      ]);
+      const [defaultValue, echoValue, bundledDefaultValue, bundledEchoValue] =
+        await Promise.all([
+          defaultRemoteAction('from-host-client'),
+          remoteActionEcho('from-host-client'),
+          bundledDefaultRemoteAction('from-host-client-bundled'),
+          bundledRemoteActionEcho('from-host-client-bundled'),
+        ]);
       setDefaultResult(defaultValue);
       setEchoResult(echoValue);
+      setBundledDefaultResult(bundledDefaultValue);
+      setBundledEchoResult(bundledEchoValue);
     } finally {
       setIsPending(false);
     }
@@ -56,6 +67,12 @@ export default function HostRemoteActionRunner({
       </button>
       <p className="host-remote-default-action-result">{defaultResult}</p>
       <p className="host-remote-echo-action-result">{echoResult}</p>
+      <p className="host-remote-bundled-default-action-result">
+        {bundledDefaultResult}
+      </p>
+      <p className="host-remote-bundled-echo-action-result">
+        {bundledEchoResult}
+      </p>
     </div>
   );
 }

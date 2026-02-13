@@ -98,40 +98,52 @@ async function supportRemoteClientAndServerActions({
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
   });
-  await page.waitForSelector('.remote-client-local-increment');
-
-  let localCount = await page.$eval('.remote-client-local-count', el =>
-    el.textContent?.trim(),
+  await page.waitForSelector(
+    '.host-remote-action-runner .remote-client-local-increment',
   );
-  let serverCount = await page.$eval('.remote-client-server-count', el =>
-    el.textContent?.trim(),
+
+  let localCount = await page.$eval(
+    '.host-remote-action-runner .remote-client-local-count',
+    el => el.textContent?.trim(),
+  );
+  let serverCount = await page.$eval(
+    '.host-remote-action-runner .remote-client-server-count',
+    el => el.textContent?.trim(),
   );
   expect(localCount).toBe('0');
   expect(serverCount).toBe('0');
 
-  await page.click('.remote-client-local-increment');
-  localCount = await page.$eval('.remote-client-local-count', el =>
-    el.textContent?.trim(),
+  await page.click('.host-remote-action-runner .remote-client-local-increment');
+  localCount = await page.$eval(
+    '.host-remote-action-runner .remote-client-local-count',
+    el => el.textContent?.trim(),
   );
   expect(localCount).toBe('1');
 
-  await page.click('.remote-client-server-increment');
+  await page.click(
+    '.host-remote-action-runner .remote-client-server-increment',
+  );
   await page.waitForFunction(
     () =>
       !document
-        .querySelector('.remote-client-server-increment')
+        .querySelector(
+          '.host-remote-action-runner .remote-client-server-increment',
+        )
         ?.hasAttribute('disabled'),
   );
-  serverCount = await page.$eval('.remote-client-server-count', el =>
-    el.textContent?.trim(),
+  serverCount = await page.$eval(
+    '.host-remote-action-runner .remote-client-server-count',
+    el => el.textContent?.trim(),
   );
   expect(serverCount).toBe('1');
 
-  await page.click('.remote-client-run-actions');
+  await page.click('.host-remote-action-runner .remote-client-run-actions');
   await page.waitForFunction(() => {
-    const nested = document.querySelector('.remote-client-nested-result');
+    const nested = document.querySelector(
+      '.host-remote-action-runner .remote-client-nested-result',
+    );
     const remoteAction = document.querySelector(
-      '.remote-client-remote-action-result',
+      '.host-remote-action-runner .remote-client-remote-action-result',
     );
     return (
       nested?.textContent?.trim() === 'nested-action:from-client' &&
@@ -139,13 +151,15 @@ async function supportRemoteClientAndServerActions({
     );
   });
 
-  let badgeValue = await page.$eval('.remote-client-badge-value', el =>
-    el.textContent?.trim(),
+  let badgeValue = await page.$eval(
+    '.host-remote-action-runner .remote-client-badge-value',
+    el => el.textContent?.trim(),
   );
   expect(badgeValue).toBe('remote-client-badge-initial');
-  await page.click('.remote-client-badge-toggle');
-  badgeValue = await page.$eval('.remote-client-badge-value', el =>
-    el.textContent?.trim(),
+  await page.click('.host-remote-action-runner .remote-client-badge-toggle');
+  badgeValue = await page.$eval(
+    '.host-remote-action-runner .remote-client-badge-value',
+    el => el.textContent?.trim(),
   );
   expect(badgeValue).toBe('remote-client-badge-toggled');
 
@@ -157,10 +171,21 @@ async function supportRemoteClientAndServerActions({
     const echoActionResult = document.querySelector(
       '.host-remote-echo-action-result',
     );
+    const bundledDefaultActionResult = document.querySelector(
+      '.host-remote-bundled-default-action-result',
+    );
+    const bundledEchoActionResult = document.querySelector(
+      '.host-remote-bundled-echo-action-result',
+    );
     return (
       defaultActionResult?.textContent?.trim() ===
         'default-action:from-host-client' &&
-      echoActionResult?.textContent?.trim() === 'remote-action:from-host-client'
+      echoActionResult?.textContent?.trim() ===
+        'remote-action:from-host-client' &&
+      bundledDefaultActionResult?.textContent?.trim() ===
+        'default-action:from-host-client-bundled' &&
+      bundledEchoActionResult?.textContent?.trim() ===
+        'remote-action:from-host-client-bundled'
     );
   });
 }
