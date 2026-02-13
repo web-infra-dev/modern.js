@@ -29,6 +29,14 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
+        chain.module
+          .rule('rsc-mf-ssr-no-react-server')
+          .test(/\.[cm]?[jt]sx?$/)
+          .issuerLayer('server-side-rendering')
+          .resolve.conditionNames.clear()
+          .add('require')
+          .add('import')
+          .add('default');
       }
 
       chain.resolve.modules

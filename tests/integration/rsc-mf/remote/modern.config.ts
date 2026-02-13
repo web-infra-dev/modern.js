@@ -34,6 +34,14 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
+        chain.module
+          .rule('rsc-mf-ssr-no-react-server')
+          .test(/\.[cm]?[jt]sx?$/)
+          .issuerLayer('server-side-rendering')
+          .resolve.conditionNames.clear()
+          .add('require')
+          .add('import')
+          .add('default');
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/bundles/`);
         chain.module
           .rule('rsc-mf-remote-components-layer')
