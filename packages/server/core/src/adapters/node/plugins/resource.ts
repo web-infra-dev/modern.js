@@ -1,4 +1,5 @@
 import path from 'path';
+import vm from 'vm';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
@@ -19,6 +20,68 @@ import type {
   ServerPlugin,
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
+
+const ASYNC_NODE_STARTUP_CALL =
+  'var __webpack_exports__ = __webpack_require__.x();';
+
+const isPromiseLike = (value: unknown): value is Promise<unknown> =>
+  Boolean(value) &&
+  (typeof value === 'object' || typeof value === 'function') &&
+  'then' in (value as Promise<unknown>) &&
+  typeof (value as Promise<unknown>).then === 'function';
+
+const loadPatchedAsyncNodeBundle = async (
+  filepath: string,
+): Promise<unknown | undefined> => {
+  const bundleCode = await fs.readFile(filepath, 'utf-8');
+
+  if (
+    !bundleCode.includes(ASYNC_NODE_STARTUP_CALL) ||
+    !bundleCode.includes('__webpack_require__.mfAsyncStartup')
+  ) {
+    return undefined;
+  }
+
+  const patchedCode = bundleCode.replace(
+    ASYNC_NODE_STARTUP_CALL,
+    'var __webpack_exports__ = __webpack_require__.x({}, []);',
+  );
+
+  const localModule: { exports: unknown } = { exports: {} };
+  const wrapped = `(function(exports, require, module, __filename, __dirname){${patchedCode}\n})`;
+  const runBundle = vm.runInThisContext(wrapped, { filename: filepath }) as (
+    exports: unknown,
+    require: NodeJS.Require,
+    module: { exports: unknown },
+    __filename: string,
+    __dirname: string,
+  ) => void;
+
+  runBundle(
+    localModule.exports,
+    require,
+    localModule,
+    filepath,
+    path.dirname(filepath),
+  );
+
+  if (isPromiseLike(localModule.exports)) {
+    return await localModule.exports;
+  }
+
+  return localModule.exports;
+};
+
+const loadBundleModule = async (filepath: string): Promise<unknown> => {
+  try {
+    return require(filepath);
+  } catch (err: any) {
+    if (err?.code === 'ERR_REQUIRE_ESM') {
+      return compatibleRequire(filepath, false);
+    }
+    throw err;
+  }
+};
 
 export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   // Only process routes with entryName, which are HTML template routes.
@@ -59,14 +122,26 @@ export function injectTemplates(
   };
 }
 
-const loadBundle = async (filepath: string, monitors?: Monitors) => {
+const loadBundle = async (
+  filepath: string,
+  monitors?: Monitors,
+): Promise<any> => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
 
   try {
-    const module = await compatibleRequire(filepath, false);
-    return module;
+    const module = await loadBundleModule(filepath);
+    if (!isPromiseLike(module)) {
+      return module;
+    }
+
+    const resolvedModule = await module;
+    if (resolvedModule) {
+      return resolvedModule;
+    }
+
+    return loadPatchedAsyncNodeBundle(filepath);
   } catch (e) {
     if (monitors) {
       monitors.error(

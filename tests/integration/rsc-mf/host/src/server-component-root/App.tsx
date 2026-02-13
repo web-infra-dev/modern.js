@@ -8,19 +8,8 @@ import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
 import getServerOnlyDefaultInfo from 'rscRemote/remoteServerOnlyDefault';
 import styles from './App.module.less';
 import HostRemoteActionRunner from './HostRemoteActionRunner';
-import {
-  proxyDefaultRemoteAction,
-  proxyIncrementRemoteCount,
-  proxyNestedRemoteAction,
-  proxyRemoteActionEcho,
-} from './remoteActionProxy';
 
 const App = () => {
-  // Ensure host action manifest includes proxy action IDs.
-  void proxyIncrementRemoteCount;
-  void proxyRemoteActionEcho;
-  void proxyNestedRemoteAction;
-  void proxyDefaultRemoteAction;
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();

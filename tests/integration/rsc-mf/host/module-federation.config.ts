@@ -107,9 +107,6 @@ export default createModuleFederationConfig({
     rscRemote: `rscRemote@http://127.0.0.1:${REMOTE_PORT}/static/mf-manifest.json`,
   },
   shared: sharedByScope as any,
-  runtimePlugins: [
-    path.resolve(__dirname, './runtime/forceRemotePublicPath.ts'),
-  ],
   dts: false,
   experiments: {
     asyncStartup: true,
