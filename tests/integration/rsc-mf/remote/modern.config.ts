@@ -47,6 +47,8 @@ export default defineConfig({
           .rule('rsc-mf-remote-components-layer')
           .test(/src[\\/]components[\\/].*\.[tj]sx?$/)
           .layer('react-server-components');
+      } else {
+        chain.output.publicPath(`http://127.0.0.1:${remotePort}/`);
       }
 
       chain.resolve.modules
