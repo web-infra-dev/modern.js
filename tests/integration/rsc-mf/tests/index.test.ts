@@ -249,6 +249,15 @@ function runTests({ mode }: TestConfig) {
           }
         }
       });
+      page.on('request', request => {
+        if (
+          request.method() === 'POST' &&
+          request.url().includes(HOST_RSC_URL)
+        ) {
+          const actionId = request.headers()['x-rsc-action'];
+          console.log(`[request:${mode}] action=${actionId || 'missing'}`);
+        }
+      });
     });
 
     afterAll(async () => {
