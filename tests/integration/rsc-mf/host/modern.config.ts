@@ -27,6 +27,13 @@ export default defineConfig({
           .add('require')
           .add('import')
           .add('default');
+        chain.module
+          .rule('rsc-mf-ssr-resolve')
+          .issuerLayer('server-side-rendering')
+          .resolve.conditionNames.clear()
+          .add('require')
+          .add('import')
+          .add('default');
       }
 
       chain.resolve.modules
