@@ -2,20 +2,10 @@ import 'server-only';
 import { Suspense } from 'react';
 import { AsyncRemoteServerInfo } from 'rscRemote/AsyncRemoteServerInfo';
 import RemoteServerDefault from 'rscRemote/RemoteServerDefault';
-import {
-  bundledDefaultRemoteAction,
-  bundledIncrementRemoteCount,
-  bundledNestedRemoteAction,
-  bundledRemoteActionEcho,
-} from 'rscRemote/actionBundle';
+import * as remoteActionBundle from 'rscRemote/actionBundle';
 import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
-import {
-  bundledRemoteMeta,
-  getBundledRemoteMetaLabel,
-  getBundledServerOnlyDefaultInfo,
-  getBundledServerOnlyInfo,
-} from 'rscRemote/infoBundle';
+import * as remoteInfoBundle from 'rscRemote/infoBundle';
 import { nestedRemoteAction } from 'rscRemote/nestedActions';
 import remoteMeta, { getRemoteMetaLabel } from 'rscRemote/remoteMeta';
 import { getServerOnlyInfo } from 'rscRemote/remoteServerOnly';
@@ -55,19 +45,19 @@ const App = () => {
         getServerActionId(proxyDefaultRemoteAction),
       ],
       [
-        getServerActionId(bundledIncrementRemoteCount),
+        getServerActionId(remoteActionBundle.bundledIncrementRemoteCount),
         getServerActionId(proxyIncrementRemoteCount),
       ],
       [
-        getServerActionId(bundledRemoteActionEcho),
+        getServerActionId(remoteActionBundle.bundledRemoteActionEcho),
         getServerActionId(proxyRemoteActionEcho),
       ],
       [
-        getServerActionId(bundledNestedRemoteAction),
+        getServerActionId(remoteActionBundle.bundledNestedRemoteAction),
         getServerActionId(proxyNestedRemoteAction),
       ],
       [
-        getServerActionId(bundledDefaultRemoteAction),
+        getServerActionId(remoteActionBundle.bundledDefaultRemoteAction),
         getServerActionId(proxyDefaultRemoteAction),
       ],
     ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1])),
@@ -76,9 +66,10 @@ const App = () => {
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
   const remoteMetaLabel = getRemoteMetaLabel();
-  const bundledServerOnlyInfo = getBundledServerOnlyInfo();
-  const bundledServerOnlyDefaultInfo = getBundledServerOnlyDefaultInfo();
-  const bundledRemoteMetaLabel = getBundledRemoteMetaLabel();
+  const bundledServerOnlyInfo = remoteInfoBundle.getBundledServerOnlyInfo();
+  const bundledServerOnlyDefaultInfo =
+    remoteInfoBundle.getBundledServerOnlyDefaultInfo();
+  const bundledRemoteMetaLabel = remoteInfoBundle.getBundledRemoteMetaLabel();
 
   return (
     <div className={styles.root}>
@@ -93,7 +84,9 @@ const App = () => {
       <p className="host-remote-bundled-server-only-default">
         {bundledServerOnlyDefaultInfo}
       </p>
-      <p className="host-remote-bundled-meta-kind">{bundledRemoteMeta.kind}</p>
+      <p className="host-remote-bundled-meta-kind">
+        {remoteInfoBundle.bundledRemoteMeta.kind}
+      </p>
       <p className="host-remote-bundled-meta-label">{bundledRemoteMetaLabel}</p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
