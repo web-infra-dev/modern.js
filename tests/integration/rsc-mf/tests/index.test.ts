@@ -224,6 +224,7 @@ function runTests({ mode }: TestConfig) {
     let browser: Browser;
     const runtimeErrors: string[] = [];
     const actionRequestUrls: string[] = [];
+    const actionRequestIds: string[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -281,6 +282,7 @@ function runTests({ mode }: TestConfig) {
           return;
         }
         actionRequestUrls.push(request.url());
+        actionRequestIds.push(headers['x-rsc-action']);
       });
     });
 
@@ -314,6 +316,17 @@ function runTests({ mode }: TestConfig) {
           url => !url.startsWith(`http://127.0.0.1:${remotePort}`),
         ),
       ).toBe(true);
+    });
+
+    it('should post host-resolvable action ids for remote actions', () => {
+      expect(actionRequestIds.length).toBeGreaterThan(0);
+      expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
+        true,
+      );
+      expect(actionRequestIds.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
+        true,
+      );
+      expect(new Set(actionRequestIds).size).toBeGreaterThanOrEqual(4);
     });
 
     it('should have no browser runtime errors', () => {
