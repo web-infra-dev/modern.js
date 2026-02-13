@@ -111,6 +111,10 @@ export default createModuleFederationConfig({
       import: './src/components/RemoteClientCounter.tsx',
       layer: LAYERS.rsc,
     } as any,
+    './src/components/RemoteClientCounter.tsx': {
+      import: './src/components/RemoteClientCounter.tsx',
+      layer: LAYERS.rsc,
+    } as any,
     './RemoteClientBadge': {
       import: './src/components/RemoteClientBadge.tsx',
       layer: LAYERS.rsc,
