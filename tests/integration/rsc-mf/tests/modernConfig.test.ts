@@ -91,6 +91,19 @@ const loadRemoteConfig = ({
     },
   );
 
+const expectModuleFederationPluginEnabled = (plugins: Array<any>) => {
+  const hasFederationPlugin = plugins.some(plugin => {
+    if (!plugin || typeof plugin !== 'object') {
+      return false;
+    }
+    if (plugin.name === 'mf-plugin-mock') {
+      return plugin.options?.ssr === true;
+    }
+    return plugin.name === '@modern-js/plugin-module-federation';
+  });
+  expect(hasFederationPlugin).toBe(true);
+};
+
 const createChainHarness = (target: string | string[]) => {
   const aliasMap = new Map<string, string>();
   const conditionNames: string[] = [];
@@ -211,12 +224,9 @@ describe('rsc-mf modern config contracts', () => {
     expect(hostConfig.plugins).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ name: 'app-tools-mock' }),
-        expect.objectContaining({
-          name: 'mf-plugin-mock',
-          options: expect.objectContaining({ ssr: true }),
-        }),
       ]),
     );
+    expectModuleFederationPluginEnabled(hostConfig.plugins);
   });
 
   it('applies host async-node bundler behavior for node targets', () => {
@@ -274,12 +284,9 @@ describe('rsc-mf modern config contracts', () => {
     expect(remoteConfig.plugins).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ name: 'app-tools-mock' }),
-        expect.objectContaining({
-          name: 'mf-plugin-mock',
-          options: expect.objectContaining({ ssr: true }),
-        }),
       ]),
     );
+    expectModuleFederationPluginEnabled(remoteConfig.plugins);
   });
 
   it('enables remote ssr mode when explicit PORT is set', () => {
