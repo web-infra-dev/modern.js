@@ -11,6 +11,7 @@ const PROXY_UNSAFE_RESPONSE_HEADERS = [
   'transfer-encoding',
   'upgrade',
 ];
+const STATUS_CODES_WITHOUT_BODY = new Set([204, 205, 304]);
 
 export const createSafeProxyResponse = (upstream: Response) => {
   const headers = new Headers(upstream.headers);
@@ -31,7 +32,10 @@ export const createSafeProxyResponse = (upstream: Response) => {
   for (const token of connectionHeaderTokens) {
     headers.delete(token);
   }
-  return new Response(upstream.body, {
+  const responseBody = STATUS_CODES_WITHOUT_BODY.has(upstream.status)
+    ? null
+    : upstream.body;
+  return new Response(responseBody, {
     status: upstream.status,
     statusText: upstream.statusText,
     headers,

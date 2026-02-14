@@ -81,4 +81,28 @@ describe('rsc-mf proxy response helper', () => {
     expect(proxied.headers.get('keep-alive')).toBeNull();
     expect(proxied.headers.get('x-safe-header')).toBe('preserve-me');
   });
+
+  it('forces empty body for no-content status responses', async () => {
+    const upstream = {
+      status: 204,
+      statusText: 'No Content',
+      headers: new Headers({
+        'content-type': 'application/javascript',
+      }),
+      body: new ReadableStream({
+        start(controller) {
+          controller.enqueue(
+            new TextEncoder().encode('should-not-be-forwarded'),
+          );
+          controller.close();
+        },
+      }),
+    } as unknown as Response;
+
+    const proxied = createSafeProxyResponse(upstream);
+
+    expect(proxied.status).toBe(204);
+    expect(proxied.statusText).toBe('No Content');
+    await expect(proxied.text()).resolves.toBe('');
+  });
 });
