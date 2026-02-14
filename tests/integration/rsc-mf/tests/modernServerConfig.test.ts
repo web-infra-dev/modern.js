@@ -143,6 +143,58 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('.remote-style{}');
   });
 
+  it('proxies async JS chunks with react server component marker', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(async () => {
+      return new Response('proxied-rsc-chunk', {
+        status: 200,
+        headers: {
+          'content-type': 'application/javascript',
+        },
+      });
+    });
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/503_react-server-components_0f2d4f91.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://127.0.0.1:3999/static/js/async/503_react-server-components_0f2d4f91.js',
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('proxied-rsc-chunk');
+  });
+
+  it('proxies async JS chunks containing node_modules react markers', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(async () => {
+      return new Response('proxied-react-chunk', {
+        status: 200,
+        headers: {
+          'content-type': 'application/javascript',
+        },
+      });
+    });
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/node_modules_pnpm_react_19.0.0_react-dom_19.0.0.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://127.0.0.1:3999/static/js/async/node_modules_pnpm_react_19.0.0_react-dom_19.0.0.js',
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('proxied-react-chunk');
+  });
+
   it('falls through when request path is outside federated asset patterns', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
