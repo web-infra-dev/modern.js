@@ -619,13 +619,19 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
+        'const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/',
+      );
+      expect(runtimeRegisterSource).toContain(
         'const normalizedRemoteAlias = remoteAlias.trim()',
       );
       expect(runtimeRegisterSource).toContain(
-        "!normalizedRemoteAlias || normalizedRemoteAlias.includes(':')",
+        "normalizedRemoteAlias.includes(':')",
       );
       expect(runtimeRegisterSource).toContain(
-        'Remote alias must be a non-empty identifier without ":" delimiters',
+        '!ALIAS_TOKEN_PATTERN.test(normalizedRemoteAlias)',
+      );
+      expect(runtimeRegisterSource).toContain(
+        'Remote alias must be a non-empty token (letters, numbers, "-", "_", ".") without ":" delimiters',
       );
       expect(runtimeRegisterSource).toContain(
         "if (rawActionId.startsWith('remote:'))",

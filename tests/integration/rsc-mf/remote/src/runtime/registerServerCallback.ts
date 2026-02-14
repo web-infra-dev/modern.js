@@ -6,6 +6,7 @@ import {
 } from 'rsc-mf-react-server-dom-client-browser';
 
 let registeredCallbackKey = '';
+const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
 const getHostActionId = (rawActionId: string, remoteAlias: string) => {
   if (rawActionId.startsWith('remote:')) {
     return rawActionId;
@@ -40,9 +41,13 @@ export function registerRemoteServerCallback(
     return;
   }
   const normalizedRemoteAlias = remoteAlias.trim();
-  if (!normalizedRemoteAlias || normalizedRemoteAlias.includes(':')) {
+  if (
+    !normalizedRemoteAlias ||
+    normalizedRemoteAlias.includes(':') ||
+    !ALIAS_TOKEN_PATTERN.test(normalizedRemoteAlias)
+  ) {
     throw new Error(
-      `Remote alias must be a non-empty identifier without ":" delimiters. Received: ${remoteAlias}`,
+      `Remote alias must be a non-empty token (letters, numbers, "-", "_", ".") without ":" delimiters. Received: ${remoteAlias}`,
     );
   }
   const remoteActionUrl = getNormalizedRemoteActionUrl(normalizedRemoteOrigin);
