@@ -100,6 +100,14 @@ const shouldProxyRemoteAsset = (pathname: string) => {
 };
 
 const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
+  const requestHeaders = c.req.headers;
+  const isInternalFallbackFetch =
+    requestHeaders?.get?.(INTERNAL_FALLBACK_HEADER) === '1';
+  if (isInternalFallbackFetch) {
+    await next();
+    return;
+  }
+
   const reqUrl = new URL(c.req.url);
   const pathname = reqUrl.pathname;
 

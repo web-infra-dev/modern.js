@@ -62,7 +62,10 @@ const getProxyMiddlewareHandler = () => {
   expect(middleware.before).toEqual(['server-static']);
   expect(typeof middleware.handler).toBe('function');
   return middleware.handler as (
-    c: { req: { url: string }; res?: Response },
+    c: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    },
     next: () => Promise<void>,
   ) => Promise<void>;
 };
@@ -218,6 +221,32 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     const context: { req: { url: string }; res?: Response } = {
       req: {
         url: 'http://127.0.0.1:3007/static/js/server-component-root.abc123.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
+  it('skips proxying when request is marked as internal fallback fetch', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      async () => new Response('ignored', { status: 200 }),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_actions.44d8f1d7ae.js',
+        headers: {
+          get: (name: string) =>
+            name === INTERNAL_FALLBACK_HEADER ? '1' : undefined,
+        },
       },
     };
 
