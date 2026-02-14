@@ -537,6 +537,13 @@ function runTests({ mode }: TestConfig) {
             .readdirSync(remoteRuntimeExposesDir)
             .filter(entryName => !entryName.startsWith('.'))
         : [];
+      const remoteRuntimeEntries = fs
+        .readdirSync(path.join(remoteDir, 'src/runtime'))
+        .filter(entryName => !entryName.startsWith('.'))
+        .sort();
+      const remoteRuntimeEntriesWithoutExposeDir = remoteRuntimeEntries.filter(
+        entryName => entryName !== 'exposes',
+      );
       const remoteExposeEntries = getRemoteExposeEntries(
         moduleFederationConfigSource,
       );
@@ -618,6 +625,10 @@ function runTests({ mode }: TestConfig) {
         './src/runtime/exposes/',
       );
       expect(remoteRuntimeExposeEntries).toEqual([]);
+      expect(remoteRuntimeEntriesWithoutExposeDir).toEqual([
+        'initServerCallback.ts',
+        'registerServerCallback.ts',
+      ]);
       expect(moduleFederationConfigSource).toContain('COMPONENT_EXPOSE_PREFIX');
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
