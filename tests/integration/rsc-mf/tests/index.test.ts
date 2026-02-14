@@ -547,6 +547,10 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeInitSource).toContain('bootstrapServerCallback');
       expect(runtimeInitSource).toContain('callbackBootstrapPromise');
       expect(runtimeInitSource).toContain("import('./registerServerCallback')");
+      expect(runtimeInitSource).toContain('callbackBootstrapPromise.catch');
+      expect(runtimeInitSource).toContain(
+        'callbackBootstrapPromise = undefined',
+      );
       expect(runtimeInitSource).not.toContain(
         "from './registerServerCallback'",
       );

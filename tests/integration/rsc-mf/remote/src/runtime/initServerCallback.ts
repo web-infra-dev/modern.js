@@ -11,6 +11,9 @@ const bootstrapServerCallback = () => {
         );
       },
     );
+    callbackBootstrapPromise.catch(() => {
+      callbackBootstrapPromise = undefined;
+    });
   }
 
   return callbackBootstrapPromise;
