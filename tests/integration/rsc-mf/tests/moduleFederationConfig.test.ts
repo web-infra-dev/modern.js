@@ -147,6 +147,17 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
+  it('falls back to default remote manifest port when env var is unset', () => {
+    const hostConfig = loadHostConfig({
+      nodeEnv: 'test',
+    });
+    expect(hostConfig.remotes).toEqual(
+      expect.objectContaining({
+        rscRemote: 'rscRemote@http://127.0.0.1:3008/static/mf-manifest.json',
+      }),
+    );
+  });
+
   it('enables host runtime plugin only in production', () => {
     const productionHostConfig = loadHostConfig({
       nodeEnv: 'production',
@@ -162,5 +173,18 @@ describe('rsc-mf module federation config contracts', () => {
       remotePort: '3008',
     });
     expect(developmentHostConfig.runtimePlugins).toEqual([]);
+  });
+
+  it('keeps host experiments aligned for async startup and rsc', () => {
+    const hostConfig = loadHostConfig({
+      nodeEnv: 'test',
+      remotePort: '3008',
+    });
+    expect(hostConfig.experiments).toEqual(
+      expect.objectContaining({
+        asyncStartup: true,
+        rsc: true,
+      }),
+    );
   });
 });
