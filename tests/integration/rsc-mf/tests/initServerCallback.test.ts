@@ -6,6 +6,11 @@ const flushMicrotasks = async () => {
   await Promise.resolve();
   await Promise.resolve();
 };
+const flushRepeatedMicrotasks = async (count: number) => {
+  for (let index = 0; index < count; index += 1) {
+    await Promise.resolve();
+  }
+};
 
 describe('initServerCallback runtime bootstrap behavior', () => {
   const originalWindow = (globalThis as { window?: unknown }).window;
@@ -108,5 +113,71 @@ describe('initServerCallback runtime bootstrap behavior', () => {
 
     expect(getRegisterModuleLoadCount()).toBe(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('retries callback bootstrap after transient registration failure', async () => {
+    jest.resetModules();
+    (globalThis as { window?: unknown }).window = {
+      location: {
+        origin: 'http://127.0.0.1:4500',
+        pathname: '/server-component-root',
+      },
+    };
+
+    const transientError = new Error('transient-bootstrap-failure');
+    const mockRegisterRemoteServerCallback = jest
+      .fn()
+      .mockImplementationOnce(() => {
+        throw transientError;
+      })
+      .mockImplementation(() => undefined);
+    let registerModuleLoadCount = 0;
+    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => {
+      registerModuleLoadCount += 1;
+      return {
+        registerRemoteServerCallback: mockRegisterRemoteServerCallback,
+      };
+    });
+
+    await import(INIT_SERVER_CALLBACK_MODULE);
+    await flushRepeatedMicrotasks(20);
+
+    expect(registerModuleLoadCount).toBe(1);
+    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(2);
+    expect(mockRegisterRemoteServerCallback).toHaveBeenNthCalledWith(
+      1,
+      'http://127.0.0.1:4500/server-component-root',
+    );
+    expect(mockRegisterRemoteServerCallback).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:4500/server-component-root',
+    );
+  });
+
+  it('caps callback bootstrap retries after repeated failures', async () => {
+    jest.resetModules();
+    (globalThis as { window?: unknown }).window = {
+      location: {
+        origin: 'http://127.0.0.1:4700',
+        pathname: '/server-component-root',
+      },
+    };
+
+    const mockRegisterRemoteServerCallback = jest.fn(() => {
+      throw new Error('persistent-bootstrap-failure');
+    });
+    let registerModuleLoadCount = 0;
+    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => {
+      registerModuleLoadCount += 1;
+      return {
+        registerRemoteServerCallback: mockRegisterRemoteServerCallback,
+      };
+    });
+
+    await import(INIT_SERVER_CALLBACK_MODULE);
+    await flushRepeatedMicrotasks(40);
+
+    expect(registerModuleLoadCount).toBe(1);
+    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(3);
   });
 });

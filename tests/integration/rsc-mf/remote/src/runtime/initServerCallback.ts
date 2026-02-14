@@ -1,4 +1,6 @@
 let callbackBootstrapPromise: Promise<void> | undefined;
+const MAX_CALLBACK_BOOTSTRAP_RETRIES = 2;
+let callbackBootstrapRetryCount = 0;
 
 const bootstrapServerCallback = () => {
   if (!callbackBootstrapPromise) {
@@ -8,10 +10,18 @@ const bootstrapServerCallback = () => {
         registerRemoteServerCallback(
           `${window.location.origin}${actionPathname}`,
         );
+        callbackBootstrapRetryCount = 0;
       },
     );
     callbackBootstrapPromise.catch(() => {
       callbackBootstrapPromise = undefined;
+      if (callbackBootstrapRetryCount >= MAX_CALLBACK_BOOTSTRAP_RETRIES) {
+        return;
+      }
+      callbackBootstrapRetryCount += 1;
+      queueMicrotask(() => {
+        void bootstrapServerCallback();
+      });
     });
   }
 
