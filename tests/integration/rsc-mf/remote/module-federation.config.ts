@@ -1,6 +1,9 @@
 import path from 'path';
 import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
-import { createRscExposeDefinitions } from './src/runtime/createRscExposeDefinitions';
+import {
+  type ExposeDefinitionInput,
+  createRscExposeDefinitions,
+} from './src/runtime/createRscExposeDefinitions';
 
 const LAYERS = {
   ssr: 'server-side-rendering',
@@ -15,7 +18,7 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
-const remoteExposeImports: Record<string, string> = {
+const remoteExposeImports: Record<string, ExposeDefinitionInput> = {
   './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
   './RemoteClientBadge': './src/components/RemoteClientBadge.tsx',
   './RemoteServerCard': './src/components/RemoteServerCard.tsx',
@@ -28,7 +31,9 @@ const remoteExposeImports: Record<string, string> = {
   './nestedActions': './src/components/nestedActions.ts',
   './defaultAction': './src/components/defaultAction.ts',
   './actionBundle': './src/components/actionBundle.ts',
-  './infoBundle': './src/components/infoBundle.ts',
+  './infoBundle': {
+    import: './src/components/infoBundle.ts',
+  },
 };
 
 const sharedByScope = [

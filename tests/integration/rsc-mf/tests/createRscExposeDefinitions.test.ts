@@ -3,15 +3,9 @@ const CREATE_RSC_EXPOSE_DEFINITIONS_MODULE =
 
 const loadCreateRscExposeDefinitions = () => {
   let moduleExports: any;
-  try {
-    jest.isolateModules(() => {
-      moduleExports = require(CREATE_RSC_EXPOSE_DEFINITIONS_MODULE);
-    });
-  } catch (error) {
-    throw new Error(
-      `Failed to load createRscExposeDefinitions module: ${String(error)}`,
-    );
-  }
+  jest.isolateModules(() => {
+    moduleExports = require(CREATE_RSC_EXPOSE_DEFINITIONS_MODULE);
+  });
   return moduleExports as {
     createRscExposeDefinitions: (
       remoteExposeImports: Record<

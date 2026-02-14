@@ -5,7 +5,7 @@ const SOURCE_ENTRY_EXTENSION_PATTERN = /\.[cm]?[jt]sx?$/i;
 const RSC_LAYER = 'react-server-components';
 
 type ExposeImportInput = string | string[];
-type ExposeDefinitionInput =
+export type ExposeDefinitionInput =
   | string
   | ({
       import: ExposeImportInput;
