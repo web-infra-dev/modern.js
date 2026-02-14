@@ -456,6 +456,21 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from inline type-only named re-export clauses', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customExportInlineTypeOnlyActionBridge':
+          './src/components/exportInlineTypeOnlyActionBridge.ts',
+      }),
+    ).toEqual({
+      './customExportInlineTypeOnlyActionBridge': {
+        import: ['./src/components/exportInlineTypeOnlyActionBridge.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('infers callback bootstrap when import clause includes runtime bindings', () => {
     const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
       loadCreateRscExposeDefinitions();
@@ -488,6 +503,25 @@ describe('createRscExposeDefinitions', () => {
         import: [
           CALLBACK_BOOTSTRAP_MODULE,
           './src/components/exportNamespaceActionBridge.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('infers callback bootstrap from mixed inline export clauses with runtime bindings', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customExportInlineMixedActionBridge':
+          './src/components/exportInlineMixedActionBridge.ts',
+      }),
+    ).toEqual({
+      './customExportInlineMixedActionBridge': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/exportInlineMixedActionBridge.ts',
         ],
         layer: 'react-server-components',
       },
