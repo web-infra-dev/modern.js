@@ -584,6 +584,10 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
       expect(runtimeRegisterSource).toContain("method: 'POST'");
       expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
+      expect(runtimeRegisterSource).toContain('getNormalizedRemoteActionUrl');
+      expect(runtimeRegisterSource).toContain("url.search = ''");
+      expect(runtimeRegisterSource).toContain("url.hash = ''");
+      expect(runtimeRegisterSource).toContain('remoteActionUrl,');
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
       );
