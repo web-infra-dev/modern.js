@@ -173,6 +173,33 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
+  it('throws after retry when callback fetch stays at retryable 429 response', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+    global.fetch = jest.fn(async () => {
+      return {
+        ok: false,
+        status: 429,
+        statusText: 'Too Many Requests',
+      } as Response;
+    });
+
+    const callback = getRegisteredCallback();
+    await expect(
+      callback('fetch-retry-429-fail-action', ['arg-1']),
+    ).rejects.toThrow(
+      'Remote action callback request failed with status 429 Too Many Requests (http://127.0.0.1:3008/server-component-root).',
+    );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    const firstFetchBody = (global.fetch as jest.Mock).mock.calls[0]?.[1]?.body;
+    const secondFetchBody = (global.fetch as jest.Mock).mock.calls[1]?.[1]
+      ?.body;
+    expect(firstFetchBody).toBe(secondFetchBody);
+    expect(mockCreateFromFetch).not.toHaveBeenCalled();
+  });
+
   it('retries once when callback fetch returns retryable 408 response', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
