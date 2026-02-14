@@ -532,6 +532,11 @@ function runTests({ mode }: TestConfig) {
       const remoteExposeKeys = remoteExposeEntries
         .map(({ exposeKey }) => exposeKey)
         .sort();
+      const clientBrowserSharedScopeEntryCount = (
+        moduleFederationConfigSource.match(
+          /'react-server-dom-rspack\/client\.browser':\s*\{/g,
+        ) || []
+      ).length;
 
       expect(
         componentSources.every(
@@ -584,6 +589,13 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
       );
+      expect(moduleFederationConfigSource).toContain("shareScope: 'default'");
+      expect(moduleFederationConfigSource).toContain("shareScope: 'ssr'");
+      expect(moduleFederationConfigSource).toContain("shareScope: 'rsc'");
+      expect(moduleFederationConfigSource).toContain('experiments:');
+      expect(moduleFederationConfigSource).toContain('asyncStartup: true');
+      expect(moduleFederationConfigSource).toContain('rsc: true');
+      expect(clientBrowserSharedScopeEntryCount).toBe(3);
       expect(remoteExposeKeys).toEqual(EXPECTED_REMOTE_EXPOSE_PATHS);
       expect(
         remoteExposeEntries.every(({ importPath }) =>
