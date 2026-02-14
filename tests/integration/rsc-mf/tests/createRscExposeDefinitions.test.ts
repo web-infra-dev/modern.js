@@ -359,6 +359,24 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('infers callback bootstrap from local import graph use client directives', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customRemoteServerCard': './src/components/RemoteServerCard.tsx',
+      }),
+    ).toEqual({
+      './customRemoteServerCard': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/RemoteServerCard.tsx',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(

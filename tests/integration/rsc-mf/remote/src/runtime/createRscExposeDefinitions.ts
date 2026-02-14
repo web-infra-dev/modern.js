@@ -10,6 +10,8 @@ const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
 const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
 const EXPORT_FROM_SPECIFIER_PATTERN =
   /export\s+(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
+const IMPORT_FROM_SPECIFIER_PATTERN =
+  /import\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
 const SOURCE_ENTRY_EXTENSIONS = [
   '.ts',
   '.tsx',
@@ -195,19 +197,26 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
       return true;
     }
 
-    const exportFromMatches = sourceText.matchAll(
-      EXPORT_FROM_SPECIFIER_PATTERN,
-    );
-    for (const match of exportFromMatches) {
-      const moduleSpecifier = match[1];
-      if (!LOCAL_MODULE_SPECIFIER_PATTERN.test(moduleSpecifier)) {
+    const localSpecifierMatches = [
+      ...sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
+      ...sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
+    ];
+    for (const match of localSpecifierMatches) {
+      const [moduleSpecifier] = match.slice(1);
+      if (
+        typeof moduleSpecifier !== 'string' ||
+        !LOCAL_MODULE_SPECIFIER_PATTERN.test(moduleSpecifier)
+      ) {
         continue;
       }
       const childModuleFilePath = resolveUserlandImportPathToFile(
         moduleSpecifier,
         filePath,
       );
-      if (childModuleFilePath && hasCallbackDirective(childModuleFilePath)) {
+      if (!childModuleFilePath) {
+        continue;
+      }
+      if (hasCallbackDirective(childModuleFilePath)) {
         callbackDirectiveBySourceFile.set(filePath, true);
         return true;
       }
