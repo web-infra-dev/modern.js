@@ -102,7 +102,12 @@ const fetchRemoteManifestFallbackAsset = async ({
     return undefined;
   }
 
-  const manifest = (await manifestResponse.json()) as RemoteManifestShape;
+  const manifest = (await manifestResponse
+    .json()
+    .catch((): undefined => undefined)) as RemoteManifestShape | undefined;
+  if (!manifest) {
+    return undefined;
+  }
   const fallbackAssetPath = resolveManifestFallbackAssetPath(
     pathname,
     manifest,
