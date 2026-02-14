@@ -65,6 +65,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-server-only');
   expect(html).toContain('host-remote-bundled-meta-kind');
   expect(html).toContain('host-proxy-action-id-count');
+  expect(html).toContain('host-proxy-map-entry-count');
   expect(html).toContain('host-proxy-action-ids');
   expect(html).toContain('host-direct-proxy-action-ids');
   expect(html).toContain('host-bundled-proxy-action-ids');
@@ -117,6 +118,11 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostProxyActionIdCount).toBe('8');
+  const hostProxyMapEntryCount = await page.$eval(
+    '.host-proxy-map-entry-count',
+    el => el.textContent?.trim(),
+  );
+  expect(hostProxyMapEntryCount).toBe('8');
   const hostProxyActionIds = await page.$eval('.host-proxy-action-ids', el =>
     el.textContent?.trim(),
   );
@@ -124,6 +130,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostProxyActionIdList.length).toBe(8);
+  expect(hostProxyActionIdList.length).toBe(Number(hostProxyMapEntryCount));
   expect(new Set(hostProxyActionIdList).size).toBe(8);
   expect(hostProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
     true,

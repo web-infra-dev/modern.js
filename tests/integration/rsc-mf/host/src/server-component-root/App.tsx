@@ -99,6 +99,8 @@ const App = () => {
   const remoteActionIdMapKey = JSON.stringify(
     remoteActionIdToHostProxyActionEntries,
   );
+  const remoteActionIdMapEntryCount =
+    remoteActionIdToHostProxyActionEntries.length;
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
@@ -127,6 +129,9 @@ const App = () => {
       <p className="host-remote-bundled-meta-label">{bundledRemoteMetaLabel}</p>
       <p className="host-proxy-action-id-count">
         {uniqueHostProxyActionIdsCount}
+      </p>
+      <p className="host-proxy-map-entry-count">
+        {remoteActionIdMapEntryCount}
       </p>
       <p className="host-proxy-action-ids">
         {uniqueHostProxyActionIds.join(',')}
