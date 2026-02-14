@@ -131,7 +131,7 @@
     "@rspress/shared",
     "@rspress/plugin-llms",
     "rspress",
-    "@module-federation/modern-js",
+    "@module-federation/modern-js-v3",
     "@module-federation/bridge-react",
     "@module-federation/runtime",
     "@rsbuild/webpack"

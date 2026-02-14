@@ -1,5 +1,15 @@
 # @modern-js/builder
 
+## 3.0.2
+
+### Patch Changes
+
+- dcf43b8: feat: support rspack builtin rsc
+  feat: 使用 rspack 内置的 rsc 插件
+- 28cf50a: fix: should support windows path in server-entry route pattern
+  fix: route pattern 中应该支持 windows 系统路径
+  - @modern-js/utils@3.0.2
+
 ## 3.0.1
 
 ### Patch Changes

@@ -14,7 +14,7 @@
 例如生产者部署在 `https://my-remote-module` 这个域名下，开发者需要修改消费者的配置文件：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -76,7 +76,7 @@ export default defineConfig({
 此时，消费者在配置远程模块时，需要配置以下地址：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',

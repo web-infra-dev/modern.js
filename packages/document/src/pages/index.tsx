@@ -14,9 +14,21 @@ const HomepageHeader = () => {
     <div className={styles.header}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className={styles.mask} />
+        <a
+          href={useUrl('/community/blog/v3-release-note')}
+          className={styles.announcement}
+        >
+          <span className={styles.announcementLabel}>
+            {t('announcementLabel')}
+          </span>
+          <span className={styles.announcementText}>
+            {t('announcementText')}
+          </span>
+          <span className={styles.announcementArrow}>→</span>
+        </a>
         <h1 className={styles.title}>
           <span className={clsx([styles.titleGradient, styles.mainTitle])}>
-            Modern.js
+            Modern.js 3.0
           </span>
           <div>{t('slogan')}</div>
         </h1>

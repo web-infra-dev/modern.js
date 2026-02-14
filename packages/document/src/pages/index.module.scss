@@ -26,6 +26,91 @@
   padding-bottom: 16vh;
 }
 
+.announcement {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px 6px 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    150.85deg,
+    rgba(124, 178, 250, 0.15) 3%,
+    rgba(124, 178, 250, 0.08) 97.17%
+  );
+  border: 1px solid rgba(124, 178, 250, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    background: linear-gradient(
+      150.85deg,
+      rgba(124, 178, 250, 0.25) 3%,
+      rgba(124, 178, 250, 0.15) 97.17%
+    );
+    border-color: rgba(124, 178, 250, 0.55);
+    text-decoration: none;
+  }
+}
+
+:global(.dark) .announcement {
+  background: linear-gradient(
+    150.85deg,
+    rgba(124, 178, 250, 0.18) 3%,
+    rgba(124, 178, 250, 0.08) 97.17%
+  );
+  border-color: rgba(124, 178, 250, 0.25);
+
+  &:hover {
+    background: linear-gradient(
+      150.85deg,
+      rgba(124, 178, 250, 0.28) 3%,
+      rgba(124, 178, 250, 0.14) 97.17%
+    );
+    border-color: rgba(124, 178, 250, 0.4);
+  }
+}
+
+.announcementLabel {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--edenx-home-hero-name-background);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+
+.announcementText {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+:global(.dark) .announcementText {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.announcementArrow {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s ease;
+
+  .announcement:hover & {
+    transform: translateX(2px);
+  }
+}
+
+:global(.dark) .announcementArrow {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .title {
   font-style: normal;
   font-weight: bold;
@@ -148,6 +233,14 @@
   .title {
     font-size: 7vw;
     text-align: center;
+  }
+  .announcement {
+    padding: 4px 14px 4px 4px;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .announcementText {
+    font-size: 12px;
   }
   .buttons {
     width: 65%;

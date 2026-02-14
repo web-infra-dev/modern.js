@@ -40,7 +40,8 @@
     "update-rspress": "npx taze major --include /rspress/ -w -r -l",
     "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
     "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/doc_build/* ./doc_output",
-    "build:docs": "pnpm --filter @modern-js/main-doc... build && npm run gen:docs"
+    "docs:v2-link": "echo '/v2/*  https://modernjs-v2.netlify.app/:splat  200' >> doc_output/_redirects",
+    "build:docs": "pnpm --filter @modern-js/main-doc... build && npm run gen:docs && npm run docs:v2-link"
   },
   "engines": {
     "node": ">=20",
@@ -70,7 +71,7 @@
     "@modern-js/tsconfig": "workspace:*",
     "@rstest/core": "0.7.9",
     "@scripts/build": "workspace:*",
-    "@types/react": "^19.2.13",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "check-dependency-version-consistency": "4.1.1",
     "cross-env": "^7.0.3",
@@ -92,7 +93,8 @@
       "cross-spawn": ">=6.0.6",
       "lodash-es": ">=4.17.23",
       "esbuild": ">=0.25.0",
-      "tmp": ">=0.2.5"
+      "tmp": ">=0.2.5",
+      "@isaacs/brace-expansion": ">=5.0.1"
     },
     "peerDependencyRules": {
       "allowedVersions": {

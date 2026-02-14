@@ -23,9 +23,6 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
-    "experiments": {
-      "asyncWebAssembly": true,
-    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -33,7 +30,6 @@ exports[`builder environment compat > should generator environment config correc
     "module": {
       "parser": {
         "javascript": {
-          "exportsPresence": "error",
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -340,7 +336,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -355,7 +351,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -371,7 +367,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -386,7 +382,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -402,7 +398,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -417,7 +413,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -441,7 +437,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[contenthash:8].module.wasm",
+            "filename": "static/wasm/[contenthash:10].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -826,7 +822,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -986,14 +982,14 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                   "options": {
                     "limit": 10000,
-                    "name": "static/svg/[name].[contenthash:8].svg",
+                    "name": "static/svg/[name].[contenthash:10].svg",
                   },
                 },
               ],
             },
             {
               "generator": {
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -1035,7 +1031,7 @@ exports[`builder environment compat > should generator environment config correc
       },
     },
     "output": {
-      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
       "bundlerInfo": {
         "force": false,
       },
@@ -1044,7 +1040,7 @@ exports[`builder environment compat > should generator environment config correc
       "filename": "static/js/[name].js",
       "path": "<WORKSPACE>/packages/cli/builder/dist",
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:10].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -1231,9 +1227,6 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
-    "experiments": {
-      "asyncWebAssembly": true,
-    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -1246,7 +1239,6 @@ exports[`builder environment compat > should generator environment config correc
       },
       "parser": {
         "javascript": {
-          "exportsPresence": "error",
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -1434,7 +1426,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -1450,7 +1442,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -1467,7 +1459,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -1483,7 +1475,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -1500,7 +1492,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -1516,7 +1508,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -1540,7 +1532,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[contenthash:8].module.wasm",
+            "filename": "static/wasm/[contenthash:10].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -1736,7 +1728,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -1886,7 +1878,7 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                   "options": {
                     "limit": 10000,
-                    "name": "static/svg/[name].[contenthash:8].svg",
+                    "name": "static/svg/[name].[contenthash:10].svg",
                   },
                 },
               ],
@@ -1894,7 +1886,7 @@ exports[`builder environment compat > should generator environment config correc
             {
               "generator": {
                 "emit": false,
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -1914,7 +1906,7 @@ exports[`builder environment compat > should generator environment config correc
       "splitChunks": false,
     },
     "output": {
-      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
       "bundlerInfo": {
         "force": false,
       },
@@ -1926,7 +1918,7 @@ exports[`builder environment compat > should generator environment config correc
       },
       "path": "<WORKSPACE>/packages/cli/builder/dist/bundles",
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:10].module.wasm",
     },
     "performance": {
       "hints": false,
@@ -2018,9 +2010,6 @@ exports[`builder environment compat > should generator environment config correc
         "<WORKSPACE>/packages/cli/builder/src/index.ts",
       ],
     },
-    "experiments": {
-      "asyncWebAssembly": true,
-    },
     "infrastructureLogging": {
       "level": "error",
     },
@@ -2029,7 +2018,6 @@ exports[`builder environment compat > should generator environment config correc
       "parser": {
         "javascript": {
           "dynamicImportMode": "eager",
-          "exportsPresence": "error",
           "typeReexportsPresence": "tolerant",
         },
       },
@@ -2216,7 +2204,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -2231,7 +2219,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/image/[name].[contenthash:8][ext]",
+                "filename": "static/image/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -2247,7 +2235,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -2262,7 +2250,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/media/[name].[contenthash:8][ext]",
+                "filename": "static/media/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -2278,7 +2266,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -2293,7 +2281,7 @@ exports[`builder environment compat > should generator environment config correc
             },
             {
               "generator": {
-                "filename": "static/font/[name].[contenthash:8][ext]",
+                "filename": "static/font/[name].[contenthash:10][ext]",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -2317,7 +2305,7 @@ exports[`builder environment compat > should generator environment config correc
         {
           "dependency": "url",
           "generator": {
-            "filename": "static/wasm/[contenthash:8].module.wasm",
+            "filename": "static/wasm/[contenthash:10].module.wasm",
           },
           "test": /\\\\\\.wasm\\$/,
           "type": "asset/resource",
@@ -2500,7 +2488,7 @@ exports[`builder environment compat > should generator environment config correc
           "oneOf": [
             {
               "generator": {
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "resourceQuery": /\\^\\\\\\?url\\$/,
               "type": "asset/resource",
@@ -2650,14 +2638,14 @@ exports[`builder environment compat > should generator environment config correc
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                   "options": {
                     "limit": 10000,
-                    "name": "static/svg/[name].[contenthash:8].svg",
+                    "name": "static/svg/[name].[contenthash:10].svg",
                   },
                 },
               ],
             },
             {
               "generator": {
-                "filename": "static/svg/[name].[contenthash:8].svg",
+                "filename": "static/svg/[name].[contenthash:10].svg",
               },
               "parser": {
                 "dataUrlCondition": {
@@ -2677,7 +2665,7 @@ exports[`builder environment compat > should generator environment config correc
       "splitChunks": false,
     },
     "output": {
-      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+      "assetModuleFilename": "static/assets/[name].[contenthash:10][ext]",
       "bundlerInfo": {
         "force": false,
       },
@@ -2689,7 +2677,7 @@ exports[`builder environment compat > should generator environment config correc
       },
       "path": "<WORKSPACE>/packages/cli/builder/dist/worker",
       "publicPath": "/",
-      "webassemblyModuleFilename": "static/wasm/[contenthash:8].module.wasm",
+      "webassemblyModuleFilename": "static/wasm/[contenthash:10].module.wasm",
     },
     "performance": {
       "hints": false,

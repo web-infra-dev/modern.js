@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A builder for Modern.js",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.2",
+    "@rsbuild/core": "2.0.0-beta.4",
     "@rsbuild/plugin-assets-retry": "1.5.1",
     "@rsbuild/plugin-check-syntax": "1.6.1",
     "@rsbuild/plugin-css-minimizer": "1.1.1",

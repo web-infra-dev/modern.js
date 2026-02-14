@@ -1,6 +1,6 @@
 # Getting Started
 
-To use Module Federation in Modern.js, we recommend using the official plugin `@module-federation/modern-js`.
+To use Module Federation in Modern.js, we recommend using the official plugin `@module-federation/modern-js-v3`.
 
 This section will introduce how to set up both producer and consumer applications using the official plugin. First, create two applications by following the [Modern.js Quick Start](/guides/get-started/quick-start).
 
@@ -10,7 +10,7 @@ After creating the applications, install the plugin for both projects:
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command="add @module-federation/modern-js" />
+<PackageManagerTabs command="add @module-federation/modern-js-v3" />
 
 ## Register the Plugin
 
@@ -18,7 +18,7 @@ After installing the plugin, you need to register it in the `modern.config.js` f
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   plugins: [appTools(), moduleFederationPlugin()],
@@ -42,7 +42,7 @@ export const Button = () => {
 Then, add the `module-federation.config.ts` file at the project root to configure the Module Federation module's name, shared dependencies, and exports:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -68,7 +68,7 @@ Additionally, modify `modern.config.ts` to provide a development environment por
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   server: {
@@ -85,7 +85,7 @@ Now, modify the consumer's code to use the module exported by the producer.
 Add the `module-federation.config.ts` file at the project root to configure the Module Federation module's name, shared dependencies, and the remote module to use:
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -172,7 +172,7 @@ If we want to simulate the production environment in local, but not configure `o
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
