@@ -120,27 +120,27 @@ export default createModuleFederationConfig({
       layer: LAYERS.rsc,
     } as any,
     './RemoteServerCard': {
-      import: './src/components/RemoteServerCard.tsx',
+      import: './src/runtime/exposes/RemoteServerCard.tsx',
       layer: LAYERS.rsc,
     } as any,
     './RemoteServerDefault': {
-      import: './src/components/RemoteServerDefault.tsx',
+      import: './src/runtime/exposes/RemoteServerDefault.tsx',
       layer: LAYERS.rsc,
     } as any,
     './AsyncRemoteServerInfo': {
-      import: './src/components/AsyncRemoteServerInfo.tsx',
+      import: './src/runtime/exposes/AsyncRemoteServerInfo.tsx',
       layer: LAYERS.rsc,
     } as any,
     './remoteServerOnly': {
-      import: './src/components/serverOnly.ts',
+      import: './src/runtime/exposes/remoteServerOnly.ts',
       layer: LAYERS.rsc,
     } as any,
     './remoteServerOnlyDefault': {
-      import: './src/components/serverOnlyDefault.ts',
+      import: './src/runtime/exposes/remoteServerOnlyDefault.ts',
       layer: LAYERS.rsc,
     } as any,
     './remoteMeta': {
-      import: './src/components/remoteMeta.ts',
+      import: './src/runtime/exposes/remoteMeta.ts',
       layer: LAYERS.rsc,
     } as any,
     './actions': {
@@ -160,7 +160,7 @@ export default createModuleFederationConfig({
       layer: LAYERS.rsc,
     } as any,
     './infoBundle': {
-      import: './src/components/infoBundle.ts',
+      import: './src/runtime/exposes/infoBundle.ts',
       layer: LAYERS.rsc,
     } as any,
   },

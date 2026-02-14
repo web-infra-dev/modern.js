@@ -464,6 +464,10 @@ function runTests({ mode }: TestConfig) {
         path.join(remoteDir, 'src/runtime/registerServerCallback.ts'),
         'utf-8',
       );
+      const moduleFederationConfigSource = fs.readFileSync(
+        path.join(remoteDir, 'module-federation.config.ts'),
+        'utf-8',
+      );
 
       expect(
         componentSources.every(
@@ -476,12 +480,46 @@ function runTests({ mode }: TestConfig) {
         ),
       ).toBe(true);
       expect(
-        exposeRuntimeFilePaths.every(filePath =>
-          fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
-        ),
+        exposeRuntimeFilePaths
+          .filter(filePath =>
+            [
+              'RemoteClientCounter.tsx',
+              'RemoteClientBadge.tsx',
+              'actions.ts',
+              'nestedActions.ts',
+              'defaultAction.ts',
+              'actionBundle.ts',
+            ].includes(path.basename(filePath)),
+          )
+          .every(filePath =>
+            fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
+          ),
+      ).toBe(true);
+      expect(
+        exposeRuntimeFilePaths
+          .filter(
+            filePath =>
+              ![
+                'RemoteClientCounter.tsx',
+                'RemoteClientBadge.tsx',
+                'actions.ts',
+                'nestedActions.ts',
+                'defaultAction.ts',
+                'actionBundle.ts',
+              ].includes(path.basename(filePath)),
+          )
+          .every(
+            filePath =>
+              !fs
+                .readFileSync(filePath, 'utf-8')
+                .includes('initServerCallback'),
+          ),
       ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
       expect(runtimeRegisterSource).toContain('setServerCallback');
+      expect(moduleFederationConfigSource).not.toContain(
+        "import: './src/components/",
+      );
     });
 
     it('should not load callback helper expose chunk', () => {
