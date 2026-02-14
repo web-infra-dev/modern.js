@@ -16,7 +16,9 @@ const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
 const HOST_RSC_URL = '/server-component-root';
-const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 22;
+const EXPECTED_ACTION_POSTS_PER_MODE = 24;
+const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
+const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
 
 type Mode = 'dev' | 'build';
 
@@ -653,9 +655,7 @@ function runTests({ mode }: TestConfig) {
       }));
 
     it('should route remote actions through host endpoint', () => {
-      expect(actionRequestUrls.length).toBeGreaterThanOrEqual(
-        MIN_EXPECTED_ACTION_POSTS_PER_MODE,
-      );
+      expect(actionRequestUrls.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
       expect(actionRequestUrls.length).toBe(actionRequestIds.length);
       expect(
         actionRequestUrls.every(url =>
@@ -670,9 +670,7 @@ function runTests({ mode }: TestConfig) {
     });
 
     it('should post host-resolvable action ids for remote actions', async () => {
-      expect(actionRequestIds.length).toBeGreaterThanOrEqual(
-        MIN_EXPECTED_ACTION_POSTS_PER_MODE,
-      );
+      expect(actionRequestIds.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
       expect(actionRequestIds.length).toBe(actionRequestUrls.length);
       const uniqueActionRequestIds = new Set(actionRequestIds);
       expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
@@ -681,7 +679,9 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
         true,
       );
-      expect(uniqueActionRequestIds.size).toBeGreaterThanOrEqual(4);
+      expect(uniqueActionRequestIds.size).toBe(
+        EXPECTED_UNIQUE_ACTION_IDS_PER_MODE,
+      );
       const hostProxyActionIdSet = new Set(
         (await page.$eval('.host-proxy-action-ids', el => el.textContent || ''))
           .split(',')
@@ -856,10 +856,10 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.some(id => defaultProxyActionIdSet.has(id))).toBe(
         true,
       );
-      expect(incrementRequestCount).toBeGreaterThanOrEqual(6);
-      expect(echoRequestCount).toBeGreaterThanOrEqual(6);
-      expect(nestedRequestCount).toBeGreaterThanOrEqual(6);
-      expect(defaultRequestCount).toBeGreaterThanOrEqual(6);
+      expect(incrementRequestCount).toBe(EXPECTED_ACTION_POSTS_PER_FAMILY);
+      expect(echoRequestCount).toBe(EXPECTED_ACTION_POSTS_PER_FAMILY);
+      expect(nestedRequestCount).toBe(EXPECTED_ACTION_POSTS_PER_FAMILY);
+      expect(defaultRequestCount).toBe(EXPECTED_ACTION_POSTS_PER_FAMILY);
       expect(
         incrementRequestCount +
           echoRequestCount +
