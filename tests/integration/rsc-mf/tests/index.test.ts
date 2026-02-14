@@ -528,6 +528,15 @@ function runTests({ mode }: TestConfig) {
         path.join(remoteDir, 'modern.config.ts'),
         'utf-8',
       );
+      const remoteRuntimeExposesDir = path.join(
+        remoteDir,
+        'src/runtime/exposes',
+      );
+      const remoteRuntimeExposeEntries = fs.existsSync(remoteRuntimeExposesDir)
+        ? fs
+            .readdirSync(remoteRuntimeExposesDir)
+            .filter(entryName => !entryName.startsWith('.'))
+        : [];
       const remoteExposeEntries = getRemoteExposeEntries(
         moduleFederationConfigSource,
       );
@@ -608,6 +617,7 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).not.toContain(
         './src/runtime/exposes/',
       );
+      expect(remoteRuntimeExposeEntries).toEqual([]);
       expect(moduleFederationConfigSource).toContain('COMPONENT_EXPOSE_PREFIX');
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
