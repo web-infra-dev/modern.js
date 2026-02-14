@@ -498,6 +498,10 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).not.toContain(
         './src/runtime/exposes/',
       );
+      expect(moduleFederationConfigSource).toContain('COMPONENT_EXPOSE_PREFIX');
+      expect(moduleFederationConfigSource).toContain(
+        'nonComponentExposeEntries',
+      );
     });
 
     it('should not load callback helper expose chunk', () => {

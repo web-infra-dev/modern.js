@@ -35,6 +35,17 @@ const remoteExposeImports: Record<string, string> = {
   './actionBundle': './src/components/actionBundle.ts',
   './infoBundle': './src/components/infoBundle.ts',
 };
+const COMPONENT_EXPOSE_PREFIX = './src/components/';
+const nonComponentExposeEntries = Object.entries(remoteExposeImports).filter(
+  ([, importPath]) => !importPath.startsWith(COMPONENT_EXPOSE_PREFIX),
+);
+if (nonComponentExposeEntries.length > 0) {
+  throw new Error(
+    `Remote exposes must point to component userland modules (${COMPONENT_EXPOSE_PREFIX}). Invalid entries: ${nonComponentExposeEntries
+      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+      .join(', ')}`,
+  );
+}
 
 const sharedByScope = [
   {
