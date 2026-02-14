@@ -19,6 +19,7 @@ const createRscExpose = (importPath: string) =>
     import: importPath,
     layer: LAYERS.rsc,
   }) as any;
+const RUNTIME_EXPOSE_PREFIX = './src/runtime/exposes/';
 const remoteExposeImports: Record<string, string> = {
   './RemoteClientCounter': './src/runtime/exposes/RemoteClientCounter.tsx',
   './src/components/RemoteClientCounter.tsx':
@@ -37,6 +38,16 @@ const remoteExposeImports: Record<string, string> = {
   './actionBundle': './src/runtime/exposes/actionBundle.ts',
   './infoBundle': './src/runtime/exposes/infoBundle.ts',
 };
+const nonRuntimeExposeEntries = Object.entries(remoteExposeImports).filter(
+  ([, importPath]) => !importPath.startsWith(RUNTIME_EXPOSE_PREFIX),
+);
+if (nonRuntimeExposeEntries.length > 0) {
+  throw new Error(
+    `All remote exposes must point to runtime wrappers (${RUNTIME_EXPOSE_PREFIX}). Invalid entries: ${nonRuntimeExposeEntries
+      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+      .join(', ')}`,
+  );
+}
 
 const sharedByScope = [
   {
