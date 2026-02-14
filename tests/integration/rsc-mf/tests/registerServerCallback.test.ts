@@ -207,6 +207,40 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
+  it('retries once when callback fetch returns retryable 425 response', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 425,
+        statusText: 'Too Early',
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        statusText: 'OK',
+      } as Response);
+
+    const callback = getRegisteredCallback();
+    await expect(
+      callback('fetch-retry-425-action', ['arg-1']),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        type: 'decoded-rsc-response',
+      }),
+    );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    const firstFetchBody = (global.fetch as jest.Mock).mock.calls[0]?.[1]?.body;
+    const secondFetchBody = (global.fetch as jest.Mock).mock.calls[1]?.[1]
+      ?.body;
+    expect(firstFetchBody).toBe(secondFetchBody);
+    expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
+  });
+
   it('does not retry callback fetch for non-retryable 4xx response', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
