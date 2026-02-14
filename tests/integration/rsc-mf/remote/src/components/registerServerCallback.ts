@@ -6,6 +6,13 @@ import {
 } from 'rsc-mf-react-server-dom-client-browser';
 
 let registeredCallbackKey = '';
+const getStableProxyActionIdEntries = (
+  remoteActionIdToHostProxyActionId?: Record<string, string>,
+) =>
+  Object.entries(remoteActionIdToHostProxyActionId ?? {}).sort(
+    ([left], [right]) => left.localeCompare(right),
+  );
+
 const getHostActionId = (rawActionId: string, remoteAlias: string) => {
   if (rawActionId.startsWith('remote:')) {
     return rawActionId;
@@ -25,7 +32,9 @@ export function registerRemoteServerCallback(
   const callbackKey = JSON.stringify({
     remoteAlias,
     remoteOrigin,
-    remoteActionIdToHostProxyActionId,
+    remoteActionIdToHostProxyActionId: getStableProxyActionIdEntries(
+      remoteActionIdToHostProxyActionId,
+    ),
   });
   if (registeredCallbackKey === callbackKey) {
     return;
