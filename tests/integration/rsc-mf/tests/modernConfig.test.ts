@@ -234,6 +234,20 @@ describe('rsc-mf modern config contracts', () => {
     ]);
   });
 
+  it('keeps host web-target bundler chain free of node-only aliases', () => {
+    const hostConfig = loadHostConfig();
+    const harness = createChainHarness('web');
+    hostConfig.tools?.bundlerChain?.(harness.chain as any);
+
+    expect(harness.targetCalls).toEqual([]);
+    expect(harness.aliasMap.has('server-only$')).toBe(false);
+    expect(harness.conditionNames).toEqual([]);
+    expect(harness.moduleDirectories).toEqual([
+      path.resolve(__dirname, '../host/node_modules'),
+      'node_modules',
+    ]);
+  });
+
   it('configures remote port-driven server and asset settings', () => {
     const remoteConfig = loadRemoteConfig({
       remotePort: '3991',
@@ -275,6 +289,24 @@ describe('rsc-mf modern config contracts', () => {
       expect.objectContaining({
         ssr: true,
         port: 4550,
+      }),
+    );
+  });
+
+  it('keeps remote port precedence deterministic when PORT and remote port are both set', () => {
+    const remoteConfig = loadRemoteConfig({
+      port: '4550',
+      remotePort: '3881',
+    });
+    expect(remoteConfig.server).toEqual(
+      expect.objectContaining({
+        ssr: true,
+        port: 3881,
+      }),
+    );
+    expect(remoteConfig.output).toEqual(
+      expect.objectContaining({
+        assetPrefix: 'http://127.0.0.1:3881',
       }),
     );
   });
