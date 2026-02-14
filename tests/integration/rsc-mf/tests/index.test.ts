@@ -338,6 +338,12 @@ async function supportRemoteClientAndServerActions({
     const echoActionResult = document.querySelector(
       '.host-remote-echo-action-result',
     );
+    const nestedActionResult = document.querySelector(
+      '.host-remote-nested-action-result',
+    );
+    const incrementActionResult = document.querySelector(
+      '.host-remote-increment-action-result',
+    );
     const bundledDefaultActionResult = document.querySelector(
       '.host-remote-bundled-default-action-result',
     );
@@ -355,13 +361,16 @@ async function supportRemoteClientAndServerActions({
         'default-action:from-host-client' &&
       echoActionResult?.textContent?.trim() ===
         'remote-action:from-host-client' &&
+      nestedActionResult?.textContent?.trim() ===
+        'nested-action:from-host-client-direct' &&
+      incrementActionResult?.textContent?.trim() === '2' &&
       bundledDefaultActionResult?.textContent?.trim() ===
         'default-action:from-host-client-bundled' &&
       bundledEchoActionResult?.textContent?.trim() ===
         'remote-action:from-host-client-bundled' &&
       bundledNestedActionResult?.textContent?.trim() ===
         'nested-action:from-host-client-bundled' &&
-      bundledIncrementActionResult?.textContent?.trim() === '2'
+      bundledIncrementActionResult?.textContent?.trim() === '3'
     );
   });
 }

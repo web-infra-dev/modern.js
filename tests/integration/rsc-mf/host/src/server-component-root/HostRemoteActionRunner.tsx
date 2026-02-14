@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import RemoteClientBadge from 'rscRemote/RemoteClientBadge';
 import { RemoteClientCounter as RemoteClientCounterBridge } from 'rscRemote/RemoteClientCounter';
 import * as remoteActionBundle from 'rscRemote/actionBundle';
-import { remoteActionEcho } from 'rscRemote/actions';
+import { incrementRemoteCount, remoteActionEcho } from 'rscRemote/actions';
 import { defaultRemoteAction } from 'rscRemote/defaultAction';
+import { nestedRemoteAction } from 'rscRemote/nestedActions';
 import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
 
 export default function HostRemoteActionRunner({
@@ -20,6 +21,8 @@ export default function HostRemoteActionRunner({
   void RemoteClientCounterBridge;
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
+  const [nestedResult, setNestedResult] = useState('');
+  const [incrementResult, setIncrementResult] = useState('');
   const [bundledDefaultResult, setBundledDefaultResult] = useState('');
   const [bundledEchoResult, setBundledEchoResult] = useState('');
   const [bundledNestedResult, setBundledNestedResult] = useState('');
@@ -39,18 +42,21 @@ export default function HostRemoteActionRunner({
   const runActions = async () => {
     setIsPending(true);
     try {
+      const directIncrementFormData = new FormData();
+      directIncrementFormData.set('count', '1');
       const bundledIncrementFormData = new FormData();
       bundledIncrementFormData.set('count', '1');
       const [
         defaultValue,
         echoValue,
+        nestedValue,
         bundledDefaultValue,
         bundledEchoValue,
         bundledNestedValue,
-        bundledIncrementValue,
       ] = await Promise.all([
         defaultRemoteAction('from-host-client'),
         remoteActionEcho('from-host-client'),
+        nestedRemoteAction('from-host-client-direct'),
         remoteActionBundle.bundledDefaultRemoteAction(
           'from-host-client-bundled',
         ),
@@ -58,13 +64,20 @@ export default function HostRemoteActionRunner({
         remoteActionBundle.bundledNestedRemoteAction(
           'from-host-client-bundled',
         ),
-        remoteActionBundle.bundledIncrementRemoteCount(
+      ]);
+      const directIncrementValue = await incrementRemoteCount(
+        0,
+        directIncrementFormData,
+      );
+      const bundledIncrementValue =
+        await remoteActionBundle.bundledIncrementRemoteCount(
           0,
           bundledIncrementFormData,
-        ),
-      ]);
+        );
       setDefaultResult(defaultValue);
       setEchoResult(echoValue);
+      setNestedResult(nestedValue);
+      setIncrementResult(String(directIncrementValue));
       setBundledDefaultResult(bundledDefaultValue);
       setBundledEchoResult(bundledEchoValue);
       setBundledNestedResult(bundledNestedValue);
@@ -87,6 +100,8 @@ export default function HostRemoteActionRunner({
       </button>
       <p className="host-remote-default-action-result">{defaultResult}</p>
       <p className="host-remote-echo-action-result">{echoResult}</p>
+      <p className="host-remote-nested-action-result">{nestedResult}</p>
+      <p className="host-remote-increment-action-result">{incrementResult}</p>
       <p className="host-remote-bundled-default-action-result">
         {bundledDefaultResult}
       </p>
