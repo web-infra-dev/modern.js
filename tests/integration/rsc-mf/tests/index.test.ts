@@ -578,7 +578,9 @@ function runTests({ mode }: TestConfig) {
           source =>
             !source.includes('registerRemoteServerCallback') &&
             !source.includes('initServerCallback') &&
-            !source.includes('registerServerCallback'),
+            !source.includes('registerServerCallback') &&
+            !source.includes('setServerCallback') &&
+            !source.includes('rsc-mf-react-server-dom-client-browser'),
         ),
       ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
@@ -613,6 +615,7 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain(
         "from 'react-server-dom-rspack/client.browser'",
       );
+      expect(runtimeRegisterSource).not.toContain('127.0.0.1:');
       expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
@@ -689,6 +692,10 @@ function runTests({ mode }: TestConfig) {
       expect(hostModuleFederationConfigSource).toContain(
         './runtime/forceRemotePublicPath.ts',
       );
+      expect(hostModuleFederationConfigSource).toContain(
+        "process.env.NODE_ENV === 'production'",
+      );
+      expect(hostModuleFederationConfigSource).toContain(': []');
       expect(hostModuleFederationConfigSource).toContain(
         '/static/mf-manifest.json',
       );
