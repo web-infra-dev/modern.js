@@ -20,6 +20,21 @@ const HOST_RSC_URL = '/server-component-root';
 const EXPECTED_ACTION_POSTS_PER_MODE = 24;
 const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
 const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
+const EXPECTED_REMOTE_EXPOSE_PATHS = [
+  './RemoteClientCounter',
+  './RemoteClientBadge',
+  './RemoteServerCard',
+  './RemoteServerDefault',
+  './AsyncRemoteServerInfo',
+  './remoteServerOnly',
+  './remoteServerOnlyDefault',
+  './remoteMeta',
+  './actions',
+  './nestedActions',
+  './defaultAction',
+  './actionBundle',
+  './infoBundle',
+].sort();
 
 type Mode = 'dev' | 'build';
 
@@ -433,9 +448,23 @@ function runTests({ mode }: TestConfig) {
       const exposedPaths = (manifest.exposes || [])
         .map(item => item.path)
         .filter((path): path is string => Boolean(path));
+      const uniqueExposedPaths = Array.from(new Set(exposedPaths)).sort();
       expect(exposedPaths).not.toContain('./registerServerCallback');
+      expect(uniqueExposedPaths.length).toBeGreaterThan(0);
+      expect(uniqueExposedPaths).toContain('./RemoteClientCounter');
+      expect(
+        uniqueExposedPaths.every(path =>
+          EXPECTED_REMOTE_EXPOSE_PATHS.includes(path),
+        ),
+      ).toBe(true);
+      expect(uniqueExposedPaths.length).toBeLessThanOrEqual(
+        EXPECTED_REMOTE_EXPOSE_PATHS.length,
+      );
       expect(
         exposedPaths.every(path => !path.startsWith('./src/components/')),
+      ).toBe(true);
+      expect(
+        exposedPaths.every(path => !path.includes('initServerCallback')),
       ).toBe(true);
     });
 
