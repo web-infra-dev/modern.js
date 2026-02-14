@@ -632,4 +632,138 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(context.res).toBeUndefined();
   });
+
+  it('resolves fallback asset paths from manifest async asset arrays', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              shared: [
+                {
+                  assets: {
+                    js: {
+                      sync: [],
+                      async: [
+                        'static/js/async/__federation_expose_nestedActions.a8ce95b11a.js',
+                      ],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('async-array-fallback-hit', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_nestedActions.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/js/async/__federation_expose_nestedActions.a8ce95b11a.js',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('async-array-fallback-hit');
+  });
+
+  it('matches fallback chunks with non-hex hash suffixes', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteServerCard.a1b2c3x9.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('non-hex-fallback-hit', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteServerCard.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteServerCard.a1b2c3x9.js',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('non-hex-fallback-hit');
+  });
 });
