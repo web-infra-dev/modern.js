@@ -35,7 +35,7 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
   }
 
   const remoteUrl = `http://127.0.0.1:${remotePort}${pathname}${reqUrl.search}`;
-  const upstream = await fetch(remoteUrl).catch(() => undefined);
+  const upstream = await fetch(remoteUrl).catch((): undefined => undefined);
 
   if (!upstream || !upstream.ok) {
     await next();
