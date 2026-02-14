@@ -120,6 +120,56 @@ Modern.js 3.0 removed the `modern new` and `modern upgrade` commands, and you ne
 The purpose of removing these commands is to make the documentation more aligned with the default implementation approach of AI Agents, not encapsulating operations, so that developers can more clearly understand the specific steps of each operation, and it is also convenient for AI Agents to directly execute corresponding operations according to the documentation.
 :::
 
+## Built-in Arco/Antd Support Removed
+
+Modern.js 2.0 had built-in support for on-demand imports of [Arco Design](https://arco.design/) and [Ant Design](https://ant.design/). This built-in support has been removed in 3.0, and users need to configure `source.transformImport` manually.
+
+If your project uses Arco Design or Ant Design, please add the corresponding `source.transformImport` configuration manually.
+
+**Arco Design Migration Example**:
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: '@arco-design/web-react',
+        libraryDirectory: 'es',
+        camelToDashComponentName: false,
+        style: 'css',
+      },
+      {
+        libraryName: '@arco-design/web-react/icon',
+        libraryDirectory: 'react-icon',
+        camelToDashComponentName: false,
+      },
+    ],
+  },
+};
+```
+
+**Ant Design Migration Example** (antd v4 and below):
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  },
+};
+```
+
+:::tip
+antd v5 uses a CSS-in-JS solution and natively supports on-demand loading, so `source.transformImport` is not needed.
+
+For more details, refer to [Rsbuild - source.transformImport](https://v2.rsbuild.rs/config/source/transform-import).
+:::
+
 ## ESLint Rule Sets
 
 Modern.js previously provided complete ESLint rule sets, covering @modern-js (Lint rules for Node.js projects) and @modern-js-app (Lint rules for frontend projects). In [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0), we officially removed these rule sets. We encourage developers to choose appropriate code specification tools according to their needs, directly use ESLint combined with community-recommended rules, or use Biome to improve code formatting performance.

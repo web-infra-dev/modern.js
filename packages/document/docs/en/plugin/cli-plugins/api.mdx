@@ -192,7 +192,7 @@ Modify Rspack configuration using the chain API.
 - **Parameters:**
   - `modifyFn`: A modification function that receives a `RspackChain` instance and utility functions as parameters.
 - **Execution Phase:** When generating the final Rspack configuration.
-- **Corresponding Rsbuild Hook:** [modifyBundlerChain](https://v2.rsbuild.dev/plugins/dev/hooks#modifybundlerchain)
+- **Corresponding Rsbuild Hook:** [modifyBundlerChain](https://v2.rsbuild.rs/plugins/dev/hooks#modifybundlerchain)
 - **Example:**
 
 ```typescript
@@ -212,7 +212,7 @@ Modify the Rsbuild configuration.
 - **Parameters:**
   - `modifyFn`: A modification function that receives the Rsbuild configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
 - **Execution Phase:** When generating the final Rsbuild configuration.
-- **Corresponding Rsbuild Hook:** [modifyRsbuildConfig](https://v2.rsbuild.dev/plugins/dev/hooks#modifyrsbuildconfig)
+- **Corresponding Rsbuild Hook:** [modifyRsbuildConfig](https://v2.rsbuild.rs/plugins/dev/hooks#modifyrsbuildconfig)
 - **Example:**
 
 ```typescript
@@ -232,7 +232,7 @@ Modify the Rspack configuration (when using Rspack as the bundler).
 - **Parameters:**
   - `modifyFn`: A modification function that receives the Rspack configuration object and utility functions as parameters. It can return the modified configuration object, a Promise, or nothing (modifying the original object directly).
 - **Execution Phase:** When generating the final Rspack configuration.
-- **Corresponding Rsbuild Hook:** [modifyRspackConfig](https://v2.rsbuild.dev/plugins/dev/hooks#modifyrspackconfig)
+- **Corresponding Rsbuild Hook:** [modifyRspackConfig](https://v2.rsbuild.rs/plugins/dev/hooks#modifyrspackconfig)
 - **Example:**
 
 ```typescript
@@ -407,7 +407,7 @@ Add additional logic before the build starts.
 - **Parameters:**
   - `buildFn`: A function to be executed before the build, without parameters, can be asynchronous.
 - **Execution Phase:** Before executing the build process.
-- **Corresponding Rsbuild Hook:** [onBeforeBuild](https://v2.rsbuild.dev/plugins/dev/hooks#onbeforebuild)
+- **Corresponding Rsbuild Hook:** [onBeforeBuild](https://v2.rsbuild.rs/plugins/dev/hooks#onbeforebuild)
 - **Example:**
 
 ```typescript
@@ -426,7 +426,7 @@ Add additional logic after the build is complete.
 - **Parameters:**
   - `buildFn`: A function to be executed after the build, without parameters, can be asynchronous.
 - **Execution Phase:** After executing the build process.
-- **Corresponding Rsbuild Hook:** [onAfterBuild](https://v2.rsbuild.dev/plugins/dev/hooks#onafterbuild)
+- **Corresponding Rsbuild Hook:** [onAfterBuild](https://v2.rsbuild.rs/plugins/dev/hooks#onafterbuild)
 - **Example:**
 
 ```typescript
@@ -445,7 +445,7 @@ Add additional logic after the development server compilation is complete.
 - **Parameters:**
   - `compileFn`: A function to be executed after compilation is complete.
 - **Execution Phase:** After the development server starts and the initial compilation is complete.
-- **Corresponding Rsbuild Hook:** [onDevCompileDone](https://v2.rsbuild.dev/plugins/dev/hooks#ondevcompiledone)
+- **Corresponding Rsbuild Hook:** [onDevCompileDone](https://v2.rsbuild.rs/plugins/dev/hooks#ondevcompiledone)
 - **Example:**
 
 ```typescript
@@ -464,7 +464,7 @@ Add additional logic before creating the compiler instance.
 - **Parameters:**
   - `createFn`: A function to be executed before creation, without parameters, can be asynchronous.
 - **Execution Phase:** Before creating the Rspack compiler instance.
-- **Corresponding Rsbuild Hook:** [onBeforeCreateCompiler](https://v2.rsbuild.dev/plugins/dev/hooks#onbeforecreatecompiler)
+- **Corresponding Rsbuild Hook:** [onBeforeCreateCompiler](https://v2.rsbuild.rs/plugins/dev/hooks#onbeforecreatecompiler)
 - **Example:**
 
 ```typescript
@@ -483,7 +483,7 @@ Add additional logic after creating the compiler instance.
 - **Parameters:**
   - `createFn`: A function to be executed after creation, without parameters, can be asynchronous.
 - **Execution Phase:** After creating the Rspack compiler instance.
-- **Corresponding Rsbuild Hook:** [onAfterCreateCompiler](https://v2.rsbuild.dev/plugins/dev/hooks#onaftercreatecompiler)
+- **Corresponding Rsbuild Hook:** [onAfterCreateCompiler](https://v2.rsbuild.rs/plugins/dev/hooks#onaftercreatecompiler)
 - **Example:**
 
 ```typescript
@@ -521,7 +521,7 @@ Add additional logic after starting the development server.
 - **Parameters:**
   - `devFn`: A function to be executed after the development server starts.
 - **Execution Phase:** After the development server has successfully started.
-- **Corresponding Rsbuild Hook:** [onAfterStartDevServer](https://v2.rsbuild.dev/plugins/dev/hooks#onafterstartdevserver)
+- **Corresponding Rsbuild Hook:** [onAfterStartDevServer](https://v2.rsbuild.rs/plugins/dev/hooks#onafterstartdevserver)
 - **Example:**
 
 ```typescript
