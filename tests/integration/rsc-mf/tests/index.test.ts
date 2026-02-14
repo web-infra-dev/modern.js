@@ -340,6 +340,7 @@ function runTests({ mode }: TestConfig) {
     const runtimeErrors: string[] = [];
     const actionRequestUrls: string[] = [];
     const actionRequestIds: string[] = [];
+    const registerCallbackExposeRequestUrls: string[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -393,10 +394,14 @@ function runTests({ mode }: TestConfig) {
 
       page.on('request', request => {
         const headers = request.headers();
+        const url = request.url();
+        if (url.includes('__federation_expose_registerServerCallback')) {
+          registerCallbackExposeRequestUrls.push(url);
+        }
         if (request.method() !== 'POST' || !headers['x-rsc-action']) {
           return;
         }
-        actionRequestUrls.push(request.url());
+        actionRequestUrls.push(url);
         actionRequestIds.push(headers['x-rsc-action']);
       });
     });
@@ -428,6 +433,10 @@ function runTests({ mode }: TestConfig) {
         .map(item => item.path)
         .filter((path): path is string => Boolean(path));
       expect(exposedPaths).not.toContain('./registerServerCallback');
+    });
+
+    it('should not load callback helper expose chunk', () => {
+      expect(registerCallbackExposeRequestUrls).toEqual([]);
     });
 
     it('should support remote use client and server actions', () =>
