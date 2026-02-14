@@ -9,9 +9,9 @@ const RSC_LAYER = 'react-server-components';
 const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
 const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
 const EXPORT_FROM_SPECIFIER_PATTERN =
-  /export\s+(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
+  /export\s+(type\s+)?(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
 const IMPORT_FROM_SPECIFIER_PATTERN =
-  /import\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+  /import\s+(type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
 const DYNAMIC_IMPORT_SPECIFIER_PATTERN = /import\(\s*['"]([^'"]+)['"]\s*\)/g;
 const SOURCE_ENTRY_EXTENSIONS = [
   '.ts',
@@ -139,6 +139,11 @@ const shouldInjectCallbackBootstrap = (importPaths: string[]) =>
     referencesCallbackCapableSourceModule(importPath),
   );
 
+interface SourceModuleSpecifier {
+  moduleSpecifier: string;
+  typeOnly: boolean;
+}
+
 const readSourceFile = (filePath: string) => {
   try {
     return fs.readFileSync(filePath, 'utf8');
@@ -198,14 +203,33 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
       return true;
     }
 
-    const localSpecifierMatches = [
-      ...sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
-      ...sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
-      ...sourceText.matchAll(DYNAMIC_IMPORT_SPECIFIER_PATTERN),
+    const localSpecifierMatches: SourceModuleSpecifier[] = [
+      ...Array.from(
+        sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
+        match => ({
+          moduleSpecifier: match[2],
+          typeOnly: Boolean(match[1]),
+        }),
+      ),
+      ...Array.from(
+        sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
+        match => ({
+          moduleSpecifier: match[2],
+          typeOnly: Boolean(match[1]),
+        }),
+      ),
+      ...Array.from(
+        sourceText.matchAll(DYNAMIC_IMPORT_SPECIFIER_PATTERN),
+        match => ({
+          moduleSpecifier: match[1],
+          typeOnly: false,
+        }),
+      ),
     ];
-    for (const match of localSpecifierMatches) {
-      const [moduleSpecifier] = match.slice(1);
+
+    for (const { moduleSpecifier, typeOnly } of localSpecifierMatches) {
       if (
+        typeOnly ||
         typeof moduleSpecifier !== 'string' ||
         !LOCAL_MODULE_SPECIFIER_PATTERN.test(moduleSpecifier)
       ) {

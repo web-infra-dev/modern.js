@@ -396,6 +396,21 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from type-only local imports', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customTypeOnlyActionImport':
+          './src/components/typeOnlyActionImport.ts',
+      }),
+    ).toEqual({
+      './customTypeOnlyActionImport': {
+        import: ['./src/components/typeOnlyActionImport.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
