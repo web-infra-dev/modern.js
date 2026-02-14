@@ -82,6 +82,23 @@ describe('rsc-mf proxy response helper', () => {
     expect(proxied.headers.get('x-safe-header')).toBe('preserve-me');
   });
 
+  it('ignores empty connection tokens after quote normalization', async () => {
+    const upstream = new Response('ok', {
+      status: 200,
+      headers: {
+        connection: ' , "", "   ", "x-trimmed-hop-header" ',
+        'x-trimmed-hop-header': 'remove-me',
+        'x-safe-header': 'preserve-me',
+      },
+    });
+
+    const proxied = createSafeProxyResponse(upstream);
+
+    expect(proxied.headers.get('x-trimmed-hop-header')).toBeNull();
+    expect(proxied.headers.get('x-safe-header')).toBe('preserve-me');
+    await expect(proxied.text()).resolves.toBe('ok');
+  });
+
   it('forces empty body for no-content status responses', async () => {
     const upstream = {
       status: 204,

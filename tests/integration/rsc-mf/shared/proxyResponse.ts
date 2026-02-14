@@ -13,18 +13,21 @@ const PROXY_UNSAFE_RESPONSE_HEADERS = [
 ];
 const STATUS_CODES_WITHOUT_BODY = new Set([204, 205, 304]);
 
+const isResponseStatusWithoutBody = (status: number) =>
+  STATUS_CODES_WITHOUT_BODY.has(status);
+
+const normalizeConnectionHeaderToken = (token: string) =>
+  token
+    .trim()
+    .replace(/^"+|"+$/g, '')
+    .trim()
+    .toLowerCase();
+
 export const createSafeProxyResponse = (upstream: Response) => {
   const headers = new Headers(upstream.headers);
   for (const headerName of PROXY_UNSAFE_RESPONSE_HEADERS) {
     headers.delete(headerName);
   }
-
-  const normalizeConnectionHeaderToken = (token: string) =>
-    token
-      .trim()
-      .replace(/^"+|"+$/g, '')
-      .toLowerCase();
-
   const connectionHeaderTokens = (upstream.headers.get('connection') || '')
     .split(',')
     .map(normalizeConnectionHeaderToken)
@@ -32,7 +35,7 @@ export const createSafeProxyResponse = (upstream: Response) => {
   for (const token of connectionHeaderTokens) {
     headers.delete(token);
   }
-  const responseBody = STATUS_CODES_WITHOUT_BODY.has(upstream.status)
+  const responseBody = isResponseStatusWithoutBody(upstream.status)
     ? null
     : upstream.body;
   return new Response(responseBody, {
