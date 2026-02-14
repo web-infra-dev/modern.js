@@ -1,13 +1,25 @@
+let callbackBootstrapPromise: Promise<void> | undefined;
+
+const bootstrapServerCallback = () => {
+  if (!callbackBootstrapPromise) {
+    callbackBootstrapPromise = import('./registerServerCallback').then(
+      ({ registerRemoteServerCallback }) => {
+        const actionPathname = window.location.pathname || '/';
+        registerRemoteServerCallback(
+          `${window.location.origin}${actionPathname}`,
+          'rscRemote',
+        );
+      },
+    );
+  }
+
+  return callbackBootstrapPromise;
+};
+
 if (typeof window !== 'undefined') {
   // Fixture-level bootstrap: keep callback wiring out of exposed modules while
   // ensuring browser-evaluated federated code always posts bridge action IDs to host.
-  void import('./registerServerCallback').then(
-    ({ registerRemoteServerCallback }) => {
-      const actionPathname = window.location.pathname || '/';
-      registerRemoteServerCallback(
-        `${window.location.origin}${actionPathname}`,
-        'rscRemote',
-      );
-    },
-  );
+  // Promise memoization avoids duplicate bootstrap work when multiple exposes
+  // import this runtime helper in the same browser session.
+  void bootstrapServerCallback();
 }
