@@ -16,7 +16,7 @@ const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
 const HOST_RSC_URL = '/server-component-root';
-const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 18;
+const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 22;
 
 type Mode = 'dev' | 'build';
 
@@ -27,6 +27,29 @@ interface TestConfig {
 interface TestContext {
   hostPort: number;
   page: Page;
+  actionRequestIds?: string[];
+}
+
+async function waitForActionRequestCount({
+  actionRequestIds,
+  minimumCount,
+  timeoutMs = 15000,
+}: {
+  actionRequestIds: string[];
+  minimumCount: number;
+  timeoutMs?: number;
+}) {
+  const startTime = Date.now();
+  while (Date.now() - startTime < timeoutMs) {
+    if (actionRequestIds.length >= minimumCount) {
+      return;
+    }
+    await sleep(50);
+  }
+
+  throw new Error(
+    `Timed out waiting for action request count ${minimumCount}, received ${actionRequestIds.length}`,
+  );
 }
 
 function skipForLowerNodeVersion() {
@@ -274,6 +297,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
 async function supportRemoteClientAndServerActions({
   hostPort,
   page,
+  actionRequestIds,
 }: TestContext) {
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -317,7 +341,10 @@ async function supportRemoteClientAndServerActions({
   );
   expect(serverCount).toBe('1');
 
+  const actionRequestCountBeforeFirstClientRun = actionRequestIds?.length || 0;
   await page.click('.host-remote-action-runner .remote-client-run-actions');
+  const actionRequestCountAfterFirstClientRun =
+    actionRequestCountBeforeFirstClientRun + 3;
   await page.waitForFunction(() => {
     const nested = document.querySelector(
       '.host-remote-action-runner .remote-client-nested-result',
@@ -334,6 +361,39 @@ async function supportRemoteClientAndServerActions({
       defaultAction?.textContent?.trim() === 'default-action:from-client'
     );
   });
+  if (actionRequestIds) {
+    await waitForActionRequestCount({
+      actionRequestIds,
+      minimumCount: actionRequestCountAfterFirstClientRun,
+    });
+  }
+
+  const actionRequestCountBeforeSecondClientRun = actionRequestIds?.length || 0;
+  await page.click('.host-remote-action-runner .remote-client-run-actions');
+  const actionRequestCountAfterSecondClientRun =
+    actionRequestCountBeforeSecondClientRun + 3;
+  await page.waitForFunction(() => {
+    const nested = document.querySelector(
+      '.host-remote-action-runner .remote-client-nested-result',
+    );
+    const remoteAction = document.querySelector(
+      '.host-remote-action-runner .remote-client-remote-action-result',
+    );
+    const defaultAction = document.querySelector(
+      '.host-remote-action-runner .remote-client-default-action-result',
+    );
+    return (
+      nested?.textContent?.trim() === 'nested-action:from-client' &&
+      remoteAction?.textContent?.trim() === 'remote-action:from-client' &&
+      defaultAction?.textContent?.trim() === 'default-action:from-client'
+    );
+  });
+  if (actionRequestIds) {
+    await waitForActionRequestCount({
+      actionRequestIds,
+      minimumCount: actionRequestCountAfterSecondClientRun,
+    });
+  }
 
   let badgeValue = await page.$eval(
     '.host-remote-action-runner .remote-client-badge-value',
@@ -494,7 +554,11 @@ function runTests({ mode }: TestConfig) {
       renderRemoteRscIntoHost({ hostPort, page }));
 
     it('should support remote use client and server actions', () =>
-      supportRemoteClientAndServerActions({ hostPort, page }));
+      supportRemoteClientAndServerActions({
+        hostPort,
+        page,
+        actionRequestIds,
+      }));
 
     it('should route remote actions through host endpoint', () => {
       expect(actionRequestUrls.length).toBeGreaterThanOrEqual(
