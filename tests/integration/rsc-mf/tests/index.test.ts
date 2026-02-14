@@ -65,6 +65,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-server-only');
   expect(html).toContain('host-remote-bundled-meta-kind');
   expect(html).toContain('host-proxy-action-id-count');
+  expect(html).toContain('host-proxy-action-ids');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -114,6 +115,10 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostProxyActionIdCount).toBe('8');
+  const hostProxyActionIds = await page.$eval('.host-proxy-action-ids', el =>
+    el.textContent?.trim(),
+  );
+  expect(hostProxyActionIds?.split(',').filter(Boolean).length).toBe(8);
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),
@@ -333,7 +338,7 @@ function runTests({ mode }: TestConfig) {
       ).toBe(true);
     });
 
-    it('should post host-resolvable action ids for remote actions', () => {
+    it('should post host-resolvable action ids for remote actions', async () => {
       expect(actionRequestIds.length).toBeGreaterThan(0);
       expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
         true,
@@ -342,6 +347,14 @@ function runTests({ mode }: TestConfig) {
         true,
       );
       expect(new Set(actionRequestIds).size).toBeGreaterThanOrEqual(4);
+      const hostProxyActionIdSet = new Set(
+        (await page.$eval('.host-proxy-action-ids', el => el.textContent || ''))
+          .split(',')
+          .filter(Boolean),
+      );
+      expect(actionRequestIds.every(id => hostProxyActionIdSet.has(id))).toBe(
+        true,
+      );
     });
 
     it('should have no browser runtime errors', () => {

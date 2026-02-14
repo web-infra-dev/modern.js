@@ -37,7 +37,10 @@ const App = () => {
     getServerActionId(proxyBundledNestedRemoteAction),
     getServerActionId(proxyBundledDefaultRemoteAction),
   ].filter((actionId): actionId is string => Boolean(actionId));
-  const uniqueHostProxyActionIdsCount = new Set(hostProxyActionIds).size;
+  const uniqueHostProxyActionIds = Array.from(
+    new Set(hostProxyActionIds),
+  ).sort();
+  const uniqueHostProxyActionIdsCount = uniqueHostProxyActionIds.length;
 
   // Map remote action IDs to host-local proxy action IDs so client-side
   // callbacks can always post a host-resolvable action id. This keeps
@@ -110,6 +113,9 @@ const App = () => {
       <p className="host-remote-bundled-meta-label">{bundledRemoteMetaLabel}</p>
       <p className="host-proxy-action-id-count">
         {uniqueHostProxyActionIdsCount}
+      </p>
+      <p className="host-proxy-action-ids">
+        {uniqueHostProxyActionIds.join(',')}
       </p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
