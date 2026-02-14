@@ -124,6 +124,36 @@ describe('manifest fallback shared helpers', () => {
     ).toBeUndefined();
   });
 
+  it('resolves stale hashed expose requests to current hashed assets', () => {
+    const manifest: RemoteManifestShape = {
+      exposes: [
+        {
+          assets: {
+            js: {
+              sync: [
+                'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+              ],
+              async: [],
+            },
+            css: {
+              sync: [],
+              async: [],
+            },
+          },
+        },
+      ],
+    };
+
+    expect(
+      resolveManifestFallbackAssetPath(
+        '/static/js/async/__federation_expose_RemoteClientCounter.deadbeef12.js',
+        manifest,
+      ),
+    ).toBe(
+      'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+    );
+  });
+
   it('builds safe fallback URL and merges request query params', () => {
     expect(
       createManifestFallbackAssetUrl({

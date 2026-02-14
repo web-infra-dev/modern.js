@@ -394,6 +394,76 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('fallback-hit');
   });
 
+  it('recovers stale hashed expose chunk path via manifest-driven fallback', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(new Response('not-found', { status: 404 }))
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('hashed-fallback-hit', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_RemoteClientCounter.deadbeef12.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
+      'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.deadbeef12.js',
+    );
+    expectInternalFallbackFetchCall(
+      fetchMock,
+      2,
+      'http://127.0.0.1:3999/static/mf-manifest.json',
+    );
+    expectInternalFallbackFetchCall(
+      fetchMock,
+      3,
+      'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('hashed-fallback-hit');
+  });
+
   it('recovers stale expose path when manifest match is under shared assets', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

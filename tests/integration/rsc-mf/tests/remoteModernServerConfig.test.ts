@@ -146,6 +146,73 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('fallback-asset');
   });
 
+  it('recovers stale hashed expose asset path via remote manifest fallback', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('hashed-fallback-asset', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.deadbeef12.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('hashed-fallback-asset');
+  });
+
   it('falls through when request path is not a federated expose asset', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
