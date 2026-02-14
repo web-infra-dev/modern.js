@@ -568,4 +568,26 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(context.res).toBeUndefined();
   });
+
+  it('falls through when manifest request throws after stale asset miss', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(new Response('not-found', { status: 404 }))
+        .mockRejectedValueOnce(new Error('manifest-fetch-failed')),
+    );
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_RemoteServerCard.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
 });
