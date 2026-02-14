@@ -416,6 +416,20 @@ function runTests({ mode }: TestConfig) {
     it('should render remote RSC content in host app', () =>
       renderRemoteRscIntoHost({ hostPort, page }));
 
+    it('should not require exposing callback registration helper', async () => {
+      const manifestResponse = await fetch(
+        `http://127.0.0.1:${remotePort}/static/mf-manifest.json`,
+      );
+      expect(manifestResponse.ok).toBe(true);
+      const manifest = (await manifestResponse.json()) as {
+        exposes?: Array<{ path?: string }>;
+      };
+      const exposedPaths = (manifest.exposes || [])
+        .map(item => item.path)
+        .filter((path): path is string => Boolean(path));
+      expect(exposedPaths).not.toContain('./registerServerCallback');
+    });
+
     it('should support remote use client and server actions', () =>
       supportRemoteClientAndServerActions({
         hostPort,
