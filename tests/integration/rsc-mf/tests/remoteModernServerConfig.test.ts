@@ -817,6 +817,55 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     expect(context.res).toBeUndefined();
   });
 
+  it('falls through when manifest fallback path has invalid percent encoding', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest.fn().mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            shared: [
+              {
+                assets: {
+                  js: {
+                    sync: [
+                      'static/js/async/%E0%A4%A/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+                    ],
+                    async: [],
+                  },
+                  css: {
+                    sync: [],
+                    async: [],
+                  },
+                },
+              },
+            ],
+          }),
+          {
+            status: 200,
+            headers: {
+              'content-type': 'application/json',
+            },
+          },
+        ),
+      ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
   it('resolves fallback asset paths from manifest async asset arrays', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
