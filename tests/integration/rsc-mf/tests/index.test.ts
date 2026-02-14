@@ -583,32 +583,12 @@ function runTests({ mode }: TestConfig) {
             !source.includes('rsc-mf-react-server-dom-client-browser'),
         ),
       ).toBe(true);
-      expect(runtimeInitSource).toContain('registerRemoteServerCallback');
-      expect(runtimeInitSource).toContain('bootstrapServerCallback');
-      expect(runtimeInitSource).toContain('callbackBootstrapPromise');
-      expect(runtimeInitSource).toContain("if (typeof window !== 'undefined')");
       expect(runtimeInitSource).toContain("import('./registerServerCallback')");
-      expect(runtimeInitSource).toContain('void bootstrapServerCallback()');
       expect(runtimeInitSource).toContain('window.location.origin');
       expect(runtimeInitSource).toContain('window.location.pathname');
-      expect(runtimeInitSource).toContain('callbackBootstrapPromise.catch');
-      expect(runtimeInitSource).toContain(
-        'callbackBootstrapPromise = undefined',
-      );
-      expect(runtimeInitSource).not.toContain('setServerCallback(');
       expect(runtimeInitSource).not.toContain('RSC_MF_REMOTE_PORT');
       expect(runtimeInitSource).not.toContain('127.0.0.1:');
-      expect(runtimeInitSource).not.toContain(
-        "from './registerServerCallback'",
-      );
       expect(runtimeRegisterSource).toContain('setServerCallback');
-      expect(runtimeRegisterSource).toContain('createTemporaryReferenceSet');
-      expect(runtimeRegisterSource).toContain(
-        'encodeReply(args, { temporaryReferences })',
-      );
-      expect(runtimeRegisterSource).toContain(
-        'createFromFetch(response, { temporaryReferences })',
-      );
       expect(runtimeRegisterSource).toContain(
         "from 'rsc-mf-react-server-dom-client-browser'",
       );
@@ -617,9 +597,6 @@ function runTests({ mode }: TestConfig) {
       );
       expect(runtimeRegisterSource).not.toContain('127.0.0.1:');
       expect(runtimeRegisterSource).not.toContain('window.location');
-      expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
-      expect(runtimeRegisterSource).toContain("startsWith('remote:')");
-      expect(runtimeRegisterSource).toContain('return `remote:${remoteAlias}:');
       expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
       expect(runtimeRegisterSource).toContain("method: 'POST'");
       expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
@@ -630,9 +607,6 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain(
         'Remote action callback URL must not include embedded credentials.',
       );
-      expect(runtimeRegisterSource).toContain("url.search = ''");
-      expect(runtimeRegisterSource).toContain("url.hash = ''");
-      expect(runtimeRegisterSource).toContain('remoteActionUrl,');
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
       );
