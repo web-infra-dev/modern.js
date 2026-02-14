@@ -45,7 +45,10 @@ const loadHostConfig = () =>
       defineConfig: (config: unknown) => config,
     }));
     jest.doMock('@module-federation/modern-js-v3', () => ({
-      moduleFederationPlugin: () => ({ name: 'mf-plugin-mock' }),
+      moduleFederationPlugin: (options: unknown) => ({
+        name: 'mf-plugin-mock',
+        options,
+      }),
     }));
 
     let config: any;
@@ -74,7 +77,10 @@ const loadRemoteConfig = ({
         defineConfig: (config: unknown) => config,
       }));
       jest.doMock('@module-federation/modern-js-v3', () => ({
-        moduleFederationPlugin: () => ({ name: 'mf-plugin-mock' }),
+        moduleFederationPlugin: (options: unknown) => ({
+          name: 'mf-plugin-mock',
+          options,
+        }),
       }));
 
       let config: any;
@@ -201,6 +207,15 @@ describe('rsc-mf modern config contracts', () => {
     );
     expect(hostConfig.source).not.toHaveProperty('preEntry');
     expect(hostConfig.plugins).toHaveLength(2);
+    expect(hostConfig.plugins).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'app-tools-mock' }),
+        expect.objectContaining({
+          name: 'mf-plugin-mock',
+          options: expect.objectContaining({ ssr: true }),
+        }),
+      ]),
+    );
   });
 
   it('applies host async-node bundler behavior for node targets', () => {
@@ -240,6 +255,15 @@ describe('rsc-mf modern config contracts', () => {
       expect.objectContaining({
         enableAsyncEntry: false,
       }),
+    );
+    expect(remoteConfig.plugins).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'app-tools-mock' }),
+        expect.objectContaining({
+          name: 'mf-plugin-mock',
+          options: expect.objectContaining({ ssr: true }),
+        }),
+      ]),
     );
   });
 
