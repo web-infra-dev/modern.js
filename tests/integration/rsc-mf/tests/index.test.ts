@@ -51,6 +51,11 @@ interface FailedRequestRecord {
   method: string;
   status: number;
 }
+interface FailedBrowserRequestRecord {
+  url: string;
+  method: string;
+  failureText: string;
+}
 
 async function waitForActionRequestCount({
   actionRequestIds,
@@ -363,6 +368,7 @@ function runTests({ mode }: TestConfig) {
     const actionRequestAcceptHeaders: string[] = [];
     const registerCallbackExposeRequestUrls: string[] = [];
     const failedNetworkRequests: FailedRequestRecord[] = [];
+    const failedBrowserRequests: FailedBrowserRequestRecord[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -444,6 +450,20 @@ function runTests({ mode }: TestConfig) {
           url,
           method: request.method(),
           status,
+        });
+      });
+
+      page.on('requestfailed', request => {
+        const url = request.url();
+        const hostOrigin = `http://127.0.0.1:${hostPort}`;
+        const remoteOrigin = `http://127.0.0.1:${remotePort}`;
+        if (!url.startsWith(hostOrigin) && !url.startsWith(remoteOrigin)) {
+          return;
+        }
+        failedBrowserRequests.push({
+          url,
+          method: request.method(),
+          failureText: request.failure()?.errorText || 'unknown',
         });
       });
     });
@@ -564,6 +584,10 @@ function runTests({ mode }: TestConfig) {
 
     it('should have no failed host or remote network responses', () => {
       expect(failedNetworkRequests).toEqual([]);
+    });
+
+    it('should have no failed host or remote browser requests', () => {
+      expect(failedBrowserRequests).toEqual([]);
     });
   });
 }
