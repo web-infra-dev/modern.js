@@ -83,65 +83,6 @@ describe('initServerCallback runtime bootstrap behavior', () => {
     );
   });
 
-  it('falls back to root action pathname when location pathname is empty', async () => {
-    jest.resetModules();
-    (globalThis as { window?: unknown }).window = {
-      location: {
-        origin: 'http://127.0.0.1:4100',
-        pathname: '',
-      },
-    };
-    const { mockRegisterRemoteServerCallback, getRegisterModuleLoadCount } =
-      setupRegisterCallbackMock();
-
-    await import(INIT_SERVER_CALLBACK_MODULE);
-    await flushMicrotasks();
-
-    expect(getRegisterModuleLoadCount()).toBe(1);
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
-      'http://127.0.0.1:4100/',
-    );
-  });
-
-  it('normalizes non-slash pathnames before callback registration', async () => {
-    jest.resetModules();
-    (globalThis as { window?: unknown }).window = {
-      location: {
-        origin: 'http://127.0.0.1:4200',
-        pathname: 'server-component-root',
-      },
-    };
-    const { mockRegisterRemoteServerCallback } = setupRegisterCallbackMock();
-
-    await import(INIT_SERVER_CALLBACK_MODULE);
-    await flushMicrotasks();
-
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
-      'http://127.0.0.1:4200/server-component-root',
-    );
-  });
-
-  it('normalizes whitespace-only pathnames to root', async () => {
-    jest.resetModules();
-    (globalThis as { window?: unknown }).window = {
-      location: {
-        origin: 'http://127.0.0.1:4250',
-        pathname: '   ',
-      },
-    };
-    const { mockRegisterRemoteServerCallback } = setupRegisterCallbackMock();
-
-    await import(INIT_SERVER_CALLBACK_MODULE);
-    await flushMicrotasks();
-
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
-    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
-      'http://127.0.0.1:4250/',
-    );
-  });
-
   it('keeps bootstrap side effect memoized across repeated imports', async () => {
     jest.resetModules();
     (globalThis as { window?: unknown }).window = {

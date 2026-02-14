@@ -1,13 +1,6 @@
 let callbackBootstrapPromise: Promise<void> | undefined;
 const MAX_CALLBACK_BOOTSTRAP_RETRIES = 2;
 let callbackBootstrapRetryCount = 0;
-const getNormalizedActionPathname = (pathname?: string) => {
-  const trimmedPathname = pathname?.trim() || '/';
-  if (trimmedPathname.startsWith('/')) {
-    return trimmedPathname;
-  }
-  return `/${trimmedPathname}`;
-};
 const scheduleRetryTask = (task: () => void) => {
   if (typeof queueMicrotask === 'function') {
     queueMicrotask(task);
@@ -21,11 +14,8 @@ const bootstrapServerCallback = () => {
   if (!callbackBootstrapPromise) {
     callbackBootstrapPromise = import('./registerServerCallback').then(
       ({ registerRemoteServerCallback }) => {
-        const actionPathname = getNormalizedActionPathname(
-          window.location.pathname,
-        );
         registerRemoteServerCallback(
-          `${window.location.origin}${actionPathname}`,
+          `${window.location.origin}${window.location.pathname}`,
         );
         callbackBootstrapRetryCount = 0;
       },
