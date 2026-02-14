@@ -86,6 +86,23 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
+  it('uses default alias when remote alias is omitted', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+
+    const callback = getRegisteredCallback();
+    await callback('default-alias-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:default-alias-action',
+        }),
+      }),
+    );
+  });
+
   it('normalizes action ids and rejects whitespace-delimited ids', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
@@ -271,6 +288,9 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     ).toThrow('Remote action callback URL must use http or https');
     expect(() =>
       registerRemoteServerCallback('not-a-url', 'rscRemote'),
+    ).toThrow('Remote action callback URL must be an absolute http(s) URL');
+    expect(() =>
+      registerRemoteServerCallback('/server-component-root', 'rscRemote'),
     ).toThrow('Remote action callback URL must be an absolute http(s) URL');
     expect(() =>
       registerRemoteServerCallback(

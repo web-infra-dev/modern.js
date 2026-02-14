@@ -7,6 +7,7 @@ import {
 
 let registeredCallbackKey = '';
 const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
+const DEFAULT_REMOTE_ALIAS = 'rscRemote';
 const getNormalizedRawActionId = (rawActionId: string) => {
   const normalizedRawActionId = rawActionId.trim();
   if (!normalizedRawActionId || /\s/.test(normalizedRawActionId)) {
@@ -48,10 +49,12 @@ const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
   url.hash = '';
   return url.toString();
 };
+const getCallbackKey = (remoteAlias: string, remoteActionUrl: string) =>
+  `${remoteAlias}::${remoteActionUrl}`;
 
 export function registerRemoteServerCallback(
   remoteOrigin: string,
-  remoteAlias = 'rscRemote',
+  remoteAlias = DEFAULT_REMOTE_ALIAS,
 ) {
   const normalizedRemoteOrigin = remoteOrigin.trim();
   if (!normalizedRemoteOrigin) {
@@ -68,10 +71,7 @@ export function registerRemoteServerCallback(
     );
   }
   const remoteActionUrl = getNormalizedRemoteActionUrl(normalizedRemoteOrigin);
-  const callbackKey = JSON.stringify({
-    remoteAlias: normalizedRemoteAlias,
-    remoteActionUrl,
-  });
+  const callbackKey = getCallbackKey(normalizedRemoteAlias, remoteActionUrl);
   if (registeredCallbackKey === callbackKey) {
     return;
   }
