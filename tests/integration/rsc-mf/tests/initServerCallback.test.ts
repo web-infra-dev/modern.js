@@ -9,6 +9,22 @@ const flushMicrotasks = async () => {
 
 describe('initServerCallback runtime bootstrap behavior', () => {
   const originalWindow = (globalThis as { window?: unknown }).window;
+  const setupRegisterCallbackMock = () => {
+    const mockRegisterRemoteServerCallback = jest.fn();
+    let registerModuleLoadCount = 0;
+
+    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => {
+      registerModuleLoadCount += 1;
+      return {
+        registerRemoteServerCallback: mockRegisterRemoteServerCallback,
+      };
+    });
+
+    return {
+      mockRegisterRemoteServerCallback,
+      getRegisterModuleLoadCount: () => registerModuleLoadCount,
+    };
+  };
 
   afterEach(() => {
     if (typeof originalWindow === 'undefined') {
@@ -22,15 +38,13 @@ describe('initServerCallback runtime bootstrap behavior', () => {
   it('does not bootstrap callback registration on server import', async () => {
     jest.resetModules();
     delete (globalThis as { window?: unknown }).window;
-
-    const mockRegisterRemoteServerCallback = jest.fn();
-    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => ({
-      registerRemoteServerCallback: mockRegisterRemoteServerCallback,
-    }));
+    const { mockRegisterRemoteServerCallback, getRegisterModuleLoadCount } =
+      setupRegisterCallbackMock();
 
     await import(INIT_SERVER_CALLBACK_MODULE);
     await flushMicrotasks();
 
+    expect(getRegisterModuleLoadCount()).toBe(0);
     expect(mockRegisterRemoteServerCallback).not.toHaveBeenCalled();
   });
 
@@ -42,15 +56,13 @@ describe('initServerCallback runtime bootstrap behavior', () => {
         pathname: '/server-component-root',
       },
     };
-
-    const mockRegisterRemoteServerCallback = jest.fn();
-    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => ({
-      registerRemoteServerCallback: mockRegisterRemoteServerCallback,
-    }));
+    const { mockRegisterRemoteServerCallback, getRegisterModuleLoadCount } =
+      setupRegisterCallbackMock();
 
     await import(INIT_SERVER_CALLBACK_MODULE);
     await flushMicrotasks();
 
+    expect(getRegisterModuleLoadCount()).toBe(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
       'http://127.0.0.1:3900/server-component-root',
@@ -66,15 +78,13 @@ describe('initServerCallback runtime bootstrap behavior', () => {
         pathname: '',
       },
     };
-
-    const mockRegisterRemoteServerCallback = jest.fn();
-    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => ({
-      registerRemoteServerCallback: mockRegisterRemoteServerCallback,
-    }));
+    const { mockRegisterRemoteServerCallback, getRegisterModuleLoadCount } =
+      setupRegisterCallbackMock();
 
     await import(INIT_SERVER_CALLBACK_MODULE);
     await flushMicrotasks();
 
+    expect(getRegisterModuleLoadCount()).toBe(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
       'http://127.0.0.1:4100/',
@@ -90,17 +100,15 @@ describe('initServerCallback runtime bootstrap behavior', () => {
         pathname: '/server-component-root',
       },
     };
-
-    const mockRegisterRemoteServerCallback = jest.fn();
-    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => ({
-      registerRemoteServerCallback: mockRegisterRemoteServerCallback,
-    }));
+    const { mockRegisterRemoteServerCallback, getRegisterModuleLoadCount } =
+      setupRegisterCallbackMock();
 
     await import(INIT_SERVER_CALLBACK_MODULE);
     await flushMicrotasks();
     await import(INIT_SERVER_CALLBACK_MODULE);
     await flushMicrotasks();
 
+    expect(getRegisterModuleLoadCount()).toBe(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
   });
 });

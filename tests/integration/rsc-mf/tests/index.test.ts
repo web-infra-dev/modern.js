@@ -493,14 +493,6 @@ function runTests({ mode }: TestConfig) {
       const hostSourceTexts = hostSourceFilePaths.map(filePath =>
         fs.readFileSync(filePath, 'utf-8'),
       );
-      const runtimeInitSource = fs.readFileSync(
-        path.join(remoteDir, 'src/runtime/initServerCallback.ts'),
-        'utf-8',
-      );
-      const runtimeRegisterSource = fs.readFileSync(
-        path.join(remoteDir, 'src/runtime/registerServerCallback.ts'),
-        'utf-8',
-      );
       const remoteRuntimeExposesDir = path.join(
         remoteDir,
         'src/runtime/exposes',
@@ -545,33 +537,6 @@ function runTests({ mode }: TestConfig) {
             !source.includes('rsc-mf-react-server-dom-client-browser'),
         ),
       ).toBe(true);
-      expect(runtimeInitSource).toContain("import('./registerServerCallback')");
-      expect(runtimeInitSource).toContain('window.location.origin');
-      expect(runtimeInitSource).toContain('window.location.pathname');
-      expect(runtimeInitSource).not.toContain('RSC_MF_REMOTE_PORT');
-      expect(runtimeInitSource).not.toContain('127.0.0.1:');
-      expect(runtimeRegisterSource).toContain('setServerCallback');
-      expect(runtimeRegisterSource).toContain(
-        "from 'rsc-mf-react-server-dom-client-browser'",
-      );
-      expect(runtimeRegisterSource).not.toContain(
-        "from 'react-server-dom-rspack/client.browser'",
-      );
-      expect(runtimeRegisterSource).not.toContain('127.0.0.1:');
-      expect(runtimeRegisterSource).not.toContain('window.location');
-      expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
-      expect(runtimeRegisterSource).toContain("method: 'POST'");
-      expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
-      expect(runtimeRegisterSource).toContain('getNormalizedRemoteActionUrl');
-      expect(runtimeRegisterSource).toContain(
-        'Remote action callback URL must use http or https',
-      );
-      expect(runtimeRegisterSource).toContain(
-        'Remote action callback URL must not include embedded credentials.',
-      );
-      expect(runtimeRegisterSource).not.toContain(
-        'remoteActionIdToHostProxyActionId',
-      );
       expect(remoteRuntimeExposeEntries).toEqual([]);
       expect(remoteRuntimeEntriesWithoutExposeDir).toEqual([
         'initServerCallback.ts',

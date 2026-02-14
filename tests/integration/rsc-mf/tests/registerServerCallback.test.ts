@@ -17,6 +17,15 @@ jest.mock(
   }),
   { virtual: true },
 );
+jest.mock(
+  'react-server-dom-rspack/client.browser',
+  () => {
+    throw new Error(
+      'registerServerCallback must import rsc-mf-react-server-dom-client-browser alias',
+    );
+  },
+  { virtual: true },
+);
 
 const importRegisterHelper = async () =>
   import('../remote/src/runtime/registerServerCallback');
