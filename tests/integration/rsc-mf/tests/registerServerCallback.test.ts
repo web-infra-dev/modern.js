@@ -122,6 +122,30 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('trims alias before callback keying and action prefixing', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      '  rscRemote  ',
+    );
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(1);
+
+    const callback = getRegisteredCallback();
+    await callback('trimmed-alias-action', []);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:trimmed-alias-action',
+        }),
+      }),
+    );
+  });
+
   it('ignores empty callback origins after trimming', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('   ');
