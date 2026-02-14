@@ -377,6 +377,25 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('infers callback bootstrap from local dynamic import graph', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customDynamicActionLoader':
+          './src/components/dynamicActionLoader.ts',
+      }),
+    ).toEqual({
+      './customDynamicActionLoader': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/dynamicActionLoader.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(

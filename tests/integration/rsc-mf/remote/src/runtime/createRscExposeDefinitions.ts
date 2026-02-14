@@ -12,6 +12,7 @@ const EXPORT_FROM_SPECIFIER_PATTERN =
   /export\s+(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
 const IMPORT_FROM_SPECIFIER_PATTERN =
   /import\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+const DYNAMIC_IMPORT_SPECIFIER_PATTERN = /import\(\s*['"]([^'"]+)['"]\s*\)/g;
 const SOURCE_ENTRY_EXTENSIONS = [
   '.ts',
   '.tsx',
@@ -200,6 +201,7 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
     const localSpecifierMatches = [
       ...sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
       ...sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
+      ...sourceText.matchAll(DYNAMIC_IMPORT_SPECIFIER_PATTERN),
     ];
     for (const match of localSpecifierMatches) {
       const [moduleSpecifier] = match.slice(1);
