@@ -436,6 +436,31 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('dedupes callback registrations when trailing slash and URL fragments differ', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root/?cache=1#first',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root#second',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(1);
+
+    const callback = getRegisteredCallback();
+    await callback('slash-fragment-normalized-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:slash-fragment-normalized-action',
+        }),
+      }),
+    );
+  });
+
   it('dedupes root callback registrations for origin with and without slash', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008', 'rscRemote');
