@@ -20,6 +20,14 @@ const HOST_RSC_URL = '/server-component-root';
 const EXPECTED_ACTION_POSTS_PER_MODE = 24;
 const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
 const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
+const CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES = new Set([
+  'RemoteClientCounter.tsx',
+  'RemoteClientBadge.tsx',
+  'actions.ts',
+  'nestedActions.ts',
+  'defaultAction.ts',
+  'actionBundle.ts',
+]);
 
 type Mode = 'dev' | 'build';
 
@@ -480,33 +488,21 @@ function runTests({ mode }: TestConfig) {
         ),
       ).toBe(true);
       expect(
-        exposeRuntimeFilePaths
-          .filter(filePath =>
-            [
-              'RemoteClientCounter.tsx',
-              'RemoteClientBadge.tsx',
-              'actions.ts',
-              'nestedActions.ts',
-              'defaultAction.ts',
-              'actionBundle.ts',
-            ].includes(path.basename(filePath)),
-          )
-          .every(filePath =>
-            fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
-          ),
-      ).toBe(true);
+        new Set(
+          exposeRuntimeFilePaths
+            .filter(filePath =>
+              fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
+            )
+            .map(filePath => path.basename(filePath)),
+        ),
+      ).toEqual(CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES);
       expect(
         exposeRuntimeFilePaths
           .filter(
             filePath =>
-              ![
-                'RemoteClientCounter.tsx',
-                'RemoteClientBadge.tsx',
-                'actions.ts',
-                'nestedActions.ts',
-                'defaultAction.ts',
-                'actionBundle.ts',
-              ].includes(path.basename(filePath)),
+              !CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES.has(
+                path.basename(filePath),
+              ),
           )
           .every(
             filePath =>
