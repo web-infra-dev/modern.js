@@ -101,6 +101,14 @@ const App = () => {
   );
   const remoteActionIdMapEntryCount =
     remoteActionIdToHostProxyActionEntries.length;
+  const mappedHostProxyActionIds = Array.from(
+    new Set(remoteActionIdToHostProxyActionEntries.map(([, hostId]) => hostId)),
+  ).sort();
+  const doesMappingCoverAllHostProxyActions =
+    mappedHostProxyActionIds.length === uniqueHostProxyActionIds.length &&
+    mappedHostProxyActionIds.every(
+      (actionId, index) => actionId === uniqueHostProxyActionIds[index],
+    );
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
@@ -132,6 +140,12 @@ const App = () => {
       </p>
       <p className="host-proxy-map-entry-count">
         {remoteActionIdMapEntryCount}
+      </p>
+      <p className="host-mapped-proxy-action-ids">
+        {mappedHostProxyActionIds.join(',')}
+      </p>
+      <p className="host-proxy-map-covers-all">
+        {String(doesMappingCoverAllHostProxyActions)}
       </p>
       <p className="host-proxy-action-ids">
         {uniqueHostProxyActionIds.join(',')}

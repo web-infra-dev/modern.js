@@ -66,6 +66,8 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-meta-kind');
   expect(html).toContain('host-proxy-action-id-count');
   expect(html).toContain('host-proxy-map-entry-count');
+  expect(html).toContain('host-mapped-proxy-action-ids');
+  expect(html).toContain('host-proxy-map-covers-all');
   expect(html).toContain('host-proxy-action-ids');
   expect(html).toContain('host-direct-proxy-action-ids');
   expect(html).toContain('host-bundled-proxy-action-ids');
@@ -123,6 +125,19 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostProxyMapEntryCount).toBe('8');
+  const hostMappedProxyActionIds = await page.$eval(
+    '.host-mapped-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostMappedProxyActionIdList = hostMappedProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostMappedProxyActionIdList.length).toBe(8);
+  const hostProxyMapCoversAll = await page.$eval(
+    '.host-proxy-map-covers-all',
+    el => el.textContent?.trim(),
+  );
+  expect(hostProxyMapCoversAll).toBe('true');
   const hostProxyActionIds = await page.$eval('.host-proxy-action-ids', el =>
     el.textContent?.trim(),
   );
@@ -135,6 +150,9 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(hostProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
     true,
   );
+  expect(
+    hostMappedProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+  ).toBe(true);
   const hostDirectProxyActionIds = await page.$eval(
     '.host-direct-proxy-action-ids',
     el => el.textContent?.trim(),
@@ -395,6 +413,19 @@ function runTests({ mode }: TestConfig) {
           .filter(Boolean),
       );
       expect(actionRequestIds.every(id => hostProxyActionIdSet.has(id))).toBe(
+        true,
+      );
+      const mappedProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-mapped-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      expect(actionRequestIds.every(id => mappedProxyActionIdSet.has(id))).toBe(
         true,
       );
       const directProxyActionIdSet = new Set(
