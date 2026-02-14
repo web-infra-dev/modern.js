@@ -79,7 +79,7 @@ export function registerRemoteServerCallback(
   setServerCallback(async (id: string, args: unknown[]) => {
     const hostActionId = getHostActionId(id, normalizedRemoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
-    const response = fetch(remoteActionUrl, {
+    const response = await fetch(remoteActionUrl, {
       method: 'POST',
       headers: {
         Accept: 'text/x-component',
@@ -87,7 +87,12 @@ export function registerRemoteServerCallback(
       },
       body: await encodeReply(args, { temporaryReferences }),
     });
-    return createFromFetch(response, { temporaryReferences });
+    if (!response.ok) {
+      throw new Error(
+        `Remote action callback request failed with status ${response.status} ${response.statusText} (${remoteActionUrl}).`,
+      );
+    }
+    return createFromFetch(Promise.resolve(response), { temporaryReferences });
   });
   registeredCallbackKey = callbackKey;
 }
