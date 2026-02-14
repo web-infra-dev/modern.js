@@ -9,9 +9,6 @@ import { defaultRemoteAction } from 'rscRemote/defaultAction';
 import { nestedRemoteAction } from 'rscRemote/nestedActions';
 
 export default function HostRemoteActionRunner() {
-  // Keep this import in the client graph so federated RSC bridge IDs
-  // can map back to a concrete remote module factory at runtime.
-  void RemoteClientCounterBridge;
   const [defaultResult, setDefaultResult] = useState('');
   const [echoResult, setEchoResult] = useState('');
   const [nestedResult, setNestedResult] = useState('');
