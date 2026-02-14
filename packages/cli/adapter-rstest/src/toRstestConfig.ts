@@ -25,9 +25,9 @@ export function toRstestExtendConfig(
   const { cssModules, target, module } = finalBuildConfig.output || {};
   const { decorators, define, include, exclude, tsconfigPath } =
     finalBuildConfig.source || {};
+
   // Convert rsbuild config to rstest config
   const rstestConfig: ExtendConfig = {
-    // Copy over compatible configurations
     root: finalBuildConfig.root,
     name: environmentName,
     plugins: finalBuildConfig.plugins,

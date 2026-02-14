@@ -177,15 +177,19 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
   };
 };
 
-// for storybook get config
 type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
-export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
-  options: Omit<CLIRunOptions<Extends>, UselessOptions>,
+export const createConfigOptions = async <Extends extends CLIPluginExtends>(
+  options: Omit<CLIRunOptions<Extends>, UselessOptions> & { command?: string },
 ) => {
   const pluginManager = createPluginManager();
   pluginManager.clear();
 
-  const { configFile, cwd, metaName = 'modern-js' } = options;
+  const {
+    configFile,
+    cwd,
+    metaName = 'modern-js',
+    command = 'storybook',
+  } = options;
   const appDirectory = await initAppDir(cwd);
 
   const loaded = await createLoadedConfig<Extends['config']>(
@@ -202,8 +206,8 @@ export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
     appContext: initAppContext<Extends>({
       packageName: loaded.packageName,
       configFile: loaded.configFile,
-      command: 'storybook',
       appDirectory,
+      command,
       plugins,
       metaName,
     }),
@@ -236,3 +240,5 @@ export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
     getAppContext: () => pluginAPI.getAppContext(),
   };
 };
+
+export const createStorybookOptions = createConfigOptions;
