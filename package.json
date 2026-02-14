@@ -69,7 +69,7 @@
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
     "@modern-js/tsconfig": "workspace:*",
-    "@rstest/core": "0.7.9",
+    "@rstest/core": "0.8.5",
     "@scripts/build": "workspace:*",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
