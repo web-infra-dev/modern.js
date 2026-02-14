@@ -21,6 +21,11 @@ const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
       `Remote action callback URL must use http or https. Received protocol: ${url.protocol}`,
     );
   }
+  if (url.username || url.password) {
+    throw new Error(
+      'Remote action callback URL must not include embedded credentials.',
+    );
+  }
   url.search = '';
   url.hash = '';
   return url.toString();
@@ -30,7 +35,8 @@ export function registerRemoteServerCallback(
   remoteOrigin: string,
   remoteAlias = 'rscRemote',
 ) {
-  if (!remoteOrigin) {
+  const normalizedRemoteOrigin = remoteOrigin.trim();
+  if (!normalizedRemoteOrigin) {
     return;
   }
   const normalizedRemoteAlias = remoteAlias.trim();
@@ -39,7 +45,7 @@ export function registerRemoteServerCallback(
       `Remote alias must be a non-empty identifier without ":" delimiters. Received: ${remoteAlias}`,
     );
   }
-  const remoteActionUrl = getNormalizedRemoteActionUrl(remoteOrigin);
+  const remoteActionUrl = getNormalizedRemoteActionUrl(normalizedRemoteOrigin);
   const callbackKey = JSON.stringify({
     remoteAlias: normalizedRemoteAlias,
     remoteActionUrl,

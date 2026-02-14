@@ -643,6 +643,9 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain(
         'Remote action callback URL must use http or https',
       );
+      expect(runtimeRegisterSource).toContain(
+        'Remote action callback URL must not include embedded credentials.',
+      );
       expect(runtimeRegisterSource).toContain("url.search = ''");
       expect(runtimeRegisterSource).toContain("url.hash = ''");
       expect(runtimeRegisterSource).toContain(
@@ -651,9 +654,16 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain(
         'getHostActionId(id, normalizedRemoteAlias)',
       );
+      expect(runtimeRegisterSource).toContain(
+        'const normalizedRemoteOrigin = remoteOrigin.trim()',
+      );
+      expect(runtimeRegisterSource).toContain('if (!normalizedRemoteOrigin)');
       expect(runtimeRegisterSource).toContain('remoteActionUrl,');
       expect(runtimeRegisterSource).not.toContain(
         'getHostActionId(id, remoteAlias)',
+      );
+      expect(runtimeRegisterSource).not.toContain(
+        'getNormalizedRemoteActionUrl(remoteOrigin)',
       );
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
