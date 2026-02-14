@@ -214,6 +214,11 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostIncrementProxyActionIdList.length).toBeGreaterThan(0);
+  expect(
+    hostIncrementProxyActionIdList.every(id =>
+      hostProxyActionIdList.includes(id),
+    ),
+  ).toBe(true);
   const hostEchoProxyActionIds = await page.$eval(
     '.host-echo-proxy-action-ids',
     el => el.textContent?.trim(),
@@ -222,6 +227,9 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostEchoProxyActionIdList.length).toBeGreaterThan(0);
+  expect(
+    hostEchoProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+  ).toBe(true);
   const hostNestedProxyActionIds = await page.$eval(
     '.host-nested-proxy-action-ids',
     el => el.textContent?.trim(),
@@ -230,6 +238,9 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostNestedProxyActionIdList.length).toBeGreaterThan(0);
+  expect(
+    hostNestedProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+  ).toBe(true);
   const hostDefaultProxyActionIds = await page.$eval(
     '.host-default-proxy-action-ids',
     el => el.textContent?.trim(),
@@ -238,6 +249,11 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostDefaultProxyActionIdList.length).toBeGreaterThan(0);
+  expect(
+    hostDefaultProxyActionIdList.every(id =>
+      hostProxyActionIdList.includes(id),
+    ),
+  ).toBe(true);
   const groupedProxyActionIdUnion = new Set([
     ...hostDirectProxyActionIdList,
     ...hostBundledProxyActionIdList,
@@ -605,6 +621,12 @@ function runTests({ mode }: TestConfig) {
           .split(',')
           .filter(Boolean),
       );
+      const actionFamilyProxyActionIdSet = new Set([
+        ...incrementProxyActionIdSet,
+        ...echoProxyActionIdSet,
+        ...nestedProxyActionIdSet,
+        ...defaultProxyActionIdSet,
+      ]);
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
       if (!usesDirectProxyIds || !usesBundledProxyIds) {
         expect(hostProxyMapCollisionCount).toBeGreaterThan(0);
@@ -621,6 +643,9 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.some(id => defaultProxyActionIdSet.has(id))).toBe(
         true,
       );
+      expect(
+        actionRequestIds.every(id => actionFamilyProxyActionIdSet.has(id)),
+      ).toBe(true);
       expect(
         actionRequestIds.every(
           id =>
