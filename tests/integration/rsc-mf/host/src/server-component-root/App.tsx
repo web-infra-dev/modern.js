@@ -27,16 +27,19 @@ const getServerActionId = (action: unknown) =>
   (action as { $$id?: string } | undefined)?.$$id;
 
 const App = () => {
-  const hostProxyActionIds = [
-    getServerActionId(proxyIncrementRemoteCount),
-    getServerActionId(proxyRemoteActionEcho),
-    getServerActionId(proxyNestedRemoteAction),
-    getServerActionId(proxyDefaultRemoteAction),
-    getServerActionId(proxyBundledIncrementRemoteCount),
-    getServerActionId(proxyBundledRemoteActionEcho),
-    getServerActionId(proxyBundledNestedRemoteAction),
-    getServerActionId(proxyBundledDefaultRemoteAction),
-  ].filter((actionId): actionId is string => Boolean(actionId));
+  const hostProxyActions = [
+    proxyIncrementRemoteCount,
+    proxyRemoteActionEcho,
+    proxyNestedRemoteAction,
+    proxyDefaultRemoteAction,
+    proxyBundledIncrementRemoteCount,
+    proxyBundledRemoteActionEcho,
+    proxyBundledNestedRemoteAction,
+    proxyBundledDefaultRemoteAction,
+  ] as const;
+  const hostProxyActionIds = hostProxyActions
+    .map(action => getServerActionId(action))
+    .filter((actionId): actionId is string => Boolean(actionId));
   const uniqueHostProxyActionIds = Array.from(
     new Set(hostProxyActionIds),
   ).sort();
@@ -45,40 +48,39 @@ const App = () => {
   // Map remote action IDs to host-local proxy action IDs so client-side
   // callbacks can always post a host-resolvable action id. This keeps
   // remote action execution in-process on the host via proxy imports.
-  const remoteActionIdToHostProxyActionEntries = [
+  const remoteActionToHostProxyActionPairs = [
+    [incrementRemoteCount, proxyIncrementRemoteCount],
+    [remoteActionEcho, proxyRemoteActionEcho],
+    [nestedRemoteAction, proxyNestedRemoteAction],
+    [defaultRemoteAction, proxyDefaultRemoteAction],
     [
-      getServerActionId(incrementRemoteCount),
-      getServerActionId(proxyIncrementRemoteCount),
+      remoteActionBundle.bundledIncrementRemoteCount,
+      proxyBundledIncrementRemoteCount,
+    ],
+    [remoteActionBundle.bundledRemoteActionEcho, proxyBundledRemoteActionEcho],
+    [
+      remoteActionBundle.bundledNestedRemoteAction,
+      proxyBundledNestedRemoteAction,
     ],
     [
-      getServerActionId(remoteActionEcho),
-      getServerActionId(proxyRemoteActionEcho),
+      remoteActionBundle.bundledDefaultRemoteAction,
+      proxyBundledDefaultRemoteAction,
     ],
-    [
-      getServerActionId(nestedRemoteAction),
-      getServerActionId(proxyNestedRemoteAction),
-    ],
-    [
-      getServerActionId(defaultRemoteAction),
-      getServerActionId(proxyDefaultRemoteAction),
-    ],
-    [
-      getServerActionId(remoteActionBundle.bundledIncrementRemoteCount),
-      getServerActionId(proxyBundledIncrementRemoteCount),
-    ],
-    [
-      getServerActionId(remoteActionBundle.bundledRemoteActionEcho),
-      getServerActionId(proxyBundledRemoteActionEcho),
-    ],
-    [
-      getServerActionId(remoteActionBundle.bundledNestedRemoteAction),
-      getServerActionId(proxyBundledNestedRemoteAction),
-    ],
-    [
-      getServerActionId(remoteActionBundle.bundledDefaultRemoteAction),
-      getServerActionId(proxyBundledDefaultRemoteAction),
-    ],
-  ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1]));
+  ] as const;
+  const remoteActionIdToHostProxyActionEntries =
+    remoteActionToHostProxyActionPairs
+      .map(([remoteAction, hostProxyAction]) => [
+        getServerActionId(remoteAction),
+        getServerActionId(hostProxyAction),
+      ])
+      .filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1]));
+  const hostProxyActionDebugKeys = hostProxyActions.map(
+    (action, index) =>
+      [action, getServerActionId(action) ?? `proxy-action-${index}`] as const,
+  );
+  const hostProxyManifestForms = hostProxyActionDebugKeys.map(
+    ([action, actionId]) => <form action={action} key={actionId} />,
+  );
   const remoteActionIdToHostProxyActionId = Object.fromEntries(
     remoteActionIdToHostProxyActionEntries,
   );
@@ -125,16 +127,7 @@ const App = () => {
         <RemoteServerDefault label="Remote Federated Tree" />
       </Suspense>
       {/* Anchor host proxy actions in the server action manifest. */}
-      <div hidden>
-        <form action={proxyIncrementRemoteCount} />
-        <form action={proxyRemoteActionEcho} />
-        <form action={proxyNestedRemoteAction} />
-        <form action={proxyDefaultRemoteAction} />
-        <form action={proxyBundledIncrementRemoteCount} />
-        <form action={proxyBundledRemoteActionEcho} />
-        <form action={proxyBundledNestedRemoteAction} />
-        <form action={proxyBundledDefaultRemoteAction} />
-      </div>
+      <div hidden>{hostProxyManifestForms}</div>
       <HostRemoteActionRunner
         remoteActionIdMapKey={remoteActionIdMapKey}
         remoteActionIdToHostProxyActionId={remoteActionIdToHostProxyActionId}
