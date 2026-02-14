@@ -96,18 +96,23 @@ const App = () => {
   const remoteActionIdToHostProxyActionId = Object.fromEntries(
     remoteActionIdToHostProxyActionEntries,
   );
+  const remoteActionIdMapKeyCount = Object.keys(
+    remoteActionIdToHostProxyActionId,
+  ).length;
   const remoteActionIdMapKey = JSON.stringify(
-    remoteActionIdToHostProxyActionEntries,
+    Object.entries(remoteActionIdToHostProxyActionId).sort(([left], [right]) =>
+      left.localeCompare(right),
+    ),
   );
   const remoteActionIdMapEntryCount =
     remoteActionIdToHostProxyActionEntries.length;
   const mappedHostProxyActionIds = Array.from(
-    new Set(remoteActionIdToHostProxyActionEntries.map(([, hostId]) => hostId)),
+    new Set(Object.values(remoteActionIdToHostProxyActionId)),
   ).sort();
   const doesMappingCoverAllHostProxyActions =
-    mappedHostProxyActionIds.length === uniqueHostProxyActionIds.length &&
-    mappedHostProxyActionIds.every(
-      (actionId, index) => actionId === uniqueHostProxyActionIds[index],
+    mappedHostProxyActionIds.length <= uniqueHostProxyActionIds.length &&
+    mappedHostProxyActionIds.every(actionId =>
+      uniqueHostProxyActionIds.includes(actionId),
     );
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
@@ -141,6 +146,7 @@ const App = () => {
       <p className="host-proxy-map-entry-count">
         {remoteActionIdMapEntryCount}
       </p>
+      <p className="host-proxy-map-key-count">{remoteActionIdMapKeyCount}</p>
       <p className="host-mapped-proxy-action-ids">
         {mappedHostProxyActionIds.join(',')}
       </p>

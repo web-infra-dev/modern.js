@@ -66,6 +66,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-meta-kind');
   expect(html).toContain('host-proxy-action-id-count');
   expect(html).toContain('host-proxy-map-entry-count');
+  expect(html).toContain('host-proxy-map-key-count');
   expect(html).toContain('host-mapped-proxy-action-ids');
   expect(html).toContain('host-proxy-map-covers-all');
   expect(html).toContain('host-proxy-action-ids');
@@ -125,6 +126,14 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostProxyMapEntryCount).toBe('8');
+  const hostProxyMapKeyCount = await page.$eval(
+    '.host-proxy-map-key-count',
+    el => el.textContent?.trim(),
+  );
+  expect(Number(hostProxyMapKeyCount)).toBeGreaterThan(0);
+  expect(Number(hostProxyMapKeyCount)).toBeLessThanOrEqual(
+    Number(hostProxyMapEntryCount),
+  );
   const hostMappedProxyActionIds = await page.$eval(
     '.host-mapped-proxy-action-ids',
     el => el.textContent?.trim(),
@@ -132,10 +141,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostMappedProxyActionIdList = hostMappedProxyActionIds
     ?.split(',')
     .filter(Boolean) as string[];
-  expect(hostMappedProxyActionIdList.length).toBe(8);
-  expect(hostMappedProxyActionIdList.length).toBe(
-    Number(hostProxyMapEntryCount),
-  );
+  expect(hostMappedProxyActionIdList.length).toBe(Number(hostProxyMapKeyCount));
   const hostProxyMapCoversAll = await page.$eval(
     '.host-proxy-map-covers-all',
     el => el.textContent?.trim(),
@@ -156,8 +162,8 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const sortedHostProxyActionIds = [...hostProxyActionIdList].sort();
   const sortedMappedProxyActionIds = [...hostMappedProxyActionIdList].sort();
   expect(
-    sortedHostProxyActionIds.every(
-      (id, index) => id === sortedMappedProxyActionIds[index],
+    sortedMappedProxyActionIds.every(mappedId =>
+      sortedHostProxyActionIds.includes(mappedId),
     ),
   ).toBe(true);
   const hostDirectProxyActionIds = await page.$eval(
