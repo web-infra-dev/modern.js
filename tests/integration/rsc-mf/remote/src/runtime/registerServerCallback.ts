@@ -47,6 +47,8 @@ const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
       'Remote action callback URL must not include embedded credentials.',
     );
   }
+  const normalizedPathname = url.pathname.replace(/\/+$/, '') || '/';
+  url.pathname = normalizedPathname;
   url.search = '';
   url.hash = '';
   return url.toString();

@@ -384,6 +384,31 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('dedupes callback registrations when only trailing slash differs', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root/',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(1);
+
+    const callback = getRegisteredCallback();
+    await callback('slash-normalized-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:slash-normalized-action',
+        }),
+      }),
+    );
+  });
+
   it('re-registers callback when alias changes and uses new alias prefix', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback(
