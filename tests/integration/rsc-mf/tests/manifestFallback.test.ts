@@ -141,6 +141,15 @@ describe('manifest fallback shared helpers', () => {
   it('rejects unsafe fallback URLs', () => {
     expect(
       createManifestFallbackAssetUrl({
+        remoteOrigin: 'not-a-valid-origin',
+        fallbackAssetPath:
+          'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+        requestSearch: '',
+        requestedAssetDirectory: 'static/js/async/',
+      }),
+    ).toBeUndefined();
+    expect(
+      createManifestFallbackAssetUrl({
         remoteOrigin: 'http://127.0.0.1:3999',
         fallbackAssetPath:
           'https://cdn.example.com/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',

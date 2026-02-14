@@ -103,14 +103,21 @@ export const createManifestFallbackAssetUrl = ({
   requestedAssetDirectory: string;
   requestUrl?: string;
 }) => {
-  let fallbackAssetUrl: URL;
+  let remoteOriginUrl: URL;
   try {
-    fallbackAssetUrl = new URL(fallbackAssetPath, `${remoteOrigin}/`);
+    remoteOriginUrl = new URL(remoteOrigin);
   } catch {
     return undefined;
   }
 
-  if (fallbackAssetUrl.origin !== new URL(remoteOrigin).origin) {
+  let fallbackAssetUrl: URL;
+  try {
+    fallbackAssetUrl = new URL(fallbackAssetPath, `${remoteOriginUrl.origin}/`);
+  } catch {
+    return undefined;
+  }
+
+  if (fallbackAssetUrl.origin !== remoteOriginUrl.origin) {
     return undefined;
   }
   const normalizedFallbackPathname = fallbackAssetUrl.pathname.replace(
