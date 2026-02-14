@@ -444,6 +444,12 @@ function runTests({ mode }: TestConfig) {
           el => el.textContent || '0',
         ),
       );
+      const hostProxyMapEntryCount = Number(
+        await page.$eval(
+          '.host-proxy-map-entry-count',
+          el => el.textContent || '0',
+        ),
+      );
       expect(hostProxyMapKeyCount).toBe(mappedProxyActionIdSet.size);
       expect(new Set(actionRequestIds).size).toBeLessThanOrEqual(
         hostProxyMapKeyCount,
@@ -478,6 +484,9 @@ function runTests({ mode }: TestConfig) {
         bundledProxyActionIdSet.has(id),
       );
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
+      if (!usesDirectProxyIds || !usesBundledProxyIds) {
+        expect(hostProxyMapKeyCount).toBeLessThan(hostProxyMapEntryCount);
+      }
       expect(
         actionRequestIds.every(
           id =>
