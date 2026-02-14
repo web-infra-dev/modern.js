@@ -57,7 +57,10 @@ async function reorganizeHtmlFiles(
   await Promise.all(copyPromises);
 }
 
-export const createGhPagesPreset: CreatePreset = (appContext, modernConfig) => {
+export const createGhPagesPreset: CreatePreset = ({
+  appContext,
+  modernConfig,
+}) => {
   const { serverRoutes, appDirectory, distDirectory } = appContext;
 
   const {

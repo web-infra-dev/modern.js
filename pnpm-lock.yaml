@@ -1265,6 +1265,9 @@ importers:
       flatted:
         specifier: ^3.3.3
         version: 3.3.3
+      import-meta-resolve:
+        specifier: ^4.2.0
+        version: 4.2.0
       mlly:
         specifier: ^1.8.0
         version: 1.8.0
@@ -2658,6 +2661,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../packages/server/server-runtime
       koa:
         specifier: 2.16.3
         version: 2.16.3

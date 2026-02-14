@@ -10,7 +10,7 @@ import {
   type RspackChain,
   mergeRsbuildConfig,
 } from '@rsbuild/core';
-import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
+import { getServerCombinedModuleFile } from '../../../plugins/analyze/utils';
 import type {
   AppNormalizedConfig,
   SSGMultiEntryOptions,
@@ -243,7 +243,7 @@ async function applySSRLoaderEntry(
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const { entryName } = entrypoint;
-      const serverLoadersFile = getServerCombinedModueFile(
+      const serverLoadersFile = getServerCombinedModuleFile(
         internalDirectory,
         entryName,
       );
