@@ -124,7 +124,16 @@ export const createManifestFallbackAssetUrl = ({
     /^\/+/,
     '',
   );
-  if (!normalizedFallbackPathname.startsWith(requestedAssetDirectory)) {
+  let decodedFallbackPathname: string;
+  try {
+    decodedFallbackPathname = decodeURIComponent(normalizedFallbackPathname);
+  } catch {
+    return undefined;
+  }
+  if (!decodedFallbackPathname.startsWith(requestedAssetDirectory)) {
+    return undefined;
+  }
+  if (decodedFallbackPathname.split('/').some(segment => segment === '..')) {
     return undefined;
   }
 

@@ -200,6 +200,15 @@ describe('manifest fallback shared helpers', () => {
       createManifestFallbackAssetUrl({
         remoteOrigin: 'http://127.0.0.1:3999',
         fallbackAssetPath:
+          'static/js/async/%2e%2e/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+        requestSearch: '',
+        requestedAssetDirectory: 'static/js/async/',
+      }),
+    ).toBeUndefined();
+    expect(
+      createManifestFallbackAssetUrl({
+        remoteOrigin: 'http://127.0.0.1:3999',
+        fallbackAssetPath:
           'static/js/async/__federation_expose_RemoteClientCounter.js',
         requestSearch: '',
         requestedAssetDirectory: 'static/js/async/',
