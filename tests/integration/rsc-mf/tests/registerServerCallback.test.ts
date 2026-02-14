@@ -294,6 +294,31 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
+  it('throws network error after retry budget is exhausted', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+
+    global.fetch = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('network-down-first-attempt'))
+      .mockRejectedValueOnce(new Error('network-down-second-attempt'));
+
+    const callback = getRegisteredCallback();
+    await expect(
+      callback('fetch-network-failure-action', ['arg-1']),
+    ).rejects.toThrow(
+      'Remote action callback request failed due to network error (http://127.0.0.1:3008/server-component-root): Error: network-down-second-attempt',
+    );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    const firstFetchBody = (global.fetch as jest.Mock).mock.calls[0]?.[1]?.body;
+    const secondFetchBody = (global.fetch as jest.Mock).mock.calls[1]?.[1]
+      ?.body;
+    expect(firstFetchBody).toBe(secondFetchBody);
+    expect(mockCreateFromFetch).not.toHaveBeenCalled();
+  });
+
   it('uses default alias when remote alias is omitted', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
