@@ -710,4 +710,28 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     expect(next).not.toHaveBeenCalled();
     await expect(context.res?.text()).resolves.toBe('async-array-fallback-hit');
   });
+
+  it('does not attempt manifest fallback for non-expose marker chunk paths', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(new Response('not-found', { status: 404 })),
+    );
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/503_react-server-components_0f2d4f91.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://127.0.0.1:3999/static/js/async/503_react-server-components_0f2d4f91.js',
+    );
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
 });

@@ -24,6 +24,10 @@ interface RemoteManifestShape {
   exposes?: RemoteManifestAssetEntry[];
 }
 
+const isManifestFallbackEligiblePath = (pathname: string) =>
+  pathname.includes('__federation_expose_') &&
+  (pathname.endsWith('.js') || pathname.endsWith('.css'));
+
 const toCanonicalChunkName = (filePath: string) =>
   filePath
     .replace(/\/+$/, '')
@@ -56,10 +60,7 @@ const resolveManifestFallbackAssetPath = (
   pathname: string,
   manifest: RemoteManifestShape,
 ) => {
-  if (
-    !pathname.includes('__federation_expose_') ||
-    (!pathname.endsWith('.js') && !pathname.endsWith('.css'))
-  ) {
+  if (!isManifestFallbackEligiblePath(pathname)) {
     return undefined;
   }
 
@@ -89,6 +90,10 @@ const fetchRemoteManifestFallbackAsset = async ({
   pathname: string;
   search: string;
 }) => {
+  if (!isManifestFallbackEligiblePath(pathname)) {
+    return undefined;
+  }
+
   const manifestResponse = await fetch(`${remoteOrigin}${REMOTE_MANIFEST_PATH}`)
     .then(response => {
       if (!response.ok) {
