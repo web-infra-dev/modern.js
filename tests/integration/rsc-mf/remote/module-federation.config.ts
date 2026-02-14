@@ -163,10 +163,6 @@ export default createModuleFederationConfig({
       import: './src/components/infoBundle.ts',
       layer: LAYERS.rsc,
     } as any,
-    './registerServerCallback': {
-      import: './src/components/registerServerCallback.ts',
-      layer: LAYERS.rsc,
-    } as any,
   },
   shared: sharedByScope as any,
   dts: false,
