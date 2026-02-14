@@ -270,6 +270,9 @@ describe('registerRemoteServerCallback runtime behavior', () => {
       registerRemoteServerCallback('javascript:alert(1)', 'rscRemote'),
     ).toThrow('Remote action callback URL must use http or https');
     expect(() =>
+      registerRemoteServerCallback('not-a-url', 'rscRemote'),
+    ).toThrow('Remote action callback URL must be an absolute http(s) URL');
+    expect(() =>
       registerRemoteServerCallback(
         'ftp://127.0.0.1:3008/server-component-root',
         'rscRemote',
