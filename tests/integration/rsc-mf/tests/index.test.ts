@@ -133,6 +133,9 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostMappedProxyActionIdList.length).toBe(8);
+  expect(hostMappedProxyActionIdList.length).toBe(
+    Number(hostProxyMapEntryCount),
+  );
   const hostProxyMapCoversAll = await page.$eval(
     '.host-proxy-map-covers-all',
     el => el.textContent?.trim(),
@@ -150,8 +153,12 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(hostProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
     true,
   );
+  const sortedHostProxyActionIds = [...hostProxyActionIdList].sort();
+  const sortedMappedProxyActionIds = [...hostMappedProxyActionIdList].sort();
   expect(
-    hostMappedProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+    sortedHostProxyActionIds.every(
+      (id, index) => id === sortedMappedProxyActionIds[index],
+    ),
   ).toBe(true);
   const hostDirectProxyActionIds = await page.$eval(
     '.host-direct-proxy-action-ids',
