@@ -150,6 +150,34 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('re-registers callback when normalized action URL changes', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/another-action-endpoint?cache=1#hash',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(2);
+
+    const callback = mockSetServerCallback.mock.calls[1]?.[0] as
+      | ServerCallback
+      | undefined;
+    expect(typeof callback).toBe('function');
+    await (callback as ServerCallback)('path-change-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/another-action-endpoint',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:path-change-action',
+        }),
+      }),
+    );
+  });
+
   it('trims alias before callback keying and action prefixing', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback(
