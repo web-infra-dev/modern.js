@@ -128,6 +128,7 @@ describe('createRscExposeDefinitions', () => {
       './RemoteClientCounter': {
         import: './src/components/RemoteClientCounter.tsx',
         shareScope: 'rsc',
+        flag: true,
       },
     });
 
@@ -138,6 +139,7 @@ describe('createRscExposeDefinitions', () => {
           './src/components/RemoteClientCounter.tsx',
         ],
         shareScope: 'rsc',
+        flag: true,
         layer: 'react-server-components',
       },
     });
@@ -188,6 +190,61 @@ describe('createRscExposeDefinitions', () => {
     ).toThrow(
       'Remote expose import must be a non-empty string or string array.',
     );
+
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {} as { import: string },
+      }),
+    ).toThrow(
+      'Remote expose import must be a non-empty string or string array.',
+    );
+  });
+
+  it('rejects non-string and non-object expose definitions', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': 7 as unknown as string,
+      }),
+    ).toThrow(
+      'Remote expose definition must be a string path or an object with an import field.',
+    );
+  });
+
+  it('forces rsc layer even if expose object provides a different layer', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {
+          import: './src/components/RemoteClientCounter.tsx',
+          layer: 'server-side-rendering',
+        },
+      }),
+    ).toEqual({
+      './RemoteClientCounter': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/RemoteClientCounter.tsx',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('rejects import arrays that include callback bootstrap module', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {
+          import: [
+            './src/components/RemoteClientCounter.tsx',
+            CALLBACK_BOOTSTRAP_MODULE,
+          ],
+        },
+      }),
+    ).toThrow('must remain internal-only and cannot be exposed');
   });
 
   it('rejects expose imports with parent traversal segments', () => {
