@@ -10,19 +10,9 @@ import {
   isExposeAssetRequestPath,
   resolveManifestFallbackAssetPath,
 } from '../../shared/manifestFallback';
+import { createSafeProxyResponse } from '../../shared/proxyResponse';
 
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
-
-const createProxyResponse = (upstream: Response) => {
-  const headers = new Headers(upstream.headers);
-  headers.delete('content-length');
-  headers.delete('content-encoding');
-  headers.delete('transfer-encoding');
-  return new Response(upstream.body, {
-    status: upstream.status,
-    headers,
-  });
-};
 
 const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
   c,
@@ -96,7 +86,7 @@ const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
     return;
   }
 
-  c.res = createProxyResponse(fallbackAssetResponse);
+  c.res = createSafeProxyResponse(fallbackAssetResponse);
 };
 
 export default defineServerConfig({
