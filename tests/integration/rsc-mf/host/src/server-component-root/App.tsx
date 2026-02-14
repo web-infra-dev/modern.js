@@ -106,6 +106,10 @@ const App = () => {
   );
   const remoteActionIdMapEntryCount =
     remoteActionIdToHostProxyActionEntries.length;
+  const remoteActionIdMapCollisionCount = Math.max(
+    remoteActionIdMapEntryCount - remoteActionIdMapKeyCount,
+    0,
+  );
   const mappedHostProxyActionIds = Array.from(
     new Set(Object.values(remoteActionIdToHostProxyActionId)),
   ).sort();
@@ -152,6 +156,9 @@ const App = () => {
         {remoteActionIdMapEntryCount}
       </p>
       <p className="host-proxy-map-key-count">{remoteActionIdMapKeyCount}</p>
+      <p className="host-proxy-map-collision-count">
+        {remoteActionIdMapCollisionCount}
+      </p>
       <p className="host-mapped-proxy-action-ids">
         {mappedHostProxyActionIds.join(',')}
       </p>

@@ -67,6 +67,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-proxy-action-id-count');
   expect(html).toContain('host-proxy-map-entry-count');
   expect(html).toContain('host-proxy-map-key-count');
+  expect(html).toContain('host-proxy-map-collision-count');
   expect(html).toContain('host-mapped-proxy-action-ids');
   expect(html).toContain('host-proxy-map-covers-all');
   expect(html).toContain('host-proxy-map-equals-all');
@@ -134,6 +135,14 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(Number(hostProxyMapKeyCount)).toBeGreaterThan(0);
   expect(Number(hostProxyMapKeyCount)).toBeLessThanOrEqual(
     Number(hostProxyMapEntryCount),
+  );
+  const hostProxyMapCollisionCount = await page.$eval(
+    '.host-proxy-map-collision-count',
+    el => el.textContent?.trim(),
+  );
+  expect(Number(hostProxyMapCollisionCount)).toBeGreaterThanOrEqual(0);
+  expect(Number(hostProxyMapCollisionCount)).toBe(
+    Number(hostProxyMapEntryCount) - Number(hostProxyMapKeyCount),
   );
   const hostMappedProxyActionIds = await page.$eval(
     '.host-mapped-proxy-action-ids',
@@ -460,9 +469,18 @@ function runTests({ mode }: TestConfig) {
           el => el.textContent || '0',
         ),
       );
+      const hostProxyMapCollisionCount = Number(
+        await page.$eval(
+          '.host-proxy-map-collision-count',
+          el => el.textContent || '0',
+        ),
+      );
       expect(hostProxyMapKeyCount).toBe(mappedProxyActionIdSet.size);
       expect(new Set(actionRequestIds).size).toBeLessThanOrEqual(
         hostProxyMapKeyCount,
+      );
+      expect(hostProxyMapCollisionCount).toBe(
+        hostProxyMapEntryCount - hostProxyMapKeyCount,
       );
       expect(actionRequestIds.every(id => mappedProxyActionIdSet.has(id))).toBe(
         true,
@@ -495,7 +513,7 @@ function runTests({ mode }: TestConfig) {
       );
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
       if (!usesDirectProxyIds || !usesBundledProxyIds) {
-        expect(hostProxyMapKeyCount).toBeLessThan(hostProxyMapEntryCount);
+        expect(hostProxyMapCollisionCount).toBeGreaterThan(0);
       }
       expect(
         actionRequestIds.every(
