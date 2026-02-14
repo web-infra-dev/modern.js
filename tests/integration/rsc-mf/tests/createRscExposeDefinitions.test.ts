@@ -145,28 +145,20 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
-  it('supports object expose definitions with import arrays', () => {
-    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
-      loadCreateRscExposeDefinitions();
-    const exposeDefinitions = createRscExposeDefinitions({
-      './infoBundle': {
-        import: [
-          './src/components/infoBundle.ts',
-          './src/components/remoteMeta.ts',
-        ],
-      },
-    });
-
-    expect(exposeDefinitions).toEqual({
-      './infoBundle': {
-        import: [
-          CALLBACK_BOOTSTRAP_MODULE,
-          './src/components/infoBundle.ts',
-          './src/components/remoteMeta.ts',
-        ],
-        layer: 'react-server-components',
-      },
-    });
+  it('rejects multi-module import arrays in object expose definitions', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './infoBundle': {
+          import: [
+            './src/components/infoBundle.ts',
+            './src/components/remoteMeta.ts',
+          ],
+        },
+      }),
+    ).toThrow(
+      'Remote expose import arrays must normalize to a single userland module path.',
+    );
   });
 
   it('deduplicates repeated entries in object expose import arrays', () => {
@@ -177,18 +169,14 @@ describe('createRscExposeDefinitions', () => {
         import: [
           './src/components/infoBundle.ts',
           './src/components/infoBundle.ts',
-          './src/components/remoteMeta.ts',
+          './src/components/infoBundle.ts',
         ],
       },
     });
 
     expect(exposeDefinitions).toEqual({
       './infoBundle': {
-        import: [
-          CALLBACK_BOOTSTRAP_MODULE,
-          './src/components/infoBundle.ts',
-          './src/components/remoteMeta.ts',
-        ],
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/infoBundle.ts'],
         layer: 'react-server-components',
       },
     });
@@ -202,18 +190,14 @@ describe('createRscExposeDefinitions', () => {
         import: [
           '  ./src/components/infoBundle.ts  ',
           './src/components/infoBundle.ts',
-          ' ./src/components/remoteMeta.ts ',
+          ' ./src/components/infoBundle.ts ',
         ],
       },
     });
 
     expect(exposeDefinitions).toEqual({
       './infoBundle': {
-        import: [
-          CALLBACK_BOOTSTRAP_MODULE,
-          './src/components/infoBundle.ts',
-          './src/components/remoteMeta.ts',
-        ],
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/infoBundle.ts'],
         layer: 'react-server-components',
       },
     });

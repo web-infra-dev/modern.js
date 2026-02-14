@@ -78,8 +78,19 @@ const normalizeExposeImportPaths = (
     exposeImport.length > 0 &&
     exposeImport.every(item => typeof item === 'string')
   ) {
+    const normalizedImportPaths = normalizeImportPaths(exposeKey, exposeImport);
+    if (normalizedImportPaths.includes(CALLBACK_BOOTSTRAP_IMPORT)) {
+      throw new Error(
+        `Callback bootstrap module (${CALLBACK_BOOTSTRAP_IMPORT}) must remain internal-only and cannot be exposed. Invalid entries: ${exposeKey}`,
+      );
+    }
+    if (normalizedImportPaths.length > 1) {
+      throw new Error(
+        `Remote expose import arrays must normalize to a single userland module path. Invalid entry: ${exposeKey}`,
+      );
+    }
     return {
-      importPaths: normalizeImportPaths(exposeKey, exposeImport),
+      importPaths: normalizedImportPaths,
       exposeOverrides,
     } satisfies NormalizedExposeDefinition;
   }
