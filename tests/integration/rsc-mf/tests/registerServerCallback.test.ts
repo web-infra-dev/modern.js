@@ -129,7 +129,13 @@ describe('registerRemoteServerCallback runtime behavior', () => {
         type: 'decoded-rsc-response',
       }),
     );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledTimes(2);
+    const firstFetchBody = (global.fetch as jest.Mock).mock.calls[0]?.[1]?.body;
+    const secondFetchBody = (global.fetch as jest.Mock).mock.calls[1]?.[1]
+      ?.body;
+    expect(firstFetchBody).toBe(secondFetchBody);
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
@@ -150,6 +156,8 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     ).rejects.toThrow(
       'Remote action callback request failed with status 400 Bad Request (http://127.0.0.1:3008/server-component-root).',
     );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(mockCreateFromFetch).not.toHaveBeenCalled();
   });
@@ -174,7 +182,13 @@ describe('registerRemoteServerCallback runtime behavior', () => {
         type: 'decoded-rsc-response',
       }),
     );
+    expect(mockCreateTemporaryReferenceSet).toHaveBeenCalledTimes(1);
+    expect(mockEncodeReply).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledTimes(2);
+    const firstFetchBody = (global.fetch as jest.Mock).mock.calls[0]?.[1]?.body;
+    const secondFetchBody = (global.fetch as jest.Mock).mock.calls[1]?.[1]
+      ?.body;
+    expect(firstFetchBody).toBe(secondFetchBody);
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
