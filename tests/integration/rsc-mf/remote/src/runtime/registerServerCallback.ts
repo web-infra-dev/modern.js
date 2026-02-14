@@ -9,7 +9,7 @@ let registeredCallbackKey = '';
 const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
 const DEFAULT_REMOTE_ALIAS = 'rscRemote';
 const MAX_CALLBACK_FETCH_RETRIES = 1;
-const RETRYABLE_CALLBACK_STATUSES = new Set([429]);
+const RETRYABLE_CALLBACK_STATUSES = new Set([408, 425, 429]);
 const getNormalizedRawActionId = (rawActionId: string) => {
   const normalizedRawActionId = rawActionId.trim();
   if (!normalizedRawActionId || /\s/.test(normalizedRawActionId)) {
