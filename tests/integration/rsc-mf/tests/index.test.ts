@@ -594,6 +594,12 @@ function runTests({ mode }: TestConfig) {
       expect(hostModuleFederationConfigSource).toContain(
         './runtime/forceRemotePublicPath.ts',
       );
+      expect(hostModuleFederationConfigSource).toContain(
+        '/static/mf-manifest.json',
+      );
+      expect(hostModuleFederationConfigSource).toContain('rscRemote:');
+      expect(hostModuleFederationConfigSource).toContain('asyncStartup: true');
+      expect(hostModuleFederationConfigSource).toContain('rsc: true');
       expect(hostModuleFederationConfigSource).not.toContain(
         'registerServerCallbackRuntime',
       );
