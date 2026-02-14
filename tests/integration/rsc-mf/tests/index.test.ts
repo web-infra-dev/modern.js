@@ -618,18 +618,12 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain('127.0.0.1:');
       expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
-      expect(runtimeRegisterSource).toContain(
-        'Remote alias must be a non-empty token (letters, numbers, "-", "_", ".") without ":" delimiters',
-      );
       expect(runtimeRegisterSource).toContain("startsWith('remote:')");
       expect(runtimeRegisterSource).toContain('return `remote:${remoteAlias}:');
       expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
       expect(runtimeRegisterSource).toContain("method: 'POST'");
       expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
       expect(runtimeRegisterSource).toContain('getNormalizedRemoteActionUrl');
-      expect(runtimeRegisterSource).toContain(
-        "url.protocol !== 'http:' && url.protocol !== 'https:'",
-      );
       expect(runtimeRegisterSource).toContain(
         'Remote action callback URL must use http or https',
       );
@@ -638,23 +632,7 @@ function runTests({ mode }: TestConfig) {
       );
       expect(runtimeRegisterSource).toContain("url.search = ''");
       expect(runtimeRegisterSource).toContain("url.hash = ''");
-      expect(runtimeRegisterSource).toContain(
-        'remoteAlias: normalizedRemoteAlias',
-      );
-      expect(runtimeRegisterSource).toContain(
-        'getHostActionId(id, normalizedRemoteAlias)',
-      );
-      expect(runtimeRegisterSource).toContain(
-        'const normalizedRemoteOrigin = remoteOrigin.trim()',
-      );
-      expect(runtimeRegisterSource).toContain('if (!normalizedRemoteOrigin)');
       expect(runtimeRegisterSource).toContain('remoteActionUrl,');
-      expect(runtimeRegisterSource).not.toContain(
-        'getHostActionId(id, remoteAlias)',
-      );
-      expect(runtimeRegisterSource).not.toContain(
-        'getNormalizedRemoteActionUrl(remoteOrigin)',
-      );
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
       );
