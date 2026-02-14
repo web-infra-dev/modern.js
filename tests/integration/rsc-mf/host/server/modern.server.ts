@@ -131,10 +131,12 @@ const fetchRemoteManifestFallbackAsset = async ({
   remoteOrigin,
   pathname,
   search,
+  requestUrl,
 }: {
   remoteOrigin: string;
   pathname: string;
   search: string;
+  requestUrl: string;
 }) => {
   if (!isManifestFallbackEligiblePath(pathname)) {
     return undefined;
@@ -173,6 +175,9 @@ const fetchRemoteManifestFallbackAsset = async ({
     requestSearch: search,
   });
   if (!fallbackAssetUrl) {
+    return undefined;
+  }
+  if (fallbackAssetUrl === requestUrl) {
     return undefined;
   }
   const fallbackAssetResponse = await fetch(fallbackAssetUrl).catch(
@@ -225,6 +230,7 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
         remoteOrigin,
         pathname,
         search: reqUrl.search,
+        requestUrl: remoteUrl,
       });
 
   if (!resolvedUpstream || !resolvedUpstream.ok) {
