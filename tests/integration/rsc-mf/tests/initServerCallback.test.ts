@@ -14,6 +14,14 @@ const flushRepeatedMicrotasks = async (count: number) => {
 
 describe('initServerCallback runtime bootstrap behavior', () => {
   const originalWindow = (globalThis as { window?: unknown }).window;
+  const originalQueueMicrotask = globalThis.queueMicrotask;
+  const overrideQueueMicrotask = (value: typeof queueMicrotask | undefined) => {
+    Object.defineProperty(globalThis, 'queueMicrotask', {
+      configurable: true,
+      writable: true,
+      value,
+    });
+  };
   const setupRegisterCallbackMock = () => {
     const mockRegisterRemoteServerCallback = jest.fn();
     let registerModuleLoadCount = 0;
@@ -32,6 +40,7 @@ describe('initServerCallback runtime bootstrap behavior', () => {
   };
 
   afterEach(() => {
+    overrideQueueMicrotask(originalQueueMicrotask);
     if (typeof originalWindow === 'undefined') {
       delete (globalThis as { window?: unknown }).window;
       return;
@@ -179,5 +188,40 @@ describe('initServerCallback runtime bootstrap behavior', () => {
 
     expect(registerModuleLoadCount).toBe(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(3);
+  });
+
+  it('falls back to promise microtask retry when queueMicrotask is unavailable', async () => {
+    jest.resetModules();
+    overrideQueueMicrotask(undefined);
+    (globalThis as { window?: unknown }).window = {
+      location: {
+        origin: 'http://127.0.0.1:4800',
+        pathname: '/server-component-root',
+      },
+    };
+
+    const mockRegisterRemoteServerCallback = jest
+      .fn()
+      .mockImplementationOnce(() => {
+        throw new Error('bootstrap-failure-without-queueMicrotask');
+      })
+      .mockImplementation(() => undefined);
+
+    jest.doMock(REGISTER_SERVER_CALLBACK_MODULE, () => ({
+      registerRemoteServerCallback: mockRegisterRemoteServerCallback,
+    }));
+
+    await import(INIT_SERVER_CALLBACK_MODULE);
+    await flushRepeatedMicrotasks(30);
+
+    expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(2);
+    expect(mockRegisterRemoteServerCallback).toHaveBeenNthCalledWith(
+      1,
+      'http://127.0.0.1:4800/server-component-root',
+    );
+    expect(mockRegisterRemoteServerCallback).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:4800/server-component-root',
+    );
   });
 });

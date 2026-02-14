@@ -1,6 +1,14 @@
 let callbackBootstrapPromise: Promise<void> | undefined;
 const MAX_CALLBACK_BOOTSTRAP_RETRIES = 2;
 let callbackBootstrapRetryCount = 0;
+const scheduleRetryTask = (task: () => void) => {
+  if (typeof queueMicrotask === 'function') {
+    queueMicrotask(task);
+    return;
+  }
+
+  void Promise.resolve().then(task);
+};
 
 const bootstrapServerCallback = () => {
   if (!callbackBootstrapPromise) {
@@ -19,7 +27,7 @@ const bootstrapServerCallback = () => {
         return;
       }
       callbackBootstrapRetryCount += 1;
-      queueMicrotask(() => {
+      scheduleRetryTask(() => {
         void bootstrapServerCallback();
       });
     });
