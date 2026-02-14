@@ -460,6 +460,40 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('infers callback bootstrap from local side-effect imports of action modules', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customSideEffectActionImport':
+          './src/components/sideEffectActionImport.ts',
+      }),
+    ).toEqual({
+      './customSideEffectActionImport': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/sideEffectActionImport.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('does not infer callback bootstrap from side-effect imports without callback directives', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customSideEffectTypeOnlyBridgeImport':
+          './src/components/sideEffectTypeOnlyBridgeImport.ts',
+      }),
+    ).toEqual({
+      './customSideEffectTypeOnlyBridgeImport': {
+        import: ['./src/components/sideEffectTypeOnlyBridgeImport.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
