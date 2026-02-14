@@ -35,6 +35,8 @@ const EXPECTED_REMOTE_EXPOSE_PATHS = [
   './actionBundle',
   './infoBundle',
 ].sort();
+const REMOTE_EXPOSE_ENTRY_PATTERN =
+  /'(\.\/[^']+)':\s*'(\.\/src\/components\/[^']+)'/g;
 
 type Mode = 'dev' | 'build';
 
@@ -91,6 +93,15 @@ function createHostEnv(remotePort: number) {
   return {
     RSC_MF_REMOTE_PORT: String(remotePort),
   };
+}
+
+function getRemoteExposeEntries(configSource: string) {
+  return Array.from(configSource.matchAll(REMOTE_EXPOSE_ENTRY_PATTERN)).map(
+    ([, exposeKey, importPath]) => ({
+      exposeKey,
+      importPath,
+    }),
+  );
 }
 
 async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
@@ -497,6 +508,12 @@ function runTests({ mode }: TestConfig) {
         path.join(remoteDir, 'module-federation.config.ts'),
         'utf-8',
       );
+      const remoteExposeEntries = getRemoteExposeEntries(
+        moduleFederationConfigSource,
+      );
+      const remoteExposeKeys = remoteExposeEntries
+        .map(({ exposeKey }) => exposeKey)
+        .sort();
 
       expect(
         componentSources.every(
@@ -535,6 +552,12 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
       );
+      expect(remoteExposeKeys).toEqual(EXPECTED_REMOTE_EXPOSE_PATHS);
+      expect(
+        remoteExposeEntries.every(({ importPath }) =>
+          importPath.startsWith('./src/components/'),
+        ),
+      ).toBe(true);
     });
 
     it('should not load callback helper expose chunk', () => {
