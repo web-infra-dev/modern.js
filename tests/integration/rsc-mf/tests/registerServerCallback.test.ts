@@ -101,7 +101,32 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     await expect(callback('fetch-failure-action', ['arg-1'])).rejects.toThrow(
       'Remote action callback request failed with status 503 Service Unavailable (http://127.0.0.1:3008/server-component-root).',
     );
+    expect(global.fetch).toHaveBeenCalledTimes(2);
     expect(mockCreateFromFetch).not.toHaveBeenCalled();
+  });
+
+  it('retries once when callback fetch throws and succeeds on retry', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+
+    const transientNetworkError = new Error('network-down-on-first-attempt');
+    global.fetch = jest
+      .fn()
+      .mockRejectedValueOnce(transientNetworkError)
+      .mockResolvedValue({
+        ok: true,
+        status: 200,
+        statusText: 'OK',
+      } as Response);
+
+    const callback = getRegisteredCallback();
+    await expect(callback('fetch-retry-action', ['arg-1'])).resolves.toEqual(
+      expect.objectContaining({
+        type: 'decoded-rsc-response',
+      }),
+    );
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
   it('uses default alias when remote alias is omitted', async () => {

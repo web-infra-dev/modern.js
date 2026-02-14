@@ -8,6 +8,7 @@ import {
 let registeredCallbackKey = '';
 const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
 const DEFAULT_REMOTE_ALIAS = 'rscRemote';
+const MAX_CALLBACK_FETCH_RETRIES = 1;
 const getNormalizedRawActionId = (rawActionId: string) => {
   const normalizedRawActionId = rawActionId.trim();
   if (!normalizedRawActionId || /\s/.test(normalizedRawActionId)) {
@@ -79,20 +80,52 @@ export function registerRemoteServerCallback(
   setServerCallback(async (id: string, args: unknown[]) => {
     const hostActionId = getHostActionId(id, normalizedRemoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
-    const response = await fetch(remoteActionUrl, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/x-component',
-        'x-rsc-action': hostActionId,
-      },
-      body: await encodeReply(args, { temporaryReferences }),
-    });
-    if (!response.ok) {
+    const requestBody = await encodeReply(args, { temporaryReferences });
+    let response: Response | undefined;
+    let lastFetchError: unknown;
+
+    for (let attempt = 0; attempt <= MAX_CALLBACK_FETCH_RETRIES; attempt += 1) {
+      try {
+        response = await fetch(remoteActionUrl, {
+          method: 'POST',
+          headers: {
+            Accept: 'text/x-component',
+            'x-rsc-action': hostActionId,
+          },
+          body: requestBody,
+        });
+      } catch (error) {
+        lastFetchError = error;
+        if (attempt < MAX_CALLBACK_FETCH_RETRIES) {
+          continue;
+        }
+      }
+
+      if (!response) {
+        continue;
+      }
+
+      if (response.ok) {
+        return createFromFetch(Promise.resolve(response), {
+          temporaryReferences,
+        });
+      }
+
+      const shouldRetry =
+        response.status >= 500 && attempt < MAX_CALLBACK_FETCH_RETRIES;
+      if (shouldRetry) {
+        response = undefined;
+        continue;
+      }
+
       throw new Error(
         `Remote action callback request failed with status ${response.status} ${response.statusText} (${remoteActionUrl}).`,
       );
     }
-    return createFromFetch(Promise.resolve(response), { temporaryReferences });
+
+    throw new Error(
+      `Remote action callback request failed due to network error (${remoteActionUrl}): ${String(lastFetchError)}`,
+    );
   });
   registeredCallbackKey = callbackKey;
 }
