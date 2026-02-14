@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import * as ts from 'typescript';
 
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
@@ -8,14 +9,6 @@ const SOURCE_ENTRY_EXTENSION_PATTERN = /\.[cm]?[jt]sx?$/i;
 const RSC_LAYER = 'react-server-components';
 const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
 const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
-const EXPORT_FROM_SPECIFIER_PATTERN =
-  /export\s+([^'";]+?)\s+from\s+['"]([^'"]+)['"]/g;
-const IMPORT_FROM_SPECIFIER_PATTERN =
-  /import\s+([^'";]+?)\s+from\s+['"]([^'"]+)['"]/g;
-const SIDE_EFFECT_IMPORT_SPECIFIER_PATTERN = /import\s+['"]([^'"]+)['"]/g;
-const DYNAMIC_IMPORT_SPECIFIER_PATTERN = /import\(\s*['"]([^'"]+)['"]\s*\)/g;
-const COMMONJS_REQUIRE_SPECIFIER_PATTERN =
-  /(?:^|[^.\w$])require\(\s*['"]([^'"]+)['"]\s*\)/gm;
 const SOURCE_ENTRY_EXTENSIONS = [
   '.ts',
   '.tsx',
@@ -147,86 +140,136 @@ interface SourceModuleSpecifier {
   typeOnly: boolean;
 }
 
-const NAMED_SPECIFIER_LIST_PATTERN = /\{([^}]*)\}/;
-const TYPE_ONLY_PREFIX = 'type ';
+const getScriptKindByFilePath = (filePath: string) => {
+  const extension = path.extname(filePath).toLowerCase();
+  switch (extension) {
+    case '.tsx':
+      return ts.ScriptKind.TSX;
+    case '.jsx':
+      return ts.ScriptKind.JSX;
+    case '.js':
+    case '.mjs':
+    case '.cjs':
+      return ts.ScriptKind.JS;
+    default:
+      return ts.ScriptKind.TS;
+  }
+};
 
-const hasRuntimeNamedSpecifiers = (
-  clause: string,
-  forceTypeOnlyNamedSpecifiers: boolean,
-) => {
-  const namedSpecifierMatch = clause.match(NAMED_SPECIFIER_LIST_PATTERN);
-  if (!namedSpecifierMatch) {
+const getImportDeclarationTypeOnlyState = (node: ts.ImportDeclaration) => {
+  const importClause = node.importClause;
+  if (!importClause) {
     return false;
   }
-  if (forceTypeOnlyNamedSpecifiers) {
-    return false;
-  }
-  const namedSpecifiers = namedSpecifierMatch[1]
-    .split(',')
-    .map(specifier => specifier.trim())
-    .filter(Boolean);
-  if (namedSpecifiers.length === 0) {
+  if (importClause.isTypeOnly) {
     return true;
   }
-  return namedSpecifiers.some(
-    specifier => !specifier.startsWith(TYPE_ONLY_PREFIX),
+  if (importClause.name) {
+    return false;
+  }
+  const namedBindings = importClause.namedBindings;
+  if (!namedBindings) {
+    return false;
+  }
+  if (ts.isNamespaceImport(namedBindings)) {
+    return false;
+  }
+  if (ts.isNamedImports(namedBindings)) {
+    if (namedBindings.elements.length === 0) {
+      return false;
+    }
+    return namedBindings.elements.every(element => element.isTypeOnly);
+  }
+  return false;
+};
+
+const getExportDeclarationTypeOnlyState = (node: ts.ExportDeclaration) => {
+  if (node.isTypeOnly) {
+    return true;
+  }
+  if (!node.exportClause) {
+    return false;
+  }
+  if (ts.isNamespaceExport(node.exportClause)) {
+    return false;
+  }
+  if (ts.isNamedExports(node.exportClause)) {
+    if (node.exportClause.elements.length === 0) {
+      return false;
+    }
+    return node.exportClause.elements.every(element => element.isTypeOnly);
+  }
+  return false;
+};
+
+const collectLocalModuleSpecifiers = (
+  filePath: string,
+  sourceText: string,
+): SourceModuleSpecifier[] => {
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true,
+    getScriptKindByFilePath(filePath),
   );
-};
+  const moduleSpecifiers: SourceModuleSpecifier[] = [];
 
-const hasRuntimeBareSpecifiers = (
-  clause: string,
-  forceTypeOnlyNamedSpecifiers: boolean,
-) => {
-  const bareSpecifiers = clause
-    .replace(NAMED_SPECIFIER_LIST_PATTERN, '')
-    .replaceAll(',', ' ')
-    .split(/\s+/)
-    .map(specifier => specifier.trim())
-    .filter(Boolean);
-  if (bareSpecifiers.length === 0) {
-    return false;
-  }
-  if (bareSpecifiers.length >= 2 && bareSpecifiers[0] === 'as') {
-    return true;
-  }
-  if (
-    forceTypeOnlyNamedSpecifiers &&
-    bareSpecifiers.every(specifier => specifier === 'type')
-  ) {
-    return false;
-  }
-  return !bareSpecifiers.every(specifier => specifier === 'type');
-};
+  const collectNodeSpecifiers = (node: ts.Node): void => {
+    if (ts.isImportDeclaration(node)) {
+      if (ts.isStringLiteralLike(node.moduleSpecifier)) {
+        moduleSpecifiers.push({
+          moduleSpecifier: node.moduleSpecifier.text,
+          typeOnly: getImportDeclarationTypeOnlyState(node),
+        });
+      }
+      return;
+    }
 
-const isTypeOnlyImportClause = (clause: string) => {
-  const normalizedClause = clause.trim();
-  if (!normalizedClause) {
-    return false;
-  }
-  if (normalizedClause.startsWith(TYPE_ONLY_PREFIX)) {
-    return true;
-  }
-  if (hasRuntimeNamedSpecifiers(normalizedClause, false)) {
-    return false;
-  }
-  return !hasRuntimeBareSpecifiers(normalizedClause, false);
-};
+    if (ts.isExportDeclaration(node)) {
+      if (
+        node.moduleSpecifier &&
+        ts.isStringLiteralLike(node.moduleSpecifier)
+      ) {
+        moduleSpecifiers.push({
+          moduleSpecifier: node.moduleSpecifier.text,
+          typeOnly: getExportDeclarationTypeOnlyState(node),
+        });
+      }
+      return;
+    }
 
-const isTypeOnlyExportClause = (clause: string) => {
-  const normalizedClause = clause.trim();
-  if (!normalizedClause) {
-    return false;
-  }
-  if (normalizedClause.startsWith(TYPE_ONLY_PREFIX)) {
-    return true;
-  }
-  if (normalizedClause.startsWith('*')) {
-    return false;
-  }
-  if (hasRuntimeNamedSpecifiers(normalizedClause, false)) {
-    return false;
-  }
-  return !hasRuntimeBareSpecifiers(normalizedClause, false);
+    if (ts.isCallExpression(node)) {
+      const [firstArgument] = node.arguments;
+      if (!firstArgument || !ts.isStringLiteralLike(firstArgument)) {
+        return;
+      }
+      if (node.expression.kind === ts.SyntaxKind.ImportKeyword) {
+        moduleSpecifiers.push({
+          moduleSpecifier: firstArgument.text,
+          typeOnly: false,
+        });
+        return;
+      }
+      if (
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === 'require'
+      ) {
+        moduleSpecifiers.push({
+          moduleSpecifier: firstArgument.text,
+          typeOnly: false,
+        });
+      }
+    }
+  };
+
+  const walkNode = (node: ts.Node): void => {
+    collectNodeSpecifiers(node);
+    ts.forEachChild(node, walkNode);
+  };
+  walkNode(sourceFile);
+
+  return moduleSpecifiers;
 };
 
 const readSourceFile = (filePath: string) => {
@@ -288,43 +331,10 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
       return true;
     }
 
-    const localSpecifierMatches: SourceModuleSpecifier[] = [
-      ...Array.from(
-        sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
-        match => ({
-          moduleSpecifier: match[2],
-          typeOnly: isTypeOnlyExportClause(match[1]),
-        }),
-      ),
-      ...Array.from(
-        sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
-        match => ({
-          moduleSpecifier: match[2],
-          typeOnly: isTypeOnlyImportClause(match[1]),
-        }),
-      ),
-      ...Array.from(
-        sourceText.matchAll(SIDE_EFFECT_IMPORT_SPECIFIER_PATTERN),
-        match => ({
-          moduleSpecifier: match[1],
-          typeOnly: false,
-        }),
-      ),
-      ...Array.from(
-        sourceText.matchAll(DYNAMIC_IMPORT_SPECIFIER_PATTERN),
-        match => ({
-          moduleSpecifier: match[1],
-          typeOnly: false,
-        }),
-      ),
-      ...Array.from(
-        sourceText.matchAll(COMMONJS_REQUIRE_SPECIFIER_PATTERN),
-        match => ({
-          moduleSpecifier: match[1],
-          typeOnly: false,
-        }),
-      ),
-    ];
+    const localSpecifierMatches = collectLocalModuleSpecifiers(
+      filePath,
+      sourceText,
+    );
 
     for (const { moduleSpecifier, typeOnly } of localSpecifierMatches) {
       if (
