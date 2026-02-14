@@ -183,7 +183,7 @@
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.19.5",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/ioredis-mock": "^8.2.6",
     "@types/node": "^20",
