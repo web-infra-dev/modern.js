@@ -396,6 +396,40 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('infers callback bootstrap from commonjs require graph', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customCommonJsActionRequire':
+          './src/components/commonJsActionRequire.cts',
+      }),
+    ).toEqual({
+      './customCommonJsActionRequire': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/commonJsActionRequire.cts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('does not infer callback bootstrap from commonjs require graph without callback directives', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customCommonJsTypeOnlyBridgeRequire':
+          './src/components/commonJsTypeOnlyBridgeRequire.cts',
+      }),
+    ).toEqual({
+      './customCommonJsTypeOnlyBridgeRequire': {
+        import: ['./src/components/commonJsTypeOnlyBridgeRequire.cts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('does not infer callback bootstrap from type-only local imports', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
