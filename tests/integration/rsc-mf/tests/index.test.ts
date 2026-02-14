@@ -580,13 +580,14 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.length).toBeGreaterThanOrEqual(
         MIN_EXPECTED_ACTION_POSTS_PER_MODE,
       );
+      const uniqueActionRequestIds = new Set(actionRequestIds);
       expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
         true,
       );
       expect(actionRequestIds.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
         true,
       );
-      expect(new Set(actionRequestIds).size).toBeGreaterThanOrEqual(4);
+      expect(uniqueActionRequestIds.size).toBeGreaterThanOrEqual(4);
       const hostProxyActionIdSet = new Set(
         (await page.$eval('.host-proxy-action-ids', el => el.textContent || ''))
           .split(',')
@@ -624,7 +625,7 @@ function runTests({ mode }: TestConfig) {
         ),
       );
       expect(hostProxyMapKeyCount).toBe(mappedProxyActionIdSet.size);
-      expect(new Set(actionRequestIds).size).toBeLessThanOrEqual(
+      expect(uniqueActionRequestIds.size).toBeLessThanOrEqual(
         hostProxyMapKeyCount,
       );
       expect(hostProxyMapCollisionCount).toBe(
@@ -705,6 +706,8 @@ function runTests({ mode }: TestConfig) {
         ...nestedProxyActionIdSet,
         ...defaultProxyActionIdSet,
       ]);
+      expect(actionFamilyProxyActionIdSet.size).toBe(hostProxyActionIdSet.size);
+      expect(uniqueActionRequestIds.size).toBe(hostProxyMapKeyCount);
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
       if (!usesDirectProxyIds || !usesBundledProxyIds) {
         expect(hostProxyMapCollisionCount).toBeGreaterThan(0);
