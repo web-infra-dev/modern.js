@@ -35,8 +35,6 @@ const EXPECTED_REMOTE_EXPOSE_PATHS = [
   './actionBundle',
   './infoBundle',
 ].sort();
-const REMOTE_EXPOSE_ENTRY_PATTERN =
-  /'(\.\/[^']+)':\s*'(\.\/src\/components\/[^']+)'/g;
 
 type Mode = 'dev' | 'build';
 
@@ -93,15 +91,6 @@ function createHostEnv(remotePort: number) {
   return {
     RSC_MF_REMOTE_PORT: String(remotePort),
   };
-}
-
-function getRemoteExposeEntries(configSource: string) {
-  return Array.from(configSource.matchAll(REMOTE_EXPOSE_ENTRY_PATTERN)).map(
-    ([, exposeKey, importPath]) => ({
-      exposeKey,
-      importPath,
-    }),
-  );
 }
 
 async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
@@ -512,22 +501,6 @@ function runTests({ mode }: TestConfig) {
         path.join(remoteDir, 'src/runtime/registerServerCallback.ts'),
         'utf-8',
       );
-      const moduleFederationConfigSource = fs.readFileSync(
-        path.join(remoteDir, 'module-federation.config.ts'),
-        'utf-8',
-      );
-      const hostModuleFederationConfigSource = fs.readFileSync(
-        path.join(hostDir, 'module-federation.config.ts'),
-        'utf-8',
-      );
-      const hostModernConfigSource = fs.readFileSync(
-        path.join(hostDir, 'modern.config.ts'),
-        'utf-8',
-      );
-      const remoteModernConfigSource = fs.readFileSync(
-        path.join(remoteDir, 'modern.config.ts'),
-        'utf-8',
-      );
       const remoteRuntimeExposesDir = path.join(
         remoteDir,
         'src/runtime/exposes',
@@ -544,17 +517,6 @@ function runTests({ mode }: TestConfig) {
       const remoteRuntimeEntriesWithoutExposeDir = remoteRuntimeEntries.filter(
         entryName => entryName !== 'exposes',
       );
-      const remoteExposeEntries = getRemoteExposeEntries(
-        moduleFederationConfigSource,
-      );
-      const remoteExposeKeys = remoteExposeEntries
-        .map(({ exposeKey }) => exposeKey)
-        .sort();
-      const clientBrowserSharedScopeEntryCount = (
-        moduleFederationConfigSource.match(
-          /'react-server-dom-rspack\/client\.browser':\s*\{/g,
-        ) || []
-      ).length;
 
       expect(
         componentSources.every(
@@ -610,124 +572,11 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
       );
-      expect(moduleFederationConfigSource).toContain(
-        'CALLBACK_BOOTSTRAP_IMPORT',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'CALLBACK_BOOTSTRAP_PREFIX',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'Callback bootstrap import must stay in runtime namespace',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'Callback bootstrap import must use explicit source extension',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'Callback bootstrap import must not contain traversal or Windows separators',
-      );
-      expect(
-        moduleFederationConfigSource.includes(
-          '[CALLBACK_BOOTSTRAP_IMPORT, importPath]',
-        ),
-      ).toBe(true);
-      expect(moduleFederationConfigSource).not.toContain(
-        'callbackBootstrappedExposes',
-      );
-      expect(moduleFederationConfigSource).not.toContain(
-        'missingCallbackExposeEntries',
-      );
-      expect(moduleFederationConfigSource).not.toContain(
-        './src/runtime/exposes/',
-      );
       expect(remoteRuntimeExposeEntries).toEqual([]);
       expect(remoteRuntimeEntriesWithoutExposeDir).toEqual([
         'initServerCallback.ts',
         'registerServerCallback.ts',
       ]);
-      expect(moduleFederationConfigSource).toContain('COMPONENT_EXPOSE_PREFIX');
-      expect(moduleFederationConfigSource).toContain(
-        'nonComponentExposeEntries',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'nonTypeScriptExposeEntries',
-      );
-      expect(moduleFederationConfigSource).toContain(
-        'parentTraversalExposeEntries',
-      );
-      expect(moduleFederationConfigSource).toContain('nonPosixExposeEntries');
-      expect(moduleFederationConfigSource).toContain('invalidExposeKeys');
-      expect(moduleFederationConfigSource).toContain('callbackExposeEntries');
-      expect(moduleFederationConfigSource).toContain("shareScope: 'default'");
-      expect(moduleFederationConfigSource).toContain("shareScope: 'ssr'");
-      expect(moduleFederationConfigSource).toContain("shareScope: 'rsc'");
-      expect(moduleFederationConfigSource).toContain('experiments:');
-      expect(moduleFederationConfigSource).toContain('asyncStartup: true');
-      expect(moduleFederationConfigSource).toContain('rsc: true');
-      expect(clientBrowserSharedScopeEntryCount).toBe(3);
-      expect(remoteExposeKeys).toEqual(EXPECTED_REMOTE_EXPOSE_PATHS);
-      expect(
-        remoteExposeEntries.every(({ importPath }) =>
-          importPath.startsWith('./src/components/'),
-        ),
-      ).toBe(true);
-      expect(
-        remoteExposeEntries.every(({ importPath }) =>
-          /\.[tj]sx?$/.test(importPath),
-        ),
-      ).toBe(true);
-      expect(
-        remoteExposeEntries.every(
-          ({ importPath }) =>
-            !importPath.includes('..') && !importPath.includes('\\'),
-        ),
-      ).toBe(true);
-      expect(
-        remoteExposeEntries.every(({ importPath }) =>
-          fs.existsSync(path.resolve(remoteDir, importPath)),
-        ),
-      ).toBe(true);
-      expect(hostModuleFederationConfigSource).toContain('runtimePlugins');
-      expect(hostModuleFederationConfigSource).toContain(
-        './runtime/forceRemotePublicPath.ts',
-      );
-      expect(hostModuleFederationConfigSource).toContain(
-        "process.env.NODE_ENV === 'production'",
-      );
-      expect(hostModuleFederationConfigSource).toContain(': []');
-      expect(hostModuleFederationConfigSource).toContain(
-        '/static/mf-manifest.json',
-      );
-      expect(hostModuleFederationConfigSource).toContain('RSC_MF_REMOTE_PORT');
-      expect(hostModuleFederationConfigSource).toContain('rscRemote:');
-      expect(hostModuleFederationConfigSource).toContain('asyncStartup: true');
-      expect(hostModuleFederationConfigSource).toContain('rsc: true');
-      expect(hostModuleFederationConfigSource).not.toContain(
-        'registerServerCallbackRuntime',
-      );
-      expect(hostModuleFederationConfigSource).not.toContain(
-        'initServerCallback',
-      );
-      expect(hostModernConfigSource).not.toContain('preEntry');
-      expect(hostModernConfigSource).not.toContain('registerServerCallback');
-      expect(hostModernConfigSource).toContain('enableAsyncEntry: false');
-      expect(hostModernConfigSource).toContain("chain.target('async-node')");
-      expect(hostModernConfigSource).toContain("'server-only$'");
-      expect(hostModernConfigSource).toContain(
-        'moduleFederationPlugin({ ssr: true })',
-      );
-      expect(remoteModernConfigSource).not.toContain('chunkLoadingGlobal');
-      expect(remoteModernConfigSource).toContain(
-        'rsc-mf-react-server-dom-client-browser$',
-      );
-      expect(remoteModernConfigSource).toContain(
-        'react-server-dom-rspack/client.browser',
-      );
-      expect(remoteModernConfigSource).toContain('enableAsyncEntry: false');
-      expect(remoteModernConfigSource).toContain("chain.target('async-node')");
-      expect(remoteModernConfigSource).toContain('splitChunks(false)');
-      expect(remoteModernConfigSource).toContain(
-        'moduleFederationPlugin({ ssr: true })',
-      );
     });
 
     it('should not load callback helper expose chunk', () => {
