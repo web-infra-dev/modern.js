@@ -236,11 +236,14 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostIncrementProxyActionIdList = hostIncrementProxyActionIds
     ?.split(',')
     .filter(Boolean) as string[];
-  expect(hostIncrementProxyActionIdList.length).toBeGreaterThan(0);
+  expect(hostIncrementProxyActionIdList.length).toBe(2);
   expect(
     hostIncrementProxyActionIdList.every(id =>
       hostProxyActionIdList.includes(id),
     ),
+  ).toBe(true);
+  expect(
+    hostIncrementProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id)),
   ).toBe(true);
   const hostEchoProxyActionIds = await page.$eval(
     '.host-echo-proxy-action-ids',
@@ -249,9 +252,12 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostEchoProxyActionIdList = hostEchoProxyActionIds
     ?.split(',')
     .filter(Boolean) as string[];
-  expect(hostEchoProxyActionIdList.length).toBeGreaterThan(0);
+  expect(hostEchoProxyActionIdList.length).toBe(2);
   expect(
     hostEchoProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+  ).toBe(true);
+  expect(
+    hostEchoProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id)),
   ).toBe(true);
   const hostNestedProxyActionIds = await page.$eval(
     '.host-nested-proxy-action-ids',
@@ -260,9 +266,12 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostNestedProxyActionIdList = hostNestedProxyActionIds
     ?.split(',')
     .filter(Boolean) as string[];
-  expect(hostNestedProxyActionIdList.length).toBeGreaterThan(0);
+  expect(hostNestedProxyActionIdList.length).toBe(2);
   expect(
     hostNestedProxyActionIdList.every(id => hostProxyActionIdList.includes(id)),
+  ).toBe(true);
+  expect(
+    hostNestedProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id)),
   ).toBe(true);
   const hostDefaultProxyActionIds = await page.$eval(
     '.host-default-proxy-action-ids',
@@ -271,12 +280,67 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostDefaultProxyActionIdList = hostDefaultProxyActionIds
     ?.split(',')
     .filter(Boolean) as string[];
-  expect(hostDefaultProxyActionIdList.length).toBeGreaterThan(0);
+  expect(hostDefaultProxyActionIdList.length).toBe(2);
   expect(
     hostDefaultProxyActionIdList.every(id =>
       hostProxyActionIdList.includes(id),
     ),
   ).toBe(true);
+  expect(
+    hostDefaultProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id)),
+  ).toBe(true);
+  const getGroupMembershipCount = (
+    actionIds: string[],
+    groupIds: string[],
+  ): number => actionIds.filter(id => groupIds.includes(id)).length;
+  expect(
+    getGroupMembershipCount(
+      hostIncrementProxyActionIdList,
+      hostDirectProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostIncrementProxyActionIdList,
+      hostBundledProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostEchoProxyActionIdList,
+      hostDirectProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostEchoProxyActionIdList,
+      hostBundledProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostNestedProxyActionIdList,
+      hostDirectProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostNestedProxyActionIdList,
+      hostBundledProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostDefaultProxyActionIdList,
+      hostDirectProxyActionIdList,
+    ),
+  ).toBe(1);
+  expect(
+    getGroupMembershipCount(
+      hostDefaultProxyActionIdList,
+      hostBundledProxyActionIdList,
+    ),
+  ).toBe(1);
   const groupedProxyActionIdUnion = new Set([
     ...hostDirectProxyActionIdList,
     ...hostBundledProxyActionIdList,
