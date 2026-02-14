@@ -568,6 +568,19 @@ function runTests({ mode }: TestConfig) {
         "from './registerServerCallback'",
       );
       expect(runtimeRegisterSource).toContain('setServerCallback');
+      expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
+      expect(runtimeRegisterSource).toContain(
+        "if (rawActionId.startsWith('remote:'))",
+      );
+      expect(runtimeRegisterSource).toContain(
+        'return `remote:${remoteAlias}:${rawActionId}`',
+      );
+      expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
+      expect(runtimeRegisterSource).toContain("method: 'POST'");
+      expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
+      expect(runtimeRegisterSource).not.toContain(
+        'remoteActionIdToHostProxyActionId',
+      );
       expect(moduleFederationConfigSource).toContain(
         'CALLBACK_BOOTSTRAP_IMPORT',
       );
