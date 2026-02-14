@@ -377,6 +377,73 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('.fallback-style{}');
   });
 
+  it('recovers stale hashed css expose assets via manifest fallback', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [],
+                      async: [],
+                    },
+                    css: {
+                      sync: [
+                        'static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css',
+                      ],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('.hashed-fallback-style{}', {
+            status: 200,
+            headers: {
+              'content-type': 'text/css',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/css/async/__federation_expose_RemoteClientCounter.deadbeef12.css?cache=1',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css?cache=1',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('.hashed-fallback-style{}');
+  });
+
   it('falls through when manifest response body is invalid json', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

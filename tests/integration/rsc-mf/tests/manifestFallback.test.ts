@@ -154,6 +154,36 @@ describe('manifest fallback shared helpers', () => {
     );
   });
 
+  it('resolves stale hashed css expose requests to current hashed css assets', () => {
+    const manifest: RemoteManifestShape = {
+      exposes: [
+        {
+          assets: {
+            js: {
+              sync: [],
+              async: [],
+            },
+            css: {
+              sync: [
+                'static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css',
+              ],
+              async: [],
+            },
+          },
+        },
+      ],
+    };
+
+    expect(
+      resolveManifestFallbackAssetPath(
+        '/static/css/async/__federation_expose_RemoteClientCounter.deadbeef12.css',
+        manifest,
+      ),
+    ).toBe(
+      'static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css',
+    );
+  });
+
   it('builds safe fallback URL and merges request query params', () => {
     expect(
       createManifestFallbackAssetUrl({
@@ -201,6 +231,15 @@ describe('manifest fallback shared helpers', () => {
         remoteOrigin: 'http://127.0.0.1:3999',
         fallbackAssetPath:
           'static/js/async/%2e%2e/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+        requestSearch: '',
+        requestedAssetDirectory: 'static/js/async/',
+      }),
+    ).toBeUndefined();
+    expect(
+      createManifestFallbackAssetUrl({
+        remoteOrigin: 'http://127.0.0.1:3999',
+        fallbackAssetPath:
+          'static/js/async/%E0%A4%A/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
         requestSearch: '',
         requestedAssetDirectory: 'static/js/async/',
       }),
