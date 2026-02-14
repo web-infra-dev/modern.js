@@ -69,7 +69,7 @@ export function registerRemoteServerCallback(
     return;
   }
 
-  setServerCallback(async (id, args) => {
+  setServerCallback(async (id: string, args: unknown[]) => {
     const hostActionId = getHostActionId(id, normalizedRemoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
