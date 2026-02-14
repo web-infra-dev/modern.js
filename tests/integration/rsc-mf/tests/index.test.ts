@@ -514,6 +514,10 @@ function runTests({ mode }: TestConfig) {
         path.join(remoteDir, 'module-federation.config.ts'),
         'utf-8',
       );
+      const hostModuleFederationConfigSource = fs.readFileSync(
+        path.join(hostDir, 'module-federation.config.ts'),
+        'utf-8',
+      );
       const remoteExposeEntries = getRemoteExposeEntries(
         moduleFederationConfigSource,
       );
@@ -572,6 +576,16 @@ function runTests({ mode }: TestConfig) {
           importPath.startsWith('./src/components/'),
         ),
       ).toBe(true);
+      expect(hostModuleFederationConfigSource).toContain('runtimePlugins');
+      expect(hostModuleFederationConfigSource).toContain(
+        './runtime/forceRemotePublicPath.ts',
+      );
+      expect(hostModuleFederationConfigSource).not.toContain(
+        'registerServerCallbackRuntime',
+      );
+      expect(hostModuleFederationConfigSource).not.toContain(
+        'initServerCallback',
+      );
     });
 
     it('should not load callback helper expose chunk', () => {
