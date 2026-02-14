@@ -64,6 +64,26 @@ if (nonTypeScriptExposeEntries.length > 0) {
       .join(', ')}`,
   );
 }
+const parentTraversalExposeEntries = Object.entries(remoteExposeImports).filter(
+  ([, importPath]) => importPath.includes('..'),
+);
+if (parentTraversalExposeEntries.length > 0) {
+  throw new Error(
+    `Remote expose imports must not contain parent directory traversal segments. Invalid entries: ${parentTraversalExposeEntries
+      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+      .join(', ')}`,
+  );
+}
+const nonPosixExposeEntries = Object.entries(remoteExposeImports).filter(
+  ([, importPath]) => importPath.includes('\\'),
+);
+if (nonPosixExposeEntries.length > 0) {
+  throw new Error(
+    `Remote expose imports must use POSIX separators for deterministic module ids. Invalid entries: ${nonPosixExposeEntries
+      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+      .join(', ')}`,
+  );
+}
 const callbackExposeEntries = Object.entries(remoteExposeImports).filter(
   ([, importPath]) => importPath === CALLBACK_BOOTSTRAP_IMPORT,
 );
