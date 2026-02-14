@@ -1,4 +1,5 @@
 const EXPOSE_CHUNK_HASH_SUFFIX_PATTERN = /\.[a-z0-9]{6,}$/i;
+const EXPOSE_CHUNK_HASHED_ASSET_PATTERN = /\.[a-z0-9]{6,}\.(js|css)$/i;
 export const INTERNAL_FALLBACK_HEADER = 'x-rsc-mf-internal-fallback';
 
 export interface RemoteManifestAssetEntry {
@@ -44,6 +45,12 @@ const toNormalizedManifestAssetPath = (assetPath: string) => {
   }
 };
 
+const toNormalizedRequestPath = (pathname: string) =>
+  pathname.replace(/^\/+/, '').split(/[?#]/, 1)[0];
+
+const hasChunkHashInAssetPath = (assetPath: string) =>
+  EXPOSE_CHUNK_HASHED_ASSET_PATTERN.test(assetPath);
+
 const collectManifestAssetPaths = (manifest: RemoteManifestShape) => {
   const entries = [...(manifest.shared || []), ...(manifest.exposes || [])];
   const assetPaths = new Set<string>();
@@ -78,16 +85,39 @@ export const resolveManifestFallbackAssetPath = (
   }
 
   const requestedAssetDirectory = getRequestedAssetDirectory(pathname);
+  const normalizedRequestedPath = toNormalizedRequestPath(pathname);
   const manifestAssets = collectManifestAssetPaths(manifest);
-  return manifestAssets.find(assetPath => {
-    const normalizedAssetPath = toNormalizedManifestAssetPath(assetPath);
-    if (!normalizedAssetPath.startsWith(requestedAssetDirectory)) {
-      return false;
-    }
-    return (
-      toCanonicalChunkName(normalizedAssetPath) === canonicalRequestedChunkName
-    );
-  });
+  const candidateAssets = manifestAssets
+    .map(assetPath => ({
+      assetPath,
+      normalizedAssetPath: toNormalizedManifestAssetPath(assetPath),
+    }))
+    .filter(({ normalizedAssetPath }) => {
+      if (!normalizedAssetPath.startsWith(requestedAssetDirectory)) {
+        return false;
+      }
+      return (
+        toCanonicalChunkName(normalizedAssetPath) ===
+        canonicalRequestedChunkName
+      );
+    });
+
+  const preferredCandidate =
+    candidateAssets.find(
+      ({ normalizedAssetPath }) =>
+        normalizedAssetPath !== normalizedRequestedPath &&
+        hasChunkHashInAssetPath(normalizedAssetPath),
+    ) ||
+    candidateAssets.find(
+      ({ normalizedAssetPath }) =>
+        normalizedAssetPath !== normalizedRequestedPath,
+    ) ||
+    candidateAssets.find(({ normalizedAssetPath }) =>
+      hasChunkHashInAssetPath(normalizedAssetPath),
+    ) ||
+    candidateAssets[0];
+
+  return preferredCandidate?.assetPath;
 };
 
 export const createManifestFallbackAssetUrl = ({

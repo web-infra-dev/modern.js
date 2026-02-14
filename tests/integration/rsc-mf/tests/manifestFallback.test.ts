@@ -154,6 +154,35 @@ describe('manifest fallback shared helpers', () => {
     );
   });
 
+  it('prefers hashed fallback candidates over identical stale aliases', () => {
+    const manifest: RemoteManifestShape = {
+      exposes: [
+        {
+          assets: {
+            js: {
+              sync: [
+                'static/js/async/__federation_expose_RemoteServerCard.js',
+                'static/js/async/__federation_expose_RemoteServerCard.a1b2c3d4.js',
+              ],
+              async: [],
+            },
+            css: {
+              sync: [],
+              async: [],
+            },
+          },
+        },
+      ],
+    };
+
+    expect(
+      resolveManifestFallbackAssetPath(
+        '/static/js/async/__federation_expose_RemoteServerCard.js',
+        manifest,
+      ),
+    ).toBe('static/js/async/__federation_expose_RemoteServerCard.a1b2c3d4.js');
+  });
+
   it('resolves stale hashed css expose requests to current hashed css assets', () => {
     const manifest: RemoteManifestShape = {
       exposes: [
