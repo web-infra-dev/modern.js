@@ -66,6 +66,8 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-meta-kind');
   expect(html).toContain('host-proxy-action-id-count');
   expect(html).toContain('host-proxy-action-ids');
+  expect(html).toContain('host-direct-proxy-action-ids');
+  expect(html).toContain('host-bundled-proxy-action-ids');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -126,6 +128,22 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(hostProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
     true,
   );
+  const hostDirectProxyActionIds = await page.$eval(
+    '.host-direct-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostDirectProxyActionIdList = hostDirectProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostDirectProxyActionIdList.length).toBe(4);
+  const hostBundledProxyActionIds = await page.$eval(
+    '.host-bundled-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostBundledProxyActionIdList = hostBundledProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostBundledProxyActionIdList.length).toBe(4);
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),
@@ -362,6 +380,33 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.every(id => hostProxyActionIdSet.has(id))).toBe(
         true,
       );
+      const directProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-direct-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      const bundledProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-bundled-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      const usesDirectProxyIds = actionRequestIds.some(id =>
+        directProxyActionIdSet.has(id),
+      );
+      const usesBundledProxyIds = actionRequestIds.some(id =>
+        bundledProxyActionIdSet.has(id),
+      );
+      expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
     });
 
     it('should have no browser runtime errors', () => {

@@ -27,16 +27,28 @@ const getServerActionId = (action: unknown) =>
   (action as { $$id?: string } | undefined)?.$$id;
 
 const App = () => {
-  const hostProxyActions = [
+  const directHostProxyActions = [
     proxyIncrementRemoteCount,
     proxyRemoteActionEcho,
     proxyNestedRemoteAction,
     proxyDefaultRemoteAction,
+  ] as const;
+  const bundledHostProxyActions = [
     proxyBundledIncrementRemoteCount,
     proxyBundledRemoteActionEcho,
     proxyBundledNestedRemoteAction,
     proxyBundledDefaultRemoteAction,
   ] as const;
+  const hostProxyActions = [
+    ...directHostProxyActions,
+    ...bundledHostProxyActions,
+  ] as const;
+  const directHostProxyActionIds = directHostProxyActions
+    .map(action => getServerActionId(action))
+    .filter((actionId): actionId is string => Boolean(actionId));
+  const bundledHostProxyActionIds = bundledHostProxyActions
+    .map(action => getServerActionId(action))
+    .filter((actionId): actionId is string => Boolean(actionId));
   const hostProxyActionIds = hostProxyActions
     .map(action => getServerActionId(action))
     .filter((actionId): actionId is string => Boolean(actionId));
@@ -118,6 +130,12 @@ const App = () => {
       </p>
       <p className="host-proxy-action-ids">
         {uniqueHostProxyActionIds.join(',')}
+      </p>
+      <p className="host-direct-proxy-action-ids">
+        {directHostProxyActionIds.join(',')}
+      </p>
+      <p className="host-bundled-proxy-action-ids">
+        {bundledHostProxyActionIds.join(',')}
       </p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
