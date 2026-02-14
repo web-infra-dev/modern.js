@@ -94,8 +94,28 @@ describe('createRscExposeDefinitions', () => {
         './RemoteClientCounter': './src/components/RemoteClientCounter',
       }),
     ).toThrow(
-      'Remote expose imports must use explicit TypeScript entry extensions for deterministic resolution.',
+      'Remote expose imports must use explicit source entry extensions (.js/.jsx/.ts/.tsx/.cjs/.mjs/.cts/.mts) for deterministic resolution.',
     );
+  });
+
+  it('allows cts and mts expose entry extensions', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './serverOnlyHelper': './src/lib/serverOnlyHelper.cts',
+        './rscBridgeUtil': './src/lib/rscBridgeUtil.mts',
+      }),
+    ).toEqual({
+      './serverOnlyHelper': {
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/lib/serverOnlyHelper.cts'],
+        layer: 'react-server-components',
+      },
+      './rscBridgeUtil': {
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/lib/rscBridgeUtil.mts'],
+        layer: 'react-server-components',
+      },
+    });
   });
 
   it('rejects expose imports with parent traversal segments', () => {

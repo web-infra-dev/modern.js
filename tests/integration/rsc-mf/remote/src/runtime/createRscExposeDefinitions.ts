@@ -1,15 +1,16 @@
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
 const USERLAND_EXPOSE_PREFIX = './';
+const SOURCE_ENTRY_EXTENSION_PATTERN = /\.[cm]?[jt]sx?$/i;
 
 if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
   throw new Error(
     `Callback bootstrap import must stay in runtime namespace (${CALLBACK_BOOTSTRAP_PREFIX}). Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
   );
 }
-if (!/\.[tj]sx?$/.test(CALLBACK_BOOTSTRAP_IMPORT)) {
+if (!SOURCE_ENTRY_EXTENSION_PATTERN.test(CALLBACK_BOOTSTRAP_IMPORT)) {
   throw new Error(
-    `Callback bootstrap import must use explicit source extension for deterministic resolution. Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
+    `Callback bootstrap import must use an explicit source entry extension for deterministic resolution. Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
   );
 }
 if (
@@ -84,12 +85,14 @@ const assertValidExposeConfig = (
     );
   }
 
-  const nonTypeScriptExposeEntries = Object.entries(remoteExposeImports).filter(
-    ([, importPath]) => !/\.[tj]sx?$/.test(importPath),
+  const nonSourceEntryExposeEntries = Object.entries(
+    remoteExposeImports,
+  ).filter(
+    ([, importPath]) => !SOURCE_ENTRY_EXTENSION_PATTERN.test(importPath),
   );
-  if (nonTypeScriptExposeEntries.length > 0) {
+  if (nonSourceEntryExposeEntries.length > 0) {
     throw new Error(
-      `Remote expose imports must use explicit TypeScript entry extensions for deterministic resolution. Invalid entries: ${nonTypeScriptExposeEntries
+      `Remote expose imports must use explicit source entry extensions (.js/.jsx/.ts/.tsx/.cjs/.mjs/.cts/.mts) for deterministic resolution. Invalid entries: ${nonSourceEntryExposeEntries
         .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
         .join(', ')}`,
     );
