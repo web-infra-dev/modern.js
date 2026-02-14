@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { isVersionAtLeast18 } from '@modern-js/utils';
 import type { Browser, Page } from 'puppeteer';
@@ -433,6 +434,30 @@ function runTests({ mode }: TestConfig) {
         .map(item => item.path)
         .filter((path): path is string => Boolean(path));
       expect(exposedPaths).not.toContain('./registerServerCallback');
+    });
+
+    it('should keep callback runtime wiring out of component sources', () => {
+      const remoteClientCounterSource = fs.readFileSync(
+        path.join(remoteDir, 'src/components/RemoteClientCounter.tsx'),
+        'utf-8',
+      );
+      const remoteClientBadgeSource = fs.readFileSync(
+        path.join(remoteDir, 'src/components/RemoteClientBadge.tsx'),
+        'utf-8',
+      );
+      const runtimeInitSource = fs.readFileSync(
+        path.join(remoteDir, 'src/runtime/initServerCallback.ts'),
+        'utf-8',
+      );
+      expect(remoteClientCounterSource).not.toContain('initServerCallback');
+      expect(remoteClientCounterSource).not.toContain(
+        'registerRemoteServerCallback',
+      );
+      expect(remoteClientBadgeSource).not.toContain('initServerCallback');
+      expect(remoteClientBadgeSource).not.toContain(
+        'registerRemoteServerCallback',
+      );
+      expect(runtimeInitSource).toContain('registerRemoteServerCallback');
     });
 
     it('should not load callback helper expose chunk', () => {
