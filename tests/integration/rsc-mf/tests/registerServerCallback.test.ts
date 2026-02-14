@@ -77,6 +77,26 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
   });
 
+  it('normalizes action ids and rejects whitespace-delimited ids', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+
+    const callback = getRegisteredCallback();
+    await callback('   abc123   ', []);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:abc123',
+        }),
+      }),
+    );
+
+    await expect(callback('abc 123', [])).rejects.toThrow(
+      'Remote action id must be a non-empty token without whitespace',
+    );
+  });
+
   it('preserves already-prefixed action ids and dedupes normalized callback registrations', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback(
@@ -100,6 +120,12 @@ describe('registerRemoteServerCallback runtime behavior', () => {
         }),
       }),
     );
+  });
+
+  it('ignores empty callback origins after trimming', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('   ');
+    expect(mockSetServerCallback).not.toHaveBeenCalled();
   });
 
   it('rejects invalid aliases and callback URLs', async () => {
