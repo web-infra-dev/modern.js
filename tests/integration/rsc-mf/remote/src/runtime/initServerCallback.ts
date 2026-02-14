@@ -1,4 +1,4 @@
-import { registerRemoteServerCallback } from './registerServerCallback';
+import { registerRemoteServerCallback } from '../components/registerServerCallback';
 
 if (typeof window !== 'undefined') {
   // Fixture-level bootstrap: make federated client actions post back through

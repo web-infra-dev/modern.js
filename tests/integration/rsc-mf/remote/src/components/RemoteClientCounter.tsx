@@ -3,8 +3,8 @@ import { useActionState, useState } from 'react';
 import './RemoteClientCounter.css';
 import { incrementRemoteCount, remoteActionEcho } from './actions';
 import { defaultRemoteAction } from './defaultAction';
-import './initRemoteServerCallback';
 import { nestedRemoteAction } from './nestedActions';
+import '../runtime/initServerCallback';
 
 export function RemoteClientCounter() {
   const [localCount, setLocalCount] = useState(0);
