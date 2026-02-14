@@ -105,4 +105,32 @@ describe('rsc-mf proxy response helper', () => {
     expect(proxied.statusText).toBe('No Content');
     await expect(proxied.text()).resolves.toBe('');
   });
+
+  it.each([
+    { status: 205, statusText: 'Reset Content' },
+    { status: 304, statusText: 'Not Modified' },
+  ])(
+    'forces empty body for status $status ($statusText)',
+    async ({ status, statusText }) => {
+      const upstream = {
+        status,
+        statusText,
+        headers: new Headers({
+          'content-type': 'application/json',
+        }),
+        body: new ReadableStream({
+          start(controller) {
+            controller.enqueue(new TextEncoder().encode('discard-body'));
+            controller.close();
+          },
+        }),
+      } as unknown as Response;
+
+      const proxied = createSafeProxyResponse(upstream);
+
+      expect(proxied.status).toBe(status);
+      expect(proxied.statusText).toBe(statusText);
+      await expect(proxied.text()).resolves.toBe('');
+    },
+  );
 });
