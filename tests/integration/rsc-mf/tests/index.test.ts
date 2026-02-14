@@ -645,9 +645,21 @@ function runTests({ mode }: TestConfig) {
       );
       expect(hostModernConfigSource).not.toContain('preEntry');
       expect(hostModernConfigSource).not.toContain('registerServerCallback');
+      expect(hostModernConfigSource).toContain('enableAsyncEntry: false');
+      expect(hostModernConfigSource).toContain("chain.target('async-node')");
+      expect(hostModernConfigSource).toContain("'server-only$'");
+      expect(hostModernConfigSource).toContain(
+        'moduleFederationPlugin({ ssr: true })',
+      );
       expect(remoteModernConfigSource).not.toContain('chunkLoadingGlobal');
       expect(remoteModernConfigSource).toContain(
         'rsc-mf-react-server-dom-client-browser$',
+      );
+      expect(remoteModernConfigSource).toContain('enableAsyncEntry: false');
+      expect(remoteModernConfigSource).toContain("chain.target('async-node')");
+      expect(remoteModernConfigSource).toContain('splitChunks(false)');
+      expect(remoteModernConfigSource).toContain(
+        'moduleFederationPlugin({ ssr: true })',
       );
     });
 
