@@ -651,6 +651,68 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('query-fallback-hit');
   });
 
+  it('matches fallback chunks when manifest hash suffix includes non-hex characters', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(new Response('not-found', { status: 404 }))
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteServerCard.a1b2c3x9.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('non-hex-hash-fallback-hit', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_RemoteServerCard.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      3,
+      'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteServerCard.a1b2c3x9.js',
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe(
+      'non-hex-hash-fallback-hit',
+    );
+  });
+
   it('resolves fallback asset paths from manifest async asset arrays', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

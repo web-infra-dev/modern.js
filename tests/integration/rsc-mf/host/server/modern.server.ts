@@ -4,7 +4,7 @@ import {
 } from '@modern-js/server-runtime';
 
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
-const EXPOSE_CHUNK_HASH_SUFFIX_PATTERN = /\.[a-f0-9]{6,}$/i;
+const EXPOSE_CHUNK_HASH_SUFFIX_PATTERN = /\.[a-z0-9]{6,}$/i;
 
 interface RemoteManifestAssetEntry {
   assets?: {
