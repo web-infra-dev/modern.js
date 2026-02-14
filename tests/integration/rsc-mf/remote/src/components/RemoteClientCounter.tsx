@@ -1,19 +1,12 @@
 'use client';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useState } from 'react';
 import './RemoteClientCounter.css';
 import { incrementRemoteCount, remoteActionEcho } from './actions';
 import { defaultRemoteAction } from './defaultAction';
+import './initRemoteServerCallback';
 import { nestedRemoteAction } from './nestedActions';
-import { registerRemoteServerCallback } from './registerServerCallback';
 
 export function RemoteClientCounter() {
-  useEffect(() => {
-    const actionPathname = window.location.pathname || '/';
-    registerRemoteServerCallback(
-      `${window.location.origin}${actionPathname}`,
-      'rscRemote',
-    );
-  }, []);
   const [localCount, setLocalCount] = useState(0);
   const [serverCount, formAction, isPending] = useActionState(
     incrementRemoteCount,
