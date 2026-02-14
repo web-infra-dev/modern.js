@@ -14,6 +14,45 @@ import { createSafeProxyResponse } from '../../shared/proxyResponse';
 
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
 
+const getRequestHeader = (
+  c: Parameters<MiddlewareHandler>[0],
+  name: string,
+) => {
+  const requestWithHeaders = c.req as typeof c.req & {
+    header?: (headerName: string) => string | undefined;
+    headers?: { get?: (headerName: string) => string | null | undefined };
+  };
+  const headerValue =
+    typeof requestWithHeaders.header === 'function'
+      ? requestWithHeaders.header(name)
+      : undefined;
+  return headerValue ?? requestWithHeaders.headers?.get?.(name);
+};
+
+const setContextResponse = (
+  c: Parameters<MiddlewareHandler>[0],
+  response: Response,
+) => {
+  const contextWithBody = c as typeof c & {
+    body?: (
+      body: BodyInit | null,
+      status?: number,
+      headers?: HeadersInit,
+    ) => Response;
+  };
+  if (typeof contextWithBody.body === 'function') {
+    const finalizedResponse = contextWithBody.body(
+      response.body,
+      response.status,
+      response.headers,
+    );
+    c.res = finalizedResponse;
+    return finalizedResponse;
+  }
+  c.res = response;
+  return response;
+};
+
 const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
   c,
   next,
@@ -25,9 +64,8 @@ const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
     return;
   }
 
-  const requestHeaders = c.req.headers;
   const isInternalFallbackFetch =
-    requestHeaders?.get?.(INTERNAL_FALLBACK_HEADER) === '1';
+    getRequestHeader(c, INTERNAL_FALLBACK_HEADER) === '1';
   if (isInternalFallbackFetch) {
     await next();
     return;
@@ -86,7 +124,7 @@ const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
     return;
   }
 
-  c.res = createSafeProxyResponse(fallbackAssetResponse);
+  return setContextResponse(c, createSafeProxyResponse(fallbackAssetResponse));
 };
 
 export default defineServerConfig({

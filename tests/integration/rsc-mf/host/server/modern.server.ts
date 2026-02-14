@@ -100,19 +100,57 @@ const shouldProxyRemoteAsset = (pathname: string) => {
   return false;
 };
 
+const getRequestHeader = (
+  c: Parameters<MiddlewareHandler>[0],
+  name: string,
+) => {
+  const requestWithHeaders = c.req as typeof c.req & {
+    header?: (headerName: string) => string | undefined;
+    headers?: { get?: (headerName: string) => string | null | undefined };
+  };
+  const headerValue =
+    typeof requestWithHeaders.header === 'function'
+      ? requestWithHeaders.header(name)
+      : undefined;
+  return headerValue ?? requestWithHeaders.headers?.get?.(name);
+};
+
+const setContextResponse = (
+  c: Parameters<MiddlewareHandler>[0],
+  response: Response,
+) => {
+  const contextWithBody = c as typeof c & {
+    body?: (
+      body: BodyInit | null,
+      status?: number,
+      headers?: HeadersInit,
+    ) => Response;
+  };
+  if (typeof contextWithBody.body === 'function') {
+    const finalizedResponse = contextWithBody.body(
+      response.body,
+      response.status,
+      response.headers,
+    );
+    c.res = finalizedResponse;
+    return finalizedResponse;
+  }
+  c.res = response;
+  return response;
+};
+
 const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
-  const requestHeaders = c.req.headers;
   const isInternalFallbackFetch =
-    requestHeaders?.get?.(INTERNAL_FALLBACK_HEADER) === '1';
+    getRequestHeader(c, INTERNAL_FALLBACK_HEADER) === '1';
   if (isInternalFallbackFetch) {
     await next();
     return;
   }
-
   const reqUrl = new URL(c.req.url);
   const pathname = reqUrl.pathname;
+  const shouldProxy = shouldProxyRemoteAsset(pathname);
 
-  if (!shouldProxyRemoteAsset(pathname)) {
+  if (!shouldProxy) {
     await next();
     return;
   }
@@ -141,7 +179,7 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
     return;
   }
 
-  c.res = createSafeProxyResponse(resolvedUpstream);
+  return setContextResponse(c, createSafeProxyResponse(resolvedUpstream));
 };
 
 export default defineServerConfig({
