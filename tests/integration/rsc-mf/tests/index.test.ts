@@ -492,8 +492,14 @@ function runTests({ mode }: TestConfig) {
       const componentFilePaths = getFilesRecursively(
         path.join(remoteDir, 'src/components'),
       );
+      const hostSourceFilePaths = getFilesRecursively(
+        path.join(hostDir, 'src'),
+      ).filter(filePath => /\.(ts|tsx)$/.test(filePath));
 
       const componentSources = componentFilePaths.map(filePath =>
+        fs.readFileSync(filePath, 'utf-8'),
+      );
+      const hostSourceTexts = hostSourceFilePaths.map(filePath =>
         fs.readFileSync(filePath, 'utf-8'),
       );
       const runtimeInitSource = fs.readFileSync(
@@ -523,6 +529,14 @@ function runTests({ mode }: TestConfig) {
       expect(
         componentSources.every(
           source => !source.includes('registerRemoteServerCallback'),
+        ),
+      ).toBe(true);
+      expect(
+        hostSourceTexts.every(
+          source =>
+            !source.includes('registerRemoteServerCallback') &&
+            !source.includes('initServerCallback') &&
+            !source.includes('registerServerCallback'),
         ),
       ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
