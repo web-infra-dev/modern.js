@@ -362,5 +362,8 @@ describe('rsc-mf modern config contracts', () => {
     expect(
       harness.aliasMap.get('rsc-mf-react-server-dom-client-browser$'),
     ).toContain('react-server-dom-rspack');
+    expect(harness.aliasMap.get('server-only$')).toMatch(
+      /server-only[\\/]empty\.js$/,
+    );
   });
 });

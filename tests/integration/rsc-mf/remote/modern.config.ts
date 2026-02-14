@@ -47,6 +47,7 @@ export default defineConfig({
         'rsc-mf-react-server-dom-client-browser$',
         reactServerDomClientBrowserPath,
       );
+      chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
       if (targets.some(item => String(item).includes('node'))) {
         chain.target('async-node');
         chain.resolve.conditionNames
@@ -57,7 +58,6 @@ export default defineConfig({
         chain.resolve.alias
           .set('react/jsx-runtime$', reactJsxRuntimeServerPath)
           .set('react/jsx-dev-runtime$', reactJsxDevRuntimeServerPath);
-        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
         chain.output.publicPath(`http://127.0.0.1:${remotePort}/bundles/`);
         chain.module
           .rule('rsc-mf-remote-components-layer')
