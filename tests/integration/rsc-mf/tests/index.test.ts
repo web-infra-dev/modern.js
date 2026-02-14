@@ -644,6 +644,7 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestUrls.length).toBeGreaterThanOrEqual(
         MIN_EXPECTED_ACTION_POSTS_PER_MODE,
       );
+      expect(actionRequestUrls.length).toBe(actionRequestIds.length);
       expect(
         actionRequestUrls.every(url =>
           url.startsWith(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`),
@@ -660,6 +661,7 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.length).toBeGreaterThanOrEqual(
         MIN_EXPECTED_ACTION_POSTS_PER_MODE,
       );
+      expect(actionRequestIds.length).toBe(actionRequestUrls.length);
       const uniqueActionRequestIds = new Set(actionRequestIds);
       expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
         true,
