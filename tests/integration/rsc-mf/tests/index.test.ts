@@ -144,6 +144,16 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostBundledProxyActionIdList.length).toBe(4);
+  const groupedProxyActionIdUnion = new Set([
+    ...hostDirectProxyActionIdList,
+    ...hostBundledProxyActionIdList,
+  ]);
+  expect(groupedProxyActionIdUnion.size).toBe(hostProxyActionIdList.length);
+  expect(
+    hostProxyActionIdList.every(actionId =>
+      groupedProxyActionIdUnion.has(actionId),
+    ),
+  ).toBe(true);
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),
@@ -407,6 +417,12 @@ function runTests({ mode }: TestConfig) {
         bundledProxyActionIdSet.has(id),
       );
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
+      expect(
+        actionRequestIds.every(
+          id =>
+            directProxyActionIdSet.has(id) || bundledProxyActionIdSet.has(id),
+        ),
+      ).toBe(true);
     });
 
     it('should have no browser runtime errors', () => {
