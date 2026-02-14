@@ -438,6 +438,16 @@ function runTests({ mode }: TestConfig) {
           .split(',')
           .filter(Boolean),
       );
+      const hostProxyMapKeyCount = Number(
+        await page.$eval(
+          '.host-proxy-map-key-count',
+          el => el.textContent || '0',
+        ),
+      );
+      expect(hostProxyMapKeyCount).toBe(mappedProxyActionIdSet.size);
+      expect(new Set(actionRequestIds).size).toBeLessThanOrEqual(
+        hostProxyMapKeyCount,
+      );
       expect(actionRequestIds.every(id => mappedProxyActionIdSet.has(id))).toBe(
         true,
       );
