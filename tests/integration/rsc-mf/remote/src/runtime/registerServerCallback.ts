@@ -7,13 +7,23 @@ import {
 
 let registeredCallbackKey = '';
 const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
+const getNormalizedRawActionId = (rawActionId: string) => {
+  const normalizedRawActionId = rawActionId.trim();
+  if (!normalizedRawActionId || /\s/.test(normalizedRawActionId)) {
+    throw new Error(
+      `Remote action id must be a non-empty token without whitespace. Received: ${rawActionId}`,
+    );
+  }
+  return normalizedRawActionId;
+};
 const getHostActionId = (rawActionId: string, remoteAlias: string) => {
-  if (rawActionId.startsWith('remote:')) {
-    return rawActionId;
+  const normalizedRawActionId = getNormalizedRawActionId(rawActionId);
+  if (normalizedRawActionId.startsWith('remote:')) {
+    return normalizedRawActionId;
   }
 
   // Align with RSC bridge action-id format expected by host runtime plugin.
-  return `remote:${remoteAlias}:${rawActionId}`;
+  return `remote:${remoteAlias}:${normalizedRawActionId}`;
 };
 const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
   const url = new URL(remoteOrigin);

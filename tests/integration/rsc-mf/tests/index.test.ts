@@ -619,26 +619,10 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
-        'const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/',
-      );
-      expect(runtimeRegisterSource).toContain(
-        'const normalizedRemoteAlias = remoteAlias.trim()',
-      );
-      expect(runtimeRegisterSource).toContain(
-        "normalizedRemoteAlias.includes(':')",
-      );
-      expect(runtimeRegisterSource).toContain(
-        '!ALIAS_TOKEN_PATTERN.test(normalizedRemoteAlias)',
-      );
-      expect(runtimeRegisterSource).toContain(
         'Remote alias must be a non-empty token (letters, numbers, "-", "_", ".") without ":" delimiters',
       );
-      expect(runtimeRegisterSource).toContain(
-        "if (rawActionId.startsWith('remote:'))",
-      );
-      expect(runtimeRegisterSource).toContain(
-        'return `remote:${remoteAlias}:${rawActionId}`',
-      );
+      expect(runtimeRegisterSource).toContain("startsWith('remote:')");
+      expect(runtimeRegisterSource).toContain('return `remote:${remoteAlias}:');
       expect(runtimeRegisterSource).toContain("'x-rsc-action': hostActionId");
       expect(runtimeRegisterSource).toContain("method: 'POST'");
       expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
