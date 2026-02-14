@@ -4,7 +4,6 @@ import './RemoteClientCounter.css';
 import { incrementRemoteCount, remoteActionEcho } from './actions';
 import { defaultRemoteAction } from './defaultAction';
 import { nestedRemoteAction } from './nestedActions';
-import '../runtime/initServerCallback';
 
 export function RemoteClientCounter() {
   const [localCount, setLocalCount] = useState(0);

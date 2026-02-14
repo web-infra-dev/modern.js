@@ -108,15 +108,15 @@ export default createModuleFederationConfig({
   filename: 'static/remoteEntry.js',
   exposes: {
     './RemoteClientCounter': {
-      import: './src/components/RemoteClientCounter.tsx',
+      import: './src/runtime/exposes/RemoteClientCounter.tsx',
       layer: LAYERS.rsc,
     } as any,
     './src/components/RemoteClientCounter.tsx': {
-      import: './src/components/RemoteClientCounter.tsx',
+      import: './src/runtime/exposes/RemoteClientCounter.tsx',
       layer: LAYERS.rsc,
     } as any,
     './RemoteClientBadge': {
-      import: './src/components/RemoteClientBadge.tsx',
+      import: './src/runtime/exposes/RemoteClientBadge.tsx',
       layer: LAYERS.rsc,
     } as any,
     './RemoteServerCard': {
@@ -144,19 +144,19 @@ export default createModuleFederationConfig({
       layer: LAYERS.rsc,
     } as any,
     './actions': {
-      import: './src/components/actions.ts',
+      import: './src/runtime/exposes/actions.ts',
       layer: LAYERS.rsc,
     } as any,
     './nestedActions': {
-      import: './src/components/nestedActions.ts',
+      import: './src/runtime/exposes/nestedActions.ts',
       layer: LAYERS.rsc,
     } as any,
     './defaultAction': {
-      import: './src/components/defaultAction.ts',
+      import: './src/runtime/exposes/defaultAction.ts',
       layer: LAYERS.rsc,
     } as any,
     './actionBundle': {
-      import: './src/components/actionBundle.ts',
+      import: './src/runtime/exposes/actionBundle.ts',
       layer: LAYERS.rsc,
     } as any,
     './infoBundle': {
