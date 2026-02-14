@@ -139,7 +139,7 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
-  it('deduplicates repeated imports in object expose definitions', () => {
+  it('normalizes string expose definitions into callback-bootstrapped imports', () => {
     const remoteConfig = loadRemoteConfig();
     const infoBundleExpose = remoteConfig.exposes?.['./infoBundle'] as
       | {
