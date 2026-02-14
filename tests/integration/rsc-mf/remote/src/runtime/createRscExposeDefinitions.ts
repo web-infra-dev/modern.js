@@ -15,6 +15,9 @@ interface NormalizedExposeDefinition {
   importPaths: string[];
   exposeOverrides: Record<string, unknown>;
 }
+const getUniqueImportPaths = (importPaths: string[]) => [
+  ...new Set(importPaths),
+];
 
 if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
   throw new Error(
@@ -65,7 +68,7 @@ const normalizeExposeImportPaths = (
     exposeImport.every(item => typeof item === 'string')
   ) {
     return {
-      importPaths: exposeImport,
+      importPaths: getUniqueImportPaths(exposeImport),
       exposeOverrides,
     } satisfies NormalizedExposeDefinition;
   }

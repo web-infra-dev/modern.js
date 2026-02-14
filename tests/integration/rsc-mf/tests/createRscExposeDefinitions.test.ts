@@ -169,6 +169,31 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('deduplicates repeated entries in object expose import arrays', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    const exposeDefinitions = createRscExposeDefinitions({
+      './infoBundle': {
+        import: [
+          './src/components/infoBundle.ts',
+          './src/components/infoBundle.ts',
+          './src/components/remoteMeta.ts',
+        ],
+      },
+    });
+
+    expect(exposeDefinitions).toEqual({
+      './infoBundle': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/infoBundle.ts',
+          './src/components/remoteMeta.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('rejects object expose definitions with invalid import payloads', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(() =>
