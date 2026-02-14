@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
 const USERLAND_EXPOSE_PREFIX = './';
@@ -7,6 +10,21 @@ const CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN =
   /^\.\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)$/;
 const CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN =
   /\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)\.[cm]?[jt]sx?$/;
+const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
+const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
+const EXPORT_FROM_SPECIFIER_PATTERN =
+  /export\s+(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
+const SOURCE_ENTRY_EXTENSIONS = [
+  '.ts',
+  '.tsx',
+  '.js',
+  '.jsx',
+  '.mts',
+  '.cts',
+  '.mjs',
+  '.cjs',
+] as const;
+const REMOTE_PROJECT_ROOT = path.resolve(__dirname, '../..');
 
 type ExposeImportInput = string | string[];
 export type ExposeDefinitionInput =
@@ -121,9 +139,87 @@ const shouldInjectCallbackBootstrap = (
   importPaths: string[],
 ) =>
   CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN.test(exposeKey) ||
-  importPaths.some(importPath =>
-    CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN.test(importPath),
+  importPaths.some(
+    importPath =>
+      CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN.test(importPath) ||
+      referencesCallbackCapableSourceModule(importPath),
   );
+
+const readSourceFile = (filePath: string) => {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return undefined;
+  }
+};
+
+const resolveUserlandImportPathToFile = (
+  importPath: string,
+  fromFilePath?: string,
+) => {
+  const importPathWithoutPrefix = importPath.replace(/^\.\//, '');
+  const basePath = fromFilePath
+    ? path.resolve(path.dirname(fromFilePath), importPath)
+    : path.resolve(REMOTE_PROJECT_ROOT, importPathWithoutPrefix);
+  const hasExplicitExtension = SOURCE_ENTRY_EXTENSIONS.some(extension =>
+    basePath.endsWith(extension),
+  );
+  if (hasExplicitExtension) {
+    return fs.existsSync(basePath) ? basePath : undefined;
+  }
+  const extensionCandidates = SOURCE_ENTRY_EXTENSIONS.map(
+    extension => `${basePath}${extension}`,
+  );
+  const indexCandidates = SOURCE_ENTRY_EXTENSIONS.map(extension =>
+    path.join(basePath, `index${extension}`),
+  );
+  return [...extensionCandidates, ...indexCandidates].find(candidatePath =>
+    fs.existsSync(candidatePath),
+  );
+};
+
+const referencesCallbackCapableSourceModule = (importPath: string) => {
+  const rootSourceFile = resolveUserlandImportPathToFile(importPath);
+  if (!rootSourceFile) {
+    return false;
+  }
+
+  const visitedFiles = new Set<string>();
+  const hasCallbackDirective = (filePath: string): boolean => {
+    if (visitedFiles.has(filePath)) {
+      return false;
+    }
+    visitedFiles.add(filePath);
+    const sourceText = readSourceFile(filePath);
+    if (!sourceText) {
+      return false;
+    }
+    if (SOURCE_DIRECTIVE_PATTERN.test(sourceText)) {
+      return true;
+    }
+
+    const exportFromMatches = sourceText.matchAll(
+      EXPORT_FROM_SPECIFIER_PATTERN,
+    );
+    for (const match of exportFromMatches) {
+      const moduleSpecifier = match[1];
+      if (!LOCAL_MODULE_SPECIFIER_PATTERN.test(moduleSpecifier)) {
+        continue;
+      }
+      const childModuleFilePath = resolveUserlandImportPathToFile(
+        moduleSpecifier,
+        filePath,
+      );
+      if (childModuleFilePath && hasCallbackDirective(childModuleFilePath)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  return hasCallbackDirective(rootSourceFile);
+};
 
 const assertValidExposeConfig = (
   normalizedExposeImportPaths: NormalizedExposeImportPaths,

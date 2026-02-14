@@ -347,4 +347,33 @@ describe('createRscExposeDefinitions', () => {
       },
     });
   });
+
+  it('infers callback bootstrap from re-exported use server modules', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customBundledActions': './src/components/actionBundle.ts',
+      }),
+    ).toEqual({
+      './customBundledActions': {
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/actionBundle.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('keeps non-callback source modules free of callback bootstrap import', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customInfoBundle': './src/components/infoBundle.ts',
+      }),
+    ).toEqual({
+      './customInfoBundle': {
+        import: ['./src/components/infoBundle.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
 });
