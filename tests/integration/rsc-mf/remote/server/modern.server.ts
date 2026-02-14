@@ -29,6 +29,11 @@ const isExposeAssetRequestPath = (pathname: string) =>
   pathname.includes('__federation_expose_') &&
   (pathname.endsWith('.js') || pathname.endsWith('.css'));
 
+const getRequestedAssetDirectory = (pathname: string) =>
+  pathname.includes('/static/css/async/')
+    ? 'static/css/async/'
+    : 'static/js/async/';
+
 const toCanonicalChunkName = (filePath: string) =>
   filePath
     .replace(/\/+$/, '')
@@ -78,9 +83,7 @@ const resolveManifestFallbackAssetPath = (
     return undefined;
   }
 
-  const requestedAssetDirectory = pathname.includes('/static/css/async/')
-    ? 'static/css/async/'
-    : 'static/js/async/';
+  const requestedAssetDirectory = getRequestedAssetDirectory(pathname);
   const manifestAssets = collectManifestAssetPaths(manifest);
   return manifestAssets.find(assetPath => {
     const normalizedAssetPath = toNormalizedManifestAssetPath(assetPath);
@@ -97,10 +100,12 @@ const createManifestFallbackAssetUrl = ({
   remoteOrigin,
   fallbackAssetPath,
   requestSearch,
+  requestedAssetDirectory,
 }: {
   remoteOrigin: string;
   fallbackAssetPath: string;
   requestSearch: string;
+  requestedAssetDirectory: string;
 }) => {
   let fallbackAssetUrl: URL;
   try {
@@ -110,6 +115,13 @@ const createManifestFallbackAssetUrl = ({
   }
 
   if (fallbackAssetUrl.origin !== remoteOrigin) {
+    return undefined;
+  }
+  const normalizedFallbackPathname = fallbackAssetUrl.pathname.replace(
+    /^\/+/,
+    '',
+  );
+  if (!normalizedFallbackPathname.startsWith(requestedAssetDirectory)) {
     return undefined;
   }
 
@@ -182,6 +194,7 @@ const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
     remoteOrigin,
     fallbackAssetPath,
     requestSearch: reqUrl.search,
+    requestedAssetDirectory: getRequestedAssetDirectory(pathname),
   });
   if (!fallbackAssetUrl || fallbackAssetUrl === reqUrl.toString()) {
     await next();

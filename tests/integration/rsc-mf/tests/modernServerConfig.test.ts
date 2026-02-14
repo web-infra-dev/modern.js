@@ -811,6 +811,55 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     expect(context.res).toBeUndefined();
   });
 
+  it('falls through when manifest fallback path escapes async asset directory', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(new Response('not-found', { status: 404 }))
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              shared: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/../__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        ),
+    );
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
   it('matches fallback chunks when manifest hash suffix includes non-hex characters', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
