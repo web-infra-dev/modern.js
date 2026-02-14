@@ -16,7 +16,7 @@ const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
 const HOST_RSC_URL = '/server-component-root';
-const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 10;
+const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 18;
 
 type Mode = 'dev' | 'build';
 
@@ -388,6 +388,20 @@ async function supportRemoteClientAndServerActions({
       bundledNestedActionResult?.textContent?.trim() ===
         'nested-action:from-host-client-bundled' &&
       bundledIncrementActionResult?.textContent?.trim() === '3'
+    );
+  });
+
+  await page.click('.host-remote-run-actions');
+  await page.waitForFunction(() => {
+    const incrementActionResult = document.querySelector(
+      '.host-remote-increment-action-result',
+    );
+    const bundledIncrementActionResult = document.querySelector(
+      '.host-remote-bundled-increment-action-result',
+    );
+    return (
+      incrementActionResult?.textContent?.trim() === '4' &&
+      bundledIncrementActionResult?.textContent?.trim() === '5'
     );
   });
 }
