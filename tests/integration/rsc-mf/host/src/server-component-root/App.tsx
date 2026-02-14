@@ -114,6 +114,11 @@ const App = () => {
     mappedHostProxyActionIds.every(actionId =>
       uniqueHostProxyActionIds.includes(actionId),
     );
+  const doesMappingExactlyMatchAllHostProxyActions =
+    mappedHostProxyActionIds.length === uniqueHostProxyActionIds.length &&
+    mappedHostProxyActionIds.every(
+      (actionId, index) => actionId === uniqueHostProxyActionIds[index],
+    );
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
   const remoteServerOnlyDefaultInfo = getServerOnlyDefaultInfo();
@@ -152,6 +157,9 @@ const App = () => {
       </p>
       <p className="host-proxy-map-covers-all">
         {String(doesMappingCoverAllHostProxyActions)}
+      </p>
+      <p className="host-proxy-map-equals-all">
+        {String(doesMappingExactlyMatchAllHostProxyActions)}
       </p>
       <p className="host-proxy-action-ids">
         {uniqueHostProxyActionIds.join(',')}

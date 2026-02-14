@@ -69,6 +69,7 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-proxy-map-key-count');
   expect(html).toContain('host-mapped-proxy-action-ids');
   expect(html).toContain('host-proxy-map-covers-all');
+  expect(html).toContain('host-proxy-map-equals-all');
   expect(html).toContain('host-proxy-action-ids');
   expect(html).toContain('host-direct-proxy-action-ids');
   expect(html).toContain('host-bundled-proxy-action-ids');
@@ -147,6 +148,15 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     el => el.textContent?.trim(),
   );
   expect(hostProxyMapCoversAll).toBe('true');
+  const hostProxyMapEqualsAll = await page.$eval(
+    '.host-proxy-map-equals-all',
+    el => el.textContent?.trim(),
+  );
+  expect(hostProxyMapEqualsAll).toBe(
+    Number(hostProxyMapKeyCount) === Number(hostProxyMapEntryCount)
+      ? 'true'
+      : 'false',
+  );
   const hostProxyActionIds = await page.$eval('.host-proxy-action-ids', el =>
     el.textContent?.trim(),
   );
