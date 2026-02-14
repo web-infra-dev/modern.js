@@ -83,6 +83,34 @@ describe('host forceRemotePublicPath runtime plugin', () => {
     );
   });
 
+  it('normalizes entry URL query, hash, and default port in rewritten paths', () => {
+    const plugin = forceRemotePublicPath();
+    const args = {
+      remoteInfo: {
+        alias: 'rscRemote',
+        entry:
+          'https://remote.example.com:443/static/mf-manifest.json?cache=1#v',
+      },
+      remoteSnapshot: {
+        publicPath: 'https://stale.example.com/static/',
+        metaData: {
+          publicPath: 'https://stale.example.com/static/',
+          ssrPublicPath: 'https://stale.example.com/static/bundles/',
+        },
+      },
+    };
+
+    plugin.loadRemoteSnapshot?.(args as any);
+
+    expect(args.remoteSnapshot.publicPath).toBe('https://remote.example.com/');
+    expect(args.remoteSnapshot.metaData.publicPath).toBe(
+      'https://remote.example.com/',
+    );
+    expect(args.remoteSnapshot.metaData.ssrPublicPath).toBe(
+      'https://remote.example.com/bundles/',
+    );
+  });
+
   it('only updates snapshot fields that exist', () => {
     const plugin = forceRemotePublicPath();
     const args = {
