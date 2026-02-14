@@ -187,10 +187,14 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
               'content-type': 'application/javascript',
               'content-length': '999',
               'content-encoding': 'gzip',
-              connection: 'keep-alive, x-proxy-hop-header',
+              connection:
+                'keep-alive, x-proxy-hop-header, "x-proxy-quoted-hop-header"',
               'keep-alive': 'timeout=5',
               'proxy-connection': 'keep-alive',
+              'proxy-authenticate': 'Basic realm=test',
+              'proxy-authorization': 'Basic dGVzdA==',
               'x-proxy-hop-header': 'remove-me',
+              'x-proxy-quoted-hop-header': 'remove-me',
               te: 'trailers',
               trailer: 'x-trailer-a',
               upgrade: 'websocket',
@@ -219,7 +223,10 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     expect(context.res?.headers.get('connection')).toBeNull();
     expect(context.res?.headers.get('keep-alive')).toBeNull();
     expect(context.res?.headers.get('proxy-connection')).toBeNull();
+    expect(context.res?.headers.get('proxy-authenticate')).toBeNull();
+    expect(context.res?.headers.get('proxy-authorization')).toBeNull();
     expect(context.res?.headers.get('x-proxy-hop-header')).toBeNull();
+    expect(context.res?.headers.get('x-proxy-quoted-hop-header')).toBeNull();
     expect(context.res?.headers.get('te')).toBeNull();
     expect(context.res?.headers.get('trailer')).toBeNull();
     expect(context.res?.headers.get('upgrade')).toBeNull();

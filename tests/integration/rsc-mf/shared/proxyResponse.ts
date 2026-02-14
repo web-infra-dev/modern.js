@@ -17,9 +17,16 @@ export const createSafeProxyResponse = (upstream: Response) => {
   for (const headerName of PROXY_UNSAFE_RESPONSE_HEADERS) {
     headers.delete(headerName);
   }
+
+  const normalizeConnectionHeaderToken = (token: string) =>
+    token
+      .trim()
+      .replace(/^"+|"+$/g, '')
+      .toLowerCase();
+
   const connectionHeaderTokens = (upstream.headers.get('connection') || '')
     .split(',')
-    .map(token => token.trim().toLowerCase())
+    .map(normalizeConnectionHeaderToken)
     .filter(Boolean);
   for (const token of connectionHeaderTokens) {
     headers.delete(token);

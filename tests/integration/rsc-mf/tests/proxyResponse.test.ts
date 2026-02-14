@@ -8,10 +8,15 @@ describe('rsc-mf proxy response helper', () => {
         'content-type': 'application/javascript',
         'content-length': '999',
         'content-encoding': 'gzip',
-        connection: 'keep-alive, x-custom-hop-header',
+        connection:
+          'keep-alive, x-custom-hop-header, "x-quoted-hop-header", "x-spaced-hop-header"',
         'keep-alive': 'timeout=5',
         'x-custom-hop-header': 'remove-me',
+        'x-quoted-hop-header': 'remove-me',
+        'x-spaced-hop-header': 'remove-me',
         'proxy-connection': 'keep-alive',
+        'proxy-authenticate': 'Basic realm=test',
+        'proxy-authorization': 'Basic dGVzdA==',
         te: 'trailers',
         trailer: 'x-trailer-a',
         upgrade: 'websocket',
@@ -28,7 +33,11 @@ describe('rsc-mf proxy response helper', () => {
     expect(proxied.headers.get('connection')).toBeNull();
     expect(proxied.headers.get('keep-alive')).toBeNull();
     expect(proxied.headers.get('x-custom-hop-header')).toBeNull();
+    expect(proxied.headers.get('x-quoted-hop-header')).toBeNull();
+    expect(proxied.headers.get('x-spaced-hop-header')).toBeNull();
     expect(proxied.headers.get('proxy-connection')).toBeNull();
+    expect(proxied.headers.get('proxy-authenticate')).toBeNull();
+    expect(proxied.headers.get('proxy-authorization')).toBeNull();
     expect(proxied.headers.get('te')).toBeNull();
     expect(proxied.headers.get('trailer')).toBeNull();
     expect(proxied.headers.get('upgrade')).toBeNull();
