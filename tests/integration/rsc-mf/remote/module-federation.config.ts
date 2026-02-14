@@ -14,36 +14,43 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
-const createRscExpose = (importPath: string) =>
+const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
+const callbackBootstrappedExposes = new Set([
+  './RemoteClientCounter',
+  './RemoteClientBadge',
+  './actions',
+  './nestedActions',
+  './defaultAction',
+  './actionBundle',
+]);
+const createRscExpose = (exposeKey: string, importPath: string) =>
   ({
-    import: importPath,
+    import: callbackBootstrappedExposes.has(exposeKey)
+      ? [CALLBACK_BOOTSTRAP_IMPORT, importPath]
+      : importPath,
     layer: LAYERS.rsc,
   }) as any;
-const RUNTIME_EXPOSE_PREFIX = './src/runtime/exposes/';
 const remoteExposeImports: Record<string, string> = {
-  './RemoteClientCounter': './src/runtime/exposes/RemoteClientCounter.tsx',
-  './RemoteClientBadge': './src/runtime/exposes/RemoteClientBadge.tsx',
-  './RemoteServerCard': './src/runtime/exposes/RemoteServerCard.tsx',
-  './RemoteServerDefault': './src/runtime/exposes/RemoteServerDefault.tsx',
-  './AsyncRemoteServerInfo': './src/runtime/exposes/AsyncRemoteServerInfo.tsx',
-  './remoteServerOnly': './src/runtime/exposes/remoteServerOnly.ts',
-  './remoteServerOnlyDefault':
-    './src/runtime/exposes/remoteServerOnlyDefault.ts',
-  './remoteMeta': './src/runtime/exposes/remoteMeta.ts',
-  './actions': './src/runtime/exposes/actions.ts',
-  './nestedActions': './src/runtime/exposes/nestedActions.ts',
-  './defaultAction': './src/runtime/exposes/defaultAction.ts',
-  './actionBundle': './src/runtime/exposes/actionBundle.ts',
-  './infoBundle': './src/runtime/exposes/infoBundle.ts',
+  './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
+  './RemoteClientBadge': './src/components/RemoteClientBadge.tsx',
+  './RemoteServerCard': './src/components/RemoteServerCard.tsx',
+  './RemoteServerDefault': './src/components/RemoteServerDefault.tsx',
+  './AsyncRemoteServerInfo': './src/components/AsyncRemoteServerInfo.tsx',
+  './remoteServerOnly': './src/components/serverOnly.ts',
+  './remoteServerOnlyDefault': './src/components/serverOnlyDefault.ts',
+  './remoteMeta': './src/components/remoteMeta.ts',
+  './actions': './src/components/actions.ts',
+  './nestedActions': './src/components/nestedActions.ts',
+  './defaultAction': './src/components/defaultAction.ts',
+  './actionBundle': './src/components/actionBundle.ts',
+  './infoBundle': './src/components/infoBundle.ts',
 };
-const nonRuntimeExposeEntries = Object.entries(remoteExposeImports).filter(
-  ([, importPath]) => !importPath.startsWith(RUNTIME_EXPOSE_PREFIX),
+const missingCallbackExposeEntries = [...callbackBootstrappedExposes].filter(
+  exposeKey => !(exposeKey in remoteExposeImports),
 );
-if (nonRuntimeExposeEntries.length > 0) {
+if (missingCallbackExposeEntries.length > 0) {
   throw new Error(
-    `All remote exposes must point to runtime wrappers (${RUNTIME_EXPOSE_PREFIX}). Invalid entries: ${nonRuntimeExposeEntries
-      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
-      .join(', ')}`,
+    `Callback-bootstrapped exposes must exist in remoteExposeImports. Missing entries: ${missingCallbackExposeEntries.join(', ')}`,
   );
 }
 
@@ -141,7 +148,7 @@ export default createModuleFederationConfig({
   exposes: Object.fromEntries(
     Object.entries(remoteExposeImports).map(([exposeKey, importPath]) => [
       exposeKey,
-      createRscExpose(importPath),
+      createRscExpose(exposeKey, importPath),
     ]),
   ) as any,
   shared: sharedByScope as any,

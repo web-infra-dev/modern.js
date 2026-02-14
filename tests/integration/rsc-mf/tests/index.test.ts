@@ -20,13 +20,13 @@ const HOST_RSC_URL = '/server-component-root';
 const EXPECTED_ACTION_POSTS_PER_MODE = 24;
 const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
 const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
-const CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES = new Set([
-  'RemoteClientCounter.tsx',
-  'RemoteClientBadge.tsx',
-  'actions.ts',
-  'nestedActions.ts',
-  'defaultAction.ts',
-  'actionBundle.ts',
+const CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS = new Set([
+  './RemoteClientCounter',
+  './RemoteClientBadge',
+  './actions',
+  './nestedActions',
+  './defaultAction',
+  './actionBundle',
 ]);
 
 type Mode = 'dev' | 'build';
@@ -460,9 +460,6 @@ function runTests({ mode }: TestConfig) {
       const componentFilePaths = getFilesRecursively(
         path.join(remoteDir, 'src/components'),
       );
-      const exposeRuntimeFilePaths = getFilesRecursively(
-        path.join(remoteDir, 'src/runtime/exposes'),
-      );
 
       const componentSources = componentFilePaths.map(filePath =>
         fs.readFileSync(filePath, 'utf-8'),
@@ -490,35 +487,24 @@ function runTests({ mode }: TestConfig) {
           source => !source.includes('registerRemoteServerCallback'),
         ),
       ).toBe(true);
-      expect(
-        new Set(
-          exposeRuntimeFilePaths
-            .filter(filePath =>
-              fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
-            )
-            .map(filePath => path.basename(filePath)),
-        ),
-      ).toEqual(CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES);
-      expect(
-        exposeRuntimeFilePaths
-          .filter(
-            filePath =>
-              !CALLBACK_BOOTSTRAPPED_RUNTIME_EXPOSE_FILES.has(
-                path.basename(filePath),
-              ),
-          )
-          .every(
-            filePath =>
-              !fs
-                .readFileSync(filePath, 'utf-8')
-                .includes('initServerCallback'),
-          ),
-      ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
       expect(runtimeRegisterSource).toContain('setServerCallback');
-      expect(moduleFederationConfigSource).not.toContain(
-        "import: './src/components/",
+      expect(moduleFederationConfigSource).toContain(
+        'CALLBACK_BOOTSTRAP_IMPORT',
       );
+      expect(
+        moduleFederationConfigSource.includes(
+          '[CALLBACK_BOOTSTRAP_IMPORT, importPath]',
+        ),
+      ).toBe(true);
+      expect(moduleFederationConfigSource).not.toContain(
+        './src/runtime/exposes/',
+      );
+      expect(
+        [...CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS].every(exposeKey =>
+          moduleFederationConfigSource.includes(exposeKey),
+        ),
+      ).toBe(true);
     });
 
     it('should not load callback helper expose chunk', () => {
