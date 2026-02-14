@@ -7,7 +7,6 @@ const bootstrapServerCallback = () => {
         const actionPathname = window.location.pathname || '/';
         registerRemoteServerCallback(
           `${window.location.origin}${actionPathname}`,
-          'rscRemote',
         );
       },
     );

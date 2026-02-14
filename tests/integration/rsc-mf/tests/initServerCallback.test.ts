@@ -66,7 +66,6 @@ describe('initServerCallback runtime bootstrap behavior', () => {
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
       'http://127.0.0.1:3900/server-component-root',
-      'rscRemote',
     );
   });
 
@@ -88,7 +87,6 @@ describe('initServerCallback runtime bootstrap behavior', () => {
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledTimes(1);
     expect(mockRegisterRemoteServerCallback).toHaveBeenCalledWith(
       'http://127.0.0.1:4100/',
-      'rscRemote',
     );
   });
 
