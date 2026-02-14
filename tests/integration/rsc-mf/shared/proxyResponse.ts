@@ -33,6 +33,7 @@ export const createSafeProxyResponse = (upstream: Response) => {
   }
   return new Response(upstream.body, {
     status: upstream.status,
+    statusText: upstream.statusText,
     headers,
   });
 };

@@ -4,6 +4,7 @@ describe('rsc-mf proxy response helper', () => {
   it('removes hop-by-hop response headers while preserving payload', async () => {
     const upstream = new Response('proxied-body', {
       status: 202,
+      statusText: 'Accepted-Proxy',
       headers: {
         'content-type': 'application/javascript',
         'content-length': '999',
@@ -27,6 +28,7 @@ describe('rsc-mf proxy response helper', () => {
     const proxied = createSafeProxyResponse(upstream);
 
     expect(proxied.status).toBe(202);
+    expect(proxied.statusText).toBe('Accepted-Proxy');
     expect(proxied.headers.get('content-type')).toBe('application/javascript');
     expect(proxied.headers.get('content-length')).toBeNull();
     expect(proxied.headers.get('content-encoding')).toBeNull();
