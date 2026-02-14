@@ -16,4 +16,9 @@ describe('rsc-mf host modern.server contracts', () => {
     );
     expect(fs.existsSync(hostManifestFallbackPath)).toBe(false);
   });
+
+  it('does not define proxy response helpers in host server layer', () => {
+    const hostProxyResponsePath = path.join(hostServerDir, 'proxyResponse.ts');
+    expect(fs.existsSync(hostProxyResponsePath)).toBe(false);
+  });
 });
