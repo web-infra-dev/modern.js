@@ -241,4 +241,346 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(context.res).toBeUndefined();
   });
+
+  it('recovers stale css expose assets via manifest fallback', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [],
+                      async: [],
+                    },
+                    css: {
+                      sync: [
+                        'static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css',
+                      ],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('.fallback-style{}', {
+            status: 200,
+            headers: {
+              'content-type': 'text/css',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/css/async/__federation_expose_RemoteClientCounter.css?cache=1',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css?cache=1',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('.fallback-style{}');
+  });
+
+  it('falls through when manifest response body is invalid json', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest.fn().mockResolvedValueOnce(
+        new Response('not-json-manifest', {
+          status: 200,
+          headers: {
+            'content-type': 'application/json',
+          },
+        }),
+      ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
+  it('falls through when manifest request throws', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(async () => {
+      throw new Error('manifest-fetch-failed');
+    });
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
+  it('falls through when manifest fallback lookup has no canonical asset match', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest.fn().mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            exposes: [
+              {
+                assets: {
+                  js: {
+                    sync: [
+                      'static/js/async/__federation_expose_other.abc123.js',
+                    ],
+                    async: [],
+                  },
+                  css: {
+                    sync: [],
+                    async: [],
+                  },
+                },
+              },
+            ],
+          }),
+          {
+            status: 200,
+            headers: {
+              'content-type': 'application/json',
+            },
+          },
+        ),
+      ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
+  it('falls through when fallback asset fetch returns non-ok response', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('missing-fallback-asset', {
+            status: 404,
+            headers: {
+              'content-type': 'text/plain',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
+
+  it('merges request query params into absolute same-origin manifest fallback assets', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              shared: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?manifest=1',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('absolute-fallback-asset', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js?cache=1',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?manifest=1&cache=1',
+      {
+        headers: {
+          [INTERNAL_FALLBACK_HEADER]: '1',
+        },
+      },
+    );
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe('absolute-fallback-asset');
+  });
+
+  it('falls through when fallback asset resolves to the same request url', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest.fn().mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            exposes: [
+              {
+                assets: {
+                  js: {
+                    sync: [
+                      'static/js/async/__federation_expose_RemoteClientCounter.js',
+                    ],
+                    async: [],
+                  },
+                  css: {
+                    sync: [],
+                    async: [],
+                  },
+                },
+              },
+            ],
+          }),
+          {
+            status: 200,
+            headers: {
+              'content-type': 'application/json',
+            },
+          },
+        ),
+      ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeUndefined();
+  });
 });
