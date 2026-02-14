@@ -69,6 +69,7 @@ Thanks to the following friends for their contributions to Modern.js:
 
 Come and chat with us on [Discord](https://discord.gg/qPCqYg38De)! The Modern.js team and users are active there, and we're always looking for contributions.
 
+You can also join our [Lark group](https://applink.larkoffice.com/client/chat/chatter/add_by_link?link_token=d21hc667-9403-48a9-ba32-bc1440a80279) to communicate with us.
 
 ## Credits
 
