@@ -187,7 +187,7 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
-  it('enables host runtime plugin only in production', () => {
+  it('keeps host remote-public-path runtime plugin enabled across modes', () => {
     const productionHostConfig = loadHostConfig({
       nodeEnv: 'production',
       remotePort: '3008',
@@ -201,7 +201,10 @@ describe('rsc-mf module federation config contracts', () => {
       nodeEnv: 'development',
       remotePort: '3008',
     });
-    expect(developmentHostConfig.runtimePlugins).toEqual([]);
+    expect(developmentHostConfig.runtimePlugins).toHaveLength(1);
+    expect(developmentHostConfig.runtimePlugins[0]).toContain(
+      'runtime/forceRemotePublicPath.ts',
+    );
   });
 
   it('keeps host experiments aligned for async startup and rsc', () => {

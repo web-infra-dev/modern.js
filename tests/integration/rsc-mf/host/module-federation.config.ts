@@ -15,10 +15,9 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
-const runtimePlugins =
-  process.env.NODE_ENV === 'production'
-    ? [path.resolve(__dirname, './runtime/forceRemotePublicPath.ts')]
-    : [];
+const runtimePlugins = [
+  path.resolve(__dirname, './runtime/forceRemotePublicPath.ts'),
+];
 
 const sharedByScope = [
   {
