@@ -11,6 +11,7 @@ const getHostActionId = (rawActionId: string, remoteAlias: string) => {
     return rawActionId;
   }
 
+  // Align with RSC bridge action-id format expected by host runtime plugin.
   return `remote:${remoteAlias}:${rawActionId}`;
 };
 
