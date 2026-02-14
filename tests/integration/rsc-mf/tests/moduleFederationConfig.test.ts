@@ -139,6 +139,19 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
+  it('deduplicates repeated imports in object expose definitions', () => {
+    const remoteConfig = loadRemoteConfig();
+    const infoBundleExpose = remoteConfig.exposes?.['./infoBundle'] as
+      | {
+          import?: string[];
+        }
+      | undefined;
+    expect(infoBundleExpose?.import).toEqual([
+      CALLBACK_BOOTSTRAP_IMPORT,
+      './src/components/infoBundle.ts',
+    ]);
+  });
+
   it('uses remote port env var in host manifest remote URL', () => {
     const hostConfig = loadHostConfig({
       nodeEnv: 'test',

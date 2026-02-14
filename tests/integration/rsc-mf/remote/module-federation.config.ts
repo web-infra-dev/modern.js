@@ -32,7 +32,10 @@ const remoteExposeImports: Record<string, ExposeDefinitionInput> = {
   './defaultAction': './src/components/defaultAction.ts',
   './actionBundle': './src/components/actionBundle.ts',
   './infoBundle': {
-    import: './src/components/infoBundle.ts',
+    import: [
+      './src/components/infoBundle.ts',
+      './src/components/infoBundle.ts',
+    ],
   },
 };
 
