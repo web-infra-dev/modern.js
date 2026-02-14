@@ -411,6 +411,55 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from named type-only imports', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customNamedTypeOnlyActionImport':
+          './src/components/namedTypeOnlyActionImport.ts',
+      }),
+    ).toEqual({
+      './customNamedTypeOnlyActionImport': {
+        import: ['./src/components/namedTypeOnlyActionImport.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('does not infer callback bootstrap from type-only re-export clauses', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customExportTypeOnlyActionBridge':
+          './src/components/exportTypeOnlyActionBridge.ts',
+      }),
+    ).toEqual({
+      './customExportTypeOnlyActionBridge': {
+        import: ['./src/components/exportTypeOnlyActionBridge.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('infers callback bootstrap when import clause includes runtime bindings', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customMixedTypeValueActionImport':
+          './src/components/mixedTypeValueActionImport.ts',
+      }),
+    ).toEqual({
+      './customMixedTypeValueActionImport': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/mixedTypeValueActionImport.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(

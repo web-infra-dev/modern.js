@@ -9,9 +9,10 @@ const RSC_LAYER = 'react-server-components';
 const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
 const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
 const EXPORT_FROM_SPECIFIER_PATTERN =
-  /export\s+(type\s+)?(?:\*\s+from|\{[^}]*\}\s+from)\s*['"]([^'"]+)['"]/g;
+  /export\s+([^'";]+?)\s+from\s+['"]([^'"]+)['"]/g;
 const IMPORT_FROM_SPECIFIER_PATTERN =
-  /import\s+(type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+  /import\s+([^'";]+?)\s+from\s+['"]([^'"]+)['"]/g;
+const SIDE_EFFECT_IMPORT_SPECIFIER_PATTERN = /import\s+['"]([^'"]+)['"]/g;
 const DYNAMIC_IMPORT_SPECIFIER_PATTERN = /import\(\s*['"]([^'"]+)['"]\s*\)/g;
 const SOURCE_ENTRY_EXTENSIONS = [
   '.ts',
@@ -144,6 +145,88 @@ interface SourceModuleSpecifier {
   typeOnly: boolean;
 }
 
+const NAMED_SPECIFIER_LIST_PATTERN = /\{([^}]*)\}/;
+const TYPE_ONLY_PREFIX = 'type ';
+
+const hasRuntimeNamedSpecifiers = (
+  clause: string,
+  forceTypeOnlyNamedSpecifiers: boolean,
+) => {
+  const namedSpecifierMatch = clause.match(NAMED_SPECIFIER_LIST_PATTERN);
+  if (!namedSpecifierMatch) {
+    return false;
+  }
+  if (forceTypeOnlyNamedSpecifiers) {
+    return false;
+  }
+  const namedSpecifiers = namedSpecifierMatch[1]
+    .split(',')
+    .map(specifier => specifier.trim())
+    .filter(Boolean);
+  if (namedSpecifiers.length === 0) {
+    return true;
+  }
+  return namedSpecifiers.some(
+    specifier => !specifier.startsWith(TYPE_ONLY_PREFIX),
+  );
+};
+
+const hasRuntimeBareSpecifiers = (
+  clause: string,
+  forceTypeOnlyNamedSpecifiers: boolean,
+) => {
+  const bareSpecifiers = clause
+    .replace(NAMED_SPECIFIER_LIST_PATTERN, '')
+    .replaceAll(',', ' ')
+    .split(/\s+/)
+    .map(specifier => specifier.trim())
+    .filter(Boolean);
+  if (bareSpecifiers.length === 0) {
+    return false;
+  }
+  if (bareSpecifiers.length >= 2 && bareSpecifiers[0] === 'as') {
+    return true;
+  }
+  if (
+    forceTypeOnlyNamedSpecifiers &&
+    bareSpecifiers.every(specifier => specifier === 'type')
+  ) {
+    return false;
+  }
+  return !bareSpecifiers.every(specifier => specifier === 'type');
+};
+
+const isTypeOnlyImportClause = (clause: string) => {
+  const normalizedClause = clause.trim();
+  if (!normalizedClause) {
+    return false;
+  }
+  if (normalizedClause.startsWith(TYPE_ONLY_PREFIX)) {
+    return true;
+  }
+  if (hasRuntimeNamedSpecifiers(normalizedClause, false)) {
+    return false;
+  }
+  return !hasRuntimeBareSpecifiers(normalizedClause, false);
+};
+
+const isTypeOnlyExportClause = (clause: string) => {
+  const normalizedClause = clause.trim();
+  if (!normalizedClause) {
+    return false;
+  }
+  if (normalizedClause.startsWith(TYPE_ONLY_PREFIX)) {
+    return true;
+  }
+  if (normalizedClause.startsWith('*')) {
+    return false;
+  }
+  if (hasRuntimeNamedSpecifiers(normalizedClause, false)) {
+    return false;
+  }
+  return !hasRuntimeBareSpecifiers(normalizedClause, false);
+};
+
 const readSourceFile = (filePath: string) => {
   try {
     return fs.readFileSync(filePath, 'utf8');
@@ -208,14 +291,21 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
         sourceText.matchAll(EXPORT_FROM_SPECIFIER_PATTERN),
         match => ({
           moduleSpecifier: match[2],
-          typeOnly: Boolean(match[1]),
+          typeOnly: isTypeOnlyExportClause(match[1]),
         }),
       ),
       ...Array.from(
         sourceText.matchAll(IMPORT_FROM_SPECIFIER_PATTERN),
         match => ({
           moduleSpecifier: match[2],
-          typeOnly: Boolean(match[1]),
+          typeOnly: isTypeOnlyImportClause(match[1]),
+        }),
+      ),
+      ...Array.from(
+        sourceText.matchAll(SIDE_EFFECT_IMPORT_SPECIFIER_PATTERN),
+        match => ({
+          moduleSpecifier: match[1],
+          typeOnly: false,
         }),
       ),
       ...Array.from(
