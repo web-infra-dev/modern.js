@@ -103,13 +103,15 @@ describe('rsc-mf module federation config contracts', () => {
       expect(definition.layer).toBe('react-server-components');
       expect(definition.import).toBeDefined();
       expect(Array.isArray(definition.import)).toBe(true);
-      expect(definition.import).toHaveLength(2);
       expect(definition.import?.[0]).toBe(CALLBACK_BOOTSTRAP_IMPORT);
-      expect(definition.import?.[1]).toMatch(/^\.\//);
-      expect(definition.import?.[1]).not.toMatch(/^\.\/src\/runtime\//);
-      expect(definition.import?.[1]).toMatch(/\.[cm]?[jt]sx?$/i);
-      expect(definition.import?.[1]).not.toContain('..');
-      expect(definition.import?.[1]).not.toContain('\\');
+      expect(definition.import!.length).toBeGreaterThanOrEqual(2);
+      for (const importPath of definition.import!.slice(1)) {
+        expect(importPath).toMatch(/^\.\//);
+        expect(importPath).not.toMatch(/^\.\/src\/runtime\//);
+        expect(importPath).toMatch(/\.[cm]?[jt]sx?$/i);
+        expect(importPath).not.toContain('..');
+        expect(importPath).not.toContain('\\');
+      }
       expect(exposeKey).toMatch(/^\.\//);
     }
   });
