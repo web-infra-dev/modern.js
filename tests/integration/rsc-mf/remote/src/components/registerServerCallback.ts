@@ -6,13 +6,6 @@ import {
 } from 'rsc-mf-react-server-dom-client-browser';
 
 let registeredCallbackKey = '';
-const getStableProxyActionIdEntries = (
-  remoteActionIdToHostProxyActionId?: Record<string, string>,
-) =>
-  Object.entries(remoteActionIdToHostProxyActionId ?? {}).sort(
-    ([left], [right]) => left.localeCompare(right),
-  );
-
 const getHostActionId = (rawActionId: string, remoteAlias: string) => {
   if (rawActionId.startsWith('remote:')) {
     return rawActionId;
@@ -24,7 +17,6 @@ const getHostActionId = (rawActionId: string, remoteAlias: string) => {
 export function registerRemoteServerCallback(
   remoteOrigin: string,
   remoteAlias = 'rscRemote',
-  remoteActionIdToHostProxyActionId?: Record<string, string>,
 ) {
   if (!remoteOrigin) {
     return;
@@ -32,9 +24,6 @@ export function registerRemoteServerCallback(
   const callbackKey = JSON.stringify({
     remoteAlias,
     remoteOrigin,
-    remoteActionIdToHostProxyActionId: getStableProxyActionIdEntries(
-      remoteActionIdToHostProxyActionId,
-    ),
   });
   if (registeredCallbackKey === callbackKey) {
     return;
@@ -42,9 +31,7 @@ export function registerRemoteServerCallback(
 
   const remoteActionUrl = new URL(remoteOrigin).toString();
   setServerCallback(async (id, args) => {
-    const hostActionId =
-      remoteActionIdToHostProxyActionId?.[id] ||
-      getHostActionId(id, remoteAlias);
+    const hostActionId = getHostActionId(id, remoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
       method: 'POST',
