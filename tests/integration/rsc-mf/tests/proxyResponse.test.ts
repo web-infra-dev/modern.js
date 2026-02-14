@@ -11,6 +11,7 @@ describe('rsc-mf proxy response helper', () => {
         connection: 'keep-alive, x-custom-hop-header',
         'keep-alive': 'timeout=5',
         'x-custom-hop-header': 'remove-me',
+        'proxy-connection': 'keep-alive',
         te: 'trailers',
         trailer: 'x-trailer-a',
         upgrade: 'websocket',
@@ -27,6 +28,7 @@ describe('rsc-mf proxy response helper', () => {
     expect(proxied.headers.get('connection')).toBeNull();
     expect(proxied.headers.get('keep-alive')).toBeNull();
     expect(proxied.headers.get('x-custom-hop-header')).toBeNull();
+    expect(proxied.headers.get('proxy-connection')).toBeNull();
     expect(proxied.headers.get('te')).toBeNull();
     expect(proxied.headers.get('trailer')).toBeNull();
     expect(proxied.headers.get('upgrade')).toBeNull();

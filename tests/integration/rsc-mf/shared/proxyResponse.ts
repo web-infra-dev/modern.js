@@ -4,6 +4,7 @@ const PROXY_UNSAFE_RESPONSE_HEADERS = [
   'connection',
   'keep-alive',
   'proxy-authenticate',
+  'proxy-connection',
   'proxy-authorization',
   'te',
   'trailer',

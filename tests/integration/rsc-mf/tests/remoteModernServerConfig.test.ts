@@ -189,6 +189,7 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
               'content-encoding': 'gzip',
               connection: 'keep-alive, x-proxy-hop-header',
               'keep-alive': 'timeout=5',
+              'proxy-connection': 'keep-alive',
               'x-proxy-hop-header': 'remove-me',
               te: 'trailers',
               trailer: 'x-trailer-a',
@@ -217,6 +218,7 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     expect(context.res?.headers.get('content-encoding')).toBeNull();
     expect(context.res?.headers.get('connection')).toBeNull();
     expect(context.res?.headers.get('keep-alive')).toBeNull();
+    expect(context.res?.headers.get('proxy-connection')).toBeNull();
     expect(context.res?.headers.get('x-proxy-hop-header')).toBeNull();
     expect(context.res?.headers.get('te')).toBeNull();
     expect(context.res?.headers.get('trailer')).toBeNull();
