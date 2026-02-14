@@ -55,6 +55,33 @@ describe('host forceRemotePublicPath runtime plugin', () => {
     );
   });
 
+  it('does not mutate when entry is not a valid URL', () => {
+    const plugin = forceRemotePublicPath();
+    const args = {
+      remoteInfo: {
+        alias: 'rscRemote',
+        entry: 'http://',
+      },
+      remoteSnapshot: {
+        publicPath: 'http://example.com/static/',
+        metaData: {
+          publicPath: 'http://example.com/static/',
+          ssrPublicPath: 'http://example.com/static/bundles/',
+        },
+      },
+    };
+
+    plugin.loadRemoteSnapshot?.(args as any);
+
+    expect(args.remoteSnapshot.publicPath).toBe('http://example.com/static/');
+    expect(args.remoteSnapshot.metaData.publicPath).toBe(
+      'http://example.com/static/',
+    );
+    expect(args.remoteSnapshot.metaData.ssrPublicPath).toBe(
+      'http://example.com/static/bundles/',
+    );
+  });
+
   it('forces origin-based public paths for rscRemote snapshots', () => {
     const plugin = forceRemotePublicPath();
     const args = {

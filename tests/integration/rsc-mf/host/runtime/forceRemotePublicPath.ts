@@ -1,5 +1,13 @@
 import type { ModuleFederationRuntimePlugin } from '@module-federation/modern-js-v3';
 
+const getRemotePublicPath = (entry: string) => {
+  try {
+    return `${new URL(entry).origin}/`;
+  } catch {
+    return undefined;
+  }
+};
+
 const forceRemotePublicPath = (): ModuleFederationRuntimePlugin => ({
   name: 'rsc-mf-force-remote-public-path',
   loadRemoteSnapshot(args: any) {
@@ -12,7 +20,10 @@ const forceRemotePublicPath = (): ModuleFederationRuntimePlugin => ({
     if (!entry || typeof entry !== 'string') {
       return args;
     }
-    const remotePublicPath = `${new URL(entry).origin}/`;
+    const remotePublicPath = getRemotePublicPath(entry);
+    if (!remotePublicPath) {
+      return args;
+    }
 
     if ('publicPath' in remoteSnapshot) {
       remoteSnapshot.publicPath = remotePublicPath;
