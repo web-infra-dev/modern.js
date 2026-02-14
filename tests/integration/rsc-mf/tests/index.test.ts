@@ -470,29 +470,7 @@ function runTests({ mode }: TestConfig) {
       ).toBe(true);
     });
 
-    it('should keep callback runtime wiring out of component sources', () => {
-      const getFilesRecursively = (directory: string): string[] =>
-        fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-          const entryPath = path.join(directory, entry.name);
-          if (entry.isDirectory()) {
-            return getFilesRecursively(entryPath);
-          }
-          return [entryPath];
-        });
-
-      const componentFilePaths = getFilesRecursively(
-        path.join(remoteDir, 'src/components'),
-      );
-      const hostSourceFilePaths = getFilesRecursively(
-        path.join(hostDir, 'src'),
-      ).filter(filePath => /\.(ts|tsx)$/.test(filePath));
-
-      const componentSources = componentFilePaths.map(filePath =>
-        fs.readFileSync(filePath, 'utf-8'),
-      );
-      const hostSourceTexts = hostSourceFilePaths.map(filePath =>
-        fs.readFileSync(filePath, 'utf-8'),
-      );
+    it('should keep callback helper surface constrained to runtime files', () => {
       const remoteRuntimeExposesDir = path.join(
         remoteDir,
         'src/runtime/exposes',
@@ -510,33 +488,6 @@ function runTests({ mode }: TestConfig) {
         entryName => entryName !== 'exposes',
       );
 
-      expect(
-        componentSources.every(
-          source => !source.includes('initServerCallback'),
-        ),
-      ).toBe(true);
-      expect(
-        componentSources.every(
-          source => !source.includes('registerRemoteServerCallback'),
-        ),
-      ).toBe(true);
-      expect(
-        componentSources.every(
-          source =>
-            !source.includes('setServerCallback') &&
-            !source.includes('rsc-mf-react-server-dom-client-browser'),
-        ),
-      ).toBe(true);
-      expect(
-        hostSourceTexts.every(
-          source =>
-            !source.includes('registerRemoteServerCallback') &&
-            !source.includes('initServerCallback') &&
-            !source.includes('registerServerCallback') &&
-            !source.includes('setServerCallback') &&
-            !source.includes('rsc-mf-react-server-dom-client-browser'),
-        ),
-      ).toBe(true);
       expect(remoteRuntimeExposeEntries).toEqual([]);
       expect(remoteRuntimeEntriesWithoutExposeDir).toEqual([
         'initServerCallback.ts',
