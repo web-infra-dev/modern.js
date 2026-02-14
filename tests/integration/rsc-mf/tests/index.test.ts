@@ -627,6 +627,11 @@ function runTests({ mode }: TestConfig) {
           importPath.startsWith('./src/components/'),
         ),
       ).toBe(true);
+      expect(
+        remoteExposeEntries.every(({ importPath }) =>
+          fs.existsSync(path.resolve(remoteDir, importPath)),
+        ),
+      ).toBe(true);
       expect(hostModuleFederationConfigSource).toContain('runtimePlugins');
       expect(hostModuleFederationConfigSource).toContain(
         './runtime/forceRemotePublicPath.ts',
