@@ -560,10 +560,14 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeInitSource).toContain('bootstrapServerCallback');
       expect(runtimeInitSource).toContain('callbackBootstrapPromise');
       expect(runtimeInitSource).toContain("import('./registerServerCallback')");
+      expect(runtimeInitSource).toContain('window.location.origin');
+      expect(runtimeInitSource).toContain('window.location.pathname');
       expect(runtimeInitSource).toContain('callbackBootstrapPromise.catch');
       expect(runtimeInitSource).toContain(
         'callbackBootstrapPromise = undefined',
       );
+      expect(runtimeInitSource).not.toContain('RSC_MF_REMOTE_PORT');
+      expect(runtimeInitSource).not.toContain('127.0.0.1:');
       expect(runtimeInitSource).not.toContain(
         "from './registerServerCallback'",
       );
