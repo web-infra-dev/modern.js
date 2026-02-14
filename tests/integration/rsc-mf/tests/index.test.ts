@@ -657,6 +657,10 @@ function runTests({ mode }: TestConfig) {
     it('should route remote actions through host endpoint', () => {
       expect(actionRequestUrls.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
       expect(actionRequestUrls.length).toBe(actionRequestIds.length);
+      const uniqueActionRequestUrls = Array.from(new Set(actionRequestUrls));
+      expect(uniqueActionRequestUrls).toEqual([
+        `http://127.0.0.1:${hostPort}${HOST_RSC_URL}`,
+      ]);
       expect(
         actionRequestUrls.every(url =>
           url.startsWith(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`),
