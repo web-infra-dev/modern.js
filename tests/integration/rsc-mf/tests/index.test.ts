@@ -16,6 +16,7 @@ const fixtureDir = path.resolve(__dirname, '../');
 const hostDir = path.resolve(fixtureDir, 'host');
 const remoteDir = path.resolve(fixtureDir, 'remote');
 const HOST_RSC_URL = '/server-component-root';
+const MIN_EXPECTED_ACTION_POSTS_PER_MODE = 10;
 
 type Mode = 'dev' | 'build';
 
@@ -466,7 +467,9 @@ function runTests({ mode }: TestConfig) {
       supportRemoteClientAndServerActions({ hostPort, page }));
 
     it('should route remote actions through host endpoint', () => {
-      expect(actionRequestUrls.length).toBeGreaterThan(0);
+      expect(actionRequestUrls.length).toBeGreaterThanOrEqual(
+        MIN_EXPECTED_ACTION_POSTS_PER_MODE,
+      );
       expect(
         actionRequestUrls.every(url =>
           url.startsWith(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`),
@@ -480,7 +483,9 @@ function runTests({ mode }: TestConfig) {
     });
 
     it('should post host-resolvable action ids for remote actions', async () => {
-      expect(actionRequestIds.length).toBeGreaterThan(0);
+      expect(actionRequestIds.length).toBeGreaterThanOrEqual(
+        MIN_EXPECTED_ACTION_POSTS_PER_MODE,
+      );
       expect(actionRequestIds.every(id => !id.startsWith('remote:'))).toBe(
         true,
       );
