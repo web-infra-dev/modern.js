@@ -437,27 +437,51 @@ function runTests({ mode }: TestConfig) {
     });
 
     it('should keep callback runtime wiring out of component sources', () => {
-      const remoteClientCounterSource = fs.readFileSync(
-        path.join(remoteDir, 'src/components/RemoteClientCounter.tsx'),
-        'utf-8',
+      const getFilesRecursively = (directory: string): string[] =>
+        fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+          const entryPath = path.join(directory, entry.name);
+          if (entry.isDirectory()) {
+            return getFilesRecursively(entryPath);
+          }
+          return [entryPath];
+        });
+
+      const componentFilePaths = getFilesRecursively(
+        path.join(remoteDir, 'src/components'),
       );
-      const remoteClientBadgeSource = fs.readFileSync(
-        path.join(remoteDir, 'src/components/RemoteClientBadge.tsx'),
-        'utf-8',
+      const exposeRuntimeFilePaths = getFilesRecursively(
+        path.join(remoteDir, 'src/runtime/exposes'),
+      );
+
+      const componentSources = componentFilePaths.map(filePath =>
+        fs.readFileSync(filePath, 'utf-8'),
       );
       const runtimeInitSource = fs.readFileSync(
         path.join(remoteDir, 'src/runtime/initServerCallback.ts'),
         'utf-8',
       );
-      expect(remoteClientCounterSource).not.toContain('initServerCallback');
-      expect(remoteClientCounterSource).not.toContain(
-        'registerRemoteServerCallback',
+      const runtimeRegisterSource = fs.readFileSync(
+        path.join(remoteDir, 'src/runtime/registerServerCallback.ts'),
+        'utf-8',
       );
-      expect(remoteClientBadgeSource).not.toContain('initServerCallback');
-      expect(remoteClientBadgeSource).not.toContain(
-        'registerRemoteServerCallback',
-      );
+
+      expect(
+        componentSources.every(
+          source => !source.includes('initServerCallback'),
+        ),
+      ).toBe(true);
+      expect(
+        componentSources.every(
+          source => !source.includes('registerRemoteServerCallback'),
+        ),
+      ).toBe(true);
+      expect(
+        exposeRuntimeFilePaths.every(filePath =>
+          fs.readFileSync(filePath, 'utf-8').includes('initServerCallback'),
+        ),
+      ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
+      expect(runtimeRegisterSource).toContain('setServerCallback');
     });
 
     it('should not load callback helper expose chunk', () => {
