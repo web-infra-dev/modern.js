@@ -54,6 +54,16 @@ if (nonComponentExposeEntries.length > 0) {
       .join(', ')}`,
   );
 }
+const nonTypeScriptExposeEntries = Object.entries(remoteExposeImports).filter(
+  ([, importPath]) => !/\.[tj]sx?$/.test(importPath),
+);
+if (nonTypeScriptExposeEntries.length > 0) {
+  throw new Error(
+    `Remote expose imports must use explicit TypeScript entry extensions for deterministic resolution. Invalid entries: ${nonTypeScriptExposeEntries
+      .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+      .join(', ')}`,
+  );
+}
 const callbackExposeEntries = Object.entries(remoteExposeImports).filter(
   ([, importPath]) => importPath === CALLBACK_BOOTSTRAP_IMPORT,
 );

@@ -612,6 +612,9 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
       );
+      expect(moduleFederationConfigSource).toContain(
+        'nonTypeScriptExposeEntries',
+      );
       expect(moduleFederationConfigSource).toContain('invalidExposeKeys');
       expect(moduleFederationConfigSource).toContain('callbackExposeEntries');
       expect(moduleFederationConfigSource).toContain("shareScope: 'default'");
@@ -625,6 +628,11 @@ function runTests({ mode }: TestConfig) {
       expect(
         remoteExposeEntries.every(({ importPath }) =>
           importPath.startsWith('./src/components/'),
+        ),
+      ).toBe(true);
+      expect(
+        remoteExposeEntries.every(({ importPath }) =>
+          /\.[tj]sx?$/.test(importPath),
         ),
       ).toBe(true);
       expect(
