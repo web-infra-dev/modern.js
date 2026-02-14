@@ -6,10 +6,6 @@ const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
 const USERLAND_EXPOSE_PREFIX = './';
 const SOURCE_ENTRY_EXTENSION_PATTERN = /\.[cm]?[jt]sx?$/i;
 const RSC_LAYER = 'react-server-components';
-const CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN =
-  /^\.\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)$/;
-const CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN =
-  /\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)\.[cm]?[jt]sx?$/;
 const LOCAL_MODULE_SPECIFIER_PATTERN = /^\.{1,2}\//;
 const SOURCE_DIRECTIVE_PATTERN = /^\s*['"]use (?:client|server)['"]\s*;?/m;
 const EXPORT_FROM_SPECIFIER_PATTERN =
@@ -25,6 +21,7 @@ const SOURCE_ENTRY_EXTENSIONS = [
   '.cjs',
 ] as const;
 const REMOTE_PROJECT_ROOT = path.resolve(__dirname, '../..');
+const callbackDirectiveBySourceFile = new Map<string, boolean>();
 
 type ExposeImportInput = string | string[];
 export type ExposeDefinitionInput =
@@ -134,15 +131,9 @@ const createRscExpose = (
     layer: RSC_LAYER,
   }) as const;
 
-const shouldInjectCallbackBootstrap = (
-  exposeKey: string,
-  importPaths: string[],
-) =>
-  CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN.test(exposeKey) ||
-  importPaths.some(
-    importPath =>
-      CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN.test(importPath) ||
-      referencesCallbackCapableSourceModule(importPath),
+const shouldInjectCallbackBootstrap = (importPaths: string[]) =>
+  importPaths.some(importPath =>
+    referencesCallbackCapableSourceModule(importPath),
   );
 
 const readSourceFile = (filePath: string) => {
@@ -186,15 +177,21 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
 
   const visitedFiles = new Set<string>();
   const hasCallbackDirective = (filePath: string): boolean => {
+    const cachedResult = callbackDirectiveBySourceFile.get(filePath);
+    if (typeof cachedResult !== 'undefined') {
+      return cachedResult;
+    }
     if (visitedFiles.has(filePath)) {
       return false;
     }
     visitedFiles.add(filePath);
     const sourceText = readSourceFile(filePath);
     if (!sourceText) {
+      callbackDirectiveBySourceFile.set(filePath, false);
       return false;
     }
     if (SOURCE_DIRECTIVE_PATTERN.test(sourceText)) {
+      callbackDirectiveBySourceFile.set(filePath, true);
       return true;
     }
 
@@ -211,10 +208,12 @@ const referencesCallbackCapableSourceModule = (importPath: string) => {
         filePath,
       );
       if (childModuleFilePath && hasCallbackDirective(childModuleFilePath)) {
+        callbackDirectiveBySourceFile.set(filePath, true);
         return true;
       }
     }
 
+    callbackDirectiveBySourceFile.set(filePath, false);
     return false;
   };
 
@@ -343,10 +342,7 @@ export const createRscExposeDefinitions = (
       createRscExpose(
         normalizedDefinition.importPaths,
         normalizedDefinition.exposeOverrides,
-        shouldInjectCallbackBootstrap(
-          exposeKey,
-          normalizedDefinition.importPaths,
-        ),
+        shouldInjectCallbackBootstrap(normalizedDefinition.importPaths),
       ),
     ]),
   );

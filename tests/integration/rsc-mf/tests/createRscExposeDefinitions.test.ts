@@ -53,18 +53,14 @@ describe('createRscExposeDefinitions', () => {
   });
 
   it('allows expose imports outside src root when path is relative', () => {
-    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
-      loadCreateRscExposeDefinitions();
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
       createRscExposeDefinitions({
         './RemoteClientCounter': './app/components/RemoteClientCounter.tsx',
       }),
     ).toEqual({
       './RemoteClientCounter': {
-        import: [
-          CALLBACK_BOOTSTRAP_MODULE,
-          './app/components/RemoteClientCounter.tsx',
-        ],
+        import: ['./app/components/RemoteClientCounter.tsx'],
         layer: 'react-server-components',
       },
     });
