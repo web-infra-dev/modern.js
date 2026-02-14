@@ -15,6 +15,25 @@ const reactDomServerImport = path.join(
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
+const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
+if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
+  throw new Error(
+    `Callback bootstrap import must stay in runtime namespace (${CALLBACK_BOOTSTRAP_PREFIX}). Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
+  );
+}
+if (!/\.[tj]sx?$/.test(CALLBACK_BOOTSTRAP_IMPORT)) {
+  throw new Error(
+    `Callback bootstrap import must use explicit source extension for deterministic resolution. Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
+  );
+}
+if (
+  CALLBACK_BOOTSTRAP_IMPORT.includes('..') ||
+  CALLBACK_BOOTSTRAP_IMPORT.includes('\\')
+) {
+  throw new Error(
+    `Callback bootstrap import must not contain traversal or Windows separators. Received: ${CALLBACK_BOOTSTRAP_IMPORT}`,
+  );
+}
 const createRscExpose = (importPath: string) =>
   ({
     import: [CALLBACK_BOOTSTRAP_IMPORT, importPath],

@@ -637,6 +637,18 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).toContain(
         'CALLBACK_BOOTSTRAP_IMPORT',
       );
+      expect(moduleFederationConfigSource).toContain(
+        'CALLBACK_BOOTSTRAP_PREFIX',
+      );
+      expect(moduleFederationConfigSource).toContain(
+        'Callback bootstrap import must stay in runtime namespace',
+      );
+      expect(moduleFederationConfigSource).toContain(
+        'Callback bootstrap import must use explicit source extension',
+      );
+      expect(moduleFederationConfigSource).toContain(
+        'Callback bootstrap import must not contain traversal or Windows separators',
+      );
       expect(
         moduleFederationConfigSource.includes(
           '[CALLBACK_BOOTSTRAP_IMPORT, importPath]',
