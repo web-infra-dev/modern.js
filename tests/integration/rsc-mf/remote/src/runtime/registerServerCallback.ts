@@ -28,9 +28,15 @@ export function registerRemoteServerCallback(
   if (!remoteOrigin) {
     return;
   }
+  const normalizedRemoteAlias = remoteAlias.trim();
+  if (!normalizedRemoteAlias || normalizedRemoteAlias.includes(':')) {
+    throw new Error(
+      `Remote alias must be a non-empty identifier without ":" delimiters. Received: ${remoteAlias}`,
+    );
+  }
   const remoteActionUrl = getNormalizedRemoteActionUrl(remoteOrigin);
   const callbackKey = JSON.stringify({
-    remoteAlias,
+    remoteAlias: normalizedRemoteAlias,
     remoteActionUrl,
   });
   if (registeredCallbackKey === callbackKey) {
@@ -38,7 +44,7 @@ export function registerRemoteServerCallback(
   }
 
   setServerCallback(async (id, args) => {
-    const hostActionId = getHostActionId(id, remoteAlias);
+    const hostActionId = getHostActionId(id, normalizedRemoteAlias);
     const temporaryReferences = createTemporaryReferenceSet();
     const response = fetch(remoteActionUrl, {
       method: 'POST',

@@ -619,6 +619,15 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
+        'const normalizedRemoteAlias = remoteAlias.trim()',
+      );
+      expect(runtimeRegisterSource).toContain(
+        "!normalizedRemoteAlias || normalizedRemoteAlias.includes(':')",
+      );
+      expect(runtimeRegisterSource).toContain(
+        'Remote alias must be a non-empty identifier without ":" delimiters',
+      );
+      expect(runtimeRegisterSource).toContain(
         "if (rawActionId.startsWith('remote:'))",
       );
       expect(runtimeRegisterSource).toContain(
@@ -630,7 +639,16 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain('getNormalizedRemoteActionUrl');
       expect(runtimeRegisterSource).toContain("url.search = ''");
       expect(runtimeRegisterSource).toContain("url.hash = ''");
+      expect(runtimeRegisterSource).toContain(
+        'remoteAlias: normalizedRemoteAlias',
+      );
+      expect(runtimeRegisterSource).toContain(
+        'getHostActionId(id, normalizedRemoteAlias)',
+      );
       expect(runtimeRegisterSource).toContain('remoteActionUrl,');
+      expect(runtimeRegisterSource).not.toContain(
+        'getHostActionId(id, remoteAlias)',
+      );
       expect(runtimeRegisterSource).not.toContain(
         'remoteActionIdToHostProxyActionId',
       );
