@@ -134,6 +134,49 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('proxied-js');
   });
 
+  it('finalizes proxied responses through context body API when available', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(async () => {
+      return new Response('proxied-via-body', {
+        status: 203,
+        headers: {
+          'content-type': 'application/javascript',
+          'content-length': '111',
+        },
+      });
+    });
+    const context: {
+      req: { url: string };
+      res?: Response;
+      body: (
+        body: BodyInit | null,
+        status?: number,
+        headers?: HeadersInit,
+      ) => Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_infoBundle.11dea89e81.js',
+      },
+      body: jest.fn((body, status, headers) => {
+        return new Response(body, {
+          status,
+          headers,
+        });
+      }),
+    };
+
+    await withRemotePort('3999', () => handler(context as any, next));
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(context.body).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeInstanceOf(Response);
+    expect(context.res?.status).toBe(203);
+    expect(context.res?.headers.get('content-length')).toBeNull();
+    await expect(context.res?.text()).resolves.toBe('proxied-via-body');
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('strips transfer headers from proxied upstream responses', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

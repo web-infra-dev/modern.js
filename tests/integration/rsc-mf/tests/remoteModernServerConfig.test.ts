@@ -146,6 +146,81 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('fallback-asset');
   });
 
+  it('finalizes recovered responses through context body API when available', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteServerCard.a1b2c3d4.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('fallback-via-body', {
+            status: 203,
+            headers: {
+              'content-type': 'application/javascript',
+              'content-length': '222',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string };
+      res?: Response;
+      body: (
+        body: BodyInit | null,
+        status?: number,
+        headers?: HeadersInit,
+      ) => Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteServerCard.js',
+      },
+      body: jest.fn((body, status, headers) => {
+        return new Response(body, {
+          status,
+          headers,
+        });
+      }),
+    };
+
+    await handler(context as any, next);
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(context.body).toHaveBeenCalledTimes(1);
+    expect(context.res).toBeInstanceOf(Response);
+    expect(context.res?.status).toBe(203);
+    expect(context.res?.headers.get('content-length')).toBeNull();
+    await expect(context.res?.text()).resolves.toBe('fallback-via-body');
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('strips transfer headers from recovered fallback responses', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
