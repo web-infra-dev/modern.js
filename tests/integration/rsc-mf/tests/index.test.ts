@@ -404,6 +404,22 @@ async function supportRemoteClientAndServerActions({
     el => el.textContent?.trim(),
   );
   expect(serverCount).toBe('1');
+  await page.click(
+    '.host-remote-action-runner .remote-client-server-increment',
+  );
+  await page.waitForFunction(
+    () =>
+      !document
+        .querySelector(
+          '.host-remote-action-runner .remote-client-server-increment',
+        )
+        ?.hasAttribute('disabled'),
+  );
+  serverCount = await page.$eval(
+    '.host-remote-action-runner .remote-client-server-count',
+    el => el.textContent?.trim(),
+  );
+  expect(serverCount).toBe('2');
 
   const actionRequestCountBeforeFirstClientRun = actionRequestIds?.length || 0;
   await page.click('.host-remote-action-runner .remote-client-run-actions');
@@ -504,14 +520,14 @@ async function supportRemoteClientAndServerActions({
         'remote-action:from-host-client' &&
       nestedActionResult?.textContent?.trim() ===
         'nested-action:from-host-client-direct' &&
-      incrementActionResult?.textContent?.trim() === '2' &&
+      incrementActionResult?.textContent?.trim() === '3' &&
       bundledDefaultActionResult?.textContent?.trim() ===
         'default-action:from-host-client-bundled' &&
       bundledEchoActionResult?.textContent?.trim() ===
         'remote-action:from-host-client-bundled' &&
       bundledNestedActionResult?.textContent?.trim() ===
         'nested-action:from-host-client-bundled' &&
-      bundledIncrementActionResult?.textContent?.trim() === '3'
+      bundledIncrementActionResult?.textContent?.trim() === '4'
     );
   });
 
@@ -524,8 +540,8 @@ async function supportRemoteClientAndServerActions({
       '.host-remote-bundled-increment-action-result',
     );
     return (
-      incrementActionResult?.textContent?.trim() === '4' &&
-      bundledIncrementActionResult?.textContent?.trim() === '5'
+      incrementActionResult?.textContent?.trim() === '5' &&
+      bundledIncrementActionResult?.textContent?.trim() === '6'
     );
   });
 }
