@@ -480,6 +480,10 @@ function runTests({ mode }: TestConfig) {
         ),
       ).toBe(true);
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
+      expect(runtimeInitSource).toContain("import('./registerServerCallback')");
+      expect(runtimeInitSource).not.toContain(
+        "from './registerServerCallback'",
+      );
       expect(runtimeRegisterSource).toContain('setServerCallback');
       expect(moduleFederationConfigSource).toContain(
         'CALLBACK_BOOTSTRAP_IMPORT',
