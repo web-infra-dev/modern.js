@@ -20,14 +20,6 @@ const HOST_RSC_URL = '/server-component-root';
 const EXPECTED_ACTION_POSTS_PER_MODE = 24;
 const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
 const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
-const CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS = new Set([
-  './RemoteClientCounter',
-  './RemoteClientBadge',
-  './actions',
-  './nestedActions',
-  './defaultAction',
-  './actionBundle',
-]);
 
 type Mode = 'dev' | 'build';
 
@@ -498,13 +490,14 @@ function runTests({ mode }: TestConfig) {
         ),
       ).toBe(true);
       expect(moduleFederationConfigSource).not.toContain(
+        'callbackBootstrappedExposes',
+      );
+      expect(moduleFederationConfigSource).not.toContain(
+        'missingCallbackExposeEntries',
+      );
+      expect(moduleFederationConfigSource).not.toContain(
         './src/runtime/exposes/',
       );
-      expect(
-        [...CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS].every(exposeKey =>
-          moduleFederationConfigSource.includes(exposeKey),
-        ),
-      ).toBe(true);
     });
 
     it('should not load callback helper expose chunk', () => {

@@ -15,19 +15,9 @@ const reactDomServerImport = path.join(
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
-const callbackBootstrappedExposes = new Set([
-  './RemoteClientCounter',
-  './RemoteClientBadge',
-  './actions',
-  './nestedActions',
-  './defaultAction',
-  './actionBundle',
-]);
-const createRscExpose = (exposeKey: string, importPath: string) =>
+const createRscExpose = (importPath: string) =>
   ({
-    import: callbackBootstrappedExposes.has(exposeKey)
-      ? [CALLBACK_BOOTSTRAP_IMPORT, importPath]
-      : importPath,
+    import: [CALLBACK_BOOTSTRAP_IMPORT, importPath],
     layer: LAYERS.rsc,
   }) as any;
 const remoteExposeImports: Record<string, string> = {
@@ -45,14 +35,6 @@ const remoteExposeImports: Record<string, string> = {
   './actionBundle': './src/components/actionBundle.ts',
   './infoBundle': './src/components/infoBundle.ts',
 };
-const missingCallbackExposeEntries = [...callbackBootstrappedExposes].filter(
-  exposeKey => !(exposeKey in remoteExposeImports),
-);
-if (missingCallbackExposeEntries.length > 0) {
-  throw new Error(
-    `Callback-bootstrapped exposes must exist in remoteExposeImports. Missing entries: ${missingCallbackExposeEntries.join(', ')}`,
-  );
-}
 
 const sharedByScope = [
   {
@@ -148,7 +130,7 @@ export default createModuleFederationConfig({
   exposes: Object.fromEntries(
     Object.entries(remoteExposeImports).map(([exposeKey, importPath]) => [
       exposeKey,
-      createRscExpose(exposeKey, importPath),
+      createRscExpose(importPath),
     ]),
   ) as any,
   shared: sharedByScope as any,

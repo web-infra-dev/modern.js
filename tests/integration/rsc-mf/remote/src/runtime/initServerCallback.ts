@@ -1,11 +1,13 @@
-import { registerRemoteServerCallback } from './registerServerCallback';
-
 if (typeof window !== 'undefined') {
-  // Fixture-level bootstrap: make federated client actions post back through
-  // host route using bridge-prefixed ids without requiring host userland wiring.
-  const actionPathname = window.location.pathname || '/';
-  registerRemoteServerCallback(
-    `${window.location.origin}${actionPathname}`,
-    'rscRemote',
+  // Fixture-level bootstrap: keep callback wiring out of exposed modules while
+  // ensuring browser-evaluated federated code always posts bridge action IDs to host.
+  void import('./registerServerCallback').then(
+    ({ registerRemoteServerCallback }) => {
+      const actionPathname = window.location.pathname || '/';
+      registerRemoteServerCallback(
+        `${window.location.origin}${actionPathname}`,
+        'rscRemote',
+      );
+    },
   );
 }
