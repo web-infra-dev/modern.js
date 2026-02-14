@@ -10,7 +10,7 @@
   "dependencies": {
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@module-federation/modern-js-v3": "https://pkg.pr.new/module-federation/core/@module-federation/modern-js-v3@4437",
+    "@module-federation/modern-js-v3": "workspace:*",
     "i18next": "25.7.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
