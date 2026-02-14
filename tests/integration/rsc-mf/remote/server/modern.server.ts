@@ -9,8 +9,8 @@ import {
   getRequestedAssetDirectory,
   isExposeAssetRequestPath,
   resolveManifestFallbackAssetPath,
-} from '../../shared/manifestFallback';
-import { createSafeProxyResponse } from '../../shared/proxyResponse';
+} from './manifestFallback';
+import { createSafeProxyResponse } from './proxyResponse';
 
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
 

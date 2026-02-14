@@ -1,4 +1,4 @@
-import { INTERNAL_FALLBACK_HEADER } from '../shared/manifestFallback';
+import { INTERNAL_FALLBACK_HEADER } from '../remote/server/manifestFallback';
 
 const REMOTE_SERVER_CONFIG_MODULE = '../remote/server/modern.server';
 

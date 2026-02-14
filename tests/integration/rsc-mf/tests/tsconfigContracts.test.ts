@@ -24,7 +24,6 @@ describe('rsc-mf tsconfig contracts', () => {
         expect.arrayContaining([
           'src',
           'server',
-          '../shared',
           'modern.config.ts',
           'module-federation.config.ts',
         ]),
@@ -33,10 +32,10 @@ describe('rsc-mf tsconfig contracts', () => {
   );
 
   it.each(['host', 'remote'] as const)(
-    'keeps %s tsconfig rootDir aligned for shared fixture imports',
+    'keeps %s tsconfig rootDir unset for server dist runtime path',
     projectDir => {
       const tsconfig = readTsconfig(projectDir);
-      expect(tsconfig.compilerOptions?.rootDir).toBe('..');
+      expect(tsconfig.compilerOptions?.rootDir).toBeUndefined();
     },
   );
 });

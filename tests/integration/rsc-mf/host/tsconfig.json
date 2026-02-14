@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declaration": false,
     "jsx": "react-jsx",
-    "rootDir": "..",
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
@@ -13,7 +12,6 @@
     "src",
     "config",
     "server",
-    "../shared",
     "modern.config.ts",
     "module-federation.config.ts"
   ]
