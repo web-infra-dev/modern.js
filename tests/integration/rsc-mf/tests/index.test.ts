@@ -19,6 +19,15 @@ const HOST_RSC_URL = '/server-component-root';
 const EXPECTED_ACTION_POSTS_PER_MODE = 24;
 const EXPECTED_ACTION_POSTS_PER_FAMILY = 6;
 const EXPECTED_UNIQUE_ACTION_IDS_PER_MODE = 4;
+const EXPECTED_BROWSER_EXPOSE_CHUNKS = [
+  '__federation_expose_RemoteClientCounter',
+  '__federation_expose_RemoteClientBadge',
+  '__federation_expose_actions',
+  '__federation_expose_nestedActions',
+  '__federation_expose_defaultAction',
+  '__federation_expose_actionBundle',
+  '__federation_expose_infoBundle',
+];
 const EXPECTED_REMOTE_EXPOSE_PATHS = [
   './RemoteClientCounter',
   './RemoteClientBadge',
@@ -367,6 +376,7 @@ function runTests({ mode }: TestConfig) {
     const actionRequestIds: string[] = [];
     const actionRequestAcceptHeaders: string[] = [];
     const registerCallbackExposeRequestUrls: string[] = [];
+    const browserExposeChunkRequests: string[] = [];
     const failedNetworkRequests: FailedRequestRecord[] = [];
     const failedBrowserRequests: FailedBrowserRequestRecord[] = [];
 
@@ -425,6 +435,10 @@ function runTests({ mode }: TestConfig) {
         const url = request.url();
         if (url.includes('__federation_expose_registerServerCallback')) {
           registerCallbackExposeRequestUrls.push(url);
+        }
+        const exposeChunkMatch = url.match(/__federation_expose_[^./?#]+/);
+        if (exposeChunkMatch) {
+          browserExposeChunkRequests.push(exposeChunkMatch[0]);
         }
         if (request.method() !== 'POST' || !headers['x-rsc-action']) {
           return;
@@ -499,13 +513,8 @@ function runTests({ mode }: TestConfig) {
       expect(uniqueExposedPaths.length).toBeGreaterThan(0);
       expect(uniqueExposedPaths).toContain('./RemoteClientCounter');
       expect(
-        uniqueExposedPaths.every(path =>
-          EXPECTED_REMOTE_EXPOSE_PATHS.includes(path),
-        ),
+        exposedPaths.every(path => EXPECTED_REMOTE_EXPOSE_PATHS.includes(path)),
       ).toBe(true);
-      expect(uniqueExposedPaths.length).toBeLessThanOrEqual(
-        EXPECTED_REMOTE_EXPOSE_PATHS.length,
-      );
       expect(
         exposedPaths.every(path => !path.startsWith('./src/components/')),
       ).toBe(true);
@@ -524,6 +533,15 @@ function runTests({ mode }: TestConfig) {
         page,
         actionRequestIds,
       }));
+
+    it('should load expected federated expose chunks in browser', () => {
+      const uniqueExposeChunkRequests = Array.from(
+        new Set(browserExposeChunkRequests),
+      ).sort();
+      expect(uniqueExposeChunkRequests).toEqual(
+        expect.arrayContaining(EXPECTED_BROWSER_EXPOSE_CHUNKS),
+      );
+    });
 
     it('should route remote actions through host endpoint', () => {
       expect(actionRequestUrls.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
