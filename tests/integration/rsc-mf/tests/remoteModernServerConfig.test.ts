@@ -182,7 +182,8 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
         )
         .mockResolvedValueOnce(
           new Response('fallback-with-transport-headers', {
-            status: 200,
+            status: 201,
+            statusText: 'Created',
             headers: {
               'content-type': 'application/javascript',
               'content-length': '999',
@@ -215,6 +216,8 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await handler(context, next);
 
     expect(next).not.toHaveBeenCalled();
+    expect(context.res?.status).toBe(201);
+    expect(context.res?.statusText).toBe('Created');
     expect(context.res?.headers.get('content-type')).toBe(
       'application/javascript',
     );

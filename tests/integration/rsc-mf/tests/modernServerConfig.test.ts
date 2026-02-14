@@ -139,7 +139,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     const next = jest.fn(async (): Promise<void> => undefined);
     installFetchMock(async () => {
       return new Response('proxied-with-transport-headers', {
-        status: 200,
+        status: 206,
+        statusText: 'Partial Content',
         headers: {
           'content-type': 'application/javascript',
           'content-length': '999',
@@ -168,6 +169,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await withRemotePort('3999', () => handler(context, next));
 
     expect(next).not.toHaveBeenCalled();
+    expect(context.res?.status).toBe(206);
+    expect(context.res?.statusText).toBe('Partial Content');
     expect(context.res?.headers.get('content-type')).toBe(
       'application/javascript',
     );
