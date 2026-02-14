@@ -95,6 +95,9 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     await expect(callback('abc 123', [])).rejects.toThrow(
       'Remote action id must be a non-empty token without whitespace',
     );
+    await expect(callback('   ', [])).rejects.toThrow(
+      'Remote action id must be a non-empty token without whitespace',
+    );
   });
 
   it('preserves already-prefixed action ids and dedupes normalized callback registrations', async () => {
@@ -197,6 +200,25 @@ describe('registerRemoteServerCallback runtime behavior', () => {
       expect.objectContaining({
         headers: expect.objectContaining({
           'x-rsc-action': 'remote:rscRemote:trimmed-alias-action',
+        }),
+      }),
+    );
+  });
+
+  it('accepts token aliases with dot, underscore, and dash characters', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      'remote.alias_v2-test',
+    );
+
+    const callback = getRegisteredCallback();
+    await callback('token-alias-action', []);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:remote.alias_v2-test:token-alias-action',
         }),
       }),
     );
