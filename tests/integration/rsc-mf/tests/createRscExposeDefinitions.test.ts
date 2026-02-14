@@ -3,12 +3,21 @@ const CREATE_RSC_EXPOSE_DEFINITIONS_MODULE =
 
 const loadCreateRscExposeDefinitions = () => {
   let moduleExports: any;
-  jest.isolateModules(() => {
-    moduleExports = require(CREATE_RSC_EXPOSE_DEFINITIONS_MODULE);
-  });
+  try {
+    jest.isolateModules(() => {
+      moduleExports = require(CREATE_RSC_EXPOSE_DEFINITIONS_MODULE);
+    });
+  } catch (error) {
+    throw new Error(
+      `Failed to load createRscExposeDefinitions module: ${String(error)}`,
+    );
+  }
   return moduleExports as {
     createRscExposeDefinitions: (
-      remoteExposeImports: Record<string, string>,
+      remoteExposeImports: Record<
+        string,
+        string | { import: string | string[]; [key: string]: unknown }
+      >,
     ) => Record<string, { import: string[]; layer: string }>;
     CALLBACK_BOOTSTRAP_MODULE: string;
   };
@@ -116,6 +125,75 @@ describe('createRscExposeDefinitions', () => {
         layer: 'react-server-components',
       },
     });
+  });
+
+  it('supports object expose definitions with custom fields', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    const exposeDefinitions = createRscExposeDefinitions({
+      './RemoteClientCounter': {
+        import: './src/components/RemoteClientCounter.tsx',
+        shareScope: 'rsc',
+      },
+    });
+
+    expect(exposeDefinitions).toEqual({
+      './RemoteClientCounter': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/RemoteClientCounter.tsx',
+        ],
+        shareScope: 'rsc',
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('supports object expose definitions with import arrays', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    const exposeDefinitions = createRscExposeDefinitions({
+      './infoBundle': {
+        import: [
+          './src/components/infoBundle.ts',
+          './src/components/remoteMeta.ts',
+        ],
+      },
+    });
+
+    expect(exposeDefinitions).toEqual({
+      './infoBundle': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/infoBundle.ts',
+          './src/components/remoteMeta.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('rejects object expose definitions with invalid import payloads', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {
+          import: [] as string[],
+        },
+      }),
+    ).toThrow(
+      'Remote expose import must be a non-empty string or string array.',
+    );
+
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {
+          import: [42] as unknown as string[],
+        },
+      }),
+    ).toThrow(
+      'Remote expose import must be a non-empty string or string array.',
+    );
   });
 
   it('rejects expose imports with parent traversal segments', () => {
