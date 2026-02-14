@@ -36,6 +36,14 @@ const toCanonicalChunkName = (filePath: string) =>
     ?.replace(/\.(js|css)$/i, '')
     .replace(EXPOSE_CHUNK_HASH_SUFFIX_PATTERN, '');
 
+const toNormalizedManifestAssetPath = (assetPath: string) => {
+  try {
+    return new URL(assetPath).pathname.replace(/^\/+/, '');
+  } catch {
+    return assetPath.replace(/^[./]+/, '').split(/[?#]/, 1)[0];
+  }
+};
+
 const collectManifestAssetPaths = (manifest: RemoteManifestShape) => {
   const entries = [...(manifest.shared || []), ...(manifest.exposes || [])];
   const assetPaths = new Set<string>();
@@ -74,11 +82,49 @@ const resolveManifestFallbackAssetPath = (
     : 'static/js/async/';
   const manifestAssets = collectManifestAssetPaths(manifest);
   return manifestAssets.find(assetPath => {
-    if (!assetPath.startsWith(requestedAssetDirectory)) {
+    const normalizedAssetPath = toNormalizedManifestAssetPath(assetPath);
+    if (!normalizedAssetPath.startsWith(requestedAssetDirectory)) {
       return false;
     }
-    return toCanonicalChunkName(assetPath) === canonicalRequestedChunkName;
+    return (
+      toCanonicalChunkName(normalizedAssetPath) === canonicalRequestedChunkName
+    );
   });
+};
+
+const createManifestFallbackAssetUrl = ({
+  remoteOrigin,
+  fallbackAssetPath,
+  requestSearch,
+}: {
+  remoteOrigin: string;
+  fallbackAssetPath: string;
+  requestSearch: string;
+}) => {
+  let fallbackAssetUrl: URL;
+  try {
+    fallbackAssetUrl = new URL(fallbackAssetPath, `${remoteOrigin}/`);
+  } catch {
+    return undefined;
+  }
+
+  if (fallbackAssetUrl.origin !== new URL(remoteOrigin).origin) {
+    return undefined;
+  }
+
+  if (!requestSearch) {
+    return fallbackAssetUrl.toString();
+  }
+
+  const mergedSearchParams = new URLSearchParams(fallbackAssetUrl.search);
+  const requestSearchParams = new URLSearchParams(requestSearch);
+  for (const [key, value] of requestSearchParams.entries()) {
+    mergedSearchParams.set(key, value);
+  }
+  const mergedSearch = mergedSearchParams.toString();
+  fallbackAssetUrl.search = mergedSearch ? `?${mergedSearch}` : '';
+
+  return fallbackAssetUrl.toString();
 };
 
 const fetchRemoteManifestFallbackAsset = async ({
@@ -121,7 +167,14 @@ const fetchRemoteManifestFallbackAsset = async ({
     return undefined;
   }
 
-  const fallbackAssetUrl = `${remoteOrigin}/${fallbackAssetPath}${search}`;
+  const fallbackAssetUrl = createManifestFallbackAssetUrl({
+    remoteOrigin,
+    fallbackAssetPath,
+    requestSearch: search,
+  });
+  if (!fallbackAssetUrl) {
+    return undefined;
+  }
   const fallbackAssetResponse = await fetch(fallbackAssetUrl).catch(
     (): undefined => undefined,
   );
