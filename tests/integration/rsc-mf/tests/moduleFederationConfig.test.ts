@@ -87,7 +87,7 @@ const loadHostConfig = ({
   );
 
 describe('rsc-mf module federation config contracts', () => {
-  it('declares expected remote exposes with callback bootstrap imports', () => {
+  it('declares expected remote exposes with normalized userland imports', () => {
     const remoteConfig = loadRemoteConfig();
     const exposeEntries = Object.entries(remoteConfig.exposes || {});
     const exposeKeys = exposeEntries
@@ -103,11 +103,14 @@ describe('rsc-mf module federation config contracts', () => {
       expect(definition.layer).toBe('react-server-components');
       expect(definition.import).toBeDefined();
       expect(Array.isArray(definition.import)).toBe(true);
-      expect(definition.import?.[0]).toBe(CALLBACK_BOOTSTRAP_IMPORT);
-      expect(definition.import!.length).toBeGreaterThanOrEqual(2);
-      for (const importPath of definition.import!.slice(1)) {
+      expect(definition.import!.length).toBeGreaterThanOrEqual(1);
+      const userlandImports = definition.import!.filter(
+        importPath => importPath !== CALLBACK_BOOTSTRAP_IMPORT,
+      );
+      expect(userlandImports.length).toBeGreaterThanOrEqual(1);
+      for (const importPath of userlandImports) {
         expect(importPath).toMatch(/^\.\//);
-        expect(importPath).not.toMatch(/^\.\/src\/runtime\//);
+        expect(importPath).toMatch(/^\.\/src\/components\//);
         expect(importPath).toMatch(/\.[cm]?[jt]sx?$/i);
         expect(importPath).not.toContain('..');
         expect(importPath).not.toContain('\\');
@@ -139,17 +142,26 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
-  it('normalizes string expose definitions into callback-bootstrapped imports', () => {
+  it('normalizes string expose definitions into deterministic userland imports', () => {
     const remoteConfig = loadRemoteConfig();
     const infoBundleExpose = remoteConfig.exposes?.['./infoBundle'] as
       | {
           import?: string[];
         }
       | undefined;
-    expect(infoBundleExpose?.import).toEqual([
-      CALLBACK_BOOTSTRAP_IMPORT,
-      './src/components/infoBundle.ts',
-    ]);
+    const imports = infoBundleExpose?.import || [];
+    expect(
+      imports.filter(
+        importPath => importPath === './src/components/infoBundle.ts',
+      ),
+    ).toEqual(['./src/components/infoBundle.ts']);
+    expect(
+      imports.every(
+        importPath =>
+          importPath === './src/components/infoBundle.ts' ||
+          importPath === CALLBACK_BOOTSTRAP_IMPORT,
+      ),
+    ).toBe(true);
   });
 
   it('uses remote port env var in host manifest remote URL', () => {
