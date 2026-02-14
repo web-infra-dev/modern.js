@@ -2,6 +2,7 @@
 import { useActionState, useState } from 'react';
 import './RemoteClientCounter.css';
 import { incrementRemoteCount, remoteActionEcho } from './actions';
+import { defaultRemoteAction } from './defaultAction';
 import { nestedRemoteAction } from './nestedActions';
 
 export function RemoteClientCounter() {
@@ -12,14 +13,18 @@ export function RemoteClientCounter() {
   );
   const [nestedResult, setNestedResult] = useState('');
   const [remoteActionResult, setRemoteActionResult] = useState('');
+  const [defaultActionResult, setDefaultActionResult] = useState('');
 
   const handleRunActions = async () => {
-    const [nestedResultValue, remoteActionValue] = await Promise.all([
-      nestedRemoteAction('from-client'),
-      remoteActionEcho('from-client'),
-    ]);
+    const [nestedResultValue, remoteActionValue, defaultActionValue] =
+      await Promise.all([
+        nestedRemoteAction('from-client'),
+        remoteActionEcho('from-client'),
+        defaultRemoteAction('from-client'),
+      ]);
     setNestedResult(nestedResultValue);
     setRemoteActionResult(remoteActionValue);
+    setDefaultActionResult(defaultActionValue);
   };
 
   return (
@@ -49,6 +54,9 @@ export function RemoteClientCounter() {
       </button>
       <p className="remote-client-nested-result">{nestedResult}</p>
       <p className="remote-client-remote-action-result">{remoteActionResult}</p>
+      <p className="remote-client-default-action-result">
+        {defaultActionResult}
+      </p>
     </div>
   );
 }

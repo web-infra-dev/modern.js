@@ -272,9 +272,13 @@ async function supportRemoteClientAndServerActions({
     const remoteAction = document.querySelector(
       '.host-remote-action-runner .remote-client-remote-action-result',
     );
+    const defaultAction = document.querySelector(
+      '.host-remote-action-runner .remote-client-default-action-result',
+    );
     return (
       nested?.textContent?.trim() === 'nested-action:from-client' &&
-      remoteAction?.textContent?.trim() === 'remote-action:from-client'
+      remoteAction?.textContent?.trim() === 'remote-action:from-client' &&
+      defaultAction?.textContent?.trim() === 'default-action:from-client'
     );
   });
 
