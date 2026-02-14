@@ -118,7 +118,14 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const hostProxyActionIds = await page.$eval('.host-proxy-action-ids', el =>
     el.textContent?.trim(),
   );
-  expect(hostProxyActionIds?.split(',').filter(Boolean).length).toBe(8);
+  const hostProxyActionIdList = hostProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostProxyActionIdList.length).toBe(8);
+  expect(new Set(hostProxyActionIdList).size).toBe(8);
+  expect(hostProxyActionIdList.every(id => /^[a-f0-9]{64,}$/i.test(id))).toBe(
+    true,
+  );
   const hostRemoteAsyncServerInfo = await page.$eval(
     '.remote-async-server-info',
     el => el.textContent?.trim(),
