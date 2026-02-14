@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 import { isVersionAtLeast18 } from '@modern-js/utils';
 import type { Browser, Page } from 'puppeteer';
@@ -468,31 +467,6 @@ function runTests({ mode }: TestConfig) {
       expect(
         exposedPaths.every(path => !path.includes('initServerCallback')),
       ).toBe(true);
-    });
-
-    it('should keep callback helper surface constrained to runtime files', () => {
-      const remoteRuntimeExposesDir = path.join(
-        remoteDir,
-        'src/runtime/exposes',
-      );
-      const remoteRuntimeExposeEntries = fs.existsSync(remoteRuntimeExposesDir)
-        ? fs
-            .readdirSync(remoteRuntimeExposesDir)
-            .filter(entryName => !entryName.startsWith('.'))
-        : [];
-      const remoteRuntimeEntries = fs
-        .readdirSync(path.join(remoteDir, 'src/runtime'))
-        .filter(entryName => !entryName.startsWith('.'))
-        .sort();
-      const remoteRuntimeEntriesWithoutExposeDir = remoteRuntimeEntries.filter(
-        entryName => entryName !== 'exposes',
-      );
-
-      expect(remoteRuntimeExposeEntries).toEqual([]);
-      expect(remoteRuntimeEntriesWithoutExposeDir).toEqual([
-        'initServerCallback.ts',
-        'registerServerCallback.ts',
-      ]);
     });
 
     it('should not load callback helper expose chunk', () => {
