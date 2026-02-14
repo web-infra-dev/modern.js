@@ -588,6 +588,34 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('re-registers callback when callback port changes', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3008/server-component-root',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'http://127.0.0.1:3010/server-component-root',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(2);
+
+    const callback = mockSetServerCallback.mock.calls[1]?.[0] as
+      | ServerCallback
+      | undefined;
+    expect(typeof callback).toBe('function');
+    await (callback as ServerCallback)('port-change-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://127.0.0.1:3010/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:port-change-action',
+        }),
+      }),
+    );
+  });
+
   it('trims alias before callback keying and action prefixing', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback(
