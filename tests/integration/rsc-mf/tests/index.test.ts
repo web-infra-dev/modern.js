@@ -442,6 +442,9 @@ function runTests({ mode }: TestConfig) {
         .map(item => item.path)
         .filter((path): path is string => Boolean(path));
       expect(exposedPaths).not.toContain('./registerServerCallback');
+      expect(
+        exposedPaths.every(path => !path.startsWith('./src/components/')),
+      ).toBe(true);
     });
 
     it('should keep callback runtime wiring out of component sources', () => {

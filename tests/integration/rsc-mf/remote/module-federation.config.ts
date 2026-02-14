@@ -22,8 +22,6 @@ const createRscExpose = (importPath: string) =>
 const RUNTIME_EXPOSE_PREFIX = './src/runtime/exposes/';
 const remoteExposeImports: Record<string, string> = {
   './RemoteClientCounter': './src/runtime/exposes/RemoteClientCounter.tsx',
-  './src/components/RemoteClientCounter.tsx':
-    './src/runtime/exposes/RemoteClientCounter.tsx',
   './RemoteClientBadge': './src/runtime/exposes/RemoteClientBadge.tsx',
   './RemoteServerCard': './src/runtime/exposes/RemoteServerCard.tsx',
   './RemoteServerDefault': './src/runtime/exposes/RemoteServerDefault.tsx',
