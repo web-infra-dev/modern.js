@@ -15,9 +15,20 @@ interface NormalizedExposeDefinition {
   importPaths: string[];
   exposeOverrides: Record<string, unknown>;
 }
-const getUniqueImportPaths = (importPaths: string[]) => [
-  ...new Set(importPaths),
-];
+const normalizeImportPaths = (exposeKey: string, importPaths: string[]) => {
+  const normalizedImportPaths = importPaths.map(importPath =>
+    importPath.trim(),
+  );
+  const hasEmptyImportPath = normalizedImportPaths.some(
+    importPath => importPath.length === 0,
+  );
+  if (hasEmptyImportPath) {
+    throw new Error(
+      `Remote expose import paths must be non-empty tokens after trimming. Invalid entry: ${exposeKey}`,
+    );
+  }
+  return [...new Set(normalizedImportPaths)];
+};
 
 if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
   throw new Error(
@@ -44,7 +55,7 @@ const normalizeExposeImportPaths = (
 ) => {
   if (typeof exposeDefinition === 'string') {
     return {
-      importPaths: [exposeDefinition],
+      importPaths: normalizeImportPaths(exposeKey, [exposeDefinition]),
       exposeOverrides: {},
     } satisfies NormalizedExposeDefinition;
   }
@@ -58,7 +69,7 @@ const normalizeExposeImportPaths = (
   const { import: exposeImport, ...exposeOverrides } = exposeDefinition;
   if (typeof exposeImport === 'string') {
     return {
-      importPaths: [exposeImport],
+      importPaths: normalizeImportPaths(exposeKey, [exposeImport]),
       exposeOverrides,
     } satisfies NormalizedExposeDefinition;
   }
@@ -68,7 +79,7 @@ const normalizeExposeImportPaths = (
     exposeImport.every(item => typeof item === 'string')
   ) {
     return {
-      importPaths: getUniqueImportPaths(exposeImport),
+      importPaths: normalizeImportPaths(exposeKey, exposeImport),
       exposeOverrides,
     } satisfies NormalizedExposeDefinition;
   }

@@ -22,7 +22,7 @@ describe('createRscExposeDefinitions', () => {
     const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
       loadCreateRscExposeDefinitions();
     const exposeDefinitions = createRscExposeDefinitions({
-      './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
+      './RemoteClientCounter': '  ./src/components/RemoteClientCounter.tsx  ',
       './actions': './src/components/actions.ts',
     });
 
@@ -194,6 +194,31 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('trims expose import path entries before deduping', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    const exposeDefinitions = createRscExposeDefinitions({
+      './infoBundle': {
+        import: [
+          '  ./src/components/infoBundle.ts  ',
+          './src/components/infoBundle.ts',
+          ' ./src/components/remoteMeta.ts ',
+        ],
+      },
+    });
+
+    expect(exposeDefinitions).toEqual({
+      './infoBundle': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/infoBundle.ts',
+          './src/components/remoteMeta.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('rejects object expose definitions with invalid import payloads', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(() =>
@@ -222,6 +247,16 @@ describe('createRscExposeDefinitions', () => {
       }),
     ).toThrow(
       'Remote expose import must be a non-empty string or string array.',
+    );
+
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': {
+          import: '   ',
+        },
+      }),
+    ).toThrow(
+      'Remote expose import paths must be non-empty tokens after trimming.',
     );
   });
 
