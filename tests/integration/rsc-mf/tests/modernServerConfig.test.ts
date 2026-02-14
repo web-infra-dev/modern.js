@@ -134,6 +134,40 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('proxied-js');
   });
 
+  it('strips transfer headers from proxied upstream responses', async () => {
+    const handler = getProxyMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    installFetchMock(async () => {
+      return new Response('proxied-with-transport-headers', {
+        status: 200,
+        headers: {
+          'content-type': 'application/javascript',
+          'content-length': '999',
+          'content-encoding': 'gzip',
+          'transfer-encoding': 'chunked',
+        },
+      });
+    });
+    const context: { req: { url: string }; res?: Response } = {
+      req: {
+        url: 'http://127.0.0.1:3007/static/js/async/__federation_expose_infoBundle.11dea89e81.js',
+      },
+    };
+
+    await withRemotePort('3999', () => handler(context, next));
+
+    expect(next).not.toHaveBeenCalled();
+    expect(context.res?.headers.get('content-type')).toBe(
+      'application/javascript',
+    );
+    expect(context.res?.headers.get('content-length')).toBeNull();
+    expect(context.res?.headers.get('content-encoding')).toBeNull();
+    expect(context.res?.headers.get('transfer-encoding')).toBeNull();
+    await expect(context.res?.text()).resolves.toBe(
+      'proxied-with-transport-headers',
+    );
+  });
+
   it('proxies federated async CSS expose chunks to remote origin', async () => {
     const handler = getProxyMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

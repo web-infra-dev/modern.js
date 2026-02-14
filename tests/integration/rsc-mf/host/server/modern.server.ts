@@ -99,6 +99,17 @@ const shouldProxyRemoteAsset = (pathname: string) => {
   return false;
 };
 
+const createProxyResponse = (upstream: Response) => {
+  const headers = new Headers(upstream.headers);
+  headers.delete('content-length');
+  headers.delete('content-encoding');
+  headers.delete('transfer-encoding');
+  return new Response(upstream.body, {
+    status: upstream.status,
+    headers,
+  });
+};
+
 const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
   const requestHeaders = c.req.headers;
   const isInternalFallbackFetch =
@@ -140,10 +151,7 @@ const proxyRemoteFederationAsset: MiddlewareHandler = async (c, next) => {
     return;
   }
 
-  c.res = new Response(await resolvedUpstream.arrayBuffer(), {
-    status: resolvedUpstream.status,
-    headers: resolvedUpstream.headers,
-  });
+  c.res = createProxyResponse(resolvedUpstream);
 };
 
 export default defineServerConfig({

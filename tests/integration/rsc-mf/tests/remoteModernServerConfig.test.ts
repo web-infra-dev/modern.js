@@ -146,6 +146,75 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('fallback-asset');
   });
 
+  it('strips transfer headers from recovered fallback responses', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              exposes: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'static/js/async/__federation_expose_RemoteServerCard.a1b2c3d4.js',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('fallback-with-transport-headers', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+              'content-length': '999',
+              'content-encoding': 'gzip',
+              'transfer-encoding': 'chunked',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteServerCard.js',
+      },
+    };
+
+    await handler(context, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(context.res?.headers.get('content-type')).toBe(
+      'application/javascript',
+    );
+    expect(context.res?.headers.get('content-length')).toBeNull();
+    expect(context.res?.headers.get('content-encoding')).toBeNull();
+    expect(context.res?.headers.get('transfer-encoding')).toBeNull();
+    await expect(context.res?.text()).resolves.toBe(
+      'fallback-with-transport-headers',
+    );
+  });
+
   it('recovers stale hashed expose asset path via remote manifest fallback', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);

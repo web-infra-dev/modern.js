@@ -13,6 +13,17 @@ import {
 
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
 
+const createProxyResponse = (upstream: Response) => {
+  const headers = new Headers(upstream.headers);
+  headers.delete('content-length');
+  headers.delete('content-encoding');
+  headers.delete('transfer-encoding');
+  return new Response(upstream.body, {
+    status: upstream.status,
+    headers,
+  });
+};
+
 const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
   c,
   next,
@@ -85,10 +96,7 @@ const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (
     return;
   }
 
-  c.res = new Response(await fallbackAssetResponse.arrayBuffer(), {
-    status: fallbackAssetResponse.status,
-    headers: fallbackAssetResponse.headers,
-  });
+  c.res = createProxyResponse(fallbackAssetResponse);
 };
 
 export default defineServerConfig({
