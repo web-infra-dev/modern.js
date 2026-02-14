@@ -567,6 +567,13 @@ function runTests({ mode }: TestConfig) {
         ),
       ).toBe(true);
       expect(
+        componentSources.every(
+          source =>
+            !source.includes('setServerCallback') &&
+            !source.includes('rsc-mf-react-server-dom-client-browser'),
+        ),
+      ).toBe(true);
+      expect(
         hostSourceTexts.every(
           source =>
             !source.includes('registerRemoteServerCallback') &&
@@ -590,6 +597,12 @@ function runTests({ mode }: TestConfig) {
         "from './registerServerCallback'",
       );
       expect(runtimeRegisterSource).toContain('setServerCallback');
+      expect(runtimeRegisterSource).toContain(
+        "from 'rsc-mf-react-server-dom-client-browser'",
+      );
+      expect(runtimeRegisterSource).not.toContain(
+        "from 'react-server-dom-rspack/client.browser'",
+      );
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
         "if (rawActionId.startsWith('remote:'))",
@@ -688,6 +701,9 @@ function runTests({ mode }: TestConfig) {
       expect(remoteModernConfigSource).not.toContain('chunkLoadingGlobal');
       expect(remoteModernConfigSource).toContain(
         'rsc-mf-react-server-dom-client-browser$',
+      );
+      expect(remoteModernConfigSource).toContain(
+        'react-server-dom-rspack/client.browser',
       );
       expect(remoteModernConfigSource).toContain('enableAsyncEntry: false');
       expect(remoteModernConfigSource).toContain("chain.target('async-node')");
