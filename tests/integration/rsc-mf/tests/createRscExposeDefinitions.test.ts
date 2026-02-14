@@ -49,14 +49,23 @@ describe('createRscExposeDefinitions', () => {
     );
   });
 
-  it('rejects expose imports outside component userland namespace', () => {
+  it('rejects expose imports outside source userland namespace', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': './app/components/RemoteClientCounter.tsx',
+      }),
+    ).toThrow('Remote exposes must point to userland source modules (./src/)');
+  });
+
+  it('rejects expose imports targeting internal runtime namespace', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(() =>
       createRscExposeDefinitions({
         './RemoteClientCounter': './src/runtime/helper.ts',
       }),
     ).toThrow(
-      'Remote exposes must point to component userland modules (./src/components/)',
+      'Remote exposes must not target internal runtime namespace (./src/runtime/)',
     );
   });
 

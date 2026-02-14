@@ -105,7 +105,8 @@ describe('rsc-mf module federation config contracts', () => {
       expect(Array.isArray(definition.import)).toBe(true);
       expect(definition.import).toHaveLength(2);
       expect(definition.import?.[0]).toBe(CALLBACK_BOOTSTRAP_IMPORT);
-      expect(definition.import?.[1]).toMatch(/^\.\/src\/components\//);
+      expect(definition.import?.[1]).toMatch(/^\.\/src\//);
+      expect(definition.import?.[1]).not.toMatch(/^\.\/src\/runtime\//);
       expect(definition.import?.[1]).toMatch(/\.[tj]sx?$/);
       expect(definition.import?.[1]).not.toContain('..');
       expect(definition.import?.[1]).not.toContain('\\');

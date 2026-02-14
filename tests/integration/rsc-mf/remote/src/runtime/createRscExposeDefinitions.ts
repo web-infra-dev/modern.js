@@ -1,6 +1,6 @@
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
-const COMPONENT_EXPOSE_PREFIX = './src/components/';
+const USERLAND_EXPOSE_PREFIX = './src/';
 
 if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
   throw new Error(
@@ -61,12 +61,24 @@ const assertValidExposeConfig = (
     );
   }
 
-  const nonComponentExposeEntries = Object.entries(remoteExposeImports).filter(
-    ([, importPath]) => !importPath.startsWith(COMPONENT_EXPOSE_PREFIX),
+  const nonUserlandExposeEntries = Object.entries(remoteExposeImports).filter(
+    ([, importPath]) => !importPath.startsWith(USERLAND_EXPOSE_PREFIX),
   );
-  if (nonComponentExposeEntries.length > 0) {
+  if (nonUserlandExposeEntries.length > 0) {
     throw new Error(
-      `Remote exposes must point to component userland modules (${COMPONENT_EXPOSE_PREFIX}). Invalid entries: ${nonComponentExposeEntries
+      `Remote exposes must point to userland source modules (${USERLAND_EXPOSE_PREFIX}). Invalid entries: ${nonUserlandExposeEntries
+        .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
+        .join(', ')}`,
+    );
+  }
+  const runtimeNamespaceExposeEntries = Object.entries(
+    remoteExposeImports,
+  ).filter(([, importPath]) =>
+    importPath.startsWith(CALLBACK_BOOTSTRAP_PREFIX),
+  );
+  if (runtimeNamespaceExposeEntries.length > 0) {
+    throw new Error(
+      `Remote exposes must not target internal runtime namespace (${CALLBACK_BOOTSTRAP_PREFIX}). Invalid entries: ${runtimeNamespaceExposeEntries
         .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
         .join(', ')}`,
     );
