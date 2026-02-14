@@ -838,8 +838,21 @@ function runTests({ mode }: TestConfig) {
       const defaultRequestCount = actionRequestIds.filter(id =>
         defaultProxyActionIdSet.has(id),
       ).length;
+      const actionRequestCountById = new Map<string, number>();
+      for (const actionId of actionRequestIds) {
+        actionRequestCountById.set(
+          actionId,
+          (actionRequestCountById.get(actionId) || 0) + 1,
+        );
+      }
       expect(actionFamilyProxyActionIdSet.size).toBe(hostProxyActionIdSet.size);
       expect(uniqueActionRequestIds.size).toBe(hostProxyMapKeyCount);
+      expect(actionRequestCountById.size).toBe(uniqueActionRequestIds.size);
+      expect(
+        [...actionRequestCountById.values()].every(
+          count => count === EXPECTED_ACTION_POSTS_PER_FAMILY,
+        ),
+      ).toBe(true);
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
       if (!usesDirectProxyIds || !usesBundledProxyIds) {
         expect(hostProxyMapCollisionCount).toBeGreaterThan(0);
