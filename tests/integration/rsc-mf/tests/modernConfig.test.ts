@@ -200,6 +200,7 @@ describe('rsc-mf modern config contracts', () => {
         port: 3007,
       }),
     );
+    expect(hostConfig.server).not.toHaveProperty('ssr');
     expect(hostConfig.source).toEqual(
       expect.objectContaining({
         enableAsyncEntry: false,

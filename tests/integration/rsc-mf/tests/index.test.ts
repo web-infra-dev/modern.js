@@ -115,6 +115,8 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   const response = await fetch(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`);
   const html = await response.text();
   expect(html).toContain('Host RSC Module Federation');
+  expect(html).toContain('__FLIGHT_DATA');
+  expect(html).not.toContain('window._SSR_DATA');
   expect(html).toContain('Remote Federated Tree');
   expect(html).toContain('remote-server-only-ok');
   expect(html).toContain('remote-server-only-default-ok');
