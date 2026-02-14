@@ -198,6 +198,21 @@ describe('manifest fallback shared helpers', () => {
     );
   });
 
+  it('lets request query params override manifest query params', () => {
+    const fallbackUrl = createManifestFallbackAssetUrl({
+      remoteOrigin: 'http://127.0.0.1:3999',
+      fallbackAssetPath:
+        'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?cache=manifest&v=1',
+      requestSearch: '?cache=request&x=2',
+      requestedAssetDirectory: 'static/js/async/',
+    });
+    expect(fallbackUrl).toBeDefined();
+    const parsedFallbackUrl = new URL(fallbackUrl!);
+    expect(parsedFallbackUrl.searchParams.get('cache')).toBe('request');
+    expect(parsedFallbackUrl.searchParams.get('v')).toBe('1');
+    expect(parsedFallbackUrl.searchParams.get('x')).toBe('2');
+  });
+
   it('rejects unsafe fallback URLs', () => {
     expect(
       createManifestFallbackAssetUrl({

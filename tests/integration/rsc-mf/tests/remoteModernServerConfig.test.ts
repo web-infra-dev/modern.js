@@ -670,6 +670,75 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     await expect(context.res?.text()).resolves.toBe('absolute-fallback-asset');
   });
 
+  it('lets request query params override manifest fallback query params', async () => {
+    const handler = getRecoverMiddlewareHandler();
+    const next = jest.fn(async (): Promise<void> => undefined);
+    const fetchMock = installFetchMock(
+      jest
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(
+            JSON.stringify({
+              shared: [
+                {
+                  assets: {
+                    js: {
+                      sync: [
+                        'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?cache=manifest&v=1',
+                      ],
+                      async: [],
+                    },
+                    css: {
+                      sync: [],
+                      async: [],
+                    },
+                  },
+                },
+              ],
+            }),
+            {
+              status: 200,
+              headers: {
+                'content-type': 'application/json',
+              },
+            },
+          ),
+        )
+        .mockResolvedValueOnce(
+          new Response('query-override-fallback-asset', {
+            status: 200,
+            headers: {
+              'content-type': 'application/javascript',
+            },
+          }),
+        ),
+    );
+    const context: {
+      req: { url: string; headers?: { get?: (name: string) => string | null } };
+      res?: Response;
+    } = {
+      req: {
+        url: 'http://127.0.0.1:3008/static/js/async/__federation_expose_RemoteClientCounter.js?cache=request&x=2',
+      },
+    };
+
+    await handler(context, next);
+
+    const fallbackCallUrl = fetchMock.mock.calls[1]?.[0] as string;
+    const parsedFallbackCallUrl = new URL(fallbackCallUrl);
+    expect(parsedFallbackCallUrl.origin).toBe('http://127.0.0.1:3008');
+    expect(parsedFallbackCallUrl.pathname).toBe(
+      '/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
+    );
+    expect(parsedFallbackCallUrl.searchParams.get('cache')).toBe('request');
+    expect(parsedFallbackCallUrl.searchParams.get('v')).toBe('1');
+    expect(parsedFallbackCallUrl.searchParams.get('x')).toBe('2');
+    expect(next).not.toHaveBeenCalled();
+    await expect(context.res?.text()).resolves.toBe(
+      'query-override-fallback-asset',
+    );
+  });
+
   it('falls through when fallback asset resolves to the same request url', async () => {
     const handler = getRecoverMiddlewareHandler();
     const next = jest.fn(async (): Promise<void> => undefined);
