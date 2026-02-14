@@ -236,6 +236,12 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(() =>
       registerRemoteServerCallback(
         'http://127.0.0.1:3008/server-component-root',
+        '   ',
+      ),
+    ).toThrow('Remote alias must be a non-empty token');
+    expect(() =>
+      registerRemoteServerCallback(
+        'http://127.0.0.1:3008/server-component-root',
         'bad alias',
       ),
     ).toThrow('Remote alias must be a non-empty token');
@@ -246,7 +252,19 @@ describe('registerRemoteServerCallback runtime behavior', () => {
       ),
     ).toThrow('Remote alias must be a non-empty token');
     expect(() =>
+      registerRemoteServerCallback(
+        'http://127.0.0.1:3008/server-component-root',
+        'bad/alias',
+      ),
+    ).toThrow('Remote alias must be a non-empty token');
+    expect(() =>
       registerRemoteServerCallback('javascript:alert(1)', 'rscRemote'),
+    ).toThrow('Remote action callback URL must use http or https');
+    expect(() =>
+      registerRemoteServerCallback(
+        'ftp://127.0.0.1:3008/server-component-root',
+        'rscRemote',
+      ),
     ).toThrow('Remote action callback URL must use http or https');
     expect(() =>
       registerRemoteServerCallback(
