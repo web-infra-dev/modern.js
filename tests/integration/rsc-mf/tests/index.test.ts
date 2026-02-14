@@ -518,6 +518,14 @@ function runTests({ mode }: TestConfig) {
         path.join(hostDir, 'module-federation.config.ts'),
         'utf-8',
       );
+      const hostModernConfigSource = fs.readFileSync(
+        path.join(hostDir, 'modern.config.ts'),
+        'utf-8',
+      );
+      const remoteModernConfigSource = fs.readFileSync(
+        path.join(remoteDir, 'modern.config.ts'),
+        'utf-8',
+      );
       const remoteExposeEntries = getRemoteExposeEntries(
         moduleFederationConfigSource,
       );
@@ -591,6 +599,12 @@ function runTests({ mode }: TestConfig) {
       );
       expect(hostModuleFederationConfigSource).not.toContain(
         'initServerCallback',
+      );
+      expect(hostModernConfigSource).not.toContain('preEntry');
+      expect(hostModernConfigSource).not.toContain('registerServerCallback');
+      expect(remoteModernConfigSource).not.toContain('chunkLoadingGlobal');
+      expect(remoteModernConfigSource).toContain(
+        'rsc-mf-react-server-dom-client-browser$',
       );
     });
 
