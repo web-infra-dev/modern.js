@@ -584,25 +584,36 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeInitSource).toContain('registerRemoteServerCallback');
       expect(runtimeInitSource).toContain('bootstrapServerCallback');
       expect(runtimeInitSource).toContain('callbackBootstrapPromise');
+      expect(runtimeInitSource).toContain("if (typeof window !== 'undefined')");
       expect(runtimeInitSource).toContain("import('./registerServerCallback')");
+      expect(runtimeInitSource).toContain('void bootstrapServerCallback()');
       expect(runtimeInitSource).toContain('window.location.origin');
       expect(runtimeInitSource).toContain('window.location.pathname');
       expect(runtimeInitSource).toContain('callbackBootstrapPromise.catch');
       expect(runtimeInitSource).toContain(
         'callbackBootstrapPromise = undefined',
       );
+      expect(runtimeInitSource).not.toContain('setServerCallback(');
       expect(runtimeInitSource).not.toContain('RSC_MF_REMOTE_PORT');
       expect(runtimeInitSource).not.toContain('127.0.0.1:');
       expect(runtimeInitSource).not.toContain(
         "from './registerServerCallback'",
       );
       expect(runtimeRegisterSource).toContain('setServerCallback');
+      expect(runtimeRegisterSource).toContain('createTemporaryReferenceSet');
+      expect(runtimeRegisterSource).toContain(
+        'encodeReply(args, { temporaryReferences })',
+      );
+      expect(runtimeRegisterSource).toContain(
+        'createFromFetch(response, { temporaryReferences })',
+      );
       expect(runtimeRegisterSource).toContain(
         "from 'rsc-mf-react-server-dom-client-browser'",
       );
       expect(runtimeRegisterSource).not.toContain(
         "from 'react-server-dom-rspack/client.browser'",
       );
+      expect(runtimeRegisterSource).not.toContain('window.location');
       expect(runtimeRegisterSource).toContain("remoteAlias = 'rscRemote'");
       expect(runtimeRegisterSource).toContain(
         "if (rawActionId.startsWith('remote:'))",
@@ -681,6 +692,7 @@ function runTests({ mode }: TestConfig) {
       expect(hostModuleFederationConfigSource).toContain(
         '/static/mf-manifest.json',
       );
+      expect(hostModuleFederationConfigSource).toContain('RSC_MF_REMOTE_PORT');
       expect(hostModuleFederationConfigSource).toContain('rscRemote:');
       expect(hostModuleFederationConfigSource).toContain('asyncStartup: true');
       expect(hostModuleFederationConfigSource).toContain('rsc: true');
