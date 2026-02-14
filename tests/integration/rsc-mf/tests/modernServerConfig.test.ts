@@ -1,3 +1,5 @@
+import { INTERNAL_FALLBACK_HEADER } from '../shared/manifestFallback';
+
 const HOST_SERVER_CONFIG_MODULE = '../host/server/modern.server';
 
 const withRemotePort = <T>(remotePort: string | undefined, run: () => T): T => {
@@ -63,6 +65,18 @@ const getProxyMiddlewareHandler = () => {
     c: { req: { url: string }; res?: Response },
     next: () => Promise<void>,
   ) => Promise<void>;
+};
+
+const expectInternalFallbackFetchCall = (
+  fetchMock: jest.Mock,
+  nthCall: number,
+  url: string,
+) => {
+  expect(fetchMock).toHaveBeenNthCalledWith(nthCall, url, {
+    headers: {
+      [INTERNAL_FALLBACK_HEADER]: '1',
+    },
+  });
 };
 
 describe('rsc-mf host modern.server middleware contracts', () => {
@@ -248,7 +262,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await withRemotePort('3999', () => handler(context, next));
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
@@ -271,7 +286,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
     await withRemotePort('3999', () => handler(context, next));
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
@@ -335,11 +351,13 @@ describe('rsc-mf host modern.server middleware contracts', () => {
       1,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteServerCard.js',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteServerCard.6e997e54ed.js',
     );
@@ -403,11 +421,13 @@ describe('rsc-mf host modern.server middleware contracts', () => {
       1,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.js',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js',
     );
@@ -471,11 +491,13 @@ describe('rsc-mf host modern.server middleware contracts', () => {
       1,
       'http://127.0.0.1:3999/static/css/async/__federation_expose_RemoteClientCounter.css',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/css/async/__federation_expose_RemoteClientCounter.9f773de2aa.css',
     );
@@ -532,7 +554,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
       1,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteServerCard.js',
     );
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       2,
       'http://127.0.0.1:3999/static/mf-manifest.json',
     );
@@ -643,7 +666,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
 
     await withRemotePort('3999', () => handler(context, next));
 
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?cache=1&v=2',
     );
@@ -703,7 +727,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
 
     await withRemotePort('3999', () => handler(context, next));
 
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteClientCounter.7745fe5f0a.js?manifest=1&cache=1',
     );
@@ -912,7 +937,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
 
     await withRemotePort('3999', () => handler(context, next));
 
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_RemoteServerCard.a1b2c3x9.js',
     );
@@ -974,7 +1000,8 @@ describe('rsc-mf host modern.server middleware contracts', () => {
 
     await withRemotePort('3999', () => handler(context, next));
 
-    expect(fetchMock).toHaveBeenNthCalledWith(
+    expectInternalFallbackFetchCall(
+      fetchMock,
       3,
       'http://127.0.0.1:3999/static/js/async/__federation_expose_nestedActions.a8ce95b11a.js',
     );

@@ -3,6 +3,7 @@ import {
   defineServerConfig,
 } from '@modern-js/server-runtime';
 import {
+  INTERNAL_FALLBACK_HEADER,
   type RemoteManifestShape,
   createManifestFallbackAssetUrl,
   getRequestedAssetDirectory,
@@ -27,7 +28,14 @@ const fetchRemoteManifestFallbackAsset = async ({
     return undefined;
   }
 
-  const manifestResponse = await fetch(`${remoteOrigin}${REMOTE_MANIFEST_PATH}`)
+  const manifestResponse = await fetch(
+    `${remoteOrigin}${REMOTE_MANIFEST_PATH}`,
+    {
+      headers: {
+        [INTERNAL_FALLBACK_HEADER]: '1',
+      },
+    },
+  )
     .then(response => {
       if (!response.ok) {
         return undefined;
@@ -64,9 +72,11 @@ const fetchRemoteManifestFallbackAsset = async ({
   if (!fallbackAssetUrl) {
     return undefined;
   }
-  const fallbackAssetResponse = await fetch(fallbackAssetUrl).catch(
-    (): undefined => undefined,
-  );
+  const fallbackAssetResponse = await fetch(fallbackAssetUrl, {
+    headers: {
+      [INTERNAL_FALLBACK_HEADER]: '1',
+    },
+  }).catch((): undefined => undefined);
   if (!fallbackAssetResponse || !fallbackAssetResponse.ok) {
     return undefined;
   }

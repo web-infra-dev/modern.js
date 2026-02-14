@@ -3,6 +3,7 @@ import {
   defineServerConfig,
 } from '@modern-js/server-runtime';
 import {
+  INTERNAL_FALLBACK_HEADER,
   type RemoteManifestShape,
   createManifestFallbackAssetUrl,
   getRequestedAssetDirectory,
@@ -10,7 +11,6 @@ import {
   resolveManifestFallbackAssetPath,
 } from '../../shared/manifestFallback';
 
-const INTERNAL_FALLBACK_HEADER = 'x-rsc-mf-internal-fallback';
 const REMOTE_MANIFEST_PATH = '/static/mf-manifest.json';
 
 const recoverRemoteExposeAssetMiddleware: MiddlewareHandler = async (

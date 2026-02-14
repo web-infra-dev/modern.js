@@ -1,4 +1,5 @@
 const EXPOSE_CHUNK_HASH_SUFFIX_PATTERN = /\.[a-z0-9]{6,}$/i;
+export const INTERNAL_FALLBACK_HEADER = 'x-rsc-mf-internal-fallback';
 
 export interface RemoteManifestAssetEntry {
   assets?: {

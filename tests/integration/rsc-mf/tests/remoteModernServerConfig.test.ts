@@ -1,5 +1,6 @@
+import { INTERNAL_FALLBACK_HEADER } from '../shared/manifestFallback';
+
 const REMOTE_SERVER_CONFIG_MODULE = '../remote/server/modern.server';
-const INTERNAL_FALLBACK_HEADER = 'x-rsc-mf-internal-fallback';
 
 const loadRemoteServerConfig = () => {
   jest.resetModules();
