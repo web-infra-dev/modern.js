@@ -341,6 +341,18 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
       hostBundledProxyActionIdList,
     ),
   ).toBe(1);
+  const familyProxyActionIdUnion = new Set([
+    ...hostIncrementProxyActionIdList,
+    ...hostEchoProxyActionIdList,
+    ...hostNestedProxyActionIdList,
+    ...hostDefaultProxyActionIdList,
+  ]);
+  expect(familyProxyActionIdUnion.size).toBe(hostProxyActionIdList.length);
+  expect(
+    hostProxyActionIdList.every(actionId =>
+      familyProxyActionIdUnion.has(actionId),
+    ),
+  ).toBe(true);
   const groupedProxyActionIdUnion = new Set([
     ...hostDirectProxyActionIdList,
     ...hostBundledProxyActionIdList,
@@ -788,6 +800,44 @@ function runTests({ mode }: TestConfig) {
         ...nestedProxyActionIdSet,
         ...defaultProxyActionIdSet,
       ]);
+      const getSetIntersectionSize = (left: Set<string>, right: Set<string>) =>
+        [...left].filter(id => right.has(id)).length;
+      expect(
+        getSetIntersectionSize(incrementProxyActionIdSet, echoProxyActionIdSet),
+      ).toBe(0);
+      expect(
+        getSetIntersectionSize(
+          incrementProxyActionIdSet,
+          nestedProxyActionIdSet,
+        ),
+      ).toBe(0);
+      expect(
+        getSetIntersectionSize(
+          incrementProxyActionIdSet,
+          defaultProxyActionIdSet,
+        ),
+      ).toBe(0);
+      expect(
+        getSetIntersectionSize(echoProxyActionIdSet, nestedProxyActionIdSet),
+      ).toBe(0);
+      expect(
+        getSetIntersectionSize(echoProxyActionIdSet, defaultProxyActionIdSet),
+      ).toBe(0);
+      expect(
+        getSetIntersectionSize(nestedProxyActionIdSet, defaultProxyActionIdSet),
+      ).toBe(0);
+      const incrementRequestCount = actionRequestIds.filter(id =>
+        incrementProxyActionIdSet.has(id),
+      ).length;
+      const echoRequestCount = actionRequestIds.filter(id =>
+        echoProxyActionIdSet.has(id),
+      ).length;
+      const nestedRequestCount = actionRequestIds.filter(id =>
+        nestedProxyActionIdSet.has(id),
+      ).length;
+      const defaultRequestCount = actionRequestIds.filter(id =>
+        defaultProxyActionIdSet.has(id),
+      ).length;
       expect(actionFamilyProxyActionIdSet.size).toBe(hostProxyActionIdSet.size);
       expect(uniqueActionRequestIds.size).toBe(hostProxyMapKeyCount);
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
@@ -806,6 +856,16 @@ function runTests({ mode }: TestConfig) {
       expect(actionRequestIds.some(id => defaultProxyActionIdSet.has(id))).toBe(
         true,
       );
+      expect(incrementRequestCount).toBeGreaterThanOrEqual(6);
+      expect(echoRequestCount).toBeGreaterThanOrEqual(6);
+      expect(nestedRequestCount).toBeGreaterThanOrEqual(6);
+      expect(defaultRequestCount).toBeGreaterThanOrEqual(6);
+      expect(
+        incrementRequestCount +
+          echoRequestCount +
+          nestedRequestCount +
+          defaultRequestCount,
+      ).toBe(actionRequestIds.length);
       expect(
         actionRequestIds.every(id => actionFamilyProxyActionIdSet.has(id)),
       ).toBe(true);
