@@ -1,6 +1,6 @@
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
-const USERLAND_EXPOSE_PREFIX = './src/';
+const USERLAND_EXPOSE_PREFIX = './';
 
 if (!CALLBACK_BOOTSTRAP_IMPORT.startsWith(CALLBACK_BOOTSTRAP_PREFIX)) {
   throw new Error(
@@ -66,7 +66,7 @@ const assertValidExposeConfig = (
   );
   if (nonUserlandExposeEntries.length > 0) {
     throw new Error(
-      `Remote exposes must point to userland source modules (${USERLAND_EXPOSE_PREFIX}). Invalid entries: ${nonUserlandExposeEntries
+      `Remote exposes must point to userland relative modules (${USERLAND_EXPOSE_PREFIX}). Invalid entries: ${nonUserlandExposeEntries
         .map(([exposeKey, importPath]) => `${exposeKey} -> ${importPath}`)
         .join(', ')}`,
     );

@@ -49,13 +49,31 @@ describe('createRscExposeDefinitions', () => {
     );
   });
 
-  it('rejects expose imports outside source userland namespace', () => {
-    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
-    expect(() =>
+  it('allows expose imports outside src root when path is relative', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
       createRscExposeDefinitions({
         './RemoteClientCounter': './app/components/RemoteClientCounter.tsx',
       }),
-    ).toThrow('Remote exposes must point to userland source modules (./src/)');
+    ).toEqual({
+      './RemoteClientCounter': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './app/components/RemoteClientCounter.tsx',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('rejects non-relative expose imports', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(() =>
+      createRscExposeDefinitions({
+        './RemoteClientCounter': '/abs/components/RemoteClientCounter.tsx',
+      }),
+    ).toThrow('Remote exposes must point to userland relative modules (./).');
   });
 
   it('rejects expose imports targeting internal runtime namespace', () => {
