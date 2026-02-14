@@ -367,6 +367,7 @@ function runTests({ mode }: TestConfig) {
     const runtimeErrors: string[] = [];
     const actionRequestUrls: string[] = [];
     const actionRequestIds: string[] = [];
+    const actionRequestAcceptHeaders: string[] = [];
     const registerCallbackExposeRequestUrls: string[] = [];
 
     if (skipForLowerNodeVersion()) {
@@ -430,6 +431,7 @@ function runTests({ mode }: TestConfig) {
         }
         actionRequestUrls.push(url);
         actionRequestIds.push(headers['x-rsc-action']);
+        actionRequestAcceptHeaders.push(headers.accept || '');
       });
     });
 
@@ -659,6 +661,7 @@ function runTests({ mode }: TestConfig) {
     it('should route remote actions through host endpoint', () => {
       expect(actionRequestUrls.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
       expect(actionRequestUrls.length).toBe(actionRequestIds.length);
+      expect(actionRequestUrls.length).toBe(actionRequestAcceptHeaders.length);
       const uniqueActionRequestUrls = Array.from(new Set(actionRequestUrls));
       expect(uniqueActionRequestUrls).toEqual([
         `http://127.0.0.1:${hostPort}${HOST_RSC_URL}`,
@@ -678,10 +681,16 @@ function runTests({ mode }: TestConfig) {
     it('should post bridge-prefixed action ids for remote actions', async () => {
       expect(actionRequestIds.length).toBe(EXPECTED_ACTION_POSTS_PER_MODE);
       expect(actionRequestIds.length).toBe(actionRequestUrls.length);
+      expect(actionRequestIds.length).toBe(actionRequestAcceptHeaders.length);
       const uniqueActionRequestIds = new Set(actionRequestIds);
       expect(
         actionRequestIds.every(id =>
           /^remote:rscRemote:[a-f0-9]{64,}$/i.test(id),
+        ),
+      ).toBe(true);
+      expect(
+        actionRequestAcceptHeaders.every(
+          acceptHeader => acceptHeader.toLowerCase() === 'text/x-component',
         ),
       ).toBe(true);
       expect(uniqueActionRequestIds.size).toBe(
