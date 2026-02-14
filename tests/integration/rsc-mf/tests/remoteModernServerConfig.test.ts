@@ -187,6 +187,12 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
               'content-type': 'application/javascript',
               'content-length': '999',
               'content-encoding': 'gzip',
+              connection: 'keep-alive, x-proxy-hop-header',
+              'keep-alive': 'timeout=5',
+              'x-proxy-hop-header': 'remove-me',
+              te: 'trailers',
+              trailer: 'x-trailer-a',
+              upgrade: 'websocket',
               'transfer-encoding': 'chunked',
             },
           }),
@@ -209,6 +215,12 @@ describe('rsc-mf remote modern.server middleware contracts', () => {
     );
     expect(context.res?.headers.get('content-length')).toBeNull();
     expect(context.res?.headers.get('content-encoding')).toBeNull();
+    expect(context.res?.headers.get('connection')).toBeNull();
+    expect(context.res?.headers.get('keep-alive')).toBeNull();
+    expect(context.res?.headers.get('x-proxy-hop-header')).toBeNull();
+    expect(context.res?.headers.get('te')).toBeNull();
+    expect(context.res?.headers.get('trailer')).toBeNull();
+    expect(context.res?.headers.get('upgrade')).toBeNull();
     expect(context.res?.headers.get('transfer-encoding')).toBeNull();
     await expect(context.res?.text()).resolves.toBe(
       'fallback-with-transport-headers',
