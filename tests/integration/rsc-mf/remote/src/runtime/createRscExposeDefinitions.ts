@@ -218,6 +218,20 @@ const collectLocalModuleSpecifiers = (
   const moduleSpecifiers: SourceModuleSpecifier[] = [];
 
   const collectNodeSpecifiers = (node: ts.Node): void => {
+    if (ts.isImportEqualsDeclaration(node)) {
+      if (
+        ts.isExternalModuleReference(node.moduleReference) &&
+        node.moduleReference.expression &&
+        ts.isStringLiteralLike(node.moduleReference.expression)
+      ) {
+        moduleSpecifiers.push({
+          moduleSpecifier: node.moduleReference.expression.text,
+          typeOnly: false,
+        });
+      }
+      return;
+    }
+
     if (ts.isImportDeclaration(node)) {
       if (ts.isStringLiteralLike(node.moduleSpecifier)) {
         moduleSpecifiers.push({

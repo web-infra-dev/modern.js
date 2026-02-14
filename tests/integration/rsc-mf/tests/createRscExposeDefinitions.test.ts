@@ -415,6 +415,25 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('infers callback bootstrap from import-equals commonjs require graph', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customImportEqualsActionRequire':
+          './src/components/importEqualsActionRequire.cts',
+      }),
+    ).toEqual({
+      './customImportEqualsActionRequire': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/importEqualsActionRequire.cts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('does not infer callback bootstrap from commonjs require graph without callback directives', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
@@ -455,6 +474,21 @@ describe('createRscExposeDefinitions', () => {
     ).toEqual({
       './customNamedTypeOnlyActionImport': {
         import: ['./src/components/namedTypeOnlyActionImport.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('does not infer callback bootstrap from import-type query references', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customImportTypeQueryActionReference':
+          './src/components/importTypeQueryActionReference.ts',
+      }),
+    ).toEqual({
+      './customImportTypeQueryActionReference': {
+        import: ['./src/components/importTypeQueryActionReference.ts'],
         layer: 'react-server-components',
       },
     });
