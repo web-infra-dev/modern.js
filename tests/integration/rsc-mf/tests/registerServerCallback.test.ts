@@ -487,6 +487,32 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('dedupes callback registrations when only default https port differs', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'https://example.com:443/server-component-root',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'https://example.com/server-component-root',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(1);
+
+    const callback = getRegisteredCallback();
+    await callback('default-https-port-normalized-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://example.com/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action':
+            'remote:rscRemote:default-https-port-normalized-action',
+        }),
+      }),
+    );
+  });
+
   it('dedupes root callback registrations for origin with and without slash', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008', 'rscRemote');
