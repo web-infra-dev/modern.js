@@ -9,6 +9,7 @@ let registeredCallbackKey = '';
 const ALIAS_TOKEN_PATTERN = /^[A-Za-z0-9_.-]+$/;
 const DEFAULT_REMOTE_ALIAS = 'rscRemote';
 const MAX_CALLBACK_FETCH_RETRIES = 1;
+const RETRYABLE_CALLBACK_STATUSES = new Set([429]);
 const getNormalizedRawActionId = (rawActionId: string) => {
   const normalizedRawActionId = rawActionId.trim();
   if (!normalizedRawActionId || /\s/.test(normalizedRawActionId)) {
@@ -52,6 +53,8 @@ const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
 };
 const getCallbackKey = (remoteAlias: string, remoteActionUrl: string) =>
   `${remoteAlias}::${remoteActionUrl}`;
+const isRetryableCallbackStatus = (status: number) =>
+  status >= 500 || RETRYABLE_CALLBACK_STATUSES.has(status);
 
 export function registerRemoteServerCallback(
   remoteOrigin: string,
@@ -112,7 +115,8 @@ export function registerRemoteServerCallback(
       }
 
       const shouldRetry =
-        response.status >= 500 && attempt < MAX_CALLBACK_FETCH_RETRIES;
+        isRetryableCallbackStatus(response.status) &&
+        attempt < MAX_CALLBACK_FETCH_RETRIES;
       if (shouldRetry) {
         response = undefined;
         continue;
