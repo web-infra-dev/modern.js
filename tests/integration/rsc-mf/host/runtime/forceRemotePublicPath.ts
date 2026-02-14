@@ -1,6 +1,5 @@
 import type { ModuleFederationRuntimePlugin } from '@module-federation/modern-js-v3';
 
-const TARGET_REMOTE_ALIAS = 'rscRemote';
 const SSR_BUNDLES_SEGMENT = '/bundles/';
 
 interface FederationRemoteConfig {
@@ -210,11 +209,17 @@ const forceRemotePublicPath = (): ModuleFederationRuntimePlugin => ({
   name: 'rsc-mf-force-remote-public-path',
   loadRemoteSnapshot(args: any) {
     const { remoteInfo, remoteSnapshot } = args;
-    if (remoteInfo?.alias !== TARGET_REMOTE_ALIAS || !remoteSnapshot) {
+    const remoteAlias =
+      typeof remoteInfo?.alias === 'string' && remoteInfo.alias
+        ? remoteInfo.alias
+        : typeof remoteInfo?.name === 'string' && remoteInfo.name
+          ? remoteInfo.name
+          : undefined;
+    if (!remoteAlias || !remoteSnapshot) {
       return args;
     }
     const { remotePublicPath, remoteSsrPublicPath } = resolveRemotePublicPaths({
-      remoteAlias: remoteInfo.alias,
+      remoteAlias,
       remoteEntry:
         typeof remoteInfo?.entry === 'string' ? remoteInfo.entry : undefined,
     });

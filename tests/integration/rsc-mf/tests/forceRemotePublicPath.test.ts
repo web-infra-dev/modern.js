@@ -25,11 +25,10 @@ describe('host forceRemotePublicPath runtime plugin', () => {
     expect(typeof plugin.loadRemoteSnapshot).toBe('function');
   });
 
-  it('does not mutate non-target remotes', () => {
+  it('does not mutate when remote alias and name are missing', () => {
     const plugin = forceRemotePublicPath();
     const args = {
       remoteInfo: {
-        alias: 'anotherRemote',
         entry: 'http://127.0.0.1:3008/static/mf-manifest.json',
       },
       remoteSnapshot: {
@@ -40,6 +39,36 @@ describe('host forceRemotePublicPath runtime plugin', () => {
     const result = plugin.loadRemoteSnapshot?.(args as any);
     expect(result).toBe(args);
     expect(args.remoteSnapshot.publicPath).toBe('http://example.com/');
+  });
+
+  it('supports remote names when alias is unavailable', () => {
+    const plugin = forceRemotePublicPath();
+    const args = {
+      remoteInfo: {
+        name: 'anotherRemote',
+        entry: 'https://another-remote.example.com/static/mf-manifest.json',
+      },
+      remoteSnapshot: {
+        publicPath: 'http://example.com/',
+        metaData: {
+          publicPath: 'http://example.com/',
+          ssrPublicPath: 'http://example.com/bundles/',
+        },
+      },
+    };
+
+    const result = plugin.loadRemoteSnapshot?.(args as any);
+
+    expect(result).toBe(args);
+    expect(args.remoteSnapshot.publicPath).toBe(
+      'https://another-remote.example.com/',
+    );
+    expect(args.remoteSnapshot.metaData.publicPath).toBe(
+      'https://another-remote.example.com/',
+    );
+    expect(args.remoteSnapshot.metaData.ssrPublicPath).toBe(
+      'https://another-remote.example.com/bundles/',
+    );
   });
 
   it('does not mutate when entry is missing or non-string', () => {
