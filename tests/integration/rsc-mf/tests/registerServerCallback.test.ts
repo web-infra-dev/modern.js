@@ -513,6 +513,31 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     );
   });
 
+  it('dedupes callback registrations when host casing differs', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback(
+      'HTTP://LOCALHOST:3008/server-component-root',
+      'rscRemote',
+    );
+    registerRemoteServerCallback(
+      'http://localhost:3008/server-component-root',
+      'rscRemote',
+    );
+    expect(mockSetServerCallback).toHaveBeenCalledTimes(1);
+
+    const callback = getRegisteredCallback();
+    await callback('host-casing-normalized-action', []);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:3008/server-component-root',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-rsc-action': 'remote:rscRemote:host-casing-normalized-action',
+        }),
+      }),
+    );
+  });
+
   it('dedupes root callback registrations for origin with and without slash', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008', 'rscRemote');
