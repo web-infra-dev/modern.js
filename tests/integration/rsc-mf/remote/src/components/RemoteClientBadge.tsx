@@ -1,7 +1,6 @@
 'use client';
 
 import 'client-only';
-import './initRemoteServerCallback';
 import { useState } from 'react';
 
 export default function RemoteClientBadge({
