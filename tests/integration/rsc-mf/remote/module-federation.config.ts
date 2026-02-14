@@ -14,6 +14,29 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
+const createRscExpose = (importPath: string) =>
+  ({
+    import: importPath,
+    layer: LAYERS.rsc,
+  }) as any;
+const remoteExposeImports: Record<string, string> = {
+  './RemoteClientCounter': './src/runtime/exposes/RemoteClientCounter.tsx',
+  './src/components/RemoteClientCounter.tsx':
+    './src/runtime/exposes/RemoteClientCounter.tsx',
+  './RemoteClientBadge': './src/runtime/exposes/RemoteClientBadge.tsx',
+  './RemoteServerCard': './src/runtime/exposes/RemoteServerCard.tsx',
+  './RemoteServerDefault': './src/runtime/exposes/RemoteServerDefault.tsx',
+  './AsyncRemoteServerInfo': './src/runtime/exposes/AsyncRemoteServerInfo.tsx',
+  './remoteServerOnly': './src/runtime/exposes/remoteServerOnly.ts',
+  './remoteServerOnlyDefault':
+    './src/runtime/exposes/remoteServerOnlyDefault.ts',
+  './remoteMeta': './src/runtime/exposes/remoteMeta.ts',
+  './actions': './src/runtime/exposes/actions.ts',
+  './nestedActions': './src/runtime/exposes/nestedActions.ts',
+  './defaultAction': './src/runtime/exposes/defaultAction.ts',
+  './actionBundle': './src/runtime/exposes/actionBundle.ts',
+  './infoBundle': './src/runtime/exposes/infoBundle.ts',
+};
 
 const sharedByScope = [
   {
@@ -106,64 +129,12 @@ export default createModuleFederationConfig({
     filePath: 'static',
   },
   filename: 'static/remoteEntry.js',
-  exposes: {
-    './RemoteClientCounter': {
-      import: './src/runtime/exposes/RemoteClientCounter.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './src/components/RemoteClientCounter.tsx': {
-      import: './src/runtime/exposes/RemoteClientCounter.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteClientBadge': {
-      import: './src/runtime/exposes/RemoteClientBadge.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteServerCard': {
-      import: './src/runtime/exposes/RemoteServerCard.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteServerDefault': {
-      import: './src/runtime/exposes/RemoteServerDefault.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './AsyncRemoteServerInfo': {
-      import: './src/runtime/exposes/AsyncRemoteServerInfo.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteServerOnly': {
-      import: './src/runtime/exposes/remoteServerOnly.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteServerOnlyDefault': {
-      import: './src/runtime/exposes/remoteServerOnlyDefault.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteMeta': {
-      import: './src/runtime/exposes/remoteMeta.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './actions': {
-      import: './src/runtime/exposes/actions.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './nestedActions': {
-      import: './src/runtime/exposes/nestedActions.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './defaultAction': {
-      import: './src/runtime/exposes/defaultAction.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './actionBundle': {
-      import: './src/runtime/exposes/actionBundle.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './infoBundle': {
-      import: './src/runtime/exposes/infoBundle.ts',
-      layer: LAYERS.rsc,
-    } as any,
-  },
+  exposes: Object.fromEntries(
+    Object.entries(remoteExposeImports).map(([exposeKey, importPath]) => [
+      exposeKey,
+      createRscExpose(importPath),
+    ]),
+  ) as any,
   shared: sharedByScope as any,
   dts: false,
   experiments: {
