@@ -19,6 +19,7 @@ const EXPECTED_REMOTE_EXPOSE_KEYS = [
 ].sort();
 
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
+const EXPECTED_SHARED_SCOPES = ['default', 'ssr', 'rsc'];
 
 const withEnv = <T>(
   env: Partial<Record<'NODE_ENV' | 'RSC_MF_REMOTE_PORT', string>>,
@@ -118,15 +119,15 @@ describe('rsc-mf module federation config contracts', () => {
       Record<string, { shareScope?: string }>
     >;
 
-    expect(sharedScopes).toHaveLength(3);
-    expect(sharedScopes[0]?.react?.shareScope).toBe('default');
-    expect(sharedScopes[1]?.react?.shareScope).toBe('ssr');
-    expect(sharedScopes[2]?.react?.shareScope).toBe('rsc');
+    expect(sharedScopes).toHaveLength(EXPECTED_SHARED_SCOPES.length);
+    expect(sharedScopes.map(scope => scope.react?.shareScope)).toEqual(
+      EXPECTED_SHARED_SCOPES,
+    );
     expect(
       sharedScopes.map(
         scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
       ),
-    ).toEqual(['default', 'ssr', 'rsc']);
+    ).toEqual(EXPECTED_SHARED_SCOPES);
     expect(remoteConfig.experiments).toEqual(
       expect.objectContaining({
         asyncStartup: true,
@@ -186,5 +187,25 @@ describe('rsc-mf module federation config contracts', () => {
         rsc: true,
       }),
     );
+  });
+
+  it('keeps host shared scopes aligned for rsc runtime compatibility', () => {
+    const hostConfig = loadHostConfig({
+      nodeEnv: 'test',
+      remotePort: '3008',
+    });
+    const sharedScopes = hostConfig.shared as Array<
+      Record<string, { shareScope?: string }>
+    >;
+
+    expect(sharedScopes).toHaveLength(EXPECTED_SHARED_SCOPES.length);
+    expect(sharedScopes.map(scope => scope.react?.shareScope)).toEqual(
+      EXPECTED_SHARED_SCOPES,
+    );
+    expect(
+      sharedScopes.map(
+        scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
+      ),
+    ).toEqual(EXPECTED_SHARED_SCOPES);
   });
 });
