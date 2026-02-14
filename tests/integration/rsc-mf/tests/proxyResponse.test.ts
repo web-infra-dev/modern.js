@@ -63,4 +63,22 @@ describe('rsc-mf proxy response helper', () => {
     );
     expect(proxied.headers.get('etag')).toBe('"abc123"');
   });
+
+  it('normalizes mixed-case quoted connection tokens', () => {
+    const upstream = new Response('ok', {
+      status: 200,
+      headers: {
+        connection: '"X-Mixed-Hop-Header", Keep-Alive',
+        'x-mixed-hop-header': 'remove-me',
+        'Keep-Alive': 'timeout=5',
+        'x-safe-header': 'preserve-me',
+      },
+    });
+
+    const proxied = createSafeProxyResponse(upstream);
+
+    expect(proxied.headers.get('x-mixed-hop-header')).toBeNull();
+    expect(proxied.headers.get('keep-alive')).toBeNull();
+    expect(proxied.headers.get('x-safe-header')).toBe('preserve-me');
+  });
 });
