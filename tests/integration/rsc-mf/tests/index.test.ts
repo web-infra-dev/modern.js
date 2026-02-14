@@ -589,6 +589,8 @@ function runTests({ mode }: TestConfig) {
       expect(moduleFederationConfigSource).toContain(
         'nonComponentExposeEntries',
       );
+      expect(moduleFederationConfigSource).toContain('invalidExposeKeys');
+      expect(moduleFederationConfigSource).toContain('callbackExposeEntries');
       expect(moduleFederationConfigSource).toContain("shareScope: 'default'");
       expect(moduleFederationConfigSource).toContain("shareScope: 'ssr'");
       expect(moduleFederationConfigSource).toContain("shareScope: 'rsc'");
