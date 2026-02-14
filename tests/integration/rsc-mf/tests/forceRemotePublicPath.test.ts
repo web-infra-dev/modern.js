@@ -1,6 +1,24 @@
 import forceRemotePublicPath from '../host/runtime/forceRemotePublicPath';
 
 describe('host forceRemotePublicPath runtime plugin', () => {
+  const originalFederation = (
+    globalThis as typeof globalThis & { __FEDERATION__?: unknown }
+  ).__FEDERATION__;
+
+  afterEach(() => {
+    if (typeof originalFederation === 'undefined') {
+      delete (globalThis as typeof globalThis & { __FEDERATION__?: unknown })
+        .__FEDERATION__;
+      return;
+    }
+
+    (
+      globalThis as typeof globalThis & {
+        __FEDERATION__?: unknown;
+      }
+    ).__FEDERATION__ = originalFederation;
+  });
+
   it('keeps plugin name stable', () => {
     const plugin = forceRemotePublicPath();
     expect(plugin.name).toBe('rsc-mf-force-remote-public-path');
@@ -52,6 +70,94 @@ describe('host forceRemotePublicPath runtime plugin', () => {
     );
     expect(argsWithNonStringEntry.remoteSnapshot.publicPath).toBe(
       'http://example.com/',
+    );
+  });
+
+  it('resolves remote public paths from __FEDERATION__ remotes when entry is missing', () => {
+    (
+      globalThis as typeof globalThis & {
+        __FEDERATION__?: unknown;
+      }
+    ).__FEDERATION__ = {
+      __INSTANCES__: [
+        {
+          options: {
+            remotes: {
+              rscRemote:
+                'rscRemote@https://federation-runtime.example.com/static/mf-manifest.json',
+            },
+          },
+        },
+      ],
+    } as any;
+    const plugin = forceRemotePublicPath();
+    const args = {
+      remoteInfo: {
+        alias: 'rscRemote',
+      },
+      remoteSnapshot: {
+        publicPath: 'http://stale.example.com/',
+        metaData: {
+          publicPath: 'http://stale.example.com/',
+          ssrPublicPath: 'http://stale.example.com/bundles/',
+        },
+      },
+    };
+
+    plugin.loadRemoteSnapshot?.(args as any);
+
+    expect(args.remoteSnapshot.publicPath).toBe(
+      'https://federation-runtime.example.com/',
+    );
+    expect(args.remoteSnapshot.metaData.publicPath).toBe(
+      'https://federation-runtime.example.com/',
+    );
+    expect(args.remoteSnapshot.metaData.ssrPublicPath).toBe(
+      'https://federation-runtime.example.com/bundles/',
+    );
+  });
+
+  it('resolves remote public paths from __FEDERATION__ module metadata fallback', () => {
+    (
+      globalThis as typeof globalThis & {
+        __FEDERATION__?: unknown;
+      }
+    ).__FEDERATION__ = {
+      moduleInfo: {
+        rscRemote: {
+          metaData: {
+            publicPath:
+              'https://federation-metadata.example.com/assets?cache=1#hash',
+            ssrPublicPath:
+              'https://federation-metadata.example.com/assets/bundles?cache=1#hash',
+          },
+        },
+      },
+    } as any;
+    const plugin = forceRemotePublicPath();
+    const args = {
+      remoteInfo: {
+        alias: 'rscRemote',
+      },
+      remoteSnapshot: {
+        publicPath: 'http://stale.example.com/',
+        metaData: {
+          publicPath: 'http://stale.example.com/',
+          ssrPublicPath: 'http://stale.example.com/bundles/',
+        },
+      },
+    };
+
+    plugin.loadRemoteSnapshot?.(args as any);
+
+    expect(args.remoteSnapshot.publicPath).toBe(
+      'https://federation-metadata.example.com/assets/',
+    );
+    expect(args.remoteSnapshot.metaData.publicPath).toBe(
+      'https://federation-metadata.example.com/assets/',
+    );
+    expect(args.remoteSnapshot.metaData.ssrPublicPath).toBe(
+      'https://federation-metadata.example.com/assets/bundles/',
     );
   });
 
