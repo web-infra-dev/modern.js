@@ -206,6 +206,8 @@ const collectLocalModuleSpecifiers = (
   filePath: string,
   sourceText: string,
 ): SourceModuleSpecifier[] => {
+  // Parse with TypeScript AST to avoid regex false positives from comments/string
+  // literals and to preserve accurate type-only vs runtime edge semantics.
   const sourceFile = ts.createSourceFile(
     filePath,
     sourceText,

@@ -596,6 +596,36 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from comment-only callback-like syntax', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customCommentedActionReference':
+          './src/components/commentedActionReference.ts',
+      }),
+    ).toEqual({
+      './customCommentedActionReference': {
+        import: ['./src/components/commentedActionReference.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('does not infer callback bootstrap from callback-like string literals', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customStringLiteralActionReference':
+          './src/components/stringLiteralActionReference.ts',
+      }),
+    ).toEqual({
+      './customStringLiteralActionReference': {
+        import: ['./src/components/stringLiteralActionReference.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('keeps non-callback source modules free of callback bootstrap import', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
