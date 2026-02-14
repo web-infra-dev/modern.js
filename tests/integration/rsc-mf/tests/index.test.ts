@@ -74,6 +74,10 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-proxy-action-ids');
   expect(html).toContain('host-direct-proxy-action-ids');
   expect(html).toContain('host-bundled-proxy-action-ids');
+  expect(html).toContain('host-increment-proxy-action-ids');
+  expect(html).toContain('host-echo-proxy-action-ids');
+  expect(html).toContain('host-nested-proxy-action-ids');
+  expect(html).toContain('host-default-proxy-action-ids');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
     waitUntil: ['networkidle0', 'domcontentloaded'],
@@ -201,6 +205,38 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
     ?.split(',')
     .filter(Boolean) as string[];
   expect(hostBundledProxyActionIdList.length).toBe(4);
+  const hostIncrementProxyActionIds = await page.$eval(
+    '.host-increment-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostIncrementProxyActionIdList = hostIncrementProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostIncrementProxyActionIdList.length).toBeGreaterThan(0);
+  const hostEchoProxyActionIds = await page.$eval(
+    '.host-echo-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostEchoProxyActionIdList = hostEchoProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostEchoProxyActionIdList.length).toBeGreaterThan(0);
+  const hostNestedProxyActionIds = await page.$eval(
+    '.host-nested-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostNestedProxyActionIdList = hostNestedProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostNestedProxyActionIdList.length).toBeGreaterThan(0);
+  const hostDefaultProxyActionIds = await page.$eval(
+    '.host-default-proxy-action-ids',
+    el => el.textContent?.trim(),
+  );
+  const hostDefaultProxyActionIdList = hostDefaultProxyActionIds
+    ?.split(',')
+    .filter(Boolean) as string[];
+  expect(hostDefaultProxyActionIdList.length).toBeGreaterThan(0);
   const groupedProxyActionIdUnion = new Set([
     ...hostDirectProxyActionIdList,
     ...hostBundledProxyActionIdList,
@@ -515,10 +551,62 @@ function runTests({ mode }: TestConfig) {
       const usesBundledProxyIds = actionRequestIds.some(id =>
         bundledProxyActionIdSet.has(id),
       );
+      const incrementProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-increment-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      const echoProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-echo-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      const nestedProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-nested-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
+      const defaultProxyActionIdSet = new Set(
+        (
+          await page.$eval(
+            '.host-default-proxy-action-ids',
+            el => el.textContent || '',
+          )
+        )
+          .split(',')
+          .filter(Boolean),
+      );
       expect(usesDirectProxyIds || usesBundledProxyIds).toBe(true);
       if (!usesDirectProxyIds || !usesBundledProxyIds) {
         expect(hostProxyMapCollisionCount).toBeGreaterThan(0);
       }
+      expect(
+        actionRequestIds.some(id => incrementProxyActionIdSet.has(id)),
+      ).toBe(true);
+      expect(actionRequestIds.some(id => echoProxyActionIdSet.has(id))).toBe(
+        true,
+      );
+      expect(actionRequestIds.some(id => nestedProxyActionIdSet.has(id))).toBe(
+        true,
+      );
+      expect(actionRequestIds.some(id => defaultProxyActionIdSet.has(id))).toBe(
+        true,
+      );
       expect(
         actionRequestIds.every(
           id =>

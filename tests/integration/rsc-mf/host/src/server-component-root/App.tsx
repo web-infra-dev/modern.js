@@ -56,6 +56,34 @@ const App = () => {
     new Set(hostProxyActionIds),
   ).sort();
   const uniqueHostProxyActionIdsCount = uniqueHostProxyActionIds.length;
+  const incrementProxyActionIds = Array.from(
+    new Set(
+      [proxyIncrementRemoteCount, proxyBundledIncrementRemoteCount]
+        .map(action => getServerActionId(action))
+        .filter((actionId): actionId is string => Boolean(actionId)),
+    ),
+  ).sort();
+  const echoProxyActionIds = Array.from(
+    new Set(
+      [proxyRemoteActionEcho, proxyBundledRemoteActionEcho]
+        .map(action => getServerActionId(action))
+        .filter((actionId): actionId is string => Boolean(actionId)),
+    ),
+  ).sort();
+  const nestedProxyActionIds = Array.from(
+    new Set(
+      [proxyNestedRemoteAction, proxyBundledNestedRemoteAction]
+        .map(action => getServerActionId(action))
+        .filter((actionId): actionId is string => Boolean(actionId)),
+    ),
+  ).sort();
+  const defaultProxyActionIds = Array.from(
+    new Set(
+      [proxyDefaultRemoteAction, proxyBundledDefaultRemoteAction]
+        .map(action => getServerActionId(action))
+        .filter((actionId): actionId is string => Boolean(actionId)),
+    ),
+  ).sort();
 
   // Map remote action IDs to host-local proxy action IDs so client-side
   // callbacks can always post a host-resolvable action id. This keeps
@@ -176,6 +204,18 @@ const App = () => {
       </p>
       <p className="host-bundled-proxy-action-ids">
         {bundledHostProxyActionIds.join(',')}
+      </p>
+      <p className="host-increment-proxy-action-ids">
+        {incrementProxyActionIds.join(',')}
+      </p>
+      <p className="host-echo-proxy-action-ids">
+        {echoProxyActionIds.join(',')}
+      </p>
+      <p className="host-nested-proxy-action-ids">
+        {nestedProxyActionIds.join(',')}
+      </p>
+      <p className="host-default-proxy-action-ids">
+        {defaultProxyActionIds.join(',')}
       </p>
       <Suspense fallback={<div>Loading Remote Async Server Info...</div>}>
         <AsyncRemoteServerInfo />
