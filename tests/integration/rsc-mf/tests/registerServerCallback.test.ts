@@ -105,6 +105,55 @@ describe('registerRemoteServerCallback runtime behavior', () => {
     expect(mockCreateFromFetch).not.toHaveBeenCalled();
   });
 
+  it('retries once when callback fetch returns retryable 5xx response', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        statusText: 'Service Unavailable',
+      } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        statusText: 'OK',
+      } as Response);
+
+    const callback = getRegisteredCallback();
+    await expect(
+      callback('fetch-retry-5xx-action', ['arg-1']),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        type: 'decoded-rsc-response',
+      }),
+    );
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(mockCreateFromFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not retry callback fetch for non-retryable 4xx response', async () => {
+    const { registerRemoteServerCallback } = await importRegisterHelper();
+    registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
+    global.fetch = jest.fn(async () => {
+      return {
+        ok: false,
+        status: 400,
+        statusText: 'Bad Request',
+      } as Response;
+    });
+
+    const callback = getRegisteredCallback();
+    await expect(
+      callback('fetch-non-retryable-action', ['arg-1']),
+    ).rejects.toThrow(
+      'Remote action callback request failed with status 400 Bad Request (http://127.0.0.1:3008/server-component-root).',
+    );
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(mockCreateFromFetch).not.toHaveBeenCalled();
+  });
+
   it('retries once when callback fetch throws and succeeds on retry', async () => {
     const { registerRemoteServerCallback } = await importRegisterHelper();
     registerRemoteServerCallback('http://127.0.0.1:3008/server-component-root');
