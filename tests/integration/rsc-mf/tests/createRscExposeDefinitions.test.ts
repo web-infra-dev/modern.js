@@ -441,6 +441,21 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from export type * re-export clauses', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customExportTypeAllActionBridge':
+          './src/components/exportTypeAllActionBridge.ts',
+      }),
+    ).toEqual({
+      './customExportTypeAllActionBridge': {
+        import: ['./src/components/exportTypeAllActionBridge.ts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('infers callback bootstrap when import clause includes runtime bindings', () => {
     const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
       loadCreateRscExposeDefinitions();
@@ -454,6 +469,25 @@ describe('createRscExposeDefinitions', () => {
         import: [
           CALLBACK_BOOTSTRAP_MODULE,
           './src/components/mixedTypeValueActionImport.ts',
+        ],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
+  it('infers callback bootstrap from export namespace runtime bindings', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customExportNamespaceActionBridge':
+          './src/components/exportNamespaceActionBridge.ts',
+      }),
+    ).toEqual({
+      './customExportNamespaceActionBridge': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/exportNamespaceActionBridge.ts',
         ],
         layer: 'react-server-components',
       },
