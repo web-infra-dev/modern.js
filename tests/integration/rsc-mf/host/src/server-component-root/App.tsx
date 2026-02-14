@@ -42,41 +42,45 @@ const App = () => {
   // Map remote action IDs to host-local proxy action IDs so client-side
   // callbacks can always post a host-resolvable action id. This keeps
   // remote action execution in-process on the host via proxy imports.
-  const remoteActionIdToHostProxyActionId = Object.fromEntries(
+  const remoteActionIdToHostProxyActionEntries = [
     [
-      [
-        getServerActionId(incrementRemoteCount),
-        getServerActionId(proxyIncrementRemoteCount),
-      ],
-      [
-        getServerActionId(remoteActionEcho),
-        getServerActionId(proxyRemoteActionEcho),
-      ],
-      [
-        getServerActionId(nestedRemoteAction),
-        getServerActionId(proxyNestedRemoteAction),
-      ],
-      [
-        getServerActionId(defaultRemoteAction),
-        getServerActionId(proxyDefaultRemoteAction),
-      ],
-      [
-        getServerActionId(remoteActionBundle.bundledIncrementRemoteCount),
-        getServerActionId(proxyBundledIncrementRemoteCount),
-      ],
-      [
-        getServerActionId(remoteActionBundle.bundledRemoteActionEcho),
-        getServerActionId(proxyBundledRemoteActionEcho),
-      ],
-      [
-        getServerActionId(remoteActionBundle.bundledNestedRemoteAction),
-        getServerActionId(proxyBundledNestedRemoteAction),
-      ],
-      [
-        getServerActionId(remoteActionBundle.bundledDefaultRemoteAction),
-        getServerActionId(proxyBundledDefaultRemoteAction),
-      ],
-    ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1])),
+      getServerActionId(incrementRemoteCount),
+      getServerActionId(proxyIncrementRemoteCount),
+    ],
+    [
+      getServerActionId(remoteActionEcho),
+      getServerActionId(proxyRemoteActionEcho),
+    ],
+    [
+      getServerActionId(nestedRemoteAction),
+      getServerActionId(proxyNestedRemoteAction),
+    ],
+    [
+      getServerActionId(defaultRemoteAction),
+      getServerActionId(proxyDefaultRemoteAction),
+    ],
+    [
+      getServerActionId(remoteActionBundle.bundledIncrementRemoteCount),
+      getServerActionId(proxyBundledIncrementRemoteCount),
+    ],
+    [
+      getServerActionId(remoteActionBundle.bundledRemoteActionEcho),
+      getServerActionId(proxyBundledRemoteActionEcho),
+    ],
+    [
+      getServerActionId(remoteActionBundle.bundledNestedRemoteAction),
+      getServerActionId(proxyBundledNestedRemoteAction),
+    ],
+    [
+      getServerActionId(remoteActionBundle.bundledDefaultRemoteAction),
+      getServerActionId(proxyBundledDefaultRemoteAction),
+    ],
+  ].filter((pair): pair is [string, string] => Boolean(pair[0] && pair[1]));
+  const remoteActionIdToHostProxyActionId = Object.fromEntries(
+    remoteActionIdToHostProxyActionEntries,
+  );
+  const remoteActionIdMapKey = JSON.stringify(
+    remoteActionIdToHostProxyActionEntries,
   );
 
   const remoteServerOnlyInfo = getServerOnlyInfo();
@@ -126,6 +130,7 @@ const App = () => {
         <form action={proxyBundledDefaultRemoteAction} />
       </div>
       <HostRemoteActionRunner
+        remoteActionIdMapKey={remoteActionIdMapKey}
         remoteActionIdToHostProxyActionId={remoteActionIdToHostProxyActionId}
       />
     </div>

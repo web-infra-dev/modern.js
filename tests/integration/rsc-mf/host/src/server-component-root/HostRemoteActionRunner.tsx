@@ -9,8 +9,10 @@ import { defaultRemoteAction } from 'rscRemote/defaultAction';
 import { registerRemoteServerCallback } from 'rscRemote/registerServerCallback';
 
 export default function HostRemoteActionRunner({
+  remoteActionIdMapKey,
   remoteActionIdToHostProxyActionId,
 }: {
+  remoteActionIdMapKey: string;
   remoteActionIdToHostProxyActionId: Record<string, string>;
 }) {
   // Keep this import in the client graph so federated RSC bridge IDs
@@ -32,7 +34,7 @@ export default function HostRemoteActionRunner({
       'rscRemote',
       remoteActionIdToHostProxyActionId,
     );
-  }, [JSON.stringify(remoteActionIdToHostProxyActionId)]);
+  }, [remoteActionIdMapKey]);
 
   const runActions = async () => {
     setIsPending(true);
