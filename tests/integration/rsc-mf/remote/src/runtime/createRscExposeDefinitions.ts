@@ -3,6 +3,10 @@ const CALLBACK_BOOTSTRAP_PREFIX = './src/runtime/';
 const USERLAND_EXPOSE_PREFIX = './';
 const SOURCE_ENTRY_EXTENSION_PATTERN = /\.[cm]?[jt]sx?$/i;
 const RSC_LAYER = 'react-server-components';
+const CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN =
+  /^\.\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)$/;
+const CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN =
+  /\/(?:RemoteClient[\w-]*|actions|nestedActions|defaultAction|actionBundle)\.[cm]?[jt]sx?$/;
 
 type ExposeImportInput = string | string[];
 export type ExposeDefinitionInput =
@@ -102,12 +106,24 @@ const normalizeExposeImportPaths = (
 const createRscExpose = (
   importPaths: string[],
   exposeOverrides: Record<string, unknown>,
+  includeCallbackBootstrap: boolean,
 ) =>
   ({
     ...exposeOverrides,
-    import: [CALLBACK_BOOTSTRAP_IMPORT, ...importPaths],
+    import: includeCallbackBootstrap
+      ? [CALLBACK_BOOTSTRAP_IMPORT, ...importPaths]
+      : importPaths,
     layer: RSC_LAYER,
   }) as const;
+
+const shouldInjectCallbackBootstrap = (
+  exposeKey: string,
+  importPaths: string[],
+) =>
+  CALLBACK_BOOTSTRAP_EXPOSE_KEY_PATTERN.test(exposeKey) ||
+  importPaths.some(importPath =>
+    CALLBACK_BOOTSTRAP_IMPORT_PATH_PATTERN.test(importPath),
+  );
 
 const assertValidExposeConfig = (
   normalizedExposeImportPaths: NormalizedExposeImportPaths,
@@ -231,6 +247,10 @@ export const createRscExposeDefinitions = (
       createRscExpose(
         normalizedDefinition.importPaths,
         normalizedDefinition.exposeOverrides,
+        shouldInjectCallbackBootstrap(
+          exposeKey,
+          normalizedDefinition.importPaths,
+        ),
       ),
     ]),
   );

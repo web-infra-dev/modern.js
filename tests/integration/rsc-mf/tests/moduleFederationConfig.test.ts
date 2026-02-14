@@ -155,13 +155,7 @@ describe('rsc-mf module federation config contracts', () => {
         importPath => importPath === './src/components/infoBundle.ts',
       ),
     ).toEqual(['./src/components/infoBundle.ts']);
-    expect(
-      imports.every(
-        importPath =>
-          importPath === './src/components/infoBundle.ts' ||
-          importPath === CALLBACK_BOOTSTRAP_IMPORT,
-      ),
-    ).toBe(true);
+    expect(imports).toEqual(['./src/components/infoBundle.ts']);
   });
 
   it('uses remote port env var in host manifest remote URL', () => {

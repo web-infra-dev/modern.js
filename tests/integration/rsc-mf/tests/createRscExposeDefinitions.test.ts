@@ -102,8 +102,7 @@ describe('createRscExposeDefinitions', () => {
   });
 
   it('allows cts and mts expose entry extensions', () => {
-    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
-      loadCreateRscExposeDefinitions();
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(
       createRscExposeDefinitions({
         './serverOnlyHelper': './src/lib/serverOnlyHelper.cts',
@@ -111,11 +110,11 @@ describe('createRscExposeDefinitions', () => {
       }),
     ).toEqual({
       './serverOnlyHelper': {
-        import: [CALLBACK_BOOTSTRAP_MODULE, './src/lib/serverOnlyHelper.cts'],
+        import: ['./src/lib/serverOnlyHelper.cts'],
         layer: 'react-server-components',
       },
       './rscBridgeUtil': {
-        import: [CALLBACK_BOOTSTRAP_MODULE, './src/lib/rscBridgeUtil.mts'],
+        import: ['./src/lib/rscBridgeUtil.mts'],
         layer: 'react-server-components',
       },
     });
@@ -162,8 +161,7 @@ describe('createRscExposeDefinitions', () => {
   });
 
   it('deduplicates repeated entries in object expose import arrays', () => {
-    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
-      loadCreateRscExposeDefinitions();
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     const exposeDefinitions = createRscExposeDefinitions({
       './infoBundle': {
         import: [
@@ -176,15 +174,14 @@ describe('createRscExposeDefinitions', () => {
 
     expect(exposeDefinitions).toEqual({
       './infoBundle': {
-        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/infoBundle.ts'],
+        import: ['./src/components/infoBundle.ts'],
         layer: 'react-server-components',
       },
     });
   });
 
   it('trims expose import path entries before deduping', () => {
-    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
-      loadCreateRscExposeDefinitions();
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     const exposeDefinitions = createRscExposeDefinitions({
       './infoBundle': {
         import: [
@@ -197,7 +194,7 @@ describe('createRscExposeDefinitions', () => {
 
     expect(exposeDefinitions).toEqual({
       './infoBundle': {
-        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/infoBundle.ts'],
+        import: ['./src/components/infoBundle.ts'],
         layer: 'react-server-components',
       },
     });
@@ -321,5 +318,33 @@ describe('createRscExposeDefinitions', () => {
         './callback': CALLBACK_BOOTSTRAP_MODULE,
       }),
     ).toThrow('must remain internal-only and cannot be exposed');
+  });
+
+  it('injects callback bootstrap only for callback-capable expose keys', () => {
+    const { createRscExposeDefinitions, CALLBACK_BOOTSTRAP_MODULE } =
+      loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
+        './actions': './src/components/actions.ts',
+        './RemoteServerDefault': './src/components/RemoteServerDefault.tsx',
+      }),
+    ).toEqual({
+      './RemoteClientCounter': {
+        import: [
+          CALLBACK_BOOTSTRAP_MODULE,
+          './src/components/RemoteClientCounter.tsx',
+        ],
+        layer: 'react-server-components',
+      },
+      './actions': {
+        import: [CALLBACK_BOOTSTRAP_MODULE, './src/components/actions.ts'],
+        layer: 'react-server-components',
+      },
+      './RemoteServerDefault': {
+        import: ['./src/components/RemoteServerDefault.tsx'],
+        layer: 'react-server-components',
+      },
+    });
   });
 });

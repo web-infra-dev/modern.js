@@ -26,7 +26,6 @@ const EXPECTED_BROWSER_EXPOSE_CHUNKS = [
   '__federation_expose_nestedActions',
   '__federation_expose_defaultAction',
   '__federation_expose_actionBundle',
-  '__federation_expose_infoBundle',
 ];
 const EXPECTED_REMOTE_EXPOSE_PATHS = [
   './RemoteClientCounter',
