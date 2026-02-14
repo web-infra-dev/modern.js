@@ -46,6 +46,11 @@ interface TestContext {
   page: Page;
   actionRequestIds?: string[];
 }
+interface FailedRequestRecord {
+  url: string;
+  method: string;
+  status: number;
+}
 
 async function waitForActionRequestCount({
   actionRequestIds,
@@ -357,6 +362,7 @@ function runTests({ mode }: TestConfig) {
     const actionRequestIds: string[] = [];
     const actionRequestAcceptHeaders: string[] = [];
     const registerCallbackExposeRequestUrls: string[] = [];
+    const failedNetworkRequests: FailedRequestRecord[] = [];
 
     if (skipForLowerNodeVersion()) {
       return;
@@ -420,6 +426,25 @@ function runTests({ mode }: TestConfig) {
         actionRequestUrls.push(url);
         actionRequestIds.push(headers['x-rsc-action']);
         actionRequestAcceptHeaders.push(headers.accept || '');
+      });
+
+      page.on('response', response => {
+        const status = response.status();
+        if (status < 400) {
+          return;
+        }
+        const url = response.url();
+        const request = response.request();
+        const hostOrigin = `http://127.0.0.1:${hostPort}`;
+        const remoteOrigin = `http://127.0.0.1:${remotePort}`;
+        if (!url.startsWith(hostOrigin) && !url.startsWith(remoteOrigin)) {
+          return;
+        }
+        failedNetworkRequests.push({
+          url,
+          method: request.method(),
+          status,
+        });
       });
     });
 
@@ -535,6 +560,10 @@ function runTests({ mode }: TestConfig) {
 
     it('should have no browser runtime errors', () => {
       expect(runtimeErrors).toEqual([]);
+    });
+
+    it('should have no failed host or remote network responses', () => {
+      expect(failedNetworkRequests).toEqual([]);
     });
   });
 }
