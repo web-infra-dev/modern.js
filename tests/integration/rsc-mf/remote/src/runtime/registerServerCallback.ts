@@ -16,6 +16,11 @@ const getHostActionId = (rawActionId: string, remoteAlias: string) => {
 };
 const getNormalizedRemoteActionUrl = (remoteOrigin: string) => {
   const url = new URL(remoteOrigin);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    throw new Error(
+      `Remote action callback URL must use http or https. Received protocol: ${url.protocol}`,
+    );
+  }
   url.search = '';
   url.hash = '';
   return url.toString();

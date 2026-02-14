@@ -637,6 +637,12 @@ function runTests({ mode }: TestConfig) {
       expect(runtimeRegisterSource).toContain("method: 'POST'");
       expect(runtimeRegisterSource).toContain("Accept: 'text/x-component'");
       expect(runtimeRegisterSource).toContain('getNormalizedRemoteActionUrl');
+      expect(runtimeRegisterSource).toContain(
+        "url.protocol !== 'http:' && url.protocol !== 'https:'",
+      );
+      expect(runtimeRegisterSource).toContain(
+        'Remote action callback URL must use http or https',
+      );
       expect(runtimeRegisterSource).toContain("url.search = ''");
       expect(runtimeRegisterSource).toContain("url.hash = ''");
       expect(runtimeRegisterSource).toContain(
