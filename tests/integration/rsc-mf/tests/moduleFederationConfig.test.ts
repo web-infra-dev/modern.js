@@ -17,6 +17,18 @@ const EXPECTED_REMOTE_EXPOSE_KEYS = [
   './actionBundle',
   './infoBundle',
 ].sort();
+const EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS = [
+  './RemoteClientCounter',
+  './RemoteClientBadge',
+  './RemoteServerCard',
+  './actions',
+  './nestedActions',
+  './defaultAction',
+  './actionBundle',
+].sort();
+const EXPECTED_NON_CALLBACK_EXPOSE_KEYS = EXPECTED_REMOTE_EXPOSE_KEYS.filter(
+  exposeKey => !EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS.includes(exposeKey),
+).sort();
 
 const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
 const EXPECTED_SHARED_SCOPES = ['default', 'ssr', 'rsc'];
@@ -116,6 +128,26 @@ describe('rsc-mf module federation config contracts', () => {
         expect(importPath).not.toContain('\\');
       }
       expect(exposeKey).toMatch(/^\.\//);
+    }
+  });
+
+  it('applies callback bootstrap only to callback-capable expose entries', () => {
+    const remoteConfig = loadRemoteConfig();
+    const exposeDefinitions = remoteConfig.exposes as Record<
+      string,
+      {
+        import?: string[];
+      }
+    >;
+
+    for (const exposeKey of EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS) {
+      const exposeImports = exposeDefinitions[exposeKey]?.import || [];
+      expect(exposeImports).toContain(CALLBACK_BOOTSTRAP_IMPORT);
+    }
+
+    for (const exposeKey of EXPECTED_NON_CALLBACK_EXPOSE_KEYS) {
+      const exposeImports = exposeDefinitions[exposeKey]?.import || [];
+      expect(exposeImports).not.toContain(CALLBACK_BOOTSTRAP_IMPORT);
     }
   });
 
