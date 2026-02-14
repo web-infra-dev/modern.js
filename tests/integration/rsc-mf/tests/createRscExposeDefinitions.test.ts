@@ -449,6 +449,21 @@ describe('createRscExposeDefinitions', () => {
     });
   });
 
+  it('does not infer callback bootstrap from type-only import-equals require references', () => {
+    const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
+    expect(
+      createRscExposeDefinitions({
+        './customImportEqualsTypeOnlyActionRequire':
+          './src/components/importEqualsTypeOnlyActionRequire.cts',
+      }),
+    ).toEqual({
+      './customImportEqualsTypeOnlyActionRequire': {
+        import: ['./src/components/importEqualsTypeOnlyActionRequire.cts'],
+        layer: 'react-server-components',
+      },
+    });
+  });
+
   it('does not infer callback bootstrap from type-only local imports', () => {
     const { createRscExposeDefinitions } = loadCreateRscExposeDefinitions();
     expect(

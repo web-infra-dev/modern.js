@@ -226,7 +226,7 @@ const collectLocalModuleSpecifiers = (
       ) {
         moduleSpecifiers.push({
           moduleSpecifier: node.moduleReference.expression.text,
-          typeOnly: false,
+          typeOnly: Boolean(node.isTypeOnly),
         });
       }
       return;
