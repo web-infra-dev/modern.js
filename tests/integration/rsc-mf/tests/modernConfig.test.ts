@@ -90,6 +90,7 @@ const createChainHarness = (target: string | string[]) => {
   const conditionNames: string[] = [];
   const moduleDirectories: string[] = [];
   const publicPathCalls: string[] = [];
+  const chunkLoadingGlobalCalls: string[] = [];
   const splitChunksCalls: unknown[] = [];
   const targetCalls: string[] = [];
   const rules: Array<{ name: string; test?: RegExp; layer?: string }> = [];
@@ -137,6 +138,10 @@ const createChainHarness = (target: string | string[]) => {
         publicPathCalls.push(value);
         return chain.output;
       },
+      chunkLoadingGlobal: (value: string) => {
+        chunkLoadingGlobalCalls.push(value);
+        return chain.output;
+      },
     },
     optimization: {
       splitChunks: (value: unknown) => {
@@ -173,6 +178,7 @@ const createChainHarness = (target: string | string[]) => {
     conditionNames,
     moduleDirectories,
     publicPathCalls,
+    chunkLoadingGlobalCalls,
     splitChunksCalls,
     targetCalls,
     rules,
@@ -193,6 +199,7 @@ describe('rsc-mf modern config contracts', () => {
         enableAsyncEntry: false,
       }),
     );
+    expect(hostConfig.source).not.toHaveProperty('preEntry');
     expect(hostConfig.plugins).toHaveLength(2);
   });
 
@@ -270,6 +277,7 @@ describe('rsc-mf modern config contracts', () => {
       harness.aliasMap.get('rsc-mf-react-server-dom-client-browser$'),
     ).toContain('react-server-dom-rspack');
     expect(harness.publicPathCalls).toContain('http://127.0.0.1:3777/bundles/');
+    expect(harness.chunkLoadingGlobalCalls).toEqual([]);
     expect(harness.rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -294,6 +302,7 @@ describe('rsc-mf modern config contracts', () => {
     expect(harness.targetCalls).toEqual([]);
     expect(harness.splitChunksCalls).toEqual([false]);
     expect(harness.publicPathCalls).toContain('http://127.0.0.1:3888/');
+    expect(harness.chunkLoadingGlobalCalls).toEqual([]);
     expect(
       harness.aliasMap.get('rsc-mf-react-server-dom-client-browser$'),
     ).toContain('react-server-dom-rspack');
