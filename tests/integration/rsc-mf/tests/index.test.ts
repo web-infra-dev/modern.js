@@ -41,6 +41,7 @@ const EXPECTED_REMOTE_EXPOSE_PATHS = [
   './defaultAction',
   './actionBundle',
   './infoBundle',
+  './__rspack_rsc_bridge__',
 ].sort();
 
 type Mode = 'dev' | 'build';
@@ -127,8 +128,10 @@ async function renderRemoteRscIntoHost({ hostPort, page }: TestContext) {
   expect(html).toContain('host-remote-bundled-meta-kind');
 
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
-    waitUntil: ['networkidle0', 'domcontentloaded'],
+    waitUntil: 'domcontentloaded',
   });
+  await page.waitForSelector('.host-remote-server-only');
+  await page.waitForSelector('.host-remote-action-runner');
   const hostRemoteServerOnly = await page.$eval(
     '.host-remote-server-only',
     el => el.textContent?.trim(),
@@ -182,7 +185,7 @@ async function supportRemoteClientAndServerActions({
   actionRequestIds,
 }: TestContext) {
   await page.goto(`http://127.0.0.1:${hostPort}${HOST_RSC_URL}`, {
-    waitUntil: ['networkidle0', 'domcontentloaded'],
+    waitUntil: 'domcontentloaded',
   });
   await page.waitForSelector(
     '.host-remote-action-runner .remote-client-local-increment',
@@ -376,7 +379,6 @@ function runTests({ mode }: TestConfig) {
     const actionRequestUrls: string[] = [];
     const actionRequestIds: string[] = [];
     const actionRequestAcceptHeaders: string[] = [];
-    const registerCallbackExposeRequestUrls: string[] = [];
     const browserExposeChunkRequests: string[] = [];
     const failedNetworkRequests: FailedRequestRecord[] = [];
     const failedBrowserRequests: FailedBrowserRequestRecord[] = [];
@@ -434,9 +436,6 @@ function runTests({ mode }: TestConfig) {
       page.on('request', request => {
         const headers = request.headers();
         const url = request.url();
-        if (url.includes('__federation_expose_registerServerCallback')) {
-          registerCallbackExposeRequestUrls.push(url);
-        }
         const exposeChunkMatch = url.match(/__federation_expose_[^./?#]+/);
         if (exposeChunkMatch) {
           browserExposeChunkRequests.push(exposeChunkMatch[0]);
@@ -466,6 +465,13 @@ function runTests({ mode }: TestConfig) {
           method: request.method(),
           status,
         });
+        if (url.startsWith(hostOrigin) && url.includes(HOST_RSC_URL)) {
+          response
+            .text()
+            .then(body =>
+              console.log('FAILED_HOST_ACTION_RESPONSE', status, body),
+            );
+        }
       });
 
       page.on('requestfailed', request => {
@@ -498,7 +504,7 @@ function runTests({ mode }: TestConfig) {
     it('should render remote RSC content in host app', () =>
       renderRemoteRscIntoHost({ hostPort, page }));
 
-    it('should not require exposing callback registration helper', async () => {
+    it('should keep expose paths userland-first with an internal bridge expose', async () => {
       const manifestResponse = await fetch(
         `http://127.0.0.1:${remotePort}/static/mf-manifest.json`,
       );
@@ -510,22 +516,15 @@ function runTests({ mode }: TestConfig) {
         .map(item => item.path)
         .filter((path): path is string => Boolean(path));
       const uniqueExposedPaths = Array.from(new Set(exposedPaths)).sort();
-      expect(exposedPaths).not.toContain('./registerServerCallback');
       expect(uniqueExposedPaths.length).toBeGreaterThan(0);
       expect(uniqueExposedPaths).toContain('./RemoteClientCounter');
+      expect(uniqueExposedPaths).toContain('./__rspack_rsc_bridge__');
       expect(
         exposedPaths.every(path => EXPECTED_REMOTE_EXPOSE_PATHS.includes(path)),
       ).toBe(true);
       expect(
         exposedPaths.every(path => !path.startsWith('./src/components/')),
       ).toBe(true);
-      expect(
-        exposedPaths.every(path => !path.includes('initServerCallback')),
-      ).toBe(true);
-    });
-
-    it('should not load callback helper expose chunk', () => {
-      expect(registerCallbackExposeRequestUrls).toEqual([]);
     });
 
     it('should support remote use client and server actions', () =>

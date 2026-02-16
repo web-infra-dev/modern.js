@@ -281,6 +281,7 @@ describe('rsc-mf modern config contracts', () => {
         enableAsyncEntry: false,
       }),
     );
+    expect(remoteConfig.source).not.toHaveProperty('preEntry');
     expect(remoteConfig.plugins).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ name: 'app-tools-mock' }),
@@ -338,8 +339,8 @@ describe('rsc-mf modern config contracts', () => {
       /react[\\/]jsx-dev-runtime\.react-server\.js$/,
     );
     expect(
-      harness.aliasMap.get('rsc-mf-react-server-dom-client-browser$'),
-    ).toContain('react-server-dom-rspack');
+      harness.aliasMap.has('rsc-mf-react-server-dom-client-browser$'),
+    ).toBe(false);
     expect(harness.publicPathCalls).toContain('http://127.0.0.1:3777/bundles/');
     expect(harness.chunkLoadingGlobalCalls).toEqual([]);
     expect(harness.rules).toEqual(
@@ -368,8 +369,8 @@ describe('rsc-mf modern config contracts', () => {
     expect(harness.publicPathCalls).toContain('http://127.0.0.1:3888/');
     expect(harness.chunkLoadingGlobalCalls).toEqual([]);
     expect(
-      harness.aliasMap.get('rsc-mf-react-server-dom-client-browser$'),
-    ).toContain('react-server-dom-rspack');
+      harness.aliasMap.has('rsc-mf-react-server-dom-client-browser$'),
+    ).toBe(false);
     expect(harness.aliasMap.get('server-only$')).toMatch(
       /server-only[\\/]empty\.js$/,
     );

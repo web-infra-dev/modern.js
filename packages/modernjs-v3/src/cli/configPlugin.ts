@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import {
   addDataFetchExposes,
@@ -29,6 +30,54 @@ export type ConfigType = Rspack.Configuration;
 type RuntimePluginEntry = NonNullable<
   moduleFederationPlugin.ModuleFederationPluginOptions['runtimePlugins']
 >[number];
+
+const RSC_LAYER = 'react-server-components';
+const RSC_BRIDGE_EXPOSE = './__rspack_rsc_bridge__';
+const RSC_CLIENT_BROWSER_SHARED_KEY = 'react-server-dom-rspack/client.browser';
+
+const resolveFirstExistingPath = (
+  candidatePaths: string[],
+  fallbackPath: string,
+) =>
+  candidatePaths.find(candidatePath => fs.existsSync(candidatePath)) ||
+  fallbackPath;
+
+const RSC_BRIDGE_RUNTIME_PLUGIN = resolveFirstExistingPath(
+  [
+    path.resolve(__dirname, './mfRuntimePlugins/rsc-bridge-runtime-plugin.ts'),
+    path.resolve(__dirname, './mfRuntimePlugins/rsc-bridge-runtime-plugin.js'),
+    path.resolve(
+      __dirname,
+      '../esm/cli/mfRuntimePlugins/rsc-bridge-runtime-plugin.mjs',
+    ),
+  ],
+  require.resolve('@module-federation/modern-js-v3/rsc-bridge-runtime-plugin'),
+);
+
+const RSC_BRIDGE_EXPOSE_MODULE = resolveFirstExistingPath(
+  [
+    path.resolve(__dirname, '../runtime/rsc-bridge-expose.ts'),
+    path.resolve(__dirname, '../runtime/rsc-bridge-expose.js'),
+    path.resolve(__dirname, '../esm/runtime/rsc-bridge-expose.mjs'),
+  ],
+  require.resolve('@module-federation/modern-js-v3/rsc-bridge-expose'),
+);
+
+const RSC_CLIENT_CALLBACK_BOOTSTRAP_MODULE = resolveFirstExistingPath(
+  [
+    path.resolve(__dirname, '../runtime/rsc-client-callback-bootstrap.js'),
+    path.resolve(__dirname, '../esm/runtime/rsc-client-callback-bootstrap.mjs'),
+    path.resolve(
+      path.dirname(RSC_BRIDGE_EXPOSE_MODULE),
+      '../../esm/runtime/rsc-client-callback-bootstrap.mjs',
+    ),
+    path.resolve(
+      path.dirname(RSC_BRIDGE_EXPOSE_MODULE),
+      '../../cjs/runtime/rsc-client-callback-bootstrap.js',
+    ),
+  ],
+  path.resolve(__dirname, '../runtime/rsc-client-callback-bootstrap.js'),
+);
 
 export function setEnv(enableSSR: boolean) {
   if (enableSSR) {
@@ -163,14 +212,217 @@ const patchDTSConfig = (
   }
 };
 
+const hasRemotes = (
+  remotes: moduleFederationPlugin.ModuleFederationPluginOptions['remotes'],
+) => {
+  if (!remotes) {
+    return false;
+  }
+  if (Array.isArray(remotes)) {
+    return remotes.length > 0;
+  }
+  if (typeof remotes === 'string') {
+    return remotes.length > 0;
+  }
+  return Object.keys(remotes).length > 0;
+};
+
+const hasExposes = (
+  exposes: moduleFederationPlugin.ModuleFederationPluginOptions['exposes'],
+) => {
+  if (!exposes) {
+    return false;
+  }
+  if (Array.isArray(exposes)) {
+    return exposes.length > 0;
+  }
+  return Object.keys(exposes).length > 0;
+};
+
+const isRscMfEnabled = (
+  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
+) => Boolean((mfConfig.experiments as { rsc?: boolean } | undefined)?.rsc);
+
+const normalizeExposeConfig = (
+  exposeConfig: moduleFederationPlugin.ExposesObject[string],
+) => {
+  if (typeof exposeConfig === 'string' || Array.isArray(exposeConfig)) {
+    return {
+      import: exposeConfig,
+    };
+  }
+
+  if (
+    exposeConfig &&
+    typeof exposeConfig === 'object' &&
+    'import' in exposeConfig
+  ) {
+    return {
+      ...(exposeConfig as Record<string, unknown>),
+      import: (exposeConfig as { import: string | string[] }).import,
+    };
+  }
+
+  return {
+    import: exposeConfig as string,
+  };
+};
+
+const setRscExposeConfig = (
+  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
+) => {
+  if (!mfConfig.exposes) {
+    return;
+  }
+
+  const normalizedExposes: moduleFederationPlugin.ExposesObject = {};
+
+  const appendExpose = (
+    exposeKey: string,
+    exposeConfig: moduleFederationPlugin.ExposesObject[string],
+  ) => {
+    const normalizedConfig = normalizeExposeConfig(exposeConfig);
+    const importList = Array.isArray(normalizedConfig.import)
+      ? [...normalizedConfig.import]
+      : [normalizedConfig.import];
+    const normalizedImport =
+      exposeKey === RSC_BRIDGE_EXPOSE
+        ? importList
+        : [
+            RSC_CLIENT_CALLBACK_BOOTSTRAP_MODULE,
+            ...importList.filter(
+              importPath => importPath !== RSC_CLIENT_CALLBACK_BOOTSTRAP_MODULE,
+            ),
+          ];
+
+    normalizedExposes[exposeKey] = {
+      ...normalizedConfig,
+      import: normalizedImport,
+      layer: RSC_LAYER,
+    } as moduleFederationPlugin.ExposesConfig;
+  };
+
+  if (Array.isArray(mfConfig.exposes)) {
+    for (const exposeItem of mfConfig.exposes) {
+      if (typeof exposeItem === 'string') {
+        appendExpose(exposeItem, exposeItem);
+        continue;
+      }
+      for (const [exposeKey, exposeConfig] of Object.entries(exposeItem)) {
+        appendExpose(exposeKey, exposeConfig);
+      }
+    }
+  } else {
+    for (const [exposeKey, exposeConfig] of Object.entries(mfConfig.exposes)) {
+      appendExpose(exposeKey, exposeConfig);
+    }
+  }
+
+  if (
+    !Object.prototype.hasOwnProperty.call(normalizedExposes, RSC_BRIDGE_EXPOSE)
+  ) {
+    normalizedExposes[RSC_BRIDGE_EXPOSE] = {
+      import: RSC_BRIDGE_EXPOSE_MODULE,
+      layer: RSC_LAYER,
+    } as moduleFederationPlugin.ExposesConfig;
+  }
+
+  mfConfig.exposes = normalizedExposes;
+};
+
+const assertRscMfConfig = ({
+  mfConfig,
+  isServer,
+  runtimePlugins,
+}: {
+  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions;
+  isServer: boolean;
+  runtimePlugins: RuntimePluginEntry[];
+}) => {
+  if (!isRscMfEnabled(mfConfig)) {
+    return;
+  }
+
+  const asyncStartupEnabled =
+    (mfConfig.experiments as { asyncStartup?: boolean } | undefined)
+      ?.asyncStartup === true;
+  if (!asyncStartupEnabled) {
+    throw new Error(
+      `${PLUGIN_IDENTIFIER} experiments.rsc requires experiments.asyncStartup = true`,
+    );
+  }
+
+  if (!isServer) {
+    return;
+  }
+
+  const nodeRuntimePluginPath = require.resolve(
+    '@module-federation/node/runtimePlugin',
+  );
+  const hasNodeRuntimePlugin = runtimePlugins.some(runtimePlugin => {
+    const runtimePluginPath =
+      typeof runtimePlugin === 'string' ? runtimePlugin : runtimePlugin[0];
+    return runtimePluginPath === nodeRuntimePluginPath;
+  });
+
+  if (!hasNodeRuntimePlugin) {
+    throw new Error(
+      `${PLUGIN_IDENTIFIER} experiments.rsc requires @module-federation/node/runtimePlugin in runtimePlugins`,
+    );
+  }
+};
+
+const patchRscClientBrowserSharedConfig = (
+  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
+  isServer: boolean,
+) => {
+  if (isServer || !mfConfig.shared) {
+    return;
+  }
+
+  const patchSharedRecord = (sharedRecord: Record<string, unknown>) => {
+    const clientBrowserShared = sharedRecord[RSC_CLIENT_BROWSER_SHARED_KEY] as
+      | Record<string, unknown>
+      | undefined;
+    if (!clientBrowserShared || Array.isArray(clientBrowserShared)) {
+      return;
+    }
+    const shareScope = clientBrowserShared.shareScope;
+    if (typeof shareScope === 'string' && shareScope !== 'default') {
+      clientBrowserShared.import = false;
+    }
+  };
+
+  if (Array.isArray(mfConfig.shared)) {
+    for (const sharedConfig of mfConfig.shared) {
+      if (!sharedConfig || typeof sharedConfig !== 'object') {
+        continue;
+      }
+      patchSharedRecord(sharedConfig as Record<string, unknown>);
+    }
+    return;
+  }
+
+  if (typeof mfConfig.shared === 'object') {
+    patchSharedRecord(mfConfig.shared as Record<string, unknown>);
+  }
+};
+
 export const patchMFConfig = (
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
   isServer: boolean,
   remoteIpStrategy?: 'ipv4' | 'inherit',
   enableSSR?: boolean,
 ) => {
+  const rscEnabled = isRscMfEnabled(mfConfig);
+
   replaceRemoteUrl(mfConfig, remoteIpStrategy);
   addDataFetchExposes(mfConfig.exposes, isServer);
+
+  if (rscEnabled) {
+    setRscExposeConfig(mfConfig);
+    patchRscClientBrowserSharedConfig(mfConfig, isServer);
+  }
 
   if (mfConfig.remoteType === undefined) {
     mfConfig.remoteType = 'script';
@@ -196,6 +448,13 @@ export const patchMFConfig = (
       require.resolve('@module-federation/modern-js-v3/resolve-entry-ipv4'),
       runtimePlugins,
     );
+  }
+
+  if (
+    rscEnabled &&
+    (hasRemotes(mfConfig.remotes) || hasExposes(mfConfig.exposes))
+  ) {
+    injectRuntimePlugins(RSC_BRIDGE_RUNTIME_PLUGIN, runtimePlugins);
   }
 
   if (isServer) {
@@ -231,6 +490,12 @@ export const patchMFConfig = (
       }
     }
   }
+
+  assertRscMfConfig({
+    mfConfig,
+    isServer,
+    runtimePlugins,
+  });
 
   mfConfig.runtimePlugins = runtimePlugins;
 

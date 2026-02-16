@@ -15,9 +15,6 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
-const runtimePlugins = [
-  path.resolve(__dirname, './runtime/forceRemotePublicPath.ts'),
-];
 
 const sharedByScope = [
   {
@@ -110,7 +107,6 @@ export default createModuleFederationConfig({
     rscRemote: `rscRemote@http://127.0.0.1:${REMOTE_PORT}/static/mf-manifest.json`,
   },
   shared: sharedByScope as any,
-  runtimePlugins,
   dts: false,
   experiments: {
     asyncStartup: true,

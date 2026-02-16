@@ -76,6 +76,16 @@
       "import": "./dist/esm/cli/mfRuntimePlugins/inject-node-fetch.mjs",
       "require": "./dist/cjs/cli/mfRuntimePlugins/inject-node-fetch.js"
     },
+    "./rsc-bridge-runtime-plugin": {
+      "types": "./dist/types/cli/mfRuntimePlugins/rsc-bridge-runtime-plugin.d.ts",
+      "import": "./dist/esm/cli/mfRuntimePlugins/rsc-bridge-runtime-plugin.mjs",
+      "require": "./dist/cjs/cli/mfRuntimePlugins/rsc-bridge-runtime-plugin.js"
+    },
+    "./rsc-bridge-expose": {
+      "types": "./dist/types/runtime/rsc-bridge-expose.d.ts",
+      "import": "./dist/esm/runtime/rsc-bridge-expose.mjs",
+      "require": "./dist/cjs/runtime/rsc-bridge-expose.js"
+    },
     "./data-fetch-server-plugin": {
       "types": "./dist/types/cli/server/data-fetch-server-plugin.d.ts",
       "default": "./dist/cjs/cli/server/data-fetch-server-plugin.js"
@@ -120,6 +130,12 @@
       "inject-node-fetch": [
         "./dist/types/cli/mfRuntimePlugins/inject-node-fetch.d.ts"
       ],
+      "rsc-bridge-runtime-plugin": [
+        "./dist/types/cli/mfRuntimePlugins/rsc-bridge-runtime-plugin.d.ts"
+      ],
+      "rsc-bridge-expose": [
+        "./dist/types/runtime/rsc-bridge-expose.d.ts"
+      ],
       "data-fetch-server-plugin": [
         "./dist/types/cli/server/data-fetch-server-plugin.d.ts"
       ],
@@ -160,7 +176,7 @@
     "@modern-js/module-tools": "2.70.4",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@types/react": "^19.2.13",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3"
   },
   "peerDependencies": {

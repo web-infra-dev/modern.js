@@ -1,11 +1,30 @@
 import {
   createFromFetch,
-  createTemporaryReferenceSet,
   encodeReply,
-  setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
 
 type ReactServerValue = unknown;
+type ActionRemapMap = Record<string, string | false>;
+
+const ACTION_PREFIX = 'remote:';
+const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
+
+const resolveActionId = (id: string) => {
+  if (id.startsWith(ACTION_PREFIX)) {
+    return id;
+  }
+
+  const globalState = globalThis as typeof globalThis & {
+    [ACTION_REMAP_GLOBAL_KEY]?: ActionRemapMap;
+  };
+  const remapMap = globalState[ACTION_REMAP_GLOBAL_KEY];
+  if (!remapMap || typeof remapMap !== 'object') {
+    return id;
+  }
+
+  const remappedId = remapMap[id];
+  return typeof remappedId === 'string' ? remappedId : id;
+};
 
 class CallServerError extends Error {
   readonly #statusCode: number;
@@ -54,20 +73,22 @@ export async function requestCallServer(id: string, args: ReactServerValue) {
   const entryName = window.__MODERN_JS_ENTRY_NAME;
   const url =
     entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
+  const actionId = resolveActionId(id);
 
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'text/x-component',
-        'x-rsc-action': id,
+        'x-rsc-action': actionId,
       },
       body: await encodeReply(args),
     });
 
     if (!response.ok) {
       throw new CallServerError(response.statusText, response.status, url, {
-        id,
+        id: actionId,
+        rawId: id,
         args,
       });
     }
@@ -81,7 +102,7 @@ export async function requestCallServer(id: string, args: ReactServerValue) {
       error instanceof Error ? error.message : 'Unknown error',
       1,
       url,
-      { id, args },
+      { id: actionId, rawId: id, args },
     );
   }
 }

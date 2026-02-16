@@ -1,6 +1,5 @@
 import path from 'path';
 import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
-import { createRscExposeDefinitions } from './src/runtime/createRscExposeDefinitions';
 
 const LAYERS = {
   ssr: 'server-side-rendering',
@@ -122,7 +121,7 @@ export default createModuleFederationConfig({
     filePath: 'static',
   },
   filename: 'static/remoteEntry.js',
-  exposes: createRscExposeDefinitions(remoteExposeImports) as any,
+  exposes: remoteExposeImports as any,
   shared: sharedByScope as any,
   dts: false,
   experiments: {

@@ -82,4 +82,167 @@ describe('patchMFConfig', async () => {
       },
     });
   });
+
+  it('patchMFConfig: rsc remotes inject runtime bridge plugin', async () => {
+    const patchedConfig = {
+      name: 'rsc-host',
+      remotes: {
+        remote: 'http://localhost:3001/remoteEntry.js',
+      },
+      exposes: {
+        './Widget': './src/widget.ts',
+      },
+      experiments: {
+        rsc: true,
+        asyncStartup: true,
+      },
+    };
+
+    patchMFConfig(patchedConfig as any, true);
+
+    expect(
+      patchedConfig.runtimePlugins.some(runtimePlugin =>
+        /rsc-bridge-runtime-plugin\.(t|j)s$/.test(
+          typeof runtimePlugin === 'string' ? runtimePlugin : runtimePlugin[0],
+        ),
+      ),
+    ).toBe(true);
+    expect(patchedConfig.exposes).toBeDefined();
+    const widgetExposeConfig = (patchedConfig.exposes as any)['./Widget'];
+    expect(Array.isArray(widgetExposeConfig.import)).toBe(true);
+    expect(widgetExposeConfig.import).toContain('./src/widget.ts');
+    expect(String(widgetExposeConfig.import[0])).toMatch(
+      /rsc-client-callback-bootstrap\.(mjs|js)$/,
+    );
+    expect((patchedConfig.exposes as any)['./Widget']).toMatchObject({
+      layer: 'react-server-components',
+    });
+    expect(
+      (patchedConfig.exposes as any)['./__rspack_rsc_bridge__'],
+    ).toMatchObject({
+      import: expect.stringMatching(/rsc-bridge-expose\.(t|j)s$/),
+      layer: 'react-server-components',
+    });
+  });
+
+  it('patchMFConfig: rsc client shared config avoids non-default client.browser providers', async () => {
+    const patchedConfig = {
+      name: 'rsc-host',
+      remotes: {
+        remote: 'http://localhost:3001/remoteEntry.js',
+      },
+      experiments: {
+        rsc: true,
+        asyncStartup: true,
+      },
+      shared: [
+        {
+          'react-server-dom-rspack/client.browser': {
+            import: 'react-server-dom-rspack/client.browser',
+            shareScope: 'default',
+          },
+        },
+        {
+          'react-server-dom-rspack/client.browser': {
+            import: 'react-server-dom-rspack/client.browser',
+            shareScope: 'ssr',
+          },
+        },
+        {
+          'react-server-dom-rspack/client.browser': {
+            import: 'react-server-dom-rspack/client.browser',
+            shareScope: 'rsc',
+          },
+        },
+      ],
+    };
+
+    patchMFConfig(patchedConfig as any, false);
+
+    const sharedScopes = patchedConfig.shared as Array<
+      Record<string, { import?: unknown; shareScope?: string }>
+    >;
+    expect(
+      sharedScopes[0]['react-server-dom-rspack/client.browser'].import,
+    ).toBe('react-server-dom-rspack/client.browser');
+    expect(
+      sharedScopes[1]['react-server-dom-rspack/client.browser'].import,
+    ).toBe(false);
+    expect(
+      sharedScopes[2]['react-server-dom-rspack/client.browser'].import,
+    ).toBe(false);
+  });
+
+  it('patchMFConfig: rsc requires asyncStartup', async () => {
+    const patchedConfig = {
+      name: 'rsc-host',
+      remotes: {
+        remote: 'http://localhost:3001/remoteEntry.js',
+      },
+      experiments: {
+        rsc: true,
+      },
+    };
+
+    expect(() => patchMFConfig(patchedConfig as any, true)).toThrow(
+      /experiments\.rsc requires experiments\.asyncStartup = true/,
+    );
+  });
+
+  it('patchMFConfig: rsc exposes inject runtime bridge plugin', async () => {
+    const patchedConfig = {
+      name: 'rsc-remote',
+      exposes: {
+        './Widget': './src/widget.ts',
+      },
+      experiments: {
+        rsc: true,
+        asyncStartup: true,
+      },
+    };
+
+    patchMFConfig(patchedConfig as any, true);
+
+    expect(
+      patchedConfig.runtimePlugins.some(runtimePlugin =>
+        /rsc-bridge-runtime-plugin\.(t|j)s$/.test(
+          typeof runtimePlugin === 'string' ? runtimePlugin : runtimePlugin[0],
+        ),
+      ),
+    ).toBe(true);
+    const widgetExposeConfig = (patchedConfig.exposes as any)['./Widget'];
+    expect(Array.isArray(widgetExposeConfig.import)).toBe(true);
+    expect(widgetExposeConfig.import).toContain('./src/widget.ts');
+    expect(String(widgetExposeConfig.import[0])).toMatch(
+      /rsc-client-callback-bootstrap\.(mjs|js)$/,
+    );
+    expect(
+      (patchedConfig.exposes as any)['./__rspack_rsc_bridge__'],
+    ).toMatchObject({
+      import: expect.stringMatching(/rsc-bridge-expose\.(t|j)s$/),
+      layer: 'react-server-components',
+    });
+  });
+
+  it('patchMFConfig: non-rsc does not inject internal bridge expose', async () => {
+    const patchedConfig = {
+      name: 'host',
+      remotes: {
+        remote: 'http://localhost:3001/remoteEntry.js',
+      },
+      exposes: {
+        './Widget': './src/widget.ts',
+      },
+      experiments: {
+        asyncStartup: true,
+      },
+    };
+
+    patchMFConfig(patchedConfig as any, true);
+
+    expect((patchedConfig.exposes as any)['./Widget']).toBe('./src/widget.ts');
+    expect(
+      (patchedConfig.exposes as any)['./__rspack_rsc_bridge__'],
+    ).toBeUndefined();
+  });
 });

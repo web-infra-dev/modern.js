@@ -17,21 +17,35 @@ const EXPECTED_REMOTE_EXPOSE_KEYS = [
   './actionBundle',
   './infoBundle',
 ].sort();
-const EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS = [
-  './RemoteClientCounter',
-  './RemoteClientBadge',
-  './RemoteServerCard',
-  './actions',
-  './nestedActions',
-  './defaultAction',
-  './actionBundle',
-].sort();
-const EXPECTED_NON_CALLBACK_EXPOSE_KEYS = EXPECTED_REMOTE_EXPOSE_KEYS.filter(
-  exposeKey => !EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS.includes(exposeKey),
-).sort();
-
-const CALLBACK_BOOTSTRAP_IMPORT = './src/runtime/initServerCallback.ts';
+const INTERNAL_RSC_BRIDGE_EXPOSE_KEY = './__rspack_rsc_bridge__';
 const EXPECTED_SHARED_SCOPES = ['default', 'ssr', 'rsc'];
+
+const getExposeImports = (exposeDefinition: unknown): string[] => {
+  if (typeof exposeDefinition === 'string') {
+    return [exposeDefinition];
+  }
+  if (Array.isArray(exposeDefinition)) {
+    return exposeDefinition.filter(
+      (importPath): importPath is string => typeof importPath === 'string',
+    );
+  }
+  if (
+    exposeDefinition &&
+    typeof exposeDefinition === 'object' &&
+    'import' in exposeDefinition
+  ) {
+    const exposeImport = (exposeDefinition as { import?: unknown }).import;
+    if (typeof exposeImport === 'string') {
+      return [exposeImport];
+    }
+    if (Array.isArray(exposeImport)) {
+      return exposeImport.filter(
+        (importPath): importPath is string => typeof importPath === 'string',
+      );
+    }
+  }
+  return [];
+};
 
 const withEnv = <T>(
   env: Partial<Record<'NODE_ENV' | 'RSC_MF_REMOTE_PORT', string>>,
@@ -99,55 +113,42 @@ const loadHostConfig = ({
   );
 
 describe('rsc-mf module federation config contracts', () => {
-  it('declares expected remote exposes with normalized userland imports', () => {
+  it('declares expected direct remote exposes and allows internal bridge expose', () => {
     const remoteConfig = loadRemoteConfig();
     const exposeEntries = Object.entries(remoteConfig.exposes || {});
-    const exposeKeys = exposeEntries
+    const directExposeEntries = exposeEntries.filter(
+      ([exposeKey]) => exposeKey !== INTERNAL_RSC_BRIDGE_EXPOSE_KEY,
+    );
+    const directExposeKeys = directExposeEntries
       .map(([exposeKey]) => exposeKey)
       .sort() as string[];
-    expect(exposeKeys).toEqual(EXPECTED_REMOTE_EXPOSE_KEYS);
 
-    for (const [exposeKey, exposeDefinition] of exposeEntries) {
-      const definition = exposeDefinition as {
-        import?: string[];
-        layer?: string;
-      };
-      expect(definition.layer).toBe('react-server-components');
-      expect(definition.import).toBeDefined();
-      expect(Array.isArray(definition.import)).toBe(true);
-      expect(definition.import!.length).toBeGreaterThanOrEqual(1);
-      const userlandImports = definition.import!.filter(
-        importPath => importPath !== CALLBACK_BOOTSTRAP_IMPORT,
-      );
-      expect(userlandImports.length).toBeGreaterThanOrEqual(1);
-      for (const importPath of userlandImports) {
-        expect(importPath).toMatch(/^\.\//);
-        expect(importPath).toMatch(/^\.\/src\/components\//);
-        expect(importPath).toMatch(/\.[cm]?[jt]sx?$/i);
-        expect(importPath).not.toContain('..');
-        expect(importPath).not.toContain('\\');
-      }
+    expect(directExposeKeys).toEqual(EXPECTED_REMOTE_EXPOSE_KEYS);
+
+    for (const [exposeKey, exposeDefinition] of directExposeEntries) {
       expect(exposeKey).toMatch(/^\.\//);
-    }
-  });
-
-  it('applies callback bootstrap only to callback-capable expose entries', () => {
-    const remoteConfig = loadRemoteConfig();
-    const exposeDefinitions = remoteConfig.exposes as Record<
-      string,
-      {
-        import?: string[];
+      const exposeImports = getExposeImports(exposeDefinition);
+      expect(exposeImports.length).toBeGreaterThan(0);
+      for (const exposeImport of exposeImports) {
+        expect(exposeImport).toMatch(/^\.\/src\/components\//);
+        expect(exposeImport).toMatch(/\.[cm]?[jt]sx?$/i);
+        expect(exposeImport).not.toContain('..');
+        expect(exposeImport).not.toContain('\\');
+        expect(exposeImport).not.toContain('/runtime/');
       }
-    >;
-
-    for (const exposeKey of EXPECTED_CALLBACK_BOOTSTRAPPED_EXPOSE_KEYS) {
-      const exposeImports = exposeDefinitions[exposeKey]?.import || [];
-      expect(exposeImports).toContain(CALLBACK_BOOTSTRAP_IMPORT);
     }
 
-    for (const exposeKey of EXPECTED_NON_CALLBACK_EXPOSE_KEYS) {
-      const exposeImports = exposeDefinitions[exposeKey]?.import || [];
-      expect(exposeImports).not.toContain(CALLBACK_BOOTSTRAP_IMPORT);
+    const internalBridgeExposeDefinition =
+      remoteConfig.exposes?.[INTERNAL_RSC_BRIDGE_EXPOSE_KEY];
+    if (typeof internalBridgeExposeDefinition !== 'undefined') {
+      const bridgeExposeImports = getExposeImports(
+        internalBridgeExposeDefinition,
+      );
+      expect(bridgeExposeImports.length).toBeGreaterThan(0);
+      for (const bridgeExposeImport of bridgeExposeImports) {
+        expect(bridgeExposeImport).not.toContain('..');
+        expect(bridgeExposeImport).not.toContain('\\');
+      }
     }
   });
 
@@ -174,22 +175,6 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
-  it('normalizes string expose definitions into deterministic userland imports', () => {
-    const remoteConfig = loadRemoteConfig();
-    const infoBundleExpose = remoteConfig.exposes?.['./infoBundle'] as
-      | {
-          import?: string[];
-        }
-      | undefined;
-    const imports = infoBundleExpose?.import || [];
-    expect(
-      imports.filter(
-        importPath => importPath === './src/components/infoBundle.ts',
-      ),
-    ).toEqual(['./src/components/infoBundle.ts']);
-    expect(imports).toEqual(['./src/components/infoBundle.ts']);
-  });
-
   it('uses remote port env var in host manifest remote URL', () => {
     const hostConfig = loadHostConfig({
       nodeEnv: 'test',
@@ -213,24 +198,18 @@ describe('rsc-mf module federation config contracts', () => {
     );
   });
 
-  it('keeps host remote-public-path runtime plugin enabled across modes', () => {
+  it('does not define fixture-only host runtime plugins', () => {
     const productionHostConfig = loadHostConfig({
       nodeEnv: 'production',
       remotePort: '3008',
     });
-    expect(productionHostConfig.runtimePlugins).toHaveLength(1);
-    expect(productionHostConfig.runtimePlugins[0]).toContain(
-      'runtime/forceRemotePublicPath.ts',
-    );
-
     const developmentHostConfig = loadHostConfig({
       nodeEnv: 'development',
       remotePort: '3008',
     });
-    expect(developmentHostConfig.runtimePlugins).toHaveLength(1);
-    expect(developmentHostConfig.runtimePlugins[0]).toContain(
-      'runtime/forceRemotePublicPath.ts',
-    );
+
+    expect(productionHostConfig.runtimePlugins).toBeUndefined();
+    expect(developmentHostConfig.runtimePlugins).toBeUndefined();
   });
 
   it('keeps host experiments aligned for async startup and rsc', () => {

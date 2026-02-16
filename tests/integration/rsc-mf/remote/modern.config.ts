@@ -17,9 +17,6 @@ const reactJsxDevRuntimeServerPath = path.join(
   reactRuntimeDir,
   'jsx-dev-runtime.react-server.js',
 );
-const reactServerDomClientBrowserPath = require.resolve(
-  'react-server-dom-rspack/client.browser',
-);
 
 export default defineConfig({
   server: {
@@ -43,10 +40,6 @@ export default defineConfig({
     bundlerChain(chain) {
       const target = chain.get('target');
       const targets = Array.isArray(target) ? target : [target];
-      chain.resolve.alias.set(
-        'rsc-mf-react-server-dom-client-browser$',
-        reactServerDomClientBrowserPath,
-      );
       chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
       if (targets.some(item => String(item).includes('node'))) {
         chain.target('async-node');
