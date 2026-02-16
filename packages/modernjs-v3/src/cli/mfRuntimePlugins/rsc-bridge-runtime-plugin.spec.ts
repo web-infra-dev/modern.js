@@ -141,7 +141,7 @@ describe('rsc-bridge-runtime-plugin', () => {
     ).toBe('remote-module:rscRemote:123');
 
     const prefixedActionId = 'remote:rscRemote:rawActionId';
-    const proxyModuleId = `${PROXY_MODULE_PREFIX}rscHost`;
+    const proxyModuleId = `${PROXY_MODULE_PREFIX}rscRemote`;
     expect(hostManifest.serverManifest?.[prefixedActionId]).toMatchObject({
       id: proxyModuleId,
       name: prefixedActionId,
@@ -192,35 +192,6 @@ describe('rsc-bridge-runtime-plugin', () => {
     );
     expect(getActionRemapMap().asyncRawAction).toBe(
       'remote:rscRemote:asyncRawAction',
-    );
-  });
-
-  it('falls back to bridge action ids when remote manifest is unavailable', async () => {
-    const plugin = rscBridgeRuntimePlugin();
-
-    await plugin.onLoad?.({
-      remote: { alias: 'rscRemote' },
-      options: { name: 'rscHost' },
-      origin: {
-        loadRemote: vi.fn(async () => ({
-          getManifest: () => undefined,
-          getActionIds: async () => ['rawFromBridgeIds'],
-          executeAction: vi.fn(async () => undefined),
-        })),
-      },
-    } as any);
-
-    const webpackRequire = (
-      globalThis as typeof globalThis & {
-        __webpack_require__?: WebpackRequireRuntime;
-      }
-    ).__webpack_require__!;
-
-    expect(webpackRequire.rscM?.serverManifest).toHaveProperty(
-      'remote:rscRemote:rawFromBridgeIds',
-    );
-    expect(getActionRemapMap().rawFromBridgeIds).toBe(
-      'remote:rscRemote:rawFromBridgeIds',
     );
   });
 
@@ -379,180 +350,31 @@ describe('rsc-bridge-runtime-plugin', () => {
     expect(getActionRemapMap().sameRawId).toBe(false);
   });
 
-  it('installs host-routed callback for federated client.browser modules', async () => {
-    const fetchMock = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-    }));
-    (globalThis as typeof globalThis & { fetch?: typeof fetch }).fetch =
-      fetchMock as unknown as typeof fetch;
-
-    const setServerCallbackMock = vi.fn();
-    const createFromFetchMock = vi.fn(() => Promise.resolve('ok'));
-    const encodeReplyMock = vi.fn(
-      async () => 'encoded-body' as unknown as BodyInit,
-    );
-
-    const webpackRequire = (
-      globalThis as typeof globalThis & {
-        __webpack_require__?: WebpackRequireRuntime;
-      }
-    ).__webpack_require__!;
-    webpackRequire.c = {
-      clientBrowserModule: {
-        exports: {
-          setServerCallback: setServerCallbackMock,
-          createFromFetch: createFromFetchMock,
-          encodeReply: encodeReplyMock,
-        },
-      },
-    };
-
+  it('normalizes missing ssrPublicPath on resolved remote snapshots', async () => {
     const plugin = rscBridgeRuntimePlugin();
-    await plugin.onLoad?.({
-      remote: { alias: 'rscRemote' },
-      options: { name: 'rscHost' },
-      origin: {
-        loadRemote: vi.fn(async () => ({
-          getManifest: () => ({
-            serverManifest: {
-              rawActionId: { async: true },
-            },
-          }),
-          executeAction: vi.fn(async () => undefined),
-        })),
-      },
-    } as any);
-
-    expect(setServerCallbackMock).toHaveBeenCalledTimes(1);
-    const installedCallback = setServerCallbackMock.mock.calls[0]?.[0] as (
-      id: string,
-      args: unknown[],
-    ) => unknown;
-
-    await installedCallback('rawActionId', ['value-a']);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0][0]).toBe('/server-component-root');
-    expect(fetchMock.mock.calls[0][1]).toMatchObject({
-      method: 'POST',
-      headers: {
-        Accept: 'text/x-component',
-        'x-rsc-action': 'remote:rscRemote:rawActionId',
-      },
-      body: 'encoded-body',
-    });
-    expect(encodeReplyMock).toHaveBeenCalledWith(['value-a']);
-    expect(createFromFetchMock).toHaveBeenCalledTimes(1);
-  });
-
-  it('retries client.browser callback installation when module cache is populated late', async () => {
-    const fetchMock = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-    }));
-    (globalThis as typeof globalThis & { fetch?: typeof fetch }).fetch =
-      fetchMock as unknown as typeof fetch;
-
-    const webpackRequire = (
-      globalThis as typeof globalThis & {
-        __webpack_require__?: WebpackRequireRuntime;
-      }
-    ).__webpack_require__!;
-    webpackRequire.c = {};
-
-    const plugin = rscBridgeRuntimePlugin();
-    await plugin.onLoad?.({
-      remote: { alias: 'rscRemote' },
-      options: { name: 'rscHost' },
-      origin: {
-        loadRemote: vi.fn(async () => ({
-          getManifest: () => ({
-            serverManifest: {
-              rawActionId: { async: true },
-            },
-          }),
-          executeAction: vi.fn(async () => undefined),
-        })),
-      },
-    } as any);
-
-    const setServerCallbackMock = vi.fn();
-    const createFromFetchMock = vi.fn(() => Promise.resolve('ok'));
-    const encodeReplyMock = vi.fn(
-      async () => 'encoded-body' as unknown as BodyInit,
-    );
-    webpackRequire.c.clientBrowserModule = {
-      exports: {
-        setServerCallback: setServerCallbackMock,
-        createFromFetch: createFromFetchMock,
-        encodeReply: encodeReplyMock,
-      },
-    };
-
-    await vi.runOnlyPendingTimersAsync();
-
-    expect(setServerCallbackMock).toHaveBeenCalledTimes(1);
-    const installedCallback = setServerCallbackMock.mock.calls[0]?.[0] as (
-      id: string,
-      args: unknown[],
-    ) => unknown;
-
-    await installedCallback('rawActionId', ['retry-value']);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0][0]).toBe('/server-component-root');
-    expect(fetchMock.mock.calls[0][1]).toMatchObject({
-      method: 'POST',
-      headers: {
-        Accept: 'text/x-component',
-        'x-rsc-action': 'remote:rscRemote:rawActionId',
-      },
-      body: 'encoded-body',
-    });
-    expect(encodeReplyMock).toHaveBeenCalledWith(['retry-value']);
-    expect(createFromFetchMock).toHaveBeenCalledTimes(1);
-  });
-
-  it('patches each client.browser module export once across repeated onLoad calls', async () => {
-    const setServerCallbackMock = vi.fn();
-    const createFromFetchMock = vi.fn(() => Promise.resolve('ok'));
-    const encodeReplyMock = vi.fn(
-      async () => 'encoded-body' as unknown as BodyInit,
-    );
-
-    const webpackRequire = (
-      globalThis as typeof globalThis & {
-        __webpack_require__?: WebpackRequireRuntime;
-      }
-    ).__webpack_require__!;
-    webpackRequire.c = {
-      clientBrowserModule: {
-        exports: {
-          setServerCallback: setServerCallbackMock,
-          createFromFetch: createFromFetchMock,
-          encodeReply: encodeReplyMock,
-        },
-      },
-    };
-
     const loadRemote = vi.fn(async () => ({
-      getManifest: () => ({
-        serverManifest: {
-          rawActionId: { async: true },
-        },
-      }),
+      getManifest: () => ({}),
       executeAction: vi.fn(async () => undefined),
     }));
-
-    const plugin = rscBridgeRuntimePlugin();
-    const loadArgs = {
+    const args: any = {
       remote: { alias: 'rscRemote' },
-      options: { name: 'rscHost' },
-      origin: { loadRemote },
+      remoteInfo: {
+        publicPath: 'http://127.0.0.1:3008/bundles/',
+        remoteEntry: {
+          name: 'static/remoteEntry.js',
+        },
+      },
+      origin: {
+        loadRemote,
+      },
     };
 
-    await plugin.onLoad?.(loadArgs as any);
-    await plugin.onLoad?.(loadArgs as any);
+    await plugin.afterResolve?.(args);
 
-    expect(setServerCallbackMock).toHaveBeenCalledTimes(1);
+    expect(args.remoteInfo.ssrPublicPath).toBe(
+      'http://127.0.0.1:3008/bundles/',
+    );
+    expect(args.remoteInfo.remoteEntry.path).toBe('');
   });
+
 });

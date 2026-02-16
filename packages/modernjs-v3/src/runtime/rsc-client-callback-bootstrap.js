@@ -1,49 +1,62 @@
-import 'react-server-dom-rspack/client.browser';
+import {
+  createFromFetch,
+  createTemporaryReferenceSet,
+  encodeReply,
+  setServerCallback,
+} from 'react-server-dom-rspack/client.browser';
 
 const ACTION_PREFIX = 'remote:';
 const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
 const ACTION_REMAP_WAITERS_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP_WAITERS__';
-const MAX_CALLBACK_BOOTSTRAP_ATTEMPTS = 12;
-const CALLBACK_BOOTSTRAP_RETRY_DELAY_MS = 0;
+const ACTION_REMAP_WAIT_TIMEOUT_MS = 200;
+const CALLBACK_INSTALL_RETRY_DELAY_MS = 0;
+const MAX_CALLBACK_INSTALL_ATTEMPTS = 12;
+let hasResolvedFallbackAlias = false;
+let fallbackRemoteAlias;
+let callbackInstallAttempts = 0;
+const installedClientBrowserRuntimes = new WeakSet();
 
-const patchedClientModules = new WeakSet();
-const patchedCreateServerReferenceModules = new WeakSet();
-const objectToString = Object.prototype.toString;
+function isObject(value) {
+  return typeof value === 'object' && value !== null;
+}
+
+function isFunction(value) {
+  return typeof value === 'function';
+}
+
 const runtimeRequireFromWrapper = (() => {
   try {
     // Access the module-wrapper require function when available.
     // biome-ignore lint/security/noGlobalEval: The bundler module wrapper exposes `require` via arguments only.
-    return eval('arguments[2]');
-  } catch (_) {
-    return undefined;
-  }
+    const wrapperRequire = eval('arguments[2]');
+    if (isFunction(wrapperRequire) || isObject(wrapperRequire)) {
+      return wrapperRequire;
+    }
+  } catch {}
+  return undefined;
 })();
 
-function isObject(value) {
-  return value !== null && objectToString.call(value) === '[object Object]';
-}
-
-function isFunction(value) {
-  return objectToString.call(value) === '[object Function]';
-}
-
-function isString(value) {
-  return objectToString.call(value) === '[object String]';
+function isClientBrowserRuntime(value) {
+  return (
+    isObject(value) &&
+    isFunction(value.setServerCallback) &&
+    isFunction(value.createTemporaryReferenceSet) &&
+    isFunction(value.encodeReply) &&
+    isFunction(value.createFromFetch)
+  );
 }
 
 function getWebpackRequire() {
-  if (
-    isFunction(runtimeRequireFromWrapper) ||
-    isObject(runtimeRequireFromWrapper)
-  ) {
+  if (runtimeRequireFromWrapper) {
     return runtimeRequireFromWrapper;
   }
-
+  if (typeof __webpack_require__ !== 'undefined') {
+    return __webpack_require__;
+  }
   const runtime = globalThis.__webpack_require__;
   if (isFunction(runtime) || isObject(runtime)) {
     return runtime;
   }
-
   return undefined;
 }
 
@@ -56,42 +69,70 @@ function getActionRemapMap() {
   return map;
 }
 
-function getActionRemapWaiters() {
-  const map = globalThis[ACTION_REMAP_WAITERS_KEY];
-  if (!(map instanceof Map)) {
-    const waiters = new Map();
-    globalThis[ACTION_REMAP_WAITERS_KEY] = waiters;
-    return waiters;
+function resolveFallbackRemoteAlias() {
+  if (hasResolvedFallbackAlias) {
+    return fallbackRemoteAlias;
   }
-  return map;
-}
-
-function resolveActionId(id) {
-  if (id.startsWith(ACTION_PREFIX)) {
-    return Promise.resolve(id);
-  }
-
-  const remapMap = getActionRemapMap();
-  const remappedId = remapMap[id];
-  if (typeof remappedId === 'string') {
-    return Promise.resolve(remappedId);
-  }
-
-  if (remappedId === false) {
-    return Promise.resolve(id);
-  }
+  hasResolvedFallbackAlias = true;
 
   const webpackRequire = getWebpackRequire();
-  const uniqueName =
+  const runtimeInstance =
     webpackRequire &&
-    isObject(webpackRequire.initializeSharingData) &&
-    isString(webpackRequire.initializeSharingData.uniqueName)
+    isObject(webpackRequire.federation) &&
+    isObject(webpackRequire.federation.instance)
+      ? webpackRequire.federation.instance
+      : undefined;
+  if (!runtimeInstance) {
+    return undefined;
+  }
+
+  const aliasSet = new Set();
+  const remotes = Array.isArray(runtimeInstance.options?.remotes)
+    ? runtimeInstance.options.remotes
+    : [];
+  for (const remote of remotes) {
+    if (isObject(remote)) {
+      const alias =
+        typeof remote.alias === 'string' && remote.alias
+          ? remote.alias
+          : typeof remote.name === 'string' && remote.name
+            ? remote.name
+            : undefined;
+      if (alias) {
+        aliasSet.add(alias);
+      }
+    }
+  }
+
+  const idToRemoteMap = runtimeInstance.remoteHandler?.idToRemoteMap;
+  if (isObject(idToRemoteMap)) {
+    for (const remoteInfo of Object.values(idToRemoteMap)) {
+      if (!isObject(remoteInfo)) {
+        continue;
+      }
+      const name =
+        typeof remoteInfo.name === 'string' && remoteInfo.name
+          ? remoteInfo.name
+          : undefined;
+      if (name) {
+        aliasSet.add(name);
+      }
+    }
+  }
+
+  if (aliasSet.size === 1) {
+    fallbackRemoteAlias = Array.from(aliasSet)[0];
+    return fallbackRemoteAlias;
+  }
+
+  const uniqueName =
+    isObject(webpackRequire?.initializeSharingData) &&
+    typeof webpackRequire.initializeSharingData.uniqueName === 'string'
       ? webpackRequire.initializeSharingData.uniqueName
       : undefined;
-  if (isString(uniqueName) && uniqueName.trim()) {
-    const prefixedId = `${ACTION_PREFIX}${uniqueName}:${id}`;
-    remapMap[id] = prefixedId;
-    return Promise.resolve(prefixedId);
+  if (typeof uniqueName === 'string' && uniqueName.trim()) {
+    fallbackRemoteAlias = uniqueName;
+    return fallbackRemoteAlias;
   }
 
   if (globalThis.window) {
@@ -103,142 +144,181 @@ function resolveActionId(id) {
         isFunction(candidate.init)
       );
     });
-
     if (containerAliases.length === 1) {
-      const prefixedId = `${ACTION_PREFIX}${containerAliases[0]}:${id}`;
-      remapMap[id] = prefixedId;
-      return Promise.resolve(prefixedId);
+      fallbackRemoteAlias = containerAliases[0];
+      return fallbackRemoteAlias;
     }
   }
 
-  const remapWaiters = getActionRemapWaiters();
+  fallbackRemoteAlias = undefined;
+  return undefined;
+}
+
+function getActionRemapWaiters() {
+  const waiters = globalThis[ACTION_REMAP_WAITERS_KEY];
+  if (!(waiters instanceof Map)) {
+    const nextWaiters = new Map();
+    globalThis[ACTION_REMAP_WAITERS_KEY] = nextWaiters;
+    return nextWaiters;
+  }
+  return waiters;
+}
+
+function resolveActionEndpoint() {
+  if (!globalThis.window) {
+    return '/';
+  }
+
+  const entryName = window.__MODERN_JS_ENTRY_NAME;
+  return entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
+}
+
+function waitForActionRemap(rawId) {
+  const waiters = getActionRemapWaiters();
   return new Promise(resolve => {
-    const waiters = remapWaiters.get(id) || [];
-    waiters.push(resolve);
-    remapWaiters.set(id, waiters);
-    setTimeout(() => {
-      const currentWaiters = remapWaiters.get(id);
-      if (!currentWaiters) {
+    let settled = false;
+    const resolveOnce = value => {
+      if (settled) {
         return;
       }
-      const waiterIndex = currentWaiters.indexOf(resolve);
-      if (waiterIndex !== -1) {
-        currentWaiters.splice(waiterIndex, 1);
-      }
-      if (currentWaiters.length === 0) {
-        remapWaiters.delete(id);
+      settled = true;
+      clearTimeout(timeoutHandle);
+      resolve(value);
+    };
+
+    const list = waiters.get(rawId) || [];
+    list.push(resolveOnce);
+    waiters.set(rawId, list);
+
+    const timeoutHandle = setTimeout(() => {
+      const current = waiters.get(rawId) || [];
+      const next = current.filter(waiter => waiter !== resolveOnce);
+      if (next.length === 0) {
+        waiters.delete(rawId);
       } else {
-        remapWaiters.set(id, currentWaiters);
+        waiters.set(rawId, next);
       }
-      resolve(id);
-    }, 0);
+      resolveOnce(rawId);
+    }, ACTION_REMAP_WAIT_TIMEOUT_MS);
   });
 }
 
-function installCallbacksFromModuleCache() {
-  const webpackRequire = getWebpackRequire();
-  if (!webpackRequire || !isObject(webpackRequire.c)) {
-    return false;
+async function resolveActionId(id) {
+  if (typeof id === 'string' && id.startsWith(ACTION_PREFIX)) {
+    return id;
   }
 
-  let installedAny = false;
-  const moduleIds = Object.keys(webpackRequire.c);
-  for (let index = 0; index < moduleIds.length; index += 1) {
-    const moduleRecord = webpackRequire.c[moduleIds[index]];
-    const moduleExports = moduleRecord?.exports;
-    if (!isObject(moduleExports) || patchedClientModules.has(moduleExports)) {
-      continue;
-    }
+  const remapMap = getActionRemapMap();
+  const remappedId = remapMap[id];
+  if (typeof remappedId === 'string') {
+    return remappedId;
+  }
+  if (remappedId === false) {
+    return id;
+  }
 
-    const clientRuntime = moduleExports;
+  const fallbackAlias = resolveFallbackRemoteAlias();
+  if (typeof fallbackAlias === 'string' && fallbackAlias) {
+    const prefixedId = `${ACTION_PREFIX}${fallbackAlias}:${id}`;
+    remapMap[id] = prefixedId;
+    return prefixedId;
+  }
 
-    if (
-      isFunction(clientRuntime.createServerReference) &&
-      !patchedCreateServerReferenceModules.has(moduleExports)
-    ) {
-      const originalCreateServerReference = clientRuntime.createServerReference;
-      clientRuntime.createServerReference =
-        function patchedCreateServerReference(id, ...rest) {
-          const actionReference = originalCreateServerReference.call(
-            this,
-            id,
-            ...rest,
-          );
-          if (isFunction(actionReference) && isString(id)) {
-            try {
-              Object.defineProperty(actionReference, '$$id', {
-                value: id,
-                configurable: true,
-              });
-            } catch {
-              actionReference.$$id = id;
-            }
-          }
-          return actionReference;
-        };
-      patchedCreateServerReferenceModules.add(moduleExports);
-    }
+  return waitForActionRemap(id);
+}
 
-    if (
-      !isFunction(clientRuntime.setServerCallback) ||
-      !isFunction(clientRuntime.createServerReference) ||
-      !isFunction(clientRuntime.createTemporaryReferenceSet) ||
-      !isFunction(clientRuntime.createFromFetch) ||
-      !isFunction(clientRuntime.encodeReply)
-    ) {
-      continue;
-    }
-
-    clientRuntime.setServerCallback(function callback(id, args) {
-      const temporaryReferences = clientRuntime.createTemporaryReferenceSet();
-      const bodyPromise = clientRuntime.encodeReply(
-        Array.isArray(args) ? args : [],
-        {
-          temporaryReferences,
-        },
-      );
-      return resolveActionId(id).then(actionId =>
-        bodyPromise
-          .then(body =>
-            fetch(`${window.location.origin}${window.location.pathname}`, {
-              method: 'POST',
-              headers: {
-                Accept: 'text/x-component',
-                'x-rsc-action': actionId,
-              },
-              body,
-            }),
-          )
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(
-                `[modern-js-v3:rsc-bridge] callback request failed (${response.status}) for "${actionId}"`,
-              );
-            }
-            return clientRuntime.createFromFetch(Promise.resolve(response), {
-              temporaryReferences,
-            });
-          }),
-      );
+function createServerCallback(runtime) {
+  return async (id, args) => {
+    const actionId = await resolveActionId(id);
+    const temporaryReferences = runtime.createTemporaryReferenceSet();
+    const body = await runtime.encodeReply(Array.isArray(args) ? args : [], {
+      temporaryReferences,
+    });
+    const endpoint = resolveActionEndpoint();
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/x-component',
+        'x-rsc-action': actionId,
+      },
+      body,
     });
 
-    patchedClientModules.add(moduleExports);
-    installedAny = true;
-  }
+    if (!response.ok) {
+      throw new Error(
+        `[modern-js-v3:rsc-bridge] callback request failed (${response.status}) for "${actionId}"`,
+      );
+    }
 
-  return installedAny;
+    return runtime.createFromFetch(Promise.resolve(response), {
+      temporaryReferences,
+    });
+  };
 }
 
-function bootstrapCallbacks(attempt = 0) {
-  const installedAny = installCallbacksFromModuleCache();
-  if (installedAny || attempt >= MAX_CALLBACK_BOOTSTRAP_ATTEMPTS) {
+function collectClientBrowserRuntimes() {
+  const runtimes = [];
+  const maybePushRuntime = candidate => {
+    if (isClientBrowserRuntime(candidate)) {
+      runtimes.push(candidate);
+    } else if (
+      isObject(candidate) &&
+      isClientBrowserRuntime(candidate.default)
+    ) {
+      runtimes.push(candidate.default);
+    }
+  };
+
+  maybePushRuntime({
+    createFromFetch,
+    createTemporaryReferenceSet,
+    encodeReply,
+    setServerCallback,
+  });
+
+  const webpackRequire = getWebpackRequire();
+  const moduleCache = webpackRequire && webpackRequire.c;
+  if (isObject(moduleCache)) {
+    for (const moduleRecord of Object.values(moduleCache)) {
+      if (isObject(moduleRecord) && 'exports' in moduleRecord) {
+        maybePushRuntime(moduleRecord.exports);
+      }
+    }
+  }
+
+  return runtimes;
+}
+
+function installServerCallbacks() {
+  let installedCount = 0;
+  for (const runtime of collectClientBrowserRuntimes()) {
+    if (installedClientBrowserRuntimes.has(runtime)) {
+      continue;
+    }
+    installedClientBrowserRuntimes.add(runtime);
+    runtime.setServerCallback(createServerCallback(runtime));
+    installedCount += 1;
+  }
+  return installedCount;
+}
+
+function runInstallAttempt() {
+  installServerCallbacks();
+  callbackInstallAttempts += 1;
+
+  if (
+    callbackInstallAttempts >= MAX_CALLBACK_INSTALL_ATTEMPTS ||
+    typeof setTimeout !== 'function'
+  ) {
     return;
   }
-  setTimeout(function retryBootstrap() {
-    bootstrapCallbacks(attempt + 1);
-  }, CALLBACK_BOOTSTRAP_RETRY_DELAY_MS);
+
+  setTimeout(runInstallAttempt, CALLBACK_INSTALL_RETRY_DELAY_MS);
 }
 
-if (globalThis?.window) {
-  bootstrapCallbacks();
+runInstallAttempt();
+if (typeof queueMicrotask === 'function') {
+  queueMicrotask(() => {
+    installServerCallbacks();
+  });
 }

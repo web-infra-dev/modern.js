@@ -109,10 +109,11 @@ describe('patchMFConfig', async () => {
     ).toBe(true);
     expect(patchedConfig.exposes).toBeDefined();
     const widgetExposeConfig = (patchedConfig.exposes as any)['./Widget'];
-    expect(Array.isArray(widgetExposeConfig.import)).toBe(true);
-    expect(widgetExposeConfig.import).toContain('./src/widget.ts');
-    expect(String(widgetExposeConfig.import[0])).toMatch(
-      /rsc-client-callback-bootstrap\.(mjs|js)$/,
+    expect(widgetExposeConfig.import).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/rsc-client-callback-bootstrap\.(mjs|js)$/),
+        './src/widget.ts',
+      ]),
     );
     expect((patchedConfig.exposes as any)['./Widget']).toMatchObject({
       layer: 'react-server-components',
@@ -189,7 +190,7 @@ describe('patchMFConfig', async () => {
     );
   });
 
-  it('patchMFConfig: rsc exposes inject runtime bridge plugin', async () => {
+  it('patchMFConfig: rsc exposes inject bridge expose + bootstrap without runtime bridge plugin', async () => {
     const patchedConfig = {
       name: 'rsc-remote',
       exposes: {
@@ -209,12 +210,13 @@ describe('patchMFConfig', async () => {
           typeof runtimePlugin === 'string' ? runtimePlugin : runtimePlugin[0],
         ),
       ),
-    ).toBe(true);
+    ).toBe(false);
     const widgetExposeConfig = (patchedConfig.exposes as any)['./Widget'];
-    expect(Array.isArray(widgetExposeConfig.import)).toBe(true);
-    expect(widgetExposeConfig.import).toContain('./src/widget.ts');
-    expect(String(widgetExposeConfig.import[0])).toMatch(
-      /rsc-client-callback-bootstrap\.(mjs|js)$/,
+    expect(widgetExposeConfig.import).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/rsc-client-callback-bootstrap\.(mjs|js)$/),
+        './src/widget.ts',
+      ]),
     );
     expect(
       (patchedConfig.exposes as any)['./__rspack_rsc_bridge__'],

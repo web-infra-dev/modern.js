@@ -69,11 +69,11 @@ const RSC_CLIENT_CALLBACK_BOOTSTRAP_MODULE = resolveFirstExistingPath(
     path.resolve(__dirname, '../esm/runtime/rsc-client-callback-bootstrap.mjs'),
     path.resolve(
       path.dirname(RSC_BRIDGE_EXPOSE_MODULE),
-      '../../esm/runtime/rsc-client-callback-bootstrap.mjs',
+      'rsc-client-callback-bootstrap.js',
     ),
     path.resolve(
       path.dirname(RSC_BRIDGE_EXPOSE_MODULE),
-      '../../cjs/runtime/rsc-client-callback-bootstrap.js',
+      'rsc-client-callback-bootstrap.mjs',
     ),
   ],
   path.resolve(__dirname, '../runtime/rsc-client-callback-bootstrap.js'),
@@ -285,7 +285,7 @@ const setRscExposeConfig = (
     const importList = Array.isArray(normalizedConfig.import)
       ? [...normalizedConfig.import]
       : [normalizedConfig.import];
-    const normalizedImport =
+    const normalizedImportList =
       exposeKey === RSC_BRIDGE_EXPOSE
         ? importList
         : [
@@ -294,7 +294,10 @@ const setRscExposeConfig = (
               importPath => importPath !== RSC_CLIENT_CALLBACK_BOOTSTRAP_MODULE,
             ),
           ];
-
+    const normalizedImport =
+      normalizedImportList.length === 1
+        ? normalizedImportList[0]
+        : normalizedImportList;
     normalizedExposes[exposeKey] = {
       ...normalizedConfig,
       import: normalizedImport,
@@ -450,10 +453,7 @@ export const patchMFConfig = (
     );
   }
 
-  if (
-    rscEnabled &&
-    (hasRemotes(mfConfig.remotes) || hasExposes(mfConfig.exposes))
-  ) {
+  if (rscEnabled && hasRemotes(mfConfig.remotes)) {
     injectRuntimePlugins(RSC_BRIDGE_RUNTIME_PLUGIN, runtimePlugins);
   }
 
@@ -528,6 +528,177 @@ function patchIgnoreWarning(chain: BundlerChainConfig) {
   chain.ignoreWarnings(ignoreWarnings);
 }
 
+const patchProjectNodeModulesResolution = (chain: BundlerChainConfig) => {
+  // Keep federation + RSC resolution rooted in the app workspace to avoid
+  // divergent hoisted dependency paths between client/server manifests.
+  const projectNodeModulesPath = path.resolve(process.cwd(), 'node_modules');
+  if (!fs.existsSync(projectNodeModulesPath)) {
+    return;
+  }
+
+  const resolveModules = chain.resolve.modules as {
+    values?: () => string[];
+    clear: () => unknown;
+    add: (value: string) => unknown;
+  };
+  resolveModules.clear();
+  resolveModules.add(projectNodeModulesPath);
+  resolveModules.add('node_modules');
+};
+
+const patchServerOnlyAlias = (chain: BundlerChainConfig) => {
+  // Align server-only package behavior for federated remote exposes across
+  // both build targets.
+  const serverOnlyEmptyPath = path.resolve(
+    process.cwd(),
+    'node_modules/server-only/empty.js',
+  );
+  if (!fs.existsSync(serverOnlyEmptyPath)) {
+    return;
+  }
+
+  const aliasChain = chain.resolve.alias as {
+    has?: (key: string) => boolean;
+    set: (key: string, value: string) => unknown;
+  };
+  const hasServerOnlyAlias =
+    typeof aliasChain.has === 'function' ? aliasChain.has('server-only$') : false;
+  if (!hasServerOnlyAlias) {
+    aliasChain.set('server-only$', serverOnlyEmptyPath);
+  }
+};
+
+const resolveProjectDependency = (request: string) => {
+  try {
+    return require.resolve(request, { paths: [process.cwd()] });
+  } catch {
+    try {
+      return require.resolve(request);
+    } catch {
+      return undefined;
+    }
+  }
+};
+
+const patchRscServerRuntimeAliases = (chain: BundlerChainConfig) => {
+  const reactPackagePath = resolveProjectDependency('react/package.json');
+  if (!reactPackagePath) {
+    return;
+  }
+
+  const reactDir = path.dirname(reactPackagePath);
+  const reactJsxRuntimeServerPath = path.join(
+    reactDir,
+    'jsx-runtime.react-server.js',
+  );
+  const reactJsxDevRuntimeServerPath = path.join(
+    reactDir,
+    'jsx-dev-runtime.react-server.js',
+  );
+
+  if (fs.existsSync(reactJsxRuntimeServerPath)) {
+    chain.resolve.alias.set('react/jsx-runtime$', reactJsxRuntimeServerPath);
+  }
+  if (fs.existsSync(reactJsxDevRuntimeServerPath)) {
+    chain.resolve.alias.set(
+      'react/jsx-dev-runtime$',
+      reactJsxDevRuntimeServerPath,
+    );
+  }
+};
+
+const getExposeImports = (
+  exposeConfig: moduleFederationPlugin.ExposesObject[string],
+): string[] => {
+  if (typeof exposeConfig === 'string') {
+    return [exposeConfig];
+  }
+  if (Array.isArray(exposeConfig)) {
+    return exposeConfig.filter(
+      (importPath): importPath is string => typeof importPath === 'string',
+    );
+  }
+  if (
+    exposeConfig &&
+    typeof exposeConfig === 'object' &&
+    'import' in exposeConfig
+  ) {
+    const exposeImport = (exposeConfig as { import?: unknown }).import;
+    if (typeof exposeImport === 'string') {
+      return [exposeImport];
+    }
+    if (Array.isArray(exposeImport)) {
+      return exposeImport.filter(
+        (importPath): importPath is string => typeof importPath === 'string',
+      );
+    }
+  }
+  return [];
+};
+
+const collectExposeImportDirectories = (
+  exposes: moduleFederationPlugin.ModuleFederationPluginOptions['exposes'],
+) => {
+  if (!exposes) {
+    return [];
+  }
+
+  const exposeEntries = Array.isArray(exposes)
+    ? exposes.flatMap(exposeItem =>
+        typeof exposeItem === 'string'
+          ? [[exposeItem, exposeItem] as const]
+          : (Object.entries(exposeItem || {}) as Array<
+              readonly [
+                string,
+                moduleFederationPlugin.ExposesObject[string],
+              ]
+            >),
+      )
+    : (Object.entries(exposes) as Array<
+        readonly [string, moduleFederationPlugin.ExposesObject[string]]
+      >);
+
+  const directories = new Set<string>();
+  for (const [exposeKey, exposeConfig] of exposeEntries) {
+    if (exposeKey === RSC_BRIDGE_EXPOSE) {
+      continue;
+    }
+    for (const importPath of getExposeImports(exposeConfig)) {
+      if (!importPath || !importPath.startsWith('.')) {
+        continue;
+      }
+      directories.add(path.dirname(path.resolve(process.cwd(), importPath)));
+    }
+  }
+
+  return Array.from(directories);
+};
+
+const patchRscRemoteComponentLayer = (
+  chain: BundlerChainConfig,
+  mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
+) => {
+  // Derive layer coverage from actual expose imports instead of fixture-specific
+  // source path conventions.
+  const includeDirectories = collectExposeImportDirectories(mfConfig.exposes);
+  if (includeDirectories.length === 0) {
+    return;
+  }
+
+  const ruleChain = chain.module
+    .rule('rsc-mf-remote-components-layer')
+    .test(/\.[cm]?[jt]sx?$/);
+
+  for (const includeDirectory of includeDirectories) {
+    ruleChain.include.add(includeDirectory);
+  }
+
+  ruleChain.layer(RSC_LAYER);
+};
+
+const normalizePublicPath = (publicPath: string) =>
+  publicPath.endsWith('/') ? publicPath.slice(0, -1) : publicPath;
+
 export function addMyTypes2Ignored(
   chain: BundlerChainConfig,
   mfConfig: moduleFederationPlugin.ModuleFederationPluginOptions,
@@ -588,10 +759,43 @@ export function patchBundlerConfig(options: {
   enableSSR: boolean;
 }) {
   const { chain, modernjsConfig, isServer, mfConfig, enableSSR } = options;
+  const rscMfEnabled = isRscMfEnabled(mfConfig);
 
   chain.optimization.delete('runtimeChunk');
 
   patchIgnoreWarning(chain);
+
+  if (rscMfEnabled && isServer) {
+    chain.resolve.conditionNames
+      .clear()
+      .add('require')
+      .add('import')
+      .add('default');
+    if (hasExposes(mfConfig.exposes)) {
+      chain.resolve.conditionNames.add('react-server');
+    }
+  }
+
+  if (rscMfEnabled && hasExposes(mfConfig.exposes)) {
+    patchProjectNodeModulesResolution(chain);
+    patchServerOnlyAlias(chain);
+
+    const assetPrefix = modernjsConfig.output?.assetPrefix;
+    if (typeof assetPrefix === 'string' && assetPrefix.trim()) {
+      const normalizedAssetPrefix = normalizePublicPath(assetPrefix.trim());
+      chain.output.publicPath(
+        isServer
+          ? `${normalizedAssetPrefix}/bundles/`
+          : `${normalizedAssetPrefix}/`,
+      );
+    }
+    if (!isServer) {
+      chain.optimization.splitChunks(false);
+    } else {
+      patchRscServerRuntimeAliases(chain);
+      patchRscRemoteComponentLayer(chain, mfConfig);
+    }
+  }
 
   if (!chain.output.get('chunkLoadingGlobal')) {
     chain.output.chunkLoadingGlobal(`chunk_${mfConfig.name}`);

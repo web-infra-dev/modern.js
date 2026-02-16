@@ -96,36 +96,6 @@ describe('rsc-bridge-expose', () => {
     expect(action).toHaveBeenNthCalledWith(2, 'value-b');
   });
 
-  it('returns discovered action ids through getActionIds', async () => {
-    const actionOne = vi.fn(async () => 'one') as {
-      (...args: unknown[]): Promise<string>;
-      $$id?: string;
-    };
-    const actionTwo = vi.fn(async () => 'two') as {
-      (...args: unknown[]): Promise<string>;
-      $$id?: string;
-    };
-    actionOne.$$id = 'raw-action-one';
-    actionTwo.$$id = 'raw-action-two';
-
-    setWebpackRequireRuntime({
-      initializeExposesData: {
-        moduleMap: {
-          './actions': async () => () => ({
-            nested: { actionOne },
-            actionTwo,
-          }),
-        },
-      },
-      rscM: {},
-    });
-
-    const bridgeExpose = await loadBridgeExposeModule();
-    const actionIds = await bridgeExpose.getActionIds();
-
-    expect(actionIds.sort()).toEqual(['raw-action-one', 'raw-action-two']);
-  });
-
   it('normalizes non-array args to empty array before dispatch', async () => {
     const action = vi.fn(async (...args: unknown[]) => args.length) as {
       (...args: unknown[]): Promise<number>;
@@ -191,9 +161,6 @@ describe('rsc-bridge-expose', () => {
     });
 
     const bridgeExpose = await loadBridgeExposeModule();
-    await expect(bridgeExpose.getActionIds()).resolves.toContain(
-      'raw-action-from-cache',
-    );
     await expect(
       bridgeExpose.executeAction('raw-action-from-cache', []),
     ).resolves.toBe('cached');

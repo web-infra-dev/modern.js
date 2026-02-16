@@ -29,9 +29,10 @@ const createStaticMiddleware = (options: {
 
   return async (c, next) => {
     const pathname = c.req.path;
+    const extension = path.extname(pathname);
 
-    // We only handle js file for performance
-    if (path.extname(pathname) !== '.js') {
+    // Only serve assets required by server-side federation runtime.
+    if (extension !== '.js' && extension !== '.json') {
       return next();
     }
 
@@ -53,7 +54,10 @@ const createStaticMiddleware = (options: {
       return next();
     }
 
-    c.header('Content-Type', 'application/javascript');
+    c.header(
+      'Content-Type',
+      extension === '.json' ? 'application/json' : 'application/javascript',
+    );
     c.header('Content-Length', String(fileResult.content.length));
     return c.body(fileResult.content, 200);
   };

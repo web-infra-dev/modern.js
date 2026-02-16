@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
@@ -14,6 +15,11 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
+const readPackageVersion = (pkg: string) =>
+  JSON.parse(fs.readFileSync(require.resolve(`${pkg}/package.json`), 'utf8')).version;
+const reactVersion = readPackageVersion('react');
+const reactDomVersion = readPackageVersion('react-dom');
+const reactServerDomVersion = readPackageVersion('react-server-dom-rspack');
 const remoteExposeImports: Record<string, string> = {
   './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
   './RemoteClientBadge': './src/components/RemoteClientBadge.tsx',
@@ -36,16 +42,19 @@ const sharedByScope = [
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactVersion,
     },
     'react-dom': {
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactDomVersion,
     },
     'react-server-dom-rspack': {
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactServerDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -53,6 +62,7 @@ const sharedByScope = [
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactServerDomVersion,
     },
   },
   {
@@ -64,6 +74,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactVersion,
     },
     'react-dom': {
       import: 'react-dom',
@@ -73,6 +84,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -82,6 +94,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactServerDomVersion,
     },
   },
   {
@@ -93,6 +106,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactVersion,
     },
     'react-dom': {
       import: reactDomServerImport,
@@ -102,6 +116,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -111,6 +126,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactServerDomVersion,
     },
   },
 ];

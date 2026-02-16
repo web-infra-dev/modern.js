@@ -19,6 +19,7 @@ const EXPECTED_REMOTE_EXPOSE_KEYS = [
 ].sort();
 const INTERNAL_RSC_BRIDGE_EXPOSE_KEY = './__rspack_rsc_bridge__';
 const EXPECTED_SHARED_SCOPES = ['default', 'ssr', 'rsc'];
+const SEMVER_LIKE_VERSION_PATTERN = /^\d+\.\d+\.\d+/;
 
 const getExposeImports = (exposeDefinition: unknown): string[] => {
   if (typeof exposeDefinition === 'string') {
@@ -45,6 +46,22 @@ const getExposeImports = (exposeDefinition: unknown): string[] => {
     }
   }
   return [];
+};
+
+const assertSharedVersions = (
+  sharedScopes: Array<Record<string, { version?: unknown }>>,
+) => {
+  for (const sharedScope of sharedScopes) {
+    expect(sharedScope.react?.version).toEqual(
+      expect.stringMatching(SEMVER_LIKE_VERSION_PATTERN),
+    );
+    expect(sharedScope['react-dom']?.version).toEqual(
+      expect.stringMatching(SEMVER_LIKE_VERSION_PATTERN),
+    );
+    expect(
+      sharedScope['react-server-dom-rspack/client.browser']?.version,
+    ).toEqual(expect.stringMatching(SEMVER_LIKE_VERSION_PATTERN));
+  }
 };
 
 const withEnv = <T>(
@@ -167,6 +184,7 @@ describe('rsc-mf module federation config contracts', () => {
         scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
       ),
     ).toEqual(EXPECTED_SHARED_SCOPES);
+    assertSharedVersions(sharedScopes as Array<Record<string, { version?: unknown }>>);
     expect(remoteConfig.experiments).toEqual(
       expect.objectContaining({
         asyncStartup: true,
@@ -243,5 +261,6 @@ describe('rsc-mf module federation config contracts', () => {
         scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
       ),
     ).toEqual(EXPECTED_SHARED_SCOPES);
+    assertSharedVersions(sharedScopes as Array<Record<string, { version?: unknown }>>);
   });
 });

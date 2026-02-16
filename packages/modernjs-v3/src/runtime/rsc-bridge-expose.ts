@@ -23,10 +23,8 @@ declare const __webpack_require__: WebpackRequireRuntime;
 const BRIDGE_EXPOSE_NAME = './__rspack_rsc_bridge__';
 const actionReferenceCache: Record<string, (...args: unknown[]) => unknown> =
   Object.create(null);
-const actionIdFallbackCache: Record<string, true> = Object.create(null);
 let scanPromise: Promise<void> | null = null;
 let scanHadErrors = false;
-const ACTION_ID_PATTERN = /\b[a-f0-9]{64}\b/g;
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
@@ -99,23 +97,6 @@ const cacheActionReferencesFromExports = (
   }
 };
 
-const cacheActionIdsFromModuleFactories = (
-  moduleFactories: Record<string, unknown>,
-) => {
-  for (const moduleFactory of Object.values(moduleFactories)) {
-    if (!isFunction(moduleFactory)) {
-      continue;
-    }
-    const matches = String(moduleFactory).match(ACTION_ID_PATTERN);
-    if (!matches) {
-      continue;
-    }
-    for (const actionId of matches) {
-      actionIdFallbackCache[actionId] = true;
-    }
-  }
-};
-
 const scanExposedModulesForActions = async () => {
   if (scanPromise) {
     await scanPromise;
@@ -167,10 +148,6 @@ const scanExposedModulesForActions = async () => {
       }
     }
 
-    if (isObject(webpackRequire.m)) {
-      cacheActionIdsFromModuleFactories(webpackRequire.m);
-    }
-
     scanHadErrors = hadExposeScanError;
   })();
 
@@ -182,15 +159,6 @@ const scanExposedModulesForActions = async () => {
 };
 
 export const getManifest = () => getWebpackRequire().rscM;
-
-export const getActionIds = async () => {
-  await scanExposedModulesForActions();
-  const actionIds = new Set<string>([
-    ...Object.keys(actionReferenceCache),
-    ...Object.keys(actionIdFallbackCache),
-  ]);
-  return Array.from(actionIds);
-};
 
 export const executeAction = async (actionId: string, args: unknown[]) => {
   await scanExposedModulesForActions();

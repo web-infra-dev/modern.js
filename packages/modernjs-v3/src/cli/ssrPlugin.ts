@@ -12,8 +12,8 @@ import {
   ManifestFileName,
   StatsFileName,
   simpleJoinRemoteEntry,
+  type moduleFederationPlugin,
 } from '@module-federation/sdk';
-import type { moduleFederationPlugin } from '@module-federation/sdk';
 import fs from 'fs-extra';
 import logger from '../logger';
 import { isDev } from './utils';
@@ -32,6 +32,20 @@ export function setEnv() {
 }
 
 export const CHAIN_MF_PLUGIN_ID = 'plugin-module-federation-server';
+const isBuildCommand = () =>
+  process.argv.includes('build') || process.argv.includes('deploy');
+
+const hasExposes = (
+  exposes: moduleFederationPlugin.ModuleFederationPluginOptions['exposes'],
+) => {
+  if (!exposes) {
+    return false;
+  }
+  if (Array.isArray(exposes)) {
+    return exposes.length > 0;
+  }
+  return Object.keys(exposes).length > 0;
+};
 
 function getManifestAssetFileNames(
   manifestOption?: moduleFederationPlugin.ModuleFederationPluginOptions['manifest'],
@@ -83,52 +97,6 @@ const mfSSRRsbuildPlugin = (
       let ssrEnv = '';
       let csrEnv = '';
 
-      const browserAssetFileNames =
-        pluginOptions.assetFileNames.browser ||
-        getManifestAssetFileNames(pluginOptions.csrConfig?.manifest);
-      const nodeAssetFileNames =
-        pluginOptions.assetFileNames?.node ||
-        getManifestAssetFileNames(pluginOptions.ssrConfig?.manifest);
-
-      const collectAssets = (
-        assets: Record<string, { source: () => string | Buffer }>,
-        fileNames: { statsFileName: string; manifestFileName: string },
-        tag: 'browser' | 'node',
-      ): StatsAssetResource | undefined => {
-        const statsAsset = assets[fileNames.statsFileName];
-        const manifestAsset = assets[fileNames.manifestFileName];
-
-        if (!statsAsset || !manifestAsset) {
-          return undefined;
-        }
-
-        try {
-          const statsRaw = statsAsset.source();
-          const manifestRaw = manifestAsset.source();
-          const statsContent =
-            typeof statsRaw === 'string' ? statsRaw : statsRaw.toString();
-          const manifestContent =
-            typeof manifestRaw === 'string'
-              ? manifestRaw
-              : manifestRaw.toString();
-
-          return {
-            stats: {
-              data: JSON.parse(statsContent),
-              filename: fileNames.statsFileName,
-            },
-            manifest: {
-              data: JSON.parse(manifestContent),
-              filename: fileNames.manifestFileName,
-            },
-          };
-        } catch (err) {
-          const message = err instanceof Error ? err.message : String(err);
-          logger.error(`Failed to parse ${tag} manifest assets: ${message}`);
-          return undefined;
-        }
-      };
-
       api.modifyEnvironmentConfig((config, { name }) => {
         const target = config.output.target;
         if (skipByTarget(target)) {
@@ -166,43 +134,6 @@ const mfSSRRsbuildPlugin = (
         modifySSRPublicPath(config, utils);
         return config;
       });
-
-      api.processAssets(
-        { stage: 'report' },
-        ({ assets, environment: envContext }) => {
-          const envName = envContext.name;
-
-          if (
-            pluginOptions.csrConfig?.manifest !== false &&
-            csrEnv &&
-            envName === csrEnv
-          ) {
-            const browserAssets = collectAssets(
-              assets,
-              browserAssetFileNames,
-              'browser',
-            );
-            if (browserAssets) {
-              pluginOptions.assetResources.browser = browserAssets;
-            }
-          }
-
-          if (
-            pluginOptions.ssrConfig?.manifest !== false &&
-            ssrEnv &&
-            envName === ssrEnv
-          ) {
-            const nodeAssets = collectAssets(
-              assets,
-              nodeAssetFileNames,
-              'node',
-            );
-            if (nodeAssets) {
-              pluginOptions.assetResources.node = nodeAssets;
-            }
-          }
-        },
-      );
     },
   };
 };
@@ -220,6 +151,11 @@ export const moduleFederationSSRPlugin = (
     const enableSSR =
       pluginOptions.userConfig?.ssr ?? Boolean(modernjsConfig?.server?.ssr);
     const enableRsc = Boolean(modernjsConfig?.server?.rsc);
+    const enableMfRsc = Boolean(
+      (pluginOptions.ssrConfig.experiments as { rsc?: boolean } | undefined)
+        ?.rsc,
+    );
+    const hasRscExposes = hasExposes(pluginOptions.ssrConfig.exposes);
     const { secondarySharedTreeShaking } = pluginOptions;
     if (!enableSSR) {
       return;
@@ -294,7 +230,7 @@ export const moduleFederationSSRPlugin = (
       if (!isWeb && !secondarySharedTreeShaking) {
         chain.target('async-node');
 
-        if (enableRsc) {
+        if (enableRsc && (!enableMfRsc || hasRscExposes)) {
           chain.resolve.conditionNames.add('react-server');
         }
 
@@ -349,14 +285,73 @@ export const moduleFederationSSRPlugin = (
         },
       };
     });
-    const writeMergedManifest = () => {
-      const { distOutputDir, assetResources } = pluginOptions;
-      const browserAssets = assetResources.browser;
-      const nodeAssets = assetResources.node;
 
-      if (!distOutputDir || !browserAssets || !nodeAssets) {
+    const readAssetResourceFromDisk = (
+      outputDir: string,
+      fileNames: AssetFileNames,
+      tag: 'browser' | 'node',
+    ): StatsAssetResource | undefined => {
+      const statsFilePath = path.resolve(outputDir, fileNames.statsFileName);
+      const manifestFilePath = path.resolve(
+        outputDir,
+        fileNames.manifestFileName,
+      );
+      if (!fs.existsSync(statsFilePath) || !fs.existsSync(manifestFilePath)) {
+        return undefined;
+      }
+
+      try {
+        return {
+          stats: {
+            data: fs.readJSONSync(statsFilePath),
+            filename: fileNames.statsFileName,
+          },
+          manifest: {
+            data: fs.readJSONSync(manifestFilePath),
+            filename: fileNames.manifestFileName,
+          },
+        };
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        logger.error(
+          `[module-federation-ssr] Failed to read ${tag} manifest assets from disk: ${message}`,
+        );
+        return undefined;
+      }
+    };
+
+    const writeMergedManifest = () => {
+      if (!isBuildCommand()) {
         return;
       }
+      const distOutputDir =
+        pluginOptions.distOutputDir || path.resolve(process.cwd(), 'dist');
+      const userSSRConfig = pluginOptions.userConfig.ssr;
+      const ssrDistOutputDir =
+        typeof userSSRConfig === 'object' && userSSRConfig.distOutputDir
+          ? userSSRConfig.distOutputDir
+          : path.resolve(distOutputDir, 'bundles');
+      const browserFileNames =
+        pluginOptions.assetFileNames.browser ||
+        getManifestAssetFileNames(pluginOptions.csrConfig?.manifest);
+      const nodeFileNames =
+        pluginOptions.assetFileNames.node ||
+        getManifestAssetFileNames(pluginOptions.ssrConfig?.manifest);
+      const browserAssets = readAssetResourceFromDisk(
+        distOutputDir,
+        browserFileNames,
+        'browser',
+      );
+      const nodeAssets = readAssetResourceFromDisk(
+        ssrDistOutputDir,
+        nodeFileNames,
+        'node',
+      );
+
+      if (!browserAssets || !nodeAssets) {
+        return;
+      }
+
       try {
         updateStatsAndManifest(nodeAssets, browserAssets, distOutputDir);
       } catch (err) {
@@ -365,10 +360,6 @@ export const moduleFederationSSRPlugin = (
     };
 
     api.onAfterBuild(() => {
-      writeMergedManifest();
-    });
-    api.onDevCompileDone(() => {
-      // 热更后修改 manifest
       writeMergedManifest();
     });
   },

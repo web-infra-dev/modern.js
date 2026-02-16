@@ -1,4 +1,4 @@
-import path from 'path';
+export {};
 
 const HOST_MODERN_CONFIG_MODULE = '../host/modern.config';
 const REMOTE_MODERN_CONFIG_MODULE = '../remote/modern.config';
@@ -104,109 +104,10 @@ const expectModuleFederationPluginEnabled = (plugins: Array<any>) => {
   expect(hasFederationPlugin).toBe(true);
 };
 
-const createChainHarness = (target: string | string[]) => {
-  const aliasMap = new Map<string, string>();
-  const conditionNames: string[] = [];
-  const moduleDirectories: string[] = [];
-  const publicPathCalls: string[] = [];
-  const chunkLoadingGlobalCalls: string[] = [];
-  const splitChunksCalls: unknown[] = [];
-  const targetCalls: string[] = [];
-  const rules: Array<{ name: string; test?: RegExp; layer?: string }> = [];
-
-  const aliasApi = {
-    set: (key: string, value: string) => {
-      aliasMap.set(key, value);
-      return aliasApi;
-    },
-  };
-  const conditionNamesApi = {
-    clear: () => {
-      conditionNames.length = 0;
-      return conditionNamesApi;
-    },
-    add: (value: string) => {
-      conditionNames.push(value);
-      return conditionNamesApi;
-    },
-  };
-  const modulesApi = {
-    clear: () => {
-      moduleDirectories.length = 0;
-      return modulesApi;
-    },
-    add: (value: string) => {
-      moduleDirectories.push(value);
-      return modulesApi;
-    },
-  };
-
-  const chain = {
-    get: (key: string) => (key === 'target' ? target : undefined),
-    target: (value: string) => {
-      targetCalls.push(value);
-      return chain;
-    },
-    resolve: {
-      alias: aliasApi,
-      conditionNames: conditionNamesApi,
-      modules: modulesApi,
-    },
-    output: {
-      publicPath: (value: string) => {
-        publicPathCalls.push(value);
-        return chain.output;
-      },
-      chunkLoadingGlobal: (value: string) => {
-        chunkLoadingGlobalCalls.push(value);
-        return chain.output;
-      },
-    },
-    optimization: {
-      splitChunks: (value: unknown) => {
-        splitChunksCalls.push(value);
-        return chain.optimization;
-      },
-    },
-    module: {
-      rule: (name: string) => {
-        const rule = { name } as {
-          name: string;
-          test?: RegExp;
-          layer?: string;
-        };
-        rules.push(rule);
-        return {
-          test: (value: RegExp) => {
-            rule.test = value;
-            return {
-              layer: (layerValue: string) => {
-                rule.layer = layerValue;
-                return chain.module;
-              },
-            };
-          },
-        };
-      },
-    },
-  };
-
-  return {
-    chain,
-    aliasMap,
-    conditionNames,
-    moduleDirectories,
-    publicPathCalls,
-    chunkLoadingGlobalCalls,
-    splitChunksCalls,
-    targetCalls,
-    rules,
-  };
-};
-
 describe('rsc-mf modern config contracts', () => {
-  it('keeps host modern server and source contracts', () => {
+  it('keeps host modern config in baseline shape without fixture bundler hooks', () => {
     const hostConfig = loadHostConfig();
+
     expect(hostConfig.server).toEqual(
       expect.objectContaining({
         rsc: true,
@@ -220,6 +121,7 @@ describe('rsc-mf modern config contracts', () => {
       }),
     );
     expect(hostConfig.source).not.toHaveProperty('preEntry');
+    expect(hostConfig.tools?.bundlerChain).toBeUndefined();
     expect(hostConfig.plugins).toHaveLength(2);
     expect(hostConfig.plugins).toEqual(
       expect.arrayContaining([
@@ -229,45 +131,13 @@ describe('rsc-mf modern config contracts', () => {
     expectModuleFederationPluginEnabled(hostConfig.plugins);
   });
 
-  it('applies host async-node bundler behavior for node targets', () => {
-    const hostConfig = loadHostConfig();
-    const harness = createChainHarness('node');
-    hostConfig.tools?.bundlerChain?.(harness.chain as any);
-
-    expect(harness.targetCalls).toContain('async-node');
-    expect(harness.conditionNames).toEqual(['require', 'import', 'default']);
-    expect(harness.aliasMap.get('server-only$')).toMatch(
-      /server-only[\\/]empty\.js$/,
-    );
-    expect(harness.moduleDirectories).toEqual([
-      path.resolve(__dirname, '../host/node_modules'),
-      'node_modules',
-    ]);
-  });
-
-  it('keeps host web-target bundler chain free of node-only aliases', () => {
-    const hostConfig = loadHostConfig();
-    const harness = createChainHarness('web');
-    hostConfig.tools?.bundlerChain?.(harness.chain as any);
-
-    expect(harness.targetCalls).toEqual([]);
-    expect(harness.aliasMap.has('server-only$')).toBe(false);
-    expect(harness.conditionNames).toEqual([]);
-    expect(harness.moduleDirectories).toEqual([
-      path.resolve(__dirname, '../host/node_modules'),
-      'node_modules',
-    ]);
-  });
-
-  it('configures remote port-driven server and asset settings', () => {
-    const remoteConfig = loadRemoteConfig({
-      remotePort: '3991',
-    });
+  it('keeps remote modern config in baseline shape without fixture bundler hooks', () => {
+    const remoteConfig = loadRemoteConfig({ remotePort: '3991' });
 
     expect(remoteConfig.server).toEqual(
       expect.objectContaining({
         rsc: true,
-        ssr: false,
+        ssr: true,
         port: 3991,
       }),
     );
@@ -282,6 +152,7 @@ describe('rsc-mf modern config contracts', () => {
       }),
     );
     expect(remoteConfig.source).not.toHaveProperty('preEntry');
+    expect(remoteConfig.tools?.bundlerChain).toBeUndefined();
     expect(remoteConfig.plugins).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ name: 'app-tools-mock' }),
@@ -290,7 +161,7 @@ describe('rsc-mf modern config contracts', () => {
     expectModuleFederationPluginEnabled(remoteConfig.plugins);
   });
 
-  it('enables remote ssr mode when explicit PORT is set', () => {
+  it('keeps remote ssr mode enabled when explicit PORT is set', () => {
     const remoteConfig = loadRemoteConfig({
       port: '4550',
     });
@@ -317,62 +188,6 @@ describe('rsc-mf modern config contracts', () => {
       expect.objectContaining({
         assetPrefix: 'http://127.0.0.1:3881',
       }),
-    );
-  });
-
-  it('applies remote async-node + layer settings for node targets', () => {
-    const remoteConfig = loadRemoteConfig({
-      remotePort: '3777',
-    });
-    const harness = createChainHarness('node');
-    remoteConfig.tools?.bundlerChain?.(harness.chain as any);
-
-    expect(harness.targetCalls).toContain('async-node');
-    expect(harness.conditionNames).toEqual(['require', 'import', 'default']);
-    expect(harness.aliasMap.get('server-only$')).toMatch(
-      /server-only[\\/]empty\.js$/,
-    );
-    expect(harness.aliasMap.get('react/jsx-runtime$')).toMatch(
-      /react[\\/]jsx-runtime\.react-server\.js$/,
-    );
-    expect(harness.aliasMap.get('react/jsx-dev-runtime$')).toMatch(
-      /react[\\/]jsx-dev-runtime\.react-server\.js$/,
-    );
-    expect(
-      harness.aliasMap.has('rsc-mf-react-server-dom-client-browser$'),
-    ).toBe(false);
-    expect(harness.publicPathCalls).toContain('http://127.0.0.1:3777/bundles/');
-    expect(harness.chunkLoadingGlobalCalls).toEqual([]);
-    expect(harness.rules).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: 'rsc-mf-remote-components-layer',
-          layer: 'react-server-components',
-        }),
-      ]),
-    );
-    expect(harness.moduleDirectories).toEqual([
-      path.resolve(__dirname, '../remote/node_modules'),
-      'node_modules',
-    ]);
-  });
-
-  it('applies remote client split-chunk + publicPath settings for web targets', () => {
-    const remoteConfig = loadRemoteConfig({
-      remotePort: '3888',
-    });
-    const harness = createChainHarness('web');
-    remoteConfig.tools?.bundlerChain?.(harness.chain as any);
-
-    expect(harness.targetCalls).toEqual([]);
-    expect(harness.splitChunksCalls).toEqual([false]);
-    expect(harness.publicPathCalls).toContain('http://127.0.0.1:3888/');
-    expect(harness.chunkLoadingGlobalCalls).toEqual([]);
-    expect(
-      harness.aliasMap.has('rsc-mf-react-server-dom-client-browser$'),
-    ).toBe(false);
-    expect(harness.aliasMap.get('server-only$')).toMatch(
-      /server-only[\\/]empty\.js$/,
     );
   });
 });

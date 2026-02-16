@@ -1,11 +1,5 @@
-import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
-
-const serverOnlyEmptyPath = path.join(
-  path.dirname(require.resolve('server-only')),
-  'empty.js',
-);
 
 export default defineConfig({
   server: {
@@ -22,26 +16,6 @@ export default defineConfig({
   },
   performance: {
     buildCache: false,
-  },
-  tools: {
-    bundlerChain(chain) {
-      const target = chain.get('target');
-      const targets = Array.isArray(target) ? target : [target];
-      if (targets.some(item => String(item).includes('node'))) {
-        chain.target('async-node');
-        chain.resolve.conditionNames
-          .clear()
-          .add('require')
-          .add('import')
-          .add('default');
-        chain.resolve.alias.set('server-only$', serverOnlyEmptyPath);
-      }
-
-      chain.resolve.modules
-        .clear()
-        .add(path.resolve(__dirname, 'node_modules'))
-        .add('node_modules');
-    },
   },
   plugins: [appTools(), moduleFederationPlugin({ ssr: true })],
 });
