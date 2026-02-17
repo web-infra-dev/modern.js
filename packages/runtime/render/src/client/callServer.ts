@@ -4,26 +4,43 @@ import {
 } from 'react-server-dom-rspack/client.browser';
 
 type ReactServerValue = unknown;
-type ActionRemapMap = Record<string, string | false>;
 
-const ACTION_PREFIX = 'remote:';
-const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
+export type ActionIdResolver = (id: string) => string | Promise<string>;
 
-const resolveActionId = (id: string) => {
-  if (id.startsWith(ACTION_PREFIX)) {
-    return id;
+const ACTION_RESOLVER_KEY = '__MODERN_RSC_ACTION_RESOLVER__';
+
+/**
+ * Register a custom action ID resolver. Plugins (e.g. Module Federation)
+ * use this to remap raw action IDs before they are sent to the server.
+ */
+export const setResolveActionId = (resolver: ActionIdResolver): void => {
+  (
+    globalThis as typeof globalThis & {
+      [ACTION_RESOLVER_KEY]?: ActionIdResolver;
+    }
+  )[ACTION_RESOLVER_KEY] = resolver;
+};
+
+export const setActionIdResolver = setResolveActionId;
+
+const resolveActionId = (id: string): string | Promise<string> => {
+  const resolver = (
+    globalThis as typeof globalThis & {
+      [ACTION_RESOLVER_KEY]?: ActionIdResolver;
+    }
+  )[ACTION_RESOLVER_KEY];
+  if (typeof resolver === 'function') {
+    return resolver(id);
   }
+  return id;
+};
 
-  const globalState = globalThis as typeof globalThis & {
-    [ACTION_REMAP_GLOBAL_KEY]?: ActionRemapMap;
-  };
-  const remapMap = globalState[ACTION_REMAP_GLOBAL_KEY];
-  if (!remapMap || typeof remapMap !== 'object') {
-    return id;
+const resolveActionRequestUrl = (): string => {
+  const entryName = globalThis.window?.__MODERN_JS_ENTRY_NAME;
+  if (!entryName || entryName === 'main' || entryName === 'index') {
+    return '/';
   }
-
-  const remappedId = remapMap[id];
-  return typeof remappedId === 'string' ? remappedId : id;
+  return `/${entryName}`;
 };
 
 class CallServerError extends Error {
@@ -70,10 +87,8 @@ class CallServerError extends Error {
 }
 
 export async function requestCallServer(id: string, args: ReactServerValue) {
-  const entryName = window.__MODERN_JS_ENTRY_NAME;
-  const url =
-    entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
-  const actionId = resolveActionId(id);
+  const url = resolveActionRequestUrl();
+  const actionId = await resolveActionId(id);
 
   try {
     const response = await fetch(url, {

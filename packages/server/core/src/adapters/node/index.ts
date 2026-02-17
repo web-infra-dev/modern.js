@@ -18,7 +18,10 @@ export {
   getServerManifest,
   injectNodeSeverPlugin,
   injectRscManifestPlugin,
+  registerBundleLoaderStrategy,
+  getBundleLoaderStrategies,
 } from './plugins';
+export type { BundleLoaderStrategy, BundleLoaderContext } from './plugins';
 
 export {
   loadServerPlugins,

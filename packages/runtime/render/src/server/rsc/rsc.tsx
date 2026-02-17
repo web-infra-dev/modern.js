@@ -80,11 +80,10 @@ export const handleAction = async (req: Request) => {
       errorMessage,
       errorStack ? `\n${errorStack}` : '',
     );
-    return new Response(
-      `Internal server error\n${errorMessage}\n${errorStack || ''}`,
-      {
-        status: 500,
-      },
-    );
+    const isDev = process.env.NODE_ENV === 'development';
+    const body = isDev
+      ? `Internal server error\n${errorMessage}\n${errorStack || ''}`
+      : 'Internal server error';
+    return new Response(body, { status: 500 });
   }
 };

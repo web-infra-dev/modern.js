@@ -1,5 +1,4 @@
 import path from 'path';
-import vm from 'vm';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Monitors, ServerRoute } from '@modern-js/types';
 import {
@@ -21,56 +20,50 @@ import type {
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
 
-const ASYNC_NODE_STARTUP_CALL =
-  'var __webpack_exports__ = __webpack_require__.x();';
+/** Context passed to bundle loader strategies. */
+export interface BundleLoaderContext {
+  monitors?: Monitors;
+}
+
+/** Strategy for loading bundles that require custom handling (e.g. async startup). */
+export type BundleLoaderStrategy = (
+  filepath: string,
+  context?: BundleLoaderContext,
+) => Promise<unknown | undefined>;
+
+const BUNDLE_LOADER_STRATEGIES_KEY = '__MODERN_JS_BUNDLE_LOADER_STRATEGIES__';
+
+type GlobalWithBundleLoaderStrategies = typeof globalThis & {
+  [BUNDLE_LOADER_STRATEGIES_KEY]?: BundleLoaderStrategy[];
+};
+
+const getBundleLoaderStrategyStore = (): BundleLoaderStrategy[] => {
+  const globalState = globalThis as GlobalWithBundleLoaderStrategies;
+  globalState[BUNDLE_LOADER_STRATEGIES_KEY] =
+    globalState[BUNDLE_LOADER_STRATEGIES_KEY] || [];
+  return globalState[BUNDLE_LOADER_STRATEGIES_KEY];
+};
+
+/** Register a bundle loader strategy. External plugins can use this to handle custom bundle formats. */
+export function registerBundleLoaderStrategy(
+  strategy: BundleLoaderStrategy,
+): void {
+  const strategies = getBundleLoaderStrategyStore();
+  if (!strategies.includes(strategy)) {
+    strategies.push(strategy);
+  }
+}
+
+/** Get all registered bundle loader strategies. */
+export function getBundleLoaderStrategies(): readonly BundleLoaderStrategy[] {
+  return getBundleLoaderStrategyStore();
+}
 
 const isPromiseLike = (value: unknown): value is Promise<unknown> =>
   Boolean(value) &&
   (typeof value === 'object' || typeof value === 'function') &&
   'then' in (value as Promise<unknown>) &&
   typeof (value as Promise<unknown>).then === 'function';
-
-const loadPatchedAsyncNodeBundle = async (
-  filepath: string,
-): Promise<unknown | undefined> => {
-  const bundleCode = await fs.readFile(filepath, 'utf-8');
-
-  if (
-    !bundleCode.includes(ASYNC_NODE_STARTUP_CALL) ||
-    !bundleCode.includes('__webpack_require__.mfAsyncStartup')
-  ) {
-    return undefined;
-  }
-
-  const patchedCode = bundleCode.replace(
-    ASYNC_NODE_STARTUP_CALL,
-    'var __webpack_exports__ = __webpack_require__.x({}, []);',
-  );
-
-  const localModule: { exports: unknown } = { exports: {} };
-  const wrapped = `(function(exports, require, module, __filename, __dirname){${patchedCode}\n})`;
-  const runBundle = vm.runInThisContext(wrapped, { filename: filepath }) as (
-    exports: unknown,
-    require: NodeJS.Require,
-    module: { exports: unknown },
-    __filename: string,
-    __dirname: string,
-  ) => void;
-
-  runBundle(
-    localModule.exports,
-    require,
-    localModule,
-    filepath,
-    path.dirname(filepath),
-  );
-
-  if (isPromiseLike(localModule.exports)) {
-    return await localModule.exports;
-  }
-
-  return localModule.exports;
-};
 
 const loadBundleModule = async (filepath: string): Promise<unknown> => {
   try {
@@ -136,12 +129,36 @@ const loadBundle = async (
       return module;
     }
 
-    const resolvedModule = await module;
-    if (resolvedModule) {
-      return resolvedModule;
+    let moduleError: unknown;
+    try {
+      const resolvedModule = await module;
+      if (resolvedModule !== undefined) {
+        return resolvedModule;
+      }
+    } catch (err) {
+      moduleError = err;
     }
 
-    return loadPatchedAsyncNodeBundle(filepath);
+    const context = monitors ? { monitors } : undefined;
+    let strategyError: unknown;
+    for (const strategy of getBundleLoaderStrategies()) {
+      try {
+        const result = await strategy(filepath, context);
+        if (result !== undefined) {
+          return result;
+        }
+      } catch (err) {
+        strategyError = strategyError || err;
+      }
+    }
+
+    if (moduleError) {
+      throw moduleError;
+    }
+    if (strategyError) {
+      throw strategyError;
+    }
+    return undefined;
   } catch (e) {
     if (monitors) {
       monitors.error(

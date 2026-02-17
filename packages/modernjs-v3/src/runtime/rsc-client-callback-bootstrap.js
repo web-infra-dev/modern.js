@@ -4,6 +4,7 @@ import {
   encodeReply,
   setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
+import { setResolveActionId } from '@modern-js/runtime/rsc/client';
 
 const ACTION_PREFIX = 'remote:';
 const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
@@ -315,6 +316,8 @@ function runInstallAttempt() {
 
   setTimeout(runInstallAttempt, CALLBACK_INSTALL_RETRY_DELAY_MS);
 }
+
+setResolveActionId(resolveActionId);
 
 runInstallAttempt();
 if (typeof queueMicrotask === 'function') {

@@ -1,4 +1,6 @@
+import { registerBundleLoaderStrategy } from '@modern-js/server-core/node';
 import type { ServerPlugin } from '@modern-js/server-runtime';
+import { mfAsyncStartupLoaderStrategy } from './asyncStartupLoader';
 import {
   createCorsMiddleware,
   createStaticMiddleware,
@@ -7,6 +9,8 @@ import {
 const staticServePlugin = (): ServerPlugin => ({
   name: '@modern-js/module-federation/server',
   setup: api => {
+    registerBundleLoaderStrategy(mfAsyncStartupLoaderStrategy);
+
     api.onPrepare(() => {
       // In development, we don't need to serve the manifest file, bundler dev server will handle it
       if (process.env.NODE_ENV === 'development') {
