@@ -154,12 +154,14 @@ const replaceRemoteUrl = (
       if (typeof remote === 'string' && remote.includes(LOCALHOST)) {
         remoteObject[remoteKey] = remote.replace(LOCALHOST, ipv4);
       }
-      if (
-        typeof remote === 'object' &&
-        !Array.isArray(remote.external) &&
-        remote.external.includes(LOCALHOST)
-      ) {
-        remote.external = remote.external.replace(LOCALHOST, ipv4);
+      if (remote && typeof remote === 'object') {
+        const external = (remote as { external?: unknown }).external;
+        if (typeof external === 'string' && external.includes(LOCALHOST)) {
+          (remote as { external?: string }).external = external.replace(
+            LOCALHOST,
+            ipv4,
+          );
+        }
       }
     });
   };
