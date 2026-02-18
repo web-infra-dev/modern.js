@@ -87,6 +87,17 @@ describe('staticMiddleware', () => {
       expect(mockContext.body).not.toHaveBeenCalled();
     });
 
+    it('should call next() for paths that only share /bundles prefix', async () => {
+      mockContext.req.path = '/bundlesevil/test.js';
+
+      await middleware(mockContext, nextSpy);
+
+      expect(nextSpy).toHaveBeenCalledOnce();
+      expect(fs.pathExists).not.toHaveBeenCalled();
+      expect(mockContext.header).not.toHaveBeenCalled();
+      expect(mockContext.body).not.toHaveBeenCalled();
+    });
+
     it('should call next() for root path', async () => {
       mockContext.req.path = '/test.js';
 
@@ -167,7 +178,7 @@ describe('staticMiddleware', () => {
       );
       expect(mockContext.header).toHaveBeenCalledWith(
         'Content-Length',
-        String(mockFileResult.content.length),
+        String(Buffer.byteLength(mockFileResult.content)),
       );
 
       // Check response
@@ -176,6 +187,26 @@ describe('staticMiddleware', () => {
         200,
       );
       expect(result).toBe('response');
+    });
+
+    it('should set content-length in bytes for unicode content', async () => {
+      const mockFileResult = {
+        content: '你',
+        lastModified: Date.now(),
+      };
+
+      mockContext.req.path = '/bundles/unicode.js';
+      (fs.pathExists as any).mockResolvedValue(true);
+      (fileCache.getFile as any).mockResolvedValue(mockFileResult);
+      mockContext.body.mockReturnValue('unicode-response');
+
+      await middleware(mockContext, nextSpy);
+
+      expect(mockContext.header).toHaveBeenCalledWith(
+        'Content-Length',
+        String(Buffer.byteLength(mockFileResult.content)),
+      );
+      expect(nextSpy).not.toHaveBeenCalled();
     });
 
     it('should handle empty file content', async () => {

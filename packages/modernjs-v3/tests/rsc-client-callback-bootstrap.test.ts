@@ -42,4 +42,13 @@ describe('rsc-client-callback-bootstrap', () => {
     expect(source).toContain('function hookChunkLoaderInstall()');
     expect(source).toContain('webpackRequire.e = wrappedChunkLoader;');
   });
+
+  it('does not cache fallback alias resolution before runtime is available', () => {
+    const source = getBootstrapSource();
+    const runtimeGuardIndex = source.indexOf('if (!runtimeInstance) {');
+    const resolvedFlagIndex = source.indexOf('hasResolvedFallbackAlias = true;');
+
+    expect(runtimeGuardIndex).toBeGreaterThan(-1);
+    expect(resolvedFlagIndex).toBeGreaterThan(runtimeGuardIndex);
+  });
 });

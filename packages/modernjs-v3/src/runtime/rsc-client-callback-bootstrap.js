@@ -75,7 +75,6 @@ function resolveFallbackRemoteAlias() {
   if (hasResolvedFallbackAlias) {
     return fallbackRemoteAlias;
   }
-  hasResolvedFallbackAlias = true;
 
   const webpackRequire = getWebpackRequire();
   const runtimeInstance =
@@ -124,7 +123,12 @@ function resolveFallbackRemoteAlias() {
 
   if (aliasSet.size === 1) {
     fallbackRemoteAlias = Array.from(aliasSet)[0];
+    hasResolvedFallbackAlias = true;
     return fallbackRemoteAlias;
+  }
+
+  if (aliasSet.size === 0 && !globalThis.window) {
+    return undefined;
   }
 
   if (globalThis.window) {
@@ -138,11 +142,16 @@ function resolveFallbackRemoteAlias() {
     });
     if (aliasSet.size === 0 && containerAliases.length === 1) {
       fallbackRemoteAlias = containerAliases[0];
+      hasResolvedFallbackAlias = true;
       return fallbackRemoteAlias;
+    }
+    if (aliasSet.size === 0 && containerAliases.length === 0) {
+      return undefined;
     }
   }
 
   fallbackRemoteAlias = undefined;
+  hasResolvedFallbackAlias = true;
   return undefined;
 }
 

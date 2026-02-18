@@ -42,12 +42,15 @@ const createStaticMiddleware = (options: {
       prefixWithoutHost || '/',
       bundlesAssetPrefix,
     );
+    const isBundleRequest =
+      pathname === prefixWithBundle ||
+      pathname.startsWith(`${prefixWithBundle}/`);
     // Skip if the request is not for asset prefix + `/bundles`
-    if (!pathname.startsWith(prefixWithBundle)) {
+    if (!isBundleRequest) {
       return next();
     }
 
-    const pathnameWithoutPrefix = pathname.replace(prefixWithBundle, '');
+    const pathnameWithoutPrefix = pathname.slice(prefixWithBundle.length);
     const relativeBundlePath = pathnameWithoutPrefix.replace(/^\/+/, '');
     const filepath = path.resolve(bundlesRootDir, relativeBundlePath);
     const allowedPrefix = `${bundlesRootDir}${path.sep}`;
