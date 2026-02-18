@@ -46,7 +46,9 @@ describe('rsc-client-callback-bootstrap', () => {
   it('does not cache fallback alias resolution before runtime is available', () => {
     const source = getBootstrapSource();
     const runtimeGuardIndex = source.indexOf('if (!runtimeInstance) {');
-    const resolvedFlagIndex = source.indexOf('hasResolvedFallbackAlias = true;');
+    const resolvedFlagIndex = source.indexOf(
+      'hasResolvedFallbackAlias = true;',
+    );
 
     expect(runtimeGuardIndex).toBeGreaterThan(-1);
     expect(resolvedFlagIndex).toBeGreaterThan(runtimeGuardIndex);
