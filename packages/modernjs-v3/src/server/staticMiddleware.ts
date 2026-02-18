@@ -26,6 +26,7 @@ const createStaticMiddleware = (options: {
   pwd: string;
 }): MiddlewareHandler => {
   const { assetPrefix, pwd } = options;
+  const bundlesRootDir = path.resolve(pwd, `.${bundlesAssetPrefix}`);
 
   return async (c, next) => {
     const pathname = c.req.path;
@@ -47,7 +48,12 @@ const createStaticMiddleware = (options: {
     }
 
     const pathnameWithoutPrefix = pathname.replace(prefixWithBundle, '');
-    const filepath = path.join(pwd, bundlesAssetPrefix, pathnameWithoutPrefix);
+    const relativeBundlePath = pathnameWithoutPrefix.replace(/^\/+/, '');
+    const filepath = path.resolve(bundlesRootDir, relativeBundlePath);
+    const allowedPrefix = `${bundlesRootDir}${path.sep}`;
+    if (filepath !== bundlesRootDir && !filepath.startsWith(allowedPrefix)) {
+      return next();
+    }
     if (!(await fs.pathExists(filepath))) {
       return next();
     }

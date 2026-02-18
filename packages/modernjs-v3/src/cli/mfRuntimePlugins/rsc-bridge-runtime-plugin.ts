@@ -289,9 +289,16 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
         '[modern-js-v3:rsc-bridge] Module Federation runtime instance is unavailable while loading the RSC bridge',
       );
     }
-    const bridgePromise = Promise.resolve(
-      runtimeInstance.loadRemote(`${alias}/${RSC_BRIDGE_EXPOSE}`),
-    )
+    let resolveBridge!: (bridge: BridgeModule) => void;
+    let rejectBridge!: (error: unknown) => void;
+    const bridgePromise = new Promise<BridgeModule>((resolve, reject) => {
+      resolveBridge = resolve;
+      rejectBridge = reject;
+    });
+    bridgePromises[alias] = bridgePromise;
+
+    void Promise.resolve()
+      .then(() => runtimeInstance.loadRemote(`${alias}/${RSC_BRIDGE_EXPOSE}`))
       .then((bridge: BridgeModule) => {
         if (
           !bridge ||
@@ -302,14 +309,14 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
             `[modern-js-v3:rsc-bridge] Remote "${alias}" is missing the internal RSC bridge expose`,
           );
         }
-        return bridge;
+        resolveBridge(bridge);
       })
       .catch((error: unknown) => {
         // Allow retry when bridge loading fails transiently.
         delete bridgePromises[alias];
-        throw error;
+        rejectBridge(error);
       });
-    bridgePromises[alias] = bridgePromise;
+
     return bridgePromise;
   };
 
