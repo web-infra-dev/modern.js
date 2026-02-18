@@ -37,7 +37,10 @@ const createStaticMiddleware = (options: {
     }
 
     const prefixWithoutHost = removeHost(assetPrefix);
-    const prefixWithBundle = path.join(prefixWithoutHost, bundlesAssetPrefix);
+    const prefixWithBundle = path.posix.join(
+      prefixWithoutHost || '/',
+      bundlesAssetPrefix,
+    );
     // Skip if the request is not for asset prefix + `/bundles`
     if (!pathname.startsWith(prefixWithBundle)) {
       return next();
@@ -58,7 +61,7 @@ const createStaticMiddleware = (options: {
       'Content-Type',
       extension === '.json' ? 'application/json' : 'application/javascript',
     );
-    c.header('Content-Length', String(fileResult.content.length));
+    c.header('Content-Length', String(Buffer.byteLength(fileResult.content)));
     return c.body(fileResult.content, 200);
   };
 };

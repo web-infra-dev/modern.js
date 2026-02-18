@@ -1,10 +1,10 @@
+import { setResolveActionId } from '@modern-js/runtime/rsc/client';
 import {
   createFromFetch,
   createTemporaryReferenceSet,
   encodeReply,
   setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
-import { setResolveActionId } from '@modern-js/runtime/rsc/client';
 
 const ACTION_PREFIX = 'remote:';
 const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
@@ -272,7 +272,7 @@ function collectClientBrowserRuntimes() {
   });
 
   const webpackRequire = getWebpackRequire();
-  const moduleCache = webpackRequire && webpackRequire.c;
+  const moduleCache = webpackRequire?.c;
   if (isObject(moduleCache)) {
     for (const moduleRecord of Object.values(moduleCache)) {
       if (isObject(moduleRecord) && 'exports' in moduleRecord) {
