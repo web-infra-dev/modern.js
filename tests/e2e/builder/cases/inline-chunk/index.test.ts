@@ -87,11 +87,11 @@ test('inline runtime chunk by default', async ({ page }) => {
     ),
   ).toBe(true);
 
-  // found builder-runtime file in html
+  // builder runtime is referenced externally instead of inlined
   const indexHtml =
     files[path.resolve(__dirname, './dist/html/index/index.html')];
 
-  expect(isRuntimeChunkInHtml(indexHtml)).toBeTruthy();
+  expect(isRuntimeChunkInHtml(indexHtml)).toBeFalsy();
 
   builder.close();
 });
@@ -141,14 +141,14 @@ test('inline runtime chunk by default with multiple entries', async () => {
     ),
   ).toBe(true);
 
-  // found builder-runtime file in html
+  // builder runtime is referenced externally instead of inlined
   const indexHtml =
     files[path.resolve(__dirname, './dist/html/index/index.html')];
   const anotherHtml =
     files[path.resolve(__dirname, './dist/html/another/index.html')];
 
-  expect(isRuntimeChunkInHtml(indexHtml)).toBeTruthy();
-  expect(isRuntimeChunkInHtml(anotherHtml)).toBeTruthy();
+  expect(isRuntimeChunkInHtml(indexHtml)).toBeFalsy();
+  expect(isRuntimeChunkInHtml(anotherHtml)).toBeFalsy();
 });
 
 test('using RegExp to inline scripts', async () => {
