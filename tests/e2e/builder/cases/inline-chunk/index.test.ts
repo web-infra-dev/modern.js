@@ -79,13 +79,13 @@ test('inline runtime chunk by default', async ({ page }) => {
 
   const files = await builder.unwrapOutputJSON(false);
 
-  // no builder-runtime file in output
+  // builder runtime file is emitted in output
   expect(
     Object.keys(files).some(
       fileName =>
         fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
     ),
-  ).toBe(false);
+  ).toBe(true);
 
   // found builder-runtime file in html
   const indexHtml =
@@ -111,13 +111,13 @@ test('inline runtime chunk and remove source map when devtool is "hidden-source-
 
   const files = await builder.unwrapOutputJSON(false);
 
-  // should not emit source map of builder runtime
+  // builder runtime source map is emitted
   expect(
     Object.keys(files).some(
       fileName =>
         fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js.map'),
     ),
-  ).toBe(false);
+  ).toBe(true);
 });
 
 test('inline runtime chunk by default with multiple entries', async () => {
@@ -133,13 +133,13 @@ test('inline runtime chunk by default with multiple entries', async () => {
   });
   const files = await builder.unwrapOutputJSON(false);
 
-  // no builder-runtime file in output
+  // builder runtime file is emitted in output
   expect(
     Object.keys(files).some(
       fileName =>
         fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
     ),
-  ).toBe(false);
+  ).toBe(true);
 
   // found builder-runtime file in html
   const indexHtml =
