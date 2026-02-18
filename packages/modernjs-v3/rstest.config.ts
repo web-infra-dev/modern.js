@@ -4,5 +4,8 @@ export default defineConfig({
   root: __dirname,
   testEnvironment: 'node',
   globals: true,
-  include: ['tests/rsc-client-callback-bootstrap.test.ts'],
+  include: [
+    'tests/rsc-client-callback-bootstrap.test.ts',
+    'tests/config-plugin-contract.test.ts',
+  ],
 });
