@@ -48,7 +48,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and disable p
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -148,7 +148,7 @@ exports[`lightningcss-loader > should register lightningcss-loader and postcss-l
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -252,7 +252,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -359,7 +359,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -482,7 +482,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -615,7 +615,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -772,7 +772,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -945,7 +945,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         "sideEffects": true,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",

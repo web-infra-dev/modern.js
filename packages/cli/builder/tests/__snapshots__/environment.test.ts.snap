@@ -125,7 +125,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -542,7 +542,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -730,7 +730,7 @@ exports[`builder environment compat > should generator environment config correc
               "sideEffects": true,
               "use": [
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack-canary/core/dist/cssExtractLoader.js",
                 },
                 {
                   "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
