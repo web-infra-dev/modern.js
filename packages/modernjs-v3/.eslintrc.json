@@ -1,0 +1,41 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": [
+    "!**/*",
+    "**/*.d.ts",
+    "**/vite.config.*.timestamp*",
+    "**/vitest.config.*.timestamp*"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "warn",
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "webpack",
+                "message": "Please use require(normalizeWebpackPath('webpack')) instead.",
+                "allowTypeImports": true
+              }
+            ],
+            "patterns": [
+              {
+                "group": ["webpack/lib/*"],
+                "message": "Please use require(normalizeWebpackPath('webpack')) instead.",
+                "allowTypeImports": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"]
+    }
+  ]
+}

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.1",
+  "version": "3.0.2",
   "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -75,7 +75,7 @@
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.14.0",
-    "nock": "^14.0.10",
+    "nock": "^14.0.11",
     "typescript": "^5"
   },
   "sideEffects": false,

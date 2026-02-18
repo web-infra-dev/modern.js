@@ -7,7 +7,8 @@ import {
 } from 'react-server-dom-rspack/client.browser';
 export { rscStream } from '../rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
-export { callServer } from './callServer';
+export { callServer, setResolveActionId, setActionIdResolver } from './callServer';
+export type { ActionIdResolver } from './callServer';
 export { createFromFetch } from 'react-server-dom-rspack/client.browser';
 
 declare global {

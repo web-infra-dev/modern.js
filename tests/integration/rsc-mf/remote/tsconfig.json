@@ -8,5 +8,11 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "config"]
+  "include": [
+    "src",
+    "config",
+    "server",
+    "modern.config.ts",
+    "module-federation.config.ts"
+  ]
 }

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
@@ -14,6 +15,26 @@ const reactDomServerImport = path.join(
   'react-dom.react-server.js',
 );
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
+const readPackageVersion = (pkg: string) =>
+  JSON.parse(fs.readFileSync(require.resolve(`${pkg}/package.json`), 'utf8')).version;
+const reactVersion = readPackageVersion('react');
+const reactDomVersion = readPackageVersion('react-dom');
+const reactServerDomVersion = readPackageVersion('react-server-dom-rspack');
+const remoteExposeImports: Record<string, string> = {
+  './RemoteClientCounter': './src/components/RemoteClientCounter.tsx',
+  './RemoteClientBadge': './src/components/RemoteClientBadge.tsx',
+  './RemoteServerCard': './src/components/RemoteServerCard.tsx',
+  './RemoteServerDefault': './src/components/RemoteServerDefault.tsx',
+  './AsyncRemoteServerInfo': './src/components/AsyncRemoteServerInfo.tsx',
+  './remoteServerOnly': './src/components/serverOnly.ts',
+  './remoteServerOnlyDefault': './src/components/serverOnlyDefault.ts',
+  './remoteMeta': './src/components/remoteMeta.ts',
+  './actions': './src/components/actions.ts',
+  './nestedActions': './src/components/nestedActions.ts',
+  './defaultAction': './src/components/defaultAction.ts',
+  './actionBundle': './src/components/actionBundle.ts',
+  './infoBundle': './src/components/infoBundle.ts',
+};
 
 const sharedByScope = [
   {
@@ -21,16 +42,19 @@ const sharedByScope = [
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactVersion,
     },
     'react-dom': {
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactDomVersion,
     },
     'react-server-dom-rspack': {
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactServerDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -38,6 +62,7 @@ const sharedByScope = [
       singleton: true,
       requiredVersion: false,
       shareScope: 'default',
+      version: reactServerDomVersion,
     },
   },
   {
@@ -49,6 +74,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactVersion,
     },
     'react-dom': {
       import: 'react-dom',
@@ -58,6 +84,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -67,6 +94,7 @@ const sharedByScope = [
       shareScope: 'ssr',
       layer: LAYERS.ssr,
       issuerLayer: LAYERS.ssr,
+      version: reactServerDomVersion,
     },
   },
   {
@@ -78,6 +106,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactVersion,
     },
     'react-dom': {
       import: reactDomServerImport,
@@ -87,6 +116,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactDomVersion,
     },
     'react-server-dom-rspack/client.browser': {
       import: reactServerDomClientImport,
@@ -96,6 +126,7 @@ const sharedByScope = [
       shareScope: 'rsc',
       layer: LAYERS.rsc,
       issuerLayer: LAYERS.rsc,
+      version: reactServerDomVersion,
     },
   },
 ];
@@ -106,60 +137,7 @@ export default createModuleFederationConfig({
     filePath: 'static',
   },
   filename: 'static/remoteEntry.js',
-  exposes: {
-    './RemoteClientCounter': {
-      import: './src/components/RemoteClientCounter.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './src/components/RemoteClientCounter.tsx': {
-      import: './src/components/RemoteClientCounter.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteClientBadge': {
-      import: './src/components/RemoteClientBadge.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteServerCard': {
-      import: './src/components/RemoteServerCard.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './RemoteServerDefault': {
-      import: './src/components/RemoteServerDefault.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './AsyncRemoteServerInfo': {
-      import: './src/components/AsyncRemoteServerInfo.tsx',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteServerOnly': {
-      import: './src/components/serverOnly.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteServerOnlyDefault': {
-      import: './src/components/serverOnlyDefault.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './remoteMeta': {
-      import: './src/components/remoteMeta.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './actions': {
-      import: './src/components/actions.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './nestedActions': {
-      import: './src/components/nestedActions.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './defaultAction': {
-      import: './src/components/defaultAction.ts',
-      layer: LAYERS.rsc,
-    } as any,
-    './registerServerCallback': {
-      import: './src/components/registerServerCallback.ts',
-      layer: LAYERS.rsc,
-    } as any,
-  },
+  exposes: remoteExposeImports as any,
   shared: sharedByScope as any,
   dts: false,
   experiments: {
