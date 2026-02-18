@@ -663,7 +663,7 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
       if (!alias) {
         return args;
       }
-      void ensureRemoteAliasMerged(alias, args);
+      await ensureRemoteAliasMerged(alias, args);
       return args;
     },
     async onLoad(args: any) {

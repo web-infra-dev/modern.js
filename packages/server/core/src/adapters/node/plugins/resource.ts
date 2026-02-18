@@ -65,7 +65,7 @@ const isPromiseLike = (value: unknown): value is Promise<unknown> =>
   'then' in (value as Promise<unknown>) &&
   typeof (value as Promise<unknown>).then === 'function';
 
-const loadBundleModule = async (filepath: string): Promise<unknown> => {
+const loadBundleModule = (filepath: string): unknown | Promise<unknown> => {
   try {
     return require(filepath);
   } catch (err: any) {
@@ -124,7 +124,7 @@ const loadBundle = async (
   }
 
   try {
-    const module = await loadBundleModule(filepath);
+    const module = loadBundleModule(filepath);
     if (!isPromiseLike(module)) {
       return module;
     }

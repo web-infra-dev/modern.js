@@ -260,11 +260,25 @@ export const moduleFederationSSRPlugin = (
                   return;
                 }
                 try {
-                  if (
-                    req.url?.includes('.json') &&
-                    !req.url?.includes('hot-update')
-                  ) {
-                    const filepath = path.join(process.cwd(), `dist${req.url}`);
+                  const requestPath = req.url?.split('?')[0] || '';
+                  const isJsonRequest = path.extname(requestPath) === '.json';
+                  if (isJsonRequest && !requestPath.includes('hot-update')) {
+                    if (!requestPath.startsWith('/')) {
+                      next();
+                      return;
+                    }
+
+                    const distRoot = path.resolve(process.cwd(), 'dist');
+                    const filepath = path.resolve(distRoot, `.${requestPath}`);
+                    const allowedPrefix = `${distRoot}${path.sep}`;
+                    if (
+                      filepath !== distRoot &&
+                      !filepath.startsWith(allowedPrefix)
+                    ) {
+                      next();
+                      return;
+                    }
+
                     fs.statSync(filepath);
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.setHeader(
