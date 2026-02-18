@@ -36,7 +36,8 @@ const resolveActionId = (id: string): string | Promise<string> => {
 };
 
 const resolveActionRequestUrl = (): string => {
-  const entryName = globalThis.window?.__MODERN_JS_ENTRY_NAME;
+  const entryName =
+    typeof window !== 'undefined' ? window.__MODERN_JS_ENTRY_NAME : undefined;
   if (!entryName || entryName === 'main' || entryName === 'index') {
     return '/';
   }

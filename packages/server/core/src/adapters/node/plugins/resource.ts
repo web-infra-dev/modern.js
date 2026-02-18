@@ -31,32 +31,20 @@ export type BundleLoaderStrategy = (
   context?: BundleLoaderContext,
 ) => Promise<unknown | undefined>;
 
-const BUNDLE_LOADER_STRATEGIES_KEY = '__MODERN_JS_BUNDLE_LOADER_STRATEGIES__';
-
-type GlobalWithBundleLoaderStrategies = typeof globalThis & {
-  [BUNDLE_LOADER_STRATEGIES_KEY]?: BundleLoaderStrategy[];
-};
-
-const getBundleLoaderStrategyStore = (): BundleLoaderStrategy[] => {
-  const globalState = globalThis as GlobalWithBundleLoaderStrategies;
-  globalState[BUNDLE_LOADER_STRATEGIES_KEY] =
-    globalState[BUNDLE_LOADER_STRATEGIES_KEY] || [];
-  return globalState[BUNDLE_LOADER_STRATEGIES_KEY];
-};
+const bundleLoaderStrategies: BundleLoaderStrategy[] = [];
 
 /** Register a bundle loader strategy. External plugins can use this to handle custom bundle formats. */
 export function registerBundleLoaderStrategy(
   strategy: BundleLoaderStrategy,
 ): void {
-  const strategies = getBundleLoaderStrategyStore();
-  if (!strategies.includes(strategy)) {
-    strategies.push(strategy);
+  if (!bundleLoaderStrategies.includes(strategy)) {
+    bundleLoaderStrategies.push(strategy);
   }
 }
 
 /** Get all registered bundle loader strategies. */
 export function getBundleLoaderStrategies(): readonly BundleLoaderStrategy[] {
-  return getBundleLoaderStrategyStore();
+  return bundleLoaderStrategies;
 }
 
 const isPromiseLike = (value: unknown): value is Promise<unknown> =>
