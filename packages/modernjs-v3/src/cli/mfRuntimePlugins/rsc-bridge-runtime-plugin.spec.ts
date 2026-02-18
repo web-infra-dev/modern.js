@@ -376,5 +376,4 @@ describe('rsc-bridge-runtime-plugin', () => {
     );
     expect(args.remoteInfo.remoteEntry.path).toBe('');
   });
-
 });

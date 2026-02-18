@@ -1,5 +1,3 @@
-export {};
-
 const HOST_MODERN_CONFIG_MODULE = '../host/modern.config';
 const REMOTE_MODERN_CONFIG_MODULE = '../remote/modern.config';
 

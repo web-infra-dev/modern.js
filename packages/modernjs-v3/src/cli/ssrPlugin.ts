@@ -11,8 +11,8 @@ import {
 import {
   ManifestFileName,
   StatsFileName,
-  simpleJoinRemoteEntry,
   type moduleFederationPlugin,
+  simpleJoinRemoteEntry,
 } from '@module-federation/sdk';
 import fs from 'fs-extra';
 import logger from '../logger';

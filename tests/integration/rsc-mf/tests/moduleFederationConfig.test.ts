@@ -184,7 +184,9 @@ describe('rsc-mf module federation config contracts', () => {
         scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
       ),
     ).toEqual(EXPECTED_SHARED_SCOPES);
-    assertSharedVersions(sharedScopes as Array<Record<string, { version?: unknown }>>);
+    assertSharedVersions(
+      sharedScopes as Array<Record<string, { version?: unknown }>>,
+    );
     expect(remoteConfig.experiments).toEqual(
       expect.objectContaining({
         asyncStartup: true,
@@ -261,6 +263,8 @@ describe('rsc-mf module federation config contracts', () => {
         scope => scope['react-server-dom-rspack/client.browser']?.shareScope,
       ),
     ).toEqual(EXPECTED_SHARED_SCOPES);
-    assertSharedVersions(sharedScopes as Array<Record<string, { version?: unknown }>>);
+    assertSharedVersions(
+      sharedScopes as Array<Record<string, { version?: unknown }>>,
+    );
   });
 });

@@ -564,7 +564,9 @@ const patchServerOnlyAlias = (chain: BundlerChainConfig) => {
     set: (key: string, value: string) => unknown;
   };
   const hasServerOnlyAlias =
-    typeof aliasChain.has === 'function' ? aliasChain.has('server-only$') : false;
+    typeof aliasChain.has === 'function'
+      ? aliasChain.has('server-only$')
+      : false;
   if (!hasServerOnlyAlias) {
     aliasChain.set('server-only$', serverOnlyEmptyPath);
   }
@@ -650,10 +652,7 @@ const collectExposeImportDirectories = (
         typeof exposeItem === 'string'
           ? [[exposeItem, exposeItem] as const]
           : (Object.entries(exposeItem || {}) as Array<
-              readonly [
-                string,
-                moduleFederationPlugin.ExposesObject[string],
-              ]
+              readonly [string, moduleFederationPlugin.ExposesObject[string]]
             >),
       )
     : (Object.entries(exposes) as Array<

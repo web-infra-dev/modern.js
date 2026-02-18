@@ -18,7 +18,8 @@ const reactDomServerImport = path.join(
 const reactServerDomClientImport = 'react-server-dom-rspack/client.browser';
 
 const readPackageVersion = (pkg: string) =>
-  JSON.parse(fs.readFileSync(require.resolve(`${pkg}/package.json`), 'utf8')).version;
+  JSON.parse(fs.readFileSync(require.resolve(`${pkg}/package.json`), 'utf8'))
+    .version;
 const reactVersion = readPackageVersion('react');
 const reactDomVersion = readPackageVersion('react-dom');
 const reactServerDomVersion = readPackageVersion('react-server-dom-rspack');

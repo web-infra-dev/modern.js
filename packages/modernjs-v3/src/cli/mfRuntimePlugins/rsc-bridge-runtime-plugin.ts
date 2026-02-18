@@ -252,7 +252,6 @@ const isNodeLikeRuntime = () =>
   typeof document === 'undefined';
 
 const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
-
   const bridgePromises: Partial<Record<string, Promise<BridgeModule>>> = {};
   const aliasMergePromises: Partial<Record<string, Promise<void>>> = {};
   const actionMap: ActionMapRecord = {};
@@ -426,17 +425,13 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
         ensureBridge: async resolvedAlias => ensureBridge(resolvedAlias, args),
       });
 
-      try {
-        const bridge = await ensureBridge(alias, args);
-        const remoteManifest =
-          typeof bridge.getManifest === 'function'
-            ? await Promise.resolve(bridge.getManifest())
-            : {};
-        mergeRemoteManifest(alias, remoteManifest || {}, proxyModuleId);
-        mergedRemoteAliases.add(alias);
-      } catch (error) {
-        throw error;
-      }
+      const bridge = await ensureBridge(alias, args);
+      const remoteManifest =
+        typeof bridge.getManifest === 'function'
+          ? await Promise.resolve(bridge.getManifest())
+          : {};
+      mergeRemoteManifest(alias, remoteManifest || {}, proxyModuleId);
+      mergedRemoteAliases.add(alias);
     })();
 
     aliasMergePromises[alias] = mergePromise;
@@ -482,7 +477,7 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
   const resolveSnapshotRemoteEntryRequest = (snapshot: Record<string, any>) => {
     const remoteEntryCandidate = isObject(snapshot.ssrRemoteEntry)
       ? (snapshot.ssrRemoteEntry as Record<string, any>)
-      : snapshot.ssrRemoteEntry ?? snapshot.remoteEntry;
+      : (snapshot.ssrRemoteEntry ?? snapshot.remoteEntry);
     if (!remoteEntryCandidate) {
       return undefined;
     }
@@ -650,7 +645,10 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
     patchSnapshotSsrPublicPath(args?.resolvedRemote?.remoteSnapshot);
     patchSnapshotSsrPublicPath(args?.resolvedRemote?.remoteInfo);
     patchRemoteInfoEntry(args?.remoteInfo, args?.remoteSnapshot);
-    patchRemoteInfoEntry(args?.remote?.remoteInfo, args?.remote?.remoteSnapshot);
+    patchRemoteInfoEntry(
+      args?.remote?.remoteInfo,
+      args?.remote?.remoteSnapshot,
+    );
     patchRemoteInfoEntry(
       args?.resolvedRemote?.remoteInfo,
       args?.resolvedRemote?.remoteSnapshot,
@@ -686,7 +684,10 @@ const rscBridgeRuntimePlugin = (): ModuleFederationRuntimePlugin => {
 
       const expose =
         typeof args?.expose === 'string' ? args.expose : String(args?.id || '');
-      if (mergedRemoteAliases.has(alias) || expose.includes(RSC_BRIDGE_EXPOSE)) {
+      if (
+        mergedRemoteAliases.has(alias) ||
+        expose.includes(RSC_BRIDGE_EXPOSE)
+      ) {
         return args;
       }
       await ensureRemoteAliasMerged(alias, args);

@@ -48,7 +48,7 @@ describe('rsc-mf containment contracts', () => {
     const source = fs.readFileSync(rscServerPath, 'utf-8');
 
     expect(source).toContain("process.env.NODE_ENV === 'development'");
-    expect(source).toContain("? `Internal server error\\n${errorMessage}");
+    expect(source).toContain('? `Internal server error\\n${errorMessage}');
     expect(source).toContain(": 'Internal server error';");
   });
 });

@@ -22,8 +22,12 @@ type GlobalWithResolver = typeof globalThis & {
 describe('requestCallServer pluggable action id resolver', () => {
   const originalFetch = globalThis.fetch;
   const originalWindow = (globalThis as { window?: unknown }).window;
-  let requestCallServer: typeof import('../src/client/callServer').requestCallServer;
-  let setResolveActionId: typeof import('../src/client/callServer').setResolveActionId;
+  let requestCallServer: typeof import(
+    '../src/client/callServer',
+  ).requestCallServer;
+  let setResolveActionId: typeof import(
+    '../src/client/callServer',
+  ).setResolveActionId;
   let fetchMock: ReturnType<typeof rstest.fn>;
 
   beforeAll(async () => {
@@ -33,7 +37,9 @@ describe('requestCallServer pluggable action id resolver', () => {
   });
 
   beforeEach(() => {
-    (globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }).window = {
+    (
+      globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
+    ).window = {
       __MODERN_JS_ENTRY_NAME: 'main',
     };
 
@@ -49,7 +55,9 @@ describe('requestCallServer pluggable action id resolver', () => {
 
   afterEach(() => {
     delete (globalThis as GlobalWithResolver)[ACTION_RESOLVER_KEY];
-    (globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }).window = {
+    (
+      globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
+    ).window = {
       __MODERN_JS_ENTRY_NAME: 'main',
     };
   });
@@ -112,7 +120,9 @@ describe('requestCallServer pluggable action id resolver', () => {
   });
 
   test('uses entry specific action endpoint when entry name is not main/index', async () => {
-    (globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }).window = {
+    (
+      globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
+    ).window = {
       __MODERN_JS_ENTRY_NAME: 'server-component-root',
     };
 
@@ -122,8 +132,9 @@ describe('requestCallServer pluggable action id resolver', () => {
   });
 
   test('falls back to root endpoint when window is unavailable', async () => {
-    (globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }).window =
-      undefined;
+    (
+      globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
+    ).window = undefined;
 
     await requestCallServer('no-window-action', []);
 
