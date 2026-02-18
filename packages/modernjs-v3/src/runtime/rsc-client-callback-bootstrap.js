@@ -9,9 +9,10 @@ import { setResolveActionId } from '@modern-js/runtime/rsc/client';
 const ACTION_PREFIX = 'remote:';
 const ACTION_REMAP_GLOBAL_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP__';
 const ACTION_REMAP_WAITERS_KEY = '__MODERN_RSC_MF_ACTION_ID_MAP_WAITERS__';
-const ACTION_REMAP_WAIT_TIMEOUT_MS = 200;
-const CALLBACK_INSTALL_RETRY_DELAY_MS = 0;
-const MAX_CALLBACK_INSTALL_ATTEMPTS = 12;
+const ACTION_REMAP_WAIT_TIMEOUT_MS = 3000;
+const CALLBACK_INSTALL_RETRY_DELAY_MS = 50;
+const MAX_CALLBACK_INSTALL_ATTEMPTS = 120;
+const CALLBACK_CHUNK_LOADER_HOOK_FLAG = '__MODERN_RSC_MF_CALLBACK_HOOKED__';
 let hasResolvedFallbackAlias = false;
 let fallbackRemoteAlias;
 let callbackInstallAttempts = 0;
@@ -126,16 +127,6 @@ function resolveFallbackRemoteAlias() {
     return fallbackRemoteAlias;
   }
 
-  const uniqueName =
-    isObject(webpackRequire?.initializeSharingData) &&
-    typeof webpackRequire.initializeSharingData.uniqueName === 'string'
-      ? webpackRequire.initializeSharingData.uniqueName
-      : undefined;
-  if (typeof uniqueName === 'string' && uniqueName.trim()) {
-    fallbackRemoteAlias = uniqueName;
-    return fallbackRemoteAlias;
-  }
-
   if (globalThis.window) {
     const containerAliases = Object.keys(globalThis.window).filter(alias => {
       const candidate = globalThis.window[alias];
@@ -145,7 +136,7 @@ function resolveFallbackRemoteAlias() {
         isFunction(candidate.init)
       );
     });
-    if (containerAliases.length === 1) {
+    if (aliasSet.size === 0 && containerAliases.length === 1) {
       fallbackRemoteAlias = containerAliases[0];
       return fallbackRemoteAlias;
     }
@@ -171,7 +162,10 @@ function resolveActionEndpoint() {
   }
 
   const entryName = window.__MODERN_JS_ENTRY_NAME;
-  return entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
+  if (!entryName || entryName === 'main' || entryName === 'index') {
+    return '/';
+  }
+  return `/${entryName}`;
 }
 
 function waitForActionRemap(rawId) {
@@ -303,7 +297,32 @@ function installServerCallbacks() {
   return installedCount;
 }
 
+function hookChunkLoaderInstall() {
+  const webpackRequire = getWebpackRequire();
+  if (!webpackRequire || !isFunction(webpackRequire.e)) {
+    return;
+  }
+
+  const chunkLoader = webpackRequire.e;
+  if (chunkLoader[CALLBACK_CHUNK_LOADER_HOOK_FLAG]) {
+    return;
+  }
+
+  const wrappedChunkLoader = function (...args) {
+    const chunkLoadResult = chunkLoader.apply(this, args);
+    Promise.resolve(chunkLoadResult)
+      .catch(() => undefined)
+      .then(() => {
+        installServerCallbacks();
+      });
+    return chunkLoadResult;
+  };
+  wrappedChunkLoader[CALLBACK_CHUNK_LOADER_HOOK_FLAG] = true;
+  webpackRequire.e = wrappedChunkLoader;
+}
+
 function runInstallAttempt() {
+  hookChunkLoaderInstall();
   installServerCallbacks();
   callbackInstallAttempts += 1;
 

@@ -900,7 +900,7 @@ export const moduleFederationConfigPlugin = (
         chain,
         isServer: !isWeb,
         modernjsConfig,
-        mfConfig,
+        mfConfig: targetMFConfig,
         enableSSR,
       });
 
