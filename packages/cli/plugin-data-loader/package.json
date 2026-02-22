@@ -58,7 +58,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "2.0.0-beta.4",
-    "@rslib/core": "0.19.5",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",
