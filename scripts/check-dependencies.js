@@ -8,9 +8,14 @@ const ignoreDeps = [
   'tsx',
 ];
 
+const ignorePaths = [
+  'tests/integration/rsc-mf/host',
+  'tests/integration/rsc-mf/remote',
+];
+
 const command = `npx check-dependency-version-consistency@latest . ${ignoreDeps
   .map(dep => `--ignore-dep "${dep}"`)
-  .join(' ')}`;
+  .join(' ')} ${ignorePaths.map(path => `--ignore-path "${path}"`).join(' ')}`;
 
 console.log(`> ${command}`);
 
