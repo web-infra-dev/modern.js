@@ -1,8 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "types": ["@rstest/core/globals"],
-    "noEmit": true
-  },
-  "include": ["./**/*.test.ts"]
-}
