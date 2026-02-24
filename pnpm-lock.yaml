@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -47,7 +45,7 @@ importers:
         version: link:packages/tsconfig
       '@rstest/core':
         specifier: 0.8.5
-        version: 0.8.5(happy-dom@20.4.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
+        version: 0.8.5(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -1551,8 +1549,8 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.4.0
-        version: 20.4.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+        specifier: ^20.7.0
+        version: 20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -9999,8 +9997,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@20.4.0:
-    resolution: {integrity: sha512-RDeQm3dT9n0A5f/TszjUmNCLEuPnMGv3Tv4BmNINebz/h17PA6LMBcxJ5FrcqltNBMh9jA/8ufgDdBYUdBt+eg==}
+  happy-dom@20.7.0:
+    resolution: {integrity: sha512-hR/uLYQdngTyEfxnOoa+e6KTcfBFyc1hgFj/Cc144A5JJUuHFYqIEBDcD4FeGqUeKLRZqJ9eN9u7/GDjYEgS1g==}
     engines: {node: '>=20.0.0'}
 
   has-flag@3.0.0:
@@ -17636,13 +17634,13 @@ snapshots:
       - '@module-federation/runtime-tools'
       - core-js
 
-  '@rstest/core@0.8.5(happy-dom@20.4.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
+  '@rstest/core@0.8.5(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))':
     dependencies:
       '@rsbuild/core': 1.7.3
       '@types/chai': 5.2.3
       tinypool: 1.1.1
     optionalDependencies:
-      happy-dom: 20.4.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      happy-dom: 20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       jsdom: 20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
 
   '@shikijs/core@3.21.0':
@@ -21160,12 +21158,12 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@20.4.0(bufferutil@4.1.0)(utf-8-validate@5.0.10):
+  happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10):
     dependencies:
       '@types/node': 20.19.27
       '@types/whatwg-mimetype': 3.0.2
       '@types/ws': 8.18.1
-      entities: 4.5.0
+      entities: 7.0.1
       whatwg-mimetype: 3.0.0
       ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
