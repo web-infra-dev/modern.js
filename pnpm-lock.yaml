@@ -1948,8 +1948,8 @@ importers:
         specifier: '>=6.0.6'
         version: 7.0.6
       enhanced-resolve:
-        specifier: 5.18.4
-        version: 5.18.4
+        specifier: 5.19.0
+        version: 5.19.0
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -9333,8 +9333,8 @@ packages:
     resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
     engines: {node: '>=10.13.0'}
 
-  enhanced-resolve@5.18.4:
-    resolution: {integrity: sha512-LgQMM4WXU3QI+SYgEc2liRgznaD5ojbmY3sb8LxyguVkIg5FxdpTkvk72te2R38/TGKxH634oLxXRGY6d7AP+Q==}
+  enhanced-resolve@5.19.0:
+    resolution: {integrity: sha512-phv3E1Xl4tQOShqSte26C7Fl84EwUdZsyOuSSk9qtAGyyQs2s3jJzComh+Abf4g187lUUAvH+H26omrqia2aGg==}
     engines: {node: '>=10.13.0'}
 
   enquirer@2.3.6:
@@ -17919,7 +17919,7 @@ snapshots:
   '@tailwindcss/node@4.1.18':
     dependencies:
       '@jridgewell/remapping': 2.3.5
-      enhanced-resolve: 5.18.4
+      enhanced-resolve: 5.19.0
       jiti: 2.6.1
       lightningcss: 1.30.2
       magic-string: 0.30.21
@@ -20333,7 +20333,7 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.0
 
-  enhanced-resolve@5.18.4:
+  enhanced-resolve@5.19.0:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.0
@@ -26165,7 +26165,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.1.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.18.4
+      enhanced-resolve: 5.19.0
       tsconfig-paths: 4.2.0
 
   tsconfig-paths@3.15.0:
@@ -26520,7 +26520,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.15.0)
       browserslist: 4.28.1
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.18.4
+      enhanced-resolve: 5.19.0
       es-module-lexer: 2.0.0
       eslint-scope: 5.1.1
       events: 3.3.0
@@ -26552,7 +26552,7 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.15.0)
       browserslist: 4.28.1
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.18.4
+      enhanced-resolve: 5.19.0
       es-module-lexer: 2.0.0
       eslint-scope: 5.1.1
       events: 3.3.0
