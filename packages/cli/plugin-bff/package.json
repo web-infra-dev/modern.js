@@ -89,7 +89,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "qs": "^6.14.1",
+    "qs": "^6.15.0",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
@@ -100,7 +100,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/core": "2.0.0-beta.4",
-    "@rslib/core": "0.19.5",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.14.0",
