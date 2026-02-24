@@ -270,8 +270,8 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       qs:
-        specifier: ^6.14.1
-        version: 6.14.2
+        specifier: ^6.15.0
+        version: 6.15.0
       type-is:
         specifier: ^1.6.18
         version: 1.6.18
@@ -948,8 +948,8 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       qs:
-        specifier: ^6.14.1
-        version: 6.14.2
+        specifier: ^6.15.0
+        version: 6.15.0
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -12550,6 +12550,10 @@ packages:
     resolution: {integrity: sha512-V/yCWTTF7VJ9hIh18Ugr2zhJMP01MY7c5kh4J870L7imm6/DIzBsNLTXzMwUA3yZ5b/KBqLx8Kp3uRvd7xSe3Q==}
     engines: {node: '>=0.6'}
 
+  qs@6.15.0:
+    resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
+    engines: {node: '>=0.6'}
+
   quansync@0.2.11:
     resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
@@ -20861,7 +20865,7 @@ snapshots:
       '@paralleldrive/cuid2': 2.3.1
       dezalgo: 1.0.4
       once: 1.4.0
-      qs: 6.14.2
+      qs: 6.15.0
 
   forwarded@0.2.0: {}
 
@@ -24417,6 +24421,10 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
+  qs@6.15.0:
+    dependencies:
+      side-channel: 1.1.0
+
   quansync@0.2.11: {}
 
   querystringify@2.2.0: {}
@@ -25767,7 +25775,7 @@ snapshots:
       formidable: 2.1.5
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.2
+      qs: 6.15.0
       semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
