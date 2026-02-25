@@ -130,8 +130,8 @@ test('inline runtime chunk and remove source map when devtool is "hidden-source-
     expect(content.includes('sourceMappingURL=')).toBe(false);
   }
 
-  // keep an assertion on runtime-chunk presence so behavior stays visible
-  expect(hasRuntimeChunkMap(files)).toBe(true);
+  // hidden-source-map should not emit runtime chunk source map assets
+  expect(hasRuntimeChunkMap(files)).toBe(false);
 });
 
 test('inline runtime chunk by default with multiple entries', async () => {

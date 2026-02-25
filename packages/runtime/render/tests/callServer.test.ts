@@ -110,6 +110,30 @@ describe('requestCallServer pluggable action id resolver', () => {
     expectActionHeader('untouched');
   });
 
+  test('wraps sync resolver errors with CallServerError', async () => {
+    setResolveActionId(() => {
+      throw new Error('resolver sync failure');
+    });
+
+    await expect(requestCallServer('broken-sync', [])).rejects.toMatchObject({
+      name: 'CallServerError',
+      statusCode: 1,
+      url: '/',
+    });
+  });
+
+  test('wraps async resolver rejections with CallServerError', async () => {
+    setResolveActionId(async () => {
+      throw new Error('resolver async failure');
+    });
+
+    await expect(requestCallServer('broken-async', [])).rejects.toMatchObject({
+      name: 'CallServerError',
+      statusCode: 1,
+      url: '/',
+    });
+  });
+
   test('resolver set via global key is picked up', async () => {
     (globalThis as GlobalWithResolver)[ACTION_RESOLVER_KEY] = id =>
       `global:${id}`;

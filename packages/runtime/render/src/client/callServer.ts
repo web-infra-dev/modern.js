@@ -89,9 +89,10 @@ class CallServerError extends Error {
 
 export async function requestCallServer(id: string, args: ReactServerValue) {
   const url = resolveActionRequestUrl();
-  const actionId = await resolveActionId(id);
+  let actionId = id;
 
   try {
+    actionId = await resolveActionId(id);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
