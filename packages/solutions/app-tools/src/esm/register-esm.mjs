@@ -43,3 +43,18 @@ export const registerModuleHooks = async ({ appDir, distDir, alias }) => {
     },
   });
 };
+
+/**
+ * Register alias resolver hooks for Node.js 22+ native TypeScript support.
+ * Used when ts-node is not available but Node has native TypeScript strip-types.
+ * Handles tsconfig path aliases and extensionless imports.
+ */
+export const registerAliasResolver = async ({ absoluteBaseUrl, paths }) => {
+  const { register } = await import('node:module');
+  register('./alias-resolver.mjs', import.meta.url, {
+    data: {
+      absoluteBaseUrl,
+      paths,
+    },
+  });
+};
