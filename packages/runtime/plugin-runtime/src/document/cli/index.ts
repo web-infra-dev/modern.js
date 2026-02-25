@@ -242,6 +242,9 @@ const configureChildCompiler = (
   child.options.module = compiler.options.module;
   child.options.externalsPresets = { node: true };
   child.options.devtool = false;
+  child.options.optimization = {
+    minimize: false,
+  };
 };
 
 const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {

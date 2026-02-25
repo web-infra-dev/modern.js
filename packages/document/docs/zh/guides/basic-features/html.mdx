@@ -30,7 +30,7 @@ Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.tsx` �
 如果未找到，将会使用 Modern.js 的默认模板。
 
 :::tip
-`Document.tsx` 模块将会被使用 esbuild 编译为 Node.js 产物、并在编译时以 `renderToStaticMarkup` 渲染为字符串以作为 HTML 模板的内容，其行为类似[静态站点生成](/guides/basic-features/render/ssg.html)。HTML 模板模块不会经过 Bundler 编译打包，因此组件中的 React Hooks 不会在浏览器运行时被执行，也不支持导入 JavaScript 以外的图片等资源模块。
+`Document.tsx` 会在构建时由 Modern.js 的 Document 插件创建 Rspack 子编译器流程，编译为面向 Node.js 的产物，并在编译时以 `renderToStaticMarkup` 渲染为字符串作为 HTML 模板内容，其行为类似[静态站点生成](/guides/basic-features/render/ssg.html)。HTML 模板模块不会经过页面 Bundler 的常规编译打包，因此组件中的 React Hooks 不会在浏览器运行时被执行，也不支持导入 JavaScript 以外的图片等资源模块。
 :::
 
 ### HTML 组件
