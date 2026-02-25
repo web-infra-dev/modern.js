@@ -86,6 +86,11 @@ export const runtimePlugin = (params?: {
           globalVars: {
             'process.env.IS_REACT18': process.env.IS_REACT18,
           },
+          include: [
+            new RegExp(
+              `[\\\\/]node_modules[\\\\/]@${metaName}[\\\\/]runtime[\\\\/].*[\\\\/]head\\.[jt]sx?$`,
+            ),
+          ],
         },
         tools: {
           bundlerChain: chain => {
