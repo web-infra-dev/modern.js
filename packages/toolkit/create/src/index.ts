@@ -180,7 +180,7 @@ async function main() {
     return;
   }
 
-  console.log(i18n.t(localeKeys.message.welcome));
+  console.log(`\n${i18n.t(localeKeys.message.welcome)}\n`);
   const { name: projectName, useCurrentDir } = await getProjectName();
   const targetDir = useCurrentDir
     ? process.cwd()
@@ -199,9 +199,6 @@ async function main() {
   const createPackageJson = path.resolve(__dirname, '..', 'package.json');
   const createPackage = JSON.parse(fs.readFileSync(createPackageJson, 'utf-8'));
   const version = createPackage.version || 'latest';
-
-  console.log('');
-  console.log(i18n.t(localeKeys.message.creating, { projectName }));
 
   const subprojectFlag = detectSubprojectFlag();
   const isSubproject = subprojectFlag === true;
@@ -235,23 +232,19 @@ async function main() {
     `${JSON.stringify(packageJson, null, 2)}\n`,
   );
 
-  console.log(i18n.t(localeKeys.message.success));
+  // ANSI escape codes: \x1b[2m = dim, \x1b[3m = italic, \x1b[0m = reset
+  const dim = '\x1b[2m\x1b[3m';
+  const reset = '\x1b[0m';
+
+  console.log(`${i18n.t(localeKeys.message.success)}\n`);
   console.log(i18n.t(localeKeys.message.nextSteps));
-  console.log('');
   if (!useCurrentDir) {
-    console.log(i18n.t(localeKeys.message.step1Desc));
-    console.log(i18n.t(localeKeys.message.step1, { projectName }));
-    console.log('');
+    console.log(
+      `${dim}   ${i18n.t(localeKeys.message.step1, { projectName })}${reset}`,
+    );
   }
-  console.log(i18n.t(localeKeys.message.step2Desc));
-  console.log(i18n.t(localeKeys.message.step2));
-  console.log('');
-  console.log(i18n.t(localeKeys.message.step3Desc));
-  console.log(i18n.t(localeKeys.message.step3));
-  console.log('');
-  console.log(i18n.t(localeKeys.message.step4Desc));
-  console.log(i18n.t(localeKeys.message.step4));
-  console.log('');
+  console.log(`${dim}   ${i18n.t(localeKeys.message.step2)}${reset}`);
+  console.log(`${dim}   ${i18n.t(localeKeys.message.step3)}${reset}\n`);
 }
 
 function copyTemplate(
