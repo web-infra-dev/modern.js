@@ -1192,7 +1192,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-rspack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
       },
       "tsConfig": {
         "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
@@ -1978,7 +1978,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-rspack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
       },
       "tsConfig": {
         "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
@@ -2737,7 +2737,7 @@ exports[`builder environment compat > should generator environment config correc
         ".json",
       ],
       "fallback": {
-        "react-server-dom-webpack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
+        "react-server-dom-rspack/client.browser": "<WORKSPACE>/packages/cli/builder/src/shared/rsc/rscEmptyModule",
       },
       "tsConfig": {
         "configFile": "<WORKSPACE>/packages/cli/builder/tsconfig.json",
