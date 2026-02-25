@@ -242,9 +242,14 @@ const configureChildCompiler = (
   child.options.module = compiler.options.module;
   child.options.externalsPresets = { node: true };
   child.options.devtool = false;
-  child.options.optimization = {
-    minimize: false,
-  };
+  if (
+    child.options.optimization &&
+    typeof child.options.optimization === 'object'
+  ) {
+    child.options.optimization.minimize = false;
+  } else {
+    child.options.optimization = { minimize: false };
+  }
 };
 
 const applyExternalsPlugin = (child: Compiler, compiler: Compiler) => {
@@ -418,7 +423,9 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-document',
 
   pre: ['@modern-js/plugin-analyze'],
-  setup: async api => {
+  setup: async (
+    api: Parameters<NonNullable<CliPlugin<AppTools>['setup']>>[0],
+  ) => {
     class ModernJsDocumentChildCompilerPlugin {
       name = 'ModernJsDocumentChildCompilerPlugin';
 
@@ -692,7 +699,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
 
       return {
         tools: {
-          htmlPlugin: (options, entry) => {
+          htmlPlugin: (options: any, entry: any) => {
             // reuse builder's computed base parameters
             // https://github.com/web-infra-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
             const hackParameters: Record<string, unknown> =
