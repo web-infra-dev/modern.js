@@ -2,24 +2,14 @@
   "name": "{{packageName}}",
   "version": "0.1.0",
   "scripts": {
-    "reset": "npx rimraf node_modules ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve"{{#unless isSubproject}},
-    "lint": "biome check",
-    "prepare": "simple-git-hooks"{{/unless}}
+    "lint": "biome check"{{/unless}}
   },
   "engines": {
     "node": ">=20"
-  }{{#unless isSubproject}},
-  "lint-staged": {
-    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-      "biome check --files-ignore-unknown=true"
-    ]
   },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
-  }{{/unless}},
   "dependencies": {
     "@modern-js/runtime": "{{version}}",
     "react": "^19.2.3",
@@ -32,9 +22,6 @@
     "typescript": "~5.7.3",
     "@types/node": "^20",
     "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6"{{#unless isSubproject}},
-    "lint-staged": "~15.4.0",
-    "simple-git-hooks": "^2.11.1"{{/unless}},
-    "rimraf": "^6.0.1"
+    "@types/react-dom": "^19.1.6"
   }
 }
