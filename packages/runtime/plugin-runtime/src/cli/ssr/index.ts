@@ -140,6 +140,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
       .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
       .replace(/\.js$/, '.mjs');
 
+    const userConfig = api.getNormalizedConfig();
+    const useLoadablePlugin =
+      isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig);
+
     api.config(() => {
       return {
         builderPlugins: [
@@ -151,33 +155,35 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             '@modern-js/runtime-utils/node$': aliasPath,
           },
         },
-        tools: {
-          swc: {
-            jsc: {
-              experimental: {
-                plugins: [
-                  [
-                    require.resolve('@swc/plugin-loadable-components'),
-                    {
-                      signatures: [
-                        { name: 'default', from: '@loadable/component' },
-                        { name: 'lazy', from: '@loadable/component' },
+        tools: useLoadablePlugin
+          ? {
+              swc: {
+                jsc: {
+                  experimental: {
+                    plugins: [
+                      [
+                        require.resolve('@swc/plugin-loadable-components'),
                         {
-                          name: 'default',
-                          from: exportLoadablePath,
-                        },
-                        {
-                          name: 'lazy',
-                          from: exportLoadablePath,
+                          signatures: [
+                            { name: 'default', from: '@loadable/component' },
+                            { name: 'lazy', from: '@loadable/component' },
+                            {
+                              name: 'default',
+                              from: exportLoadablePath,
+                            },
+                            {
+                              name: 'lazy',
+                              from: exportLoadablePath,
+                            },
+                          ],
                         },
                       ],
-                    },
-                  ],
-                ],
+                    ],
+                  },
+                },
               },
-            },
-          },
-        },
+            }
+          : undefined,
       };
     });
   },
