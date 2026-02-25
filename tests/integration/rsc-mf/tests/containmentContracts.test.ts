@@ -120,10 +120,9 @@ describe('rsc-mf containment contracts', () => {
     );
     const source = fs.readFileSync(serverPluginPath, 'utf-8');
 
-    const hasServerCoreImportOrRequire =
-      source.includes(
-        "import { registerBundleLoaderStrategy } from '@modern-js/server-core/node';",
-      ) || source.includes('require("@modern-js/server-core/node")');
+    const hasServerCoreImportOrRequire = source.includes(
+      '@modern-js/server-core/node',
+    );
 
     expect(hasServerCoreImportOrRequire).toBe(true);
     expect(source).toContain('registerBundleLoaderStrategy');

@@ -112,19 +112,27 @@ const loadBundle = async (
   }
 
   try {
-    const module = loadBundleModule(filepath);
-    if (!isPromiseLike(module)) {
-      return module;
-    }
-
+    let module: unknown | Promise<unknown> | undefined;
     let moduleError: unknown;
     try {
-      const resolvedModule = await module;
-      if (resolvedModule !== undefined) {
-        return resolvedModule;
-      }
+      module = loadBundleModule(filepath);
     } catch (err) {
       moduleError = err;
+    }
+
+    if (module !== undefined) {
+      if (!isPromiseLike(module)) {
+        return module;
+      }
+
+      try {
+        const resolvedModule = await module;
+        if (resolvedModule !== undefined) {
+          return resolvedModule;
+        }
+      } catch (err) {
+        moduleError = moduleError || err;
+      }
     }
 
     const context = monitors ? { monitors } : undefined;
