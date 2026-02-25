@@ -40,7 +40,7 @@ The following solutions and libraries are available within the Modern.js ecosyst
 
 ## Benchmark
 
-We use [Modern.js Benchmark](https://web-infra-qos.netlify.app/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+We use [Modern.js Benchmark](https://web-infra-qos.pages.dev/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
 
 ## Roadmap
 
