@@ -76,6 +76,7 @@ const checkUseStringSSR = (
 const ssrBuilderPlugin = (
   modernAPI: CLIPluginAPI<AppTools>,
   outputModule: boolean,
+  exportLoadablePath: string,
 ): RsbuildPlugin => ({
   name: '@modern-js/builder-plugin-ssr',
 
@@ -97,6 +98,10 @@ const ssrBuilderPlugin = (
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
+        checkUseStringSSR(userConfig, appDirectory, entrypoints);
+
+      const useLoadableComponents =
+        isUseSSRBundle(userConfig) &&
         checkUseStringSSR(userConfig, appDirectory, entrypoints);
 
       return mergeEnvironmentConfig(config, {
@@ -121,43 +126,8 @@ const ssrBuilderPlugin = (
                   ]);
               }
             : undefined,
-        },
-      });
-    });
-  },
-});
-
-export const ssrPlugin = (): CliPlugin<AppTools> => ({
-  name: '@modern-js/plugin-ssr',
-
-  required: ['@modern-js/runtime'],
-
-  setup: api => {
-    const appContext = api.getAppContext();
-    const exportLoadablePath = `@${appContext.metaName}/runtime/loadable`;
-    const runtimeUtilsPath = require.resolve('@modern-js/runtime-utils/node');
-    const aliasPath = runtimeUtilsPath
-      .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
-      .replace(/\.js$/, '.mjs');
-
-    const userConfig = api.getNormalizedConfig();
-    const useLoadablePlugin =
-      isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig);
-
-    api.config(() => {
-      return {
-        builderPlugins: [
-          ssrBuilderPlugin(api, appContext.moduleType === 'module'),
-        ],
-        resolve: {
-          alias: {
-            // ensure that all packages use the same storage in @modern-js/runtime-utils/node
-            '@modern-js/runtime-utils/node$': aliasPath,
-          },
-        },
-        tools: useLoadablePlugin
-          ? {
-              swc: {
+          swc: useLoadableComponents
+            ? {
                 jsc: {
                   experimental: {
                     plugins: [
@@ -181,9 +151,42 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                     ],
                   },
                 },
-              },
-            }
-          : undefined,
+              }
+            : undefined,
+        },
+      });
+    });
+  },
+});
+
+export const ssrPlugin = (): CliPlugin<AppTools> => ({
+  name: '@modern-js/plugin-ssr',
+
+  required: ['@modern-js/runtime'],
+
+  setup: api => {
+    const appContext = api.getAppContext();
+    const exportLoadablePath = `@${appContext.metaName}/runtime/loadable`;
+    const runtimeUtilsPath = require.resolve('@modern-js/runtime-utils/node');
+    const aliasPath = runtimeUtilsPath
+      .replace(`${path.sep}cjs${path.sep}`, `${path.sep}esm${path.sep}`)
+      .replace(/\.js$/, '.mjs');
+
+    api.config(() => {
+      return {
+        builderPlugins: [
+          ssrBuilderPlugin(
+            api,
+            appContext.moduleType === 'module',
+            exportLoadablePath,
+          ),
+        ],
+        resolve: {
+          alias: {
+            // ensure that all packages use the same storage in @modern-js/runtime-utils/node
+            '@modern-js/runtime-utils/node$': aliasPath,
+          },
+        },
       };
     });
   },
