@@ -76,6 +76,7 @@ const checkUseStringSSR = (
 const ssrBuilderPlugin = (
   modernAPI: CLIPluginAPI<AppTools>,
   outputModule: boolean,
+  exportLoadablePath: string,
 ): RsbuildPlugin => ({
   name: '@modern-js/builder-plugin-ssr',
 
@@ -97,6 +98,10 @@ const ssrBuilderPlugin = (
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
         !isServerEnvironment &&
+        checkUseStringSSR(userConfig, appDirectory, entrypoints);
+
+      const useLoadableComponents =
+        isUseSSRBundle(userConfig) &&
         checkUseStringSSR(userConfig, appDirectory, entrypoints);
 
       return mergeEnvironmentConfig(config, {
@@ -121,6 +126,33 @@ const ssrBuilderPlugin = (
                   ]);
               }
             : undefined,
+          swc: useLoadableComponents
+            ? {
+                jsc: {
+                  experimental: {
+                    plugins: [
+                      [
+                        require.resolve('@swc/plugin-loadable-components'),
+                        {
+                          signatures: [
+                            { name: 'default', from: '@loadable/component' },
+                            { name: 'lazy', from: '@loadable/component' },
+                            {
+                              name: 'default',
+                              from: exportLoadablePath,
+                            },
+                            {
+                              name: 'lazy',
+                              from: exportLoadablePath,
+                            },
+                          ],
+                        },
+                      ],
+                    ],
+                  },
+                },
+              }
+            : undefined,
         },
       });
     });
@@ -143,39 +175,16 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     api.config(() => {
       return {
         builderPlugins: [
-          ssrBuilderPlugin(api, appContext.moduleType === 'module'),
+          ssrBuilderPlugin(
+            api,
+            appContext.moduleType === 'module',
+            exportLoadablePath,
+          ),
         ],
         resolve: {
           alias: {
             // ensure that all packages use the same storage in @modern-js/runtime-utils/node
             '@modern-js/runtime-utils/node$': aliasPath,
-          },
-        },
-        tools: {
-          swc: {
-            jsc: {
-              experimental: {
-                plugins: [
-                  [
-                    require.resolve('@swc/plugin-loadable-components'),
-                    {
-                      signatures: [
-                        { name: 'default', from: '@loadable/component' },
-                        { name: 'lazy', from: '@loadable/component' },
-                        {
-                          name: 'default',
-                          from: exportLoadablePath,
-                        },
-                        {
-                          name: 'lazy',
-                          from: exportLoadablePath,
-                        },
-                      ],
-                    },
-                  ],
-                ],
-              },
-            },
           },
         },
       };
