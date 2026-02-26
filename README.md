@@ -46,7 +46,6 @@ Please refer to the [Modern.js Roadmap](https://github.com/web-infra-dev/modern.
 ## Examples
 
 Modern.js provides a collection of ready-to-use examples that you can find and use in the [modern-js-examples](https://github.com/web-infra-dev/modern-js-examples) repository.
-For the in-repo first-class RSC + Module Federation plugin-first fixture contract (direct exposes map, no fixture runtime helpers), see [`tests/integration/rsc-mf/README.md`](./tests/integration/rsc-mf/README.md).
 
 ## Contributing
 

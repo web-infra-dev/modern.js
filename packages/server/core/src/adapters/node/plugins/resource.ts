@@ -55,9 +55,11 @@ const isPromiseLike = (value: unknown): value is Promise<unknown> =>
 
 const loadBundleModule = (filepath: string): unknown | Promise<unknown> => {
   try {
+    // Prefer native require to preserve raw CJS export shape (including promise exports).
     return require(filepath);
   } catch (err: any) {
     if (err?.code === 'ERR_REQUIRE_ESM') {
+      // Keep module namespace intact for bundle named exports (requestHandler/loadModules/etc.).
       return compatibleRequire(filepath, false);
     }
     throw err;

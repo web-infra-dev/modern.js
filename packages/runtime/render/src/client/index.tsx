@@ -9,10 +9,12 @@ export { rscStream } from '../rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 export {
   callServer,
+  setResolveActionRequestUrl,
+  setActionRequestUrlResolver,
   setResolveActionId,
   setActionIdResolver,
 } from './callServer';
-export type { ActionIdResolver } from './callServer';
+export type { ActionIdResolver, ActionRequestUrlResolver } from './callServer';
 export { createFromFetch } from 'react-server-dom-rspack/client.browser';
 
 declare global {

@@ -6,8 +6,10 @@ import {
 type ReactServerValue = unknown;
 
 export type ActionIdResolver = (id: string) => string | Promise<string>;
+export type ActionRequestUrlResolver = (entryName?: string) => string;
 
 const ACTION_RESOLVER_KEY = '__MODERN_RSC_ACTION_RESOLVER__';
+const ACTION_URL_RESOLVER_KEY = '__MODERN_RSC_ACTION_URL_RESOLVER__';
 
 /**
  * Register a custom action ID resolver. Plugins (e.g. Module Federation)
@@ -35,9 +37,36 @@ const resolveActionId = (id: string): string | Promise<string> => {
   return id;
 };
 
+/**
+ * Register a custom action request URL resolver. Plugins can use this
+ * to align request URLs with customized route/base configurations.
+ */
+export const setResolveActionRequestUrl = (
+  resolver: ActionRequestUrlResolver,
+): void => {
+  (
+    globalThis as typeof globalThis & {
+      [ACTION_URL_RESOLVER_KEY]?: ActionRequestUrlResolver;
+    }
+  )[ACTION_URL_RESOLVER_KEY] = resolver;
+};
+
+export const setActionRequestUrlResolver = setResolveActionRequestUrl;
+
 const resolveActionRequestUrl = (): string => {
   const entryName =
     typeof window !== 'undefined' ? window.__MODERN_JS_ENTRY_NAME : undefined;
+
+  const resolver = (
+    globalThis as typeof globalThis & {
+      [ACTION_URL_RESOLVER_KEY]?: ActionRequestUrlResolver;
+    }
+  )[ACTION_URL_RESOLVER_KEY];
+  if (typeof resolver === 'function') {
+    return resolver(entryName);
+  }
+
+  // Legacy fallback: preserve existing behavior for default entry names.
   if (!entryName || entryName === 'main' || entryName === 'index') {
     return '/';
   }
@@ -88,10 +117,11 @@ class CallServerError extends Error {
 }
 
 export async function requestCallServer(id: string, args: ReactServerValue) {
-  const url = resolveActionRequestUrl();
+  let url = '/';
   let actionId = id;
 
   try {
+    url = resolveActionRequestUrl();
     actionId = await resolveActionId(id);
     const response = await fetch(url, {
       method: 'POST',

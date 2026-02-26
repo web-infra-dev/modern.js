@@ -1,3 +1,6 @@
+const ACTION_RESOLVER_KEY = '__MODERN_RSC_ACTION_RESOLVER__';
+const ACTION_URL_RESOLVER_KEY = '__MODERN_RSC_ACTION_URL_RESOLVER__';
+
 type WebpackRequireShim = {
   u: (chunkId: string | number) => string;
 };
@@ -13,10 +16,9 @@ if (!globalState.__webpack_require__) {
   };
 }
 
-const ACTION_RESOLVER_KEY = '__MODERN_RSC_ACTION_RESOLVER__';
-
-type GlobalWithResolver = typeof globalThis & {
+type GlobalWithResolvers = typeof globalThis & {
   [ACTION_RESOLVER_KEY]?: (id: string) => string | Promise<string>;
+  [ACTION_URL_RESOLVER_KEY]?: (entryName?: string) => string;
 };
 
 describe('requestCallServer pluggable action id resolver', () => {
@@ -28,12 +30,16 @@ describe('requestCallServer pluggable action id resolver', () => {
   let setResolveActionId: typeof import(
     '../src/client/callServer',
   ).setResolveActionId;
+  let setResolveActionRequestUrl: typeof import(
+    '../src/client/callServer',
+  ).setResolveActionRequestUrl;
   let fetchMock: ReturnType<typeof rstest.fn>;
 
   beforeAll(async () => {
     const mod = await import('../src/client/callServer');
     requestCallServer = mod.requestCallServer;
     setResolveActionId = mod.setResolveActionId;
+    setResolveActionRequestUrl = mod.setResolveActionRequestUrl;
   });
 
   beforeEach(() => {
@@ -54,7 +60,8 @@ describe('requestCallServer pluggable action id resolver', () => {
   });
 
   afterEach(() => {
-    delete (globalThis as GlobalWithResolver)[ACTION_RESOLVER_KEY];
+    delete (globalThis as GlobalWithResolvers)[ACTION_RESOLVER_KEY];
+    delete (globalThis as GlobalWithResolvers)[ACTION_URL_RESOLVER_KEY];
     (
       globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
     ).window = {
@@ -65,7 +72,11 @@ describe('requestCallServer pluggable action id resolver', () => {
   afterAll(() => {
     globalThis.fetch = originalFetch;
     (globalThis as { window?: unknown }).window = originalWindow;
-    globalState.__webpack_require__ = originalWebpackRequire;
+    if (originalWebpackRequire) {
+      globalState.__webpack_require__ = originalWebpackRequire;
+    } else {
+      delete globalState.__webpack_require__;
+    }
   });
 
   const expectActionHeader = (actionId: string, expectedUrl = '/') => {
@@ -135,12 +146,48 @@ describe('requestCallServer pluggable action id resolver', () => {
   });
 
   test('resolver set via global key is picked up', async () => {
-    (globalThis as GlobalWithResolver)[ACTION_RESOLVER_KEY] = id =>
+    (globalThis as GlobalWithResolvers)[ACTION_RESOLVER_KEY] = id =>
       `global:${id}`;
 
     await requestCallServer('action123', []);
 
     expectActionHeader('global:action123');
+  });
+
+  test('uses custom request url resolver when registered', async () => {
+    setResolveActionRequestUrl(entryName =>
+      entryName ? `/custom/${entryName}` : '/custom',
+    );
+    (
+      globalThis as unknown as { window?: { __MODERN_JS_ENTRY_NAME: string } }
+    ).window = {
+      __MODERN_JS_ENTRY_NAME: 'server-component-root',
+    };
+
+    await requestCallServer('entry-action', []);
+
+    expectActionHeader('entry-action', '/custom/server-component-root');
+  });
+
+  test('request url resolver set via global key is picked up', async () => {
+    (globalThis as GlobalWithResolvers)[ACTION_URL_RESOLVER_KEY] = () =>
+      '/global/custom';
+
+    await requestCallServer('action123', []);
+
+    expectActionHeader('action123', '/global/custom');
+  });
+
+  test('wraps request url resolver errors with CallServerError', async () => {
+    setResolveActionRequestUrl(() => {
+      throw new Error('url resolver failure');
+    });
+
+    await expect(requestCallServer('broken-url', [])).rejects.toMatchObject({
+      name: 'CallServerError',
+      statusCode: 1,
+      url: '/',
+    });
   });
 
   test('uses entry specific action endpoint when entry name is not main/index', async () => {
