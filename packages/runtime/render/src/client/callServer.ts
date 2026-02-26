@@ -1,11 +1,77 @@
 import {
   createFromFetch,
-  createTemporaryReferenceSet,
   encodeReply,
-  setServerCallback,
 } from 'react-server-dom-rspack/client.browser';
 
 type ReactServerValue = unknown;
+
+export type ActionIdResolver = (id: string) => string | Promise<string>;
+export type ActionRequestUrlResolver = (entryName?: string) => string;
+
+const ACTION_RESOLVER_KEY = '__MODERN_RSC_ACTION_RESOLVER__';
+const ACTION_URL_RESOLVER_KEY = '__MODERN_RSC_ACTION_URL_RESOLVER__';
+
+/**
+ * Register a custom action ID resolver. Plugins (e.g. Module Federation)
+ * use this to remap raw action IDs before they are sent to the server.
+ */
+export const setResolveActionId = (resolver: ActionIdResolver): void => {
+  (
+    globalThis as typeof globalThis & {
+      [ACTION_RESOLVER_KEY]?: ActionIdResolver;
+    }
+  )[ACTION_RESOLVER_KEY] = resolver;
+};
+
+export const setActionIdResolver = setResolveActionId;
+
+const resolveActionId = (id: string): string | Promise<string> => {
+  const resolver = (
+    globalThis as typeof globalThis & {
+      [ACTION_RESOLVER_KEY]?: ActionIdResolver;
+    }
+  )[ACTION_RESOLVER_KEY];
+  if (typeof resolver === 'function') {
+    return resolver(id);
+  }
+  return id;
+};
+
+/**
+ * Register a custom action request URL resolver. Plugins can use this
+ * to align request URLs with customized route/base configurations.
+ */
+export const setResolveActionRequestUrl = (
+  resolver: ActionRequestUrlResolver,
+): void => {
+  (
+    globalThis as typeof globalThis & {
+      [ACTION_URL_RESOLVER_KEY]?: ActionRequestUrlResolver;
+    }
+  )[ACTION_URL_RESOLVER_KEY] = resolver;
+};
+
+export const setActionRequestUrlResolver = setResolveActionRequestUrl;
+
+const resolveActionRequestUrl = (): string => {
+  const entryName =
+    typeof window !== 'undefined' ? window.__MODERN_JS_ENTRY_NAME : undefined;
+
+  const resolver = (
+    globalThis as typeof globalThis & {
+      [ACTION_URL_RESOLVER_KEY]?: ActionRequestUrlResolver;
+    }
+  )[ACTION_URL_RESOLVER_KEY];
+  if (typeof resolver === 'function') {
+    return resolver(entryName);
+  }
+
+  // Legacy fallback: preserve existing behavior for default entry names.
+  if (!entryName || entryName === 'main' || entryName === 'index') {
+    return '/';
+  }
+  return `/${entryName}`;
+};
 
 class CallServerError extends Error {
   readonly #statusCode: number;
@@ -51,23 +117,25 @@ class CallServerError extends Error {
 }
 
 export async function requestCallServer(id: string, args: ReactServerValue) {
-  const entryName = window.__MODERN_JS_ENTRY_NAME;
-  const url =
-    entryName === 'main' || entryName === 'index' ? '/' : `/${entryName}`;
+  let url = '/';
+  let actionId = id;
 
   try {
+    url = resolveActionRequestUrl();
+    actionId = await resolveActionId(id);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'text/x-component',
-        'x-rsc-action': id,
+        'x-rsc-action': actionId,
       },
       body: await encodeReply(args),
     });
 
     if (!response.ok) {
       throw new CallServerError(response.statusText, response.status, url, {
-        id,
+        id: actionId,
+        rawId: id,
         args,
       });
     }
@@ -81,7 +149,7 @@ export async function requestCallServer(id: string, args: ReactServerValue) {
       error instanceof Error ? error.message : 'Unknown error',
       1,
       url,
-      { id, args },
+      { id: actionId, rawId: id, args },
     );
   }
 }

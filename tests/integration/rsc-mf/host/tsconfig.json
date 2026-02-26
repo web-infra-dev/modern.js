@@ -1,0 +1,18 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src",
+    "config",
+    "server",
+    "modern.config.ts",
+    "module-federation.config.ts"
+  ]
+}

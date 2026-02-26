@@ -87,6 +87,26 @@
       "read-yaml-file>js-yaml": "3.14.2",
       "@remix-run/router": ">=1.23.2",
       "h3": ">=1.15.5",
+      "@rspack/core@2.0.0-beta.2": "npm:@rspack-canary/core@2.0.0-canary-032bd1ff-20260212021235",
+      "@module-federation/bridge-react": "https://pkg.pr.new/module-federation/core/@module-federation/bridge-react@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/bridge-react-webpack-plugin": "https://pkg.pr.new/module-federation/core/@module-federation/bridge-react-webpack-plugin@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/bridge-shared": "https://pkg.pr.new/module-federation/core/@module-federation/bridge-shared@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/cli": "https://pkg.pr.new/module-federation/core/@module-federation/cli@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/data-prefetch": "https://pkg.pr.new/module-federation/core/@module-federation/data-prefetch@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/dts-plugin": "https://pkg.pr.new/module-federation/core/@module-federation/dts-plugin@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/enhanced": "https://pkg.pr.new/module-federation/core/@module-federation/enhanced@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/error-codes": "https://pkg.pr.new/module-federation/core/@module-federation/error-codes@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/inject-external-runtime-core-plugin": "https://pkg.pr.new/module-federation/core/@module-federation/inject-external-runtime-core-plugin@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/managers": "https://pkg.pr.new/module-federation/core/@module-federation/managers@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/manifest": "https://pkg.pr.new/module-federation/core/@module-federation/manifest@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/rsbuild-plugin": "https://pkg.pr.new/module-federation/core/@module-federation/rsbuild-plugin@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/rspack": "https://pkg.pr.new/module-federation/core/@module-federation/rspack@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/runtime": "https://pkg.pr.new/module-federation/core/@module-federation/runtime@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/runtime-core": "https://pkg.pr.new/module-federation/core/@module-federation/runtime-core@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/runtime-tools": "https://pkg.pr.new/module-federation/core/@module-federation/runtime-tools@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/sdk": "https://pkg.pr.new/module-federation/core/@module-federation/sdk@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/third-party-dts-extractor": "https://pkg.pr.new/module-federation/core/@module-federation/third-party-dts-extractor@c160c7ae3246c65fa50f19d966b8acd32448580a",
+      "@module-federation/webpack-bundler-runtime": "https://pkg.pr.new/module-federation/core/@module-federation/webpack-bundler-runtime@c160c7ae3246c65fa50f19d966b8acd32448580a",
       "tar": ">=7.5.4",
       "diff": ">=4.0.4",
       "debug": ">=4.4.3",
@@ -116,6 +136,20 @@
       "debug": "4.1.1",
       "uuid": "3.4.0",
       "trim": "0.0.1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@parcel/watcher",
+      "@swc/core",
+      "bufferutil",
+      "core-js",
+      "es5-ext",
+      "esbuild",
+      "less",
+      "nx",
+      "puppeteer",
+      "sharp",
+      "utf-8-validate"
+    ]
   }
 }

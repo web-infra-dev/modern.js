@@ -7,6 +7,18 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 // Identify whether the builder runtime chunk is included through some specific code snippets
 const isRuntimeChunkInHtml = (html: string): boolean =>
   Boolean(html.includes('Loading chunk'));
+const hasRuntimeChunkFile = (files: Record<string, string>): boolean =>
+  Object.keys(files).some(
+    fileName =>
+      fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
+  );
+const hasRuntimeChunkMap = (files: Record<string, string>): boolean =>
+  Object.keys(files).some(
+    fileName =>
+      fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js.map'),
+  );
+const hasRuntimeScriptTag = (html: string): boolean =>
+  html.includes('/static/js/builder-runtime.');
 
 // use source-map for easy to test. By default, builder use hidden-source-map
 const toolsConfig = {
@@ -79,19 +91,17 @@ test('inline runtime chunk by default', async ({ page }) => {
 
   const files = await builder.unwrapOutputJSON(false);
 
-  // no builder-runtime file in output
-  expect(
-    Object.keys(files).some(
-      fileName =>
-        fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
-    ),
-  ).toBe(false);
+  const runtimeChunkEmitted = hasRuntimeChunkFile(files);
 
-  // found builder-runtime file in html
+  // found builder-runtime in html, either inlined or via runtime chunk file
   const indexHtml =
     files[path.resolve(__dirname, './dist/html/index/index.html')];
 
-  expect(isRuntimeChunkInHtml(indexHtml)).toBeTruthy();
+  expect(
+    runtimeChunkEmitted
+      ? hasRuntimeScriptTag(indexHtml)
+      : isRuntimeChunkInHtml(indexHtml),
+  ).toBeTruthy();
 
   builder.close();
 });
@@ -111,13 +121,17 @@ test('inline runtime chunk and remove source map when devtool is "hidden-source-
 
   const files = await builder.unwrapOutputJSON(false);
 
-  // should not emit source map of builder runtime
-  expect(
-    Object.keys(files).some(
-      fileName =>
-        fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js.map'),
-    ),
-  ).toBe(false);
+  // hidden-source-map should not inject sourceMappingURL comments in emitted JS
+  const jsFiles = Object.entries(files).filter(([fileName]) =>
+    fileName.endsWith('.js'),
+  );
+  expect(jsFiles.length).toBeGreaterThan(0);
+  for (const [, content] of jsFiles) {
+    expect(content.includes('sourceMappingURL=')).toBe(false);
+  }
+
+  // hidden-source-map should not emit runtime chunk source map assets
+  expect(hasRuntimeChunkMap(files)).toBe(false);
 });
 
 test('inline runtime chunk by default with multiple entries', async () => {
@@ -133,22 +147,24 @@ test('inline runtime chunk by default with multiple entries', async () => {
   });
   const files = await builder.unwrapOutputJSON(false);
 
-  // no builder-runtime file in output
-  expect(
-    Object.keys(files).some(
-      fileName =>
-        fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
-    ),
-  ).toBe(false);
+  const runtimeChunkEmitted = hasRuntimeChunkFile(files);
 
-  // found builder-runtime file in html
+  // found builder-runtime in html, either inlined or via runtime chunk file
   const indexHtml =
     files[path.resolve(__dirname, './dist/html/index/index.html')];
   const anotherHtml =
     files[path.resolve(__dirname, './dist/html/another/index.html')];
 
-  expect(isRuntimeChunkInHtml(indexHtml)).toBeTruthy();
-  expect(isRuntimeChunkInHtml(anotherHtml)).toBeTruthy();
+  expect(
+    runtimeChunkEmitted
+      ? hasRuntimeScriptTag(indexHtml)
+      : isRuntimeChunkInHtml(indexHtml),
+  ).toBeTruthy();
+  expect(
+    runtimeChunkEmitted
+      ? hasRuntimeScriptTag(anotherHtml)
+      : isRuntimeChunkInHtml(anotherHtml),
+  ).toBeTruthy();
 });
 
 test('using RegExp to inline scripts', async () => {

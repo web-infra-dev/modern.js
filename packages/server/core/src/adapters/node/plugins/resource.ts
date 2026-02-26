@@ -20,6 +20,52 @@ import type {
 } from '../../../types';
 import { uniqueKeyByRoute } from '../../../utils';
 
+/** Context passed to bundle loader strategies. */
+export interface BundleLoaderContext {
+  monitors?: Monitors;
+}
+
+/** Strategy for loading bundles that require custom handling (e.g. async startup). */
+export type BundleLoaderStrategy = (
+  filepath: string,
+  context?: BundleLoaderContext,
+) => Promise<unknown | undefined>;
+
+const bundleLoaderStrategies: BundleLoaderStrategy[] = [];
+
+/** Register a bundle loader strategy. External plugins can use this to handle custom bundle formats. */
+export function registerBundleLoaderStrategy(
+  strategy: BundleLoaderStrategy,
+): void {
+  if (!bundleLoaderStrategies.includes(strategy)) {
+    bundleLoaderStrategies.push(strategy);
+  }
+}
+
+/** Get all registered bundle loader strategies. */
+export function getBundleLoaderStrategies(): readonly BundleLoaderStrategy[] {
+  return bundleLoaderStrategies;
+}
+
+const isPromiseLike = (value: unknown): value is Promise<unknown> =>
+  Boolean(value) &&
+  (typeof value === 'object' || typeof value === 'function') &&
+  'then' in (value as Promise<unknown>) &&
+  typeof (value as Promise<unknown>).then === 'function';
+
+const loadBundleModule = (filepath: string): unknown | Promise<unknown> => {
+  try {
+    // Prefer native require to preserve raw CJS export shape (including promise exports).
+    return require(filepath);
+  } catch (err: any) {
+    if (err?.code === 'ERR_REQUIRE_ESM') {
+      // Keep module namespace intact for bundle named exports (requestHandler/loadModules/etc.).
+      return compatibleRequire(filepath, false);
+    }
+    throw err;
+  }
+};
+
 export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   // Only process routes with entryName, which are HTML template routes.
   // Public static file routes don't have entryName and shouldn't be processed here.
@@ -59,14 +105,58 @@ export function injectTemplates(
   };
 }
 
-const loadBundle = async (filepath: string, monitors?: Monitors) => {
+const loadBundle = async (
+  filepath: string,
+  monitors?: Monitors,
+): Promise<any> => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
 
   try {
-    const module = await compatibleRequire(filepath, false);
-    return module;
+    let module: unknown | Promise<unknown> | undefined;
+    let moduleError: unknown;
+    try {
+      module = loadBundleModule(filepath);
+    } catch (err) {
+      moduleError = err;
+    }
+
+    if (module !== undefined) {
+      if (!isPromiseLike(module)) {
+        return module;
+      }
+
+      try {
+        const resolvedModule = await module;
+        if (resolvedModule !== undefined) {
+          return resolvedModule;
+        }
+      } catch (err) {
+        moduleError = moduleError || err;
+      }
+    }
+
+    const context = monitors ? { monitors } : undefined;
+    let strategyError: unknown;
+    for (const strategy of getBundleLoaderStrategies()) {
+      try {
+        const result = await strategy(filepath, context);
+        if (result !== undefined) {
+          return result;
+        }
+      } catch (err) {
+        strategyError = strategyError || err;
+      }
+    }
+
+    if (moduleError) {
+      throw moduleError;
+    }
+    if (strategyError) {
+      throw strategyError;
+    }
+    return undefined;
   } catch (e) {
     if (monitors) {
       monitors.error(
