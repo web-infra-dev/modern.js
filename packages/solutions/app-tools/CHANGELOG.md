@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 2.70.8
+
+### Patch Changes
+
+- 101a02e: fix: 修复 README.md 中的 Benchmark 的链接错误
+  fix: fix the wrong link of Benchmark in README.md
+  - @modern-js/core@2.70.8
+  - @modern-js/plugin-data-loader@2.70.8
+  - @modern-js/plugin-i18n@2.70.8
+  - @modern-js/rsbuild-plugin-esbuild@2.70.8
+  - @modern-js/uni-builder@2.70.8
+  - @modern-js/server-core@2.70.8
+  - @modern-js/prod-server@2.70.8
+  - @modern-js/server@2.70.8
+  - @modern-js/server-utils@2.70.8
+  - @modern-js/node-bundle-require@2.70.8
+  - @modern-js/plugin@2.70.8
+  - @modern-js/plugin-v2@2.70.8
+  - @modern-js/types@2.70.8
+  - @modern-js/utils@2.70.8
+
 ## 2.70.7
 
 ### Patch Changes
