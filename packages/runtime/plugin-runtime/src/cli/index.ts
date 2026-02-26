@@ -88,7 +88,7 @@ export const runtimePlugin = (params?: {
           },
           include: [
             new RegExp(
-              `[\\\\/]node_modules[\\\\/]@${metaName}[\\\\/]runtime[\\\\/].*[\\\\/]head\\.[jt]sx?$`,
+              `[\\\\/]node_modules[\\\\/]@${metaName}[\\\\/]runtime[\\\\/].*[\\\\/]head\\.`,
             ),
           ],
         },
