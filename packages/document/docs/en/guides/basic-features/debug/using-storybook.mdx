@@ -43,6 +43,57 @@ const config: StorybookConfig = {
 export default config
 ```
 
+## BFF Integrated Calls in Storybook
+
+When you want to call BFF APIs directly in Storybook components (for example `/api/**`), start the BFF service and configure a proxy in Storybook's dev server to avoid CORS issues.
+
+### 1. Add scripts
+
+Add the following scripts to `package.json` to start the BFF server and Storybook separately. The `BFF_PROXY` environment variable ensures the proxy is only enabled during Storybook build:
+
+```json
+{
+  "scripts": {
+    "dev:api": "modern dev --api-only",
+    "storybook": "BFF_PROXY=1 storybook dev -p 6006 --no-open",
+  }
+}
+```
+
+### 2. Configure proxy
+
+Add the following config in `modern.config.ts` to proxy requests to the BFF service only during Storybook build:
+
+```ts
+export default applyBaseConfig({
+  dev: process.env.BFF_PROXY
+    ? {
+        server: {
+          proxy: {
+            '/api': 'http://localhost:8080',
+          },
+        },
+      }
+    : {},
+});
+```
+
+Proxy path and port follow this logic:
+
+- If `dev.server.proxy` is configured, use that configuration
+- If not configured, the proxy path falls back to `bff.prefix`, otherwise `/api`
+- If not configured, the target port falls back to `server.port`, otherwise `8080`
+- The final target is `http://localhost:<port>`
+
+### 3. Start
+
+```bash
+pnpm dev:api
+pnpm storybook
+```
+
+Now you can request the path configured in `bff.prefix`; if not configured, use `/api/**`.
+
 ## Example
 
 You can check out the [example](https://github.com/rspack-contrib/storybook-rsbuild/tree/main/sandboxes/modernjs-react) to learn how to use Storybook in Modern.js.

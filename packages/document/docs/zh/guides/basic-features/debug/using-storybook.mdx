@@ -43,6 +43,50 @@ const config: StorybookConfig = {
 export default config
 ```
 
+## Storybook 中进行 BFF 一体化调用
+
+当你希望在 Storybook 的组件中直接调用 BFF 接口（例如请求 `/api/**`）时，需要同时启动 BFF 服务并在 Storybook 的开发服务器中设置代理，避免跨域问题。
+
+### 1. 增加 scripts
+
+在 `package.json` 中增加以下脚本，用于单独启动 BFF 服务和 Storybook，同时通过 `BFF_PROXY` 环境变量确保代理配置仅在 Storybook 构建时生效：
+
+```json
+{
+  "scripts": {
+    "dev:api": "modern dev --api-only",
+    "storybook": "BFF_PROXY=1 storybook dev -p 6006 --no-open",
+  }
+}
+```
+
+### 2. 配置代理解决跨域
+
+在 `modern.config.ts` 中增加以下配置，仅在 Storybook 构建时将请求代理到 BFF 服务：
+
+```ts
+export default applyBaseConfig({
+  dev: process.env.BFF_PROXY
+    ? {
+        server: {
+          proxy: {
+            `${bff.prefix || '/api'}`: `http://localhost:${server.port || '8080'}`,
+          },
+        },
+      }
+    : {},
+});
+```
+
+### 3. 启动方式
+
+```bash
+pnpm dev:api
+pnpm storybook
+```
+
+此时在组件中直接请求 `bff.prefix` 对应的路径即可完成 BFF 一体化调用；如果未配置，则请求 `/api/**`。
+
 ## 示例
 
 你可以查看 [示例](https://github.com/rspack-contrib/storybook-rsbuild/tree/main/sandboxes/modernjs-react) 了解 Modern.js 中使用 Storybook 的方式。
