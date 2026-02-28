@@ -24,7 +24,7 @@ When developing React applications, developers usually need to design implementa
 
 ## Getting Started
 
-See [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start).
+See [Quick Start](https://modernjs.dev/guides/get-started/quick-start).
 
 ## Ecosystem
 
