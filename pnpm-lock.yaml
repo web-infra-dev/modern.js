@@ -234,8 +234,8 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
       '@types/lodash':
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.17.24
+        version: 4.17.24
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -1673,8 +1673,8 @@ importers:
         specifier: 3.0.8
         version: 3.0.8
       '@types/lodash':
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/mime-types':
         specifier: 2.1.4
         version: 2.1.4
@@ -2024,8 +2024,8 @@ importers:
         specifier: ^3.4.38
         version: 3.4.38
       '@types/lodash':
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -7566,8 +7566,8 @@ packages:
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
 
-  '@types/lodash@4.17.23':
-    resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
+  '@types/lodash@4.17.24':
+    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/lru-cache@5.1.1':
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -18383,9 +18383,9 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.23
+      '@types/lodash': 4.17.24
 
-  '@types/lodash@4.17.23': {}
+  '@types/lodash@4.17.24': {}
 
   '@types/lru-cache@5.1.1': {}
 
@@ -20169,7 +20169,7 @@ snapshots:
       '@types/debug': 0.0.30
       '@types/get-port': 3.2.0
       '@types/glob': 5.0.38
-      '@types/lodash': 4.17.23
+      '@types/lodash': 4.17.24
       '@types/mkdirp': 0.5.2
       '@types/node': 8.10.66
       '@types/rimraf': 2.0.5
