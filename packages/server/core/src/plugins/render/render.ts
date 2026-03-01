@@ -29,6 +29,8 @@ import { renderRscHandler } from './renderRscHandler';
 import { serverActionHandler } from './serverActionHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
 
+const SSR_FALLBACK_COUNTER_NAME = 'calledby.ssr.fallback';
+
 interface CreateRenderOptions {
   pwd: string;
   routes: ServerRoute[];
@@ -155,6 +157,18 @@ export async function createRender({
 
     const fallbackWrapper: FallbackWrapper = async (reason, error?) => {
       fallbackReason = reason;
+
+      monitors?.counter(SSR_FALLBACK_COUNTER_NAME, {
+        fallback_type: reason,
+        pathname: forMatchpathname,
+      });
+
+      monitors.debug(
+        `SSR Fallback to CSR - reason = %s, req.url = %s`,
+        reason,
+        forMatchpathname,
+      );
+
       return onFallback?.(reason, { logger, reporter, metrics }, error);
     };
 
