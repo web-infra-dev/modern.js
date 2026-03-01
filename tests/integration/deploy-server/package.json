@@ -13,7 +13,7 @@
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "koa": "2.16.3",
+    "koa": "2.16.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "ts-node": "^10.9.2",
