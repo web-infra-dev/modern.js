@@ -1092,8 +1092,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       devcert:
-        specifier: ^1.2.2
-        version: 1.2.2
+        specifier: ^1.2.3
+        version: 1.2.3
       http-compression:
         specifier: 1.0.6
         version: 1.0.6
@@ -9195,8 +9195,8 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  devcert@1.2.2:
-    resolution: {integrity: sha512-UsLqvtJGPiGwsIZnJINUnFYaWgK7CroreGRndWHZkRD58tPFr3pVbbSyHR8lbh41+azR4jKvuNZ+eCoBZGA5kA==}
+  devcert@1.2.3:
+    resolution: {integrity: sha512-vmLo0hDNHmZ47HED1ZiouJ7cAcamL8HY7qa9YdmCBkXxHEVtdDgT9pN/Xy3ZkcF3pFjF0sqq8WMV93HF2nmHHw==}
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
@@ -20163,7 +20163,7 @@ snapshots:
       defined: 1.0.1
       minimist: 1.2.8
 
-  devcert@1.2.2:
+  devcert@1.2.3:
     dependencies:
       '@types/configstore': 2.1.1
       '@types/debug': 0.0.30
