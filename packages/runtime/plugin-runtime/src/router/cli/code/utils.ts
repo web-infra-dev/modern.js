@@ -103,7 +103,7 @@ export const getServerLoadersFile = (
   return path.join(internalDirectory, entryName, 'route-server-loaders.js');
 };
 
-export const getServerCombinedModueFile = (
+export const getServerCombinedModuleFile = (
   internalDirectory: string,
   entryName: string,
 ) => {
