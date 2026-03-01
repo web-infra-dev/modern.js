@@ -48,7 +48,7 @@
     "@swc/core": "1.15.11",
     "rsbuild-plugin-rsc": "0.0.1-beta.0",
     "@swc/helpers": "^0.5.17",
-    "autoprefixer": "10.4.24",
+    "autoprefixer": "10.4.27",
     "browserslist": "4.28.1",
     "core-js": "^3.48.0",
     "cssnano": "6.1.2",
