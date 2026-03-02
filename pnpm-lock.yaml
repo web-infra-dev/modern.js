@@ -2005,7 +2005,7 @@ importers:
         specifier: 7.13.1
         version: 7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       vue:
-        specifier: ^3.5.28
+        specifier: ^3.5.29
         version: 3.5.29(typescript@5.9.3)
     devDependencies:
       '@modern-js/builder':
