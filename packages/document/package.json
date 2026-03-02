@@ -36,7 +36,7 @@
     "@rspress/core": "2.0.2",
     "@rspress/plugin-llms": "2.0.2",
     "@rspress/shared": "2.0.2",
-    "@shikijs/transformers": "^3.22.0",
+    "@shikijs/transformers": "^3.23.0",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^20",
     "classnames": "^2.5.1",
