@@ -21,7 +21,7 @@ const timing: MiddlewareHandler = async (c, next) => {
 
 const requestTiming: MiddlewareHandler = async (c, next) => {
   const start = Date.now();
-
+  c.set('userid', 42);
   await next();
 
   const end = Date.now();
