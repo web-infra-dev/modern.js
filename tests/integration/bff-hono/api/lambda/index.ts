@@ -13,8 +13,11 @@ import { useHonoContext } from '@modern-js/server-runtime';
 import { z } from 'zod';
 
 export default async () => {
+  const c = useHonoContext();
+  const userid = c.get('userid');
   return {
     message: 'Hello Modern.js',
+    userid,
   };
 };
 

@@ -6,5 +6,6 @@ export default async () => {
   res.headers.set('x-id', '1');
   return {
     message: 'Hello Modern.js',
+    userid: ctx.get('userid'),
   };
 };
