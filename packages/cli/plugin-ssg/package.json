@@ -57,7 +57,7 @@
     "normalize-path": "3.0.0"
   },
   "peerDependencies": {
-    "react-router-dom": ">=7.12.0"
+    "react-router-dom": ">=7.13.1"
   },
   "peerDependenciesMeta": {
     "react-router-dom": {
@@ -73,7 +73,7 @@
     "@types/node": "^20",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.12.0",
+    "react-router-dom": "^7.13.1",
     "typescript": "^5"
   },
   "sideEffects": false,
