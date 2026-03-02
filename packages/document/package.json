@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*",
-    "mermaid": "^11.12.2"
+    "mermaid": "^11.12.3"
   },
   "devDependencies": {
     "@rsbuild/plugin-sass": "1.5.0",

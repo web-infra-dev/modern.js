@@ -469,7 +469,7 @@ importers:
         specifier: workspace:*
         version: link:../toolkit/sandpack-react
       mermaid:
-        specifier: ^11.12.2
+        specifier: ^11.12.3
         version: 11.12.3
     devDependencies:
       '@rsbuild/plugin-sass':
