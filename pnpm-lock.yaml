@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1086,7 +1084,7 @@ importers:
         specifier: ^0.5.17
         version: 0.5.19
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
       connect-history-api-fallback:
         specifier: ^2.0.0
@@ -1859,7 +1857,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/toolkit/utils
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
     devDependencies:
       '@types/node':
@@ -2331,7 +2329,7 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/server-runtime
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
       bff-api-app:
         specifier: workspace:*
@@ -2782,7 +2780,7 @@ importers:
         specifier: ^20
         version: 20.19.35
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
 
   tests/integration/entries/fixtures/app-builder:
@@ -3789,7 +3787,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
       express:
         specifier: ^4.22.1
@@ -3854,7 +3852,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
       express:
         specifier: ^4.22.1
@@ -3885,7 +3883,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
       express:
         specifier: ^4.22.1
@@ -4057,7 +4055,7 @@ importers:
         specifier: ^20
         version: 20.19.35
       axios:
-        specifier: ^1.13.5
+        specifier: ^1.13.6
         version: 1.13.6(debug@4.4.3)
 
   tests/integration/ssr/fixtures/base:
