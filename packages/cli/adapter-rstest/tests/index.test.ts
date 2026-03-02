@@ -18,9 +18,11 @@ describe('withModernConfig', () => {
 
   test('should resolve modern rsbuild config with rstest command', async () => {
     mockResolveModernRsbuildConfig.mockResolvedValue({
-      root: '/app',
-      output: {
-        target: 'node',
+      rsbuildConfig: {
+        root: '/app',
+        output: {
+          target: 'node',
+        },
       },
     });
 

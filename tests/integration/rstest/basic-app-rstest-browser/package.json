@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "basic-app-rstest-browser",
+  "version": "2.66.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "new": "modern new",
+    "test": "rstest"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/adapter-rstest": "workspace:*",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@rstest/browser": "^0.8.5",
+    "@rstest/browser-react": "^0.8.5",
+    "@types/node": "^20",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5"
+  }
+}

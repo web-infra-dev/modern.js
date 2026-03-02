@@ -8,10 +8,10 @@ import { PackageManagerTabs } from '@theme';
 
 <PackageManagerTabs
   command={{
-    npm: 'npm install -D @rstest/core @modern-js/adapter-rstest jsdom @testing-library/react @testing-library/dom',
-    yarn: 'yarn add -D @rstest/core @modern-js/adapter-rstest jsdom @testing-library/react @testing-library/dom',
-    pnpm: 'pnpm install -D @rstest/core @modern-js/adapter-rstest jsdom @testing-library/react @testing-library/dom',
-    bun: 'bun add -D @rstest/core @modern-js/adapter-rstest jsdom @testing-library/react @testing-library/dom',
+    npm: 'npm install -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
+    yarn: 'yarn add -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
+    pnpm: 'pnpm install -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
+    bun: 'bun add -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
   }}
 />
 
@@ -82,7 +82,7 @@ test('Page', () => {
 Execute the `test` command above to run the test cases:
 
 ```bash
-✓ src/__tests__/page.test.tsx (1)
+✓ __tests__/page.test.tsx (1)
   ✓ Page
 
  Test Files 1 passed

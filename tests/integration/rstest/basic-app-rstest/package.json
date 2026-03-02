@@ -19,6 +19,7 @@
     "@modern-js/adapter-rstest": "workspace:*",
     "@testing-library/react": "^16.3.2",
     "@testing-library/jest-dom": "^6.9.1",
+    "happy-dom": "^20.7.0",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
