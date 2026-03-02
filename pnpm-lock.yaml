@@ -485,7 +485,7 @@ importers:
         specifier: 2.0.2
         version: 2.0.2(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@shikijs/transformers':
-        specifier: ^3.22.0
+        specifier: ^3.23.0
         version: 3.23.0
       '@types/fs-extra':
         specifier: 9.0.13
