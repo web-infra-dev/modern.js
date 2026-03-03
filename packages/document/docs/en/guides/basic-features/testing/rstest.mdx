@@ -1,6 +1,10 @@
 # Rstest
 
+Rstest is a testing framework developed by the Rspack team, built on Rspack with extremely fast test execution.
+
 This guide explains how to integrate Rstest with Modern.js for seamless testing in your Modern.js project.
+
+## Quick Start
 
 To use Rstest in Modern.js, you need to install dependencies first by running the following command:
 
@@ -15,7 +19,19 @@ import { PackageManagerTabs } from '@theme';
   }}
 />
 
-Next, you can run tests with the `npx rstest` command. You can also add the `rstest` command to `package.json`:
+Next, you need to create a Rstest configuration file `rstest.config.ts` with the following content:
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+
+export default defineConfig({
+  environment: 'happy-dom',
+});
+```
+
+For more information about Rstest configuration, refer to the [Rstest configuration documentation](https://rstest.rs/config).
+
+You can run test cases with the `npx rstest` command. You can also add the `rstest` command to `package.json`:
 
 ```json title="package.json"
 {
@@ -27,7 +43,7 @@ Next, you can run tests with the `npx rstest` command. You can also add the `rst
 
 ## Using Modern.js Configuration
 
-Next, you need to create a Rstest configuration file `rstest.config.ts` with the following content:
+`@modern-js/adapter-rstest` is an official adapter that allows Rstest to automatically inherit configuration from your existing Modern.js config files. This ensures your test environment matches your build configuration without duplicate setup.
 
 ```ts title="rstest.config.ts"
 import { defineConfig } from '@rstest/core';
@@ -38,9 +54,9 @@ export default defineConfig({
 });
 ```
 
-It is recommended to integrate Rstest via `@modern-js/adapter-rstest`. It converts build-related options in `modern.config.ts` into Rstest config, avoiding duplicated maintenance in `rstest.config.ts` for aliases, `define`, `tsconfigPath`, `cssModules`, and `rspack/swc` options, which reduces configuration overhead.
-
-For more information about Rstest configuration, refer to the [Rstest configuration documentation](https://rstest.rs/config).
+:::tip
+Currently, the `@modern-js/adapter-rstest` adapter only supports web tests in Modern.js projects and other types (such as `bff`) should use Rstest configuration directly.
+:::
 
 ## Creating Unit Tests
 

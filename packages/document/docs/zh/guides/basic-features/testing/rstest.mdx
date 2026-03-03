@@ -1,6 +1,10 @@
 # Rstest
 
+Rstest 是由 Rspack 团队开发的测试框架，基于 Rspack 构建，具有极快的测试执行速度。
+
 本指南介绍了如何将 Rstest 与 Modern.js 集成，以便在你的 Modern.js 项目中进行无缝测试。
+
+## 快速开始
 
 在 Modern.js 中使用 Rstest 需要先安装依赖，可以执行以下命令：
 
@@ -15,7 +19,19 @@ import { PackageManagerTabs } from '@theme';
   }}
 />
 
-接下来，你可以通过 `npx rstest` 命令来运行测试用例，你也可以将 `rstest` 命令添加到 `package.json` 中：
+接下来，你需要创建一个 Rstest 配置文件 `rstest.config.ts`，内容如下：
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+
+export default defineConfig({
+  environment: 'happy-dom',
+});
+```
+
+更多关于 Rstest 配置的信息，可以参考 [Rstest 配置文档](https://rstest.rs/config)。
+
+你可以通过 `npx rstest` 命令来运行测试用例，也可以将 `rstest` 命令添加到 `package.json` 中：
 
 ```json title="package.json"
 {
@@ -27,7 +43,7 @@ import { PackageManagerTabs } from '@theme';
 
 ## 使用 Modern.js 配置
 
-接下来，你需要创建一个 Rstest 配置文件 `rstest.config.ts`，内容如下：
+`@modern-js/adapter-rstest` 是一个官方适配器，它允许 Rstest 自动从你现有的 Modern.js 配置文件中继承配置。这可以确保你的测试环境与构建配置相匹配，而无需重复配置。
 
 ```ts title="rstest.config.ts"
 import { defineConfig } from '@rstest/core';
@@ -38,9 +54,9 @@ export default defineConfig({
 });
 ```
 
-推荐通过 `@modern-js/adapter-rstest` 集成 Rstest。它会将 `modern.config.ts` 中的构建相关配置转换为 Rstest 配置，避免在 `rstest.config.ts` 中重复维护别名、`define`、`tsconfigPath`、`cssModules`、`rspack/swc` 等配置，降低配置维护成本。
-
-更多关于 Rstest 配置的信息，可以参考 [Rstest 配置文档](https://rstest.rs/config)。
+:::tip
+目前 `@modern-js/adapter-rstest` 适配器仅适用于 Modern.js 项目中的 web 测试，其他类型(如 `bff`) 测试请直接使用 Rstest 配置。
+:::
 
 ## 创建单元测试
 
