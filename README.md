@@ -24,7 +24,7 @@ When developing React applications, developers usually need to design implementa
 
 ## Getting Started
 
-See [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start).
+See [Quick Start](https://modernjs.dev/guides/get-started/quick-start).
 
 ## Ecosystem
 
@@ -37,7 +37,7 @@ The following solutions and libraries are available within the Modern.js ecosyst
 
 ## Benchmark
 
-We use [Modern.js Benchmark](https://web-infra-qos.netlify.app/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+We use [Modern.js Benchmark](https://web-infra-qos.pages.dev/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
 
 ## Roadmap
 

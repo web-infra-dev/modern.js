@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [a270428]
+- Updated dependencies [ece3967]
+  - @modern-js/builder@3.0.3
+  - @modern-js/server@3.0.3
+  - @modern-js/plugin@3.0.3
+  - @modern-js/plugin-data-loader@3.0.3
+  - @modern-js/server-core@3.0.3
+  - @modern-js/prod-server@3.0.3
+  - @modern-js/server-utils@3.0.3
+  - @modern-js/i18n-utils@3.0.3
+  - @modern-js/types@3.0.3
+  - @modern-js/utils@3.0.3
+
 ## 3.0.2
 
 ### Patch Changes

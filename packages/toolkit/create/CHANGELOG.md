@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 3.0.3
+
+### Patch Changes
+
+- 9387ab3: chore(create): simplify project creation output logs
+
+  chore(create): 简化项目创建输出日志
+
 ## 3.0.2
 
 ### Patch Changes

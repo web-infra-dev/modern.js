@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/bundle-diff-benchmark",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "private": true,
   "scripts": {
     "dev": "modern dev",
@@ -27,7 +27,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "prettier": "~2.8.8",
-    "rimraf": "^6.1.2",
+    "rimraf": "^6.1.3",
     "typescript": "~5.0.4"
   }
 }
