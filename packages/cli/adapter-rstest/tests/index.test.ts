@@ -1,4 +1,4 @@
-import * as appTools from '@modern-js/app-tools';
+import { resolveModernRsbuildConfig } from '@modern-js/app-tools';
 import { afterEach, describe, expect, rstest, test } from '@rstest/core';
 import { withModernConfig } from '../src';
 
@@ -9,7 +9,7 @@ rstest.mock('@modern-js/app-tools', () => ({
 
 describe('withModernConfig', () => {
   const mockResolveModernRsbuildConfig = rstest.mocked(
-    appTools.resolveModernRsbuildConfig,
+    resolveModernRsbuildConfig,
   );
 
   afterEach(() => {
