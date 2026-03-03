@@ -8,4 +8,5 @@ export default defineConfig({
     cwd: __dirname,
   }),
   setupFiles: ['./tests/rstest.setup.ts'],
+  exclude: ['./tests/api.test.ts'],
 });

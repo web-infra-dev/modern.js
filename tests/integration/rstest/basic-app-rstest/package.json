@@ -2,6 +2,7 @@
   "private": true,
   "name": "basic-app-rstest",
   "version": "2.66.0",
+  "type": "module",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/adapter-rstest": "workspace:*",
     "@testing-library/react": "^16.3.2",
     "@testing-library/jest-dom": "^6.9.1",

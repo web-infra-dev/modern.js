@@ -10,23 +10,13 @@
   },
   "license": "MIT",
   "version": "3.0.1",
-  "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types/index.d.ts"
-      ]
-    }
-  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "node": {
-        "import": "./dist/esm-node/index.mjs",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/cjs/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
@@ -53,7 +43,6 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "access": "public"
   }
 }

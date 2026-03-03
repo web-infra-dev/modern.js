@@ -6,7 +6,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/lambda/*"]
     }
   },
   "include": ["src", "shared", "config"]

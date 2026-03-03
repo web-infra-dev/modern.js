@@ -179,7 +179,12 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 
 type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
 export const createConfigOptions = async <Extends extends CLIPluginExtends>(
-  options: Omit<CLIRunOptions<Extends>, UselessOptions> & { command?: string },
+  options: Omit<CLIRunOptions<Extends>, UselessOptions> & {
+    command?: string;
+    modifyModernConfig?: (
+      config: Extends['config'],
+    ) => Extends['config'] | Promise<Extends['config']>;
+  },
 ) => {
   const pluginManager = createPluginManager();
   pluginManager.clear();
@@ -196,6 +201,10 @@ export const createConfigOptions = async <Extends extends CLIPluginExtends>(
     appDirectory,
     configFile,
   );
+
+  loaded.config = options.modifyModernConfig
+    ? await options.modifyModernConfig(loaded.config || {})
+    : loaded.config;
 
   pluginManager.addPlugins(
     (loaded.config as unknown as { plugins: Plugin[] }).plugins || [],

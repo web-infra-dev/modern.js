@@ -1,4 +1,5 @@
 import './App.css';
+import Hello from './Hello';
 
 const App = () => (
   <div className="container">
@@ -24,6 +25,7 @@ const App = () => (
           <h2>API Reference </h2>
         </a>
       </div>
+      <Hello />
     </main>
     <div className="env-variables" data-testid="env-vars">
       <div className="modern-env" data-testid="modern-test-var">

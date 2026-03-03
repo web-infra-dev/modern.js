@@ -5,7 +5,7 @@ import {
   builderPluginAdapterHooks,
 } from './builder/shared/builderPlugins';
 import { DEFAULT_CONFIG_FILE } from './constants';
-import type { AppNormalizedConfig, AppTools } from './types';
+import type { AppNormalizedConfig, AppTools, AppUserConfig } from './types';
 import { getConfigFile } from './utils/getConfigFile';
 
 const MODERN_META_NAME = 'modern-js';
@@ -16,8 +16,8 @@ type ResolveModernRsbuildConfigOptions = {
   cwd?: string;
   metaName?: string;
   modifyModernConfig?: (
-    config: AppNormalizedConfig,
-  ) => Promise<AppNormalizedConfig>;
+    config: AppUserConfig,
+  ) => AppUserConfig | Promise<AppUserConfig>;
 };
 
 export async function resolveModernRsbuildConfig(
@@ -33,17 +33,14 @@ export async function resolveModernRsbuildConfig(
     );
   }
 
-  const { config: resolvedConfig, getAppContext } =
+  const { config: modernConfig, getAppContext } =
     await createConfigOptions<AppTools>({
       command: options.command,
       cwd,
       configFile,
       metaName,
+      modifyModernConfig: options.modifyModernConfig,
     });
-
-  const modernConfig = options.modifyModernConfig
-    ? await options.modifyModernConfig(resolvedConfig)
-    : resolvedConfig;
 
   const nonStandardConfig = {
     ...modernConfig,

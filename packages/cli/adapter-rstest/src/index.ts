@@ -30,12 +30,16 @@ export function withModernConfig(
       ...options,
       command: 'rstest',
       modifyModernConfig: async config => {
-        if (config.server.rsc) {
+        if (config.server?.rsc) {
           console.warn(
             'RSC is not fully supported in rstest environment, some features may not work as expected.\n',
           );
           config.server.rsc = false;
         }
+        // remove unsupported plugins in rstest environment, such as bff plugin, which may cause errors when running rstest.
+        config.plugins = config.plugins?.filter(
+          plugin => plugin.name !== '@modern-js/plugin-bff',
+        );
 
         return config;
       },
