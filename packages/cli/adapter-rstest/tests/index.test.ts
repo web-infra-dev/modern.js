@@ -38,6 +38,7 @@ describe('withModernConfig', () => {
       cwd: '/app',
       configPath: 'custom.modern.config.ts',
       command: 'rstest',
+      modifyModernConfig: expect.any(Function),
     });
     expect(config.testEnvironment).toBe('node');
     expect(config.root).toBe('/app');

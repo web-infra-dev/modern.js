@@ -1,6 +1,9 @@
-import { withTestPreset } from '@scripts/rstest-config';
+import { defineConfig } from '@rstest/core';
 
-export default withTestPreset({
+export default defineConfig({
   root: __dirname,
   testEnvironment: 'node',
+  output: {
+    externals: ['@modern-js/app-tools'],
+  },
 });
