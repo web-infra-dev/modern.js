@@ -13,7 +13,7 @@ import {
 } from '../shared/builderPlugins';
 import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
-import { updateBuilderWithEnvironments } from './getBuilderEnvironments';
+import { getBuilderEnvironments } from './getBuilderEnvironments';
 
 /**
  * @param options BuilderOptions
@@ -32,11 +32,32 @@ export async function generateBuilder(
     appContext,
   );
 
-  const builderConfig = updateBuilderWithEnvironments(
+  const { environments, builderConfig } = getBuilderEnvironments(
     normalizedConfig,
     appContext,
     tempBuilderConfig,
   );
+
+  if (builderConfig.environments) {
+    const mergedEnvironments: Record<string, EnvironmentConfig> = {
+      ...environments,
+    };
+
+    for (const name in builderConfig.environments) {
+      if (environments[name]) {
+        mergedEnvironments[name] = mergeRsbuildConfig(
+          environments[name],
+          builderConfig.environments[name],
+        );
+      } else {
+        mergedEnvironments[name] = builderConfig.environments[name];
+      }
+    }
+
+    builderConfig.environments = mergedEnvironments;
+  } else {
+    builderConfig.environments = environments;
+  }
 
   const builder = await createBuilder({
     cwd: appContext.appDirectory,

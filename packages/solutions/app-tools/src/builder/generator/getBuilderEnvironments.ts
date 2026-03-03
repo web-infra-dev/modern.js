@@ -6,11 +6,7 @@ import {
   isUseRsc,
   isUseSSRBundle,
 } from '@modern-js/utils';
-import {
-  type EnvironmentConfig,
-  type RsbuildConfig,
-  mergeRsbuildConfig,
-} from '@rsbuild/core';
+import type { RsbuildConfig } from '@rsbuild/core';
 import type { AppNormalizedConfig } from '../../types';
 import type { AppToolsContext } from '../../types/plugin';
 
@@ -94,39 +90,4 @@ export function getBuilderEnvironments(
     environments,
     builderConfig: tempBuilderConfig,
   };
-}
-
-export function updateBuilderWithEnvironments(
-  normalizedConfig: AppNormalizedConfig,
-  appContext: AppToolsContext,
-  tempBuilderConfig: Omit<AppNormalizedConfig, 'plugins'>,
-) {
-  const { environments, builderConfig } = getBuilderEnvironments(
-    normalizedConfig,
-    appContext,
-    tempBuilderConfig,
-  );
-
-  if (builderConfig.environments) {
-    const mergedEnvironments: Record<string, EnvironmentConfig> = {
-      ...environments,
-    };
-
-    for (const name in builderConfig.environments) {
-      if (environments[name]) {
-        mergedEnvironments[name] = mergeRsbuildConfig(
-          environments[name],
-          builderConfig.environments[name],
-        );
-      } else {
-        mergedEnvironments[name] = builderConfig.environments[name];
-      }
-    }
-
-    builderConfig.environments = mergedEnvironments;
-  } else {
-    builderConfig.environments = environments;
-  }
-
-  return builderConfig;
 }

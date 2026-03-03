@@ -1,6 +1,5 @@
 import { parseRspackConfig } from '@modern-js/builder';
 import { createConfigOptions } from '@modern-js/plugin/cli';
-import { updateBuilderWithEnvironments } from './builder/generator/getBuilderEnvironments';
 import {
   builderPluginAdapterBasic,
   builderPluginAdapterHooks,
@@ -15,6 +14,7 @@ type ResolveModernRsbuildConfigOptions = {
   command?: string;
   configPath?: string;
   cwd?: string;
+  metaName?: string;
   modifyModernConfig?: (
     config: AppNormalizedConfig,
   ) => Promise<AppNormalizedConfig>;
@@ -23,7 +23,7 @@ type ResolveModernRsbuildConfigOptions = {
 export async function resolveModernRsbuildConfig(
   options: ResolveModernRsbuildConfigOptions = {},
 ) {
-  const { cwd = process.cwd() } = options;
+  const { cwd = process.cwd(), metaName = MODERN_META_NAME } = options;
 
   const configFile = options.configPath || getConfigFile(undefined, cwd);
 
@@ -38,13 +38,12 @@ export async function resolveModernRsbuildConfig(
       command: options.command,
       cwd,
       configFile,
-      metaName: MODERN_META_NAME,
+      metaName,
     });
 
-  let modernConfig = resolvedConfig;
-  if (options.modifyModernConfig) {
-    modernConfig = await options.modifyModernConfig(resolvedConfig);
-  }
+  const modernConfig = options.modifyModernConfig
+    ? await options.modifyModernConfig(resolvedConfig)
+    : resolvedConfig;
 
   const nonStandardConfig = {
     ...modernConfig,
@@ -53,14 +52,8 @@ export async function resolveModernRsbuildConfig(
 
   const appContext = getAppContext();
 
-  const builderConfig = updateBuilderWithEnvironments(
-    modernConfig as AppNormalizedConfig,
-    appContext,
-    nonStandardConfig,
-  );
-
   const { rsbuildConfig, rsbuildPlugins } = await parseRspackConfig(
-    builderConfig,
+    nonStandardConfig,
     {
       cwd,
     },
