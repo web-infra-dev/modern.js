@@ -2,6 +2,7 @@
   "private": true,
   "name": "basic-app-rstest-browser",
   "version": "2.66.0",
+  "type": "module",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
