@@ -244,8 +244,12 @@ export const createConfigOptions = async <Extends extends CLIPluginExtends>(
   const resolved =
     await context.hooks.modifyResolvedConfig.call(normalizedConfig);
 
+  const finalConfig = resolved || normalizedConfig;
+  context.normalizedConfig = finalConfig;
+  await pluginAPI.updateAppContext(context);
+
   return {
-    config: resolved || normalizedConfig,
+    config: finalConfig,
     getAppContext: () => pluginAPI.getAppContext(),
   };
 };

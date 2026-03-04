@@ -20,6 +20,7 @@ export {
   logger,
   type ConfigChain,
   type RsbuildPlugin,
+  type RsbuildPlugins,
   type ChainIdentifier,
   type RspackChain,
   type Rspack,
