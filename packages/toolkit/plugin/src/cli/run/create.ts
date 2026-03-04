@@ -200,6 +200,7 @@ export const createConfigOptions = async <Extends extends CLIPluginExtends>(
   const loaded = await createLoadedConfig<Extends['config']>(
     appDirectory,
     configFile,
+    options.config,
   );
 
   loaded.config = options.modifyModernConfig
