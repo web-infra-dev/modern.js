@@ -178,23 +178,24 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
 };
 
 type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
+
+type CreateConfigOption<Extends extends CLIPluginExtends> = Omit<
+  CLIRunOptions<Extends>,
+  UselessOptions
+> & {
+  command: string;
+  modifyModernConfig?: (
+    config: Extends['config'],
+  ) => Extends['config'] | Promise<Extends['config']>;
+};
+
 export const createConfigOptions = async <Extends extends CLIPluginExtends>(
-  options: Omit<CLIRunOptions<Extends>, UselessOptions> & {
-    command?: string;
-    modifyModernConfig?: (
-      config: Extends['config'],
-    ) => Extends['config'] | Promise<Extends['config']>;
-  },
+  options: CreateConfigOption<Extends>,
 ) => {
   const pluginManager = createPluginManager();
   pluginManager.clear();
 
-  const {
-    configFile,
-    cwd,
-    metaName = 'modern-js',
-    command = 'storybook',
-  } = options;
+  const { configFile, cwd, metaName = 'modern-js', command } = options;
   const appDirectory = await initAppDir(cwd);
 
   const loaded = await createLoadedConfig<Extends['config']>(
@@ -255,4 +256,10 @@ export const createConfigOptions = async <Extends extends CLIPluginExtends>(
   };
 };
 
-export const createStorybookOptions = createConfigOptions;
+export const createStorybookOptions = <Extends extends CLIPluginExtends>(
+  options: Omit<CreateConfigOption<Extends>, 'command'>,
+) =>
+  createConfigOptions({
+    ...options,
+    command: 'storybook',
+  });

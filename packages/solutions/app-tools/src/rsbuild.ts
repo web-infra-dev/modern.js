@@ -11,7 +11,7 @@ import { getConfigFile } from './utils/getConfigFile';
 const MODERN_META_NAME = 'modern-js';
 
 type ResolveModernRsbuildConfigOptions = {
-  command?: string;
+  command: string;
   configPath?: string;
   cwd?: string;
   metaName?: string;
@@ -21,7 +21,7 @@ type ResolveModernRsbuildConfigOptions = {
 };
 
 export async function resolveModernRsbuildConfig(
-  options: ResolveModernRsbuildConfigOptions = {},
+  options: ResolveModernRsbuildConfigOptions,
 ) {
   const { cwd = process.cwd(), metaName = MODERN_META_NAME } = options;
 
