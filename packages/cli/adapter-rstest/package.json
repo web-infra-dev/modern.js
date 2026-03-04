@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@rsbuild/core": "2.0.0-beta.4",
-    "@rstest/core": "0.8.5",
+    "@rstest/core": "0.9.0",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
