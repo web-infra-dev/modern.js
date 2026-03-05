@@ -9,7 +9,7 @@ overrides:
   read-yaml-file>js-yaml: 3.14.2
   '@remix-run/router': '>=1.23.2'
   h3: '>=1.15.5'
-  tar: '>=7.5.9'
+  tar: '>=7.5.10'
   diff: '>=4.0.4'
   debug: '>=4.4.3'
   cross-spawn: '>=6.0.6'
@@ -17,8 +17,6 @@ overrides:
   esbuild: '>=0.25.0'
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
-
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
 
 importers:
 
@@ -13908,8 +13906,8 @@ packages:
   tar-stream@3.1.8:
     resolution: {integrity: sha512-U6QpVRyCGHva435KoNWy9PRoi2IFYCgtEhq9nmrPPpbRacPs9IH4aJ3gbrFC8dPcXvdSZ4XXfXT5Fshbp2MtlQ==}
 
-  tar@7.5.9:
-    resolution: {integrity: sha512-BTLcK0xsDh2+PUe9F6c2TlRp4zOOBMTkoQHQIWSIzI0R7KG46uEwq4OPk2W7bZcprBMsuaeFsqwYr7pjh6CuHg==}
+  tar@7.5.10:
+    resolution: {integrity: sha512-8mOPs1//5q/rlkNSPcCegA6hiHJYDmSLEI8aMH/CdSQJNWztHC9WHNam5zdQlfpTwB9Xp7IBEsHfV5LKMJGVAw==}
     engines: {node: '>=18'}
 
   teex@1.0.1:
@@ -16321,7 +16319,7 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
       semver: 7.7.4
-      tar: 7.5.9
+      tar: 7.5.10
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -16396,7 +16394,7 @@ snapshots:
       '@swc/helpers': 0.5.1
       axios: 1.13.6(debug@4.4.3)
       debug: 4.4.3(supports-color@5.5.0)
-      tar: 7.5.9
+      tar: 7.5.10
     transitivePeerDependencies:
       - supports-color
 
@@ -25904,7 +25902,7 @@ snapshots:
       - bare-buffer
       - react-native-b4a
 
-  tar@7.5.9:
+  tar@7.5.10:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
