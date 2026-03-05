@@ -171,6 +171,14 @@ antd v5 使用了 CSS-in-JS 方案，已原生支持按需加载，无需配置 
 更多用法请参考 [Rsbuild - source.transformImport](https://v2.rsbuild.rs/config/source/transform-import)。
 :::
 
+## 移除 `node_modules` 解析重定向行为
+
+在 Modern.js v1 版本中，框架内部存在一个 hack，会将 `node_modules` 的模块解析路径强制指向项目根目录。在 Modern.js 3.0 中，我们移除了这一行为。
+
+这一做法并非标准实践，可能导致不可预期的依赖解析问题——例如，未在 `package.json` 中显式声明的依赖包可能仍能被解析，从而掩盖了缺失的依赖声明。
+
+如果你的项目依赖了这一行为，请确保所有需要的依赖都已在 `package.json` 中显式声明并安装到本地。
+
 ## Eslint 规则集
 
 Modern.js 之前提供了 ESLint 的完整规则集，涵盖了 @modern-js（针对 Node.js 项目的 Lint 规则）和 @modern-js-app（针对前端项目的 Lint 规则）。在 [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0) 版本中，我们正式移除了这些规则集。我们鼓励开发者根据自身需求选择合适的代码规范工具，直接使用 ESLint 并结合社区推荐的规则，或使用 Biome 以提升代码格式化的性能。
