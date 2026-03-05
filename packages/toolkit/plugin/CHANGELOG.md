@@ -1,5 +1,15 @@
 # @modern-js/plugin-v2
 
+## 3.0.4
+
+### Patch Changes
+
+- 78eeaf8: fix: update context in createStorybookOptions to resolve the issue of missing BFF configuration
+  fix: createStorybookOptions 中更新上下文，解决 BFF 配置缺失问题
+  - @modern-js/runtime-utils@3.0.4
+  - @modern-js/types@3.0.4
+  - @modern-js/utils@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
