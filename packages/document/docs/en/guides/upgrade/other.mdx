@@ -170,6 +170,14 @@ antd v5 uses a CSS-in-JS solution and natively supports on-demand loading, so `s
 For more details, refer to [Rsbuild - source.transformImport](https://v2.rsbuild.rs/config/source/transform-import).
 :::
 
+## `node_modules` Resolution Behavior Removed
+
+In Modern.js v1, there was an internal workaround that redirected `node_modules` module resolution to the project root directory. This behavior has been removed in Modern.js 3.0.
+
+This workaround was not a standard practice and could lead to unpredictable dependency resolution — for example, packages not explicitly declared in a project's `package.json` might still resolve successfully, masking missing dependency declarations.
+
+If your project relied on this behavior, ensure that all required dependencies are explicitly declared in your `package.json` and installed locally.
+
 ## ESLint Rule Sets
 
 Modern.js previously provided complete ESLint rule sets, covering @modern-js (Lint rules for Node.js projects) and @modern-js-app (Lint rules for frontend projects). In [v2.60.0](https://github.com/web-infra-dev/modern.js/releases/tag/v2.60.0), we officially removed these rule sets. We encourage developers to choose appropriate code specification tools according to their needs, directly use ESLint combined with community-recommended rules, or use Biome to improve code formatting performance.
