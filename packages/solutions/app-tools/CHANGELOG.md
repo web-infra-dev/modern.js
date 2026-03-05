@@ -1,5 +1,25 @@
 # @modern-js/app-tools
 
+## 3.0.4
+
+### Patch Changes
+
+- 8d3945f: fix: rsbuild plugins type mismatch
+
+  fix: 修复 rsbuild plugins 类型不匹配问题
+
+- Updated dependencies [78eeaf8]
+  - @modern-js/plugin@3.0.4
+  - @modern-js/server-core@3.0.4
+  - @modern-js/plugin-data-loader@3.0.4
+  - @modern-js/prod-server@3.0.4
+  - @modern-js/server@3.0.4
+  - @modern-js/server-utils@3.0.4
+  - @modern-js/builder@3.0.4
+  - @modern-js/i18n-utils@3.0.4
+  - @modern-js/types@3.0.4
+  - @modern-js/utils@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
