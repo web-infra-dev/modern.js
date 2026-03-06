@@ -1,5 +1,18 @@
 # @modern-js/plugin-bff
 
+## 3.0.4
+
+### Patch Changes
+
+- 2c116d4: fix: sync server hono context to dev BFF context
+  fix: dev 环境同步自定义 server 上下文到 BFF 上下文
+  - @modern-js/server-core@3.0.4
+  - @modern-js/server-utils@3.0.4
+  - @modern-js/builder@3.0.4
+  - @modern-js/bff-core@3.0.4
+  - @modern-js/create-request@3.0.4
+  - @modern-js/utils@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes

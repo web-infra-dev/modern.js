@@ -1,5 +1,23 @@
 # @modern-js/runtime
 
+## 3.0.4
+
+### Patch Changes
+
+- adb714e: fix: close document compiler minify
+  fix: 关闭 document Rspack 编译器的 minify 选项
+- 5a31f22: fix: csr remove @swc/plugin-loadable-components
+  fix: csr 移除 @swc/plugin-loadable-components 配置
+- 025b48b: fix(runtime): should match head file correctly
+  fix(runtime): 应该正确的匹配 head 文件
+- Updated dependencies [78eeaf8]
+  - @modern-js/plugin@3.0.4
+  - @modern-js/plugin-data-loader@3.0.4
+  - @modern-js/render@3.0.4
+  - @modern-js/runtime-utils@3.0.4
+  - @modern-js/types@3.0.4
+  - @modern-js/utils@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
