@@ -434,6 +434,9 @@ importers:
       '@swc/helpers':
         specifier: ^0.5.17
         version: 0.5.19
+      styled-components:
+        specifier: ^5.3.1
+        version: 5.3.11(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react-is@18.3.1)(react@19.2.4)
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -456,9 +459,6 @@ importers:
       '@types/styled-components':
         specifier: ^5.1.36
         version: 5.1.36
-      styled-components:
-        specifier: ^5.3.1
-        version: 5.3.11(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react-is@18.3.1)(react@19.2.4)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3

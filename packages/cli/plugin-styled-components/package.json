@@ -33,6 +33,9 @@
     "@rsbuild/plugin-styled-components": "1.6.1",
     "@swc/helpers": "^0.5.17"
   },
+  "peerDependencies": {
+    "styled-components": "^5.3.1"
+  },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
@@ -43,14 +46,6 @@
     "@types/styled-components": "^5.1.36",
     "styled-components": "^5.3.1",
     "typescript": "^5.3.3"
-  },
-  "peerDependencies": {
-    "styled-components": "^5.3.1"
-  },
-  "peerDependenciesMeta": {
-    "styled-components": {
-      "optional": true
-    }
   },
   "exports": {
     ".": {
