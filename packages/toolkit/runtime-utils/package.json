@@ -185,7 +185,7 @@
     "@modern-js/rslib": "workspace:*",
     "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
-    "@types/ioredis-mock": "^8.2.6",
+    "@types/ioredis-mock": "^8.2.7",
     "@types/node": "^20",
     "@types/serialize-javascript": "^5.0.4",
     "ioredis-mock": "^8.13.1",
