@@ -77,7 +77,7 @@
     "@web-std/file": "^3.0.3",
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
-    "flatted": "^3.3.3",
+    "flatted": "^3.4.0",
     "hono": "^4.11.7",
     "ts-deepmerge": "7.0.3"
   },
