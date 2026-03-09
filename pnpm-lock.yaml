@@ -25,7 +25,7 @@ importers:
   .:
     devDependencies:
       '@babel/core':
-        specifier: ^7.28.6
+        specifier: ^7.29.0
         version: 7.29.0
       '@babel/plugin-transform-modules-commonjs':
         specifier: ^7.28.6
@@ -1209,13 +1209,13 @@ importers:
   packages/solutions/app-tools:
     dependencies:
       '@babel/parser':
-        specifier: ^7.28.6
+        specifier: ^7.29.0
         version: 7.29.0
       '@babel/traverse':
-        specifier: ^7.28.6
+        specifier: ^7.29.0
         version: 7.29.0(supports-color@5.5.0)
       '@babel/types':
-        specifier: ^7.28.6
+        specifier: ^7.29.0
         version: 7.29.0
       '@modern-js/builder':
         specifier: workspace:*
@@ -1618,7 +1618,7 @@ importers:
   scripts/prebundle:
     dependencies:
       '@babel/core':
-        specifier: ^7.28.6
+        specifier: ^7.29.0
         version: 7.29.0
       '@modern-js/tsconfig':
         specifier: workspace:*
