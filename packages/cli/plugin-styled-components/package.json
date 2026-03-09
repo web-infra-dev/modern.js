@@ -47,11 +47,6 @@
   "peerDependencies": {
     "styled-components": "^5.3.1"
   },
-  "peerDependenciesMeta": {
-    "styled-components": {
-      "optional": true
-    }
-  },
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
