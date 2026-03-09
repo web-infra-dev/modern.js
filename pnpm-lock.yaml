@@ -125,8 +125,8 @@ importers:
         specifier: workspace:*
         version: link:../../solutions/app-tools
       '@rstest/adapter-rsbuild':
-        specifier: ^0.2.1
-        version: 0.2.1(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
+        specifier: ^0.2.2
+        version: 0.2.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -3697,6 +3697,9 @@ importers:
       '@modern-js/plugin-bff':
         specifier: workspace:*
         version: link:../../../../packages/cli/plugin-bff
+      '@rstest/core':
+        specifier: 0.9.0
+        version: 0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -3738,17 +3741,14 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/solutions/app-tools
       '@rstest/browser':
-        specifier: ^0.9.0
+        specifier: 0.9.0
         version: 0.9.0(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.58.2)(utf-8-validate@5.0.10)
       '@rstest/browser-react':
-        specifier: ^0.9.0
+        specifier: 0.9.0
         version: 0.9.0(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@testing-library/jest-dom':
-        specifier: ^6.9.1
-        version: 6.9.1
-      '@testing-library/react':
-        specifier: ^16.3.2
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@rstest/core':
+        specifier: 0.9.0
+        version: 0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       '@types/node':
         specifier: ^20
         version: 20.19.27
@@ -7179,8 +7179,8 @@ packages:
   '@rspress/shared@2.0.2':
     resolution: {integrity: sha512-9+QC8UL1gV2KpRZx4n55vAl6bE38y7eDnGJhdFSHdJkpFbUCiJDk9ZcR6jD/Rrtq7vlT0gfumUk640pxpi3IDQ==}
 
-  '@rstest/adapter-rsbuild@0.2.1':
-    resolution: {integrity: sha512-m/DBCERrFJr2hx6VlDM1o8oMJzWKABloW7a0+QKn61F/bQNM+PWlZdU+wtmQ6ljevmhRaJ+U9vHT6U4HZUS5Kg==}
+  '@rstest/adapter-rsbuild@0.2.2':
+    resolution: {integrity: sha512-Hv33JLQNN95wwCprGR51lDBqeUam9JR8gTdC0NvP5rcPmA/bFezAi1tERxnMci5FntGHgNicijZDfVhUm8v/Vg==}
     peerDependencies:
       '@rsbuild/core': '*'
       '@rstest/core': '>=0.7.7'
@@ -16807,7 +16807,7 @@ snapshots:
       '@changesets/read': 0.6.6
       '@modern-js/plugin-i18n': 2.70.4
       '@modern-js/utils': 2.70.4
-      '@swc/helpers': 0.5.18
+      '@swc/helpers': 0.5.19
       axios: 1.13.6(debug@4.4.3)
       resolve-from: 5.0.0
     transitivePeerDependencies:
@@ -16817,7 +16817,7 @@ snapshots:
   '@modern-js/plugin-i18n@2.70.4':
     dependencies:
       '@modern-js/utils': 2.70.4
-      '@swc/helpers': 0.5.18
+      '@swc/helpers': 0.5.19
 
   '@modern-js/plugin@2.70.4':
     dependencies:
@@ -18171,7 +18171,7 @@ snapshots:
       - '@module-federation/runtime-tools'
       - core-js
 
-  '@rstest/adapter-rsbuild@0.2.1(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
+  '@rstest/adapter-rsbuild@0.2.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
     dependencies:
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rstest/core': 0.9.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.7.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))

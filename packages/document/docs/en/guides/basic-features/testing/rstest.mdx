@@ -1,49 +1,18 @@
 # Rstest
 
-[Rstest](https://rstest.rs) is a testing framework developed by the Rspack team, built on Rspack with extremely fast test execution.
+[Rstest](https://rstest.rs) is a testing framework developed by the Rspack team and built on top of Rspack for fast test execution.
 
-This guide explains how to integrate Rstest with Modern.js for seamless testing in your Modern.js project.
+This guide explains how to integrate Rstest with Modern.js for web app testing.
 
 ## Quick Start
 
-To use Rstest in Modern.js, you need to install dependencies first by running the following command:
+Install the base dependencies first:
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs
-  command={{
-    npm: 'npm install -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
-    yarn: 'yarn add -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
-    pnpm: 'pnpm install -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
-    bun: 'bun add -D @rstest/core @modern-js/adapter-rstest happy-dom @testing-library/react @testing-library/dom',
-  }}
-/>
+<PackageManagerTabs command="add @rstest/core @modern-js/adapter-rstest -D" />
 
-Next, you need to create a Rstest configuration file `rstest.config.ts` with the following content:
-
-```ts title="rstest.config.ts"
-import { defineConfig } from '@rstest/core';
-
-export default defineConfig({
-  testEnvironment: 'happy-dom',
-});
-```
-
-For more information about Rstest configuration, refer to the [Rstest configuration documentation](https://rstest.rs/config).
-
-You can run test cases with the `npx rstest` command. You can also add the `rstest` command to `package.json`:
-
-```json title="package.json"
-{
-  "scripts": {
-    "test": "rstest"
-  }
-}
-```
-
-## Using Modern.js Configuration
-
-`@modern-js/adapter-rstest` is an official adapter that allows Rstest to automatically inherit configuration from your existing Modern.js config files. This ensures your test environment matches your build configuration without duplicate setup.
+Then create `rstest.config.ts`:
 
 ```ts title="rstest.config.ts"
 import { defineConfig } from '@rstest/core';
@@ -54,33 +23,113 @@ export default defineConfig({
 });
 ```
 
-:::tip
-Currently, the `@modern-js/adapter-rstest` adapter only supports web tests in Modern.js projects and other types (such as `bff`) should use Rstest configuration directly.
-:::
+`@modern-js/adapter-rstest` lets Rstest inherit your existing Modern.js config so your test setup stays aligned with your app.
 
-## Creating Unit Tests
+For more configuration details, refer to the [Rstest configuration documentation](https://rstest.rs/config).
+
+You can run tests with `npx rstest`, or add a script in `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "rstest"
+  }
+}
+```
+
+## Testing Web UI
+
+For web UI tests in Modern.js, there are two common approaches:
+
+- Use Rstest browser mode, which runs tests in a real browser. This is the recommended option in most cases, although it is currently experimental.
+- Use a simulated DOM environment with `happy-dom` and Testing Library. This matches the default web test environment provided by `@modern-js/adapter-rstest`.
+
+We generally recommend browser mode because it uses real browser APIs and behavior, supports cases that simulated DOM environments cannot fully cover, and offers a better debugging experience when UI behavior does not match expectations.
+
+### Browser mode (experimental)
+
+If you want to test in a real browser instead of a simulated DOM, install the browser mode dependencies:
+
+<PackageManagerTabs command="add @rstest/browser @rstest/browser-react playwright -D" />
+
+Then enable browser mode in `rstest.config.ts`:
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+import { withModernConfig } from '@modern-js/adapter-rstest';
+
+export default defineConfig({
+  extends: withModernConfig(),
+  browser: {
+    enabled: true,
+    provider: 'playwright',
+  },
+});
+```
+
+Example test:
+
+```tsx title="__tests__/page.browser.test.tsx"
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import { page } from '@rstest/browser';
+import { render } from '@rstest/browser-react';
+import { expect, test } from '@rstest/core';
+import Page from '../routes/page';
+
+test('Page', async () => {
+  await render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+
+  await expect.element(
+    page.getByRole('heading', { level: 1, name: 'Home' }),
+  ).toBeVisible();
+});
+```
+
+For more browser mode setup, Locator APIs, and assertions, refer to the [Rstest documentation](https://rstest.rs/guide/browser-testing/).
+
+### DOM simulation with `happy-dom`
+
+Install the DOM testing dependencies:
+
+<PackageManagerTabs command="add happy-dom @testing-library/react @testing-library/dom -D" />
+
+Update `rstest.config.ts` to use `happy-dom`:
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+import { withModernConfig } from '@modern-js/adapter-rstest';
+
+export default defineConfig({
+  extends: withModernConfig(),
+  testEnvironment: 'happy-dom',
+});
+```
 
 First, create a simple page for testing:
 
 ```tsx title="routes/page.tsx"
 import { Link } from '@modern-js/runtime/router';
 
-const Index = () => (
+const Page = () => (
   <div>
     <h1>Home</h1>
     <Link to="/about">About</Link>
   </div>
 );
 
-export default Index;
+export default Page;
 ```
 
-Add a test case to check if the page contains the expected text:
+Then add a test case:
 
 ```tsx title="__tests__/page.test.tsx"
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
 import { expect, test } from '@rstest/core';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter as Router } from '@modern-js/runtime/router';
 import Page from '../routes/page';
 
 test('Page', () => {
@@ -89,13 +138,14 @@ test('Page', () => {
       <Page />
     </Router>,
   );
+
   expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
 });
 ```
 
 ## Running Test Cases
 
-Execute the `test` command above to run the test cases:
+Execute the `test` command above to run your tests:
 
 ```bash
 ✓ __tests__/page.test.tsx (1)
@@ -105,3 +155,9 @@ Execute the `test` command above to run the test cases:
       Tests 1 passed
    Duration 510ms (build 145ms, tests 365ms)
 ```
+
+## Node Mode
+
+If you need node mode tests for server-side logic such as `bff`, refer to the [Rstest documentation](https://rstest.rs) directly.
+
+Modern.js mainly targets web apps, so this guide focuses on web UI testing and browser mode.
