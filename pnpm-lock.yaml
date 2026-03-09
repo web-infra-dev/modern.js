@@ -893,8 +893,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       flatted:
-        specifier: ^3.3.3
-        version: 3.3.3
+        specifier: ^3.4.0
+        version: 3.4.0
       hono:
         specifier: ^4.11.7
         version: 4.12.3
@@ -1263,8 +1263,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0(esbuild@0.27.3)
       flatted:
-        specifier: ^3.3.3
-        version: 3.3.3
+        specifier: ^3.4.0
+        version: 3.4.0
       mlly:
         specifier: ^1.8.0
         version: 1.8.0
@@ -9835,8 +9835,8 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
 
-  flatted@3.3.3:
-    resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
+  flatted@3.4.0:
+    resolution: {integrity: sha512-kC6Bb+ooptOIvWj5B63EQWkF0FEnNjV2ZNkLMLZRDDduIiWeFF4iKnslwhiWxjAdbg4NzTNo6h0qLuvFrcx+Sw==}
 
   flexsearch@0.8.212:
     resolution: {integrity: sha512-wSyJr1GUWoOOIISRu+X2IXiOcVfg9qqBRyCPRUdLMIGJqPzMo+jMRlvE83t14v1j0dRMEaBbER/adQjp6Du2pw==}
@@ -20886,7 +20886,7 @@ snapshots:
 
   flat@5.0.2: {}
 
-  flatted@3.3.3: {}
+  flatted@3.4.0: {}
 
   flexsearch@0.8.212: {}
 
@@ -22708,7 +22708,7 @@ snapshots:
     dependencies:
       date-format: 4.0.14
       debug: 4.4.3(supports-color@5.5.0)
-      flatted: 3.3.3
+      flatted: 3.4.0
       rfdc: 1.4.1
       streamroller: 3.1.5
     transitivePeerDependencies:
