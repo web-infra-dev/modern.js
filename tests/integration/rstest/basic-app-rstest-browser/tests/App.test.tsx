@@ -1,14 +1,18 @@
 import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import { page } from '@rstest/browser';
+import { render } from '@rstest/browser-react';
 import { expect, test } from '@rstest/core';
-import { render, screen } from '@testing-library/react';
 import App from '../src/App';
 
-test('renders the main page', () => {
+test('renders the main page', async () => {
   const testMessage = 'Powered by Modern.js';
-  render(
+  await render(
     <Router>
       <App />
     </Router>,
   );
-  expect(screen.getByText(testMessage)).toBeInTheDocument();
+
+  await expect
+    .element(page.getByRole('link', { name: testMessage }))
+    .toBeVisible();
 });

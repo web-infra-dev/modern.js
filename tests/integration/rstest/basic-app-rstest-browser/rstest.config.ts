@@ -7,9 +7,12 @@ export default defineConfig({
   extends: withModernConfig({
     cwd: __dirname,
   }),
+  // Add setupFiles when you need global browser test setup, such as
+  // custom matchers, mocks, or polyfills.
+  // Docs: https://rstest.rs/config/
+  // setupFiles: ['./tests/rstest.setup.ts'],
   browser: {
     enabled: true,
     provider: 'playwright',
   },
-  setupFiles: ['./tests/rstest.setup.ts'],
 });
