@@ -15,6 +15,15 @@ export default function Layout() {
       <Link className="redirect-link" to="redirect">
         redirect
       </Link>
+      <Link className="client-only-link" to="client-only">
+        client only
+      </Link>
+      <Link
+        className="client-only-with-loader-link"
+        to="client-only-with-loader"
+      >
+        client only with loader
+      </Link>
       <Outlet />
     </div>
   );

@@ -209,7 +209,9 @@ export const generateCode = async (
             entryName: entrypoint.entryName,
             internalDirectory,
             splitRouteChunks: config?.output?.splitRouteChunks,
-            isRscClient: isUseRsc(config),
+            isRscClientBundle: isUseRsc(config),
+            srcDirectory,
+            internalSrcAlias: appContext.internalSrcAlias,
           }),
         });
 
@@ -245,7 +247,9 @@ export const generateCode = async (
             entryName: entrypoint.entryName,
             internalDirectory,
             splitRouteChunks: config?.output?.splitRouteChunks,
-            isRscClient: false,
+            isRscClientBundle: false,
+            srcDirectory,
+            internalSrcAlias: appContext.internalSrcAlias,
           });
 
           await fs.outputFile(

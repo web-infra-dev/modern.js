@@ -3,24 +3,39 @@ import {
   createFromReadableStream,
 } from '@modern-js/render/client';
 import {
+  type DataStrategyMatch,
+  type DataStrategyResult,
+  type RouteObject,
+  type RouterState,
   type StaticHandlerContext,
   StaticRouterProvider,
-  createStaticRouter,
-} from '@modern-js/runtime-utils/router';
-import {
-  type RouteObject,
   createBrowserRouter,
+  createStaticRouter,
   redirect,
 } from '@modern-js/runtime-utils/router';
 import React from 'react';
 import type { PayloadRoute, ServerPayload } from '../../core/context';
 import { CSSLinks } from './CSSLinks';
+import type {
+  LazyComponentDescriptor,
+  ModernRouteObject,
+  RouteManifest,
+} from './types';
+
+declare global {
+  interface Window {
+    _MODERNJS_ROUTE_MANIFEST?: RouteManifest;
+    __webpack_public_path__?: string;
+  }
+}
 
 // There is no `use` method in the following version of react19.
 // In order to avoid errors, it is compatible here.
-const safeUse = (promise: any) => {
-  if (typeof (React as any).use === 'function') {
-    return (React as any).use(promise);
+// React.use works on both Promises and Contexts, return type depends on runtime input.
+const safeUse = (value: unknown): unknown => {
+  const reactUse = (React as Record<string, unknown>).use;
+  if (typeof reactUse === 'function') {
+    return reactUse(value);
   }
   return null;
 };
@@ -36,17 +51,22 @@ function collectCssFilesFromRoutes(
 
   for (const match of matches) {
     // Use findRouteInTree to recursively find nested routes
-    const route = findRouteInTree(routes, match.route.id);
+    const route = findRouteInTree(
+      routes,
+      match.route.id,
+    ) as ModernRouteObject | null;
     if (!route) continue;
 
     // Try to get entryCssFiles from Component property
-    const component = (route as any).Component;
+    const component = route.Component as
+      | (React.ComponentType & { entryCssFiles?: string[] })
+      | undefined;
     if (
       component &&
       typeof component === 'function' &&
       'entryCssFiles' in component
     ) {
-      const css = (component as any).entryCssFiles;
+      const css = component.entryCssFiles;
       if (Array.isArray(css)) {
         cssFiles.push(...css);
       }
@@ -63,6 +83,27 @@ export const createServerPayload = (
 ): ServerPayload => {
   const cssFiles = collectCssFilesFromRoutes(routerContext.matches, routes);
 
+  // Find the deepest non-client-component route for CSS injection.
+  // Client component routes have their element replaced with Component during
+  // hydration, so injecting CSSLinks there causes a hydration mismatch.
+  let cssInjectionIndex = -1;
+  if (cssFiles.length > 0) {
+    for (let i = routerContext.matches.length - 1; i >= 0; i--) {
+      const matchRoute = findRouteInTree(
+        routes,
+        routerContext.matches[i].route.id,
+      ) as ModernRouteObject | null;
+      if (matchRoute && !matchRoute.isClientComponent) {
+        cssInjectionIndex = i;
+        break;
+      }
+    }
+    // Fallback to leaf route if all routes are client components
+    if (cssInjectionIndex === -1) {
+      cssInjectionIndex = routerContext.matches.length - 1;
+    }
+  }
+
   return {
     type: 'render' as const,
     actionData: routerContext.actionData,
@@ -70,27 +111,25 @@ export const createServerPayload = (
     loaderData: routerContext.loaderData,
     location: routerContext.location,
     routes: routerContext.matches.map((match, index: number, matches) => {
-      const element = (match.route as any).element;
+      const route = match.route as ModernRouteObject;
+      const element = route.element;
       const parentMatch = index > 0 ? matches[index - 1] : undefined;
 
       let processedElement;
 
       if (element) {
-        const ElementComponent = element.type;
+        const ElementComponent = (element as React.ReactElement).type;
         const elementProps = {
-          loaderData: routerContext?.loaderData?.[(match.route as any).id],
-          actionData: routerContext?.actionData?.[(match.route as any).id],
+          loaderData: routerContext?.loaderData?.[route.id!],
+          actionData: routerContext?.actionData?.[route.id!],
           params: match.params,
-          matches: routerContext.matches.map((m: any) => {
-            const { route, pathname, params } = m;
-            return {
-              id: route.id,
-              pathname,
-              params,
-              data: routerContext?.loaderData?.[route.id],
-              handle: route.handle,
-            };
-          }),
+          matches: routerContext.matches.map(m => ({
+            id: m.route.id,
+            pathname: m.pathname,
+            params: m.params,
+            data: routerContext?.loaderData?.[m.route.id!],
+            handle: m.route.handle,
+          })),
         };
 
         const routeElement = React.createElement(
@@ -98,12 +137,7 @@ export const createServerPayload = (
           elementProps,
         );
 
-        // Inject CSS Links for the leaf route (last matched route)
-        // This ensures CSS is included in the RSC payload
-        const isLeafRoute = index === routerContext.matches.length - 1;
-        if (isLeafRoute && cssFiles.length > 0) {
-          // Wrap CSS Links and route element together
-          // React will automatically hoist the link tags to head
+        if (index === cssInjectionIndex) {
           processedElement = React.createElement(
             React.Fragment,
             null,
@@ -117,17 +151,17 @@ export const createServerPayload = (
 
       return {
         element: processedElement,
-        errorElement: (match.route as any).errorElement,
-        handle: (match.route as any).handle,
-        hasAction: !!(match.route as any).action,
-        hasErrorBoundary: !!(match.route as any).hasErrorBoundary,
-        hasLoader: !!(match.route as any).loader,
-        hasClientLoader: !!(match.route as any).hasClientLoader,
-        id: match.route.id,
-        index: (match.route as any).index,
+        errorElement: route.errorElement,
+        handle: route.handle,
+        hasAction: !!route.action,
+        hasErrorBoundary: !!route.hasErrorBoundary,
+        hasLoader: !!route.loader,
+        hasClientLoader: !!route.hasClientLoader,
+        id: route.id!,
+        index: route.index,
         params: match.params,
-        parentId: parentMatch?.route.id || (match.route as any).parentId,
-        path: match.route.path,
+        parentId: parentMatch?.route.id || route.parentId,
+        path: route.path,
         pathname: match.pathname,
         pathnameBase: match.pathnameBase,
       } as PayloadRoute;
@@ -160,20 +194,26 @@ export const handleRSCRedirect = (
 export const prepareRSCRoutes = async (
   routes: RouteObject[],
 ): Promise<void> => {
-  const isLazyComponent = (component: any) => {
+  const isLazyComponent = (
+    component: unknown,
+  ): component is LazyComponentDescriptor => {
     return (
-      component &&
+      component != null &&
       typeof component === 'object' &&
-      component._init !== undefined &&
-      component._payload !== undefined
+      '_init' in component &&
+      '_payload' in component
     );
   };
 
   const processRoutes = async (routesList: RouteObject[]): Promise<void> => {
     await Promise.all(
-      routesList.map(async (route: any) => {
-        if ('lazyImport' in route && isLazyComponent(route.component)) {
-          route.component = (await route.lazyImport()).default;
+      routesList.map(async (route: RouteObject) => {
+        const modernRoute = route as ModernRouteObject;
+        if (
+          'lazyImport' in modernRoute &&
+          isLazyComponent(modernRoute.component)
+        ) {
+          modernRoute.component = (await modernRoute.lazyImport!()).default;
         }
 
         if (route.children && Array.isArray(route.children)) {
@@ -186,10 +226,18 @@ export const prepareRSCRoutes = async (
   await processRoutes(routes);
 };
 
+interface MergedRoute extends Omit<PayloadRoute, 'children' | 'index'> {
+  loader?: RouteObject['loader'];
+  isClientComponent?: boolean;
+  Component?: React.ComponentType;
+  index?: boolean;
+  children?: MergedRoute[];
+}
+
 const mergeRoutes = (
   routes: PayloadRoute[],
-  originalRoutes: any[] | undefined,
-): any[] => {
+  originalRoutes: RouteObject[] | undefined,
+): RouteObject[] => {
   if (!originalRoutes || !Array.isArray(originalRoutes)) {
     return routes;
   }
@@ -213,21 +261,31 @@ const mergeRoutes = (
 
   buildRoutesMap(routes);
 
-  const mergeRoutesRecursive = (origRoutes: any[]): any[] => {
+  const mergeRoutesRecursive = (origRoutes: RouteObject[]): RouteObject[] => {
     return origRoutes.map(origRoute => {
-      if (origRoute.id && routesMap.has(origRoute.id)) {
-        const matchedRoute = routesMap.get(origRoute.id)!;
+      const modernOrig = origRoute as ModernRouteObject;
+      if (modernOrig.id && routesMap.has(modernOrig.id)) {
+        const matchedRoute = routesMap.get(modernOrig.id)!;
 
-        const result = {
-          loader: origRoute.hasClientLoader ? origRoute.loader : undefined,
+        const result: MergedRoute = {
+          loader: modernOrig.hasClientLoader ? modernOrig.loader : undefined,
           ...matchedRoute,
         };
 
-        if (origRoute.children && Array.isArray(origRoute.children)) {
-          (result as any).children = mergeRoutesRecursive(origRoute.children);
+        if (modernOrig.isClientComponent) {
+          result.isClientComponent = true;
+          // Keep element from the server payload for correct hydration.
+          // The element already contains the right props (loaderData, etc.)
+          // that the Component wouldn't receive from React Router.
         }
 
-        return result;
+        if (origRoute.children && Array.isArray(origRoute.children)) {
+          result.children = mergeRoutesRecursive(
+            origRoute.children,
+          ) as unknown as MergedRoute[];
+        }
+
+        return result as unknown as RouteObject;
       }
 
       return origRoute;
@@ -255,6 +313,163 @@ const findRouteInTree = (
   return null;
 };
 
+/**
+ * Find route segments that changed between the current router state and
+ * the new navigation matches. A segment is "changed" if it's newly matched
+ * or its params differ from the current match.
+ */
+function getChangedMatches(
+  matches: DataStrategyMatch[],
+  currentMatches: RouterState['matches'],
+): DataStrategyMatch[] {
+  const currentById = new Map<string, RouterState['matches'][number]>();
+  for (const m of currentMatches) {
+    if (m.route?.id) {
+      currentById.set(m.route.id, m);
+    }
+  }
+
+  return matches.filter(match => {
+    const current = currentById.get(match.route?.id);
+    return (
+      !current ||
+      JSON.stringify(current.params) !== JSON.stringify(match.params)
+    );
+  });
+}
+
+/**
+ * Check if navigation can skip RSC fetch: all changed route segments must be
+ * client-only components with no server-side loaders.
+ */
+function canSkipRscFetch(
+  matches: DataStrategyMatch[],
+  routerState: RouterState,
+): boolean {
+  const changedMatches = getChangedMatches(matches, routerState?.matches || []);
+  return (
+    changedMatches.length > 0 &&
+    changedMatches.every(m => {
+      const route = m.route as ModernRouteObject;
+      return (
+        route.isClientComponent && !(route.hasLoader && !route.hasClientLoader)
+      );
+    })
+  );
+}
+
+/**
+ * Inject CSS for a route using routeManifest.routeAssets.
+ */
+function injectRouteCss(routeId: string): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  const cssAssets =
+    window._MODERNJS_ROUTE_MANIFEST?.routeAssets?.[routeId]?.referenceCssAssets;
+  if (!cssAssets) {
+    return;
+  }
+  const publicPath = window.__webpack_public_path__ || '/';
+  for (const css of cssAssets) {
+    const href =
+      css.startsWith('http') || css.startsWith('/') ? css : publicPath + css;
+    if (!document.querySelector(`link[href="${CSS.escape(href)}"]`)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  }
+}
+
+/**
+ * Restore Component on a route from originalRoutes if it was overwritten
+ * by a previous patchRoutes call during RSC navigation.
+ */
+function ensureClientComponent(
+  route: ModernRouteObject,
+  originalRoutes: RouteObject[],
+): void {
+  if (route.isClientComponent && !route.Component) {
+    const origRoute = findRouteInTree(
+      originalRoutes,
+      route.id!,
+    ) as ModernRouteObject | null;
+    if (origRoute?.Component) {
+      route.Component = origRoute.Component as React.ComponentType;
+      // Remove element to avoid React Router conflict:
+      // "You should not include both `Component` and `element` on your route"
+      delete route.element;
+    }
+  }
+}
+
+/**
+ * Run client loaders for matches that have them, restoring the loader
+ * reference from originalRoutes before resolving.
+ */
+function resolveClientLoaders(
+  matches: DataStrategyMatch[],
+  originalRoutes: RouteObject[],
+): Promise<{ routeId: string; result: DataStrategyResult }[]> {
+  const clientMatches = matches.filter(
+    m => (m.route as ModernRouteObject).hasClientLoader,
+  );
+  if (clientMatches.length === 0) {
+    return Promise.resolve([]);
+  }
+  return Promise.all(
+    clientMatches.map(async clientMatch => {
+      const origRoute = findRouteInTree(originalRoutes, clientMatch.route.id);
+      clientMatch.route.loader = origRoute?.loader;
+      const result = await clientMatch.resolve();
+      return { routeId: clientMatch.route.id, result };
+    }),
+  );
+}
+
+function applyLoaderResults(
+  results: Record<string, DataStrategyResult>,
+  loaderResults: { routeId: string; result: DataStrategyResult }[],
+): void {
+  for (const { routeId, result } of loaderResults) {
+    results[routeId] = result;
+  }
+}
+
+/**
+ * Handle navigation for client-only route segments:
+ * skip RSC fetch, run client loaders, and inject CSS.
+ */
+async function resolveClientOnlyNavigation(
+  matches: DataStrategyMatch[],
+  results: Record<string, DataStrategyResult>,
+  originalRoutes: RouteObject[],
+  routerState: RouterState,
+): Promise<Record<string, DataStrategyResult>> {
+  // Only touch changed route segments. Unchanged parent routes may still
+  // hold a server-rendered element with loaderData props that must not be
+  // replaced with a bare Component.
+  const changedMatches = getChangedMatches(matches, routerState?.matches || []);
+  for (const match of changedMatches) {
+    ensureClientComponent(match.route as ModernRouteObject, originalRoutes);
+  }
+
+  applyLoaderResults(
+    results,
+    await resolveClientLoaders(changedMatches, originalRoutes),
+  );
+
+  for (const match of changedMatches) {
+    if (match.route.id) {
+      injectRouteCss(match.route.id);
+    }
+  }
+
+  return results;
+}
+
 export const createClientRouterFromPayload = (
   payload: ServerPayload,
   originalRoutes: RouteObject[],
@@ -281,12 +496,17 @@ export const createClientRouterFromPayload = (
     //@ts-ignore
     hydrationData: payload,
     basename: basename,
-    dataStrategy: async context => {
-      const { request, matches } = context;
-      const results: Record<string, any> = {};
-      const clientMatches = matches.filter(
-        match => (match.route as any).hasClientLoader,
-      );
+    dataStrategy: async ({ request, matches }) => {
+      const results: Record<string, DataStrategyResult> = {};
+
+      if (canSkipRscFetch(matches, router.state)) {
+        return resolveClientOnlyNavigation(
+          matches,
+          results,
+          originalRoutes,
+          router.state,
+        );
+      }
 
       const fetchPromise = fetch(request.url, {
         headers: {
@@ -294,20 +514,10 @@ export const createClientRouterFromPayload = (
         },
       });
 
-      const clientLoadersPromise =
-        clientMatches.length > 0
-          ? Promise.all(
-              clientMatches.map(async clientMatch => {
-                const foundRoute = findRouteInTree(
-                  originalRoutes,
-                  clientMatch.route.id,
-                );
-                clientMatch.route.loader = foundRoute?.loader;
-                const res = await clientMatch.resolve();
-                return { routeId: clientMatch.route.id, result: res };
-              }),
-            )
-          : Promise.resolve([]);
+      const clientLoadersPromise = resolveClientLoaders(
+        matches,
+        originalRoutes,
+      );
 
       const res = await fetchPromise;
 
@@ -318,20 +528,16 @@ export const createClientRouterFromPayload = (
           const routeId = match.route.id;
           if (routeId) {
             results[routeId] = {
-              type: 'redirect',
+              type: 'data',
               result: redirect(redirectLocation),
-            };
+            } as DataStrategyResult;
           }
         });
 
         return results;
       }
 
-      const [clientLoaderResults] = await Promise.all([clientLoadersPromise]);
-
-      clientLoaderResults.forEach(({ routeId, result }) => {
-        results[routeId] = result;
-      });
+      applyLoaderResults(results, await clientLoadersPromise);
 
       if (!res.body) {
         throw new Error('Response body is null');
@@ -342,13 +548,13 @@ export const createClientRouterFromPayload = (
       if (
         typeof payload !== 'object' ||
         payload === null ||
-        typeof (payload as any).type === 'undefined' ||
-        (payload as any).type !== 'render'
+        typeof (payload as Record<string, unknown>).type === 'undefined' ||
+        (payload as Record<string, unknown>).type !== 'render'
       ) {
         throw new Error('Unexpected payload type');
       }
 
-      const serverPayload = payload as ServerPayload;
+      const serverPayload = payload as unknown as ServerPayload;
 
       matches.forEach(match => {
         const routeId = match.route.id;
@@ -356,10 +562,23 @@ export const createClientRouterFromPayload = (
           (route: PayloadRoute) => route.id === routeId,
         );
         if (matchedRoute) {
+          const modernMatch = match.route as ModernRouteObject;
           // @ts-ignore
-          router.patchRoutes(matchedRoute.parentId, [matchedRoute], true);
+          router.patchRoutes(
+            matchedRoute.parentId ?? null,
+            [matchedRoute as unknown as RouteObject],
+            true,
+          );
+          // patchRoutes uses Object.assign and only updates element/errorElement/
+          // hydrateFallbackElement. If a previous client-only navigation set
+          // Component via ensureClientComponent, it lingers on the route object.
+          // React Router renders Component over element when both exist, which
+          // would lose the loaderData props from the server element.
+          if (modernMatch.isClientComponent && modernMatch.Component) {
+            delete modernMatch.Component;
+          }
         }
-        if (serverPayload.loaderData?.[routeId]) {
+        if (serverPayload.loaderData && routeId in serverPayload.loaderData) {
           results[routeId] = {
             type: 'data',
             result: serverPayload.loaderData[routeId],
@@ -438,7 +657,7 @@ const createRSCStaticRouterComponent = (
 export const RSCStaticRouter: React.FC<RSCStaticRouterProps> = ({
   basename,
 }) => {
-  const payload: ServerPayload = safeUse(safeUse(ElementsContext));
+  const payload = safeUse(safeUse(ElementsContext)) as ServerPayload;
 
   if (!payload || payload.type !== 'render') {
     return null;

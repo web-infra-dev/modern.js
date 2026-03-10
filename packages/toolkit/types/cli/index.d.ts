@@ -93,6 +93,7 @@ export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
   isRoot?: boolean;
   config?: string | Record<string, any>;
   inValidSSRRoute?: boolean;
+  isClientComponent?: boolean;
   params?: string[];
 }
 

@@ -1,12 +1,15 @@
 import { storage } from '@modern-js/runtime-utils/node';
-import type { RouterState } from '@modern-js/runtime-utils/router';
+import type {
+  RouterState,
+  ShouldRevalidateFunction,
+} from '@modern-js/runtime-utils/router';
 
 export type PayloadRoute = {
-  clientAction?: any;
-  clientLoader?: any;
+  clientAction?: (...args: unknown[]) => unknown;
+  clientLoader?: (...args: unknown[]) => unknown;
   element?: React.ReactNode;
   errorElement?: React.ReactNode;
-  handle?: any;
+  handle?: unknown;
   hasAction: boolean;
   hasErrorBoundary: boolean;
   hasLoader: boolean;
@@ -18,7 +21,7 @@ export type PayloadRoute = {
   path?: string;
   pathname: string;
   pathnameBase: string;
-  shouldRevalidate?: any;
+  shouldRevalidate?: ShouldRevalidateFunction;
 };
 
 export type ServerPayload = {
