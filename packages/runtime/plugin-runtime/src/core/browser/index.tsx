@@ -1,6 +1,6 @@
+import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import cookieTool from 'cookie';
 import type React from 'react';
-import { SSR_HYDRATION_ID_PREFIX } from '../constants';
 import { getGlobalInternalRuntimeContext } from '../context';
 import { type TRuntimeContext, getInitialContext } from '../context/runtime';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
