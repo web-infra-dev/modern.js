@@ -3,7 +3,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
-import { RenderLevel } from '../../constants';
+import { RenderLevel, SSR_HYDRATION_ID_PREFIX } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import {
@@ -114,7 +114,9 @@ async function generateHtml(
   try {
     const end = time();
     // react render to string
-    html = ReactDomServer.renderToString(finalApp);
+    html = ReactDomServer.renderToString(finalApp, {
+      identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+    });
     chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     helmetData = ReactHelmet.renderStatic();
 

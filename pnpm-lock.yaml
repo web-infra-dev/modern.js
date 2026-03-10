@@ -4393,6 +4393,37 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
 
+  tests/integration/ssr/fixtures/ssr-useid:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/server-runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/server/server-runtime
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
   tests/integration/ssr/fixtures/streaming:
     dependencies:
       '@modern-js/runtime':

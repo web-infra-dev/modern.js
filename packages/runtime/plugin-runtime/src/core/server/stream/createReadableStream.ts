@@ -2,7 +2,7 @@ import { PassThrough, Readable, Transform } from 'stream';
 import { storage } from '@modern-js/runtime-utils/node';
 import type { ReactElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
-import { RenderLevel } from '../../constants';
+import { RenderLevel, SSR_HYDRATION_ID_PREFIX } from '../../constants';
 import { getGlobalInternalRuntimeContext } from '../../context';
 import { getMonitors } from '../../context/monitors';
 import { enqueueFromEntries } from './deferredScript';
@@ -66,6 +66,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         processedRootElement,
         {
           nonce: config.nonce,
+          identifierPrefix: SSR_HYDRATION_ID_PREFIX,
           [onReady]() {
             let styledComponentsStyleTags = '';
             extenders.forEach(extender => {
