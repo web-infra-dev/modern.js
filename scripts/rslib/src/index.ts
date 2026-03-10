@@ -8,6 +8,7 @@ export const rslibConfig: RslibConfig = {
   },
   lib: [
     {
+      id: 'esm-node',
       format: 'esm' as const,
       syntax: 'es2021' as const,
       bundle: false,
@@ -36,6 +37,7 @@ export const rslibConfig: RslibConfig = {
       },
     },
     {
+      id: 'esm-web',
       format: 'esm' as const,
       syntax: 'es2021' as const,
       bundle: false,
@@ -57,6 +59,7 @@ export const rslibConfig: RslibConfig = {
       },
     },
     {
+      id: 'cjs-node',
       format: 'cjs' as const,
       syntax: 'es2021' as const,
       bundle: false,

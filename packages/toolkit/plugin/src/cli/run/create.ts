@@ -177,21 +177,36 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
   };
 };
 
-// for storybook get config
 type UselessOptions = 'handleSetupResult' | 'command' | 'internalPlugins';
-export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
-  options: Omit<CLIRunOptions<Extends>, UselessOptions>,
+
+type CreateConfigOption<Extends extends CLIPluginExtends> = Omit<
+  CLIRunOptions<Extends>,
+  UselessOptions
+> & {
+  command: string;
+  modifyModernConfig?: (
+    config: Extends['config'],
+  ) => Extends['config'] | Promise<Extends['config']>;
+};
+
+export const createConfigOptions = async <Extends extends CLIPluginExtends>(
+  options: CreateConfigOption<Extends>,
 ) => {
   const pluginManager = createPluginManager();
   pluginManager.clear();
 
-  const { configFile, cwd, metaName = 'modern-js' } = options;
+  const { configFile, cwd, metaName = 'modern-js', command } = options;
   const appDirectory = await initAppDir(cwd);
 
   const loaded = await createLoadedConfig<Extends['config']>(
     appDirectory,
     configFile,
+    options.config,
   );
+
+  loaded.config = options.modifyModernConfig
+    ? await options.modifyModernConfig(loaded.config || {})
+    : loaded.config;
 
   pluginManager.addPlugins(
     (loaded.config as unknown as { plugins: Plugin[] }).plugins || [],
@@ -202,8 +217,8 @@ export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
     appContext: initAppContext<Extends>({
       packageName: loaded.packageName,
       configFile: loaded.configFile,
-      command: 'storybook',
       appDirectory,
+      command,
       plugins,
       metaName,
     }),
@@ -240,3 +255,11 @@ export const createStorybookOptions = async <Extends extends CLIPluginExtends>(
     getAppContext: () => pluginAPI.getAppContext(),
   };
 };
+
+export const createStorybookOptions = <Extends extends CLIPluginExtends>(
+  options: Omit<CreateConfigOption<Extends>, 'command'>,
+) =>
+  createConfigOptions({
+    ...options,
+    command: 'storybook',
+  });
