@@ -1,3 +1,4 @@
+import { open as fsOpen } from 'node:fs/promises';
 import path from 'path';
 import type {
   AppNormalizedConfig,
@@ -13,6 +14,7 @@ import type {
 } from '@modern-js/types';
 import {
   fs,
+  JS_EXTENSIONS,
   findExists,
   formatImportPath,
   getEntryOptions,
@@ -139,6 +141,40 @@ export const routesForServer = ({
 const createMatchReg = (keyword: string) =>
   new RegExp(`("${keyword}":\\s)"([^\n]+)"`, 'g');
 
+async function hasUseClientDirective(
+  componentPath: string,
+  srcDirectory?: string,
+  internalSrcAlias?: string,
+): Promise<boolean> {
+  let realPath = componentPath;
+  if (
+    internalSrcAlias &&
+    srcDirectory &&
+    realPath.startsWith(internalSrcAlias)
+  ) {
+    realPath = path.join(srcDirectory, realPath.slice(internalSrcAlias.length));
+  }
+  const filePath = findExists(JS_EXTENSIONS.map(ext => `${realPath}${ext}`));
+  if (!filePath) {
+    return false;
+  }
+  let fh;
+  try {
+    // Only read the first 64 bytes - enough for BOM + whitespace + 'use client' directive
+    fh = await fsOpen(filePath, 'r');
+    const buf = Buffer.alloc(64);
+    const { bytesRead } = await fh.read(buf, 0, 64, 0);
+    const content = buf.toString('utf-8', 0, bytesRead).trimStart();
+    return (
+      content.startsWith("'use client'") || content.startsWith('"use client"')
+    );
+  } catch {
+    return false;
+  } finally {
+    await fh?.close();
+  }
+}
+
 export const fileSystemRoutes = async ({
   metaName,
   routes,
@@ -147,7 +183,13 @@ export const fileSystemRoutes = async ({
   entryName,
   internalDirectory,
   splitRouteChunks = true,
-  isRscClient = false,
+  // Whether the generated routes are for the RSC client bundle.
+  // When true, only 'use client' page components will include client-side
+  // bundle code (component / lazyImport); all other routes are rendered
+  // via the RSC payload from the server.
+  isRscClientBundle = false,
+  srcDirectory,
+  internalSrcAlias,
 }: {
   metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
@@ -156,7 +198,9 @@ export const fileSystemRoutes = async ({
   entryName: string;
   internalDirectory: string;
   splitRouteChunks?: boolean;
-  isRscClient?: boolean;
+  isRscClientBundle?: boolean;
+  srcDirectory?: string;
+  internalSrcAlias?: string;
 }) => {
   const components: string[] = [];
   const loadings: string[] = [];
@@ -239,14 +283,16 @@ export const fileSystemRoutes = async ({
     return `() => import(${importOptions}'${componentPath}').then(routeModule => handleRouteModule(routeModule, "${routeId}")).catch(handleRouteModuleError)`;
   };
 
-  const traverseRouteTree = (
+  const traverseRouteTree = async (
     route: NestedRouteForCli | PageRoute,
-    isRscClient: boolean,
-  ): Route => {
+    isRscClientBundle: boolean,
+  ): Promise<Route> => {
     let children: Route['children'];
     if ('children' in route && route.children) {
-      children = route?.children?.map(child =>
-        traverseRouteTree(child, isRscClient),
+      children = await Promise.all(
+        route.children.map(child =>
+          traverseRouteTree(child, isRscClientBundle),
+        ),
       );
     }
     let loading: string | undefined;
@@ -334,6 +380,19 @@ export const fileSystemRoutes = async ({
       }
     }
 
+    const isClientComponent =
+      route.type === 'nested' &&
+      Boolean(route._component) &&
+      Boolean(srcDirectory) &&
+      Boolean(internalSrcAlias) &&
+      (await hasUseClientDirective(
+        route._component!,
+        srcDirectory,
+        internalSrcAlias,
+      ));
+
+    const shouldIncludeClientBundle = !isRscClientBundle || isClientComponent;
+
     const finalRoute: any = {
       ...route,
       loading,
@@ -342,13 +401,10 @@ export const fileSystemRoutes = async ({
       config,
       error,
       children,
+      ...(isClientComponent && { isClientComponent: true }),
+      ...(shouldIncludeClientBundle && { lazyImport }),
+      ...(shouldIncludeClientBundle && route._component && { component }),
     };
-    if (!isRscClient) {
-      finalRoute.lazyImport = lazyImport;
-    }
-    if (route._component && !isRscClient) {
-      finalRoute.component = component;
-    }
     /**
      * All routing components with loader will add shouldRevalidate
      * but when routeModule does not have a corresponding shouldRevalidate
@@ -369,7 +425,7 @@ export const fileSystemRoutes = async ({
   `;
   for (const route of routes) {
     if ('type' in route) {
-      const newRoute = traverseRouteTree(route, isRscClient);
+      const newRoute = await traverseRouteTree(route, isRscClientBundle);
       const routeStr = JSON.stringify(newRoute, null, 2);
       const keywords = [
         'component',
@@ -484,9 +540,9 @@ export const fileSystemRoutes = async ({
 
   return `
     ${importLazyCode}
-    ${!isRscClient ? importComponentsCode : ''}
+    ${!isRscClientBundle ? importComponentsCode : ''}
     ${importRuntimeRouterCode}
-    ${!isRscClient ? rootLayoutCode : ''}
+    ${!isRscClientBundle ? rootLayoutCode : ''}
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${importLoadersCode}
