@@ -54,8 +54,25 @@ export interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
+    referenceCssAssets?: string[];
   };
 }
+
+export interface LazyComponentDescriptor {
+  _init: unknown;
+  _payload: unknown;
+}
+
+export type ModernRouteObject = RouteObject & {
+  isClientComponent?: boolean;
+  hasClientLoader?: boolean;
+  hasLoader?: boolean;
+  hasAction?: boolean;
+  parentId?: string;
+  lazyImport?: () => Promise<{ default: React.ComponentType }>;
+  component?: React.ComponentType | LazyComponentDescriptor;
+  entryCssFiles?: string[];
+};
 
 // fork from react-router
 // due to the context is any in react-router.
