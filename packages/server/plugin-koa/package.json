@@ -100,7 +100,7 @@
     "zod": "^3.22.3"
   },
   "peerDependencies": {
-    "koa": "^2.16.3"
+    "koa": "^2.16.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
