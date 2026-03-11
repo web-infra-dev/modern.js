@@ -1,5 +1,15 @@
 # @modern-js/plugin-v2
 
+## 3.0.5
+
+### Patch Changes
+
+- 4c25918: feat: add modern.js adapter to run tests via Rstest
+  feat: 添加 modern.js 适配器以在 Rstest 中继承 Modern.js 的配置
+  - @modern-js/runtime-utils@3.0.5
+  - @modern-js/types@3.0.5
+  - @modern-js/utils@3.0.5
+
 ## 3.0.4
 
 ### Patch Changes
