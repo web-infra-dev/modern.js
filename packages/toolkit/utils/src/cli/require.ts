@@ -3,6 +3,32 @@ import { pathToFileURL } from 'node:url';
 import { moduleResolve } from 'import-meta-resolve';
 import { findExists } from './fs';
 
+// 开发模式下的模块缓存（使用 mtime 比对）
+const devModuleCache = new Map<string, { mtime: number; module: any }>();
+
+/**
+ * 从字符串动态加载模块
+ * 用于开发模式下绕过 ESM 缓存
+ */
+function requireFromString(src: string, filename: string): any {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const Module = require('module');
+  const m = new Module();
+  // @ts-ignore
+  m._compile(src, filename);
+  return m.exports;
+}
+
+/**
+ * 清理过期的缓存（保留最近的 10 个）
+ */
+function cleanDevCache() {
+  if (devModuleCache.size > 10) {
+    const keys = Array.from(devModuleCache.keys()).slice(0, 5);
+    keys.forEach(key => devModuleCache.delete(key));
+  }
+}
+
 async function importPath(path: string, options?: any) {
   const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
   if (process.env.NODE_ENV === 'development') {
@@ -32,6 +58,40 @@ async function compatibleRequireESM(
     return res.default;
   }
 
+  // 开发模式下使用 requireFromString 每次重新加载
+  if (process.env.NODE_ENV === 'development') {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const fs = require('fs');
+
+      // 获取文件 mtime
+      const stats = fs.statSync(path);
+      const currentMtime = stats.mtimeMs;
+
+      // 检查缓存
+      const cached = devModuleCache.get(path);
+      if (cached && cached.mtime === currentMtime) {
+        return interop ? cached.module.default : cached.module;
+      }
+
+      // 读取并编译模块
+      const bundleContent = fs.readFileSync(path, 'utf-8');
+      const timestamp = Date.now().toString();
+      const module = requireFromString(bundleContent, `${path}?t=${timestamp}`);
+
+      // 更新缓存
+      devModuleCache.set(path, { mtime: currentMtime, module });
+      cleanDevCache();
+
+      return interop ? module.default : module;
+    } catch {
+      // 降级机制：失败后回退到原有的 import 方式
+      const requiredModule = await importPath(path);
+      return interop ? requiredModule.default : requiredModule;
+    }
+  }
+
+  // 生产模式使用正常的 import
   const requiredModule = await importPath(path);
   return interop ? requiredModule.default : requiredModule;
 }
