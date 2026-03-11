@@ -160,15 +160,14 @@ export const createNetlifyPreset: CreatePreset = (
 
       await fse.writeFile(handlerFilePath, handlerCode);
       if (isEsmProject) {
-        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
-        await fse.copy(
-          path.join(__dirname, './netlify-entry.mjs'),
+        await fse.writeFile(
           entryFilePath,
+          "export { handler as default } from './netlify-handler.cjs';\n",
         );
       } else {
-        await fse.copy(
-          path.join(__dirname, './netlify-entry.js'),
+        await fse.writeFile(
           entryFilePath,
+          "const { handler } = require('./netlify-handler.cjs');\nexports.handler = handler;\n",
         );
       }
     },

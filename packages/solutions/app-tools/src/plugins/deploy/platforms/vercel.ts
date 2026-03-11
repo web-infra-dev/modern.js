@@ -165,15 +165,14 @@ export const createVercelPreset: CreatePreset = (
 
       await fse.writeFile(handlerFilePath, handlerCode);
       if (isEsmProject) {
-        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
-        await fse.copy(
-          path.join(__dirname, './vercel-entry.mjs'),
+        await fse.writeFile(
           entryFilePath,
+          "import { handler } from './vercel-handler.cjs';\nexport default handler;\n",
         );
       } else {
-        await fse.copy(
-          path.join(__dirname, './vercel-entry.js'),
+        await fse.writeFile(
           entryFilePath,
+          "const { handler } = require('./vercel-handler.cjs');\nmodule.exports = handler;\n",
         );
       }
     },
