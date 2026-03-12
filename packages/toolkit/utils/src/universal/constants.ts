@@ -50,3 +50,9 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
 
 export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
 export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
+
+/**
+ * React useId identifier prefix for SSR hydration consistency
+ * Ensures server and client generate the same ID prefixes
+ */
+export const SSR_HYDRATION_ID_PREFIX = 'modern-js-';

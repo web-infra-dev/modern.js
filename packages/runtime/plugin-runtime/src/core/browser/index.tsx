@@ -1,3 +1,4 @@
+import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import cookieTool from 'cookie';
 import type React from 'react';
 import { getGlobalInternalRuntimeContext } from '../context';
@@ -143,7 +144,9 @@ export async function hydrateWithReact18(
   rootElement: HTMLElement,
 ) {
   const ReactDOM = await import('react-dom/client');
-  const root = ReactDOM.hydrateRoot(rootElement, App);
+  const root = ReactDOM.hydrateRoot(rootElement, App, {
+    identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+  });
   return root;
 }
 
