@@ -92,7 +92,6 @@
   },
   "pnpm": {
     "overrides": {
-      "less-loader": "12.3.2",
       "h3": "^1.15.5",
       "tar": "^7.5.10",
       "micromatch": "^4.0.8",

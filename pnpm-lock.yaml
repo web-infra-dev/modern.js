@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  less-loader: 12.3.2
   h3: ^1.15.5
   tar: ^7.5.10
   micromatch: ^4.0.8
@@ -19993,8 +19992,8 @@ packages:
   leac@0.6.0:
     resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
 
-  less-loader@12.3.2:
-    resolution: {integrity: sha512-uLV5c702ff2jBvO7qewpkLRzkh/I9QW07ur2NKkv8TVTrtX2lrKjEbEU/LLXAn7cgpCIBbkfyUm4qYXCQs5/+w==}
+  less-loader@12.3.1:
+    resolution: {integrity: sha512-JZZmG7gMzoDP3VGeEG8Sh6FW5wygB5jYL7Wp29FFihuRTsIBacqO3LbRPr2yStYD11riVf13selLm/CPFRDBRQ==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
@@ -32444,7 +32443,7 @@ snapshots:
     dependencies:
       deepmerge: 4.3.1
       less: 4.6.2
-      less-loader: 12.3.2(@rspack/core@1.7.5(@swc/helpers@0.5.17))(less@4.6.2)(webpack@5.103.0(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))
+      less-loader: 12.3.1(@rspack/core@1.7.5(@swc/helpers@0.5.17))(less@4.6.2)(webpack@5.103.0(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5))
       reduce-configs: 1.1.1
     optionalDependencies:
       '@rsbuild/core': 1.7.3
@@ -41579,7 +41578,7 @@ snapshots:
 
   leac@0.6.0: {}
 
-  less-loader@12.3.2(@rspack/core@1.7.5(@swc/helpers@0.5.17))(less@4.6.2)(webpack@5.103.0(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5)):
+  less-loader@12.3.1(@rspack/core@1.7.5(@swc/helpers@0.5.17))(less@4.6.2)(webpack@5.103.0(@swc/core@1.15.8(@swc/helpers@0.5.17))(esbuild@0.25.5)):
     dependencies:
       less: 4.6.2
     optionalDependencies:

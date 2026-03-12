@@ -140,6 +140,7 @@
     "@rspress/shared",
     "@rspress/plugin-llms",
     "rspress",
-    "'@rsbuild/webpack"
+    "'@rsbuild/webpack",
+    "less-loader"
   ]
 }
