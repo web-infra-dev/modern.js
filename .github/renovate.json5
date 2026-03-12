@@ -1,9 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":disableDependencyDashboard"],
+  "extends": ["config:recommended"],
   "baseBranch": ["main", "v2"],
- "rangeStrategy": "bump",
- "updateLockFiles": true,
+  "rangeStrategy": "bump",
+  "updateLockFiles": true,
   "schedule": ["every weekend"],
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
   "lockFileMaintenance": {
