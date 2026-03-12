@@ -3,6 +3,7 @@ import type {
   SSRManifest,
   SSRModuleMap,
 } from '@modern-js/types/server';
+import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactNode } from 'react';
 import type { ReactDOMServerReadableStream } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server.edge';
@@ -53,7 +54,10 @@ export const renderSSRStream = async (
   const hasRoutes = Boolean(routes && routes.length > 0);
 
   if (!clientManifest || !serverConsumerModuleMap) {
-    return renderToReadableStream(children, options);
+    return renderToReadableStream(children, {
+      ...options,
+      identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+    });
   }
 
   try {
@@ -85,7 +89,10 @@ export const renderSSRStream = async (
         <CSSLinks cssFiles={cssFiles} />
         {children}
       </ServerElementsProvider>,
-      options,
+      {
+        ...options,
+        identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+      },
     );
 
     // Create a pipeline that injects RSC payload

@@ -1,0 +1,21 @@
+{
+  "name": "ssr-useid-test",
+  "version": "2.66.0",
+  "private": true,
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-runtime": "workspace:*",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5"
+  }
+}
