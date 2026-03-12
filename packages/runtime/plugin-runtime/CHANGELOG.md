@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 3.0.5
+
+### Patch Changes
+
+- 2eca73d: feat(router): skip RSC payload fetch for client-only route navigations
+  feat(router): 导航到只有客户端路由组件的路径时，跳过对 rsc payload 的拉取
+- Updated dependencies [4c25918]
+  - @modern-js/plugin@3.0.5
+  - @modern-js/plugin-data-loader@3.0.5
+  - @modern-js/render@3.0.5
+  - @modern-js/runtime-utils@3.0.5
+  - @modern-js/types@3.0.5
+  - @modern-js/utils@3.0.5
+
 ## 3.0.4
 
 ### Patch Changes
