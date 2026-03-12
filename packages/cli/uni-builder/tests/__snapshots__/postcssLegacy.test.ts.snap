@@ -738,9 +738,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
         "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
           "lessOptions": {
             "javascriptEnabled": true,
             "paths": [
@@ -837,9 +837,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
         "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
           "lessOptions": {
             "javascriptEnabled": true,
             "paths": [
@@ -1264,9 +1264,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
         "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
           "lessOptions": {
             "javascriptEnabled": true,
             "paths": [
@@ -1339,9 +1339,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
         "options": {
-          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
           "lessOptions": {
             "javascriptEnabled": true,
             "paths": [

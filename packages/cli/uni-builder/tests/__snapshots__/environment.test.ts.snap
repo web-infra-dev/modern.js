@@ -864,9 +864,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
@@ -959,9 +959,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
@@ -1993,9 +1993,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
@@ -2027,9 +2027,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
@@ -2902,9 +2902,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
@@ -2936,9 +2936,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
               "options": {
-                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
                 "lessOptions": {
                   "javascriptEnabled": true,
                   "paths": [
