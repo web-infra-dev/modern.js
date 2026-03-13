@@ -2,6 +2,7 @@ import {
   type MiddlewareHandler,
   defineServerConfig,
 } from '@modern-js/server-runtime';
+import { value } from '@shared/repro';
 import plugin1 from './plugins/serverPlugin';
 
 const timing: MiddlewareHandler = async (c, next) => {
@@ -34,7 +35,7 @@ export default defineServerConfig({
     {
       name: 'set-message',
       handler: async (c, next) => {
-        c.set('message', 'hi');
+        c.set('message', value || 'hi');
         await next();
       },
     },
