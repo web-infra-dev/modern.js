@@ -206,4 +206,46 @@ describe('test api router', () => {
       new Error(`The ${resourcePath} is not a valid api file.`),
     );
   });
+
+  test('getApiHandlers should filter out modules that fail to load in non-production', async () => {
+    const apiDir = path.join(__dirname, 'fixtures', 'with-errors');
+    const lambdaDir = path.join(apiDir, 'lambda');
+    const apiRouter = new ApiRouter({
+      apiDir,
+      lambdaDir,
+      prefix: '/',
+    });
+
+    const consoleSpy = rstest
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined);
+
+    const handlerInfos = await apiRouter.getApiHandlers();
+
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toContain('broken');
+    expect(handlerInfos.length).toBe(1);
+    expect(handlerInfos[0].routePath).toBe('/valid');
+
+    consoleSpy.mockRestore();
+  });
+
+  test('getApiHandlers should include filename in error when module fails to load in production', async () => {
+    const apiDir = path.join(__dirname, 'fixtures', 'with-errors');
+    const lambdaDir = path.join(apiDir, 'lambda');
+    const apiRouter = new ApiRouter({
+      apiDir,
+      lambdaDir,
+      prefix: '/',
+    });
+
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+
+    try {
+      await expect(apiRouter.getApiHandlers()).rejects.toThrow(/broken/);
+    } finally {
+      process.env.NODE_ENV = originalEnv;
+    }
+  });
 });
