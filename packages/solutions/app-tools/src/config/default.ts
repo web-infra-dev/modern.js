@@ -11,8 +11,11 @@ export function createDefaultConfig(
     cliShortcuts: {
       help: false,
       // does not support restart server and print urls yet
+      // temporarily disable the `o` shortcut key, as it opens the wrong URL (/html/main => 404).
       custom: (shortcuts = []) =>
-        shortcuts.filter(({ key }) => key !== 'r' && key !== 'u'),
+        shortcuts.filter(
+          ({ key }) => key !== 'r' && key !== 'u' && key !== 'o',
+        ),
     },
   };
 
