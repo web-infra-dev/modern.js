@@ -865,7 +865,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -960,7 +959,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -2023,7 +2021,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -2057,7 +2054,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -3309,7 +3305,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -3404,7 +3399,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -4429,7 +4423,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -4463,7 +4456,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -5788,7 +5780,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -5883,7 +5874,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -7390,7 +7380,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -7485,7 +7474,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/less-loader/dist/cjs.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/less/index.cjs",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
