@@ -102,6 +102,7 @@ export class SSRDataCollector implements Collector {
         ? `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`
         : `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`;
     }
+
     return ssrDataScripts;
   }
 }

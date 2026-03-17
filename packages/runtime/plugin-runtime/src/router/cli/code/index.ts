@@ -108,8 +108,13 @@ export const generateCode = async (
     appContext;
 
   const hooks = api.getHooks();
+  const generatedRoutesByEntry: Record<
+    string,
+    (NestedRouteForCli | PageRoute)[]
+  > = {};
 
   await Promise.all(entrypoints.map(generateEntryCode));
+
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const {
@@ -186,7 +191,10 @@ export const generateCode = async (
           entrypoint,
           routes: markedRoutes,
         });
-
+        generatedRoutesByEntry[entryName] = routes as (
+          | NestedRouteForCli
+          | PageRoute
+        )[];
         if (ssrMode === 'stream') {
           const hasPageRoute = routes.some(
             route => 'type' in route && route.type === 'page',
@@ -285,6 +293,8 @@ export const generateCode = async (
       }
     }
   }
+
+  return generatedRoutesByEntry;
 };
 
 export function generatorRegisterCode(

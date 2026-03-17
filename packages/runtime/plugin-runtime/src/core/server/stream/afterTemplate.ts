@@ -110,7 +110,7 @@ function createReplaceSSRData(options: {
   const attrsStr = attributesToString({ nonce });
   const serializeSSRData = serializeJson(ssrData);
 
-  const ssrDataScript = useJsonScript
+  const ssrScripts = useJsonScript
     ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
     : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
 

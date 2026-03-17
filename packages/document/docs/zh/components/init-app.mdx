@@ -58,3 +58,10 @@ npx @modern-js/create@latest myapp
 │       └── page.tsx
 └── tsconfig.json
 ```
+
+当启用 `--tailwind` 时，项目根目录会额外生成 `postcss.config.mjs` 和 `tailwind.config.ts`。
+当启用 `--router tanstack` 时，脚手架会添加 `@modern-js/plugin-tanstack`、在 `modern.config.ts` 中注册 `tanstackRouterPlugin()`，并使用 `src/views` 作为路由约定目录。
+
+当启用 `--bff`（默认 Effect 运行时）或 `--bff-runtime effect` 时，会在 `modern.config.ts` 中启用 `@modern-js/plugin-bff`，生成 `api/effect/index.ts` 与 `shared/effect/api.ts`，并将 `bff.runtimeFramework` 设置为 `effect`。
+当启用 `--bff-runtime hono` 时，会在 `modern.config.ts` 中启用 `@modern-js/plugin-bff`，生成 `api/lambda/hello.ts`，并将 `bff.runtimeFramework` 设置为 `hono`。
+当启用 `--workspace` 时，`@modern-js/*` 依赖会使用 `workspace:*` 版本，便于本地 monorepo 联调。
