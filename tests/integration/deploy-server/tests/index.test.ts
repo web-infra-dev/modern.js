@@ -120,7 +120,8 @@ describe('deploy', () => {
     }).toMatchSnapshot();
   });
 
-  // netlify will clean dist, so we need to build again
+  // deploy to netlify will clean dist, it will cause the verification of node artifacts to fail.
+  // so, we changed its dist directory to a separate directory, and build again
   test('support server when deploy target is netlify', async () => {
     await execa('npx modern deploy', {
       shell: true,
