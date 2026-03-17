@@ -3,20 +3,11 @@ import {
   fs,
   type Alias,
   getAliasConfig,
+  isDepExists,
   loadFromProject,
   readTsConfigByFile,
-  tryResolve,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
-
-const checkDepExist = (dep: string, appDir: string) => {
-  try {
-    tryResolve(dep, appDir, process.cwd());
-    return true;
-  } catch {
-    return false;
-  }
-};
 
 /**
  * Setup TypeScript runtime support.
@@ -30,7 +21,7 @@ export const setupTsRuntime = async (
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
-  const hasTsNode = checkDepExist('ts-node', appDir);
+  const hasTsNode = isDepExists(appDir, 'ts-node');
 
   if (!isTsProject || !hasTsNode) {
     return;
