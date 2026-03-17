@@ -170,6 +170,10 @@ export { dev } from './commands/dev';
 export { serve } from './commands/serve';
 export type { DevOptions } from './utils/types';
 export { generateWatchFiles } from './utils/generateWatchFiles';
+export {
+  resolveModernRsbuildConfig,
+  type ResolveModernRsbuildConfigOptions,
+} from './rsbuild';
 
 export * from './types';
 

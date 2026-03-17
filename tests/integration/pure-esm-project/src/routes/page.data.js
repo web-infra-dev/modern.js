@@ -1,5 +1,5 @@
-import { useHonoContext } from '@modern-js/plugin-bff/server';
 import { defer } from '@modern-js/runtime/router';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export const loader = () => {
   const ctx = useHonoContext();

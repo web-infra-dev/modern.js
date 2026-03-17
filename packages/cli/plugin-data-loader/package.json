@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.5",
   "engines": {
     "node": ">=20"
   },
@@ -57,14 +57,14 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.0",
-    "@rslib/core": "0.19.3",
+    "@rsbuild/core": "2.0.0-beta.4",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/supertest": "^2.0.16",
     "memfs": "^3.5.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "supertest": "^6.3.4",
     "typescript": "^5"
   },

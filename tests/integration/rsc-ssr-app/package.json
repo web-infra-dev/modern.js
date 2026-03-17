@@ -12,9 +12,9 @@
     "@modern-js/render": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "client-only": "^0.0.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react-server-dom-webpack": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-server-dom-rspack": "0.0.1-beta.1",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "@modern-js/builder": "workspace:*",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "cross-env": "^7.0.3",
     "typescript": "^5"

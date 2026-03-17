@@ -3,7 +3,7 @@
 在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，你可以通过 `useHonoContext` 来获取：
 
 ```ts title="api/lambda/hello.ts"
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export const get = async () => {
   const c = useHonoContext();
@@ -21,7 +21,8 @@ export const get = async () => {
 在 BFF 函数中获取 Cookie 时，需要通过 `useHonoContext` 获取请求上下文，然后使用 `c.req.header('cookie')` 获取 Cookie 字符串并手动解析：
 
 ```ts title="api/lambda/cookies.ts"
-import { Api, Get, useHonoContext } from '@modern-js/plugin-bff/server';
+import { Api, Get } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 // 解析 Cookie 字符串的辅助函数
 function parseCookies(

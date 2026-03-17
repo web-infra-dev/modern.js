@@ -1,5 +1,6 @@
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
+import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type React from 'react';
 import ReactDomServer from 'react-dom/server';
 import ReactHelmet from 'react-helmet';
@@ -114,7 +115,9 @@ async function generateHtml(
   try {
     const end = time();
     // react render to string
-    html = ReactDomServer.renderToString(finalApp);
+    html = ReactDomServer.renderToString(finalApp, {
+      identifierPrefix: SSR_HYDRATION_ID_PREFIX,
+    });
     chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     helmetData = ReactHelmet.renderStatic();
 

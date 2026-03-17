@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.5",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
   "exports": {
@@ -89,7 +89,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "^0.5.17",
-    "qs": "^6.14.1",
+    "qs": "^6.15.0",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
@@ -99,11 +99,11 @@
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.0",
-    "@rslib/core": "0.19.3",
+    "@rsbuild/core": "2.0.0-beta.4",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@types/qs": "^6.14.0",
+    "@types/qs": "^6.15.0",
     "@types/type-is": "^1.6.7",
     "memfs": "^3.5.3",
     "typescript": "^5",

@@ -10,6 +10,10 @@ export interface TRuntimeContext {
   initialData?: Record<string, unknown>;
   isBrowser: boolean;
   routes?: RouteObject[];
+  requestContext: RequestContext;
+  /**
+   * @deprecated Use `requestContext` instead
+   */
   context: RequestContext;
   [key: string]: unknown;
 }
@@ -40,16 +44,20 @@ export const ReactRuntimeContext = RuntimeContext;
 export const getInitialContext = (
   isBrowser = true,
   routeManifest?: RouteManifest,
-): TInternalRuntimeContext => ({
-  isBrowser,
-  routeManifest:
-    routeManifest ||
-    (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
-  context: {
+): TInternalRuntimeContext => {
+  const requestContext = {
     request: {} as BaseSSRServerContext['request'],
     response: {} as BaseSSRServerContext['response'],
-  },
-});
+  };
+  return {
+    isBrowser,
+    routeManifest:
+      routeManifest ||
+      (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
+    requestContext,
+    context: requestContext, // deprecated, keep for backward compatibility
+  };
+};
 
 /**
  * @deprecated use use(RuntimeContext) instead

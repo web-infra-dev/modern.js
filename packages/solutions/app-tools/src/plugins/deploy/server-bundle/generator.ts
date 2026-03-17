@@ -3,13 +3,12 @@ import { SERVER_ENTRY_POINT_FILE_NAME } from '@modern-js/utils/cli/constants';
 import fse from '@modern-js/utils/fs-extra';
 import type { AppToolsContext } from '../../../types/plugin';
 import { getServerCombinedModuleFile } from '../../analyze/utils';
-import { normalizePath } from '../utils';
+import { normalizePath, resolveESMDependency } from '../utils';
 import {
   type GenerateHandlerOptions as BaseGenerateHandlerOptions,
   type PluginItem,
   generateHandler as baseGenerateHandler,
 } from '../utils/generator';
-import { resolveESMDependency } from './utils';
 
 export const serverAppContextTemplate = (appContext: AppToolsContext) => {
   const {

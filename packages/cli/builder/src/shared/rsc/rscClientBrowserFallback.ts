@@ -20,7 +20,7 @@ export function rscClientBrowserFallbackPlugin(): RsbuildPlugin {
         config.resolve ??= {};
         config.resolve.fallback ??= {};
         (config.resolve.fallback as Record<string, string | false>)[
-          'react-server-dom-webpack/client.browser'
+          'react-server-dom-rspack/client.browser'
         ] = emptyModulePath;
       });
     },

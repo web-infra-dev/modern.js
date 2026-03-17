@@ -72,6 +72,7 @@ describe('bff hono tests', () => {
       const info = await res.json();
       expect(res.headers.get('x-id')).toBe('1');
       expect(info.message).toBe('Hello Modern.js');
+      expect(info.userid).toBe(42);
     });
 
     test('support custom sdk', async () => {
@@ -181,6 +182,7 @@ describe('bff hono tests', () => {
       const info = await res.json();
       expect(res.headers.get('x-id')).toBe('1');
       expect(info.message).toBe('Hello Modern.js');
+      expect(info.userid).toBe(42);
     });
 
     test('support custom sdk', async () => {

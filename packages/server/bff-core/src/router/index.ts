@@ -291,11 +291,10 @@ export class ApiRouter {
   };
 
   private async getModuleInfos(filenames: string[]): Promise<ModuleInfo[]> {
-    return Promise.all(
-      filenames
-        .map(filename => this.getModuleInfo(filename))
-        .filter(moduleInfo => Boolean(moduleInfo)),
-    ) as unknown as ModuleInfo[];
+    const moduleInfos = await Promise.all(
+      filenames.map(filename => this.getModuleInfo(filename)),
+    );
+    return moduleInfos.filter(Boolean) as ModuleInfo[];
   }
 
   private async getModuleInfo(filename: string) {
@@ -320,9 +319,13 @@ export class ApiRouter {
       };
     } catch (err) {
       if (process.env.NODE_ENV === 'production') {
-        throw err;
+        const error = new Error(
+          `Failed to load BFF module '${filename}': ${(err as Error).message}`,
+          { cause: err },
+        );
+        throw error;
       } else {
-        console.error(err);
+        console.error(`Failed to load BFF module '${filename}':`, err);
         return null;
       }
     }

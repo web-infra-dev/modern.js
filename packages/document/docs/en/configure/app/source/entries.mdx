@@ -46,7 +46,7 @@ export default defineConfig({
 });
 ```
 
-By default, the configured entry is equivalent to `App.[jt]sx`, which means that the specified entry file **only needs to export the root component of the application**.
+By default, the configured entry is equivalent to `App.tsx`, which means that the specified entry file **only needs to export the root component of the application**.
 
 For example, the following directory structure:
 
@@ -102,7 +102,7 @@ export default defineConfig({
 
 ### Disable entry file generation
 
-By default, the configured entry is equivalent to `App.[jt]sx`, and Modern.js will automatically generate an entry file to reference the entry you configured.
+By default, the configured entry is equivalent to `App.tsx`, and Modern.js will automatically generate an entry file to reference the entry you configured.
 
 If you want to disable the logic of Modern.js automatically generating entry files, you can set the `disableMount` property to `true`.
 

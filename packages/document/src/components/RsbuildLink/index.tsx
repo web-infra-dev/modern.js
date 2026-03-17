@@ -3,7 +3,7 @@ import React from 'react';
 
 const RsbuildLink = ({ configName }: { configName: string }) => {
   const lang = useLang();
-  const href = `https://v2.rsbuild.rs/${lang === 'zh' ? 'zh/' : ''}config/${configName
+  const href = `https://v2.rsbuild.dev/${lang === 'zh' ? 'zh/' : ''}config/${configName
     .split('.')
     .join('/')
     .replace(/([a-z])([A-Z])/g, '$1-$2')

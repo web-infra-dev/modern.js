@@ -27,6 +27,48 @@ Modern.js 3.0 has adjusted some runtime paths, and related import paths need to 
 | `@modern-js/runtime/bff` | `@modern-js/plugin-bff/runtime` | BFF runtime path |
 | `@modern-js/runtime/server` | `@modern-js/server-runtime` | Server-side runtime path |
 
+## useRuntimeContext Deprecated
+
+In Modern.js 3.0, the `useRuntimeContext` Hook has been deprecated. It is recommended to use `use(RuntimeContext)` or `useContext(RuntimeContext)` instead.
+
+**Migration Example**:
+
+```tsx
+// Modern.js 2.0
+import { useRuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context } = useRuntimeContext();
+
+  // isBrowser is inside context
+  if (context.isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+```tsx
+// Modern.js 3.0
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context, isBrowser } = use(RuntimeContext);
+  if (isBrowser === true) {
+    console.log('browser render');
+  }
+}
+```
+
+**Main Changes**:
+
+- API changed from `useRuntimeContext()` to `use(RuntimeContext)` or `useContext(RuntimeContext)`
+- `isBrowser` moved from `context.isBrowser` to the top level of the return value
+- `context` structure simplified: only contains `request` and `response`, no longer includes `logger`, `metrics`, etc.
+- Return value includes new properties: `initialData`, `routes`, etc.
+
+For detailed API documentation, please refer to the [RuntimeContext documentation](/apis/app/runtime/core/runtime-context).
+
 ## Pages Directory Convention-Based Routing No Longer Supported
 
 Modern.js 3.0 no longer supports the `pages` directory convention-based routing introduced in Modern.js 1.0, and now uniformly uses the `routes` directory convention-based routing.
@@ -77,6 +119,64 @@ Modern.js 3.0 removed the `modern new` and `modern upgrade` commands, and you ne
 :::info Note
 The purpose of removing these commands is to make the documentation more aligned with the default implementation approach of AI Agents, not encapsulating operations, so that developers can more clearly understand the specific steps of each operation, and it is also convenient for AI Agents to directly execute corresponding operations according to the documentation.
 :::
+
+## Built-in Arco/Antd Support Removed
+
+Modern.js 2.0 had built-in support for on-demand imports of [Arco Design](https://arco.design/) and [Ant Design](https://ant.design/). This built-in support has been removed in 3.0, and users need to configure `source.transformImport` manually.
+
+If your project uses Arco Design or Ant Design, please add the corresponding `source.transformImport` configuration manually.
+
+**Arco Design Migration Example**:
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: '@arco-design/web-react',
+        libraryDirectory: 'es',
+        camelToDashComponentName: false,
+        style: 'css',
+      },
+      {
+        libraryName: '@arco-design/web-react/icon',
+        libraryDirectory: 'react-icon',
+        camelToDashComponentName: false,
+      },
+    ],
+  },
+};
+```
+
+**Ant Design Migration Example** (antd v4 and below):
+
+```typescript
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  },
+};
+```
+
+:::tip
+antd v5 uses a CSS-in-JS solution and natively supports on-demand loading, so `source.transformImport` is not needed.
+
+For more details, refer to [Rsbuild - source.transformImport](https://v2.rsbuild.rs/config/source/transform-import).
+:::
+
+## `node_modules` Resolution Behavior Removed
+
+In Modern.js v1, there was an internal workaround that redirected `node_modules` module resolution to the project root directory. This behavior has been removed in Modern.js 3.0.
+
+This workaround was not a standard practice and could lead to unpredictable dependency resolution — for example, packages not explicitly declared in a project's `package.json` might still resolve successfully, masking missing dependency declarations.
+
+If your project relied on this behavior, ensure that all required dependencies are explicitly declared in your `package.json` and installed locally.
 
 ## ESLint Rule Sets
 

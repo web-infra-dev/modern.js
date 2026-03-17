@@ -1,0 +1,163 @@
+# Rstest
+
+[Rstest](https://rstest.rs) 是由 Rspack 团队开发的测试框架，基于 Rspack 构建，具备很快的测试执行速度。
+
+本指南介绍如何在 Modern.js 中集成 Rstest，并用于 web app 测试。
+
+## 快速开始
+
+先安装基础依赖：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @rstest/core @modern-js/adapter-rstest -D" />
+
+然后创建 `rstest.config.ts`：
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+import { withModernConfig } from '@modern-js/adapter-rstest';
+
+export default defineConfig({
+  extends: withModernConfig(),
+});
+```
+
+`@modern-js/adapter-rstest` 可以让 Rstest 继承你现有的 Modern.js 配置，使测试环境和应用配置保持一致。
+
+更多配置项可以参考 [Rstest 配置文档](https://rstest.rs/config)。
+
+你可以通过 `npx rstest` 运行测试，也可以在 `package.json` 中添加脚本：
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "rstest"
+  }
+}
+```
+
+## 测试 Web UI
+
+在 Modern.js 中测试 Web UI，通常有两种方案：
+
+- 使用 Rstest 的 browser mode，直接在真实浏览器中运行测试。大多数场景更推荐这种方式，但目前仍处于实验性阶段。
+- 使用 `happy-dom` 和 Testing Library 提供一个模拟 DOM 环境，这种方式也符合 `@modern-js/adapter-rstest` 默认的 web 测试环境。
+
+我们整体更推荐 browser mode，因为它使用的是真实浏览器 API 和行为，能覆盖模拟 DOM 难以完整支持的场景，同时在排查 UI 行为问题时也更容易调试。
+
+### Browser mode（实验性）
+
+如果你希望直接在真实浏览器中测试，而不是使用模拟 DOM，可以安装 browser mode 相关依赖：
+
+<PackageManagerTabs command="add @rstest/browser @rstest/browser-react playwright -D" />
+
+然后在 `rstest.config.ts` 中启用 browser mode：
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+import { withModernConfig } from '@modern-js/adapter-rstest';
+
+export default defineConfig({
+  extends: withModernConfig(),
+  browser: {
+    enabled: true,
+    provider: 'playwright',
+  },
+});
+```
+
+示例测试如下：
+
+```tsx title="__tests__/page.browser.test.tsx"
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import { page } from '@rstest/browser';
+import { render } from '@rstest/browser-react';
+import { expect, test } from '@rstest/core';
+import Page from '../routes/page';
+
+test('Page', async () => {
+  await render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+
+  await expect.element(
+    page.getByRole('heading', { level: 1, name: 'Home' }),
+  ).toBeVisible();
+});
+```
+
+关于 browser mode 的更多配置、Locator API 和断言能力，可以直接参考 [Rstest 文档](https://rstest.rs/guide/browser-testing/)。
+
+### 使用 `happy-dom` 模拟 DOM
+
+先安装 DOM 测试相关依赖：
+
+<PackageManagerTabs command="add happy-dom @testing-library/react @testing-library/dom -D" />
+
+然后在 `rstest.config.ts` 中启用 `happy-dom`：
+
+```ts title="rstest.config.ts"
+import { defineConfig } from '@rstest/core';
+import { withModernConfig } from '@modern-js/adapter-rstest';
+
+export default defineConfig({
+  extends: withModernConfig(),
+  testEnvironment: 'happy-dom',
+});
+```
+
+先创建一个简单页面用于测试：
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Page = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Page;
+```
+
+然后添加测试用例：
+
+```tsx title="__tests__/page.test.tsx"
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import { expect, test } from '@rstest/core';
+import { render, screen } from '@testing-library/react';
+import Page from '../routes/page';
+
+test('Page', () => {
+  render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+
+  expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
+});
+```
+
+## 运行测试用例
+
+执行上面的 `test` 命令即可运行测试：
+
+```bash
+✓ __tests__/page.test.tsx (1)
+  ✓ Page
+
+ Test Files 1 passed
+      Tests 1 passed
+   Duration 510ms (build 145ms, tests 365ms)
+```
+
+## Node Mode
+
+如果你需要测试 `bff` 等 server-side logic，建议直接参考 [Rstest 文档](https://rstest.rs) 中关于 node mode 的说明。
+
+Modern.js 主要面向 web app，因此这里重点介绍的是 Web UI 测试，以及更贴近真实运行环境的 browser mode。

@@ -8,7 +8,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.5",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "export": {
@@ -37,7 +37,7 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/rslib": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.6",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/styled-components": "^5.1.36",
@@ -46,11 +46,6 @@
   },
   "peerDependencies": {
     "styled-components": "^5.3.1"
-  },
-  "peerDependenciesMeta": {
-    "styled-components": {
-      "optional": true
-    }
   },
   "exports": {
     ".": {

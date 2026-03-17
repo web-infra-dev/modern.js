@@ -42,6 +42,7 @@ describe('deploy', () => {
     await fse.remove(path.join(appDir, 'dist-bundle'));
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
+    await fse.remove(path.join(appDir, 'dist-netlify'));
     await fse.remove(path.join(appDir, '.output'));
     await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
@@ -154,18 +155,21 @@ describe('deploy', () => {
     }).toMatchSnapshot();
   });
 
+  // deploy to netlify will clean dist, it will cause the verification of node artifacts to fail.
+  // so, we changed its dist directory to a separate directory, and build again
   test('support server when deploy target is netlify', async () => {
-    await execa('npx modern deploy --skip-build', {
+    await execa('npx modern deploy', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
       env: {
         ...process.env,
+        TEST_DIST: 'dist-netlify',
         MODERNJS_DEPLOY: 'netlify',
       },
     });
 
-    const publishDir = path.join(appDir, 'dist');
+    const publishDir = path.join(appDir, 'dist-netlify');
     const outputDirectory = path.join(appDir, '.netlify');
     const staticDirectory = path.join(publishDir, 'static');
     const funcsDirectory = path.join(outputDirectory, 'functions');

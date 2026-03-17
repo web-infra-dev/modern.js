@@ -1,6 +1,5 @@
 import dns from 'node:dns';
 import path from 'path';
-import { isVersionAtLeast1819 } from '@modern-js/utils';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
   getPort,
@@ -98,7 +97,6 @@ describe('pure-esm-project in prod', () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
-    await page.waitForSelector('#home-btn');
     await page.click('#home-btn');
     await page.waitForSelector('#data');
     const text = await page.$eval('#data', el => el?.textContent);

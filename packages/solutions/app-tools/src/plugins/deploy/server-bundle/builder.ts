@@ -120,9 +120,9 @@ export const bundleServer = async (
               type: 'module',
             },
           },
-          experiments: {
-            outputModule: true,
-          },
+          // experiments: {
+          //   outputModule: true,
+          // },
           node: {
             __dirname: 'mock',
             __filename: 'mock',

@@ -2,23 +2,15 @@ import { PackageManagerTabs } from '@theme';
 
 # 使用 Rsdoctor
 
-Rsdoctor 是一个支持 Webpack 及 Rspack 构建分析工具。在 Modern.js 中，我们推荐使用 Rsdoctor 来对构建过程与构建产物进行诊断和分析。
+Rsdoctor 是一个 Rspack 构建分析工具。在 Modern.js 中，我们推荐使用 Rsdoctor 来对构建过程与构建产物进行诊断和分析。
 
 ## 安装依赖
 
-根据项目是 Rspack 或 Webpack 构建，选择对应的插件安装。
-
-### Rspack 插件
-
 <PackageManagerTabs command="add @rsdoctor/rspack-plugin -D" />
-
-### Webpack 插件
-
-<PackageManagerTabs command="add @rsdoctor/webpack-plugin -D" />
 
 ## 注册插件
 
-在 `modern.config.ts` 中，你可以通过 `tools.bundlerChain` 来注册 Rspack 或 Webpack 插件，参考：
+在 `modern.config.ts` 中，你可以通过 `tools.bundlerChain` 来注册 Rspack 插件，参考：
 
 ```ts title="modern.config.ts"
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
@@ -39,10 +31,6 @@ export default {
   },
 };
 ```
-
-:::note
-上述代码是使用 Rspack 时的示例，如果使用 Webpack 请自行切换插件。
-:::
 
 ## 执行构建
 

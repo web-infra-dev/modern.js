@@ -9,10 +9,9 @@ import {
   NODE_BUILTIN_MODULES,
   bundleServer,
   generateHandler as generateSingleBundleHandler,
-  resolveESMDependency,
 } from '../server-bundle';
 import { scanDeps } from '../server-bundle/dep-generator';
-import { readTemplate } from '../utils';
+import { readTemplate, resolveESMDependency } from '../utils';
 import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
@@ -84,6 +83,16 @@ export const createNodePreset: CreatePreset = ({
           },
         },
       });
+      console.log(
+        'Static directory:',
+        chalk.blue(
+          path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
+        ),
+      );
+      console.log(
+        `You can preview this build by`,
+        chalk.blue('node .output/index'),
+      );
     },
     async end() {
       if (!isBundleServer) {

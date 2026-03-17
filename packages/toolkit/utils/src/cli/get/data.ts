@@ -42,13 +42,6 @@ export const getCoreJsVersion = (corejsPkgPath: string) => {
   }
 };
 
-export const defaults = [
-  'chrome >= 87',
-  'edge >= 88',
-  'firefox >= 78',
-  'safari >= 14',
-];
-
 export function getInternalPlugins(
   appDirectory: string,
   internalPlugins: InternalPlugins = {},

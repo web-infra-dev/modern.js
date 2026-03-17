@@ -16,8 +16,6 @@ Modern.js 能为开发者提供极致的**开发体验（Development Experience�
 - 🚀 **Rust 构建**：Modern.js 使用 Rsbuild/Rspack 作为构建工具，编译飞快。
 - 🪜 **渐进式**：使用最精简的模板创建项目，通过生成器逐步开启插件功能，定制解决方案。
 - 🏠 **一体化**：开发与生产环境 Web Server 逻辑一致，CSR 和 SSR 同构开发，函数即接口的 API 服务调用。
-- 📦 **开箱即用**：默认 TS 支持，内置构建、ESLint、调试工具，全功能可测试。
-- 🌏 **周边生态**：自研状态管理、微前端、模块打包等周边需求。
 - 🕸 **约定式路由**：使用基于文件约定的路由，帮助开发者快速搭建应用。
 
 ## 和其他框架的对比
@@ -26,15 +24,13 @@ Modern.js 能为开发者提供极致的**开发体验（Development Experience�
 
 Next.js 是社区中最流行的 React 框架之一，由 Vercel 开发。
 
-Next.js 默认使用了 React Server Components，这意味着**你需要在服务端渲染你的 Web 应用，并为服务器产生的开销付费**；并且 Server Components 目前不是一项稳定的技术，社区中很多流行的 React 库尚未完成对 RSC 的适配。在目前阶段，你可能需要使用 Next.js 旧版的 Pages Router 来避免 Server Components 带来的问题。
-
 当你想构建一个单页面应用（SPA），并通过客户端渲染时，Next.js 可能不是一个好的选择，因为它的很多功能都是围绕 Server 优先来设计的。如果你需要使用客户端渲染，只能通过 Next.js 提供的 "static exports" 来使用有限的功能。
 
-而 Modern.js 将客户端渲染（CSR）和服务端渲染（SSR）视为同样重要的场景。当你创建一个 Modern.js 应用时，它默认是在客户端渲染的，你不需要了解 Server Components 的用法和局限性。你也可以在任何有需要的时候开启 SSR，甚至可以为一部分页面开启 SSR，整个过程是完全渐进式的。请注意，Modern.js 目前不支持 Server Components，我们会持续观察它的潜力，并在合适的时候支持它。
+Modern.js 将客户端渲染（CSR）和服务端渲染（SSR）视为同样重要的场景。当你创建一个 Modern.js 应用时，它默认是在客户端渲染的，你也可以在任何有需要的时候开启 SSR 或 Server Component，甚至可以为一部分页面开启 SSR，整个过程是完全渐进式的。
 
 ### Umi
 
-Umi 是中文社区中非常流行的 React 框架，也是蚂蚁集团的底层前端框架。Modern.js 和 Umi 有许多相似之处，比如都支持插件系统、约定式路由、微生成器等。
+Umi 是蚂蚁集团的底层前端框架。Modern.js 和 Umi 有许多相似之处，比如都支持插件系统、约定式路由、微生成器等。
 
 **Modern.js 和 Umi 的主要区别在于构建优化方式不同**。Umi 采用了 MFSU 技术来提升构建速度，而 Modern.js 则使用 Rspack 来提升 5 ~ 10 倍构建速度。在我们看来，类似 Rspack 这样的 Rust 工具更符合前端工具链的长期发展趋势，它可以在性能、稳定性和生态兼容性之间取得较好的平衡。
 

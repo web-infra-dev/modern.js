@@ -6,7 +6,7 @@ This chapter introduces changes related to page entries when upgrading from Mode
 
 Modern.js 3.0 has optimized and simplified the entry mechanism. The main changes include:
 
-- **Entry File Naming Change**: Custom entry files changed from `index.[jt]sx` to `entry.[jt]sx`
+- **Entry File Naming Change**: Custom entry files changed from `index.tsx` to `entry.tsx`
 - **Bootstrap Function Replacement**: Use the new `createRoot` and `render` APIs
 - **Runtime Configuration Migration**: `App.config` and `config` exports from `routes/layout` need to be migrated
 - **Initialization Logic Migration**: `App.init` and `init` exports from `routes/layout` need to be changed to runtime plugins
@@ -20,8 +20,8 @@ Before starting migration, first identify the entry type used in your project.
 Modern.js scans directories and identifies entries that meet **any** of the following conditions:
 
 1. **Has a `routes/` directory** → Convention-based routing entry
-2. **Has an `App.[jt]sx?` file** → Self-controlled routing entry
-3. **Has an `index.[jt]sx?` file (2.0) or `entry.[jt]sx?` file (3.0)** → Custom entry
+2. **Has an `App.tsx?` file** → Self-controlled routing entry
+3. **Has an `index.tsx?` file (2.0) or `entry.tsx?` file (3.0)** → Custom entry
 
 ### Single Entry vs Multiple Entries
 
@@ -54,7 +54,7 @@ The migration operations in this section only need to be performed when the corr
 
 ### 1. Custom Entry File Rename
 
-If your project uses a custom entry file (`index.[jt]sx`), you need to rename it to `entry.[jt]sx`.
+If your project uses a custom entry file (`index.tsx`), you need to rename it to `entry.tsx`.
 
 **2.0 Version:**
 
@@ -114,7 +114,7 @@ beforeRender().then(() => {
 
 ### 3. App.config Migration
 
-If you defined `App.config` in `App.[tj]sx`, you need to migrate it to the runtime configuration file.
+If you defined `App.config` in `App.tsx`, you need to migrate it to the runtime configuration file.
 
 **2.0 Version:**
 
@@ -152,7 +152,7 @@ Modern.js 3.0 no longer supports configuring runtime in `modern.config.ts`, you 
 
 ### 4. App.init Migration
 
-If you defined `App.init` in `App.[tj]sx`, you need to change it to a runtime plugin.
+If you defined `App.init` in `App.tsx`, you need to change it to a runtime plugin.
 
 **2.0 Version:**
 

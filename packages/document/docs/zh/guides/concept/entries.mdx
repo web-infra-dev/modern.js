@@ -100,8 +100,8 @@ Modern.js 支持三种入口类型，每种类型都有不同的使用场景和�
 Modern.js 会自动扫描目录，识别符合条件的入口。一个目录被认定为入口需要满足以下**三个条件之一**：
 
 1. **具有 `routes/` 目录** → 约定式路由入口
-2. **具有 `App.[jt]sx?` 文件** → 自控式路由入口
-3. **具有 `entry.[jt]sx?` 文件** → 自定义入口
+2. **具有 `App.tsx?` 文件** → 自控式路由入口
+3. **具有 `entry.tsx?` 文件** → 自定义入口
 
 import EntryScanLogic from '@site-docs/components/entry-scan-logic.mdx';
 
@@ -148,7 +148,7 @@ src/
 
 ### 自控式路由
 
-如果入口中存在 `App.[jt]sx?` 文件，该入口就是自控式路由。这种方式给开发者完全的路由控制权。
+如果入口中存在 `App.tsx?` 文件，该入口就是自控式路由。这种方式给开发者完全的路由控制权。
 
 ```bash
 .
@@ -186,7 +186,7 @@ export default () => {
 
 :::
 
-如果入口中存在 `entry.[jt]sx` 文件，则 Modern.js 不再控制应用的渲染流程，你可以在 `entry.[jt]sx` 文件中调用 `createRoot` 和 `render` 函数，完成应用入口逻辑。
+如果入口中存在 `entry.tsx` 文件，则 Modern.js 不再控制应用的渲染流程，你可以在 `entry.tsx` 文件中调用 `createRoot` 和 `render` 函数，完成应用入口逻辑。
 
 ```tsx title="src/entry.tsx"
 import { createRoot } from '@modern-js/runtime/react';
@@ -316,7 +316,7 @@ export default defineConfig({
 
 5. **什么叫多页应用（Multi-Page Application）？**
 
-多页应用的 “页面” 指的是静态的 HTML 文件。
+多页应用的 **页面** 指的是静态的 HTML 文件。
 一般可以将任何包含多个入口、多个 HTML 文件产物的网页应用称为多页应用。
 狭义的多页应用可能不包含客户端路由、仅通过 `<a>` 之类的标签元素进行 HTML 静态页面之间的跳转，但实践中上多页应用也经常需要为其入口配置客户端路由以满足不同需求。
 

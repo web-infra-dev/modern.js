@@ -38,7 +38,7 @@ Modern.js 提供了 **@modern-js/plugin-i18n** 插件来支持国际化能力。
 在 Module Federation 场景下，需要同时安装 i18n 插件和 Module Federation 插件：
 
 ```bash
-pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-js
+pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-js-v3
 ```
 
 :::info
@@ -54,7 +54,7 @@ pnpm add i18next react-i18next @modern-js/plugin-i18n @module-federation/modern-
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { i18nPlugin } from '@modern-js/plugin-i18n';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   plugins: [appTools(), i18nPlugin(), moduleFederationPlugin()],
@@ -84,7 +84,7 @@ export default defineConfig({
 #### 配置 Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
@@ -199,7 +199,7 @@ export default useSwitchLanguage;
 #### 配置 Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
@@ -225,7 +225,7 @@ export default createModuleFederationConfig({
 首先，在消费者的 `module-federation.config.ts` 中配置远程模块：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
@@ -254,8 +254,8 @@ export default createModuleFederationConfig({
 当生产者使用共享 I18n 实例时，消费者可以直接加载远程组件，无需额外配置：
 
 ```tsx title="src/routes/page.tsx"
-import { createLazyComponent } from '@module-federation/modern-js/react';
-import { getInstance } from '@module-federation/modern-js/runtime';
+import { createLazyComponent } from '@module-federation/modern-js-v3/react';
+import { getInstance } from '@module-federation/modern-js-v3/runtime';
 
 const RemoteComponent = createLazyComponent({
   instance: getInstance(),
@@ -335,7 +335,7 @@ export default function Layout() {
 import '@modern-js/runtime/registry/index';
 import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
-import { createBridgeComponent } from '@module-federation/modern-js/react-v19';
+import { createBridgeComponent } from '@module-federation/modern-js-v3/react-v19';
 import type { ReactElement } from 'react';
 
 const ModernRoot = createRoot();
@@ -354,7 +354,7 @@ export default provider;
 #### 配置 Module Federation
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
@@ -432,7 +432,7 @@ export default defineRuntimeConfig({
 首先，在消费者的 `module-federation.config.ts` 中配置远程应用：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   // name 参数必须唯一，不能与其他应用（包括不同的 remote）使用相同的名称
@@ -460,8 +460,8 @@ export default createModuleFederationConfig({
 创建用于加载远程应用的组件：
 
 ```tsx title="src/components/RemoteApp.tsx"
-import { createRemoteAppComponent } from '@module-federation/modern-js/react';
-import { loadRemote } from '@module-federation/modern-js/runtime';
+import { createRemoteAppComponent } from '@module-federation/modern-js-v3/react';
+import { loadRemote } from '@module-federation/modern-js-v3/runtime';
 import React from 'react';
 
 const FallbackErrorComp = (info: any) => {

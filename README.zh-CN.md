@@ -37,7 +37,7 @@ Modern.js 生态提供了以下解决方案和底层库：
 
 ## Benchmark
 
-我们通过 [Modern.js Benchmark](https://web-infra-qos.netlify.app/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
+我们通过 [Modern.js Benchmark](https://web-infra-qos.pages.dev/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
 
 ## Roadmap
 
@@ -79,6 +79,7 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 - `@modern-js/plugin`：hook API 的实现参考了 [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline)。
 - `@modern-js/plugin-data-loader`：部分实现参考了 [remix](https://github.com/remix-run/remix)。
 - `@modern-js/babel-plugin-module-resolver`: 修改自 [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)。
+- [Netlify](https://www.netlify.com/) 为官网提供托管服务，感谢其优质的服务与对开源的支持
 
 ## License
 

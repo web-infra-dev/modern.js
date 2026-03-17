@@ -19,7 +19,7 @@ sidebar_position: 3
 
 ## 基本用法
 
-在 `src` 或每个入口目录下，你可以定义一个 `modern.routes.[tj]s` 文件，通过该文件，你可以对路由进行配置：
+在 `src` 或每个入口目录下，你可以定义一个 `modern.routes.ts` 文件，通过该文件，你可以对路由进行配置：
 
 ```ts
 import { defineRoutes } from '@modern-js/runtime/config-routes'
@@ -34,11 +34,11 @@ export default defineRoutes(({ route, layout, page, $ }, fileRoutes) => {
 ### 函数签名说明
 
 `defineRoutes` 接受一个回调函数，该回调函数有两个参数：
-1. `routeFunctions`: 包含 `route`、`layout`、`page`、`$` 函数的对象
-2. `fileRoutes`: 约定式路由生成的路由配置数组
+1. `routeFunctions`：包含 `route`、`layout`、`page`、`$` 函数的对象
+2. `fileRoutes`：约定式路由生成的路由配置数组
 
 路由函数的基本签名：
-- 第一个参数：相对于 `modern.routes.[tj]s` 的文件路径
+- 第一个参数：相对于 `modern.routes.ts` 的文件路径
 - 第二个参数：路由路径（可选，必须是字符串）
 - 第三个参数：子路由数组（可选）
 
@@ -61,13 +61,13 @@ Modern.js 提供了四个主要的路由配置函数：
 :::info
 
 - `route`、`layout`、`page`、`$` 等函数的第一个参数（组件文件路径）必须指向当前项目中的真实文件，暂不支持 `node_modules` 及 Monorepo 下其他仓库中的文件
-- 不支持使用路径别名（例如 `@/pages/...`、`~/pages/...` 等）；请使用相对于 `modern.routes.[tj]s` 的相对路径。
+- 不支持使用路径别名（例如 `@/pages/...`、`~/pages/...` 等），请使用相对于 `modern.routes.ts` 的相对路径。
 
 :::
 
 ### `route` 函数
 
-`route` 函数是通用的路由配置函数，会根据是否有子路由自动决定生成页面路由还是布局路由，可以代替 `layout`, `page`, `$`等函数。
+`route` 函数是通用的路由配置函数，会根据是否有子路由自动决定生成页面路由还是布局路由，可以代替 `layout`、`page`、`$`等函数。
 
 ```ts
 export default defineRoutes(({ route }, fileRoutes) => {
@@ -228,10 +228,10 @@ export default defineRoutes(({ page }, fileRoutes) => {
 
 ## 路由相关文件自动查找
 
-配置式路由会自动查找组件的配套文件，无需手动配置。对于 `modern.routes.[tj]s` 中指定的任意组件文件，Modern.js 会自动查找以下配套文件：
+配置式路由会自动查找组件的配套文件，无需手动配置。对于 `modern.routes.ts` 中指定的任意组件文件，Modern.js 会自动查找以下配套文件：
 
 ```ts
-// modern.routes.[tj]s
+// modern.routes.ts
 export default defineRoutes(({ route }, fileRoutes) => {
   return [
     route("pages/profile.tsx", "profile"),
@@ -417,10 +417,10 @@ npx modern routes
 
 报告中除了基本的路由信息外，还会显示每个路由找到的相关文件：
 
-- **`data`**: 服务端数据加载文件（`.data.ts`），用于在服务端获取数据
-- **`clientData`**: 客户端数据加载文件（`.data.client.ts`），用于在客户端重新获取数据
-- **`error`**: 错误边界文件（`.error.tsx`），用于处理路由渲染错误
-- **`loading`**: 加载状态组件文件（`.loading.tsx`），用于显示数据加载中的状态
-- **`config`**: 路由配置文件（`.config.ts`），用于配置路由元数据
+- **`data`**：服务端数据加载文件（`.data.ts`），用于在服务端获取数据
+- **`clientData`**：客户端数据加载文件（`.data.client.ts`），用于在客户端重新获取数据
+- **`error`**：错误边界文件（`.error.tsx`），用于处理路由渲染错误
+- **`loading`**：加载状态组件文件（`.loading.tsx`），用于显示数据加载中的状态
+- **`config`**：路由配置文件（`.config.ts`），用于配置路由元数据
 
 这些字段都是可选的，只有在找到对应文件时才会在报告中显示。通过查看这些字段，你可以快速了解每个路由的完整文件结构。

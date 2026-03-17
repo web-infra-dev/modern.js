@@ -27,7 +27,8 @@ export const requestContextPlugin = (): RuntimePlugin => ({
   setup(api) {
     api.onBeforeRender(context => {
       const requestContext = makeRequestContext(context);
-      context.context = requestContext;
+      context.requestContext = requestContext;
+      context.context = requestContext; // deprecated, keep for backward compatibility
     });
   },
 });

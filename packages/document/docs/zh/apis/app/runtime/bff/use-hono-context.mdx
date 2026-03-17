@@ -9,7 +9,7 @@ title: useHonoContext
 ## 使用姿势
 
 ```ts
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 ```
 
 ## 函数签名
@@ -21,7 +21,7 @@ import { useHonoContext } from '@modern-js/plugin-bff/server';
 开发者可以通过 `context` 获取更多的请求信息，例如设置响应头：
 
 ```ts
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export async function get() {
   const c = useHonoContext();

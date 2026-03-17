@@ -1,4 +1,4 @@
-import { useHonoContext } from '@modern-js/plugin-bff/server';
+import { useHonoContext } from '@modern-js/server-runtime';
 
 export default async () => {
   const ctx = useHonoContext();
@@ -6,5 +6,6 @@ export default async () => {
   res.headers.set('x-id', '1');
   return {
     message: 'Hello Modern.js',
+    userid: ctx.get('userid'),
   };
 };

@@ -28,7 +28,7 @@ export default {
 };
 ```
 
-For more details, please refer to the [Rsbuild - server.compress](https://rsbuild.rs/config/server/compress) documentation.
+For more details, please refer to the [Rsbuild - server.compress](https://v2.rsbuild.rs/config/server/compress) documentation.
 
 ### headers
 
@@ -49,7 +49,7 @@ export default {
 };
 ```
 
-For more details, please refer to the [Rsbuild - server.headers](https://rsbuild.rs/config/server/headers) documentation.
+For more details, please refer to the [Rsbuild - server.headers](https://v2.rsbuild.rs/config/server/headers) documentation.
 
 ### historyApiFallback
 
@@ -68,7 +68,7 @@ export default {
 };
 ```
 
-For more configuration options, please refer to the [Rsbuild - server.historyApiFallback](https://rsbuild.rs/config/server/history-api-fallback) documentation.
+For more configuration options, please refer to the [Rsbuild - server.historyApiFallback](https://v2.rsbuild.rs/config/server/history-api-fallback) documentation.
 
 ### watch
 
@@ -77,7 +77,7 @@ For more configuration options, please refer to the [Rsbuild - server.historyApi
 
 Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
 
-For more details, please refer to the [Rsbuild - dev.watchFiles](https://rsbuild.rs/config/dev/watch-files) documentation.
+For more details, please refer to the [Rsbuild - dev.watchFiles](https://v2.rsbuild.rs/config/dev/watch-files) documentation.
 
 ### cors
 
@@ -96,116 +96,33 @@ const defaultOptions = {
   // - localhost
   // - 127.0.0.1
   // - [::1]
-  origin: defaultAllowedOrigins
+  origin: defaultAllowedOrigins,
 };
 ```
 
-For more configuration options and detailed usage, please refer to the [Rsbuild - server.cors](https://rsbuild.rs/config/server/cors) documentation.
+For more configuration options and detailed usage, please refer to the [Rsbuild - server.cors](https://v2.rsbuild.rs/config/server/cors) documentation.
 
 ### proxy
 
-- **Type:** `Record<string, string> | Record<string, ProxyDetail>`
+- **Type:** `ProxyOptions[] | Record<string, string | ProxyOptions>`
 - **Default:** `undefined`
 
-Proxy requests to the specified service.
+Configure proxy rules for the dev server, and forward requests to the specified service.
 
 ```js
 export default {
   dev: {
     server: {
       proxy: {
-        '/api': 'http://localhost:3000',
+        // http://localhost:8080/api -> https://example.com/api
+        // http://localhost:8080/api/foo -> https://example.com/api/foo
+        '/api': 'https://example.com',
       },
     },
   },
 };
 ```
 
-At this point, the /api/users request will be proxied to http://localhost:3000/api/users.
-
-If you don't want to pass /api, you can rewrite the request path through `pathRewrite`:
-
-```js
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          pathRewrite: { '^/api': '' },
-        },
-      },
-    },
-  },
-};
-```
-
-DevServer Proxy is implemented based on [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware/tree/2.x). You can use all configuration items of http-proxy-middleware, see the documentation for details.
-
-The full type definition of DevServer Proxy is:
-
-```ts
-import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
-
-type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
-
-type ProxyDetail = HttpProxyOptions & {
-  bypass?: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    proxyOptions: ProxyOptions,
-  ) => string | undefined | null | false;
-  context?: Filter;
-};
-
-type ProxyOptions =
-  | Record<string, string>
-  | Record<string, ProxyDetail>
-  | ProxyDetail[]
-  | ProxyDetail;
-```
-
-In addition to the http-proxy-middleware options, two configuration items are also supported: bypass and context:
-
-- bypass: Bypass the proxy based on the return value of the function.
-  - Returning `null` or `undefined` will continue to process the request with proxy.
-  - Returning `false` will return a 404 error.
-  - Returning a specific service path will use this path to replace the original request path.
-- context: If you want to proxy multiple specific paths to the same target, you can use the context configuration item.
-
-```js
-// Custom bypass method
-export default {
-  dev: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          bypass: function (req, res, proxyOptions) {
-            if (req.headers.accept.indexOf('html') !== -1) {
-              console.log('Skipping proxy for browser request.');
-              return '/index.html';
-            }
-          },
-        },
-      },
-    },
-  },
-};
-```
-
-```js
-// Proxy multiple paths to the same target
-export default {
-  dev: {
-    server: {
-      proxy: [
-        {
-          context: ['/auth', '/api'],
-          target: 'http://localhost:3000',
-        },
-      ],
-    },
-  },
-};
-```
+:::tip
+This option is the same as Rsbuild's `server.proxy` option, see [Rsbuild - server.proxy](https://v2.rsbuild.rs/config/server/proxy) for detailed usage.
+:::

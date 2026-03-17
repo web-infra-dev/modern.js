@@ -24,7 +24,7 @@ When developing React applications, developers usually need to design implementa
 
 ## Getting Started
 
-See [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start).
+See [Quick Start](https://modernjs.dev/guides/get-started/quick-start).
 
 ## Ecosystem
 
@@ -37,7 +37,7 @@ The following solutions and libraries are available within the Modern.js ecosyst
 
 ## Benchmark
 
-We use [Modern.js Benchmark](https://web-infra-qos.netlify.app/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+We use [Modern.js Benchmark](https://web-infra-qos.pages.dev/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
 
 ## Roadmap
 
@@ -78,6 +78,7 @@ Some implementations of Modern.js are modified from existing projects, such as [
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
 - `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix).
 - `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver).
+- [Netlify](https://www.netlify.com/) for hosting this site, Thanks for the great service and support for open source.
 
 ## License
 

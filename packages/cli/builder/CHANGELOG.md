@@ -1,5 +1,64 @@
 # @modern-js/builder
 
+## 3.0.5
+
+### Patch Changes
+
+- @modern-js/utils@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- @modern-js/utils@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- a270428: fix(builder): check original config to determine if inlineScripts was explicitly set by user
+
+  fix(builder): 通过检查原始配置来判断 inlineScripts 是否由用户显式设置
+
+- ece3967: fix: inlineScripts should not takes the default value when set to false
+  fix: inlineScripts 设置为 false 时不应取默认值
+  - @modern-js/utils@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- dcf43b8: feat: support rspack builtin rsc
+  feat: 使用 rspack 内置的 rsc 插件
+- 28cf50a: fix: should support windows path in server-entry route pattern
+  fix: route pattern 中应该支持 windows 系统路径
+  - @modern-js/utils@3.0.2
+
+## 3.0.1
+
+### Patch Changes
+
+- 7a278a6: fix(builder)!: align postcss object behavior with Rsbuild, make postcss object override instead of merge
+
+  fix(builder)!: postcss 对象的行为与 Rsbuild 对齐，变为覆盖而不是合并
+
+  - @modern-js/flight-server-transform-plugin@3.0.1
+  - @modern-js/utils@3.0.1
+
+## 3.0.0
+
+### Patch Changes
+
+- @modern-js/utils@3.0.0
+- @modern-js/flight-server-transform-plugin@3.0.0
+
+## 3.0.0-alpha.2
+
+### Patch Changes
+
+- @modern-js/utils@3.0.0-alpha.2
+- @modern-js/flight-server-transform-plugin@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes

@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "basic-app-rstest",
+  "version": "2.66.0",
+  "type": "module",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "new": "modern new",
+    "test": "rstest"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/adapter-rstest": "workspace:*",
+    "@rstest/core": "0.9.2",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "happy-dom": "^20.7.0",
+    "@types/node": "^20",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5"
+  }
+}

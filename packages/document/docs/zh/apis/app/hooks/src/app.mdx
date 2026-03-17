@@ -1,13 +1,13 @@
 ---
-title: App.[tj]sx
+title: App.tsx
 sidebar_position: 1
 ---
 
-# App.[tj]sx
+# App.tsx
 
 应用使用 [自控路由](/guides/concept/entries.html#自控式路由) 时的入口标识符。
 
-`App.[tj]sx` 并不是实际的应用入口，Modern.js 会自动生成真正的构建打包的入口文件, 内容大致如下：
+`App.tsx` 并不是实际的应用入口，Modern.js 会自动生成真正的构建打包的入口文件, 内容大致如下：
 
 ```js
 // runtime-global-context
@@ -31,6 +31,6 @@ render(<ModernRoot />, 'root');
 `createRoot` 执行时，会去获取注册的 Global App，生成真实的 React 组件。
 
 :::note
-在多入口的场景下，每个入口都可以拥有独立的 `App.[jt]sx`，详见[入口](/guides/concept/entries)。
+在多入口的场景下，每个入口都可以拥有独立的 `App.tsx`，详见[入口](/guides/concept/entries)。
 
 :::

@@ -6,7 +6,7 @@
 
 Modern.js 3.0 对入口机制进行了优化和简化，主要变更包括：
 
-- **入口文件命名变更**：自定义入口文件从 `index.[jt]sx` 改为 `entry.[jt]sx`
+- **入口文件命名变更**：自定义入口文件从 `index.tsx` 改为 `entry.tsx`
 - **Bootstrap 函数替换**：使用新的 `createRoot` 和 `render` API
 - **运行时配置迁移**：`App.config` 和 `routes/layout` 的 `config` 导出需要迁移
 - **初始化逻辑迁移**：`App.init` 和 `routes/layout` 的 `init` 导出需要改为运行时插件
@@ -20,8 +20,8 @@ Modern.js 3.0 对入口机制进行了优化和简化，主要变更包括：
 Modern.js 会扫描目录并识别符合以下**任一条件**的入口：
 
 1. **具有 `routes/` 目录** → 约定式路由入口
-2. **具有 `App.[jt]sx?` 文件** → 自控式路由入口
-3. **具有 `index.[jt]sx?` 文件（2.0）或 `entry.[jt]sx?` 文件（3.0）**→ 自定义入口
+2. **具有 `App.tsx?` 文件** → 自控式路由入口
+3. **具有 `index.tsx?` 文件（2.0）或 `entry.tsx?` 文件（3.0）**→ 自定义入口
 
 ### 单入口 vs 多入口
 
@@ -52,9 +52,9 @@ src/
 
 本小节中的迁移操作都是仅当项目中实际存在对应用法时才需要执行，例如 `bootstrap` 函数、`App.config/App.init`、`routes/layout.tsx` 中的 `config/init` 函数等。
 
-### 1.自定义入口文件重命名
+### 1. 自定义入口文件重命名
 
-如果你的项目使用了自定义入口文件（`index.[jt]sx`），需要将其重命名为 `entry.[jt]sx`。
+如果你的项目使用了自定义入口文件（`index.tsx`），需要将其重命名为 `entry.tsx`。
 
 **2.0 版本：**
 
@@ -70,7 +70,7 @@ src/
 └── entry.tsx
 ```
 
-### 2.Bootstrap 函数迁移
+### 2. Bootstrap 函数迁移
 
 如果你的入口文件导出了一个接收 `App` 和 `bootstrap` 参数的函数，需要改用新的 API。
 
@@ -112,9 +112,9 @@ beforeRender().then(() => {
 
 :::
 
-### 3.App.config 迁移
+### 3. App.config 迁移
 
-如果你在 `App.[tj]sx` 中定义了 `App.config`，需要将其迁移到运行时配置文件中。
+如果你在 `App.tsx` 中定义了 `App.config`，需要将其迁移到运行时配置文件中。
 
 **2.0 版本：**
 
@@ -150,9 +150,9 @@ export default defineRuntimeConfig({
 Modern.js 3.0 不再支持在 `modern.config.ts` 中配置 runtime，必须使用 `modern.runtime.ts` 文件。
 :::
 
-### 4.App.init 迁移
+### 4. App.init 迁移
 
-如果你在 `App.[tj]sx` 中定义了 `App.init`，需要将其改为运行时插件。
+如果你在 `App.tsx` 中定义了 `App.init`，需要将其改为运行时插件。
 
 **2.0 版本：**
 
@@ -192,7 +192,7 @@ export default defineRuntimeConfig({
 });
 ```
 
-### 5.routes/layout.tsx 中的 config 导出迁移
+### 5. routes/layout.tsx 中的 config 导出迁移
 
 如果你在 `routes/layout.tsx` 中导出了 `config` 函数，需要将其迁移到运行时配置文件。
 
@@ -230,7 +230,7 @@ export default defineRuntimeConfig({
 });
 ```
 
-### 6.routes/layout.tsx 中的 init 导出迁移
+### 6. routes/layout.tsx 中的 init 导出迁移
 
 如果你在 `routes/layout.tsx` 中导出了 `init` 函数，需要将其改为运行时插件。
 

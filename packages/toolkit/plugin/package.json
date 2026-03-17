@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.5",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -91,16 +91,16 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.0",
+    "@rsbuild/core": "2.0.0-beta.4",
     "@swc/helpers": "^0.5.17",
-    "jiti": "2.6.1"
+    "jiti": "^2.6.1"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.19.3",
+    "@rslib/core": "0.19.6",
     "@types/node": "^20",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.14",
     "typescript": "^5"
   },
   "sideEffects": false,

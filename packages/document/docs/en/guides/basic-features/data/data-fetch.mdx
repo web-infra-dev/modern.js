@@ -34,21 +34,6 @@ export const loader = async (): Promise<ProfileData> => {
 };
 ```
 
-:::warning Compatibility
-
-- In previous versions, Data Loader was defined in a `.loader` file. In the current version, we recommend defining it in a `.data` file, while maintaining compatibility with `.loader` files.
-- In `.loader` files, the Data Loader can be exported as default. In `.data` files, it should be named `loader` export.
-
-```ts
-// xxx.loader.ts
-export default () => {};
-
-// xxx.data.ts
-export const loader = () => {};
-```
-
-:::
-
 In the route component, you can use the `useLoaderData` function to fetch data:
 
 ```ts title="routes/user/page.tsx"
@@ -65,15 +50,15 @@ export default function UserPage() {
 Route components and `.data` files share types. Use `import type` to avoid unexpected side effects.
 :::
 
-In a CSR environment, the `loader` function executes on the browser side and can use browser APIs (though it's usually unnecessary and not recommended).
+In a CSR environment, the `loader` function executes on the browser side and can use browser APIs.
 
 In an SSR environment, the `loader` function only executes on the server side for initial page loads and when navigating. Here it can call any Node.js APIs, and any dependencies or code used won't be included in the client-side bundle.
 
-:::tip
-In future versions, Modern.js may support running `loader` functions on the server side even in CSR environments to improve performance and security. Therefore, it is advisable to keep the `loader` function pure, handling only data fetching scenarios.
-:::
-
 When navigating on the client side, based on [conventional routing](/guides/basic-features/routes/routes), Modern.js supports parallel execution (requests) of all `loader` functions. For example, when visiting `/user/profile`, the `loader` functions under `/user` and `/user/profile` will execute in parallel, solving the request-render waterfall issue and significantly improving page performance.
+
+:::tip
+The `loader` is responsible for data fetching, with route parameters and request information provided as input. Generally, there's no need to access browser APIs. It's recommended to keep it environment-agnostic for future SSR compatibility.
+:::
 
 ## `loader` Function
 
@@ -110,7 +95,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 ### Return Value
 
-The return value of the `loader` function **must be one of two data structures**: a serializable data object or an instance of [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response).
+The return value of the `loader` function **must be one of two data structures**: a serializable data object or an instance of [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response):
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -220,6 +205,10 @@ const ErrorBoundary = () => {
 
 export default ErrorBoundary;
 ```
+
+:::tip
+Both `throw` and `return` Response can modify the status code. The difference is that `throw` will enter the `ErrorBoundary`, while `return` will not.
+:::
 
 ## Accessing Data from Upper Components
 
@@ -356,7 +345,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 ```
 
 :::tip
-For more details on the `shouldRevalidate` function, refer to the [react-router](https://reactrouter.com/en/main/route/should-revalidate) documentation.
+For more details on the `shouldRevalidate` function, refer to the [react-router](https://reactrouter.com/start/data/route-object#shouldrevalidate) documentation.
 :::
 
 ## Incorrect Usages
@@ -427,4 +416,4 @@ export const loader = async (): Promise<ProfileData> => {
 
 In CSR projects, the `loader` executes on the client side and can directly call BFF functions to make API requests.
 
-In SSR projects, each `loader` is also a server-side API. We recommend using `loader` instead of BFF functions with an HTTP method of `get` to avoid an extra layer of forwarding and execution.
+In SSR projects, each `loader` is also a server-side API. We recommend using `loader` instead of BFF functions with HTTP Method GET to avoid an extra layer of forwarding and execution.

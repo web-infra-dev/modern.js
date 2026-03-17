@@ -69,9 +69,27 @@ const middleware: MiddlewareHandler = async (c, next) => {
 
 ## afterRender Hook
 
-`afterRender` 仅用于页面渲染完成后的 HTML 处理。
+`afterRender` Hook 用于在页面渲染完成后对 HTML 进行处理。在新版中，需要使用 `renderMiddlewares` 来实现相同的功能。
+
+### 核心差异
+
+- **文件结构**：`server/index.ts` → `server/modern.server.ts`
+- **导出方式**：`hook` 对象中的 `afterRender` → `defineServerConfig` 中的 `renderMiddlewares`
+- **处理方式**：直接修改 HTML 字符串 → 通过中间件获取和修改响应
+
+### 迁移示例
 
 ```typescript
+// 旧版 - server/index.ts
+export const afterRender = (ctx, next) => {
+  ctx.template = ctx.template
+    .replace('<head>', '<head><meta name="author" content="ByteDance">')
+    .replace('<body>', '<body><div id="loading">Loading...</div>')
+    .replace('</body>', '<script>console.log("Page loaded")</script></body>');
+  next();
+};
+
+// 新版 - server/modern.server.ts
 import { defineServerConfig, type MiddlewareHandler } from '@modern-js/server-runtime';
 
 const renderMiddleware: MiddlewareHandler = async (c, next) => {

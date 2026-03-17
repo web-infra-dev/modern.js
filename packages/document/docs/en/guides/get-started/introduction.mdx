@@ -13,11 +13,9 @@ In the process of developing React applications, developers usually need to desi
 
 It mainly includes the following features:
 
-- 🚀 **Rust Bundler**: Provides support for dual bundlers, easily switch to the Rsbuild/Rspack for faster build speed.
+- 🚀 **Rust Bundler**: Modern.js uses Rsbuild/Rspack as the build tool, providing blazing fast compilation.
 - 🪜 **Progressive**: Create projects with the most streamlined templates, gradually enable plugin features through the generator, and customize solutions.
 - 🏠 **Integration**: Development and production environment web server are unique, CSR and SSR are isomorphic development, and API service calls are functions as interfaces.
-- 📦 **Out Of The Box**: Default TS support, built-in build, ESLint, debugging tools, fully functional and testable.
-- 🌏 **Ecology**: Self-developed state management, micro-frontend, module packaging, and other peripheral needs.
 - 🕸 **Convention Routing**: Using file-based routing helps developers quickly set up applications.
 
 ## Comparison with Others
@@ -26,15 +24,13 @@ It mainly includes the following features:
 
 Next.js is one of the most popular React frameworks in the community. It is developed by Vercel.
 
-Next.js defaults to using React Server Components, which means **you will need to render your web application on the server and pay for the server-side rendering costs**. In addition, Server Components is not yet a stable technology, and many popular React libraries in the community have not yet finished adapting to RSC. At this stage, you may need to use the Next.js's Pages Router to avoid issues caused by Server Components.
-
 If you want to build a single-page application (SPA) and render it on the client side, Next.js may not be the best choice because many of its features are designed around server-first principles. If you need to use client-side rendering, you can only use limited functionality through Next.js's "static exports" feature.
 
-On the other hand, Modern.js considers both client-side rendering (CSR) and server-side rendering (SSR) to be equally important. When you build a Modern.js application, it defaults to client-side rendering, and you don't need to understand the uses and limitations of Server Components. You can also enable SSR whenever you need it, and even enable SSR for specific pages. The whole process is fully progressive. Please note that Modern.js does not currently support Server Components. We will continue to monitor its potential and provide support when appropriate.
+Modern.js considers both client-side rendering (CSR) and server-side rendering (SSR) to be equally important. When you build a Modern.js application, it defaults to client-side rendering. You can also enable SSR or Server Components whenever you need it, and even enable SSR for specific pages. The whole process is fully progressive.
 
 ### Umi
 
-Umi is a popular React framework in the Chinese community and serves as the underlying frontend framework for the Ant Group. Modern.js and Umi share many similarities, such as support for plugin system, convention-based routing, and micro-generators.
+Umi is the underlying frontend framework for the Ant Group. Modern.js and Umi share many similarities, such as support for plugin system, convention-based routing, and micro-generators.
 
 **The main difference between Modern.js and Umi is their approach to optimizing build speed**. Umi uses MFSU technology to improve build speed, while Modern.js uses Rspack to achieve 5 to 10 times faster build speed. From our perspective, Rust tools like Rspack are more in line with the long-term evolution of the front-end toolchain, as they can strike a good balance between performance, stability, and ecosystem compatibility.
 

@@ -3,6 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createProdServer } from '@modern-js/prod-server';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 p_genPluginImportsCode;
 
 if (!process.env.NODE_ENV) {
@@ -22,8 +24,6 @@ async function loadRoutes(routeFilepath) {
     return [];
   }
 }
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
   const routeFilepath = path.join(__dirname, p_ROUTE_SPEC_FILE);

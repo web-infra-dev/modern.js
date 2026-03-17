@@ -1,5 +1,69 @@
 # @modern-js/plugin-v2
 
+## 3.0.5
+
+### Patch Changes
+
+- 4c25918: feat: add modern.js adapter to run tests via Rstest
+  feat: 添加 modern.js 适配器以在 Rstest 中继承 Modern.js 的配置
+  - @modern-js/runtime-utils@3.0.5
+  - @modern-js/types@3.0.5
+  - @modern-js/utils@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- 78eeaf8: fix: update context in createStorybookOptions to resolve the issue of missing BFF configuration
+  fix: createStorybookOptions 中更新上下文，解决 BFF 配置缺失问题
+  - @modern-js/runtime-utils@3.0.4
+  - @modern-js/types@3.0.4
+  - @modern-js/utils@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.0.3
+- @modern-js/types@3.0.3
+- @modern-js/utils@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.0.2
+- @modern-js/types@3.0.2
+- @modern-js/utils@3.0.2
+
+## 3.0.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@3.0.1
+- @modern-js/types@3.0.1
+- @modern-js/utils@3.0.1
+
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+  - @modern-js/runtime-utils@3.0.0
+  - @modern-js/types@3.0.0
+  - @modern-js/utils@3.0.0
+
+## 3.0.0-alpha.2
+
+### Patch Changes
+
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+  - @modern-js/runtime-utils@3.0.0-alpha.2
+  - @modern-js/types@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes

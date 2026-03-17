@@ -1,5 +1,163 @@
 # @modern-js/app-tools
 
+## 3.0.5
+
+### Patch Changes
+
+- 2a435ab: fix: use correct file for bootstrap
+  fix: 使用正确的 bootstrap 文件
+- 4c25918: feat: add modern.js adapter to run tests via Rstest
+  feat: 添加 modern.js 适配器以在 Rstest 中继承 Modern.js 的配置
+- Updated dependencies [4c25918]
+  - @modern-js/plugin@3.0.5
+  - @modern-js/server-core@3.0.5
+  - @modern-js/plugin-data-loader@3.0.5
+  - @modern-js/prod-server@3.0.5
+  - @modern-js/server@3.0.5
+  - @modern-js/server-utils@3.0.5
+  - @modern-js/builder@3.0.5
+  - @modern-js/i18n-utils@3.0.5
+  - @modern-js/types@3.0.5
+  - @modern-js/utils@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- 8d3945f: fix: rsbuild plugins type mismatch
+
+  fix: 修复 rsbuild plugins 类型不匹配问题
+
+- Updated dependencies [78eeaf8]
+  - @modern-js/plugin@3.0.4
+  - @modern-js/server-core@3.0.4
+  - @modern-js/plugin-data-loader@3.0.4
+  - @modern-js/prod-server@3.0.4
+  - @modern-js/server@3.0.4
+  - @modern-js/server-utils@3.0.4
+  - @modern-js/builder@3.0.4
+  - @modern-js/i18n-utils@3.0.4
+  - @modern-js/types@3.0.4
+  - @modern-js/utils@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [a270428]
+- Updated dependencies [ece3967]
+  - @modern-js/builder@3.0.3
+  - @modern-js/server@3.0.3
+  - @modern-js/plugin@3.0.3
+  - @modern-js/plugin-data-loader@3.0.3
+  - @modern-js/server-core@3.0.3
+  - @modern-js/prod-server@3.0.3
+  - @modern-js/server-utils@3.0.3
+  - @modern-js/i18n-utils@3.0.3
+  - @modern-js/types@3.0.3
+  - @modern-js/utils@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- dcf43b8: feat: support rspack builtin rsc
+  feat: 使用 rspack 内置的 rsc 插件
+- 28cf50a: fix: should support windows path in server-entry route pattern
+  fix: route pattern 中应该支持 windows 系统路径
+- Updated dependencies [dcf43b8]
+- Updated dependencies [28cf50a]
+  - @modern-js/builder@3.0.2
+  - @modern-js/server@3.0.2
+  - @modern-js/plugin@3.0.2
+  - @modern-js/plugin-data-loader@3.0.2
+  - @modern-js/server-core@3.0.2
+  - @modern-js/prod-server@3.0.2
+  - @modern-js/server-utils@3.0.2
+  - @modern-js/i18n-utils@3.0.2
+  - @modern-js/types@3.0.2
+  - @modern-js/utils@3.0.2
+
+## 3.0.1
+
+### Patch Changes
+
+- Updated dependencies [7a278a6]
+  - @modern-js/builder@3.0.1
+  - @modern-js/server@3.0.1
+  - @modern-js/plugin@3.0.1
+  - @modern-js/plugin-data-loader@3.0.1
+  - @modern-js/server-core@3.0.1
+  - @modern-js/prod-server@3.0.1
+  - @modern-js/server-utils@3.0.1
+  - @modern-js/i18n-utils@3.0.1
+  - @modern-js/types@3.0.1
+  - @modern-js/utils@3.0.1
+
+## 3.0.0
+
+### Major Changes
+
+- ef4288c: feat: release Modern.js 3.0
+
+  feat: 发布 Modern.js 3.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 76d0fc2: feat(app-tools): add info command to display project entries information
+  feat(app-tools): 新增 info 命令，用于展示项目的 entries 信息
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0
+  - @modern-js/i18n-utils@3.0.0
+  - @modern-js/types@3.0.0
+  - @modern-js/plugin-data-loader@3.0.0
+  - @modern-js/prod-server@3.0.0
+  - @modern-js/server@3.0.0
+  - @modern-js/server-utils@3.0.0
+  - @modern-js/plugin@3.0.0
+  - @modern-js/builder@3.0.0
+  - @modern-js/utils@3.0.0
+
+## 3.0.0-alpha.2
+
+### Major Changes
+
+- ef4288c: feat: release Modern.js 3.0
+
+  feat: 发布 Modern.js 3.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 76d0fc2: feat(app-tools): add info command to display project entries information
+  feat(app-tools): 新增 info 命令，用于展示项目的 entries 信息
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0-alpha.2
+  - @modern-js/i18n-utils@3.0.0-alpha.2
+  - @modern-js/types@3.0.0-alpha.2
+  - @modern-js/plugin-data-loader@3.0.0-alpha.2
+  - @modern-js/prod-server@3.0.0-alpha.2
+  - @modern-js/server@3.0.0-alpha.2
+  - @modern-js/server-utils@3.0.0-alpha.2
+  - @modern-js/plugin@3.0.0-alpha.2
+  - @modern-js/builder@3.0.0-alpha.2
+  - @modern-js/utils@3.0.0-alpha.2
+
 ## 3.0.0-alpha.1
 
 ### Major Changes

@@ -1,0 +1,160 @@
+---
+title: RuntimeContext
+---
+# RuntimeContext
+
+`RuntimeContext` is a React Context used to get Runtime context information in components. This Context can be accessed through React's `use` or `useContext` API.
+
+:::warning
+
+The `useRuntimeContext` Hook has been deprecated. Please use `use(RuntimeContext)` instead. `useRuntimeContext` is internally implemented as `useContext(RuntimeContext)`, while `use(RuntimeContext)` is the recommended new approach in React 19.
+
+:::
+
+## Usage
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+export function App() {
+  const runtimeContext = use(RuntimeContext); // You can also use useContext(RuntimeContext)
+  return <div>Hello World</div>
+}
+```
+
+## Type Definition
+
+```ts
+type TRuntimeContext = {
+  initialData?: Record<string, unknown>;
+  isBrowser: boolean;
+  routes?: RouteObject[];
+  requestContext: RequestContext;
+  /**
+   * @deprecated Use `requestContext` instead
+   */
+  context: RequestContext;
+  [key: string]: unknown;
+};
+```
+
+### Property Description
+
+- `isBrowser`: Indicates whether the current runtime environment is a browser
+- `routes`: Route configuration information
+- `requestContext`: Request context, containing `request` and `response` objects
+- `context`: Deprecated, please use `requestContext` instead
+
+### RequestContext
+
+`RequestContext` is the type of the `requestContext` property, containing request and response related information:
+
+```ts
+type RequestContext = {
+  request: {
+    params: Record<string, string>;      // Route parameters
+    pathname: string;                     // Pathname
+    query: Record<string, string>;        // Query parameters
+    headers: IncomingHttpHeaders;         // Request headers
+    host: string;                         // Hostname
+    url: string;                          // Full URL
+    referer?: string;                     // Referrer page
+    userAgent?: string;                   // User agent
+    cookie?: string;                      // Cookie string
+    cookieMap?: Record<string, string>;   // Cookie map object
+  };
+  response: {
+    setHeader: (key: string, value: string) => void;  // Set response header (server-side only)
+    status: (code: number) => void;                   // Set status code (server-side only)
+    locals: Record<string, any>;                      // Local data
+  };
+};
+```
+
+**Notes**:
+
+- `response.setHeader` and `response.status` are only available on the server-side (SSR)
+- On the browser side, the `response` object may not contain these methods
+- The `request` object is available on both server and browser, but server-side information is more complete
+
+## Usage Examples
+
+### Distinguishing Runtime Environment
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const { context, isBrowser } = use(RuntimeContext);
+
+  if (isBrowser === true) {
+    // Browser-side execution logic
+    console.log('browser render')
+  } else {
+    // Server-side execution logic
+    // Note: Functions like logger need to be injected into context through Runtime plugins
+    console.log('server render')
+  }
+}
+```
+
+### Getting Request Context
+
+When SSR is enabled, isomorphic request context can be obtained in both Node environment and browser environment.
+
+The slight difference is that the Node environment also supports setting response headers, response codes, and provides Logger logging and Metrics tracking.
+
+:::tip
+
+When SSR is not enabled, only the information that can be obtained on the browser side is included.
+
+:::
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+function App() {
+  const runtimeContext = use(RuntimeContext);
+  const { request, response } = runtimeContext.requestContext || {};
+
+  // Access request information
+  const userAgent = request?.userAgent || request?.headers?.['user-agent'];
+  const url = request?.url;
+  const query = request?.query;
+  const params = request?.params;
+
+  // Server-side can set response headers
+  if (!runtimeContext.isBrowser && response) {
+    response.setHeader('X-Custom-Header', 'value');
+    response.status(200);
+  }
+
+  return (
+    <div>
+      <div>User Agent: {userAgent}</div>
+      <div>URL: {url}</div>
+      <div>Query: {JSON.stringify(query)}</div>
+    </div>
+  );
+}
+```
+
+### Accessing Injected Global Data
+
+Global data can be injected into `RuntimeContext` through the `onBeforeRender` hook of Runtime plugins:
+
+```tsx
+import { use } from 'react';
+import { RuntimeContext } from '@modern-js/runtime';
+
+export default function MyComponent() {
+  const context = use(RuntimeContext);
+  const { message } = context;
+
+  return <div>{message}</div>;
+}
+```
+

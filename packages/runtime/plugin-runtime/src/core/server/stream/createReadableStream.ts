@@ -1,5 +1,6 @@
 import { PassThrough, Readable, Transform } from 'stream';
 import { storage } from '@modern-js/runtime-utils/node';
+import { SSR_HYDRATION_ID_PREFIX } from '@modern-js/utils/universal/constants';
 import type { ReactElement } from 'react';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
@@ -66,6 +67,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         processedRootElement,
         {
           nonce: config.nonce,
+          identifierPrefix: SSR_HYDRATION_ID_PREFIX,
           [onReady]() {
             let styledComponentsStyleTags = '';
             extenders.forEach(extender => {
