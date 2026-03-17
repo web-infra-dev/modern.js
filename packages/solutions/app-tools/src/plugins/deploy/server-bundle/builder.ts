@@ -52,7 +52,7 @@ export const bundleServer = async (
     ? Object.fromEntries(
         generateNodeExternals(
           api => `module-import node:${api}`,
-          NODE_BUILTIN_MODULES,
+          options.nodeExternal,
         ),
       )
     : undefined;
@@ -116,13 +116,11 @@ export const bundleServer = async (
             chunkFormat: 'module',
             asyncChunks: false,
             pathinfo: !minify,
+            module: true,
             library: {
               type: 'module',
             },
           },
-          // experiments: {
-          //   outputModule: true,
-          // },
           node: {
             __dirname: 'mock',
             __filename: 'mock',
@@ -156,25 +154,16 @@ export const bundleServer = async (
     // remove bff server external
     const { output } = config;
     if (Array.isArray(output?.externals)) {
-      output!.externals = output!.externals.filter(
-        x => typeof x !== 'object' || !('@modern-js/plugin-bff/server' in x),
-      );
+      output!.externals = output!.externals.map(x => {
+        if (typeof x === 'object' && '@modern-js/server-runtime' in x) {
+          const res = { ...x };
+          delete res['@modern-js/server-runtime'];
+          return res;
+        }
+        return x;
+      });
     }
   });
-
-  // output stats to debug tree shaking
-  // builder.onAfterBuild(async ({ stats }) => {
-  //   await fse.writeFile(
-  //     path.join(finalConfig.output.distPath!.root!, 'stats.json'),
-  //     JSON.stringify(
-  //       stats?.toJson({
-  //         preset: 'verbose',
-  //       }),
-  //       null,
-  //       2,
-  //     ),
-  //   );
-  // });
 
   if (options?.modifyBuilder) {
     await options.modifyBuilder(builder);

@@ -83,16 +83,6 @@ export const createNodePreset: CreatePreset = ({
           },
         },
       });
-      console.log(
-        'Static directory:',
-        chalk.blue(
-          path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
-        ),
-      );
-      console.log(
-        `You can preview this build by`,
-        chalk.blue('node .output/index'),
-      );
     },
     async end() {
       if (!isBundleServer) {
