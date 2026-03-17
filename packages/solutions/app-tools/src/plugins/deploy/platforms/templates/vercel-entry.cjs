@@ -73,4 +73,4 @@ const handler = async (req, res) => {
   return requestHandler(req, res);
 };
 
-module.exports = { handler };
+module.exports = handler;

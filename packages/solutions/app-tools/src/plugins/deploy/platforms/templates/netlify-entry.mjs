@@ -1,6 +1,9 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { createNetlifyFunction } = require('@modern-js/prod-server/netlify');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createNetlifyFunction } from '@modern-js/prod-server/netlify';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 p_genPluginImportsCode;
 
@@ -68,11 +71,11 @@ async function createHandler() {
 
 createHandler();
 
-module.exports = {
-  handler: async (request, context) => {
-    if (!requestHandler) {
-      await createHandler();
-    }
-    return requestHandler(request, context);
-  },
+const handler = async (request, context) => {
+  if (!requestHandler) {
+    await createHandler();
+  }
+  return requestHandler(request, context);
 };
+
+export default handler;

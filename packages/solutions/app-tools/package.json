@@ -104,6 +104,7 @@
     "es-module-lexer": "^1.7.0",
     "esbuild": "0.25.5",
     "esbuild-register": "^3.6.0",
+    "import-meta-resolve": "^4.2.0",
     "flatted": "^3.4.0",
     "mlly": "^1.8.0",
     "ndepe": "^0.1.13",
