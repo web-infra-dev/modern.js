@@ -91,6 +91,25 @@ function runTests({ mode }: TestConfig) {
 
       it('support redirect on first screen load', () =>
         supportRedirectOnFirstScreenLoad({ baseUrl, appPort, page }));
+
+      it('support inject first screen css', () =>
+        supportInjectCssFirstScreen({ baseUrl, appPort, page }));
+
+      it('support load css when navigation', () =>
+        loadCssWhenNavigation({ baseUrl, appPort, page }));
+
+      it('should skip RSC fetch when navigating to client-only route', () =>
+        skipRscFetchForClientOnlyRoute({ baseUrl, appPort, page }));
+
+      it('should load CSS correctly for client-only route navigation', () =>
+        loadCssForClientOnlyRoute({ baseUrl, appPort, page }));
+
+      it('should request RSC payload when navigating to client-only route with data loader', () =>
+        requestRscPayloadForClientOnlyRouteWithLoader({
+          baseUrl,
+          appPort,
+          page,
+        }));
     });
 
     describe('csr-rsc-routes-with-fetch', () => {
@@ -98,6 +117,12 @@ function runTests({ mode }: TestConfig) {
 
       it('should render with fetch correctly', () =>
         shouldRenderWithFetchCorrectly({ baseUrl, appPort, page }));
+
+      it('support component redirect on first screen load', () =>
+        supportComponentRedirectOnFirstScreenLoad({ baseUrl, appPort, page }));
+
+      it('support component redirect on navigation', () =>
+        supportComponentRedirectOnNavigation({ baseUrl, appPort, page }));
     });
   });
 }
@@ -250,6 +275,244 @@ async function shouldRenderWithFetchCorrectly({
   await page.waitForSelector('.message', { timeout: 5000 });
   const message2 = await page.$eval('.message', el => el.textContent);
   expect(message2).toBe('root page from server');
+}
+
+async function supportInjectCssFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-layout', { timeout: 5000 });
+
+  const rootLayoutColor = await page.$eval('.root-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isRed = rootLayoutColor === 'rgb(255, 0, 0)';
+
+  expect(isRed).toBe(true);
+
+  await page.goto(`http://localhost:${appPort}${baseUrl}/user`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+}
+
+async function loadCssWhenNavigation({ baseUrl, appPort, page }: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.click('.user-link');
+  await page.waitForSelector('.user-data', { timeout: 5000 });
+
+  const userLayoutColor = await page.$eval('.user-layout', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
+  expect(isBlue).toBe(true);
+
+  const userPageColor = await page.$eval('.user-page', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+  const isGreen = userPageColor === 'rgb(0, 128, 0)';
+  expect(isGreen).toBe(true);
+}
+
+/**
+ * Test component redirect on first screen load (SSR/CSR initial render)
+ * When user directly accesses /component/redirect, should redirect to /component/user
+ */
+async function supportComponentRedirectOnFirstScreenLoad({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}/redirect`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  // Should be redirected to user page
+  await page.waitForSelector('.user-layout', { timeout: 5000 });
+
+  const userPageExists = await page.$eval('.user-layout', el =>
+    el.textContent?.includes('user page'),
+  );
+  expect(userPageExists).toBe(true);
+
+  // URL should be /component/user, not /component/redirect
+  const currentUrl = page.url();
+  expect(currentUrl).toContain('/user');
+  expect(currentUrl).not.toContain('/redirect');
+}
+
+/**
+ * Test component redirect on client navigation (RSC navigation)
+ * When user navigates from /component to /component/redirect via Link, should redirect to /component/user
+ */
+async function supportComponentRedirectOnNavigation({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  // First load the home page
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.message', { timeout: 5000 });
+  const message = await page.$eval('.message', el => el.textContent);
+  expect(message).toBe('root page from server');
+
+  // Navigate to redirect page via Link
+  await page.click('.redirect-link');
+
+  // Should be redirected to user page
+  await page.waitForSelector('.user-layout', { timeout: 5000 });
+
+  const userPageExists = await page.$eval('.user-layout', el =>
+    el.textContent?.includes('user page'),
+  );
+  expect(userPageExists).toBe(true);
+
+  // URL should be /component/user, not /component/redirect
+  const currentUrl = page.url();
+  expect(currentUrl).toContain('/user');
+  expect(currentUrl).not.toContain('/redirect');
+}
+
+/**
+ * Test that navigating to a client-only route does NOT trigger an RSC payload
+ * fetch (no request with x-rsc-tree header), and the page renders correctly.
+ */
+async function skipRscFetchForClientOnlyRoute({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-page', { timeout: 5000 });
+
+  const rscRequests: string[] = [];
+  const onRequest = (req: any) => {
+    const headers = req.headers();
+    if (headers['x-rsc-tree']) {
+      rscRequests.push(req.url());
+    }
+  };
+  page.on('request', onRequest);
+
+  await page.click('.client-only-link');
+  await page.waitForSelector('.client-only-page', { timeout: 5000 });
+
+  // Verify the page content rendered correctly
+  const text = await page.$eval('.client-only-text', el => el.textContent);
+  expect(text).toBe('This page is purely a client component');
+
+  // Verify interactive state works (client component is functional)
+  await page.click('.client-only-btn');
+  const counter = await page.$eval(
+    '.client-only-counter',
+    el => el.textContent,
+  );
+  expect(counter).toBe('Count: 1');
+
+  // Verify NO RSC payload request was made
+  expect(rscRequests).toHaveLength(0);
+
+  page.off('request', onRequest);
+}
+
+/**
+ * Test that CSS is correctly applied when navigating to a client-only route
+ * (CSS injection via routeManifest instead of RSC payload).
+ */
+async function loadCssForClientOnlyRoute({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-page', { timeout: 5000 });
+
+  await page.click('.client-only-link');
+  await page.waitForSelector('.client-only-page', { timeout: 5000 });
+
+  const clientOnlyColor = await page.$eval('.client-only-page', el => {
+    const styles = window.getComputedStyle(el);
+    return styles.color;
+  });
+
+  // page.css sets .client-only-page { color: purple }
+  // purple = rgb(128, 0, 128)
+  const isPurple = clientOnlyColor === 'rgb(128, 0, 128)';
+  expect(isPurple).toBe(true);
+}
+
+/**
+ * Test that navigating to a client-only route that has a data loader DOES
+ * trigger an RSC payload fetch (request with x-rsc-tree header), and the
+ * loader data is rendered correctly.
+ */
+async function requestRscPayloadForClientOnlyRouteWithLoader({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForSelector('.root-page', { timeout: 5000 });
+
+  const rscRequests: string[] = [];
+  const onRequest = (req: any) => {
+    const headers = req.headers();
+    if (headers['x-rsc-tree']) {
+      rscRequests.push(req.url());
+    }
+  };
+  page.on('request', onRequest);
+
+  await page.click('.client-only-with-loader-link');
+  await page.waitForSelector('.client-only-with-loader-page', {
+    timeout: 10000,
+  });
+  await page.waitForSelector('.client-only-with-loader-data', {
+    timeout: 5000,
+  });
+
+  // Verify loader data is displayed
+  const text = await page.$eval(
+    '.client-only-with-loader-data',
+    el => el.textContent,
+  );
+  expect(text).toBe('Loaded by server loader');
+
+  // Verify RSC payload request was made (route has server loader)
+  expect(rscRequests.length).toBeGreaterThanOrEqual(1);
+
+  page.off('request', onRequest);
 }
 
 runTests({ mode: 'dev' });

@@ -12,6 +12,7 @@ import { isProd, logger } from '@modern-js/utils';
 import createHonoRoutes from '../../utils/createHonoRoutes';
 
 const before = ['custom-server-hook', 'custom-server-middleware', 'render'];
+const kParentHonoVars = Symbol.for('modernjs.hono.parentVars');
 
 interface MiddlewareOptions {
   prefix: string;
@@ -50,6 +51,19 @@ export class HonoAdapter {
     }
     this.apiServer = new Hono();
     this.apiServer.use('*', run);
+    this.apiServer.use('*', async (c, next) => {
+      const nodeReq = (c.env as any)?.node?.req;
+      const parentVars = nodeReq?.[kParentHonoVars];
+      if (parentVars && typeof parentVars === 'object') {
+        delete nodeReq[kParentHonoVars];
+        for (const [key, value] of Object.entries(parentVars)) {
+          if ((c as any).get(key) === undefined) {
+            (c as any).set(key, value);
+          }
+        }
+      }
+      await next();
+    });
     this.apiMiddleware.forEach(({ path = '*', method = 'all', handler }) => {
       const handlers = this.wrapInArray(handler);
       if (handlers.length === 0) {
@@ -136,6 +150,14 @@ export class HonoAdapter {
         before,
         handler: async (c: Context, next: Next) => {
           if (this.apiServer) {
+            const nodeReq = (c.env as any)?.node?.req;
+            if (nodeReq) {
+              const parentVars = (c as any)?.var;
+              nodeReq[kParentHonoVars] =
+                parentVars && typeof parentVars === 'object'
+                  ? { ...parentVars }
+                  : parentVars;
+            }
             const response = await this.apiServer.fetch(c.req.raw, c.env);
             if (response.status !== 404) {
               return new Response(response.body, response);

@@ -1,4 +1,6 @@
+import { isPromise } from 'node:util/types';
 import * as path from 'path';
+import type { RsbuildPlugin, RsbuildPlugins } from '@modern-js/builder';
 import type { ServerRoute } from '@modern-js/types';
 import {
   fs,
@@ -258,7 +260,23 @@ export default (): CliPlugin<AppTools> => ({
           await hooks.onAfterDev.call({ port });
         });
 
-        builder.addPlugins(resolvedConfig.builderPlugins);
+        const getFlattenedPlugins = async (pluginOptions: RsbuildPlugins) => {
+          let plugins = pluginOptions;
+          do {
+            plugins = (await Promise.all(plugins)).flat(
+              Number.POSITIVE_INFINITY as 1,
+            );
+          } while (plugins.some(v => isPromise(v)));
+
+          return plugins as RsbuildPlugin[];
+        };
+
+        if (resolvedConfig.builderPlugins) {
+          const plugins = await getFlattenedPlugins(
+            resolvedConfig.builderPlugins,
+          );
+          builder.addPlugins(plugins);
+        }
 
         api.updateAppContext({ builder });
       }

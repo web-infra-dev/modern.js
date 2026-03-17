@@ -12,6 +12,7 @@ import {
 } from '@modern-js/runtime-utils/universal/request';
 import React from 'react';
 import { Fragment } from 'react';
+import { handleRSCRedirect } from '../../router/runtime/rsc-router';
 import {
   type TInternalRuntimeContext,
   getGlobalInternalRuntimeContext,
@@ -83,6 +84,34 @@ export type CreateRequestHandler = (
 type ResponseProxy = {
   headers: Record<string, string>;
   status: number;
+};
+
+type RedirectContext = {
+  enableRsc: boolean;
+  isRSCNavigation: boolean;
+  basename: string;
+};
+
+/**
+ * Check if status code is a redirect (3xx)
+ */
+const isRedirectStatus = (status: number): boolean =>
+  status >= 300 && status <= 399;
+
+/**
+ * Process redirect response based on context
+ * - For RSC navigation: convert to X-Modernjs-Redirect format
+ * - For SSR/CSR: return standard HTTP redirect
+ */
+const processRedirect = (
+  headers: Headers,
+  status: number,
+  ctx: RedirectContext,
+): Response => {
+  if (ctx.enableRsc && ctx.isRSCNavigation) {
+    return handleRSCRedirect(headers, ctx.basename, status);
+  }
+  return new Response(null, { status, headers });
 };
 
 function createSSRContext(
@@ -241,28 +270,11 @@ export const createRequestHandler: CreateRequestHandler = async (
           isBrowser: false,
         });
 
-        // Handle redirects from React Router with an HTTP redirect
-        const getRedirectResponse = (
-          result: Response | undefined,
-        ): Response | undefined => {
-          if (
-            typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
-            result instanceof Response &&
-            result.status >= 300 &&
-            result.status <= 399
-          ) {
-            const { status } = result;
-            const redirectUrl = result.headers.get('Location') || '/';
-            const { ssrContext } = context;
-            if (ssrContext) {
-              return new Response(null, {
-                status,
-                headers: {
-                  Location: redirectUrl,
-                },
-              });
-            }
-          }
+        // Prepare redirect context once for all redirect handling
+        const redirectCtx: RedirectContext = {
+          enableRsc: !!createRequestOptions?.enableRsc,
+          isRSCNavigation: request.headers.get('x-rsc-tree') === 'true',
+          basename: ssrContext.baseUrl || '/',
         };
 
         const beforeRenderResult = await runBeforeRender(context);
@@ -285,14 +297,23 @@ export const createRequestHandler: CreateRequestHandler = async (
           options.onError(errors[0], SSRErrors.LOADER_ERROR);
         }
 
-        const redirectResponse = getRedirectResponse(beforeRenderResult);
-
-        if (redirectResponse) {
-          if (createRequestOptions?.enableRsc) {
-            return beforeRenderResult || redirectResponse;
-          } else {
-            return redirectResponse;
+        // Handle redirect from loader (beforeRenderResult)
+        if (
+          typeof Response !== 'undefined' &&
+          beforeRenderResult instanceof Response &&
+          isRedirectStatus(beforeRenderResult.status)
+        ) {
+          // Already in RSC format (from plugin.node.tsx), return directly
+          if (beforeRenderResult.headers.has('X-Modernjs-Redirect')) {
+            return beforeRenderResult;
           }
+          // Convert to appropriate format
+          const redirectUrl = beforeRenderResult.headers.get('Location') || '/';
+          return processRedirect(
+            new Headers({ Location: redirectUrl }),
+            beforeRenderResult.status,
+            redirectCtx,
+          );
         }
 
         if (!createRequestOptions?.enableRsc) {
@@ -320,6 +341,20 @@ export const createRequestHandler: CreateRequestHandler = async (
           });
         }
 
+        // Handle redirect from component render (via responseProxy)
+        if (
+          responseProxy.status !== -1 &&
+          isRedirectStatus(responseProxy.status) &&
+          responseProxy.headers.Location
+        ) {
+          return processRedirect(
+            new Headers(responseProxy.headers),
+            responseProxy.status,
+            redirectCtx,
+          );
+        }
+
+        // Apply non-redirect responseProxy headers/status to response
         Object.entries(responseProxy.headers).forEach(([key, value]) => {
           response.headers.set(key, value);
         });

@@ -32,5 +32,5 @@ export {
   type ServerPluginConfig,
 } from './hooks';
 export { cli, createLoadedConfig, initAppDir, createCli } from './run';
-export { createStorybookOptions } from './run/create';
+export { createConfigOptions, createStorybookOptions } from './run/create';
 export { mergeConfig } from './run/utils/mergeConfig';

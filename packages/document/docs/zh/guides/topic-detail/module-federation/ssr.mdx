@@ -1,6 +1,6 @@
 # 服务端渲染
 
-`@module-federation/modern-js` 提供了非常强大的能力，开发者可以非常方便的在 Modern.js 应用中，组合使用 Module Federation 和服务端渲染（SSR）的能力。
+`@module-federation/modern-js-v3` 提供了非常强大的能力，开发者可以非常方便的在 Modern.js 应用中，组合使用 Module Federation 和服务端渲染（SSR）的能力。
 
 ## 开启 SSR
 
@@ -35,7 +35,7 @@ Module Federation 在新版本中支持了[数据获取](https://module-federati
 在 Modern.js 中，数据获取可以配合 SSR 使用。我们以前面章节的 Demo 为例子，创建一个数据获取文件：
 
 ```ts title="src/components/Button.data.ts"
-import type { DataFetchParams } from '@module-federation/modern-js/react';
+import type { DataFetchParams } from '@module-federation/modern-js-v3/react';
 
 export type Data = {
   data: string;
@@ -74,11 +74,11 @@ export const Button = (props: { mfData: Data }) => {
 
 ```tsx title="src/routes/page.tsx"
 import type { JSX } from 'react';
-import { getInstance } from '@module-federation/modern-js/runtime';
+import { getInstance } from '@module-federation/modern-js-v3/runtime';
 import {
   ERROR_TYPE,
   lazyLoadComponentPlugin,
-} from '@module-federation/modern-js/react';
+} from '@module-federation/modern-js-v3/react';
 
 const instance = getInstance();
 instance!.registerPlugins([lazyLoadComponentPlugin()]);

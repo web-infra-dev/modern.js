@@ -55,8 +55,7 @@ export const requestHandler = createRequestHandler(handleRequest, {
 const handleRSCRequest = async (request, ServerRoot, options) => {
   const { serverPayload } = options;
   const stream = renderRsc({
-    element: options.rscRoot,
-    clientManifest: options.rscClientManifest!,
+    element: options.rscRoot
   });
 
   return new Response(stream);
@@ -93,32 +92,13 @@ export const entryForCSRWithRSC = ({
   import {
     createRequestHandler,
   } from '@${metaName}/runtime/ssr/server';
-  import { renderRsc, processRSCStream } from '@${metaName}/runtime/rsc/server'
+  import { renderCSRWithRSC, renderRsc } from '@${metaName}/runtime/rsc/server';
   export { handleAction } from '@${metaName}/runtime/rsc/server';
 
   const handleCSRRender = async (request, ServerRoot, options) => {
-    const rscPayloadStream = renderRsc({
-      element: options.rscRoot,
-      clientManifest: options.rscClientManifest!,
-    });
-    const stream = new ReadableStream({
-      start(controller) {
-        const encoder = new TextEncoder();
-
-        controller.enqueue(encoder.encode(options.html));
-
-      processRSCStream(rscPayloadStream, controller, encoder)
-        .catch(err => {
-          controller.error(err);
-        });
-      }
-    });
-
-    return new Response(stream, {
-      status: 200,
-      headers: new Headers({
-        'content-type': 'text/html; charset=UTF-8',
-      }),
+    return renderCSRWithRSC({
+      html: options.html,
+      rscRoot: options.rscRoot,
     });
   }
 
@@ -129,7 +109,6 @@ export const entryForCSRWithRSC = ({
   const handleRequest = async (request, ServerRoot, options) => {
     const stream = renderRsc({
             element: options.rscRoot,
-      clientManifest: options.rscClientManifest!,
     });
 
     return new Response(stream);

@@ -1,0 +1,12 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "module": "ES2020",
+    "outDir": "./dist",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "rootDir": "src",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["src"]
+}

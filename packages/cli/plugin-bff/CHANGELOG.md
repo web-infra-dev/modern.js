@@ -1,5 +1,90 @@
 # @modern-js/plugin-bff
 
+## 3.0.5
+
+### Patch Changes
+
+- @modern-js/server-core@3.0.5
+- @modern-js/server-utils@3.0.5
+- @modern-js/builder@3.0.5
+- @modern-js/bff-core@3.0.5
+- @modern-js/create-request@3.0.5
+- @modern-js/utils@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- 2c116d4: fix: sync server hono context to dev BFF context
+  fix: dev 环境同步自定义 server 上下文到 BFF 上下文
+  - @modern-js/server-core@3.0.4
+  - @modern-js/server-utils@3.0.4
+  - @modern-js/builder@3.0.4
+  - @modern-js/bff-core@3.0.4
+  - @modern-js/create-request@3.0.4
+  - @modern-js/utils@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [a270428]
+- Updated dependencies [ece3967]
+  - @modern-js/builder@3.0.3
+  - @modern-js/bff-core@3.0.3
+  - @modern-js/server-core@3.0.3
+  - @modern-js/create-request@3.0.3
+  - @modern-js/server-utils@3.0.3
+  - @modern-js/utils@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- Updated dependencies [dcf43b8]
+- Updated dependencies [28cf50a]
+  - @modern-js/builder@3.0.2
+  - @modern-js/bff-core@3.0.2
+  - @modern-js/server-core@3.0.2
+  - @modern-js/create-request@3.0.2
+  - @modern-js/server-utils@3.0.2
+  - @modern-js/utils@3.0.2
+
+## 3.0.1
+
+### Patch Changes
+
+- Updated dependencies [7a278a6]
+  - @modern-js/builder@3.0.1
+  - @modern-js/bff-core@3.0.1
+  - @modern-js/server-core@3.0.1
+  - @modern-js/create-request@3.0.1
+  - @modern-js/server-utils@3.0.1
+  - @modern-js/utils@3.0.1
+
+## 3.0.0
+
+### Minor Changes
+
+- ecd247c: feat: esm runtime
+
+### Patch Changes
+
+- 96b5424: fix: dev hono context error
+  fix: 修复 dev 环境 hono context
+- Updated dependencies [96b5424]
+- Updated dependencies [eecb927]
+- Updated dependencies [ecd247c]
+- Updated dependencies [952f6fe]
+- Updated dependencies [e21ac60]
+- Updated dependencies [79f0efd]
+  - @modern-js/server-core@3.0.0
+  - @modern-js/bff-core@3.0.0
+  - @modern-js/create-request@3.0.0
+  - @modern-js/server-utils@3.0.0
+  - @modern-js/builder@3.0.0
+  - @modern-js/utils@3.0.0
+
 ## 3.0.0-alpha.2
 
 ### Minor Changes

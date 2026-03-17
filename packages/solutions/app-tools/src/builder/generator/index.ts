@@ -86,7 +86,7 @@ async function applyBuilderPlugins(
   ]);
 
   builder.addPlugins([builderPluginAdapterCopy(options)], {
-    environment: 'web',
+    environment: 'client',
   });
 
   const { normalizedConfig } = options;

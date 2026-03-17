@@ -127,32 +127,4 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
-  {
-    packageDir: 'cli/builder',
-    packageName: '@modern-js/builder',
-    dependencies: [
-      {
-        name: 'postcss-load-config',
-        externals: {
-          yaml: 'yaml',
-          jiti: 'jiti',
-        },
-        ignoreDts: true,
-        // this is a trick to avoid ncc compiling the dynamic import syntax
-        // https://github.com/vercel/ncc/issues/935
-        beforeBundle(task) {
-          replaceFileContent(join(task.depPath, 'src/req.js'), content =>
-            content.replaceAll('await import', 'await __import'),
-          );
-        },
-        afterBundle(task) {
-          replaceFileContent(
-            join(task.distPath, 'index.js'),
-            content =>
-              `${content.replaceAll('await __import', 'await import')}`,
-          );
-        },
-      },
-    ],
-  },
 ];

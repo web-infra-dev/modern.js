@@ -33,7 +33,8 @@ export const pluginRuntimeChunk = (
         return;
       }
 
-      if (!config.output.inlineScripts) {
+      const originalConfig = api.getRsbuildConfig('original');
+      if (originalConfig.output?.inlineScripts === undefined) {
         config.output.inlineScripts = RUNTIME_CHUNK_REGEX;
       }
     });

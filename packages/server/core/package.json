@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.5",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -77,14 +77,14 @@
     "@web-std/file": "^3.0.3",
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
-    "flatted": "^3.3.3",
+    "flatted": "^3.4.0",
     "hono": "^4.11.7",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.19.4",
+    "@rslib/core": "0.19.6",
     "@scripts/rstest-config": "workspace:*",
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",

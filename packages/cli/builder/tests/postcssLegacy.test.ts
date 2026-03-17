@@ -34,7 +34,7 @@ describe('plugin-postcssLegacy', () => {
             postcssOptions: {
               plugins: [
                 {
-                  postcssPlugin: 'postcss-plugin-test',
+                  postcssPlugin: 'postcss-plugin-test-override',
                   AtRule: {},
                 },
               ],

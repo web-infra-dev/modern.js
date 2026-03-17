@@ -11,12 +11,16 @@ export const styledComponentsPlugin = (
 
   setup(api) {
     api.config(() => {
+      const { metaName } = api.getAppContext();
+
       return {
         builderPlugins: [
           pluginStyledComponents({
             ...options,
             // https://github.com/styled-components/babel-plugin-styled-components/issues/287
-            topLevelImportPaths: ['@modern-js/plugin-styled-components/styled'],
+            topLevelImportPaths: [
+              `@${metaName}/plugin-styled-components/styled`,
+            ],
           }),
         ],
         resolve: {

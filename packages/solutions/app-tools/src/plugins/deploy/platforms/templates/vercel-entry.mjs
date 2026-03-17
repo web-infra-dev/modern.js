@@ -69,9 +69,11 @@ async function createHandler() {
 
 createHandler();
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   if (!requestHandler) {
     await createHandler();
   }
   return requestHandler(req, res);
 };
+
+export default handler;

@@ -74,3 +74,7 @@ jobs:
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run test:framework
+
+      - name: Test - Adapter Rstest
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
+        run: cd ./tests && pnpx playwright install chromium && pnpm run test:rstest

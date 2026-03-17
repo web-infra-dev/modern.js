@@ -29,7 +29,7 @@ For example, consider the following directory structure:
 If not found, default template will be used.
 
 :::tip
-The `Document.tsx` module will be compiled by esbuild and rendered to a string as the HTML template content, similar to [Static Site Generation](/guides/basic-features/render/ssg.html). The HTML template module will not be compiled by the Bundler. The React Hooks in the component also will not be executed at browser runtime, and JavaScript resources such as images cannot be resolved and imported.
+`Document.tsx` is compiled at build time by the Modern.js Document plugin using a dedicated Rspack child compiler targeting Node.js, and is rendered to a string with `renderToStaticMarkup` as the HTML template content, similar to [Static Site Generation](/guides/basic-features/render/ssg.html). The HTML template module is not part of the page bundler compilation, so React Hooks in the component will not run in the browser runtime, and non-JavaScript assets such as images cannot be resolved or imported.
 :::
 
 ### HTML Components

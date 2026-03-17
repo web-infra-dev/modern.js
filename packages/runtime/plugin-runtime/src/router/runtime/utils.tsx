@@ -13,7 +13,7 @@ import type { NestedRoute, PageRoute, SSRMode } from '@modern-js/types';
 import React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
-import type { RouterConfig } from './types';
+import type { ModernRouteObject, RouterConfig } from './types';
 
 export function getRouteComponents(
   routes: (NestedRoute | PageRoute)[],
@@ -119,7 +119,10 @@ export function getRouteObjects(
           ...(typeof route.config === 'object' ? route.config?.handle : {}),
         },
         index: route.index,
+        hasLoader: !!route.loader,
         hasClientLoader: !!route.clientData,
+        hasAction: !!route.action,
+        ...(route.isClientComponent ? { isClientComponent: true } : {}),
         Component: route.component ? route.component : undefined,
         errorElement: route.error ? <route.error /> : undefined,
         children: route.children
@@ -128,7 +131,7 @@ export function getRouteObjects(
                 getRouteObjects([child], { globalApp, ssrMode, props })[0],
             )
           : undefined,
-      } as RouteObject;
+      } as ModernRouteObject;
 
       routeObjects.push(nestedRouteObject);
     } else {

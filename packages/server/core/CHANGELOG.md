@@ -1,5 +1,64 @@
 # @modern-js/server-plugin
 
+## 3.0.5
+
+### Patch Changes
+
+- Updated dependencies [4c25918]
+  - @modern-js/plugin@3.0.5
+  - @modern-js/runtime-utils@3.0.5
+  - @modern-js/utils@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies [78eeaf8]
+  - @modern-js/plugin@3.0.4
+  - @modern-js/runtime-utils@3.0.4
+  - @modern-js/utils@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- @modern-js/plugin@3.0.3
+- @modern-js/runtime-utils@3.0.3
+- @modern-js/utils@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @modern-js/plugin@3.0.2
+- @modern-js/runtime-utils@3.0.2
+- @modern-js/utils@3.0.2
+
+## 3.0.1
+
+### Patch Changes
+
+- @modern-js/plugin@3.0.1
+- @modern-js/runtime-utils@3.0.1
+- @modern-js/utils@3.0.1
+
+## 3.0.0
+
+### Patch Changes
+
+- 96b5424: fix: dev hono context error
+  fix: 修复 dev 环境 hono context
+- eecb927: fix: should read html templates only in getHtmlTemplates function
+  fix: 在 getHtmlTemplates 函数中读取 html 模板
+- 952f6fe: perf: server monitor add more tags for timing/counter event
+  perf: server monitor 为 timing/couter 事件添加更多的 tags
+- 79f0efd: fix: MPA should apply csrRender function for every single page
+  fix: MPA 项目一个为每个单页面应用不同的 csrRender 逻辑
+- Updated dependencies [ecd247c]
+  - @modern-js/runtime-utils@3.0.0
+  - @modern-js/plugin@3.0.0
+  - @modern-js/utils@3.0.0
+
 ## 3.0.0-alpha.2
 
 ### Patch Changes

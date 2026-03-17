@@ -1,6 +1,6 @@
 # 开始使用
 
-在 Modern.js 中使用 Module Federation 我们推荐使用官方插件 `@module-federation/modern-js`。
+在 Modern.js 中使用 Module Federation 我们推荐使用官方插件 `@module-federation/modern-js-v3`。
 
 本章节将会介绍如何通过官方插件搭含生产者应用与消费者应用，我们首先根据 [Modern.js 快速上手](/guides/get-started/quick-start) 创建两个应用。
 
@@ -10,7 +10,7 @@
 
 import { PackageManagerTabs } from '@theme';
 
-<PackageManagerTabs command="add @module-federation/modern-js" />
+<PackageManagerTabs command="add @module-federation/modern-js-v3" />
 
 ## 注册插件
 
@@ -18,7 +18,7 @@ import { PackageManagerTabs } from '@theme';
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   plugins: [appTools(), moduleFederationPlugin()],
@@ -42,7 +42,7 @@ export const Button = () => {
 随后，在项目根目录添加 `module-federation.config.ts`，配置 Module Federation 模块的名称、共享依赖和导出内容：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'remote',
@@ -68,7 +68,7 @@ export default createModuleFederationConfig({
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 export default defineConfig({
   server: {
@@ -85,7 +85,7 @@ export default defineConfig({
 在项目根目录添加 `module-federation.config.ts`，配置 Module Federation 模块的名称、共享依赖和使用的远程模块：
 
 ```ts title="module-federation.config.ts"
-import { createModuleFederationConfig } from '@module-federation/modern-js';
+import { createModuleFederationConfig } from '@module-federation/modern-js-v3';
 
 export default createModuleFederationConfig({
   name: 'host',
@@ -170,7 +170,7 @@ export default Index;
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { moduleFederationPlugin } from '@module-federation/modern-js';
+import { moduleFederationPlugin } from '@module-federation/modern-js-v3';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
