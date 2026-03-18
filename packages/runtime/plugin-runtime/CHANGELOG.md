@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 3.1.0
+
+### Patch Changes
+
+- 65a06b3: fix: ssr hydration should add prefix_id for react use_id
+  fix: 为了 react useid hook, ssr hydration 应该添加 prefix_id
+- Updated dependencies [65a06b3]
+- Updated dependencies [0fc8c26]
+  - @modern-js/render@3.1.0
+  - @modern-js/utils@3.1.0
+  - @modern-js/plugin-data-loader@3.1.0
+  - @modern-js/plugin@3.1.0
+  - @modern-js/runtime-utils@3.1.0
+  - @modern-js/types@3.1.0
+
 ## 3.0.5
 
 ### Patch Changes

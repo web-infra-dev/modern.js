@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 3.1.0
+
+### Patch Changes
+
+- 0fc8c26: feat: deploy command generate esm artifact
+  feat: deploy 命令支持生成 ESM 产物
+- Updated dependencies [65a06b3]
+- Updated dependencies [0fc8c26]
+  - @modern-js/utils@3.1.0
+
 ## 3.0.5
 
 ### Patch Changes
