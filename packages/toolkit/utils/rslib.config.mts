@@ -44,16 +44,11 @@ const dependencies = [
   'glob',
   'chalk',
   'webpack-chain',
-  {
-    name: 'signale',
-    externals: {
-      chalk: '../chalk',
-    },
-    packageJsonField: ['options'],
-  },
   'execa',
-  'fs-extra',
-  'browserslist',
+  {
+    name: 'fs-extra',
+    esm: true,
+  },
   'chokidar',
   'fast-glob',
   {

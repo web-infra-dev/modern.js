@@ -48,6 +48,7 @@ playground/
 
 
 .output/
+.output-server-bundle/
 .vercel/
 .netlify/
 

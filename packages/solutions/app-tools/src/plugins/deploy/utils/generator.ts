@@ -67,6 +67,7 @@ export interface GenerateHandlerOptions {
   serverConfig?: Partial<ProdServerOptions>;
   genAppContextTemplate?: typeof serverAppContextTemplate;
   genPluginImports?: typeof genPluginImportsCode;
+  routesCode?: string;
   isESM?: boolean;
 }
 export const generateHandler = async ({
@@ -76,9 +77,10 @@ export const generateHandler = async ({
   serverConfig: modifyServerConfig,
   genAppContextTemplate = serverAppContextTemplate,
   genPluginImports = genPluginImportsCode,
+  routesCode,
   isESM,
 }: GenerateHandlerOptions) => {
-  const { serverPlugins, metaName } = appContext;
+  const { serverPlugins, metaName, serverRoutes } = appContext;
 
   const plugins: PluginItem[] = serverPlugins.map(plugin => [
     plugin.name,
@@ -115,6 +117,7 @@ export const generateHandler = async ({
   return template
     .replace('p_genPluginImportsCode', pluginImportCode)
     .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
+    .replace('p_ROUTES', routesCode || JSON.stringify(serverRoutes))
     .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
     .replace('p_plugins', pluginsCode)
     .replace(

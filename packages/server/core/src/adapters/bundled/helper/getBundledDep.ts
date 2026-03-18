@@ -1,0 +1,38 @@
+export const getBundledDep = async <T = any>(
+  keyParam: string,
+  deps?: Record<string, Promise<any>>,
+  interop = true,
+): Promise<T | undefined> => {
+  if (!deps || typeof deps !== 'object') {
+    return;
+  }
+
+  let key = keyParam.replace(/\\/g, '/');
+  if (key.startsWith('/')) {
+    key = key.substring(1);
+  }
+
+  let value: any;
+  if (deps.hasOwnProperty(key)) {
+    value = deps[key];
+  } else {
+    const s = ['.js', '.json', '.mjs'].find(x => deps.hasOwnProperty(key + x));
+    if (s) {
+      value = deps[s];
+    }
+  }
+
+  if (typeof value !== 'function') {
+    return;
+  }
+
+  try {
+    const res = await value();
+    if (interop) {
+      return res.default || res;
+    }
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
+};

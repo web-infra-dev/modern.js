@@ -6,6 +6,9 @@ export type ImportMap = {
 export type DependencyConfig = {
   /** Name of dependency */
   name: string;
+  esmAlias?: string;
+  /** Write esm output path */
+  esmOutput?: string;
   /** Whether to minify the code. */
   minify?: boolean;
   /** Externals to leave as requires of the build. */
@@ -44,6 +47,7 @@ export type ParsedTask = {
   clear?: boolean;
   packagePath: string;
   packageName: string;
+  depConfig?: DependencyConfig;
   minify: NonNullable<DependencyConfig['minify']>;
   depName: NonNullable<DependencyConfig['name']>;
   externals: NonNullable<DependencyConfig['externals']>;

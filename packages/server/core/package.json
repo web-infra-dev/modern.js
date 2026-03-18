@@ -37,6 +37,15 @@
       },
       "default": "./dist/cjs/adapters/node/index.js"
     },
+    "./bundled": {
+      "types": "./dist/types/adapters/bundled/index.d.ts",
+      "modern:source": "./src/adapters/bundled/index.ts",
+      "node": {
+        "import": "./dist/esm-node/adapters/bundled/index.mjs",
+        "require": "./dist/cjs/adapters/bundled/index.js"
+      },
+      "default": "./dist/cjs/adapters/bundled/index.js"
+    },
     "./hono": {
       "types": "./dist/types/hono.d.ts",
       "node": {
@@ -53,6 +62,9 @@
       ],
       "node": [
         "./dist/types/adapters/node/index.d.ts"
+      ],
+      "bundled": [
+        "./dist/types/adapters/bundled/index.d.ts"
       ],
       "hono": [
         "./dist/types/hono.d.ts"

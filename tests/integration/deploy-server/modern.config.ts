@@ -13,6 +13,8 @@ export default defineConfig({
     },
   },
   server: {
-    ssr: true,
+    ssr: {
+      bundleServer: process.env.TEST_BUNDLE_SERVER === 'true',
+    },
   },
 });

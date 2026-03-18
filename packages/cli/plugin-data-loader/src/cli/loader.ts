@@ -1,5 +1,6 @@
 import { promisify } from 'util';
 import { logger } from '@modern-js/utils';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import type { Rspack } from '@rsbuild/core';
 import { generateClient } from './generateClient';
 
@@ -19,6 +20,7 @@ export default async function loader(
 ) {
   this.cacheable();
   const target = this._compiler?.options.target;
+  const name = this._compiler?.options.name;
 
   const shouldSkip = (compileTarget: string) => {
     return (
@@ -28,6 +30,7 @@ export default async function loader(
   };
 
   if (
+    name === SERVER_BUNDLE_NAME ||
     shouldSkip('node') ||
     shouldSkip('webworker') ||
     shouldSkip('async-node')

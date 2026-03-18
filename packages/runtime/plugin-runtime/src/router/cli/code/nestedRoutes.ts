@@ -164,7 +164,7 @@ export const walk = async (options: {
   let splatData = '';
   let splatAction = '';
 
-  const items = await fs.readdir(dirname);
+  const items = (await fs.readdir(dirname)).sort();
 
   for (const item of items) {
     const itemPath = path.join(dirname, item);

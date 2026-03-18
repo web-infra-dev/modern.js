@@ -1,10 +1,16 @@
-import path from 'node:path';
+import path, { join } from 'node:path';
 import {
   chalk,
   fs as fse,
   removeModuleSyncFromExports,
 } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
+import {
+  NODE_BUILTIN_MODULES,
+  bundleServer,
+  generateHandler as generateSingleBundleHandler,
+} from '../server-bundle';
+import { scanDeps } from '../server-bundle/dep-generator';
 import { readTemplate, resolveESMDependency } from '../utils';
 import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
@@ -14,8 +20,13 @@ export const createNodePreset: CreatePreset = ({
   modernConfig,
   api,
 }) => {
-  const { appDirectory, distDirectory, moduleType } = appContext;
+  const { appDirectory, distDirectory, serverPlugins, moduleType, metaName } =
+    appContext;
   const isEsmProject = moduleType === 'module';
+
+  const isBundleServer =
+    typeof modernConfig?.server?.ssr === 'object' &&
+    modernConfig.server.ssr.bundleServer;
 
   const outputDirectory = path.join(appDirectory, '.output');
   const staticDirectory = path.join(outputDirectory, 'static');
@@ -28,62 +39,99 @@ export const createNodePreset: CreatePreset = ({
       await fse.copy(distDirectory, outputDirectory);
     },
     async genEntry() {
-      const template = await readTemplate(
-        `node-entry.${isEsmProject ? 'mjs' : 'cjs'}`,
-      );
+      if (!isBundleServer) {
+        const handlerTemplate = await readTemplate(
+          `node-entry.${isEsmProject ? 'mjs' : 'cjs'}`,
+        );
 
-      const code = await generateHandler({
-        template,
+        const code = await generateHandler({
+          template: handlerTemplate,
+          appContext,
+          config: modernConfig,
+          isESM: isEsmProject,
+        });
+
+        await fse.writeFile(entryFilePath, code);
+        return;
+      }
+
+      const handlerTemplate = await readTemplate('node-entry-bundle.mjs');
+
+      const { code: depCode } = await scanDeps(
+        distDirectory,
+        appContext.internalDirectory,
+        [
+          path.join(distDirectory, 'static'),
+          path.join(distDirectory, 'bundles'),
+        ],
+      );
+      const code = await generateSingleBundleHandler({
+        template: handlerTemplate,
         appContext,
         config: modernConfig,
-        isESM: isEsmProject,
+        depCode,
+        serverType: 'node',
       });
-
-      await fse.writeFile(entryFilePath, code);
+      await bundleServer(code, api, {
+        nodeExternal: NODE_BUILTIN_MODULES,
+        config: {
+          output: {
+            distPath: {
+              root: join(appDirectory, '.output-server-bundle'),
+              js: '.',
+            },
+          },
+        },
+      });
     },
     async end() {
-      const filter = (filePath: string) => {
-        return (
-          !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
-        );
-      };
-      // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      const entry = isEsmProject
-        ? await resolveESMDependency('@modern-js/prod-server')
-        : require.resolve('@modern-js/prod-server');
-      if (!entry) {
-        throw new Error('Cannot find @modern-js/prod-server');
-      }
-      await handleDependencies({
-        appDir: appDirectory,
-        sourceDir: outputDirectory,
-        includeEntries: [entry],
-        copyWholePackage(pkgName) {
-          return pkgName === '@modern-js/utils';
-        },
-        entryFilter: filter,
-        transformPackageJson: ({ pkgJSON }) => {
-          if (!pkgJSON.exports) {
-            return pkgJSON;
-          }
+      if (!isBundleServer) {
+        const filter = (filePath: string) => {
+          return (
+            !filePath.startsWith(staticDirectory) && !filePath.endsWith('.map')
+          );
+        };
+        // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
+        const entry = isEsmProject
+          ? await resolveESMDependency('@modern-js/prod-server')
+          : require.resolve('@modern-js/prod-server');
+        if (!entry) {
+          throw new Error('Cannot find @modern-js/prod-server');
+        }
+        await handleDependencies({
+          appDir: appDirectory,
+          sourceDir: outputDirectory,
+          includeEntries: [entry],
+          copyWholePackage(pkgName) {
+            return pkgName === '@modern-js/utils';
+          },
+          entryFilter: filter,
+          transformPackageJson: ({ pkgJSON }) => {
+            if (!pkgJSON.exports) {
+              return pkgJSON;
+            }
 
-          return {
-            ...pkgJSON,
-            exports: removeModuleSyncFromExports(
-              pkgJSON.exports as Record<string, any>,
-            ),
-          };
-        },
-      });
+            return {
+              ...pkgJSON,
+              exports: removeModuleSyncFromExports(
+                pkgJSON.exports as Record<string, any>,
+              ),
+            };
+          },
+        });
+      }
       console.log(
         'Static directory:',
         chalk.blue(
           path.relative(appDirectory, staticDirectory).replace(/\\/g, '/'),
         ),
       );
+      const previewPath = isBundleServer
+        ? '.output-server-bundle/bundle.mjs'
+        : '.output/index';
       console.log(
         `You can preview this build by`,
-        chalk.blue('node .output/index'),
+        chalk.blue(`node ${previewPath}`),
       );
     },
   };

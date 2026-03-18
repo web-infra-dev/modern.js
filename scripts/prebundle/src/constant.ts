@@ -77,16 +77,16 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       'glob',
       'chalk',
-      {
-        name: 'signale',
-        externals: {
-          chalk: '../chalk',
-        },
-        packageJsonField: ['options'],
-      },
       'execa',
-      'fs-extra',
-      'browserslist',
+      {
+        name: 'fs-extra',
+        esmAlias: 'fs-extra/esm',
+        esmOutput: 'esm.mjs',
+        clear: false,
+        externals: {
+          'graceful-fs': 'node:fs',
+        },
+      },
       'chokidar',
       'fast-glob',
       {

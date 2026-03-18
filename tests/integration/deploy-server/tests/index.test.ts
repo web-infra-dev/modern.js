@@ -39,10 +39,12 @@ describe('deploy', () => {
 
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
+    await fse.remove(path.join(appDir, 'dist-bundle'));
     await fse.remove(path.join(appDir, '.vercel'));
     await fse.remove(path.join(appDir, '.netlify'));
     await fse.remove(path.join(appDir, 'dist-netlify'));
     await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
 
   test('support server when deploy target is node', async () => {
@@ -52,6 +54,7 @@ describe('deploy', () => {
       stdio: 'inherit',
       env: {
         ...process.env,
+        TEST_BUNDLE_SERVER: 'false',
         MODERNJS_DEPLOY: 'node',
       },
     });
@@ -69,6 +72,38 @@ describe('deploy', () => {
     // check server run
     const port = await getPort();
     const app = await runContinuousTask(['.output/index.js'], undefined, {
+      cwd: appDir,
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+        PORT: port,
+      },
+      waitMessage: /Server is listening on/i,
+    });
+    apps.add(app);
+    await checkAppRun(`http://localhost:${port}`);
+    await killApp(app, true);
+    apps.delete(app);
+  });
+
+  test('support server bundle when deploy target is node', async () => {
+    await execa('npx modern deploy', {
+      shell: true,
+      cwd: appDir,
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        TEST_DIST: 'dist-bundle',
+        TEST_BUNDLE_SERVER: 'true',
+        MODERNJS_DEPLOY: 'node',
+      },
+    });
+    const outputFile = '.output-server-bundle/bundle.mjs';
+    expect(await fse.pathExists(path.join(appDir, outputFile))).toBe(true);
+
+    // check server run
+    const port = await getPort();
+    const app = await runContinuousTask([outputFile], undefined, {
       cwd: appDir,
       env: {
         ...process.env,

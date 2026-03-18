@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/builder';
+import { SERVER_BUNDLE_NAME } from '@modern-js/utils/universal/constants';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 import type { BuilderOptions } from '../types';
 
@@ -12,13 +13,14 @@ export const builderPluginAdapterBasic = (
     api.modifyBundlerChain((chain, { target, CHAIN_ID, environment }) => {
       const isServiceWorker =
         environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+      const isServerBundle = environment.name === SERVER_BUNDLE_NAME;
 
       // apply node compat
-      if (target === 'node' || isServiceWorker) {
+      if (target === 'node' || isServerBundle || isServiceWorker) {
         applyNodeCompat(isServiceWorker, chain);
       }
 
-      if (target === 'web') {
+      if (target === 'web' && !isServerBundle) {
         const bareServerModuleReg = /\.(server|node)\.[tj]sx?$/;
         const depExt = process.env.MODERN_LIB_FORMAT === 'esm' ? 'mjs' : 'js';
         chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(bareServerModuleReg);
@@ -45,8 +47,9 @@ export const builderPluginAdapterBasic = (
     api.modifyRspackConfig((config, { target, environment }) => {
       const isServiceWorker =
         environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+      const isServerBundle = environment.name === SERVER_BUNDLE_NAME;
 
-      if (target === 'node' || isServiceWorker) {
+      if (target === 'node' || isServerBundle || isServiceWorker) {
         // Define extensionAlias for server and node files
         // a .mjs file will resolve in order of .node.mjs, .server.mjs, .mjs
         const extensionAlias: Record<string, string[]> = {

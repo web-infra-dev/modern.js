@@ -64,12 +64,12 @@ export const isHandler = (input: any): input is Handler<any, any> =>
 const isFunction = (input: any): input is (...args: any) => any =>
   input && {}.toString.call(input) === '[object Function]';
 
+export const interopHandlerModule = (mod: any) =>
+  isFunction(mod) ? { default: mod } : mod;
+
 export const requireHandlerModule = async (modulePath: string) => {
-  const module = await compatibleRequire(modulePath, false);
-  if (isFunction(module)) {
-    return { default: module };
-  }
-  return module;
+  const mod = await compatibleRequire(modulePath, false);
+  return interopHandlerModule(mod);
 };
 
 const routeValue = (routePath: string) => {

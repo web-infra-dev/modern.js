@@ -22,8 +22,8 @@ function emitIndex(code: string, distPath: string) {
   fs.outputFileSync(distIndex, code);
 }
 
-function emitESMIndex(code: string, distPath: string) {
-  const distIndex = join(distPath, 'index.mjs');
+function emitESMIndex(code: string, distPath: string, fileName?: string) {
+  const distIndex = join(distPath, fileName || 'index.mjs');
   fs.outputFileSync(distIndex, code);
 }
 
@@ -185,7 +185,7 @@ export async function prebundle(task: ParsedTask) {
       minify: task.minify,
       esm: true,
     });
-    emitESMIndex(esmCode, task.distPath);
+    emitESMIndex(esmCode, task.distPath, task.depConfig?.esmOutput);
   }
 
   emitIndex(code, task.distPath);

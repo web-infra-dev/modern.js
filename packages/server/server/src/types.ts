@@ -88,8 +88,13 @@ export type ModernDevServerOptions<
   O extends ServerBaseOptions = ServerBaseOptions,
 > = O & ExtraOptions;
 
+export type ExtraApplyConfig = Partial<{
+  nodeServer: NodeServer | Http2SecureServer;
+  noStaticServer: boolean;
+}>;
+
 export type ApplyPlugins<O extends ServerBaseOptions = ServerBaseOptions> = (
   server: ServerBase,
   options: ModernDevServerOptions<O>,
-  nodeServer?: NodeServer | Http2SecureServer,
+  extra?: ExtraApplyConfig,
 ) => Promise<void>;

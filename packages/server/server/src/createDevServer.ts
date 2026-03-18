@@ -80,7 +80,7 @@ export async function createDevServer(
     prodServerOptions.config.output.assetPrefix = assetPrefix;
   }
 
-  await applyPlugins(server, prodServerOptions, nodeServer);
+  await applyPlugins(server, prodServerOptions, { nodeServer });
 
   await server.init();
 

@@ -1,5 +1,6 @@
 import path from 'path';
 import { execa, fs as fse } from '@modern-js/utils';
+import { setTimeout } from 'timers/promises';
 import {
   getPort,
   killApp,
@@ -48,7 +49,9 @@ describe('deploy', () => {
   afterAll(async () => {
     await Promise.all([...apps].map(x => killApp(x, true)));
     await fse.remove(path.join(appDir, 'dist-deploy'));
+    await fse.remove(path.join(appDir, 'dist-deploy-bundle'));
     await fse.remove(path.join(appDir, '.output'));
+    await fse.remove(path.join(appDir, '.output-server-bundle'));
   });
 
   test('support server when deploy target is node', async () => {
@@ -59,6 +62,7 @@ describe('deploy', () => {
       env: {
         ...process.env,
         TEST_DIST: 'dist-deploy',
+        TEST_BUNDLE_SERVER: 'false',
         MODERNJS_DEPLOY: 'node',
       },
     });
@@ -85,6 +89,39 @@ describe('deploy', () => {
       waitMessage: /Server is listening on/i,
     });
     apps.add(app);
+    await checkAppRun(`http://localhost:${port}`);
+    await killApp(app, true);
+    apps.delete(app);
+  });
+
+  test('support server bundle when deploy target is node', async () => {
+    await execa('npx modern deploy', {
+      shell: true,
+      cwd: appDir,
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        TEST_DIST: 'dist-deploy-bundle',
+        TEST_BUNDLE_SERVER: 'true',
+        MODERNJS_DEPLOY: 'node',
+      },
+    });
+    const outputFile = '.output-server-bundle/bundle.mjs';
+    expect(await fse.pathExists(path.join(appDir, outputFile))).toBe(true);
+
+    // check server run
+    const port = await getPort();
+    const app = await runContinuousTask([outputFile], undefined, {
+      cwd: appDir,
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+        PORT: port,
+      },
+      waitMessage: /Server is listening on/i,
+    });
+    apps.add(app);
+    // await setTimeout(3000000);
     await checkAppRun(`http://localhost:${port}`);
     await killApp(app, true);
     apps.delete(app);

@@ -30,6 +30,8 @@ export const createServer = <Extends extends ServerPluginExtends>() => {
       config: initOptions.config,
     });
 
+    context.dependencies = options.options.appContext.dependencies;
+
     const pluginAPI = initPluginAPI<Extends>({
       context,
       pluginManager,
