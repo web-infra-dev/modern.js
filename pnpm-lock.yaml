@@ -3911,6 +3911,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.15.11(@swc/helpers@0.5.19))(@types/node@20.19.27)(typescript@5.9.3)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -17600,7 +17603,7 @@ snapshots:
       '@modern-js/types': 3.0.5
       '@modern-js/utils': 3.0.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@swc/helpers': 0.5.18
+      '@swc/helpers': 0.5.19
       jiti: 2.6.1
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
@@ -17661,7 +17664,7 @@ snapshots:
     dependencies:
       '@modern-js/types': 3.0.5
       '@modern-js/utils': 3.0.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@swc/helpers': 0.5.18
+      '@swc/helpers': 0.5.19
       lru-cache: 10.4.3
       react-router: 7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       serialize-javascript: 6.0.2
@@ -17720,8 +17723,8 @@ snapshots:
 
   '@modern-js/utils@3.0.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@swc/helpers': 0.5.18
-      caniuse-lite: 1.0.30001766
+      '@swc/helpers': 0.5.19
+      caniuse-lite: 1.0.30001779
       import-meta-resolve: 4.2.0
       lodash: 4.17.23
       lodash-es: 4.17.23
