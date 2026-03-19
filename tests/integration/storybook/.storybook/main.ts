@@ -22,11 +22,7 @@ const config: StorybookConfig = {
       options: {},
     },
   ],
-  framework: {
-    // For this repo, you can use `storybook-react-rsbuild` directly.
-    name: getAbsolutePath('storybook-react-rsbuild'),
-    options: {},
-  },
+  framework: 'storybook-react-rsbuild',
   typescript: {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
