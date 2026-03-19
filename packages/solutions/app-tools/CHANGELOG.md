@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 3.1.0
+
+### Minor Changes
+
+- 0fc8c26: feat: deploy command generate esm artifact
+  feat: deploy 命令支持生成 ESM 产物
+
+### Patch Changes
+
+- 1ccad91: fix: check `ts-node` existence via `package.json` instead of module resolution to avoid false positives from hoisted dependencies
+
+  fix: 通过读取 `package.json` 检测 `ts-node` 是否存在，避免因依赖提升等因素导致模块解析误判
+
+- 0382360: fix: temporarily disable the `o` shortcut key, as it opens the wrong URL (/html/main => 404).
+
+  fix: 临时禁用 `o` 快捷键，因为它会打开错误的网址（/html/main => 404）。
+
+- Updated dependencies [65a06b3]
+- Updated dependencies [0fc8c26]
+  - @modern-js/utils@3.1.0
+  - @modern-js/server-utils@3.1.0
+  - @modern-js/builder@3.1.0
+  - @modern-js/plugin-data-loader@3.1.0
+  - @modern-js/server-core@3.1.0
+  - @modern-js/prod-server@3.1.0
+  - @modern-js/server@3.1.0
+  - @modern-js/i18n-utils@3.1.0
+  - @modern-js/plugin@3.1.0
+  - @modern-js/types@3.1.0
+
 ## 3.0.5
 
 ### Patch Changes

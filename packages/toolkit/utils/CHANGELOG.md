@@ -1,5 +1,14 @@
 # @modern-js/utils
 
+## 3.1.0
+
+### Patch Changes
+
+- 65a06b3: fix: ssr hydration should add prefix_id for react use_id
+  fix: 为了 react useid hook, ssr hydration 应该添加 prefix_id
+- 0fc8c26: feat: deploy command generate esm artifact
+  feat: deploy 命令支持生成 ESM 产物
+
 ## 3.0.5
 
 ## 3.0.4

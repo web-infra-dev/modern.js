@@ -1,5 +1,17 @@
 # @modern-js/bff-core
 
+## 3.1.0
+
+### Patch Changes
+
+- 0fc8c26: feat: deploy command generate esm artifact
+  feat: deploy 命令支持生成 ESM 产物
+- 6764b24: fix(bff-core): filter failed modules correctly and include filename in errors
+  fix(bff-core): 正确过滤未能正确加载的 BFF 模块; 在加载错误中包含文件名
+- Updated dependencies [65a06b3]
+- Updated dependencies [0fc8c26]
+  - @modern-js/utils@3.1.0
+
 ## 3.0.5
 
 ### Patch Changes

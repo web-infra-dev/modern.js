@@ -1,5 +1,15 @@
 # @modern-js/plugin-v2
 
+## 3.1.0
+
+### Patch Changes
+
+- Updated dependencies [65a06b3]
+- Updated dependencies [0fc8c26]
+  - @modern-js/utils@3.1.0
+  - @modern-js/runtime-utils@3.1.0
+  - @modern-js/types@3.1.0
+
 ## 3.0.5
 
 ### Patch Changes
