@@ -3,7 +3,7 @@
  * license at https://github.com/devongovett/rsc-html-stream/blob/main/LICENSE
  */
 const encoder = new TextEncoder();
-const trailer = '</body></html>';
+const closingTagsPattern = /<\/body>\s*<\/html>\s*$/i;
 
 export function injectRSCPayload(
   rscStream: ReadableStream,
@@ -31,8 +31,8 @@ export function injectRSCPayload(
   ) {
     for (const chunk of buffered) {
       let buf = decoder.decode(chunk);
-      if (buf.endsWith(trailer)) {
-        buf = buf.slice(0, -trailer.length);
+      if (closingTagsPattern.test(buf)) {
+        buf = buf.replace(closingTagsPattern, '');
       }
       controller.enqueue(encoder.encode(buf));
     }

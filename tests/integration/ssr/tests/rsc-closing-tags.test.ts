@@ -12,6 +12,20 @@ const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 jest.setTimeout(1000 * 60);
 
+function expectFlightScriptsBeforeClosingTags(html: string) {
+  const lastFlightScriptIndex = html.lastIndexOf(
+    '<script>(self.__FLIGHT_DATA||=[]).push(',
+  );
+  const lastBodyClosingTagIndex = html.lastIndexOf('</body>');
+  const lastHtmlClosingTagIndex = html.lastIndexOf('</html>');
+
+  expect(lastFlightScriptIndex).toBeGreaterThan(-1);
+  expect(lastBodyClosingTagIndex).toBeGreaterThan(-1);
+  expect(lastHtmlClosingTagIndex).toBeGreaterThan(-1);
+  expect(lastFlightScriptIndex).toBeLessThan(lastBodyClosingTagIndex);
+  expect(lastFlightScriptIndex).toBeLessThan(lastHtmlClosingTagIndex);
+}
+
 describe('RSC serve HTML closing tags', () => {
   let app: any;
   let appPort: number;
@@ -46,9 +60,10 @@ describe('RSC serve HTML closing tags', () => {
     const html = await res.text();
 
     expect(res.status).toBe(200);
-    expect(html).toContain('</body>');
-    expect(html).toContain('</html>');
+    expect((html.match(/<\/body>/g) || []).length).toBe(1);
+    expect((html.match(/<\/html>/g) || []).length).toBe(1);
     expect(html.trimEnd().endsWith('</html>')).toBe(true);
+    expectFlightScriptsBeforeClosingTags(html);
   });
 });
 
@@ -85,5 +100,6 @@ describe('RSC dev HTML closing tags', () => {
     expect((html.match(/<\/body>/g) || []).length).toBe(1);
     expect((html.match(/<\/html>/g) || []).length).toBe(1);
     expect(html.trimEnd().endsWith('</html>')).toBe(true);
+    expectFlightScriptsBeforeClosingTags(html);
   });
 });
