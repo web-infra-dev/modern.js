@@ -79,6 +79,9 @@ function runTests({ mode }: TestConfig) {
       it('should render page correctly', () =>
         renderServerRootPageCorrectly({ baseUrl, appPort, page }));
 
+      it('should run custom src entry before render', () =>
+        supportCustomEntryBeforeRender({ baseUrl, appPort, page }));
+
       it(`should support ${mode === 'dev' ? 'client and ' : ''}server actions`, () =>
         supportServerAction({ baseUrl, appPort, page }));
 
@@ -138,6 +141,23 @@ async function supportServerAction({ baseUrl, appPort, page }: TestOptions) {
   );
   serverCount = await page.$eval('.server-count', el => el.textContent);
   expect(serverCount).toBe('1');
+}
+
+async function supportCustomEntryBeforeRender({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+    waitUntil: ['networkidle0', 'domcontentloaded'],
+  });
+
+  await page.waitForFunction(() => {
+    return document.body.textContent?.includes('Client State');
+  });
+
+  const marker = await page.evaluate(() => window.__ENTRY_BEFORE_RENDER__);
+  expect(marker).toBe('executed');
 }
 
 async function supportInjectCssFirstScreen({
