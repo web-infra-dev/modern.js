@@ -3,6 +3,7 @@ import { isVersionAtLeast18 } from '@modern-js/utils';
 import {
   getPort,
   killApp,
+  launchApp,
   modernBuild,
   modernServe,
 } from '../../../utils/modernTestUtils';
@@ -22,7 +23,8 @@ describe('RSC serve HTML closing tags', () => {
 
     const appDir = join(fixtureDir, 'rsc-closing-tags');
     appPort = await getPort();
-    await modernBuild(appDir);
+    const buildRes = await modernBuild(appDir);
+    expect(buildRes.code === 0).toBe(true);
     app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
@@ -34,7 +36,7 @@ describe('RSC serve HTML closing tags', () => {
     }
   });
 
-  test('modern serve should return complete html with body and html closing tags', async () => {
+  test('modern serve should end the response with body and html closing tags', async () => {
     if (!isVersionAtLeast18()) {
       expect(true).toBe(true);
       return;
@@ -42,10 +44,46 @@ describe('RSC serve HTML closing tags', () => {
 
     const res = await fetch(`http://127.0.0.1:${appPort}`);
     const html = await res.text();
-    console.error(html);
 
-    expect(html).toContain('RSC Closing Tags Fixture');
+    expect(res.status).toBe(200);
     expect(html).toContain('</body>');
     expect(html).toContain('</html>');
+    expect(html.trimEnd().endsWith('</html>')).toBe(true);
+  });
+});
+
+describe('RSC dev HTML closing tags', () => {
+  let app: any;
+  let appPort: number;
+
+  beforeAll(async () => {
+    if (!isVersionAtLeast18()) {
+      return;
+    }
+
+    const appDir = join(fixtureDir, 'rsc-closing-tags');
+    appPort = await getPort();
+    app = await launchApp(appDir, appPort);
+  });
+
+  afterAll(async () => {
+    if (app) {
+      await killApp(app);
+    }
+  });
+
+  test('modern dev should not duplicate body and html closing tags', async () => {
+    if (!isVersionAtLeast18()) {
+      expect(true).toBe(true);
+      return;
+    }
+
+    const res = await fetch(`http://127.0.0.1:${appPort}`);
+    const html = await res.text();
+
+    expect(res.status).toBe(200);
+    expect((html.match(/<\/body>/g) || []).length).toBe(1);
+    expect((html.match(/<\/html>/g) || []).length).toBe(1);
+    expect(html.trimEnd().endsWith('</html>')).toBe(true);
   });
 });
