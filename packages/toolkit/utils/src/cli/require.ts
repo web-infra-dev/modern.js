@@ -1,31 +1,49 @@
-import { isAbsolute } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { promises as fs } from 'node:fs';
+import { basename, dirname, extname, isAbsolute, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { moduleResolve } from 'import-meta-resolve';
 import { findExists } from './fs';
+const RSPACK_CHUNK_IMPORT_RE =
+  /import\("\.\/"\s*\+\s*__webpack_require__\.u\(chunkId\)\)/g;
+const DEV_BUNDLE_TEMP_MARKER = '.__modern_dev__.';
+let patchedBundleCounter = 0;
 
-// 开发模式下的模块缓存（使用 mtime 比对）
-const devModuleCache = new Map<string, { mtime: number; module: any }>();
-
-/**
- * 从字符串动态加载模块
- * 用于开发模式下绕过 ESM 缓存
- */
-function requireFromString(src: string, filename: string): any {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const Module = require('module');
-  const m = new Module();
-  // @ts-ignore
-  m._compile(src, filename);
-  return m.exports;
+function patchRspackChunkImports(bundleContent: string, timestamp: string) {
+  return bundleContent.replace(
+    RSPACK_CHUNK_IMPORT_RE,
+    `import("./" + __webpack_require__.u(chunkId) + "?t=${timestamp}")`,
+  );
 }
 
-/**
- * 清理过期的缓存（保留最近的 10 个）
- */
-function cleanDevCache() {
-  if (devModuleCache.size > 10) {
-    const keys = Array.from(devModuleCache.keys()).slice(0, 5);
-    keys.forEach(key => devModuleCache.delete(key));
+export function createPatchedBundlePath(path: string, timestamp: string) {
+  const extension = extname(path);
+  const filename = basename(path, extension);
+  patchedBundleCounter += 1;
+  const uniqueSuffix = `${process.pid}.${patchedBundleCounter}.${randomUUID()}`;
+
+  return join(
+    dirname(path),
+    `${filename}${DEV_BUNDLE_TEMP_MARKER}${timestamp}.${uniqueSuffix}${extension}`,
+  );
+}
+
+async function importPatchedBundle(path: string, timestamp: string) {
+  const originalBundle = await fs.readFile(path, 'utf-8');
+  const patchedBundle = patchRspackChunkImports(originalBundle, timestamp);
+
+  if (patchedBundle === originalBundle) {
+    return importPath(path);
+  }
+
+  const tempBundlePath = createPatchedBundlePath(path, timestamp);
+
+  await fs.writeFile(tempBundlePath, patchedBundle);
+
+  try {
+    return await importPath(tempBundlePath);
+  } finally {
+    await fs.unlink(tempBundlePath).catch(() => undefined);
   }
 }
 
@@ -58,40 +76,13 @@ async function compatibleRequireESM(
     return res.default;
   }
 
-  // 开发模式下使用 requireFromString 每次重新加载
   if (process.env.NODE_ENV === 'development') {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const fs = require('fs');
+    const timestamp = Date.now().toString();
+    const module = await importPatchedBundle(path, timestamp);
 
-      // 获取文件 mtime
-      const stats = fs.statSync(path);
-      const currentMtime = stats.mtimeMs;
-
-      // 检查缓存
-      const cached = devModuleCache.get(path);
-      if (cached && cached.mtime === currentMtime) {
-        return interop ? cached.module.default : cached.module;
-      }
-
-      // 读取并编译模块
-      const bundleContent = fs.readFileSync(path, 'utf-8');
-      const timestamp = Date.now().toString();
-      const module = requireFromString(bundleContent, `${path}?t=${timestamp}`);
-
-      // 更新缓存
-      devModuleCache.set(path, { mtime: currentMtime, module });
-      cleanDevCache();
-
-      return interop ? module.default : module;
-    } catch {
-      // 降级机制：失败后回退到原有的 import 方式
-      const requiredModule = await importPath(path);
-      return interop ? requiredModule.default : requiredModule;
-    }
+    return interop ? module.default : module;
   }
 
-  // 生产模式使用正常的 import
   const requiredModule = await importPath(path);
   return interop ? requiredModule.default : requiredModule;
 }
