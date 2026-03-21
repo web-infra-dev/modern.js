@@ -50,7 +50,12 @@ describe('ESM Cache Invalidation - Issue #8373', () => {
   });
 
   test('reproduce hydration mismatch bug from issue #8373', async () => {
+    const consoleMessages: string[] = [];
     const pageErrors: string[] = [];
+
+    page.on('console', message => {
+      consoleMessages.push(message.text());
+    });
 
     page.on('pageerror', error => {
       const msg = error instanceof Error ? error.message : String(error);
@@ -88,8 +93,13 @@ describe('ESM Cache Invalidation - Issue #8373', () => {
     await page.reload({ waitUntil: ['networkidle0'] });
     await new Promise(r => setTimeout(r, 3000));
 
+    const refreshedContent = await page.content();
+
+    expect(refreshedContent).toMatch(new RegExp(MODIFIED_TEXT));
+    expect(refreshedContent).not.toMatch(new RegExp(ORIGINAL_TEXT));
+
     // Check for hydration mismatch error
-    const hydrationErrors = pageErrors.filter(
+    const hydrationSignals = [...pageErrors, ...consoleMessages].filter(
       err =>
         err.includes('Hydration failed') ||
         err.includes('did not match') ||
@@ -97,8 +107,6 @@ describe('ESM Cache Invalidation - Issue #8373', () => {
         err.includes('Hydration mismatch'),
     );
 
-    // After fix: NO hydration errors should occur
-    // If bug exists: hydration error will be thrown
-    expect(hydrationErrors.length).toBe(0);
+    expect(hydrationSignals.length).toBe(0);
   });
 });
