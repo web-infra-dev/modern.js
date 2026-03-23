@@ -930,7 +930,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       flatted:
-        specifier: ^3.4.0
+        specifier: ^3.4.2
         version: 3.4.2
       hono:
         specifier: ^4.11.7
@@ -1300,7 +1300,7 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0(esbuild@0.27.2)
       flatted:
-        specifier: ^3.4.0
+        specifier: ^3.4.2
         version: 3.4.2
       import-meta-resolve:
         specifier: ^4.2.0
