@@ -59,7 +59,7 @@ export const generateCode = async (
         });
         let indexCode = '';
         // index.jsx
-        if (!ssrMode && config.server.rsc) {
+        if (!ssrMode && config.server.rsc && !customEntry) {
           indexCode = template.entryForCSRWithRSC({
             metaName,
             entryName,
@@ -199,6 +199,7 @@ export const generateCode = async (
           await fs.outputFile(AppProxyPath, appProxyCode);
           contextCode = template.runtimeGlobalContextForRSCClient({
             metaName,
+            customEntry,
           });
           const contextServerCode = template.runtimeGlobalContextForRSCServer({
             metaName,

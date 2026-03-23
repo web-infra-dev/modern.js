@@ -326,19 +326,75 @@ export const runtimeGlobalContextForRSCServer = ({
 
 export const runtimeGlobalContextForRSCClient = ({
   metaName,
+  customEntry,
 }: {
   metaName: string;
+  customEntry?: boolean;
 }) => {
   return `
-  import { createElement, Fragment } from 'react';
-  import { setGlobalContext } from '@${metaName}/runtime/context';
+   ${
+     customEntry
+       ? `import {
+     RscClientRoot,
+     createFromFetch,
+     createFromReadableStream,
+     isRedirectResponse,
+     rscStream,
+     callServer,
+     setServerCallback,
+   } from '@${metaName}/runtime/rsc/client';`
+       : ''
+   }
+   import { createElement, Fragment } from 'react';
+   import { setGlobalContext } from '@${metaName}/runtime/context';
 
-  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
-    createElement(Fragment, null, children);
+   ${customEntry ? 'setServerCallback(callServer);' : ''}
 
-  setGlobalContext({
-    App: DefaultRoot
-  });`;
+   ${
+     customEntry
+       ? `const handleRedirectResponse = (res: Response) => {
+     const { headers } = res;
+     const location = headers.get('X-Modernjs-Redirect');
+     const baseUrl = headers.get('X-Modernjs-BaseUrl');
+     if (location) {
+       if (baseUrl && baseUrl !== '/') {
+         window.location.replace(baseUrl + location);
+       } else {
+         window.location.replace(location);
+       }
+       return res;
+     }
+     return res;
+   };
+
+   const data = ${
+     process.env.MODERN_DISABLE_INJECT_RSC_DATA
+       ? `createFromFetch(
+     fetch(location.pathname, {
+       headers: {
+         'x-rsc-tree': 'true',
+       },
+     }).then(handleRedirectResponse),
+   )`
+       : `createFromReadableStream(rscStream, {
+     callServer: callServer,
+   })`
+   };`
+       : ''
+   }
+
+   const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+     createElement(Fragment, null, children);
+
+   ${
+     customEntry
+       ? 'const RSCRoot = () => createElement(RscClientRoot, { rscPayload: data });'
+       : ''
+   }
+
+   setGlobalContext({
+     App: ${customEntry ? 'RSCRoot' : 'DefaultRoot'}
+   });`;
 };
 
 export const AppProxyForRSC = ({
