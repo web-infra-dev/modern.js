@@ -167,7 +167,7 @@ export const createNetlifyPreset: CreatePreset = (
       } else {
         await fse.writeFile(
           entryFilePath,
-          "const { handler } = require('./netlify-handler.cjs');\nexports.handler = handler;\n",
+          "const { handler } = require('./netlify-handler.cjs');\nmodule.exports.default = handler;\n",
         );
       }
     },
