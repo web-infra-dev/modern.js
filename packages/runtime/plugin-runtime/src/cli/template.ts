@@ -357,12 +357,12 @@ export const runtimeGlobalContextForRSCClient = ({
      const location = headers.get('X-Modernjs-Redirect');
      const baseUrl = headers.get('X-Modernjs-BaseUrl');
      if (location) {
-       if (baseUrl !== '/') {
+       if (baseUrl && baseUrl !== '/') {
          window.location.replace(baseUrl + location);
        } else {
          window.location.replace(location);
        }
-       return;
+       return res;
      }
      return res;
    };
