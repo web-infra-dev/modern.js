@@ -75,4 +75,4 @@ const handler = async (request, context) => {
   return requestHandler(request, context);
 };
 
-exports.handler = handler;
+module.exports.default = handler;
