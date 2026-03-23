@@ -33,7 +33,7 @@ export async function renderCSRWithRSC(options: {
   const stream = htmlStream
     .pipeThrough(injectCSS(cssFiles, { injectClosingTags: false }))
     .pipeThrough(
-      injectRSCPayload(rscPayloadStream, { injectClosingTags: false }),
+      injectRSCPayload(rscPayloadStream, { injectClosingTags: true }),
     );
 
   return new Response(stream, {

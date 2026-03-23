@@ -4393,6 +4393,37 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  tests/integration/ssr/fixtures/rsc-closing-tags:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+      react-server-dom-rspack:
+        specifier: 0.0.1-beta.1
+        version: 0.0.1-beta.1(@rspack/core@2.0.0-beta.6(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.19))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/tsconfig
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
   tests/integration/ssr/fixtures/scriptLoading:
     dependencies:
       '@modern-js/app-tools':
