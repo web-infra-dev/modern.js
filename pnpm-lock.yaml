@@ -1591,7 +1591,7 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.7.0
+        specifier: ^20.8.4
         version: 20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
@@ -3722,7 +3722,7 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
       happy-dom:
-        specifier: ^20.7.0
+        specifier: ^20.8.4
         version: 20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
