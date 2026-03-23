@@ -106,17 +106,6 @@ export const createNetlifyPreset: CreatePreset = ({
       });
 
       await fse.writeFile(entryFilePath, code);
-      if (isEsmProject) {
-        await fse.writeFile(
-          entryFilePath,
-          "export { handler as default } from './netlify-handler.cjs';\n",
-        );
-      } else {
-        await fse.writeFile(
-          entryFilePath,
-          "const { handler } = require('./netlify-handler.cjs');\nmodule.exports.default = handler;\n",
-        );
-      }
     },
     async end() {
       if (process.env.NODE_ENV !== 'development') {
