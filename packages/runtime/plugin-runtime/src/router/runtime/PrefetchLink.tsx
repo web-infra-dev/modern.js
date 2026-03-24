@@ -28,10 +28,6 @@ interface PrefetchHandlers {
   onTouchStart?: TouchEventHandler<Element>;
 }
 
-declare const __webpack_chunk_load__:
-  | ((chunkId: string | number) => Promise<void>)
-  | undefined;
-
 function composeEventHandlers<EventType extends React.SyntheticEvent | Event>(
   theirHandler: ((event: EventType) => any) | undefined,
   ourHandler: (event: EventType) => any,
@@ -293,7 +289,9 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
             {...(props as any)}
             {...prefetchHandlers}
           />
-          {shouldPrefetch && __webpack_chunk_load__ && !isAbsolute ? (
+          {shouldPrefetch && // @ts-ignore
+          WEBPACK_CHUNK_LOAD &&
+          !isAbsolute ? (
             <PrefetchPageLinks path={resolvedPath} />
           ) : null}
         </>
