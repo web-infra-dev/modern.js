@@ -43,21 +43,14 @@ export const dev = async (
     .concat(normalizedConfig?.resolve?.alias ?? [])
     .concat(normalizedConfig?.source?.alias ?? []) as ConfigChain<Alias>;
 
-  // Register Node.js module hooks for ESM TypeScript support
-  if (appContext.moduleType && appContext.moduleType === 'module') {
-    const { registerModuleHooks } = await import('../esm/register-esm.mjs');
-    await registerModuleHooks({
-      appDir: appContext.appDirectory,
-      distDir: appContext.distDirectory,
-      alias: {},
-    });
-  }
-
   // Setup ts-node and tsconfig-paths for TypeScript runtime support
   await setupTsRuntime(
     appContext.appDirectory,
     appContext.distDirectory,
     combinedAlias,
+    {
+      moduleType: appContext.moduleType,
+    },
   );
 
   const { appDirectory, port, apiOnly, metaName, serverRoutes } = appContext;

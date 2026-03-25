@@ -11,16 +11,21 @@ import type { ConfigChain } from '@rsbuild/core';
 
 type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'esbuild-register';
 
+interface TsRuntimeSetupOptions {
+  moduleType?: string;
+  nodeMajorVersion?: number;
+}
+
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
   nodeMajorVersion = Number(process.versions.node.split('.')[0]),
 ): TsRuntimeRegisterMode => {
-  if (hasTsNode) {
-    return 'ts-node';
-  }
-
   if (nodeMajorVersion >= 22) {
     return 'node-loader';
+  }
+
+  if (hasTsNode) {
+    return 'ts-node';
   }
 
   return 'esbuild-register';
@@ -34,12 +39,16 @@ export const setupTsRuntime = async (
   appDir: string,
   distDir: string,
   alias?: ConfigChain<Alias>,
+  options: TsRuntimeSetupOptions = {},
 ) => {
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
-  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const registerMode = resolveTsRuntimeRegisterMode(
+    hasTsNode,
+    options.nodeMajorVersion,
+  );
 
   if (!isTsProject) {
     return;
@@ -77,7 +86,22 @@ export const setupTsRuntime = async (
     };
   }, {});
 
+  if (registerMode === 'esbuild-register' && options.moduleType === 'module') {
+    throw new Error(
+      'TypeScript runtime loading for ESM projects on Node.js < 22 requires `ts-node`. Please install `ts-node` to continue.',
+    );
+  }
+
   if (registerMode === 'ts-node') {
+    if (options.moduleType === 'module') {
+      const { registerModuleHooks } = await import('../esm/register-esm.mjs');
+      await registerModuleHooks({
+        appDir,
+        distDir,
+        alias: alias || {},
+      });
+    }
+
     const tsConfig = readTsConfigByFile(tsconfigPath);
     const tsNode = await loadFromProject('ts-node', appDir);
     const tsNodeOptions = tsConfig['ts-node'];
@@ -96,6 +120,7 @@ export const setupTsRuntime = async (
   } else if (registerMode === 'node-loader') {
     const { registerPathsLoader } = await import('../esm/register-esm.mjs');
     await registerPathsLoader({
+      appDir,
       baseUrl: absoluteBaseUrl || './',
       paths: tsPaths,
     });

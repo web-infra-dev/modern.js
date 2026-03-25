@@ -57,7 +57,7 @@ describe('setupTsRuntime', () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(true, 22)).toBe('ts-node');
+    expect(resolveTsRuntimeRegisterMode(true, 22)).toBe('node-loader');
     expect(resolveTsRuntimeRegisterMode(true, 20)).toBe('ts-node');
   });
 
@@ -76,7 +76,9 @@ describe('setupTsRuntime', () => {
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
-    await setupTsRuntime('/project', '/project/dist', []);
+    await setupTsRuntime('/project', '/project/dist', [], {
+      nodeMajorVersion: 22,
+    });
 
     expect(mockRegisterPathsLoader).toBeCalledTimes(1);
     expect(mockTsconfigPathsRegister).toBeCalledWith({
@@ -88,6 +90,30 @@ describe('setupTsRuntime', () => {
     expect(mockEsbuildRegister).not.toBeCalled();
     expect(mockLoadFromProject).not.toBeCalled();
     expect(mockReadTsConfigByFile).not.toBeCalled();
+  });
+
+  it('should use esbuild fallback on Node < 22 when ts-node is missing', async () => {
+    mockIsDepExists.mockReturnValue(false);
+    const { setupTsRuntime } = await import('../../src/utils/register');
+
+    await setupTsRuntime('/project', '/project/dist', [], {
+      nodeMajorVersion: 20,
+    });
+
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).toBeCalledTimes(1);
+  });
+
+  it('should throw for ESM project on Node < 22 without ts-node', async () => {
+    mockIsDepExists.mockReturnValue(false);
+    const { setupTsRuntime } = await import('../../src/utils/register');
+
+    await expect(
+      setupTsRuntime('/project', '/project/dist', [], {
+        moduleType: 'module',
+        nodeMajorVersion: 20,
+      }),
+    ).rejects.toThrow('requires `ts-node`');
   });
 
   it('should register ts-node when ts-node exists', async () => {
@@ -105,7 +131,9 @@ describe('setupTsRuntime', () => {
       register: tsNodeRegister,
     });
 
-    await setupTsRuntime('/project', '/project/dist', []);
+    await setupTsRuntime('/project', '/project/dist', [], {
+      nodeMajorVersion: 20,
+    });
 
     expect(mockReadTsConfigByFile).toBeCalledWith(
       path.resolve('/project', 'tsconfig.json'),

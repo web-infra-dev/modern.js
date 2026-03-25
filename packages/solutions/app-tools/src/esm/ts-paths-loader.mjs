@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { createMatchPath as oCreateMatchPath } from '@modern-js/utils/tsconfig-paths';
 
 let matchPath;
+let appDir;
 
 const resolvePathWithExtensions = matchedPath => {
   if (path.extname(matchedPath)) {
@@ -46,18 +47,29 @@ const resolvePathWithExtensions = matchedPath => {
   return matchedPath;
 };
 
-export async function initialize({ baseUrl, paths }) {
+export async function initialize({ appDir: currentAppDir, baseUrl, paths }) {
+  appDir = path.resolve(currentAppDir);
   matchPath = oCreateMatchPath(baseUrl || './', paths || {});
 }
 
 export function resolve(specifier, context, defaultResolve) {
+  const parentPath = context.parentURL
+    ? path.dirname(fileURLToPath(context.parentURL))
+    : process.cwd();
+  const relativeFromApp = appDir ? path.relative(appDir, parentPath) : '';
+
+  const isAppFile =
+    appDir &&
+    (parentPath === appDir ||
+      (relativeFromApp &&
+        !relativeFromApp.startsWith('..') &&
+        !path.isAbsolute(relativeFromApp)));
+
   if (
     (specifier.startsWith('./') || specifier.startsWith('../')) &&
-    !path.extname(specifier)
+    !path.extname(specifier) &&
+    isAppFile
   ) {
-    const parentPath = context.parentURL
-      ? path.dirname(fileURLToPath(context.parentURL))
-      : process.cwd();
     const resolvedPath = resolvePathWithExtensions(
       path.resolve(parentPath, specifier),
     );
