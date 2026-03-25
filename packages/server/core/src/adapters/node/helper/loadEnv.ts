@@ -4,10 +4,11 @@ import type { ServerBaseOptions } from '../../../serverBase';
 
 /** 读取 .env.{process.env.MODERN_ENV} 文件，加载环境变量 */
 export async function loadServerEnv(options: ServerBaseOptions) {
-  const { pwd } = options;
+  const { pwd, envDir } = options;
   const serverEnv = process.env.MODERN_ENV;
-  const defaultEnvPath = path.resolve(pwd, `.env`);
-  const serverEnvPath = path.resolve(pwd, `.env.${serverEnv}`);
+  const envDirectory = envDir ? path.resolve(pwd, envDir) : pwd;
+  const defaultEnvPath = path.resolve(envDirectory, `.env`);
+  const serverEnvPath = path.resolve(envDirectory, `.env.${serverEnv}`);
 
   if (
     (await fs.pathExists(defaultEnvPath)) &&

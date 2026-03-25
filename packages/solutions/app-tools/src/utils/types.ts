@@ -3,12 +3,14 @@ export type DevOptions = {
   config?: string;
   apiOnly?: boolean;
   analyze?: boolean;
+  envDir?: string;
 };
 
 export type BuildOptions = {
   config?: string;
   analyze?: boolean;
   watch?: boolean;
+  envDir?: string;
 };
 
 export type DeployOptions = {
@@ -18,6 +20,7 @@ export type DeployOptions = {
 
 export type StartOptions = {
   apiOnly?: boolean;
+  envDir?: string;
 };
 
 export type InspectOptions = {

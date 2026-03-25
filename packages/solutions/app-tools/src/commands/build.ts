@@ -11,9 +11,25 @@ import type { BuildOptions } from '../utils/types';
 async function copyEnvFiles(
   appDirectory: string,
   distDirectory: string,
+  envDir?: string,
 ): Promise<void> {
   try {
-    const files = await fs.readdir(appDirectory);
+    const envDirectory = envDir
+      ? path.resolve(appDirectory, envDir)
+      : appDirectory;
+
+    if (!(await fs.pathExists(envDirectory))) {
+      logger.debug(`Env directory does not exist: ${envDirectory}`);
+      return;
+    }
+
+    const envDirectoryStat = await fs.stat(envDirectory);
+    if (!envDirectoryStat.isDirectory()) {
+      logger.debug(`Env path is not a directory: ${envDirectory}`);
+      return;
+    }
+
+    const files = await fs.readdir(envDirectory);
 
     const envFileRegex = /^\.env(\.[a-zA-Z0-9_-]+)*$/;
     const envFiles = files.filter(file => envFileRegex.test(file));
@@ -24,8 +40,10 @@ async function copyEnvFiles(
     }
 
     const copyPromises = envFiles.map(async envFile => {
-      const sourcePath = path.resolve(appDirectory, envFile);
-      const targetPath = path.resolve(distDirectory, envFile);
+      const sourcePath = path.resolve(envDirectory, envFile);
+      const targetPath = envDir
+        ? path.resolve(distDirectory, envDir, envFile)
+        : path.resolve(distDirectory, envFile);
 
       try {
         const stat = await fs.stat(sourcePath);
@@ -113,7 +131,11 @@ export const build = async (
     );
   }
   await appContext.builder.onAfterBuild(async () => {
-    return copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
+    return copyEnvFiles(
+      appContext.appDirectory,
+      appContext.distDirectory,
+      options?.envDir,
+    );
   });
   await appContext.builder.build({
     watch: options?.watch,

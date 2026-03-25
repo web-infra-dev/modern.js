@@ -1,3 +1,4 @@
+import path from 'path';
 import { createDebugger, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { loadEnv } from '@rsbuild/core';
@@ -71,8 +72,11 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     setProgramVersion(version);
 
     const envName = metaName === 'modern-js' ? 'MODERN' : metaName;
+    const envDir = process.env.MODERN_ENV_DIR;
+    const envCwd = envDir ? path.resolve(appDirectory, envDir) : appDirectory;
+
     loadEnv({
-      cwd: appDirectory,
+      cwd: envCwd,
       mode: process.env[`${envName.toUpperCase()}_ENV`] || process.env.NODE_ENV,
       prefixes: [`${envName.toUpperCase()}_`],
     });
