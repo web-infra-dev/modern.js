@@ -5,12 +5,6 @@ const commonConfig: ProjectConfig = {
   setupFiles: ['@scripts/rstest-config/setup.ts'],
   globals: true,
   tools: {
-    rspack: {
-      optimization: {
-        // Disable tree shaking to avoid issues with rstest mocking '@modern-js/utils'.
-        providedExports: false,
-      },
-    },
     swc: {
       jsc: {
         transform: {

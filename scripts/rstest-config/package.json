@@ -2,6 +2,7 @@
   "name": "@scripts/rstest-config",
   "private": true,
   "version": "2.66.0",
+  "type": "module",
   "main": "src/index.ts",
   "typings": "src/index.ts",
   "dependencies": {
