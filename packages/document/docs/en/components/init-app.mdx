@@ -58,3 +58,10 @@ Now, the project structure is as follows:
 │       └── page.tsx
 └── tsconfig.json
 ```
+
+When `--tailwind` is enabled, `postcss.config.mjs` and `tailwind.config.ts` are generated in the project root.
+When `--router tanstack` is enabled, the scaffold adds `@modern-js/plugin-tanstack`, registers `tanstackRouterPlugin()` in `modern.config.ts`, and uses `src/views` as the route convention directory.
+
+When `--bff` (default Effect runtime) or `--bff-runtime effect` is enabled, `modern.config.ts` enables `@modern-js/plugin-bff`, generates `api/effect/index.ts` + `shared/effect/api.ts`, and sets `bff.runtimeFramework` to `effect`.
+When `--bff-runtime hono` is enabled, `modern.config.ts` enables `@modern-js/plugin-bff`, generates `api/lambda/hello.ts`, and sets `bff.runtimeFramework` to `hono`.
+When `--workspace` is enabled, `@modern-js/*` dependencies use `workspace:*` versions for local monorepo linkage.

@@ -1,28 +1,74 @@
 import path from 'node:path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import type {
-  Entrypoint,
-  NestedRouteForCli,
-  PageRoute,
-  ServerRoute,
-} from '@modern-js/types';
-import { fs, NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
+import type { NestedRouteForCli, PageRoute, ServerRoute } from '@modern-js/types';
+import { fs, NESTED_ROUTE_SPEC_FILE, findExists } from '@modern-js/utils';
 import { filterRoutesForServer } from '@modern-js/utils';
-import { isRouteEntry } from './entry';
+import { NESTED_ROUTES_DIR } from './constants';
+import { getEntrypointRoutesDir, isRouteEntry } from './entry';
 import {
   handleFileChange,
   handleGeneratorEntryCode,
   handleModifyEntrypoints,
 } from './handler';
 
-export { isRouteEntry } from './entry';
-export { handleFileChange, handleModifyEntrypoints } from './handler';
+export { getEntrypointRoutesDir, isRouteEntry } from './entry';
+export {
+  handleFileChange,
+  handleGeneratorEntryCode,
+  handleModifyEntrypoints,
+} from './handler';
+
+const JS_OR_TS_EXTS = [
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.mjs',
+  '.mts',
+  '.cjs',
+  '.cts',
+] as const;
+
+function hasRouterConfigInRuntimeFile(runtimeConfigBase: string) {
+  const runtimeConfigFile = findExists(
+    JS_OR_TS_EXTS.map(ext => `${runtimeConfigBase}${ext}`),
+  );
+
+  if (!runtimeConfigFile) {
+    return false;
+  }
+
+  try {
+    const content = fs.readFileSync(runtimeConfigFile, 'utf-8');
+    return /router\s*:/.test(content);
+  } catch {
+    return false;
+  }
+}
+
+type RouteEntrypointLike = {
+  entry?: string;
+  pageRoutesEntry?: string;
+  nestedRoutesEntry?: string;
+};
+
+function isBuiltInRouteEntrypoint(entrypoint: RouteEntrypointLike) {
+  if (entrypoint.pageRoutesEntry) {
+    return true;
+  }
+
+  const entrypointRoutesDir = getEntrypointRoutesDir(entrypoint);
+  if (entrypointRoutesDir) {
+    return entrypointRoutesDir === NESTED_ROUTES_DIR;
+  }
+
+  return Boolean(entrypoint.entry && isRouteEntry(entrypoint.entry));
+}
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    const nestedRoutes: Record<string, unknown> = {};
     const nestedRoutesForServer: Record<string, unknown> = {};
 
     const { metaName } = api.getAppContext();
@@ -40,8 +86,15 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     });
 
     api._internalRuntimePlugins(({ entrypoint, plugins }) => {
-      const { nestedRoutesEntry } = entrypoint as Entrypoint;
-      const { serverRoutes, metaName } = api.getAppContext();
+      const { serverRoutes, metaName, srcDirectory, runtimeConfigFile } =
+        api.getAppContext();
+      const normalizedConfig = api.getNormalizedConfig() as any;
+      const hasUserRouterConfig =
+        normalizedConfig.router &&
+        Object.keys(normalizedConfig.router).length > 0;
+      const hasRuntimeRouterConfig = hasRouterConfigInRuntimeFile(
+        path.join(srcDirectory, runtimeConfigFile),
+      );
       const serverBase = serverRoutes
         .filter(
           (route: ServerRoute) => route.entryName === entrypoint.entryName,
@@ -49,7 +102,11 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         .map(route => route.urlPath)
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
 
-      if (nestedRoutesEntry) {
+      if (
+        isBuiltInRouteEntrypoint(entrypoint) ||
+        hasUserRouterConfig ||
+        hasRuntimeRouterConfig
+      ) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,
@@ -81,17 +138,23 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
       return { entrypoints: newEntryPoints };
     });
     api.generateEntryCode(async ({ entrypoints }) => {
-      await handleGeneratorEntryCode(api, entrypoints);
+      const builtInEntrypoints = entrypoints.filter(isBuiltInRouteEntrypoint);
+      if (builtInEntrypoints.length > 0) {
+        await handleGeneratorEntryCode(api, builtInEntrypoints);
+      }
     });
     api.onFileChanged(async e => {
-      await handleFileChange(api, e);
+      await handleFileChange(api, e, {
+        includeEntry: isBuiltInRouteEntrypoint,
+      });
     });
 
     api.modifyFileSystemRoutes(({ entrypoint, routes }) => {
-      nestedRoutes[entrypoint.entryName] = routes;
-      nestedRoutesForServer[entrypoint.entryName] = filterRoutesForServer(
-        routes as (NestedRouteForCli | PageRoute)[],
-      );
+      if (isBuiltInRouteEntrypoint(entrypoint)) {
+        nestedRoutesForServer[entrypoint.entryName] = filterRoutesForServer(
+          routes as (NestedRouteForCli | PageRoute)[],
+        );
+      }
 
       return {
         entrypoint,
@@ -100,12 +163,22 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     });
 
     api.onBeforeGenerateRoutes(async ({ entrypoint, code }) => {
-      const { distDirectory } = api.getAppContext();
+      if (isBuiltInRouteEntrypoint(entrypoint)) {
+        const { distDirectory } = api.getAppContext();
 
-      await fs.outputJSON(
-        path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
-        nestedRoutesForServer,
-      );
+        const nestedRoutesSpecPath = path.resolve(
+          distDirectory,
+          NESTED_ROUTE_SPEC_FILE,
+        );
+        const existingNestedRoutes = (await fs.pathExists(nestedRoutesSpecPath))
+          ? ((await fs.readJSON(nestedRoutesSpecPath)) as Record<string, unknown>)
+          : {};
+
+        await fs.outputJSON(nestedRoutesSpecPath, {
+          ...existingNestedRoutes,
+          ...nestedRoutesForServer,
+        });
+      }
 
       return {
         entrypoint,

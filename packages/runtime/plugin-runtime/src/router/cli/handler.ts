@@ -8,24 +8,42 @@ import * as templates from './code/templates';
 import { isPageComponentFile } from './code/utils';
 import { modifyEntrypoints } from './entry';
 
-let originEntrypoints: any[] = [];
+type RegenerateRoutesFn = (params: {
+  api: CLIPluginAPI<AppTools>;
+  appContext: ReturnType<CLIPluginAPI<AppTools>['getAppContext']>;
+  resolvedConfig: AppNormalizedConfig;
+  entrypoints: Entrypoint[];
+}) => Promise<void>;
 
-export async function handleModifyEntrypoints(entrypoints: Entrypoint[]) {
-  return modifyEntrypoints(entrypoints);
+type HandleFileChangeOptions = {
+  includeEntry?: (entrypoint: Entrypoint) => boolean;
+  regenerate?: RegenerateRoutesFn;
+  entrypointsKey?: string;
+};
+
+const DEFAULT_ENTRYPOINTS_KEY = '__default_router_entries__';
+const originEntrypointsByKey = new Map<string, Entrypoint[]>();
+
+export async function handleModifyEntrypoints(
+  entrypoints: Entrypoint[],
+  routesDir?: string,
+) {
+  return modifyEntrypoints(entrypoints, routesDir);
 }
 
 export async function handleGeneratorEntryCode(
   api: CLIPluginAPI<AppTools>,
   entrypoints: Entrypoint[],
+  entrypointsKey = DEFAULT_ENTRYPOINTS_KEY,
 ) {
   const appContext = api.getAppContext();
   const { internalDirectory } = appContext;
   const resolvedConfig = api.getNormalizedConfig();
   const { generatorRegisterCode, generateCode, generatorServerRegisterCode } =
     await import('./code');
-  originEntrypoints = cloneDeep(entrypoints);
+  originEntrypointsByKey.set(entrypointsKey, cloneDeep(entrypoints));
   const enableRsc = resolvedConfig?.server?.rsc;
-  await generateCode(
+  const routesByEntry = await generateCode(
     appContext,
     resolvedConfig as AppNormalizedConfig,
     entrypoints,
@@ -71,21 +89,35 @@ export async function handleGeneratorEntryCode(
       }
     }),
   );
-  return entrypoints;
+  return routesByEntry;
 }
 
-export async function handleFileChange(api: CLIPluginAPI<AppTools>, e: any) {
+export async function handleFileChange(
+  api: CLIPluginAPI<AppTools>,
+  e: any,
+  options: HandleFileChangeOptions = {},
+) {
+  const { includeEntry, regenerate, entrypointsKey = DEFAULT_ENTRYPOINTS_KEY } =
+    options;
   const appContext = api.getAppContext();
   const { appDirectory, entrypoints } = appContext;
+  const activeEntrypoints = includeEntry
+    ? entrypoints.filter(includeEntry)
+    : entrypoints;
   const { filename, eventType } = e;
-  const nestedRouteEntries = entrypoints
+  const nestedRouteEntries = activeEntrypoints
     .map(point => point.nestedRoutesEntry)
     .filter(Boolean) as string[];
-  const pagesDir = entrypoints
+  const pagesDir = activeEntrypoints
     .map(point => point.entry)
     // should only watch file-based routes
     .filter(entry => entry && !path.extname(entry))
     .concat(nestedRouteEntries);
+
+  if (pagesDir.length === 0) {
+    return;
+  }
+
   const isPageFile = (name: string) =>
     pagesDir.some(pageDir => name.includes(pageDir));
 
@@ -105,14 +137,24 @@ export async function handleFileChange(api: CLIPluginAPI<AppTools>, e: any) {
     (isConfigRoutesFile &&
       (eventType === 'change' || eventType === 'add' || eventType === 'unlink'))
   ) {
-    const resolvedConfig = api.getNormalizedConfig();
-    const { generateCode } = await import('./code');
-    const entrypoints = cloneDeep(originEntrypoints);
-    await generateCode(
-      appContext,
-      resolvedConfig as AppNormalizedConfig,
-      entrypoints,
-      api,
+    const resolvedConfig = api.getNormalizedConfig() as AppNormalizedConfig;
+    const cachedEntrypoints =
+      originEntrypointsByKey.get(entrypointsKey) || activeEntrypoints;
+    const entrypoints = cloneDeep(cachedEntrypoints).filter(entrypoint =>
+      includeEntry ? includeEntry(entrypoint) : true,
     );
+
+    if (regenerate) {
+      await regenerate({
+        api,
+        appContext,
+        resolvedConfig,
+        entrypoints,
+      });
+      return;
+    }
+
+    const { generateCode } = await import('./code');
+    await generateCode(appContext, resolvedConfig, entrypoints, api);
   }
 }
