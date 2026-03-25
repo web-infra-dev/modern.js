@@ -1,5 +1,14 @@
 # @modern-js/render
 
+## 3.1.1
+
+### Patch Changes
+
+- 5bfbfd5: fix: preserve closing tags order in RSC HTML responses
+  fix: 为 rsc html 保留 closing tags order
+  - @modern-js/types@3.1.1
+  - @modern-js/utils@3.1.1
+
 ## 3.1.0
 
 ### Patch Changes

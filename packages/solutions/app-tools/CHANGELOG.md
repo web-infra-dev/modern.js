@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 3.1.1
+
+### Patch Changes
+
+- 369d18e: fix: netlify use different request by module export way
+  fix: netlify 在不同的 module 导出方式下使用不同的版本，进而有不同的 request
+  - @modern-js/builder@3.1.1
+  - @modern-js/plugin-data-loader@3.1.1
+  - @modern-js/server-core@3.1.1
+  - @modern-js/prod-server@3.1.1
+  - @modern-js/server@3.1.1
+  - @modern-js/server-utils@3.1.1
+  - @modern-js/i18n-utils@3.1.1
+  - @modern-js/plugin@3.1.1
+  - @modern-js/types@3.1.1
+  - @modern-js/utils@3.1.1
+
 ## 3.1.0
 
 ### Minor Changes
