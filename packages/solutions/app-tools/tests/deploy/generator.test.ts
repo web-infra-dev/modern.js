@@ -25,7 +25,14 @@ describe('deploy generator', () => {
       lambdaDirectory: 'C:\\project\\api\\lambda',
       metaName: 'modern-js',
       bffRuntimeFramework: 'hono',
-    } as any;
+    } satisfies {
+      appDirectory: string;
+      sharedDirectory: string;
+      apiDirectory: string;
+      lambdaDirectory: string;
+      metaName: string;
+      bffRuntimeFramework: string;
+    };
 
     const context = serverAppContextTemplate(appContext);
 
