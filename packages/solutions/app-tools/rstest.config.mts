@@ -7,10 +7,6 @@ export default withTestPreset({
   globals: true,
   tools: {
     rspack: {
-      optimization: {
-        // Disable tree shaking to avoid issues with rstest mocking '@modern-js/utils'.
-        providedExports: false,
-      },
       module: {
         parser: {
           javascript: {
