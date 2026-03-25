@@ -23,7 +23,7 @@ export const setupTsRuntime = async (
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
 
-  if (!isTsProject || !hasTsNode) {
+  if (!isTsProject) {
     return;
   }
 
@@ -59,21 +59,30 @@ export const setupTsRuntime = async (
     };
   }, {});
 
-  const tsConfig = readTsConfigByFile(tsconfigPath);
-  const tsNode = await loadFromProject('ts-node', appDir);
-  const tsNodeOptions = tsConfig['ts-node'];
-  tsNode.register({
-    project: tsconfigPath,
-    scope: true,
-    // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-    files: true,
-    transpileOnly: true,
-    ignore: [
-      '(?:^|/)node_modules/',
-      `(?:^|/)${path.relative(appDir, distDir)}/`,
-    ],
-    ...tsNodeOptions,
-  });
+  if (hasTsNode) {
+    const tsConfig = readTsConfigByFile(tsconfigPath);
+    const tsNode = await loadFromProject('ts-node', appDir);
+    const tsNodeOptions = tsConfig['ts-node'];
+    tsNode.register({
+      project: tsconfigPath,
+      scope: true,
+      // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
+      files: true,
+      transpileOnly: true,
+      ignore: [
+        '(?:^|/)node_modules/',
+        `(?:^|/)${path.relative(appDir, distDir)}/`,
+      ],
+      ...tsNodeOptions,
+    });
+  } else {
+    // Fallback for TS runtime loading when ts-node is not installed.
+    const { register } = await import('esbuild-register/dist/node');
+    register({
+      hookIgnoreNodeModules: true,
+      extensions: ['.ts', '.tsx', '.mts', '.cts'],
+    });
+  }
 
   const { register } = await import('@modern-js/utils/tsconfig-paths');
   register({
