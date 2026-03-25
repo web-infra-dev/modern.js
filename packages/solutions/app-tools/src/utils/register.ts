@@ -9,6 +9,23 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
+type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'esbuild-register';
+
+export const resolveTsRuntimeRegisterMode = (
+  hasTsNode: boolean,
+  nodeMajorVersion = Number(process.versions.node.split('.')[0]),
+): TsRuntimeRegisterMode => {
+  if (hasTsNode) {
+    return 'ts-node';
+  }
+
+  if (nodeMajorVersion >= 22) {
+    return 'node-loader';
+  }
+
+  return 'esbuild-register';
+};
+
 /**
  * Setup TypeScript runtime support.
  * Register ts-node for compilation and tsconfig-paths for path alias resolution.
@@ -22,6 +39,7 @@ export const setupTsRuntime = async (
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
+  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
 
   if (!isTsProject) {
     return;
@@ -59,7 +77,7 @@ export const setupTsRuntime = async (
     };
   }, {});
 
-  if (hasTsNode) {
+  if (registerMode === 'ts-node') {
     const tsConfig = readTsConfigByFile(tsconfigPath);
     const tsNode = await loadFromProject('ts-node', appDir);
     const tsNodeOptions = tsConfig['ts-node'];
@@ -75,8 +93,14 @@ export const setupTsRuntime = async (
       ],
       ...tsNodeOptions,
     });
+  } else if (registerMode === 'node-loader') {
+    const { registerPathsLoader } = await import('../esm/register-esm.mjs');
+    await registerPathsLoader({
+      baseUrl: absoluteBaseUrl || './',
+      paths: tsPaths,
+    });
   } else {
-    // Fallback for TS runtime loading when ts-node is not installed.
+    // Fallback for Node.js < 22 when ts-node is not installed.
     const { register } = await import('esbuild-register/dist/node');
     register({
       hookIgnoreNodeModules: true,

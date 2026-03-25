@@ -43,3 +43,13 @@ export const registerModuleHooks = async ({ appDir, distDir, alias }) => {
     },
   });
 };
+
+export const registerPathsLoader = async ({ baseUrl, paths }) => {
+  const { register } = await import('node:module');
+  register('./ts-paths-loader.mjs', import.meta.url, {
+    data: {
+      baseUrl,
+      paths,
+    },
+  });
+};
