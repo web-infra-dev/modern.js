@@ -32,6 +32,15 @@ const requestTiming: MiddlewareHandler = async (c, next) => {
 export default defineServerConfig({
   middlewares: [
     {
+      name: 'options-handler',
+      method: 'options',
+      path: '/api/options',
+      handler: c => {
+        c.res.headers.set('x-options-handler', 'ok');
+        return c.body(null, 204);
+      },
+    },
+    {
       name: 'set-message',
       handler: async (c, next) => {
         c.set('message', 'hi');
