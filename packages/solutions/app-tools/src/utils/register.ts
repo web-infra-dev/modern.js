@@ -14,15 +14,21 @@ type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'esbuild-register';
 interface TsRuntimeSetupOptions {
   moduleType?: string;
   nodeMajorVersion?: number;
-  hasNativeTypeScriptSupport?: boolean;
+  hasNativeTypeScriptSupport?: boolean | string;
 }
 
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
-  hasNativeTypeScriptSupport = Boolean((process as any).features?.typescript),
+  hasNativeTypeScriptSupport: boolean | string | undefined = (process as any)
+    .features?.typescript,
   nodeMajorVersion = Number(process.versions.node.split('.')[0]),
 ): TsRuntimeRegisterMode => {
-  if (hasNativeTypeScriptSupport || nodeMajorVersion >= 22) {
+  const supportsNativeTypeScript =
+    hasNativeTypeScriptSupport === undefined
+      ? nodeMajorVersion >= 22
+      : hasNativeTypeScriptSupport !== false;
+
+  if (supportsNativeTypeScript) {
     return 'node-loader';
   }
 

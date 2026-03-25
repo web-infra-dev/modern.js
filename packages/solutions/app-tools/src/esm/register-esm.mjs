@@ -1,12 +1,17 @@
 import path from 'node:path';
 import { fs } from '@modern-js/utils';
 
-const checkDepExist = async dep => {
+const resolveTsNodeFromApp = async appDir => {
+  const require = await import('node:module').then(m =>
+    m.createRequire(import.meta.url),
+  );
+
   try {
-    await import(dep);
-    return true;
+    return require.resolve('ts-node', {
+      paths: [appDir],
+    });
   } catch {
-    return false;
+    return null;
   }
 };
 
@@ -18,7 +23,7 @@ export const registerModuleHooks = async ({ appDir, distDir, alias }) => {
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const hasTsconfig = await fs.pathExists(tsconfigPath);
-  const hasTsNode = await checkDepExist('ts-node');
+  const hasTsNode = Boolean(await resolveTsNodeFromApp(appDir));
 
   if (!hasTsconfig || !hasTsNode) {
     return;

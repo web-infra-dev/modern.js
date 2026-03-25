@@ -43,7 +43,9 @@ describe('setupTsRuntime', () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe('node-loader');
+    expect(resolveTsRuntimeRegisterMode(false, undefined, 22)).toBe(
+      'node-loader',
+    );
   });
 
   it('should prefer native capability over node version', async () => {
@@ -51,6 +53,24 @@ describe('setupTsRuntime', () => {
       '../../src/utils/register'
     );
     expect(resolveTsRuntimeRegisterMode(false, true, 20)).toBe('node-loader');
+  });
+
+  it('should treat string native capability as supported', async () => {
+    const { resolveTsRuntimeRegisterMode } = await import(
+      '../../src/utils/register'
+    );
+    expect(resolveTsRuntimeRegisterMode(false, 'strip', 20)).toBe(
+      'node-loader',
+    );
+  });
+
+  it('should not fallback to node version when native capability is false', async () => {
+    const { resolveTsRuntimeRegisterMode } = await import(
+      '../../src/utils/register'
+    );
+    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe(
+      'esbuild-register',
+    );
   });
 
   it('should choose esbuild fallback on Node < 22 without ts-node', async () => {
@@ -66,7 +86,9 @@ describe('setupTsRuntime', () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(true, false, 22)).toBe('node-loader');
+    expect(resolveTsRuntimeRegisterMode(true, undefined, 22)).toBe(
+      'node-loader',
+    );
     expect(resolveTsRuntimeRegisterMode(true, false, 20)).toBe('ts-node');
   });
 
@@ -87,6 +109,7 @@ describe('setupTsRuntime', () => {
 
     await setupTsRuntime('/project', '/project/dist', [], {
       nodeMajorVersion: 22,
+      hasNativeTypeScriptSupport: true,
     });
 
     expect(mockRegisterPathsLoader).toBeCalledTimes(1);
@@ -125,6 +148,19 @@ describe('setupTsRuntime', () => {
         hasNativeTypeScriptSupport: false,
       }),
     ).rejects.toThrow('requires `ts-node`');
+  });
+
+  it('should use node loader when native capability is strip mode', async () => {
+    mockIsDepExists.mockReturnValue(false);
+    const { setupTsRuntime } = await import('../../src/utils/register');
+
+    await setupTsRuntime('/project', '/project/dist', [], {
+      nodeMajorVersion: 20,
+      hasNativeTypeScriptSupport: 'strip',
+    });
+
+    expect(mockRegisterPathsLoader).toBeCalledTimes(1);
+    expect(mockEsbuildRegister).not.toBeCalled();
   });
 
   it('should register ts-node when ts-node exists', async () => {
