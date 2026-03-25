@@ -6,6 +6,7 @@ const ENV_DIR_OPTION = '--env-dir';
 
 function parseEnvDir(argv: string[]): string | undefined {
   const optionWithValue = `${ENV_DIR_OPTION}=`;
+  let lastEnvDir: string | undefined;
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
@@ -16,19 +17,21 @@ function parseEnvDir(argv: string[]): string | undefined {
 
     if (arg.startsWith(optionWithValue)) {
       const value = arg.slice(optionWithValue.length);
-      return value || undefined;
+      if (value) {
+        lastEnvDir = value;
+      }
+      continue;
     }
 
     if (arg === ENV_DIR_OPTION) {
       const value = argv[i + 1];
-      if (!value || value.startsWith('-')) {
-        return undefined;
+      if (value && !value.startsWith('-')) {
+        lastEnvDir = value;
       }
-      return value;
     }
   }
 
-  return undefined;
+  return lastEnvDir;
 }
 
 export const run = async (options: CLIOptions) => {

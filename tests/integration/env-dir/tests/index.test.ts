@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -44,13 +45,31 @@ describe('test env-dir dev', () => {
       '[data-testid="modern-test-var"]',
       el => el.textContent,
     );
-    expect(modernTestVar).toContain('modern_dev_dir_value');
+    expect(modernTestVar).toBe('MODERN_TEST_VAR: modern_dev_dir_value');
 
     const modernLocalVar = await page.$eval(
       '[data-testid="modern-local-var"]',
       el => el.textContent,
     );
-    expect(modernLocalVar).toContain('local_dir_value');
+    expect(modernLocalVar).toBe('MODERN_LOCAL_VAR: local_dir_value');
+  });
+});
+
+describe('test without env-dir option', () => {
+  test('should not copy env-dir files when option is absent', async () => {
+    const buildRes = await runModernCommand(['build'], {
+      cwd: appDir,
+      stdout: true,
+      stderr: true,
+      env: {
+        NODE_ENV: 'production',
+      },
+    });
+
+    expect(buildRes.code).toBe(0);
+
+    const envDirEnvPath = path.join(appDir, 'dist', 'env', '.env.production');
+    expect(existsSync(envDirEnvPath)).toBe(false);
   });
 });
 
@@ -106,12 +125,46 @@ describe('test env-dir build and serve', () => {
       '[data-testid="modern-test-var"]',
       el => el.textContent,
     );
-    expect(modernTestVar).toContain('modern_prod_dir_value');
+    expect(modernTestVar).toBe('MODERN_TEST_VAR: modern_prod_dir_value');
 
     const modernLocalVar = await page.$eval(
       '[data-testid="modern-local-var"]',
       el => el.textContent,
     );
-    expect(modernLocalVar).toContain('local_dir_value');
+    expect(modernLocalVar).toBe('MODERN_LOCAL_VAR: local_dir_value');
+  });
+});
+
+describe('test env-dir option precedence', () => {
+  test('should respect the last --env-dir value for build flow', async () => {
+    const buildRes = await runModernCommand(
+      ['build', '--env-dir', './invalid-env', '--env-dir', './env'],
+      {
+        cwd: appDir,
+        stdout: true,
+        stderr: true,
+        env: {
+          NODE_ENV: 'production',
+        },
+      },
+    );
+
+    expect(buildRes.code).toBe(0);
+
+    const validEnvFilePath = path.join(
+      appDir,
+      'dist',
+      'env',
+      '.env.production',
+    );
+    const invalidEnvFilePath = path.join(
+      appDir,
+      'dist',
+      'invalid-env',
+      '.env.production',
+    );
+
+    expect(existsSync(validEnvFilePath)).toBe(true);
+    expect(existsSync(invalidEnvFilePath)).toBe(false);
   });
 });

@@ -1,6 +1,12 @@
 import path from 'node:path';
 import type { CLIPluginAPI } from '@modern-js/plugin';
-import { fs, type Alias, logger } from '@modern-js/utils';
+import {
+  fs,
+  type Alias,
+  isPathInside,
+  logger,
+  resolveInsideOrFallback,
+} from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
@@ -8,15 +14,51 @@ import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
+function getSafeEnvDirectory(appDirectory: string, envDir?: string): string {
+  const envDirectory = resolveInsideOrFallback(
+    appDirectory,
+    envDir,
+    appDirectory,
+  );
+  if (
+    envDir &&
+    !isPathInside(appDirectory, path.resolve(appDirectory, envDir))
+  ) {
+    logger.warn(
+      `The env directory ${envDir} is outside project root, fallback to project root`,
+    );
+  }
+
+  return envDirectory;
+}
+
+function getSafeDistTarget(
+  distDirectory: string,
+  envDir: string | undefined,
+  envFile: string,
+): string {
+  if (!envDir) {
+    return path.resolve(distDirectory, envFile);
+  }
+
+  const resolvedTargetPath = path.resolve(distDirectory, envDir, envFile);
+  if (!isPathInside(distDirectory, resolvedTargetPath)) {
+    logger.warn(
+      `The env directory ${envDir} is outside dist directory, fallback to dist root`,
+    );
+    return path.resolve(distDirectory, envFile);
+  }
+
+  return resolvedTargetPath;
+}
+
 async function copyEnvFiles(
   appDirectory: string,
   distDirectory: string,
   envDir?: string,
 ): Promise<void> {
   try {
-    const envDirectory = envDir
-      ? path.resolve(appDirectory, envDir)
-      : appDirectory;
+    const envDirectory = getSafeEnvDirectory(appDirectory, envDir);
 
     if (!(await fs.pathExists(envDirectory))) {
       logger.debug(`Env directory does not exist: ${envDirectory}`);
@@ -41,9 +83,7 @@ async function copyEnvFiles(
 
     const copyPromises = envFiles.map(async envFile => {
       const sourcePath = path.resolve(envDirectory, envFile);
-      const targetPath = envDir
-        ? path.resolve(distDirectory, envDir, envFile)
-        : path.resolve(distDirectory, envFile);
+      const targetPath = getSafeDistTarget(distDirectory, envDir, envFile);
 
       try {
         const stat = await fs.stat(sourcePath);
