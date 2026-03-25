@@ -14,24 +14,6 @@ import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
-function getSafeEnvDirectory(appDirectory: string, envDir?: string): string {
-  const envDirectory = resolveInsideOrFallback(
-    appDirectory,
-    envDir,
-    appDirectory,
-  );
-  if (
-    envDir &&
-    !isPathInside(appDirectory, path.resolve(appDirectory, envDir))
-  ) {
-    logger.warn(
-      `The env directory ${envDir} is outside project root, fallback to project root`,
-    );
-  }
-
-  return envDirectory;
-}
-
 function getSafeDistTarget(
   distDirectory: string,
   envDir: string | undefined,
@@ -58,7 +40,19 @@ async function copyEnvFiles(
   envDir?: string,
 ): Promise<void> {
   try {
-    const envDirectory = getSafeEnvDirectory(appDirectory, envDir);
+    const envDirectory = resolveInsideOrFallback(
+      appDirectory,
+      envDir,
+      appDirectory,
+    );
+    if (
+      envDir &&
+      !isPathInside(appDirectory, path.resolve(appDirectory, envDir))
+    ) {
+      logger.warn(
+        `The env directory ${envDir} is outside project root, fallback to project root`,
+      );
+    }
 
     if (!(await fs.pathExists(envDirectory))) {
       logger.debug(`Env directory does not exist: ${envDirectory}`);

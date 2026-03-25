@@ -3,25 +3,15 @@ import {
   fs,
   dotenv,
   dotenvExpand,
-  isPathInside,
   resolveInsideOrFallback,
 } from '@modern-js/utils';
 import type { ServerBaseOptions } from '../../../serverBase';
-
-function getSafeEnvDirectory(pwd: string, envDir?: string): string {
-  const envDirectory = resolveInsideOrFallback(pwd, envDir, pwd);
-  if (envDir && !isPathInside(pwd, path.resolve(pwd, envDir))) {
-    return pwd;
-  }
-
-  return envDirectory;
-}
 
 /** 读取 .env.{process.env.MODERN_ENV} 文件，加载环境变量 */
 export async function loadServerEnv(options: ServerBaseOptions) {
   const { pwd, envDir } = options;
   const serverEnv = process.env.MODERN_ENV;
-  const envDirectory = getSafeEnvDirectory(pwd, envDir);
+  const envDirectory = resolveInsideOrFallback(pwd, envDir, pwd);
   const defaultEnvPath = path.resolve(envDirectory, `.env`);
   const serverEnvPath = path.resolve(envDirectory, `.env.${serverEnv}`);
 
