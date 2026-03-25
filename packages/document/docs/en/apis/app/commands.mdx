@@ -18,6 +18,7 @@ Usage: modern dev [options]
 Options:
   -e --entry <entry>    compiler by entry
   -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  --env-dir <dir>       specify the directory containing .env files
   -h, --help            show command help
   --web-only            only start web service
   --api-only            only start API service
@@ -76,9 +77,27 @@ Usage: modern build [options]
 
 Options:
   -c --config <config>  specify the configuration file, which can be a relative or absolute path
+  --env-dir <dir>       specify the directory containing .env files
   -h, --help            show command help
   -w --watch            turn on watch mode, watch for changes and rebuild
 ```
+
+### Specify Environment Directory
+
+You can use `--env-dir` to load `.env` files from a custom directory instead of the project root.
+
+```bash
+# Load from <projectRoot>/env/.env and .env.development
+modern dev --env-dir ./env
+
+# Load from <projectRoot>/env/.env and .env.production
+modern build --env-dir ./env
+modern serve --env-dir ./env
+```
+
+By default, Modern.js still loads `.env*` from the project root when this option is not provided.
+
+The path of `--env-dir` is resolved relative to the project root.
 
 ## modern new
 
@@ -132,6 +151,8 @@ pnpm does not support the use of JSON strings as parameter values currently. Use
 import ServeCommand from '@site-docs-en/components/serve-command';
 
 <ServeCommand />
+
+`modern serve` also supports `--env-dir <dir>` to load `.env*` from a custom directory.
 
 ## modern upgrade
 
