@@ -14,13 +14,15 @@ type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'esbuild-register';
 interface TsRuntimeSetupOptions {
   moduleType?: string;
   nodeMajorVersion?: number;
+  hasNativeTypeScriptSupport?: boolean;
 }
 
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
+  hasNativeTypeScriptSupport = Boolean((process as any).features?.typescript),
   nodeMajorVersion = Number(process.versions.node.split('.')[0]),
 ): TsRuntimeRegisterMode => {
-  if (nodeMajorVersion >= 22) {
+  if (hasNativeTypeScriptSupport || nodeMajorVersion >= 22) {
     return 'node-loader';
   }
 
@@ -47,6 +49,7 @@ export const setupTsRuntime = async (
   const hasTsNode = isDepExists(appDir, 'ts-node');
   const registerMode = resolveTsRuntimeRegisterMode(
     hasTsNode,
+    options.hasNativeTypeScriptSupport,
     options.nodeMajorVersion,
   );
 

@@ -43,22 +43,31 @@ describe('setupTsRuntime', () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, 22)).toBe('node-loader');
+    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe('node-loader');
+  });
+
+  it('should prefer native capability over node version', async () => {
+    const { resolveTsRuntimeRegisterMode } = await import(
+      '../../src/utils/register'
+    );
+    expect(resolveTsRuntimeRegisterMode(false, true, 20)).toBe('node-loader');
   });
 
   it('should choose esbuild fallback on Node < 22 without ts-node', async () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, 20)).toBe('esbuild-register');
+    expect(resolveTsRuntimeRegisterMode(false, false, 20)).toBe(
+      'esbuild-register',
+    );
   });
 
   it('should choose ts-node when ts-node exists', async () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(true, 22)).toBe('node-loader');
-    expect(resolveTsRuntimeRegisterMode(true, 20)).toBe('ts-node');
+    expect(resolveTsRuntimeRegisterMode(true, false, 22)).toBe('node-loader');
+    expect(resolveTsRuntimeRegisterMode(true, false, 20)).toBe('ts-node');
   });
 
   beforeEach(() => {
@@ -98,6 +107,7 @@ describe('setupTsRuntime', () => {
 
     await setupTsRuntime('/project', '/project/dist', [], {
       nodeMajorVersion: 20,
+      hasNativeTypeScriptSupport: false,
     });
 
     expect(mockRegisterPathsLoader).not.toBeCalled();
@@ -112,6 +122,7 @@ describe('setupTsRuntime', () => {
       setupTsRuntime('/project', '/project/dist', [], {
         moduleType: 'module',
         nodeMajorVersion: 20,
+        hasNativeTypeScriptSupport: false,
       }),
     ).rejects.toThrow('requires `ts-node`');
   });
@@ -133,6 +144,7 @@ describe('setupTsRuntime', () => {
 
     await setupTsRuntime('/project', '/project/dist', [], {
       nodeMajorVersion: 20,
+      hasNativeTypeScriptSupport: false,
     });
 
     expect(mockReadTsConfigByFile).toBeCalledWith(
