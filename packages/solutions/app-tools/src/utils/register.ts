@@ -9,12 +9,10 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
-type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'esbuild-register';
+type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
 
 interface TsRuntimeSetupOptions {
   moduleType?: string;
-  nodeMajorVersion?: number;
-  hasNativeTypeScriptSupport?: boolean | string;
 }
 
 export const resolveTsRuntimeRegisterMode = (
@@ -36,7 +34,7 @@ export const resolveTsRuntimeRegisterMode = (
     return 'ts-node';
   }
 
-  return 'esbuild-register';
+  return 'unsupported';
 };
 
 /**
@@ -53,11 +51,7 @@ export const setupTsRuntime = async (
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
-  const registerMode = resolveTsRuntimeRegisterMode(
-    hasTsNode,
-    options.hasNativeTypeScriptSupport,
-    options.nodeMajorVersion,
-  );
+  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
 
   if (!isTsProject) {
     return;
@@ -95,9 +89,9 @@ export const setupTsRuntime = async (
     };
   }, {});
 
-  if (registerMode === 'esbuild-register' && options.moduleType === 'module') {
+  if (registerMode === 'unsupported') {
     throw new Error(
-      'TypeScript runtime loading for ESM projects on Node.js < 22 requires `ts-node`. Please install `ts-node` to continue.',
+      'TypeScript runtime loading requires Node.js native TypeScript support (Node.js 22+) or `ts-node`. Please upgrade Node.js or install `ts-node` to continue.',
     );
   }
 
@@ -132,13 +126,6 @@ export const setupTsRuntime = async (
       appDir,
       baseUrl: absoluteBaseUrl || './',
       paths: tsPaths,
-    });
-  } else {
-    // Fallback for Node.js < 22 when ts-node is not installed.
-    const { register } = await import('esbuild-register/dist/node');
-    register({
-      hookIgnoreNodeModules: true,
-      extensions: ['.ts', '.tsx', '.mts', '.cts'],
     });
   }
 

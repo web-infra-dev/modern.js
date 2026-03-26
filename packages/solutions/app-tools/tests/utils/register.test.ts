@@ -6,14 +6,19 @@ const mockGetAliasConfig = rstest.fn();
 const mockReadTsConfigByFile = rstest.fn();
 const mockLoadFromProject = rstest.fn();
 const mockIsDepExists = rstest.fn();
-const mockEsbuildRegister = rstest.fn();
 const mockTsconfigPathsRegister = rstest.fn();
 const mockRegisterPathsLoader = rstest.fn();
+const mockRegisterModuleHooks = rstest.fn();
 
-rstest.mock('esbuild-register/dist/node', () => ({
-  __esModule: true,
-  register: (...args: unknown[]) => mockEsbuildRegister(...args),
-}));
+const originalTypeScriptFeature = (process.features as any).typescript;
+
+const setNativeTypeScriptSupport = (value: boolean | string | undefined) => {
+  Object.defineProperty(process.features, 'typescript', {
+    value,
+    configurable: true,
+    writable: true,
+  });
+};
 
 rstest.mock('@modern-js/utils/tsconfig-paths', () => ({
   __esModule: true,
@@ -23,6 +28,7 @@ rstest.mock('@modern-js/utils/tsconfig-paths', () => ({
 rstest.mock('../../src/esm/register-esm.mjs', () => ({
   __esModule: true,
   registerPathsLoader: (...args: unknown[]) => mockRegisterPathsLoader(...args),
+  registerModuleHooks: (...args: unknown[]) => mockRegisterModuleHooks(...args),
 }));
 
 rstest.mock('@modern-js/utils', () => ({
@@ -68,18 +74,14 @@ describe('setupTsRuntime', () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe(
-      'esbuild-register',
-    );
+    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe('unsupported');
   });
 
-  it('should choose esbuild fallback on Node < 22 without ts-node', async () => {
+  it('should choose unsupported on Node < 22 without ts-node', async () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, false, 20)).toBe(
-      'esbuild-register',
-    );
+    expect(resolveTsRuntimeRegisterMode(false, false, 20)).toBe('unsupported');
   });
 
   it('should choose ts-node when ts-node exists', async () => {
@@ -94,6 +96,7 @@ describe('setupTsRuntime', () => {
 
   beforeEach(() => {
     rstest.clearAllMocks();
+    setNativeTypeScriptSupport(originalTypeScriptFeature);
     mockPathExists.mockResolvedValue(true);
     mockGetAliasConfig.mockReturnValue({
       absoluteBaseUrl: '/project',
@@ -103,14 +106,15 @@ describe('setupTsRuntime', () => {
     });
   });
 
-  it('should register tsconfig-paths when ts-node is missing', async () => {
+  afterAll(() => {
+    setNativeTypeScriptSupport(originalTypeScriptFeature);
+  });
+
+  it('should register tsconfig-paths when native support is available', async () => {
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
-    await setupTsRuntime('/project', '/project/dist', [], {
-      nodeMajorVersion: 22,
-      hasNativeTypeScriptSupport: true,
-    });
+    await setupTsRuntime('/project', '/project/dist', []);
 
     expect(mockRegisterPathsLoader).toBeCalledTimes(1);
     expect(mockTsconfigPathsRegister).toBeCalledWith({
@@ -119,51 +123,36 @@ describe('setupTsRuntime', () => {
         '@/*': ['src/*'],
       },
     });
-    expect(mockEsbuildRegister).not.toBeCalled();
     expect(mockLoadFromProject).not.toBeCalled();
     expect(mockReadTsConfigByFile).not.toBeCalled();
   });
 
-  it('should use esbuild fallback on Node < 22 when ts-node is missing', async () => {
-    mockIsDepExists.mockReturnValue(false);
-    const { setupTsRuntime } = await import('../../src/utils/register');
-
-    await setupTsRuntime('/project', '/project/dist', [], {
-      nodeMajorVersion: 20,
-      hasNativeTypeScriptSupport: false,
-    });
-
-    expect(mockRegisterPathsLoader).not.toBeCalled();
-    expect(mockTsconfigPathsRegister).toBeCalledTimes(1);
-  });
-
-  it('should throw for ESM project on Node < 22 without ts-node', async () => {
+  it('should throw when no TypeScript runtime support is available', async () => {
+    setNativeTypeScriptSupport(false);
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
     await expect(
-      setupTsRuntime('/project', '/project/dist', [], {
-        moduleType: 'module',
-        nodeMajorVersion: 20,
-        hasNativeTypeScriptSupport: false,
-      }),
-    ).rejects.toThrow('requires `ts-node`');
+      setupTsRuntime('/project', '/project/dist', []),
+    ).rejects.toThrow('requires Node.js native TypeScript support');
+
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).not.toBeCalled();
+    expect(mockLoadFromProject).not.toBeCalled();
   });
 
   it('should use node loader when native capability is strip mode', async () => {
+    setNativeTypeScriptSupport('strip');
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
-    await setupTsRuntime('/project', '/project/dist', [], {
-      nodeMajorVersion: 20,
-      hasNativeTypeScriptSupport: 'strip',
-    });
+    await setupTsRuntime('/project', '/project/dist', []);
 
     expect(mockRegisterPathsLoader).toBeCalledTimes(1);
-    expect(mockEsbuildRegister).not.toBeCalled();
   });
 
   it('should register ts-node when ts-node exists', async () => {
+    setNativeTypeScriptSupport(false);
     mockIsDepExists.mockReturnValue(true);
     const { setupTsRuntime } = await import('../../src/utils/register');
     mockReadTsConfigByFile.mockReturnValue({
@@ -178,16 +167,36 @@ describe('setupTsRuntime', () => {
       register: tsNodeRegister,
     });
 
-    await setupTsRuntime('/project', '/project/dist', [], {
-      nodeMajorVersion: 20,
-      hasNativeTypeScriptSupport: false,
-    });
+    await setupTsRuntime('/project', '/project/dist', []);
 
     expect(mockReadTsConfigByFile).toBeCalledWith(
       path.resolve('/project', 'tsconfig.json'),
     );
     expect(tsNodeRegister).toBeCalledTimes(1);
     expect(mockTsconfigPathsRegister).toBeCalledTimes(1);
+    expect(mockRegisterModuleHooks).not.toBeCalled();
+  });
+
+  it('should register module hooks for module projects when ts-node exists', async () => {
+    setNativeTypeScriptSupport(false);
+    mockIsDepExists.mockReturnValue(true);
+    const { setupTsRuntime } = await import('../../src/utils/register');
+    mockReadTsConfigByFile.mockReturnValue({
+      'ts-node': {},
+    });
+    mockLoadFromProject.mockResolvedValue({
+      register: rstest.fn(),
+    });
+
+    await setupTsRuntime('/project', '/project/dist', [], {
+      moduleType: 'module',
+    });
+
+    expect(mockRegisterModuleHooks).toBeCalledWith({
+      appDir: '/project',
+      distDir: '/project/dist',
+      alias: [],
+    });
   });
 
   it('should do nothing when tsconfig does not exist', async () => {
@@ -198,7 +207,6 @@ describe('setupTsRuntime', () => {
 
     expect(mockReadTsConfigByFile).not.toBeCalled();
     expect(mockLoadFromProject).not.toBeCalled();
-    expect(mockEsbuildRegister).not.toBeCalled();
     expect(mockTsconfigPathsRegister).not.toBeCalled();
   });
 });

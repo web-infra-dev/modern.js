@@ -1,20 +1,6 @@
 import path from 'node:path';
 import { fs } from '@modern-js/utils';
 
-const resolveTsNodeFromApp = async appDir => {
-  const require = await import('node:module').then(m =>
-    m.createRequire(import.meta.url),
-  );
-
-  try {
-    return require.resolve('ts-node', {
-      paths: [appDir],
-    });
-  } catch {
-    return null;
-  }
-};
-
 /**
  * Register Node.js module hooks for TypeScript support.
  * Uses node:module register API to enable ts-node loader.
@@ -23,9 +9,8 @@ export const registerModuleHooks = async ({ appDir, distDir, alias }) => {
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const hasTsconfig = await fs.pathExists(tsconfigPath);
-  const hasTsNode = Boolean(await resolveTsNodeFromApp(appDir));
 
-  if (!hasTsconfig || !hasTsNode) {
+  if (!hasTsconfig) {
     return;
   }
 
