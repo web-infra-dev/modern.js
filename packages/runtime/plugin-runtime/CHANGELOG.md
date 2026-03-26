@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 3.1.1
+
+### Patch Changes
+
+- d6751ea: fix: support custom entry in rsc client mode
+  fix: 支持在 RSC 客户端模式下自定义入口
+- Updated dependencies [5bfbfd5]
+  - @modern-js/render@3.1.1
+  - @modern-js/plugin-data-loader@3.1.1
+  - @modern-js/plugin@3.1.1
+  - @modern-js/runtime-utils@3.1.1
+  - @modern-js/types@3.1.1
+  - @modern-js/utils@3.1.1
+
 ## 3.1.0
 
 ### Patch Changes
