@@ -22,7 +22,7 @@ export interface ServerBaseOptions extends ServerCreateOptions {
 }
 
 export class ServerBase<E extends Env = any> {
-  private serverOptions: ServerBaseOptions;
+  public serverOptions: ServerBaseOptions;
 
   private app: Hono<E>;
 
@@ -66,10 +66,6 @@ export class ServerBase<E extends Env = any> {
 
   addPlugins(plugins: ServerPlugin[]) {
     this.plugins.push(...plugins);
-  }
-
-  getOptions() {
-    return this.serverOptions;
   }
 
   #applyMiddlewares() {
