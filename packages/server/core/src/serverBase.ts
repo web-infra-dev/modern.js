@@ -22,7 +22,7 @@ export interface ServerBaseOptions extends ServerCreateOptions {
 }
 
 export class ServerBase<E extends Env = any> {
-  public serverOptions: ServerBaseOptions;
+  private serverOptions: ServerBaseOptions;
 
   private app: Hono<E>;
 
