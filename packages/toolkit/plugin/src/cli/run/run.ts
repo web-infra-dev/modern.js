@@ -44,10 +44,6 @@ export const run = async (options: CLIOptions) => {
   const command = process.argv[2];
   const envDir = parseEnvDir(process.argv);
 
-  if (envDir) {
-    process.env.MODERN_ENV_DIR = envDir;
-  }
-
   if (!process.env.NODE_ENV) {
     if (['build', 'serve', 'deploy', 'analyze'].includes(command)) {
       process.env.NODE_ENV = 'production';
@@ -63,6 +59,7 @@ export const run = async (options: CLIOptions) => {
     cwd,
     command,
     configFile,
+    envDir,
     ...params,
   });
 };

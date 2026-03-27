@@ -75,12 +75,13 @@ export const deployCommand = (
     .command('deploy')
     .usage('[options]')
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('--env-dir <dir>', i18n.t(localeKeys.command.shared.envDir))
     .option('-s --skip-build', i18n.t(localeKeys.command.shared.skipBuild))
     .description(i18n.t(localeKeys.command.deploy.describe))
     .action(async (options: DeployOptions) => {
       if (!options.skipBuild) {
         const { build } = await import('./build.js');
-        await build(api);
+        await build(api, options);
       }
 
       const { deploy } = await import('./deploy.js');

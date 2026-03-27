@@ -135,6 +135,24 @@ describe('test env-dir build and serve', () => {
   });
 });
 
+describe('test env-dir deploy', () => {
+  test('should pass --env-dir to build in deploy flow', async () => {
+    const deployRes = await runModernCommand(['deploy', '--env-dir', './env'], {
+      cwd: appDir,
+      stdout: true,
+      stderr: true,
+      env: {
+        NODE_ENV: 'production',
+      },
+    });
+
+    expect(deployRes.code).toBe(0);
+
+    const envDirEnvPath = path.join(appDir, 'dist', 'env', '.env.production');
+    expect(existsSync(envDirEnvPath)).toBe(true);
+  });
+});
+
 describe('test env-dir option precedence', () => {
   test('should respect the last --env-dir value for build flow', async () => {
     const buildRes = await runModernCommand(

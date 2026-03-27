@@ -16,6 +16,7 @@ export type BuildOptions = {
 export type DeployOptions = {
   config?: string;
   skipBuild?: boolean;
+  envDir?: string;
 };
 
 export type StartOptions = {
