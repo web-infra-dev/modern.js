@@ -1,4 +1,4 @@
-import { existsSync } from 'fs';
+import { existsSync, rmSync } from 'fs';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -137,6 +137,14 @@ describe('test env-dir build and serve', () => {
 
 describe('test env-dir deploy', () => {
   test('should pass --env-dir to build in deploy flow', async () => {
+    rmSync(path.join(appDir, 'dist'), {
+      recursive: true,
+      force: true,
+    });
+
+    const envDirEnvPath = path.join(appDir, 'dist', 'env', '.env.production');
+    expect(existsSync(envDirEnvPath)).toBe(false);
+
     const deployRes = await runModernCommand(['deploy', '--env-dir', './env'], {
       cwd: appDir,
       stdout: true,
@@ -147,8 +155,6 @@ describe('test env-dir deploy', () => {
     });
 
     expect(deployRes.code).toBe(0);
-
-    const envDirEnvPath = path.join(appDir, 'dist', 'env', '.env.production');
     expect(existsSync(envDirEnvPath)).toBe(true);
   });
 });

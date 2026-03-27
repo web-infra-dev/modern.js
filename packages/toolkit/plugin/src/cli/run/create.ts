@@ -77,7 +77,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     setProgramVersion(version);
 
     const envName = metaName === 'modern-js' ? 'MODERN' : metaName;
-    const envDir = options.envDir;
+    const envDir = options.envDir ?? process.env.MODERN_ENV_DIR;
     const envCwd = ensureAbsolutePath(appDirectory, envDir || '.');
 
     if (!isPathInside(appDirectory, envCwd)) {
