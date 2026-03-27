@@ -17,10 +17,9 @@ interface TsRuntimeSetupOptions {
 
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
-  hasNativeTypeScriptSupport: boolean | string | undefined = (process as any)
-    .features?.typescript,
-  nodeMajorVersion = Number(process.versions.node.split('.')[0]),
 ): TsRuntimeRegisterMode => {
+  const hasNativeTypeScriptSupport = (process as any).features?.typescript;
+  const nodeMajorVersion = Number(process.versions.node.split('.')[0]);
   const supportsNativeTypeScript =
     hasNativeTypeScriptSupport === undefined
       ? nodeMajorVersion >= 22

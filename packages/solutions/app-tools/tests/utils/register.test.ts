@@ -45,53 +45,48 @@ rstest.mock('@modern-js/utils', () => ({
 }));
 
 describe('setupTsRuntime', () => {
-  it('should choose native loader on Node 22+ without ts-node', async () => {
+  it('should follow node major fallback when native capability is undefined', async () => {
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, undefined, 22)).toBe(
-      'node-loader',
-    );
+    setNativeTypeScriptSupport(undefined);
+    const expected =
+      Number(process.versions.node.split('.')[0]) >= 22
+        ? 'node-loader'
+        : 'unsupported';
+    expect(resolveTsRuntimeRegisterMode(false)).toBe(expected);
   });
 
   it('should prefer native capability over node version', async () => {
+    setNativeTypeScriptSupport(true);
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, true, 20)).toBe('node-loader');
+    expect(resolveTsRuntimeRegisterMode(false)).toBe('node-loader');
   });
 
   it('should treat string native capability as supported', async () => {
+    setNativeTypeScriptSupport('strip');
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, 'strip', 20)).toBe(
-      'node-loader',
-    );
+    expect(resolveTsRuntimeRegisterMode(false)).toBe('node-loader');
   });
 
   it('should not fallback to node version when native capability is false', async () => {
+    setNativeTypeScriptSupport(false);
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, false, 22)).toBe('unsupported');
+    expect(resolveTsRuntimeRegisterMode(false)).toBe('unsupported');
   });
 
-  it('should choose unsupported on Node < 22 without ts-node', async () => {
+  it('should choose ts-node when ts-node exists and native support is disabled', async () => {
+    setNativeTypeScriptSupport(false);
     const { resolveTsRuntimeRegisterMode } = await import(
       '../../src/utils/register'
     );
-    expect(resolveTsRuntimeRegisterMode(false, false, 20)).toBe('unsupported');
-  });
-
-  it('should choose ts-node when ts-node exists', async () => {
-    const { resolveTsRuntimeRegisterMode } = await import(
-      '../../src/utils/register'
-    );
-    expect(resolveTsRuntimeRegisterMode(true, undefined, 22)).toBe(
-      'node-loader',
-    );
-    expect(resolveTsRuntimeRegisterMode(true, false, 20)).toBe('ts-node');
+    expect(resolveTsRuntimeRegisterMode(true)).toBe('ts-node');
   });
 
   beforeEach(() => {
