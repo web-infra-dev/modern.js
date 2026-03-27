@@ -66,19 +66,4 @@ describe('test load serve env file', () => {
     delete process.env.USER_NAME;
     delete process.env.ENV;
   });
-
-  it('should load env from MODERN_ENV_DIR when envDir is not provided', async () => {
-    process.env.MODERN_ENV = 'prod';
-    process.env.MODERN_ENV_DIR = 'env';
-    await loadServerEnv({
-      pwd: envPwd,
-    } as any);
-
-    expect(process.env.USER_NAME).toBe('dir_prod_root');
-    expect(process.env.ENV).toBe('dir_prod');
-
-    delete process.env.USER_NAME;
-    delete process.env.ENV;
-    delete process.env.MODERN_ENV_DIR;
-  });
 });

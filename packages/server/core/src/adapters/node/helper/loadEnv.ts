@@ -11,8 +11,7 @@ import type { ServerBaseOptions } from '../../../serverBase';
 export async function loadServerEnv(options: ServerBaseOptions) {
   const { pwd, envDir } = options;
   const serverEnv = process.env.MODERN_ENV;
-  const resolvedEnvDir = envDir ?? process.env.MODERN_ENV_DIR;
-  const envDirectory = resolveInsideOrFallback(pwd, resolvedEnvDir, pwd);
+  const envDirectory = resolveInsideOrFallback(pwd, envDir, pwd);
   const defaultEnvPath = path.resolve(envDirectory, `.env`);
   const serverEnvPath = path.resolve(envDirectory, `.env.${serverEnv}`);
 
