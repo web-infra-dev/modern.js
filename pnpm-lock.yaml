@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -3750,8 +3748,8 @@ importers:
         specifier: 0.9.4
         version: 0.9.4(@rstest/core@0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.58.2)(utf-8-validate@5.0.10)
       '@rstest/browser-react':
-        specifier: 0.9.4
-        version: 0.9.4(@rstest/core@0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: 0.9.5
+        version: 0.9.5(@rstest/core@0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@rstest/core':
         specifier: 0.9.4
         version: 0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
@@ -4597,7 +4595,7 @@ importers:
         version: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
       storybook-addon-modernjs:
         specifier: 3.3.2
-        version: 3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3)
+        version: 3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3)
       storybook-react-rsbuild:
         specifier: 3.3.2
         version: 3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@3.30.0)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.19))(esbuild@0.27.2))
@@ -6270,15 +6268,15 @@ packages:
   '@modern-js/plugin@2.70.4':
     resolution: {integrity: sha512-vqoioz6JbU+fIirmTMmbvHTYrWNM6IhMyOgZJ6kjHHeu/EdXyaYSp8X1DzPW7IXPWQavr0VuLq0E+Sav+G6HYg==}
 
-  '@modern-js/plugin@3.1.0':
-    resolution: {integrity: sha512-9FnKewrVU/JAvFzVRX5yY+/fv5b4kjysdm1aRa/e/e2WttlPLrBq9PDp9F58nW6eOZKyLQhm6deKPhI5zO2/RQ==}
+  '@modern-js/plugin@3.1.1':
+    resolution: {integrity: sha512-V0Kd2szFblL/snNrZIroOthOrDjdPvkHekpAtulLYAxQUVY6QdYv7fp3/3zyic45iCCQLagsRZuedWaozLjsFg==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
     engines: {node: '>=8'}
 
-  '@modern-js/runtime-utils@3.1.0':
-    resolution: {integrity: sha512-2d9+orxT1bavaz3lzUHVepoa7ej2x1zjiycqrEI2Dlu8tMvMJJ7k1FKB+t9mimavZeOr2megoK1lIKdgIdsKOw==}
+  '@modern-js/runtime-utils@3.1.1':
+    resolution: {integrity: sha512-FPcDPWuX2nz+/1EEW7+ZLGnVjlNgm9qR/P4b5Cpc7kciNueXatAEEp+zMfSQN9dwKDfb2+mncgfJzEANg527WQ==}
     peerDependencies:
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
@@ -6348,14 +6346,14 @@ packages:
   '@modern-js/types@2.70.4':
     resolution: {integrity: sha512-P3Pe6S34GwJMQOYOHQx/mkcu8oEPwLU+Y3LwKslMNa43ooIgx0NEUzwl/N93bapw3LnoCQpwAOK0qQALaXnd9A==}
 
-  '@modern-js/types@3.1.0':
-    resolution: {integrity: sha512-M5SRZgIroH8JGKMeLv2zVumB1H1VlmELyBHQbXL4mEhnXCPgpmH7bil3hSx3fqgNkauGoYN3sgfONHVANRdAZA==}
+  '@modern-js/types@3.1.1':
+    resolution: {integrity: sha512-BcHAZrW49aG7tXwRTu0vmfon0RrzH0sLZhbzH+csJi2Xfgh6GTSAbpQVUf/GuV1fNPpfLjSUvZIb19XG3PMyWQ==}
 
   '@modern-js/utils@2.70.4':
     resolution: {integrity: sha512-LQrwyGlFhsH2BmZxStF0TPeStm6aumf4N1J+ZyObLw5URrN4o8vCyeyqrPVciICeoTqhHg2GIArJWB5PXRcUig==}
 
-  '@modern-js/utils@3.1.0':
-    resolution: {integrity: sha512-Me/IJld81bHGoixHgy+CZq3hjgtWtNds/YLogj5+z/HqVnVHH6ompohmEc415gYZ1iK8LXVv+iNUvJn4zUQXtQ==}
+  '@modern-js/utils@3.1.1':
+    resolution: {integrity: sha512-nMp1HXhVtLcWv41GbdalERE7xeFRJAzCN36RnmPK66YUUDJMl87eWXd7vfDQuwteqdy8ieNuqnj1UUbqGctiWw==}
     peerDependencies:
       react: ^19.2.4
       react-dom: ^19.2.4
@@ -7451,11 +7449,11 @@ packages:
       '@rsbuild/core': '*'
       '@rstest/core': '>=0.7.7'
 
-  '@rstest/browser-react@0.9.4':
-    resolution: {integrity: sha512-kxbr+lJKllOHl1TUvGs+czrKq7ogXNc0Dn9zdkcJpk41wcQcBHoxzfOan/9UQgOsfnBOyDKyDDGO1GplB+ps8A==}
+  '@rstest/browser-react@0.9.5':
+    resolution: {integrity: sha512-YXx38685wbtXQ5xxrzLn/LzWUi9KjiSW9Tdv+iEs2vgP+0pIbVonso/dNm7ZSwrSSWGpPzS2W2y7NODSmLt1Vg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
-      '@rstest/core': ^0.9.4
+      '@rstest/core': ^0.9.5
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -17717,11 +17715,11 @@ snapshots:
       '@modern-js/utils': 2.70.4
       '@swc/helpers': 0.5.19
 
-  '@modern-js/plugin@3.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@modern-js/plugin@3.1.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@modern-js/runtime-utils': 3.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@modern-js/types': 3.1.0
-      '@modern-js/utils': 3.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@modern-js/runtime-utils': 3.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@modern-js/types': 3.1.1
+      '@modern-js/utils': 3.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@swc/helpers': 0.5.19
       jiti: 2.6.1
@@ -17780,10 +17778,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/runtime-utils@3.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@modern-js/runtime-utils@3.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@modern-js/types': 3.1.0
-      '@modern-js/utils': 3.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@modern-js/types': 3.1.1
+      '@modern-js/utils': 3.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@swc/helpers': 0.5.19
       lru-cache: 10.4.3
       react-router: 7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -17831,7 +17829,7 @@ snapshots:
 
   '@modern-js/types@2.70.4': {}
 
-  '@modern-js/types@3.1.0':
+  '@modern-js/types@3.1.1':
     optional: true
 
   '@modern-js/utils@2.70.4':
@@ -17841,7 +17839,7 @@ snapshots:
       lodash: 4.17.23
       rslog: 1.3.2
 
-  '@modern-js/utils@3.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@modern-js/utils@3.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@swc/helpers': 0.5.19
       caniuse-lite: 1.0.30001780
@@ -19187,7 +19185,7 @@ snapshots:
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rstest/core': 0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
 
-  '@rstest/browser-react@0.9.4(@rstest/core@0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@rstest/browser-react@0.9.5(@rstest/core@0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@rstest/core': 0.9.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       react: 19.2.4
@@ -27809,7 +27807,7 @@ snapshots:
 
   std-env@3.10.0: {}
 
-  storybook-addon-modernjs@3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3):
+  storybook-addon-modernjs@3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@modern-js/app-tools': link:packages/solutions/app-tools
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -27817,7 +27815,7 @@ snapshots:
       rslog: 1.3.2
       storybook-builder-rsbuild: 3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)
     optionalDependencies:
-      '@modern-js/plugin': 3.1.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@modern-js/plugin': 3.1.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       typescript: 5.9.3
 
   storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3):
