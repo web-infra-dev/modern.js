@@ -41,7 +41,7 @@
   "devDependencies": {
     "@modern-js/i18n-utils": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.20.0",
+    "@rslib/core": "0.20.1",
     "@types/node": "^20",
     "tsx": "^4.21.0",
     "typescript": "^5"
