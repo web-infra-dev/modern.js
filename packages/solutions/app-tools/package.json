@@ -86,7 +86,7 @@
     "test": "rstest"
   },
   "dependencies": {
-    "@babel/parser": "^7.29.0",
+    "@babel/parser": "^7.29.2",
     "@babel/traverse": "^7.29.0",
     "@babel/types": "^7.29.0",
     "@modern-js/builder": "workspace:*",
