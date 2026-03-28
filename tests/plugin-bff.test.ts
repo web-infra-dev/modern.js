@@ -1,6 +1,6 @@
-import * as bffPlugin from '../packages/cli/plugin-bff/src';
-import { bffPlugin as bffPluginExport } from '../packages/cli/plugin-bff/src/cli';
-import * as constants from '../packages/cli/plugin-bff/src/constants';
+import * as bffPlugin from '../../cli/plugin-bff/src';
+import { bffPlugin as bffPluginExport } from '../../cli/plugin-bff/src/cli';
+import * as constants from '../../cli/plugin-bff/src/constants';
 
 describe('plugin-bff exports', () => {
   test('should export all constants', () => {
