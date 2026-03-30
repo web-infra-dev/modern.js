@@ -1,6 +1,12 @@
 import path from 'node:path';
 import type { CLIPluginAPI } from '@modern-js/plugin';
-import { fs, type Alias, logger } from '@modern-js/utils';
+import {
+  fs,
+  type Alias,
+  isPathInside,
+  logger,
+  resolveInsideOrFallback,
+} from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
@@ -8,12 +14,58 @@ import { setupTsRuntime } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
+function getSafeDistTarget(
+  distDirectory: string,
+  envDir: string | undefined,
+  envFile: string,
+): string {
+  if (!envDir) {
+    return path.resolve(distDirectory, envFile);
+  }
+
+  const resolvedTargetPath = path.resolve(distDirectory, envDir, envFile);
+  if (!isPathInside(distDirectory, resolvedTargetPath)) {
+    logger.warn(
+      `The env directory ${envDir} is outside dist directory, fallback to dist root`,
+    );
+    return path.resolve(distDirectory, envFile);
+  }
+
+  return resolvedTargetPath;
+}
+
 async function copyEnvFiles(
   appDirectory: string,
   distDirectory: string,
+  envDir?: string,
 ): Promise<void> {
   try {
-    const files = await fs.readdir(appDirectory);
+    const envDirectory = resolveInsideOrFallback(
+      appDirectory,
+      envDir,
+      appDirectory,
+    );
+    if (
+      envDir &&
+      !isPathInside(appDirectory, path.resolve(appDirectory, envDir))
+    ) {
+      logger.warn(
+        `The env directory ${envDir} is outside project root, fallback to project root`,
+      );
+    }
+
+    if (!(await fs.pathExists(envDirectory))) {
+      logger.debug(`Env directory does not exist: ${envDirectory}`);
+      return;
+    }
+
+    const envDirectoryStat = await fs.stat(envDirectory);
+    if (!envDirectoryStat.isDirectory()) {
+      logger.debug(`Env path is not a directory: ${envDirectory}`);
+      return;
+    }
+
+    const files = await fs.readdir(envDirectory);
 
     const envFileRegex = /^\.env(\.[a-zA-Z0-9_-]+)*$/;
     const envFiles = files.filter(file => envFileRegex.test(file));
@@ -24,8 +76,8 @@ async function copyEnvFiles(
     }
 
     const copyPromises = envFiles.map(async envFile => {
-      const sourcePath = path.resolve(appDirectory, envFile);
-      const targetPath = path.resolve(distDirectory, envFile);
+      const sourcePath = path.resolve(envDirectory, envFile);
+      const targetPath = getSafeDistTarget(distDirectory, envDir, envFile);
 
       try {
         const stat = await fs.stat(sourcePath);
@@ -113,7 +165,11 @@ export const build = async (
     );
   }
   await appContext.builder.onAfterBuild(async () => {
-    return copyEnvFiles(appContext.appDirectory, appContext.distDirectory);
+    return copyEnvFiles(
+      appContext.appDirectory,
+      appContext.distDirectory,
+      options?.envDir,
+    );
   });
   await appContext.builder.build({
     watch: options?.watch,
