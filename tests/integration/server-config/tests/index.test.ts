@@ -69,6 +69,24 @@ const supportServerPlugin = async ({
   expect(headers.get('x-plugin-render-middleware')).toMatch('plugin');
 };
 
+const supportOptionsMiddleware = async ({
+  host,
+  port,
+  expectHeader = true,
+}: {
+  host: string;
+  port: number;
+  expectHeader?: boolean;
+}) => {
+  const res = await fetch(`${host}:${port}/api/options`, {
+    method: 'OPTIONS',
+  });
+  expect(res.status).toBe(204);
+  if (expectHeader) {
+    expect(res.headers.get('x-options-handler')).toBe('ok');
+  }
+};
+
 describe('server config', () => {
   describe('dev', () => {
     let port = 8080;
@@ -109,6 +127,14 @@ describe('server config', () => {
       await supportServerPlugin({
         host,
         port,
+      });
+    });
+
+    test('options method middleware should works', async () => {
+      await supportOptionsMiddleware({
+        host,
+        port,
+        expectHeader: false,
       });
     });
 
@@ -158,6 +184,13 @@ describe('server config', () => {
 
     test('plugin should works', async () => {
       await supportServerPlugin({
+        host,
+        port,
+      });
+    });
+
+    test('options method middleware should works', async () => {
+      await supportOptionsMiddleware({
         host,
         port,
       });

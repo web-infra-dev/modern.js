@@ -22,7 +22,7 @@ export interface ServerBaseOptions extends ServerCreateOptions {
 }
 
 export class ServerBase<E extends Env = any> {
-  public options: ServerBaseOptions;
+  public serverOptions: ServerBaseOptions;
 
   private app: Hono<E>;
 
@@ -31,7 +31,7 @@ export class ServerBase<E extends Env = any> {
   private serverContext: ServerContext | null = null;
 
   constructor(options: ServerBaseOptions) {
-    this.options = options;
+    this.serverOptions = options;
 
     this.app = new Hono<E>();
     this.app.use('*', run);
@@ -43,7 +43,7 @@ export class ServerBase<E extends Env = any> {
    * - apply middlewares
    */
   async init() {
-    const { serverConfig, config: cliConfig } = this.options;
+    const { serverConfig, config: cliConfig } = this.serverOptions;
     const mergedConfig = loadConfig({
       cliConfig,
       serverConfig: serverConfig || {},
@@ -51,7 +51,7 @@ export class ServerBase<E extends Env = any> {
 
     const { serverContext } = await server.run({
       plugins: this.plugins as Plugin[],
-      options: this.options,
+      options: this.serverOptions,
       config: mergedConfig,
       handleSetupResult,
     });
@@ -172,6 +172,10 @@ export class ServerBase<E extends Env = any> {
 
   get get() {
     return this.app.get.bind(this.app);
+  }
+
+  get options() {
+    return this.app.options.bind(this.app);
   }
 
   get post() {
