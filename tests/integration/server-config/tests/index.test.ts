@@ -50,7 +50,7 @@ const supportServerMiddleware = async ({
 
   const { headers } = res;
   expect(headers.get('X-Middleware')).toMatch('request');
-  expect(headers.get('x-message')).toMatch('hi');
+  expect(headers.get('x-message')).toMatch('alias test');
 };
 
 const supportServerPlugin = async ({

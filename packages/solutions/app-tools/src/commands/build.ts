@@ -65,21 +65,14 @@ export const build = async (
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
-  // Register Node.js module hooks for ESM TypeScript support
-  if (appContext.moduleType && appContext.moduleType === 'module') {
-    const { registerModuleHooks } = await import('../esm/register-esm.mjs');
-    await registerModuleHooks({
-      appDir: appContext.appDirectory,
-      distDir: appContext.distDirectory,
-      alias: {},
-    });
-  }
-
   // Setup ts-node and tsconfig-paths for TypeScript runtime support
   await setupTsRuntime(
     appContext.appDirectory,
     appContext.distDirectory,
     combinedAlias,
+    {
+      moduleType: appContext.moduleType,
+    },
   );
 
   const { apiOnly } = appContext;
