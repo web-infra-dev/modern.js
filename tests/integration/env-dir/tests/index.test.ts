@@ -1,4 +1,4 @@
-import { existsSync, rmSync } from 'fs';
+import { existsSync, readFileSync, rmSync } from 'fs';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
@@ -151,11 +151,32 @@ describe('test env-dir deploy', () => {
       stderr: true,
       env: {
         NODE_ENV: 'production',
+        MODERNJS_DEPLOY: 'node',
       },
     });
 
     expect(deployRes.code).toBe(0);
     expect(existsSync(envDirEnvPath)).toBe(true);
+  });
+
+  test('should inject env-dir into deployed output runtime options', async () => {
+    const deployRes = await runModernCommand(['deploy', '--env-dir', './env'], {
+      cwd: appDir,
+      stdout: true,
+      stderr: true,
+      env: {
+        NODE_ENV: 'production',
+        MODERNJS_DEPLOY: 'node',
+      },
+    });
+
+    expect(deployRes.code).toBe(0);
+
+    const entryCode = readFileSync(
+      path.join(appDir, '.output', 'index.js'),
+      'utf-8',
+    );
+    expect(entryCode.includes('"envDir":"./env"')).toBe(true);
   });
 });
 
