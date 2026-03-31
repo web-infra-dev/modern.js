@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -3750,8 +3748,8 @@ importers:
         specifier: 0.9.4
         version: 0.9.4(@rstest/core@0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(bufferutil@4.1.0)(playwright@1.58.2)(utf-8-validate@5.0.10)
       '@rstest/browser-react':
-        specifier: 0.9.4
-        version: 0.9.4(@rstest/core@0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: 0.9.5
+        version: 0.9.5(@rstest/core@0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@rstest/core':
         specifier: 0.9.5
         version: 0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
@@ -7448,11 +7446,11 @@ packages:
       '@rsbuild/core': '*'
       '@rstest/core': '>=0.7.7'
 
-  '@rstest/browser-react@0.9.4':
-    resolution: {integrity: sha512-kxbr+lJKllOHl1TUvGs+czrKq7ogXNc0Dn9zdkcJpk41wcQcBHoxzfOan/9UQgOsfnBOyDKyDDGO1GplB+ps8A==}
+  '@rstest/browser-react@0.9.5':
+    resolution: {integrity: sha512-YXx38685wbtXQ5xxrzLn/LzWUi9KjiSW9Tdv+iEs2vgP+0pIbVonso/dNm7ZSwrSSWGpPzS2W2y7NODSmLt1Vg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
-      '@rstest/core': ^0.9.4
+      '@rstest/core': ^0.9.5
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -19205,7 +19203,7 @@ snapshots:
       '@rsbuild/core': 2.0.0-beta.4(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rstest/core': 0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
 
-  '@rstest/browser-react@0.9.4(@rstest/core@0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@rstest/browser-react@0.9.5(@rstest/core@0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@rstest/core': 0.9.5(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
       react: 19.2.4
