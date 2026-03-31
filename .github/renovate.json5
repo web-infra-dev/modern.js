@@ -7,7 +7,7 @@
   "schedule": ["every weekend"],
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
   "lockFileMaintenance": {
-    "enabled": false
+    "enabled": true
   },
   "ignoreScripts": false,
   "packageRules": [
