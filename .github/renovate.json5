@@ -30,6 +30,13 @@
     },
     {
       "matchPackageNames": [
+        "@rstest/**",
+      ],
+      "groupName": "rstest monorepo",
+      "groupSlug": "rstest",
+    },
+    {
+      "matchPackageNames": [
         "@rsbuild/**",
       ],
       "updateTypes": ["minor", "patch"],
