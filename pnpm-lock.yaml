@@ -1246,7 +1246,7 @@ importers:
   packages/solutions/app-tools:
     dependencies:
       '@babel/parser':
-        specifier: ^7.29.0
+        specifier: ^7.29.2
         version: 7.29.2
       '@babel/traverse':
         specifier: ^7.29.0
