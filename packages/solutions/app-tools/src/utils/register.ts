@@ -16,8 +16,8 @@ interface TsRuntimeSetupOptions {
   preferTsNodeForServerRuntime?: boolean;
 }
 
-// Describes runtime capability preference only.
-// Final setup policy is enforced by setupTsRuntime, which skips all runtime setup when ts-node is absent.
+// Describes final runtime selection policy.
+// Prefer Node.js native TypeScript support when available, otherwise fall back to ts-node; skip setup when neither exists.
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
 ): TsRuntimeRegisterMode => {
@@ -54,15 +54,11 @@ export const setupTsRuntime = async (
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
 
-  if (!isTsProject || !hasTsNode) {
+  if (!isTsProject) {
     return;
   }
 
-  const preferredRegisterMode = resolveTsRuntimeRegisterMode(hasTsNode);
-  const registerMode =
-    options.preferTsNodeForServerRuntime && hasTsNode
-      ? 'ts-node'
-      : preferredRegisterMode;
+  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
 
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
