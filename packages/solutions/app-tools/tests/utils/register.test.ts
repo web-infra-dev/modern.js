@@ -57,6 +57,21 @@ describe('setupTsRuntime', () => {
     expect(resolveTsRuntimeRegisterMode(false)).toBe(expected);
   });
 
+  it('should only describe capability preference and not final setup policy', async () => {
+    setNativeTypeScriptSupport('strip');
+    const { resolveTsRuntimeRegisterMode, setupTsRuntime } = await import(
+      '../../src/utils/register'
+    );
+    mockIsDepExists.mockReturnValue(false);
+
+    expect(resolveTsRuntimeRegisterMode(false)).toBe('node-loader');
+
+    await setupTsRuntime('/project', '/project/dist', []);
+
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).not.toBeCalled();
+  });
+
   it('should prefer native capability over node version', async () => {
     setNativeTypeScriptSupport(true);
     const { resolveTsRuntimeRegisterMode } = await import(
@@ -105,45 +120,62 @@ describe('setupTsRuntime', () => {
     setNativeTypeScriptSupport(originalTypeScriptFeature);
   });
 
-  it('should register tsconfig-paths when native support is available', async () => {
+  it('should skip runtime setup when ts-node does not exist', async () => {
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
     await setupTsRuntime('/project', '/project/dist', []);
 
-    expect(mockRegisterPathsLoader).toBeCalledTimes(1);
-    expect(mockTsconfigPathsRegister).toBeCalledWith({
-      baseUrl: '/project',
-      paths: {
-        '@/*': ['src/*'],
-      },
-    });
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockRegisterModuleHooks).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).not.toBeCalled();
     expect(mockLoadFromProject).not.toBeCalled();
     expect(mockReadTsConfigByFile).not.toBeCalled();
   });
 
-  it('should throw when no TypeScript runtime support is available', async () => {
+  it('should skip runtime setup when native capability is disabled and ts-node does not exist', async () => {
     setNativeTypeScriptSupport(false);
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
-    await expect(
-      setupTsRuntime('/project', '/project/dist', []),
-    ).rejects.toThrow('requires Node.js native TypeScript support');
+    await expect(setupTsRuntime('/project', '/project/dist', [])).resolves.toBe(
+      undefined,
+    );
 
     expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockRegisterModuleHooks).not.toBeCalled();
     expect(mockTsconfigPathsRegister).not.toBeCalled();
     expect(mockLoadFromProject).not.toBeCalled();
   });
 
-  it('should use node loader when native capability is strip mode', async () => {
+  it('should skip runtime setup when native capability is strip mode but ts-node does not exist', async () => {
     setNativeTypeScriptSupport('strip');
     mockIsDepExists.mockReturnValue(false);
     const { setupTsRuntime } = await import('../../src/utils/register');
 
     await setupTsRuntime('/project', '/project/dist', []);
 
-    expect(mockRegisterPathsLoader).toBeCalledTimes(1);
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockRegisterModuleHooks).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).not.toBeCalled();
+    expect(mockLoadFromProject).not.toBeCalled();
+  });
+
+  it('should skip runtime setup when preferring ts-node but ts-node does not exist', async () => {
+    setNativeTypeScriptSupport('strip');
+    mockIsDepExists.mockReturnValue(false);
+    const { setupTsRuntime } = await import('../../src/utils/register');
+
+    await setupTsRuntime('/project', '/project/dist', [], {
+      preferTsNodeForServerRuntime: true,
+      moduleType: 'module',
+    });
+
+    expect(mockRegisterPathsLoader).not.toBeCalled();
+    expect(mockRegisterModuleHooks).not.toBeCalled();
+    expect(mockTsconfigPathsRegister).not.toBeCalled();
+    expect(mockLoadFromProject).not.toBeCalled();
+    expect(mockReadTsConfigByFile).not.toBeCalled();
   });
 
   it('should register ts-node when ts-node exists', async () => {
