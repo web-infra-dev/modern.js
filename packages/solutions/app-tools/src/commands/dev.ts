@@ -50,6 +50,7 @@ export const dev = async (
     combinedAlias,
     {
       moduleType: appContext.moduleType,
+      preferTsNodeForServerRuntime: true,
     },
   );
 

@@ -13,6 +13,7 @@ type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
 
 interface TsRuntimeSetupOptions {
   moduleType?: string;
+  preferTsNodeForServerRuntime?: boolean;
 }
 
 export const resolveTsRuntimeRegisterMode = (
@@ -50,7 +51,11 @@ export const setupTsRuntime = async (
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
-  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const preferredRegisterMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const registerMode =
+    options.preferTsNodeForServerRuntime && hasTsNode
+      ? 'ts-node'
+      : preferredRegisterMode;
 
   if (!isTsProject) {
     return;
