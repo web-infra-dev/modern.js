@@ -16,6 +16,8 @@ interface TsRuntimeSetupOptions {
   preferTsNodeForServerRuntime?: boolean;
 }
 
+// Describes final runtime selection policy.
+// Prefer Node.js native TypeScript support when available, otherwise fall back to ts-node; skip setup when neither exists.
 export const resolveTsRuntimeRegisterMode = (
   hasTsNode: boolean,
 ): TsRuntimeRegisterMode => {
@@ -51,15 +53,12 @@ export const setupTsRuntime = async (
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
-  const preferredRegisterMode = resolveTsRuntimeRegisterMode(hasTsNode);
-  const registerMode =
-    options.preferTsNodeForServerRuntime && hasTsNode
-      ? 'ts-node'
-      : preferredRegisterMode;
 
   if (!isTsProject) {
     return;
   }
+
+  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
 
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
@@ -94,9 +93,7 @@ export const setupTsRuntime = async (
   }, {});
 
   if (registerMode === 'unsupported') {
-    throw new Error(
-      'TypeScript runtime loading requires Node.js native TypeScript support (Node.js 22+) or `ts-node`. Please upgrade Node.js or install `ts-node` to continue.',
-    );
+    return;
   }
 
   if (registerMode === 'ts-node') {
