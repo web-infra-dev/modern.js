@@ -58,7 +58,11 @@ export const setupTsRuntime = async (
     return;
   }
 
-  const registerMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const preferredRegisterMode = resolveTsRuntimeRegisterMode(hasTsNode);
+  const registerMode =
+    options.preferTsNodeForServerRuntime && hasTsNode
+      ? 'ts-node'
+      : preferredRegisterMode;
 
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
