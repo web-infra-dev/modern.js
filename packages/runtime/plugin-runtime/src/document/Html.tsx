@@ -3,6 +3,7 @@ import React, { type ReactElement } from 'react';
 import { Body } from './Body';
 import { DocumentStructureContext } from './DocumentStructureContext';
 import { Head } from './Head';
+import { Root } from './Root';
 
 /**
  * get the directly son element by name
@@ -19,6 +20,31 @@ function findTargetChildByComponent(
   children: ReactElement[],
 ) {
   return children.find(item => item?.type === component);
+}
+
+/**
+ * get the children(grandChild included) with target component reference
+ * @param component the component reference
+ * @param children son element
+ * @returns target element
+ */
+function findTargetElementByComponent(
+  component: unknown,
+  children: ReactElement<any>[],
+): ReactElement<{ children?: ReactElement<any> }> | null {
+  if (children.length === 0) {
+    return null;
+  }
+  let nextChildren: ReactElement<{ children: ReactElement<any> }>[] = [];
+  for (const item of children) {
+    if (item?.type === component) {
+      return item;
+    }
+    if (item?.props?.children) {
+      nextChildren = nextChildren.concat(item.props.children);
+    }
+  }
+  return findTargetElementByComponent(component, nextChildren);
 }
 
 /**
@@ -70,7 +96,10 @@ export function Html(
     findTargetChildByComponent(Body, children) ||
       findTargetChildByName('Body', children),
   );
-  const hasSetRoot = Boolean(findTargetElement('Root', children));
+  const hasSetRoot = Boolean(
+    findTargetElementByComponent(Root, children) ||
+      findTargetChildByName('Root', children),
+  );
   const hasSetTitle = Boolean(findTargetElement('title', children));
   const notMissMustChild = [
     hasSetHead,
