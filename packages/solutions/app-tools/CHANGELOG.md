@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 3.1.2
+
+### Patch Changes
+
+- 8357729: fix: restore dev server runtime stability for server config
+  fix: 处理 dev server runtime 的稳定性
+- ddd55fa: Update to address flatted crit cve https://security.snyk.io/vuln/SNYK-JS-FLATTED-15700433
+- 89fea12: fix: use Node 22 native loader for tsconfig path aliases
+  fix: 使用 node v22 原生 loader 处理 tsconfig path aliases
+- Updated dependencies [fa4cde0]
+- Updated dependencies [ddd55fa]
+  - @modern-js/server-core@3.1.2
+  - @modern-js/plugin-data-loader@3.1.2
+  - @modern-js/prod-server@3.1.2
+  - @modern-js/server@3.1.2
+  - @modern-js/server-utils@3.1.2
+  - @modern-js/builder@3.1.2
+  - @modern-js/i18n-utils@3.1.2
+  - @modern-js/plugin@3.1.2
+  - @modern-js/types@3.1.2
+  - @modern-js/utils@3.1.2
+
 ## 3.1.1
 
 ### Patch Changes
