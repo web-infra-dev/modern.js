@@ -8,6 +8,7 @@ import {
   launchOptions,
   modernBuild,
   modernServe,
+  sleep,
 } from '../../../../utils/modernTestUtils';
 import { conditionalTest } from '../../test-utils';
 
@@ -53,6 +54,17 @@ async function verifyPageContent(
 
   const textContent = await page.evaluate(el => el?.textContent, element);
   expect(textContent?.trim()).toBe(expectedText);
+}
+
+async function waitForBuildFile(filePath: string, timeout = 15_000) {
+  const startTime = Date.now();
+
+  while (!fs.existsSync(filePath)) {
+    if (Date.now() - startTime > timeout) {
+      throw new Error(`Timed out waiting for build output: ${filePath}`);
+    }
+    await sleep(200);
+  }
 }
 
 describe('app-ssr-i18n', () => {
@@ -190,6 +202,11 @@ describe('app-ssr-i18n-build-and-server', () => {
       appDir,
       './dist/locales/en/translation.json',
     );
+
+    await Promise.all([
+      waitForBuildFile(zhResourcePath),
+      waitForBuildFile(enResourcePath),
+    ]);
 
     const zhContent = fs.readJsonSync(zhResourcePath);
     const enContent = fs.readJsonSync(enResourcePath);
