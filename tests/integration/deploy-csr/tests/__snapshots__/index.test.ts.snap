@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`deploy support csr when deploy target is netlify 1`] = `
+exports[`deploy > support csr when deploy target is netlify 1`] = `
 "/one/* /html/one/index.html 200
 /two/* /html/two/index.html 200"
 `;
 
-exports[`deploy support csr when deploy target is vercel 1`] = `
+exports[`deploy > support csr when deploy target is vercel 1`] = `
 {
   "default": {
     "routes": [

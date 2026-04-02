@@ -8,9 +8,9 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
-const fixtureDir = path.resolve(__dirname, '../fixtures');
+rstest.setConfig({ testTimeout: 1000 * 60, hookTimeout: 1000 * 60 });
 
-jest.setTimeout(1000 * 60);
+const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 function expectFlightScriptsBeforeClosingTags(html: string) {
   const lastFlightScriptIndex = html.lastIndexOf(

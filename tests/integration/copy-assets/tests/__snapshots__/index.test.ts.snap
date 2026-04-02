@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`copy assets should copy public html and replace the assetPrefix variable in rspack 1`] = `
+exports[`copy assets > should copy public html and replace the assetPrefix variable in rspack 1`] = `
 "<!DOCTYPE html>
 <html>
   <head>

@@ -9,6 +9,7 @@ import {
   launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
+import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 
 dns.setDefaultResultOrder('ipv4first');
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -17,7 +18,7 @@ async function basicUsage(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}/user/1`, {
     waitUntil: ['networkidle0'],
   });
-  await (expect(page) as any).toMatchTextContent('user1-18');
+  await expectPageToMatchTextContent(page, 'user1-18');
 
   const content = await page.content();
   await (expect(content) as any).toMatch('"headers":{"host":');
@@ -29,7 +30,7 @@ async function errorThrown(page: Page, appPort: number) {
     timeout: 50000,
   });
 
-  await (expect(page) as any).toMatchTextContent(/error occurs/);
+  await expectPageToMatchTextContent(page, /error occurs/);
 }
 
 async function errorThrownInClientNavigation(page: Page, appPort: number) {
@@ -99,7 +100,7 @@ describe('Traditional SSR', () => {
       waitUntil: ['networkidle0'],
     });
     await page.click('#user-btn');
-    await (expect(page) as any).toMatchTextContent('user1-18');
+    await expectPageToMatchTextContent(page, 'user1-18');
   });
 
   test('error thrown in loader', async () => {

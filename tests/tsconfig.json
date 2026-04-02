@@ -4,5 +4,5 @@
     "strictNullChecks": false,
     "noEmit": true
   },
-  "types": ["jasmine", "jest"]
+  "types": ["@rstest/core/globals"]
 }

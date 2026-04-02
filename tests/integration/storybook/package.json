@@ -35,7 +35,6 @@
     "@storybook/addon-docs": "^10.2.19",
     "@storybook/addon-onboarding": "^10.2.19",
     "@storybook/react": "^10.2.19",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

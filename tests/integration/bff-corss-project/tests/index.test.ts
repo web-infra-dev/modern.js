@@ -10,6 +10,8 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
+
 // Skip flaky tests on CI, but run them locally
 const conditionalTest = process.env.LOCAL_TEST === 'true' ? test : test.skip;
 
@@ -51,10 +53,8 @@ describe('corss project bff', () => {
     let browser: Browser;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 2);
       apiApp = await launchApp(apiAppDir, apiPort, {});
 
-      jest.setTimeout(1000 * 60 * 2);
       app = await launchApp(appDir, port, {});
       browser = await puppeteer.launch(launchOptions as any);
       page = await browser.newPage();
@@ -222,10 +222,8 @@ describe('corss project bff', () => {
     let browser: Browser;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 2);
       apiApp = await launchApp(apiAppDir, apiPort, {});
 
-      jest.setTimeout(1000 * 60 * 2);
       port = await getPort();
       indepClientApp = await launchApp(indepAppDir, port, {});
       browser = await puppeteer.launch(launchOptions as any);

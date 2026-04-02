@@ -1,6 +1,5 @@
 name: Unit Test (Windows)
 
-# TODO: migrate jest tests to rstest later
 concurrency:
   group: windows-unit-test-${{ github.head_ref }}
   cancel-in-progress: true

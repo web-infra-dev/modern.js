@@ -7,6 +7,8 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 25000, hookTimeout: 25000 });
+
 const appDir = path.resolve(__dirname, '../');
 let app: any;
 let appPort: number;
@@ -22,8 +24,6 @@ afterAll(async () => {
 });
 
 describe('test basic usage', () => {
-  jest.setTimeout(25000);
-
   test(`should start successfully`, async () => {
     app = await launchApp(appDir, appPort, {}, {});
     const browser = await puppeteer.launch(launchOptions as any);

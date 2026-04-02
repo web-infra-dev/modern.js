@@ -7,15 +7,16 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
+
 const appPath = path.resolve(__dirname, '../');
 
 describe('test status code page', () => {
-  let app: any;
+  let app: unknown;
   let port: number;
   let page: Page;
   let browser: Browser;
   beforeAll(async () => {
-    jest.setTimeout(1000 * 60 * 2);
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     await page.deleteCookie();

@@ -8,11 +8,11 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 20, hookTimeout: 1000 * 20 });
+
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 dns.setDefaultResultOrder('ipv4first');
-
-jest.setTimeout(1000 * 20);
 
 describe('init with SSR', () => {
   let app: any;
