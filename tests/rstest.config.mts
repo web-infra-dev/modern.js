@@ -6,6 +6,7 @@ export default defineConfig({
   exclude: ['integration/rstest/**'],
   globals: true,
   retry: 1,
+  reporters: ['default'],
   testTimeout: 60_000,
   hookTimeout: 60_000,
 });
