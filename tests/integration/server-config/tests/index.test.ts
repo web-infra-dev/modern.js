@@ -10,6 +10,20 @@ import {
 
 dns.setDefaultResultOrder('ipv4first');
 
+const waitForServer = async (url: string, retries = 30, interval = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await fetch(url);
+      return;
+    } catch {
+      await new Promise(resolve => setTimeout(resolve, interval));
+    }
+  }
+  throw new Error(
+    `Server at ${url} did not become ready after ${retries} retries`,
+  );
+};
+
 const supportServerRenderMiddleware = async ({
   host,
   port,
@@ -100,6 +114,7 @@ describe('server config', () => {
       app = await launchApp(appPath, port, {
         cwd: appPath,
       });
+      await waitForServer(`${host}:${port}/`);
     });
 
     test('renderMiddleware should works', async () => {
@@ -159,6 +174,7 @@ describe('server config', () => {
       app = await modernServe(appPath, port, {
         cwd: appPath,
       });
+      await waitForServer(`${host}:${port}/`);
     });
 
     test('renderMiddleware should works', async () => {
