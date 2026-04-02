@@ -91,14 +91,14 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "2.0.0-beta.4",
+    "@rsbuild/core": "2.0.0-rc.0",
     "@swc/helpers": "^0.5.17",
     "jiti": "^2.6.1"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/rslib": "workspace:*",
-    "@rslib/core": "0.20.2",
+    "@rslib/core": "0.20.3",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "typescript": "^5"

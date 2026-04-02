@@ -227,6 +227,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     "exportedEnum": false,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -291,6 +292,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                 "exportedEnum": false,
                 "typeExports": true,
               },
+              "detectSyntax": "auto",
               "env": {
                 "coreJs": "3.48",
                 "mode": "entry",
@@ -845,6 +847,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     "exportedEnum": false,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -919,6 +922,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
                     "exportedEnum": false,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -1035,6 +1039,7 @@ exports[`builder rspack > should generator rspack config correctly 1`] = `
       "force": false,
     },
     "chunkFilename": "static/js/async/[name].js",
+    "devtoolFallbackModuleFilenameTemplate": [Function],
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
@@ -1352,6 +1357,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -1408,6 +1414,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                 "exportedEnum": true,
                 "typeExports": true,
               },
+              "detectSyntax": "auto",
               "env": {
                 "targets": [
                   "node >= 16",
@@ -1774,6 +1781,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -1843,6 +1851,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -1933,6 +1942,7 @@ exports[`builder rspack > should generator rspack config correctly when node 1`]
       "force": false,
     },
     "chunkFilename": "[name].js",
+    "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "library": {
@@ -2260,6 +2270,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -2324,6 +2335,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                 "exportedEnum": true,
                 "typeExports": true,
               },
+              "detectSyntax": "auto",
               "env": {
                 "coreJs": "3.48",
                 "mode": "entry",
@@ -2878,6 +2890,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -2952,6 +2965,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "coreJs": "3.48",
                     "mode": "entry",
@@ -3104,6 +3118,7 @@ exports[`builder rspack > should generator rspack config correctly when prod 1`]
       "force": false,
     },
     "chunkFilename": "static/js/async/[name].[contenthash:10].js",
+    "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "static/js/[name].[contenthash:10].js",
     "path": "<WORKSPACE>/packages/cli/builder/dist",
@@ -3371,6 +3386,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -3427,6 +3443,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                 "exportedEnum": true,
                 "typeExports": true,
               },
+              "detectSyntax": "auto",
               "env": {
                 "targets": [
                   "node >= 16",
@@ -3774,6 +3791,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -3843,6 +3861,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
                     "exportedEnum": true,
                     "typeExports": true,
                   },
+                  "detectSyntax": "auto",
                   "env": {
                     "targets": [
                       "node >= 16",
@@ -3968,6 +3987,7 @@ exports[`builder rspack > should generator rspack config correctly when service-
       "force": false,
     },
     "chunkFilename": "[name].js",
+    "devtoolFallbackModuleFilenameTemplate": "[relative-resource-path]?[hash]",
     "devtoolModuleFilenameTemplate": "[relative-resource-path]",
     "filename": "[name].js",
     "library": {
