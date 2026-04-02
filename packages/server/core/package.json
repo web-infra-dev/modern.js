@@ -77,14 +77,14 @@
     "@web-std/file": "^3.0.3",
     "@web-std/stream": "^1.0.3",
     "cloneable-readable": "^3.0.0",
-    "flatted": "^3.4.0",
+    "flatted": "^3.4.2",
     "hono": "^4.11.7",
     "ts-deepmerge": "7.0.3"
   },
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.20.2",
+    "@rslib/core": "0.20.3",
     "@scripts/rstest-config": "workspace:*",
     "@types/cloneable-readable": "^2.0.3",
     "@types/merge-deep": "^3.0.3",
