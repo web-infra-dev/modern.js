@@ -24,7 +24,7 @@ describe('app-custom', () => {
   });
   afterAll(async () => {
     if (browser) {
-      browser.close();
+      await browser.close();
     }
     if (app) {
       await killApp(app);

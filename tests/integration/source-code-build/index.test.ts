@@ -59,7 +59,7 @@ describe('source build', () => {
   });
 
   afterEach(async () => {
-    browser.close();
+    await browser.close();
     await killApp(app);
   });
 });
