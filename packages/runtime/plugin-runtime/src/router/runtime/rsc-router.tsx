@@ -49,19 +49,27 @@ function collectCssFilesFromRoutes(
   routeManifest?: RouteManifest,
 ): string[] {
   const cssFiles: string[] = [];
+  type CssFileCarrier =
+    | { entryCssFiles?: string[] }
+    | React.ComponentType
+    | null
+    | undefined;
 
-  const appendCssFiles = (css: unknown) => {
+  const appendCssFiles = (css?: string[]) => {
     if (Array.isArray(css)) {
       cssFiles.push(...css);
     }
   };
 
-  const appendEntryCssFiles = (target: unknown) => {
-    if (!target || typeof target !== 'function') {
+  const appendEntryCssFiles = (target: CssFileCarrier) => {
+    if (
+      !target ||
+      (typeof target !== 'object' && typeof target !== 'function')
+    ) {
       return;
     }
     if ('entryCssFiles' in target) {
-      const css = (target as { entryCssFiles?: string[] }).entryCssFiles;
+      const css = target.entryCssFiles;
       if (Array.isArray(css)) {
         cssFiles.push(...css);
       }
@@ -90,7 +98,7 @@ function collectCssFilesFromRoutes(
 
     // Fallback for routes that only expose element during server payload build.
     if (route.element && React.isValidElement(route.element)) {
-      appendEntryCssFiles(route.element.type);
+      appendEntryCssFiles(route.element.type as CssFileCarrier);
     }
   }
 
