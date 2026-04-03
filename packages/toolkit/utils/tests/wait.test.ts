@@ -1,11 +1,11 @@
 import { wait } from '../src';
 
-jest.useRealTimers();
+rstest.useRealTimers();
 
 describe('wait', () => {
   test('basic usage', async () => {
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+    const fn1 = rstest.fn();
+    const fn2 = rstest.fn();
     const fn3 = async () => {
       fn1();
       await wait();
@@ -20,8 +20,8 @@ describe('wait', () => {
   });
 
   test('delay', async () => {
-    const fn1 = jest.fn();
-    const fn2 = jest.fn();
+    const fn1 = rstest.fn();
+    const fn2 = rstest.fn();
     const time = 100;
     const fn3 = async () => {
       fn1();
