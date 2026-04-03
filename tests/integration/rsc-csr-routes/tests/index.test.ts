@@ -95,6 +95,13 @@ function runTests({ mode }: TestConfig) {
       it('support inject first screen css', () =>
         supportInjectCssFirstScreen({ baseUrl, appPort, page }));
 
+      it('support inject first screen css for root client page', () =>
+        supportInjectCssForRootClientPageFirstScreen({
+          baseUrl,
+          appPort,
+          page,
+        }));
+
       it('support load css when navigation', () =>
         loadCssWhenNavigation({ baseUrl, appPort, page }));
 
@@ -308,6 +315,40 @@ async function supportInjectCssFirstScreen({
 
   const isBlue = userLayoutColor === 'rgb(0, 0, 255)';
   expect(isBlue).toBe(true);
+}
+
+async function supportInjectCssForRootClientPageFirstScreen({
+  baseUrl,
+  appPort,
+  page,
+}: TestOptions) {
+  const cssRequests: string[] = [];
+  const onRequest = (request: any) => {
+    const url = request.url();
+    if (request.resourceType() === 'stylesheet' || url.endsWith('.css')) {
+      cssRequests.push(url);
+    }
+  };
+
+  page.on('request', onRequest);
+
+  try {
+    await page.goto(`http://localhost:${appPort}${baseUrl}`, {
+      waitUntil: ['domcontentloaded'],
+    });
+
+    await page.waitForSelector('.root-page', { timeout: 5000 });
+
+    const rootPageColor = await page.$eval('.root-page', el => {
+      const styles = window.getComputedStyle(el);
+      return styles.color;
+    });
+
+    expect(cssRequests.some(url => url.includes('loader_page'))).toBe(true);
+    expect(rootPageColor).toBe('rgb(255, 165, 0)');
+  } finally {
+    page.off('request', onRequest);
+  }
 }
 
 async function loadCssWhenNavigation({ baseUrl, appPort, page }: TestOptions) {

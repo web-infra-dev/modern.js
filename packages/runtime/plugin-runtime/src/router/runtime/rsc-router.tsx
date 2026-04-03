@@ -46,30 +46,51 @@ const safeUse = (value: unknown): unknown => {
 function collectCssFilesFromRoutes(
   matches: StaticHandlerContext['matches'],
   routes: RouteObject[],
+  routeManifest?: RouteManifest,
 ): string[] {
   const cssFiles: string[] = [];
 
+  const appendCssFiles = (css: unknown) => {
+    if (Array.isArray(css)) {
+      cssFiles.push(...css);
+    }
+  };
+
+  const appendEntryCssFiles = (target: unknown) => {
+    if (!target || typeof target !== 'function') {
+      return;
+    }
+    if ('entryCssFiles' in target) {
+      const css = (target as { entryCssFiles?: string[] }).entryCssFiles;
+      if (Array.isArray(css)) {
+        cssFiles.push(...css);
+      }
+    }
+  };
+
   for (const match of matches) {
+    appendCssFiles(
+      routeManifest?.routeAssets?.[match.route.id]?.referenceCssAssets,
+    );
+
     // Use findRouteInTree to recursively find nested routes
     const route = findRouteInTree(
       routes,
       match.route.id,
     ) as ModernRouteObject | null;
-    if (!route) continue;
+    if (!route) {
+      continue;
+    }
+
+    appendCssFiles(route.entryCssFiles);
 
     // Try to get entryCssFiles from Component property
-    const component = route.Component as
-      | (React.ComponentType & { entryCssFiles?: string[] })
-      | undefined;
-    if (
-      component &&
-      typeof component === 'function' &&
-      'entryCssFiles' in component
-    ) {
-      const css = component.entryCssFiles;
-      if (Array.isArray(css)) {
-        cssFiles.push(...css);
-      }
+    const component = route.Component;
+    appendEntryCssFiles(component);
+
+    // Fallback for routes that only expose element during server payload build.
+    if (route.element && React.isValidElement(route.element)) {
+      appendEntryCssFiles(route.element.type);
     }
   }
 
@@ -80,8 +101,13 @@ function collectCssFilesFromRoutes(
 export const createServerPayload = (
   routerContext: StaticHandlerContext,
   routes: RouteObject[],
+  routeManifest?: RouteManifest,
 ): ServerPayload => {
-  const cssFiles = collectCssFilesFromRoutes(routerContext.matches, routes);
+  const cssFiles = collectCssFilesFromRoutes(
+    routerContext.matches,
+    routes,
+    routeManifest,
+  );
 
   // Find the deepest non-client-component route for CSS injection.
   // Client component routes have their element replaced with Component during

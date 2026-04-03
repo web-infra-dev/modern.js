@@ -192,7 +192,11 @@ export const routerPlugin = (
             }
           }
 
-          payload = createServerPayload(routerContext, routes);
+          payload = createServerPayload(
+            routerContext,
+            routes,
+            context.routeManifest,
+          );
           setServerPayload(payload);
         }
 

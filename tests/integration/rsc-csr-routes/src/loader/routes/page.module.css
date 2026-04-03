@@ -1,0 +1,4 @@
+.rootPage {
+  --issue8504-root-client-color: orange;
+  color: var(--issue8504-root-client-color);
+}
