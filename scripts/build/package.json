@@ -12,7 +12,6 @@
   "devDependencies": {
     "@modern-js/core": "2.70.4",
     "@modern-js/module-tools": "2.70.4",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "typescript": "^5"
   }
