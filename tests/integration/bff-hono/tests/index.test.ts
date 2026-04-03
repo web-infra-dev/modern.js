@@ -48,6 +48,13 @@ describe('bff hono tests', () => {
         },
         { timeout: 10000 },
       );
+      await page.waitForFunction(
+        () => {
+          const el = document.querySelector('.username');
+          return el && el.textContent === 'user123';
+        },
+        { timeout: 10000 },
+      );
       const text = await page.$eval('.hello', el => el?.textContent);
       const username = await page.$eval('.username', el => el?.textContent);
 
@@ -156,6 +163,13 @@ describe('bff hono tests', () => {
             el.textContent !== null &&
             el.textContent === 'Hello Modern.js'
           );
+        },
+        { timeout: 10000 },
+      );
+      await page.waitForFunction(
+        () => {
+          const el = document.querySelector('.username');
+          return el && el.textContent === 'user123';
         },
         { timeout: 10000 },
       );
