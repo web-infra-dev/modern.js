@@ -8,6 +8,8 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
+
 dns.setDefaultResultOrder('ipv4first');
 
 const waitForServer = async (url: string, retries = 30, interval = 1000) => {
@@ -109,7 +111,6 @@ describe('server config', () => {
     let app: any;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 2);
       port = await getPort();
       app = await launchApp(appPath, port, {
         cwd: appPath,

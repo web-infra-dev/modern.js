@@ -9,9 +9,10 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 3, hookTimeout: 1000 * 60 * 3 });
+
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 const appDir = join(fixtureDir, 'nested-routes');
-jest.setTimeout(1000 * 60 * 3);
 
 describe('ssg', () => {
   let app: any;

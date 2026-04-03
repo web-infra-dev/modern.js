@@ -2,7 +2,7 @@
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "declaration": false,
-    "types": ["jest", "node"],
+    "types": ["node", "@rstest/core/globals"],
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {

@@ -9,9 +9,9 @@ import {
   sleep,
 } from '../../utils/modernTestUtils';
 
-const appDir = path.resolve(__dirname, './app');
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
 
-jest.setTimeout(1000 * 60 * 2);
+const appDir = path.resolve(__dirname, './app');
 
 describe('source build', () => {
   let app: any;
@@ -59,7 +59,7 @@ describe('source build', () => {
   });
 
   afterEach(async () => {
-    browser.close();
+    await browser.close();
     await killApp(app);
   });
 });

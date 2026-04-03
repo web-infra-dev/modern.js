@@ -8,7 +8,7 @@
       "@shared/*": ["./shared/*"],
       "@api/*": ["./api/lambda/*"]
     },
-    "types": ["jest"]
+    "types": ["@rstest/core/globals"]
   },
   "include": [
     "shared",

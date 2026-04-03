@@ -71,4 +71,4 @@ jobs:
 
       - name: Test - Adapter Rstest
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: cd ./tests && pnpm run test:rstest
+        run: cd ./tests && pnpm run test:rstest-adapter

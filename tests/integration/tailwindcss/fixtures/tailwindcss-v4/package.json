@@ -3,7 +3,7 @@
   "type": "module",
   "name": "integration-tailwindcss-v4",
   "version": "2.66.0",
-    "scripts": {
+  "scripts": {
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",

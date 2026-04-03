@@ -26,7 +26,7 @@ describe('Streaming SSR with ssr.inlineScript', () => {
 
   afterAll(async () => {
     if (browser) {
-      browser.close();
+      await browser.close();
     }
     if (app) {
       await killApp(app);

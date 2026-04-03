@@ -8,7 +8,7 @@
       "@/*": ["./src/*"],
       "@common/*": ["./src/common/*"]
     },
-    "types": ["@modern-js/image/types"]
+    "types": ["@modern-js/image/types", "@rstest/core/globals"]
   },
   "include": ["src", "shared", "config", "modern.config.ts"]
 }

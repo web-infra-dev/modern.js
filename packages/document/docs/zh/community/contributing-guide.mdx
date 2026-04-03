@@ -124,7 +124,7 @@ pnpm run reset
 
 如果你进行了 bugfix，或者添加了需要测试的代码，请添加一些测试代码。
 
-你可以在 `<PACKAGE_DIR>/tests` 文件夹中添加单元测试用例。测试语法基于 [Jest](https://jestjs.io/) 和 [Rstest](https://rstest.rs/)。
+你可以在 `<PACKAGE_DIR>/tests` 文件夹中添加单元测试用例。测试语法基于 [Rstest](https://rstest.rs/)。
 
 ### 运行单元测试
 
@@ -154,7 +154,7 @@ pnpm run test:e2e
 
 ```sh
 # 只运行带有 copy-assets 关键词的测试用例
-npx jest copy-assets
+npx rstest copy-assets
 ```
 
 ## Linting

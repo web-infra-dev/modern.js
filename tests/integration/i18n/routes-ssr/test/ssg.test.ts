@@ -2,9 +2,9 @@ import path, { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { modernBuild } from '../../../../utils/modernTestUtils';
 
-const projectDir = path.resolve(__dirname, '..');
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
 
-jest.setTimeout(1000 * 60 * 2);
+const projectDir = path.resolve(__dirname, '..');
 
 describe('ssg', () => {
   test('should simple ssg work correctly', async () => {

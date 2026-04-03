@@ -7,9 +7,9 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
-const fixtureDir = path.resolve(__dirname, '../fixtures');
+rstest.setConfig({ testTimeout: 1000 * 20, hookTimeout: 1000 * 20 });
 
-jest.setTimeout(1000 * 20);
+const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 describe('init with SSR', () => {
   let app: any;
@@ -28,7 +28,7 @@ describe('init with SSR', () => {
 
   afterAll(async () => {
     if (browser) {
-      browser.close();
+      await browser.close();
     }
     if (app) {
       await killApp(app);

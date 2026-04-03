@@ -1,6 +1,5 @@
 name: Unit Test (macOS)
 
-# TODO: migrate jest tests to rstest later
 concurrency:
   group: macos-unit-test-${{ github.head_ref }}
   cancel-in-progress: true

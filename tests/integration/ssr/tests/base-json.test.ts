@@ -6,6 +6,7 @@ import {
   launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
+import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
@@ -13,7 +14,7 @@ async function basicUsage(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}/user/1`, {
     waitUntil: ['networkidle0'],
   });
-  await (expect(page) as any).toMatchTextContent('user1-18');
+  await expectPageToMatchTextContent(page, 'user1-18');
 }
 
 async function errorThrown(page: Page, appPort: number) {
@@ -21,7 +22,7 @@ async function errorThrown(page: Page, appPort: number) {
     waitUntil: ['networkidle0'],
   });
 
-  await (expect(page) as any).toMatchTextContent(/error occurs/);
+  await expectPageToMatchTextContent(page, /error occurs/);
 }
 
 async function errorThrownInClientNavigation(page: Page, appPort: number) {
@@ -63,7 +64,7 @@ describe('Traditional SSR in json data', () => {
 
   afterAll(async () => {
     if (browser) {
-      browser.close();
+      await browser.close();
     }
     if (app) {
       await killApp(app);

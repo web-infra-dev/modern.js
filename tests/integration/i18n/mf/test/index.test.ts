@@ -7,6 +7,8 @@ import {
 } from '../../../../utils/modernTestUtils';
 import { clearI18nTestState, conditionalTest } from '../../test-utils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 5, hookTimeout: 1000 * 60 * 5 });
+
 async function waitForAppReady(port: number, maxRetries = 30) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -44,7 +46,6 @@ describe('mf-i18n-tests', () => {
   let appProviderBrowser: Browser;
 
   beforeAll(async () => {
-    jest.setTimeout(1000 * 60 * 5);
     componentProviderApp = await launchApp(
       componentProviderDir,
       COMPONENT_PROVIDER_PORT,
@@ -247,7 +248,6 @@ describe('mf-i18n-tests', () => {
     let browser: Browser;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 3);
       consumerApp = await launchApp(consumerDir, CONSUMER_PORT);
       await waitForAppReady(CONSUMER_PORT);
 
@@ -351,7 +351,6 @@ describe('mf-i18n-tests', () => {
     let browser: Browser;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 3);
       consumerApp = await launchApp(consumerDir, CONSUMER_PORT);
       await waitForAppReady(CONSUMER_PORT);
 

@@ -8,7 +8,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "test": "jest",
+    "test": "pnpm --dir ../../ exec rstest integration/server-prod/tests/index.test.ts",
     "preview": "modern deploy --mode preview",
     "deploy": "modern deploy"
   },
@@ -21,8 +21,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^20",
-    "jest": "^29.7.0"
+    "@types/node": "^20"
   }
 }

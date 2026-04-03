@@ -8,6 +8,7 @@ import {
   launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
+import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
@@ -15,7 +16,7 @@ async function loadableUsage(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}`, {
     waitUntil: ['networkidle0'],
   });
-  await (expect(page) as any).toMatchTextContent('Hello, Loadable Component!');
+  await expectPageToMatchTextContent(page, 'Hello, Loadable Component!');
 }
 
 describe('loadable', () => {
@@ -35,7 +36,7 @@ describe('loadable', () => {
 
   afterAll(async () => {
     if (browser) {
-      browser.close();
+      await browser.close();
     }
     if (app) {
       await killApp(app);

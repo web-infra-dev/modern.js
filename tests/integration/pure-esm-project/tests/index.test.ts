@@ -10,8 +10,39 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
+
 const appDir = path.resolve(__dirname, '../');
 dns.setDefaultResultOrder('ipv4first');
+
+async function waitForApiInfoReady(
+  host: string,
+  port: number,
+  timeout = 15_000,
+) {
+  const deadline = Date.now() + timeout;
+  let lastError: unknown;
+
+  while (Date.now() < deadline) {
+    try {
+      const response = await fetch(`${host}:${port}/api/info`);
+      const text = await response.text();
+      const data = JSON.parse(text);
+
+      if (response.ok && data?.url === '/api/info') {
+        return;
+      }
+
+      lastError = new Error(`Unexpected /api/info response: ${text}`);
+    } catch (error) {
+      lastError = error;
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  throw lastError ?? new Error('Timed out waiting for /api/info');
+}
 
 describe('pure-esm-project in dev', () => {
   let port = 8080;
@@ -21,18 +52,19 @@ describe('pure-esm-project in dev', () => {
   let browser: Browser;
 
   beforeAll(async () => {
-    jest.setTimeout(1000 * 60 * 2);
     port = await getPort();
     app = await launchApp(appDir, port);
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
+    await waitForApiInfoReady(host, port);
   });
 
   test('stream ssr with bff handle web', async () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
-    const text = await page.$eval('#item', el => el?.textContent);
+    await page.waitForSelector('#data');
+    const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
@@ -40,6 +72,7 @@ describe('pure-esm-project in dev', () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
+    await page.waitForSelector('#home-btn');
     await page.click('#home-btn');
     await page.waitForSelector('#data');
     const text = await page.$eval('#data', el => el?.textContent);
@@ -83,13 +116,15 @@ describe('pure-esm-project in prod', () => {
     app = await modernServe(appDir, port, {});
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
+    await waitForApiInfoReady(host, port);
   });
 
   test('stream ssr with bff handle web', async () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
-    const text = await page.$eval('#item', el => el?.textContent);
+    await page.waitForSelector('#data');
+    const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
@@ -97,6 +132,7 @@ describe('pure-esm-project in prod', () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
+    await page.waitForSelector('#home-btn');
     await page.click('#home-btn');
     await page.waitForSelector('#data');
     const text = await page.$eval('#data', el => el?.textContent);

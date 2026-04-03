@@ -6,7 +6,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "test:me": "../../node_modules/.bin/jest --config ../../jest.config.js integration/image-component"
+    "test:me": "pnpm --dir ../../ exec rstest integration/image-component/tests/index.test.ts"
   },
   "dependencies": {
     "@modern-js/image": "workspace:*",
@@ -17,7 +17,6 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@rsdoctor/rspack-plugin": "^1.5.3",
-    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

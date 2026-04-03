@@ -9,7 +9,7 @@
       "@shared/*": ["./shared/*"],
       "@api/*": ["./api/*"]
     },
-    "types": ["jest"]
+    "types": ["@rstest/core/globals"]
   },
   "include": ["src", "shared", "server", "config", "api", "modern.config.ts"]
 }

@@ -6,6 +6,7 @@ import {
   launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
+import { expectPageToMatchTextContent } from '../../../utils/rstestPuppeteer';
 
 const fixtureStreamDir = path.resolve(__dirname, '../fixtures/stream');
 const fixtureStringDir = path.resolve(__dirname, '../fixtures/string');
@@ -66,10 +67,8 @@ describe('Styled Components with Streaming SSR', () => {
   });
 
   test('should render page content correctly', async () => {
-    await (expect(page) as any).toMatchTextContent('Hello, world!');
-    await (expect(page) as any).toMatchTextContent(
-      'styled-components is working',
-    );
+    await expectPageToMatchTextContent(page, 'Hello, world!');
+    await expectPageToMatchTextContent(page, 'styled-components is working');
   });
 
   test('should have correct mode and renderLevel in SSR_DATA', async () => {
@@ -122,10 +121,8 @@ describe('Styled Components with string SSR', () => {
   });
 
   test('should render page content correctly', async () => {
-    await (expect(page) as any).toMatchTextContent('Hello, world!');
-    await (expect(page) as any).toMatchTextContent(
-      'styled-components is working',
-    );
+    await expectPageToMatchTextContent(page, 'Hello, world!');
+    await expectPageToMatchTextContent(page, 'styled-components is working');
   });
 
   test('should have correct mode and renderLevel in SSR_DATA', async () => {

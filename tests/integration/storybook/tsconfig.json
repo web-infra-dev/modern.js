@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "declaration": false,
     "jsx": "preserve",
-    "types": ["node"],
+    "types": ["node", "@rstest/core/globals"],
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "paths": {

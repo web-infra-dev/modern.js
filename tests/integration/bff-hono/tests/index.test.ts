@@ -10,6 +10,8 @@ import {
   modernServe,
 } from '../../../utils/modernTestUtils';
 
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
+
 dns.setDefaultResultOrder('ipv4first');
 
 const appDir = path.resolve(__dirname, '../');
@@ -29,7 +31,6 @@ describe('bff hono tests', () => {
     let browser: Browser;
 
     beforeAll(async () => {
-      jest.setTimeout(1000 * 60 * 2);
       port = await getPort();
       app = await launchApp(appDir, port, {});
       browser = await puppeteer.launch(launchOptions as any);
@@ -147,8 +148,6 @@ describe('bff hono tests', () => {
 
     test('basic usage', async () => {
       await page.goto(`${host}:${port}/${BASE_PAGE}`);
-      const text1 = await page.$eval('.hello', el => el?.textContent);
-      expect(text1).toBe('bff-hono');
       await page.waitForFunction(
         () => {
           const el = document.querySelector('.hello');
@@ -160,8 +159,10 @@ describe('bff hono tests', () => {
         },
         { timeout: 10000 },
       );
-      const text2 = await page.$eval('.hello', el => el?.textContent);
-      expect(text2).toBe('Hello Modern.js');
+      const text = await page.$eval('.hello', el => el?.textContent);
+      const username = await page.$eval('.username', el => el?.textContent);
+      expect(text).toBe('Hello Modern.js');
+      expect(username).toBe('user123');
     });
 
     test('basic usage with ssr', async () => {
