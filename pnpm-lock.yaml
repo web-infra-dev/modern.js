@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -1579,7 +1577,7 @@ importers:
         specifier: ^20
         version: 20.19.27
       happy-dom:
-        specifier: ^20.8.4
+        specifier: ^20.8.9
         version: 20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
@@ -3593,7 +3591,7 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
       happy-dom:
-        specifier: ^20.8.4
+        specifier: ^20.8.9
         version: 20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5
@@ -22443,7 +22441,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 25.5.0
+      '@types/node': 20.19.27
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
