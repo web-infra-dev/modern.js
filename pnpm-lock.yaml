@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -579,8 +577,8 @@ importers:
         specifier: ^4.6.3
         version: 4.6.3
       i18next-fs-backend:
-        specifier: ^2.6.1
-        version: 2.6.1
+        specifier: ^2.6.3
+        version: 2.6.3
       i18next-http-backend:
         specifier: ^3.0.2
         version: 3.0.2(encoding@0.1.13)
@@ -10509,8 +10507,8 @@ packages:
   i18next-chained-backend@4.6.3:
     resolution: {integrity: sha512-Yg4hAKg/98zRAMQs87vJSNevTzaPPrYF3Eb7Kpx+UEaaXLd3p69g7dulAL+hpmZQHeMQ/5gFqHVtdwva53mB0Q==}
 
-  i18next-fs-backend@2.6.1:
-    resolution: {integrity: sha512-eYWTX7QT7kJ0sZyCPK6x1q+R63zvNKv2D6UdbMf15A8vNb2ZLyw4NNNZxPFwXlIv/U+oUtg8SakW6ZgJZcoqHQ==}
+  i18next-fs-backend@2.6.3:
+    resolution: {integrity: sha512-/5aW996nbolGh/qVU9urjAJ2QiXpiyGuhG8x/ZvvZQ3bMlrK+ouUdD6whS4e+sU9CCdUIzl7x/heEjsBh/3xtw==}
 
   i18next-http-backend@3.0.2:
     resolution: {integrity: sha512-PdlvPnvIp4E1sYi46Ik4tBYh/v/NbYfFFgTjkwFl0is8A18s7/bx9aXqsrOax9WUbeNS6mD2oix7Z0yGGf6m5g==}
@@ -22061,7 +22059,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
 
-  i18next-fs-backend@2.6.1: {}
+  i18next-fs-backend@2.6.3: {}
 
   i18next-http-backend@3.0.2(encoding@0.1.13):
     dependencies:
