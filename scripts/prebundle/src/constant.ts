@@ -18,7 +18,6 @@ export const DEFAULT_EXTERNALS = {
   // External lodash because lots of packages will depend on it.
   lodash: '@modern-js/utils/lodash',
   '/^lodash(/.*)/': 'lodash$1',
-  esbuild: 'esbuild',
   // ncc bundled wrong package.json, using external to avoid this problem
   './package.json': './package.json',
   '../package.json': './package.json',
