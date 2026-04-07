@@ -1,5 +1,10 @@
 import type { I18nSdkLoadOptions, I18nSdkLoader } from '../../../shared/type';
 import type { Resources } from '../instance';
+import {
+  I18N_SDK_RESOURCES_LOADED_EVENT,
+  createI18nSdkBackendId,
+  setI18nSdkBackendId,
+} from './sdk-event';
 
 interface BackendOptions {
   sdk?: I18nSdkLoader;
@@ -29,6 +34,7 @@ export class SdkBackend {
   type = 'backend' as const;
   sdk?: I18nSdkLoader;
   private allResourcesCache: Resources | null = null;
+  private backendId = createI18nSdkBackendId();
   private loadingPromises = new Map<string, Promise<unknown>>();
   private services?: I18nextServices;
 
@@ -45,6 +51,10 @@ export class SdkBackend {
     this.services = services;
     void _i18nextOptions;
     this.sdk = backendOptions?.sdk;
+    setI18nSdkBackendId(
+      services.resourceStore || services.store,
+      this.backendId,
+    );
     if (!this.sdk) {
       throw new Error(
         'SdkBackend requires an SDK function to be provided in backend options',
@@ -283,8 +293,12 @@ export class SdkBackend {
 
   private triggerI18nextUpdate(language: string, namespace: string): void {
     if (typeof window !== 'undefined') {
-      const event = new CustomEvent('i18n-sdk-resources-loaded', {
-        detail: { language, namespace },
+      const event = new CustomEvent(I18N_SDK_RESOURCES_LOADED_EVENT, {
+        detail: {
+          language,
+          namespace,
+          backendId: this.backendId,
+        },
       });
       window.dispatchEvent(event);
     }
