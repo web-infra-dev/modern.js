@@ -3,6 +3,11 @@ import type { TRuntimeContext } from '@modern-js/runtime';
 import type React from 'react';
 import { useEffect, useRef } from 'react';
 import type { I18nInstance } from './i18n';
+import {
+  I18N_SDK_RESOURCES_LOADED_EVENT,
+  type I18nSdkResourcesLoadedEventDetail,
+  getI18nSdkBackendId,
+} from './i18n/backend/sdk-event';
 import { cacheUserLanguage } from './i18n/detection';
 import {
   buildLocalizedUrl,
@@ -59,12 +64,31 @@ export function useSdkResourcesLoader(
       return;
     }
 
+    const backendId =
+      getI18nSdkBackendId(i18nInstance.services?.resourceStore) ||
+      getI18nSdkBackendId(i18nInstance.services?.store) ||
+      getI18nSdkBackendId(i18nInstance.store);
+
+    if (!backendId) {
+      return;
+    }
+
     const handleSdkResourcesLoaded = (event: Event) => {
-      const customEvent = event as CustomEvent<{
-        language: string;
-        namespace: string;
-      }>;
-      const { language, namespace } = customEvent.detail;
+      const customEvent =
+        event as CustomEvent<I18nSdkResourcesLoadedEventDetail>;
+      const {
+        language,
+        namespace,
+        backendId: eventBackendId,
+      } = customEvent.detail || {};
+
+      if (!language || !namespace) {
+        return;
+      }
+
+      if (eventBackendId && eventBackendId !== backendId) {
+        return;
+      }
 
       const triggerUpdate = (retryCount = 0) => {
         const store = (i18nInstance as any).store;
@@ -110,13 +134,13 @@ export function useSdkResourcesLoader(
     };
 
     window.addEventListener(
-      'i18n-sdk-resources-loaded',
+      I18N_SDK_RESOURCES_LOADED_EVENT,
       handleSdkResourcesLoaded,
     );
 
     return () => {
       window.removeEventListener(
-        'i18n-sdk-resources-loaded',
+        I18N_SDK_RESOURCES_LOADED_EVENT,
         handleSdkResourcesLoaded,
       );
     };
