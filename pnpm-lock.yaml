@@ -803,7 +803,7 @@ importers:
         version: 1.21.7
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
       magic-string:
         specifier: 0.30.21
         version: 0.30.21
@@ -976,7 +976,7 @@ importers:
         version: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2(@swc/core@1.15.8(@swc/helpers@0.5.20))(@types/node@16.11.68)(typescript@5.0.4))
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
       nanoid:
         specifier: 3.3.11
         version: 3.3.11
@@ -4533,7 +4533,7 @@ importers:
         version: 1.0.30001703
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
       rslog:
         specifier: ^1.1.0
         version: 1.2.3
@@ -4958,7 +4958,7 @@ importers:
         version: 11.1.0
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
       typescript:
         specifier: ^5
         version: 5.6.3
@@ -5048,7 +5048,7 @@ importers:
     dependencies:
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -6692,7 +6692,7 @@ importers:
     dependencies:
       lodash:
         specifier: ^4.17.23
-        version: 4.17.23
+        version: 4.18.1
 
   tests/integration/module/fixtures/build/tsconfig: {}
 
@@ -20205,6 +20205,9 @@ packages:
   lodash@4.17.23:
     resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
+
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
     engines: {node: '>=10'}
@@ -25677,7 +25680,7 @@ snapshots:
       '@ant-design/icons-svg': 4.4.2
       '@babel/runtime': 7.27.0
       classnames: 2.5.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       rc-util: 5.44.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -25748,7 +25751,7 @@ snapshots:
       b-validate: 1.5.3
       compute-scroll-into-view: 1.0.20
       dayjs: 1.11.13
-      lodash: 4.17.23
+      lodash: 4.18.1
       number-precision: 1.6.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -25769,7 +25772,7 @@ snapshots:
       b-validate: 1.5.3
       compute-scroll-into-view: 1.0.20
       dayjs: 1.11.13
-      lodash: 4.17.23
+      lodash: 4.18.1
       number-precision: 1.6.0
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -25905,7 +25908,7 @@ snapshots:
       debug: 4.4.3
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       resolve: 1.22.10
       semver: 5.7.2
       source-map: 0.5.7
@@ -29587,7 +29590,7 @@ snapshots:
   '@loadable/server@5.15.3(@loadable/component@5.15.3(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@loadable/component': 5.15.3(react@18.3.1)
-      lodash: 4.17.23
+      lodash: 4.18.1
       react: 18.3.1
 
   '@manypkg/find-root@1.1.0':
@@ -30120,14 +30123,14 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.3
       caniuse-lite: 1.0.30001762
-      lodash: 4.17.23
+      lodash: 4.18.1
       rslog: 1.2.3
 
   '@modern-js/utils@2.70.3':
     dependencies:
       '@swc/helpers': 0.5.18
       caniuse-lite: 1.0.30001762
-      lodash: 4.17.23
+      lodash: 4.18.1
       rslog: 1.3.0
 
   '@module-federation/error-codes@0.13.0': {}
@@ -32513,7 +32516,7 @@ snapshots:
   '@rsbuild/plugin-pug@1.3.2(@rsbuild/core@1.7.5)':
     dependencies:
       '@types/pug': 2.0.10
-      lodash: 4.17.23
+      lodash: 4.18.1
       pug: 3.0.3
       reduce-configs: 1.1.0
     optionalDependencies:
@@ -33521,7 +33524,7 @@ snapshots:
   '@storybook/addon-controls@7.6.20(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@storybook/blocks': 7.6.20(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      lodash: 4.17.23
+      lodash: 4.18.1
       ts-dedent: 2.2.0
     transitivePeerDependencies:
       - '@types/react'
@@ -33622,7 +33625,7 @@ snapshots:
       '@types/lodash': 4.17.14
       color-convert: 2.0.1
       dequal: 2.0.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       markdown-to-jsx: 7.5.0(react@18.3.1)
       memoizerific: 1.11.3
       polished: 4.3.1
@@ -33735,7 +33738,7 @@ snapshots:
       cross-spawn: 7.0.6
       globby: 11.1.0
       jscodeshift: 0.15.2(@babel/preset-env@7.26.9(@babel/core@7.29.0))
-      lodash: 4.17.23
+      lodash: 4.18.1
       prettier: 2.8.8
       recast: 0.23.9
     transitivePeerDependencies:
@@ -33844,7 +33847,7 @@ snapshots:
       express: 4.21.2
       fs-extra: 11.3.0
       globby: 11.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       open: 8.4.2
       pretty-hrtime: 1.0.3
       prompts: 2.4.2
@@ -33899,7 +33902,7 @@ snapshots:
       '@types/doctrine': 0.0.3
       assert: 2.1.0
       doctrine: 3.0.0
-      lodash: 4.17.23
+      lodash: 4.18.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -33917,7 +33920,7 @@ snapshots:
       '@storybook/theming': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/types': 7.6.20
       dequal: 2.0.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       memoizerific: 1.11.3
       store2: 2.14.3
       telejson: 7.2.0
@@ -33952,7 +33955,7 @@ snapshots:
       '@storybook/types': 7.6.20
       '@types/qs': 6.14.0
       dequal: 2.0.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       memoizerific: 1.11.3
       qs: 6.15.0
       synchronous-promise: 2.0.17
@@ -34002,7 +34005,7 @@ snapshots:
       acorn-walk: 7.2.0
       escodegen: 2.1.0
       html-tags: 3.3.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       prop-types: 15.8.1
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -34283,7 +34286,7 @@ snapshots:
       css: 3.0.0
       css.escape: 1.5.1
       dom-accessibility-api: 0.5.14
-      lodash: 4.17.23
+      lodash: 4.18.1
       redent: 3.0.0
 
   '@testing-library/react@13.4.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -35643,7 +35646,7 @@ snapshots:
       '@ctrl/tinycolor': 3.6.1
       classnames: 2.5.1
       copy-to-clipboard: 3.3.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       moment: 2.30.1
       rc-cascader: 3.7.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-checkbox: 3.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -36066,7 +36069,7 @@ snapshots:
       '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/types': 7.26.10
       glob: 7.2.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       require-package-name: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -36136,7 +36139,7 @@ snapshots:
       '@babel/helper-annotate-as-pure': 7.25.9
       '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       babel-plugin-syntax-jsx: 6.18.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       styled-components: 5.3.5(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
     transitivePeerDependencies:
       - supports-color
@@ -39896,7 +39899,7 @@ snapshots:
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
@@ -39907,7 +39910,7 @@ snapshots:
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
@@ -39918,7 +39921,7 @@ snapshots:
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
@@ -40146,7 +40149,7 @@ snapshots:
       cli-width: 3.0.0
       external-editor: 3.1.0
       figures: 3.2.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
@@ -40163,7 +40166,7 @@ snapshots:
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       figures: 3.2.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
@@ -41912,6 +41915,8 @@ snapshots:
 
   lodash@4.17.23: {}
 
+  lodash@4.18.1: {}
+
   log-symbols@4.1.0:
     dependencies:
       chalk: 4.1.2
@@ -43169,7 +43174,7 @@ snapshots:
 
   node-emoji@1.11.0:
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
 
   node-fetch-native@1.6.7: {}
 
@@ -44266,7 +44271,7 @@ snapshots:
 
   pretty-error@4.0.0:
     dependencies:
-      lodash: 4.17.23
+      lodash: 4.18.1
       renderkid: 3.0.0
 
   pretty-format@27.5.1:
@@ -46366,7 +46371,7 @@ snapshots:
       css-select: 4.3.0
       dom-converter: 0.2.0
       htmlparser2: 6.1.0
-      lodash: 4.17.23
+      lodash: 4.18.1
       strip-ansi: 6.0.1
 
   repeat-string@1.6.1: {}
@@ -47563,7 +47568,7 @@ snapshots:
       html-tags: 3.3.1
       is-color-stop: 1.1.0
       is-glob: 4.0.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       lodash.topath: 4.5.2
       modern-normalize: 1.1.0
       node-emoji: 1.11.0
@@ -48938,7 +48943,7 @@ snapshots:
     dependencies:
       axios: 1.13.5(debug@4.3.7)
       joi: 17.13.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       minimist: 1.2.8
       rxjs: 7.8.2
     transitivePeerDependencies:
