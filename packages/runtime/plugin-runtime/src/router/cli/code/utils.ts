@@ -59,6 +59,11 @@ export const parseModule = async ({
     const result = await transform(content, {
       loader: path.extname(filename).slice(1) as Loader,
       format: 'esm',
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true,
+        },
+      },
     });
     content = result.code;
   }
