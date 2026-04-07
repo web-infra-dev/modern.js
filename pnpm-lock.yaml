@@ -13,7 +13,7 @@ overrides:
   diff: '>=4.0.4'
   debug: '>=4.4.3'
   cross-spawn: '>=6.0.6'
-  lodash-es: '>=4.17.23'
+  lodash-es: '>=4.18.1'
   esbuild: '>=0.25.0'
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
@@ -1551,8 +1551,8 @@ importers:
         specifier: ^4.17.23
         version: 4.18.1
       lodash-es:
-        specifier: '>=4.17.23'
-        version: 4.17.23
+        specifier: '>=4.18.1'
+        version: 4.18.1
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -3276,8 +3276,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/server/server-runtime
       lodash-es:
-        specifier: '>=4.17.23'
-        version: 4.17.23
+        specifier: '>=4.18.1'
+        version: 4.18.1
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -11191,8 +11191,8 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
-  lodash-es@4.17.23:
-    resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
   lodash-es@4.18.1:
     resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
@@ -15635,12 +15635,12 @@ snapshots:
     dependencies:
       '@chevrotain/gast': 11.1.2
       '@chevrotain/types': 11.1.2
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
   '@chevrotain/gast@11.1.2':
     dependencies:
       '@chevrotain/types': 11.1.2
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
   '@chevrotain/regexp-to-ast@11.1.2': {}
 
@@ -17925,7 +17925,7 @@ snapshots:
       github-slugger: 2.0.0
       hast-util-heading-rank: 3.0.0
       hast-util-to-jsx-runtime: 2.3.6
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
       mdast-util-mdx: 3.0.0
       mdast-util-mdxjs-esm: 2.0.1
       medium-zoom: 1.1.0
@@ -17973,7 +17973,7 @@ snapshots:
       '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@shikijs/rehype': 3.23.0
       gray-matter: 4.0.3
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
       unified: 11.0.5
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
@@ -19875,7 +19875,7 @@ snapshots:
   chevrotain-allstar@0.3.1(chevrotain@11.1.2):
     dependencies:
       chevrotain: 11.1.2
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
   chevrotain@11.1.2:
     dependencies:
@@ -19884,7 +19884,7 @@ snapshots:
       '@chevrotain/regexp-to-ast': 11.1.2
       '@chevrotain/types': 11.1.2
       '@chevrotain/utils': 11.1.2
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
   chokidar@3.6.0:
     dependencies:
@@ -20602,7 +20602,7 @@ snapshots:
   dagre-d3-es@7.0.14:
     dependencies:
       d3: 7.9.0
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
   data-uri-to-buffer@3.0.1: {}
 
@@ -22835,7 +22835,7 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
-  lodash-es@4.17.23: {}
+  lodash-es@4.18.1: {}
 
   lodash-es@4.18.1:
     optional: true
@@ -22880,7 +22880,8 @@ snapshots:
 
   lodash@4.17.23: {}
 
-  lodash@4.18.1: {}
+  lodash@4.18.1:
+    optional: true
 
   log-symbols@4.1.0:
     dependencies:
@@ -23184,7 +23185,7 @@ snapshots:
       dompurify: 3.3.1
       katex: 0.16.27
       khroma: 2.1.0
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
       marked: 16.4.2
       roughjs: 4.6.6
       stylis: 4.3.6
