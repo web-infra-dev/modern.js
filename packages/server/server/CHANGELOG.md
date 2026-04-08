@@ -1,5 +1,15 @@
 # @modern-js/server
 
+## 3.1.3
+
+### Patch Changes
+
+- @modern-js/server-core@3.1.3
+- @modern-js/server-utils@3.1.3
+- @modern-js/runtime-utils@3.1.3
+- @modern-js/types@3.1.3
+- @modern-js/utils@3.1.3
+
 ## 3.1.2
 
 ### Patch Changes

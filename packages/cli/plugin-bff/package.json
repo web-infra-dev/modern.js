@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.2",
+  "version": "3.1.3",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
   "exports": {
