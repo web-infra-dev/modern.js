@@ -3,7 +3,9 @@ import React, { type ReactElement } from 'react';
 import { Body } from './Body';
 import { DocumentStructureContext } from './DocumentStructureContext';
 import { Head } from './Head';
+import { Links } from './Links';
 import { Root } from './Root';
+import { Scripts } from './Scripts';
 
 /**
  * get the directly son element by name
@@ -90,10 +92,16 @@ export function Html(
     findTargetChildByComponent(Head, children) ||
       findTargetChildByName('Head', children),
   );
-  const hasSetScripts = Boolean(findTargetElement('Scripts', children));
-  const hasSetLinks = Boolean(findTargetElement('Links', children));
+  const hasSetScripts = Boolean(
+    findTargetElementByComponent(Scripts, children) ||
+      findTargetChildByName('Scripts', children),
+  );
+  const hasSetLinks = Boolean(
+    findTargetElementByComponent(Links, children) ||
+      findTargetChildByName('Links', children),
+  );
   const hasSetBody = Boolean(
-    findTargetChildByComponent(Body, children) ||
+    findTargetElementByComponent(Body, children) ||
       findTargetChildByName('Body', children),
   );
   const hasSetRoot = Boolean(
