@@ -2,8 +2,8 @@ import path from 'node:path';
 import { fs as fse, removeModuleSyncFromExports } from '@modern-js/utils';
 import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
-import { getTemplatePath, readTemplate, resolveESMDependency } from '../utils';
-import { type PluginItem, generateHandler } from '../utils/generator';
+import { readTemplate, resolveESMDependency } from '../utils';
+import { generateHandler } from '../utils/generator';
 import type { CreatePreset } from './platform';
 
 export const createVercelPreset: CreatePreset = ({
