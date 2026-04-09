@@ -55,4 +55,49 @@ describe('typescript', () => {
 
     await fs.remove(distDir);
   });
+
+  it('should keep .js suffix for aliased imports in esm output', async () => {
+    const example = path.join(__dirname, './fixtures', './ts-example');
+    const tsconfigPath = path.join(example, './tsconfig.esm.json');
+    const distDir = path.join(example, './dist-esm');
+    const sharedDir = path.join(example, './shared');
+    const apiDir = path.join(example, './api');
+    const serverDir = path.join(example, './server');
+
+    try {
+      await compile(
+        example,
+        {
+          alias: {
+            '@modern-js/runtime/server': path.join(
+              sharedDir,
+              './runtime/server',
+            ),
+          },
+        } as any,
+        {
+          sourceDirs: [sharedDir, apiDir, serverDir],
+          distDir,
+          tsconfigPath,
+          moduleType: 'module',
+        },
+      );
+
+      const apiContent = await fs.readFile(
+        path.join(distDir, './api/index.js'),
+      );
+      const jsAliasContent = await fs.readFile(
+        path.join(distDir, './api/js-alias.js'),
+      );
+      const relativeContent = await fs.readFile(
+        path.join(distDir, './api/relative.js'),
+      );
+
+      expect(apiContent.toString()).toContain(`from "../shared/index.js"`);
+      expect(jsAliasContent.toString()).toContain(`from "../shared/index.js"`);
+      expect(relativeContent.toString()).toContain(`from "../shared/index.js"`);
+    } finally {
+      await fs.remove(distDir);
+    }
+  });
 });

@@ -1,8 +1,27 @@
 import * as os from 'os';
 import path, { dirname, posix } from 'path';
+import { findMatchedSourcePath, findSourceEntry } from '@modern-js/utils';
 import type { MatchPath } from '@modern-js/utils/tsconfig-paths';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import * as ts from 'typescript';
+
+// Convert a resolved source path into the specifier that native ESM output
+// should reference at runtime, which is always the emitted `.js` file.
+const toEsmOutputPath = (resolvedPath: string) => {
+  const sourcePath = findSourceEntry(resolvedPath) || resolvedPath;
+  const ext = path.extname(sourcePath);
+
+  return ext ? `${sourcePath.slice(0, -ext.length)}.js` : `${sourcePath}.js`;
+};
+
+const resolveRelativeEsmSpecifier = (sf: ts.SourceFile, text: string) => {
+  if (!text.startsWith('./') && !text.startsWith('../')) {
+    return;
+  }
+
+  const importerDir = dirname(sf.fileName);
+  return path.resolve(importerDir, text);
+};
 
 const isRegExpKey = (str: string) => {
   return str.startsWith('^') || str.endsWith('$');
@@ -67,6 +86,7 @@ export function tsconfigPathsBeforeHookFactory(
   tsBinary: typeof ts,
   baseUrl: string,
   paths: Record<string, string[] | string>,
+  moduleType?: 'module' | 'commonjs',
 ) {
   const tsPaths: Record<string, string[]> = {};
   const alias: Record<string, string> = {};
@@ -114,7 +134,7 @@ export function tsconfigPathsBeforeHookFactory(
             1,
             importPathWithQuotes.length - 1,
           );
-          const result = getNotAliasedPath(sf, matchPath, text);
+          const result = getNotAliasedPath(sf, matchPath, text, moduleType);
           if (!result) {
             return node;
           }
@@ -141,7 +161,7 @@ export function tsconfigPathsBeforeHookFactory(
               1,
               importPathWithQuotes.length - 1,
             );
-            const result = getNotAliasedPath(sf, matchPath, text);
+            const result = getNotAliasedPath(sf, matchPath, text, moduleType);
             if (!result) {
               return node;
             }
@@ -183,19 +203,23 @@ export function tsconfigPathsBeforeHookFactory(
   };
 }
 
-// fork from https://github.com/nestjs/nest-cli/blob/HEAD/lib/compiler/hooks/tsconfig-paths.hook.ts
-// license at https://github.com/nestjs/nest/blob/master/LICENSE
 function getNotAliasedPath(
   sf: ts.SourceFile,
   matcher: MatchPath,
   text: string,
+  moduleType?: 'module' | 'commonjs',
 ) {
-  let result = matcher(text, undefined, undefined, [
-    '.ts',
-    '.tsx',
-    '.js',
-    '.jsx',
-  ]);
+  // Resolve aliases and tsconfig paths using the same `.js` -> `.ts` fallback
+  // rules as the runtime loaders.
+  let result = findMatchedSourcePath(matcher, text);
+
+  // For native ESM, unresolved relative imports like `../service/user` must be
+  // resolved to a source path before we convert them to the emitted `.js` specifier.
+  if (!result && moduleType === 'module') {
+    // This branch is only for relative specifiers. Bare package imports should
+    // stay untouched when they are not matched by alias rules.
+    result = resolveRelativeEsmSpecifier(sf, text);
+  }
 
   if (!result) {
     return;
@@ -206,7 +230,8 @@ function getNotAliasedPath(
   }
 
   if (!path.isAbsolute(result)) {
-    // handle alias to alias
+    // If an alias resolves to another bare specifier, prefer leaving it as a
+    // package import when Node can resolve that package.
     if (!result.startsWith('.') && !result.startsWith('..')) {
       try {
         // Installed packages (node modules) should take precedence over root files with the same name.
@@ -220,6 +245,8 @@ function getNotAliasedPath(
       } catch {}
     }
     try {
+      // Likewise, if the original specifier already resolves as a package,
+      // keep the original text instead of forcing a relative filesystem path.
       // Installed packages (node modules) should take precedence over root files with the same name.
       // Ref: https://github.com/nestjs/nest-cli/issues/838
       const packagePath = require.resolve(text, {
@@ -231,6 +258,13 @@ function getNotAliasedPath(
     } catch {}
   }
 
+  if (moduleType === 'module') {
+    // Native ESM output must reference the emitted file extension that Node
+    // will load at runtime, typically `.js`.
+    result = toEsmOutputPath(result);
+  }
+
+  // Emit a relative specifier from the current source file to the resolved target.
   const resolvedPath = posix.relative(dirname(sf.fileName), result) || './';
   return resolvedPath[0] === '.' ? resolvedPath : `./${resolvedPath}`;
 }

@@ -5,6 +5,7 @@ import {
   getAliasConfig,
   isDepExists,
   loadFromProject,
+  mergeAlias,
   readTsConfigByFile,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
@@ -15,6 +16,112 @@ interface TsRuntimeSetupOptions {
   moduleType?: string;
   preferTsNodeForServerRuntime?: boolean;
 }
+
+const normalizePathValue = ({
+  key,
+  value,
+  absoluteBaseUrl,
+}: {
+  key: string;
+  value: string;
+  absoluteBaseUrl: string;
+}) => {
+  let normalizedValue = value;
+
+  // Modern.js still has some internal aliases that point at packages instead
+  // of source files, so resolve them before handing paths to the runtime.
+  if (key.startsWith('@') && normalizedValue.startsWith('@')) {
+    try {
+      normalizedValue = require.resolve(normalizedValue, {
+        paths: [process.cwd(), ...module.paths],
+      });
+    } catch {}
+  }
+
+  return path.isAbsolute(normalizedValue)
+    ? path.relative(absoluteBaseUrl, normalizedValue)
+    : normalizedValue;
+};
+
+const normalizePathValues = ({
+  key,
+  value,
+  absoluteBaseUrl,
+}: {
+  key: string;
+  value: string | string[];
+  absoluteBaseUrl: string;
+}) => {
+  const values = Array.isArray(value) ? value : [value];
+
+  return values.map(item =>
+    normalizePathValue({
+      key,
+      value: item,
+      absoluteBaseUrl,
+    }),
+  );
+};
+
+const addResolvedAlias = (
+  paths: Record<string, string[]>,
+  key: string,
+  values: string[],
+) => {
+  if (!key || paths[key]) {
+    return;
+  }
+
+  paths[key] = values;
+};
+
+const createRuntimePaths = ({
+  alias,
+  paths,
+  absoluteBaseUrl,
+}: {
+  alias?: ConfigChain<Alias>;
+  paths: Record<string, string | string[]>;
+  absoluteBaseUrl: string;
+}) => {
+  const mergedAlias = mergeAlias(alias);
+  const normalizedPaths = Object.keys(paths).reduce(
+    (result, key) => {
+      addResolvedAlias(
+        result,
+        key.endsWith('$') ? key.slice(0, -1) : key,
+        normalizePathValues({
+          key,
+          value: paths[key],
+          absoluteBaseUrl,
+        }),
+      );
+
+      return result;
+    },
+    {} as Record<string, string[]>,
+  );
+
+  Object.keys(mergedAlias).forEach(key => {
+    if (key.includes('*') || key.endsWith('$')) {
+      return;
+    }
+
+    // Expand `@service` into `@service/*` so runtime loaders can resolve
+    // nested imports like `@service/user` with the same rules as tsconfig paths.
+    addResolvedAlias(
+      normalizedPaths,
+      `${key}/*`,
+      normalizePathValues({
+        key,
+        value: mergedAlias[key],
+        absoluteBaseUrl,
+      }).map(value => `${value}/*`),
+    );
+  });
+
+  return normalizedPaths;
+};
 
 // Describes final runtime selection policy.
 // Prefer Node.js native TypeScript support when available, otherwise fall back to ts-node; skip setup when neither exists.
@@ -69,32 +176,11 @@ export const setupTsRuntime = async (
     tsconfigPath,
   });
   const { paths = {}, absoluteBaseUrl = './' } = aliasConfig;
-
-  const tsPaths = Object.keys(paths).reduce((o, key) => {
-    let tsPath = paths[key];
-    // Do some special handling for Modern.js's internal alias, we can drop it in the next version
-    if (
-      typeof tsPath === 'string' &&
-      key.startsWith('@') &&
-      tsPath.startsWith('@')
-    ) {
-      try {
-        tsPath = require.resolve(tsPath, {
-          paths: [process.cwd(), ...module.paths],
-        });
-      } catch {}
-    }
-    if (typeof tsPath === 'string' && path.isAbsolute(tsPath)) {
-      tsPath = path.relative(absoluteBaseUrl, tsPath);
-    }
-    if (typeof tsPath === 'string') {
-      tsPath = [tsPath];
-    }
-    return {
-      ...o,
-      [`${key}`]: tsPath,
-    };
-  }, {});
+  const runtimePaths = createRuntimePaths({
+    alias,
+    paths,
+    absoluteBaseUrl,
+  });
 
   if (registerMode === 'unsupported') {
     return;
@@ -103,40 +189,41 @@ export const setupTsRuntime = async (
   if (registerMode === 'ts-node') {
     if (options.moduleType === 'module') {
       const { registerModuleHooks } = await import('../esm/register-esm.mjs');
-      await registerModuleHooks({
+      return await registerModuleHooks({
         appDir,
         distDir,
-        alias: alias || {},
+        baseUrl: absoluteBaseUrl || './',
+        paths: runtimePaths,
+      });
+    } else {
+      const { register } = await import('@modern-js/utils/tsconfig-paths');
+      register({
+        baseUrl: absoluteBaseUrl || './',
+        paths: runtimePaths,
+      });
+
+      const tsConfig = readTsConfigByFile(tsconfigPath);
+      const tsNode = await loadFromProject('ts-node', appDir);
+      const tsNodeOptions = tsConfig['ts-node'];
+      tsNode.register({
+        project: tsconfigPath,
+        scope: true,
+        // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
+        files: true,
+        transpileOnly: true,
+        ignore: [
+          '(?:^|/)node_modules/',
+          `(?:^|/)${path.relative(appDir, distDir)}/`,
+        ],
+        ...tsNodeOptions,
       });
     }
-
-    const tsConfig = readTsConfigByFile(tsconfigPath);
-    const tsNode = await loadFromProject('ts-node', appDir);
-    const tsNodeOptions = tsConfig['ts-node'];
-    tsNode.register({
-      project: tsconfigPath,
-      scope: true,
-      // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-      files: true,
-      transpileOnly: true,
-      ignore: [
-        '(?:^|/)node_modules/',
-        `(?:^|/)${path.relative(appDir, distDir)}/`,
-      ],
-      ...tsNodeOptions,
-    });
   } else if (registerMode === 'node-loader') {
     const { registerPathsLoader } = await import('../esm/register-esm.mjs');
     await registerPathsLoader({
       appDir,
       baseUrl: absoluteBaseUrl || './',
-      paths: tsPaths,
+      paths: runtimePaths,
     });
   }
-
-  const { register } = await import('@modern-js/utils/tsconfig-paths');
-  register({
-    baseUrl: absoluteBaseUrl || './',
-    paths: tsPaths,
-  });
 };

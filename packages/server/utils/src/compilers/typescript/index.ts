@@ -83,6 +83,7 @@ export const compileByTs: CompileFunc = async (
     ts,
     absoluteBaseUrl,
     paths,
+    compileOptions.moduleType,
   );
 
   const emitResult = program.emit(undefined, undefined, undefined, undefined, {

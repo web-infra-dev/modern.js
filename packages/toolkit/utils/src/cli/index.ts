@@ -19,3 +19,4 @@ export * from './watch';
 export * from './config';
 export * from './version';
 export * from './route';
+export * from './modulePath';
