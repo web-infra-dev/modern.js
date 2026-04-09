@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 3.1.3
+
+### Patch Changes
+
+- fbefc27: docs: remove unused code in vercel deployment plugin
+  docs: 移除 Vercel 部署插件中未使用的代码
+  - @modern-js/builder@3.1.3
+  - @modern-js/plugin-data-loader@3.1.3
+  - @modern-js/server-core@3.1.3
+  - @modern-js/prod-server@3.1.3
+  - @modern-js/server@3.1.3
+  - @modern-js/server-utils@3.1.3
+  - @modern-js/i18n-utils@3.1.3
+  - @modern-js/plugin@3.1.3
+  - @modern-js/types@3.1.3
+  - @modern-js/utils@3.1.3
+
 ## 3.1.2
 
 ### Patch Changes
