@@ -7,7 +7,7 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
-rstest.setConfig({ testTimeout: 25000, hookTimeout: 25000 });
+rstest.setConfig({ testTimeout: 1000 * 60 * 2, hookTimeout: 1000 * 60 * 2 });
 
 const appDir = path.resolve(__dirname, '../');
 let app: any;

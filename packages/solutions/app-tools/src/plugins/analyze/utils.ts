@@ -5,9 +5,8 @@ import {
   getCommand,
   normalizeToPosixPath,
 } from '@modern-js/utils';
+import { transform } from '@swc/core';
 import { parse } from 'es-module-lexer';
-import type { Loader } from 'esbuild';
-import { transform } from 'esbuild';
 
 export const walkDirectory = (dir: string): string[] =>
   fs.readdirSync(dir).reduce<string[]>((previous, filename) => {
@@ -43,13 +42,20 @@ export const parseModule = async ({
   let content = source;
 
   if (JS_EXTENSIONS.some(ext => filename.endsWith(ext))) {
+    const ext = path.extname(filename);
+    const isTs = ext === '.ts' || ext === '.tsx';
+    const isJsx = ext === '.jsx' || ext === '.tsx';
     const result = await transform(content, {
-      loader: path.extname(filename).slice(1) as Loader,
-      format: 'esm',
-      tsconfigRaw: {
-        compilerOptions: {
-          experimentalDecorators: true,
-        },
+      filename,
+      isModule: true,
+      module: { type: 'es6' },
+      jsc: {
+        parser: isTs
+          ? { syntax: 'typescript', tsx: isJsx, decorators: true }
+          : { syntax: 'ecmascript', jsx: isJsx, decorators: true },
+        transform: { legacyDecorator: true },
+        target: 'es2022',
+        keepClassNames: true,
       },
     });
     content = result.code;
