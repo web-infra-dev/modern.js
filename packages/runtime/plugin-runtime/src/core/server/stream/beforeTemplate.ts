@@ -73,7 +73,7 @@ export async function buildShellBeforeTemplate(
 
     async function getCssChunks() {
       const { routeManifest, routerContext, routes } = runtimeContext;
-      if (!routeManifest || !routerContext || !routes) {
+      if (!routeManifest) {
         return '';
       }
 
@@ -90,14 +90,33 @@ export async function buildShellBeforeTemplate(
             return;
           }
 
-          const routeId = match.route.id;
-          if (routeId) {
-            const routeManifest = routeAssets[routeId];
-            return routeManifest;
-          }
-        })
-        .filter(Boolean);
-      const asyncEntry = routeAssets[`async-${entryName}`];
+      let matchedRouteManifests: RouteManifest[] | undefined = undefined;
+
+      if (routerContext && routes) {
+        const matches = matchRoutes(
+          routes,
+          routerContext.location,
+          routerContext.basename,
+        );
+        matchedRouteManifests = matches
+          ?.map((match, index) => {
+            if (!index) {
+              return;
+            }
+
+            const routeId = match.route.id;
+            if (routeId) {
+              return routeAssets[routeId] as RouteManifest | undefined;
+            }
+          })
+          .filter(Boolean) as RouteManifest[];
+      } else {
+        return '';
+      }
+
+      const asyncEntry = routeAssets[`async-${entryName}`] as
+        | RouteManifest
+        | undefined;
       if (asyncEntry) {
         matchedRouteManifests?.push(asyncEntry);
       }
