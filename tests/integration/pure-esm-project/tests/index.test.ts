@@ -44,6 +44,18 @@ async function waitForApiInfoReady(
   throw lastError ?? new Error('Timed out waiting for /api/info');
 }
 
+async function expectApiInfo(host: string, port: number) {
+  const res = await fetch(`${host}:${port}/api/info`);
+  const data = await res.json();
+
+  expect(data).toEqual({
+    company: 'bytedance',
+    addRes: 3,
+    url: '/api/info',
+    user: 'modern.js',
+  });
+}
+
 describe('pure-esm-project in dev', () => {
   let port = 8080;
   const host = `http://localhost`;
@@ -80,18 +92,7 @@ describe('pure-esm-project in dev', () => {
   });
 
   test('api service should serve normally', async () => {
-    try {
-      const res = await fetch(`${host}:${port}/api/info`);
-      const data = await res.json();
-      expect(data).toEqual({
-        company: 'bytedance',
-        addRes: 3,
-        url: '/api/info',
-      });
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    await expectApiInfo(host, port);
   });
 
   afterAll(async () => {
@@ -140,13 +141,7 @@ describe('pure-esm-project in prod', () => {
   });
 
   test('api service should serve normally', async () => {
-    const res = await fetch(`${host}:${port}/api/info`);
-    const data = await res.json();
-    expect(data).toEqual({
-      company: 'bytedance',
-      addRes: 3,
-      url: '/api/info',
-    });
+    await expectApiInfo(host, port);
   });
 
   afterAll(async () => {

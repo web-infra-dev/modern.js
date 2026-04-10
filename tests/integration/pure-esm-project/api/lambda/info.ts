@@ -1,4 +1,5 @@
 import { useHonoContext } from '@modern-js/server-runtime';
+import { getUser } from '@service/user';
 import { add } from 'lodash-es';
 
 export const get = () => {
@@ -10,5 +11,6 @@ export const get = () => {
     company: 'bytedance',
     addRes: add(1, 2),
     url: pathname,
+    user: getUser().name,
   };
 };

@@ -29,6 +29,7 @@ async function checkAppRun(host: string) {
     company: 'bytedance',
     addRes: 3,
     url: '/api/info',
+    user: 'modern.js',
   });
 }
 
