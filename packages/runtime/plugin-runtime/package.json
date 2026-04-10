@@ -119,7 +119,11 @@
     },
     "./cache": {
       "types": "./dist/types/cache/index.d.ts",
-      "default": "./dist/esm/cache/index.mjs"
+      "node": {
+        "import": "./dist/esm-node/cache/index.mjs",
+        "require": "./dist/cjs/cache/index.js"
+      },
+      "default": "./dist/cjs/cache/index.js"
     },
     "./config-routes": {
       "types": "./dist/types/exports/config-routes.d.ts",
