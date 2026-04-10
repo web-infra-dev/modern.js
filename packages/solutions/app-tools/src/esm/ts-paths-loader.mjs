@@ -7,6 +7,31 @@ import { createMatchPath as oCreateMatchPath } from '@modern-js/utils/tsconfig-p
 let matchPath;
 let appDir;
 
+// Node's ESM loader does not guarantee that `context.parentURL` is always a
+// `file://` URL. Some packages, such as Tailwind v4, can trigger resolutions
+// from synthetic modules like `data:` URLs. Guarding the conversion here keeps
+// app-local relative import handling working for normal file parents without
+// crashing on non-file schemes.
+const getParentPath = parentURL => {
+  if (!parentURL) {
+    return process.cwd();
+  }
+
+  if (path.isAbsolute(parentURL)) {
+    return path.dirname(parentURL);
+  }
+
+  try {
+    const url = new URL(parentURL);
+
+    if (url.protocol === 'file:') {
+      return path.dirname(fileURLToPath(url));
+    }
+  } catch {}
+
+  return process.cwd();
+};
+
 export async function initialize({ appDir: currentAppDir, baseUrl, paths }) {
   appDir = path.resolve(currentAppDir);
   matchPath = oCreateMatchPath(baseUrl || './', paths || {});
@@ -15,9 +40,7 @@ export async function initialize({ appDir: currentAppDir, baseUrl, paths }) {
 export function resolve(specifier, context, defaultResolve) {
   // Without this branch, app-local imports like `../service/user` would fail
   // under native ESM because Node does not try `.ts` / `.js` extensions here.
-  const parentPath = context.parentURL
-    ? path.dirname(fileURLToPath(context.parentURL))
-    : process.cwd();
+  const parentPath = getParentPath(context.parentURL);
   const relativeFromApp = appDir ? path.relative(appDir, parentPath) : '';
 
   const isAppFile =
