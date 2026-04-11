@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -4423,10 +4421,10 @@ importers:
         version: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
       storybook-addon-modernjs:
         specifier: 3.3.2
-        version: 3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.3(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3)
+        version: 3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.3(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3))(typescript@5.9.3)
       storybook-react-rsbuild:
-        specifier: 3.3.2
-        version: 3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@3.30.0)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2))
+        specifier: 3.3.3
+        version: 3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@3.30.0)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2))
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -5796,8 +5794,20 @@ packages:
     peerDependencies:
       tslib: '2'
 
+  '@jsonjoy.com/base64@17.67.0':
+    resolution: {integrity: sha512-5SEsJGsm15aP8TQGkDfJvz9axgPwAEm98S5DxOuYe8e1EbfajcDmgeXXzccEjh+mLnjqEKrkBdjHWS5vFNwDdw==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
   '@jsonjoy.com/buffers@1.2.1':
     resolution: {integrity: sha512-12cdlDwX4RUM3QxmUbVJWqZ/mrK6dFQH4Zxq6+r1YXKXYBNgZXndx2qbCJwh3+WWkCSn67IjnlG3XYTvmvYtgA==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/buffers@17.67.0':
+    resolution: {integrity: sha512-tfExRpYxBvi32vPs9ZHaTjSP4fHAfzSmcahOfNxtvGHcyJel+aibkPlGeBB+7AoC6hL7lXIE++8okecBxx7lcw==}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
@@ -5808,8 +5818,68 @@ packages:
     peerDependencies:
       tslib: '2'
 
+  '@jsonjoy.com/codegen@17.67.0':
+    resolution: {integrity: sha512-idnkUplROpdBOV0HMcwhsCUS5TRUi9poagdGs70A6S4ux9+/aPuKbh8+UYRTLYQHtXvAdNfQWXDqZEx5k4Dj2Q==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-core@4.57.1':
+    resolution: {integrity: sha512-YrEi/ZPmgc+GfdO0esBF04qv8boK9Dg9WpRQw/+vM8Qt3nnVIJWIa8HwZ/LXVZ0DB11XUROM8El/7yYTJX+WtA==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-fsa@4.57.1':
+    resolution: {integrity: sha512-ooEPvSW/HQDivPDPZMibHGKZf/QS4WRir1czGZmXmp3MsQqLECZEpN0JobrD8iV9BzsuwdIv+PxtWX9WpPLsIA==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-node-builtins@4.57.1':
+    resolution: {integrity: sha512-XHkFKQ5GSH3uxm8c3ZYXVrexGdscpWKIcMWKFQpMpMJc8gA3AwOMBJXJlgpdJqmrhPyQXxaY9nbkNeYpacC0Og==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-node-to-fsa@4.57.1':
+    resolution: {integrity: sha512-pqGHyWWzNck4jRfaGV39hkqpY5QjRUQ/nRbNT7FYbBa0xf4bDG+TE1Gt2KWZrSkrkZZDE3qZUjYMbjwSliX6pg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-node-utils@4.57.1':
+    resolution: {integrity: sha512-vp+7ZzIB8v43G+GLXTS4oDUSQmhAsRz532QmmWBbdYA20s465JvwhkSFvX9cVTqRRAQg+vZ7zWDaIEh0lFe2gw==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-node@4.57.1':
+    resolution: {integrity: sha512-3YaKhP8gXEKN+2O49GLNfNb5l2gbnCFHyAaybbA2JkkbQP3dpdef7WcUaHAulg/c5Dg4VncHsA3NWAUSZMR5KQ==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-print@4.57.1':
+    resolution: {integrity: sha512-Ynct7ZJmfk6qoXDOKfpovNA36ITUx8rChLmRQtW08J73VOiuNsU8PB6d/Xs7fxJC2ohWR3a5AqyjmLojfrw5yw==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/fs-snapshot@4.57.1':
+    resolution: {integrity: sha512-/oG8xBNFMbDXTq9J7vepSA1kerS5vpgd3p5QZSPd+nX59uwodGJftI51gDYyHRpP57P3WCQf7LHtBYPqwUg2Bg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
   '@jsonjoy.com/json-pack@1.21.0':
     resolution: {integrity: sha512-+AKG+R2cfZMShzrF2uQw34v3zbeDYUqnQ+jg7ORic3BGtfw9p/+N6RJbq/kkV8JmYZaINknaEQ2m0/f693ZPpg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/json-pack@17.67.0':
+    resolution: {integrity: sha512-t0ejURcGaZsn1ClbJ/3kFqSOjlryd92eQY465IYrezsXmPcfHPE/av4twRSxf6WE+TkZgLY+71vCZbiIiFKA/w==}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
@@ -5820,8 +5890,20 @@ packages:
     peerDependencies:
       tslib: '2'
 
+  '@jsonjoy.com/json-pointer@17.67.0':
+    resolution: {integrity: sha512-+iqOFInH+QZGmSuaybBUNdh7yvNrXvqR+h3wjXm0N/3JK1EyyFAeGJvqnmQL61d1ARLlk/wJdFKSL+LHJ1eaUA==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
   '@jsonjoy.com/util@1.9.0':
     resolution: {integrity: sha512-pLuQo+VPRnN8hfPqUTLTHk126wuYdXVxE6aDmjSeV4NCAgyxWbiOIeNJVtID3h1Vzpoi9m4jXezf73I6LgabgQ==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/util@17.67.0':
+    resolution: {integrity: sha512-6+8xBaz1rLSohlGh68D1pdw3AwDi9xydm8QNlAFkvnavCJYSze+pxoW2VKP8p308jtlMRLs5NTHfPlZLd4w7ew==}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
@@ -6646,6 +6728,14 @@ packages:
       '@rsbuild/core':
         optional: true
 
+  '@rsbuild/plugin-type-check@1.3.4':
+    resolution: {integrity: sha512-ibOlMRVKeDfBBSd09YVzJjAUhX1KnTVbK0NK/rPBai3/DAovhUsmkxKDIsE+3HN93iGBSBiqOCIOrYFO2Z21Fw==}
+    peerDependencies:
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
+    peerDependenciesMeta:
+      '@rsbuild/core':
+        optional: true
+
   '@rsbuild/plugin-typed-css-modules@1.2.1':
     resolution: {integrity: sha512-PTiL6t7T5Z7riPAhyJcmYgwhWl/pNjQqpHYMojO3qKnNcFZJicUbFzKkwXCPTqNl9oCWKJAWNtyXAjQQyoINNw==}
     peerDependencies:
@@ -7255,12 +7345,30 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       storybook: ^10.2.19
 
+  '@storybook/react-dom-shim@10.3.5':
+    resolution: {integrity: sha512-Gw8R7XZm0zSUH0XAuxlQJhmizsLzyD6x00KOlP6l7oW9eQHXGfxg3seNDG3WrSAcW07iP1/P422kuiriQlOv7g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      storybook: ^10.3.5
+
   '@storybook/react@10.2.19':
     resolution: {integrity: sha512-gm2qxLyYSsGp7fee5i+d8jSVUKMla8yRaTJ1wxPEnyaJMd0QUu6U2v3p2rW7PH1DWop3D6NqWOY8kmZjmSZKlA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       storybook: ^10.2.19
+      typescript: '>= 4.9.x'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@storybook/react@10.3.5':
+    resolution: {integrity: sha512-tpLTLaVGoA6fLK3ReyGzZUricq7lyPaV2hLPpj5wqdXLV/LpRtAHClUpNoPDYSBjlnSjL81hMZijbkGC3mA+gw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      storybook: ^10.3.5
       typescript: '>= 4.9.x'
     peerDependenciesMeta:
       typescript:
@@ -8511,7 +8619,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
-    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
+    deprecated: Security vulnerability fixed in 5.2.1, please upgrade
 
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -10197,6 +10305,10 @@ packages:
     resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
     engines: {node: '>=14.14'}
 
+  fs-extra@11.3.4:
+    resolution: {integrity: sha512-CTXd6rk/M3/ULNQj8FBqBWHYBVYybQ3VPBw0xGKFe3tuH7ytT6ACnvzpIQ3UZtB8yvUKC2cXn1a+x+5EVQLovA==}
+    engines: {node: '>=14.14'}
+
   fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -11518,6 +11630,11 @@ packages:
 
   memfs@4.51.1:
     resolution: {integrity: sha512-Eyt3XrufitN2ZL9c/uIRMyDwXanLI88h/L3MoWqNY747ha3dMR9dWqp8cRT5ntjZ0U1TNuq4U91ZXK0sMBjYOQ==}
+
+  memfs@4.57.1:
+    resolution: {integrity: sha512-WvzrWPwMQT+PtbX2Et64R4qXKK0fj/8pO85MrUCzymX3twwCiJCdvntW3HdhG1teLJcHDDLIKx5+c3HckWYZtQ==}
+    peerDependencies:
+      tslib: '2'
 
   meow@13.2.0:
     resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
@@ -13920,8 +14037,8 @@ packages:
       typescript:
         optional: true
 
-  storybook-builder-rsbuild@3.3.2:
-    resolution: {integrity: sha512-3wH8SuSEBm+qL2tHAbuyAI5iATlINoEEN334RXiKHiej1TimaJtW4oFYHoQqPM9JTzvJsGxRMc/qlKpvyrFYlw==}
+  storybook-builder-rsbuild@3.3.3:
+    resolution: {integrity: sha512-bGrQjLZaZVouBbbtToCPVEsqMimQhgO264+vPKiJxlDllPE1hT6hLl1kKfQ2E7K/+oiLGlkI+fKsmcSOfkiKVg==}
     peerDependencies:
       '@rsbuild/core': ^1.5.0 || ^2.0.0-0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -13936,8 +14053,8 @@ packages:
       typescript:
         optional: true
 
-  storybook-react-rsbuild@3.3.2:
-    resolution: {integrity: sha512-h80dmLjg6+dDqfco00/rSEvuFuUPgKTvPLcKrAybk6BZsrUFjA5lyIdrVcd/RhVXLL1Yv5OrRwJtNGjk5euYoQ==}
+  storybook-react-rsbuild@3.3.3:
+    resolution: {integrity: sha512-I0B0Ip5TmPw7qaMFZsFYnqOtF3MPTVzyOQoCFWyumzkQ8NlFckIPCT51LDD5kb5mSuNs1xbYzhywnb+2SlzNfQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@rsbuild/core': ^1.5.0 || ^2.0.0-0
@@ -14335,6 +14452,15 @@ packages:
     resolution: {integrity: sha512-Fq2+/sSILEJKWrqoj/H+ytnBbYrudPfRLxaULA/MuL+/3jswXuiR4MOfL30R9XzVUD2km0pSx6bj8yk95IEOaA==}
     peerDependencies:
       '@rspack/core': ^1.0.0
+      typescript: '>=3.8.0'
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
+
+  ts-checker-rspack-plugin@1.3.0:
+    resolution: {integrity: sha512-89oK/BtApjdid1j9CGjPGiYry+EZBhsnTAM481/8ipgr/y2IOgCbW1HPnan+fs5FnzlpUgf9dWGNZ4Ayw3Bd8A==}
+    peerDependencies:
+      '@rspack/core': ^1.0.0 || ^2.0.0-0
       typescript: '>=3.8.0'
     peerDependenciesMeta:
       '@rspack/core':
@@ -16335,12 +16461,80 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@jsonjoy.com/base64@17.67.0(tslib@2.8.1)':
+    dependencies:
+      tslib: 2.8.1
+
   '@jsonjoy.com/buffers@1.2.1(tslib@2.8.1)':
+    dependencies:
+      tslib: 2.8.1
+
+  '@jsonjoy.com/buffers@17.67.0(tslib@2.8.1)':
     dependencies:
       tslib: 2.8.1
 
   '@jsonjoy.com/codegen@1.0.0(tslib@2.8.1)':
     dependencies:
+      tslib: 2.8.1
+
+  '@jsonjoy.com/codegen@17.67.0(tslib@2.8.1)':
+    dependencies:
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-core@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      thingies: 2.5.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-fsa@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-core': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      thingies: 2.5.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-node-builtins@4.57.1(tslib@2.8.1)':
+    dependencies:
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-node-to-fsa@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-fsa': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-node-utils@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-node@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-core': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-print': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-snapshot': 4.57.1(tslib@2.8.1)
+      glob-to-regex.js: 1.2.0(tslib@2.8.1)
+      thingies: 2.5.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-print@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      tree-dump: 1.1.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/fs-snapshot@4.57.1(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/buffers': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/json-pack': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/util': 17.67.0(tslib@2.8.1)
       tslib: 2.8.1
 
   '@jsonjoy.com/json-pack@1.21.0(tslib@2.8.1)':
@@ -16355,16 +16549,39 @@ snapshots:
       tree-dump: 1.1.0(tslib@2.8.1)
       tslib: 2.8.1
 
+  '@jsonjoy.com/json-pack@17.67.0(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/base64': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/buffers': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/codegen': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/json-pointer': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/util': 17.67.0(tslib@2.8.1)
+      hyperdyperid: 1.2.0
+      thingies: 2.5.0(tslib@2.8.1)
+      tree-dump: 1.1.0(tslib@2.8.1)
+      tslib: 2.8.1
+
   '@jsonjoy.com/json-pointer@1.0.2(tslib@2.8.1)':
     dependencies:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       '@jsonjoy.com/util': 1.9.0(tslib@2.8.1)
       tslib: 2.8.1
 
+  '@jsonjoy.com/json-pointer@17.67.0(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/util': 17.67.0(tslib@2.8.1)
+      tslib: 2.8.1
+
   '@jsonjoy.com/util@1.9.0(tslib@2.8.1)':
     dependencies:
       '@jsonjoy.com/buffers': 1.2.1(tslib@2.8.1)
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  '@jsonjoy.com/util@17.67.0(tslib@2.8.1)':
+    dependencies:
+      '@jsonjoy.com/buffers': 17.67.0(tslib@2.8.1)
+      '@jsonjoy.com/codegen': 17.67.0(tslib@2.8.1)
       tslib: 2.8.1
 
   '@juggle/resize-observer@3.4.0': {}
@@ -17562,6 +17779,19 @@ snapshots:
       - '@rspack/core'
       - typescript
 
+  '@rsbuild/plugin-type-check@1.3.4(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(tslib@2.8.1)(typescript@5.9.3)':
+    dependencies:
+      deepmerge: 4.3.1
+      json5: 2.2.3
+      reduce-configs: 1.1.1
+      ts-checker-rspack-plugin: 1.3.0(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(tslib@2.8.1)(typescript@5.9.3)
+    optionalDependencies:
+      '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - tslib
+      - typescript
+
   '@rsbuild/plugin-typed-css-modules@1.2.1(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))':
     optionalDependencies:
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
@@ -18276,12 +18506,32 @@ snapshots:
       react-dom: 19.2.4(react@19.2.4)
       storybook: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
 
+  '@storybook/react-dom-shim@10.3.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))':
+    dependencies:
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      storybook: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
+
   '@storybook/react@10.2.19(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)':
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/react-dom-shim': 10.2.19(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))
       react: 19.2.4
       react-docgen: 8.0.3
+      react-dom: 19.2.4(react@19.2.4)
+      storybook: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
+    optionalDependencies:
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@storybook/react@10.3.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)':
+    dependencies:
+      '@storybook/global': 5.0.0
+      '@storybook/react-dom-shim': 10.3.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))
+      react: 19.2.4
+      react-docgen: 8.0.3
+      react-docgen-typescript: 2.4.0(typescript@5.9.3)
       react-dom: 19.2.4(react@19.2.4)
       storybook: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
     optionalDependencies:
@@ -21647,6 +21897,12 @@ snapshots:
       jsonfile: 6.2.0
       universalify: 2.0.1
 
+  fs-extra@11.3.4:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.2.0
+      universalify: 2.0.1
+
   fs-extra@7.0.1:
     dependencies:
       graceful-fs: 4.2.11
@@ -23276,6 +23532,23 @@ snapshots:
 
   memfs@4.51.1:
     dependencies:
+      '@jsonjoy.com/json-pack': 1.21.0(tslib@2.8.1)
+      '@jsonjoy.com/util': 1.9.0(tslib@2.8.1)
+      glob-to-regex.js: 1.2.0(tslib@2.8.1)
+      thingies: 2.5.0(tslib@2.8.1)
+      tree-dump: 1.1.0(tslib@2.8.1)
+      tslib: 2.8.1
+
+  memfs@4.57.1(tslib@2.8.1):
+    dependencies:
+      '@jsonjoy.com/fs-core': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-fsa': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-to-fsa': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-print': 4.57.1(tslib@2.8.1)
+      '@jsonjoy.com/fs-snapshot': 4.57.1(tslib@2.8.1)
       '@jsonjoy.com/json-pack': 1.21.0(tslib@2.8.1)
       '@jsonjoy.com/util': 1.9.0(tslib@2.8.1)
       glob-to-regex.js: 1.2.0(tslib@2.8.1)
@@ -26034,28 +26307,28 @@ snapshots:
 
   std-env@3.10.0: {}
 
-  storybook-addon-modernjs@3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.3(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3))(typescript@5.9.3):
+  storybook-addon-modernjs@3.3.2(@modern-js/app-tools@packages+solutions+app-tools)(@modern-js/plugin@3.1.3(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(storybook-builder-rsbuild@3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@modern-js/app-tools': link:packages/solutions/app-tools
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       find-up: 5.0.0
       rslog: 1.3.2
-      storybook-builder-rsbuild: 3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)
+      storybook-builder-rsbuild: 3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3)
     optionalDependencies:
       '@modern-js/plugin': 3.1.3(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       typescript: 5.9.3
 
-  storybook-builder-rsbuild@3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3):
+  storybook-builder-rsbuild@3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3):
     dependencies:
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@rsbuild/plugin-type-check': 1.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(typescript@5.9.3)
+      '@rsbuild/plugin-type-check': 1.3.4(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(tslib@2.8.1)(typescript@5.9.3)
       '@vitest/mocker': 3.2.4
       browser-assert: 1.2.1
       case-sensitive-paths-webpack-plugin: 2.4.0
       cjs-module-lexer: 2.2.0
       constants-browserify: 1.0.0
       es-module-lexer: 1.7.0
-      fs-extra: 11.3.3
+      fs-extra: 11.3.4
       magic-string: 0.30.21
       path-browserify: 1.0.1
       picocolors: 1.1.1
@@ -26074,13 +26347,14 @@ snapshots:
     transitivePeerDependencies:
       - '@rspack/core'
       - msw
+      - tslib
       - vite
 
-  storybook-react-rsbuild@3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@3.30.0)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)):
+  storybook-react-rsbuild@3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@3.30.0)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)):
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@3.30.0)
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
-      '@storybook/react': 10.2.19(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)
+      '@storybook/react': 10.3.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)
       '@storybook/react-docgen-typescript-plugin': 1.0.1(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2))
       find-up: 5.0.0
       magic-string: 0.30.21
@@ -26090,7 +26364,7 @@ snapshots:
       react-dom: 19.2.4(react@19.2.4)
       resolve: 1.22.11
       storybook: 10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10)
-      storybook-builder-rsbuild: 3.3.2(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(typescript@5.9.3)
+      storybook-builder-rsbuild: 3.3.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.19(@testing-library/dom@10.4.1)(bufferutil@4.1.0)(prettier@2.8.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(utf-8-validate@5.0.10))(tslib@2.8.1)(typescript@5.9.3)
       tsconfig-paths: 4.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -26099,6 +26373,7 @@ snapshots:
       - msw
       - rollup
       - supports-color
+      - tslib
       - vite
       - webpack
 
@@ -26616,6 +26891,18 @@ snapshots:
       typescript: 5.9.3
     optionalDependencies:
       '@rspack/core': 2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17)
+
+  ts-checker-rspack-plugin@1.3.0(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21))(tslib@2.8.1)(typescript@5.9.3):
+    dependencies:
+      '@rspack/lite-tapable': 1.1.0
+      chokidar: 3.6.0
+      memfs: 4.57.1(tslib@2.8.1)
+      picocolors: 1.1.1
+      typescript: 5.9.3
+    optionalDependencies:
+      '@rspack/core': 2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.21)
+    transitivePeerDependencies:
+      - tslib
 
   ts-dedent@2.2.0: {}
 
