@@ -58,7 +58,7 @@ export const getPluginsCode = (plugins: PluginItem[]) => {
 };
 
 export const getServerConfigPath = (meta: string) =>
-  `"${normalizePath(path.join(SERVER_DIR, `${meta}.server`))}"`;
+  `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
 
 export interface GenerateHandlerOptions {
   template: string;
