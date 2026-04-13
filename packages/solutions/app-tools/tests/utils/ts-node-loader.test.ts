@@ -10,6 +10,7 @@ describe('ts-node-loader', () => {
     const appDir = path.join(rootDir, 'app');
     const serviceDir = path.join(rootDir, 'service');
     const serviceFile = path.join(serviceDir, 'user.ts');
+    const tsconfigPath = path.join(rootDir, 'tsconfig.json');
     const loaderPath = path.resolve(
       __dirname,
       '../../src/esm/ts-node-loader.mjs',
@@ -18,6 +19,17 @@ describe('ts-node-loader', () => {
     fs.mkdirSync(appDir, { recursive: true });
     fs.mkdirSync(serviceDir, { recursive: true });
     fs.writeFileSync(serviceFile, 'export const user = 1;\n');
+    // Keep ts-node isolated from workspace-level tsconfig files in CI.
+    fs.writeFileSync(
+      tsconfigPath,
+      JSON.stringify({
+        compilerOptions: {
+          target: 'ES2020',
+          module: 'NodeNext',
+          moduleResolution: 'NodeNext',
+        },
+      }),
+    );
 
     try {
       const output = childProcess.execFileSync(
@@ -55,8 +67,12 @@ describe('ts-node-loader', () => {
           `,
         ],
         {
-          cwd: process.cwd(),
+          cwd: rootDir,
           encoding: 'utf8',
+          env: {
+            ...process.env,
+            TS_NODE_PROJECT: tsconfigPath,
+          },
         },
       );
 
