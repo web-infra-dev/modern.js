@@ -24,6 +24,7 @@ async function cleanDistDirectory(dir: string) {
 export const createNetlifyPreset: CreatePreset = ({
   appContext,
   modernConfig,
+  envDir,
   needModernServer,
 }) => {
   const { appDirectory, distDirectory, entrypoints, moduleType } = appContext;
@@ -102,6 +103,7 @@ export const createNetlifyPreset: CreatePreset = ({
         template,
         appContext,
         config: modernConfig,
+        envDir,
         isESM: isEsmProject,
       });
 
