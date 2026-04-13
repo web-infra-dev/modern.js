@@ -58,7 +58,7 @@ export const getPluginsCode = (plugins: PluginItem[]) => {
 };
 
 export const getServerConfigPath = (meta: string) =>
-  `"${normalizePath(path.join(SERVER_DIR, `${meta}.server`))}"`;
+  `path.join(__dirname, "${SERVER_DIR}", "${meta}.server")`;
 
 export interface GenerateHandlerOptions {
   template: string;
@@ -111,6 +111,8 @@ export const generateHandler = async ({
   const pluginsCode = getPluginsCode(plugins);
 
   const serverAppContext = genAppContextTemplate(appContext);
+  console.log('===> serverAppContext', serverAppContext);
+  console.log('===> serverConfig', serverConfig);
 
   return template
     .replace('p_genPluginImportsCode', pluginImportCode)
