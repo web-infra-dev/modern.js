@@ -111,8 +111,6 @@ export const generateHandler = async ({
   const pluginsCode = getPluginsCode(plugins);
 
   const serverAppContext = genAppContextTemplate(appContext);
-  console.log('===> serverAppContext', serverAppContext);
-  console.log('===> serverConfig', serverConfig);
 
   return template
     .replace('p_genPluginImportsCode', pluginImportCode)
