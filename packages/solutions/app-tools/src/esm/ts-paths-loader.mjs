@@ -53,7 +53,14 @@ export async function initialize({ appDir: currentAppDir, baseUrl, paths }) {
 }
 
 export function resolve(specifier, context, defaultResolve) {
-  const parentPath = context.parentURL
+  const hasParentURL = Boolean(context.parentURL);
+  const isFileParentURL = context.parentURL?.startsWith('file:');
+
+  if (hasParentURL && !isFileParentURL) {
+    return defaultResolve(specifier, context, defaultResolve);
+  }
+
+  const parentPath = isFileParentURL
     ? path.dirname(fileURLToPath(context.parentURL))
     : process.cwd();
   const relativeFromApp = appDir ? path.relative(appDir, parentPath) : '';
@@ -84,6 +91,10 @@ export function resolve(specifier, context, defaultResolve) {
   }
 
   if (!matchPath) {
+    return defaultResolve(specifier, context, defaultResolve);
+  }
+
+  if (!isAppFile) {
     return defaultResolve(specifier, context, defaultResolve);
   }
 

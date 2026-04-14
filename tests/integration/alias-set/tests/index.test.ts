@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import puppeteer from 'puppeteer';
 import {
   getPort,
@@ -10,6 +12,11 @@ import {
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
+const runtimeEntryFile = path.join(appDir, 'runtime/entry.mjs');
+const loaderFile = path.resolve(
+  __dirname,
+  '../../../../packages/solutions/app-tools/src/esm/ts-paths-loader.mjs',
+);
 
 function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
@@ -21,6 +28,84 @@ describe('alias set build', () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/index/index.html')).toBe(true);
+  });
+
+  test('should resolve runtime alias with node loader under file parent url', () => {
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `
+          import { register } from 'node:module';
+          import { pathToFileURL } from 'node:url';
+
+          const appDir = ${JSON.stringify(appDir)};
+          register(pathToFileURL(${JSON.stringify(loaderFile)}).href, import.meta.url, {
+            data: {
+              appDir,
+              baseUrl: appDir,
+              paths: {
+                '@common/*': ['src/common/*'],
+              },
+            },
+          });
+
+          const mod = await import(pathToFileURL(${JSON.stringify(runtimeEntryFile)}).href);
+          process.stdout.write(String(mod.default));
+        `,
+      ],
+      {
+        cwd: appDir,
+        encoding: 'utf8',
+      },
+    );
+
+    expect(result.status).toBe(0);
+    expect(result.stdout.trim()).toBe('alias runtime ok');
+    expect(result.stderr.trim()).toBe('');
+  });
+
+  test('should not resolve runtime alias for file parent outside app dir', () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'modern-alias-set-'));
+    const tempEntryFile = path.join(tempDir, 'entry.mjs');
+
+    fs.writeFileSync(
+      tempEntryFile,
+      `import value from '@common/runtime-value.mjs';\nexport default value;\n`,
+    );
+
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `
+          import { register } from 'node:module';
+          import { pathToFileURL } from 'node:url';
+
+          const appDir = ${JSON.stringify(appDir)};
+          register(pathToFileURL(${JSON.stringify(loaderFile)}).href, import.meta.url, {
+            data: {
+              appDir,
+              baseUrl: appDir,
+              paths: {
+                '@common/*': ['src/common/*'],
+              },
+            },
+          });
+
+          await import(pathToFileURL(${JSON.stringify(tempEntryFile)}).href);
+        `,
+      ],
+      {
+        cwd: appDir,
+        encoding: 'utf8',
+      },
+    );
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('@common/runtime-value.mjs');
   });
 });
 

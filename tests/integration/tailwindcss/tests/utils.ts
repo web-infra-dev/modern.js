@@ -10,7 +10,7 @@ import {
 
 export const fixtures = path.resolve(__dirname, '../fixtures');
 
-const { readdirSync, readFileSync, copySync } = fs;
+const { readFileSync, readdirSync } = fs;
 
 export const getCssFiles = (appDir: string) =>
   readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
@@ -19,13 +19,6 @@ export const getCssFiles = (appDir: string) =>
 
 export const readCssFile = (appDir: string, filename: string) =>
   readFileSync(path.resolve(appDir, `dist/static/css/${filename}`), 'utf8');
-
-export const copyModules = (appDir: string) => {
-  copySync(
-    path.resolve(appDir, '_node_modules'),
-    path.resolve(appDir, 'node_modules'),
-  );
-};
 
 export const getCssMaps = (appDir: string) =>
   readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
