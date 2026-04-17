@@ -11,7 +11,7 @@ const siteDescription =
 const socialDescription =
   'A Progressive React Framework for modern web development.';
 const socialImage =
-  'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/homepage-bg-0209.png';
+  'https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/banner.jpeg';
 
 export default defineConfig({
   root: docPath,
