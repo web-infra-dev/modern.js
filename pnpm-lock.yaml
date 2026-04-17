@@ -539,6 +539,9 @@ importers:
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
+      rsbuild-plugin-open-graph:
+        specifier: 1.1.2
+        version: 1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.15.11(@swc/helpers@0.5.18))(@types/node@20.19.27)(typescript@5.9.3)
@@ -13594,6 +13597,14 @@ packages:
       '@rsbuild/core':
         optional: true
 
+  rsbuild-plugin-open-graph@1.1.2:
+    resolution: {integrity: sha512-CNVtaoiS+tcFP8ge7nlnlgnynnGnHdRnFujYBDMeYtw9hYB7mFTzF4Yr3K+q0LQjYHqeNIeeApmC0LCUXqIulg==}
+    peerDependencies:
+      '@rsbuild/core': ^1.0.0 || ^2.0.0-0
+    peerDependenciesMeta:
+      '@rsbuild/core':
+        optional: true
+
   rsbuild-plugin-rsc@0.0.1-beta.0:
     resolution: {integrity: sha512-sgOzhLnOXilarjWWPigqAPomU1xOywifI2Hxamotkmev9L3WgjT/GRYcVMEZ9ObY/1yIR7HYHgKm3T5j/6nCZQ==}
     peerDependencies:
@@ -25807,6 +25818,10 @@ snapshots:
       html-minifier-terser: 7.2.0
     optionalDependencies:
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
+
+  rsbuild-plugin-open-graph@1.1.2(@rsbuild/core@2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)):
+    optionalDependencies:
+      '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
   rsbuild-plugin-rsc@0.0.1-beta.0(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)):
     dependencies:
