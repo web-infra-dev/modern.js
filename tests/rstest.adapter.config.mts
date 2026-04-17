@@ -5,5 +5,4 @@ export default defineConfig({
     'integration/rstest/**/rstest.config.{ts,mts}',
     'integration/rstest/**/rstest.*.config.{ts,mts}',
   ],
-  reporters: ['default'],
 });
