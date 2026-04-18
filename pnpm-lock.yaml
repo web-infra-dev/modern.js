@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -243,8 +241,8 @@ importers:
         specifier: 3.0.4
         version: 3.0.4(postcss@8.5.9)
       rsbuild-plugin-rsc:
-        specifier: 0.0.1-beta.0
-        version: 0.0.1-beta.0(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        specifier: 0.0.3
+        version: 0.0.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       rspack-manifest-plugin:
         specifier: 5.2.1
         version: 5.2.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))
@@ -13605,8 +13603,8 @@ packages:
       '@rsbuild/core':
         optional: true
 
-  rsbuild-plugin-rsc@0.0.1-beta.0:
-    resolution: {integrity: sha512-sgOzhLnOXilarjWWPigqAPomU1xOywifI2Hxamotkmev9L3WgjT/GRYcVMEZ9ObY/1yIR7HYHgKm3T5j/6nCZQ==}
+  rsbuild-plugin-rsc@0.0.3:
+    resolution: {integrity: sha512-c5kg/qbsupQUeRpKnIWu/m9J041Fw7PoLo8YQ/fwsGdUBupBD0maJ4NnQ48AI038q2PTa+8HN+WdGYu6z2V1/g==}
     peerDependencies:
       '@rsbuild/core': ^2.0.0-0
       react-server-dom-rspack: '*'
@@ -25823,7 +25821,7 @@ snapshots:
     optionalDependencies:
       '@rsbuild/core': 2.0.0-beta.1(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
-  rsbuild-plugin-rsc@0.0.1-beta.0(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)):
+  rsbuild-plugin-rsc@0.0.3(@rsbuild/core@2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(react-server-dom-rspack@0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)):
     dependencies:
       '@rsbuild/core': 2.0.0-rc.0(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       react-server-dom-rspack: 0.0.1-beta.1(@rspack/core@2.0.0-rc.1(@emnapi/core@1.7.1)(@emnapi/runtime@1.7.1)(@module-federation/runtime-tools@2.0.0)(@swc/helpers@0.5.17))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
