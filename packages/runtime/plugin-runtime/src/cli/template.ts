@@ -314,7 +314,7 @@ export const runtimeGlobalContextForRSCServer = ({
   import { setGlobalContext } from '@${metaName}/runtime/context';
   import AppProxy from './AppProxy';
 
-  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+  const DefaultRoot = ({ children }) =>
     createElement(Fragment, null, children);
 
 
@@ -383,7 +383,7 @@ export const runtimeGlobalContextForRSCClient = ({
        : ''
    }
 
-   const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+   const DefaultRoot = ({ children }) =>
      createElement(Fragment, null, children);
 
    ${
