@@ -27,6 +27,16 @@ type Compiler = Rspack.Compiler;
 
 type Compilation = Rspack.Compilation;
 
+const normalizeChunkId = (id: string | number | null | undefined) =>
+  typeof id === 'string' && /^\d+$/.test(id) ? Number(id) : id;
+
+const normalizeChunkGroup = (
+  group: Record<string, any>,
+): Record<string, any> => ({
+  ...group,
+  chunks: (group.chunks || []).map(normalizeChunkId),
+});
+
 class LoadablePlugin {
   opts: LoadablePluginOptions;
 
@@ -99,12 +109,26 @@ class LoadablePlugin {
       publicPath: true,
     } as any);
 
+    const namedChunkGroups: Record<string, any> = {};
+    for (const [name, group] of Object.entries(
+      (stats as any).namedChunkGroups || {},
+    )) {
+      namedChunkGroups[name] = normalizeChunkGroup(group as any);
+    }
+
+    const entrypoints: Record<string, any> = {};
+    for (const [name, ep] of Object.entries((stats as any).entrypoints || {})) {
+      entrypoints[name] = normalizeChunkGroup(ep as any);
+    }
+
     const output = {
       ...stats,
+      namedChunkGroups,
+      entrypoints,
       generator: 'loadable-components',
       chunks: [...(stats.chunks || [])].map(chunk => {
         return {
-          id: chunk.id,
+          id: normalizeChunkId(chunk.id),
           files: [...(chunk.files || [])],
         };
       }),
