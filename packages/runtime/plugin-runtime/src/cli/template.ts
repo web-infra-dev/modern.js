@@ -109,7 +109,7 @@ export const entryForCSRWithRSC = ({
 
   setServerCallback(callServer);
 
-  const handleRedirectResponse = (res: Response) => {
+  const handleRedirectResponse = (res) => {
     const { headers } = res;
     const location = headers.get('X-Modernjs-Redirect');
     const baseUrl = headers.get('X-Modernjs-BaseUrl');
@@ -314,7 +314,7 @@ export const runtimeGlobalContextForRSCServer = ({
   import { setGlobalContext } from '@${metaName}/runtime/context';
   import AppProxy from './AppProxy';
 
-  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+  const DefaultRoot = ({ children }) =>
     createElement(Fragment, null, children);
 
 
@@ -352,7 +352,7 @@ export const runtimeGlobalContextForRSCClient = ({
 
    ${
      customEntry
-       ? `const handleRedirectResponse = (res: Response) => {
+       ? `const handleRedirectResponse = (res) => {
      const { headers } = res;
      const location = headers.get('X-Modernjs-Redirect');
      const baseUrl = headers.get('X-Modernjs-BaseUrl');
@@ -383,7 +383,7 @@ export const runtimeGlobalContextForRSCClient = ({
        : ''
    }
 
-   const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+   const DefaultRoot = ({ children }) =>
      createElement(Fragment, null, children);
 
    ${

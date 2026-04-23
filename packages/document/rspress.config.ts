@@ -2,15 +2,22 @@ import path from 'path';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { defineConfig } from '@rspress/core';
 import { transformerNotationHighlight } from '@shikijs/transformers';
+import { pluginOpenGraph } from 'rsbuild-plugin-open-graph';
 
 const docPath = path.join(__dirname, 'docs');
+const siteTitle = 'Modern.js';
+const siteDescription =
+  'The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.';
+const socialDescription =
+  'A Progressive React Framework for modern web development.';
+const socialImage =
+  'https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/banner.jpeg';
 
 export default defineConfig({
   root: docPath,
   llms: true,
-  title: 'Modern.js',
-  description:
-    'The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.',
+  title: siteTitle,
+  description: siteDescription,
   base: '/',
   logo: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
   icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico',
@@ -25,37 +32,33 @@ export default defineConfig({
   search: {
     codeBlocks: true,
   },
-  head: [
-    `
-          <script>
-          ;(function (w, d, u, b, n, pc, ga, ae, po, s, p, e, t, pp) {pc = 'precollect';ga = 'getAttribute';ae = 'addEventListener';po = 'PerformanceObserver';s = function (m) {p = [].slice.call(arguments);p.push(Date.now(), location.href);(m == pc ? s.p.a : s.q).push(p)};s.q = [];s.p = { a: [] };w[n] = s;e = document.createElement('script');e.src = u + '?bid=' + b + '&globalName=' + n;e.crossorigin = u.indexOf('sdk-web') > 0 ? 'anonymous' : 'use-credentials';d.getElementsByTagName('head')[0].appendChild(e);if (ae in w) {s.pcErr = function (e) {e = e || w.event;t = e.target || e.srcElement;if (t instanceof Element || t instanceof HTMLElement) {if (t[ga]('integrity')) {w[n](pc, 'sri', t[ga]('href') || t[ga]('src'))} else {w[n](pc, 'st', { tagName: t.tagName, url: t[ga]('href') || t[ga]('src') })}} else {w[n](pc, 'err', e.error)}};s.pcRej = function (e) {e = e || w.event;w[n](pc, 'err', e.reason || (e.detail && e.detail.reason))};w[ae]('error', s.pcErr, true);w[ae]('unhandledrejection', s.pcRej, true);};if('PerformanceLongTaskTiming' in w) {pp = s.pp = { entries: [] };pp.observer = new PerformanceObserver(function (l) {pp.entries = pp.entries.concat(l.getEntries)});pp.observer.observe({ entryTypes: ['longtask', 'largest-contentful-paint','layout-shift'] })}})(window,document,'https://lf3-short.bytegoofy.com/slardar/fe/sdk-web/browser.cn.js','modernjs_dev','Slardar');
-
-          </script>
-          `,
-    `
-          <script>
-            window.Slardar('init', {
-              bid: 'modernjs_dev'
-            });
-            window.Slardar('start')
-          </script>
-          `,
-  ],
+  // head: [
+  //   () => {
+  //     return [
+  //       `<meta property="og:image" content="${socialImage}">`,
+  //       `<meta property="og:description" content="${socialDescription}">`,
+  //       `<meta property="og:image:alt" content="${siteTitle}">`,
+  //       `<meta name="twitter:card" content="summary_large_image">`,
+  //       `<meta name="twitter:title" content="${siteTitle}">`,
+  //       `<meta name="twitter:description" content="${socialDescription}">`,
+  //       `<meta name="twitter:image" content="${socialImage}">`,
+  //       `<meta name="twitter:image:alt" content="${siteTitle}">`,
+  //     ].join('');
+  //   },
+  // ],
   themeConfig: {
     locales: [
       {
         lang: 'zh',
-        title: 'Modern.js',
-        description:
-          'A Progressive React Framework for modern web development.',
+        title: siteTitle,
+        description: socialDescription,
         // nav: getNavbar('zh'),
         label: '简体中文',
       },
       {
         lang: 'en',
-        title: 'Modern.js',
-        description:
-          'A Progressive React Framework for modern web development.',
+        title: siteTitle,
+        description: socialDescription,
         // nav: getNavbar('en'),
         label: 'English',
       },
@@ -118,6 +121,22 @@ export default defineConfig({
         '@site': require('path').resolve(__dirname),
       },
     },
-    plugins: [pluginSass()],
+    plugins: [
+      pluginSass(),
+      pluginOpenGraph({
+        // Note, title is page-specific
+        title: 'Modern.js Home Page',
+        // While site name is site wide
+        siteName: siteTitle,
+        type: 'website',
+        url: 'https://modernjs.dev/',
+        image: socialImage,
+        description: socialDescription,
+        twitter: {
+          site: '@_Modern_JS',
+          card: 'summary_large_image',
+        },
+      }),
+    ],
   },
 });

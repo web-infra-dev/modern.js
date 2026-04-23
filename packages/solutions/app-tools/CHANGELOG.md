@@ -1,5 +1,42 @@
 # @modern-js/app-tools
 
+## 3.1.5
+
+### Patch Changes
+
+- 95a9645: chore: upgrade @rsbuild dependencies to v2.0.0
+
+  chore: 升级 @rsbuild 相关依赖至 v2.0.0
+
+- Updated dependencies [95a9645]
+  - @modern-js/plugin-data-loader@3.1.5
+  - @modern-js/plugin@3.1.5
+  - @modern-js/builder@3.1.5
+  - @modern-js/server-core@3.1.5
+  - @modern-js/server@3.1.5
+  - @modern-js/prod-server@3.1.5
+  - @modern-js/server-utils@3.1.5
+  - @modern-js/i18n-utils@3.1.5
+  - @modern-js/utils@3.1.5
+  - @modern-js/types@3.1.5
+
+## 3.1.4
+
+### Patch Changes
+
+- de1a72a: fix: netlify function not get the right server path
+  fix: netlify function 未获取正确的 server 路径
+  - @modern-js/builder@3.1.4
+  - @modern-js/plugin-data-loader@3.1.4
+  - @modern-js/server-core@3.1.4
+  - @modern-js/prod-server@3.1.4
+  - @modern-js/server@3.1.4
+  - @modern-js/server-utils@3.1.4
+  - @modern-js/i18n-utils@3.1.4
+  - @modern-js/plugin@3.1.4
+  - @modern-js/types@3.1.4
+  - @modern-js/utils@3.1.4
+
 ## 3.1.3
 
 ### Patch Changes

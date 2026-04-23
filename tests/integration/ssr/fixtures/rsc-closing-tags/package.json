@@ -11,7 +11,7 @@
     "@modern-js/runtime": "workspace:*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-server-dom-rspack": "0.0.1-beta.1"
+    "react-server-dom-rspack": "0.0.2"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
