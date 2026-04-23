@@ -130,7 +130,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                       callback(e);
                     } else {
                       callback(
-                        new Error('Received unkown error when streaming'),
+                        new Error('Received unknown error when streaming'),
                       );
                     }
                   }

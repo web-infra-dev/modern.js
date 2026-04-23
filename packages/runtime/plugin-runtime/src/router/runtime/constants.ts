@@ -34,7 +34,7 @@ export const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A
 /**
    * update data for pre resolved promises
    * original function:
-   * function preResovledDeferredPromise(data, error) {
+   * function preResolvedDeferredPromise(data, error) {
     if(typeof error !== 'undefined'){
       return Promise.reject(new Error(error.message));
     }else{
