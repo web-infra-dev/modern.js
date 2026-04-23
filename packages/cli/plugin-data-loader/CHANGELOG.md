@@ -1,5 +1,16 @@
 # @modern-js/plugin-data-loader
 
+## 3.1.5
+
+### Patch Changes
+
+- 95a9645: chore: upgrade @rsbuild dependencies to v2.0.0
+
+  chore: 升级 @rsbuild 相关依赖至 v2.0.0
+
+  - @modern-js/runtime-utils@3.1.5
+  - @modern-js/utils@3.1.5
+
 ## 3.1.4
 
 ### Patch Changes

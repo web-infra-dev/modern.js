@@ -1,5 +1,12 @@
 # @modern-js/runtime-utils
 
+## 3.1.5
+
+### Patch Changes
+
+- @modern-js/utils@3.1.5
+- @modern-js/types@3.1.5
+
 ## 3.1.4
 
 ### Patch Changes
