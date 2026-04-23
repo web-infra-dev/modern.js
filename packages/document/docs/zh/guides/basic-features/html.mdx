@@ -193,7 +193,7 @@ Modern.js 也支持通过 HTML(EJS) 语法来生成 HTML 文件。
   <head>
     <%= topTemplate %>
     <%= headTemplate %>
-    {/* webpack inject css  */}
+    {/* rspack inject css  */}
   </head>
   <body>
     <noscript>
@@ -202,7 +202,7 @@ Modern.js 也支持通过 HTML(EJS) 语法来生成 HTML 文件。
     </noscript>
     <div id="<%= mountId %>"></div>
     <%= bodyTemplate %>
-    {/* webpack inject js  */}
+    {/* rspack inject js  */}
     {/* <?- bottomTemplate ?> */}
   </body>
 </html>
