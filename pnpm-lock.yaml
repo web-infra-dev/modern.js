@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -122,8 +120,8 @@ importers:
         specifier: workspace:*
         version: link:../../solutions/app-tools
       '@rstest/adapter-rsbuild':
-        specifier: ^0.2.2
-        version: 0.2.2(@rsbuild/core@2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.9(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
+        specifier: ^0.2.6
+        version: 0.2.6(@rsbuild/core@2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.9(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))
     devDependencies:
       '@modern-js/rslib':
         specifier: workspace:*
@@ -7078,8 +7076,8 @@ packages:
   '@rspress/shared@2.0.2':
     resolution: {integrity: sha512-9+QC8UL1gV2KpRZx4n55vAl6bE38y7eDnGJhdFSHdJkpFbUCiJDk9ZcR6jD/Rrtq7vlT0gfumUk640pxpi3IDQ==}
 
-  '@rstest/adapter-rsbuild@0.2.2':
-    resolution: {integrity: sha512-Hv33JLQNN95wwCprGR51lDBqeUam9JR8gTdC0NvP5rcPmA/bFezAi1tERxnMci5FntGHgNicijZDfVhUm8v/Vg==}
+  '@rstest/adapter-rsbuild@0.2.6':
+    resolution: {integrity: sha512-hVAw88FnPwE3HBmstwwV7E3rWJJgiL4kU1yrEpB/+0SX3WO1KqPPztEynKzRTRSXcKcoluIlEusEaCXtO0i5aw==}
     peerDependencies:
       '@rsbuild/core': '*'
       '@rstest/core': '>=0.7.7'
@@ -18080,7 +18078,7 @@ snapshots:
       - '@module-federation/runtime-tools'
       - core-js
 
-  '@rstest/adapter-rsbuild@0.2.2(@rsbuild/core@2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.9(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
+  '@rstest/adapter-rsbuild@0.2.6(@rsbuild/core@2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))(@rstest/core@0.9.9(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)))':
     dependencies:
       '@rsbuild/core': 2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@rstest/core': 0.9.9(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)(happy-dom@20.8.9(bufferutil@4.1.0)(utf-8-validate@5.0.10))(jsdom@20.0.3(bufferutil@4.1.0)(utf-8-validate@5.0.10))
