@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -274,8 +272,8 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4
       terser:
-        specifier: ^5.46.1
-        version: 5.46.1
+        specifier: ^5.46.2
+        version: 5.46.2
       typescript:
         specifier: ^5.3.0
         version: 5.9.3
@@ -14213,8 +14211,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.46.1:
-    resolution: {integrity: sha512-vzCjQO/rgUuK9sf8VJZvjqiqiHFaZLnOiimmUuOKODxWL8mm/xua7viT7aqX7dgPY60otQjUotzFMmCB4VdmqQ==}
+  terser@5.46.2:
+    resolution: {integrity: sha512-uxfo9fPcSgLDYob/w1FuL0c99MWiJDnv+5qXSQc5+Ki5NjVNsYi66INnMFBjf6uFz6OnX12piJQPF4IpjJTNTw==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -16683,7 +16681,7 @@ snapshots:
       style-inject: 0.3.0
       sucrase: 3.29.0
       tapable: 2.2.1
-      terser: 5.46.1
+      terser: 5.46.2
       tsconfig-paths-webpack-plugin: 4.1.0
     optionalDependencies:
       typescript: 5.9.3
@@ -17573,7 +17571,7 @@ snapshots:
   '@rsbuild/plugin-rem@1.0.5(@rsbuild/core@2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0))':
     dependencies:
       deepmerge: 4.3.1
-      terser: 5.46.1
+      terser: 5.46.2
     optionalDependencies:
       '@rsbuild/core': 2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
 
@@ -22049,7 +22047,7 @@ snapshots:
       entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.46.1
+      terser: 5.46.2
 
   html-parse-stringify@3.0.1:
     dependencies:
@@ -26448,7 +26446,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
-      terser: 5.46.1
+      terser: 5.46.2
       webpack: 5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.17))
     optionalDependencies:
       '@swc/core': 1.15.11(@swc/helpers@0.5.17)
@@ -26458,7 +26456,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
-      terser: 5.46.1
+      terser: 5.46.2
       webpack: 5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)
     optionalDependencies:
       '@swc/core': 1.15.11(@swc/helpers@0.5.21)
@@ -26469,13 +26467,13 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
-      terser: 5.46.1
+      terser: 5.46.2
       webpack: 5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))
     optionalDependencies:
       '@swc/core': 1.15.11(@swc/helpers@0.5.21)
     optional: true
 
-  terser@5.46.1:
+  terser@5.46.2:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.16.0
