@@ -18,8 +18,6 @@ overrides:
   tmp: '>=0.2.5'
   '@isaacs/brace-expansion': '>=5.0.1'
 
-pnpmfileChecksum: sha256-e7fv4++EEy5D/4pBzV1yGYuIWnXfQwaMHH7OMxyEZx4=
-
 importers:
 
   .:
@@ -583,7 +581,7 @@ importers:
         version: 2.6.3
       i18next-http-backend:
         specifier: ^3.0.4
-        version: 3.0.4(encoding@0.1.13)
+        version: 3.0.5(encoding@0.1.13)
       i18next-http-middleware:
         specifier: ^3.9.6
         version: 3.9.6
@@ -1112,7 +1110,7 @@ importers:
         version: 0.5.17
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1882,7 +1880,7 @@ importers:
         version: link:../../packages/toolkit/utils
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -2315,7 +2313,7 @@ importers:
         version: link:../../../../packages/server/server-runtime
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
       bff-api-app:
         specifier: workspace:*
         version: link:../bff-api-app
@@ -2727,7 +2725,7 @@ importers:
         version: 20.19.27
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -3784,7 +3782,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
       express:
         specifier: ^4.22.1
         version: 4.22.1
@@ -3840,7 +3838,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
       express:
         specifier: ^4.22.1
         version: 4.22.1
@@ -3865,7 +3863,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
       express:
         specifier: ^4.22.1
         version: 4.22.1
@@ -4025,7 +4023,7 @@ importers:
         version: 20.19.27
       axios:
         specifier: ^1.15.2
-        version: 1.15.2(debug@4.4.3)
+        version: 1.15.2
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -7532,8 +7530,8 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@tootallnate/once@2.0.0':
-    resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
+  '@tootallnate/once@2.0.1':
+    resolution: {integrity: sha512-HqmEUIGRJ5fSXchkVgR5F7qn48bDBzv0kWj/Kfu5e6uci4UlEeng4331LnBkWffb++Ei3FOVLxo8JJWMFBDMeQ==}
     engines: {node: '>= 10'}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
@@ -8403,6 +8401,9 @@ packages:
   axios@1.15.2:
     resolution: {integrity: sha512-wLrXxPtcrPTsNlJmKjkPnNPK2Ihe0hn0wGSaTEiHRPxwjvJwT3hKmXF4dpqxmPO9SoNb2FsYXj/xEo0gHN+D5A==}
 
+  axios@1.16.0:
+    resolution: {integrity: sha512-6hp5CwvTPlN2A31g5dxnwAX0orzM7pmCRDLnZSX772mv8WDqICwFjowHuPs04Mc8deIld1+ejhtaMn5vp6b+1w==}
+
   b4a@1.7.3:
     resolution: {integrity: sha512-5Q2mfq2WfGuFp3uS//0s6baOJLMoVduPYVeNmDYxu5OUA1/cBfvr2RIS7vi62LdNj/urk1hfmj867I3qt6uZ7Q==}
     peerDependencies:
@@ -8666,8 +8667,8 @@ packages:
   caniuse-lite@1.0.30001782:
     resolution: {integrity: sha512-dZcaJLJeDMh4rELYFw1tvSn1bhZWYFOt468FcbHHxx/Z/dFidd1I6ciyFdi3iwfQCyOjqo9upF6lGQYtMiJWxw==}
 
-  caniuse-lite@1.0.30001787:
-    resolution: {integrity: sha512-mNcrMN9KeI68u7muanUpEejSLghOKlVhRqS/Za2IeyGllJ9I9otGpR9g3nsw7n4W378TE/LyIteA0+/FOZm4Kg==}
+  caniuse-lite@1.0.30001791:
+    resolution: {integrity: sha512-yk0l/YSrOnFZk3UROpDLQD9+kC1l4meK/wed583AXrzoarMGJcbRi2Q4RaUYbKxYAsZ8sWmaSa/DsLmdBeI1vQ==}
 
   case-sensitive-paths-webpack-plugin@2.4.0:
     resolution: {integrity: sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==}
@@ -9720,6 +9721,10 @@ packages:
     resolution: {integrity: sha512-phv3E1Xl4tQOShqSte26C7Fl84EwUdZsyOuSSk9qtAGyyQs2s3jJzComh+Abf4g187lUUAvH+H26omrqia2aGg==}
     engines: {node: '>=10.13.0'}
 
+  enhanced-resolve@5.21.0:
+    resolution: {integrity: sha512-otxSQPw4lkOZWkHpB3zaEQs6gWYEsmX4xQF68ElXC/TWvGxGMSGOvoNbaLXm6/cS/fSfHtsEdw90y20PCd+sCA==}
+    engines: {node: '>=10.13.0'}
+
   enquirer@2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
     engines: {node: '>=8.6'}
@@ -9777,8 +9782,8 @@ packages:
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
 
-  es-module-lexer@2.0.0:
-    resolution: {integrity: sha512-5POEcUuZybH7IdmGsD8wlf0AI55wMecM9rVBTI/qEAy2c1kTOm3DjFYjrBdI2K3BaJjJYfYFeRtM0t9ssnRuxw==}
+  es-module-lexer@2.1.0:
+    resolution: {integrity: sha512-n27zTYMjYu1aj4MjCWzSP7G9r75utsaoc8m61weK+W8JMBGGQybd43GstCXZ3WNmSFtGT9wi59qQTW6mhTR5LQ==}
 
   es-object-atoms@1.1.1:
     resolution: {integrity: sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==}
@@ -10107,6 +10112,15 @@ packages:
 
   follow-redirects@1.15.11:
     resolution: {integrity: sha512-deG2P0JfjrTxl50XGCDyfI97ZGVCxIpfKYmfyrQ54n5FO/0gfIES8C/Psl6kWVDolizcaaxZJnTS0QSMxvnsBQ==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
+  follow-redirects@1.16.0:
+    resolution: {integrity: sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -10588,8 +10602,8 @@ packages:
   i18next-fs-backend@2.6.3:
     resolution: {integrity: sha512-/5aW996nbolGh/qVU9urjAJ2QiXpiyGuhG8x/ZvvZQ3bMlrK+ouUdD6whS4e+sU9CCdUIzl7x/heEjsBh/3xtw==}
 
-  i18next-http-backend@3.0.4:
-    resolution: {integrity: sha512-udwrBIE6cNpqn1gRAqRULq3+7MzIIuaiKRWrz++dVz5SqWW2VwXmPJtAgkI0JtMLFaADC9qNmnZAxWAhsxXx2g==}
+  i18next-http-backend@3.0.5:
+    resolution: {integrity: sha512-QaWHnsxieEDcqKe+vo/RFqpiIFRi/KBqlOSPcUlvinBaISCeiTRCbtrazHAjtHtsLC66oDsROAH8frWkQzfMMQ==}
 
   i18next-http-middleware@3.9.6:
     resolution: {integrity: sha512-zKOft9iNCbOM4cWxThpq9gikpCuftCFh9s7V+vXPoB0+AJw13mXZe/O2VCfZO0AKNHplFTDYkJASoK+J3iWFeQ==}
@@ -10983,6 +10997,10 @@ packages:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
 
+  jiti@2.7.0:
+    resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
+    hasBin: true
+
   js-polyfills@0.1.43:
     resolution: {integrity: sha512-wWCJcw7uMA12uk7qcqZlIQy9nj+Evh1wVUmn5MOlJ7GPC8HT5PLjB9Uiqjw9ldAbbOuNOWJ6ENb7NwU6qqf48g==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
@@ -11232,8 +11250,8 @@ packages:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
     engines: {node: '>=4'}
 
-  loader-runner@4.3.1:
-    resolution: {integrity: sha512-IWqP2SCPhyVFTBtRcgMHdzlf9ul25NwaFx4wCEH/KjAXuuHY4yNjvPXsBokp8jCB936PyWRaPKUNh8NvylLp2Q==}
+  loader-runner@4.3.2:
+    resolution: {integrity: sha512-DFEqQ3ihfS9blba08cLfYf1NRAIEm+dDjic073DRDc3/JspI/8wYmtDsHwd3+4hwvdxSK7PGaElfTmm0awWJ4w==}
     engines: {node: '>=6.11.5'}
 
   loader-utils@2.0.4:
@@ -14158,6 +14176,10 @@ packages:
     resolution: {integrity: sha512-1MOpMXuhGzGL5TTCZFItxCc0AARf1EZFQkGqMm7ERKj8+Hgr5oLvJOVFcC+lRmR8hCe2S3jC4T5D7Vg/d7/fhA==}
     engines: {node: '>=6'}
 
+  tapable@2.3.3:
+    resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
+    engines: {node: '>=6'}
+
   tar-fs@3.1.1:
     resolution: {integrity: sha512-LZA0oaPOc2fVo82Txf3gw+AkEd38szODlptMYejQUhndHMLQ9M059uXR+AfS7DNo0NpINvSqDsvyaCrBVkptWg==}
 
@@ -14172,12 +14194,16 @@ packages:
     resolution: {integrity: sha512-tOG/7GyXpFevhXVh8jOPJrmtRpOTsYqUIkVdVooZYJS/z8WhfQUX8RJILmeuJNinGAMSu1veBr4asSHFt5/hng==}
     engines: {node: '>=18'}
 
+  tar@7.5.14:
+    resolution: {integrity: sha512-/7sHKgQO3JLP9ESlwTYUUftHUadOURUqq23xs1vjcnp8Vss6k0wCfzulyEtk5g91pjvnuriimGlyG7k6msrzRw==}
+    engines: {node: '>=18'}
+
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
 
-  terser-webpack-plugin@5.4.0:
-    resolution: {integrity: sha512-Bn5vxm48flOIfkdl5CaD2+1CiUVbonWQ3KQPyP7/EuIl9Gbzq/gQFOzaMFUEgVjB1396tcK0SG8XcNJ/2kDH8g==}
+  terser-webpack-plugin@5.5.0:
+    resolution: {integrity: sha512-UYhptBwhWvfIjKd/UuFo6D8uq9xpGLDK+z8EDsj/zWhrTaH34cKEbrkMKfV5YWqGBvAYA3tlzZbs2R+qYrbQJA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       '@swc/core': '*'
@@ -14751,8 +14777,8 @@ packages:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
     engines: {node: '>=12'}
 
-  webpack-sources@3.3.4:
-    resolution: {integrity: sha512-7tP1PdV4vF+lYPnkMR0jMY5/la2ub5Fc/8VQrrU+lXkiM6C4TjVfGw7iKfyhnTQOsD+6Q/iKw0eFciziRgD58Q==}
+  webpack-sources@3.4.1:
+    resolution: {integrity: sha512-eACpxRN02yaawnt+uUNIF7Qje6A9zArxBbcAJjK1PK3S9Ycg5jIuJ8pW4q8EMnwNZCEGltcjkRx1QzOxOkKD8A==}
     engines: {node: '>=10.13.0'}
 
   webpack-virtual-modules@0.6.2:
@@ -16608,9 +16634,9 @@ snapshots:
     dependencies:
       '@modern-js/codesmith-utils': 2.6.8
       '@swc/helpers': 0.5.1
-      axios: 1.15.2(debug@4.4.3)
+      axios: 1.16.0(debug@4.4.3)
       debug: 4.4.3(supports-color@5.5.0)
-      tar: 7.5.13
+      tar: 7.5.14
     transitivePeerDependencies:
       - supports-color
 
@@ -16670,7 +16696,7 @@ snapshots:
       '@modern-js/plugin-i18n': 2.70.4
       '@modern-js/utils': 2.70.4
       '@swc/helpers': 0.5.21
-      axios: 1.15.2(debug@4.4.3)
+      axios: 1.15.2
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -16693,7 +16719,7 @@ snapshots:
       '@modern-js/utils': 3.1.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@rsbuild/core': 2.0.0(@module-federation/runtime-tools@2.0.0)(core-js@3.48.0)
       '@swc/helpers': 0.5.21
-      jiti: 2.6.1
+      jiti: 2.7.0
     transitivePeerDependencies:
       - '@module-federation/runtime-tools'
       - core-js
@@ -16813,7 +16839,7 @@ snapshots:
   '@modern-js/utils@3.1.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@swc/helpers': 0.5.21
-      caniuse-lite: 1.0.30001787
+      caniuse-lite: 1.0.30001791
       import-meta-resolve: 4.2.0
       lodash: 4.18.1
       lodash-es: 4.18.1
@@ -16875,7 +16901,7 @@ snapshots:
       '@module-federation/third-party-dts-extractor': 2.0.0
       adm-zip: 0.5.16
       ansi-colors: 4.1.3
-      axios: 1.15.2(debug@4.4.3)
+      axios: 1.15.2
       chalk: 3.0.0
       fs-extra: 9.1.0
       isomorphic-ws: 5.0.0(ws@8.18.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))
@@ -18524,7 +18550,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
-  '@tootallnate/once@2.0.0':
+  '@tootallnate/once@2.0.1':
     optional: true
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
@@ -19561,9 +19587,17 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.15.2(debug@4.4.3):
+  axios@1.15.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11
+      form-data: 4.0.5
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.16.0(debug@4.4.3):
+    dependencies:
+      follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.5
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
@@ -19856,7 +19890,7 @@ snapshots:
 
   caniuse-lite@1.0.30001782: {}
 
-  caniuse-lite@1.0.30001787:
+  caniuse-lite@1.0.30001791:
     optional: true
 
   case-sensitive-paths-webpack-plugin@2.4.0: {}
@@ -20987,6 +21021,11 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.0
 
+  enhanced-resolve@5.21.0:
+    dependencies:
+      graceful-fs: 4.2.11
+      tapable: 2.3.3
+
   enquirer@2.3.6:
     dependencies:
       ansi-colors: 4.1.3
@@ -21029,7 +21068,7 @@ snapshots:
 
   es-module-lexer@1.7.0: {}
 
-  es-module-lexer@2.0.0: {}
+  es-module-lexer@2.1.0: {}
 
   es-object-atoms@1.1.1:
     dependencies:
@@ -21484,7 +21523,9 @@ snapshots:
 
   flexsearch@0.8.212: {}
 
-  follow-redirects@1.15.11(debug@4.4.3):
+  follow-redirects@1.15.11: {}
+
+  follow-redirects@1.16.0(debug@4.4.3):
     optionalDependencies:
       debug: 4.4.3(supports-color@5.5.0)
 
@@ -22064,7 +22105,7 @@ snapshots:
 
   http-proxy-agent@5.0.0:
     dependencies:
-      '@tootallnate/once': 2.0.0
+      '@tootallnate/once': 2.0.1
       agent-base: 6.0.2
       debug: 4.4.3(supports-color@5.5.0)
     transitivePeerDependencies:
@@ -22093,7 +22134,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -22146,7 +22187,7 @@ snapshots:
 
   i18next-fs-backend@2.6.3: {}
 
-  i18next-http-backend@3.0.4(encoding@0.1.13):
+  i18next-http-backend@3.0.5(encoding@0.1.13):
     dependencies:
       cross-fetch: 4.1.0(encoding@0.1.13)
     transitivePeerDependencies:
@@ -22520,7 +22561,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 20.19.27
+      '@types/node': 25.6.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -22536,6 +22577,9 @@ snapshots:
   jiti@2.4.2: {}
 
   jiti@2.6.1: {}
+
+  jiti@2.7.0:
+    optional: true
 
   js-polyfills@0.1.43: {}
 
@@ -22854,7 +22898,7 @@ snapshots:
       pify: 3.0.0
       strip-bom: 3.0.0
 
-  loader-runner@4.3.1: {}
+  loader-runner@4.3.2: {}
 
   loader-utils@2.0.4:
     dependencies:
@@ -23754,7 +23798,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.2
       '@zkochan/js-yaml': 0.0.7
-      axios: 1.15.2(debug@4.4.3)
+      axios: 1.15.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 8.0.1
@@ -26365,6 +26409,8 @@ snapshots:
 
   tapable@2.3.2: {}
 
+  tapable@2.3.3: {}
+
   tar-fs@3.1.1:
     dependencies:
       pump: 3.0.3
@@ -26402,9 +26448,17 @@ snapshots:
       minizlib: 3.1.0
       yallist: 5.0.0
 
+  tar@7.5.14:
+    dependencies:
+      '@isaacs/fs-minipass': 4.0.1
+      chownr: 3.0.0
+      minipass: 7.1.3
+      minizlib: 3.1.0
+      yallist: 5.0.0
+
   term-size@2.2.1: {}
 
-  terser-webpack-plugin@5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.17))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.17))):
+  terser-webpack-plugin@5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.17))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.17))):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
@@ -26414,7 +26468,7 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.15.11(@swc/helpers@0.5.17)
 
-  terser-webpack-plugin@5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)):
+  terser-webpack-plugin@5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
@@ -26425,7 +26479,7 @@ snapshots:
       '@swc/core': 1.15.11(@swc/helpers@0.5.21)
       esbuild: 0.27.2
 
-  terser-webpack-plugin@5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))):
+  terser-webpack-plugin@5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
@@ -26978,7 +27032,7 @@ snapshots:
   webidl-conversions@7.0.0:
     optional: true
 
-  webpack-sources@3.3.4: {}
+  webpack-sources@3.4.1: {}
 
   webpack-virtual-modules@0.6.2: {}
 
@@ -26994,21 +27048,21 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.19.0
-      es-module-lexer: 2.0.0
+      enhanced-resolve: 5.21.0
+      es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.1
+      loader-runner: 4.3.2
       mime-types: 2.1.35
       neo-async: 2.6.2
       schema-utils: 4.3.3
-      tapable: 2.3.2
-      terser-webpack-plugin: 5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.17))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.17)))
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.17))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.17)))
       watchpack: 2.5.1
-      webpack-sources: 3.3.4
+      webpack-sources: 3.4.1
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -27026,21 +27080,21 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.19.0
-      es-module-lexer: 2.0.0
+      enhanced-resolve: 5.21.0
+      es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.1
+      loader-runner: 4.3.2
       mime-types: 2.1.35
       neo-async: 2.6.2
       schema-utils: 4.3.3
-      tapable: 2.3.2
-      terser-webpack-plugin: 5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21)))
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21)))
       watchpack: 2.5.1
-      webpack-sources: 3.3.4
+      webpack-sources: 3.4.1
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -27059,21 +27113,21 @@ snapshots:
       acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.2
       chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.19.0
-      es-module-lexer: 2.0.0
+      enhanced-resolve: 5.21.0
+      es-module-lexer: 2.1.0
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.1
+      loader-runner: 4.3.2
       mime-types: 2.1.35
       neo-async: 2.6.2
       schema-utils: 4.3.3
-      tapable: 2.3.2
-      terser-webpack-plugin: 5.4.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2))
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.5.0(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2)(webpack@5.104.1(@swc/core@1.15.11(@swc/helpers@0.5.21))(esbuild@0.27.2))
       watchpack: 2.5.1
-      webpack-sources: 3.3.4
+      webpack-sources: 3.4.1
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
