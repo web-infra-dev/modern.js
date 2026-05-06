@@ -40,7 +40,7 @@ import {
 import type { RouterConfig } from './types';
 import { createRouteObjectsFromConfig, renderRoutes, urlJoin } from './utils';
 
-function createRemixReuqest(request: Request) {
+function createRemixRequest(request: Request) {
   const method = 'GET';
   const { headers } = request;
   const controller = new AbortController();
@@ -136,7 +136,7 @@ export const routerPlugin = (
 
         // We can't pass post request to query,due to post request would trigger react-router submit action.
         // But user maybe do not define action for page.
-        const remixRequest = createRemixReuqest(
+        const remixRequest = createRemixRequest(
           context.ssrContext!.request.raw,
         );
 
