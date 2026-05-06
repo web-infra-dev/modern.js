@@ -75,7 +75,7 @@
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
     "@types/qs": "^6.15.0",
-    "nock": "^14.0.13",
+    "nock": "^14.0.14",
     "typescript": "^5"
   },
   "sideEffects": false,
