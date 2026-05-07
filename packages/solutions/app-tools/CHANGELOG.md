@@ -1,5 +1,24 @@
 # @modern-js/app-tools
 
+## 3.1.6
+
+### Patch Changes
+
+- d3644b6: chore: update dependencies
+
+  chore: 更新基础依赖
+
+  - @modern-js/builder@3.1.6
+  - @modern-js/plugin-data-loader@3.1.6
+  - @modern-js/server-core@3.1.6
+  - @modern-js/prod-server@3.1.6
+  - @modern-js/server@3.1.6
+  - @modern-js/server-utils@3.1.6
+  - @modern-js/i18n-utils@3.1.6
+  - @modern-js/plugin@3.1.6
+  - @modern-js/types@3.1.6
+  - @modern-js/utils@3.1.6
+
 ## 3.1.5
 
 ### Patch Changes
