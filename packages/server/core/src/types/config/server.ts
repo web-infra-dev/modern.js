@@ -49,6 +49,23 @@ export interface ServerUserConfig {
    * @default false
    */
   disableHook?: boolean;
+  /**
+   * Enable response compression for production server.
+   * When set to `true`, uses gzip encoding by default.
+   * Can also pass an object to configure encoding type.
+   *
+   * @example
+   * ```ts
+   * server: {
+   *   compression: true
+   * }
+   * // or
+   * server: {
+   *   compression: { encoding: 'br' }
+   * }
+   * ```
+   */
+  compression?: boolean | { encoding: 'gzip' | 'br' | 'deflate' };
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;

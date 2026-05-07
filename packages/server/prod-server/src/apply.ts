@@ -3,6 +3,7 @@ import type { Http2SecureServer } from 'node:http2';
 import {
   ErrorDigest,
   type ServerBase,
+  compressionPlugin,
   createDefaultPlugins,
   createErrorHtml,
   faviconPlugin,
@@ -92,6 +93,7 @@ export async function applyPlugins(
       logger:
         loggerOptions === false ? false : optLogger || getLogger(loggerOptions),
     }),
+    ...(config.server?.compression ? [compressionPlugin()] : []),
     injectConfigMiddlewarePlugin(middlewares, renderMiddlewares),
     ...(options.plugins || []),
     injectResourcePlugin(),
