@@ -1,0 +1,63 @@
+---
+title: tsconfigPath
+---
+
+# server.tsconfigPath
+
+- **类型：** `string`
+- **默认值：** `<appDirectory>/tsconfig.json`
+
+指定服务端 TypeScript 相关流程使用的 tsconfig 文件。
+
+该配置会影响：
+
+- BFF / API 编译（`@modern-js/plugin-bff`）
+- 自定义 Server 编译（`server/` 目录下的 `*.ts` 文件）
+- 运行时 ts-node 注册（如 SSR、`modern.config.ts`、`config/` 目录下的 `.ts` 文件）
+
+未配置时，默认使用 `<appDirectory>/tsconfig.json`。
+
+## 使用场景
+
+当前端和服务端需要不同的 TypeScript 配置时，可以通过该选项为服务端单独指定 tsconfig。
+
+例如前端使用 `moduleResolution: "Bundler"`，服务端需要使用 `moduleResolution: "NodeNext"` 来适配 conditional exports 或 subpath exports 的类型解析。
+
+## 配置示例
+
+下面以 `tsconfig.server.json` 为例，你也可以根据项目情况使用其他文件名。
+
+新增 `<appDirectory>/tsconfig.server.json`：
+
+```jsonc title="tsconfig.server.json"
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["api", "shared", "server", "config", "modern.config.ts"]
+}
+```
+
+在 `modern.config.ts` 中指定该文件：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    tsconfigPath: './tsconfig.server.json',
+  },
+});
+```
+
+## 注意事项
+
+- `tsconfigPath` 相对 `appDirectory` 解析，也支持绝对路径。
+- 建议通过 `extends` 继承根 tsconfig 中的 `paths` 等公共配置，避免重复维护。
+- 如果配置的文件不存在，TypeScript / ts-node 会在启动时抛出错误。

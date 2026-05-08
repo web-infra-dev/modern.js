@@ -43,6 +43,11 @@ export const SERVER_DIR = 'server';
 export const SHARED_DIR = 'shared';
 
 /**
+ * Project root tsconfig filename.
+ */
+export const TS_CONFIG_FILENAME = 'tsconfig.json';
+
+/**
  * Modern.config.ts cached dir
  */
 export const CONFIG_CACHE_DIR = './node_modules/.cache/bundle-require';

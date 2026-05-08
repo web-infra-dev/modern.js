@@ -6,6 +6,7 @@ export default applyBaseConfig({
     ssr: {
       mode: 'stream',
     },
+    tsconfigPath: 'tsconfig.server.json',
   },
   bff: {
     prefix: '/bff-api',
