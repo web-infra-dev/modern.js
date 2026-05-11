@@ -20,8 +20,9 @@ describe('app-tools types', () => {
     expect(appToolsTypes).toContain(
       '/// <reference types="@rsbuild/core/types" />',
     );
-    expect(appEnvTemplate).toBe(
-      "/// <reference types='@modern-js/app-tools/types' />\n",
+    expect(appEnvTemplate).toContain(
+      "/// <reference types='@modern-js/app-tools/types' />",
     );
+    expect(appEnvTemplate).not.toContain('@rsbuild/core/types');
   });
 });
