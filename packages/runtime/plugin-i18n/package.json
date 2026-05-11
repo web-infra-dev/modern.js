@@ -120,8 +120,8 @@
     "@rslib/core": "0.21.4",
     "@types/node": "^20",
     "i18next": "25.7.4",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-i18next": "15.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
