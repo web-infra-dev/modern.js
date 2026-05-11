@@ -1,5 +1,5 @@
 ---
-'@modern-js/create': patch
+'@modern-js/app-tools': patch
 ---
 
-add @rsbuild/core/types reference to modern-app-env.d.ts template
+add @rsbuild/core/types reference to app-tools types
