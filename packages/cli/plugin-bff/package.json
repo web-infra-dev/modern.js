@@ -103,7 +103,7 @@
     "@rslib/core": "0.21.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@types/qs": "^6.15.0",
+    "@types/qs": "^6.15.1",
     "@types/type-is": "^1.6.7",
     "memfs": "^3.5.3",
     "typescript": "^5",
