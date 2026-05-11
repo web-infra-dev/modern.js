@@ -71,8 +71,8 @@
     "@rslib/core": "0.21.4",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-router-dom": "^7.13.1",
     "typescript": "^5"
   },
