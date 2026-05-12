@@ -4,11 +4,9 @@ title: Quick Start
 
 # Quick Start
 
-This guide will help you quickly integrate internationalization functionality into your Modern.js project.
+This guide helps you quickly integrate internationalization into a Modern.js project.
 
-## Install Plugin
-
-First, install the necessary dependencies:
+## Install the Plugin
 
 import InstallCommand from '@site-docs/components/international/install-command';
 
@@ -16,111 +14,99 @@ import InstallCommand from '@site-docs/components/international/install-command'
 
 ## Basic Configuration
 
-### Configure Plugin in `modern.config.ts`
+### Step 1: Register the Plugin
+
+Register the plugin in `modern.config.ts`:
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { i18nPlugin } from '@modern-js/plugin-i18n';
 
 export default defineConfig({
-  server: {
-    publicDir: './locales', // Required: specify the resource file directory
-  },
   plugins: [
     appTools(),
     i18nPlugin({
       localeDetection: {
-        languages: ['zh', 'en'], // Supported language list
-        fallbackLanguage: 'en', // Default language
-      },
-      backend: {
-        enabled: true, // Enable backend resource loading
-        // loadPath defaults to '/locales/{{lng}}/{{ns}}.json', usually no need to modify
-        // Note: You can also omit 'enabled' and just configure 'loadPath' or 'addPath',
-        // or omit backend config entirely to let the plugin auto-detect locales directory
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
       },
     }),
   ],
 });
 ```
 
-:::info
-`server.publicDir` is a required configuration used to specify the actual location of resource files. Even when using the default `loadPath`, this configuration is still required.
+### Step 2: Create Translation Files
 
+:::note Resource loading
+By default, the plugin looks for translation resources in the specified local directory. More resource loading methods are covered in later chapters.
 :::
 
-### Configure Runtime Options in `src/modern.runtime.ts`
-
-import InstanceCode from '@site-docs/components/international/instance-code';
-
-<InstanceCode />
-
-### Create Language Resource Files
-
-Create a `locales` folder in the project root and organize resource files by language:
+Create the `config/public/locales` directory:
 
 ```
-locales/
+config/public/locales/
 ├── en/
 │   └── translation.json
 └── zh/
     └── translation.json
 ```
 
-**locales/en/translation.json**:
-
 ```json
+// locales/en/translation.json
 {
-  "hello": "Hello",
-  "world": "World",
   "welcome": "Welcome to Modern.js"
 }
 ```
 
-**locales/zh/translation.json**:
-
 ```json
+// locales/zh/translation.json
 {
-  "hello": "你好",
-  "world": "世界",
   "welcome": "欢迎使用 Modern.js"
 }
 ```
 
-### Use in Components
+### Step 3: Configure Runtime Options
+
+import InstanceCode from '@site-docs/components/international/instance-code';
+
+<InstanceCode />
+
+### Step 4: Use It in Components
+
+Text returned by the `t()` function updates automatically after `changeLanguage` is called. No manual refresh is required.
 
 ```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 import { useTranslation } from 'react-i18next';
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
 
 function App() {
-  const { language, changeLanguage, supportedLanguages } = useModernI18n();
   const { t } = useTranslation();
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
 
   return (
     <div>
       <h1>{t('welcome')}</h1>
       <p>Current language: {language}</p>
-      <div>
-        {supportedLanguages.map(lang => (
-          <button
-            key={lang}
-            onClick={() => changeLanguage(lang)}
-            disabled={lang === language}
-          >
-            {lang}
-          </button>
-        ))}
-      </div>
+      {supportedLanguages.map(lang => (
+        <button
+          key={lang}
+          onClick={() => changeLanguage(lang)}
+          disabled={lang === language}
+        >
+          {lang}
+        </button>
+      ))}
     </div>
   );
 }
-
-export default App;
 ```
 
 ## Next Steps
 
-- Learn detailed [Configuration](./configuration) instructions
-- Learn about multiple [Locale Detection](./locale-detection) methods
-- Check [Resource Loading](./resource-loading) configuration options
+Choose what to read next based on your needs:
+
+- **Want a URL structure like `/en/about`** -> [Routing Integration](./routing.md)
+- **Need automatic language switching based on Cookie / Header** -> [Locale Detection](./locale-detection.md)
+- **Translation resources come from a remote service** -> [Resource Loading -> Custom Backend](./resource-loading.md#custom-backend)
+- **SSR scenarios** -> [Advanced Usage](./advanced.md)
+- **View all configuration options** -> [Configuration](./configuration.md)

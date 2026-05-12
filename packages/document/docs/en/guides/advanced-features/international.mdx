@@ -8,30 +8,22 @@ import I18nPluginIntroduce from '@site-docs/components/international/introduce';
 
 <I18nPluginIntroduce />
 
-## Core Features
+## Where to start?
 
-- 🌍 **Multi-language Support**: Easily manage translation resources for multiple languages
-- 🔍 **Smart Language Detection**: Supports automatic language detection from URL paths, cookies, request headers, and more
-- 📦 **Flexible Resource Loading**: Supports three resource loading methods: HTTP, file system, and custom SDK
-- 🛣️ **Route Integration**: Deeply integrated with Modern.js routing system, supports language path prefixes
-- ⚡ **SSR Support**: Full support for server-side rendering (SSR) scenarios
-- 🎯 **TypeScript Support**: Complete TypeScript type definitions
+| What you want to do | Documentation |
+| --- | --- |
+| Integrate for the first time and run an example | [Quick Start](./international/quick-start.md) |
+| Learn all configuration options | [Configuration](./international/configuration.md) |
+| Detect language from URL / Cookie / Header | [Locale Detection](./international/locale-detection.md) |
+| Implement paths with locale prefixes, such as `/en/about` | [Routing Integration](./international/routing.md) |
+| Load translation resources from a remote service or platform | [Resource Loading -> Custom Backend](./international/resource-loading.md#custom-backend) |
+| SSR, multiple entries, or custom instances | [Advanced Usage](./international/advanced.md) |
+| Look up Hooks / components / type definitions | [API Reference](./international/api.md) |
 
-## Use Cases
+## Core Capabilities
 
-- Web applications that need to support multiple languages
-- Multi-language routing that is SEO-friendly
-- Multi-language applications that require server-side rendering
-- Applications that need to dynamically load translation resources from external services
-
-## Documentation Navigation
-
-- [Basic Concepts](./international/basic) - Core concepts and terminology
-- [Quick Start](./international/quick-start) - Detailed installation and configuration guide
-- [Configuration](./international/configuration) - CLI and runtime configuration details
-- [Locale Detection](./international/locale-detection) - Multiple language detection methods and priorities
-- [Resource Loading](./international/resource-loading) - HTTP, FS, and SDK backend usage
-- [Routing Integration](./international/routing) - Path redirection and I18nLink component
-- [API Reference](./international/api) - Complete API documentation and type definitions
-- [Advanced Usage](./international/advanced) - SSR, multi-entry, custom instances, and more
-- [Best Practices](./international/best-practices) - Resource organization, error handling, type safety
+- **Locale detection**: Supports detection from URL path, Cookie, LocalStorage, request headers, browser settings, and other sources, with configurable priority.
+- **Resource loading**: Supports HTTP static files, file system loading for SSR, custom SDK functions, and chained backend progressive loading.
+- **Routing integration**: Automatically adds locale path prefixes such as `/en/about`, and provides the `I18nLink` component for locale-aware navigation.
+- **SSR support**: Detects the language on the server and injects it into the page so the client can reuse it directly and avoid language flicker.
+- **TypeScript support**: Provides complete type definitions and supports type-safe translation keys.
