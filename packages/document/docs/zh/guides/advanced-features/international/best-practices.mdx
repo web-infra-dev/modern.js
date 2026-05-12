@@ -207,7 +207,7 @@ t('expiry', { date: new Date() }) // → "到期日：2025年5月12日"（zh）
 
 ### 加载状态处理
 
-使用 SDK 后端时，翻译资源需要异步加载，推荐用 `isResourcesReady` 处理加载中状态：
+使用自定义后端时，翻译资源需要异步加载，推荐用 `isResourcesReady` 处理加载中状态：
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';

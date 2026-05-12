@@ -23,9 +23,6 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { i18nPlugin } from '@modern-js/plugin-i18n';
 
 export default defineConfig({
-  server: {
-    publicDir: './locales', // 指定资源文件目录
-  },
   plugins: [
     appTools(),
     i18nPlugin({
@@ -110,6 +107,6 @@ function App() {
 
 - **想要 `/en/about` 这样的 URL 结构** → [路由集成](./routing.md)
 - **需要按 Cookie / Header 自动切换语言** → [语言检测](./locale-detection.md)
-- **翻译资源来自远程服务** → [资源加载 → SDK 后端](./resource-loading.md#sdk-后端)
+- **翻译资源来自远程服务** → [资源加载 → 自定义后端](./resource-loading.md#自定义后端)
 - **SSR 场景** → [高级用法](./advanced.md)
 - **查看所有配置选项** → [配置说明](./configuration.md)
