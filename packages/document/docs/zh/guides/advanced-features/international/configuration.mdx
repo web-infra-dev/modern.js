@@ -1,85 +1,59 @@
 ---
 title: 配置说明
 ---
-
 # 配置说明
 
-插件的配置分为两部分：CLI 配置（`modern.config.ts`）和运行时配置（`modern.runtime.ts`）。两者需要结合使用，CLI 配置用于插件的基础设置，运行时配置用于 i18next 的初始化选项。
+插件配置分为两个文件，各有职责：
 
-:::warning
-函数类型的配置（如 SDK 加载函数）只能在运行时配置（`modern.runtime.ts`）中设置，不能在 CLI 配置中设置。这是因为 CLI 配置在构建时执行，无法序列化函数。
+| 文件 | 用途 |
+| --- | --- |
+| `modern.config.ts` | 插件基础设置，在构建/启动时读取 |
+| `src/modern.runtime.ts` | i18next 初始化选项，在运行时读取 |
 
+:::warning 函数类型只能在运行时配置中设置
+`modern.config.ts` 在构建时执行，无法序列化函数。SDK 加载函数、自定义检测函数等必须放在 `modern.runtime.ts` 中。
 :::
 
-## CLI 配置（modern.config.ts）
+## 配置归属一览
 
-在 `modern.config.ts` 中配置插件选项：
+| 配置项 | 放在哪里 |
+| --- | --- |
+| `localeDetection`（语言检测、路径重定向等） | `modern.config.ts` |
+| `backend`（资源路径、sdk 声明等） | `modern.config.ts` |
+| `i18nInstance` | `modern.runtime.ts` |
+| `initOptions`（fallbackLng、ns 等 i18next 选项） | `modern.runtime.ts` |
+| `backend.sdk` 的实际加载函数 | `modern.runtime.ts` |
 
-```ts
+## CLI 配置
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { i18nPlugin } from '@modern-js/plugin-i18n';
 
 export default defineConfig({
   plugins: [
+    appTools(),
     i18nPlugin({
-      localeDetection: {
-        // 语言检测配置
-      },
-      backend: {
-        // 后端资源加载配置
-      },
+      localeDetection: { ... },
+      backend: { ... },
     }),
   ],
 });
 ```
 
-### localeDetection 配置
+### localeDetection 选项
 
-`localeDetection` 用于配置语言检测相关选项：
+| 字段 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `languages` | `string[]` | `[]` | 支持的语言列表 |
+| `fallbackLanguage` | `string` | `''` | 语言检测失败时的兜底语言 |
+| `localePathRedirect` | `boolean` | `false` | 接管 URL 语言前缀的识别、重定向和切换，详见[路由集成](./routing.md#启用语言路径前缀) |
+| `i18nextDetector` | `boolean` | `false` | 启用 i18next 检测器（Cookie / Header 等） |
+| `detection` | `LanguageDetectorOptions` | — | i18next 检测器详细配置，见[语言检测](./locale-detection.md) |
+| `ignoreRedirectRoutes` | `string[] \| Function` | — | 跳过重定向的路由，见[语言检测](./locale-detection.md#ignoreredirectroutes) |
+| `localeDetectionByEntry` | `Record<string, ...>` | — | 多入口按入口覆盖配置 |
 
-:::warning
-如果启用了 `localePathRedirect`，`detection` 配置必须放在 CLI 配置（`modern.config.ts`）中，因为服务端插件需要根据此配置来获取语言信息并进行路径重定向。
-
-:::
-
-```ts
-interface BaseLocaleDetectionOptions {
-  /** 是否启用路径重定向，启用后会在 URL 中添加语言前缀 */
-  localePathRedirect?: boolean;
-
-  /** 是否启用 i18next 语言检测器 */
-  i18nextDetector?: boolean;
-
-  /** 支持的语言列表 */
-  languages?: string[];
-
-  /** 默认回退语言 */
-  fallbackLanguage?: string;
-
-  /** 自定义检测配置 */
-  detection?: LanguageDetectorOptions;
-
-  /** 忽略自动重定向的路由列表或函数
-   *
-   * 可以是一个字符串数组（路径模式），或一个函数来判断是否应该忽略重定向。
-   * 支持精确匹配和前缀匹配（如 '/api' 会匹配 '/api' 和 '/api/users'）。
-   *
-   * @example
-   * // 字符串数组
-   * ignoreRedirectRoutes: ['/api', '/admin']
-   *
-   * // 函数
-   * ignoreRedirectRoutes: (pathname) => pathname.startsWith('/api')
-   */
-  ignoreRedirectRoutes?: string[] | ((pathname: string) => boolean);
-}
-
-interface LocaleDetectionOptions extends BaseLocaleDetectionOptions {
-  /** 按入口配置语言检测（多入口场景） */
-  localeDetectionByEntry?: Record<string, BaseLocaleDetectionOptions>;
-}
-```
-
-**示例**：
+**示例：**
 
 ```ts
 i18nPlugin({
@@ -97,237 +71,78 @@ i18nPlugin({
 });
 ```
 
-### backend 配置
-
-`backend` 用于配置资源加载方式：
-
-:::info
-**自动检测**：插件会在以下场景自动检测并启用 backend：
-
-1. **如果配置了 `loadPath` 或 `addPath`**：由于你已经指定了资源路径，backend 会自动启用（`enabled: true`），无需检测 locales 目录。
-
-2. **如果没有配置 backend**：插件会自动检测以下位置是否存在 `locales` 目录：
-
-   - 项目根目录：`{项目根目录}/locales`
-   - Config public 目录：`{项目根目录}/config/public/locales`
-   - 通过 `server.publicDir` 配置的目录：`{项目根目录}/{publicDir}/locales`
-
-   如果目录存在且包含 JSON 文件，backend 会自动启用。
-
-3. **如果显式设置 `enabled: false`**：不会进行自动检测，backend 保持禁用状态。
-
-这种自动检测机制可以在 locales 目录不存在时减少不必要的 backend 注册，提升性能。
-
-:::
+### backend 选项
 
 ```ts
-interface BaseBackendOptions {
-  /** 是否启用后端资源加载 */
+interface BackendOptions {
+  // 是否启用后端资源加载
+  // 配置了 loadPath/addPath 时自动启用；locales 目录存在时也会自动检测
   enabled?: boolean;
 
-  /** 资源文件加载路径（HTTP 后端） */
+  // 决定请求哪个 URL 或本地文件来获取翻译文案，支持 {{lng}} 和 {{ns}} 变量
+  // 默认：'/locales/{{lng}}/{{ns}}.json'
   loadPath?: string;
 
-  /** 缺失翻译保存路径（可选） */
+  // 缺失翻译的上报路径（可选）
   addPath?: string;
 
-  /** 链式后端的缓存命中模式（仅在同时配置 `loadPath` 和 `sdk` 时生效）
-   *
-   * - `'none'`（默认）：如果第一个后端返回了资源，则停止，不再尝试下一个后端
-   * - `'refresh'`：尝试从下一个后端刷新缓存并更新缓存
-   * - `'refreshAndUpdateStore'`：尝试从下一个后端刷新缓存，更新缓存并同时更新 i18next 资源存储。
-   *   这允许先显示 FS/HTTP 资源，然后 SDK 资源会异步更新它们。
-   *
-   * @default 'refreshAndUpdateStore' 当同时配置 loadPath 和 sdk 时
-   */
+  // 启用自定义后端 SDK，实际加载函数在运行时配置中提供
+  sdk?: boolean | string;
+
+  // 链式后端的缓存策略（同时配置 loadPath 和 sdk 时生效）
+  // 'none'                  — 本地文件成功后不再请求自定义后端
+  // 'refresh'               — 继续请求自定义后端并更新缓存，不更新页面
+  // 'refreshAndUpdateStore' — 继续请求并同步刷新页面文案（默认）
   cacheHitMode?: 'none' | 'refresh' | 'refreshAndUpdateStore';
 
-  /** SDK 加载函数（自定义后端）
-   *
-   * 注意：在 CLI 配置中只能设置为 `true` 或字符串标识符来启用 SDK 模式。
-   * 实际的 SDK 函数必须在运行时配置（`modern.runtime.ts`）中通过 `initOptions.backend.sdk` 提供。
-   *
-   * 当同时配置 `loadPath`（或 FS 后端）和 `sdk` 时，插件会自动使用 `i18next-chained-backend`
-   * 来链式加载多个后端。加载顺序为：
-   * 1. HTTP/FS 后端（主要）- 先从 `loadPath` 或文件系统加载，用于快速初始显示
-   * 2. SDK 后端（更新）- 从 SDK 函数加载，用于更新/刷新翻译
-   *
-   * 使用 `cacheHitMode: 'refreshAndUpdateStore'`（默认）时，FS/HTTP 资源会立即显示，
-   * 然后 SDK 资源会异步加载以更新翻译。
-   */
-  sdk?: I18nSdkLoader | boolean | string;
-}
-
-interface BackendOptions extends BaseBackendOptions {
-  /** 按入口配置后端（多入口场景） */
+  // 多入口场景下按入口覆盖配置
   backendOptionsByEntry?: Record<string, BaseBackendOptions>;
 }
 ```
 
-**示例**：
+**`sdk` 字段说明：** 在 `modern.config.ts` 中设为 `true` 表示声明启用，实际加载函数在 `modern.runtime.ts` 的 `initOptions.backend.sdk` 中提供。详见[资源加载 → 自定义后端](./resource-loading.md#自定义后端)。
 
-**1. 仅使用 HTTP/FS 后端**：
+**backend 自动启用规则：**
 
-你可以显式启用 backend：
+| 情况 | 结果 |
+| --- | --- |
+| 配置了 `loadPath` 或 `addPath` | 自动启用，无需写 `enabled: true` |
+| 未配置 backend，但 `locales` 目录存在且有 JSON 文件 | 自动启用，使用默认 `loadPath` |
+| 显式设置 `enabled: false` | 禁用，不做自动检测 |
 
-```ts
-i18nPlugin({
-  backend: {
-    enabled: true,
-    loadPath: '/locales/{{lng}}/{{ns}}.json',
-  },
-});
-```
+自动检测的目录位置（按优先级）：
+1. `{项目根目录}/config/public/locales`
+2. `server.publicDir` 配置的目录下的 `locales` 子目录
 
-或者只需配置 `loadPath` 或 `addPath`，backend 会自动启用：
+**选择哪种后端？**
 
-```ts
-i18nPlugin({
-  backend: {
-    // enabled 会自动设置为 true
-    loadPath: '/locales/{{lng}}/{{ns}}.json',
-  },
-});
-```
+| 场景 | 推荐方式 |
+| --- | --- |
+| 翻译文件放在项目本地 | 静态文件后端（配置 `loadPath`，CSR/SSR 自动切换） |
+| 翻译来自远程 API 或翻译平台 | 自定义后端（配置 `sdk: true`） |
+| 本地兜底 + 远程实时更新 | 链式后端（同时配置 `loadPath` 和 `sdk`） |
 
-**无配置时的自动检测**：
+详细用法见[资源加载](./resource-loading.md)。
 
-如果你完全不配置 backend，插件会自动检测 locales 目录：
+## 运行时配置
 
-```ts
-i18nPlugin({
-  // 没有 backend 配置 - 插件会自动检测 locales 目录
-  localeDetection: {
-    languages: ['zh', 'en'],
-    fallbackLanguage: 'en',
-  },
-});
-```
-
-如果 `locales` 目录存在且包含 JSON 文件，backend 会自动启用，使用默认的 `loadPath: '/locales/{{lng}}/{{ns}}.json'`。
-
-**2. 链式后端（推荐）**：同时使用 HTTP/FS 后端和 SDK 后端
-
-当 `backend.enabled = true` 且配置了 `sdk` 时，如果未显式配置 `loadPath`，将自动使用默认的 `loadPath` 并启用链式后端：
-
-```ts
-i18nPlugin({
-  backend: {
-    enabled: true,
-    // 当未配置 loadPath 时，将自动使用默认的 '/locales/{{lng}}/{{ns}}.json'
-    sdk: true, // SDK 后端
-    // cacheHitMode: 'refreshAndUpdateStore', // 默认值，可省略
-  },
-});
-```
-
-你也可以显式配置 `loadPath`：
-
-```ts
-i18nPlugin({
-  backend: {
-    enabled: true,
-    loadPath: '/locales/{{lng}}/{{ns}}.json', // HTTP/FS 后端
-    sdk: true, // SDK 后端
-  },
-});
-```
-
-在 `modern.runtime.ts` 中提供 SDK 函数：
-
-```ts
-export default defineRuntimeConfig({
-  i18n: {
-    initOptions: {
-      backend: {
-        sdk: async options => {
-          // SDK 实现
-          if (options.lng && options.ns) {
-            return await mySdk.getResource(options.lng, options.ns);
-          }
-        },
-      },
-    },
-  },
-});
-```
-
-使用链式后端时，系统会：
-
-1. 首先从 `/locales/{{lng}}/{{ns}}.json` 加载资源并立即显示（快速显示基础翻译）
-2. 然后异步从 SDK 加载资源并更新 i18next store（更新/补充翻译）
-
-这样可以确保用户快速看到页面内容，同时后台加载最新的翻译资源。
-
-**3. 仅使用 SDK 后端**：
-
-如果你需要禁用 HTTP/FS 后端并仅使用 SDK 后端，可以显式设置 `loadPath: ''`：
-
-```ts
-i18nPlugin({
-  backend: {
-    enabled: true,
-    loadPath: '', // 显式禁用 HTTP/FS 后端
-    sdk: true, // 仅使用 SDK 后端
-  },
-});
-```
-
-:::warning
-当仅使用 SDK 后端时，必须在 `modern.runtime.ts` 中提供实际的 SDK 函数，否则将回退到 HTTP/FS 后端。
-
-:::
-
-### 多入口配置
-
-如果项目有多个入口，可以为每个入口单独配置：
-
-```ts
-i18nPlugin({
-  localeDetection: {
-    localePathRedirect: true,
-    languages: ['zh', 'en'],
-    fallbackLanguage: 'en',
-    // 为特定入口覆盖配置
-    localeDetectionByEntry: {
-      admin: {
-        localePathRedirect: false, // admin 入口不使用路径重定向
-      },
-    },
-  },
-  backend: {
-    enabled: true,
-    // 为特定入口覆盖配置
-    backendOptionsByEntry: {
-      admin: {
-        loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
-      },
-    },
-  },
-});
-```
-
-## 运行时配置（modern.runtime.ts）
-
-在 `src/modern.runtime.ts` 中可以配置运行时选项：
-
-```ts
+```ts title="src/modern.runtime.ts"
 import { defineRuntimeConfig } from '@modern-js/runtime';
 import i18next from 'i18next';
 
-// 建议创建一个新的 i18next 实例，避免使用全局默认实例
 const i18nInstance = i18next.createInstance();
 
 export default defineRuntimeConfig({
   i18n: {
-    // 使用自定义 i18next 实例（可选）
-    i18nInstance: i18nInstance,
-
-    // i18next 初始化选项
+    i18nInstance,   // 可选，建议使用独立实例
     initOptions: {
       fallbackLng: 'en',
       supportedLngs: ['zh', 'en'],
-      // 其他 i18next 配置选项
+      ns: ['translation'],
+      defaultNS: 'translation',
+      interpolation: {
+        escapeValue: false, // React 已默认转义文本，此处关闭避免重复转义
+      },
     },
   },
 });
@@ -341,92 +156,64 @@ import CustomInstanceCode from '@site-docs/components/international/custom-insta
 
 <CustomInstanceCode />
 
-### initOptions 配置
+### initOptions
 
-import InitOptionsDesc from '@site-docs/components/international/init-options-desc';
+import Desc from '@site-docs/components/international/init-options-desc';
 
-<InitOptionsDesc />
+<Desc />
 
-:::info
+| 字段 | 说明 |
+| --- | --- |
+| `fallbackLng` | i18next 找不到翻译键时回退到哪个语言的资源，支持字符串、数组或映射（回退链） |
+| `supportedLngs` | i18next 支持的语言列表 |
+| `ns` | 命名空间列表，默认 `['translation']` |
+| `defaultNS` | 默认命名空间，默认 `'translation'` |
+| `lng` | 强制指定初始语言（通常不需要，由检测器决定） |
 
-如果启用了 `localePathRedirect`，`detection` 配置应该在 CLI 配置中设置，而不是在 `initOptions` 中。这是因为服务端插件需要读取 CLI 配置中的 `detection` 选项来进行语言检测和路径重定向。
-:::
+`fallbackLng` 支持回退链写法，适合区域语言降级的场景：
 
 ```ts
-export default defineRuntimeConfig({
-  i18n: {
-    initOptions: {
-      // 语言相关
-      lng: 'en',
-      fallbackLng: 'en',
-      supportedLngs: ['zh', 'en'],
-
-      // 命名空间相关
-      ns: ['translation', 'common'],
-      defaultNS: 'translation',
-
-      // React 相关
-      react: {
-        useSuspense: false,
-      },
-
-      // 其他 i18next 选项
-      interpolation: {
-        escapeValue: false,
-      },
-    },
+initOptions: {
+  lng: 'zh-CN',
+  fallbackLng: {
+    'zh-CN': ['zh', 'en'], // zh-CN 找不到时，先找 zh，再找 en
+    default: ['en'],
   },
-});
+},
 ```
 
-### SDK 后端配置
+### 自定义后端函数配置
 
-如果使用 SDK 后端，需要在运行时配置中提供实际的 SDK 函数：
-
-:::info
-函数类型的配置只能在运行时配置中设置。在 CLI 配置中，`sdk` 只能设置为 `true` 或字符串标识符来启用 SDK 模式，实际的函数实现必须在 `modern.runtime.ts` 中提供。
-:::
-
-**在 `modern.config.ts` 中启用 SDK 模式**：
+自定义后端的实际加载函数必须在运行时配置中提供：
 
 ```ts
+// modern.config.ts：只声明启用
 i18nPlugin({
-  backend: {
-    enabled: true,
-    sdk: true, // 启用 SDK 模式
-  },
+  backend: { sdk: true },
 });
-```
 
-**在 `modern.runtime.ts` 中提供 SDK 函数**：
-
-```ts
-import { defineRuntimeConfig } from '@modern-js/runtime';
+// modern.runtime.ts：提供实际函数
 import type { I18nSdkLoader } from '@modern-js/plugin-i18n/runtime';
 
-const mySdkLoader: I18nSdkLoader = async options => {
-  if (options.all) {
-    // 加载所有资源
-    return await fetchAllResources();
-  }
-
+const myLoader: I18nSdkLoader = async options => {
   if (options.lng && options.ns) {
-    // 加载单个资源
-    const response = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
-    return response.json();
+    const res = await fetch(`/api/i18n/${options.lng}/${options.ns}`);
+    return res.json();
   }
-
-  // 处理其他情况
   return {};
 };
 
 export default defineRuntimeConfig({
   i18n: {
     initOptions: {
-      backend: {
-        sdk: mySdkLoader,
-      },
+      backend: { sdk: myLoader },
     },
   },
 });
 ```
+
+完整用法见[资源加载 → 自定义后端](./resource-loading.md#自定义后端)。
+
+## 多入口配置
+
+多入口项目可以为每个入口单独覆盖配置，详见[高级用法 → 多入口配置](./advanced.md#多入口配置)。

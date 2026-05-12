@@ -4,21 +4,29 @@ title: 语言检测
 
 # 语言检测
 
-插件支持多种语言检测方式，可以组合使用以满足不同的业务需求。
+语言检测指的是在用户没有手动选择语言的情况下，自动推断应该使用哪种语言。插件支持从 URL 路径、Cookie、请求头、浏览器设置等多个来源检测，可以组合使用。
+
+## 检测优先级
+
+无论启用了哪些检测方式，优先级固定如下（从高到低）：
+
+1. **SSR 数据**：从 `window._SSR_DATA` 读取服务端渲染时已检测到的语言，确保客户端与服务端一致，避免语言闪烁
+2. **路径检测**：从 URL 路径前缀读取（需要启用 `localePathRedirect`）
+3. **i18next 检测器**：按 `detection.order` 配置的顺序依次检测（Cookie、LocalStorage、查询参数等）
+4. **initOptions.lng**：运行时配置中强制指定的语言
+5. **fallbackLanguage**：所有检测方式均失败时的兜底语言
 
 ## 检测方式
 
-### 1. URL 路径检测（localePathRedirect）
+### URL 路径检测
 
-当 `localePathRedirect` 设置为 `true` 时，插件会从 URL 路径中检测语言。
+设置 `localePathRedirect: true` 后，插件从 URL 路径前缀识别语言，并将无前缀的路径自动重定向到默认语言：
 
-**示例**：
-
-- `/zh/about` → 检测到语言：`zh`
-- `/en/about` → 检测到语言：`en`
-- `/about` → 如果没有语言前缀，会重定向到默认语言路径
-
-**配置**：
+```
+/about        → 重定向到 /en/about（fallbackLanguage 为 en）
+/zh/about     → 识别语言为 zh，不重定向
+/en/about     → 识别语言为 en，不重定向
+```
 
 ```ts
 i18nPlugin({
@@ -30,63 +38,11 @@ i18nPlugin({
 });
 ```
 
-**路由配置**（约定式路由）：
+启用路径检测后，还需要在路由中配置 `[lang]` 动态参数，详见[路由集成](./routing.md)。
 
-使用约定式路由时，需要在 `routes/` 目录下创建 `[lang]` 目录来表示语言参数：
+### i18next 检测器
 
-```bash
-routes/
-├── [lang]/
-│   ├── layout.tsx    # 布局组件
-│   ├── page.tsx      # 首页
-│   └── about/
-│       └── page.tsx  # About 页面
-```
-
-**routes/[lang]/layout.tsx**:
-
-```tsx
-import { Outlet } from '@modern-js/runtime/router';
-
-export default function Layout() {
-  return <Outlet />;
-}
-```
-
-**routes/[lang]/page.tsx**:
-
-```tsx
-export default function Home() {
-  return <div>Home</div>;
-}
-```
-
-**routes/[lang]/about/page.tsx**:
-
-```tsx
-export default function About() {
-  return <div>About</div>;
-}
-```
-
-:::info
-
-如果使用自定义路由（`modern.routes.ts`），需要在路由配置中添加 `:lang` 动态参数。约定式路由会自动根据文件结构生成对应的路由。
-
-:::
-
-### 2. i18next 语言检测器
-
-当 `i18nextDetector` 设置为 `true` 时，会启用 i18next 的语言检测器，支持从以下位置检测语言：
-
-- **Cookie**：从 Cookie 中读取语言设置
-- **LocalStorage**：从浏览器 LocalStorage 中读取
-- **查询参数**：从 URL 查询参数中读取（如 `?lng=en`）
-- **请求头**：从 HTTP 请求头中读取（如 `Accept-Language`）
-- **HTML 标签**：从 HTML 标签的 `lang` 属性读取
-- **子域名**：从子域名中读取（如 `en.example.com`）
-
-**配置**：
+设置 `i18nextDetector: true` 后，启用从 Cookie、LocalStorage、查询参数、请求头等位置检测语言：
 
 ```ts
 i18nPlugin({
@@ -103,202 +59,72 @@ i18nPlugin({
 });
 ```
 
-### 3. 自定义检测配置
-
-通过 `detection` 选项可以自定义检测行为：
+两种方式可以同时启用：
 
 ```ts
 i18nPlugin({
   localeDetection: {
-    i18nextDetector: true,
-    detection: {
-      // 检测顺序
-      order: ['path', 'cookie', 'querystring', 'header'],
-
-      // Cookie 相关
-      lookupCookie: 'i18next',
-      cookieExpirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1年后过期
-      cookieDomain: '.example.com',
-
-      // 查询参数相关
-      lookupQuerystring: 'lng',
-
-      // 请求头相关
-      lookupHeader: 'accept-language',
-
-      // 缓存配置
-      caches: ['cookie', 'localStorage'],
-    },
-  },
-});
-```
-
-## 检测优先级
-
-插件的语言检测遵循以下优先级顺序（从高到低）：
-
-1. **SSR 数据**（最高优先级）：从 `window._SSR_DATA` 中读取服务端渲染时设置的语言，适用于 SSR 和 CSR 项目
-2. **路径检测**：如果 `localePathRedirect` 为 `true`，从 URL 路径中检测语言前缀
-3. **i18next 检测器**：按照 `detection.order` 配置的顺序执行检测（Cookie、LocalStorage、查询参数、请求头等）
-4. **用户配置语言**：使用 `initOptions.lng` 中配置的语言
-5. **回退语言**：使用 `fallbackLanguage` 作为最终回退
-
-:::info
-
-SSR 数据检测优先级最高，这是为了确保客户端能够使用服务端渲染时检测到的语言，避免客户端重新检测导致的语言闪烁问题。
-
-:::
-
-**示例**：
-
-```ts
-// 配置的检测顺序（仅影响 i18next 检测器内部的优先级）
-detection: {
-  order: ['path', 'cookie', 'querystring', 'header'],
-}
-
-// 实际检测流程：
-// 1. 首先检查 SSR 数据（window._SSR_DATA）
-// 2. 然后检查 URL 路径（如果启用 localePathRedirect）
-// 3. 然后按照 order 顺序检查 i18next 检测器：
-//    - Cookie
-//    - 查询参数
-//    - 请求头
-// 4. 然后使用 initOptions.lng（如果配置）
-// 5. 最后使用 fallbackLanguage
-```
-
-## 检测选项说明
-
-### order（检测顺序）
-
-指定 i18next 检测器内部的检测顺序，可选值：
-
-- `path`：从 URL 路径检测（需要 `localePathRedirect` 为 `true`）
-- `querystring`：从查询参数检测（如 `?lng=en`）
-- `cookie`：从 Cookie 检测
-- `localStorage`：从 LocalStorage 检测（仅浏览器环境）
-- `sessionStorage`：从 SessionStorage 检测（仅浏览器环境）
-- `navigator`：从浏览器语言设置检测（仅浏览器环境）
-- `htmlTag`：从 HTML 标签的 `lang` 属性检测（仅浏览器环境）
-- `header`：从 HTTP 请求头检测（如 `Accept-Language`）
-- `subdomain`：从子域名检测（如 `en.example.com`）
-
-**默认检测顺序**：
-
-如果不配置 `order`，插件会使用以下默认顺序：
-
-```ts
-order: [
-  'querystring', // 查询参数优先级最高
-  'cookie', // 然后是 Cookie
-  'localStorage', // 然后是 LocalStorage
-  'header', // 然后是请求头
-  'navigator', // 然后是浏览器语言
-  'htmlTag', // 然后是 HTML 标签
-  'path', // 然后是路径
-  'subdomain', // 最后是子域名
-];
-```
-
-:::warning
-
-`path` 检测需要 `localePathRedirect` 为 `true`，`localStorage`、`sessionStorage`、`navigator`、`htmlTag` 仅在浏览器环境可用。
-
-:::
-
-:::info
-
-注意：`order` 配置只影响 i18next 检测器内部的优先级。实际的检测优先级还包括 SSR 数据和路径检测，它们有更高的优先级（见上面的"检测优先级"章节）。
-
-:::
-
-### caches（缓存方式）
-
-指定检测到的语言应该缓存在哪里，可选值：
-
-- `false`：不缓存
-- `['cookie']`：缓存到 Cookie
-- `['localStorage']`：缓存到 LocalStorage（仅浏览器）
-- `['cookie', 'localStorage']`：同时缓存到 Cookie 和 LocalStorage
-
-### lookupQuerystring、lookupCookie、lookupLocalStorage、lookupSession、lookupHeader
-
-指定从查询参数、Cookie、LocalStorage、SessionStorage 或请求头中读取语言时使用的键名：
-
-- `lookupQuerystring`：默认 `'lng'`，例如 `?lng=en`
-- `lookupCookie`：默认 `'i18next'`
-- `lookupLocalStorage`：默认 `'i18nextLng'`（仅浏览器环境）
-- `lookupSession`：SessionStorage 的键名（仅浏览器环境）
-- `lookupHeader`：默认 `'accept-language'`
-
-### lookupFromPathIndex
-
-指定从 URL 路径的哪个位置开始检测语言（当 `order` 中包含 `'path'` 时）：
-
-- `lookupFromPathIndex`：路径段索引，默认为 `0`（第一个路径段）
-
-**示例**：
-
-```ts
-// URL: /api/v1/en/users
-// 如果 lookupFromPathIndex = 2，则从第三个路径段（'en'）开始检测
-detection: {
-  order: ['path'],
-  lookupFromPathIndex: 2,
-}
-```
-
-### cookieMinutes、cookieExpirationDate
-
-控制 Cookie 的过期时间：
-
-- `cookieMinutes`：Cookie 过期时间（分钟），默认 `525600`（1 年）
-- `cookieExpirationDate`：Cookie 过期日期（Date 对象），优先级高于 `cookieMinutes`
-
-**示例**：
-
-```ts
-detection: {
-  cookieMinutes: 60 * 24 * 7, // 7天后过期
-  // 或
-  cookieExpirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7天后过期
-}
-```
-
-### ignoreRedirectRoutes
-
-指定哪些路由应该忽略自动语言重定向。这对于 API 路由、静态资源等不需要语言前缀的路径非常有用。
-
-**配置方式**：
-
-```ts
-i18nPlugin({
-  localeDetection: {
-    localePathRedirect: true,
+    localePathRedirect: true,   // 路径前缀
+    i18nextDetector: true,      // Cookie / Header 等
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
-    // 字符串数组：支持精确匹配和前缀匹配
-    ignoreRedirectRoutes: ['/api', '/admin', '/static'],
-    // 或使用函数进行更灵活的判断
-    ignoreRedirectRoutes: pathname => {
-      return pathname.startsWith('/api') || pathname.startsWith('/admin');
+    detection: {
+      order: ['cookie', 'header'],
     },
   },
 });
 ```
 
-**匹配规则**：
+## 检测选项（detection）
 
-- 字符串数组：支持精确匹配（`'/api'`）和前缀匹配（`'/api'` 会匹配 `/api` 和 `/api/users`）
-- 函数：接收路径名（已去除语言前缀），返回 `true` 表示忽略重定向
+| 选项 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `order` | `string[]` | 见下方 | i18next 检测器内部的检测顺序 |
+| `lookupQuerystring` | `string` | `'lng'` | 查询参数键名，例如 `?lng=en` |
+| `lookupCookie` | `string` | `'i18next'` | Cookie 键名 |
+| `lookupLocalStorage` | `string` | `'i18nextLng'` | LocalStorage 键名（仅浏览器） |
+| `lookupSession` | `string` | — | SessionStorage 键名（仅浏览器） |
+| `lookupHeader` | `string` | `'accept-language'` | HTTP 请求头键名 |
+| `lookupFromPathIndex` | `number` | `0` | 从 URL 路径的第几段开始识别语言 |
+| `caches` | `false \| string[]` | — | 检测到的语言缓存到哪里，如 `['cookie']` |
+| `cookieMinutes` | `number` | `525600`（1年） | Cookie 过期时间（分钟） |
+| `cookieExpirationDate` | `Date` | — | Cookie 过期日期，优先级高于 `cookieMinutes` |
+| `cookieDomain` | `string` | — | Cookie 域名 |
 
-**示例**：
+**默认检测顺序（未配置 `order` 时）：**
 
 ```ts
-// 忽略所有 API 路由和静态资源
-ignoreRedirectRoutes: ['/api', '/static', '/assets'];
+['querystring', 'cookie', 'localStorage', 'header', 'navigator', 'htmlTag', 'path', 'subdomain']
+```
 
-// 使用函数忽略所有以 /api 开头的路径
-ignoreRedirectRoutes: pathname => pathname.startsWith('/api');
+**`order` 可用值：**
+
+| 值 | 检测来源 | 限制 |
+| --- | --- | --- |
+| `querystring` | URL 查询参数（`?lng=en`） | — |
+| `cookie` | Cookie | — |
+| `localStorage` | LocalStorage | 仅浏览器 |
+| `sessionStorage` | SessionStorage | 仅浏览器 |
+| `navigator` | 浏览器语言设置 | 仅浏览器 |
+| `htmlTag` | `<html lang="...">` | 仅浏览器 |
+| `header` | `Accept-Language` 请求头 | — |
+| `path` | URL 路径（需同时启用 `localePathRedirect`） | — |
+| `subdomain` | 子域名（`en.example.com`） | — |
+
+## ignoreRedirectRoutes
+
+指定哪些路径跳过语言路径重定向，适用于 API 路由、静态资源等不需要语言前缀的路径。
+
+**写法一：字符串数组**（支持精确匹配和前缀匹配）
+
+```ts
+ignoreRedirectRoutes: ['/api', '/admin', '/static']
+// '/api' 会匹配 /api 和 /api/users
+```
+
+**写法二：函数**（更灵活的自定义逻辑）
+
+```ts
+ignoreRedirectRoutes: pathname =>
+  pathname.startsWith('/api') || pathname.startsWith('/admin'),
 ```
