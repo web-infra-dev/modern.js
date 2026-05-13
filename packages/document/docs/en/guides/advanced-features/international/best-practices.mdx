@@ -6,23 +6,26 @@ title: Best Practices
 
 ## Resource File Organization
 
-It's recommended to organize resource files as follows:
+Namespaces are used to split translation files by business module. The default namespace is `translation`. Splitting by module can reduce the initial loading size and load only the namespaces that are actually used.
+
+Recommended directory structure:
 
 ```
 locales/
 ├── en/
-│   ├── translation.json    # Default namespace
-│   ├── common.json         # Common translations
-│   └── errors.json         # Error messages
+│   ├── translation.json  <- Default namespace for common text
+│   ├── common.json       <- Common UI text such as buttons and labels
+│   └── errors.json       <- Error messages
 └── zh/
     ├── translation.json
     ├── common.json
     └── errors.json
 ```
 
-**Configure Multiple Namespaces**:
+Declare multiple namespaces:
 
 ```ts
+// src/modern.runtime.ts
 export default defineRuntimeConfig({
   i18n: {
     initOptions: {
@@ -33,25 +36,178 @@ export default defineRuntimeConfig({
 });
 ```
 
-**Using Namespaces**:
+Use a specific namespace in components:
 
 ```tsx
 import { useTranslation } from 'react-i18next';
 
-function MyComponent() {
+// Use a single namespace.
+function MyButton() {
   const { t } = useTranslation('common');
-
-  return <div>{t('welcome')}</div>;
+  return <button>{t('submit')}</button>;
 }
+
+// Use multiple namespaces and access keys with namespace:key.
+function Dashboard() {
+  const { t } = useTranslation(['dashboard', 'common']);
+  return (
+    <header>
+      <h1>{t('dashboard:title')}</h1>
+      <button>{t('common:button.refresh')}</button>
+    </header>
+  );
+}
+
+// keyPrefix can omit repeated prefixes.
+function ButtonGroup() {
+  const { t } = useTranslation('common', { keyPrefix: 'button' });
+  return (
+    <>
+      <button>{t('submit')}</button>   {/* common:button.submit */}
+      <button>{t('cancel')}</button>   {/* common:button.cancel */}
+    </>
+  );
+}
+```
+
+## Translation Key Naming
+
+The quality of translation key names directly affects maintenance cost. Recommendations:
+
+- **Use semantic words** and avoid abbreviations: `button.submit` is better than `btn.sbm`.
+- **Use module-based prefixes**: `dashboard.table.header`, `auth.login.title`.
+- **Do not use complete source-language text as keys**: Keys should be stable identifiers, not the translation content itself.
+- **Use dots for hierarchy**: Match the nested JSON structure.
+
+```json
+// Recommended
+{
+  "page": {
+    "title": "User Settings",
+    "description": "Manage your account information"
+  },
+  "form": {
+    "username": { "label": "Username", "placeholder": "Enter username" },
+    "submit": "Save changes"
+  }
+}
+```
+
+```tsx
+t('page.title')
+t('form.username.label')
+t('form.submit', { defaultValue: 'Save' }) // defaultValue prevents showing the key string when the key is missing.
+```
+
+## Plurals
+
+i18next automatically selects the correct plural form based on the `count` parameter. **Note: since i18next v21, JSON v4 format is used by default**. Plural suffixes changed to CLDR standards such as `_zero`, `_one`, and `_other`; the old `_plural` format is deprecated.
+
+```json
+// locales/en/translation.json (JSON v4 format)
+{
+  "item_zero": "No items",
+  "item_one": "{{count}} item",
+  "item_other": "{{count}} items"
+}
+```
+
+```json
+// locales/zh/translation.json
+{
+  "item_zero": "没有条目",
+  "item_other": "{{count}} 个条目"
+}
+```
+
+```tsx
+t('item', { count: 0 })  // "没有条目" / "No items"
+t('item', { count: 1 })  // "没有条目" / "1 item" (Chinese usually has only one form)
+t('item', { count: 5 })  // "5 个条目" / "5 items"
+```
+
+Different languages have different plural rules. English has singular and plural, while Russian has one/few/many forms. i18next automatically matches CLDR rules based on the language code.
+
+:::tip
+Use the `_plural` format only if your project uses an old i18next version or explicitly configures `compatibilityJSON: 'v3'`. New projects should use v4 format.
+:::
+
+## Nested Keys
+
+Nested structures can clearly reflect UI hierarchy and are accessed with dots:
+
+```json
+{
+  "modal": {
+    "confirm": {
+      "title": "Confirm deletion",
+      "message": "This action cannot be undone. Continue?",
+      "actions": {
+        "ok": "Confirm",
+        "cancel": "Cancel"
+      }
+    }
+  }
+}
+```
+
+```tsx
+t('modal.confirm.title')
+t('modal.confirm.actions.ok')
+```
+
+Avoid nesting deeper than 4 levels. Excessive depth makes key names long and hard to maintain.
+
+## Formatting Interpolation
+
+Use the `interpolation.format` function to handle number, date, currency, and other formatting consistently, instead of calling `Intl` APIs separately in each component:
+
+```ts
+// src/modern.runtime.ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      interpolation: {
+        escapeValue: false, // React already escapes text. Disable this to avoid double escaping.
+        format(value, format, lng) {
+          if (format === 'currency') {
+            return new Intl.NumberFormat(lng, {
+              style: 'currency',
+              currency: lng === 'zh' ? 'CNY' : 'USD',
+            }).format(Number(value));
+          }
+          if (format === 'date') {
+            return new Intl.DateTimeFormat(lng, { dateStyle: 'medium' }).format(
+              value instanceof Date ? value : new Date(value),
+            );
+          }
+          return value;
+        },
+      },
+    },
+  },
+});
+```
+
+Use `, format` in translation files to specify the formatting type:
+
+```json
+{
+  "price": "Current price: {{value, currency}}",
+  "expiry": "Expiry date: {{date, date}}"
+}
+```
+
+```tsx
+t('price', { value: 99.5 })       // "当前价格：¥99.50" (zh) / "$99.50" (en)
+t('expiry', { date: new Date() }) // "到期日：2025年5月12日" (zh)
 ```
 
 ## Error Handling
 
-It's recommended to provide fallback options when resource loading fails:
+### Loading State Handling
 
-### Check Resource Loading State
-
-When using SDK backend or need to ensure resources are loaded, use `isResourcesReady` from `useModernI18n`:
+When using a custom backend, translation resources are loaded asynchronously. Use `isResourcesReady` to handle the loading state:
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
@@ -61,75 +217,74 @@ function MyComponent() {
   const { isResourcesReady } = useModernI18n();
   const { t } = useTranslation();
 
-  // Check if resources are loaded and ready
   if (!isResourcesReady) {
-    return <div>Loading translation resources...</div>;
+    return <div>Loading translations...</div>;
   }
 
   return <div>{t('content', { defaultValue: 'Default content' })}</div>;
 }
 ```
 
-### Alternative: Check i18next Initialization
-
-For simpler cases, you can also check i18next initialization status:
+Static resources (HTTP/FS backend) load quickly, so loading state handling is usually unnecessary. If you need to check, use `i18n.isInitialized`:
 
 ```tsx
-import { useTranslation } from 'react-i18next';
+const { t, i18n } = useTranslation();
+if (!i18n.isInitialized) return null;
+```
 
-function MyComponent() {
-  const { t, i18n } = useTranslation();
+### Missing Translation Keys
 
-  // Check if i18n is initialized
-  if (!i18n.isInitialized) {
-    return <div>Loading...</div>;
-  }
+Provide fallback text with `defaultValue` to prevent key strings from appearing in the UI:
 
-  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+```tsx
+t('missing.key', { defaultValue: 'Default text' })
+```
+
+In development, you can enable `saveMissing` to output missing keys to the console for debugging:
+
+```ts
+initOptions: {
+  fallbackLng: 'en',
+  saveMissing: true, // Recommended only in development.
 }
 ```
 
-:::tip
-`isResourcesReady` is more accurate for SDK backend scenarios as it checks if all required resources are actually loaded, not just if the instance is initialized.
+### Network Failures and Resource 404s
 
-:::
+When translation file loading fails, i18next falls back to the resources for `fallbackLng`. If those also fail, `t()` returns the key string directly. Recommendations:
+
+- In production, make sure the translation files for `fallbackLng`, usually `en`, are complete and stable.
+- When using chained backend, use local files as the fallback to reduce dependency on remote services.
 
 ## Type Safety
 
-Add type definitions for translation keys to improve development experience:
+Extend react-i18next type definitions so TypeScript can check whether translation keys exist and provide autocomplete:
 
 ```ts
 // types/i18n.d.ts
 import 'react-i18next';
+import type translation from '../locales/en/translation.json';
+import type common from '../locales/en/common.json';
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: 'translation';
     resources: {
-      translation: {
-        hello: string;
-        world: string;
-        welcome: string;
-      };
-      common: {
-        submit: string;
-        cancel: string;
-      };
+      translation: typeof translation;
+      common: typeof common;
     };
   }
 }
 ```
 
-Using type-safe translations:
+Referencing JSON file types directly is less likely to drift from actual translation files than manually written interfaces:
 
 ```tsx
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { t } = useTranslation();
-
-  // TypeScript will check if the key exists
-  return <div>{t('hello')}</div>; // ✅ Type safe
-  // return <div>{t('invalid')}</div>; // ❌ TypeScript error
-}
+const { t } = useTranslation();
+t('welcome');       // TypeScript autocomplete
+t('nonExistent');   // TypeScript error
 ```
+
+:::tip Large projects
+When there are many translation files, manually maintaining type files is costly. You can use [i18next-parser](https://github.com/i18next/i18next-parser) or [i18next-resources-for-ts](https://github.com/i18next/i18next-resources-for-ts) to generate TypeScript types from translation files automatically.
+:::

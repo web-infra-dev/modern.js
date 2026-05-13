@@ -4,103 +4,81 @@ title: Advanced Usage
 
 # Advanced Usage
 
-## SSR Configuration
+## SSR Scenarios
 
-The plugin fully supports server-side rendering (SSR) scenarios.
+In SSR scenarios, the plugin detects the language on the server, loads translation resources, and injects the result into the page. The client reuses it directly to avoid language flicker.
 
-### Server-side Language Detection
-
-In SSR scenarios, the plugin will detect language from HTTP requests:
-
-1. **URL Path**: Extract language prefix from path
-2. **Cookie**: Read language settings from cookies
-3. **Request Headers**: Read from `Accept-Language` request header
-
-**Configuration Example**:
+**Complete configuration:**
 
 ```ts
-i18nPlugin({
-  localeDetection: {
-    localePathRedirect: true,
-    i18nextDetector: true,
-    languages: ['zh', 'en'],
-    fallbackLanguage: 'en',
-    detection: {
-      order: ['path', 'cookie', 'header'],
-      lookupHeader: 'accept-language',
-    },
-  },
-})
-```
-
-### SSR Resource Loading
-
-In SSR scenarios, the plugin will automatically use the file system backend to load resources:
-
-```ts
+// modern.config.ts
 export default defineConfig({
   server: {
     ssr: true,
-    publicDir: './locales', // Resource file directory
   },
   plugins: [
+    appTools(),
     i18nPlugin({
+      localeDetection: {
+        localePathRedirect: true,
+        i18nextDetector: true,
+        languages: ['zh', 'en'],
+        fallbackLanguage: 'en',
+        detection: {
+          order: ['path', 'cookie', 'header'],
+          lookupHeader: 'accept-language',
+          caches: ['cookie'],
+        },
+      },
       backend: {
-        enabled: true,
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
       },
     }),
   ],
 });
 ```
 
-Resource file structure:
+Server-side language detection priority: URL path -> Cookie -> `Accept-Language` request header -> `fallbackLanguage`.
+
+**Route configuration (file-system routes):**
 
 ```
-Project Root/
-└── locales/
-    ├── en/
-    │   └── translation.json
-    └── zh/
-        └── translation.json
+routes/
+└── [lang]/
+    ├── layout.tsx
+    └── page.tsx
 ```
 
-## Multi-Entry Configuration
+In SSR scenarios, the language detected on the server is written to `window._SSR_DATA`. The client reads it directly and does not detect again, ensuring both sides use the same language.
 
-If the project has multiple entries, you can configure language detection and backend options separately for each entry.
+## Multiple Entries
 
-### Configure Language Detection by Entry
+Different entries can use different language lists, detection methods, and resource paths:
 
 ```ts
+// modern.config.ts
 i18nPlugin({
   localeDetection: {
-    // Global configuration
+    // Global defaults
     localePathRedirect: true,
     languages: ['zh', 'en'],
     fallbackLanguage: 'en',
 
-    // Override configuration by entry
+    // Per-entry overrides
     localeDetectionByEntry: {
       admin: {
-        localePathRedirect: false, // admin entry does not use path redirection
-        languages: ['en'], // admin entry only supports English
+        localePathRedirect: false, // admin does not use path prefixes
+        languages: ['en'],         // admin only supports English
       },
       mobile: {
-        languages: ['zh', 'en', 'ja'], // mobile entry supports more languages
+        languages: ['zh', 'en', 'ja'], // mobile supports more languages
       },
     },
   },
-})
-```
-
-### Configure Backend by Entry
-
-```ts
-i18nPlugin({
   backend: {
-    enabled: true,
-    loadPath: '/locales/{{lng}}/{{ns}}.json', // Default path
+    loadPath: '/locales/{{lng}}/{{ns}}.json', // Global default path
 
-    // Override configuration by entry
+    // Per-entry overrides
     backendOptionsByEntry: {
       admin: {
         loadPath: '/admin/locales/{{lng}}/{{ns}}.json',
@@ -110,32 +88,23 @@ i18nPlugin({
       },
     },
   },
-})
+});
 ```
 
 ## Custom i18next Instance
 
-If you need to use a custom i18next instance, you can provide it in runtime configuration.
-
-### Create Custom Instance
+By default, the plugin uses an internally created i18next instance. If you need deeper customization, such as custom plugins or preconfigured options, pass a custom instance through runtime configuration:
 
 ```ts
 // src/i18n.ts
 import i18next from 'i18next';
 
-const customI18n = i18next.createInstance({
-  // Custom configuration
-  fallbackLng: 'en',
-  supportedLngs: ['zh', 'en'],
-  interpolation: {
-    escapeValue: false,
-  },
-});
+const customI18n = i18next.createInstance();
+// You can use custom plugins here.
+// customI18n.use(MyPlugin);
 
 export default customI18n;
 ```
-
-### Pass Custom Instance
 
 ```ts
 // src/modern.runtime.ts
@@ -146,48 +115,18 @@ export default defineRuntimeConfig({
   i18n: {
     i18nInstance: customI18n,
     initOptions: {
-      // Other configuration options
+      fallbackLng: 'en',
+      supportedLngs: ['zh', 'en'],
     },
   },
 });
 ```
 
-## Language Switching
+## Language Switching Behavior
 
-### Programmatic Switching
+When `changeLanguage` is called to switch language:
 
-Use the `changeLanguage` method of the `useModernI18n` Hook:
-
-```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-
-function LanguageSwitcher() {
-  const { language, changeLanguage, supportedLanguages } = useModernI18n();
-
-  return (
-    <select
-      value={language}
-      onChange={e => changeLanguage(e.target.value)}
-    >
-      {supportedLanguages.map(lang => (
-        <option key={lang} value={lang}>
-          {lang}
-        </option>
-      ))}
-    </select>
-  );
-}
-```
-
-### URL Synchronization
-
-When `localePathRedirect` is enabled, switching languages will automatically update the URL:
-
-```tsx
-// Current URL: /en/about
-// Call changeLanguage('zh')
-// URL automatically updates to: /zh/about
-```
-
-If `localePathRedirect` is not enabled, language switching will only update the i18next instance and cache, without changing the URL.
-
+- **Translation update**: All components that use `t()` re-render automatically. No manual refresh is needed.
+- **URL update** (when `localePathRedirect` is enabled): Updates the URL with `history.pushState`, without triggering a page refresh and without affecting browser back/forward history.
+- **Cache update**: Writes to Cookie or LocalStorage based on the `caches` configuration, so the language choice is restored on the next visit.
+- **When path prefixes are not enabled**: Only the i18next instance and cache are updated. The URL stays unchanged.
