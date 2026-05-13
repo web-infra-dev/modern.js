@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import path from 'path';
 import type {
   AppNormalizedConfig,
@@ -6,7 +8,7 @@ import type {
   AppToolsNormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types';
-import { fs } from '@modern-js/utils';
+import { fs, formatImportPath } from '@modern-js/utils';
 import {
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
@@ -44,6 +46,42 @@ function getSSRMode(
     return ssr.mode === 'stream' ? 'stream' : 'string';
   }
 }
+const normalizePreEntry = (preEntry: unknown): string[] => {
+  if (!preEntry) {
+    return [];
+  }
+  if (Array.isArray(preEntry)) {
+    return preEntry.filter(
+      (v): v is string => typeof v === 'string' && v.length > 0,
+    );
+  }
+  if (typeof preEntry === 'string') {
+    return preEntry ? [preEntry] : [];
+  }
+  return [];
+};
+
+const resolvePreEntryImportPath = ({
+  preEntry,
+  appDirectory,
+  srcDirectory,
+  internalSrcAlias,
+}: {
+  preEntry: string;
+  appDirectory: string;
+  srcDirectory: string;
+  internalSrcAlias: string;
+}) => {
+  const absPath = path.isAbsolute(preEntry)
+    ? preEntry
+    : path.resolve(appDirectory, preEntry);
+
+  // Prefer importing via the internal src alias to keep imports shorter and stable.
+  if (absPath.startsWith(srcDirectory)) {
+    return formatImportPath(absPath.replace(srcDirectory, internalSrcAlias));
+  }
+  return formatImportPath(absPath);
+};
 
 export const generateCode = async (
   entrypoints: Entrypoint[],
@@ -52,8 +90,10 @@ export const generateCode = async (
   hooks: AppToolsFeatureHooks<'shared'>,
 ) => {
   const { mountId } = config.html;
-  const { enableAsyncEntry } = config.source;
+  const { enableAsyncEntry, enableAsyncPreEntry, preEntry } = config.source;
+  const shouldInjectAsyncPreEntry = !!enableAsyncEntry && !!enableAsyncPreEntry;
   const {
+    appDirectory,
     runtimeConfigFile,
     internalDirectory,
     internalSrcAlias,
@@ -102,6 +142,28 @@ export const generateCode = async (
             enableRsc: config.server.rsc,
             isNestedRouter: !!entrypoint.nestedRoutesEntry,
           });
+        }
+
+        // Only works with `enableAsyncEntry`:
+        // inject `source.preEntry` to the top of the generated entry file
+        // (`index.jsx`), so it runs before the real entry code even when the
+        // build entry is `bootstrap.jsx`.
+        if (shouldInjectAsyncPreEntry) {
+          const preEntries = normalizePreEntry(preEntry);
+          if (preEntries.length > 0) {
+            const injected = preEntries
+              .map(item => {
+                const importPath = resolvePreEntryImportPath({
+                  preEntry: item,
+                  appDirectory,
+                  srcDirectory,
+                  internalSrcAlias,
+                });
+                return `import '${importPath}';`;
+              })
+              .join('\n');
+            indexCode = `${injected}\n${indexCode}`;
+          }
         }
 
         const indexFile = path.resolve(

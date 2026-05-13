@@ -36,6 +36,9 @@ export function createBuilderProviderConfig<B extends Bundler>(
     resolve: {
       ...resolveConfig.resolve,
     },
+    source: {
+      ...resolveConfig.source,
+    },
     dev: {
       ...resolveConfig.dev,
       port: appContext.port,
@@ -66,6 +69,10 @@ export function createBuilderProviderConfig<B extends Bundler>(
       },
     },
   };
+
+  if (config.source?.enableAsyncEntry && config.source?.enableAsyncPreEntry) {
+    delete (config.source as any).preEntry;
+  }
 
   modifyOutputConfig(config, appContext);
 

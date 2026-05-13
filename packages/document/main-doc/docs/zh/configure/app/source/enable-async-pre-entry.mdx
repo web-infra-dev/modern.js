@@ -1,0 +1,77 @@
+---
+title: enableAsyncPreEntry
+---
+
+# source.enableAsyncPreEntry
+
+- **类型：** `boolean`
+- **默认值：** `false`
+
+开启后，Modern.js 会在自动生成的入口文件（`index.jsx`）最上方依次插入 `source.preEntry` 中配置的模块 import。
+
+该配置仅在 `source.enableAsyncEntry` 开启时生效；如果未开启异步入口，则不会启用该行为（并保持 `source.preEntry` 原有的构建器注入逻辑不受影响）。
+
+该配置主要用于配合 `source.enableAsyncEntry` 使用：当启用异步入口时，最终的构建 entry 会变为 `bootstrap.jsx`，这会导致构建器侧的 `source.preEntry` 不一定能注入到真正的入口代码中。开启 `source.enableAsyncPreEntry` 后，`preEntry` 会注入到 `index.jsx`（真正的入口代码）顶部，从而保证在异步入口场景下也能生效。
+
+同时，当 `source.enableAsyncPreEntry` 开启时，Modern.js 不会将 `source.preEntry` 传递给构建器配置，避免重复注入或注入到不期望的 entry 中。
+
+## 示例
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    enableAsyncEntry: true,
+    enableAsyncPreEntry: true,
+    preEntry: ['./src/pre-a.ts', './src/pre-b.ts'],
+  },
+});
+```
+
+## 编译效果
+
+在开启 `source.enableAsyncEntry` 后，Modern.js 会为每个入口生成一个异步边界文件 `bootstrap.jsx`，并由它去动态加载真正的入口代码 `index.jsx`。
+
+当同时开启 `source.enableAsyncPreEntry` 时，Modern.js 会把 `source.preEntry` 以 `import` 的形式注入到 **`index.jsx` 的最顶部**（而不是注入到 `bootstrap.jsx`），保证异步入口场景下 `preEntry` 一定会在入口代码之前执行。
+
+### 生成文件结构
+
+以单入口 `main` 为例，生成的文件结构大致如下（位于 `node_modules/.modern-js/main/`）：
+
+```bash
+node_modules
+  └─ .modern-js
+     └─ main
+        ├─ bootstrap.jsx        # 最终用于构建的 entry（异步边界）
+        ├─ index.jsx            # 真正的入口代码（会被注入 preEntry import）
+        ├─ register.js
+        ├─ runtime-register.js
+        └─ runtime-global-context.js
+```
+
+### bootstrap.jsx
+
+`bootstrap.jsx` 的核心逻辑是通过 dynamic import 加载 `index.jsx`：
+
+```js title="node_modules/.modern-js/main/bootstrap.jsx"
+import(/* webpackChunkName: "async-main" */ './index');
+```
+
+### index.jsx（会注入 preEntry）
+
+开启 `source.enableAsyncPreEntry` 后，`index.jsx` 文件的最上方会被注入 `source.preEntry` 对应的 import，随后才是 Modern.js 生成的入口逻辑，例如：
+
+```js title="node_modules/.modern-js/main/index.jsx"
+import '@_modern_js_src/pre-a.ts';
+import '@_modern_js_src/pre-b.ts';
+
+import '@modern-js/runtime/registry/main';
+// ...后续为 Modern.js 自动生成的入口逻辑
+```
+
+其中 `@_modern_js_src` 是 Modern.js 内部用于指向项目 `src` 目录的别名（实际值会随项目 metaName 等信息变化）。
+
+### 与 builder 的关系
+
+当 `source.enableAsyncEntry` 与 `source.enableAsyncPreEntry` 同时开启时，Modern.js **不会再把 `source.preEntry` 传递给构建器配置**，避免构建器重复注入或注入到不期望的 entry 中。
