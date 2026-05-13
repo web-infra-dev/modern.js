@@ -21,6 +21,11 @@ export type Entries = Record<string, Entry>;
 
 export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
   /**
+   * Add code before each page entry. It will be executed before the page code.
+   * @default []
+   */
+  preEntry?: string | string[];
+  /**
    * Used to configure custom page entries.
    */
   entries?: Entries;
@@ -35,6 +40,15 @@ export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
    * @default false
    */
   enableAsyncEntry?: boolean;
+  /**
+   * When enabled, framework will inject `source.preEntry` into the top of the
+   * auto-generated entry file (`index.jsx`) and will not pass `source.preEntry`
+   * to builder config.
+   * This is useful when `source.enableAsyncEntry` is enabled and you still want
+   * preEntry to run before the real entry code.
+   * @default false
+   */
+  enableAsyncPreEntry?: boolean;
   /**
    * Used to disable the functionality of automatically identifying page entry points based on directory structure.
    * @default false
