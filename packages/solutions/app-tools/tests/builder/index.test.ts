@@ -117,4 +117,29 @@ describe('create builder provider config', () => {
 
     expect(builderConfig.dev?.startUrl).toEqual('/xxx');
   });
+
+  it('should not mutate source.preEntry when removing it from builder config', () => {
+    const config = {
+      source: {
+        enableAsyncEntry: true,
+        enableAsyncPreEntry: true,
+        preEntry: ['./src/pre.ts'],
+      },
+      output: {},
+      dev: {},
+      html: {},
+    };
+    const appContext = {
+      appDirectory: `/fixtrues`,
+      configDir: './icons',
+    };
+
+    const builderConfig = createBuilderProviderConfig(
+      config as any,
+      appContext as any,
+    );
+
+    expect(builderConfig.source?.preEntry).toBeUndefined();
+    expect(config.source.preEntry).toEqual(['./src/pre.ts']);
+  });
 });

@@ -45,6 +45,9 @@ export function createBuilderProviderConfig(
     resolve: {
       ...resolveConfig.resolve,
     },
+    source: {
+      ...resolveConfig.source,
+    },
     dev: {
       ...resolveConfig.dev,
       port: appContext.port,
