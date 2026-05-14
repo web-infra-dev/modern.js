@@ -1,6 +1,6 @@
 import dns from 'node:dns';
 import path, { join } from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
   getPort,
@@ -39,7 +39,11 @@ describe('enableAsyncPreEntry', () => {
   });
 
   test('should inject preEntry into index.jsx (not bootstrap.jsx)', () => {
-    const internalDir = path.join(appDir, 'node_modules/.modern-js/index');
+    const internalDir = path.join(
+      appDir,
+      'node_modules/.modern-js',
+      MAIN_ENTRY_NAME,
+    );
     const indexFile = path.join(internalDir, 'index.jsx');
     const bootstrapFile = path.join(internalDir, 'bootstrap.jsx');
 
@@ -53,7 +57,7 @@ describe('enableAsyncPreEntry', () => {
     // bootstrap.jsx should remain an async boundary only
     expect(bootstrapCode).not.toContain('pre.ts');
     expect(bootstrapCode).toContain(
-      'import(/* webpackChunkName: "async-index" */ \'./index\');',
+      `import(/* webpackChunkName: "async-${MAIN_ENTRY_NAME}" */ './index');`,
     );
   });
 
