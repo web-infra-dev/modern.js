@@ -1,6 +1,7 @@
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
+/// <reference types="@rsbuild/core/types" />
 /// <reference path="../dist/types/index.d.ts" />
 
 declare namespace NodeJS {
