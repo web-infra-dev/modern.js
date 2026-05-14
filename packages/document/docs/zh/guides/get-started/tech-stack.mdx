@@ -21,11 +21,7 @@ Modern.js 提供两套一方路由方案：
 - 默认使用 [React Router 7](https://reactrouter.com/en/main)，通过 `@modern-js/runtime/router` 导出 API。
 - 支持 [TanStack Router](https://tanstack.com/router)，通过 `@modern-js/plugin-tanstack/runtime` 导出 API。
 
-创建项目时，可通过以下命令选择 TanStack Router：
-
-```bash
-npx @modern-js/create@latest myapp --router tanstack
-```
+TanStack Router 支持由 `@modern-js/plugin-tanstack` 提供，因此不需要把 TanStack 相关包直接内置到 `@modern-js/runtime` 中。
 
 Modern.js 支持约定式路由、自控式路由或其他路由方案，请参考 [页面入口](/guides/concept/entries) 进行选择。
 

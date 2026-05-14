@@ -21,11 +21,7 @@ Modern.js provides two first-party routing frameworks:
 - [React Router v7](https://reactrouter.com/en/main) (default), via `@modern-js/runtime/router`.
 - [TanStack Router](https://tanstack.com/router), via `@modern-js/plugin-tanstack/runtime`.
 
-When creating a project, you can choose TanStack Router by using:
-
-```bash
-npx @modern-js/create@latest myapp --router tanstack
-```
+TanStack Router support is provided by `@modern-js/plugin-tanstack`, so the TanStack packages do not need to be bundled into `@modern-js/runtime`.
 
 Modern.js supports conventional routing, self-controlled routing, or other routing schemes. Please refer to ["Routing"](/guides/basic-features/routes/routes) to make your choice.
 
