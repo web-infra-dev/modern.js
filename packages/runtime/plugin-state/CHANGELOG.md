@@ -1,5 +1,15 @@
 # @modern-js/plugin-state
 
+## 2.71.0
+
+### Patch Changes
+
+- Updated dependencies [73c9329]
+  - @modern-js/runtime@2.71.0
+  - @modern-js/runtime-utils@2.71.0
+  - @modern-js/types@2.71.0
+  - @modern-js/utils@2.71.0
+
 ## 2.70.8
 
 ### Patch Changes

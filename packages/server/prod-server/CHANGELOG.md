@@ -1,5 +1,13 @@
 # @modern-js/prod-server
 
+## 2.71.0
+
+### Patch Changes
+
+- @modern-js/server-core@2.71.0
+- @modern-js/runtime-utils@2.71.0
+- @modern-js/utils@2.71.0
+
 ## 2.70.8
 
 ### Patch Changes
