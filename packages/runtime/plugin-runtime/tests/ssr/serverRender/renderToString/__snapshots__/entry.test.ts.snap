@@ -1,0 +1,7 @@
+// Rstest Snapshot v1
+
+exports[`SSR data script generation > should inject inline script correctly 1`] = `"<script>window._SSR_DATA = {\\"data\\":{\\"initialData\\":{\\"name\\":\\"modern.js\\"},\\"i18nData\\":{}},\\"context\\":{\\"request\\":{\\"params\\":{},\\"query\\":{},\\"pathname\\":\\"\\u002F\\",\\"host\\":\\"localhost\\",\\"url\\":\\"http:\\u002F\\u002Flocalhost\\u002F\\"},\\"reporter\\":{\\"sessionId\\":\\"session-1\\"}},\\"mode\\":\\"string\\",\\"renderLevel\\":2}</script>"`;
+
+exports[`SSR data script generation > should inject inline scripts with nonce correctly 1`] = `"<script nonce=\\"test-nonce\\">window._SSR_DATA = {\\"data\\":{\\"initialData\\":{\\"name\\":\\"modern.js\\"},\\"i18nData\\":{}},\\"context\\":{\\"request\\":{\\"params\\":{},\\"query\\":{},\\"pathname\\":\\"\\u002F\\",\\"host\\":\\"localhost\\",\\"url\\":\\"http:\\u002F\\u002Flocalhost\\u002F\\"},\\"reporter\\":{\\"sessionId\\":\\"session-1\\"}},\\"mode\\":\\"string\\",\\"renderLevel\\":2}</script>"`;
+
+exports[`SSR data script generation > should inject json script correctly 1`] = `"<script type=\\"application/json\\" id=\\"__MODERN_SSR_DATA__\\">{\\"data\\":{\\"initialData\\":{\\"name\\":\\"modern.js\\"},\\"i18nData\\":{}},\\"context\\":{\\"request\\":{\\"params\\":{},\\"query\\":{},\\"pathname\\":\\"\\u002F\\",\\"host\\":\\"localhost\\",\\"url\\":\\"http:\\u002F\\u002Flocalhost\\u002F\\"},\\"reporter\\":{\\"sessionId\\":\\"session-1\\"}},\\"mode\\":\\"string\\",\\"renderLevel\\":2}</script>"`;

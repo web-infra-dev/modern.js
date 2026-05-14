@@ -349,7 +349,7 @@ function createRouteFromRouteObject(opts: {
 
   const children = routeObject.children;
   if (children && children.length > 0) {
-    const childRoutes = children.map(child =>
+    const childRoutes = children.map((child: RouteObject) =>
       createRouteFromRouteObject({ parent: route, routeObject: child }),
     );
     (route as any).addChildren(childRoutes);
@@ -430,7 +430,7 @@ export function createRouteTreeFromModernRoutes(
   routes: Array<NestedRoute | PageRoute>,
 ): TanstackRootRoute<any, any, any, any, any, any, any, any, any, any, any> {
   const rootModern = routes.find(
-    route => route && (route as any).type === 'nested' && (route as any).isRoot,
+    r => r && (r as any).type === 'nested' && (r as any).isRoot,
   ) as NestedRoute | undefined;
 
   const rootComponent = (rootModern as any)?.component;
@@ -511,7 +511,7 @@ export function createRouteTreeFromRouteObjects(
 export function getModernRouteIdsFromMatches(router: AnyRouter): string[] {
   const matches = router.state.matches || [];
   const ids = matches
-    .map((match: any) => match.route?.options?.staticData?.modernRouteId)
+    .map((m: any) => m.route?.options?.staticData?.modernRouteId)
     .filter(Boolean);
   return Array.from(new Set(ids));
 }

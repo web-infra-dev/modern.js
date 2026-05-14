@@ -1,5 +1,5 @@
-import { useRouter } from '@tanstack/react-router';
 import type { AnyRouter } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
 

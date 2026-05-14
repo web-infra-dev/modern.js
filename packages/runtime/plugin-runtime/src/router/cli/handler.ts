@@ -1,12 +1,18 @@
-import path from 'path';
 import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import type { CLIPluginAPI } from '@modern-js/plugin';
-import type { Entrypoint } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRouteForCli,
+  PageRoute,
+} from '@modern-js/types';
 import { getMeta } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
+import path from 'path';
 import * as templates from './code/templates';
 import { isPageComponentFile } from './code/utils';
 import { modifyEntrypoints } from './entry';
+
+type GeneratedRoutesByEntry = Record<string, (NestedRouteForCli | PageRoute)[]>;
 
 type RegenerateRoutesFn = (params: {
   api: CLIPluginAPI<AppTools>;
@@ -14,6 +20,10 @@ type RegenerateRoutesFn = (params: {
   resolvedConfig: AppNormalizedConfig;
   entrypoints: Entrypoint[];
 }) => Promise<void>;
+
+type HandleGeneratorEntryCodeOptions = {
+  entrypointsKey?: string;
+};
 
 type HandleFileChangeOptions = {
   includeEntry?: (entrypoint: Entrypoint) => boolean;
@@ -34,8 +44,12 @@ export async function handleModifyEntrypoints(
 export async function handleGeneratorEntryCode(
   api: CLIPluginAPI<AppTools>,
   entrypoints: Entrypoint[],
-  entrypointsKey = DEFAULT_ENTRYPOINTS_KEY,
-) {
+  options: HandleGeneratorEntryCodeOptions | string = {},
+): Promise<GeneratedRoutesByEntry> {
+  const normalizedOptions =
+    typeof options === 'string' ? { entrypointsKey: options } : options;
+  const entrypointsKey =
+    normalizedOptions.entrypointsKey || DEFAULT_ENTRYPOINTS_KEY;
   const appContext = api.getAppContext();
   const { internalDirectory } = appContext;
   const resolvedConfig = api.getNormalizedConfig();
@@ -97,8 +111,11 @@ export async function handleFileChange(
   e: any,
   options: HandleFileChangeOptions = {},
 ) {
-  const { includeEntry, regenerate, entrypointsKey = DEFAULT_ENTRYPOINTS_KEY } =
-    options;
+  const {
+    includeEntry,
+    regenerate,
+    entrypointsKey = DEFAULT_ENTRYPOINTS_KEY,
+  } = options;
   const appContext = api.getAppContext();
   const { appDirectory, entrypoints } = appContext;
   const activeEntrypoints = includeEntry

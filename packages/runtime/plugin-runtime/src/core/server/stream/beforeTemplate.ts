@@ -1,6 +1,7 @@
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { matchRoutes } from '@modern-js/runtime-utils/router';
 import ReactHelmet, { type HelmetData } from 'react-helmet';
+import { getRouterMatchedRouteIds } from '../../../router/runtime/lifecycle';
 import type { TInternalRuntimeContext } from '../../context';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { createReplaceHelemt } from '../helmet';
@@ -79,20 +80,19 @@ export async function buildShellBeforeTemplate(
 
       const { routeAssets } = routeManifest;
 
-      const matches = matchRoutes(
-        routes,
-        routerContext.location,
-        routerContext.basename,
-      );
-      const matchedRouteManifests = matches
-        ?.map((match, index) => {
-          if (!index) {
-            return;
-          }
+      type RouteManifest = {
+        referenceCssAssets?: string[];
+      };
 
-      let matchedRouteManifests: RouteManifest[] | undefined = undefined;
+      let matchedRouteManifests: RouteManifest[] | undefined;
 
-      if (routerContext && routes) {
+      const matchedRouteIds = getRouterMatchedRouteIds(runtimeContext);
+
+      if (matchedRouteIds?.length) {
+        matchedRouteManifests = matchedRouteIds
+          .map(routeId => routeAssets[routeId] as RouteManifest | undefined)
+          .filter(Boolean) as RouteManifest[];
+      } else if (routerContext && routes) {
         const matches = matchRoutes(
           routes,
           routerContext.location,
@@ -122,10 +122,8 @@ export async function buildShellBeforeTemplate(
       }
 
       const cssChunks: string[] = matchedRouteManifests
-        ? matchedRouteManifests?.reduce((chunks, routeManifest) => {
-            const { referenceCssAssets = [] } = routeManifest as {
-              referenceCssAssets?: string[];
-            };
+        ? matchedRouteManifests.reduce((chunks, routeManifest) => {
+            const { referenceCssAssets = [] } = routeManifest;
             const _cssChunks = referenceCssAssets.filter(
               (asset?: string) =>
                 asset?.endsWith('.css') && !template.includes(asset),

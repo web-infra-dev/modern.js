@@ -1,11 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import React from 'react';
-import { act } from 'react';
+import React, { act } from 'react';
 import type { Fetcher } from '../../src/runtime/dataMutation';
-import {
-  Form,
-  useFetcher,
-} from '../../src/runtime/dataMutation';
+import { Form, useFetcher } from '../../src/runtime/dataMutation';
 
 type RouteHandler = (args: {
   request: Request;

@@ -1,8 +1,16 @@
 import path from 'node:path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import type { NestedRouteForCli, PageRoute, ServerRoute } from '@modern-js/types';
-import { fs, NESTED_ROUTE_SPEC_FILE, findExists } from '@modern-js/utils';
-import { filterRoutesForServer } from '@modern-js/utils';
+import type {
+  NestedRouteForCli,
+  PageRoute,
+  ServerRoute,
+} from '@modern-js/types';
+import {
+  filterRoutesForServer,
+  findExists,
+  fs,
+  NESTED_ROUTE_SPEC_FILE,
+} from '@modern-js/utils';
 import { NESTED_ROUTES_DIR } from './constants';
 import { getEntrypointRoutesDir, isRouteEntry } from './entry';
 import {
@@ -65,6 +73,13 @@ function isBuiltInRouteEntrypoint(entrypoint: RouteEntrypointLike) {
   return Boolean(entrypoint.entry && isRouteEntry(entrypoint.entry));
 }
 
+function isPluginOwnedRouteEntrypoint(entrypoint: RouteEntrypointLike) {
+  const entrypointRoutesDir = getEntrypointRoutesDir(entrypoint);
+  return Boolean(
+    entrypointRoutesDir && entrypointRoutesDir !== NESTED_ROUTES_DIR,
+  );
+}
+
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
@@ -102,11 +117,12 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         .map(route => route.urlPath)
         .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
 
-      if (
+      const shouldInstallBuiltInRouter =
         isBuiltInRouteEntrypoint(entrypoint) ||
-        hasUserRouterConfig ||
-        hasRuntimeRouterConfig
-      ) {
+        (!isPluginOwnedRouteEntrypoint(entrypoint) &&
+          (hasUserRouterConfig || hasRuntimeRouterConfig));
+
+      if (shouldInstallBuiltInRouter) {
         plugins.push({
           name: 'router',
           path: `@${metaName}/runtime/router/internal`,
@@ -165,13 +181,15 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     api.onBeforeGenerateRoutes(async ({ entrypoint, code }) => {
       if (isBuiltInRouteEntrypoint(entrypoint)) {
         const { distDirectory } = api.getAppContext();
-
         const nestedRoutesSpecPath = path.resolve(
           distDirectory,
           NESTED_ROUTE_SPEC_FILE,
         );
         const existingNestedRoutes = (await fs.pathExists(nestedRoutesSpecPath))
-          ? ((await fs.readJSON(nestedRoutesSpecPath)) as Record<string, unknown>)
+          ? ((await fs.readJSON(nestedRoutesSpecPath)) as Record<
+              string,
+              unknown
+            >)
           : {};
 
         await fs.outputJSON(nestedRoutesSpecPath, {

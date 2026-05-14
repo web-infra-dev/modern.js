@@ -22,7 +22,11 @@ export default {
     withTestPreset({
       name: 'plugin-tanstack-node',
       testEnvironment: 'node',
-      include: ['tests/router/routeTree.test.ts'],
+      include: [
+        'tests/router/cli.test.ts',
+        'tests/router/tanstackTypes.test.ts',
+        'tests/router/routeTree.test.ts',
+      ],
       extends: commonConfig,
     }),
     withTestPreset({

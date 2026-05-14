@@ -66,4 +66,5 @@ const LinkComponentImpl = (props: any) => {
 };
 
 export const Link = LinkComponentImpl as LinkComponent;
+
 export const NavLink = LinkComponentImpl as LinkComponent;

@@ -1,52 +1,55 @@
-import { merge } from '@modern-js/runtime-utils/merge';
+/// <reference path="./ssr-shim.d.ts" />
+
 import {
-  RouterProvider,
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+  InternalRuntimeContext,
+} from '@modern-js/runtime/context';
+import type { RuntimePlugin } from '@modern-js/runtime/plugin';
+import { merge } from '@modern-js/runtime-utils/merge';
+import type { RouteObject } from '@modern-js/runtime-utils/router';
+import {
   createBrowserHistory,
   createHashHistory,
-  createMemoryHistory,
   createRouter,
+  RouterProvider,
   useLocation,
   useMatches,
   useNavigate,
   useRouter,
 } from '@tanstack/react-router';
-import type { RouteObject } from '@modern-js/runtime/router';
-import {
-  type RouterConfig,
-  type RuntimePlugin,
-  type TRuntimeContext,
-} from '@modern-js/runtime';
-import {
-  InternalRuntimeContext,
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-} from '@modern-js/runtime/context';
-import {
-  createRouteObjectsFromConfig,
-  urlJoin,
-} from '@modern-js/runtime/router/internal';
+import { RouterClient } from '@tanstack/react-router/ssr/client';
 import * as React from 'react';
 import { useContext, useMemo } from 'react';
 import { createModernBasepathRewrite } from './basepathRewrite';
 import {
   modifyRoutes as modifyRoutesHook,
+  onAfterCreateRouter as onAfterCreateRouterHook,
+  onAfterHydrateRouter as onAfterHydrateRouterHook,
+  onBeforeCreateRouter as onBeforeCreateRouterHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
+  onBeforeHydrateRouter as onBeforeHydrateRouterHook,
+  type RouterExtendsHooks,
 } from './hooks';
-import type { TanstackRouterExtendsHooks } from './hooks';
+import {
+  applyRouterRuntimeState,
+  type RouterLifecycleContext,
+} from './lifecycle';
 import { createRouteTreeFromRouteObjects } from './routeTree';
+import type { RouterConfig } from './types';
+import { createRouteObjectsFromConfig, urlJoin } from './utils';
 
-function normalizeBase(base: string) {
-  if (base.length > 1 && base.endsWith('/')) return base.slice(0, -1);
-  return base || '/';
+function normalizeBase(b: string) {
+  if (b.length > 1 && b.endsWith('/')) {
+    return b.slice(0, -1);
+  }
+  return b || '/';
 }
 
 function isSegmentPrefix(pathname: string, base: string) {
-  const normalizedBase = normalizeBase(base);
-  const normalizedPathname = pathname || '/';
-  return (
-    normalizedPathname === normalizedBase ||
-    normalizedPathname.startsWith(`${normalizedBase}/`)
-  );
+  const b = normalizeBase(base);
+  const p = pathname || '/';
+  return p === b || p.startsWith(`${b}/`);
 }
 
 function stripSyntheticNotFoundRoute(routes: RouteObject[]): RouteObject[] {
@@ -63,20 +66,20 @@ function stripSyntheticNotFoundRoute(routes: RouteObject[]): RouteObject[] {
     });
 }
 
-export interface TanstackRouterRuntimeConfig extends Partial<RouterConfig> {
-  routesDir?: string;
-}
-
 export const tanstackRouterPlugin = (
-  userConfig: TanstackRouterRuntimeConfig = {},
+  userConfig: Partial<RouterConfig> = {},
 ): RuntimePlugin<{
-  extendHooks: TanstackRouterExtendsHooks;
+  extendHooks: RouterExtendsHooks;
 }> => {
   return {
-    name: '@modern-js/plugin-tanstack',
+    name: '@modern-js/plugin-router-tanstack',
     registryHooks: {
       modifyRoutes: modifyRoutesHook,
+      onAfterCreateRouter: onAfterCreateRouterHook,
+      onAfterHydrateRouter: onAfterHydrateRouterHook,
+      onBeforeCreateRouter: onBeforeCreateRouterHook,
       onBeforeCreateRoutes: onBeforeCreateRoutesHook,
+      onBeforeHydrateRouter: onBeforeHydrateRouterHook,
     },
     setup: api => {
       api.onBeforeRender(context => {
@@ -89,9 +92,8 @@ export const tanstackRouterPlugin = (
       });
 
       api.wrapRoot(App => {
-        const runtimeConfig = api.getRuntimeConfig() as Record<string, any>;
         const mergedConfig = merge(
-          runtimeConfig.tanstackRouter || {},
+          api.getRuntimeConfig().router || {},
           userConfig,
         ) as RouterConfig;
 
@@ -114,14 +116,14 @@ export const tanstackRouterPlugin = (
         }
 
         const hooks = api.getHooks() as any;
+
         let cachedRouteObjects: RouteObject[] | undefined;
 
-        const getRouteObjects = (context: TRuntimeContext) => {
+        const getRouteObjects = () => {
           if (typeof cachedRouteObjects !== 'undefined') {
             return cachedRouteObjects;
           }
 
-          hooks.onBeforeCreateRoutes.call(context);
           const routeObjects = createRoutes
             ? createRoutes()
             : createRouteObjectsFromConfig({
@@ -150,20 +152,13 @@ export const tanstackRouterPlugin = (
         let cachedRouterBasepath: string | null = null;
 
         const RouterWrapper = () => {
-          const runtimeContext = useContext(
-            InternalRuntimeContext,
-          ) as unknown as TRuntimeContext & {
-            _internalRouterBaseName?: string;
-          };
+          const runtimeContext = useContext(InternalRuntimeContext);
 
-          const isBrowser = typeof window !== 'undefined';
-          const requestPathname =
-            runtimeContext.request instanceof Request
-              ? new URL(runtimeContext.request.url).pathname
-              : '/';
-          const pathname = isBrowser ? location.pathname : requestPathname;
-          const baseUrl = selectBasePath(pathname).replace(/^[\\/]*/, '/');
-          const resolvedBasename =
+          const baseUrl = selectBasePath(location.pathname).replace(
+            /^\/*/,
+            '/',
+          );
+          const _basename =
             baseUrl === '/'
               ? urlJoin(
                   baseUrl,
@@ -175,33 +170,42 @@ export const tanstackRouterPlugin = (
             if (cachedRouteTree) {
               return cachedRouteTree;
             }
-
-            const routeObjects = getRouteObjects(runtimeContext);
+            const routeObjects = getRouteObjects();
             if (!routeObjects.length) {
               return null;
             }
-
             cachedRouteTree = createRouteTreeFromRouteObjects(routeObjects);
             return cachedRouteTree;
-          }, [runtimeContext]);
+          }, []);
 
           if (!routeTree) {
             return App ? <App /> : null;
           }
 
           const router = useMemo(() => {
-            if (cachedRouter && cachedRouterBasepath === resolvedBasename) {
+            const lifecycleContext: RouterLifecycleContext = {
+              framework: 'tanstack',
+              phase: 'client-create',
+              routes: getRouteObjects(),
+              runtimeContext,
+              basename: _basename,
+            };
+            hooks.onBeforeCreateRouter.call(lifecycleContext);
+
+            if (cachedRouter && cachedRouterBasepath === _basename) {
+              hooks.onAfterCreateRouter.call({
+                ...lifecycleContext,
+                router: cachedRouter,
+                runtimeContext,
+              });
               return cachedRouter;
             }
 
-            const history = isBrowser
-              ? supportHtml5History
-                ? createBrowserHistory()
-                : createHashHistory()
-              : createMemoryHistory({
-                  initialEntries: [pathname || '/'],
-                });
-            const rewrite = createModernBasepathRewrite(resolvedBasename);
+            const history = supportHtml5History
+              ? createBrowserHistory()
+              : createHashHistory();
+
+            const rewrite = createModernBasepathRewrite(_basename);
 
             cachedRouter = createRouter({
               routeTree,
@@ -210,13 +214,57 @@ export const tanstackRouterPlugin = (
               history,
               context: {},
             });
-            cachedRouterBasepath = resolvedBasename;
+            cachedRouterBasepath = _basename;
+            hooks.onAfterCreateRouter.call({
+              ...lifecycleContext,
+              router: cachedRouter,
+              runtimeContext,
+            });
 
             return cachedRouter;
-          }, [resolvedBasename, routeTree, supportHtml5History]);
+          }, [_basename, routeTree, supportHtml5History, runtimeContext]);
+          const runtimeState = applyRouterRuntimeState(runtimeContext, {
+            framework: 'tanstack',
+            basename: _basename,
+            instance: router,
+          });
+          const lifecycleContext: RouterLifecycleContext = {
+            framework: 'tanstack',
+            phase: 'client-create',
+            routes: getRouteObjects(),
+            runtimeContext: runtimeState,
+            basename: _basename,
+            router,
+          };
 
-          const routerContent = <RouterProvider router={router} />;
-          return App ? <App>{routerContent}</App> : routerContent;
+          const hasSSRBootstrap =
+            typeof window !== 'undefined' && (window as any).$_TSR;
+          if (hasSSRBootstrap) {
+            hooks.onBeforeHydrateRouter.call({
+              ...lifecycleContext,
+              phase: 'hydrate',
+              router,
+              runtimeContext: runtimeState,
+            });
+          }
+
+          const RouterContent = hasSSRBootstrap ? (
+            <React.Suspense fallback={null}>
+              <RouterClient router={router} />
+            </React.Suspense>
+          ) : (
+            <RouterProvider router={router} />
+          );
+          if (hasSSRBootstrap) {
+            hooks.onAfterHydrateRouter.call({
+              ...lifecycleContext,
+              phase: 'hydrate',
+              router,
+              runtimeContext: runtimeState,
+            });
+          }
+
+          return App ? <App>{RouterContent}</App> : RouterContent;
         };
 
         return RouterWrapper as any;
@@ -224,3 +272,5 @@ export const tanstackRouterPlugin = (
     },
   };
 };
+
+export default tanstackRouterPlugin;

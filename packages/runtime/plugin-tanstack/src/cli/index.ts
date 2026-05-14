@@ -1,255 +1,388 @@
 import path from 'node:path';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  AppToolsContext,
+  CliPlugin,
+} from '@modern-js/app-tools';
+import type { CLIPluginAPI } from '@modern-js/plugin';
 import type {
   Entrypoint,
   NestedRouteForCli,
   PageRoute,
   ServerRoute,
 } from '@modern-js/types';
-import type { RouterConfig } from '@modern-js/runtime';
 import {
-  fs,
   filterRoutesForServer,
-  findExists,
+  fs,
   NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import {
-  getEntrypointRoutesDir,
-  handleFileChange,
-  handleGeneratorEntryCode,
-  handleModifyEntrypoints,
-  isRouteEntry,
-} from '@modern-js/runtime/cli';
-import {
-  writeTanstackRegisterFile,
-  writeTanstackRouterTypesForEntry,
+  generateTanstackRouterTypesSourceForEntry,
+  isTanstackRouterFrameworkEnabled,
 } from './tanstackTypes';
 
-const DEFAULT_TANSTACK_ROUTES_DIR = 'views';
+export {
+  generateTanstackRouterTypesSourceForEntry,
+  isTanstackRouterFrameworkEnabled,
+} from './tanstackTypes';
+
+const DEFAULT_ROUTES_DIR = 'routes';
 const DEFAULT_GENERATED_DIR_NAME = 'modern-tanstack';
-const TANSTACK_ENTRYPOINTS_KEY = '__tanstack_router_entries__';
-const TANSTACK_RUNTIME_MODULE = '@modern-js/plugin-tanstack/runtime';
-const JS_OR_TS_EXTS = [
-  '.js',
-  '.jsx',
-  '.ts',
-  '.tsx',
-  '.mjs',
-  '.mts',
-  '.cjs',
-  '.cts',
-] as const;
+const ENTRYPOINTS_KEY = '@modern-js/plugin-tanstack';
 
-function hasTanstackRouterConfigInRuntimeFile(runtimeConfigBase: string) {
-  const runtimeConfigFile = findExists(
-    JS_OR_TS_EXTS.map(ext => `${runtimeConfigBase}${ext}`),
-  );
-
-  if (!runtimeConfigFile) {
-    return false;
-  }
-
-  try {
-    const content = fs.readFileSync(runtimeConfigFile, 'utf-8');
-    return /tanstackRouter\s*:/.test(content);
-  } catch {
-    return false;
-  }
-}
-
-type TanstackRouteEntrypointLike = {
-  entry?: string;
-  nestedRoutesEntry?: string;
-};
-
-function isTanstackRouteEntrypoint(
-  entrypoint: TanstackRouteEntrypointLike,
-  routesDir: string,
-) {
-  const entrypointRoutesDir = getEntrypointRoutesDir(entrypoint);
-  if (entrypointRoutesDir) {
-    return entrypointRoutesDir === routesDir;
-  }
-
-  if (entrypoint.nestedRoutesEntry) {
-    return path.basename(entrypoint.nestedRoutesEntry) === routesDir;
-  }
-
-  return Boolean(entrypoint.entry && isRouteEntry(entrypoint.entry, routesDir));
-}
-
-export interface TanstackRouterPluginOptions extends Partial<RouterConfig> {
+export type TanstackRouterPluginOptions = {
   routesDir?: string;
   generatedDirName?: string;
+};
+
+type RuntimeRouterCliHelpers = {
+  getEntrypointRoutesDir: (entrypoint: Entrypoint) => string | null;
+  handleFileChange: (
+    api: CLIPluginAPI<AppTools>,
+    event: unknown,
+    options?: {
+      includeEntry?: (entrypoint: Entrypoint) => boolean;
+      regenerate?: (params: {
+        api: CLIPluginAPI<AppTools>;
+        appContext: ReturnType<CLIPluginAPI<AppTools>['getAppContext']>;
+        resolvedConfig: AppNormalizedConfig;
+        entrypoints: Entrypoint[];
+      }) => Promise<void>;
+      entrypointsKey?: string;
+    },
+  ) => Promise<void>;
+  handleGeneratorEntryCode: (
+    api: CLIPluginAPI<AppTools>,
+    entrypoints: Entrypoint[],
+    options?: {
+      entrypointsKey?: string;
+      generateCodeOptions?: {
+        enableTanstackTypes?: boolean;
+      };
+    },
+  ) => Promise<Record<string, (NestedRouteForCli | PageRoute)[]>>;
+  handleModifyEntrypoints: (
+    entrypoints: Entrypoint[],
+    routesDir?: string,
+    options?: {
+      routesOwner?: string;
+    },
+  ) => Promise<Entrypoint[]>;
+  isRouteEntry: (dir: string, routesDir?: string) => string | false;
+};
+
+let runtimeRouterCli: RuntimeRouterCliHelpers | undefined;
+
+function getRuntimeRouterCli(): RuntimeRouterCliHelpers {
+  if (runtimeRouterCli) {
+    return runtimeRouterCli;
+  }
+
+  const cli =
+    require('@modern-js/runtime/cli') as Partial<RuntimeRouterCliHelpers>;
+  if (cli.handleGeneratorEntryCode && cli.getEntrypointRoutesDir) {
+    runtimeRouterCli = cli as RuntimeRouterCliHelpers;
+    return runtimeRouterCli;
+  }
+
+  throw new Error(
+    '@modern-js/plugin-tanstack requires @modern-js/runtime/cli router helper exports from tpcore-02.',
+  );
 }
 
-export const tanstackRouterPlugin = (
-  options: TanstackRouterPluginOptions = {},
-): CliPlugin<AppTools> => ({
-  name: '@modern-js/plugin-tanstack',
-  required: ['@modern-js/runtime'],
-  setup: api => {
-    const nestedRoutesForServer: Record<string, unknown> = {};
-    const { metaName } = api.getAppContext();
-    const routesDir = options.routesDir || DEFAULT_TANSTACK_ROUTES_DIR;
-    const generatedDirName =
-      options.generatedDirName || DEFAULT_GENERATED_DIR_NAME;
+async function writeFileIfChanged(filePath: string, content: string) {
+  try {
+    const previous = (await fs.pathExists(filePath))
+      ? await fs.readFile(filePath, 'utf-8')
+      : null;
+    if (previous === content) {
+      return;
+    }
+  } catch {
+    // Fall through and rewrite the generated file.
+  }
 
-    api._internalRuntimePlugins(({ entrypoint, plugins }) => {
-      const { serverRoutes, srcDirectory, runtimeConfigFile } = api.getAppContext();
-      const hasRuntimeTanstackConfig = hasTanstackRouterConfigInRuntimeFile(
-        path.join(srcDirectory, runtimeConfigFile),
+  await fs.outputFile(filePath, content, 'utf-8');
+}
+
+function createRegisterDtsContent(opts: {
+  entries: string[];
+  runtimeModule: string;
+}) {
+  const importStatements = opts.entries
+    .map(
+      (entryName, index) =>
+        `import type { router as router${index} } from './${entryName}/router.gen';`,
+    )
+    .join('\n');
+  const routerUnionType = opts.entries
+    .map((_, index) => `typeof router${index}`)
+    .join(' | ');
+
+  return `// This file is auto-generated by Modern.js. Do not edit manually.
+
+${importStatements}
+
+declare module '${opts.runtimeModule}' {
+  interface Register {
+    router: ${routerUnionType};
+  }
+}
+`;
+}
+
+export async function writeTanstackRegisterFile(opts: {
+  entries: string[];
+  generatedDirName?: string;
+  runtimeModule?: string;
+  srcDirectory: string;
+}) {
+  const {
+    entries,
+    generatedDirName = DEFAULT_GENERATED_DIR_NAME,
+    runtimeModule = '@modern-js/plugin-tanstack/runtime',
+    srcDirectory,
+  } = opts;
+
+  if (entries.length === 0) {
+    return;
+  }
+
+  const registerDtsPath = path.join(
+    srcDirectory,
+    generatedDirName,
+    'register.gen.d.ts',
+  );
+
+  await writeFileIfChanged(
+    registerDtsPath,
+    createRegisterDtsContent({ entries, runtimeModule }),
+  );
+}
+
+export async function writeTanstackRouterTypesForEntries(opts: {
+  appContext: AppToolsContext;
+  generatedDirName?: string;
+  routesByEntry: Record<string, (NestedRouteForCli | PageRoute)[]>;
+}) {
+  const {
+    appContext,
+    generatedDirName = DEFAULT_GENERATED_DIR_NAME,
+    routesByEntry,
+  } = opts;
+
+  const entryNames = Object.keys(routesByEntry);
+
+  await Promise.all(
+    entryNames.map(async entryName => {
+      const { routerGenTs } = await generateTanstackRouterTypesSourceForEntry({
+        appContext,
+        entryName,
+        generatedDirName,
+        routes: routesByEntry[entryName],
+      });
+
+      await writeFileIfChanged(
+        path.join(
+          appContext.srcDirectory,
+          generatedDirName,
+          entryName,
+          'router.gen.ts',
+        ),
+        routerGenTs,
       );
-      const { routesDir: _routesDir, generatedDirName: _generatedDirName, ...runtimeConfig } =
-        options;
-      const hasInlineRuntimeConfig = Object.keys(runtimeConfig).length > 0;
-      const serverBase = serverRoutes
-        .filter((route: ServerRoute) => route.entryName === entrypoint.entryName)
-        .map(route => route.urlPath)
-        .sort((left, right) => (left.length - right.length > 0 ? -1 : 1));
+    }),
+  );
 
-      if (
-        isTanstackRouteEntrypoint(entrypoint, routesDir) ||
-        hasRuntimeTanstackConfig ||
-        hasInlineRuntimeConfig
-      ) {
+  const mainEntryName = appContext.entrypoints?.find(
+    entrypoint => entrypoint.isMainEntry,
+  )?.entryName;
+  const registerEntries = entryNames.sort((a, b) => {
+    if (mainEntryName && a === mainEntryName) {
+      return -1;
+    }
+
+    if (mainEntryName && b === mainEntryName) {
+      return 1;
+    }
+
+    return a.localeCompare(b);
+  });
+
+  await writeTanstackRegisterFile({
+    entries: registerEntries,
+    generatedDirName,
+    srcDirectory: appContext.srcDirectory,
+  });
+}
+
+export function tanstackRouterPlugin(
+  options: TanstackRouterPluginOptions = {},
+): CliPlugin<AppTools> {
+  const routesDir = options.routesDir || DEFAULT_ROUTES_DIR;
+  const generatedDirName =
+    options.generatedDirName || DEFAULT_GENERATED_DIR_NAME;
+
+  return {
+    name: '@modern-js/plugin-tanstack',
+    required: ['@modern-js/runtime'],
+    setup: api => {
+      const nestedRoutesForServer: Record<string, unknown> = {};
+
+      const isTanstackEntrypoint = (entrypoint: Entrypoint) => {
+        const { getEntrypointRoutesDir } = getRuntimeRouterCli();
+        return getEntrypointRoutesDir(entrypoint) === routesDir;
+      };
+
+      api._internalRuntimePlugins(({ entrypoint, plugins }) => {
+        if (!isTanstackEntrypoint(entrypoint as Entrypoint)) {
+          return { entrypoint, plugins };
+        }
+
+        const { metaName, serverRoutes } = api.getAppContext();
+        const serverBase = serverRoutes
+          .filter(
+            (route: ServerRoute) => route.entryName === entrypoint.entryName,
+          )
+          .map(route => route.urlPath)
+          .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+
         plugins.push({
           name: 'tanstackRouter',
           path: `@${metaName}/plugin-tanstack/runtime`,
-          config: {
-            serverBase,
-            ...runtimeConfig,
+          config: { serverBase },
+        });
+
+        return { entrypoint, plugins };
+      });
+
+      api.checkEntryPoint(({ path: entryPath, entry }) => {
+        const { isRouteEntry } = getRuntimeRouterCli();
+        return {
+          path: entryPath,
+          entry: entry || isRouteEntry(entryPath, routesDir),
+        };
+      });
+
+      api.config(() => {
+        return {
+          source: {
+            include: [
+              /[\\/]node_modules[\\/]@tanstack[\\/]react-router[\\/]/,
+              path.resolve(__dirname, '../runtime').replace('cjs', 'esm'),
+            ],
+          },
+        };
+      });
+
+      api.modifyEntrypoints(async ({ entrypoints }) => {
+        const { handleModifyEntrypoints } = getRuntimeRouterCli();
+        return {
+          entrypoints: await handleModifyEntrypoints(entrypoints, routesDir, {
+            routesOwner: ENTRYPOINTS_KEY,
+          }),
+        };
+      });
+
+      api.generateEntryCode(async ({ entrypoints }) => {
+        const tanstackEntrypoints = entrypoints.filter(isTanstackEntrypoint);
+
+        if (tanstackEntrypoints.length === 0) {
+          return;
+        }
+
+        const { handleGeneratorEntryCode } = getRuntimeRouterCli();
+        const routesByEntry = await handleGeneratorEntryCode(
+          api,
+          tanstackEntrypoints,
+          {
+            entrypointsKey: ENTRYPOINTS_KEY,
+            generateCodeOptions: {
+              enableTanstackTypes: false,
+            },
+          },
+        );
+
+        await writeTanstackRouterTypesForEntries({
+          appContext: api.getAppContext(),
+          generatedDirName,
+          routesByEntry,
+        });
+      });
+
+      api.onFileChanged(async event => {
+        const { handleFileChange } = getRuntimeRouterCli();
+        await handleFileChange(api, event, {
+          entrypointsKey: ENTRYPOINTS_KEY,
+          includeEntry: entrypoint => {
+            const { getEntrypointRoutesDir } = getRuntimeRouterCli();
+            return getEntrypointRoutesDir(entrypoint) === routesDir;
+          },
+          regenerate: async ({ api, entrypoints }) => {
+            const { handleGeneratorEntryCode } = getRuntimeRouterCli();
+            const routesByEntry = await handleGeneratorEntryCode(
+              api,
+              entrypoints,
+              {
+                entrypointsKey: ENTRYPOINTS_KEY,
+                generateCodeOptions: {
+                  enableTanstackTypes: false,
+                },
+              },
+            );
+
+            await writeTanstackRouterTypesForEntries({
+              appContext: api.getAppContext(),
+              generatedDirName,
+              routesByEntry,
+            });
           },
         });
-      }
-
-      return { entrypoint, plugins };
-    });
-
-    api.checkEntryPoint(({ path: entryPath, entry }) => {
-      return {
-        path: entryPath,
-        entry: entry || isRouteEntry(entryPath, routesDir),
-      };
-    });
-
-    api.config(() => {
-      return {
-        source: {
-          include: [
-            /[\\/]node_modules[\\/]@tanstack[\\/]react-router[\\/]/,
-            /[\\/]node_modules[\\/]@tanstack[\\/]history[\\/]/,
-            path.resolve(__dirname, '../runtime').replace('cjs', 'esm'),
-          ],
-        },
-      };
-    });
-
-    api.modifyEntrypoints(async ({ entrypoints }) => {
-      return {
-        entrypoints: await handleModifyEntrypoints(entrypoints, routesDir),
-      };
-    });
-
-    api.generateEntryCode(async ({ entrypoints }) => {
-      await generateTanstackEntryCode(api, entrypoints, generatedDirName);
-    });
-
-    api.onFileChanged(async event => {
-      await handleFileChange(api, event, {
-        includeEntry: entrypoint => isTanstackRouteEntrypoint(entrypoint, routesDir),
-        regenerate: async ({ api, entrypoints }) => {
-          await generateTanstackEntryCode(api, entrypoints, generatedDirName);
-        },
-        entrypointsKey: TANSTACK_ENTRYPOINTS_KEY,
       });
-    });
 
-    api.modifyFileSystemRoutes(({ entrypoint, routes }) => {
-      if (isTanstackRouteEntrypoint(entrypoint, routesDir)) {
-        nestedRoutesForServer[entrypoint.entryName] = filterRoutesForServer(
-          routes as (NestedRouteForCli | PageRoute)[],
-        );
-      }
+      api.modifyFileSystemRoutes(async ({ entrypoint, routes }) => {
+        if (isTanstackEntrypoint(entrypoint)) {
+          nestedRoutesForServer[entrypoint.entryName] = filterRoutesForServer(
+            routes as (NestedRouteForCli | PageRoute)[],
+          );
+        }
 
-      return {
-        entrypoint,
-        routes,
-      };
-    });
-
-    api.onBeforeGenerateRoutes(async ({ entrypoint, code }) => {
-      if (isTanstackRouteEntrypoint(entrypoint, routesDir)) {
-        const { distDirectory } = api.getAppContext();
-
-        const nestedRoutesSpecPath = path.resolve(
-          distDirectory,
-          NESTED_ROUTE_SPEC_FILE,
-        );
-        const existingNestedRoutes = (await fs.pathExists(nestedRoutesSpecPath))
-          ? ((await fs.readJSON(nestedRoutesSpecPath)) as Record<string, unknown>)
-          : {};
-
-        await fs.outputJSON(nestedRoutesSpecPath, {
-          ...existingNestedRoutes,
-          ...nestedRoutesForServer,
-        });
-      }
-
-      return {
-        entrypoint,
-        code,
-      };
-    });
-  },
-});
-
-async function generateTanstackEntryCode(
-  api: Parameters<NonNullable<ReturnType<typeof tanstackRouterPlugin>['setup']>>[0],
-  entrypoints: Entrypoint[],
-  generatedDirName: string,
-) {
-  const appContext = api.getAppContext();
-  const routesByEntry = await handleGeneratorEntryCode(
-    api,
-    entrypoints,
-    TANSTACK_ENTRYPOINTS_KEY,
-  );
-
-  await writeTanstackRegisterFile({
-    appContext,
-    entrypoints,
-    generatedDirName,
-    runtimeModule: TANSTACK_RUNTIME_MODULE,
-  });
-
-  await Promise.all(
-    entrypoints.map(async entrypoint => {
-      const entryName = entrypoint.entryName;
-      const routes = routesByEntry[entryName];
-      const outPath = path.join(
-        appContext.srcDirectory,
-        generatedDirName,
-        entryName,
-        'router.gen.ts',
-      );
-
-      if (routes?.length) {
-        await writeTanstackRouterTypesForEntry({
-          appContext,
-          entryName,
+        return {
+          entrypoint,
           routes,
-          generatedDirName,
-          runtimeModule: TANSTACK_RUNTIME_MODULE,
-        });
-        return;
-      }
+        };
+      });
 
-      if (await fs.pathExists(outPath)) {
-        await fs.remove(outPath);
-      }
-    }),
-  );
+      api.onBeforeGenerateRoutes(async ({ entrypoint, code }) => {
+        if (isTanstackEntrypoint(entrypoint)) {
+          const { distDirectory } = api.getAppContext();
+          const nestedRoutesSpecPath = path.resolve(
+            distDirectory,
+            NESTED_ROUTE_SPEC_FILE,
+          );
+          const existingNestedRoutes = (await fs.pathExists(
+            nestedRoutesSpecPath,
+          ))
+            ? ((await fs.readJSON(nestedRoutesSpecPath)) as Record<
+                string,
+                unknown
+              >)
+            : {};
+
+          await fs.outputJSON(nestedRoutesSpecPath, {
+            ...existingNestedRoutes,
+            ...nestedRoutesForServer,
+          });
+        }
+
+        return {
+          entrypoint,
+          code,
+        };
+      });
+    },
+  };
 }
 
 export default tanstackRouterPlugin;

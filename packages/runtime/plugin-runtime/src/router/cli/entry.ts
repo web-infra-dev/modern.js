@@ -1,12 +1,12 @@
-import path from 'path';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
+import path from 'path';
 import { hasApp } from '../../cli/entry';
 import { NESTED_ROUTES_DIR } from './constants';
 
 export const ROUTES_DIR_META_KEY = '__modernRoutesDir';
 
-type EntrypointWithRoutesMeta = Entrypoint & {
+export type EntrypointWithRoutesMeta = Entrypoint & {
   [ROUTES_DIR_META_KEY]?: string;
 };
 
@@ -25,15 +25,10 @@ export const getEntrypointRoutesDir = (entrypoint: {
   return null;
 };
 
-export const hasNestedRoutes = (
-  dir: string,
-  routesDir = NESTED_ROUTES_DIR,
-) => fs.existsSync(path.join(dir, routesDir));
+export const hasNestedRoutes = (dir: string, routesDir = NESTED_ROUTES_DIR) =>
+  fs.existsSync(path.join(dir, routesDir));
 
-export const isRouteEntry = (
-  dir: string,
-  routesDir = NESTED_ROUTES_DIR,
-) => {
+export const isRouteEntry = (dir: string, routesDir = NESTED_ROUTES_DIR) => {
   if (hasNestedRoutes(dir, routesDir)) {
     return path.join(dir, routesDir);
   }
@@ -43,14 +38,13 @@ export const isRouteEntry = (
 export const modifyEntrypoints = (
   entrypoints: Entrypoint[],
   routesDir = NESTED_ROUTES_DIR,
- ) => {
+) => {
   return entrypoints.map(entrypoint => {
     const entrypointWithMeta = entrypoint as EntrypointWithRoutesMeta;
 
     if (!entrypoint.isAutoMount) {
       return entrypointWithMeta;
     }
-
     if (entrypoint?.isCustomSourceEntry) {
       if (entrypoint.fileSystemRoutes) {
         entrypointWithMeta.nestedRoutesEntry =
@@ -59,7 +53,6 @@ export const modifyEntrypoints = (
       }
       return entrypointWithMeta;
     }
-
     const isHasApp = hasApp(entrypoint.absoluteEntryDir!);
     if (isHasApp) {
       return entrypointWithMeta;
