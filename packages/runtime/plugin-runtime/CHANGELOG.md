@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.71.0
+
+### Minor Changes
+
+- 73c9329: feat: add `source.enableAsyncPreEntry` for async entry scenarios
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.71.0
+- @modern-js/render@2.71.0
+- @modern-js/plugin@2.71.0
+- @modern-js/plugin-v2@2.71.0
+- @modern-js/runtime-utils@2.71.0
+- @modern-js/types@2.71.0
+- @modern-js/utils@2.71.0
+
 ## 2.70.8
 
 ### Patch Changes
