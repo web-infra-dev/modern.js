@@ -2,6 +2,7 @@ import path from 'path';
 import type { AppToolsContext } from '@modern-js/app-tools';
 import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
 import { fs, findExists, formatImportPath, slash } from '@modern-js/utils';
+import { toTanstackPath } from '../tanstackPath';
 
 const reservedWords =
   'break case class catch const continue debugger default delete do else export extends finally for function if import in instanceof let new return super switch this throw try typeof var void while with yield enum await implements package protected static interface private public';
@@ -35,28 +36,6 @@ const JS_OR_TS_EXTS = [
   '.cjs',
   '.cts',
 ] as const;
-
-function toTanstackPath(pathname: string): string {
-  return pathname
-    .split('/')
-    .map(segment => {
-      if (!segment) {
-        return segment;
-      }
-      if (segment === '*') {
-        return '$';
-      }
-      if (segment.startsWith(':')) {
-        const name = segment.slice(1);
-        if (name.endsWith('?')) {
-          return `{-$${name.slice(0, -1)}}`;
-        }
-        return `$${name}`;
-      }
-      return segment;
-    })
-    .join('/');
-}
 
 async function resolveFileNoExt(inputNoExtPath: string) {
   const file = findExists(JS_OR_TS_EXTS.map(ext => `${inputNoExtPath}${ext}`));

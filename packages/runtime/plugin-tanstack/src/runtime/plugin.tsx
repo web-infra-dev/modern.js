@@ -1,18 +1,18 @@
 /// <reference path="./ssr-shim.d.ts" />
 
-import {
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-  InternalRuntimeContext,
-} from '@modern-js/runtime/context';
-import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import { merge } from '@modern-js/runtime-utils/merge';
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import {
+  InternalRuntimeContext,
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+} from '@modern-js/runtime/context';
+import type { RuntimePlugin } from '@modern-js/runtime/plugin';
+import {
+  RouterProvider,
   createBrowserHistory,
   createHashHistory,
   createRouter,
-  RouterProvider,
   useLocation,
   useMatches,
   useNavigate,
@@ -23,21 +23,25 @@ import * as React from 'react';
 import { useContext, useMemo } from 'react';
 import { createModernBasepathRewrite } from './basepathRewrite';
 import {
+  type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onAfterCreateRouter as onAfterCreateRouterHook,
   onAfterHydrateRouter as onAfterHydrateRouterHook,
   onBeforeCreateRouter as onBeforeCreateRouterHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
   onBeforeHydrateRouter as onBeforeHydrateRouterHook,
-  type RouterExtendsHooks,
 } from './hooks';
 import {
-  applyRouterRuntimeState,
   type RouterLifecycleContext,
+  applyRouterRuntimeState,
 } from './lifecycle';
 import { createRouteTreeFromRouteObjects } from './routeTree';
 import type { RouterConfig } from './types';
-import { createRouteObjectsFromConfig, urlJoin } from './utils';
+import {
+  createRouteObjectsFromConfig,
+  stripSyntheticNotFoundRoute,
+  urlJoin,
+} from './utils';
 
 function normalizeBase(b: string) {
   if (b.length > 1 && b.endsWith('/')) {
@@ -50,20 +54,6 @@ function isSegmentPrefix(pathname: string, base: string) {
   const b = normalizeBase(base);
   const p = pathname || '/';
   return p === b || p.startsWith(`${b}/`);
-}
-
-function stripSyntheticNotFoundRoute(routes: RouteObject[]): RouteObject[] {
-  return routes
-    .filter(route => !(route.path === '*' && !route.id && !route.loader))
-    .map(route => {
-      if (!route.children?.length) {
-        return route;
-      }
-      return {
-        ...route,
-        children: stripSyntheticNotFoundRoute(route.children),
-      };
-    });
 }
 
 export const tanstackRouterPlugin = (

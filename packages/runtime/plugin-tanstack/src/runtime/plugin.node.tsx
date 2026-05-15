@@ -1,50 +1,53 @@
 /// <reference path="./ssr-shim.d.ts" />
 
-import {
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-  InternalRuntimeContext,
-  type TInternalRuntimeContext,
-} from '@modern-js/runtime/context';
-import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import { merge } from '@modern-js/runtime-utils/merge';
 import {
-  createRequestContext,
   type RequestContext,
+  createRequestContext,
 } from '@modern-js/runtime-utils/node';
-import type { RouteObject } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
+import {
+  InternalRuntimeContext,
+  type TInternalRuntimeContext,
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+} from '@modern-js/runtime/context';
+import type { RuntimePlugin } from '@modern-js/runtime/plugin';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import {
   type AnyRouter,
+  RouterProvider,
   createMemoryHistory,
   createRouter,
-  RouterProvider,
 } from '@tanstack/react-router';
 import { attachRouterServerSsrUtils } from '@tanstack/react-router/ssr/server';
 import type React from 'react';
 import { Suspense, useContext } from 'react';
 import { createModernBasepathRewrite } from './basepathRewrite';
 import {
+  type RouterExtendsHooks,
   modifyRoutes as modifyRoutesHook,
   onAfterCreateRouter as onAfterCreateRouterHook,
   onAfterHydrateRouter as onAfterHydrateRouterHook,
   onBeforeCreateRouter as onBeforeCreateRouterHook,
   onBeforeCreateRoutes as onBeforeCreateRoutesHook,
   onBeforeHydrateRouter as onBeforeHydrateRouterHook,
-  type RouterExtendsHooks,
 } from './hooks';
 import {
+  type RouterLifecycleContext,
   applyRouterServerPrepareResult,
   createRouterServerSnapshot,
-  type RouterLifecycleContext,
 } from './lifecycle';
 import {
   createRouteTreeFromRouteObjects,
   getModernRouteIdsFromMatches,
 } from './routeTree';
 import type { InternalRouterServerSnapshot, RouterConfig } from './types';
-import { createRouteObjectsFromConfig, urlJoin } from './utils';
+import {
+  createRouteObjectsFromConfig,
+  stripSyntheticNotFoundRoute,
+  urlJoin,
+} from './utils';
 
 type ModernTanstackRouterContext = {
   request: Request;
@@ -85,20 +88,6 @@ function routerManagedTagsToHtml(tags: any): string[] {
 function createGetSsrHref(request: Request): string {
   const url = new URL(request.url);
   return `${url.pathname}${url.search}${url.hash}`;
-}
-
-function stripSyntheticNotFoundRoute(routes: RouteObject[]): RouteObject[] {
-  return routes
-    .filter(route => !(route.path === '*' && !route.id && !route.loader))
-    .map(route => {
-      if (!route.children?.length) {
-        return route;
-      }
-      return {
-        ...route,
-        children: stripSyntheticNotFoundRoute(route.children),
-      };
-    });
 }
 
 function collectRouterErrors(

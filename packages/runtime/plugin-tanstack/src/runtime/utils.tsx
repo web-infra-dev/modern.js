@@ -133,6 +133,22 @@ export function createRouteObjectsFromConfig({
   });
 }
 
+export function stripSyntheticNotFoundRoute(
+  routes: RouteObject[],
+): RouteObject[] {
+  return routes
+    .filter(route => !(route.path === '*' && !route.id && !route.loader))
+    .map(route => {
+      if (!route.children?.length) {
+        return route;
+      }
+      return {
+        ...route,
+        children: stripSyntheticNotFoundRoute(route.children),
+      };
+    });
+}
+
 export const urlJoin = (...parts: string[]) => {
   const separator = '/';
   const replace = new RegExp(`${separator}{1,}`, 'g');
