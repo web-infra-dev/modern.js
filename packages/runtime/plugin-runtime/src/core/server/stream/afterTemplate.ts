@@ -1,12 +1,13 @@
-import type { IncomingHttpHeaders } from 'http';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
+import type { IncomingHttpHeaders } from 'http';
+import { getRouterHydrationScripts } from '../../../router/runtime/lifecycle';
 import { type RenderLevel, SSR_DATA_JSON_ID } from '../../constants';
 import type { TInternalRuntimeContext } from '../../context';
 import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import type { HandleRequestConfig } from '../requestHandler';
-import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
+import { type BuildHtmlCb, buildHtml, type SSRConfig } from '../shared';
 import { attributesToString, safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
@@ -114,6 +115,11 @@ function createReplaceSSRData(options: {
     ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
     : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
 
+  const hydrationScripts = getRouterHydrationScripts(runtimeContext);
+  const ssrScripts = hydrationScripts.length
+    ? `${ssrDataScript}\n${hydrationScripts.join('\n')}`
+    : ssrDataScript;
+
   return (template: string) =>
-    safeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);
+    safeReplace(template, SSR_DATA_PLACEHOLDER, ssrScripts);
 }
