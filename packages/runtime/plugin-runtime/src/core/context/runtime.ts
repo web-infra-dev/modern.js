@@ -37,18 +37,6 @@ export interface TInternalRuntimeContext extends TRuntimeContext {
   routerMatchedRouteIds?: string[];
   routerServerSnapshot?: InternalRouterServerSnapshot;
   routerContext?: StaticHandlerContext;
-  /**
-   * @deprecated Use `routerInstance` or `routerRuntime.instance` instead.
-   */
-  tanstackRouter?: unknown;
-  /**
-   * @deprecated Use `routerServerSnapshot.hydrationScript(s)` instead.
-   */
-  tanstackSsrScript?: string;
-  /**
-   * @deprecated Use `routerServerSnapshot.matchedRouteIds` instead.
-   */
-  tanstackMatchedModernRouteIds?: string[];
   unstable_getBlockNavState?: () => boolean;
   ssrContext?: SSRServerContext;
   _internalContext?: any;

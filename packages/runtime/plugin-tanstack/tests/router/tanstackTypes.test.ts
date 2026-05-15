@@ -51,7 +51,12 @@ describe('tanstack router type generation', () => {
     });
 
     expect(routerGenTs).toContain(
-      'import { loader as loader_0, action as action_0 } from "../../routes/mf/page.data";',
+      [
+        'import {',
+        '  action as action_0,',
+        '  loader as loader_0,',
+        "} from '../../routes/mf/page.data';",
+      ].join('\n'),
     );
     expect(routerGenTs).toContain('modernRouteLoader: loader_0');
     expect(routerGenTs).toContain('modernRouteAction: action_0');

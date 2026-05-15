@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { getInitialContext } from '../../src/core/context';
 import {
   modifyRoutes,
@@ -103,5 +105,18 @@ describe('router lifecycle seams', () => {
       expect(hook).toBeDefined();
       expect(typeof (hook as any).call).toBe('function');
     }
+  });
+
+  it('should not expose deprecated TanStack context fields from the runtime context source', () => {
+    const runtimeContextSource = fs.readFileSync(
+      path.join(__dirname, '../../src/core/context/runtime.ts'),
+      'utf-8',
+    );
+
+    expect(runtimeContextSource).not.toContain('tanstackRouter?:');
+    expect(runtimeContextSource).not.toContain('tanstackSsrScript?:');
+    expect(runtimeContextSource).not.toContain(
+      'tanstackMatchedModernRouteIds?:',
+    );
   });
 });

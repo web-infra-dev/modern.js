@@ -39,7 +39,10 @@ function throwTanstackRedirect(location: string) {
   }
 }
 
-function mapParamsForModernLoader(params: Record<string, string>, hasSplat: boolean) {
+function mapParamsForModernLoader(
+  params: Record<string, string>,
+  hasSplat: boolean,
+) {
   if (!hasSplat) {
     return params;
   }
@@ -53,6 +56,7 @@ function mapParamsForModernLoader(params: Record<string, string>, hasSplat: bool
 
 function createRouteStaticData(opts: {
   modernRouteId?: string;
+  modernRouteAction?: unknown;
   modernRouteLoader?: unknown;
 }) {
   const staticData: Record<string, unknown> = {};
@@ -63,6 +67,10 @@ function createRouteStaticData(opts: {
 
   if (opts.modernRouteLoader) {
     staticData.modernRouteLoader = opts.modernRouteLoader;
+  }
+
+  if (opts.modernRouteAction) {
+    staticData.modernRouteAction = opts.modernRouteAction;
   }
 
   return Object.keys(staticData).length > 0 ? staticData : undefined;
@@ -81,7 +89,9 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
         ctx?.signal ||
         new AbortController().signal;
       const baseRequest: Request | undefined =
-        ctx?.context?.request instanceof Request ? ctx.context.request : undefined;
+        ctx?.context?.request instanceof Request
+          ? ctx.context.request
+          : undefined;
 
       const href =
         typeof ctx?.location === 'string'
@@ -129,80 +139,91 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
   };
 }
 
-import loader_0 from "../../string/routes/layout.loader";
-import { loader as loader_1 } from "../../string/routes/page.data";
-import { loader as loader_2 } from "../../string/routes/mutation/page.data";
-import { loader as loader_3 } from "../../string/routes/optional/[id$]/page.data";
-import { loader as loader_4 } from "../../string/routes/redirect/page.data";
-import { loader as loader_5 } from "../../string/routes/user/[id]/page.data";
+import loader_0 from '../../string/routes/layout.loader';
+import {
+  action as action_2,
+  loader as loader_2,
+} from '../../string/routes/mutation/page.data';
+import { loader as loader_3 } from '../../string/routes/optional/[id$]/page.data';
+import { loader as loader_1 } from '../../string/routes/page.data';
+import { loader as loader_4 } from '../../string/routes/redirect/page.data';
+import { loader as loader_5 } from '../../string/routes/user/[id]/page.data';
 
 export const rootRoute = createRootRouteWithContext<ModernRouterContext>()({
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_0),
   staticData: createRouteStaticData({
-    modernRouteId: "string_layout",
+    modernRouteId: 'string_layout',
     modernRouteLoader: loader_0,
   }),
 });
 
 const route_string_blocker_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "blocker",
+  path: 'blocker',
   staticData: createRouteStaticData({
-    modernRouteId: "string_blocker/page",
+    modernRouteId: 'string_blocker/page',
   }),
 });
 
 const route_string_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/",
+  path: '/',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_1),
   staticData: createRouteStaticData({
-    modernRouteId: "string_page",
+    modernRouteId: 'string_page',
     modernRouteLoader: loader_1,
   }),
 });
 
 const route_string_mutation_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "mutation",
+  path: 'mutation',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_2),
   staticData: createRouteStaticData({
-    modernRouteId: "string_mutation/page",
+    modernRouteId: 'string_mutation/page',
     modernRouteLoader: loader_2,
+    modernRouteAction: action_2,
   }),
 });
 
 const route_string_optional__id$__page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "optional/{-$id}",
+  path: 'optional/{-$id}',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_3),
   staticData: createRouteStaticData({
-    modernRouteId: "string_optional/(id$)/page",
+    modernRouteId: 'string_optional/(id$)/page',
     modernRouteLoader: loader_3,
   }),
 });
 
 const route_string_redirect_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "redirect",
+  path: 'redirect',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_4),
   staticData: createRouteStaticData({
-    modernRouteId: "string_redirect/page",
+    modernRouteId: 'string_redirect/page',
     modernRouteLoader: loader_4,
   }),
 });
 
 const route_string_user__id__page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "user/$id",
+  path: 'user/$id',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_5),
   staticData: createRouteStaticData({
-    modernRouteId: "string_user/(id)/page",
+    modernRouteId: 'string_user/(id)/page',
     modernRouteLoader: loader_5,
   }),
 });
 
-export const routeTree = rootRoute.addChildren([route_string_page, route_string_blocker_page, route_string_mutation_page, route_string_optional__id$__page, route_string_redirect_page, route_string_user__id__page]);
+export const routeTree = rootRoute.addChildren([
+  route_string_page,
+  route_string_blocker_page,
+  route_string_mutation_page,
+  route_string_optional__id$__page,
+  route_string_redirect_page,
+  route_string_user__id__page,
+]);
 
 export const router = createRouter({
   routeTree,

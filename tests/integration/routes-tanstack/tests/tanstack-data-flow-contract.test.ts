@@ -33,8 +33,9 @@ describe('tanstack generated data-flow contracts', () => {
     );
 
     assertTanstackLoaderContract(code);
-    expect(code).toContain('path: "mutation"');
+    expect(code).toContain("path: 'mutation'");
     expect(code).toContain('route_string_mutation_page');
+    expect(code).toContain('modernRouteAction: action_');
     expect(code).toContain('createRouter({');
   });
 

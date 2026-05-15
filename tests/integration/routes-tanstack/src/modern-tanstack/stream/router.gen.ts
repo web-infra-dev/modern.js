@@ -39,7 +39,10 @@ function throwTanstackRedirect(location: string) {
   }
 }
 
-function mapParamsForModernLoader(params: Record<string, string>, hasSplat: boolean) {
+function mapParamsForModernLoader(
+  params: Record<string, string>,
+  hasSplat: boolean,
+) {
   if (!hasSplat) {
     return params;
   }
@@ -53,6 +56,7 @@ function mapParamsForModernLoader(params: Record<string, string>, hasSplat: bool
 
 function createRouteStaticData(opts: {
   modernRouteId?: string;
+  modernRouteAction?: unknown;
   modernRouteLoader?: unknown;
 }) {
   const staticData: Record<string, unknown> = {};
@@ -63,6 +67,10 @@ function createRouteStaticData(opts: {
 
   if (opts.modernRouteLoader) {
     staticData.modernRouteLoader = opts.modernRouteLoader;
+  }
+
+  if (opts.modernRouteAction) {
+    staticData.modernRouteAction = opts.modernRouteAction;
   }
 
   return Object.keys(staticData).length > 0 ? staticData : undefined;
@@ -81,7 +89,9 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
         ctx?.signal ||
         new AbortController().signal;
       const baseRequest: Request | undefined =
-        ctx?.context?.request instanceof Request ? ctx.context.request : undefined;
+        ctx?.context?.request instanceof Request
+          ? ctx.context.request
+          : undefined;
 
       const href =
         typeof ctx?.location === 'string'
@@ -129,61 +139,66 @@ function modernLoaderToTanstack<TLoader extends (args: any) => any>(
   };
 }
 
-import loader_0 from "../../stream/routes/layout.loader";
-import { loader as loader_1 } from "../../stream/routes/page.data";
-import { loader as loader_2 } from "../../stream/routes/optional/[id$]/page.data";
-import { loader as loader_3 } from "../../stream/routes/redirect/page.data";
-import { loader as loader_4 } from "../../stream/routes/user/[id]/page.data";
+import loader_0 from '../../stream/routes/layout.loader';
+import { loader as loader_2 } from '../../stream/routes/optional/[id$]/page.data';
+import { loader as loader_1 } from '../../stream/routes/page.data';
+import { loader as loader_3 } from '../../stream/routes/redirect/page.data';
+import { loader as loader_4 } from '../../stream/routes/user/[id]/page.data';
 
 export const rootRoute = createRootRouteWithContext<ModernRouterContext>()({
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_0),
   staticData: createRouteStaticData({
-    modernRouteId: "stream_layout",
+    modernRouteId: 'stream_layout',
     modernRouteLoader: loader_0,
   }),
 });
 
 const route_stream_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/",
+  path: '/',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_1),
   staticData: createRouteStaticData({
-    modernRouteId: "stream_page",
+    modernRouteId: 'stream_page',
     modernRouteLoader: loader_1,
   }),
 });
 
 const route_stream_optional__id$__page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "optional/{-$id}",
+  path: 'optional/{-$id}',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_2),
   staticData: createRouteStaticData({
-    modernRouteId: "stream_optional/(id$)/page",
+    modernRouteId: 'stream_optional/(id$)/page',
     modernRouteLoader: loader_2,
   }),
 });
 
 const route_stream_redirect_page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "redirect",
+  path: 'redirect',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_3),
   staticData: createRouteStaticData({
-    modernRouteId: "stream_redirect/page",
+    modernRouteId: 'stream_redirect/page',
     modernRouteLoader: loader_3,
   }),
 });
 
 const route_stream_user__id__page = createRoute({
   getParentRoute: () => rootRoute,
-  path: "user/$id",
+  path: 'user/$id',
   loader: modernLoaderToTanstack({ hasSplat: false }, loader_4),
   staticData: createRouteStaticData({
-    modernRouteId: "stream_user/(id)/page",
+    modernRouteId: 'stream_user/(id)/page',
     modernRouteLoader: loader_4,
   }),
 });
 
-export const routeTree = rootRoute.addChildren([route_stream_page, route_stream_optional__id$__page, route_stream_redirect_page, route_stream_user__id__page]);
+export const routeTree = rootRoute.addChildren([
+  route_stream_page,
+  route_stream_optional__id$__page,
+  route_stream_redirect_page,
+  route_stream_user__id__page,
+]);
 
 export const router = createRouter({
   routeTree,

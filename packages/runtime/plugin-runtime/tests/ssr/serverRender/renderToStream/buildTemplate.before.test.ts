@@ -45,7 +45,6 @@ describe('buildShellBeforeTemplate', () => {
           routerServerSnapshot: {
             matches: [{ routeId: 'router-route', assetRouteId: 'asset-route' }],
           },
-          tanstackMatchedModernRouteIds: ['legacy'],
         } as any,
         config: {} as any,
       },
