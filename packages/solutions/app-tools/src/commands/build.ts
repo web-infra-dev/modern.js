@@ -72,6 +72,7 @@ export const build = async (
     combinedAlias,
     {
       moduleType: appContext.moduleType,
+      tsconfigPath: resolvedConfig?.server?.tsconfigPath,
     },
   );
 

@@ -7,6 +7,7 @@ import {
   loadFromProject,
   mergeAlias,
   readTsConfigByFile,
+  resolveServerTsconfig,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
@@ -14,6 +15,12 @@ type TsRuntimeRegisterMode = 'ts-node' | 'node-loader' | 'unsupported';
 
 interface TsRuntimeSetupOptions {
   moduleType?: string;
+  /**
+   * User-configured `server.tsconfigPath`. Forwarded into the shared
+   * resolveServerTsconfig helper. Resolved relative to appDir when not
+   * absolute. Falls back to `<appDir>/tsconfig.json` when unset.
+   */
+  tsconfigPath?: string;
 }
 
 const normalizePathValue = ({
@@ -155,8 +162,7 @@ export const setupTsRuntime = async (
   alias?: ConfigChain<Alias>,
   options: TsRuntimeSetupOptions = {},
 ) => {
-  const TS_CONFIG_FILENAME = `tsconfig.json`;
-  const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
+  const tsconfigPath = resolveServerTsconfig(appDir, options.tsconfigPath);
   const isTsProject = await fs.pathExists(tsconfigPath);
   const hasTsNode = isDepExists(appDir, 'ts-node');
 

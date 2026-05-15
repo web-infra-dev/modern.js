@@ -12,13 +12,13 @@ import {
   DEFAULT_API_PREFIX,
   SHARED_DIR,
   normalizeOutputPath,
+  resolveServerTsconfig,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 import clientGenerator from './utils/clientGenerator';
 import pluginGenerator from './utils/pluginGenerator';
 import runtimeGenerator from './utils/runtimeGenerator';
 
-const TS_CONFIG_FILENAME = 'tsconfig.json';
 const RUNTIME_CREATE_REQUEST = '@modern-js/plugin-bff/client';
 
 export const bffPlugin = (): CliPlugin<AppTools> => ({
@@ -38,7 +38,10 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
       const apiDir = apiDirectory || path.resolve(appDirectory, API_DIR);
       const sharedDir =
         sharedDirectory || path.resolve(appDirectory, SHARED_DIR);
-      const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
+      const tsconfigPath = resolveServerTsconfig(
+        appDirectory,
+        modernConfig?.server?.tsconfigPath,
+      );
 
       const sourceDirs = [];
       if (await fs.pathExists(apiDir)) {
