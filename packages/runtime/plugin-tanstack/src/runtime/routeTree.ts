@@ -94,6 +94,70 @@ function createModernRequest(input: string, signal: AbortSignal) {
   return new Request(input, { signal });
 }
 
+function createModernLoaderRequest(ctx: any) {
+  const signal: AbortSignal =
+    ctx?.abortController?.signal || ctx?.signal || new AbortController().signal;
+  const baseRequest: Request | undefined =
+    ctx?.context?.request instanceof Request ? ctx.context.request : undefined;
+
+  const href =
+    typeof ctx?.location === 'string'
+      ? ctx.location
+      : ctx?.location?.publicHref ||
+        ctx?.location?.href ||
+        ctx?.location?.url?.href ||
+        '';
+
+  return baseRequest
+    ? new Request(baseRequest, { signal })
+    : createModernRequest(href, signal);
+}
+
+function normalizeModernLoaderResult(result: unknown) {
+  if (isResponse(result)) {
+    if (isRedirectResponse(result)) {
+      const location = result.headers.get('Location') || '/';
+      throwTanstackRedirect(location);
+    }
+    if (result.status === 404) {
+      throw notFound();
+    }
+  }
+
+  return result;
+}
+
+function normalizeModernLoaderError(err: unknown): never {
+  if (isResponse(err)) {
+    if (isTanstackRedirect(err)) {
+      throw err;
+    }
+    if (isRedirectResponse(err)) {
+      const location = err.headers.get('Location') || '/';
+      throwTanstackRedirect(location);
+    }
+    if (err.status === 404) {
+      throw notFound();
+    }
+  }
+  throw err;
+}
+
+async function callModernRouteHandler(
+  handler: (args: any) => any,
+  ctx: any,
+  params: Record<string, string>,
+) {
+  const request = createModernLoaderRequest(ctx);
+  const result = await handler({
+    request,
+    params,
+    context: ctx?.context?.requestContext,
+  });
+
+  return normalizeModernLoaderResult(result);
+}
+
 function wrapModernLoader(
   modernRoute: NestedRoute | PageRoute,
   modernLoader: ((args: any) => any) | undefined,
@@ -106,64 +170,18 @@ function wrapModernLoader(
         } catch {}
       }
 
-      const signal: AbortSignal =
-        ctx?.abortController?.signal ||
-        ctx?.signal ||
-        new AbortController().signal;
-      const baseRequest: Request | undefined =
-        ctx?.context?.request instanceof Request
-          ? ctx.context.request
-          : undefined;
-
-      const href =
-        typeof ctx?.location === 'string'
-          ? ctx.location
-          : ctx?.location?.publicHref ||
-            ctx?.location?.href ||
-            ctx?.location?.url?.href ||
-            '';
-
-      const request = baseRequest
-        ? new Request(baseRequest, { signal })
-        : createModernRequest(href, signal);
       const params = mapParamsForModernLoader({
         modernRoute,
         params: ctx.params || {},
       });
 
-      const result = modernLoader
-        ? await modernLoader({
-            request,
-            params,
-            context: ctx?.context?.requestContext,
-          })
-        : null;
-
-      if (isResponse(result)) {
-        if (isRedirectResponse(result)) {
-          const location = result.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
-        }
-        if (result.status === 404) {
-          throw notFound();
-        }
+      if (!modernLoader) {
+        return null;
       }
 
-      return result;
+      return callModernRouteHandler(modernLoader, ctx, params);
     } catch (err) {
-      if (isResponse(err)) {
-        if (isTanstackRedirect(err)) {
-          throw err;
-        }
-        if (isRedirectResponse(err)) {
-          const location = err.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
-        }
-        if (err.status === 404) {
-          throw notFound();
-        }
-      }
-      throw err;
+      normalizeModernLoaderError(err);
     }
   };
 }
@@ -201,63 +219,14 @@ function wrapRouteObjectLoader(route: RouteObject) {
 
   return async (ctx: any) => {
     try {
-      const signal: AbortSignal =
-        ctx?.abortController?.signal ||
-        ctx?.signal ||
-        new AbortController().signal;
-      const baseRequest: Request | undefined =
-        ctx?.context?.request instanceof Request
-          ? ctx.context.request
-          : undefined;
-
-      const href =
-        typeof ctx?.location === 'string'
-          ? ctx.location
-          : ctx?.location?.publicHref ||
-            ctx?.location?.href ||
-            ctx?.location?.url?.href ||
-            '';
-
-      const request = baseRequest
-        ? new Request(baseRequest, { signal })
-        : createModernRequest(href, signal);
-
       const params = mapParamsForRouteObjectLoader({
         route,
         params: ctx.params || {},
       });
 
-      const result = await routeLoader({
-        request,
-        params,
-        context: ctx?.context?.requestContext,
-      } as any);
-
-      if (isResponse(result)) {
-        if (isRedirectResponse(result)) {
-          const location = result.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
-        }
-        if (result.status === 404) {
-          throw notFound();
-        }
-      }
-
-      return result;
+      return callModernRouteHandler(routeLoader, ctx, params);
     } catch (err) {
-      if (isResponse(err)) {
-        if (isTanstackRedirect(err)) {
-          throw err;
-        }
-        if (isRedirectResponse(err)) {
-          const location = err.headers.get('Location') || '/';
-          throwTanstackRedirect(location);
-        }
-        if (err.status === 404) {
-          throw notFound();
-        }
-      }
-      throw err;
+      normalizeModernLoaderError(err);
     }
   };
 }
