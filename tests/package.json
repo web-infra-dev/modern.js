@@ -20,7 +20,7 @@
     "@swc/core": "1.15.33",
     "@types/node": "^20",
     "cross-spawn": "^7.0.6",
-    "enhanced-resolve": "5.19.0",
+    "enhanced-resolve": "5.21.3",
     "fs-extra": "^10.1.0",
     "get-port": "5.1.1",
     "kill-port": "^2.0.1",
