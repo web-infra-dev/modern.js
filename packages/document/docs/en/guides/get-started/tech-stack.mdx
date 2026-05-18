@@ -75,6 +75,12 @@ Modern.js can be used with any React UI component library from the community, su
 
 Modern.js supports the use of [Storybook](https://storybook.js.org/) for developing UI components. This feature is optional. Please refer to ["Using Storybook"](/guides/basic-features/debug/using-storybook) to enable it.
 
+## Testing Framework
+
+Modern.js recommends [Rstest](https://rstest.rs/) for unit tests and component tests. Rstest is built on Rspack for fast startup and execution, and it can reuse your Modern.js app configuration through [`@modern-js/adapter-rstest`](/guides/basic-features/testing/rstest).
+
+For end-to-end (E2E) tests, you can use [Playwright](/guides/basic-features/testing/playwright).
+
 ## Node.js Framework
 
 import TechStackNodeFramework from '@site-docs-en/components/tech-stack-node-framework';

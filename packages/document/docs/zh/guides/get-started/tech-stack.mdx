@@ -75,6 +75,12 @@ Modern.js 可以与社区中任意的 React 组件库搭配使用，比如 [MUI]
 
 Modern.js 支持使用 [Storybook](https://storybook.js.org/) 来开发 UI 组件。该功能为可选功能，请参考 [使用 Storybook](/guides/basic-features/debug/using-storybook) 启用。
 
+## 测试框架
+
+Modern.js 推荐使用 [Rstest](https://rstest.rs/) 编写单元测试和组件测试。Rstest 基于 Rspack 构建，启动和执行速度快，并且可以通过 [`@modern-js/adapter-rstest`](/guides/basic-features/testing/rstest) 复用 Modern.js 的应用配置。
+
+如果需要编写端到端（E2E）测试，可以使用 [Playwright](/guides/basic-features/testing/playwright)。
+
 ## Node.js 框架
 
 import TechStackNodeFramework from '@site-docs/components/tech-stack-node-framework';
