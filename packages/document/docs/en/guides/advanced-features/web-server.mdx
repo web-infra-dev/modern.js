@@ -48,6 +48,18 @@ export default defineServerConfig({
 
 After creating the file, you can write custom logic in this file.
 
+3. Include `server` directory in `tsconfig.json`
+
+```json5
+{
+  // ...
+  "include": [
+    // ...
+    "server"
+  ]
+}
+```
+
 ## Capabilities of the Custom Web Server
 
 Modern.js's Web Server is based on Hono, and in the latest version of the Custom Web Server, we expose Hono's middleware capabilities, you can refer to [Hono API](https://hono.dev/docs/api/context) for more usage.
