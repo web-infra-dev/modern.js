@@ -1,5 +1,24 @@
 # @modern-js/app-tools
 
+## 3.2.1
+
+### Patch Changes
+
+- 2aa5253: feat: support tsconfig.server.json for server-side TypeScript
+  feat: 支持单独配置服务端 tsconfig 配置
+- ca60027: add @rsbuild/core/types reference to app-tools types
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/builder@3.2.1
+  - @modern-js/plugin-data-loader@3.2.1
+  - @modern-js/server-core@3.2.1
+  - @modern-js/prod-server@3.2.1
+  - @modern-js/server@3.2.1
+  - @modern-js/server-utils@3.2.1
+  - @modern-js/i18n-utils@3.2.1
+  - @modern-js/plugin@3.2.1
+  - @modern-js/types@3.2.1
+
 ## 3.2.0
 
 ### Minor Changes

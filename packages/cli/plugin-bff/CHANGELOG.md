@@ -1,5 +1,19 @@
 # @modern-js/plugin-bff
 
+## 3.2.1
+
+### Patch Changes
+
+- 2aa5253: feat: support tsconfig.server.json for server-side TypeScript
+  feat: 支持单独配置服务端 tsconfig 配置
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/builder@3.2.1
+  - @modern-js/bff-core@3.2.1
+  - @modern-js/server-core@3.2.1
+  - @modern-js/create-request@3.2.1
+  - @modern-js/server-utils@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes
