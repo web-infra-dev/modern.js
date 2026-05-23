@@ -24,7 +24,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "happy-dom": "^20.9.0",
     "@types/node": "^20",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5"
   }
