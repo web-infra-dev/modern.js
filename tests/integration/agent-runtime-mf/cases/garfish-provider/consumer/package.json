@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "agent-runtime-mf-garfish-provider-consumer",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "@module-federation/modern-js-v3": "2.0.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
