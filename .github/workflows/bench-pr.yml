@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '!bench')
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6
         with:
           script: |
             const user = context.payload.sender.login
@@ -49,7 +49,7 @@ jobs:
               })
               throw new Error('not allowed')
             }
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6
         id: get-pr-data
         with:
           script: |
@@ -64,7 +64,7 @@ jobs:
               branchName: pr.head.ref,
               repo: pr.head.repo.full_name
             }
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6
         id: trigger-framework
         if: startsWith(github.event.comment.body, '!bench-framework')
         with:
@@ -84,7 +84,7 @@ jobs:
                 repo: 'modern.js'
               }
             })
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6
         id: trigger-module
         if: startsWith(github.event.comment.body, '!bench-module')
         with:
