@@ -36,7 +36,7 @@
     "@storybook/addon-onboarding": "^10.2.19",
     "@storybook/react": "^10.2.19",
     "@types/node": "^20",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "http-proxy": "^1.18.1",
     "storybook": "^10.2.19",
