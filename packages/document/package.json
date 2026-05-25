@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*",
-    "mermaid": "^11.12.3"
+    "mermaid": "^11.15.0"
   },
   "devDependencies": {
     "rsbuild-plugin-open-graph": "1.1.2",
