@@ -1,0 +1,30 @@
+---
+title: enableAsyncPreEntry
+---
+
+# source.enableAsyncPreEntry
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+When enabled, Modern.js will inject the modules configured in `source.preEntry` to the top of the auto-generated entry file (`index.jsx`) in order.
+
+This option only takes effect when `source.enableAsyncEntry` is enabled. If async entry is not enabled, this behavior will be skipped and the original builder-side `source.preEntry` injection remains unchanged.
+
+This option is mainly designed to work with `source.enableAsyncEntry`: when async entry is enabled, the final build entry becomes `bootstrap.jsx`, and the builder-side `source.preEntry` may not be injected into the real entry code. With `source.enableAsyncPreEntry` enabled, `preEntry` will be injected into `index.jsx` (the real entry code), so it also works in async entry scenarios.
+
+Meanwhile, when both `source.enableAsyncEntry` and `source.enableAsyncPreEntry` are enabled, Modern.js will not pass `source.preEntry` into builder config to avoid duplicate injection or injection into an unexpected entry.
+
+## Example
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    enableAsyncEntry: true,
+    enableAsyncPreEntry: true,
+    preEntry: ['./src/pre-a.ts', './src/pre-b.ts'],
+  },
+});
+```

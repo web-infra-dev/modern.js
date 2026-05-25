@@ -11,6 +11,12 @@
   },
   "ignoreScripts": false,
   "packageRules": [
+    {
+      "matchDepTypes": [
+        "action"
+      ],
+      "pinDigests": true
+    },
     // ignore all major update
     {
       "matchUpdateTypes": ["lockFileMaintenance", "pin", "digest"],

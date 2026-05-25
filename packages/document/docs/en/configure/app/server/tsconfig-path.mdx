@@ -1,0 +1,63 @@
+---
+title: tsconfigPath
+---
+
+# server.tsconfigPath
+
+- **Type:** `string`
+- **Default:** `<appDirectory>/tsconfig.json`
+
+Specifies the tsconfig file used by server-side TypeScript processes.
+
+This option affects:
+
+- BFF / API compilation (`@modern-js/plugin-bff`)
+- Custom server compilation (`*.ts` files under `server/`)
+- Runtime ts-node registration, such as SSR, `modern.config.ts`, and `.ts` files under `config/`
+
+When this option is not set, `<appDirectory>/tsconfig.json` is used by default.
+
+## When to use
+
+Use this option when frontend and server-side code need different TypeScript configurations.
+
+For example, the frontend can use `moduleResolution: "Bundler"`, while the server side uses `moduleResolution: "NodeNext"` for type resolution of conditional exports or subpath exports.
+
+## Example
+
+The example below uses `tsconfig.server.json` as the file name. You can use another name in your project.
+
+Add `<appDirectory>/tsconfig.server.json`:
+
+```jsonc title="tsconfig.server.json"
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["api", "shared", "server", "config", "modern.config.ts"]
+}
+```
+
+Specify this file in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  server: {
+    tsconfigPath: './tsconfig.server.json',
+  },
+});
+```
+
+## Notes
+
+- `tsconfigPath` is resolved relative to `appDirectory`. Absolute paths are also supported.
+- It is recommended to inherit shared options such as `paths` from the root tsconfig through `extends`, instead of maintaining them in multiple files.
+- If the configured file does not exist, TypeScript / ts-node will throw an error at startup.

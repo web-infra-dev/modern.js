@@ -103,16 +103,12 @@ function getVersionsBetween(oldVersion: string, newVersion: string): string[] {
     // Example: 2.0.0-alpha.0 -> 2.0.0
     if (oldPrerelease !== null && newPrerelease === null) {
       if (isSameBaseVersion(oldVersion, newVersion)) {
-        const oldIdentifier = oldPrerelease[0] as string;
-        const prereleaseVersions = getPrereleaseVersionsBetween(
-          oldVersion,
-          newVersion,
-          oldIdentifier,
-          false,
-        );
-        prereleaseVersions.push(newVersion);
-        return prereleaseVersions;
+        // Cannot enumerate intermediate prerelease versions reliably:
+        // semver.lt("2.0.0-rc.N", "2.0.0") is always true, so any loop that
+        // increments the prerelease counter will never terminate.
+        return [newVersion];
       }
+      // Different base (e.g. 1.0.0-alpha.0 -> 2.0.0): fall through to Case 4
     }
 
     // Case 3: New version is prerelease (from stable to prerelease)

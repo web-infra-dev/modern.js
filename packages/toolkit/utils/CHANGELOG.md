@@ -1,5 +1,16 @@
 # @modern-js/utils
 
+## 3.2.1
+
+### Patch Changes
+
+- 2aa5253: feat: support tsconfig.server.json for server-side TypeScript
+  feat: 支持单独配置服务端 tsconfig 配置
+
+## 3.2.0
+
+## 3.1.5
+
 ## 3.1.4
 
 ## 3.1.3

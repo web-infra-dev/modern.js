@@ -1,5 +1,28 @@
 # @modern-js/builder
 
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @modern-js/utils@3.2.0
+
+## 3.1.5
+
+### Patch Changes
+
+- 95a9645: chore: upgrade @rsbuild dependencies to v2.0.0
+
+  chore: 升级 @rsbuild 相关依赖至 v2.0.0
+
+  - @modern-js/utils@3.1.5
+
 ## 3.1.4
 
 ### Patch Changes

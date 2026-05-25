@@ -1,1 +1,1 @@
-["playwright", "rstest", "vitest", "jest", "cypress"]
+["rstest", "playwright"]

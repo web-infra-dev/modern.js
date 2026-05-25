@@ -190,7 +190,7 @@ Under the application root directory, create the `config/html/` directory, which
   <head>
     <%= topTemplate %>
     <%= headTemplate %>
-    {/* webpack inject css  */}
+    {/* rspack inject css  */}
   </head>
   <body>
     <noscript>
@@ -199,7 +199,7 @@ Under the application root directory, create the `config/html/` directory, which
     </noscript>
     <div id="<%= mountId %>"></div>
     <%= bodyTemplate %>
-    {/* webpack inject js  */}
+    {/* rspack inject js  */}
     {/* <?- bottomTemplate ?> */}
   </body>
 </html>

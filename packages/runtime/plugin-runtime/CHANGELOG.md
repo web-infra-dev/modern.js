@@ -1,5 +1,50 @@
 # @modern-js/runtime
 
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [2aa5253]
+  - @modern-js/utils@3.2.1
+  - @modern-js/plugin-data-loader@3.2.1
+  - @modern-js/render@3.2.1
+  - @modern-js/plugin@3.2.1
+  - @modern-js/runtime-utils@3.2.1
+  - @modern-js/types@3.2.1
+
+## 3.2.0
+
+### Minor Changes
+
+- 40af707: feat: add `source.enableAsyncPreEntry` for async entry scenarios
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@3.2.0
+- @modern-js/render@3.2.0
+- @modern-js/plugin@3.2.0
+- @modern-js/runtime-utils@3.2.0
+- @modern-js/types@3.2.0
+- @modern-js/utils@3.2.0
+
+## 3.1.5
+
+### Patch Changes
+
+- a21209e: fix: normalize chunk IDs in loadable-stats.json for Rspack 2.0 compatibility
+  fix: 修复 Rspack 2.0 下的 chunk ID 问题
+- 95a9645: chore: upgrade @rsbuild dependencies to v2.0.0
+
+  chore: 升级 @rsbuild 相关依赖至 v2.0.0
+
+- Updated dependencies [95a9645]
+  - @modern-js/plugin-data-loader@3.1.5
+  - @modern-js/plugin@3.1.5
+  - @modern-js/render@3.1.5
+  - @modern-js/runtime-utils@3.1.5
+  - @modern-js/utils@3.1.5
+  - @modern-js/types@3.1.5
+
 ## 3.1.4
 
 ### Patch Changes

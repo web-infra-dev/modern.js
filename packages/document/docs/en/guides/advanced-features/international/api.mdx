@@ -4,312 +4,143 @@ title: API Reference
 
 # API Reference
 
-## useModernI18n Hook
+## useModernI18n
 
-`useModernI18n` is a React Hook provided by the plugin for accessing internationalization functionality in components.
+`useModernI18n` is a React Hook provided by the plugin. Use it to access internationalization state and actions in components.
 
 ### Return Value
 
-```ts
-interface UseModernI18nReturn {
-  /** Current language code */
-  language: string;
+| Field | Type | Description |
+| --- | --- | --- |
+| `language` | `string` | Current language code |
+| `changeLanguage` | `(lang: string) => Promise<void>` | Switches language |
+| `supportedLanguages` | `string[]` | Supported language list, from `localeDetection.languages` |
+| `isLanguageSupported` | `(lang: string) => boolean` | Checks whether a language is in the supported list |
+| `isResourcesReady` | `boolean` | Whether translation resources for the current language have finished loading |
+| `i18nInstance` | `I18nInstance` | i18next instance for advanced scenarios |
 
-  /** Function to change language */
-  changeLanguage: (newLang: string) => Promise<void>;
-
-  /** i18next instance (for advanced usage) */
-  i18nInstance: I18nInstance;
-
-  /** Supported language list */
-  supportedLanguages: string[];
-
-  /** Check if language is supported */
-  isLanguageSupported: (lang: string) => boolean;
-
-  /** Indicates if translation resources for current language are ready to use */
-  isResourcesReady: boolean;
-}
-```
-
-### Usage Example
+### Basic Usage
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
 
 function LanguageSwitcher() {
-  const { language, changeLanguage, supportedLanguages, isLanguageSupported } =
-    useModernI18n();
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <p>Current language: {language}</p>
-      <div>
-        {supportedLanguages.map(lang => (
-          <button
-            key={lang}
-            onClick={() => changeLanguage(lang)}
-            disabled={lang === language}
-          >
-            {lang}
-          </button>
-        ))}
-      </div>
-      <button
-        onClick={() => {
-          if (isLanguageSupported('ja')) {
-            changeLanguage('ja');
-          }
-        }}
-      >
-        Switch to Japanese
-      </button>
+      <p>{t('welcome')}</p>
+      {supportedLanguages.map(lang => (
+        <button
+          key={lang}
+          onClick={() => changeLanguage(lang)}
+          disabled={lang === language}
+        >
+          {lang}
+        </button>
+      ))}
     </div>
   );
 }
 ```
 
-### changeLanguage Method
+### changeLanguage
 
-The `changeLanguage` method is used to switch languages. It will:
+When switching language, the following happens in order:
 
-1. Update the language of the i18next instance
-2. Update browser cache (Cookie/LocalStorage)
-3. Update URL path (if `localePathRedirect` is enabled)
+1. The language of the i18next instance is updated.
+2. Browser cache is updated (Cookie / LocalStorage, depending on the `caches` configuration).
+3. The URL path prefix is updated if `localePathRedirect` is enabled.
 
-```tsx
-const { changeLanguage } = useModernI18n();
+`changeLanguage` is asynchronous, so use `await` when calling it:
 
-// Switch language
+```ts
 await changeLanguage('zh');
 ```
 
-:::info
-`changeLanguage` is an async function that returns a Promise.
+### isResourcesReady
 
-:::
-
-### Language Support Check
-
-`isLanguageSupported` is used to check if a language is in the supported language list:
+In custom backend scenarios, translation resources are loaded asynchronously. Use `isResourcesReady` to avoid rendering before resources are ready:
 
 ```tsx
-const { isLanguageSupported, changeLanguage } = useModernI18n();
-
-function handleLanguageChange(lang: string) {
-  if (isLanguageSupported(lang)) {
-    changeLanguage(lang);
-  } else {
-    console.warn(`Language ${lang} is not supported`);
-  }
-}
-```
-
-### Resource Loading State
-
-`isResourcesReady` indicates whether the translation resources for the current language are loaded and ready to use. This is particularly useful when using SDK backend to load resources dynamically.
-
-```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-
 function MyComponent() {
   const { isResourcesReady } = useModernI18n();
+  const { t } = useTranslation();
 
   if (!isResourcesReady) {
-    return <div>Loading translation resources...</div>;
+    return <div>Loading translations...</div>;
   }
 
-  return <div>Translation resources are ready</div>;
+  return <div>{t('content')}</div>;
 }
 ```
 
-**When to use:**
-
-- Display a loading state while resources are being loaded
-- Prevent rendering content that depends on translations before resources are ready
-- Handle resource loading errors gracefully
-
-:::info
-`isResourcesReady` automatically checks:
-
-- If i18n instance is initialized
-- If any resources for the current language are currently loading (SDK backend only)
-- If all required namespaces for the current language are loaded in the store
-
-:::
+`isResourcesReady` checks whether the i18n instance is initialized, whether resources are currently loading for the current language, and whether all required namespaces have finished loading.
 
 ## I18nLink Component
 
-The `I18nLink` component is used to create links with language prefixes.
+A route link component with a locale prefix.
 
 ### Props
 
-```tsx
-interface I18nLinkProps {
-  /** Target path (no need to include language prefix) */
-  to: string;
-  /** Child elements */
-  children: React.ReactNode;
-  /** Other Link component props (such as replace, state, etc.) */
-  [key: string]: any;
-}
-```
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `to` | `string` | Yes | Target path. Do not include the locale prefix |
+| `children` | `React.ReactNode` | Yes | Link content |
+| `replace` | `boolean` | No | Uses `history.replace` instead of `push` |
+| `state` | `any` | No | State passed to the target route |
+| Other Link props | - | No | Inherited from the `Link` component in `@modern-js/runtime/router` |
 
-### Usage Example
+### Usage
 
 ```tsx
 import { I18nLink } from '@modern-js/plugin-i18n/runtime';
 
-function Navigation() {
-  return (
-    <nav>
-      <I18nLink to="/">Home</I18nLink>
-      <I18nLink to="/about">About</I18nLink>
-      <I18nLink to="/contact" replace>
-        Contact
-      </I18nLink>
-    </nav>
-  );
-}
+<I18nLink to="/about">About</I18nLink>
+<I18nLink to="/contact" replace>Contact</I18nLink>
+<I18nLink to="/profile" state={{ from: 'home' }}>Profile</I18nLink>
 ```
 
 ## Runtime Plugin API
 
-In the `onBeforeRender` hook of Runtime plugins, you can modify the language using the `context.changeLanguage` method. This is useful for scenarios where you need to dynamically set the language based on request information (such as user preferences, geographic location, etc.).
-
-### context.changeLanguage
-
-In the `onBeforeRender` hook, the i18n plugin adds a `changeLanguage` method to the `context` for use by other Runtime plugins.
-
-**Type Definition:**
-
-```ts
-interface TInternalRuntimeContext {
-  i18nInstance?: I18nInstance;
-  changeLanguage?: (lang: string) => Promise<void>;
-}
-```
-
-### Usage Example
+The i18n plugin mounts `changeLanguage` and `i18nInstance` on the `context` of the `onBeforeRender` hook for other runtime plugins:
 
 ```ts
 import type { RuntimePlugin } from '@modern-js/runtime';
 
-const myRuntimePlugin = (): RuntimePlugin => ({
-  name: 'my-runtime-plugin',
+const myPlugin = (): RuntimePlugin => ({
+  name: 'my-plugin',
   setup: api => {
     api.onBeforeRender(async context => {
-      // Check if changeLanguage method exists (ensure i18n plugin is loaded)
-      if (context.changeLanguage) {
-        // Determine language based on some condition
-        const userLang = getUserLanguageFromRequest(context);
+      if (!context.changeLanguage) return; // Make sure the i18n plugin is loaded.
 
-        // Change language
-        await context.changeLanguage(userLang);
+      const lang = detectLangFromRequest(context);
+      const supported = context.i18nInstance?.options?.supportedLngs ?? [];
+
+      if (supported.includes(lang)) {
+        try {
+          await context.changeLanguage(lang);
+        } catch (e) {
+          console.error('Language change failed:', e);
+        }
       }
     });
   },
 });
-
-function getUserLanguageFromRequest(context: any): string {
-  // Get user language from request headers, cookies, or other sources
-  const acceptLanguage = context.ssrContext?.req?.headers['accept-language'];
-  // Parse and return appropriate language code
-  return parseAcceptLanguage(acceptLanguage) || 'zh';
-}
-
-export default myRuntimePlugin;
 ```
 
-### Notes
+**Notes:**
 
-1. **Execution Order**: Ensure the i18n plugin is registered before other plugins that use `changeLanguage`, so that `context.changeLanguage` is available.
-
-2. **Async Operation**: `changeLanguage` is an async method and requires using `await` to wait for completion.
-
-3. **Error Handling**: If an invalid language code is passed, an error will be thrown. It's recommended to add error handling:
-
-```ts
-api.onBeforeRender(async context => {
-  if (context.changeLanguage) {
-    try {
-      await context.changeLanguage('zh');
-    } catch (error) {
-      console.error('Failed to change language:', error);
-    }
-  }
-});
-```
-
-4. **Language Validation**: It's recommended to verify that the language is in the supported language list before calling `changeLanguage`:
-
-```ts
-api.onBeforeRender(async context => {
-  if (context.changeLanguage && context.i18nInstance) {
-    const supportedLngs = context.i18nInstance.options?.supportedLngs || [];
-    const targetLang = 'zh';
-
-    if (supportedLngs.includes(targetLang)) {
-      await context.changeLanguage(targetLang);
-    }
-  }
-});
-```
-
-:::info
-The `changeLanguage` method will:
-
-- Update the language of the i18n instance
-- Cache the language selection in the browser environment (Cookie/LocalStorage)
-- Trigger callbacks related to language switching
-
-However, it will not automatically update the URL path. If you need to update the URL, you need to coordinate with the routing plugin or handle it manually.
-:::
-
-## Integration with react-i18next
-
-The plugin is fully compatible with `react-i18next` and can use the `useTranslation` Hook and other `react-i18next` features.
-
-### useTranslation Hook
-
-```tsx
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { t, i18n } = useTranslation();
-
-  return (
-    <div>
-      <h1>{t('welcome')}</h1>
-      <p>{t('description', { name: 'Modern.js' })}</p>
-    </div>
-  );
-}
-```
-
-### Accessing i18next Instance
-
-You can get the i18next instance through `useModernI18n`:
-
-```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { i18nInstance } = useModernI18n();
-  const { t } = useTranslation();
-
-  // Directly access i18next instance
-  console.log(i18nInstance.language);
-  console.log(i18nInstance.options);
-
-  return <div>{t('hello')}</div>;
-}
-```
+- Make sure the i18n plugin is registered before plugins that use `context.changeLanguage`.
+- `changeLanguage` does not update the URL path on the server. Use it together with the routing plugin or handle the path manually.
 
 ## Type Definitions
 
-### I18nInstance Interface
+### I18nInstance
+
+The i18next instance type used by the plugin. It is a subset of the i18next `i18n` type and only lists fields actually used by the plugin:
 
 ```ts
 interface I18nInstance {
@@ -319,82 +150,86 @@ interface I18nInstance {
   changeLanguage: (lang: string) => void | Promise<void>;
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
-  cloneInstance?: () => I18nInstance;
-  services?: {
-    languageDetector?: {
-      detect: (request?: any, options?: any) => string | string[] | undefined;
-      [key: string]: any;
-    };
-    [key: string]: any;
-  };
   options?: {
     backend?: BackendOptions;
+    supportedLngs?: string[];
     [key: string]: any;
   };
 }
 ```
 
-### I18nInitOptions Interface
+### I18nSdkLoader
+
+Type of the custom backend loader function:
 
 ```ts
-interface I18nInitOptions {
-  lng?: string;
-  fallbackLng?: string;
-  supportedLngs?: string[];
-  initImmediate?: boolean;
-  detection?: LanguageDetectorOptions;
-  backend?: BackendOptions;
-  resources?: Resources;
-  ns?: string | string[];
-  defaultNS?: string | string[];
-  react?: {
-    useSuspense?: boolean;
-    [key: string]: any;
-  };
-  [key: string]: any;
+type I18nSdkLoader = (options: I18nSdkLoadOptions) => Promise<Resources>;
+
+interface I18nSdkLoadOptions {
+  lng?: string;      // Single language code
+  ns?: string;       // Single namespace
+  lngs?: string[];   // Multiple language codes
+  nss?: string[];    // Multiple namespaces
+  all?: boolean;     // Load all resources
 }
-```
 
-### LanguageDetectorOptions Interface
-
-```ts
-interface LanguageDetectorOptions {
-  /** Detection order */
-  order?: string[];
-  /** Query parameter key name, default 'lng' */
-  lookupQuerystring?: string;
-  /** Cookie key name, default 'i18next' */
-  lookupCookie?: string;
-  /** LocalStorage key name, default 'i18nextLng' (browser only) */
-  lookupLocalStorage?: string;
-  /** SessionStorage key name (browser only) */
-  lookupSession?: string;
-  /** Starting index in path for language detection, default 0 */
-  lookupFromPathIndex?: number;
-  /** Cache method, can be false or string array (e.g., ['cookie', 'localStorage']) */
-  caches?: boolean | string[];
-  /** Cookie expiration time (minutes) */
-  cookieMinutes?: number;
-  /** Cookie expiration date (Date object, takes precedence over cookieMinutes) */
-  cookieExpirationDate?: Date;
-  /** Cookie domain */
-  cookieDomain?: string;
-  /** Request header key name, default 'accept-language' */
-  lookupHeader?: string;
-}
-```
-
-### Resources Type
-
-```ts
 type Resources = {
   [lng: string]: {
-    [ns: string]: string | Record<string, string>;
+    [ns: string]: Record<string, any>;
   };
 };
 ```
 
-:::info
-The namespace value can be a string (for simple key-value pairs) or an object (for nested translation structures).
+### LanguageDetectorOptions
 
-:::
+```ts
+interface LanguageDetectorOptions {
+  order?: string[];
+  lookupQuerystring?: string;   // Default: 'lng'
+  lookupCookie?: string;        // Default: 'i18next'
+  lookupLocalStorage?: string;  // Default: 'i18nextLng'
+  lookupSession?: string;
+  lookupHeader?: string;        // Default: 'accept-language'
+  lookupFromPathIndex?: number; // Default: 0
+  caches?: false | string[];
+  cookieMinutes?: number;       // Default: 525600 (1 year)
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+}
+```
+
+## Integration with react-i18next
+
+The plugin is fully compatible with react-i18next, and the two API sets can be used together:
+
+- **`useTranslation`** (react-i18next): Gets the `t()` function for translation. This is the most commonly used Hook.
+- **`useModernI18n`** (provided by the plugin): Gets plugin-level state such as language switching, supported language list, and resource loading status.
+
+Most components only need `useTranslation`. Use `useModernI18n` only when you need language switching or resource loading status:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function App() {
+  const { t } = useTranslation();                          // Translate text
+  const { language, changeLanguage } = useModernI18n();    // Switch language
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <button onClick={() => changeLanguage('zh')}>Chinese</button>
+      <button onClick={() => changeLanguage('en')}>English</button>
+    </div>
+  );
+}
+```
+
+You can also get the i18next instance from `useModernI18n` and call capabilities outside react-i18next directly:
+
+```tsx
+const { i18nInstance } = useModernI18n();
+
+// Dynamically add translation resources.
+i18nInstance.addResourceBundle('zh', 'translation', { key: 'Value' }, true, true);
+```

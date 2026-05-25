@@ -4,312 +4,142 @@ title: API 参考
 
 # API 参考
 
-## useModernI18n Hook
+## useModernI18n
 
-`useModernI18n` 是插件提供的 React Hook，用于在组件中访问国际化功能。
+`useModernI18n` 是插件提供的 React Hook，用于在组件中访问国际化状态和操作。
 
-### 返回值说明
+### 返回值
 
-```ts
-interface UseModernI18nReturn {
-  /** 当前语言代码 */
-  language: string;
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `language` | `string` | 当前语言代码 |
+| `changeLanguage` | `(lang: string) => Promise<void>` | 切换语言 |
+| `supportedLanguages` | `string[]` | 支持的语言列表（来自 `localeDetection.languages`） |
+| `isLanguageSupported` | `(lang: string) => boolean` | 检查语言是否在支持列表中 |
+| `isResourcesReady` | `boolean` | 当前语言的翻译资源是否已加载完成 |
+| `i18nInstance` | `I18nInstance` | i18next 实例（用于高级场景） |
 
-  /** 切换语言的函数 */
-  changeLanguage: (newLang: string) => Promise<void>;
-
-  /** i18next 实例（用于高级用法） */
-  i18nInstance: I18nInstance;
-
-  /** 支持的语言列表 */
-  supportedLanguages: string[];
-
-  /** 检查语言是否支持 */
-  isLanguageSupported: (lang: string) => boolean;
-
-  /** 指示当前语言的翻译资源是否已准备好可以使用 */
-  isResourcesReady: boolean;
-}
-```
-
-### 使用示例
+### 基本用法
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+import { useTranslation } from 'react-i18next';
 
 function LanguageSwitcher() {
-  const { language, changeLanguage, supportedLanguages, isLanguageSupported } =
-    useModernI18n();
+  const { language, changeLanguage, supportedLanguages } = useModernI18n();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <p>当前语言: {language}</p>
-      <div>
-        {supportedLanguages.map(lang => (
-          <button
-            key={lang}
-            onClick={() => changeLanguage(lang)}
-            disabled={lang === language}
-          >
-            {lang}
-          </button>
-        ))}
-      </div>
-      <button
-        onClick={() => {
-          if (isLanguageSupported('ja')) {
-            changeLanguage('ja');
-          }
-        }}
-      >
-        切换到日语
-      </button>
+      <p>{t('welcome')}</p>
+      {supportedLanguages.map(lang => (
+        <button
+          key={lang}
+          onClick={() => changeLanguage(lang)}
+          disabled={lang === language}
+        >
+          {lang}
+        </button>
+      ))}
     </div>
   );
 }
 ```
 
-### changeLanguage 方法
+### changeLanguage
 
-`changeLanguage` 方法用于切换语言，它会：
+切换语言时会依次执行：
 
 1. 更新 i18next 实例的语言
-2. 更新浏览器缓存（Cookie/LocalStorage）
-3. 更新 URL 路径（如果启用 `localePathRedirect`）
+2. 更新浏览器缓存（Cookie / LocalStorage，取决于 `caches` 配置）
+3. 更新 URL 路径前缀（如果启用了 `localePathRedirect`）
 
-```tsx
-const { changeLanguage } = useModernI18n();
+`changeLanguage` 是异步函数，使用时需要 `await`：
 
-// 切换语言
+```ts
 await changeLanguage('zh');
 ```
 
-:::info
-`changeLanguage` 是异步函数，返回 Promise。
+### isResourcesReady
 
-:::
-
-### 语言支持检查
-
-`isLanguageSupported` 用于检查某个语言是否在支持的语言列表中：
+在自定义后端场景中，翻译资源需要异步加载，可以用 `isResourcesReady` 防止在资源未就绪时渲染：
 
 ```tsx
-const { isLanguageSupported, changeLanguage } = useModernI18n();
-
-function handleLanguageChange(lang: string) {
-  if (isLanguageSupported(lang)) {
-    changeLanguage(lang);
-  } else {
-    console.warn(`语言 ${lang} 不受支持`);
-  }
-}
-```
-
-### 资源加载状态
-
-`isResourcesReady` 指示当前语言的翻译资源是否已加载完成并可以使用。这在使用了 SDK 后端动态加载资源时特别有用。
-
-```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-
 function MyComponent() {
   const { isResourcesReady } = useModernI18n();
+  const { t } = useTranslation();
 
   if (!isResourcesReady) {
-    return <div>正在加载翻译资源...</div>;
+    return <div>加载翻译中...</div>;
   }
 
-  return <div>翻译资源已准备好</div>;
+  return <div>{t('content')}</div>;
 }
 ```
 
-**使用场景：**
-
-- 在资源加载时显示加载状态
-- 在资源准备好之前阻止渲染依赖翻译的内容
-- 优雅地处理资源加载错误
-
-:::info
-`isResourcesReady` 会自动检查：
-
-- i18n 实例是否已初始化
-- 当前语言是否有资源正在加载中（仅 SDK 后端）
-- 当前语言的所有必需命名空间是否已在 store 中加载完成
-
-:::
+`isResourcesReady` 会检查：i18n 实例是否已初始化、当前语言是否有资源正在加载、所有必需命名空间是否已加载完成。
 
 ## I18nLink 组件
 
-`I18nLink` 组件用于创建带语言前缀的链接。
+带语言前缀的路由链接组件。
 
-### Props 说明
+### Props
 
-```tsx
-interface I18nLinkProps {
-  /** 目标路径（不需要包含语言前缀） */
-  to: string;
-  /** 子元素 */
-  children: React.ReactNode;
-  /** 其他 Link 组件的 props（如 replace、state 等） */
-  [key: string]: any;
-}
-```
+| Prop | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `to` | `string` | 是 | 目标路径，不需要包含语言前缀 |
+| `children` | `React.ReactNode` | 是 | 链接内容 |
+| `replace` | `boolean` | 否 | 使用 `history.replace` 而非 `push` |
+| `state` | `any` | 否 | 传递给目标路由的状态 |
+| 其他 Link props | — | 否 | 继承自 `@modern-js/runtime/router` 的 `Link` 组件 |
 
-### 使用示例
+### 用法
 
 ```tsx
 import { I18nLink } from '@modern-js/plugin-i18n/runtime';
 
-function Navigation() {
-  return (
-    <nav>
-      <I18nLink to="/">首页</I18nLink>
-      <I18nLink to="/about">关于</I18nLink>
-      <I18nLink to="/contact" replace>
-        联系
-      </I18nLink>
-    </nav>
-  );
-}
+<I18nLink to="/about">关于</I18nLink>
+<I18nLink to="/contact" replace>联系</I18nLink>
+<I18nLink to="/profile" state={{ from: 'home' }}>个人中心</I18nLink>
 ```
 
 ## Runtime 插件 API
 
-在 Runtime 插件的 `onBeforeRender` 钩子中，可以通过 `context.changeLanguage` 方法修改语言。这对于需要根据请求信息（如用户偏好、地理位置等）动态设置语言的场景非常有用。
-
-### context.changeLanguage
-
-在 `onBeforeRender` 钩子中，i18n 插件会在 `context` 上添加 `changeLanguage` 方法，供其他 Runtime 插件使用。
-
-**类型定义：**
-
-```ts
-interface TInternalRuntimeContext {
-  i18nInstance?: I18nInstance;
-  changeLanguage?: (lang: string) => Promise<void>;
-}
-```
-
-### 使用示例
+i18n 插件会在 `onBeforeRender` 钩子的 context 上挂载 `changeLanguage` 和 `i18nInstance`，供其他 Runtime 插件使用：
 
 ```ts
 import type { RuntimePlugin } from '@modern-js/runtime';
 
-const myRuntimePlugin = (): RuntimePlugin => ({
-  name: 'my-runtime-plugin',
+const myPlugin = (): RuntimePlugin => ({
+  name: 'my-plugin',
   setup: api => {
     api.onBeforeRender(async context => {
-      // 检查是否有 changeLanguage 方法（确保 i18n 插件已加载）
-      if (context.changeLanguage) {
-        // 根据某些条件决定语言
-        const userLang = getUserLanguageFromRequest(context);
+      if (!context.changeLanguage) return; // 确保 i18n 插件已加载
 
-        // 修改语言
-        await context.changeLanguage(userLang);
+      const lang = detectLangFromRequest(context);
+      const supported = context.i18nInstance?.options?.supportedLngs ?? [];
+
+      if (supported.includes(lang)) {
+        try {
+          await context.changeLanguage(lang);
+        } catch (e) {
+          console.error('Language change failed:', e);
+        }
       }
     });
   },
 });
-
-function getUserLanguageFromRequest(context: any): string {
-  // 从请求头、Cookie 或其他来源获取用户语言
-  const acceptLanguage = context.ssrContext?.req?.headers['accept-language'];
-  // 解析并返回合适的语言代码
-  return parseAcceptLanguage(acceptLanguage) || 'zh';
-}
-
-export default myRuntimePlugin;
 ```
 
-### 注意事项
-
-1. **执行顺序**：确保 i18n 插件在其他使用 `changeLanguage` 的插件之前注册，这样 `context.changeLanguage` 才会可用。
-
-2. **异步操作**：`changeLanguage` 是异步方法，需要使用 `await` 等待完成。
-
-3. **错误处理**：如果传入无效的语言代码，会抛出错误，建议添加错误处理：
-
-```ts
-api.onBeforeRender(async context => {
-  if (context.changeLanguage) {
-    try {
-      await context.changeLanguage('zh');
-    } catch (error) {
-      console.error('Failed to change language:', error);
-    }
-  }
-});
-```
-
-4. **语言验证**：建议在调用 `changeLanguage` 前验证语言是否在支持的语言列表中：
-
-```ts
-api.onBeforeRender(async context => {
-  if (context.changeLanguage && context.i18nInstance) {
-    const supportedLngs = context.i18nInstance.options?.supportedLngs || [];
-    const targetLang = 'zh';
-
-    if (supportedLngs.includes(targetLang)) {
-      await context.changeLanguage(targetLang);
-    }
-  }
-});
-```
-
-:::info
-`changeLanguage` 方法会：
-
-- 更新 i18n 实例的语言
-- 在浏览器环境中缓存语言选择（Cookie/LocalStorage）
-- 触发语言切换相关的回调
-
-但不会自动更新 URL 路径，如果需要更新 URL，需要配合路由插件或手动处理。
-:::
-
-## 与 react-i18next 集成
-
-插件完全兼容 `react-i18next`，可以使用 `useTranslation` Hook 和其他 `react-i18next` 功能。
-
-### useTranslation Hook
-
-```tsx
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { t, i18n } = useTranslation();
-
-  return (
-    <div>
-      <h1>{t('welcome')}</h1>
-      <p>{t('description', { name: 'Modern.js' })}</p>
-    </div>
-  );
-}
-```
-
-### i18next 实例访问
-
-可以通过 `useModernI18n` 获取 i18next 实例：
-
-```tsx
-import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { i18nInstance } = useModernI18n();
-  const { t } = useTranslation();
-
-  // 直接访问 i18next 实例
-  console.log(i18nInstance.language);
-  console.log(i18nInstance.options);
-
-  return <div>{t('hello')}</div>;
-}
-```
+**注意事项：**
+- 确保 i18n 插件在使用 `context.changeLanguage` 的插件之前注册
+- `changeLanguage` 在服务端不会更新 URL 路径，需要配合路由插件或手动处理
 
 ## 类型定义
 
-### I18nInstance 接口
+### I18nInstance
+
+插件使用的 i18next 实例类型（i18next `i18n` 类型的子集，仅列出插件实际使用的字段）：
 
 ```ts
 interface I18nInstance {
@@ -319,82 +149,86 @@ interface I18nInstance {
   changeLanguage: (lang: string) => void | Promise<void>;
   use: (plugin: any) => void;
   createInstance: (options?: I18nInitOptions) => I18nInstance;
-  cloneInstance?: () => I18nInstance;
-  services?: {
-    languageDetector?: {
-      detect: (request?: any, options?: any) => string | string[] | undefined;
-      [key: string]: any;
-    };
-    [key: string]: any;
-  };
   options?: {
     backend?: BackendOptions;
+    supportedLngs?: string[];
     [key: string]: any;
   };
 }
 ```
 
-### I18nInitOptions 接口
+### I18nSdkLoader
+
+自定义后端加载函数的类型：
 
 ```ts
-interface I18nInitOptions {
-  lng?: string;
-  fallbackLng?: string;
-  supportedLngs?: string[];
-  initImmediate?: boolean;
-  detection?: LanguageDetectorOptions;
-  backend?: BackendOptions;
-  resources?: Resources;
-  ns?: string | string[];
-  defaultNS?: string | string[];
-  react?: {
-    useSuspense?: boolean;
-    [key: string]: any;
-  };
-  [key: string]: any;
+type I18nSdkLoader = (options: I18nSdkLoadOptions) => Promise<Resources>;
+
+interface I18nSdkLoadOptions {
+  lng?: string;      // 单个语言代码
+  ns?: string;       // 单个命名空间
+  lngs?: string[];   // 多个语言代码
+  nss?: string[];    // 多个命名空间
+  all?: boolean;     // 加载所有资源
 }
-```
 
-### LanguageDetectorOptions 接口
-
-```ts
-interface LanguageDetectorOptions {
-  /** 检测顺序 */
-  order?: string[];
-  /** 查询参数的键名，默认 'lng' */
-  lookupQuerystring?: string;
-  /** Cookie 的键名，默认 'i18next' */
-  lookupCookie?: string;
-  /** LocalStorage 的键名，默认 'i18nextLng'（仅浏览器环境） */
-  lookupLocalStorage?: string;
-  /** SessionStorage 的键名（仅浏览器环境） */
-  lookupSession?: string;
-  /** 从路径的哪个位置开始检测语言，默认 0 */
-  lookupFromPathIndex?: number;
-  /** 缓存方式，可以是 false、字符串数组（如 ['cookie', 'localStorage']） */
-  caches?: boolean | string[];
-  /** Cookie 过期时间（分钟） */
-  cookieMinutes?: number;
-  /** Cookie 过期日期（Date 对象，优先级高于 cookieMinutes） */
-  cookieExpirationDate?: Date;
-  /** Cookie 域名 */
-  cookieDomain?: string;
-  /** 请求头的键名，默认 'accept-language' */
-  lookupHeader?: string;
-}
-```
-
-### Resources 类型
-
-```ts
 type Resources = {
   [lng: string]: {
-    [ns: string]: string | Record<string, string>;
+    [ns: string]: Record<string, any>;
   };
 };
 ```
 
-:::info
-命名空间的值可以是字符串（用于简单的键值对）或对象（用于嵌套的翻译结构）。
+### LanguageDetectorOptions
 
-:::
+```ts
+interface LanguageDetectorOptions {
+  order?: string[];
+  lookupQuerystring?: string;   // 默认 'lng'
+  lookupCookie?: string;        // 默认 'i18next'
+  lookupLocalStorage?: string;  // 默认 'i18nextLng'
+  lookupSession?: string;
+  lookupHeader?: string;        // 默认 'accept-language'
+  lookupFromPathIndex?: number; // 默认 0
+  caches?: false | string[];
+  cookieMinutes?: number;       // 默认 525600（1年）
+  cookieExpirationDate?: Date;
+  cookieDomain?: string;
+}
+```
+
+## 与 react-i18next 集成
+
+插件完全兼容 react-i18next，两套 API 可以混用：
+
+- **`useTranslation`**（react-i18next）：获取 `t()` 函数做翻译，这是最常用的 Hook
+- **`useModernI18n`**（插件提供）：获取语言切换、支持列表、资源加载状态等插件层面的状态
+
+大多数组件只需要 `useTranslation`，只有涉及语言切换或需要检查加载状态时才需要 `useModernI18n`：
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
+
+function App() {
+  const { t } = useTranslation();                          // 翻译文本
+  const { language, changeLanguage } = useModernI18n();    // 语言切换
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <button onClick={() => changeLanguage('zh')}>中文</button>
+      <button onClick={() => changeLanguage('en')}>English</button>
+    </div>
+  );
+}
+```
+
+也可以通过 `useModernI18n` 获取 i18next 实例后直接调用 react-i18next 之外的能力：
+
+```tsx
+const { i18nInstance } = useModernI18n();
+
+// 动态添加翻译资源
+i18nInstance.addResourceBundle('zh', 'translation', { key: '值' }, true, true);
+```

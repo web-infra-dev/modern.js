@@ -45,6 +45,9 @@ export function createBuilderProviderConfig(
     resolve: {
       ...resolveConfig.resolve,
     },
+    source: {
+      ...resolveConfig.source,
+    },
     dev: {
       ...resolveConfig.dev,
       port: appContext.port,
@@ -75,6 +78,13 @@ export function createBuilderProviderConfig(
       },
     },
   };
+
+  // Only works with `enableAsyncEntry`:
+  // when both are enabled, `preEntry` should be handled by Modern.js entry code
+  // generation (inject into `index.jsx`), not by builder.
+  if (config.source?.enableAsyncEntry && config.source?.enableAsyncPreEntry) {
+    delete (config.source as any).preEntry;
+  }
 
   modifyOutputConfig(config, appContext);
 

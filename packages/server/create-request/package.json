@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.4",
+  "version": "3.2.1",
   "modern:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -71,11 +71,11 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.21.2",
+    "@rslib/core": "0.21.5",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "@types/qs": "^6.15.0",
-    "nock": "^14.0.12",
+    "@types/qs": "^6.15.1",
+    "nock": "^14.0.15",
     "typescript": "^5"
   },
   "sideEffects": false,

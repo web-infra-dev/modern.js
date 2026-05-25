@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.4",
+  "version": "3.2.1",
   "files": [
     "dist",
     "hook.d.ts"
@@ -34,13 +34,13 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@rslib/core": "0.21.2",
+    "@rslib/core": "0.21.5",
     "@scripts/build": "workspace:*",
     "@scripts/rstest-config": "workspace:*",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-server-dom-rspack": "0.0.2",
     "typescript": "^5"
   },

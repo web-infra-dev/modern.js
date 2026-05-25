@@ -273,13 +273,13 @@ export default defineConfig({
 
 ## 深入了解
 
-页面入口的概念衍生自 webpack 的入口（Entrypoint）概念，其主要用于配置 JavaScript 或其他模块在应用启动时加载和执行。webpack 对于网页应用的 [最佳实践](https://webpack.docschina.org/concepts/entry-points/#multi-page-application) 通常将入口与 HTML 产物对应，即每增加一个入口最终就会在产物中生成一份对应的 HTML 文件。入口引入的模块会在编译打包后生成多个 Chunk 产物，例如对于 JavaScript 模块最终可能会生成数个类似 `dist/static/js/index.ea39u8.js` 的文件产物。
+页面通常与 HTML 产物对应，即每增加一个入口最终就会在产物中生成一份对应的 HTML 文件。入口引入的模块会在编译打包后生成多个 Chunk 产物，例如对于 JavaScript 模块最终可能会生成数个类似 `dist/static/js/index.ea39u8.js` 的文件产物。
 
 需要注意区分入口、路由等概念之间的关系：
 
 - **入口**：包含多个用于启动时执行的模块。
 - **客户端路由**：在 Modern.js 中通常由 `react-router` 实现，通过 History API 判断浏览器当前 URL 决定加载和显示哪个 React 组件。
-- **服务端路由**：服务端可以模仿 [devServer 的行为](https://webpack.docschina.org/configuration/dev-server/#devserverhistoryapifallback)，将 index.html 页面代替所有 404 响应被返回以实现客户端路由，也可以自行实现任何路由逻辑。
+- **服务端路由**：由服务器根据请求 URL 决定返回什么内容。对于传统多页应用，不同 URL 通常会直接返回不同的 HTML 页面。对于使用客户端路由的单页应用，服务器一般会将非静态资源请求统一回退到入口 HTML，再由前端接管后续路由匹配与页面渲染
 
 它们的对应关系如下：
 

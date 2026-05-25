@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.4",
+  "version": "3.2.1",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -151,15 +151,15 @@
   "devDependencies": {
     "@modern-js/rslib": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rslib/core": "0.21.2",
+    "@rslib/core": "0.21.5",
     "@scripts/rstest-config": "workspace:*",
     "@types/node": "^20",
-    "happy-dom": "^20.8.9",
+    "happy-dom": "^20.9.0",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "peerDependenciesMeta": {
     "react": {

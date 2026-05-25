@@ -273,13 +273,13 @@ export default defineConfig({
 
 ## In-Depth
 
-The concept of page entry is derived from the concept of [Entrypoint](https://webpack.js.org/concepts/entry-points/) in webpack. It is mainly used to configure JavaScript or other modules to be executed during application startup. webpack's [best practice](https://webpack.docschina.org/concepts/entry-points/#multi-page-application) for web applications usually corresponds entries to HTML output files, meaning each additional entry will eventually generate a corresponding HTML file in the output. The modules imported by the entry will be compiled and packaged into multiple Chunk outputs. For example, JavaScript modules may ultimately generate several file outputs similar to `dist/static/js/index.ea39u8.js`.
+Pages usually correspond to HTML output files, meaning each additional entry will eventually generate a corresponding HTML file in the output. The modules imported by the entry will be compiled and packaged into multiple Chunk outputs. For example, JavaScript modules may ultimately generate several file outputs similar to `dist/static/js/index.ea39u8.js`.
 
 It's important to distinguish the relationships between concepts such as entry and route:
 
 - **Entry**: Contains multiple modules used for startup execution.
 - **Client Router**: In Modern.js, it is usually implemented by `react-router`, using the History API to determine which React component to load and display based on the browser's current URL.
-- **Server Router**: The server can mimic [devServer behavior](https://webpack.docschina.org/configuration/dev-server/#devserverhistoryapifallback), returning the index.html page instead of all 404 responses to implement client-side routing, or it can implement any routing logic as needed.
+- **Server Router**: Determines what content the server returns based on the request URL. For traditional multi-page applications, different URLs usually return different HTML pages directly. For single-page applications that use client-side routing, the server generally falls back non-static asset requests to the entry HTML, and then the frontend takes over subsequent route matching and page rendering.
 
 Their corresponding relationships are as follows:
 

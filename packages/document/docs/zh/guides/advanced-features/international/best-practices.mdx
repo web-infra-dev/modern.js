@@ -6,23 +6,26 @@ title: 最佳实践
 
 ## 资源文件组织
 
-建议按以下方式组织资源文件：
+命名空间（Namespace）用于按业务模块拆分翻译文件，默认命名空间为 `translation`。按模块拆分可以减少初始加载体积，只在用到时按需加载对应命名空间。
+
+推荐目录结构：
 
 ```
 locales/
 ├── en/
-│   ├── translation.json    # 默认命名空间
-│   ├── common.json         # 通用翻译
-│   └── errors.json         # 错误信息
+│   ├── translation.json  ← 默认命名空间，放通用文案
+│   ├── common.json       ← 按钮、标签等公共 UI 文案
+│   └── errors.json       ← 错误信息
 └── zh/
     ├── translation.json
     ├── common.json
     └── errors.json
 ```
 
-**配置多个命名空间**：
+声明多个命名空间：
 
 ```ts
+// src/modern.runtime.ts
 export default defineRuntimeConfig({
   i18n: {
     initOptions: {
@@ -33,25 +36,178 @@ export default defineRuntimeConfig({
 });
 ```
 
-**使用命名空间**：
+在组件中使用指定命名空间：
 
 ```tsx
 import { useTranslation } from 'react-i18next';
 
-function MyComponent() {
+// 指定单个命名空间
+function MyButton() {
   const { t } = useTranslation('common');
-
-  return <div>{t('welcome')}</div>;
+  return <button>{t('submit')}</button>;
 }
+
+// 同时使用多个命名空间，用 namespace:key 格式访问
+function Dashboard() {
+  const { t } = useTranslation(['dashboard', 'common']);
+  return (
+    <header>
+      <h1>{t('dashboard:title')}</h1>
+      <button>{t('common:button.refresh')}</button>
+    </header>
+  );
+}
+
+// keyPrefix 可以省略重复的前缀
+function ButtonGroup() {
+  const { t } = useTranslation('common', { keyPrefix: 'button' });
+  return (
+    <>
+      <button>{t('submit')}</button>   {/* → common:button.submit */}
+      <button>{t('cancel')}</button>   {/* → common:button.cancel */}
+    </>
+  );
+}
+```
+
+## 翻译键命名规范
+
+翻译键的命名质量直接影响后续维护成本，建议：
+
+- **用语义化词语**，避免缩写：`button.submit` 优于 `btn.sbm`
+- **按模块划分前缀**：`dashboard.table.header`、`auth.login.title`
+- **不要用完整中文文案当键名**：键名应是稳定的标识符，而不是翻译内容本身
+- **用点号表示层级**：与 JSON 嵌套结构一一对应
+
+```json
+// ✅ 推荐
+{
+  "page": {
+    "title": "用户设置",
+    "description": "管理你的账号信息"
+  },
+  "form": {
+    "username": { "label": "用户名", "placeholder": "请输入用户名" },
+    "submit": "保存更改"
+  }
+}
+```
+
+```tsx
+t('page.title')
+t('form.username.label')
+t('form.submit', { defaultValue: '保存' }) // defaultValue 防止键缺失时显示 key 字符串
+```
+
+## 复数
+
+i18next 根据 `count` 参数自动选择对应的复数形式。**注意：i18next v21 之后默认使用 JSON v4 格式**，复数后缀改为 CLDR 标准（`_zero`、`_one`、`_other` 等），旧的 `_plural` 写法已废弃。
+
+```json
+// locales/en/translation.json（JSON v4 格式）
+{
+  "item_zero": "No items",
+  "item_one": "{{count}} item",
+  "item_other": "{{count}} items"
+}
+```
+
+```json
+// locales/zh/translation.json
+{
+  "item_zero": "没有条目",
+  "item_other": "{{count}} 个条目"
+}
+```
+
+```tsx
+t('item', { count: 0 })  // → "没有条目" / "No items"
+t('item', { count: 1 })  // → "没有条目" / "1 item"（中文通常只有一种形式）
+t('item', { count: 5 })  // → "5 个条目" / "5 items"
+```
+
+不同语言的复数规则不同（英语有单复数，俄语有 one/few/many 等多种形式），i18next 会根据语言代码自动匹配 CLDR 规则。
+
+:::tip
+如果项目使用了旧版 i18next 或显式配置了 `compatibilityJSON: 'v3'`，才需要使用 `_plural` 写法。新项目统一使用 v4 格式。
+:::
+
+## 嵌套键
+
+嵌套结构可以直观反映 UI 层级，用点号访问：
+
+```json
+{
+  "modal": {
+    "confirm": {
+      "title": "确认删除",
+      "message": "此操作不可撤销，是否继续？",
+      "actions": {
+        "ok": "确认",
+        "cancel": "取消"
+      }
+    }
+  }
+}
+```
+
+```tsx
+t('modal.confirm.title')
+t('modal.confirm.actions.ok')
+```
+
+嵌套层级不建议超过 4 层，过深的结构会让键名变得冗长难维护。
+
+## 格式化插值
+
+通过 `interpolation.format` 函数统一处理数字、日期、货币等格式化，避免在每个组件里各自调用 `Intl` API：
+
+```ts
+// src/modern.runtime.ts
+export default defineRuntimeConfig({
+  i18n: {
+    initOptions: {
+      interpolation: {
+        escapeValue: false, // React 已默认转义文本，关闭避免重复转义
+        format(value, format, lng) {
+          if (format === 'currency') {
+            return new Intl.NumberFormat(lng, {
+              style: 'currency',
+              currency: lng === 'zh' ? 'CNY' : 'USD',
+            }).format(Number(value));
+          }
+          if (format === 'date') {
+            return new Intl.DateTimeFormat(lng, { dateStyle: 'medium' }).format(
+              value instanceof Date ? value : new Date(value),
+            );
+          }
+          return value;
+        },
+      },
+    },
+  },
+});
+```
+
+翻译文件中用 `, format` 指定格式化类型：
+
+```json
+{
+  "price": "当前价格：{{value, currency}}",
+  "expiry": "到期日：{{date, date}}"
+}
+```
+
+```tsx
+t('price', { value: 99.5 })       // → "当前价格：¥99.50"（zh）/ "$99.50"（en）
+t('expiry', { date: new Date() }) // → "到期日：2025年5月12日"（zh）
 ```
 
 ## 错误处理
 
-建议在资源加载失败时提供回退方案：
+### 加载状态处理
 
-### 检查资源加载状态
-
-当使用 SDK 后端或需要确保资源已加载时，使用 `useModernI18n` 中的 `isResourcesReady`：
+使用自定义后端时，翻译资源需要异步加载，推荐用 `isResourcesReady` 处理加载中状态：
 
 ```tsx
 import { useModernI18n } from '@modern-js/plugin-i18n/runtime';
@@ -61,75 +217,74 @@ function MyComponent() {
   const { isResourcesReady } = useModernI18n();
   const { t } = useTranslation();
 
-  // 检查资源是否已加载并准备好
   if (!isResourcesReady) {
-    return <div>正在加载翻译资源...</div>;
+    return <div>加载翻译中...</div>;
   }
 
-  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+  return <div>{t('content', { defaultValue: '默认内容' })}</div>;
 }
 ```
 
-### 替代方案：检查 i18next 初始化状态
-
-对于简单场景，也可以检查 i18next 的初始化状态：
+静态资源（HTTP/FS 后端）加载较快，通常不需要处理加载状态；如需检查，可以用 `i18n.isInitialized`：
 
 ```tsx
-import { useTranslation } from 'react-i18next';
+const { t, i18n } = useTranslation();
+if (!i18n.isInitialized) return null;
+```
 
-function MyComponent() {
-  const { t, i18n } = useTranslation();
+### 翻译键缺失处理
 
-  // 检查 i18n 是否已初始化
-  if (!i18n.isInitialized) {
-    return <div>Loading...</div>;
-  }
+通过 `defaultValue` 提供兜底文案，防止界面显示 key 字符串：
 
-  return <div>{t('content', { defaultValue: 'Default content' })}</div>;
+```tsx
+t('missing.key', { defaultValue: '默认文案' })
+```
+
+开发环境可以开启 `saveMissing`，将缺失的键输出到控制台方便排查：
+
+```ts
+initOptions: {
+  fallbackLng: 'en',
+  saveMissing: true, // 仅建议开发环境开启
 }
 ```
 
-:::tip
-对于 SDK 后端场景，`isResourcesReady` 更准确，因为它会检查所有必需的资源是否实际已加载，而不仅仅是检查实例是否已初始化。
+### 网络失败与资源 404
 
-:::
+翻译文件加载失败时，i18next 会回退到 `fallbackLng` 对应的资源；若仍失败，`t()` 直接返回 key 字符串。建议：
+
+- 生产环境确保 `fallbackLng`（通常是 `en`）对应的翻译文件完整且稳定
+- 使用链式后端时，本地文件作为兜底，减少对远程服务的依赖
 
 ## 类型安全
 
-为翻译键添加类型定义，提高开发体验：
+通过扩展 react-i18next 的类型定义，让 TypeScript 检查翻译键是否存在并提供自动补全：
 
 ```ts
 // types/i18n.d.ts
 import 'react-i18next';
+import type translation from '../locales/en/translation.json';
+import type common from '../locales/en/common.json';
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: 'translation';
     resources: {
-      translation: {
-        hello: string;
-        world: string;
-        welcome: string;
-      };
-      common: {
-        submit: string;
-        cancel: string;
-      };
+      translation: typeof translation;
+      common: typeof common;
     };
   }
 }
 ```
 
-使用类型安全的翻译：
+直接引用 JSON 文件的类型，比手写 interface 更不容易与实际翻译文件漂移：
 
 ```tsx
-import { useTranslation } from 'react-i18next';
-
-function MyComponent() {
-  const { t } = useTranslation();
-
-  // TypeScript 会检查键是否存在
-  return <div>{t('hello')}</div>; // ✅ 类型安全
-  // return <div>{t('invalid')}</div>; // ❌ TypeScript 错误
-}
+const { t } = useTranslation();
+t('welcome');       // ✅ TypeScript 自动补全
+t('nonExistent');   // ❌ TypeScript 报错
 ```
+
+:::tip 大型项目
+翻译文件较多时，手动维护类型文件成本较高。可以使用 [i18next-parser](https://github.com/i18next/i18next-parser) 或 [i18next-resources-for-ts](https://github.com/i18next/i18next-resources-for-ts) 从翻译文件自动生成 TypeScript 类型。
+:::

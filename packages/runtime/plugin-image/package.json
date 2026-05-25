@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/image",
-  "version": "3.1.4",
+  "version": "3.2.1",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -46,10 +46,10 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@rslib/core": "0.21.2",
+    "@rslib/core": "0.21.5",
     "@types/node": "^20",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "typescript": "^5"
   }
 }
